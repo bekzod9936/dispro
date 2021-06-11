@@ -1,0 +1,55 @@
+import React, { useState } from 'react';
+import { useQuery } from 'react-query';
+import adminInterceptor from '../../../services/interceptors/adminInterceptor';
+import { fetchCompanies, fetchCompanyStatus } from '../../../services/queries/AdminQueries';
+import axios from "axios";
+import { URL, VERSION } from '../../../services/constants/config';
+
+const authInterceptor = axios.create({
+    baseURL: URL,
+    headers: {
+        Authorization: "Bearer " + localStorage.getItem("moderator_access_token"),
+        langId: 1,
+        vers: VERSION,
+    }
+})
+
+export const AdminCompanies = () => {
+    const type = "2";
+    const handleCompanyClick = async () => {
+        const response = await authInterceptor.put("/auth/update-token", {
+            companyId: 2,
+            companyType: 1
+        })
+        localStorage.setItem("companyToken", response.data.data.accessToken);
+    }
+
+    console.log("RENDERED COMPANIES");
+
+
+    const [proceed, setProceed] = useState(false);
+    const response = useQuery(["companies"], () => fetchCompanies(type), {
+        refetchOnWindowFocus: false,
+        retry: 0,
+        onSuccess: (data) => {
+            console.log(data);
+            setProceed(true);
+        }
+    });
+    const response1 = useQuery(["status"], fetchCompanyStatus, {
+        refetchOnWindowFocus: false,
+        retry: 0,
+        enabled: !!proceed,
+        onSuccess: (data) => {
+            console.log(data);
+        }
+    });
+    return (
+        <div>
+            Admin Companies Render
+            <div onClick={handleCompanyClick}> Company </div>
+        </div>
+    );
+}
+
+export default AdminCompanies;
