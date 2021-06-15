@@ -50,3 +50,7 @@ export interface IGridItem {
 	gridArea?: string;
 	background?: string;
 }
+
+export interface IDropdownTitle {
+	index: number;
+}

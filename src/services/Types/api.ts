@@ -22,3 +22,37 @@ export interface IAuthToken {
 	error: error | null;
 	success: boolean;
 }
+
+export interface IClientStatistics {
+	clientCount: number;
+	maleCount: number;
+	femaleCount: number;
+	ageAvg: number;
+	chequeCount: number;
+	uniqueChequeClient: number;
+	paidWithMoney: number;
+	paidWithPoint: number;
+	pointSum: number;
+	chequeAvg: number;
+	cashbackSum: number;
+	discountSum: number;
+	couponAmountSum: number;
+	couponDiscountSum: number;
+	allClientParkCards: number;
+	filter: {
+		gender: {
+			id: number;
+			name: string | null;
+		}[];
+
+		referal: {
+			name: string | null;
+			refIds: number[] | null;
+		}[];
+
+		levels: {
+			number: number;
+			name: string | null;
+		}[];
+	};
+}

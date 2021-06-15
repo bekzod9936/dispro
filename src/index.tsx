@@ -10,6 +10,8 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import { StylesProvider } from '@material-ui/core';
 //import { getToken } from "firebase"
 import { URL } from 'url';
+import { I18nextProvider } from 'react-i18next';
+import i18n from "./services/localization/i18n"
 const queryClient = new QueryClient();
 
 
@@ -19,14 +21,15 @@ const queryClient = new QueryClient();
 ReactDOM.render(
 
   <React.StrictMode>
-    <StylesProvider injectFirst>
-      <Provider store={store}>
-        <QueryClientProvider client={queryClient} >
-          <App />
-        </QueryClientProvider>
-      </Provider>
-    </StylesProvider>
-
+    <I18nextProvider i18n={i18n}>
+      <StylesProvider injectFirst>
+        <Provider store={store}>
+          <QueryClientProvider client={queryClient} >
+            <App />
+          </QueryClientProvider>
+        </Provider>
+      </StylesProvider>
+    </I18nextProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -1,0 +1,17 @@
+ {
+        "clientCount": "Всего клиентов",
+        "maleCount": "Мужчины",
+        "femaleCount": "Женщины",
+        "ageAvg": "Средний возраст",
+        "chequeCount": "Совершено покупок",
+        "uniqueChequeClient": "Совершали покупки",
+        "paidWithMoney": "Оплатили UZS",
+        "paidWithPoint": "Оплатили баллами",
+        "pointSum": "Баллов у клиентов",
+        "chequeAvg": "Средний чек",
+        "cashbackSum": "Кешбэк",
+        "discountSum": "Скидка",
+        "couponAmountSum": "Сертификат",
+        "couponDiscountSum": "Купон",
+        "allClientParkCards": "Количество карт"
+    }

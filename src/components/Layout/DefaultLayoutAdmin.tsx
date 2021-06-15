@@ -30,4 +30,4 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
     );
 }
 
-export default DefaultLayoutAdmin;
+export default React.memo(DefaultLayoutAdmin);

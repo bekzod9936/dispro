@@ -1,7 +1,8 @@
+
 import { Drawer, Menu, NativeSelect, Select } from "@material-ui/core"
 import { type } from "os"
 import styled from "styled-components"
-import { ISidebarMenuItem, IText } from "../services/Types/Style"
+import { IDropdownTitle, ISidebarMenuItem, IText } from "../services/Types/Style"
 
 
 
@@ -101,5 +102,18 @@ export const CustomSelect = styled(Select)`
         margin-right: 10px;
     }
     
+
+`
+export const DropDownTitle = styled.div`
+height: 42px;
+padding: 20px 10px;
+background: ${(props: IDropdownTitle) => props.index % 2 !== 0 ? "rgba(96, 110, 234, 0.1)" : "white"};
+font-size: 14px;
+font-weight: 400;
+font-family: "Roboto";
+color: rgb(34, 51, 103);
+width: 450px;
+box-sizing: border-box;
+z-index : 90;
 
 `
