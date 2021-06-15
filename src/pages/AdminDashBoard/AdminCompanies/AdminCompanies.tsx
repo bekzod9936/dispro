@@ -17,9 +17,11 @@ const authInterceptor = axios.create({
 export const AdminCompanies = () => {
     const type = "2";
     const handleCompanyClick = async () => {
-        const response = await authInterceptor.put("/auth/update-token", {
+        const response = await adminInterceptor.put("/auth/update-token", {
             companyId: 2,
             companyType: 1
+        }, {
+            baseURL: URL
         })
         localStorage.setItem("companyToken", response.data.data.accessToken);
     }
