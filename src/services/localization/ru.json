@@ -13,5 +13,26 @@
         "discountSum": "Скидка",
         "couponAmountSum": "Сертификат",
         "couponDiscountSum": "Купон",
-        "allClientParkCards": "Количество карт"
+        "allClientParkCards": "Количество карт",
+        "filters" : "Фильтр",
+        "datePicker": "Выберите период",
+        "gender" : "Пол",
+        "registration_date": "Дата регистрации",
+        "purchuase_amount" : "Количество покупок",
+        "purchuase_cost": "Сумма всех покупок(UZS)",
+        "status" :"Статус",
+        "traffic_provider": "Источник трафика",
+        "chose_gender": "Выберите пол",
+        "male":"Мужской",
+        "female":"Женский",
+        "chose_date": "Выберите дату",
+        "enter_purchuase_diaposone" : "Введите нужный диапазон покупок",
+        "enter_amount":"Введите сумму",
+        "chose_status" : "Выберите статус",
+        "chose_trafic_provider": "Выберите источник трафика",
+        "reset" : "Сбросить",
+        "apply" : "Применить"
+ 
     }
+
+      

@@ -3,6 +3,7 @@ import { IFlex, IGridContainer, IGridItem } from "../services/Types/Style";
 
 export const Flex = styled.div<IFlex>`
 display: flex;
+position: relative;
 justify-content: ${(props: IFlex) => props.justifyContent ? props.justifyContent : "space-between"};
 align-items: ${(props: IFlex) => props.alignItems ? props.alignItems : "center"};
 width: ${(props: IFlex) => props.width ? props.width : "auto"};
@@ -10,6 +11,7 @@ height: ${(props: IFlex) => props.height ? props.height : "auto"};
 flex-direction: ${(props: IFlex) => props.flexDirection ? props.flexDirection : "row"};
 max-height: ${(props: IFlex) => props.height || "auto"};
 margin :  ${(props: IFlex) => props.margin || "auto"};
+
 /* overflow-y: hidden; */
 `
 export const GridContainer = styled.div<IGridContainer>`

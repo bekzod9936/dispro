@@ -10,8 +10,8 @@ export const CustomDrawer = styled.div`
 //width: 272px;
 display: flex;
 flex-direction: column;
-max-height: 95vh;
-min-height: 95vh;
+height: 100vh;
+height: 100vh;
 //overflow-y: auto;
 
 /* padding-left: 20px; */
@@ -45,10 +45,10 @@ align-items: center;
 export const Text = styled.span<IText>`
 font-size:${(props: IText) => (props.fontSize ? props.fontSize : "16px")};
 font-family: "Roboto";
-margin-right: 25px;
-color: "#223367";
+margin-right:${(props: IText) => (props.marginRight ? props.marginRight : "25px")};
+color: ${(props: IText) => (props.color || "#223367")};
 //position: relative;
-margin-left: 25px;
+margin-left:${(props: IText) => (props.marginLeft ? props.marginLeft : "25px")};
 font-weight: ${(props: IText) => (props.fontWeight ? props.fontWeight : 700)};
 `
 export const Header = styled.div`
@@ -105,15 +105,85 @@ export const CustomSelect = styled(Select)`
 
 `
 export const DropDownTitle = styled.div`
-height: 42px;
-padding: 20px 10px;
-background: ${(props: IDropdownTitle) => props.index % 2 !== 0 ? "rgba(96, 110, 234, 0.1)" : "white"};
+height: 45px;
+padding: 10px 15px;
+background: ${(props: IDropdownTitle) => props.index % 2 !== 0 ? "#F0F1FD" : "white"};
 font-size: 14px;
 font-weight: 400;
 font-family: "Roboto";
 color: rgb(34, 51, 103);
-width: 450px;
+width: 400px;
 box-sizing: border-box;
 z-index : 90;
 
+`
+export const UnderSectionButton = styled.div`
+padding: 15px 20px;
+border-radius: 12px;
+background: white;
+display: flex;
+justify-content: space-around;
+align-items: center;
+margin-bottom: 20px;
+margin-right: 20px;
+height: 62px;
+box-sizing: border-box;
+`
+export const SectionWrapper = styled.div`
+position: relative;
+height: 100%;
+overflow-y: scroll;
+overflow-x: hidden;
+&::-webkit-scrollbar {
+    -webkit-appearance : none;
+    display:none;
+}
+
+`
+// export const CustomDatePicker = styled(DatePicker)`
+
+// `
+export const CustomInput = styled.input`
+padding: 12px 15px;
+width: 90%;
+align-self: center;
+border-radius: 12px;
+border: 1px solid #C2C2C2;
+box-sizing: border-box;
+outline: none;
+margin-top: 10px;
+margin-bottom: 10px;
+font-size: 13px;
+ 
+`
+export const UnderFilter = styled.div`
+height: 80px;
+padding: 20px 15px;
+width: 400px;
+background-color: white;
+display: flex;
+justify-content: space-between;
+align-items: center;
+box-sizing: border-box;
+
+`
+export const CustomButton = styled.button`
+display: flex;
+border: none;
+justify-content: center;
+align-items: center;
+padding: 10px 15px;
+box-sizing: border-box;
+background-color: #606EEA;
+border-radius: 12px;
+`
+export const InlineFilterWrapper = styled.div`
+border: 1px solid grey;
+border-radius: 18px;
+/* position: absolute; */
+display: flex;
+align-items: center;
+justify-content: center;
+height: 25px;
+padding-right: 4px;
 `

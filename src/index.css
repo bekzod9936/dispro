@@ -1,5 +1,7 @@
 body {
 	margin: 0;
+	padding: 0;
+	overflow: hidden;
 	font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", "Oxygen",
 		"Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
 		sans-serif;
@@ -12,3 +14,43 @@ code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
 		monospace;
 }
+
+.MuiPickersDay-daySelected {
+	border-radius: 12px;
+	background-color: #606eea;
+	color: white;
+	font-size: 18px;
+	font-weight: 700;
+}
+.MuiTypography-body2 {
+	font-weight: 700;
+	font-family: "Roboto";
+	font-size: 16px;
+	color: black;
+}
+.MuiPickersDay-daySelected .MuiTypography-body2 {
+	color: white;
+}
+
+.MuiPopover-paper {
+	border-radius: 12px;
+}
+/* .MuiPopover-paper::after {
+	content: "";
+	display: block;
+	position: absolute;
+	bottom: 300px;
+	left: 20px;
+	width: 20px;
+	height: 20px;
+	z-index: 2000;
+	clip-path: polygon(50% 0, 100% 100%, 0 100%);
+	background-color: green;
+} */
+/* .MuiPopover-root {
+	position: "static" !important;
+	z-index: 0 !important;
+} */
+/* .MuiPopover-root:first-child {
+	display: none !important;
+} */

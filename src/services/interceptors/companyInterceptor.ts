@@ -7,6 +7,7 @@ import { decode } from "querystring";
 
 const partnerApi = axios.create({
 	baseURL: `${URL}/web`,
+	headers: {},
 });
 
 partnerApi.interceptors.request.use((config: AxiosRequestConfig) => {

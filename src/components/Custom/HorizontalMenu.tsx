@@ -14,7 +14,7 @@ interface IHorizontalMenu {
 const HorizontalMenu: React.FC<IHorizontalMenu> = ({ menuItemClickHandler, menuItems, section }) => {
     //  const [section, setSection] = useState<string>(menuItems[0].key)
     return (
-        <Flex justifyContent="space-between" margin="30px" alignItems="center" width="100%">
+        <Flex justifyContent="space-between" margin="20px 10px 20px 0px" alignItems="center" width="100%">
             {menuItems.map((item: typeof menuItems[0]) => {
                 if (item.key === section) {
                     return <WrapperOnActiveSection onClick={() => menuItemClickHandler(item.key)} >

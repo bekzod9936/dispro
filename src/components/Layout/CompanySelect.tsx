@@ -6,7 +6,7 @@ const CompanySelect = () => {
     return (
         <>
             <CustomSelect value="Nasa" variant="standard" disableUnderline>
-                <MenuItem value="Nasa" > <Avatar src="../../assets/images/placeholder.png" /> NASA</MenuItem>
+                <MenuItem value="Nasa" > <Avatar src="" /> NASA</MenuItem>
             </CustomSelect>
         </>
     );
