@@ -25,29 +25,39 @@ const PartnerHeader = () => {
     return (
         <Header>
             <Grid container alignItems='center'>
-                <Grid item lg={3}>
-                    <CustomSearchInput style={{ background: "#F4F4F4" }} type="text" placeholder="Поиск" />
+                <Grid item lg={4} md={4}>
+                    <Grid item lg={11}>
+                        <CustomSearchInput style={{ background: "#F4F4F4" }} type="text" placeholder="Поиск" />
+                    </Grid>
+
                 </Grid>
-                <Grid container lg={3}>
-                    {SectionItems.map((item: ISectionItem) => {
-                        return <Grid item lg={6}> <SectionItem {...item} /> </Grid>
+                <Grid container lg={3} md={4}>
+                    {SectionItems.map((item: ISectionItem, index) => {
+                        return <Grid item lg={index === 0 ? 6 : 5}> <SectionItem {...item} /> </Grid>
                     })}
                 </Grid>
-                <Grid container lg={2}>
-                    <Grid item lg={2}>
+                <Grid container lg={5}>
+                    <Grid container lg={2} md={2}>
+                        <Grid item lg={6}>  </Grid>
+                        <Grid item lg={6}>
+                            <BellIcon />
+                        </Grid>
+                    </Grid>
+
+                    <Grid item lg={5}>
+                        <Grid lg={12} >
+                            <LanguageSelectComponent />
+                        </Grid>
 
                     </Grid>
-                    <Grid item lg={10}>
-                        <BellIcon />
+                    <Grid item lg={5}>
+                        <Grid lg={12}>
+                            <CompanySelect />
+                        </Grid>
+
                     </Grid>
                 </Grid>
 
-                <Grid item lg={2}>
-                    <LanguageSelectComponent />
-                </Grid>
-                <Grid item lg={2}>
-                    <CompanySelect />
-                </Grid>
 
             </Grid>
 

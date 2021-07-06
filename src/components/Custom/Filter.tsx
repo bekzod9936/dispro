@@ -1,5 +1,5 @@
 import zIndex from '@material-ui/core/styles/zIndex';
-import Item from 'antd/lib/list/Item';
+
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { TickIcon } from '../../assets/icons/ClientStatisticsIcons/Filters';

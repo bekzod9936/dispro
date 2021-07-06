@@ -12,6 +12,7 @@ display: flex;
 flex-direction: column;
 height: 100vh;
 height: 100vh;
+box-sizing: border-box;
 //overflow-y: auto;
 
 /* padding-left: 20px; */
@@ -45,10 +46,10 @@ align-items: center;
 export const Text = styled.span<IText>`
 font-size:${(props: IText) => (props.fontSize ? props.fontSize : "16px")};
 font-family: "Roboto";
-margin-right:${(props: IText) => (props.marginRight ? props.marginRight : "25px")};
+margin-right:${(props: IText) => (props.marginRight ? props.marginRight : "23px")};
 color: ${(props: IText) => (props.color || "#223367")};
 //position: relative;
-margin-left:${(props: IText) => (props.marginLeft ? props.marginLeft : "25px")};
+margin-left:${(props: IText) => (props.marginLeft ? props.marginLeft : "23px")};
 font-weight: ${(props: IText) => (props.fontWeight ? props.fontWeight : 700)};
 `
 export const Header = styled.div`
@@ -60,7 +61,7 @@ align-items: center;
 padding : 0 25px;
 float: left;
 position: relative;
-height: 90px;
+height: 80px;
 box-sizing: border-box;
 `
 export const CustomSearchInput = styled.input`
@@ -186,4 +187,11 @@ align-items: center;
 justify-content: center;
 height: 25px;
 padding-right: 4px;
+`
+export const PageWrapper = styled.div`
+padding: 20px 0px 0px 30px; 
+overflow: auto;
+height: 100%;
+width: 100%;
+
 `

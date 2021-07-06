@@ -11,7 +11,10 @@ import ProposalsSection from "./ProposalsSection"
 import { IClientStatisticFilter } from '../../../services/Types/Components';
 import { resetDates, resetFilters, setApplied, setDateFrom, setDateTo, setFilterIsOpen, setGender, setPurchaseCost, setPurchuaseAmountFrom, setPurchuaseAmountTo, setStatus, setTrafficProvider } from '../../../services/redux/Slices/clientStatistics';
 import { GridItem } from '../../../styles/BuildingBlocks';
+import { PageWrapper } from '../../../styles/CustomStyles';
+import { useTranslation } from 'react-i18next';
 const StatisticsPage = () => {
+    const { t } = useTranslation();
     const statisticsStateUpper = useAppSelector(state => state.statistics);
     const statisticsState = useAppSelector(state => state.clientStatistics);
     const dispatch = useAppDispatch();
@@ -102,7 +105,7 @@ const StatisticsPage = () => {
             title: "Источники трафика"
         },
         {
-            key: "special_proposals",
+            key: "coupons",
             title: "Спец предложения"
         },
 
@@ -116,7 +119,7 @@ const StatisticsPage = () => {
                 return <OperationsSection filters={filters} />
             case "traffic":
                 return <TrafficsSection />
-            case "special_proposals":
+            case "coupons":
                 return <ProposalsSection />
 
         }
@@ -129,8 +132,8 @@ const StatisticsPage = () => {
         dispatch(setApplied(true));
     }
     return (
-        <div style={{ padding: "20px 0px 0px 30px", overflow: "auto", height: "100%", width: "100%" }}>
-            Statistics
+        <PageWrapper>
+            {t("statistics")}
             <Grid container style={{ height: "100%" }}>
                 <Grid item lg={12}>
                     <Grid item lg={7} > <HorizontalMenu section={statisticsStateUpper.currentSection} menuItems={menuItems} menuItemClickHandler={menuItemClickHandler} /></Grid>
@@ -139,7 +142,7 @@ const StatisticsPage = () => {
             </Grid>
 
 
-        </div>
+        </PageWrapper>
     );
 }
 

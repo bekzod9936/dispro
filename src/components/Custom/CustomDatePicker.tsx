@@ -1,7 +1,6 @@
 import DateFnsUtils from '@date-io/date-fns';
 import { Portal } from '@material-ui/core';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
-import { DatePicker, Space } from 'antd';
 import moment from 'moment';
 import React from 'react';
 import { setTimeout } from 'timers';

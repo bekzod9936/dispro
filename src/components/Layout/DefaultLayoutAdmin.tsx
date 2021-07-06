@@ -15,7 +15,7 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
                 <PartnerSidebar />
             </GridItem>
             <GridItem gridRow="1/7" gridCoulumn="2/ span 5">
-                <GridContainer gridTemplateRows="90px 100vmax">
+                <GridContainer gridTemplateRows="80px 100vmax">
                     <GridItem gridCoulumn="1/7" >
                         <PartnerHeader />
                     </GridItem>
