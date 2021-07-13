@@ -2,7 +2,7 @@
 import { Drawer, Menu, NativeSelect, Select } from "@material-ui/core"
 import { type } from "os"
 import styled from "styled-components"
-import { IDropdownTitle, ISidebarMenuItem, IText } from "../services/Types/Style"
+import { ICustomButton, ICustomModal, IDropdownTitle, ISidebarMenuItem, IText, IUndersectionButton } from "../services/Types/Style"
 
 
 
@@ -125,8 +125,7 @@ background: white;
 display: flex;
 justify-content: space-around;
 align-items: center;
-margin-bottom: 20px;
-margin-right: 20px;
+margin : ${(props: IUndersectionButton) => props.margin || "0px 20px 20px 0px"};
 height: 62px;
 box-sizing: border-box;
 `
@@ -175,7 +174,7 @@ justify-content: center;
 align-items: center;
 padding: 10px 15px;
 box-sizing: border-box;
-background-color: #606EEA;
+background-color:${(props: ICustomButton) => props.background || "#606EEA"};
 border-radius: 12px;
 `
 export const InlineFilterWrapper = styled.div`
@@ -193,5 +192,78 @@ padding: 20px 0px 0px 30px;
 overflow: auto;
 height: 100%;
 width: 100%;
+position: relative;
+
+`
+export const ClicableOption = styled.div`
+display: flex;
+align-items: center;
+justify-content: stretch;
+padding: 13px 23px;
+border-radius: 12px;
+margin-bottom: 20px;
+&:hover{
+    background-color:  rgba(96, 110, 234, 0.1);
+    cursor: pointer;
+} 
+
+`
+export const ModalComponent = styled.div`
+padding : ${(props: ICustomModal) => props.padding || "30px 40px"};
+background : white;
+border-radius: 12px;
+position: ${(props: ICustomModal) => props.position || "static"};
+display: flex;
+flex-direction: column;
+justify-content: ${(props: ICustomModal) => props.justifyContent || "space-between"};
+height: ${(props: ICustomModal) => props.height || "auto"};
+box-sizing: border-box;
+align-items: flex-start;
+`
+export const Panel = styled.div`
+padding: 15px;
+box-sizing: border-box;
+width: 370px;
+height: 190px;
+background-color: white;
+border-radius: 14px;
+margin-right: 15px;
+`
+
+export const IconWrapper = styled.div`
+width: 50px;
+height: 50px;
+border-radius: 8px;
+display: flex;
+justify-content: center;
+padding: 0px;
+box-sizing: border-box;
+align-items: center;
+&:hover {
+ background-color: rgba(96, 110, 234, 0.1);
+}
+`
+
+export const SectionHead = styled.div`
+width: 100%;
+margin-bottom: 20px;
+font-size: 21px;
+font-weight: 700;
+color: #223367;
+
+`
+
+export const FeedbackPanel = styled.div`
+padding: 16px 20px;
+border-radius: 14px;
+width: 90%;
+background-color: white;
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+align-items: flex-start;
+
+
+
 
 `

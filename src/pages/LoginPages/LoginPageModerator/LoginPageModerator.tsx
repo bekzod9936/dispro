@@ -20,7 +20,7 @@ const LoginPageModerator = () => {
     console.log(watch("phoneNumber"));
     const onLoginFormSubmit: SubmitHandler<IForm> = (data: IForm) => {
         console.log("Data" + data.password);
-        const response = axios.post(`https://api.vades.uz/v1/auth/admin/login`, {
+        const response = axios.post(`${URL}/auth/admin/login`, {
             roleId: 5,
             telNumber: data.phoneNumber,
             password: data.password

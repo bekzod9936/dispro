@@ -13,13 +13,17 @@ export interface IFlex {
 		| "space-around"
 		| "space-evenly"
 		| "start"
-		| "center";
+		| "center"
+		| "stretch"
+		| "end";
 	alignItems?: "flex-start" | "flex-end" | "center" | "baseline" | "stretch";
 	width?: string;
 	height?: string;
 	margin?: string;
 	flexDirection?: "column" | "row";
 	flexWrap?: "wrap" | "nowrap" | "wrap-reverse";
+	padding?: string;
+	background?: string;
 }
 
 export interface ISidebarMenuItem {
@@ -56,4 +60,17 @@ export interface IGridItem {
 
 export interface IDropdownTitle {
 	index: number;
+}
+
+export interface ICustomButton {
+	background?: string;
+}
+export interface ICustomModal {
+	padding?: string;
+	position?: "relative" | "fixed" | "static" | "absolute" | "sticky";
+	justifyContent?: string;
+	height?: string;
+}
+export interface IUndersectionButton {
+	margin?: string;
 }

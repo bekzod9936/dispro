@@ -18,7 +18,7 @@ export const AdminCompanies = () => {
     const type = "2";
     const handleCompanyClick = async () => {
         const response = await adminInterceptor.put("/auth/update-token", {
-            companyId: 2,
+            companyId: 10,
             companyType: 1
         }, {
             baseURL: URL

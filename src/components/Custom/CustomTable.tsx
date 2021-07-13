@@ -1,6 +1,7 @@
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, withStyles } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core';
 import React from 'react';
+import { useAppSelector } from '../../services/redux/hooks';
 
 interface IProps {
     headers: any[] | [],
@@ -49,6 +50,7 @@ const useStyles = makeStyles({
 
 const CustomTable: React.FC<IProps> = ({ headers, rows }) => {
     const classes = useStyles();
+
 
     return (
         <TableContainer className={classes.container}>

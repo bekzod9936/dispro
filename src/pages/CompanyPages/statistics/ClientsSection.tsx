@@ -137,7 +137,6 @@ const ClientsSection = ({ filters }: any) => {
 
                 <Grid container spacing={8} >
                     {clientStatistics.map((item: any) => {
-
                         return <Grid item lg={3} spacing={0}>
                             <SingleStatisticsItem title={item.title} Icon={item.icon} quantity={item.quantity} />
                         </Grid>

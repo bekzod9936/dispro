@@ -53,3 +53,17 @@ export const fetchClientStatistics = async (
 	);
 	return response;
 };
+
+export const fetchClients = async (page: number) => {
+	const response = await partnerApi(
+		`/core/client/by/company?page=${page}&perPage=6`
+	);
+	return response;
+};
+
+export const fetchFeedbacks = async () => {
+	const response = await partnerApi.get(
+		"core/cashier/rating-review/?perPage=6&page=1"
+	);
+	return response;
+};

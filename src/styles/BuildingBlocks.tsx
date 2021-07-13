@@ -11,6 +11,9 @@ height: ${(props: IFlex) => props.height ? props.height : "auto"};
 flex-direction: ${(props: IFlex) => props.flexDirection ? props.flexDirection : "row"};
 max-height: ${(props: IFlex) => props.height || "auto"};
 margin :  ${(props: IFlex) => props.margin || "auto"};
+padding:  ${(props: IFlex) => props.padding || "0px"};
+box-sizing: border-box;
+background-color: ${(props: IFlex) => props.background || "transparent"} ;
 
 /* overflow-y: hidden; */
 `
