@@ -10,7 +10,13 @@ import moment from 'moment';
 import { LighterRatingStarIcon, PickedRatingStarIcon } from '../../../assets/icons/FeedBackIcons.tsx/FeedbackIcons';
 import { useTranslation } from 'react-i18next';
 import { StyledPagination } from '../../../styles/Elements';
-const FeedbackSection = () => {
+
+interface Iprops {
+    setModalVisible: any,
+    setPickedReview: any
+}
+
+const FeedbackSection: React.FC<Iprops> = ({ setModalVisible, setPickedReview }) => {
     const [page, setPage] = useState<number>(1);
     const response = useQuery([page, "feedbacks"], () => fetchFeedbacks(page), {
         retry: 0,
@@ -28,7 +34,7 @@ const FeedbackSection = () => {
                     {response.data?.data.data.ratingAndReviews.map((item: any) => {
                         return (
                             <Grid item lg={6} spacing={1}>
-                                <FeedbackPanel>
+                                <FeedbackPanel onClick={() => { setModalVisible(true); setPickedReview(item) }}>
                                     <Flex margin="0px" width='100%' justifyContent="space-between">
                                         <Flex margin="0px">
                                             <Avatar style={{ height: "50px", width: "50px", borderRadius: "14px" }}
@@ -38,7 +44,7 @@ const FeedbackSection = () => {
                                                 <Text>
                                                     {`${item.clientFirstName} ${item.clientLastName}`}
                                                 </Text>
-                                                <Flex justifyContent="start">
+                                                <Flex justifyContent="start" margin="0px 0px 0px 25px">
                                                     {new Array(item.rating).fill(1).map((item) => {
                                                         return <PickedRatingStarIcon />
                                                     })} {new Array(5 - item.rating).fill(1).map((item) => {

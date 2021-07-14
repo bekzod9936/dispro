@@ -13,14 +13,14 @@ const SingleStatisticsItem: React.FC<ISingleStatisticsItem> = ({ title, Icon, qu
     const { t } = useTranslation();
     return (
         <>
-            <Flex justifyContent="space-between" width="100%" alignItems="center"   >
-                <div style={{ height: "40px", width: "40px" }}>
+            <Flex justifyContent="start" width="100%" alignItems="center"   >
+                <div style={{ height: "40px", width: "23%" }}>
                     {Icon && <Icon />}
                 </div>
 
-                <Flex flexDirection="column" justifyContent="space-evenly" alignItems="flex-start">
-                    <Text fontSize="18px" fontWeight={500}>{t(title)}</Text>
-                    <Text fontSize="26px" fontWeight={700} color="#606EEA" lineHeight="30px">{quantity?.toLocaleString()}</Text>
+                <Flex margin="0px" flexDirection="column" justifyContent="space-evenly" alignItems="flex-start">
+                    <Text marginLeft="0px" fontSize="18px" fontWeight={500}>{t(title)}</Text>
+                    <Text fontSize="26px" marginLeft="0px" fontWeight={700} color="#606EEA" lineHeight="30px">{quantity?.toLocaleString()}</Text>
                     <Text></Text>
                 </Flex>
 

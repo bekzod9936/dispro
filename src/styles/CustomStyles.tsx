@@ -2,7 +2,7 @@
 import { Drawer, Menu, NativeSelect, Select } from "@material-ui/core"
 import { type } from "os"
 import styled from "styled-components"
-import { ICustomButton, ICustomModal, IDropdownTitle, ISidebarMenuItem, IText, IUndersectionButton } from "../services/Types/Style"
+import { ICustomButton, ICustomModal, IDropdownTitle, IFlex, IFlexiblePanel, ISidebarMenuItem, IText, IUndersectionButton } from "../services/Types/Style"
 
 
 
@@ -212,6 +212,8 @@ export const ModalComponent = styled.div`
 padding : ${(props: ICustomModal) => props.padding || "30px 40px"};
 background : white;
 border-radius: 12px;
+outline:none;
+border : none;
 position: ${(props: ICustomModal) => props.position || "static"};
 display: flex;
 flex-direction: column;
@@ -263,7 +265,14 @@ flex-direction: column;
 justify-content: space-between;
 align-items: flex-start;
 
-
-
+`
+export const FlexiblePanel = styled.div`
+padding : ${(props: IFlexiblePanel) => props.padding || "20px 30px"};
+width : ${(props: IFlexiblePanel) => props.width || "fit-content"};
+height : ${(props: IFlexiblePanel) => props.height || "fit-content"};
+background : white;
+border-radius : 14px;
+margin-top: 30px;
+boxShadow :  0px 4px 4px rgba(0, 0, 0, 0.04);
 
 `

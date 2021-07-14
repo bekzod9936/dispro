@@ -9,18 +9,18 @@ export interface IText {
 
 export interface IFlex {
 	justifyContent?:
-		| "space-between"
-		| "space-around"
-		| "space-evenly"
-		| "start"
-		| "center"
-		| "stretch"
-		| "end";
+	| "space-between"
+	| "space-around"
+	| "space-evenly"
+	| "start"
+	| "center"
+	| "stretch"
+	| "end";
 	alignItems?: "flex-start" | "flex-end" | "center" | "baseline" | "stretch";
 	width?: string;
 	height?: string;
 	margin?: string;
-	flexDirection?: "column" | "row";
+	flexDirection?: "column" | "row" | "row-reverse" | "column-reverse";
 	flexWrap?: "wrap" | "nowrap" | "wrap-reverse";
 	padding?: string;
 	background?: string;
@@ -33,18 +33,18 @@ export interface IGridContainer {
 	gridTemplateColumns?: string;
 	gridTemplateRows?: string;
 	justifyContent?:
-		| "space-between"
-		| "space-around"
-		| "space-evenly"
-		| "start"
-		| "center";
+	| "space-between"
+	| "space-around"
+	| "space-evenly"
+	| "start"
+	| "center";
 	alignContent?:
-		| "center"
-		| "space-evenly"
-		| "space-around"
-		| "space-between"
-		| "start"
-		| "end";
+	| "center"
+	| "space-evenly"
+	| "space-around"
+	| "space-between"
+	| "start"
+	| "end";
 	width?: string;
 	height?: string;
 	gridGap?: string;
@@ -73,4 +73,11 @@ export interface ICustomModal {
 }
 export interface IUndersectionButton {
 	margin?: string;
+}
+
+export interface IFlexiblePanel {
+	padding?: string,
+	width?: string,
+	height?: string,
+
 }

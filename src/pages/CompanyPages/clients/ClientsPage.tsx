@@ -138,7 +138,7 @@ const ClientsPage = () => {
     ]
 
 
-    const response = useQuery(["clients", page], () => fetchClients(page), {
+    const response = useQuery(["clients", page, clientState.startDate, clientState.endDate], () => fetchClients(page, clientState.startDate, clientState.endDate), {
         refetchOnWindowFocus: false,
         cacheTime: 30000,
         retry: 0,
@@ -214,7 +214,7 @@ const ClientsPage = () => {
         }
     }
 
-    const handleDateChange = () => {
+    const handleDateChange = (date: any) => {
         if ((!clients.startDate && !clients.endDate) || (clients.startDate && clients.endDate)) {
             dispatch(setClientStartDate(date));
             dispatch(setClientEndDate(null));

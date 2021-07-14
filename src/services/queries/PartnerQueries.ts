@@ -43,10 +43,9 @@ export const fetchClientStatistics = async (
 	}
 
 	const response = await partnerApi.get(
-		`partner-stats/${section}${
-			query.length === 1
-				? `?${query[0]}`
-				: query.length > 1
+		`partner-stats/${section}${query.length === 1
+			? `?${query[0]}`
+			: query.length > 1
 				? `?${query.join("&")}`
 				: ""
 		}`
@@ -54,9 +53,17 @@ export const fetchClientStatistics = async (
 	return response;
 };
 
-export const fetchClients = async (page: number) => {
+export const fetchClients = async (page: number, start: any, end: any) => {
+	const query = [];
+	if (start) {
+		query.push(`&startDate=${moment(start).format("YYYY-MM-DD")}`)
+	}
+	if (end) {
+		query.push(`&endDate=${moment(end).format("YYYY-MM-DD")}`)
+	}
+	let combined = query.join("");
 	const response = await partnerApi(
-		`/core/client/by/company?page=${page}&perPage=6`
+		`/core/client/by/company?page=${page}&perPage=6${combined}`
 	);
 	return response;
 };
@@ -67,3 +74,10 @@ export const fetchFeedbacks = async (page: number) => {
 	);
 	return response;
 };
+
+export const fetchRatings = async () => {
+	const respose = await partnerApi.get(
+		"core/cashier/rating-review-avg-sum"
+	)
+	return respose;
+}
