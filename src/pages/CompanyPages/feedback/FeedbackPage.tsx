@@ -40,7 +40,7 @@ const FeedbackPage = () => {
     return (
         <>
             <PageWrapper>
-                <Flex margin="0px" width="100%" justifyContent="start" height="calc(100vh - 120px)" >
+                <Flex margin="0px" width="100%" justifyContent="start" height="calc(100vh - 120px)">
 
 
                     <div style={{ display: "flex", margin: "0px", padding: "0px", width: "100%", height: "100%", flexDirection: "column", justifyContent: "start" }}>

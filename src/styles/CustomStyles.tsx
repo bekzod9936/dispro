@@ -189,7 +189,7 @@ padding-right: 4px;
 `
 export const PageWrapper = styled.div`
 padding: 20px 0px 0px 30px; 
-overflow: auto;
+overflow: scroll;
 height: 100%;
 width: 100%;
 position: relative;

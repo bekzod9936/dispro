@@ -91,7 +91,9 @@
         "totalClients" : "Всего клиентов",
         "feedbacks" : "Отзывы",
         "messages" : "Сообщения",
-       "feedbackPage" : "Обратная связь"
+       "feedbackPage" : "Обратная связь",
+       "review" : "Отзыв",
+       "cashier" : "Кассир"
     }
 
       

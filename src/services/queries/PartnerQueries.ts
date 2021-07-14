@@ -61,9 +61,9 @@ export const fetchClients = async (page: number) => {
 	return response;
 };
 
-export const fetchFeedbacks = async () => {
+export const fetchFeedbacks = async (page: number) => {
 	const response = await partnerApi.get(
-		"core/cashier/rating-review/?perPage=6&page=1"
+		`core/cashier/rating-review/?perPage=4&page=${page}`
 	);
 	return response;
 };
