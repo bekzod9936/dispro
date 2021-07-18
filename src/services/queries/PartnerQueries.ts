@@ -81,3 +81,12 @@ export const fetchRatings = async () => {
 	)
 	return respose;
 }
+
+export const fetchChatItems = () => {
+	const response = partnerApi.get("/core/chat/list-partner-clients");
+	return response;
+}
+export const fetchSingleChatItem = (id: number) => {
+	const response = partnerApi.get(`/core/chat/history?withUserType=1&withId=${id}&page=1&perPage=30&companyId=10`);
+	return response;
+}

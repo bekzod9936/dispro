@@ -20,10 +20,10 @@ const LoginPageModerator = () => {
     console.log(watch("phoneNumber"));
     const onLoginFormSubmit: SubmitHandler<IForm> = (data: IForm) => {
         console.log("Data" + data.password);
-        const response = axios.post(`${URL}/auth/admin/login`, {
-            roleId: 5,
+        const response = axios.post(`${URL}/auth/login`, {
+            smsCode: "1234",
             telNumber: data.phoneNumber,
-            password: data.password
+            userType: 2
         }, {
             headers: {
                 "Content-Type": " application/json",
@@ -37,8 +37,6 @@ const LoginPageModerator = () => {
             if (data.data?.accessToken && data.data.refreshToken) {
                 localStorage.setItem("moderator_access_token", data.data?.accessToken);
                 localStorage.setItem("moderator_refresh_token", data.data?.refreshToken);
-
-
             }
             return data;
         }

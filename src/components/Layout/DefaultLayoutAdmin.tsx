@@ -10,21 +10,20 @@ interface IDefaultLayout {
 const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
     const history = useHistory();
     return (
-        <GridContainer gridTemplateColumns="1fr 8fr">
-            <GridItem gridRow="1/7">
+        <Flex width="100vw" height="100vh" justifyContent="start" alignItems="flex-start">
+            <div style={{ width: "fit-content" }}>
                 <PartnerSidebar />
-            </GridItem>
-            <GridItem gridRow="1/7" gridCoulumn="2/ span 5">
-                <GridContainer gridTemplateRows="80px 100vmax">
-                    <GridItem gridCoulumn="1/7" >
-                        <PartnerHeader />
-                    </GridItem>
-                    <GridItem background="#F1F4F6" gridRow="1/7">
-                        {children}
-                    </GridItem>
-                </GridContainer>
-            </GridItem>
-        </GridContainer>
+            </div>
+            <Flex flexDirection="column" height="100%" flexGrow="1">
+                <div style={{ width: "100%" }}>
+                    <PartnerHeader />
+                </div>
+                <div style={{ flexGrow: 1, background: "#F4F4F4", width: "100%" }}>
+                    {children}
+                </div>
+            </Flex>
+
+        </Flex>
 
 
     );

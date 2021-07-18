@@ -128,6 +128,7 @@ align-items: center;
 margin : ${(props: IUndersectionButton) => props.margin || "0px 20px 20px 0px"};
 height: 62px;
 box-sizing: border-box;
+width :content-fit;
 `
 export const SectionWrapper = styled.div`
 position: relative;
@@ -138,6 +139,17 @@ overflow-x: hidden;
     -webkit-appearance : none;
     display:none;
 }
+
+`
+export const MessageContainer = styled.div`
+background: white;
+width : 100%;
+height : 100%;
+display : flex;
+justify-content : start;
+border-radius : 14px;
+overflow:hidden;
+max-height: 100%;
 
 `
 // export const CustomDatePicker = styled(DatePicker)`
@@ -176,7 +188,10 @@ padding: 10px 15px;
 box-sizing: border-box;
 background-color:${(props: ICustomButton) => props.background || "#606EEA"};
 border-radius: 12px;
+box-shadow: ${(props: ICustomButton) => props.background ? "none" : "0px 4px 9px rgba(96, 110, 234, 0.46)"}
 `
+
+
 export const InlineFilterWrapper = styled.div`
 border: 1px solid grey;
 border-radius: 18px;
@@ -275,4 +290,50 @@ border-radius : 14px;
 margin-top: 30px;
 boxShadow :  0px 4px 4px rgba(0, 0, 0, 0.04);
 
+`
+
+
+export const ChatSpace = styled.div`
+flex-grow  : 2.84;
+background : white;
+box-sizing: border-box;
+height : 100%;
+display: flex;
+flex-direction: column;
+max-height: 100%;
+
+`
+export const ChatList = styled.div`
+flex-grow : 1;
+background :  #AAB1EB;
+height : 100%;
+overflow: hidden;
+max-width : 350px
+
+`
+export const ChatItem = styled.div`
+width : 100%;
+height : 12.5%;
+border-bottom : 2px solid #A3ABEB;
+box-sizing: border-box;
+padding : 14px 27px;
+
+
+`
+export const ChatWrapper = styled.div`
+min-height: 370px;
+max-height: 370px;
+overflow-y: scroll;
+&::-webkit-scrollbar {
+ appearance: none;
+ display: none;
+}
+&::-webkit-scrollbar-thumb {
+ appearance: none;
+ display: none;
+}
+&::-webkit-scrollbar-track {
+    appearance: none;
+    display: none;
+}
 `

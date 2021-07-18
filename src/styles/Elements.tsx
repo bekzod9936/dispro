@@ -1,5 +1,6 @@
 import { Pagination } from "@material-ui/lab";
 import styled from "styled-components";
+import { IMessageElement } from "../services/Types/Style";
 
 
 export const Arrow = styled.div`
@@ -94,4 +95,43 @@ background-color: white;
 height: 100vh;
 overflow: hidden;
 `
+
+export const MessageElement = styled.div`
+flex-grow : 1;
+padding : 15px;
+background-color: ${(props: IMessageElement) => props?.chatType == 1 ? "#E5E9FF" : "#606EEA"} ;
+color: white;
+font-size: 14px;
+font-weight: 400;
+position: relative;
+margin-left:30px ;
+border-radius: 14px;
+word-break: break-all;
+width: 250px;
+flex-grow: 1;
+border-bottom-left-radius : 0px;
+&::before {
+
+  content: "";
+  display: block;
+  position: absolute;
+  bottom : 0;
+  width : 22px;
+  height: 34px;
+  left: -21px;
+  background-color: ${(props: IMessageElement) => props?.chatType == 1 ? "#E5E9FF" : "#606EEA"};
+ clip-path: polygon(100% 0, 0% 100%, 100% 100%);
+}`
+
+
+export const UnderTextArea = styled.div`
+padding: 15px 25px;
+display: flex;
+box-sizing: border-box;
+align-items: center;
+justify-content: space-between;
+width: 100%;
+background-color: #F5F5F5;
+`
+
 

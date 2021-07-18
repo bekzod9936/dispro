@@ -19,12 +19,15 @@ const useStyles = makeStyles({
 
 })
 
-
-const CustomInputLarge = () => {
+interface Iprops {
+    onChange?: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement> | undefined
+}
+const CustomInputLarge: React.FC<Iprops> = ({ onChange }) => {
     const classes = useStyles();
     return (
         <>
             <Input className={classes.input}
+                onChange={onChange}
                 disableUnderline
                 startAdornment={
                     <InputAdornment position="start" className={classes.adornment} >

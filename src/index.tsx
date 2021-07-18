@@ -45,16 +45,18 @@ ReactDOM.render(
 // })
 // serviceWorkerRegistration.unregister(
 // );
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", (e: Event) => {
-    navigator.serviceWorker.register("/firebase-messaging-sw.js").then((value: ServiceWorkerRegistration) => {
-      console.log("registered");
-    })
-  })
 
-}
+
+// if ("serviceWorker" in navigator) {
+//   window.addEventListener("load", (e: Event) => {
+//     navigator.serviceWorker.register("/firebase-messaging-sw.js").then((value: ServiceWorkerRegistration) => {
+//       console.log("registered");
+//     })
+//   })
+
+// }
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+//reportWebVitals();

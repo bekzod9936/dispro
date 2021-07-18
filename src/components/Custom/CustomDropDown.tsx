@@ -9,6 +9,7 @@ import CustomDatePicker from './CustomDatePicker';
 import { CalendarIcon } from '../../assets/icons/ClientStatisticsIcons/ClientStatisticsIcons';
 import { useDispatch } from 'react-redux';
 import { resetFilters } from '../../services/redux/Slices/clientStatistics';
+import CustomSelectWithArrow from './CustomSelectWithArrow';
 
 interface ICustomDropDown {
     title: string,
@@ -72,6 +73,12 @@ const CustomDropDown: React.FC<ICustomDropDown> = ({ checked, dateTo, dateFrom, 
                 return numOfInputs.map((item) => {
                     return <Grid item lg={5}><Checkbox color="primary" /><Text fontWeight={400} marginLeft="0px" fontSize="13px">{item}</Text></Grid>
                 })
+
+            case "select":
+                return numOfInputs.map(item => {
+                    return <CustomSelectWithArrow value={"12345"} options={[{ key: "sfsdfsdf", value: "sadfasdfasdf" }]} />
+                }
+                )
 
 
         }

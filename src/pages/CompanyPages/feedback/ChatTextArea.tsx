@@ -1,0 +1,84 @@
+import { TextareaAutosize } from '@material-ui/core'
+import React, { useState } from 'react'
+import { Flex } from '../../../styles/BuildingBlocks'
+import { makeStyles } from '@material-ui/core'
+import { boxSizing } from '@material-ui/system'
+import { UnderTextArea } from '../../../styles/Elements'
+import { CustomButton, Text } from "../../../styles/CustomStyles"
+import { AttachIcon, SmileIcon, TelegraIcon } from '../../../assets/icons/FeedBackIcons.tsx/FeedbackIcons'
+import { Controller, useForm } from 'react-hook-form'
+
+const useStyles = makeStyles({
+    root: {
+        height: "100px",
+        boxSizing: "border-box",
+        padding: "20px",
+        width: "100%",
+        border: "none",
+        outline: "none",
+        resize: "none"
+
+
+    }
+})
+
+interface IChatTextArea {
+    setSendingChat?: any;
+}
+
+export const ChatTextArea: React.FC<IChatTextArea> = ({ setSendingChat }) => {
+
+    const classes = useStyles();
+    const { control, handleSubmit, formState: errors, setValue, watch } = useForm();
+    const [chatMessage, setChatMessage] = useState<string>("");
+    const onFormSubmit = (data: any) => {
+        console.log(data);
+
+        setSendingChat(data.chatMessage);
+
+    }
+    console.log(watch("chatMessage"));
+
+    const handleKeyDown: React.KeyboardEventHandler<HTMLTextAreaElement> | undefined = (e) => {
+        if (watch("chatMessage").length > 12 && e.key !== "Backspace") {
+            e.preventDefault();
+        }
+    }
+    return (
+        <div style={{ border: "2px solid #C2C2C2", borderRadius: "14px", overflow: "hidden", width: "100%", flexGrow: 1 }}>
+            <form onSubmit={handleSubmit(onFormSubmit)}>
+
+
+                <Flex margin="0px" width="100%" flexDirection="column">
+                    <Controller
+                        control={control}
+                        name="chatMessage"
+                        render={({ field }) => {
+                            return <TextareaAutosize onKeyDown={handleKeyDown}  {...field} className={classes.root} wrap="wrap" maxRows={3} minRows={3} placeholder="Напишите ваше сообщение" />
+                        }}
+                        rules={{ required: 'true', maxLength: 150 }}
+                    />
+
+
+                    <UnderTextArea>
+                        <div style={{ flexGrow: 1 }}>
+                            <Text marginLeft="0px" marginRight="0px" fontSize="14px" fontWeight={400} color="#8f8f8f" >
+                                Вы можете написать еще 3 сообщения
+                            </Text>
+                        </div>
+                        <Flex justifyContent="space-between" width="35%" >
+                            <AttachIcon />
+                            <SmileIcon />
+                            <CustomButton type="submit">
+                                <TelegraIcon />
+                                <Text color="white" fontSize="15px" fontWeight={500}>Отправить</Text>
+                            </CustomButton>
+                        </Flex>
+                    </UnderTextArea>
+
+                </Flex>
+            </form>
+        </div>
+
+    )
+}

@@ -1,11 +1,12 @@
-import { Grid } from '@material-ui/core';
-import React, { useState } from 'react';
+import { Dialog, Grid } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQuery } from 'react-query';
 import { FilterIcon } from '../../../assets/icons/ClientStatisticsIcons/ClientStatisticsIcons';
 import { MediumStartIcon } from '../../../assets/icons/FeedBackIcons.tsx/FeedbackIcons';
 import CustomInputLarge from '../../../components/Custom/CustomInputLarge';
 import CustomSearchFlexible from '../../../components/Custom/CustomLargeFlexible';
+import Filter from '../../../components/Custom/Filter';
 import HorizontalMenu from '../../../components/Custom/HorizontalMenu';
 import { fetchRatings } from '../../../services/queries/PartnerQueries';
 import { Flex } from '../../../styles/BuildingBlocks';
@@ -21,10 +22,14 @@ const FeedbackPage = () => {
     const [section, setSection] = useState("feedbacks");
     const [modalVisble, setModalVisible] = useState<boolean>(false);
     const [pickedReview, setPickedReview] = useState<any>({});
+    const [filterOpen, setFilterOpen] = useState<boolean>(false);
+    const [apply, setApply] = useState<boolean>(false);
     const response = useQuery(["fetchRatings"], fetchRatings, {
         enabled: section === "feedbacks",
-        refetchOnWindowFocus: false
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
     });
+
     const menuItems = [
         {
             key: 'feedbacks',
@@ -35,8 +40,27 @@ const FeedbackPage = () => {
             title: t("messages")
         },
     ]
+    const dialog: any = document.getElementsByTagName("dialog");
+    const filters: any = [
+
+        {
+            title: "byCashiers",
+            inputType: "select",
+            request: "chose_cashier",
+            numOfInputs: ["cashiers"],
+            //   inputHandler: (value: any) => { dispatch(setGender(value)) },
+            // checked: statisticsState.gender
+        },
+
+    ]
 
 
+    // useEffect(() => {
+    //     if (dialog) {
+    //         dialog[0].showModal();
+    //     }
+
+    // }, [dialog])
 
     const renderSection = () => {
         switch (section) {
@@ -50,7 +74,7 @@ const FeedbackPage = () => {
     return (
         <>
             <PageWrapper>
-                <Flex margin="0px" width="100%" justifyContent="start" height="calc(100vh - 120px)">
+                <Flex margin="0px" flexDirection="row" width="100%" justifyContent="start" height={section === "messages" ? "100%" : "calc(100vh - 120px)"}>
 
 
                     <div style={{ display: "flex", margin: "0px", padding: "0px", width: "100%", height: "100%", flexDirection: "column", justifyContent: "start" }}>
@@ -58,6 +82,7 @@ const FeedbackPage = () => {
 
 
                         <div style={{ display: "flex", flexDirection: "column", alignItems: "start" }}>
+
                             <SectionHead>
                                 {t("feedbackPage")}
                             </SectionHead>
@@ -65,13 +90,17 @@ const FeedbackPage = () => {
 
                                 <CustomSearchFlexible margin="0px" width="auto" adornmentMargin="0px 20px 0px 0px" padding="14px 30px" />
 
+                                <div >
+                                    <UnderSectionButton margin="0px 0px 0px 10px" onClick={() => { setFilterOpen(!filterOpen) }}>
+                                        <span style={{ maxHeight: "30px", maxWidth: "28px" }}>
+                                            <FilterIcon />
+                                        </span>
+                                        <Text>{t("filters")}</Text>
 
-                                <UnderSectionButton margin="0px 0px 0px 10px">
-                                    <span style={{ minHeight: "30px", minWidth: "28px" }}>
-                                        <FilterIcon />
-                                    </span>
-                                    <Text>{t("filters")}</Text>
-                                </UnderSectionButton>
+                                    </UnderSectionButton>
+                                    {filterOpen && <Filter filters={filters} onApply={() => setApply(true)} />}
+                                </div>
+
 
 
 
@@ -87,12 +116,12 @@ const FeedbackPage = () => {
                             </Flex>
                         </div>
 
-                        <div >
+                        <div style={{ flexGrow: section === "messages" ? 1 : 0, boxSizing: "border-box" }}>
                             {renderSection()}
                         </div>
 
                     </div>
-                    {(section === "feedbacks" && !response.isLoading) && <div style={{ height: "100%", width: "35%", margin: "20px 0px", borderLeft: "1px solid grey" }}>
+                    {(section === "feedbacks" && !response.isLoading && response?.data?.data.data) && <div style={{ height: "100%", width: "35%", margin: "20px 0px", borderLeft: "1px solid grey" }}>
                         <Flex height="100%" flexDirection="column" justifyContent="start" alignItems="center">
                             <FlexiblePanel>
                                 <div style={{ display: "flex", justifyContent: "center" }}>
@@ -102,7 +131,7 @@ const FeedbackPage = () => {
                                 </div>
                                 <Flex justifyContent="space-between" margin="27px 0px 0px 0px">
                                     <div>
-                                        <Text marginRight="0px" marginLeft="0px" fontWeight={700} fontSize="40px" color="#606EEA">{response.data?.data.data.averageRating}</Text>
+                                        <Text marginRight="0px" marginLeft="0px" fontWeight={700} fontSize="40px" color="#606EEA">{response?.data?.data?.data?.averageRating}</Text>
                                         <Text marginRight="0px" marginLeft="0px" fontWeight={700} fontSize="18px" color="#C4C4C4">/5 </Text>
 
                                     </div>

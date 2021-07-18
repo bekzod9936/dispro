@@ -17,6 +17,7 @@ export interface IFlex {
 	| "stretch"
 	| "end";
 	alignItems?: "flex-start" | "flex-end" | "center" | "baseline" | "stretch";
+	flexGrow?: string;
 	width?: string;
 	height?: string;
 	margin?: string;
@@ -80,4 +81,7 @@ export interface IFlexiblePanel {
 	width?: string,
 	height?: string,
 
+}
+export interface IMessageElement {
+	chatType: any
 }

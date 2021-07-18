@@ -247,6 +247,10 @@ const ClientsPage = () => {
         console.log("clicked");
 
     }
+    const handleSearchChange = (e: any) => {
+        console.log(e.target.value);
+
+    }
 
     const addColumns = totalHeaders.map((item: string) => {
         return <Flex margin="0px" justifyContent="start" alignItems="center" >
@@ -268,7 +272,7 @@ const ClientsPage = () => {
                 </Text>
                 <Grid container lg={12}>
                     <Grid container lg={7}>
-                        <CustomInputLarge />
+                        <CustomInputLarge onChange={handleSearchChange} />
                         <Flex justifyContent="space-between" alignItems="center" width="fit-content" margin="0px">
                             <UnderSectionButton onClick={() => { dispatch(setClientFilterIsOpen(!clientState.filterIsOpen)) }}>
                                 <span style={{ minHeight: "28px", minWidth: "28px" }}>
