@@ -168,7 +168,8 @@ const MessagesSection = () => {
                 <ChatSpace>
                     {(secondResponse) ? (
                         <>
-                            <ChatHeader setProcess={setDeletionProcess} setModalVisible={setModalVisible} fullName={secondResponse.} status="Base 5%" src={firstResponse?.find((item: any) => item.id === id)?.image} />
+                            <ChatHeader setProcess={setDeletionProcess} setModalVisible={setModalVisible} fullName={secondResponse.firstName + " " + secondResponse.lastName
+                            } status="Base 5%" src={firstResponse?.find((item: any) => item.id === id)?.image} />
 
                             <div style={{ width: "100%", flexGrow: 1, display: "flex", flexDirection: "column", padding: "15px 25px", boxSizing: "border-box" }}>
                                 <ChatWrapper>

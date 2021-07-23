@@ -46,10 +46,10 @@ align-items: center;
 export const Text = styled.span<IText>`
 font-size:${(props: IText) => (props.fontSize ? props.fontSize : "16px")};
 font-family: "Roboto";
-margin-right:${(props: IText) => (props.marginRight ? props.marginRight : "23px")};
+margin-right:${(props: IText) => (props.marginRight ? props.marginRight : "0px")};
 color: ${(props: IText) => (props.color || "#223367")};
 //position: relative;
-margin-left:${(props: IText) => (props.marginLeft ? props.marginLeft : "23px")};
+margin-left:${(props: IText) => (props.marginLeft ? props.marginLeft : "0px")};
 font-weight: ${(props: IText) => (props.fontWeight ? props.fontWeight : 700)};
 `
 export const Header = styled.div`
@@ -373,4 +373,39 @@ box-sizing: border-box;
 &:hover {
     background-color: rgba(96, 110, 234, 0.1);
 }
+`
+
+export const WholePageWrapper = styled.div`
+width: 100vw;
+height: 100vh;
+min-width: 100vw;
+min-height: 100vh;
+margin: 0px;
+padding: 0px;
+display: flex;
+background: linear-gradient(to bottom ,#606EEA 50%, lightgrey 50% )
+`
+
+export const LeftSide = styled.div`
+width: 50%;
+min-height: 100vh;
+background-color:#606EEA ;
+border-bottom-right-radius: 10%;
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column; 
+`
+export const RightSide = styled.div`
+width: 50%;
+min-height: 100vh;
+background-color: lightgrey ;
+border-top-left-radius: 10%;
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+
+
+
 `

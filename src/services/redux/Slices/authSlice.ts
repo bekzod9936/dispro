@@ -3,9 +3,11 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 interface IAuthSlice {
     signedIn: boolean;
+    partnerLogin: boolean;
 }
 const initialState = {
-    signedIn: false
+    signedIn: false,
+    partnerLogin: false
 }
 
 const authSlice = createSlice({
@@ -14,9 +16,12 @@ const authSlice = createSlice({
     reducers: {
         setSignedIn: (state, action: PayloadAction<boolean>) => {
             state.signedIn = action.payload
+        },
+        setLogIn: (state, action: PayloadAction<boolean>) => {
+            state.partnerLogin = action.payload;
         }
     }
 })
 
-export const { setSignedIn } = authSlice.actions;
+export const { setSignedIn, setLogIn } = authSlice.actions;
 export default authSlice.reducer

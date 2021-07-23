@@ -37,7 +37,7 @@ const SettingsPage = lazy(() => import("../pages/CompanyPages/settings/SettingsP
 const ServicesPage = lazy(() => import("../pages/CompanyPages/services/ServicesPage"));
 const ClientsPage = lazy(() => import("../pages/CompanyPages/clients/ClientsPage"));
 const FeedbackPage = lazy(() => import("../pages/CompanyPages/feedback/FeedbackPage"));
-
+const TestLoginPage = lazy(() => import("../pages/LoginPages/LoginPageModerator/TestLoginPage"))
 // const LoginPageModerator = lazy(()=>import("../pages/LoginPages/LoginPageModerator/LoginPageModerator"));
 
 export interface IPrivateRoute {
@@ -58,6 +58,10 @@ const publicRoutes: IPublicRoute[] = [
     {
         path: "/partner",
         component: LoginPageAdmin,
+    },
+    {
+        path: "/test",
+        component: TestLoginPage
     }
 
 ]
