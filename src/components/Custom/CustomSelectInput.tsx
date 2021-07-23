@@ -19,6 +19,7 @@ const CustomSelectInput = () => {
     return (
         <Input
             className={classes.root}
+            disableUnderline
             endAdornment={<InputAdornment position="start">
                 <ArrowDown />
             </InputAdornment>}

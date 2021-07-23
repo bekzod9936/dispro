@@ -8,12 +8,13 @@ import CustomDropDown from './CustomDropDown';
 interface IFilter {
     filters: Object[],
     onApply: () => void,
+    zIndex?: number
 }
-const Filter: React.FC<IFilter> = ({ filters, onApply }) => {
+const Filter: React.FC<IFilter> = ({ filters, onApply, zIndex }) => {
     const { t } = useTranslation();
     return (
         <>
-            <div style={{ marginBottom: "10px", position: "absolute", zIndex: 90, display: "flex", flexDirection: "column", borderRadius: "12px", flexWrap: "wrap", overflow: 'auto' }}>
+            <div style={{ marginBottom: "10px", top: 70, position: "absolute", zIndex: zIndex || 90, display: "flex", flexDirection: "column", borderRadius: "12px", flexWrap: "wrap", overflow: 'auto' }}>
                 <CustomDropDown handleInputChange={() => { console.log("change") }}
                     request=""
                     numOfInputs={["FILTERS"]}

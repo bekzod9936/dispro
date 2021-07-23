@@ -10,6 +10,7 @@ import { CalendarIcon } from '../../assets/icons/ClientStatisticsIcons/ClientSta
 import { useDispatch } from 'react-redux';
 import { resetFilters } from '../../services/redux/Slices/clientStatistics';
 import CustomSelectWithArrow from './CustomSelectWithArrow';
+import RatingFilter from '../../pages/CompanyPages/feedback/RatingFilter';
 
 interface ICustomDropDown {
     title: string,
@@ -29,6 +30,7 @@ const CustomDropDown: React.FC<ICustomDropDown> = ({ checked, dateTo, dateFrom, 
     const { t } = useTranslation()
     const dispatch = useDispatch();
     const [openFilter, setOpenFilter] = useState<string[] | []>([]);
+    const [pickedRating, setPickedRating] = useState<number>(0);
     const handleArrowUp = () => {
         const newFilterState = openFilter.filter(value => value !== title);
         setOpenFilter([...newFilterState]);
@@ -76,9 +78,14 @@ const CustomDropDown: React.FC<ICustomDropDown> = ({ checked, dateTo, dateFrom, 
 
             case "select":
                 return numOfInputs.map(item => {
-                    return <CustomSelectWithArrow value={"12345"} options={[{ key: "sfsdfsdf", value: "sadfasdfasdf" }]} />
+                    return (
+                        <CustomSelectWithArrow value={"12345"} options={[{ key: "sfsdfsdf", value: "sadfasdfasdf" }]} />
+                    )
+
                 }
                 )
+            case "star":
+                return <RatingFilter pickedRating={pickedRating} setPick={setPickedRating} />
 
 
         }
@@ -97,12 +104,13 @@ const CustomDropDown: React.FC<ICustomDropDown> = ({ checked, dateTo, dateFrom, 
             </DropDownTitle>
             {openFilter.find((value) => value === title) && <div style={{ maxWidth: "400px", background: index % 2 !== 0 ? "#F0F1FD" : "white" }} >
                 <Flex
-                    width={inputType === "select" ? "80%" : inputType === "input" ? "100%" : inputType === "radio" ? "95%" : "100%"}
+                    margin={inputType === "select" ? "0px" : "auto"}
+                    width={inputType === "select" ? "100%" : inputType === "input" ? "100%" : inputType === "radio" ? "95%" : "100%"}
                     justifyContent="start" flexDirection="column" alignItems="flex-start">
                     <div>
                         <Text fontSize="14px" color="#C7C7C7" fontWeight={600} marginLeft="12px">{t(request)}</Text>
                     </div>
-                    <Grid container>
+                    <Grid lg={12} container>
 
                         {renderFields()}
 

@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core"
 import { Flex } from '../../styles/BuildingBlocks';
 interface IProps {
     open: boolean,
-    children: any,
+    children?: any,
     rest?: any
 }
 

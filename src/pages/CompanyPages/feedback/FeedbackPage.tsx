@@ -1,4 +1,4 @@
-import { Dialog, Grid } from '@material-ui/core';
+import { Dialog, Grid, Modal } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQuery } from 'react-query';
@@ -6,6 +6,7 @@ import { FilterIcon } from '../../../assets/icons/ClientStatisticsIcons/ClientSt
 import { MediumStartIcon } from '../../../assets/icons/FeedBackIcons.tsx/FeedbackIcons';
 import CustomInputLarge from '../../../components/Custom/CustomInputLarge';
 import CustomSearchFlexible from '../../../components/Custom/CustomLargeFlexible';
+import CustomModal from '../../../components/Custom/CustomModal';
 import Filter from '../../../components/Custom/Filter';
 import HorizontalMenu from '../../../components/Custom/HorizontalMenu';
 import { fetchRatings } from '../../../services/queries/PartnerQueries';
@@ -24,6 +25,7 @@ const FeedbackPage = () => {
     const [pickedReview, setPickedReview] = useState<any>({});
     const [filterOpen, setFilterOpen] = useState<boolean>(false);
     const [apply, setApply] = useState<boolean>(false);
+    const [backdropVisible, setBackdropVisible] = useState<boolean>(false);
     const response = useQuery(["fetchRatings"], fetchRatings, {
         enabled: section === "feedbacks",
         refetchOnWindowFocus: false,
@@ -48,6 +50,14 @@ const FeedbackPage = () => {
             inputType: "select",
             request: "chose_cashier",
             numOfInputs: ["cashiers"],
+            //   inputHandler: (value: any) => { dispatch(setGender(value)) },
+            // checked: statisticsState.gender
+        },
+        {
+            title: "byRating",
+            inputType: "star",
+            request: "pick_rating",
+            numOfInputs: ["one"],
             //   inputHandler: (value: any) => { dispatch(setGender(value)) },
             // checked: statisticsState.gender
         },
@@ -91,14 +101,14 @@ const FeedbackPage = () => {
                                 <CustomSearchFlexible margin="0px" width="auto" adornmentMargin="0px 20px 0px 0px" padding="14px 30px" />
 
                                 <div >
-                                    <UnderSectionButton margin="0px 0px 0px 10px" onClick={() => { setFilterOpen(!filterOpen) }}>
+                                    <UnderSectionButton zIndex={filterOpen ? 1302 : 10} margin="0px 0px 0px 10px" onClick={() => { setFilterOpen(!filterOpen); setBackdropVisible(!backdropVisible) }}>
                                         <span style={{ maxHeight: "30px", maxWidth: "28px" }}>
                                             <FilterIcon />
                                         </span>
                                         <Text>{t("filters")}</Text>
 
                                     </UnderSectionButton>
-                                    {filterOpen && <Filter filters={filters} onApply={() => setApply(true)} />}
+                                    {filterOpen && <Filter zIndex={1301} filters={filters} onApply={() => setApply(true)} />}
                                 </div>
 
 
@@ -200,6 +210,11 @@ const FeedbackPage = () => {
                     </div>}
                 </Flex>
                 {modalVisble && <FeedbackModal setModalVisible={setModalVisible} open={modalVisble} pickedReview={pickedReview} />}
+                {backdropVisible && <Modal open={backdropVisible}>
+                    <div>
+
+                    </div>
+                </Modal>}
             </PageWrapper>
         </>
     );

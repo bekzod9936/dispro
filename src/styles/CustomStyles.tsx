@@ -128,7 +128,9 @@ align-items: center;
 margin : ${(props: IUndersectionButton) => props.margin || "0px 20px 20px 0px"};
 height: 62px;
 box-sizing: border-box;
-width :content-fit;
+width : content-fit;
+z-index: ${(props: IUndersectionButton) => props.zIndex || 10};
+position: ${(props: IUndersectionButton) => props.zIndex ? 'relative' : 'static'};
 `
 export const SectionWrapper = styled.div`
 position: relative;
@@ -322,7 +324,7 @@ padding : 14px 27px;
 `
 export const ChatWrapper = styled.div`
 min-height: 370px;
-max-height: 370px;
+height: 45vh;
 overflow-y: scroll;
 &::-webkit-scrollbar {
  appearance: none;
@@ -335,5 +337,40 @@ overflow-y: scroll;
 &::-webkit-scrollbar-track {
     appearance: none;
     display: none;
+}
+`
+
+export const OptionsList = styled.div`
+position: relative;
+top : 20;
+height: fit-content;
+right: 20px;
+background-color: white;
+border-radius: 14px;
+padding:  15px 0px 0px 0px;
+box-shadow:  0px 1px 28px rgba(0, 0, 0, 0.12);
+width: fit-content;
+&::before {
+    content: "";
+    display: block;
+    position: absolute;
+    height: 9px;
+    width: 17px;
+    top: -8px;
+    right: 15px;
+    background-color: white;
+   // box-shadow:  0px 1px 28px rgba(0, 0, 0, 0.12);
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+
+}
+`
+export const OptionsListItem = styled.div`
+position: static;
+width: max-content;
+padding: 15px 24px;
+box-sizing: border-box;
+//justify-content: flex-start;
+&:hover {
+    background-color: rgba(96, 110, 234, 0.1);
 }
 `

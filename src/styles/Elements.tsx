@@ -100,7 +100,7 @@ export const MessageElement = styled.div`
 flex-grow : 1;
 padding : 15px;
 background-color: ${(props: IMessageElement) => props?.chatType == 1 ? "#E5E9FF" : "#606EEA"} ;
-color: white;
+color: ${(props: IMessageElement) => props?.chatType == 1 ? "black" : "white"} ;
 font-size: 14px;
 font-weight: 400;
 position: relative;

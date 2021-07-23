@@ -5,7 +5,15 @@ import CustomSelectInput from './CustomSelectInput'
 
 const useStyles = makeStyles((theme) => ({
     root: {
-
+        width: "90%",
+        height: "40px",
+        border: "1px solid lightgrey",
+        //padding: "0px 20px",
+        outline: "none",
+        marginLeft: "20px",
+        borderRadius: "12px",
+        marginTop: "5px",
+        marginBottom: "10px",
     },
     paper: {
         overflowX: "unset",
@@ -13,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
         marginTop: "50px",
         background: "white",
         borderRadius: "14px",
-        paddingLeft: "20px",
+        // paddingLeft: "20px",
         width: "150px",
         "&::before": {
             content: '""',
@@ -55,7 +63,7 @@ const CustomSelectWithArrow: React.FC<IProps> = ({ children, value, options }) =
         <Select
             className={classes.root}
             value={value}
-            input={<CustomSelectInput />}
+            disableUnderline
             MenuProps={{
                 classes: { paper: classes.paper }
             }

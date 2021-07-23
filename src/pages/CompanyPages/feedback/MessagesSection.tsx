@@ -8,40 +8,84 @@ import { ChatHeader } from './ChatHeader';
 import { ChatMessage } from './ChatMessage';
 import { ChatTextArea } from './ChatTextArea';
 import { CHAT_TYPES, SOCKET_EVENT, USER_TYPES } from '../../../services/constants/chat';
-
-import io from "socket.io-client"
-import { useAppSelector } from '../../../services/redux/hooks';
+import choseChat from "../../../assets/images/choseChat.png"
+import { io } from "socket.io-client"
+import { useAppDispatch, useAppSelector } from '../../../services/redux/hooks';
+import { setSocket } from '../../../services/redux/Slices/FeedbackSlice';
+import CustomModal from '../../../components/Custom/CustomModal';
+import BlockChatDelete from './BlockChatDelete';
 
 
 
 const MessagesSection = () => {
     const [enableChat, setEnableChat] = useState<boolean>(false);
-    const [id, setId] = useState<number>(0);
-    let token = localStorage.getItem("companyToken");
-    const response = useQuery(["chat"], fetchChatItems);
+    const [id, setId] = useState<number>(-1);
+    const [modalVisible, setModalVisible] = useState<boolean>(false);
+    const [deletionProcess, setDeletionProcess] = useState<string>("");
+    const [lastChatType, setLastChatType] = useState();
+    const response = useQuery(["chat"], fetchChatItems, {
+        onSuccess: (data) => {
+            setFirstResponse(data.data.data);
+        }
+    });
     const [sendingChat, setSendingChat] = useState<string>("");
     const [commingMessage, setCommingMesssage] = useState<any>();
     const [responseRefetch, setResponseRefetch] = useState<number>(0);
+    const [firstResponse, setFirstResponse] = useState<any>(null);
+    const [secondResponse, setSecondResponse] = useState<any>(null);
+    const [chatSendCount, setChatSendCount] = useState<number>(0);
     // const [socket, setSocket] = useState<any>()
-    const socket: any = useAppSelector(state => state.feedback.socket);
+    //const socket: any = useAppSelector(state => state.feedback.socket);
     const responseChatItem = useQuery(["chatItem", id, responseRefetch], () => fetchSingleChatItem(id),
         {
-            enabled: enableChat && response?.data?.data?.data && id >= 0,
+            enabled: id >= 0,
             retry: 0,
-            refetchOnWindowFocus: false,
-            refetchOnMount: false,
             onSuccess: (data) => {
                 setEnableChat(false);
+                setSecondResponse(data.data.data);
+                setChatSendCount(chatSendCount + 1);
             }
         })
+    const socketConnection: any = useAppSelector(state => state.feedback.socket);
 
 
+    let token = localStorage.getItem("companyToken");
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        console.log(process.env.REACT_APP_WEBSOCKET_URL);
+        if (!socketConnection) {
+            const socket = io(
+                `${process.env.REACT_APP_WEBSOCKET_URL}/nsp_staff_svdfv8732f5rycf76f8732rvuy23cfi77c3u6fr2387frv8237vfidu23vf2vdd7324df4`,
+                {
+                    path: "/",
+
+
+                    auth: {
+                        token: `Bearer ${token}`,
+                    },
+                }
+            );
+            socket.on("connect", (res: any) => {
+                console.log(res);
+            })
+            socket.on("disconnect", (res: any) => {
+                console.log(res);
+
+            })
+
+            dispatch(setSocket(socket));
+
+        }
+
+
+    }, [])
 
 
 
     useEffect(() => {
-        if (socket !== null) {
-            socket.on(SOCKET_EVENT.CHAT_CLIENT_TO_PARTNER, (data: any) => {
+        if (socketConnection !== null) {
+            socketConnection.on(SOCKET_EVENT.CHAT_CLIENT_TO_PARTNER, (data: any) => {
                 setCommingMesssage(data);
                 setResponseRefetch(responseRefetch + 1);
 
@@ -54,10 +98,10 @@ const MessagesSection = () => {
     useEffect(() => {
         console.log("here useEffect");
 
-        if (socket && sendingChat) {
+        if (socketConnection && sendingChat) {
             console.log('socket here!');
 
-            socket.emit("chat_to_server", {
+            socketConnection.emit("chat_to_server", {
                 langId: 1,
                 chatType: 2,
                 toId: id,
@@ -68,13 +112,19 @@ const MessagesSection = () => {
                 }
             },
                 (res: any) => {
+                    console.log("response: ", res);
+
                     if (res.success) {
                         console.log("success! safasfcsdfsdfc");
                         setResponseRefetch(responseRefetch + 1);
+                        setChatSendCount(chatSendCount + 1);
                     }
                 }
             )
 
+        }
+        return () => {
+            setSendingChat("");
         }
 
     }, [sendingChat])
@@ -116,34 +166,36 @@ const MessagesSection = () => {
 
                 </ChatList>
                 <ChatSpace>
-                    {(response?.data?.data && responseChatItem?.data?.data) && (
+                    {(secondResponse) ? (
                         <>
-                            <ChatHeader fullName="Умрзок Тошкентов" status="Base 5%" src={response?.data?.data?.data.find((item: any) => item.id === id)?.image} />
+                            <ChatHeader setProcess={setDeletionProcess} setModalVisible={setModalVisible} fullName={secondResponse.} status="Base 5%" src={firstResponse?.find((item: any) => item.id === id)?.image} />
 
-                            <div style={{ width: "100%", height: "100%", flexGrow: 1, display: "flex", flexDirection: "column", padding: "15px 25px", boxSizing: "border-box" }}>
+                            <div style={{ width: "100%", flexGrow: 1, display: "flex", flexDirection: "column", padding: "15px 25px", boxSizing: "border-box" }}>
                                 <ChatWrapper>
-                                    <Flex justifyContent="start" width="100%" flexDirection="column-reverse" alignItems="flex-start" margin="0px" flexGrow="1">
-                                        {responseChatItem?.data?.data ? responseChatItem.data.data.data.histories.map((item: any) => {
-                                            return <ChatMessage chatType={item.chatType} src={response.data?.data.data.find((value: any) => item.fromId === value.id)?.image} message={item.msg} />
+                                    <Flex justifyContent="start" width="100%" flexDirection="column-reverse" alignItems="flex-start" margin="0px" >
+                                        {secondResponse ? secondResponse.histories.map((item: any) => {
+                                            return <ChatMessage chatType={item.chatType} src={firstResponse?.find((value: any) => item.fromId === value.id)?.image} message={item.msg} />
                                         })
-                                            : null
+                                            : <h1>hello2</h1>
                                         }
 
                                     </Flex>
                                 </ChatWrapper>
-                                <div style={{ flexGrow: 1, boxSizing: "border-box" }}>
-                                    <ChatTextArea setSendingChat={setSendingChat} />
+                                <div style={{ boxSizing: "border-box" }}>
+                                    <ChatTextArea setSendingChat={setSendingChat} chatSendCount={chatSendCount} />
 
                                 </div>
                             </div>
                         </>
-                    )
+                    ) : <div style={{ width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                        <img src={choseChat} alt="" />
+                    </div>
 
                     }
 
                 </ChatSpace>
             </MessageContainer>
-
+            <BlockChatDelete setProcess={setDeletionProcess} process={deletionProcess} setModalVisible={setModalVisible} open={modalVisible} />
         </div>
     );
 }

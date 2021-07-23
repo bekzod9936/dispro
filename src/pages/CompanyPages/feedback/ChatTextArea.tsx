@@ -1,5 +1,5 @@
 import { TextareaAutosize } from '@material-ui/core'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Flex } from '../../../styles/BuildingBlocks'
 import { makeStyles } from '@material-ui/core'
 import { boxSizing } from '@material-ui/system'
@@ -16,7 +16,10 @@ const useStyles = makeStyles({
         width: "100%",
         border: "none",
         outline: "none",
-        resize: "none"
+        resize: "none",
+        '&::placeholder': {
+            fontFamily: "Roboto",
+        }
 
 
     }
@@ -24,9 +27,10 @@ const useStyles = makeStyles({
 
 interface IChatTextArea {
     setSendingChat?: any;
+    chatSendCount?: number;
 }
 
-export const ChatTextArea: React.FC<IChatTextArea> = ({ setSendingChat }) => {
+export const ChatTextArea: React.FC<IChatTextArea> = ({ setSendingChat, chatSendCount }) => {
 
     const classes = useStyles();
     const { control, handleSubmit, formState: errors, setValue, watch } = useForm();
@@ -38,12 +42,15 @@ export const ChatTextArea: React.FC<IChatTextArea> = ({ setSendingChat }) => {
 
     }
     console.log(watch("chatMessage"));
-
+    useEffect(() => {
+        setValue("chatMessage", "");
+    }, [chatSendCount])
     const handleKeyDown: React.KeyboardEventHandler<HTMLTextAreaElement> | undefined = (e) => {
-        if (watch("chatMessage").length > 12 && e.key !== "Backspace") {
+        if (watch("chatMessage")?.length > 12 && e.key !== "Backspace") {
             e.preventDefault();
         }
     }
+
     return (
         <div style={{ border: "2px solid #C2C2C2", borderRadius: "14px", overflow: "hidden", width: "100%", flexGrow: 1 }}>
             <form onSubmit={handleSubmit(onFormSubmit)}>
@@ -54,7 +61,7 @@ export const ChatTextArea: React.FC<IChatTextArea> = ({ setSendingChat }) => {
                         control={control}
                         name="chatMessage"
                         render={({ field }) => {
-                            return <TextareaAutosize onKeyDown={handleKeyDown}  {...field} className={classes.root} wrap="wrap" maxRows={3} minRows={3} placeholder="Напишите ваше сообщение" />
+                            return <TextareaAutosize onKeyDown={handleKeyDown} rowsMax={3} rowsMin={3} {...field} className={classes.root} wrap="wrap" placeholder="Напишите ваше сообщение" />
                         }}
                         rules={{ required: 'true', maxLength: 150 }}
                     />
