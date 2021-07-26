@@ -16,11 +16,11 @@ const PrivateRoute: React.FC<IProps> = ({
     return (
         <Route {...rest} exact render={(props) => {
             let companyToken = localStorage.getItem("companyToken");
-            let moderator = localStorage.getItem("moderator_access_token");
-            return ((moderator && props.match.path.includes("admin")) || (companyToken && !props.match.path.includes("admin"))) ? (<Layout>
+            let moderator = localStorage.getItem("partner_access_token");
+            return ((moderator && props.match.path.includes("partner")) || (companyToken && !props.match.path.includes("partner"))) ? (<Layout>
                 <Component {...props} />
-            </Layout>) : (!companyToken && !props.match.path.includes("admin")) ? (
-                <Redirect to="/admin/companies" />
+            </Layout>) : (!companyToken && !props.match.path.includes("company")) ? (
+                <Redirect to="/partner/company" />
             ) : (<Redirect to="/" />)
         }}>
 

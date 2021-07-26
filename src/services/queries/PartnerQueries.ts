@@ -1,4 +1,6 @@
 import moment from "moment";
+import { CompanyItem } from "../../pages/LoginPages/LoginPageModerator/LoginPageStyles";
+import adminInterceptor from "../interceptors/adminInterceptor";
 import partnerApi from "../interceptors/companyInterceptor";
 
 export const fetchClientStatistics = async (
@@ -92,4 +94,26 @@ export const fetchSingleChatItem = (id: number) => {
 }
 
 
+export const fetchPartnerCompanies = () => {
+	const response = adminInterceptor.get(`core/staff-companies`);
+	return response;
+}
 
+export const createCompany = async (companyId: any,
+	companyName: any,
+	companyType: any,
+	countryId: any,
+	email: any,
+	firstName: any,
+	lastName: any,) => {
+	const response = await adminInterceptor.post(`/core/staffs/admin`, {
+		companyId: companyId,
+		companyName: companyName,
+		companyType: companyType,
+		countryId: countryId,
+		email: email,
+		firstName: firstName,
+		lastName: lastName,
+	});
+	return response;
+}

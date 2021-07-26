@@ -111,5 +111,18 @@
    "english": "English",
    "assertCode": "Код подтверждения",
    "enterAssertCode": "Введите код подтверждения",
-   "back": "Назад"
+   "back": "Назад",
+   "addCompany": "Добавить компанию",
+   "registration": "Регистрация",
+   "fillAllPlease": "Пожалуйста заполните все поля",
+   "your_name": "Ваше имя",
+   " your_lastName": "Ваша фамилия",
+   "email": "Электронная почта",
+   "readPolice": "Я прочитал политику конфидециальности и принимаю её условия",
+   "applicationOnConditions": "Я подаю заявку на условиях оферты",
+   "companyName": "Название компании",
+   "companyType": "Тип компании",
+   "arrivalCountry": "Страна пребывания",
+   "Uzbekistan": "Узбекистан",
+   "resend": "Отправить повторно"
 }

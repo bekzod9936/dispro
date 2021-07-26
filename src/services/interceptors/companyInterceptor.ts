@@ -12,7 +12,7 @@ const partnerApi = axios.create({
 
 partnerApi.interceptors.request.use((config: AxiosRequestConfig) => {
 	let companyToken = localStorage.getItem("companyToken");
-	let moderatorToken = localStorage.getItem("moderator_access_token");
+	let moderatorToken = localStorage.getItem("partner_access_token");
 	config.headers.authorization = `Bearer ${companyToken}`;
 	config.headers.langId = 1;
 	config.headers.vers = VERSION;
@@ -24,8 +24,8 @@ partnerApi.interceptors.response.use(
 	async (err: any) => {
 		const originalRequest = err.config;
 		let companyToken = localStorage.getItem("companyToken");
-		let moderatorToken = localStorage.getItem("moderator_access_token");
-		let refreshToken = localStorage.getItem("moderator_refresh_token");
+		let moderatorToken = localStorage.getItem("partner_access_token");
+		let refreshToken = localStorage.getItem("partner_refresh_token");
 
 		console.log("HERE : " + companyToken);
 		if (
@@ -50,7 +50,7 @@ partnerApi.interceptors.response.use(
 				let data: IAuthToken = response1.data;
 				if (data.data?.accessToken) {
 					console.log(data);
-					localStorage.setItem("moderator_access_token", data.data.accessToken);
+					localStorage.setItem("partner_access_token", data.data.accessToken);
 				}
 			} catch (error) {
 				if (
@@ -65,7 +65,7 @@ partnerApi.interceptors.response.use(
 
 			if (decoded) {
 				let moderatorUpdatedToken = localStorage.getItem(
-					"moderator_access_token"
+					"partner_access_token"
 				);
 				const response2 = await axios.get(
 					`${URL}/auth/admin/company/token?companyId=${decoded?.companyId}&companyType=${decoded?.companyType}`,

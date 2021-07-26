@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { ILoginPanelWrapper } from "../../../services/Types/Style";
 
 export const ImageWrapper = styled.div`
 overflow: hidden;
@@ -18,6 +19,7 @@ margin-top: 15%;
 
 export const LoginPanelWrapper = styled.div`
 background-color: white;
+width : ${(props: ILoginPanelWrapper) => props.width || "auto"};
 border-radius: 14px;
 padding: 15px 20px;
 `
@@ -26,4 +28,25 @@ padding: 30px ;
 display: flex;
 flex-direction: column;
 align-items: flex-start;
+`
+export const CompanyItem = styled.div`
+height: 300px;
+display: flex;
+flex-direction: column;
+border-radius: 14px;
+justify-content: space-evenly;
+align-items: center;
+background-color: white;
+width: 95%;
+margin: 0px 25px 35px 0px;
+
+`
+export const DashedCircle = styled.div`
+width: 115px;
+height: 115px;
+border-radius: 50%;
+border : 2px dashed #606EEA;
+display: flex; 
+justify-content: center;
+align-items: center;
 `

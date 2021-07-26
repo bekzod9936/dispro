@@ -14,7 +14,8 @@ import { useQuery } from 'react-query'
 import { logIn, signIn } from '../../../services/queries/LoginQueries'
 import { useDispatch } from 'react-redux'
 import { setLogIn } from '../../../services/redux/Slices/authSlice'
-import { useAppDispatch } from '../../../services/redux/hooks'
+import { useAppDispatch, useAppSelector } from '../../../services/redux/hooks'
+import { useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles({
     select: {
@@ -96,15 +97,21 @@ export const LoginPanel = () => {
     const [role, setRole] = useState<any>(null);
     const [phoneNumber, setPhoneNumber] = useState<any>(null);
     const { control, handleSubmit } = useForm();
+    const { control: control2, handleSubmit: handleSubmit2, formState: { errors: errors2 }, setError: setError2 } = useForm<any>();
     const [fetch, setFetch] = useState(false);
     const [proceed, setProceed] = useState(false);
     const [time, setTime] = useState(60);
+    const history = useHistory()
     const [enableTimer, setEnableTimer] = useState(false);
     const [further, setFurther] = useState(false);
     const [smsCode, setSMSCode] = useState<any>(null);
     const [enableSecond, setEnableSecond] = useState(false);
+    const [refetchSMS, setRefetchSMS] = useState<number>(0)
+    const [expired, setExpired] = useState(false);
     const dispatch = useAppDispatch();
-    const response = useQuery(["signUp"], () => signIn(role, phoneNumber), {
+
+    const partner = useAppSelector(state => state.auth.partnerLogin);
+    const response = useQuery(["signUp", refetchSMS], () => signIn(role, phoneNumber), {
         retry: 0,
         refetchOnWindowFocus: false,
         enabled: !!fetch,
@@ -131,12 +138,18 @@ export const LoginPanel = () => {
             console.log(data.data.data);
             localStorage.setItem("partner_access_token", data.data.data.accessToken);
             localStorage.setItem("partner_refresh_token", data.data.data.refreshToken);
-            dispatch(setLogIn(true));
+            dispatch(setLogIn(data.data.data));
+            if (data.data.data.status === "old") {
+                history.push("/partner/company");
+            }
+            else {
+                history.push("/partner/registration");
+            }
 
         },
-        onError: (err) => {
+        onError: (err: any) => {
             console.log(err);
-
+            setError2('smsCode', { type: "wrongSMS", message: "smsError" });
         }
     })
 
@@ -164,6 +177,10 @@ export const LoginPanel = () => {
                 }
 
             }, 200)
+        }
+        if (time === 0) {
+            setExpired(true);
+
         }
     }, [time, enableTimer])
     return (
@@ -275,10 +292,13 @@ export const LoginPanel = () => {
                                     }}
                                 />
                                 <div style={{ marginTop: "10px" }}>
-                                    <Text fontSize="16px" fontWeight={300} color="#C2C2C2">
+                                    {!expired && <Text fontSize="16px" fontWeight={300} color="#C2C2C2">
                                         SMS выслан на номер: {phoneNumber}
-                                    </Text>
+                                    </Text>}
 
+                                </div>
+                                <div style={{ color: "#3492ff", fontSize: "16px", fontWeight: 300 }} onClick={() => { setRefetchSMS(refetchSMS + 1); setFetch(true); setExpired(false) }}>
+                                    {expired && t("resend")}
                                 </div>
 
                             </div>

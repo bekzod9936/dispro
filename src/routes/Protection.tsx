@@ -10,8 +10,8 @@ import PublicRoute from "./PublicRoute";
 const prefix = "../pages/AdminDashBoard";
 //tokens
 // const adminAuthentificationToken = localStorage.getItem("admin_access_token");
-// const moderatorAutehntificationToken = localStorage.getItem("moderator_access_token");
-// const moderatorRefreshToken = localStorage.getItem("moderator_refresh_token");
+// const moderatorAutehntificationToken = localStorage.getItem("partner_access_token");
+// const moderatorRefreshToken = localStorage.getItem("partner_refresh_token");
 
 
 //Lazy loaded components
@@ -38,6 +38,8 @@ const ServicesPage = lazy(() => import("../pages/CompanyPages/services/ServicesP
 const ClientsPage = lazy(() => import("../pages/CompanyPages/clients/ClientsPage"));
 const FeedbackPage = lazy(() => import("../pages/CompanyPages/feedback/FeedbackPage"));
 const TestLoginPage = lazy(() => import("../pages/LoginPages/LoginPageModerator/TestLoginPage"))
+const CompanyList = lazy(() => import("../pages/LoginPages/LoginPageModerator/CompanyList"))
+const RegistrationPanel = lazy(() => import("../pages/LoginPages/LoginPageModerator/RegistrationPanel"))
 // const LoginPageModerator = lazy(()=>import("../pages/LoginPages/LoginPageModerator/LoginPageModerator"));
 
 export interface IPrivateRoute {
@@ -53,16 +55,12 @@ interface IPublicRoute {
 const publicRoutes: IPublicRoute[] = [
     {
         path: "/",
-        component: LoginPageModerator
+        component: TestLoginPage
     },
     {
         path: "/partner",
         component: LoginPageAdmin,
     },
-    {
-        path: "/test",
-        component: TestLoginPage
-    }
 
 ]
 
@@ -141,19 +139,31 @@ const privateRoutes: IPrivateRoute[] = [
         path: "/admin/categories",
         layout: DefaultLayoutAdmin,
         component: Categories
+    },
+    {
+        path: '/partner/company',
+        layout: TestLoginPage,
+        component: CompanyList,
+    },
+    {
+        path: "/partner/registration",
+        layout: TestLoginPage,
+        component: RegistrationPanel
     }
+
 ]
 
 const RenderPublicRoutes = () => {
-    const adminAuthentificationToken = localStorage.getItem("admin_access_token");
-    const moderatorAutehntificationToken = localStorage.getItem("moderator_access_token");
-    const moderatorRefreshToken = localStorage.getItem("moderator_refresh_token");
+
+    const moderatorAutehntificationToken = localStorage.getItem("partner_access_token");
+    const moderatorRefreshToken = localStorage.getItem("partner_refresh_token");
     return (
 
         publicRoutes.map((item: IPublicRoute) => {
             console.log("Public Routes!")
             if (moderatorAutehntificationToken && moderatorRefreshToken && window.location.pathname === "/") {
-                return <Redirect to={privateRoutes[0].path} />
+
+                return <Redirect to="/partner/company" />
             }
             return (<Suspense fallback={<FallbackOnLazyLoad />}>
                 <PublicRoute Component={item.component} path={item.path} />
@@ -166,8 +176,8 @@ const RenderPublicRoutes = () => {
 
 const RenderRoutes = () => {
     const adminAuthentificationToken = localStorage.getItem("admin_access_token");
-    const moderatorAutehntificationToken = localStorage.getItem("moderator_access_token");
-    const moderatorRefreshToken = localStorage.getItem("moderator_refresh_token");
+    const moderatorAutehntificationToken = localStorage.getItem("partner_access_token");
+    const moderatorRefreshToken = localStorage.getItem("partner_refresh_token");
     let companyToken = localStorage.getItem("companyToken");
     return (
         privateRoutes.map((item: IPrivateRoute) => {

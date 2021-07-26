@@ -11,6 +11,7 @@ import { setSocket } from './services/redux/Slices/FeedbackSlice';
 
 import { async } from 'q';
 import { StepConnector } from '@material-ui/core';
+import TestLoginPage from './pages/LoginPages/LoginPageModerator/TestLoginPage';
 
 const io = require("socket.io-client");
 

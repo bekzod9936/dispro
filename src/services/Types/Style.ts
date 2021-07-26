@@ -9,13 +9,13 @@ export interface IText {
 
 export interface IFlex {
 	justifyContent?:
-		| "space-between"
-		| "space-around"
-		| "space-evenly"
-		| "start"
-		| "center"
-		| "stretch"
-		| "end";
+	| "space-between"
+	| "space-around"
+	| "space-evenly"
+	| "start"
+	| "center"
+	| "stretch"
+	| "end";
 	alignItems?: "flex-start" | "flex-end" | "center" | "baseline" | "stretch";
 	flexGrow?: string;
 	width?: string;
@@ -34,18 +34,18 @@ export interface IGridContainer {
 	gridTemplateColumns?: string;
 	gridTemplateRows?: string;
 	justifyContent?:
-		| "space-between"
-		| "space-around"
-		| "space-evenly"
-		| "start"
-		| "center";
+	| "space-between"
+	| "space-around"
+	| "space-evenly"
+	| "start"
+	| "center";
 	alignContent?:
-		| "center"
-		| "space-evenly"
-		| "space-around"
-		| "space-between"
-		| "start"
-		| "end";
+	| "center"
+	| "space-evenly"
+	| "space-around"
+	| "space-between"
+	| "start"
+	| "end";
 	width?: string;
 	height?: string;
 	gridGap?: string;
@@ -84,4 +84,8 @@ export interface IFlexiblePanel {
 }
 export interface IMessageElement {
 	chatType: any;
+}
+
+export interface ILoginPanelWrapper {
+	width?: string
 }

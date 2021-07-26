@@ -11,6 +11,12 @@ import { classicNameResolver } from 'typescript'
 import { makeStyles } from "@material-ui/core"
 import { borderRadius } from '@material-ui/system'
 import { RuFlagIcons } from '../../../assets/icons/LoginPage/LoginPageIcons'
+import { setLogIn } from '../../../services/redux/Slices/authSlice'
+import { useQuery } from 'react-query'
+import CompanyList from './CompanyList'
+import { useAppSelector } from '../../../services/redux/hooks'
+import RegistrationPanel from './RegistrationPanel'
+import { Route } from 'react-router-dom'
 const useStyles = makeStyles({
     select: {
         border: "1px solid #223367",
@@ -28,9 +34,11 @@ const useStyles = makeStyles({
     }
 })
 
-const TestLoginPage = () => {
+const TestLoginPage = ({ children }: any) => {
     const { t } = useTranslation();
     const classes = useStyles();
+    let accessToken = localStorage.getItem("partner_access_token");
+    let partner: any = useAppSelector(state => state.auth.partnerLogin)
     const [selectState, setSelectState] = useState("russian");
     return (
         <>
@@ -75,9 +83,13 @@ const TestLoginPage = () => {
                     </LeftWrapper>
 
                 </LeftSide>
+                {/* <RightSide>
+                    {((partner?.status === "old" && accessToken)) ?
+                        <CompanyList />
+                        : (partner?.status === "new") ? <RegistrationPanel /> : <LoginPanel />}
+                </RightSide> */}
                 <RightSide>
-
-                    <LoginPanel />
+                    {children ? children : <LoginPanel />}
                 </RightSide>
             </WholePageWrapper>
         </>

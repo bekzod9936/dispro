@@ -40,22 +40,12 @@ code {
 .MuiPopover-paper {
 	border-radius: 12px;
 }
-/* .MuiPopover-paper::after {
-	content: "";
-	display: block;
-	position: absolute;
-	bottom: 300px;
-	left: 20px;
-	width: 20px;
-	height: 20px;
-	z-index: 2000;
-	clip-path: polygon(50% 0, 100% 100%, 0 100%);
-	background-color: green;
-} */
-/* .MuiPopover-root {
-	position: "static" !important;
-	z-index: 0 !important;
-} */
-/* .MuiPopover-root:first-child {
-	display: none !important;
-} */
+.MuiStepLabel-iconContainer {
+	padding-right: 0px
+}
+.MuiStepConnector-lineHorizontal {
+	border-top-width: 3px;
+}
+.MuiStepIcon-root.MuiStepIcon-active {
+ color: #606eea;
+}
