@@ -17,7 +17,7 @@ const RatingFilter: React.FC<IRating> = ({ pickedRating, setPick }) => {
 
     }
     return (
-        <div style={{ width: "100%", display: "flex", justifyContent: "space-between" }}>
+        <div style={{ width: "80%", display: "flex", justifyContent: "space-between", alignSelf: "center", marginTop: "10px", marginLeft: "25px" }}>
             {ratings.map((item: number) => {
                 return (<div onClick={() => handleStarClick(item)}>
                     <StarRatingGreyIcon key={item} color={item <= pickedRating ? "#FFC107" : "#C7C7C7"} />

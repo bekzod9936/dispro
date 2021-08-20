@@ -5,17 +5,18 @@ export interface IText {
 	color?: string;
 	marginLeft?: string;
 	marginRight?: string;
+	fontFamily?:string;
 }
 
 export interface IFlex {
 	justifyContent?:
-	| "space-between"
-	| "space-around"
-	| "space-evenly"
-	| "start"
-	| "center"
-	| "stretch"
-	| "end";
+		| "space-between"
+		| "space-around"
+		| "space-evenly"
+		| "start"
+		| "center"
+		| "stretch"
+		| "end";
 	alignItems?: "flex-start" | "flex-end" | "center" | "baseline" | "stretch";
 	flexGrow?: string;
 	width?: string;
@@ -25,6 +26,7 @@ export interface IFlex {
 	flexWrap?: "wrap" | "nowrap" | "wrap-reverse";
 	padding?: string;
 	background?: string;
+	overflowY?: string;
 }
 
 export interface ISidebarMenuItem {
@@ -34,18 +36,18 @@ export interface IGridContainer {
 	gridTemplateColumns?: string;
 	gridTemplateRows?: string;
 	justifyContent?:
-	| "space-between"
-	| "space-around"
-	| "space-evenly"
-	| "start"
-	| "center";
+		| "space-between"
+		| "space-around"
+		| "space-evenly"
+		| "start"
+		| "center";
 	alignContent?:
-	| "center"
-	| "space-evenly"
-	| "space-around"
-	| "space-between"
-	| "start"
-	| "end";
+		| "center"
+		| "space-evenly"
+		| "space-around"
+		| "space-between"
+		| "start"
+		| "end";
 	width?: string;
 	height?: string;
 	gridGap?: string;
@@ -87,5 +89,5 @@ export interface IMessageElement {
 }
 
 export interface ILoginPanelWrapper {
-	width?: string
+	width?: string;
 }

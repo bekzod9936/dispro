@@ -41,11 +41,16 @@ code {
 	border-radius: 12px;
 }
 .MuiStepLabel-iconContainer {
-	padding-right: 0px
+	padding-right: 0px;
 }
 .MuiStepConnector-lineHorizontal {
 	border-top-width: 3px;
 }
 .MuiStepIcon-root.MuiStepIcon-active {
- color: #606eea;
+	color: #606eea;
+}
+
+.MuiListItem-root.Mui-selected,
+.MuiListItem-root.Mui-selected:hover {
+	background-color: white;
 }

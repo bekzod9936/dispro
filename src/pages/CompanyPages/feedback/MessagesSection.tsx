@@ -1,4 +1,4 @@
-import { Avatar } from '@material-ui/core';
+import { Avatar, Input, InputAdornment } from '@material-ui/core';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useQuery } from 'react-query';
 import { fetchChatItems, fetchSingleChatItem } from '../../../services/queries/PartnerQueries';
@@ -14,10 +14,24 @@ import { useAppDispatch, useAppSelector } from '../../../services/redux/hooks';
 import { setSocket } from '../../../services/redux/Slices/FeedbackSlice';
 import CustomModal from '../../../components/Custom/CustomModal';
 import BlockChatDelete from './BlockChatDelete';
+import { makeStyles } from "@material-ui/core"
+import { borderRadius } from '@material-ui/system';
+import { RedWarning, SearchIcon } from '../../../assets/icons/FeedBackIcons.tsx/FeedbackIcons';
 
-
+const useStyles = makeStyles({
+    input: {
+        width: '100%',
+        borderRadius: "14px",
+        padding: '9px 20px',
+        outline: 'none',
+        border: 'none',
+        background: 'white',
+        margin: '5px'
+    }
+});
 
 const MessagesSection = () => {
+    const classes = useStyles();
     const [enableChat, setEnableChat] = useState<boolean>(false);
     const [id, setId] = useState<number>(-1);
     const [modalVisible, setModalVisible] = useState<boolean>(false);
@@ -34,6 +48,9 @@ const MessagesSection = () => {
     const [firstResponse, setFirstResponse] = useState<any>(null);
     const [secondResponse, setSecondResponse] = useState<any>(null);
     const [chatSendCount, setChatSendCount] = useState<number>(0);
+    const [searchText, setSearchText] = useState("");
+    const [chatList, setChatList] = useState<any>([]);
+
     // const [socket, setSocket] = useState<any>()
     //const socket: any = useAppSelector(state => state.feedback.socket);
     const responseChatItem = useQuery(["chatItem", id, responseRefetch], () => fetchSingleChatItem(id),
@@ -44,6 +61,7 @@ const MessagesSection = () => {
                 setEnableChat(false);
                 setSecondResponse(data.data.data);
                 setChatSendCount(chatSendCount + 1);
+                //setChatList([...data?.data?.data?]);
             }
         })
     const socketConnection: any = useAppSelector(state => state.feedback.socket);
@@ -51,7 +69,6 @@ const MessagesSection = () => {
 
     let token = localStorage.getItem("companyToken");
     const dispatch = useAppDispatch();
-
     useEffect(() => {
         console.log(process.env.REACT_APP_WEBSOCKET_URL);
         if (!socketConnection) {
@@ -59,18 +76,19 @@ const MessagesSection = () => {
                 `${process.env.REACT_APP_WEBSOCKET_URL}/nsp_staff_svdfv8732f5rycf76f8732rvuy23cfi77c3u6fr2387frv8237vfidu23vf2vdd7324df4`,
                 {
                     path: "/",
-
+                    transports: ["websockets"],
+                    upgrade: false,
 
                     auth: {
                         token: `Bearer ${token}`,
                     },
                 }
             );
-            socket.on("connect", (res: any) => {
-                console.log(res);
+            socket.on("connection", (res: any) => {
+                console.log(res, "socket");
             })
-            socket.on("disconnect", (res: any) => {
-                console.log(res);
+            socket.on("disconnected", (res: any) => {
+                console.log(res, "error");
 
             })
 
@@ -100,6 +118,7 @@ const MessagesSection = () => {
 
         if (socketConnection && sendingChat) {
             console.log('socket here!');
+            console.log('sendingChat');
 
             socketConnection.emit("chat_to_server", {
                 langId: 1,
@@ -131,10 +150,26 @@ const MessagesSection = () => {
 
 
     return (
-        <div style={{ height: "96%", width: "100%", paddingRight: "30px", boxSizing: 'border-box', paddingBottom: "15px", maxHeight: "100%", flexWrap: "wrap", overflow: "hidden" }}>
+        <div style={{ maxHeight: "70vh", width: "100%", paddingRight: "30px", boxSizing: 'border-box', paddingBottom: "15px", flexWrap: "wrap", overflow: "hidden", marginBottom: "15px" }}>
             <MessageContainer >
-                <ChatList>
-                    {response?.data?.data && response.data.data.data.map((item: any) => {
+                <ChatList >
+                    <ChatItem style={{ height: "16%" }}>
+                        <Input className={classes.input}
+                            onChange={(e) => setSearchText(e.target.value)}
+                            disableUnderline
+                            endAdornment={<InputAdornment position="end">
+                                <SearchIcon />
+                            </InputAdornment>}
+                        />
+                    </ChatItem>
+                    {response?.data?.data && response.data.data.data.filter((item: any) => {
+                        if (!searchText) {
+                            return item.firstName;
+                        }
+                        else if (searchText) {
+                            return `${item.firstName} ${item.lastName}`.match(searchText);
+                        }
+                    }).map((item: any) => {
                         return (<ChatItem onClick={() => {
                             setId(item.id);
                             setEnableChat(true);
@@ -165,17 +200,19 @@ const MessagesSection = () => {
                     })}
 
                 </ChatList>
-                <ChatSpace>
+                <ChatSpace >
                     {(secondResponse) ? (
                         <>
-                            <ChatHeader setProcess={setDeletionProcess} setModalVisible={setModalVisible} fullName={secondResponse.firstName + " " + secondResponse.lastName
+                            <ChatHeader setProcess={setDeletionProcess} setModalVisible={setModalVisible} fullName={firstResponse?.find((item: any) => item.id === id)?.firstName + " " + firstResponse?.find((item: any) => item.id === id)?.lastName
                             } status="Base 5%" src={firstResponse?.find((item: any) => item.id === id)?.image} />
 
-                            <div style={{ width: "100%", flexGrow: 1, display: "flex", flexDirection: "column", padding: "15px 25px", boxSizing: "border-box" }}>
-                                <ChatWrapper>
-                                    <Flex justifyContent="start" width="100%" flexDirection="column-reverse" alignItems="flex-start" margin="0px" >
+                            <div style={{ width: "100%", display: "flex", flexDirection: "column", padding: "15px 25px", boxSizing: "border-box" }}>
+                                <ChatWrapper style={{ minHeight: secondResponse?.histories[secondResponse.histories.length - 1]?.chatType == 2 ? "370px" : "300px" }}>
+                                    <Flex justifyContent="end" width="100%" flexDirection="column-reverse" alignItems="flex-start" margin="0px" >
                                         {secondResponse ? secondResponse.histories.map((item: any) => {
-                                            return <ChatMessage chatType={item.chatType} src={firstResponse?.find((value: any) => item.fromId === value.id)?.image} message={item.msg} />
+                                            return <ChatMessage chatType={item.chatType}
+                                                src={firstResponse?.find((value: any) => item.fromId === value.id)?.image}
+                                                message={item.msg} />
                                         })
                                             : <h1>hello2</h1>
                                         }
@@ -183,9 +220,19 @@ const MessagesSection = () => {
                                     </Flex>
                                 </ChatWrapper>
                                 <div style={{ boxSizing: "border-box" }}>
-                                    <ChatTextArea setSendingChat={setSendingChat} chatSendCount={chatSendCount} />
+                                    {(secondResponse && secondResponse?.histories[secondResponse.histories.length - 1].chatType == 1) ?
+                                        <ChatTextArea setSendingChat={setSendingChat} chatSendCount={chatSendCount} /> :
+                                        <div style={{ width: "90%", padding: "23px 40px", borderRadius: "14px", background: "#F5F5F5", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                            <RedWarning />
+                                            <div>
+                                                <Text
+                                                    fontWeight={400}
+                                                    marginLeft="29px"
+                                                    color="rgba(143, 143, 143, 1)">Вы сможете написать сообщение после того, как клиент ответит вам</Text>
+                                            </div>
 
-                                </div>
+                                        </div>
+                                    }</div>
                             </div>
                         </>
                     ) : <div style={{ width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
@@ -196,7 +243,9 @@ const MessagesSection = () => {
 
                 </ChatSpace>
             </MessageContainer>
+
             <BlockChatDelete setProcess={setDeletionProcess} process={deletionProcess} setModalVisible={setModalVisible} open={modalVisible} />
+
         </div>
     );
 }

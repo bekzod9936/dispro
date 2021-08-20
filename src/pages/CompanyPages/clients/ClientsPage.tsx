@@ -10,7 +10,7 @@ import CustomInputLarge from '../../../components/Custom/CustomInputLarge';
 import CustomTableAdvanced from '../../../components/Custom/CustomTableAdvanced';
 import { fetchClients } from '../../../services/queries/PartnerQueries';
 import { useAppDispatch, useAppSelector } from '../../../services/redux/hooks';
-import { choseAllClients, filterClientHeaders, filterClients, resetClients, setClient, setClientApplied, setClientDateFrom, setClientDateTo, setClientEndDate, setClientFilterIsOpen, setClientGender, setClientHeaders, setClientPurchaseCost, setClientPurchuaseAmountFrom, setClientPurchuaseAmountTo, setClientStartDate, setClientStatus, setClientTrafficProvider } from '../../../services/redux/Slices/clientSlice';
+import { choseAllClients, filterClientHeaders, filterClients, resetClients, setAllClients, setClient, setClientApplied, setClientDateFrom, setClientDateTo, setClientEndDate, setClientFilterIsOpen, setClientGender, setClientHeaders, setClientPurchaseCost, setClientPurchuaseAmountFrom, setClientPurchuaseAmountTo, setClientStartDate, setClientStatus, setClientTrafficProvider } from '../../../services/redux/Slices/clientSlice';
 import { Flex, GridContainer } from '../../../styles/BuildingBlocks';
 import { CustomButton, ModalComponent, PageWrapper, SectionWrapper, Text, UnderSectionButton } from '../../../styles/CustomStyles';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
@@ -62,7 +62,7 @@ const ClientsPage = () => {
     const client: any = useAppSelector(state => state.clients.checkedClients);
     const persCard = useAppSelector(state => state.clients.persCardClient);
     const clientState = useAppSelector(state => state.clients);
-
+    const [responseData, setResponseData] = useState<any>(null);
 
 
     const filters: IClientStatisticFilter[] = [
@@ -140,14 +140,16 @@ const ClientsPage = () => {
 
     const response = useQuery(["clients", page, clientState.startDate, clientState.endDate], () => fetchClients(page, clientState.startDate, clientState.endDate), {
         refetchOnWindowFocus: false,
-        cacheTime: 30000,
+        // refetchOnMount: false,
+        //cacheTime: 30000,
         retry: 0,
         onSuccess: (data) => {
+            setResponseData(data.data.data.clients);
             const finalData = data.data.data.clients.map((item: any) => {
                 return {
                     data: {
                         check: <Checkbox
-                            // checked={client.find((value: any) => value.id === item.id)}
+                            checked={client.find((value: any) => value.id === item.id) ? true : false}
                             onChange={(event, checked) => { handleCheckboxChange(event, checked, item.id) }} />,
                         client: <Flex justifyContent='start'>
                             <Avatar style={{ width: "36px", height: "36px", borderRadius: "12px" }}
@@ -164,7 +166,7 @@ const ClientsPage = () => {
                         age: parseInt(moment(item.dateOfBirth).fromNow()),
                         purchuase_amount: item.addInfo.countOperation,
                         paid: item.addInfo.amountOperation,
-                        recomendations: " ",
+                        recomendations: "",
                         traffic_providers: item.addInfo.sourceBy,
                         level: item.addInfo.referLevel,
                         last_purchase: item.addInfo.lastPurchaseDate ? moment(item.addInfo.lastPurchaseDate).format("DD.MM.YY") : " - "
@@ -179,7 +181,52 @@ const ClientsPage = () => {
         }
     })
 
+    useEffect(() => {
+        if (responseData) {
+            console.log("i am here");
 
+            const final = responseData.map((item: any) => {
+                let check = client.find((value: any) => value.id === item.id) ? true : false
+                console.log(client.find((value: any) => value.id === item.id));
+
+                return {
+                    data: {
+                        check: <Checkbox
+                            value={true}
+                            checked={client.find((value: any) => value.id === item.id) ? true : false}
+                            onChange={(event, checked) => { handleCheckboxChange(event, checked, item.id) }} />,
+                        client: <Flex justifyContent='start'>
+                            <Avatar style={{ width: "36px", height: "36px", borderRadius: "12px" }}
+                                src={item.image}
+                            />
+                            <Text marginRight="0px" marginLeft="14px" fontSize="15px" fontWeight={400}>
+                                {`${item.firstName} ${item.lastName}`}
+                            </Text>
+                        </Flex>,
+                        DiscountSum: item.addInfo.discountSum,
+                        PointSum: item.addInfo.pointSum,
+                        CashbackSum: item.addInfo.cashbackSum,
+                        gender: item.addInfo.genderStr,
+                        age: parseInt(moment(item.dateOfBirth).fromNow()),
+                        purchuase_amount: item.addInfo.countOperation,
+                        paid: item.addInfo.amountOperation,
+                        recomendations: "",
+                        traffic_providers: item.addInfo.sourceBy,
+                        level: item.addInfo.referLevel,
+                        last_purchase: item.addInfo.lastPurchaseDate ? moment(item.addInfo.lastPurchaseDate).format("DD.MM.YY") : " - "
+                    },
+                    id: item.id
+
+                }
+            })
+            setRows(final);
+        }
+
+    }, [client.length])
+    useEffect(() => {
+        console.log(rows);
+
+    }, [rows])
 
 
 
@@ -211,6 +258,14 @@ const ClientsPage = () => {
         }
         else if (!checked && !client) {
             dispatch(filterClients(id));
+        }
+    }
+    const handleAllChecked = (e: any, checked: any) => {
+        if (checked) {
+            dispatch(setAllClients(responseData));
+        }
+        else {
+            dispatch(setAllClients([]))
         }
     }
 
@@ -267,8 +322,8 @@ const ClientsPage = () => {
                 <Text marginLeft="0px" marginRight="0px" fontSize="21px" >
                     {t("clients")}
                 </Text>
-                <Text fontSize="14px" fontWeight={500} color="#8F8F8F">
-                    {response.data?.data.data.totalCount && `${t("totalClients")} ${response?.data?.data.data.totalCount}`}
+                <Text marginLeft="10px" fontSize="14px" fontWeight={500} color="#8F8F8F">
+                    {response.data?.data.data.totalCount && `   ${t("totalClients")} ${response?.data?.data.data.totalCount}`}
                 </Text>
                 <Grid container lg={12}>
                     <Grid container lg={7}>
@@ -281,7 +336,12 @@ const ClientsPage = () => {
                                 <Text>{t("filters")}</Text>
                             </UnderSectionButton>
                             <UnderSectionButton>
-                                <span style={{ zIndex: 2000 }} onClick={() => setOpen(!open)}>
+                                <span style={{ zIndex: 2000 }} onClick={() => {
+                                    setOpen(!open)
+
+                                    console.log("clicked");
+
+                                }}>
                                     <CalendarIcon />
                                 </span>
                                 <div>
@@ -306,12 +366,17 @@ const ClientsPage = () => {
                     </Grid>
                 </Grid>
                 <SectionWrapper>
-                    {clientState.filterIsOpen && <Filter onApply={() => dispatch(setClientApplied(true))} filters={filters} />}
+                    {clientState.filterIsOpen && <Filter top="0px" onApply={() => dispatch(setClientApplied(true))} filters={filters} />}
                     {(!response.isLoading && rows && headersState && totalCount) &&
                         <CustomTableAdvanced
+                            handleAllCheck={handleAllChecked}
                             handleClientClick={handleClientClick}
-                            handlePageChange={handlePageChange} totalCount={totalCount} rows={rows} headers={tableHeaders} listItems={addColumns} page={page} />}
-
+                            handlePageChange={handlePageChange}
+                            totalCount={totalCount}
+                            rows={rows}
+                            headers={tableHeaders}
+                            listItems={addColumns}
+                            page={page} />}
                 </SectionWrapper>
                 {(client?.length > 0 && !invite) && <RightSide handleCancelChose={cancelChose} handleChoseAlll={choseAllHandler} handleVip={vipHandle} handleAccurePoints={accurePoints} handleSubstractPoints={substractPoints} />}
                 {invite && <Invite setInvite={setInvite} />}

@@ -8,6 +8,7 @@ import { ICustomButton, ICustomModal, IDropdownTitle, IFlex, IFlexiblePanel, ISi
 
 export const CustomDrawer = styled.div`
 //width: 272px;
+min-width: 250px;
 display: flex;
 flex-direction: column;
 height: 100vh;
@@ -45,7 +46,7 @@ align-items: center;
 
 export const Text = styled.span<IText>`
 font-size:${(props: IText) => (props.fontSize ? props.fontSize : "16px")};
-font-family: "Roboto";
+font-family: ${(props: IText) => (props.fontFamily ? props.fontFamily : "Roboto")};
 margin-right:${(props: IText) => (props.marginRight ? props.marginRight : "0px")};
 color: ${(props: IText) => (props.color || "#223367")};
 //position: relative;
@@ -146,11 +147,11 @@ overflow-x: hidden;
 export const MessageContainer = styled.div`
 background: white;
 width : 100%;
-height : 100%;
+height : 70vh;
 display : flex;
 justify-content : start;
 border-radius : 14px;
-overflow:hidden;
+overflow: hidden;
 max-height: 100%;
 
 `
@@ -205,11 +206,14 @@ height: 25px;
 padding-right: 4px;
 `
 export const PageWrapper = styled.div`
-padding: 20px 0px 0px 30px; 
+padding: 20px 20px 0px 30px; 
 overflow: scroll;
 height: 100%;
 width: 100%;
 position: relative;
+flex-grow: 1;
+/* display: flex;
+flex-direction: column; */
 
 `
 export const ClicableOption = styled.div`
@@ -266,7 +270,7 @@ align-items: center;
 export const SectionHead = styled.div`
 width: 100%;
 margin-bottom: 20px;
-font-size: 21px;
+font-size: 22px;
 font-weight: 700;
 color: #223367;
 
@@ -306,12 +310,20 @@ max-height: 100%;
 
 `
 export const ChatList = styled.div`
-flex-grow : 1;
+//flex-grow : 1;
 background :  #AAB1EB;
-height : 100%;
-overflow: hidden;
-max-width : 350px
-
+min-height : 100%;
+overflow-y: scroll;
+max-width : 350px;
+border-bottom-left-radius: 14px;
+&::-webkit-scrollbar-track {
+    appearance: none;
+    display: none;
+}
+&::-webkit-scrollbar {
+    appearance: none;
+    display: none;
+}
 `
 export const ChatItem = styled.div`
 width : 100%;
@@ -323,8 +335,9 @@ padding : 14px 27px;
 
 `
 export const ChatWrapper = styled.div`
-min-height: 370px;
-height: 45vh;
+height: 56%;
+min-height: 300px;
+max-height: 300px;
 overflow-y: scroll;
 &::-webkit-scrollbar {
  appearance: none;
@@ -349,7 +362,7 @@ background-color: white;
 border-radius: 14px;
 padding:  15px 0px 0px 0px;
 box-shadow:  0px 1px 28px rgba(0, 0, 0, 0.12);
-width: fit-content;
+width: 100%;
 &::before {
     content: "";
     display: block;
@@ -366,7 +379,7 @@ width: fit-content;
 `
 export const OptionsListItem = styled.div`
 position: static;
-width: max-content;
+width: 100%;
 padding: 15px 24px;
 box-sizing: border-box;
 //justify-content: flex-start;
@@ -383,7 +396,7 @@ min-height: 100vh;
 margin: 0px;
 padding: 0px;
 display: flex;
-background: linear-gradient(to bottom ,#606EEA 50%, lightgrey 50% )
+background: linear-gradient(to bottom ,#606EEA 50%,  #F4F4F4 50% )
 `
 
 export const LeftSide = styled.div`
@@ -399,7 +412,7 @@ flex-direction: column;
 export const RightSide = styled.div`
 width: 50%;
 min-height: 100vh;
-background-color: lightgrey ;
+background-color:  #F4F4F4 ;
 border-top-left-radius: 10%;
 display: flex;
 justify-content: center;
@@ -409,3 +422,28 @@ flex-direction: column;
 
 
 `
+
+export const PageWrapperNoScroll = styled.div`
+padding: 20px 20px 0px 30px; 
+height: 100%;
+width: 100%;
+display: flex;
+flex-direction: column;
+position: relative;
+
+`
+
+export const PageWrapperFlex = styled.div`
+padding: 20px 20px 0px 30px; 
+overflow: scroll;
+height: 100%;
+width: 100%;
+position: relative;
+flex-grow: 1;
+display: flex;
+flex-direction: column;
+
+
+`
+
+

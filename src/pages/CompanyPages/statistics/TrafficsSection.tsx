@@ -26,17 +26,21 @@ const TrafficsSection = () => {
         refetchOnWindowFocus: false,
         retry: 0,
         onSuccess: (data) => {
-            const formatedHeaders = Object.keys(data.data.data.refStats[0]);
-            console.log(formatedHeaders);
+            if (data.data.data.refStats.length) {
+                const formatedHeaders = Object.keys(data.data.data?.refStats[0]);
+                console.log(formatedHeaders);
 
-            setHeaders(formatedHeaders);
+                setHeaders(formatedHeaders);
 
-            const formatedRows = data.data.data.refStats.map((item: any) => {
-                return Object.values(item)
-            });
-            console.log(formatedRows);
+                const formatedRows = data.data.data.refStats.map((item: any) => {
+                    return Object.values(item)
+                });
+                console.log(formatedRows);
 
-            setRows(formatedRows);
+                setRows(formatedRows);
+
+            }
+
         }
     });
 

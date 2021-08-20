@@ -1,9 +1,10 @@
 import React from 'react';
 import { Redirect, Route } from "react-router-dom"
 import { pathToFileURL } from 'url';
+import { IDefaultLayout } from '../components/Layout/DefaultLayoutAdmin';
 
 interface IProps {
-    Layout: React.LazyExoticComponent<React.ComponentType<any>>,
+    Layout: React.FC<IDefaultLayout>,
     Component: React.LazyExoticComponent<React.ComponentType<any>>,
     // rest?: Object,
     path: string

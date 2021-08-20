@@ -29,7 +29,7 @@ const OperationsSection: React.FC<IProps> = ({ filters }) => {
     const statisticsState = useAppSelector(state => state.clientStatistics);
     const dispatch = useAppDispatch();
     const section = useAppSelector(state => state.statistics.currentSection);
-    const operationStatistics = useAppSelector(state => state.statistics.operationStatistics)
+    const operationStatistics: any = useAppSelector(state => state.statistics.operationStatistics)
     const [inlineFilterState, setInlineFilterState] = useState<any>();
     const [date, setDate] = useState(moment(Date.now()).format("YYYY/MM/DD"));
     const Icons: (() => JSX.Element)[] = [
@@ -133,7 +133,7 @@ const OperationsSection: React.FC<IProps> = ({ filters }) => {
                     {statisticsState.filterIsOpen && <Filter onApply={() => dispatch(setApplied(true))} filters={filters} />}
 
                     <Grid container spacing={9} lg={9} >
-                        {operationStatistics.map((item: any) => {
+                        {operationStatistics?.map((item: any) => {
 
                             return <Grid item lg={4} spacing={0}>
                                 <SingleStatisticsItem title={item.title} Icon={item.icon} quantity={item.quantity} />

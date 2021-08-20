@@ -11,6 +11,7 @@ const useStyles = makeStyles({
         borderRadius: "12px",
         fontSize: "15px",
         fontWeight: 500,
+        maxHeight: "62px",
         margin: "18px 0px 18px 0px"
     },
     adornment: {

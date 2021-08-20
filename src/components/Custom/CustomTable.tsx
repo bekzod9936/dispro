@@ -2,10 +2,17 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, withS
 import { makeStyles } from '@material-ui/core';
 import React from 'react';
 import { useAppSelector } from '../../services/redux/hooks';
+import { StyledPagination } from '../../styles/Elements';
 
 interface IProps {
-    headers: any[] | [],
-    rows: any[] | []
+    headers: any,
+    rows: any,
+    withPagination?: boolean,
+    totalCount?: number,
+    handlePageChange?: (page: number) => void,
+    page?: number,
+    rowsFontSize?: number
+    handleRowClick?: (id: number) => void,
 }
 const useStyles = makeStyles({
     table: {
@@ -13,9 +20,18 @@ const useStyles = makeStyles({
         borderRadius: "12px",
         overflow: "hidden",
 
+
     },
     cell: {
         borderBottom: "none",
+        "&:first-child": {
+            paddingLeft: "35px",
+        },
+
+        "&:last-child": {
+            paddingRight: "25px",
+        }
+
     },
     container: {
         paddingBottom: "8px",
@@ -25,11 +41,19 @@ const useStyles = makeStyles({
     },
 
     header: {
-        boxShadow: "4px 4px 4px #2f3cc9"
+        boxShadow: "4px 4px 4px #2f3cc9",
+        padding: "0px 25px"
     },
     headRow: {
         background: "white",
-        color: "#A5A5A5"
+        color: "#A5A5A5",
+        "&:first-child": {
+            paddingLeft: "35px",
+        },
+
+        "&:last-child": {
+            paddingRight: "25px",
+        }
     },
     tableRow: {
         '&:nth-of-type(odd)': {
@@ -38,6 +62,8 @@ const useStyles = makeStyles({
 
 
         },
+        padding: "0px 25px",
+
         '&:nth-of-type(even)': {
             backgroundColor: "white"
         },
@@ -48,28 +74,39 @@ const useStyles = makeStyles({
 }
 )
 
-const CustomTable: React.FC<IProps> = ({ headers, rows }) => {
+const CustomTable: React.FC<IProps> = ({ rowsFontSize, headers, rows, withPagination, totalCount, page, handlePageChange }) => {
     const classes = useStyles();
 
 
     return (
-        <TableContainer className={classes.container}>
-            <Table className={classes.table}>
-                <TableHead className={classes.header}>
-                    {headers.map((item: string) => {
-                        return <TableCell className={classes.headRow}>{item}</TableCell>
-                    })}
-                </TableHead>
-                <TableBody>
-                    {rows.map((item: any) => {
-                        return <TableRow className={classes.tableRow}>
-                            {item.map((value: any) => {
-                                return <TableCell className={classes.cell}>{value}</TableCell>
-                            })}</TableRow>
-                    })}
-                </TableBody>
-            </Table>
-        </TableContainer>
+        <>
+            <TableContainer className={classes.container}>
+                <Table className={classes.table}>
+                    <TableHead className={classes.header}>
+                        {headers?.map((item: any) => {
+                            return <TableCell className={classes.headRow}>{item}</TableCell>
+                        })}
+                    </TableHead>
+                    <TableBody style={{ fontSize: `${rowsFontSize}px` || "16px" }}>
+                        {rows?.map((item: any) => {
+                            return <TableRow className={classes.tableRow}>
+                                {item.map((value: any) => {
+                                    return <TableCell className={classes.cell}>{value}</TableCell>
+                                })}</TableRow>
+                        })}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            {(withPagination && totalCount && page && handlePageChange) &&
+
+                <div style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                    <div>
+                        {`Показано ${(page > 1 ? (page * 6 - 6) + " - " : "") + ((page * 6) <= totalCount ? (page * 6) : (totalCount))} из ${totalCount} клиентов`}
+                    </div>
+                    <StyledPagination page={page} count={Math.ceil(totalCount / 6)} boundaryCount={4} onChange={(e, page) => handlePageChange(page)} />
+                </div>
+            }
+        </>
     );
 }
 

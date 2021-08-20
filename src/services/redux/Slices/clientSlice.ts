@@ -129,11 +129,15 @@ const clientSlice = createSlice({
 		setClientApplied: (state, action: PayloadAction<boolean>) => {
 			state.applied = action.payload;
 		},
+		setAllClients: (state, action: PayloadAction<any>) => {
+			state.checkedClients = [...action.payload];
+		},
 	},
 });
 
 export const {
 	setClientStartDate,
+	setAllClients,
 	setClientEndDate,
 	setClientHeaders,
 	filterClientHeaders,

@@ -92,6 +92,7 @@ top: 80px;
 right: 0;
 box-sizing: border-box;
 background-color: white;
+box-shadow:  -5px 2px 20px rgba(0, 0, 0, 0.06);
 height: 100vh;
 overflow: hidden;
 `

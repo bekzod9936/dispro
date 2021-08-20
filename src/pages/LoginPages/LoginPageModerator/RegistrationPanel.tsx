@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DisIcon from '../../../assets/icons/DisIcon'
 import { Flex } from '../../../styles/BuildingBlocks'
 import { LoginPanelWrapper } from './LoginPageStyles'
@@ -79,7 +79,7 @@ const RegistrationPanel = () => {
     const company: any = useAppSelector(state => state.auth.partnerLogin);
 
     const { control: control2, handleSubmit: handleSubmit2 } = useForm();
-    const response = useQuery([""], () => createCompany(
+    const response = useQuery(["", step], () => createCompany(
         company.companyId,
         companyName,
         companyType,
@@ -90,14 +90,18 @@ const RegistrationPanel = () => {
 
     ), {
         retry: 0,
-        refetchOnMount: false,
+        //refetchOnMount: false,
         refetchOnWindowFocus: false,
-        enabled: step === 2,
+        enabled: !!(step > 1),
         onSuccess: (data) => {
             localStorage.setItem("companyId", data.data.data.accessToken);
-            history.push("/infoPage");
+            history.push("/info");
         }
     });
+    useEffect(() => {
+        console.log(step);
+
+    }, [step])
     const fieldsStep1 = ["your_name", "your_lastName", "email"];
     const checkboxes = ["readPolice", "applicationOnConditions"];
     const onFormSubmit = (data: any) => {
@@ -120,6 +124,7 @@ const RegistrationPanel = () => {
     }
 
     const onFormSubmitSecond = (data: any) => {
+        console.log("I am here");
         console.log(data);
         setCompanyName(data.companyName);
         setCompanyType(data.companyType);
@@ -127,7 +132,7 @@ const RegistrationPanel = () => {
     }
     return (
         <LoginPanelWrapper width="58%">
-            <form onSubmit={step === 0 ? handleSubmit(onFormSubmit) : step === 1 ? handleSubmit2(onFormSubmitSecond) : undefined}>
+            <form onSubmit={step == 0 ? handleSubmit(onFormSubmit) : step == 1 ? handleSubmit2(onFormSubmitSecond) : undefined}>
                 <Flex width="100%" justifyContent="space-evenly" alignItems="center" flexDirection="column">
                     <div>
                         <DisIcon />
@@ -221,7 +226,7 @@ const RegistrationPanel = () => {
                                 <Controller
                                     name="companyType"
                                     control={control2}
-                                    rules={{ required: true }}
+                                    //  rules={{ required: true }}
                                     render={({ field }) => {
                                         return (
                                             <Select

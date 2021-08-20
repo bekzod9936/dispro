@@ -24,7 +24,7 @@ const PartnerSidebar = () => {
 
     return (
         <CustomSideDrawer>
-            <SingleMenuItem Icon={DisIcon} text={"Dis - count"} textSize="18px" lineHeight="21px" />
+            <SingleMenuItem Icon={DisIcon} text={"DIS - COUNT"} textSize="18px" lineHeight="21px" />
             <MenuItems handleClick={handleMenuClick} />
             <SingleMenuItem handleClick={() => handleMenuClick("settings")} Icon={SettingsIcon} text={"Настройки"} />
         </CustomSideDrawer>

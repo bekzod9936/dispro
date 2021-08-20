@@ -6,7 +6,8 @@ import SectionItem, { ISectionItem } from './Section';
 import LanguageSelectComponent from './LanguageSelectComponent';
 import BellIcon from '../../assets/icons/BellIcon';
 import CompanySelect from './CompanySelect';
-import { Grid } from '@material-ui/core';
+import { Grid, Input, InputAdornment } from '@material-ui/core';
+import { SearchIcon } from '../../assets/icons/Others/LayoutIcons';
 const PartnerHeader = () => {
 
     const SectionItems: ISectionItem[] = [
@@ -27,7 +28,19 @@ const PartnerHeader = () => {
             <Grid container alignItems='center'>
                 <Grid item lg={4} md={4}>
                     <Grid item lg={11}>
-                        <CustomSearchInput style={{ background: "#F4F4F4" }} type="text" placeholder="Поиск" />
+                        <Input
+                            disableUnderline
+                            style={{
+                                background: "#F4F4F4",
+                                padding: "12px 25px",
+                                borderRadius: "35px",
+                                width: "100%"
+                            }}
+                            placeholder="Поиск"
+                            startAdornment={<InputAdornment position="start">
+                                <SearchIcon />
+                            </InputAdornment>}
+                        />
                     </Grid>
 
                 </Grid>

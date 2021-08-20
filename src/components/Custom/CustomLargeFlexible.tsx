@@ -21,11 +21,14 @@ interface ICustomSearchFlexible {
     margin?: string,
     padding?: string,
     width?: string,
-    adornmentMargin?: string
+    adornmentMargin?: string,
+    onChange?: any,
+    placeholder?: string,
+    value?: string
 }
 
 
-const CustomSearchFlexible: React.FC<ICustomSearchFlexible> = ({ margin, padding, width, adornmentMargin }) => {
+const CustomSearchFlexible: React.FC<ICustomSearchFlexible> = ({ value, placeholder, margin, padding, width, adornmentMargin, onChange }) => {
     const classes = useStyles();
     return (
         <>
@@ -36,8 +39,11 @@ const CustomSearchFlexible: React.FC<ICustomSearchFlexible> = ({ margin, padding
                     padding: padding || "0px",
                     width: width || "auto",
                 }}
+                placeholder={placeholder || ""}
+                onChange={onChange}
+                value={value}
                 startAdornment={
-                    <InputAdornment position="start" style={{ margin: adornmentMargin || "0px" }}>
+                    <InputAdornment position="start" style={{ margin: adornmentMargin || "0px", marginRight: "10px" }}>
                         <SearchIcon />
                     </InputAdornment>
                 }

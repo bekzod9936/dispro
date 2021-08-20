@@ -1,4 +1,4 @@
-import { Hidden, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
+import { Checkbox, Hidden, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import { PaginationItem } from '@material-ui/lab'
 import React, { useRef, useState } from 'react';
 import { makeStyles } from "@material-ui/core"
@@ -9,6 +9,7 @@ import { PuzzleIcon } from '../../assets/icons/ClientsPageIcons/ClientIcons';
 import { Flex } from '../../styles/BuildingBlocks';
 import DropDown from './DropDown';
 import { StyledPagination } from '../../styles/Elements';
+import { FONT_SIZE, FONT_WEIGHT } from '../../services/Types/enums';
 
 interface IProps {
     rows: any,
@@ -19,6 +20,7 @@ interface IProps {
     page: number,
     handleClientClick: (id: number) => void,
     checked?: boolean,
+    handleAllCheck?: any,
 }
 
 const useStyles = makeStyles({
@@ -66,7 +68,7 @@ const useStyles = makeStyles({
 
     }
 })
-const CustomTableAdvanced: React.FC<IProps> = ({ handleClientClick, rows, headers, listItems, totalCount, handlePageChange, page, checked }) => {
+const CustomTableAdvanced: React.FC<IProps> = ({ handleAllCheck, handleClientClick, rows, headers, listItems, totalCount, handlePageChange, page, checked }) => {
 
     const { t } = useTranslation();
     const classes = useStyles();
@@ -123,7 +125,9 @@ const CustomTableAdvanced: React.FC<IProps> = ({ handleClientClick, rows, header
                     <TableHead className={classes.tableHead}>
                         {filteredHeaders.map((item: any) => {
                             if (item === "check") {
-                                item = " "
+                                return <TableCell className={classes.tableHeadCell}>
+                                    <Checkbox onChange={handleAllCheck} />
+                                </TableCell>
                             }
                             return <TableCell className={classes.tableHeadCell}>{t(item)}</TableCell>
                         })}
@@ -143,8 +147,13 @@ const CustomTableAdvanced: React.FC<IProps> = ({ handleClientClick, rows, header
                     </TableBody>
                 </Table>
             </TableContainer>
+            <div style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <div>
+                    {`Показано ${(page > 1 ? (page * 6 - 6) + " - " : "") + ((page * 6) <= totalCount ? (page * 6) : (totalCount))} из ${totalCount} клиентов`}
+                </div>
+                <StyledPagination page={page} count={Math.ceil(totalCount / 6)} boundaryCount={4} onChange={(e, page) => handlePageChange(page)} />
+            </div>
 
-            <StyledPagination page={page} count={Math.ceil(totalCount / 6)} boundaryCount={4} onChange={(e, page) => handlePageChange(page)} />
         </>
 
     );

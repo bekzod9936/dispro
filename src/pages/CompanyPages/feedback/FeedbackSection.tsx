@@ -10,6 +10,7 @@ import moment from 'moment';
 import { LighterRatingStarIcon, PickedRatingStarIcon } from '../../../assets/icons/FeedBackIcons.tsx/FeedbackIcons';
 import { useTranslation } from 'react-i18next';
 import { StyledPagination } from '../../../styles/Elements';
+import { FONT_SIZE } from '../../../services/Types/enums';
 
 interface Iprops {
     setModalVisible: any,
@@ -24,10 +25,11 @@ const FeedbackSection: React.FC<Iprops> = ({ setModalVisible, setPickedReview })
     });
 
     const { t } = useTranslation();
-    return (
-        <div style={{ display: "flex", justifyContent: "start", alignItems: "start" }}>
 
-            {1 > 2 && <NoFeedBack />}
+    return (
+        <>{response.data?.data.data.totalCount ? <div style={{ display: "flex", justifyContent: "start", alignItems: "start" }}>
+
+
             <div style={{ width: "100%" }}>
                 <Grid container lg={11} spacing={2} >
 
@@ -72,7 +74,9 @@ const FeedbackSection: React.FC<Iprops> = ({ setModalVisible, setPickedReview })
                                         <Text marginLeft="0" marginRight="0" fontSize="14px" fontWeight={500}>{t("cashier")}:</Text>
                                     </div>
                                     <Text marginLeft="0" marginRight="0" fontSize="14px" fontWeight={300} color="#3492FF">
+
                                         Эльпадро
+
                                     </Text>
                                 </FeedbackPanel>
                             </Grid>
@@ -89,7 +93,17 @@ const FeedbackSection: React.FC<Iprops> = ({ setModalVisible, setPickedReview })
                 </div>
             </div>
 
+        </div> : <div style={{ display: "flex", flexGrow: 1, justifyContent: "center", alignItems: "center" }}>
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
+                <NoFeedBack />
+                <div style={{ marginTop: "20px" }}>
+                    <Text fontWeight={400} fontSize={FONT_SIZE.mediumPlus}>
+                        Здесь будут отображаться оценки и отзывы клиентов
+                    </Text>
+                </div>
+            </div>
         </div>
+        }</>
     );
 }
 

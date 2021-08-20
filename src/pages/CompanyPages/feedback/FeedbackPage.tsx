@@ -26,6 +26,11 @@ const FeedbackPage = () => {
     const [filterOpen, setFilterOpen] = useState<boolean>(false);
     const [apply, setApply] = useState<boolean>(false);
     const [backdropVisible, setBackdropVisible] = useState<boolean>(false);
+    const noRatings = [{ rating: 5, percentage: 0, amount: 0 },
+    { rating: 4, percentage: 0, amount: 0 },
+    { rating: 3, percentage: 0, amount: 0 },
+    { rating: 2, percentage: 0, amount: 0 },
+    { rating: 1, percentage: 0, amount: 0 },];
     const response = useQuery(["fetchRatings"], fetchRatings, {
         enabled: section === "feedbacks",
         refetchOnWindowFocus: false,
@@ -75,6 +80,7 @@ const FeedbackPage = () => {
     const renderSection = () => {
         switch (section) {
             case "feedbacks":
+
                 return <FeedbackSection setModalVisible={setModalVisible} setPickedReview={setPickedReview} />;
             case "messages":
                 return <MessagesSection />;
@@ -119,7 +125,7 @@ const FeedbackPage = () => {
                             <Flex width="100%" margin="0px">
 
 
-                                <Flex margin="0px" justifyContent="stretch" flexDirection="row" >
+                                <Flex margin="0px" justifyContent="stretch" flexDirection="row" width="220px" >
                                     <HorizontalMenu menuItems={menuItems} section={section} menuItemClickHandler={(key) => setSection(key)} />
 
                                 </Flex>
@@ -131,83 +137,98 @@ const FeedbackPage = () => {
                         </div>
 
                     </div>
-                    {(section === "feedbacks" && !response.isLoading && response?.data?.data.data) && <div style={{ height: "100%", width: "35%", margin: "20px 0px", borderLeft: "1px solid grey" }}>
-                        <Flex height="100%" flexDirection="column" justifyContent="start" alignItems="center">
-                            <FlexiblePanel>
-                                <div style={{ display: "flex", justifyContent: "center" }}>
-                                    <Text marginRight="15px" marginLeft="15px" fontSize="16px" fontWeight={700} color="#C7C7C7">
-                                        Общая оценка компании
-                                    </Text>
-                                </div>
-                                <Flex justifyContent="space-between" margin="27px 0px 0px 0px">
-                                    <div>
-                                        <Text marginRight="0px" marginLeft="0px" fontWeight={700} fontSize="40px" color="#606EEA">{response?.data?.data?.data?.averageRating}</Text>
-                                        <Text marginRight="0px" marginLeft="0px" fontWeight={700} fontSize="18px" color="#C4C4C4">/5 </Text>
+                    {(section === "feedbacks" && !response.isLoading) &&
+                        <div style={{ height: "100%", width: "40%", margin: "20px 0px", borderLeft: "1px solid grey" }}>
+                            <Flex height="100%" flexDirection="column" justifyContent="start" alignItems="center">
+                                <FlexiblePanel width={response.data?.data?.data ? 'fit-content' : '80%'}
+                                    padding={!response.data?.data?.data ? "20px 5px" : "20px 30px"}
+                                >
+                                    <div style={{ display: "flex", justifyContent: "center" }}>
+                                        <Text marginRight="15px" marginLeft="15px" fontSize="16px" fontWeight={700} color="#C7C7C7">
+                                            Общая оценка компании
+                                        </Text>
+                                    </div>
+                                    {response.data?.data?.data ? <Flex width="80%" justifyContent="space-between" margin="27px 0px 0px 0px">
+                                        <div>
+                                            <Text marginRight="0px" marginLeft="0px" fontWeight={700} fontSize="40px" color="#606EEA">{response?.data?.data?.data?.averageRating}</Text>
+                                            <Text marginRight="0px" marginLeft="0px" fontWeight={700} fontSize="18px" color="#C4C4C4">/5 </Text>
 
+                                        </div>
+                                        <div style={{ width: "110px", padding: "10px", boxSizing: "border-box", borderRadius: "14px", background: "#38E25D" }}>
+                                            <Text fontSize="15px" fontWeight={700} color="white" >+0.5%</Text>
+                                        </div>
+                                    </Flex> : <div style={{ width: "85%", textAlign: "center", marginTop: "15px" }}>
+                                        <Text fontSize="16px" fontWeight={300}>Вашу компанию еще никто
+                                            не оценивал</Text>
                                     </div>
-                                    <div style={{ width: "110px", padding: "10px", boxSizing: "border-box", borderRadius: "14px", background: "#38E25D" }}>
-                                        <Text fontSize="15px" fontWeight={700} color="white" >+0.5%</Text>
+                                    }
+                                </FlexiblePanel>
+                                <FlexiblePanel width={response.data?.data?.data ? 'fit-content' : '80%'}
+                                    padding={!response.data?.data?.data ? "20px 5px" : "20px 30px"}
+                                >
+                                    <div style={{ display: "flex", justifyContent: "center" }}>
+                                        <Text marginRight="15px" marginLeft="15px" fontSize="16px" fontWeight={700} color="#C7C7C7">
+                                            Общее количество оценок
+                                        </Text>
                                     </div>
+                                    {response.data?.data?.data ? <Flex width="90%" justifyContent="space-between" margin="27px 0px 0px 0px">
+                                        <div>
+                                            <Text marginRight="0px" marginLeft="0px" fontWeight={700} fontSize="40px" color="#606EEA">{response.data?.data.data.totalRating}</Text>
+
+                                        </div>
+                                        <div style={{ width: "110px", padding: "10px", boxSizing: "border-box", borderRadius: "14px", background: "#38E25D" }}>
+                                            <Text fontSize="15px" fontWeight={700} color="white" >+0.5%</Text>
+                                        </div>
+                                    </Flex> :
+                                        <div style={{ width: "85%", textAlign: 'center', marginTop: "15px" }}>
+                                            <Text fontSize="16px" fontWeight={300}>Вашу компанию еще никто
+                                                не оценивал</Text>
+
+                                        </div>}
+
+                                </FlexiblePanel>
+                                <Flex width="100%" justifyContent="center" margin="40px 0px 0px 0px ">
+                                    <Text>
+                                        Оценки:
+                                    </Text>
                                 </Flex>
 
-                            </FlexiblePanel>
-                            <FlexiblePanel>
-                                <div style={{ display: "flex", justifyContent: "center" }}>
-                                    <Text marginRight="15px" marginLeft="15px" fontSize="16px" fontWeight={700} color="#C7C7C7">
-                                        Общее количество оценок
-                                    </Text>
-                                </div>
-                                <Flex justifyContent="space-between" margin="27px 0px 0px 0px">
-                                    <div>
-                                        <Text marginRight="0px" marginLeft="0px" fontWeight={700} fontSize="40px" color="#606EEA">{response.data?.data.data.totalRating}</Text>
+                                <Flex flexDirection="column" width="100%" margin="30px 0px 0px 0px" >
+                                    {(response?.data?.data?.data ? response?.data?.data?.data?.ratings : noRatings).map((item: any) => {
+                                        return (
+                                            <Flex justifyContent="space-evenly" width="100%" alignItems="center" margin="10px 0px 0px 0px">
+                                                <Flex justifyContent="start" flexDirection="row-reverse" width="40%" margin="0px">
+                                                    {new Array(item.rating).fill(1).map(item => {
+                                                        return <span style={{ marginLeft: "5px" }}>
+                                                            <MediumStartIcon />
+                                                        </span>
+                                                    })}
+                                                </Flex>
+                                                <Flex margin="0px 20px 0px 0px" justifyContent="space-around" width="50%"  >
+                                                    <div>
+                                                        <Text marginRight="0px" marginLeft="0px" fontSize="18px" fontWeight={400}>
+                                                            {item.percentage}% </Text>
+                                                    </div>
+                                                    <div>
+                                                        <Text marginRight="0px" marginLeft="0px" fontSize="18px" fontWeight={400}>
+                                                            {item.amount}  оценок </Text>
+                                                    </div>
 
-                                    </div>
-                                    <div style={{ width: "110px", padding: "10px", boxSizing: "border-box", borderRadius: "14px", background: "#38E25D" }}>
-                                        <Text fontSize="15px" fontWeight={700} color="white" >+0.5%</Text>
-                                    </div>
+                                                </Flex>
+
+
+                                            </Flex>
+                                        )
+                                    })
+
+                                    }
+
+
                                 </Flex>
-
-                            </FlexiblePanel>
-                            <Flex width="100%" justifyContent="center" margin="40px 0px 0px 0px ">
-                                <Text>
-                                    Оценки:
-                                </Text>
                             </Flex>
 
-                            <Flex flexDirection="column" width="100%" margin="30px 0px 0px 0px" >
-                                {response?.data?.data.data.ratings.map((item: any) => {
-                                    return (
-                                        <Flex justifyContent="space-evenly" width="100%" alignItems="center" margin="10px 0px 0px 0px">
-                                            <Flex justifyContent="start" flexDirection="row-reverse" width="40%" margin="0px">
-                                                {new Array(item.rating).fill(1).map(item => {
-                                                    return <span style={{ marginLeft: "5px" }}>
-                                                        <MediumStartIcon />
-                                                    </span>
-                                                })}
-                                            </Flex>
-                                            <Flex margin="0px 20px 0px 0px" justifyContent="space-around" width="50%"  >
-                                                <div>
-                                                    <Text marginRight="0px" marginLeft="0px" fontSize="18px" fontWeight={400}>
-                                                        {item.percentage}% </Text>
-                                                </div>
-                                                <div>
-                                                    <Text marginRight="0px" marginLeft="0px" fontSize="18px" fontWeight={400}>
-                                                        {item.amount}  оценок </Text>
-                                                </div>
 
-                                            </Flex>
-
-
-                                        </Flex>
-                                    )
-                                })}
-
-
-                            </Flex>
-                        </Flex>
-
-
-                    </div>}
+                        </div>}
                 </Flex>
                 {modalVisble && <FeedbackModal setModalVisible={setModalVisible} open={modalVisble} pickedReview={pickedReview} />}
                 {backdropVisible && <Modal open={backdropVisible}>

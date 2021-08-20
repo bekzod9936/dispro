@@ -19,8 +19,8 @@ const SingleStatisticsItem: React.FC<ISingleStatisticsItem> = ({ title, Icon, qu
                 </div>
 
                 <Flex margin="0px" flexDirection="column" justifyContent="space-evenly" alignItems="flex-start">
-                    <Text marginLeft="0px" fontSize="18px" fontWeight={500}>{t(title)}</Text>
-                    <Text fontSize="26px" marginLeft="0px" fontWeight={700} color="#606EEA" lineHeight="30px">{quantity?.toLocaleString()}</Text>
+                    <Text marginLeft={title !== "ageAvg" ? "0px" : "15px"} fontSize="18px" fontWeight={500}>{t(title)}</Text>
+                    <Text fontSize="26px" marginLeft={title !== "ageAvg" ? "0px" : "15px"} fontWeight={700} color="#606EEA" lineHeight="30px">{quantity?.toLocaleString()}</Text>
                     <Text></Text>
                 </Flex>
 

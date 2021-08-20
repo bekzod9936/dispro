@@ -21,7 +21,7 @@ const SingleMenuItem: React.FC<ISingleMenuItem> = ({ Icon, text, lineHeight, tex
     return (
         <SideBarMenuItem text={text} onClick={handleClick}>
             <Icon />
-            <Text fontSize={textSize} lineHeight={lineHeight}>{text}</Text>
+            <Text marginLeft="15px" fontSize={textSize} lineHeight={lineHeight}>{text}</Text>
 
             {text === "Dis - count" && <HamburgerIcon />}
         </SideBarMenuItem>

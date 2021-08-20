@@ -22,7 +22,7 @@ import InlineFilters from './InlineFilters';
 const ClientsSection = ({ filters }: any) => {
     const { t } = useTranslation();
     const [open, setOpen] = useState<boolean>(false);
-    const clientStatistics = useAppSelector(state => state.statistics.clientStatistics);
+    const clientStatistics: any = useAppSelector(state => state.statistics.clientStatistics);
     const filterIsOpen = useAppSelector(state => state.clientStatistics.filterIsOpen);
     const statisticsState = useAppSelector(state => state.clientStatistics);
     const section = useAppSelector(state => state.statistics.currentSection)
@@ -30,10 +30,11 @@ const ClientsSection = ({ filters }: any) => {
     const [date, setDate] = useState(moment(Date.now()).format("YYYY/MM/DD"));
     const dispatch = useAppDispatch();
     const Icons: (() => JSX.Element)[] = [
-        AgeIcon,
+
         AllClientsIcon,
         BagIcon,
         CartIcon,
+        AgeIcon,
         ChequeIcon,
         ClientPoints,
         CouponIcon,
@@ -136,8 +137,8 @@ const ClientsSection = ({ filters }: any) => {
                 {filterIsOpen && <Filter onApply={() => dispatch(setApplied(true))} filters={filters} />}
 
                 <Grid container spacing={8} >
-                    {clientStatistics.map((item: any) => {
-                        return <Grid item lg={3} spacing={0}>
+                    {clientStatistics?.map((item: any) => {
+                        return <Grid item lg={3} spacing={0} style={{ paddingLeft: item.title === "ageAvg" ? "5px" : "32px" }} >
                             <SingleStatisticsItem title={item.title} Icon={item.icon} quantity={item.quantity} />
                         </Grid>
                     })}

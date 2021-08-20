@@ -11,10 +11,11 @@ interface IProps {
     isOpen?: boolean | undefined,
     style?: object,
     handleDateChange: Function,
-    index?: number
+    index?: number,
+    prefix?: string
 }
 
-const CustomDatePicker: React.FC<IProps> = ({ date, isOpen, style, handleDateChange, index = 0 }) => {
+const CustomDatePicker: React.FC<IProps> = ({ prefix, date, isOpen, style, handleDateChange, index = 0 }) => {
 
     return (
         <>
@@ -24,7 +25,7 @@ const CustomDatePicker: React.FC<IProps> = ({ date, isOpen, style, handleDateCha
                     disableToolbar
                     variant="inline"
                     format="MM/dd/yyyy"
-                    style={{ width: "90%", display: "flex", borderRadius: "12px", marginLeft: "10px" }}
+                    style={{ width: "90%", display: "flex", borderRadius: "12px", marginRight: "10px" }}
                     inputVariant="standard"
                     keyboardIcon={<CalendarIcon />}
                     margin="normal"
@@ -33,7 +34,8 @@ const CustomDatePicker: React.FC<IProps> = ({ date, isOpen, style, handleDateCha
                     InputProps={{
                         disableUnderline: true,
                         readOnly: true,
-
+                        prefix: prefix,
+                        placeholder: prefix,
                         style: style ? style : {
                             border: "1px solid #C2C2C2",
                             padding: "12px 14px",

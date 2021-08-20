@@ -2,8 +2,7 @@ import React, { Suspense } from "react";
 import react, { lazy } from "react"
 import { Redirect, Route } from "react-router-dom";
 import FallbackOnLazyLoad from "../pages/Fallbacks/FallbackOnLazyLoad";
-
-
+import DefaultLayoutAdmin, { IDefaultLayout } from "../components/Layout/DefaultLayoutAdmin";
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
 
@@ -18,7 +17,7 @@ const prefix = "../pages/AdminDashBoard";
 //Admin
 
 const LoginPageModerator = lazy(() => import("../pages/LoginPages/LoginPageModerator/LoginPageModerator"))
-const DefaultLayoutAdmin = lazy(() => import("../components/Layout/DefaultLayoutAdmin"))
+//const DefaultLayoutAdmin = lazy(() => import("../components/Layout/DefaultLayoutAdmin"))
 const Companies = lazy(() => import("../pages/AdminDashBoard/AdminCompanies/AdminCompanies"));
 const Categories = lazy(() => import("../pages/AdminDashBoard/AdminCategories/AdminCategories"));
 
@@ -44,7 +43,7 @@ const RegistrationPanel = lazy(() => import("../pages/LoginPages/LoginPageModera
 
 export interface IPrivateRoute {
     path: string,
-    layout: React.LazyExoticComponent<React.ComponentType<any>>
+    layout: React.FC<IDefaultLayout>
     component: React.LazyExoticComponent<React.ComponentType<any>>
 }
 interface IPublicRoute {

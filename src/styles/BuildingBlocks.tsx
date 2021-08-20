@@ -15,7 +15,14 @@ margin :  ${(props: IFlex) => props.margin || "auto"};
 padding:  ${(props: IFlex) => props.padding || "0px"};
 box-sizing: border-box;
 background-color: ${(props: IFlex) => props.background || "transparent"} ;
+overflow-y: ${(props: IFlex) => props.overflowY || "visible"} ;
+flex-wrap: ${(props: IFlex) => props.flexWrap || "nowrap"};
 
+
+&::-webkit-scrollbar {
+    display: none;
+    appearance: none;
+}
 /* overflow-y: hidden; */
 `
 export const GridContainer = styled.div<IGridContainer>`

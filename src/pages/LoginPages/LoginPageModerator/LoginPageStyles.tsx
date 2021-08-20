@@ -1,12 +1,14 @@
 import styled from "styled-components";
 import { ILoginPanelWrapper } from "../../../services/Types/Style";
-
+import { motion } from "framer-motion";
 export const ImageWrapper = styled.div`
 overflow: hidden;
+display: flex;
+justify-content: center;
 //align-self: center;
 border-radius: 50%;
 `
-export const LeftWrapper = styled.div`
+export const LeftWrapper = styled(motion.div)`
 width:  "max-content";
 height: 100%;
 //background-color: green;
