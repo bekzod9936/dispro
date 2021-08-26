@@ -17,7 +17,7 @@ import BlockChatDelete from './BlockChatDelete';
 import { makeStyles } from "@material-ui/core"
 import { borderRadius } from '@material-ui/system';
 import { RedWarning, SearchIcon } from '../../../assets/icons/FeedBackIcons.tsx/FeedbackIcons';
-
+import jwtDecode from 'jwt-decode';
 const useStyles = makeStyles({
     input: {
         width: '100%',
@@ -50,7 +50,10 @@ const MessagesSection = () => {
     const [chatSendCount, setChatSendCount] = useState<number>(0);
     const [searchText, setSearchText] = useState("");
     const [chatList, setChatList] = useState<any>([]);
-
+    const companyId = localStorage.getItem("companyId");
+    const companyToken: any = localStorage.getItem("companyToken");
+    const decoded: any = jwtDecode(companyToken)
+    const staffId = decoded?.staffId
     // const [socket, setSocket] = useState<any>()
     //const socket: any = useAppSelector(state => state.feedback.socket);
     const responseChatItem = useQuery(["chatItem", id, responseRefetch], () => fetchSingleChatItem(id),
@@ -67,36 +70,28 @@ const MessagesSection = () => {
     const socketConnection: any = useAppSelector(state => state.feedback.socket);
 
 
-    let token = localStorage.getItem("companyToken");
+    let token = localStorage.getItem("partner_access_token");
     const dispatch = useAppDispatch();
     useEffect(() => {
         console.log(process.env.REACT_APP_WEBSOCKET_URL);
         if (!socketConnection) {
+
             const socket = io(
                 `${process.env.REACT_APP_WEBSOCKET_URL}/nsp_staff_svdfv8732f5rycf76f8732rvuy23cfi77c3u6fr2387frv8237vfidu23vf2vdd7324df4`,
                 {
                     path: "/",
-                    transports: ["websockets"],
-                    upgrade: false,
-
                     auth: {
                         token: `Bearer ${token}`,
                     },
                 }
             );
-            socket.on("connection", (res: any) => {
+            socket.on("connect", (res: any) => {
                 console.log(res, "socket");
-            })
-            socket.on("disconnected", (res: any) => {
-                console.log(res, "error");
-
+                dispatch(setSocket(socket));
             })
 
-            dispatch(setSocket(socket));
 
         }
-
-
     }, [])
 
 
@@ -124,8 +119,8 @@ const MessagesSection = () => {
                 langId: 1,
                 chatType: 2,
                 toId: id,
-                fromId: 11,
-                companyId: 10,
+                fromId: staffId,
+                companyId: companyId,
                 data: {
                     message: sendingChat
                 }

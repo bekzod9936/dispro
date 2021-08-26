@@ -26,9 +26,10 @@ interface IProps {
     field?: any,
     style?: any,
     fullWidth?: any,
+    fieldState?: any
 }
 
-const CustomTextArea: React.FC<IProps> = ({ fullWidth, style, label, field }) => {
+const CustomTextArea: React.FC<IProps> = ({ fullWidth, style, label, field, fieldState }) => {
     const { t } = useTranslation();
     const classes = useStyles();
     return (
@@ -38,7 +39,7 @@ const CustomTextArea: React.FC<IProps> = ({ fullWidth, style, label, field }) =>
                     {t(label)}
                 </Text>
             </InputLabel>
-            <TextareaAutosize style={style} {...field} id="textarea" className={classes.textarea} />
+            <TextareaAutosize style={{ ...style, border: fieldState?.error ? "1px solid black" : undefined }} {...field} id="textarea" className={classes.textarea} />
         </div>
     );
 }

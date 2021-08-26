@@ -27,7 +27,8 @@ interface IProps {
     onPercentChange?: any
     value?: any,
     valuePercent?: any,
-    labelWidth?: string | null
+    labelWidth?: string | null,
+    fieldState?: any
 }
 const useStyles = makeStyles({
     input: {
@@ -73,7 +74,9 @@ const CustomInput: React.FC<IProps> = ({ labelWidth,
     error,
     notRequired,
     centered,
-    aboveLabel }) => {
+    aboveLabel,
+    fieldState
+}) => {
 
     const { t } = useTranslation();
     const classes = useStyles();
@@ -106,7 +109,10 @@ const CustomInput: React.FC<IProps> = ({ labelWidth,
             </InputLabel>
             <Flex justifyContent="start" alignItems="center" width={withPercent ? "auto" : "100%"} style={flexStyle}>
                 <div style={!centered ? { width: "100%", margin: "0px" } : { width: "100%", margin: "0px", display: "flex", justifyContent: "center" }}>
-                    <Input value={value} name={name} onChange={onChange} style={style} disableUnderline className={classes.input} {...field} id={id} />
+                    <Input
+                        {...fieldState}
+
+                        value={value} name={name} onChange={onChange} style={{ ...style, border: fieldState?.error ? "1px solid red" : undefined }} disableUnderline className={classes.input} {...field} id={id} />
                 </div>
                 {withPercent &&
                     <>

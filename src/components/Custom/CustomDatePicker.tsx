@@ -12,10 +12,12 @@ interface IProps {
     style?: object,
     handleDateChange: Function,
     index?: number,
-    prefix?: string
+    prefix?: string,
+    mainStyle?: any
+
 }
 
-const CustomDatePicker: React.FC<IProps> = ({ prefix, date, isOpen, style, handleDateChange, index = 0 }) => {
+const CustomDatePicker: React.FC<IProps> = ({ mainStyle, prefix, date, isOpen, style, handleDateChange, index = 0 }) => {
 
     return (
         <>
@@ -25,7 +27,7 @@ const CustomDatePicker: React.FC<IProps> = ({ prefix, date, isOpen, style, handl
                     disableToolbar
                     variant="inline"
                     format="MM/dd/yyyy"
-                    style={{ width: "90%", display: "flex", borderRadius: "12px", marginRight: "10px" }}
+                    style={{ width: "90%", display: "flex", borderRadius: "12px", marginRight: "10px", ...mainStyle }}
                     inputVariant="standard"
                     keyboardIcon={<CalendarIcon />}
                     margin="normal"

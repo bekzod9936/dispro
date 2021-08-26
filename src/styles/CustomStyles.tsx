@@ -327,7 +327,7 @@ border-bottom-left-radius: 14px;
 `
 export const ChatItem = styled.div`
 width : 100%;
-height : 12.5%;
+height : 80px;
 border-bottom : 2px solid #A3ABEB;
 box-sizing: border-box;
 padding : 14px 27px;

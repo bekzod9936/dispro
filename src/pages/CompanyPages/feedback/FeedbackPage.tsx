@@ -2,6 +2,7 @@ import { Dialog, Grid, Modal } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQuery } from 'react-query';
+import { io } from 'socket.io-client';
 import { FilterIcon } from '../../../assets/icons/ClientStatisticsIcons/ClientStatisticsIcons';
 import { MediumStartIcon } from '../../../assets/icons/FeedBackIcons.tsx/FeedbackIcons';
 import CustomInputLarge from '../../../components/Custom/CustomInputLarge';
@@ -10,6 +11,8 @@ import CustomModal from '../../../components/Custom/CustomModal';
 import Filter from '../../../components/Custom/Filter';
 import HorizontalMenu from '../../../components/Custom/HorizontalMenu';
 import { fetchRatings } from '../../../services/queries/PartnerQueries';
+import { useAppDispatch, useAppSelector } from '../../../services/redux/hooks';
+import { setSocket } from '../../../services/redux/Slices/FeedbackSlice';
 import { Flex } from '../../../styles/BuildingBlocks';
 import { PageWrapper, SectionHead, UnderSectionButton, Text, FlexiblePanel } from '../../../styles/CustomStyles';
 import RightSide from '../clients/RightSide';
@@ -26,6 +29,9 @@ const FeedbackPage = () => {
     const [filterOpen, setFilterOpen] = useState<boolean>(false);
     const [apply, setApply] = useState<boolean>(false);
     const [backdropVisible, setBackdropVisible] = useState<boolean>(false);
+    const socketObj: any = useAppSelector(state => state.feedback.socket);
+    const dispatch = useAppDispatch();
+    const token = localStorage.getItem("companyId");
     const noRatings = [{ rating: 5, percentage: 0, amount: 0 },
     { rating: 4, percentage: 0, amount: 0 },
     { rating: 3, percentage: 0, amount: 0 },
@@ -48,6 +54,13 @@ const FeedbackPage = () => {
         },
     ]
     const dialog: any = document.getElementsByTagName("dialog");
+    // useEffect(() => {
+    //     if (section !== "messages") {
+    //         socketObj?.close();
+    //     }
+    //     else {
+
+    // }, [section])
     const filters: any = [
 
         {

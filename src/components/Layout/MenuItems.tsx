@@ -30,58 +30,58 @@ const MenuItems: React.FC<IProps> = ({ handleClick }) => {
     const MenuItemsArray: IMenuItem[] = [
         {
             icon: StatisticsIcon,
-            text: "Статистика",
+            text: "statistics",
             key: "statistics",
 
         },
         {
             icon: ClientsIcon,
-            text: "Клиенты",
+            text: "clients",
             key: "clients",
         },
         {
             icon: OrdersIcon,
-            text: "Заказы",
+            text: "orders",
             key: "orders"
         },
         {
             icon: FeedbackIcon,
-            text: "Обратная связь",
+            text: "feedback",
             key: "feedback",
         },
         {
             icon: ServicesIcon,
-            text: "Товары и услуги",
+            text: "services",
             key: "services",
         },
         {
             icon: NewsIcon,
-            text: "Новости",
+            text: "news",
             key: "news",
         },
         {
             icon: StaffIcon,
-            text: "Сотрудники",
+            text: "staff",
             key: "staff",
         },
         {
             icon: ProposalsIcon,
-            text: "Спецпредложения",
+            text: "proposals",
             key: "proposals"
         },
         {
             icon: FinancesIcon,
-            text: "Финансы",
+            text: "finances",
             key: "finances",
         },
         {
             icon: NotificationsIcon,
-            text: "Уведомаления",
+            text: "notifications",
             key: "notifications"
         },
         {
             icon: InfoIcon,
-            text: "Информация",
+            text: "info",
             key: "info"
         },
 

@@ -12,6 +12,7 @@ import { StylesProvider } from '@material-ui/core';
 import { URL } from 'url';
 import { I18nextProvider } from 'react-i18next';
 import i18n from "./services/localization/i18n"
+import { BrowserRouter } from 'react-router-dom';
 const queryClient = new QueryClient();
 
 
@@ -25,7 +26,9 @@ ReactDOM.render(
       <StylesProvider injectFirst>
         <Provider store={store}>
           <QueryClientProvider client={queryClient} >
-            <App />
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
           </QueryClientProvider>
         </Provider>
       </StylesProvider>

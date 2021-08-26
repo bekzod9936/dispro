@@ -199,7 +199,7 @@ const InPendingSection: React.FC<IProps> = ({ setIsModalVisible, isModalVisible,
                         </div>
                     </> : <div>
 
-                        <CustomButton>
+                        <CustomButton onClick={() => setStatus("reset_news")}>
                             <ResetIcon />
                             <Text marginLeft="15px" color="white">
                                 {t("resetNews")}

@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Text } from '../../../styles/CustomStyles';
-import { InputLabel, makeStyles, MenuItem, Select } from '@material-ui/core';
+import { Backdrop, InputLabel, makeStyles, MenuItem, Select } from '@material-ui/core';
 import { options } from 'yargs';
 import { classes } from 'istanbul-lib-coverage';
 import { useTranslation } from 'react-i18next';
+import { ArrowDown } from '../../../assets/icons/ClientStatisticsIcons/Filters';
+import { setOperationStatistics } from '../../../services/redux/Slices/statistics';
 
 
 const useStyles = makeStyles({
@@ -27,7 +29,10 @@ const useStyles = makeStyles({
         flexWrap: 'wrap',
     },
     chip: {
-        marginRight: '2px'
+        marginRight: '2px',
+        padding: "4px 6px",
+        borderRadius: "18px",
+        background: "#f5f5f5",
     },
     paper: {
         borderRadius: "14px",
@@ -43,12 +48,17 @@ interface IProps {
     setValues?: any,
     values?: any,
     field?: any,
-    nodeType?: boolean
+    nodeType?: boolean,
+    defaultValue?: any,
+    style?: any,
+    fieldState?: any
 
 }
-const CustomMulitpleSelect: React.FC<IProps> = ({ nodeType, options, field, label, setValues, values }) => {
+const CustomMulitpleSelect: React.FC<IProps> = ({ defaultValue, fieldState, nodeType, options, field, label, setValues, values, style }) => {
     const classes = useStyles();
     const { t } = useTranslation();
+    const [open, setOpen] = useState(false);
+
     // const handleValueChange = (value: any) => {
 
     //     let newArr = values.filter((item: any) => item !== value);
@@ -67,8 +77,25 @@ const CustomMulitpleSelect: React.FC<IProps> = ({ nodeType, options, field, labe
                 disableUnderline
                 className={classes.root}
                 displayEmpty
+                {...field}
+                style={{ border: fieldState.error ? "1px solid red" : undefined }}
+                SelectDisplayProps={{
+                    style: {
+                        background: "none",
+                        zIndex: 500,
+                    },
+                    onClick: (e) => {
+                        e.stopPropagation()
+                    }
 
+                }}
+                inputProps={{
+                    "aria-disabled": true
+                }}
                 MenuProps={{
+                    MenuListProps: {
+
+                    },
                     anchorOrigin: {
                         vertical: "bottom",
                         horizontal: "left"
@@ -80,24 +107,17 @@ const CustomMulitpleSelect: React.FC<IProps> = ({ nodeType, options, field, labe
                     getContentAnchorEl: null,
                     classes: { paper: classes.paper }
                 }}
-                value={values}
+                //value={field ? undefined : values}
                 defaultValue={[]}
-                onChange={(e) => setValues(e.target.value)}
+
+                //onChange={field ? undefined : (e) => setValues(e.target.value)}
                 renderValue={(selected: any) => {
-                    if (selected) {
+                    if (selected.length > 0) {
                         return <div className={classes.chips}>
                             {selected?.map((value: any) => {
-                                console.log(value, "value+");
-                                console.log(values, "value++");
 
-
-                                return <div onClick={(e) => { e.stopPropagation() }} className={classes.chip}>{!nodeType ? options[+value - 1].name : options[+value - 1].key} <span
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        let filtered = values.filter((item: any) => item !== value);
-                                        setValues(filtered)
-                                    }}
-                                    style={{ fontSize: "12pt", color: "blue", zIndex: 2500, }} >x</span></div>
+                                return <div className={classes.chip}>{!nodeType ? options[+value - 1]?.name : options[+value - 1]?.key} <span
+                                    style={{ fontSize: "10pt", color: "#c0c0c0" }} >x</span></div>
                             })
                             }
 
@@ -107,7 +127,7 @@ const CustomMulitpleSelect: React.FC<IProps> = ({ nodeType, options, field, labe
                 }}
             >
                 {options.map((item: any) => {
-                    return <MenuItem value={item.id}>{item.name}</MenuItem>
+                    return <MenuItem value={item.id} style={{ background: field?.value?.includes(item.id) ? "#f5f5f5" : undefined }}>{item.name}</MenuItem>
                 })}
             </Select>
         </div>

@@ -21,6 +21,7 @@ import GoToPhoto from '../../../assets/images/goToPhotos.png'
 import { height } from '@material-ui/system';
 import { useAppDispatch } from '../../../services/redux/hooks';
 import { setCompanyState } from '../../../services/redux/Slices/authSlice';
+import Spinner from '../../../components/Helpers/Spinner';
 const inputList = [{
     type: "input",
     name: "address",
@@ -400,7 +401,7 @@ const AddressSection: React.FC<IAddressSection> = ({ setSection }) => {
             <form onSubmit={handleSubmit(onFormSubmit)}>
 
 
-                <Flex width="100%" margin="20px 0px 0px 0px" justifyContent="space-evenly" alignItems="flex-start">
+                <Flex width="97%" margin="10px 0px 0px 0px" justifyContent="space-between" alignItems="flex-start">
 
                     {(!listOfAdresses || currentFilial || addFilialState === "new") ? (<LeftWrapper>
 
@@ -411,11 +412,12 @@ const AddressSection: React.FC<IAddressSection> = ({ setSection }) => {
                                         name={item.name + index}
                                         control={control}
                                         rules={{ required: !item.notRequired }}
-                                        render={({ field }) => {
+                                        render={({ field, fieldState }) => {
                                             return <CustomInput
                                                 flexStyle={{ width: "100%", alignSelf: "center" }}
                                                 centered
                                                 field={field}
+                                                fieldState={fieldState}
                                                 id={`${index}`}
                                                 label={item.label}
                                                 type={item.input}
@@ -562,14 +564,16 @@ const AddressSection: React.FC<IAddressSection> = ({ setSection }) => {
 
                     </LeftWrapper>) :
                         (
-                            <Flex margin="0px" width="45%" alignItems="center" flexDirection="column" justifyContent="start">
-                                <Flex width="100%" justifyContent="space-between" alignItems="flex-start" margin="15px 0px 0px 0px">
-                                    <UnderSectionButton style={{ width: "47%" }} onClick={addFilial}>
+                            <Flex margin="0px" width="48%" alignItems="center" flexDirection="column" justifyContent="start">
+                                <Flex width="100%" justifyContent="space-between" alignItems="flex-start" margin="10px 0px 0px 0px">
+                                    <UnderSectionButton style={{ width: "47%", marginBottom: "10px", marginRight: "10px", justifyContent: "start" }} onClick={addFilial}>
                                         <AddIcon />
-                                        <Text>{t("addFilial")}</Text>
+                                        <Text marginLeft="10px">{t("addFilial")}</Text>
                                     </UnderSectionButton>
 
-                                    <CustomSearchFlexible value={searchValue} placeholder="Поиск по филиалам" onChange={(e: any) => searchFilial(e)} width="47%" padding="14px 8px" margin="0px" />
+                                    <CustomSearchFlexible value={searchValue}
+                                        placeholder="Поиск по филиалам" onChange={(e: any) => searchFilial(e)}
+                                        width="49%" padding="15.8px 16px" margin="0px" />
 
 
 
@@ -608,6 +612,7 @@ const AddressSection: React.FC<IAddressSection> = ({ setSection }) => {
                     <RightWrapper>
                         <LoadScript
                             googleMapsApiKey="AIzaSyA8nfJOuyd0zwEWyJoKBWJm3JK9UhD3Quw"
+                            loadingElement={<Spinner />}
 
                         >
                             <GoogleMap

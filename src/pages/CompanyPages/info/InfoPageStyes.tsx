@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const LeftWrapper = styled.div`
-width: 45%;
+width: 49%;
 max-height: 70vh;
 padding-bottom: 20px;   
 overflow-y: scroll;
@@ -27,7 +27,7 @@ border-radius: 14px;
 `
 
 export const RightWrapper = styled.div`
-width: 45%;
+width: 48%;
 height: 70vh;
 border-radius: 14px;
 border: 1px solid #c4c4c4;

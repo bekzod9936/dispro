@@ -50,7 +50,8 @@ const useStyles = makeStyles({
         paddingBottom: "8px",
         background: "white",
         borderRadius: "12px",
-        width: "95%"
+        width: "95%",
+        maxWidth: "80vw"
     },
     cell: {
         border: "none"
@@ -102,7 +103,7 @@ const CustomTableAdvanced: React.FC<IProps> = ({ handleAllCheck, handleClientCli
 
 
 
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "start" }}>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "start", position: "absolute", right: "20px", top: "15px" }}>
                         <span ref={anchorRef} onClick={() => { setOpenDrop(!openDrop) }}>
                             <Text marginRight="10px" marginLeft="0px" fontSize="16.5px" fontWeight={500}
                                 color="#606EEA"

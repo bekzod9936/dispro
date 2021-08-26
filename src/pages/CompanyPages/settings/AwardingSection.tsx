@@ -129,8 +129,8 @@ const AwardingSection = () => {
             let forCongrat = result.find((item: any) => item?.levels[0]?.congratulationText);
             let forBeforeDay = result.find((item: any) => item?.levels[0]?.beforeDay);
             //let forDescription = result.find((item:any)=>item.)  ;
-            let forMoreThan = result.find((item: any) => item?.levels[0]?.requirements[0]?.amount);
-            setValue("ifMoreThan", forMoreThan?.levels[0]?.requirements[0]?.amount);
+            // let forMoreThan :any = result.find((item: any) => item?.levels[0]?.requirements[0]?.amount);
+            // setValue("ifMoreThan", forMoreThan?.levels[0]?.requirements[0]?.amount);
             setValue("awardSizeFirst", forFirst?.amount);
             setValue("awardSizeThird", forThird?.amount);
             setValue("awardSizeFourth", forFourth?.amount);
