@@ -36,7 +36,6 @@ const CustomDatePicker: React.FC<IProps> = ({ mainStyle, prefix, date, isOpen, s
                     InputProps={{
                         disableUnderline: true,
                         readOnly: true,
-                        prefix: prefix,
                         placeholder: prefix,
                         style: style ? style : {
                             border: "1px solid #C2C2C2",
@@ -48,6 +47,8 @@ const CustomDatePicker: React.FC<IProps> = ({ mainStyle, prefix, date, isOpen, s
 
                     value={date}
                     onChange={(date) => handleDateChange(date, index)}
+
+
                     KeyboardButtonProps={{
                         'aria-label': 'change date',
 

@@ -132,7 +132,7 @@ const ViewFull: React.FC<IProps> = ({ selectedSingleNews, setSelect, setModalIsV
         setHover(false);
     }
     return (
-        <div style={{ flexGrow: 1 }}>
+        <div style={{ flexGrow: 1, width: "100%" }}>
             <SettingsWrapper style={{ width: "95%", height: "95%", boxSizing: "border-box", padding: "30px 40px" }}>
                 {(status === "edit_news" || status === "reset_news") ? (
                     <>

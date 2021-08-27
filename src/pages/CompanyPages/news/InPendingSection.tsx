@@ -23,6 +23,7 @@ import InfoComponent from './InfoComponent';
 import { DeleteIconWhite } from '../../../assets/icons/SettingsIcons/SettingsPageIcon';
 import AssertModalNews from './AssertModalNews';
 import partnerApi from '../../../services/interceptors/companyInterceptor';
+import Spinner from '../../../components/Helpers/Spinner';
 interface IProps {
     setStatus?: any,
     section: string,
@@ -152,6 +153,18 @@ const InPendingSection: React.FC<IProps> = ({ setIsModalVisible, isModalVisible,
             setTableData(formated);
         }
     });
+    if (response.isLoading) {
+        return <div
+            style={{
+                width: "100%",
+                height: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center"
+            }}>
+            <Spinner />
+        </div>
+    }
     return (
         <div style={{ width: "100%", height: "100%" }}>
             {!tableData?.length ? <NoNews setStatus={setStatus} /> : <>

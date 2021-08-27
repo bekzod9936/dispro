@@ -66,8 +66,10 @@ const CropImageModal: React.FC<IProps> = ({ isCropModalVisible, src, setOuterLin
                                 langId: 1
                             }
                         })
-                        setOuterLink(response.data.data.link);
+                        console.log(response);
+
                         setIsCropModalVisible(false);
+                        setOuterLink(response.data.data.link);
                         URL.revokeObjectURL(imageUrl);
                     }
                     catch (err) {
@@ -186,7 +188,7 @@ const CropImageModal: React.FC<IProps> = ({ isCropModalVisible, src, setOuterLin
 
                 </div>
                 <div style={{ marginTop: "20px", display: "flex" }}>
-                    <CustomButton background="white">
+                    <CustomButton background="white" onClick={() => setIsCropModalVisible(false)}>
                         <CancelIcon />
                         <Text marginLeft="10px">{t("cancel")}</Text>
                     </CustomButton>

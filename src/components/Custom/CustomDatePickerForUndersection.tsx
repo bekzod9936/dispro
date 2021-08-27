@@ -44,9 +44,9 @@ const CustomDatePickerForUndersection: React.FC<IProps> = ({ date, isOpen, top, 
                         }
                     }}
                     PopoverProps={{
-                        disableEnforceFocus: true,
+                        //   disableEnforceFocus: true,
                         style: {
-                            pointerEvents: "none",
+                            //   pointerEvents: "none",
                         },
                         PaperProps: {
                             style: {
