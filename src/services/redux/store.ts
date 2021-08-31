@@ -3,8 +3,9 @@ import clientSlice from "./Slices/clientSlice";
 import clientStatistics from "./Slices/clientStatistics";
 import partner from "./Slices/partnerSlice";
 import statistics from "./Slices/statistics";
-import feedbackSlice from "./Slices/FeedbackSlice"
+import feedbackSlice from "./Slices/FeedbackSlice";
 import authSlice from "./Slices/authSlice";
+import settingsSlice from "./Slices/settingsSlice";
 export const store = configureStore({
 	reducer: {
 		partner: partner,
@@ -12,7 +13,8 @@ export const store = configureStore({
 		clientStatistics: clientStatistics,
 		clients: clientSlice,
 		feedback: feedbackSlice,
-		auth: authSlice
+		auth: authSlice,
+		settings: settingsSlice,
 	},
 });
 export type RootState = ReturnType<typeof store.getState>;

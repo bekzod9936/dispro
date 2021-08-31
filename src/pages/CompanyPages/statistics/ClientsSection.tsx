@@ -104,7 +104,7 @@ const ClientsSection = ({ filters }: any) => {
                         <span style={{ minHeight: "28px", minWidth: "28px" }}>
                             <FilterIcon />
                         </span>
-                        <Text>{t("filters")}</Text>
+                        <Text marginLeft="15px">{t("filters")}</Text>
                     </UnderSectionButton>
                     <UnderSectionButton>
                         <span style={{ zIndex: 5000 }} onClick={() => setOpen(!open)}>

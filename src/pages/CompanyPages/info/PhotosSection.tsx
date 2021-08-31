@@ -22,7 +22,7 @@ const PhotosSection = ({ imgs }: any) => {
         const response = await axios.post(`${STORAGE_URL}/company/upload`, formData, {
             headers: {
                 authorization: 'Bearer ' + companyToken,
-                langId: 1
+                langId: 1 
             }
         })
         setImages([...images, response.data.data.link]);

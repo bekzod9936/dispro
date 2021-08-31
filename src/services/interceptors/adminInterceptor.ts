@@ -44,7 +44,7 @@ adminInterceptor.interceptors.response.use(
 					console.log(data);
 					localStorage.setItem("partner_access_token", data.data.accessToken);
 				}
-			} catch (error) {
+			} catch (error: any) {
 				if (
 					error.response.data.error?.errId === 8 ||
 					error.response.data.error?.errId === 7

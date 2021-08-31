@@ -23,7 +23,7 @@ import { CancelIcon } from '../../../assets/icons/ClientsPageIcons/ClientIcons';
 interface IFields {
     id: number,
     name: string,
-    percent: number,
+    percent: number | "",
     requirements: {
         amount: any,
         condition: any,
@@ -61,16 +61,19 @@ const LoyaltyProgramSection = () => {
         }
     ]
     const { control, handleSubmit, setValue } = useForm({
-
+        mode: "onChange"
     });
 
     const rightLoyalty = document.getElementById("rightLoyalty");
     const largePanel = document.getElementById("largePanel");
-
+    const [errorAmount, setErrorAmout] = useState([{ upperLevel: [{ errMessage: "" }] }]);
     const [swithcState, setSwitchState] = useState('');
+    const [fieldErrorsRequired, setFieldErrorsRequired] = useState([{ main: false, percent: false }]);
     const [refetchCashback, setRefetchCashback] = useState(0);
     const [refetchDiscount, setRefetchDiscount] = useState(0);
     const [refetchBonusPoints, setRefetchBonusPoints] = useState(0);
+    const [disableSubmit, setDisableSubmit] = useState<boolean>(false);
+    //const [mainError, setMainError] = useState("");
     const [active, setActive] = useState<"discount" | "cashback" | "bonusPoints" | "">("");
     const [switchChange, setSwitchChange] = useState(0);
     const [assertModalVisible, setAssertModalVisible] = useState<boolean>(false);
@@ -130,6 +133,8 @@ const LoyaltyProgramSection = () => {
 
     const onFormSubmit = async (data: any) => {
         console.log(data);
+        console.log("I'm here!");
+
         console.log(fields, "Fields");
         let copy = [...fields];
         copy.splice(0, 1);
@@ -182,6 +187,20 @@ const LoyaltyProgramSection = () => {
 
 
     }
+
+    useEffect(() => {
+        let copy = [...errorAmount];
+        let check = JSON.stringify(copy).includes("requiredF");
+        if (check) {
+            setDisableSubmit(true);
+        }
+        else {
+            setDisableSubmit(false);
+        }
+
+
+    }, [errorAmount])
+
     useEffect(() => {
         if (active === "cashback") {
             setRefetchCashback(refetchCashback + 1);
@@ -199,38 +218,64 @@ const LoyaltyProgramSection = () => {
     const onPercentChange = (e: any, item: any) => {
         console.log(e.target.value);
         let copy = [...fields];
-        copy[item.id].percent = e.target.value;
-        setFileds(copy);
+        let errorCopy = [...fieldErrorsRequired]
+        if (!e.target.value) {
+            copy[item.id].percent = "";
+            setFileds(copy);
+            errorCopy[item.id].percent = true;
+            setFieldErrorsRequired(errorCopy);
+        }
+        else {
+            errorCopy[item.id].percent = false;
+            setFieldErrorsRequired(errorCopy);
 
+        }
+        if (e.target.value) {
+            copy[item.id].percent = Number(e.target.value);
+            setFileds(copy);
+        }
 
     }
     const handleAddClick = (item: any, index: number) => {
+        let errorCopy = [...fieldErrorsRequired];
+        let errorA = [...errorAmount];
         if (item.id === 0) {
+            console.log("here I am!");
+
             let copy = [...fields];
             let newObj = {
-                id: item.id + 1,
+                id: copy.length,
                 name: "",
                 percent: 0,
                 requirements: [{ type: 1, amount: 0, unit: "UZS", condition: "", id: 1 }]
             }
             copy.push(newObj);
+            errorA.push({ upperLevel: [{ errMessage: "" }] })
+            errorCopy.push({ main: false, percent: false });
+            setErrorAmout(errorA);
             setFileds(copy)
-
+            setFieldErrorsRequired(errorCopy);
         }
         else if (item.id > 0) {
+            console.log("Here I am as well");
             let existing = fields?.find(value => item.id === value.id);
+            console.log(existing, "Existing : ", item?.requirements?.id);
+
             if (existing) {
                 let copy = [...fields];
+                console.log("Inner check!");
+
                 let newObj = {
                     type: 1,
                     amount: 0,
                     unit: "UZS",
                     condition: "and",
-                    id: item?.requirements.id + 1
+                    id: +item?.requirements[item.requirements.length - 1].id + 1
                 }
                 existing?.requirements.push(newObj);
-
+                errorA[item.id].upperLevel.push({ errMessage: "" });
                 copy.splice(item.id, 1, existing);
+                setErrorAmout(errorA);
                 setFileds(copy);
             }
 
@@ -256,17 +301,23 @@ const LoyaltyProgramSection = () => {
 
 
 
-        if (copy[item.id]?.requirements[value.id]) {
-            copy[item.id].requirements[value.id].type = e.target.value;
+        if (copy[item.id]?.requirements[value.id - 1]) {
+            copy[item.id].requirements[value.id - 1].type = e.target.value;
             setFileds(copy);
         }
     }
     const handleDeleteClick = (item: any, index: number) => {
         let finding = fields[item.id];
         let copy = [...fields];
+        let errorCopy = [...fieldErrorsRequired];
+        let errorA = [...errorAmount];
         if (item.id === 0) {
             if (copy.length > 1) {
                 copy.pop();
+                errorCopy.pop();
+                errorA.pop();
+                setErrorAmout(errorA);
+                setFieldErrorsRequired(errorCopy);
                 setFileds(copy);
             }
 
@@ -274,7 +325,10 @@ const LoyaltyProgramSection = () => {
         else if (item.id > 0) {
             let reqs = copy[item.id].requirements;
             if (reqs.length > 1) {
+
                 copy[item.id].requirements.pop();
+                errorA[item.id].upperLevel.pop();
+                setErrorAmout(errorA);
                 setFileds(copy);
             }
         }
@@ -282,17 +336,37 @@ const LoyaltyProgramSection = () => {
 
     }
     const handleConditionChange = (e: any, item: any, value: any) => {
-        if (isNaN(e.target.value)) {
-            return;
-        }
+        // if (isNaN(e.target.value)) {
+        //     return;
+        // }
         let copy = [...fields];
-        if (copy[item.id]?.requirements[value.id]) {
-            copy[item.id].requirements[value.id].condition = e.target.value;
+        console.log("here");
+        console.log(fields);
+        console.log(item.id);
+        console.log(value.id);
+
+
+        if (copy[item.id]?.requirements[value.id - 1]) {
+            console.log(e.target.value);
+            console.log("here2");
+
+            copy[item.id].requirements[value.id - 1].condition = e.target.value;
             setFileds(copy);
         }
     }
     const handleChange = (e: any, item: any) => {
         let copy = [...fields];
+        let errorCopy = [...fieldErrorsRequired];
+        if (!e.target.value) {
+            errorCopy[item.id].main = true;
+            setFieldErrorsRequired(errorCopy);
+
+        }
+        else {
+            errorCopy[item.id].main = false;
+            setFieldErrorsRequired(errorCopy);
+
+        }
         if (copy[item.id]) {
             copy[item.id].name = e.target.value;
             setFileds(copy);
@@ -300,9 +374,21 @@ const LoyaltyProgramSection = () => {
     }
     const handleAmountChange = (e: any, item: any, value: any, index: number, smallIndex: number) => {
         let copy = [...fields];
+        let errCopy = [...errorAmount];
         if (copy[index]?.requirements[smallIndex]) {
             console.log("here");
-            copy[index].requirements[smallIndex].amount = +e.target.value;
+            if (e.target.value) {
+                copy[index].requirements[smallIndex].amount = +e.target.value;
+                errCopy[index].upperLevel[smallIndex].errMessage = "";
+                setErrorAmout(errCopy)
+            }
+            else {
+                copy[index].requirements[smallIndex].amount = "";
+                errCopy[index].upperLevel[smallIndex].errMessage = "requiredF";
+                setErrorAmout(errCopy);
+
+
+            }
             setFileds(copy);
         }
 
@@ -338,9 +424,10 @@ const LoyaltyProgramSection = () => {
     const handleSaveClick = () => {
         setAssertModalVisible(true);
     }
-    const handleChangeClick = () => {
-        handleSubmit(onFormSubmit)();
+    const handleChangeClick = async () => {
+
         setAssertModalVisible(false);
+        handleSubmit(onFormSubmit)();
     }
 
     return (
@@ -385,6 +472,8 @@ const LoyaltyProgramSection = () => {
                                                 return <CustomInput
                                                     onChange={(e: any) => handleChange(e, item)}
                                                     value={item.name}
+                                                    inputError={fieldErrorsRequired[item.id].main}
+                                                    percentError={fieldErrorsRequired[item.id].percent}
                                                     valuePercent={item.percent}
                                                     handleAddClick={() => handleAddClick(item, index)}
                                                     onPercentChange={(e: any) => onPercentChange(e, item)}
@@ -425,12 +514,17 @@ const LoyaltyProgramSection = () => {
 
                                                 </Select>
                                                 <div>{t("more")}</div>
-                                                <Input
-                                                    type="number"
-                                                    value={fields[index]?.requirements[smallIndex]?.amount}
-                                                    className={classes.select}
-                                                    onChange={(e) => handleAmountChange(e, item, value, index, smallIndex)}
-                                                    style={{ width: "140px", marginLeft: "15px", borderColor: COLORS.purple }} renderSuffix={() => <span></span>} />
+                                                <div>
+                                                    <Input
+                                                        type="number"
+                                                        error={errorAmount[index].upperLevel[smallIndex].errMessage ? true : false}
+                                                        value={fields[index]?.requirements[smallIndex]?.amount}
+                                                        className={classes.select}
+                                                        onChange={(e) => handleAmountChange(e, item, value, index, smallIndex)}
+                                                        style={{ width: "140px", marginLeft: "15px", borderColor: COLORS.purple }} renderSuffix={() => <span></span>} />
+                                                    <div><Text fontSize="10pt" marginLeft="20px" fontWeight={300} color="red">{t(errorAmount[index].upperLevel[smallIndex].errMessage)}</Text></div>
+                                                </div>
+
 
                                             </div>)
                                         })}
@@ -499,7 +593,9 @@ const LoyaltyProgramSection = () => {
 
                     </form>
                     <div style={{ marginTop: "20px" }}>
-                        <CustomButton type="button" onClick={handleSaveClick}>
+                        <CustomButton
+                            disabled={disableSubmit}
+                            type="button" onClick={handleSaveClick}>
                             <SaveIcon />
                             <Text marginLeft="10px" color="white">
                                 {t("save")}

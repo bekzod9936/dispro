@@ -21,7 +21,7 @@ import { classicNameResolver } from 'typescript';
 import { makeStyles } from "@material-ui/core"
 import { COLORS } from '../../../services/Types/enums';
 import InlineFilters from '../statistics/InlineFilters';
-import { useAppDispatch } from '../../../services/redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../../services/redux/hooks';
 import { setCompanyState } from '../../../services/redux/Slices/authSlice';
 import Resizer from "react-image-file-resizer";
 import Spinner from '../../../components/Helpers/Spinner';
@@ -31,6 +31,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component"
 import CustomModal from '../../../components/Custom/CustomModal';
 import { setCurrentPage } from '../../../services/redux/Slices/partnerSlice';
 import { watch } from 'fs';
+import { setLoyaltyProgramm } from '../../../services/redux/Slices/settingsSlice';
 
 const useStyles = makeStyles({
     avatar: {
@@ -228,7 +229,7 @@ const AboutSection: React.FC<IProps> = ({ currentFilial, setSection }) => {
     const [requestError, setRequestError] = useState<any>(null);
     const [imageLoaded, setImageLoaded] = useState("notLoaded");
     const [categoriesError, setCategoriesError] = useState(false);
-
+    //const loyalty = useAppSelector(state => state.settings.loyalty)
     const [linkText, setLinkText] = useState("");
     const [addlink, setAddLink] = useState("");
     const formData = new FormData();
@@ -643,7 +644,7 @@ const AboutSection: React.FC<IProps> = ({ currentFilial, setSection }) => {
                             justifyContent: "center"
                         }}>
                             <div style={{ width: "90%", borderTop: "1px solid #c4c4c4", padding: "20px 0px", }}>
-                                <CustomButton>
+                                <CustomButton onClick={() => { dispatch(setLoyaltyProgramm("nothing")) }}>
                                     <SaveIcon />
                                     <Text marginLeft="15px" color="white">{t("save")} </Text>
                                 </CustomButton>

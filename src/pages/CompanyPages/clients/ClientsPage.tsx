@@ -63,7 +63,7 @@ const ClientsPage = () => {
     const persCard = useAppSelector(state => state.clients.persCardClient);
     const clientState = useAppSelector(state => state.clients);
     const [responseData, setResponseData] = useState<any>(null);
-
+    //proceed
 
     const filters: IClientStatisticFilter[] = [
         {
@@ -141,9 +141,12 @@ const ClientsPage = () => {
     const response = useQuery(["clients", page, clientState.startDate, clientState.endDate], () => fetchClients(page, clientState.startDate, clientState.endDate), {
         refetchOnWindowFocus: false,
         // refetchOnMount: false,
-        //cacheTime: 30000,
+        // cacheTime: 30000,
+
         retry: 0,
+        //error procceed false
         onSuccess: (data) => {
+            //proceed true
             setResponseData(data.data.data.clients);
             const finalData = data.data.data.clients.map((item: any) => {
                 return {
@@ -180,6 +183,7 @@ const ClientsPage = () => {
             setTotalCount(data.data.data.totalCount);
         }
     })
+    // second req enabled proceed
 
     useEffect(() => {
         if (responseData) {

@@ -78,7 +78,7 @@ const CustomMulitpleSelect: React.FC<IProps> = ({ defaultValue, fieldState, node
                 className={classes.root}
                 displayEmpty
                 {...field}
-                style={{ border: fieldState.error ? "1px solid red" : undefined }}
+                style={{ border: fieldState?.error ? "1px solid red" : undefined }}
                 SelectDisplayProps={{
                     style: {
                         background: "none",

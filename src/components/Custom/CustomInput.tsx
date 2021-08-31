@@ -28,7 +28,9 @@ interface IProps {
     value?: any,
     valuePercent?: any,
     labelWidth?: string | null,
-    fieldState?: any
+    fieldState?: any,
+    inputError?: boolean,
+    percentError?: boolean
 }
 const useStyles = makeStyles({
     input: {
@@ -75,7 +77,9 @@ const CustomInput: React.FC<IProps> = ({ labelWidth,
     notRequired,
     centered,
     aboveLabel,
-    fieldState
+    fieldState,
+    inputError,
+    percentError
 }) => {
 
     const { t } = useTranslation();
@@ -107,17 +111,22 @@ const CustomInput: React.FC<IProps> = ({ labelWidth,
 
 
             </InputLabel>
-            <Flex justifyContent="start" alignItems="center" width={withPercent ? "auto" : "100%"} style={flexStyle}>
+            <Flex justifyContent="start" alignItems="flex-start" width={withPercent ? "auto" : "100%"} style={flexStyle}>
                 <div style={!centered ? { width: "100%", margin: "0px" } : { width: "100%", margin: "0px", display: "flex", justifyContent: "center" }}>
                     <Input
                         {...fieldState}
+                        // error = {inputError}
+                        value={value} name={name} onChange={onChange} style={{ ...style, border: fieldState?.error || inputError ? "1px solid red" : undefined }} disableUnderline className={classes.input} {...field} id={id} />
+                    <div>{inputError && <Text fontSize="10pt" fontWeight={300} color="red">{t("requiredF")}</Text>}</div>
 
-                        value={value} name={name} onChange={onChange} style={{ ...style, border: fieldState?.error ? "1px solid red" : undefined }} disableUnderline className={classes.input} {...field} id={id} />
                 </div>
                 {withPercent &&
                     <>
                         <div>
-                            <Input value={valuePercent} style={{ width: "105px" }} disableUnderline className={classes.input} onChange={onPercentChange} />
+                            <Input
+                                type="number"
+                                value={valuePercent} style={{ width: "105px", border: percentError ? "1px solid red" : undefined }} disableUnderline className={classes.input} onChange={onPercentChange} />
+                            <div>{percentError && <Text fontSize="10pt" fontWeight={300} color="red">{t("requiredF")}</Text>}</div>
                         </div>
                         <div onClick={handleAddClick} style={{ padding: "12px", borderRadius: '14px', }}>
                             <AddIconSettings />

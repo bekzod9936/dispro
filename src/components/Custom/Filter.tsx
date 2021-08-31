@@ -22,7 +22,6 @@ const Filter: React.FC<IFilter> = ({ filters, onApply, zIndex, top }) => {
                     title="Фильтр"
                     inputType="header"
                     index={0}
-
                     headerButtonText={t("reset")} />
                 {filters.map((item: any, index) => {
                     return <CustomDropDown
