@@ -2,14 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+//import reportWebVitals from './reportWebVitals';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { store } from './services/redux/store';
 import { Provider } from 'react-redux';
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+//import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import { StylesProvider } from '@material-ui/core';
 //import { getToken } from "firebase"
-import { URL } from 'url';
+//import { URL } from 'url';
 import { I18nextProvider } from 'react-i18next';
 import i18n from "./services/localization/i18n"
 import { BrowserRouter } from 'react-router-dom';
@@ -20,7 +20,7 @@ const queryClient = new QueryClient();
 
 
 ReactDOM.render(
-
+  
   <React.StrictMode>
     <I18nextProvider i18n={i18n}>
       <StylesProvider injectFirst>
