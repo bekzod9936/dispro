@@ -20,3 +20,4 @@ export enum FONT_WEIGHT {
 	modalText = 300,
 	bold = 700,
 }
+

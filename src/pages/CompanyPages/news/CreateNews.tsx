@@ -3,6 +3,7 @@ import { SaveIcon } from '../../../assets/icons/InfoPageIcons/InfoPageIcons';
 import {
   CustomButton,
   CustomSelect,
+  ModalComponent,
   SectionWrapper,
 } from '../../../styles/CustomStyles';
 import { AboutSectionWrapper, ScrolableWrapper } from '../info/InfoPageStyes';
@@ -22,7 +23,7 @@ import CustomFileUpload from '../info/CustomFileUpload';
 import Resizer from 'react-image-file-resizer';
 import CustomReusableSelect from '../../../components/Custom/CustomReusableSelect';
 import { StyledSwitch } from '../../../components/Custom/CustomSwitch';
-import { FONT_SIZE, FONT_WEIGHT } from '../../../services/Types/enums';
+import { COLORS, FONT_SIZE, FONT_WEIGHT } from '../../../services/Types/enums';
 import { Checkbox, InputLabel, makeStyles, TextField } from '@material-ui/core';
 import CustomMulitpleSelect from '../info/CustomMulitpleSelect';
 import { FilialIcon } from '../../../assets/icons/NewsIcons/NewsIcons';
@@ -33,6 +34,7 @@ import { useQuery } from 'react-query';
 import CropImageModal from './CropImageModal';
 import { fetchAddressInfo } from '../../../services/queries/InfoPageQueries';
 import { DeleteIconWhite } from '../../../assets/icons/SettingsIcons/SettingsPageIcon';
+import CustomModal from '../../../components/Custom/CustomModal';
 
 interface IProps {
   setStatus?: any;

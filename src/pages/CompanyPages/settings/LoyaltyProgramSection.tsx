@@ -82,7 +82,6 @@ const LoyaltyProgramSection = () => {
     },
   ];
   const { control, handleSubmit, setValue } = useForm({});
-
   const rightLoyalty = document.getElementById('rightLoyalty');
   const largePanel = document.getElementById('largePanel');
 
@@ -106,29 +105,6 @@ const LoyaltyProgramSection = () => {
           setActive('cashback');
           setValue('max_percent', data.data.data.maxAmount);
           setValue('give_cashback_after', data.data.data.cashbackReturnedDay);
-          let copy = [...initialFields];
-          copy[0].id = 0;
-          copy[0].name = data?.data?.data.name;
-          copy[0].percent = data?.data?.data.percent;
-          copy[0].requirements = [
-            { type: 1, amount: 0, unit: 'UZS', condition: '', id: 0 },
-          ];
-          copy = [...copy, ...data.data.data.levels];
-          setFileds(copy);
-        }
-      },
-    }
-  );
-  const responseDiscount = useQuery(
-    ['Discount', refetchDiscount],
-    fetchDiscount,
-    {
-      retry: 0,
-      refetchOnWindowFocus: false,
-      onSuccess: (data: any) => {
-        if (data?.data?.data?.isActive) {
-          setActive('discount');
-          setValue('max_percent', data.data.data.maxAmount);
           let copy = [...initialFields];
           copy[0].id = 0;
           copy[0].name = data?.data?.data.name;

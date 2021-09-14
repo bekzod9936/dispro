@@ -29,7 +29,9 @@ const Filter: React.FC<IFilter> = ({ filters, onApply, zIndex, top }) => {
         }}
       >
         <CustomDropDown
-          handleInputChange={() => {}}
+          handleInputChange={() => {
+            console.log('change');
+          }}
           request=''
           numOfInputs={['FILTERS']}
           title='Фильтр'
