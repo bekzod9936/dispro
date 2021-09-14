@@ -1,11 +1,8 @@
 import React from 'react';
+import { Container } from './style';
 
 const FallbackOnLazyLoad = () => {
-    return (
-        <div>
-            ...Loading
-        </div>
-    );
-}
+  return <Container>...Loading</Container>;
+};
 
 export default FallbackOnLazyLoad;

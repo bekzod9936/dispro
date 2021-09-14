@@ -11,55 +11,56 @@ import { StylesProvider } from '@material-ui/core';
 //import { getToken } from "firebase"
 //import { URL } from 'url';
 import { I18nextProvider } from 'react-i18next';
-import i18n from "./services/localization/i18n"
+import i18n from './services/localization/i18n';
 import { BrowserRouter } from 'react-router-dom';
+import DateFnsUtils from '@material-ui/pickers/adapter/date-fns';
+import { enUS, ru, uz } from 'date-fns/locale';
+import { LocalizationProvider } from '@material-ui/pickers';
+
 const queryClient = new QueryClient();
 
-
-//getToken()
-
-
 ReactDOM.render(
-  
   <React.StrictMode>
-    <I18nextProvider i18n={i18n}>
-      <StylesProvider injectFirst>
-        <Provider store={store}>
-          <QueryClientProvider client={queryClient} >
-            <BrowserRouter>
-              <App />
-            </BrowserRouter>
-          </QueryClientProvider>
-        </Provider>
-      </StylesProvider>
-    </I18nextProvider>
+    <LocalizationProvider
+      locale={
+        localStorage.getItem('language') === 'en'
+          ? enUS
+          : localStorage.getItem('language') === 'uz'
+          ? uz
+          : ru
+      }
+      dateAdapter={DateFnsUtils}
+    >
+      <I18nextProvider i18n={i18n}>
+        <StylesProvider injectFirst>
+          <Provider store={store}>
+            <QueryClientProvider client={queryClient}>
+              <BrowserRouter>
+                <App />
+              </BrowserRouter>
+            </QueryClientProvider>
+          </Provider>
+        </StylesProvider>
+      </I18nextProvider>
+    </LocalizationProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://cra.link/PWA
 
 // serviceWorkerRegistration.register({
 //   onSuccess: (resgistration: ServiceWorkerRegistration) => {
-//     console.log('Registered!!');
 //   },
 //   serviceWorkerUrl: "/firebase-messaging-sw.js"
 // })
 // serviceWorkerRegistration.unregister(
 // );
 
-
 // if ("serviceWorker" in navigator) {
 //   window.addEventListener("load", (e: Event) => {
 //     navigator.serviceWorker.register("/firebase-messaging-sw.js").then((value: ServiceWorkerRegistration) => {
-//       console.log("registered");
 //     })
 //   })
 
 // }
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 //reportWebVitals();

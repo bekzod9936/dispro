@@ -1,11 +1,7 @@
 import React from 'react';
 
 const NotificationsPage = () => {
-    return (
-        <div>
-            Notifications
-        </div>
-    );
-}
+  return <div>Notifications</div>;
+};
 
 export default NotificationsPage;

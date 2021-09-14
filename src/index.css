@@ -1,56 +1,59 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --fontFamily: 'Roboto';
+}
+
 body {
-	margin: 0;
-	padding: 0;
-	overflow: hidden;
-	font-family: "Roboto";
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: 'Roboto';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-	-webkit-appearance: none;
-	margin: 0;
-}
-/* -apple-system, BlinkMacSystemFont, "Segoe UI", "Oxygen",
-		"Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-		sans-serif */
-code {
-	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-		monospace;
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .MuiPickersDay-daySelected {
-	border-radius: 12px;
-	background-color: #606eea;
-	color: white;
-	font-size: 18px;
-	font-weight: 700;
+  border-radius: 12px;
+  background-color: #606eea;
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
 }
 .MuiTypography-body2 {
-	font-weight: 700;
-	font-family: "Roboto";
-	font-size: 16px;
-	color: black;
+  font-weight: 700;
+  font-family: 'Roboto';
+  font-size: 16px;
+  color: black;
 }
 .MuiPickersDay-daySelected .MuiTypography-body2 {
-	color: white;
+  color: white;
 }
 
 .MuiPopover-paper {
-	border-radius: 12px;
+  border-radius: 12px;
 }
 .MuiStepLabel-iconContainer {
-	padding-right: 0px;
+  padding-right: 0px;
 }
 .MuiStepConnector-lineHorizontal {
-	border-top-width: 3px;
+  border-top-width: 3px;
 }
 .MuiStepIcon-root.MuiStepIcon-active {
-	color: #606eea;
+  color: #606eea;
 }
 
 .MuiListItem-root.Mui-selected,
 .MuiListItem-root.Mui-selected:hover {
-	background-color: white;
+  background-color: white;
 }

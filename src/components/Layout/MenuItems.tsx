@@ -14,89 +14,92 @@ import DisIcon from '../../assets/icons/DisIcon';
 import InfoIcon from '../../assets/icons/InfoIcon';
 import { CustomMenu, SideBarMenuItem } from '../../styles/CustomStyles';
 import { Typography } from '@material-ui/core';
-import SingleMenuItem from "./SingleMenuItem";
+import SingleMenuItem from './SingleMenuItem';
 import { Link, NavLink } from 'react-router-dom';
 
 interface IMenuItem {
-    icon: () => JSX.Element,
-    text: string,
-    key: string,
+  icon: () => JSX.Element;
+  text: string;
+  key: string;
 }
 interface IProps {
-    handleClick: (value: string) => void
+  handleClick: (value: string) => void;
 }
 
 const MenuItems: React.FC<IProps> = ({ handleClick }) => {
-    const MenuItemsArray: IMenuItem[] = [
-        {
-            icon: StatisticsIcon,
-            text: "statistics",
-            key: "statistics",
-
-        },
-        {
-            icon: ClientsIcon,
-            text: "clients",
-            key: "clients",
-        },
-        {
-            icon: OrdersIcon,
-            text: "orders",
-            key: "orders"
-        },
-        {
-            icon: FeedbackIcon,
-            text: "feedback",
-            key: "feedback",
-        },
-        {
-            icon: ServicesIcon,
-            text: "services",
-            key: "services",
-        },
-        {
-            icon: NewsIcon,
-            text: "news",
-            key: "news",
-        },
-        {
-            icon: StaffIcon,
-            text: "staff",
-            key: "staff",
-        },
-        {
-            icon: ProposalsIcon,
-            text: "proposals",
-            key: "proposals"
-        },
-        {
-            icon: FinancesIcon,
-            text: "finances",
-            key: "finances",
-        },
-        {
-            icon: NotificationsIcon,
-            text: "notifications",
-            key: "notifications"
-        },
-        {
-            icon: InfoIcon,
-            text: "info",
-            key: "info"
-        },
-
-    ]
-    //handleClick={() => handleClick(item.key)}
-    return (
-        <CustomMenu>
-            {MenuItemsArray.map((item: IMenuItem) => {
-                // return <Link to={{ pathname: "/" + item.key }} style={{ textDecoration: "none", color: "black" }}>
-                return <SingleMenuItem Icon={item.icon} text={item.text} handleClick={() => handleClick(item.key)} />
-                // </Link>
-
-            })}
-        </CustomMenu>
-    );
-}
+  const MenuItemsArray: IMenuItem[] = [
+    {
+      icon: StatisticsIcon,
+      text: 'statistics',
+      key: 'statistics',
+    },
+    {
+      icon: ClientsIcon,
+      text: 'clients',
+      key: 'clients',
+    },
+    {
+      icon: OrdersIcon,
+      text: 'orders',
+      key: 'orders',
+    },
+    {
+      icon: FeedbackIcon,
+      text: 'feedback',
+      key: 'feedback',
+    },
+    {
+      icon: ServicesIcon,
+      text: 'services',
+      key: 'services',
+    },
+    {
+      icon: NewsIcon,
+      text: 'news',
+      key: 'news',
+    },
+    {
+      icon: StaffIcon,
+      text: 'staff',
+      key: 'staff',
+    },
+    {
+      icon: ProposalsIcon,
+      text: 'proposals',
+      key: 'proposals',
+    },
+    {
+      icon: FinancesIcon,
+      text: 'finances',
+      key: 'finances',
+    },
+    {
+      icon: NotificationsIcon,
+      text: 'notifications',
+      key: 'notifications',
+    },
+    {
+      icon: InfoIcon,
+      text: 'info',
+      key: 'info',
+    },
+  ];
+  //handleClick={() => handleClick(item.key)}
+  return (
+    <CustomMenu>
+      {MenuItemsArray.map((item: IMenuItem) => {
+        // return <Link to={{ pathname: "/" + item.key }} style={{ textDecoration: "none", color: "black" }}>
+        return (
+          <SingleMenuItem
+            Icon={item.icon}
+            text={item.text}
+            handleClick={() => handleClick(item.key)}
+          />
+        );
+        // </Link>
+      })}
+    </CustomMenu>
+  );
+};
 
 export default MenuItems;

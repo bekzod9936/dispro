@@ -6,11 +6,13 @@ import { CustomSelect } from '../../styles/CustomStyles';
 const SelectComponent = () => {
   return (
     <>
-      <CustomSelect value="En" variant="standard" disableUnderline>
-        <MenuItem value="En" > <USFlagIcon /> English</MenuItem>
+      <CustomSelect value='En' variant='standard' disableUnderline>
+        <MenuItem value='En'>
+          <USFlagIcon /> English
+        </MenuItem>
       </CustomSelect>
     </>
   );
-}
+};
 
 export default SelectComponent;
