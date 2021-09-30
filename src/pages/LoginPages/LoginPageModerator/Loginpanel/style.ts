@@ -100,18 +100,15 @@ export const Text = styled.div`
 `;
 
 export const Message = styled.div`
-  color: #ff5e68;
-  font-weight: 300;
   overflow-wrap: normal;
   display: flex;
-  font-size: 16px;
-  margin-top: 5px;
+  color: #ff5e68;
   @media (max-width: ${device.mobile}) {
     div {
       font-size: 14px;
     }
   }
-  @media (max-width: ${device.desktop}) {
+  @media (min-width: ${device.planshet}) {
     flex-direction: column;
   }
 `;

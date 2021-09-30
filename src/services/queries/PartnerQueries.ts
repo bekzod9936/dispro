@@ -120,16 +120,24 @@ export const enterCompany = async ({
   );
   return response;
 };
-
-export const createCompany = async (
-  companyId: any,
-  companyName: any,
-  companyType: any,
-  countryId: any,
-  email: any,
-  firstName: any,
-  lastName: any
-) => {
+interface PropsCompany {
+  companyId: number;
+  companyName: string;
+  companyType: number;
+  countryId: number;
+  email: string;
+  firstName: string;
+  lastName: string;
+}
+export const createCompany = async ({
+  companyId,
+  companyName,
+  companyType,
+  countryId,
+  email,
+  firstName,
+  lastName,
+}: PropsCompany) => {
   const response = await adminInterceptor.post(`/core/staffs/admin`, {
     companyId: companyId,
     companyName: companyName,
@@ -142,8 +150,8 @@ export const createCompany = async (
   return response;
 };
 
-export const fetchInfo = () => {
-  const response = partnerApi.get('directory/company/123');
+export const fetchInfo = (id: any) => {
+  const response = partnerApi.get(`directory/company/${id}`);
   return response;
 };
 

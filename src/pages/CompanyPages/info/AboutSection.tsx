@@ -312,6 +312,8 @@ const AboutSection: React.FC<IProps> = ({ currentFilial, setSection }) => {
 
     setKeywords(filtered);
   };
+  console.log(logo, 'logo');
+
   const handleDeleteLogo = async () => {
     setLogoStatus('deleting');
     try {
@@ -412,6 +414,7 @@ const AboutSection: React.FC<IProps> = ({ currentFilial, setSection }) => {
       setKeywordsError(false);
     }
   };
+
   useEffect(() => {
     if (!logo) {
       setImageLoaded('notLoaded');
@@ -790,7 +793,6 @@ const AboutSection: React.FC<IProps> = ({ currentFilial, setSection }) => {
                                 alignItems: 'center',
                               }}
                             >
-                              {' '}
                               <div
                                 style={{
                                   background: '#606EEA',
@@ -803,9 +805,8 @@ const AboutSection: React.FC<IProps> = ({ currentFilial, setSection }) => {
                                   margin: '10px',
                                 }}
                               >
-                                {' '}
                                 {Icon}
-                              </div>{' '}
+                              </div>
                               <Text marginLeft='10px'>{name}</Text>
                             </div>
                             <div onClick={() => handleConnect(name)}>

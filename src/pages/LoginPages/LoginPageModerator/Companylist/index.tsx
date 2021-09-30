@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from 'react-query';
 import { useHistory } from 'react-router';
@@ -19,10 +19,12 @@ import {
 } from './style';
 import { useAppDispatch } from '../../../../services/redux/hooks';
 import { refetchCompanyList } from '../../../../services/redux/Slices/authSlice';
+import LogoDef from '../../../../assets/icons/SideBar/logodefault.png';
 
 const Companylist = () => {
   const history = useHistory();
   const { t } = useTranslation();
+  const [id, setId] = useState(null);
 
   const company = useMutation((values: any) => enterCompany(values));
 
@@ -47,7 +49,7 @@ const Companylist = () => {
       onSuccess: (data) => {
         localStorage.setItem('companyId', data.data.data.companyId);
         localStorage.setItem('companyToken', data.data.data.accessToken);
-        history.push('/info');
+        history.push('/statistics');
       },
     });
   };
@@ -75,15 +77,20 @@ const Companylist = () => {
           {data?.data.data.map((v: any) => (
             <Box
               key={v.company.id}
-              onClick={() =>
+              onClick={() => {
+                setId(v.company.id);
                 handleEnterCompany({
                   companyId: v.company.id,
                   companyType: v.company.type,
-                })
-              }
+                });
+              }}
+              loading={v.company.id === id ? company.isLoading : false}
             >
               <Wrap>
-                <Img src={v.company.logo} alt='Company-Logo' />
+                <Img
+                  src={v.company.logo === '' ? LogoDef : v.company.logo}
+                  alt='Company-Logo'
+                />
               </Wrap>
               <Text color='#223367'>{v.company.name}</Text>
             </Box>

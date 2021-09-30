@@ -44,7 +44,7 @@ const NewsPage = lazy(() => import('../pages/CompanyPages/news/NewsPage'));
 const FinancePage = lazy(
   () => import('../pages/CompanyPages/finances/FinancePage')
 );
-const InfoPage = lazy(() => import('../pages/CompanyPages/info/InfoPage'));
+const InfoPage = lazy(() => import('../pages/CompanyPages/info'));
 const OrdersPage = lazy(
   () => import('../pages/CompanyPages/orders/OrdersPage')
 );
@@ -71,8 +71,9 @@ const TestLoginPage = lazy(
 //   () => import('../pages/LoginPages/LoginPageModerator/CompanyList')
 // );
 const RegistrationPanel = lazy(
-  () => import('../pages/LoginPages/LoginPageModerator/RegistrationPanel')
+  () => import('../pages/LoginPages/LoginPageModerator/Registrationpanel/index')
 );
+
 // const LoginPageModerator = lazy(()=>import("../pages/LoginPages/LoginPageModerator/LoginPageModerator"));
 
 export interface IPrivateRoute {
@@ -119,6 +120,11 @@ const privateCompanyRoutes: IPrivateRoute[] = [
   },
   {
     path: '/info',
+    layout: DefaultLayoutAdmin,
+    component: InfoPage,
+  },
+  {
+    path: '/info/:params',
     layout: DefaultLayoutAdmin,
     component: InfoPage,
   },
@@ -229,13 +235,13 @@ const RenderRoutes = () => {
     .concat(
       privateCompanyRoutes.map((item: IPrivateRoute) => {
         return (
-          <Suspense fallback={<FallbackOnLazyLoad />}>
+          <>
             <PrivateRoute
               path={item.path}
               Layout={item.layout}
               Component={item.component}
             />
-          </Suspense>
+          </>
         );
       })
     );

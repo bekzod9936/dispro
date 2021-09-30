@@ -12,6 +12,7 @@ export const MButton = styled(Button)`
   min-height: inherit !important;
   color: ${({ tcolor }: Props) => tcolor || '#FFFFFF'} !important;
   background-color: ${({ bgcolor }: Props) => bgcolor || '#606EEA'}!important;
+  background-image: ${({ bgimage }: Props) => bgimage}!important;
   font-size: ${({ fontSize }: Props) => `${fontSize?.max}px`}!important;
   border-radius: ${({ radius }: Props) =>
     typeof radius === 'string'
@@ -19,7 +20,7 @@ export const MButton = styled(Button)`
       : radius
       ? `${radius}px`
       : '14px'}!important;
-  border: ${({ border }: Props) => border || '1px solid'}!important;
+  border: ${({ border }: Props) => border || null}!important;
   border-color: ${({ bordercolor }: Props) =>
     bordercolor || 'transparent'}!important;
   font-style: normal !important;
@@ -37,12 +38,19 @@ export const MButton = styled(Button)`
     display: flex;
     align-items: center;
   }
+
   span.MuiButton-label {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    padding-top: 2px;
     width: inherit;
+    padding: ${({ padding }: Props) => `${padding} !important`};
+    border-radius: ${({ radius }: Props) =>
+      typeof radius === 'string'
+        ? radius
+        : radius
+        ? `${radius}px`
+        : '14px'}!important;
   }
   @media (max-width: ${device.mobile}) {
     font-size: ${({ fontSize }: Props) =>
@@ -59,7 +67,12 @@ export const MButton = styled(Button)`
   @media (min-width: ${device.laptop}) {
     font-size: ${({ fontSize }: Props) =>
       fontSize?.max ? `${fontSize?.max}px` : 'fit-content'} !important;
-  } ;
+  }
+  & > :hover {
+    background-color: ${({ hoverbgcolor }: Props) =>
+      `${hoverbgcolor} !important`};
+    color: ${({ hovercolor }: Props) => `${hovercolor} !important`};
+  }
 `;
 
 export const Wrapper = styled.div`
@@ -74,7 +87,9 @@ export const Wrapper = styled.div`
   min-height: ${({ minHeight }: Props) =>
     minHeight ? `${minHeight}px` : null} !important;
   margin: ${({ margin }: Props) => margin}!important;
-
+  .MuiButtonBase-root {
+    padding: ${({ padding }: Props) => padding && '0 !important'};
+  }
   .Mui-disabled {
     color: ${({ disabled }: Props) => disabled && 'white'}!important;
     background-color: #c7c7c7 !important;
@@ -83,19 +98,29 @@ export const Wrapper = styled.div`
   }
 
   @media (max-width: ${device.mobile}) {
-    height: ${({ minHeight }: Props) =>
-      minHeight ? `${minHeight}px` : 'fit-content'} !important;
+    height: ${({ minHeight, height }: Props) =>
+      minHeight
+        ? `${minHeight}px`
+        : height
+        ? height
+        : 'fit-content'} !important;
   }
   @media (min-width: ${device.mobile}) and (max-width: ${device.laptop}) {
-    height: ${({ minHeight, maxHeight }: Props) => {
+    height: ${({ minHeight, maxHeight, height }: Props) => {
       let he: number = (Number(maxHeight) + Number(minHeight)) / 2;
       return minHeight && maxHeight
-        ? `${he}px !important`
-        : 'fit-content !important';
-    }};
+        ? `${he}px`
+        : height
+        ? height
+        : 'fit-content';
+    }}!important;
   }
   @media (min-width: ${device.laptop}) {
-    height: ${({ maxHeight }: Props) =>
-      maxHeight ? `${maxHeight}px` : 'fit-content'} !important;
+    height: ${({ maxHeight, height }: Props) =>
+      maxHeight
+        ? `${maxHeight}px`
+        : height
+        ? height
+        : 'fit-content'} !important;
   } ;
 `;

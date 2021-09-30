@@ -91,27 +91,27 @@ const RegistrationPanel = () => {
 
   const { control: control2, handleSubmit: handleSubmit2 } = useForm();
   const response = useQuery(
-    ['', step],
-    () =>
-      createCompany(
-        company.companyId,
-        companyName,
-        companyType,
-        1,
-        email,
-        firstName,
-        lastName
-      ),
-    {
-      retry: 0,
-      //refetchOnMount: false,
-      refetchOnWindowFocus: false,
-      enabled: !!(step > 1),
-      onSuccess: (data) => {
-        localStorage.setItem('companyId', data.data.data.accessToken);
-        history.push('/info');
-      },
-    }
+    ['', step]
+    // () =>
+    //   createCompany(
+    //    { company.companyId,
+    //     companyName,
+    //     companyType,
+    //     1,
+    //     email,
+    //     firstName,
+    //     lastName}
+    //   ),
+    // {
+    //   retry: 0,
+    //   //refetchOnMount: false,
+    //   refetchOnWindowFocus: false,
+    //   enabled: !!(step > 1),
+    //   onSuccess: (data) => {
+    //     localStorage.setItem('companyId', data.data.data.accessToken);
+    //     history.push('/info');
+    //   },
+    // }
   );
 
   const fieldsStep1 = ['your_name', 'your_lastName', 'email'];
@@ -157,8 +157,7 @@ const RegistrationPanel = () => {
           <div>
             <DisIcon />
             <Text fontSize='21px' fontWeight={700} marginLeft='28px'>
-              {' '}
-              DIS-admin{' '}
+              DIS-admin
             </Text>
           </div>
           <Stepper activeStep={step} className={classes.stepper}>

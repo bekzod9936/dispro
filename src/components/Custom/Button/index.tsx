@@ -22,12 +22,17 @@ export interface Props {
   radius?: number | string;
   border?: string;
   margin?: string;
-  onClick?: () => void;
+  onClick?: (e: any) => void;
   disabled?: boolean;
   bordercolor?: string;
   shadow?: string;
   weight?: string;
   type?: 'submit' | 'button' | 'reset';
+  bgimage?: string;
+  padding?: string;
+  hovercolor?: string;
+  hoverbgcolor?: string;
+  form?: string;
 }
 const Button = ({ children, ...props }: Props) => {
   return (

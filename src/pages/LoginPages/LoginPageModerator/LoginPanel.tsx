@@ -20,7 +20,6 @@ import axios from 'axios';
 import { URL } from '../../../services/constants/config';
 import { useQuery } from 'react-query';
 import { logIn, signIn } from '../../../services/queries/LoginQueries';
-import { useDispatch } from 'react-redux';
 import {
   setLogIn,
   setProceedAuth,

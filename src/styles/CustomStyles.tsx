@@ -218,7 +218,6 @@ export const InlineFilterWrapper = styled.div`
   padding-right: 4px;
 `;
 export const PageWrapper = styled.div`
-  padding: 20px 20px 0px 30px;
   height: 100%;
   width: 100%;
   position: relative;

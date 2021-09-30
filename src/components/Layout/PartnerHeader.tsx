@@ -56,9 +56,7 @@ const PartnerHeader = () => {
         </Grid>
         <Grid container lg={5}>
           <Grid container lg={2} md={2}>
-            <Grid item lg={6}>
-              {' '}
-            </Grid>
+            <Grid item lg={6}></Grid>
             <Grid item lg={6}>
               <BellIcon />
             </Grid>

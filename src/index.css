@@ -16,6 +16,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
+  background-color: white;
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -56,4 +57,8 @@ input::-webkit-inner-spin-button {
 .MuiListItem-root.Mui-selected,
 .MuiListItem-root.Mui-selected:hover {
   background-color: white;
+}
+
+.ymaps-2-1-79-inner-panes {
+  border-radius: 14px !important;
 }
