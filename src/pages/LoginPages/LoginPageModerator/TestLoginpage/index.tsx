@@ -29,7 +29,7 @@ import {
   LeftBack,
 } from '../../../../assets/icons/LoginPage/LoginPageIcons';
 import logo from '../../../../assets/icons/logo_mobile.svg';
-import Button from '../../../../components/Custom/NButton';
+import Button from '../../../../components/Custom/Button';
 import LangSelect from '../../../../components/LangSelect';
 
 const TestLoginpage = ({ children }: any) => {

@@ -11,7 +11,7 @@ import {
 import { Title, Text } from '../style';
 import { Controller, useForm } from 'react-hook-form';
 import Input from '../../../../components/Custom/Input';
-import Button from '../../../../components/Custom/NButton';
+import Button from '../../../../components/Custom/Button';
 import Spinner from '../../../../components/Custom/Spinner';
 import {
   Container,

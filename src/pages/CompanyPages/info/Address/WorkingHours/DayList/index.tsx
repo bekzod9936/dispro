@@ -5,7 +5,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Popover from '../../../../../../components/Custom/Popover';
 import Input from '../../../../../../components/Custom/Input';
-import Button from '../../../../../../components/Custom/NButton';
+import Button from '../../../../../../components/Custom/Button';
 import {
   Container,
   Content,

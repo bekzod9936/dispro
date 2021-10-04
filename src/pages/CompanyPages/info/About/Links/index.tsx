@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Button from '../../../../../components/Custom/NButton';
+import Button from '../../../../../components/Custom/Button';
 import Input from '../../../../../components/Custom/Input';
 import Modal from '../../../../../components/Custom/Modal';
 import {

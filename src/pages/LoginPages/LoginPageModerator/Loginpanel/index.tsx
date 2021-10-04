@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import DisIcon from '../../../../assets/icons/DisIcon';
 import { useTranslation } from 'react-i18next';
-import Button from '../../../../components/Custom/NButton';
+import Button from '../../../../components/Custom/Button';
 import { useForm, Controller } from 'react-hook-form';
 import { logIn, signIn } from '../../../../services/queries/LoginQueries';
 import { useHistory } from 'react-router';

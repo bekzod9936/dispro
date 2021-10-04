@@ -1,135 +1,39 @@
 import React, { Suspense, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { useAppSelector } from '../../services/redux/hooks';
 import clsx from 'clsx';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import IconButton from '@material-ui/core/IconButton';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import { sidebar } from './sidebar';
-import { useTranslation } from 'react-i18next';
 import Logo from '../../assets/icons/SideBar/logo.png';
 import { device } from '../../styles/device';
-import { setCurrentPage } from '../../services/redux/Slices/partnerSlice';
 import { useAppDispatch } from '../../services/redux/hooks';
 import Header from './Header';
 import { useQuery } from 'react-query';
 import { fetchInfo } from '../../services/queries/PartnerQueries';
 import { setCompanyInfo } from '../../services/redux/Slices/partnerSlice';
 import Spinner from '../Custom/Spinner';
-import { useLocation } from 'react-router-dom';
 import {
   Container,
   MenuIcon,
-  SettingIcon,
   LogoIcon,
   Content,
-  WrapList,
   Title,
-  ListText,
   DesktopDrawer,
   MobileDrawer,
   MobileHeader,
-  ListI,
   WrapperPage,
   WrapLogo,
   WrapMenu,
 } from './style';
-
-const drawerWidth = 270;
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      display: 'flex',
-      height: '100vh',
-    },
-    appBar: {
-      [theme.breakpoints.down('lg')]: {
-        height: '65px',
-      },
-      [theme.breakpoints.up('lg')]: {
-        height: '90px',
-      },
-      display: 'flex',
-      justifyContent: 'center',
-      background: '#FFFFFF',
-      boxShadow: 'none',
-      zIndex: theme.zIndex.drawer + 1,
-      transition: theme.transitions.create(['width', 'margin'], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-    },
-    appBarShift: {
-      marginLeft: drawerWidth,
-      width: `calc(100% - ${drawerWidth}px)`,
-      transition: theme.transitions.create(['width', 'margin'], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-    },
-    menuButton: {
-      margin: '0 30px',
-      [theme.breakpoints.down('xs')]: {
-        margin: '0',
-      },
-    },
-    hide: {
-      display: 'none',
-    },
-    drawer: {
-      width: drawerWidth,
-      flexShrink: 0,
-      whiteSpace: 'nowrap',
-    },
-    drawerOpen: {
-      width: drawerWidth,
-      transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-    },
-    drawerClose: {
-      transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      overflowX: 'hidden',
-      width: theme.spacing(7) + 1,
-      [theme.breakpoints.up('xs')]: {
-        width: '99px',
-      },
-      [theme.breakpoints.down('xs')]: {
-        width: '0',
-      },
-    },
-    toolbar: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      [theme.breakpoints.down('lg')]: {
-        height: '65px',
-      },
-      [theme.breakpoints.up('lg')]: {
-        height: '90px',
-      },
-      ...theme.mixins.toolbar,
-    },
-  })
-);
+import { useSideBarStyle } from './styles/SideBarStyle';
+import MenuList from './MenuList';
 export interface IDefaultLayout {
   children: any;
 }
 
 const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
-  const { t } = useTranslation();
-  const history = useHistory();
-  const classes = useStyles();
-  const location = useLocation();
+  const classes = useSideBarStyle();
 
   const [width, setWidth] = useState(window.innerWidth);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -137,7 +41,6 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
 
   const dispatch = useAppDispatch();
   const companyState = useAppSelector((state) => state.auth.companyState);
-  const currentPage = useAppSelector((state) => state.partner.currentPage);
 
   const handleDrawerOpen = () => {
     if (width <= parseInt(device.mobile, 10)) {
@@ -187,7 +90,6 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
     ) {
       return;
     }
-
     setMobileOpen(open);
   };
 
@@ -202,46 +104,6 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
           <MenuIcon />
         </IconButton>
       </>
-    );
-  };
-  const MainList = () => {
-    return (
-      <WrapList>
-        <List>
-          {sidebar.map(({ Icon, text, path }) => (
-            <ListI
-              button
-              key={text}
-              onClick={() => {
-                history.push(`/${path}`);
-                dispatch(setCurrentPage(path));
-              }}
-              selected={location.pathname === `/${path}` ? true : false}
-            >
-              <ListItemIcon>
-                <Icon />
-              </ListItemIcon>
-              <ListText primary={t(text)} />
-            </ListI>
-          ))}
-        </List>
-        <List>
-          <ListI
-            button
-            key='settings'
-            onClick={() => {
-              history.push(`/settings`);
-              dispatch(setCurrentPage('settings'));
-            }}
-            selected={currentPage === 'settings' ? true : false}
-          >
-            <ListItemIcon>
-              <SettingIcon />
-            </ListItemIcon>
-            <ListText primary='settings' />
-          </ListI>
-        </List>
-      </WrapList>
     );
   };
 
@@ -271,7 +133,7 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
             <MobileHeader>
               <HeaderList />
             </MobileHeader>
-            <MainList />
+            <MenuList />
           </div>
         </MobileDrawer>
         <AppBar
@@ -317,7 +179,7 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
           <div className={classes.toolbar}>
             <HeaderList />
           </div>
-          <MainList />
+          <MenuList />
         </DesktopDrawer>
         <WrapperPage>
           <div className={classes.toolbar} />

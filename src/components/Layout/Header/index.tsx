@@ -123,10 +123,9 @@ const Header = () => {
             <Popover
               click={
                 <Button
-                  bgcolor='transparent'
-                  height='50px'
-                  radius={14}
-                  maxWidth={220}
+                  buttonStyle={{
+                    bgcolor: 'transparent',
+                  }}
                 >
                   <Img
                     src={companyInfo.logo === '' ? LogoDef : companyInfo.logo}
@@ -162,27 +161,29 @@ const Header = () => {
                 <Name fontSize={18}>{companyInfo.name}</Name>
                 <Type>Компания прошла подерацию</Type>
                 <Button
-                  bgcolor='rgba(96, 110, 234, 0.1)'
-                  tcolor='#606EEA'
-                  radius={14}
-                  width='100%'
-                  margin='25px 0 15px'
-                  height='50px'
+                  buttonStyle={{
+                    bgcolor: 'rgba(96, 110, 234, 0.1)',
+                    color: '#606EEA',
+                  }}
                   onClick={() => history.push('/info')}
-                  maxWidth={290}
-                  minWidth={220}
-                  maxHeight={50}
-                  minHeight={40}
+                  fullWidth={true}
+                  padding={{
+                    laptop: '0',
+                    desktop: '0',
+                  }}
                 >
                   {t('directinfo')}
                   <MarketIcon />
                 </Button>
                 <Button
-                  bgcolor='white'
-                  tcolor='#606EEA'
-                  weight='500'
-                  fontSize={{ max: 18, min: 14 }}
-                  margin='0 0 30px'
+                  buttonStyle={{
+                    bgcolor: 'white',
+                    color: '#606EEA',
+                    weight: 500,
+                  }}
+                  margin={{
+                    laptop: '0 0 30px',
+                  }}
                   onClick={() => history.push('/')}
                 >
                   {t('supportcall')}
@@ -194,11 +195,15 @@ const Header = () => {
                 <Link href='/'>{t('policy')}</Link>
                 <Link href='/'>{t('conditions')}</Link>
                 <Button
-                  tcolor='#223367'
-                  bgcolor='white'
+                  buttonStyle={{
+                    bgcolor: 'white',
+                    color: '#223367',
+                    weight: 500,
+                  }}
+                  margin={{
+                    laptop: '30px 0 0',
+                  }}
                   onClick={() => setOpen(true)}
-                  margin='30px 0 0'
-                  weight='500'
                 >
                   {t('logout')}
                   <LogOutIcon />
@@ -208,26 +213,30 @@ const Header = () => {
                     <ModelTitle>{t('sureleave')}</ModelTitle>
                     <ModalWrap>
                       <Button
-                        tcolor='#223367'
-                        bgcolor='white'
+                        buttonStyle={{
+                          bgcolor: 'white',
+                          color: '#223367',
+                          weight: 500,
+                        }}
+                        margin={{
+                          laptop: '0 30px 0 0',
+                        }}
                         onClick={() => setOpen(false)}
-                        margin='0 30px 0 0'
-                        height='50px'
                       >
                         <CloseIcon />
                         {t('cancel')}
                       </Button>
                       <Button
-                        tcolor='white'
-                        bgcolor='#606EEA'
+                        buttonStyle={{
+                          color: 'white',
+                          bgcolor: '#606EEA',
+                        }}
                         onClick={() => {
                           setOpen(true);
                           localStorage.removeItem('companyId');
                           localStorage.removeItem('companyToken');
                           history.push('/partner/company');
                         }}
-                        width='140px'
-                        height='50px'
                       >
                         {t('logout')}
                         <LogOutWhiteIcon />

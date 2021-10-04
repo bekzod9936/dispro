@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from 'react-query';
-import Button from '../../../../components/Custom/NButton';
+import Button from '../../../../components/Custom/Button';
 import { useAppSelector } from '../../../../services/redux/hooks';
 import {
   Container,

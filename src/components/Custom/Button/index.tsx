@@ -1,46 +1,80 @@
 import React from 'react';
-import { MButton, Wrapper } from './style';
+import { Container, MButton } from './style';
 
 export interface Props {
-  props?: any;
-  children: any;
-  /**
-   *  device:
-   *    mobile(max:1000px): min;
-   *    laptop(min:1000px and max:1400px): min+max/2;
-   *    desktop(min:1400px): max;
-   */
-  width?: string;
-  minWidth?: number;
-  maxWidth?: number;
-  height?: string;
-  minHeight?: number;
-  maxHeight?: number;
-  tcolor?: string;
-  bgcolor?: string;
-  fontSize?: { max?: number; min?: number };
-  radius?: number | string;
-  border?: string;
-  margin?: string;
-  onClick?: (e: any) => void;
+  children?: any;
   disabled?: boolean;
-  bordercolor?: string;
-  shadow?: string;
-  weight?: string;
+  fullWidth?: boolean;
+  href?: string;
+  endIcon?: any;
+  startIcon?: any;
   type?: 'submit' | 'button' | 'reset';
-  bgimage?: string;
-  padding?: string;
-  hovercolor?: string;
-  hoverbgcolor?: string;
-  form?: string;
+  onClick?: (e: any) => void;
+  buttonStyle?: {
+    color?: string;
+    bgcolor?: string;
+    bgimage?: string;
+    hovercolor?: string;
+    hoverbgcolor?: string;
+    weight?: string | number;
+    border?: string;
+    shadow?: string;
+    radius?: number | string;
+    fontSize?: {
+      mobile?: number;
+      planshet?: number;
+      laptop?: number;
+      desktop?: number;
+    };
+    height?: {
+      mobile?: number;
+      planshet?: number;
+      laptop?: number;
+      desktop?: number;
+    };
+  };
+  width?: {
+    maxwidth?: number;
+    minwidth?: number;
+    width?: string;
+  };
+  margin?: {
+    mobile?: string;
+    planshet?: string;
+    laptop?: string;
+    desktop?: string;
+  };
+  padding?: {
+    mobile?: string;
+    planshet?: string;
+    laptop?: string;
+    desktop?: string;
+  };
+  iconmargin?: {
+    mobile?: number;
+    planshet?: number;
+    laptop?: number;
+    desktop?: number;
+  };
 }
 const Button = ({ children, ...props }: Props) => {
   return (
-    <Wrapper disabled={props.disabled} {...props}>
-      <MButton type={props.type} {...props}>
+    <Container
+      padding={props.padding}
+      margin={props.margin}
+      buttonStyle={props.buttonStyle}
+      disabled={props.disabled}
+      width={props.width}
+      fullWidth={props.fullWidth}
+    >
+      <MButton
+        fullWidth={props.fullWidth ? props.fullWidth : true}
+        type={props.type}
+        {...props}
+      >
         {children}
       </MButton>
-    </Wrapper>
+    </Container>
   );
 };
 

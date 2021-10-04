@@ -177,8 +177,14 @@ export const WrapList = styled.div`
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    margin-top: 50px;
+  }
+  @media (min-width: ${device.laptop}) {
+    & > ul:first-child {
+      margin-top: 50px;
+    }
   }
 `;
 

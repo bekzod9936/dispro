@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { Switch, Route } from 'react-router-dom';
 import Title from '../../../components/Custom/Title';
 import Modal from '../../../components/Custom/Modal';
-import Button from '../../../components/Custom/NButton';
+import Button from '../../../components/Custom/Button';
 import NavBar from '../../../components/Custom/NavBar';
 import {
   Container,

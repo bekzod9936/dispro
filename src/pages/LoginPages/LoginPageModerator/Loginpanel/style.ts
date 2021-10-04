@@ -49,7 +49,7 @@ export const Version = styled.div`
   color: #8f8f8f;
   text-align: right;
   width: 100%;
-  margin: 15px 25px 15px 0;
+  margin: 15px 25px 0 0;
 `;
 
 export const Header = styled.div`

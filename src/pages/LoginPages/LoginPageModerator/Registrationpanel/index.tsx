@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import DisIcon from '../../../../assets/icons/DisIcon';
-import Button from '../../../../components/Custom/NButton';
+import Button from '../../../../components/Custom/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import { createCompany } from '../../../../services/queries/PartnerQueries';
 import { useMutation } from 'react-query';

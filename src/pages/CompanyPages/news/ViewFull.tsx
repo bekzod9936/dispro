@@ -13,7 +13,6 @@ import { DeleteIconWhite } from '../../../assets/icons/SettingsIcons/SettingsPag
 import { colors } from '@material-ui/core';
 import { COLORS, FONT_SIZE, FONT_WEIGHT } from '../../../services/Types/enums';
 import CropImageModal from './CropImageModal';
-import SingleMenuItem from '../../../components/Layout/SingleMenuItem';
 import { setRegCompanyId } from '../../../services/redux/Slices/authSlice';
 import { stat } from 'fs';
 import CustomFileUpload from '../info/CustomFileUpload';
