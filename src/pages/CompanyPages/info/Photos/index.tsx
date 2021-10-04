@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from 'react-query';
-import Button from '../../../../components/Custom/Button';
+import Button from '../../../../components/Custom/NButton';
 import { useAppSelector } from '../../../../services/redux/hooks';
 import {
   Container,
@@ -97,17 +97,14 @@ const Photos = () => {
               </>
             ) : null}
           </WrapImages>
-
           <Button
-            shadow='0px 4px 9px rgba(96, 110, 234, 0.46)'
-            radius={14}
-            minWidth={100}
-            minHeight={40}
-            maxHeight={50}
-            maxWidth={140}
-            fontSize={{ max: 17, min: 14 }}
-            weight='500'
-            margin='20px 0 20px 0'
+            buttonStyle={{
+              shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)',
+              weight: 500,
+            }}
+            margin={{
+              laptop: '20px 0 20px 0',
+            }}
           >
             <SaveIcon />
             {t('save')}

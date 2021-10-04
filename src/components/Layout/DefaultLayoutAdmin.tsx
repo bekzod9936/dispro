@@ -1,23 +1,6 @@
 import React, { Suspense, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useAppSelector } from '../../services/redux/hooks';
-import {
-  Container,
-  MenuIcon,
-  SettingIcon,
-  LogoIcon,
-  Content,
-  WrapList,
-  Title,
-  ListText,
-  DesktopDrawer,
-  MobileDrawer,
-  MobileHeader,
-  ListI,
-  WrapperPage,
-  WrapLogo,
-  WrapMenu,
-} from './style';
 import clsx from 'clsx';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -38,6 +21,23 @@ import { fetchInfo } from '../../services/queries/PartnerQueries';
 import { setCompanyInfo } from '../../services/redux/Slices/partnerSlice';
 import Spinner from '../Custom/Spinner';
 import { useLocation } from 'react-router-dom';
+import {
+  Container,
+  MenuIcon,
+  SettingIcon,
+  LogoIcon,
+  Content,
+  WrapList,
+  Title,
+  ListText,
+  DesktopDrawer,
+  MobileDrawer,
+  MobileHeader,
+  ListI,
+  WrapperPage,
+  WrapLogo,
+  WrapMenu,
+} from './style';
 
 const drawerWidth = 270;
 
@@ -111,6 +111,12 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
+      [theme.breakpoints.down('lg')]: {
+        height: '65px',
+      },
+      [theme.breakpoints.up('lg')]: {
+        height: '90px',
+      },
       ...theme.mixins.toolbar,
     },
   })

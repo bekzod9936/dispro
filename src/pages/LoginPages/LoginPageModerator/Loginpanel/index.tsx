@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import DisIcon from '../../../../assets/icons/DisIcon';
 import { useTranslation } from 'react-i18next';
-import Button from '../../../../components/Custom/Button';
+import Button from '../../../../components/Custom/NButton';
 import { useForm, Controller } from 'react-hook-form';
 import { logIn, signIn } from '../../../../services/queries/LoginQueries';
 import { useHistory } from 'react-router';
@@ -133,6 +133,7 @@ export const LoginPanel = () => {
 
   useEffect(() => {
     const subscription = watch((value) => {
+      console.log(value, 'ddd');
       if (
         value?.role?.value !== undefined &&
         value?.role?.value !== '' &&
@@ -287,6 +288,7 @@ export const LoginPanel = () => {
                           </WrapTime>
                         }
                         autoFocus={true}
+                        maxLength={4}
                       />
                     )}
                   />
@@ -294,10 +296,10 @@ export const LoginPanel = () => {
                   {time === 0 && <Message>{t('wrongsmscode')}</Message>}
                   {time === 0 && (
                     <Button
-                      bgcolor='transparent'
-                      tcolor='#3492FF'
-                      fontSize={{ min: 14, max: 16 }}
-                      width='fit-content'
+                      buttonStyle={{
+                        color: '#3492FF',
+                        bgcolor: 'transparent',
+                      }}
                       onClick={handleReSend}
                       disabled={logRes.isLoading}
                     >
@@ -312,29 +314,36 @@ export const LoginPanel = () => {
                 <Content>
                   <WrapButton>
                     <Button
-                      width='100%'
-                      height='60px'
-                      bgcolor='#606EEA'
-                      radius={12}
-                      tcolor='#FFFFFF'
-                      minWidth={290}
-                      minHeight={45}
-                      maxHeight={60}
-                      fontSize={{ max: 18, min: 16 }}
-                      shadow='0px 19px 30px rgba(96, 110, 234, 0.35)'
+                      buttonStyle={{
+                        shadow: '0px 19px 30px rgba(96, 110, 234, 0.35)',
+                        radius: 12,
+                        fontSize: {
+                          laptop: 17,
+                          desktop: 18,
+                          mobile: 16,
+                          planshet: 16,
+                        },
+                      }}
                       type='submit'
                       disabled={smsRes.isLoading}
+                      fullWidth={true}
                     >
                       {t('enter')}
                     </Button>
                   </WrapButton>
                   <Button
-                    width='100%'
-                    height='fit-content'
-                    bgcolor='transparent'
-                    tcolor='#606EEA'
-                    fontSize={{ max: 18, min: 16 }}
+                    buttonStyle={{
+                      bgcolor: 'transparent',
+                      color: '#606EEA',
+                      fontSize: {
+                        laptop: 17,
+                        desktop: 18,
+                        mobile: 16,
+                        planshet: 16,
+                      },
+                    }}
                     onClick={handleBack}
+                    width={{ width: '100%' }}
                   >
                     {t('back')}
                   </Button>
@@ -384,24 +393,25 @@ export const LoginPanel = () => {
                           laptop: '20px 0 0',
                           desktop: '20px 0 40px',
                         }}
+                        maxLength={13}
                       />
                     )}
                   />
                 </LogInContentWrap>
                 <Button
-                  width='100%'
-                  height='60px'
-                  bgcolor='#606EEA'
-                  radius={12}
-                  tcolor='#FFFFFF'
-                  minWidth={290}
-                  minHeight={45}
-                  maxHeight={60}
-                  fontSize={{ max: 18, min: 16 }}
-                  shadow='0px 19px 30px rgba(96, 110, 234, 0.35)'
+                  buttonStyle={{
+                    radius: 12,
+                    fontSize: {
+                      laptop: 17,
+                      desktop: 18,
+                      mobile: 16,
+                      planshet: 16,
+                    },
+                    shadow: '0px 19px 30px rgba(96, 110, 234, 0.35)',
+                  }}
                   type='submit'
                   disabled={disable || logRes.isLoading}
-                  margin='10px 0 0'
+                  width={{ width: '100%' }}
                 >
                   {t('next')}
                 </Button>

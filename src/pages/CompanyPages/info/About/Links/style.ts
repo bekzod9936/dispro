@@ -48,3 +48,9 @@ export const WrapSocial = styled.div`
   align-items: center;
   justify-content: space-between;
 `;
+
+export const ValueStyle = styled.div`
+  font-weight: 300;
+  font-size: 14px;
+  color: #223367;
+`;

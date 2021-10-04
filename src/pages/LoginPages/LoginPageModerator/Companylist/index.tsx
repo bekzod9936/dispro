@@ -90,6 +90,10 @@ const Companylist = () => {
                 <Img
                   src={v.company.logo === '' ? LogoDef : v.company.logo}
                   alt='Company-Logo'
+                  onError={(e: any) => {
+                    e.target.onerror = null;
+                    e.target.src = LogoDef;
+                  }}
                 />
               </Wrap>
               <Text color='#223367'>{v.company.name}</Text>

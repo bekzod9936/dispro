@@ -165,6 +165,7 @@ export const Form = styled.form`
 
 export const UpSide = styled.div`
   overflow-y: auto;
+  overflow-x: hidden;
   height: 80%;
   width: 100%;
   @media (max-width: ${device.mobile}) {
@@ -280,6 +281,7 @@ export const LabelLoading = styled.label`
   padding: 13px;
   cursor: pointer;
   margin-top: 10px;
+  user-select: none;
   @media (max-width: ${device.mobile}) {
     padding: 10px;
     font-size: 14px;

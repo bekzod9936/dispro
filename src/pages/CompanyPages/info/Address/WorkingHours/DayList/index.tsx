@@ -5,7 +5,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Popover from '../../../../../../components/Custom/Popover';
 import Input from '../../../../../../components/Custom/Input';
-import Button from '../../../../../../components/Custom/Button';
+import Button from '../../../../../../components/Custom/NButton';
 import {
   Container,
   Content,
@@ -32,19 +32,24 @@ const DayList = ({ list }: Props) => {
       <Popover
         click={
           <Button
-            tcolor='#223367'
-            weight='300'
-            fontSize={{ max: 14, min: 14 }}
-            bgcolor='rgba(96, 110, 234, 0.1)'
-            radius={14}
-            maxWidth={78}
-            width='78px'
+            buttonStyle={{
+              color: '#223367',
+              bgcolor: 'rgba(96, 110, 234, 0.1)',
+              weight: 300,
+            }}
           >
             {list?.weekday}
           </Button>
         }
-        anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-        popoverStyle={{ margin: '-60px 0 0 0' }}
+        popoverStyle={{ margin: '-20px 0 0 0' }}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+        transformOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
       >
         <Content>
           <FormControl component='fieldset'>
@@ -77,7 +82,9 @@ const DayList = ({ list }: Props) => {
                   }}
                 />
               </WrapTime>
-              <Button tcolor='#223367' bgcolor='transparent'>
+              <Button
+                buttonStyle={{ color: '#223367', bgcolor: 'transparent' }}
+              >
                 {t('breaktime')}
                 <DeleteIcon />
               </Button>

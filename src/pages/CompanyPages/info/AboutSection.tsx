@@ -274,23 +274,23 @@ const AboutSection: React.FC<IProps> = ({ currentFilial, setSection }) => {
       setError('categories', { type: 'min2', shouldFocus: true });
       return;
     }
-    await partnerApi.put('/directory/company', {
-      annotation: data.company_direction,
-      categories: data.categories || values,
-      companyId: +companyId,
-      currencyId: 1,
-      description: data.description,
-      isHalol: true,
-      isKosher: false,
-      keyWords: keywords?.join(','),
-      linkEnable: false,
-      links: [{ name: data.linkName, address: data.link, enable: true, id: 0 }],
-      logo: logo || '',
-      name: data.title,
+    // await partnerApi.put('/directory/company', {
+    //   annotation: data.company_direction,
+    //   categories: data.categories || values,
+    //   companyId: +companyId,
+    //   currencyId: 1,
+    //   description: data.description,
+    //   isHalol: true,
+    //   isKosher: false,
+    //   keyWords: keywords?.join(','),
+    //   linkEnable: false,
+    //   links: [{ name: data.linkName, address: data.link, enable: true, id: 0 }],
+    //   logo: logo || '',
+    //   name: data.title,
 
-      socialLinks: socialLinksState,
-      telNumber: data.phoneNumber,
-    });
+    //   socialLinks: socialLinksState,
+    //   telNumber: data.phoneNumber,
+    // });
     setSection('address');
   };
 

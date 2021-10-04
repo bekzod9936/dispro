@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Button from '../../../../../components/Custom/Button';
+import Button from '../../../../../components/Custom/NButton';
 import Input from '../../../../../components/Custom/Input';
 import Modal from '../../../../../components/Custom/Modal';
 import {
@@ -12,15 +12,26 @@ import {
   ModalWrap,
   CloseIcon,
   DeleteIcon,
+  ValueStyle,
 } from './style';
+
 interface Props {
   Icon?: any;
-  title?: string;
+  name?: string;
   value?: any;
+  onChange?: (e: any) => void;
 }
-const Links = ({ Icon, title, value }: Props) => {
+
+const Links = ({ Icon, name, value, onChange = () => {} }: Props) => {
   const { t } = useTranslation();
+
   const [open, setOpen] = useState(false);
+  const [inputValue, setInputValue] = useState('');
+  const [item, setItem] = useState('');
+
+  useEffect(() => {
+    setInputValue(value);
+  }, [value]);
 
   return (
     <Container>
@@ -29,16 +40,18 @@ const Links = ({ Icon, title, value }: Props) => {
           <WrapLinkIcon>
             <Icon />
           </WrapLinkIcon>
-          {title}
+          {name}
         </WrapLink>
         <Button
-          tcolor={value ? '#223367' : '#3492FF'}
-          bgcolor='transparent'
+          buttonStyle={{
+            color: value ? '#223367' : '#3492FF',
+            bgcolor: 'transparent',
+          }}
           onClick={() => setOpen(true)}
         >
-          {value ? (
+          {inputValue ? (
             <>
-              {value}
+              {<ValueStyle>{inputValue}</ValueStyle>}
               <DeleteIcon />
             </>
           ) : (
@@ -49,33 +62,43 @@ const Links = ({ Icon, title, value }: Props) => {
       <Modal onClose={(e: boolean) => setOpen(e)} open={open}>
         <ModelContent>
           <Input
-            defaultValue={value}
-            label={title}
+            defaultValue={inputValue}
+            label={name}
             type='string'
-            onChange={(e: any) => console.log(e.target.value)}
+            onChange={(e: any) => {
+              setItem(e.target.value);
+            }}
+            autoFocus={true}
           />
           <ModalWrap>
             <Button
-              tcolor='#223367'
-              bgcolor='white'
+              buttonStyle={{
+                color: '#223367',
+                bgcolor: 'white',
+                weight: '500',
+              }}
               onClick={() => setOpen(false)}
-              margin='0 30px 0 0'
-              height='50px'
-              fontSize={{ max: 17, min: 14 }}
-              weight='500'
+              margin={{
+                laptop: '0 30px 0 0',
+              }}
             >
               <CloseIcon />
               {t('cancel')}
             </Button>
             <Button
-              shadow='0px 4px 9px rgba(96, 110, 234, 0.46)'
-              radius={14}
-              minWidth={100}
-              minHeight={40}
-              maxHeight={50}
-              maxWidth={140}
-              fontSize={{ max: 17, min: 14 }}
-              weight='500'
+              buttonStyle={{
+                shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)',
+                radius: 14,
+                weight: 500,
+              }}
+              onClick={() => {
+                setOpen(false);
+                onChange({
+                  name: name,
+                  value: item === '' ? inputValue : item,
+                });
+                setInputValue(item === '' ? inputValue : item);
+              }}
             >
               {t('save')}
             </Button>

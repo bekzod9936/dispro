@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import DisIcon from '../../../../assets/icons/DisIcon';
-import Button from '../../../../components/Custom/Button';
+import Button from '../../../../components/Custom/NButton';
 import Checkbox from '@material-ui/core/Checkbox';
 import { createCompany } from '../../../../services/queries/PartnerQueries';
 import { useMutation } from 'react-query';
@@ -290,17 +290,20 @@ const Registrationpanel = () => {
               </div>
             )}
             <Button
-              width='100%'
-              height='60px'
-              bgcolor='#606EEA'
-              margin='10px 0 30px 0'
-              radius={12}
-              tcolor='#FFFFFF'
-              minWidth={290}
-              minHeight={45}
-              maxHeight={60}
-              fontSize={{ max: 18, min: 16 }}
-              shadow='0px 19px 30px rgba(96, 110, 234, 0.35)'
+              fullWidth={true}
+              buttonStyle={{
+                radius: 12,
+                fontSize: {
+                  laptop: 17,
+                  desktop: 18,
+                  mobile: 16,
+                  planshet: 16,
+                },
+                shadow: '0px 19px 30px rgba(96, 110, 234, 0.35)',
+              }}
+              margin={{
+                laptop: '10px 0 30px 0',
+              }}
               type='submit'
               disabled={disable || res.isLoading}
             >

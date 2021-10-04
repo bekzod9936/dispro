@@ -50,7 +50,6 @@ import Logo from '../../../assets/icons/SideBar/logo.png';
 const Header = () => {
   const { t } = useTranslation();
   const history = useHistory();
-
   const [open, setOpen] = useState(false);
 
   const companyInfo = useAppSelector((state) => state.partner.companyInfo);
@@ -133,6 +132,10 @@ const Header = () => {
                     src={companyInfo.logo === '' ? LogoDef : companyInfo.logo}
                     size='small'
                     alt='logo'
+                    onError={(e: any) => {
+                      e.target.onerror = null;
+                      e.target.src = LogoDef;
+                    }}
                   />
                   <WrapPop>
                     <Name fontSize={16}>{companyInfo.name}</Name>
@@ -151,6 +154,10 @@ const Header = () => {
                   src={companyInfo.logo === '' ? LogoDef : companyInfo.logo}
                   size='large'
                   alt='logo'
+                  onError={(e: any) => {
+                    e.target.onerror = null;
+                    e.target.src = LogoDef;
+                  }}
                 />
                 <Name fontSize={18}>{companyInfo.name}</Name>
                 <Type>Компания прошла подерацию</Type>

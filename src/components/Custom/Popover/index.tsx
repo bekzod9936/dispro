@@ -13,6 +13,10 @@ export interface Props {
   };
   popoverStyle?: {};
   clickStyle?: {};
+  transformOrigin?: {
+    horizontal: 'center' | 'left' | 'right' | number;
+    vertical: 'bottom' | 'center' | 'top' | number;
+  };
 }
 
 const MPopover = ({
@@ -23,6 +27,7 @@ const MPopover = ({
   anchorOrigin,
   popoverStyle,
   clickStyle,
+  transformOrigin,
 }: Props) => {
   return (
     <PopupState variant='popover' popupId='demo-popup-popover'>
@@ -40,11 +45,8 @@ const MPopover = ({
             <PopoverM
               style={popoverStyle}
               {...bindPopover(popupState)}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'center',
-              }}
               anchorOrigin={anchorOrigin}
+              transformOrigin={transformOrigin}
             >
               {children}
             </PopoverM>

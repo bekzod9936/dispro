@@ -5,6 +5,7 @@ import { ReactComponent as Save } from '../../../../assets/icons/IconsInfo/save.
 import { ReactComponent as Plus } from '../../../../assets/icons/IconsInfo/plus.svg';
 import { ReactComponent as Search } from '../../../../assets/icons/SideBar/search.svg';
 import { ReactComponent as Close } from '../../../../assets/icons/IconsInfo/close.svg';
+import { ReactComponent as Exit } from '../../../../assets/icons/IconsInfo/exit.svg';
 
 export const MapYandex = styled(Map)`
   border: 1px solid #c4c4c4;
@@ -16,6 +17,10 @@ export const MapYandex = styled(Map)`
 
 export const SaveIcon = styled(Save)`
   margin-right: 15px;
+`;
+
+export const ExitIcon = styled(Exit)`
+  margin-left: 15px;
 `;
 
 export const PlusIcon = styled(Plus)`
@@ -63,6 +68,19 @@ export const Form = styled.form`
 export const WrapHeader = styled.div`
   display: flex;
   white-space: nowrap;
+  @media (max-width: ${device.mobile}) {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto auto;
+  }
+`;
+
+export const WrapInput = styled.div`
+  display: flex;
+  width: 100%;
+  @media (max-width: ${device.mobile}) {
+    grid-row: 1/1;
+  }
 `;
 
 export const LeftSide = styled.div`
@@ -82,7 +100,7 @@ export const LeftSide = styled.div`
     border-radius: 14px 0px 0px 14px;
   }
   @media (max-width: ${device.mobile}) {
-    padding: 0 15px 30px;
+    padding: 0 15px 10px;
   }
 `;
 
@@ -125,6 +143,9 @@ export const MobileMap = styled.div`
   @media (min-width: ${device.mobile}) {
     display: none;
   }
+  @media (max-width: ${device.mobile}) {
+    height: 300px;
+  }
 `;
 
 export const WrapClose = styled.div`
@@ -132,24 +153,36 @@ export const WrapClose = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  @media (max-width: ${device.mobile}) {
+    display: none;
+  }
 `;
 
 export const WrapContent = styled.div`
   margin-top: 25px;
+
   overflow-y: auto;
   width: 100%;
-  &::-webkit-scrollbar {
-    appearance: none;
-    display: none;
+  scroll-behavior: auto;
+  &:hover {
+    ::-webkit-scrollbar-thumb {
+      background: #606eea;
+    }
   }
-  &::-webkit-scrollbar-thumb {
-    appearance: none;
-    display: none;
+  ::-webkit-scrollbar {
+    width: 7px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
   }
 
-  &::-webkit-scrollbar-track {
-    appearance: none;
-    display: none;
+  ::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 14px;
+  }
+  @media (max-width: ${device.mobile}) {
+    margin-top: 15px;
+    padding: 0 20px;
   }
 `;
 
@@ -161,8 +194,13 @@ export const AddressInfo = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 15px;
-  margin: 20px 0;
+  margin: 0 0 20px;
   width: 100%;
+  @media (max-width: ${device.mobile}) {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
 `;
 
 export const Text1 = styled.div`
@@ -206,4 +244,21 @@ export const Img = styled.img`
   top: calc(50% - 30px);
   left: calc(50% - 30px);
   z-index: 1000;
+`;
+
+export const ButtonWrap = styled.div`
+  display: none;
+  @media (max-width: ${device.mobile}) {
+    display: flex;
+  }
+`;
+
+export const ButtonsWrap = styled.div`
+  display: flex;
+  @media (max-width: ${device.mobile}) {
+    align-items: center;
+    justify-content: center;
+    border-top: 1px solid rgba(96, 110, 234, 0.3);
+    margin-top: 20px;
+  }
 `;

@@ -29,7 +29,7 @@ import {
   LeftBack,
 } from '../../../../assets/icons/LoginPage/LoginPageIcons';
 import logo from '../../../../assets/icons/logo_mobile.svg';
-import Button from '../../../../components/Custom/Button';
+import Button from '../../../../components/Custom/NButton';
 import LangSelect from '../../../../components/LangSelect';
 
 const TestLoginpage = ({ children }: any) => {
@@ -103,14 +103,13 @@ const TestLoginpage = ({ children }: any) => {
                 </WButton>
                 <WrapButton>
                   <Button
-                    fontSize={{ max: 18 }}
-                    tcolor='#223367'
-                    weight='500'
-                    radius='70px 14px 14px 14px'
-                    bgcolor='rgba(96, 110, 234, 0.1)'
-                    width='130px'
-                    height='45px'
                     onClick={handleBack}
+                    buttonStyle={{
+                      color: '#223367',
+                      radius: '70px 14px 14px 14px',
+                      weight: 500,
+                      bgcolor: 'rgba(96, 110, 234, 0.1)',
+                    }}
                   >
                     <Left /> {t('back')}
                   </Button>

@@ -25,7 +25,7 @@ export const Container = styled.div`
 `;
 
 export const MainWrap = styled.div`
-  width: 60%;
+  width: 65%;
   height: 95%;
   min-width: 290px;
   max-height: 550px;

@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { Map } from 'react-yandex-maps';
 import { device } from '../../../styles/device';
 import { ReactComponent as LogWhite } from '../../../assets/icons/SideBar/logoutwhite.svg';
 import { ReactComponent as Close } from '../../../assets/icons/SideBar/close.svg';
@@ -21,6 +20,10 @@ interface TProps {
     laptop?: number;
     desktop?: number;
   };
+}
+
+interface CProps {
+  bgcolor?: string;
 }
 
 export const Title = styled.div`
@@ -69,8 +72,8 @@ export const Container = styled.div`
     padding: 30px 50px 0 35px;
   }
   @media (max-width: ${device.mobile}) {
-    padding: 0;
-    background-color: white;
+    padding: 15px 0 0;
+    background-color: ${({ bgcolor }: CProps) => bgcolor};
   }
 `;
 
@@ -141,4 +144,3 @@ export const WrapButton = styled.div`
     display: ${({ mobile }: ButtonProps) => (mobile ? 'inline-block' : 'none')};
   }
 `;
-

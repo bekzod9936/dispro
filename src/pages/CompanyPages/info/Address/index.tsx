@@ -11,7 +11,7 @@ import {
 import { Title, Text } from '../style';
 import { Controller, useForm } from 'react-hook-form';
 import Input from '../../../../components/Custom/Input';
-import Button from '../../../../components/Custom/Button';
+import Button from '../../../../components/Custom/NButton';
 import Spinner from '../../../../components/Custom/Spinner';
 import {
   Container,
@@ -36,6 +36,10 @@ import {
   Number,
   AddWrap,
   Img,
+  WrapInput,
+  ExitIcon,
+  ButtonWrap,
+  ButtonsWrap,
 } from './style';
 import { Checkbox, IconButton } from '@material-ui/core';
 import WorkingHours from './WorkingHours';
@@ -44,6 +48,11 @@ import { useQuery } from 'react-query';
 import { IAddress } from '../../../../services/models/address_model';
 import location from '../../../../assets/icons/IconsInfo/location.png';
 import YandexMap from './YandexMap';
+import {
+  useAppSelector,
+  useAppDispatch,
+} from '../../../../services/redux/hooks';
+import { setAddressAdd } from '../../../../services/redux/Slices/infoSlice';
 
 interface FormProps {
   address?: string;
@@ -56,7 +65,9 @@ interface FormProps {
 const Address = () => {
   const { t } = useTranslation();
   const [coords, setCoords] = useState([]);
-  const [open, setOpen] = useState(true);
+  const infoPageSlice = useAppSelector((state) => state.infoSlice.addressAdd);
+  const dispatch = useAppDispatch();
+  const [open, setOpen] = useState(infoPageSlice);
   const comId: any = localStorage.getItem('companyId');
 
   const { data, isLoading } = useQuery(
@@ -99,27 +110,38 @@ const Address = () => {
           <AddWrap>
             <WrapHeader>
               <Button
-                bgcolor='white'
-                tcolor='#223367'
-                weight='500'
-                shadow='0px 4px 4px rgba(0, 0, 0, 0.04)'
-                radius={14}
-                fontSize={{ min: 14, max: 18 }}
-                maxWidth={250}
-                width='250px'
-                minHeight={40}
-                maxHeight={60}
-                onClick={() => setOpen(false)}
+                buttonStyle={{
+                  bgcolor: 'white',
+                  color: '#223367',
+                  weight: 500,
+                  shadow: '0px 4px 4px rgba(0, 0, 0, 0.04)',
+                  height: {
+                    mobile: 45,
+                    planshet: 45,
+                    laptop: 50,
+                    desktop: 60,
+                  },
+                }}
+                margin={{
+                  mobile: '15px 0 0 20px',
+                }}
+                onClick={() => {
+                  setOpen(false);
+                  dispatch(setAddressAdd(false));
+                }}
               >
                 <PlusIcon />
                 {t('addFilial')}
               </Button>
-              <Input
-                inputStyle={{ inpadding: '0 10px', border: 'none' }}
-                placeholder={t('searchbarnches')}
-                IconStart={<SearchIcon />}
-                margin={{ laptop: '0 20px 0 20px' }}
-              />
+              <WrapInput>
+                <Input
+                  inputStyle={{ inpadding: '0 10px', border: 'none' }}
+                  placeholder={t('searchbarnches')}
+                  IconStart={<SearchIcon />}
+                  margin={{ laptop: '0 0 0 20px', mobile: '0 20px' }}
+                  fullWidth={true}
+                />
+              </WrapInput>
             </WrapHeader>
             <WrapContent>
               {isLoading ? (
@@ -139,28 +161,25 @@ const Address = () => {
                   </AddressInfo>
                 ))
               )}
+              <MobileMap>
+                <YandexContainer>
+                  <YandexMap />
+                </YandexContainer>
+              </MobileMap>
             </WrapContent>
           </AddWrap>
-          {/* <MobileMap>
-            <YandexContainer>
-              <YMaps>
-                <MapYandex
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                  }}
-                  defaultState={{ center: [41.311081, 69.240562], zoom: 10 }}
-                />
-              </YMaps>
-            </YandexContainer>
-          </MobileMap> */}
         </>
       ) : (
         <Form>
           {open ? null : (
             <WrapClose>
               <Title>{t('newbranch')}</Title>
-              <IconButton onClick={() => setOpen(true)}>
+              <IconButton
+                onClick={() => {
+                  setOpen(true);
+                  dispatch(setAddressAdd(true));
+                }}
+              >
                 <CloseIcon />
               </IconButton>
             </WrapClose>
@@ -186,19 +205,11 @@ const Address = () => {
                 />
               )}
             />
-            {/* <MobileMap>
+            <MobileMap>
               <YandexContainer>
-                <YMaps>
-                  <MapYandex
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                    }}
-                    defaultState={{ center: [41.311081, 69.240562], zoom: 10 }}
-                  />
-                </YMaps>
+                <YandexMap />
               </YandexContainer>
-            </MobileMap> */}
+            </MobileMap>
             <Title>{t('addressClarification')}</Title>
             <Text>{t('enterOrientationText')}</Text>
             <Controller
@@ -257,7 +268,12 @@ const Address = () => {
                 />
               )}
             />
-            <Button tcolor='#3492FF' bgcolor='transparent'>
+            <Button
+              buttonStyle={{
+                color: '#3492FF',
+                bgcolor: 'transparent',
+              }}
+            >
               {t('addPhoneNumber')}
             </Button>
             <Title>{t('workingHours')}</Title>
@@ -271,20 +287,43 @@ const Address = () => {
             />
             <Label htmlFor='aroundTheClock'>{t('24/7')}</Label>
             <WorkingHours />
-            <Button
-              shadow='0px 4px 9px rgba(96, 110, 234, 0.46)'
-              radius={14}
-              minWidth={100}
-              minHeight={40}
-              maxHeight={50}
-              maxWidth={140}
-              fontSize={{ max: 17, min: 14 }}
-              weight='500'
-              margin='20px 0 0'
-            >
-              <SaveIcon />
-              {t('save')}
-            </Button>
+            <ButtonsWrap>
+              <ButtonWrap>
+                <Button
+                  buttonStyle={{
+                    bgcolor: 'rgba(96, 110, 234, 0.1)',
+                    weight: '500',
+                    radius: 12,
+                    color: '#606EEA',
+                  }}
+                  margin={{
+                    laptop: '20px 10px 0',
+                    mobile: '10px 10px 0 0',
+                  }}
+                  onClick={() => {
+                    setOpen(true);
+                    dispatch(setAddressAdd(true));
+                  }}
+                >
+                  {t('quit')}
+                  <ExitIcon />
+                </Button>
+              </ButtonWrap>
+
+              <Button
+                buttonStyle={{
+                  shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)',
+                  weight: '500',
+                }}
+                margin={{
+                  laptop: '20px 0 0',
+                  mobile: '10px 0 0 0',
+                }}
+              >
+                <SaveIcon />
+                {t('save')}
+              </Button>
+            </ButtonsWrap>
           </LeftSide>
         </Form>
       )}

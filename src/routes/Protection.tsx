@@ -17,9 +17,6 @@ const prefix = '../pages/AdminDashBoard';
 //Lazy loaded components
 //Admin
 
-const LoginPageModerator = lazy(
-  () => import('../pages/LoginPages/LoginPageModerator/LoginPageModerator')
-);
 //const DefaultLayoutAdmin = lazy(() => import("../components/Layout/DefaultLayoutAdmin"))
 const Companies = lazy(
   () => import('../pages/AdminDashBoard/AdminCompanies/AdminCompanies')

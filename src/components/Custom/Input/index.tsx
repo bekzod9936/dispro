@@ -77,6 +77,8 @@ export interface Props {
     laptop?: string;
     desktop?: string;
   };
+  maxLength?: number;
+  minLength?: number;
 }
 
 const NInput = ({ onChange = () => {}, ...props }: Props) => {
@@ -95,6 +97,10 @@ const NInput = ({ onChange = () => {}, ...props }: Props) => {
         </Label>
       ) : null}
       <MInput
+        inputProps={{
+          maxLength: props.maxLength,
+          minLength: props.minLength,
+        }}
         autoComplete={props.autoComplete}
         autoFocus={props.autoFocus}
         defaultValue={props.defaultValue}

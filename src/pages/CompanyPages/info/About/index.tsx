@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import Input from '../../../../components/Custom/Input';
-import Button from '../../../../components/Custom/Button';
+import Button from '../../../../components/Custom/NButton';
 import Links from './Links';
 import {
   Container,
@@ -49,16 +49,20 @@ import Spinner from '../../../../components/Custom/Spinner';
 import Resizer from 'react-image-file-resizer';
 import { Text, Title } from '../style';
 import MultiSelect from '../../../../components/Custom/MultiSelect';
+import LogoDef from '../../../../assets/icons/SideBar/logodefault.png';
+import partnerApi from '../../../../services/interceptors/companyInterceptor';
 
 interface FormProps {
-  phoneNumber?: string;
+  telNumber?: string;
   companyLink?: string;
   link?: string;
-  title?: string;
-  direction?: string;
+  name?: string;
+  annotation?: string;
   keywords?: string;
   description?: string;
   categories?: any[];
+  socialLinks?: { name?: string; value?: string }[];
+  logo?: string;
 }
 
 interface optionProps {
@@ -66,25 +70,116 @@ interface optionProps {
   values?: any[];
 }
 
+interface socialProps {
+  name?: string;
+  value?: any;
+}
+
 const Main = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const [open, setOpen] = useState(false);
-  const [logo, setLogo] = useState('');
   const [options, setOptions] = useState<optionProps>({
     option: [],
     values: [],
   });
 
   const [categories, setCategories] = useState([]);
-
-  useEffect(() => {
-    setValue('categories', options.values);
-  }, [options.values]);
+  const [social, setSocial]: any = useState([
+    {
+      Icon: FIcon,
+      name: 'Facebook',
+      value: '',
+    },
+    {
+      Icon: IIcon,
+      name: 'Instagram',
+      value: '',
+    },
+    {
+      Icon: TIcon,
+      name: 'Telegram',
+      value: '',
+    },
+    {
+      Icon: TWIcon,
+      name: 'Twitter',
+      value: '',
+    },
+    {
+      Icon: VKIcon,
+      name: 'Vkontakte',
+      value: '',
+    },
+    {
+      Icon: WTIcon,
+      name: 'WhatsApp',
+      value: '',
+    },
+    {
+      Icon: VIcon,
+      name: 'Viber',
+      value: '',
+    },
+  ]);
 
   const companyInfo = useAppSelector((state) => state.partner.companyInfo);
-  const [links, setLinks] = useState(companyInfo?.socialLinks);
+  const [links, setLinks] = useState([
+    {
+      name: 'Facebook',
+      value: '',
+    },
+    {
+      name: 'Instagram',
+      value: '',
+    },
+    {
+      name: 'Telegram',
+      value: '',
+    },
+    {
+      name: 'Twitter',
+      value: '',
+    },
+    {
+      name: 'Vkontakte',
+      value: '',
+    },
+    {
+      name: 'WhatsApp',
+      value: '',
+    },
+    {
+      name: 'Viber',
+      value: '',
+    },
+  ]);
+  const [logo, setLogo] = useState(companyInfo.logo);
   let companyId: any = localStorage.getItem('companyId');
+
+  useEffect(() => {
+    const newLinks = links.map((v: any) => {
+      const link = companyInfo?.socialLinks?.find(
+        (i: any) => i.name === v.name
+      );
+      return {
+        name: v.name,
+        value: link?.value || '',
+      };
+    });
+    const newSocial = social.map((v: any) => {
+      const link = companyInfo?.socialLinks?.find(
+        (i: any) => i.name === v.name
+      );
+      return {
+        ...v,
+        value: link?.value || '',
+      };
+    });
+    setLinks(newLinks);
+    setSocial(newSocial);
+    setValue('socialLinks', newLinks);
+  }, [companyInfo?.socialLinks]);
 
   const {
     control,
@@ -112,43 +207,13 @@ const Main = () => {
     return () => subscription.unsubscribe();
   }, [watch(['categories'])]);
 
-  const SocilaLinks = [
-    {
-      Icon: FIcon,
-      title: 'Facebook',
-      value: links[3]?.value,
-    },
-    {
-      Icon: IIcon,
-      title: 'Instagram',
-      value: links[2]?.value,
-    },
-    {
-      Icon: TIcon,
-      title: 'Telegram',
-      value: links[0]?.value,
-    },
-    {
-      Icon: TWIcon,
-      title: 'Twitter',
-      value: links[1]?.value,
-    },
-    {
-      Icon: VKIcon,
-      title: ' VKontakte',
-      value: links[6]?.value,
-    },
-    {
-      Icon: WTIcon,
-      title: 'WhatsApp',
-      value: links[4]?.value,
-    },
-    {
-      Icon: VIcon,
-      title: 'Viber',
-      value: links[5]?.value,
-    },
-  ];
+  useEffect(() => {
+    setValue('categories', options.values);
+  }, [options.values]);
+
+  useEffect(() => {
+    setValue('logo', logo);
+  }, [logo]);
 
   const photoDelete = useMutation(() => {
     setLogo('');
@@ -194,23 +259,68 @@ const Main = () => {
     });
 
   const formData = new FormData();
-  const photoUpLoad = useMutation((v: any) => uploadPhoto({ body: v }));
+  const photoUpLoad = useMutation((v: any) => uploadPhoto({ body: v }), {
+    retry: 1,
+  });
 
   const handleUpload = async (e: any) => {
     const file = e.target.files[0];
     const image = await resizeFile(file);
-    const newFile = dataURIToBlob(image);
+    const newFile = await dataURIToBlob(image);
 
     await formData.append('itemId', companyId);
     await formData.append('fileType', 'companyLogo');
     await formData.append('file', newFile, 'logo.png');
     await photoUpLoad.mutate(formData, {
-      onSuccess: (data) => setLogo(data?.data?.data?.link),
+      onSuccess: (data) => {
+        setLogo(data?.data?.data?.link);
+      },
+      onError: (error) => console.log(error),
     });
   };
+  const infoSubData = useMutation((v: any) =>
+    partnerApi.put('/directory/company', v, {
+      headers: {
+        authorization: `Bearer ${localStorage.getItem('companyToken')}`,
+      },
+    })
+  );
 
-  const handleInfoSubmit = (e: any) => {
-    console.log(e, 'dddd');
+  const handleInfoSubmit = (v: any) => {
+    const category = v.categories.map((v: any) => v.value);
+    infoSubData.mutate(
+      {
+        annotation: v?.annotation,
+        categories: category,
+        companyId: +companyId,
+        currencyId: 1,
+        description: v?.description,
+        isHalol: true,
+        isKosher: false,
+        keyWords: v?.keywords,
+        linkEnable: false,
+        links: [],
+        logo: v?.logo,
+        name: v?.name,
+        socialLinks: v?.socialLinks,
+        telNumber: v?.telNumber,
+      },
+      {
+        onSuccess: (data) => console.log(data, 'data'),
+      }
+    );
+  };
+
+  const handleSocialChange = ({ name, value }: socialProps) => {
+    const newLinks = links?.map((v: any) => {
+      const a = name === v?.name ? true : false;
+      return {
+        ...v,
+        value: a ? value : v?.value,
+      };
+    });
+    setLinks(newLinks);
+    setValue('socialLinks', newLinks);
   };
 
   const response = useQuery(['categories'], fetchCategories, {
@@ -239,32 +349,35 @@ const Main = () => {
       }
     },
   });
-
+  if (infoSubData.isLoading) {
+    return <Spinner />;
+  }
   return (
-    <Form>
+    <Form onSubmit={handleSubmit(handleInfoSubmit)}>
       <UpSide>
-        <Container id='submit-info' onSubmit={handleSubmit(handleInfoSubmit)}>
+        <Container>
           <LeftSide>
             <WrapHeader>
               <Title>{t('logo')}</Title>
               <WrapLoading>
-                {companyInfo.logo ? null : (
+                {logo ? null : (
                   <Text weight='normal' color='#C4C4C4'>
                     {t('logo_text')}
                   </Text>
                 )}
+
                 <input
                   accept='image/*'
                   style={{ display: 'none' }}
-                  id='photoloading'
+                  id='logo1'
                   type='file'
                   onChange={handleUpload}
                 />
-                {companyInfo.logo || logo ? (
+                {logo ? (
                   photoDelete.isLoading ? (
                     <Spinner />
                   ) : photoDelete.isSuccess && logo === '' ? (
-                    <LabelLoading htmlFor='photoloading'>
+                    <LabelLoading htmlFor='logo1'>
                       {t('upload_photo')} <PhotoLoadingIcon />
                     </LabelLoading>
                   ) : (
@@ -272,7 +385,10 @@ const Main = () => {
                       <Img
                         src={logo !== '' ? logo : companyInfo.logo}
                         alt='logo'
-                        onLoad={(e) => console.log(e)}
+                        onError={(e: any) => {
+                          e.target.onerror = null;
+                          e.target.src = LogoDef;
+                        }}
                       />
                       <WrapTrash>
                         <TrashIcon />
@@ -280,21 +396,21 @@ const Main = () => {
                     </PhotoWrap>
                   )
                 ) : (
-                  <LabelLoading htmlFor='photoloading'>
+                  <LabelLoading htmlFor='logo1'>
                     {t('upload_photo')} <PhotoLoadingIcon />
                   </LabelLoading>
                 )}
               </WrapLoading>
             </WrapHeader>
             <Controller
-              name='title'
+              name='name'
               control={control}
               rules={{ required: true }}
               defaultValue={companyInfo.name}
               render={({ field }) => (
                 <Input
                   label={t('title')}
-                  error={errors.title ? true : false}
+                  error={errors.name ? true : false}
                   message={t('requiredField')}
                   type='string'
                   field={field}
@@ -305,14 +421,14 @@ const Main = () => {
               )}
             />
             <Controller
-              name='direction'
+              name='annotation'
               control={control}
               rules={{ required: true }}
               defaultValue={companyInfo.annotation}
               render={({ field }) => (
                 <Input
                   label={t('company_direction')}
-                  error={errors.direction ? true : false}
+                  error={errors.annotation ? true : false}
                   message={t('requiredField')}
                   type='string'
                   field={field}
@@ -366,10 +482,10 @@ const Main = () => {
                   isMulti={true}
                   label={t('chose_categories')}
                   margin={{
-                    laptop: '20px 0',
+                    laptop: '20px 0 25px',
                   }}
                   message={t('requiredField')}
-                  error={errors.keywords ? true : false}
+                  error={errors.categories ? true : false}
                   field={field}
                   isClearable={false}
                 />
@@ -403,14 +519,14 @@ const Main = () => {
             <Title>{t('phone')}</Title>
             <Text>{t('maincompanynumber')}</Text>
             <Controller
-              name='phoneNumber'
+              name='telNumber'
               control={control}
               rules={{ required: true, maxLength: 13, minLength: 13 }}
               defaultValue={companyInfo.telNumber}
               render={({ field }) => (
                 <Input
                   label={t('phoneNumber')}
-                  error={errors.phoneNumber ? true : false}
+                  error={errors.telNumber ? true : false}
                   message={t('requiredField')}
                   type='tel'
                   field={field}
@@ -425,13 +541,11 @@ const Main = () => {
             <Controller
               name='companyLink'
               control={control}
-              rules={{ required: true }}
+              rules={{ required: false }}
               defaultValue=''
               render={({ field }) => (
                 <Input
                   label={t('linkName')}
-                  error={errors.companyLink ? true : false}
-                  message={t('requiredField')}
                   type='string'
                   field={field}
                   margin={{
@@ -443,13 +557,11 @@ const Main = () => {
             <Controller
               name='link'
               control={control}
-              rules={{ required: true }}
+              rules={{ required: false }}
               defaultValue=''
               render={({ field }) => (
                 <Input
                   label={t('link')}
-                  error={errors.link ? true : false}
-                  message={t('requiredField')}
                   type='string'
                   field={field}
                   margin={{
@@ -460,8 +572,8 @@ const Main = () => {
             />
             <Title>{t('socialLinks')}</Title>
             <div style={{ display: 'block' }}>
-              {SocilaLinks.map((v) => (
-                <Links {...v} />
+              {social?.map((v: any) => (
+                <Links key={v.name} {...v} onChange={handleSocialChange} />
               ))}
             </div>
           </RightSide>
@@ -471,28 +583,30 @@ const Main = () => {
         <div>
           <WrapButton mobile={true}>
             <Button
-              tcolor='#606EEA'
-              bgcolor='rgba(96, 110, 234, 0.1)'
               onClick={() => setOpen(true)}
-              weight='500'
-              margin='0 10px 0 0'
-              form='submit-info'
               type='submit'
+              buttonStyle={{
+                color: '#606EEA',
+                bgcolor: 'rgba(96, 110, 234, 0.1)',
+                weight: 500,
+              }}
+              margin={{
+                laptop: '10px 10px 0 0',
+              }}
             >
               {t('logout')}
               <CloseIcon mobile={true} />
             </Button>
           </WrapButton>
           <Button
-            shadow='0px 4px 9px rgba(96, 110, 234, 0.46)'
-            radius={14}
-            minWidth={100}
-            minHeight={40}
-            maxHeight={50}
-            maxWidth={140}
-            fontSize={{ max: 17, min: 14 }}
-            weight='500'
-            margin='20px 0 20px 0'
+            type='submit'
+            buttonStyle={{
+              shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)',
+              weight: 500,
+            }}
+            margin={{
+              laptop: '10px 0 0',
+            }}
           >
             <SaveIcon />
             {t('save')}

@@ -29,7 +29,7 @@ const PrivateRoute: React.FC<IProps> = ({ Layout, Component, ...rest }) => {
           <Redirect to='/' />
         );
       }}
-    ></Route>
+    />
   );
 };
 
