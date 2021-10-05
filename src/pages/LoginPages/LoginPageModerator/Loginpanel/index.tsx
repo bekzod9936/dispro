@@ -408,6 +408,12 @@ export const LoginPanel = () => {
                       planshet: 16,
                     },
                     shadow: '0px 19px 30px rgba(96, 110, 234, 0.35)',
+                    height: {
+                      mobile: 45,
+                      planshet: 45,
+                      laptop: 50,
+                      desktop: 60,
+                    },
                   }}
                   type='submit'
                   disabled={disable || logRes.isLoading}

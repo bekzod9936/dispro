@@ -1,26 +1,28 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   YMaps,
   ZoomControl,
   GeolocationControl,
-  SearchControl,
   Placemark,
   Map,
 } from 'react-yandex-maps';
-
-const YandexMap = () => {
-  const [coords, setCoords] = useState([]);
+interface Props {
+  onBoundsChange?: any;
+  handleRef?: (e: any) => void;
+  place?: any;
+  onClick?: (e: any) => void;
+}
+const YandexMap = ({
+  onBoundsChange,
+  handleRef = () => {},
+  place,
+  onClick = () => {},
+}: Props) => {
+  const defaultToshkentAddress = [41.32847446609404, 69.24298268717716];
 
   const handleOnClick = (e: any) => {
-    const coords = e.get('coords');
-    const place = e.get('name');
-    console.log(e.get('coords'));
-    setCoords(coords);
+    onClick(e);
   };
-
-  // const handleLoad = (ymaps: any) => {
-  //   const suggestView = new ymaps.SuggestView('maplocation');
-  // };
   return (
     <YMaps
       query={{
@@ -33,15 +35,23 @@ const YandexMap = () => {
           width: '100%',
           height: '100%',
         }}
-        defaultState={{ center: [41.311081, 69.240562], zoom: 11 }}
+        defaultState={{
+          center: defaultToshkentAddress,
+          zoom: 11,
+        }}
+        instanceRef={(ref: any) => handleRef(ref)}
+        onBoundsChange={onBoundsChange}
         onClick={handleOnClick}
-        // modules={['SuggestView']}
-        // onLoad={handleLoad}
+        onLoad={(ymaps: any) => console.log(ymaps)}
       >
-        {coords ? <Placemark geometry={coords} /> : null}
+        {place?.length !== 0 ? (
+          <Placemark
+            geometry={place}
+            properties={{ balloonContentBody: 'Test 6' }}
+          />
+        ) : null}
         <ZoomControl options={{ float: 'right' }} />
         <GeolocationControl />
-        <SearchControl options={{ noPlacemark: true }} />
       </Map>
     </YMaps>
   );

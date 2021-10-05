@@ -26,11 +26,11 @@ export const Container = styled.div`
 
 export const MainWrap = styled.div`
   width: 65%;
-  height: 95%;
+  height: 80%;
   min-width: 290px;
   max-height: 550px;
   min-width: fit-content;
-  min-height: 500px;
+  min-height: 470px;
   background: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
   border-radius: 14px;
@@ -39,6 +39,10 @@ export const MainWrap = styled.div`
   @media (max-width: ${device.mobile}) {
     box-shadow: none;
     width: 100%;
+  }
+  @media (min-width: ${device.laptop}) {
+    height: 95%;
+    min-height: 500px;
   }
 `;
 

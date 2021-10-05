@@ -179,7 +179,6 @@ export const WrapList = styled.div`
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    margin-top: 50px;
   }
   @media (min-width: ${device.laptop}) {
     & > ul:first-child {

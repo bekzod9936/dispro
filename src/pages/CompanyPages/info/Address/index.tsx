@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   YMaps,
@@ -40,6 +40,9 @@ import {
   ExitIcon,
   ButtonWrap,
   ButtonsWrap,
+  Ul,
+  Li,
+  WrapAddress,
 } from './style';
 import { Checkbox, IconButton } from '@material-ui/core';
 import WorkingHours from './WorkingHours';
@@ -53,6 +56,7 @@ import {
   useAppDispatch,
 } from '../../../../services/redux/hooks';
 import { setAddressAdd } from '../../../../services/redux/Slices/infoSlice';
+import axios from 'axios';
 
 interface FormProps {
   address?: string;
@@ -65,9 +69,20 @@ interface FormProps {
 const Address = () => {
   const { t } = useTranslation();
   const [coords, setCoords] = useState([]);
+  const [yandexRef, setYandexRef] = useState<any>(null);
+  const [searchAddressList, setSearchaddressList] = useState([]);
+  const [searchAddress, setSearchAddress] = useState('');
+  const [isSearchInputFocus, setIsSearchInputFocus] = useState(false);
+
   const infoPageSlice = useAppSelector((state) => state.infoSlice.addressAdd);
   const dispatch = useAppDispatch();
   const [open, setOpen] = useState(infoPageSlice);
+  const [fillial, setFillial] = useState<IAddress[]>([]);
+  const [searchRes, setSearchRes] = useState<IAddress[]>([]);
+  const [searchFocus, setSearchFocus] = useState<boolean>(false);
+  const [inpuSearch, setInpuSearch] = useState<string>('');
+  const [place, setPlace] = useState<any[]>([]);
+
   const comId: any = localStorage.getItem('companyId');
 
   const { data, isLoading } = useQuery(
@@ -80,7 +95,74 @@ const Address = () => {
     }
   );
 
-  const addresses: IAddress[] = data?.data?.data;
+  const fetchYandexAddressSearch = (searchName: any) => {
+    axios
+      .get(
+        `https://geocode-maps.yandex.ru/1.x?apikey=6f33a62b-bf0f-4218-9613-374e77d830ab&lang=en_US&format=json&geocode=${searchName}`
+      )
+      .then((res) => {
+        setSearchaddressList(
+          res.data.response.GeoObjectCollection.featureMember.slice(0)
+        );
+      });
+  };
+
+  useEffect(() => {
+    fetchYandexAddressSearch(searchAddress);
+  }, [searchAddress]);
+
+  const [mapAddress, setMapAddress] = useState(() => {
+    let mapData: any = localStorage.getItem('map');
+    if (mapData) {
+      mapData = JSON.parse(mapData);
+      return {
+        name: mapData?.name,
+      };
+    } else
+      return {
+        name: '',
+      };
+  });
+
+  const fetchYandexAddressName = (lat: any, lon: any) => {
+    axios
+      .get(
+        `https://geocode-maps.yandex.ru/1.x?apikey=6f33a62b-bf0f-4218-9613-374e77d830ab&lang=en_US&format=json&geocode=${lat},${lon}`
+      )
+      .then((res) => {
+        setMapAddress({
+          ...mapAddress,
+          name: res.data.response.GeoObjectCollection.featureMember[0].GeoObject
+            .name,
+        });
+      });
+  };
+
+  const onClickMap = (e: any) => {
+    const coords = e.get('coords');
+    console.log(e);
+    if (place?.length !== 0) {
+      setPlace(coords);
+      fetchYandexAddressName(coords[0], coords[1]);
+    }
+  };
+
+  const onBoundsChange = (e: any) => {
+    const latAndlot = e.get('target').getCenter();
+    fetchYandexAddressName(latAndlot[1], latAndlot[0]);
+  };
+
+  const searchSelectedAddress = (item: any) => {
+    setSearchAddress(item.GeoObject.name);
+    const coordinates = item.GeoObject.Point.pos.split(' ');
+    yandexRef?.setCenter([coordinates[1], coordinates[0]], 18);
+    setIsSearchInputFocus(false);
+  };
+
+  useEffect(() => {
+    setFillial(data?.data?.data);
+  }, [data]);
+
   const {
     control,
     handleSubmit,
@@ -94,14 +176,24 @@ const Address = () => {
     mode: 'onBlur',
     shouldFocusError: true,
   });
-  // const handleOnClick = (e: any) => {
-  //   const coords = e.get('coords');
-  //   setCoords(coords);
-  // };
 
-  // const handleLoad = (ymaps: any) => {
-  //   const suggestView = new ymaps.SuggestView('maplocation');
-  // };
+  const handleSearch = (e: any) => {
+    setInpuSearch(e.target.value);
+
+    const searchResult = fillial.filter((v: any) => {
+      return (
+        v.address.toLowerCase().includes(e.target.value?.toLowerCase()) ||
+        v.addressDesc.toLowerCase().includes(e.target.value?.toLowerCase()) ||
+        v.name.toLowerCase().includes(e.target.value?.toLowerCase())
+      );
+    });
+    setSearchRes(searchResult);
+  };
+
+  const handleChoosFillial = (v: any) => {
+    setPlace([v?.location.lat, v?.location.lng]);
+    yandexRef?.setCenter([v?.location.lat, v?.location.lng], 18);
+  };
 
   return (
     <Container>
@@ -140,15 +232,38 @@ const Address = () => {
                   IconStart={<SearchIcon />}
                   margin={{ laptop: '0 0 0 20px', mobile: '0 20px' }}
                   fullWidth={true}
+                  onChange={handleSearch}
+                  type='search'
+                  onFocus={() => setSearchFocus(true)}
+                  onBlur={() =>
+                    inpuSearch === '' ? setSearchFocus(false) : null
+                  }
+                  value={inpuSearch}
                 />
               </WrapInput>
             </WrapHeader>
             <WrapContent>
               {isLoading ? (
                 <Spinner />
+              ) : searchRes.length === 0 ||
+                !searchFocus ||
+                inpuSearch === '' ? (
+                fillial?.map((v: IAddress) => (
+                  <AddressInfo onClick={() => handleChoosFillial(v)}>
+                    <Left>
+                      <Title>{t('addresscompany')}</Title>
+                      <Text1>{v.address}</Text1>
+                    </Left>
+                    <Right>
+                      {v.telNumbers.map((n: any) => (
+                        <Number>{n}</Number>
+                      ))}
+                    </Right>
+                  </AddressInfo>
+                ))
               ) : (
-                addresses?.map((v: IAddress) => (
-                  <AddressInfo>
+                searchRes?.map((v: IAddress) => (
+                  <AddressInfo onClick={() => handleChoosFillial(v)}>
                     <Left>
                       <Title>{t('addresscompany')}</Title>
                       <Text1>{v.address}</Text1>
@@ -187,24 +302,33 @@ const Address = () => {
           <LeftSide>
             <Title>{t('Address')}</Title>
             <Text>{t('enterLocationText')}</Text>
-            <Controller
-              name='address'
-              control={control}
-              rules={{ required: true }}
-              defaultValue=''
-              render={({ field }) => (
-                <Input
-                  label={t('enterLocation')}
-                  error={errors.address ? true : false}
-                  message={t('requiredField')}
-                  type='string'
-                  field={field}
-                  margin={{
-                    laptop: '20px 0 25px',
-                  }}
-                />
-              )}
-            />
+            <WrapAddress>
+              <Input
+                label={t('enterLocation')}
+                margin={{
+                  laptop: '20px 0 25px',
+                }}
+                onChange={(e) => {
+                  if (!e.target.value) setSearchaddressList([]);
+                  setSearchAddress(e.target.value);
+                }}
+                onFocus={() => setIsSearchInputFocus(true)}
+                value={searchAddress}
+                autoComplete='off'
+                type='search'
+              />
+              <Ul
+                visable={searchAddressList.length !== 0 && isSearchInputFocus}
+              >
+                {searchAddressList?.map((v: any) => (
+                  <Li onClick={() => searchSelectedAddress(v)}>
+                    {v?.GeoObject.name}
+                  </Li>
+                ))}
+              </Ul>
+              <Title>{t('selectedaddress')}</Title>
+              <Text></Text>
+            </WrapAddress>
             <MobileMap>
               <YandexContainer>
                 <YandexMap />
@@ -329,18 +453,13 @@ const Address = () => {
       )}
 
       <Rightside>
-        {/* <div className='ymaps-2-1-79-search__layout'>
-          <input
-            type='text'
-            onChange={(e: any) => console.log(e.target.value)}
-            id='maplocation'
-            className='ymaps-2-1-79-searchbox-input__input'
-          />
-          <button className='ymaps-2-1-79-searchbox-button-text'>sss</button>
-        </div> */}
-
         <YandexContainer>
-          <YandexMap />
+          <YandexMap
+            onBoundsChange={onBoundsChange}
+            handleRef={(e: any) => setYandexRef(e)}
+            place={place}
+            onClick={onClickMap}
+          />
         </YandexContainer>
       </Rightside>
     </Container>

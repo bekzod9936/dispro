@@ -7,6 +7,34 @@ import { ReactComponent as Search } from '../../../../assets/icons/SideBar/searc
 import { ReactComponent as Close } from '../../../../assets/icons/IconsInfo/close.svg';
 import { ReactComponent as Exit } from '../../../../assets/icons/IconsInfo/exit.svg';
 
+interface Props {
+  visable?: boolean;
+}
+
+export const Ul = styled.ul`
+  background-color: white;
+  position: absolute;
+  top: 100%;
+  z-index: 99;
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid lightgray;
+  display: ${({ visable }: Props) => (visable ? 'block' : 'none')};
+`;
+
+export const Li = styled.li`
+  list-style: none;
+  cursor: pointer;
+  font-weight: normal;
+  font-size: 16px;
+  color: #223367;
+  padding: 5px 0 5px 20px;
+
+  :hover {
+    background-color: rgba(96, 110, 234, 0.1);
+  }
+`;
+
 export const MapYandex = styled(Map)`
   border: 1px solid #c4c4c4;
   box-sizing: border-box;
@@ -78,9 +106,15 @@ export const WrapHeader = styled.div`
 export const WrapInput = styled.div`
   display: flex;
   width: 100%;
+
   @media (max-width: ${device.mobile}) {
     grid-row: 1/1;
   }
+`;
+
+export const WrapAddress = styled.div`
+  position: relative;
+  width: 100%;
 `;
 
 export const LeftSide = styled.div`
@@ -196,6 +230,7 @@ export const AddressInfo = styled.div`
   padding: 15px;
   margin: 0 0 20px;
   width: 100%;
+  cursor: pointer;
   @media (max-width: ${device.mobile}) {
     flex-direction: column;
     align-items: flex-start;
