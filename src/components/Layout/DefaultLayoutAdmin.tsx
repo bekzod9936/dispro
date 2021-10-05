@@ -1,87 +1,194 @@
-import { Grid } from '@material-ui/core';
-import React from 'react';
-import { Link, Route, useHistory } from 'react-router-dom';
-import { WarningIcon } from '../../assets/icons/Others/LayoutIcons';
-import {
-  Flex,
-  GridContainer,
-  GridItem,
-  WrapperPage,
-} from '../../styles/BuildingBlocks';
-import PartnerHeader from './PartnerHeader';
-import PartnerSidebar from './PartnerSidebar';
-import { Text } from '../../styles/CustomStyles';
-import { FONT_SIZE } from '../../services/Types/enums';
+import React, { Suspense, useEffect, useState } from 'react';
 import { useAppSelector } from '../../services/redux/hooks';
+import clsx from 'clsx';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import IconButton from '@material-ui/core/IconButton';
+import Logo from '../../assets/icons/SideBar/logo.png';
+import { device } from '../../styles/device';
+import { useAppDispatch } from '../../services/redux/hooks';
+import Header from './Header';
+import { useQuery } from 'react-query';
+import { fetchInfo } from '../../services/queries/PartnerQueries';
+import { setCompanyInfo } from '../../services/redux/Slices/partnerSlice';
+import Spinner from '../Custom/Spinner';
+import {
+  Container,
+  MenuIcon,
+  LogoIcon,
+  Content,
+  Title,
+  DesktopDrawer,
+  MobileDrawer,
+  MobileHeader,
+  WrapperPage,
+  WrapLogo,
+  WrapMenu,
+} from './style';
+import { useSideBarStyle } from './styles/SideBarStyle';
+import MenuList from './MenuList';
 export interface IDefaultLayout {
   children: any;
 }
+
 const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
-  const history = useHistory();
+  const classes = useSideBarStyle();
+
+  const [width, setWidth] = useState(window.innerWidth);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [open, setOpen] = useState(width <= 600 ? false : true);
+
+  const dispatch = useAppDispatch();
   const companyState = useAppSelector((state) => state.auth.companyState);
 
+  const handleDrawerOpen = () => {
+    if (width <= parseInt(device.mobile, 10)) {
+      setMobileOpen(!mobileOpen);
+      setOpen(false);
+    } else {
+      setOpen(true);
+    }
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    function handleResize() {
+      setWidth(window.innerWidth);
+      if (window.innerWidth <= parseInt(device.mobile, 10)) {
+        setOpen(false);
+      } else {
+        setMobileOpen(false);
+      }
+    }
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const response = useQuery(
+    'logoANDname',
+    () => fetchInfo(localStorage.getItem('companyId')),
+    {
+      onSuccess: (data) => {
+        dispatch(setCompanyInfo(data?.data.data));
+      },
+      keepPreviousData: true,
+      refetchOnWindowFocus: false,
+      retry: 0,
+    }
+  );
+
+  const toggleDrawer = (open: boolean) => (event: any) => {
+    if (
+      event &&
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
+      return;
+    }
+    setMobileOpen(open);
+  };
+
+  const HeaderList = () => {
+    return (
+      <>
+        <WrapLogo>
+          <LogoIcon src={Logo} alt='logo' />
+          <Title>DIS-COUNT</Title>
+        </WrapLogo>
+        <IconButton onClick={handleDrawerClose}>
+          <MenuIcon />
+        </IconButton>
+      </>
+    );
+  };
+
+  if (response.isLoading) {
+    return <Spinner height='100vh' />;
+  }
+
   return (
-    <Flex
-      width='100vw'
-      height='100vh'
-      justifyContent='start'
-      alignItems='flex-start'
-    >
-      <div
-        style={{
-          width: 'fit-content',
-          pointerEvents: companyState === 'new' ? 'none' : 'auto',
-          opacity: companyState === 'new' ? 0.4 : 1,
-        }}
-      >
-        <PartnerSidebar />
-      </div>
-      <Flex flexDirection='column' height='100%' flexGrow='1'>
-        <div
+    <Container>
+      <div className={classes.root}>
+        <CssBaseline />
+        <MobileDrawer
+          anchor='left'
+          open={mobileOpen}
+          onClose={toggleDrawer(false)}
+          onOpen={toggleDrawer(true)}
           style={{
-            width: '100%',
-            padding: companyState === 'new' ? '10px' : '0px',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
+            pointerEvents: companyState === 'new' ? 'none' : 'auto',
+            opacity: companyState === 'new' ? 0.4 : 1,
           }}
         >
-          {companyState === 'new' ? (
-            <div
-              style={{
-                padding: '18px 0px',
-                width: '90%',
-                alignSelf: 'center',
-                borderRadius: '14px',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                boxShadow: '0px 4px 4px #f4f4f4',
-              }}
-            >
-              <WarningIcon />
-              <Text
-                marginLeft='10px'
-                fontSize={FONT_SIZE.mediumPlus}
-                fontWeight={300}
+          <div
+            role='presentation'
+            onClick={toggleDrawer(false)}
+            onKeyDown={toggleDrawer(false)}
+          >
+            <MobileHeader>
+              <HeaderList />
+            </MobileHeader>
+            <MenuList />
+          </div>
+        </MobileDrawer>
+        <AppBar
+          position='fixed'
+          className={clsx(classes.appBar, {
+            [classes.appBarShift]: open,
+          })}
+        >
+          <Toolbar>
+            <WrapMenu>
+              <IconButton
+                color='inherit'
+                aria-label='open drawer'
+                onClick={handleDrawerOpen}
+                edge='start'
+                className={clsx(classes.menuButton, {
+                  [classes.hide]: open,
+                })}
               >
-                Для дальнейшего использования нашего сервиса, пожалуйста
-                заполните данные в разделах “О компании” и “Адреса”
-              </Text>
-            </div>
-          ) : (
-            <PartnerHeader />
-          )}
-        </div>
-        <WrapperPage
+                <MenuIcon />
+              </IconButton>
+            </WrapMenu>
+            <Header />
+          </Toolbar>
+        </AppBar>
+        <DesktopDrawer
+          variant='permanent'
+          className={clsx(classes.drawer, {
+            [classes.drawerOpen]: open,
+            [classes.drawerClose]: !open,
+          })}
+          classes={{
+            paper: clsx({
+              [classes.drawerOpen]: open,
+              [classes.drawerClose]: !open,
+            }),
+          }}
           style={{
-            overflowY: 'auto',
+            pointerEvents: companyState === 'new' ? 'none' : 'auto',
+            opacity: companyState === 'new' ? 0.4 : 1,
           }}
         >
-          {children}
+          <div className={classes.toolbar}>
+            <HeaderList />
+          </div>
+          <MenuList />
+        </DesktopDrawer>
+        <WrapperPage>
+          <div className={classes.toolbar} />
+          <Suspense fallback={<Spinner />}>
+            <Content>{children}</Content>
+          </Suspense>
         </WrapperPage>
-      </Flex>
-    </Flex>
+      </div>
+    </Container>
   );
 };
 

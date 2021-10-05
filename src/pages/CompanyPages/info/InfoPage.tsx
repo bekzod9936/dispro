@@ -63,6 +63,7 @@ const InfoPage = () => {
     localStorage.removeItem('companyToken');
     history.push('/partner/company');
   };
+
   const renderSection = () => {
     switch (section) {
       case 'aboutCompany':

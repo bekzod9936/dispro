@@ -16,33 +16,48 @@ import { BrowserRouter } from 'react-router-dom';
 import DateFnsUtils from '@material-ui/pickers/adapter/date-fns';
 import { enUS, ru, uz } from 'date-fns/locale';
 import { LocalizationProvider } from '@material-ui/pickers';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 
 const queryClient = new QueryClient();
 
+const theme = createMuiTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 1000,
+      lg: 1500,
+      xl: 1920,
+    },
+  },
+});
+
 ReactDOM.render(
   <React.StrictMode>
-    <LocalizationProvider
-      locale={
-        localStorage.getItem('language') === 'en'
-          ? enUS
-          : localStorage.getItem('language') === 'uz'
-          ? uz
-          : ru
-      }
-      dateAdapter={DateFnsUtils}
-    >
-      <I18nextProvider i18n={i18n}>
-        <StylesProvider injectFirst>
-          <Provider store={store}>
-            <QueryClientProvider client={queryClient}>
-              <BrowserRouter>
-                <App />
-              </BrowserRouter>
-            </QueryClientProvider>
-          </Provider>
-        </StylesProvider>
-      </I18nextProvider>
-    </LocalizationProvider>
+    <MuiThemeProvider theme={theme}>
+      <LocalizationProvider
+        locale={
+          localStorage.getItem('language') === 'en'
+            ? enUS
+            : localStorage.getItem('language') === 'uz'
+            ? uz
+            : ru
+        }
+        dateAdapter={DateFnsUtils}
+      >
+        <I18nextProvider i18n={i18n}>
+          <StylesProvider injectFirst>
+            <Provider store={store}>
+              <QueryClientProvider client={queryClient}>
+                <BrowserRouter>
+                  <App />
+                </BrowserRouter>
+              </QueryClientProvider>
+            </Provider>
+          </StylesProvider>
+        </I18nextProvider>
+      </LocalizationProvider>
+    </MuiThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

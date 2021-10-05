@@ -274,23 +274,23 @@ const AboutSection: React.FC<IProps> = ({ currentFilial, setSection }) => {
       setError('categories', { type: 'min2', shouldFocus: true });
       return;
     }
-    await partnerApi.put('/directory/company', {
-      annotation: data.company_direction,
-      categories: data.categories || values,
-      companyId: +companyId,
-      currencyId: 1,
-      description: data.description,
-      isHalol: true,
-      isKosher: false,
-      keyWords: keywords?.join(','),
-      linkEnable: false,
-      links: [{ name: data.linkName, address: data.link, enable: true, id: 0 }],
-      logo: logo || '',
-      name: data.title,
+    // await partnerApi.put('/directory/company', {
+    //   annotation: data.company_direction,
+    //   categories: data.categories || values,
+    //   companyId: +companyId,
+    //   currencyId: 1,
+    //   description: data.description,
+    //   isHalol: true,
+    //   isKosher: false,
+    //   keyWords: keywords?.join(','),
+    //   linkEnable: false,
+    //   links: [{ name: data.linkName, address: data.link, enable: true, id: 0 }],
+    //   logo: logo || '',
+    //   name: data.title,
 
-      socialLinks: socialLinksState,
-      telNumber: data.phoneNumber,
-    });
+    //   socialLinks: socialLinksState,
+    //   telNumber: data.phoneNumber,
+    // });
     setSection('address');
   };
 
@@ -312,6 +312,8 @@ const AboutSection: React.FC<IProps> = ({ currentFilial, setSection }) => {
 
     setKeywords(filtered);
   };
+  console.log(logo, 'logo');
+
   const handleDeleteLogo = async () => {
     setLogoStatus('deleting');
     try {
@@ -412,6 +414,7 @@ const AboutSection: React.FC<IProps> = ({ currentFilial, setSection }) => {
       setKeywordsError(false);
     }
   };
+
   useEffect(() => {
     if (!logo) {
       setImageLoaded('notLoaded');
@@ -790,7 +793,6 @@ const AboutSection: React.FC<IProps> = ({ currentFilial, setSection }) => {
                                 alignItems: 'center',
                               }}
                             >
-                              {' '}
                               <div
                                 style={{
                                   background: '#606EEA',
@@ -803,9 +805,8 @@ const AboutSection: React.FC<IProps> = ({ currentFilial, setSection }) => {
                                   margin: '10px',
                                 }}
                               >
-                                {' '}
                                 {Icon}
-                              </div>{' '}
+                              </div>
                               <Text marginLeft='10px'>{name}</Text>
                             </div>
                             <div onClick={() => handleConnect(name)}>

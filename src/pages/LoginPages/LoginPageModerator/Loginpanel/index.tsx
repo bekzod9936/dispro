@@ -1,4 +1,23 @@
 import React, { useEffect, useState } from 'react';
+import DisIcon from '../../../../assets/icons/DisIcon';
+import { useTranslation } from 'react-i18next';
+import Button from '../../../../components/Custom/Button';
+import { useForm, Controller } from 'react-hook-form';
+import { logIn, signIn } from '../../../../services/queries/LoginQueries';
+import { useHistory } from 'react-router';
+import { useMutation } from 'react-query';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from '../../../../services/redux/hooks';
+import {
+  setCompanyState,
+  setLogIn,
+  setProceedAuth,
+} from '../../../../services/redux/Slices/authSlice';
+import { inputPhoneNumber, inputSms } from '../../../../utilities/inputFormat';
+import Input from '../../../../components/Custom/Input';
+import MultiSelect from '../../../../components/Custom/MultiSelect';
 import {
   Container,
   MainWrap,
@@ -18,40 +37,20 @@ import {
   LogInContentWrap,
   LogInWrap,
 } from './style';
-import DisIcon from '../../../../assets/icons/DisIcon';
-import { useTranslation } from 'react-i18next';
-import Select from '../../../../components/Custom/Select';
-import Button from '../../../../components/Custom/Button';
-import Input from '../../../../components/Custom/Input';
-import { DownIcon } from '../../../../assets/icons/LoginPage/LoginPageIcons';
-import { useForm, Controller } from 'react-hook-form';
-import { logIn, signIn } from '../../../../services/queries/LoginQueries';
-import { useHistory } from 'react-router';
-import { useMutation } from 'react-query';
-import {
-  useAppDispatch,
-  useAppSelector,
-} from '../../../../services/redux/hooks';
-import {
-  setLogIn,
-  setProceedAuth,
-} from '../../../../services/redux/Slices/authSlice';
-import { inputPhoneNumber, inputSms } from '../../../../utilities/inputFormat';
-
 interface FormProps {
-  role: string;
+  role: { value?: string; label?: string };
   phoneNumber: string;
   smsCode: string;
 }
 
 interface PropLog {
-  role: number;
+  role: { value?: string; label?: string };
   phoneNumber: string;
   smsCode: string;
 }
 
 interface PropSign {
-  role: number;
+  role: { value?: string; label?: string };
   phoneNumber: string;
 }
 
@@ -134,15 +133,25 @@ export const LoginPanel = () => {
 
   useEffect(() => {
     const subscription = watch((value) => {
-      if (value?.role !== undefined && value?.phoneNumber?.length === 13) {
+      console.log(value, 'ddd');
+      if (
+        value?.role?.value !== undefined &&
+        value?.role?.value !== '' &&
+        value?.phoneNumber?.length === 13
+      ) {
         setDisable(false);
+      } else {
+        setDisable(true);
       }
     });
     return () => subscription.unsubscribe();
-  }, [watch]);
+  }, [watch(['role', 'phoneNumber'])]);
 
   const logRes = useMutation((values: PropSign) =>
-    signIn({ role: values?.role, phoneNumber: values?.phoneNumber })
+    signIn({
+      role: Number(values?.role?.value),
+      phoneNumber: values?.phoneNumber,
+    })
   );
 
   const onSubmit = (values: any) => {
@@ -162,7 +171,7 @@ export const LoginPanel = () => {
 
   const smsRes = useMutation((values: PropLog) =>
     logIn({
-      role: values.role,
+      role: Number(values.role?.value),
       phoneNumber: values.phoneNumber,
       smsCode: values.smsCode,
     })
@@ -182,6 +191,7 @@ export const LoginPanel = () => {
         );
         dispatch(setLogIn(data.data.data));
         refetchList();
+        dispatch(setCompanyState(data.data.data.status));
         if (data.data.data.status === 'old') {
           history.push('/partner/company');
         } else {
@@ -196,7 +206,7 @@ export const LoginPanel = () => {
     setTime(60);
     setFetch(false);
     setValue('phoneNumber', '+998');
-    setValue('role', '');
+    setValue('role', { value: '' });
     setValue('smsCode', '');
     setDisable(true);
     setError('smsCode', {
@@ -210,7 +220,7 @@ export const LoginPanel = () => {
   const handleReSend = () => {
     logRes.mutate(
       {
-        role: Number(values?.role),
+        role: values?.role,
         phoneNumber: values?.phoneNumber,
       },
       {
@@ -265,26 +275,20 @@ export const LoginPanel = () => {
                     defaultValue=''
                     render={({ field }) => (
                       <Input
-                        border='1px solid #C2C2C2'
-                        radius={14}
-                        width='100%'
-                        minWidth={290}
-                        height='60px'
-                        minHeight={45}
-                        maxHeight={60}
-                        margin='20px 0 0'
                         label={t('assertCode')}
-                        lmarginbottom={10}
+                        error={errors.smsCode ? true : false}
                         type='string'
                         field={field}
-                        max={4}
-                        autoFocus={true}
-                        error={errors.smsCode ? true : false}
-                        endAdornment={
+                        margin={{
+                          laptop: '20px 0 0',
+                        }}
+                        IconEnd={
                           <WrapTime time={time}>
                             <Time time={time}>{time}</Time>
                           </WrapTime>
                         }
+                        autoFocus={true}
+                        maxLength={4}
                       />
                     )}
                   />
@@ -292,10 +296,10 @@ export const LoginPanel = () => {
                   {time === 0 && <Message>{t('wrongsmscode')}</Message>}
                   {time === 0 && (
                     <Button
-                      bgcolor='transparent'
-                      tcolor='#3492FF'
-                      fontSize={{ min: 14, max: 16 }}
-                      width='fit-content'
+                      buttonStyle={{
+                        color: '#3492FF',
+                        bgcolor: 'transparent',
+                      }}
                       onClick={handleReSend}
                       disabled={logRes.isLoading}
                     >
@@ -310,29 +314,36 @@ export const LoginPanel = () => {
                 <Content>
                   <WrapButton>
                     <Button
-                      width='100%'
-                      height='60px'
-                      bgcolor='#606EEA'
-                      radius={12}
-                      tcolor='#FFFFFF'
-                      minWidth={290}
-                      minHeight={45}
-                      maxHeight={60}
-                      fontSize={{ max: 18, min: 16 }}
-                      shadow='0px 19px 30px rgba(96, 110, 234, 0.35)'
+                      buttonStyle={{
+                        shadow: '0px 19px 30px rgba(96, 110, 234, 0.35)',
+                        radius: 12,
+                        fontSize: {
+                          laptop: 17,
+                          desktop: 18,
+                          mobile: 16,
+                          planshet: 16,
+                        },
+                      }}
                       type='submit'
                       disabled={smsRes.isLoading}
+                      fullWidth={true}
                     >
                       {t('enter')}
                     </Button>
                   </WrapButton>
                   <Button
-                    width='100%'
-                    height='fit-content'
-                    bgcolor='transparent'
-                    tcolor='#606EEA'
-                    fontSize={{ max: 18, min: 16 }}
+                    buttonStyle={{
+                      bgcolor: 'transparent',
+                      color: '#606EEA',
+                      fontSize: {
+                        laptop: 17,
+                        desktop: 18,
+                        mobile: 16,
+                        planshet: 16,
+                      },
+                    }}
                     onClick={handleBack}
+                    width={{ width: '100%' }}
                   >
                     {t('back')}
                   </Button>
@@ -346,29 +357,20 @@ export const LoginPanel = () => {
                     control={control}
                     rules={{ required: true }}
                     render={({ field }) => (
-                      <Select
-                        width='100%'
-                        minWidth={290}
-                        height='60px'
-                        minHeight={45}
-                        maxHeight={60}
-                        radius={14}
-                        border='1px solid #C2C2C2'
+                      <MultiSelect
                         label={t('staffRole')}
                         options={[
-                          { id: 2, value: t('admin') },
-                          { id: 5, value: t('manager') },
+                          { value: '2', label: t('admin') },
+                          { value: '5', label: t('manager') },
                         ]}
-                        weight='500'
-                        Icon={DownIcon}
-                        paddingLeft={25}
-                        lmarginbottom={10}
                         field={field}
                         error={errors.role ? true : false}
-                        message={<Message>{t('requiredField')}</Message>}
+                        message={t('requiredField')}
+                        placeholder=''
                       />
                     )}
                   />
+
                   <Controller
                     name='phoneNumber'
                     control={control}
@@ -376,19 +378,7 @@ export const LoginPanel = () => {
                     defaultValue='+998'
                     render={({ field }) => (
                       <Input
-                        border={'1px solid #C2C2C2'}
-                        radius={14}
-                        width='100%'
-                        minWidth={290}
-                        height='60px'
-                        minHeight={45}
-                        maxHeight={60}
-                        margin='20px 0 0'
                         label={t('phoneNumber')}
-                        lmarginbottom={10}
-                        type='tel'
-                        max={13}
-                        field={field}
                         error={errors.phoneNumber ? true : false}
                         message={
                           <Message>
@@ -396,24 +386,38 @@ export const LoginPanel = () => {
                             <div>{t('tryagain')}</div>
                           </Message>
                         }
+                        type='tel'
+                        field={field}
+                        margin={{
+                          planshet: '20px 0 0',
+                          laptop: '20px 0 0',
+                          desktop: '20px 0 40px',
+                        }}
+                        maxLength={13}
                       />
                     )}
                   />
                 </LogInContentWrap>
                 <Button
-                  width='100%'
-                  height='60px'
-                  bgcolor='#606EEA'
-                  margin='45px 0 0'
-                  radius={12}
-                  tcolor='#FFFFFF'
-                  minWidth={290}
-                  minHeight={45}
-                  maxHeight={60}
-                  fontSize={{ max: 18, min: 16 }}
-                  shadow='0px 19px 30px rgba(96, 110, 234, 0.35)'
+                  buttonStyle={{
+                    radius: 12,
+                    fontSize: {
+                      laptop: 17,
+                      desktop: 18,
+                      mobile: 16,
+                      planshet: 16,
+                    },
+                    shadow: '0px 19px 30px rgba(96, 110, 234, 0.35)',
+                    height: {
+                      mobile: 45,
+                      planshet: 45,
+                      laptop: 50,
+                      desktop: 60,
+                    },
+                  }}
                   type='submit'
                   disabled={disable || logRes.isLoading}
+                  width={{ width: '100%' }}
                 >
                   {t('next')}
                 </Button>

@@ -1,125 +1,143 @@
-import { InputAdornment } from '@material-ui/core';
 import React from 'react';
-import { Container, MInput, Label, Wrap, Message } from './style';
+import { Container, MInput, Label, Adornment, Message } from './style';
 
-interface Props {
-  type?: string;
-  label?: string;
-  placeholder?: string;
-  disabled?: boolean;
-  lcolor?: string;
-  lweight?: string;
-  lfontSize?: string;
-  lmarginbottom?: number;
-  radius?: number;
-  border?: string;
-  fontSize?: number;
-  width?: string;
-  minWidth?: number;
-  maxWidth?: number;
-  height?: string;
-  minHeight?: number;
-  maxHeight?: number;
-  margin?: string;
-  onChange?: Function;
-  defaultValue?: any;
-  value?: any;
-  required?: boolean;
+export interface Props {
   field?: any;
-  startAdornment?: any;
-  endAdornment?: any;
-  error?: boolean;
-  message?: any;
-  min?: number;
-  max?: number;
+  autoComplete?: string;
   autoFocus?: boolean;
-}
-
-const Input = ({
-  type,
-  label,
-  placeholder,
-  disabled,
-  lcolor,
-  lweight,
-  lfontSize,
-  lmarginbottom,
-  radius,
-  border,
-  fontSize,
-  width,
-  minWidth,
-  maxWidth,
-  height,
-  minHeight,
-  maxHeight,
-  margin,
-  onChange = () => {},
-  defaultValue,
-  value,
-  required,
-  field,
-  startAdornment,
-  endAdornment,
-  error,
-  message,
-  min,
-  max,
-  autoFocus,
-}: Props) => {
-  const handleChange = (e: {}) => {
-    onChange(e);
+  defaultValue?: any;
+  disabled?: boolean;
+  error?: boolean;
+  fullWidth?: boolean;
+  id?: string;
+  label?: any;
+  maxRows?: number | string;
+  minRows?: number | string;
+  multiline?: boolean;
+  name?: string;
+  onChange?: (e: any) => void;
+  placeholder?: string;
+  required?: boolean;
+  select?: boolean;
+  type?: string;
+  value?: any;
+  InputProps?: any;
+  message?: any;
+  IconStart?: any;
+  IconEnd?: any;
+  labelStyle?: {
+    color?: string;
+    weight?: string | number;
+    fontSize?: {
+      mobile?: number;
+      planshet?: number;
+      laptop?: number;
+      desktop?: number;
+    };
+  };
+  width?: {
+    maxwidth?: number;
+    minwidth?: number;
+    width?: string;
   };
 
+  lmargin?: {
+    mobile?: number;
+    planshet?: number;
+    laptop?: number;
+    desktop?: number;
+  };
+  inputStyle?: {
+    color?: string;
+    bgcolor?: string;
+    weight?: string | number;
+    inpadding?: string;
+    outpadding?: string;
+    margin?: string;
+    border?: string;
+    shadow?: string;
+    radius?: number;
+    fontSize?: {
+      mobile?: number;
+      planshet?: number;
+      laptop?: number;
+      desktop?: number;
+    };
+    height?: {
+      mobile?: number;
+      planshet?: number;
+      laptop?: number;
+      desktop?: number;
+    };
+    placeholdercolor?: string;
+  };
+  margin?: {
+    mobile?: string;
+    planshet?: string;
+    laptop?: string;
+    desktop?: string;
+  };
+  maxLength?: number;
+  minLength?: number;
+  onFocus?: () => void;
+  onBlur?: () => void;
+}
+
+const NInput = ({ onChange = () => {}, ...props }: Props) => {
   return (
-    <Container margin={margin}>
-      {label ? (
+    <Container width={props.width} margin={props.margin}>
+      {props.label ? (
         <Label
-          lcolor={lcolor}
-          lweight={lweight}
-          lfontSize={lfontSize}
-          lmarginbottom={lmarginbottom}
+          htmlFor={props.id ? props.id : props.label}
+          labelStyle={props.labelStyle}
+          focused={true}
+          error={props.error}
+          disabled={props.disabled}
+          lmargin={props.lmargin}
         >
-          {label}
+          {props.label}
         </Label>
       ) : null}
-      <Wrap
-        height={height}
-        width={width}
-        minHeight={minHeight}
-        maxHeight={maxHeight}
-        minWidth={minWidth}
-        maxWidth={maxWidth}
-      >
-        <MInput
-          disableUnderline={true}
-          type={type}
-          placeholder={placeholder}
-          disabled={disabled}
-          radius={radius}
-          border={error ? '1px solid #FF5E68' : border}
-          fontSize={fontSize}
-          onChange={handleChange}
-          defaultValue={defaultValue}
-          value={value}
-          required={required}
-          {...field}
-          error={error}
-          startAdornment={
-            <InputAdornment position='start'>{startAdornment}</InputAdornment>
-          }
-          endAdornment={
-            <InputAdornment position='end'>{endAdornment}</InputAdornment>
-          }
-          inputProps={{
-            maxlength: max,
-          }}
-          autoFocus={autoFocus}
-        />
-        <Message>{error ? message : null}</Message>
-      </Wrap>
+      <MInput
+        inputProps={{
+          maxLength: props.maxLength,
+          minLength: props.minLength,
+        }}
+        autoComplete={props.autoComplete}
+        autoFocus={props.autoFocus}
+        defaultValue={props.defaultValue}
+        disabled={props.disabled}
+        error={props.error}
+        fullWidth={props.fullWidth === false ? false : true}
+        id={props.id ? props.id : props.label}
+        maxRows={props.maxRows}
+        minRows={props.minRows}
+        multiline={props.multiline}
+        name={props.name}
+        onChange={(e) => onChange(e)}
+        placeholder={props.placeholder}
+        required={props.required}
+        select={props.select}
+        type={props.type}
+        value={props.value}
+        InputProps={{
+          startAdornment: props.IconStart ? (
+            <Adornment position='start'>{props.IconStart}</Adornment>
+          ) : null,
+          endAdornment: props.IconEnd ? (
+            <Adornment position='end'>{props.IconEnd}</Adornment>
+          ) : null,
+        }}
+        inputStyle={props.inputStyle}
+        {...props.field}
+        onFocus={props.onFocus}
+        onBlur={props.onBlur}
+      />
+      <Message labelStyle={props.labelStyle}>
+        {props.error ? props.message : null}
+      </Message>
     </Container>
   );
 };
 
-export default Input;
+export default NInput;

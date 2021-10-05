@@ -5,6 +5,7 @@ import { ReactComponent as Plus } from '../../../../assets/icons/LoginPage/plus.
 interface Props {
   border?: string;
   color?: string;
+  loading?: boolean;
 }
 
 export const Main = styled.div`
@@ -67,8 +68,11 @@ export const Box = styled.div`
   min-width: 140px;
   max-height: 290px;
   min-height: 160px;
-  background: #ffffff;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
+  background: white;
+  box-shadow: ${({ loading }: Props) =>
+    loading
+      ? '-1px -1px 9px black, 1px 1px 9px black'
+      : '0px 4px 4px rgba(0, 0, 0, 0.04)'};
   border-radius: 14px;
   flex: 100%;
   display: flex;
@@ -86,7 +90,7 @@ export const Box = styled.div`
     padding: 30px 0;
     height: 250px;
   }
-  @media (min-width: ${device.desktop}) {
+  @media (min-width: ${device.laptop}) {
     height: 290px;
     padding: 35px 0;
   }
@@ -146,6 +150,10 @@ export const Img = styled.img`
   width: 100%;
   height: 100%;
   border-radius: 50%;
+  min-width: 50px;
+  max-width: 100px;
+  min-height: 50px;
+  max-height: 100px;
 `;
 
 export const ChooseText = styled.div`

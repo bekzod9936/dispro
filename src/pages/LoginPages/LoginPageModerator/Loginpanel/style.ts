@@ -25,12 +25,12 @@ export const Container = styled.div`
 `;
 
 export const MainWrap = styled.div`
-  width: 60%;
-  height: 95%;
+  width: 65%;
+  height: 80%;
   min-width: 290px;
   max-height: 550px;
   min-width: fit-content;
-  min-height: 500px;
+  min-height: 470px;
   background: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
   border-radius: 14px;
@@ -39,6 +39,10 @@ export const MainWrap = styled.div`
   @media (max-width: ${device.mobile}) {
     box-shadow: none;
     width: 100%;
+  }
+  @media (min-width: ${device.laptop}) {
+    height: 95%;
+    min-height: 500px;
   }
 `;
 
@@ -49,7 +53,7 @@ export const Version = styled.div`
   color: #8f8f8f;
   text-align: right;
   width: 100%;
-  margin: 15px 25px 15px 0;
+  margin: 15px 25px 0 0;
 `;
 
 export const Header = styled.div`
@@ -100,18 +104,15 @@ export const Text = styled.div`
 `;
 
 export const Message = styled.div`
-  color: #ff5e68;
-  font-weight: 300;
   overflow-wrap: normal;
   display: flex;
-  font-size: 16px;
-  margin-top: 5px;
+  color: #ff5e68;
   @media (max-width: ${device.mobile}) {
     div {
       font-size: 14px;
     }
   }
-  @media (max-width: ${device.desktop}) {
+  @media (min-width: ${device.planshet}) {
     flex-direction: column;
   }
 `;

@@ -41,6 +41,7 @@ interface Props {
   error?: boolean;
   message?: any;
   onClose?: () => void;
+  renderValue?: (v: any) => any;
 }
 
 const Select = ({
@@ -73,6 +74,7 @@ const Select = ({
   error,
   message,
   onClose,
+  renderValue,
 }: Props) => {
   const [open, setOpen] = useState(false);
   const useStyles = makeStyles({
@@ -139,6 +141,7 @@ const Select = ({
               className: classes.paper,
             },
           }}
+          renderValue={renderValue}
         >
           {options?.map((v, i) => (
             <Option key={i} value={v?.id || v}>

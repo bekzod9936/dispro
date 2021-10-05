@@ -72,7 +72,6 @@ const DataPicker = () => {
                   inputProps={{
                     ...startProps.inputProps,
                     onFocus: () => {
-                      console.log('ssss');
                       return { ...startProps.inputProps?.onFocus };
                     },
                     onBlur: () => {

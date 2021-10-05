@@ -93,12 +93,10 @@ const HistoryCasher = () => {
           </CasherInfo>
         </CasherInfoWrap>
         <Button
-          fontSize={{ max: 18, min: 16 }}
-          width='225px'
-          height='50px'
-          bgcolor='#45A13B'
-          shadow='0px 4px 9px
-    rgba(96, 110, 234, 0.46);'
+          buttonStyle={{
+            bgcolor: '#45A13B',
+            shadow: '0px 4px 9pxrgba(96, 110, 234, 0.46)',
+          }}
         >
           <ExportIcon />
           Экспортировать
