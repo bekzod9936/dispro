@@ -1,8 +1,8 @@
-import styled from 'styled-components';
-import { ReactComponent as Save } from '../../../../assets/icons/IconsInfo/save.svg';
-import { ReactComponent as Photo } from '../../../../assets/icons/IconsInfo/photo.svg';
-import { ReactComponent as Trash } from '../../../../assets/icons/IconsInfo/trash.svg';
-import { device } from '../../../../styles/device';
+import styled from "styled-components";
+import { ReactComponent as Save } from "../../../../assets/icons/IconsInfo/save.svg";
+import { ReactComponent as Photo } from "../../../../assets/icons/IconsInfo/photo.svg";
+import { ReactComponent as Trash } from "../../../../assets/icons/IconsInfo/trash.svg";
+import { device } from "../../../../styles/device";
 
 interface Props {
   align?: string;
@@ -19,25 +19,19 @@ export const Container = styled.div`
 `;
 
 export const Text = styled.div`
-  font-weight: ${({ align }: Props) => (align ? 'normal' : '300')};
+  font-weight: ${({ align }: Props) => (align ? "normal" : "300")};
   font-size: 16px;
   color: #223367;
   margin-bottom: 15px;
   span {
     color: #3492ff;
   }
-  max-width: ${({ maxwidth }: Props) => (maxwidth ? maxwidth : 'fit-content')};
-  text-align: ${({ align }: Props) => (align ? align : 'left')};
+  max-width: ${({ maxwidth }: Props) => (maxwidth ? maxwidth : "fit-content")};
+  text-align: ${({ align }: Props) => (align ? align : "left")};
 `;
 
 export const SaveIcon = styled(Save)`
   margin-right: 15px;
-`;
-
-export const Img = styled.img`
-  width: 230px;
-  height: 160px;
-  border-radius: 14px;
 `;
 
 export const ImgNo = styled.img`
@@ -99,7 +93,18 @@ export const PhotoIcon = styled(Photo)``;
 
 export const WrapImage = styled.div`
   position: relative;
-  width: fit-content;
+  width: 230px;
+  height: 160px;
+  border-radius: 14px;
+  overflow: hidden;
+
+  .lazy-load-image-background.blur.lazy-load-image-loaded {
+    filter: blur(0);
+    transition: filter 0.3s;
+    height: 100%;
+    width: 100%;
+  }
+
   :hover {
     & > div {
       background-color: rgba(31, 26, 62, 0.7);

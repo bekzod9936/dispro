@@ -1,11 +1,9 @@
-import { Drawer, Menu, NativeSelect, Select } from "@material-ui/core";
-import { type } from "os";
+import { Select } from "@material-ui/core";
 import styled from "styled-components";
 import {
   ICustomButton,
   ICustomModal,
   IDropdownTitle,
-  IFlex,
   IFlexiblePanel,
   ISidebarMenuItem,
   IText,
@@ -169,9 +167,7 @@ export const MessageContainer = styled.div`
   overflow: hidden;
   max-height: 100%;
 `;
-// export const CustomDatePicker = styled(DatePicker)`
 
-// `
 export const CustomInput = styled.input`
   padding: 12px 15px;
   width: 90%;

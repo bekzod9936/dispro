@@ -17,7 +17,7 @@ import {
 } from "../../../assets/icons/ClientStatisticsIcons/ClientStatisticsIcons";
 import CustomDatePickerForUndersection from "../../../components/Custom/CustomDatePickerForUndersection";
 import CustomInputLarge from "../../../components/Custom/CustomInputLarge";
-import CustomTableAdvanced from "../../../components/Custom/CustomTableAdvanced";
+import CustomTableAdvanced from "../../../components/Custom/CustomTableAdvanced/CustomTableAdvanced";
 import { fetchClients } from "../../../services/queries/PartnerQueries";
 import { useAppDispatch, useAppSelector } from "../../../services/redux/hooks";
 import {
@@ -52,12 +52,12 @@ import {
 } from "../../../styles/CustomStyles";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import { RightSideDrawer } from "../../../styles/Elements";
-import RightSide from "./RightSide";
-import CustomModalClients from "./CustomModalClients";
-import PersonalCardClient from "./PersonalCardClient";
+import RightSide from "./components/RightSide";
+import CustomModalClients from "./components/CustomModalClients";
+import PersonalCardClient from "./components/PersonalCardClient";
 import { IClientStatisticFilter } from "../../../services/Types/Components";
 import Filter from "../../../components/Custom/Filter";
-import Invite from "./Invite";
+import Invite from "./components/Invite";
 import Spinner from "../../../components/Helpers/Spinner";
 import ImageLazyLoad from "../../../components/Custom/ImageLazyLoad/ImageLazyLoad";
 
@@ -99,7 +99,7 @@ const ClientsPage = () => {
   const [headersState, setHeadersState] = useState(totalHeaders);
   const [rows, setRows] = useState<any>(null);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [totalCount, setTotalCount] = useState<number | null>(null);
+  const [totalCount, setTotalCount] = useState<number>(0);
   const [date, setDate] = useState(moment(Date.now()).format("YYYY/MM/DD"));
   const [page, setPage] = useState(1);
   const [process, setProcess] = useState<"accure" | "substract" | "VIP" | " ">(
@@ -210,7 +210,11 @@ const ClientsPage = () => {
               client: (
                 <Flex justifyContent="start">
                   <Avatar>
-                    <ImageLazyLoad src={item.image} alt={item?.firstName} />
+                    <ImageLazyLoad
+                      objectFit="contain"
+                      src={item.image}
+                      alt={item?.firstName}
+                    />
                   </Avatar>
 
                   <Text
@@ -272,7 +276,11 @@ const ClientsPage = () => {
             client: (
               <Flex justifyContent="start">
                 <Avatar>
-                  <ImageLazyLoad src={item.image} alt={item?.firstName} />
+                  <ImageLazyLoad
+                    objectFit="contain"
+                    src={item.image}
+                    alt={item?.firstName}
+                  />
                 </Avatar>
                 <Text
                   marginRight="0px"
@@ -508,29 +516,22 @@ const ClientsPage = () => {
               />
             )}
 
-            {!response.isLoading && rows && headersState && totalCount ? (
-              <CustomTableAdvanced
-                handleAllCheck={handleAllChecked}
-                handleClientClick={handleClientClick}
-                handlePageChange={handlePageChange}
-                totalCount={totalCount}
-                rows={rows}
-                headers={tableHeaders}
-                listItems={addColumns}
-                page={page}
-              />
-            ) : (
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  flex: 1,
-                }}
-              >
-                <Spinner />
-              </div>
-            )}
+            <CustomTableAdvanced
+              handleAllCheck={handleAllChecked}
+              handleClientClick={handleClientClick}
+              handlePageChange={handlePageChange}
+              totalCount={totalCount}
+              rows={rows}
+              headers={tableHeaders}
+              listItems={addColumns}
+              page={page}
+              loading={
+                response.isLoading ||
+                !rows?.length ||
+                !headersState?.length ||
+                !totalCount
+              }
+            />
           </SectionWrapper>
           {client?.length > 0 && !invite && (
             <RightSide

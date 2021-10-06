@@ -1,8 +1,7 @@
-import { Avatar, Grid } from '@material-ui/core';
-import moment from 'moment';
-import React, { useEffect, useState } from 'react';
-import { Controller } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
+import { Avatar, Grid } from "@material-ui/core";
+import moment from "moment";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   CoinsIcon,
   CrownIcon,
@@ -11,23 +10,23 @@ import {
   MoneyIcon,
   RedLock,
   ThreeHeadIcon,
-} from '../../../assets/icons/ClientsPageIcons/ClientIcons';
+} from "../../../../assets/icons/ClientsPageIcons/ClientIcons";
 import {
   BagIcon,
   CartIcon,
   CashbackIcon,
   PaidIcon,
-} from '../../../assets/icons/ClientStatisticsIcons/ClientStatisticsIcons';
-import HorizontalMenu from '../../../components/Custom/HorizontalMenu';
-import { useAppSelector } from '../../../services/redux/hooks';
-import { Flex } from '../../../styles/BuildingBlocks';
-import { IconWrapper, Text } from '../../../styles/CustomStyles';
-import { PageWrapper, Panel } from '../../../styles/CustomStyles';
-import BlockModal from './BlockModal';
-import CustomModalClients from './CustomModalClients';
-import Operations from './Operations';
-import PointsSection from './PointsSection';
-import RecomendationsSection from './RecomendationsSection';
+} from "../../../../assets/icons/ClientStatisticsIcons/ClientStatisticsIcons";
+import HorizontalMenu from "../../../../components/Custom/HorizontalMenu";
+import { useAppSelector } from "../../../../services/redux/hooks";
+import { Flex } from "../../../../styles/BuildingBlocks";
+import { IconWrapper, Text } from "../../../../styles/CustomStyles";
+import { PageWrapper, Panel } from "../../../../styles/CustomStyles";
+import BlockModal from "./BlockModal";
+import CustomModalClients from "./CustomModalClients";
+import Operations from "./Operations";
+import PointsSection from "./PointsSection";
+import RecomendationsSection from "./RecomendationsSection";
 
 const PersonalCardClient = () => {
   const persCardClient: any = useAppSelector(
@@ -35,19 +34,19 @@ const PersonalCardClient = () => {
   );
   const { t } = useTranslation();
   const [statisticsArray, setStatisticsArray] = useState<any>(null);
-  const [section, setSection] = useState('operations');
+  const [section, setSection] = useState("operations");
   const arrayOfStats = [
-    'paidWithUZS',
-    'purchuase_amount',
-    'purchuase_cost',
-    'pointsLeft',
-    'receivedCashback',
-    'receivedDiscount',
-    'paid_with_points',
+    "paidWithUZS",
+    "purchuase_amount",
+    "purchuase_cost",
+    "pointsLeft",
+    "receivedCashback",
+    "receivedDiscount",
+    "paid_with_points",
   ];
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [proceed, setProceed] = useState<boolean>(false);
-  const [process, setProcess] = useState<string>('accure');
+  const [process, setProcess] = useState<string>("accure");
   const [blockModalVisible, setBlockModalVisible] = useState(false);
   const icons: (() => JSX.Element)[] = [
     MoneyIcon,
@@ -61,16 +60,16 @@ const PersonalCardClient = () => {
 
   const menuItems = [
     {
-      key: 'operations',
-      title: t('operations'),
+      key: "operations",
+      title: t("operations"),
     },
     {
-      key: 'points',
-      title: t('points'),
+      key: "points",
+      title: t("points"),
     },
     {
-      key: 'recomendations',
-      title: t('recomendations'),
+      key: "recomendations",
+      title: t("recomendations"),
     },
   ];
   const handleMenuItemClick = (key: string) => {
@@ -79,28 +78,28 @@ const PersonalCardClient = () => {
 
   const renderSection = () => {
     switch (section) {
-      case 'operations':
+      case "operations":
         return <Operations />;
-      case 'points':
+      case "points":
         return <PointsSection />;
-      case 'recomendations':
+      case "recomendations":
         return <RecomendationsSection />;
     }
   };
   const handleAccure = () => {
-    setProcess('accure');
+    setProcess("accure");
     setModalVisible(true);
   };
   const handleSubstract = () => {
-    setProcess('substract');
+    setProcess("substract");
     setModalVisible(true);
   };
   const handleVip = () => {
-    setProcess('VIP');
+    setProcess("VIP");
     setModalVisible(true);
   };
   const handleBlock = () => {
-    setProcess('block');
+    setProcess("block");
     setBlockModalVisible(true);
   };
   useEffect(() => {
@@ -145,17 +144,17 @@ const PersonalCardClient = () => {
   }, [persCardClient]);
   return (
     <PageWrapper>
-      <Flex justifyContent='stretch'>
+      <Flex justifyContent="stretch">
         <Panel>
           <Flex
-            flexDirection='row'
-            width='100%'
-            alignItems='center'
-            justifyContent='space-between'
+            flexDirection="row"
+            width="100%"
+            alignItems="center"
+            justifyContent="space-between"
           >
             <Avatar
               src={persCardClient?.image}
-              style={{ width: '97px', borderRadius: '12px', height: '97px' }}
+              style={{ width: "97px", borderRadius: "12px", height: "97px" }}
             />
             <IconWrapper onClick={handleAccure}>
               <CoinsIcon />
@@ -170,115 +169,115 @@ const PersonalCardClient = () => {
               <RedLock />
             </IconWrapper>
           </Flex>
-          <div style={{ width: '100%', margin: '14px 0px 0px 0px' }}>
+          <div style={{ width: "100%", margin: "14px 0px 0px 0px" }}>
             <Text
-              marginLeft='0px'
-              marginRight='0px'
-              fontSize='21px'
+              marginLeft="0px"
+              marginRight="0px"
+              fontSize="21px"
               fontWeight={700}
             >{`${persCardClient?.firstName} ${persCardClient?.lastName}`}</Text>
           </div>
           <Flex
-            margin='10xp 0px 0px 0px'
-            width='50%'
-            justifyContent='space-between'
-            alignItems='center'
+            margin="10xp 0px 0px 0px"
+            width="50%"
+            justifyContent="space-between"
+            alignItems="center"
           >
             <Text
-              fontSize='15px'
+              fontSize="15px"
               fontWeight={300}
-              marginLeft='0px'
-              marginRight='0px'
+              marginLeft="0px"
+              marginRight="0px"
             >
               {persCardClient?.addInfo?.genderStr}
             </Text>
             <Text
-              fontSize='15px'
+              fontSize="15px"
               fontWeight={300}
-              marginLeft='0px'
-              marginRight='0px'
+              marginLeft="0px"
+              marginRight="0px"
             >
               {persCardClient?.addInfo?.status}
             </Text>
           </Flex>
         </Panel>
         <Panel>
-          <Flex justifyContent='space-between'>
+          <Flex justifyContent="space-between">
             <div>
               <Text
-                marginLeft='0px'
-                color='#C7C7C7'
-                fontSize='15x'
+                marginLeft="0px"
+                color="#C7C7C7"
+                fontSize="15x"
                 fontWeight={700}
               >
-                {t('info')}
+                {t("info")}
               </Text>
             </div>
             <div>
               <Text
-                marginRight='0px'
-                color='#3492FF'
+                marginRight="0px"
+                color="#3492FF"
                 fontWeight={300}
-                fontSize='15px'
+                fontSize="15px"
               >
-                {t('addMark')}
+                {t("addMark")}
               </Text>
             </div>
           </Flex>
-          <div style={{ marginTop: '10px' }}>
-            <Text marginLeft='0px' fontSize='15px' fontWeight={300}>
-              {t('recomendedBy')} :
+          <div style={{ marginTop: "10px" }}>
+            <Text marginLeft="0px" fontSize="15px" fontWeight={300}>
+              {t("recomendedBy")} :
             </Text>
           </div>
-          <div style={{ marginTop: '10px' }}>
-            <Text marginLeft='0px' fontSize='15px' fontWeight={300}>
-              {`${t('last_purchase')} ${moment(
+          <div style={{ marginTop: "10px" }}>
+            <Text marginLeft="0px" fontSize="15px" fontWeight={300}>
+              {`${t("last_purchase")} ${moment(
                 persCardClient.addInfo.lastPurchaseDate
-              ).format('DD.MM.YYYY')}`}
+              ).format("DD.MM.YYYY")}`}
             </Text>
           </div>
         </Panel>
         <Panel>
-          <Flex justifyContent='stretch'>
+          <Flex justifyContent="stretch">
             <ThreeHeadIcon />
-            <Text fontSize='17px' fontWeight={500}>
-              {t('levelRecomendation')}
+            <Text fontSize="17px" fontWeight={500}>
+              {t("levelRecomendation")}
             </Text>
           </Flex>
         </Panel>
       </Flex>
       {statisticsArray && (
-        <Grid container style={{ marginTop: '28px' }}>
+        <Grid container style={{ marginTop: "28px" }}>
           {statisticsArray.map(({ Icon, title, number }: any) => {
             return (
-              <Grid item lg={3} style={{ marginBottom: '30px' }}>
-                <Flex justifyContent='stretch' alignItems='flex-start'>
+              <Grid item lg={3} style={{ marginBottom: "30px" }}>
+                <Flex justifyContent="stretch" alignItems="flex-start">
                   <div>
                     <Icon />
                   </div>
                   <Flex
-                    justifyContent='space-between'
-                    margin='0px'
-                    flexDirection='column'
-                    alignItems='flex-start'
+                    justifyContent="space-between"
+                    margin="0px"
+                    flexDirection="column"
+                    alignItems="flex-start"
                   >
                     <div>
                       <Text
-                        marginLeft='15px'
+                        marginLeft="15px"
                         fontWeight={500}
-                        fontSize='17px'
-                        marginRight='0px'
+                        fontSize="17px"
+                        marginRight="0px"
                       >
                         {t(title)}
                       </Text>
                     </div>
                     <div>
                       <Text
-                        marginLeft='15px'
-                        fontSize='27px'
+                        marginLeft="15px"
+                        fontSize="27px"
                         fontWeight={700}
-                        color='#606EEA'
-                        marginRight='0px'
+                        color="#606EEA"
+                        marginRight="0px"
                       >
                         {t(number)}
                       </Text>

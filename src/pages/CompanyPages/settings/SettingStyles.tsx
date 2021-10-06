@@ -1,8 +1,11 @@
-import styled from 'styled-components';
-import { ILeftLoyalitiy, IRightLoyalitiy } from './ReferalProgrammSection';
+import styled from "styled-components";
+import {
+  ILeftLoyalitiy,
+  IRightLoyalitiy,
+} from "./screens/ReferalProgrammSection";
 
 export const RightLoyalty = styled.div`
-  width: ${(props: IRightLoyalitiy) => props.width || '52%'};
+  width: ${(props: IRightLoyalitiy) => props.width || "52%"};
   display: flex;
   height: 73vh;
 
@@ -21,7 +24,7 @@ export const RightLoyalty = styled.div`
   }
 `;
 export const LeftLoyalty = styled.div`
-  width: ${(props: ILeftLoyalitiy) => props.width || '38%'};
+  width: ${(props: ILeftLoyalitiy) => props.width || "38%"};
   height: 90%;
   display: flex;
   justify-content: start;
@@ -29,7 +32,7 @@ export const LeftLoyalty = styled.div`
   margin-top: 20px;
   margin-bottom: 20px;
   border-right: 3px solid #7a85e6;
-  flex-direction: ${(props: ILeftLoyalitiy) => props.flexDirection || 'row'};
+  flex-direction: ${(props: ILeftLoyalitiy) => props.flexDirection || "row"};
 `;
 
 export const LargePanel = styled.div`

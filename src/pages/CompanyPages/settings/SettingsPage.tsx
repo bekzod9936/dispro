@@ -1,65 +1,83 @@
-import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import HorizontalMenu from '../../../components/Custom/HorizontalMenu';
-import { Flex } from '../../../styles/BuildingBlocks';
-import { PageWrapper, PageWrapperFlex } from '../../../styles/CustomStyles';
-import AwardingSection from './AwardingSection';
-import LoyaltyProgramSection from './LoyaltyProgramSection';
-import QRCodesSection from './QRCodesSection';
-import ReferalProgrammSection from './ReferalProgrammSection';
-import SecuritySection from './SecuritySection';
+import { useState, Suspense, lazy } from "react";
+import { useTranslation } from "react-i18next";
+import { Switch, Route } from "react-router-dom";
+import NavBar from "src/components/Custom/NavBar";
+import Title from "src/components/Custom/Title";
+import { Flex } from "../../../styles/BuildingBlocks";
+import { PageWrapperFlex } from "../../../styles/CustomStyles";
+import AwardingSection from "./screens/AwardingSection";
+import LoyaltyProgramSection from "./screens/LoyaltyProgramSection";
+import QRCodesSection from "./screens/QRCodesSection";
+import ReferalProgrammSection from "./screens/ReferalProgrammSection";
+import SecuritySection from "./screens/SecuritySection";
+
+export interface ISettingsRow {
+  path: string;
+  text: string;
+  component: any;
+}
 
 const SettingsPage = () => {
-  const [section, setSection] = useState('loyaltyProgram');
+  const [section, setSection] = useState("loyaltyProgram");
 
   const { t } = useTranslation();
-  const menuItems = [
+  const menuItems: ISettingsRow[] = [
     {
-      key: 'loyaltyProgram',
-      title: t('loyaltyProgram'),
+      path: "/settings",
+      text: t("loyaltyProgram"),
+      component: LoyaltyProgramSection,
     },
     {
-      key: 'referalProgram',
-      title: t('referalProgram'),
+      path: "/settings/referalProgram",
+      text: t("referalProgram"),
+      component: ReferalProgrammSection,
     },
     {
-      key: 'awarding',
-      title: t('awarding'),
+      path: "/settings/awarding",
+      text: t("awarding"),
+      component: AwardingSection,
     },
     {
-      key: 'security',
-      title: t('security'),
+      path: "/settings/security",
+      text: t("security"),
+      component: SecuritySection,
     },
     {
-      key: 'qrcodes',
-      title: t('qrcodes'),
+      path: "/settings/qrcodes",
+      text: t("qrcodes"),
+      component: QRCodesSection,
     },
   ];
 
-  const renderSection = () => {
-    switch (section) {
-      case 'referalProgram':
-        return <ReferalProgrammSection />;
-      case 'loyaltyProgram':
-        return <LoyaltyProgramSection />;
-      case 'awarding':
-        return <AwardingSection />;
-      case 'security':
-        return <SecuritySection />;
-      case 'qrcodes':
-        return <QRCodesSection />;
-    }
-  };
+  // const renderSection = () => {
+  //   switch (section) {
+  //     case 'referalProgram':
+  //       return <ReferalProgrammSection />;
+  //     case 'loyaltyProgram':
+  //       return <LoyaltyProgramSection />;
+  //     case 'awarding':
+  //       return <AwardingSection />;
+  //     case 'security':
+  //       return <SecuritySection />;
+  //     case 'qrcodes':
+  //       return <QRCodesSection />;
+  //   }
+  // };
+
   return (
     <PageWrapperFlex>
-      <Flex width='80%' alignItems='center' margin='0px'>
-        <HorizontalMenu
-          menuItems={menuItems}
-          section={section}
-          menuItemClickHandler={(key: string) => setSection(key)}
-        />
+      <Title>{t("settings")}</Title>
+      <Flex width="80%" alignItems="center" margin="0px">
+        <NavBar list={menuItems} margin="20px 0" padding="0 0 10px 0" />
       </Flex>
-      {renderSection()}
+
+      <Switch>
+        <Suspense fallback={<div>loading..</div>}>
+          {menuItems.map((item) => {
+            return <Route exact path={item.path} component={item.component} />;
+          })}
+        </Suspense>
+      </Switch>
     </PageWrapperFlex>
   );
 };

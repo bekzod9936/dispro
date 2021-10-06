@@ -5,9 +5,10 @@ import fallbackImg from "../../../assets/icons/SideBar/logo.png";
 interface IProps {
   alt: string;
   src: string;
+  objectFit: "contain" | "cover" | "none" | "scale-down" | "fill";
 }
 
-const ImageLazyLoad = ({ alt = "", src }: IProps) => {
+const ImageLazyLoad = ({ alt = "", src, objectFit = "contain" }: IProps) => {
   return (
     <LazyImage
       onError={(e: any) => {
@@ -17,6 +18,7 @@ const ImageLazyLoad = ({ alt = "", src }: IProps) => {
       alt={alt}
       effect="blur"
       src={src}
+      objectFit={objectFit}
     />
   );
 };
