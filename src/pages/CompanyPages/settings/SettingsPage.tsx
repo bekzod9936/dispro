@@ -1,65 +1,38 @@
-import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import HorizontalMenu from '../../../components/Custom/HorizontalMenu';
-import { Flex } from '../../../styles/BuildingBlocks';
-import { PageWrapper, PageWrapperFlex } from '../../../styles/CustomStyles';
-import AwardingSection from './AwardingSection';
-import LoyaltyProgramSection from './LoyaltyProgramSection';
-import QRCodesSection from './QRCodesSection';
-import ReferalProgrammSection from './ReferalProgrammSection';
-import SecuritySection from './SecuritySection';
+import { Suspense } from "react";
+import { useTranslation } from "react-i18next";
+import { Switch, Route } from "react-router-dom";
+import NavBar from "src/components/Custom/NavBar";
+import Spinner from "src/components/Custom/Spinner";
+import Title from "src/components/Custom/Title";
+import { Flex } from "../../../styles/BuildingBlocks";
+import { PageWrapperFlex } from "../../../styles/CustomStyles";
+import useSettingsRoute from "./routes";
+import { SpinnerDiv } from "./styles";
 
 const SettingsPage = () => {
-  const [section, setSection] = useState('loyaltyProgram');
-
   const { t } = useTranslation();
-  const menuItems = [
-    {
-      key: 'loyaltyProgram',
-      title: t('loyaltyProgram'),
-    },
-    {
-      key: 'referalProgram',
-      title: t('referalProgram'),
-    },
-    {
-      key: 'awarding',
-      title: t('awarding'),
-    },
-    {
-      key: 'security',
-      title: t('security'),
-    },
-    {
-      key: 'qrcodes',
-      title: t('qrcodes'),
-    },
-  ];
+  const { menuItems } = useSettingsRoute();
 
-  const renderSection = () => {
-    switch (section) {
-      case 'referalProgram':
-        return <ReferalProgrammSection />;
-      case 'loyaltyProgram':
-        return <LoyaltyProgramSection />;
-      case 'awarding':
-        return <AwardingSection />;
-      case 'security':
-        return <SecuritySection />;
-      case 'qrcodes':
-        return <QRCodesSection />;
-    }
-  };
   return (
     <PageWrapperFlex>
-      <Flex width='80%' alignItems='center' margin='0px'>
-        <HorizontalMenu
-          menuItems={menuItems}
-          section={section}
-          menuItemClickHandler={(key: string) => setSection(key)}
-        />
+      <Title>{t("settings")}</Title>
+      <Flex width="80%" alignItems="center" margin="0px">
+        <NavBar list={menuItems} margin="20px 0" padding="0 10px 10px 0" />
       </Flex>
-      {renderSection()}
+
+      <Switch>
+        <Suspense
+          fallback={
+            <SpinnerDiv>
+              <Spinner />
+            </SpinnerDiv>
+          }
+        >
+          {menuItems.map((item) => {
+            return <Route exact path={item.path} component={item.component} />;
+          })}
+        </Suspense>
+      </Switch>
     </PageWrapperFlex>
   );
 };

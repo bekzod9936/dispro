@@ -1,11 +1,16 @@
-import React from 'react';
-import Select from '../Custom/Select';
-import { Container } from './style';
-import { useTranslation } from 'react-i18next';
-import { Arrow } from '../../assets/icons/LoginPage/LoginPageIcons';
-import { RuFlagIcons } from '../../assets/icons/LoginPage/LoginPageIcons';
-import { EnFlagIcons } from '../../assets/icons/LoginPage/LoginPageIcons';
-import { UzFlagIcons } from '../../assets/icons/LoginPage/LoginPageIcons';
+import Select from "../Custom/Select";
+import { useTranslation } from "react-i18next";
+import { Arrow } from "../../assets/icons/LoginPage/LoginPageIcons";
+import i18n from "../../services/localization/i18n";
+// Components
+
+//Assets
+import { RuFlagIcons } from "../../assets/icons/LoginPage/LoginPageIcons";
+import { EnFlagIcons } from "../../assets/icons/LoginPage/LoginPageIcons";
+import { UzFlagIcons } from "../../assets/icons/LoginPage/LoginPageIcons";
+
+//Styles
+import { Container } from "./style";
 
 interface Props {
   border?: string;
@@ -14,35 +19,37 @@ interface Props {
 const LangSelect = ({ border }: Props) => {
   const { t } = useTranslation();
 
-  const handleChange = (v: any) => {
-    localStorage.setItem('language', v);
+  const handleChange = (lang: string) => {
+    localStorage.setItem("language", lang);
+    i18n.changeLanguage(lang);
+    console.log(lang, "value");
   };
 
   const options = [
     {
-      id: 'ru',
+      id: "ru",
       value: (
         <>
           <RuFlagIcons />
-          {t('russian')}
+          {t("russian")}
         </>
       ),
     },
     {
-      id: 'uz',
+      id: "uz",
       value: (
         <>
           <UzFlagIcons />
-          {t('uzbek')}
+          {t("uzbek")}
         </>
       ),
     },
     {
-      id: 'en',
+      id: "en",
       value: (
         <>
           <EnFlagIcons />
-          {t('english')}
+          {t("english")}
         </>
       ),
     },
@@ -52,16 +59,16 @@ const LangSelect = ({ border }: Props) => {
     <Container>
       <Select
         onChange={handleChange}
-        width='fit-content'
+        width="fit-content"
         minWidth={200}
-        height='70px'
+        height="70px"
         minHeight={45}
         maxHeight={60}
         radius={46}
-        bgcolor='transparent'
-        border={border ? border : '1px solid #223367'}
-        tcolor='#223367'
-        defaultValue={localStorage.getItem('language') || 'ru'}
+        bgcolor="transparent"
+        border={border ? border : "1px solid #223367"}
+        tcolor="#223367"
+        defaultValue={localStorage.getItem("language") || "ru"}
         options={options}
         Icon={Arrow}
         paddingLeft={20}

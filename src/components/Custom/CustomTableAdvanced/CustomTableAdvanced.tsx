@@ -1,24 +1,21 @@
+import React, { useRef, useState } from "react";
 import {
   Checkbox,
-  Hidden,
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
   TableRow,
-} from '@material-ui/core';
-import { PaginationItem } from '@material-ui/lab';
-import React, { useRef, useState } from 'react';
-import { makeStyles } from '@material-ui/core';
-import { useTranslation } from 'react-i18next';
-import { useAppSelector } from '../../services/redux/hooks';
-import { Text } from '../../styles/CustomStyles';
-import { PuzzleIcon } from '../../assets/icons/ClientsPageIcons/ClientIcons';
-import { Flex } from '../../styles/BuildingBlocks';
-import DropDown from './DropDown';
-import { StyledPagination } from '../../styles/Elements';
-import { FONT_SIZE, FONT_WEIGHT } from '../../services/Types/enums';
+} from "@material-ui/core";
+import { useTranslation } from "react-i18next";
+import { useAppSelector } from "../../../services/redux/hooks";
+import { Text } from "../../../styles/CustomStyles";
+import { PuzzleIcon } from "../../../assets/icons/ClientsPageIcons/ClientIcons";
+import { Flex } from "../../../styles/BuildingBlocks";
+import DropDown from "../DropDown";
+import { StyledPagination } from "../../../styles/Elements";
+import { TableDiv, TableLoader, useStyles } from "./style";
+import Spinner from "src/components/Helpers/Spinner";
 
 interface IProps {
   rows: any;
@@ -30,48 +27,9 @@ interface IProps {
   handleClientClick: (id: number) => void;
   checked?: boolean;
   handleAllCheck?: any;
+  loading?: boolean;
 }
 
-const useStyles = makeStyles({
-  table: {
-    maxWidth: '100%',
-    background: 'white',
-    borderRadius: '12px',
-  },
-  pagination: {
-    border: '1px solid black',
-  },
-  tableHead: {
-    boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.04)',
-    position: 'relative',
-    zIndex: 10,
-  },
-  tableHeadCell: {
-    fontSize: '15px',
-    fontWeight: 400,
-    color: '#A5A5A5',
-    border: 'none',
-  },
-  container: {
-    paddingBottom: '8px',
-    background: 'white',
-    borderRadius: '12px',
-    width: '95%',
-    maxWidth: '80vw',
-  },
-  cell: {
-    border: 'none',
-  },
-  tableRow: {
-    '&:nth-of-type(odd)': {
-      background: '#F0F1FD',
-      //opacity: "0.92",
-    },
-    '&:nth-of-type(even)': {
-      backgroundColor: 'white',
-    },
-  },
-});
 const CustomTableAdvanced: React.FC<IProps> = ({
   handleAllCheck,
   handleClientClick,
@@ -81,6 +39,7 @@ const CustomTableAdvanced: React.FC<IProps> = ({
   totalCount,
   handlePageChange,
   page,
+  loading = false,
   checked,
 }) => {
   const { t } = useTranslation();
@@ -89,11 +48,11 @@ const CustomTableAdvanced: React.FC<IProps> = ({
   const headersAllowed = useAppSelector(
     (state) => state.clients.clientsHeaders
   );
-  const filteredHeaders = headers.filter((item: any) =>
+  const filteredHeaders = headers?.filter((item: any) =>
     headersAllowed.includes(item)
   );
   const [openDrop, setOpenDrop] = useState<boolean>(false);
-  const filteredRows = rows.map((item: any) => {
+  const filteredRows = rows?.map((item: any) => {
     let filteredRow: any = {
       data: {},
     };
@@ -108,32 +67,32 @@ const CustomTableAdvanced: React.FC<IProps> = ({
 
   return (
     <>
-      <TableContainer className={classes.container}>
+      <TableDiv>
         <Flex
-          justifyContent='space-between'
-          alignItems='center'
-          width='100%'
-          padding='18px 40px'
+          justifyContent="space-between"
+          alignItems="center"
+          width="100%"
+          padding="18px 40px"
         >
           <div>
             <Text
-              fontSize='16.5px'
+              fontSize="16.5px"
               fontWeight={500}
-              marginLeft='0px'
-              marginRight='0px'
+              marginLeft="0px"
+              marginRight="0px"
             >
-              {t('clients')}
+              {t("clients")}
             </Text>
           </div>
 
           <div
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'start',
-              position: 'absolute',
-              right: '20px',
-              top: '15px',
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "start",
+              position: "absolute",
+              right: "20px",
+              top: "15px",
             }}
           >
             <span
@@ -143,24 +102,24 @@ const CustomTableAdvanced: React.FC<IProps> = ({
               }}
             >
               <Text
-                marginRight='10px'
-                marginLeft='0px'
-                fontSize='16.5px'
+                marginRight="10px"
+                marginLeft="0px"
+                fontSize="16.5px"
                 fontWeight={500}
-                color='#606EEA'
+                color="#606EEA"
               >
-                {t('addColumn')}
+                {t("addColumn")}
               </Text>
               <PuzzleIcon />
             </span>
 
             <DropDown open={openDrop} ref={anchorRef}>
               <Flex
-                flexDirection='column'
-                justifyContent='space-between'
-                padding='25px 18px'
-                width='315px'
-                alignItems='flex-start'
+                flexDirection="column"
+                justifyContent="space-between"
+                padding="25px 18px"
+                width="315px"
+                alignItems="flex-start"
               >
                 {listItems}
               </Flex>
@@ -170,7 +129,7 @@ const CustomTableAdvanced: React.FC<IProps> = ({
         <Table className={classes.table}>
           <TableHead className={classes.tableHead}>
             {filteredHeaders.map((item: any) => {
-              if (item === 'check') {
+              if (item === "check") {
                 return (
                   <TableCell className={classes.tableHeadCell}>
                     <Checkbox onChange={handleAllCheck} />
@@ -185,7 +144,7 @@ const CustomTableAdvanced: React.FC<IProps> = ({
             })}
           </TableHead>
           <TableBody>
-            {filteredRows.map((item: any) => {
+            {filteredRows?.map((item: any) => {
               return (
                 <TableRow
                   onClick={() => handleClientClick(item.id)}
@@ -201,18 +160,24 @@ const CustomTableAdvanced: React.FC<IProps> = ({
             })}
           </TableBody>
         </Table>
-      </TableContainer>
+        {/* Table Loader  */}
+        {loading && (
+          <TableLoader>
+            <Spinner />
+          </TableLoader>
+        )}
+      </TableDiv>
       <div
         style={{
-          width: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
         }}
       >
         <div>
           {`Показано ${
-            (page > 1 ? page * 6 - 6 + ' - ' : '') +
+            (page > 1 ? page * 6 - 6 + " - " : "") +
             (page * 6 <= totalCount ? page * 6 : totalCount)
           } из ${totalCount} клиентов`}
         </div>

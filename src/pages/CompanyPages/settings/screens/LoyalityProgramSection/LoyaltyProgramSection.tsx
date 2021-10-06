@@ -1,45 +1,43 @@
 import {
   Checkbox,
-  FormControl,
   Input,
-  InputAdornment,
   makeStyles,
   MenuItem,
   Select,
-  Switch,
-} from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
-import { Flex } from '../../../styles/BuildingBlocks';
-import { LargePanel, LeftLoyalty, RightLoyalty } from './SettingStyles';
+} from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import { Flex } from "../../../../../styles/BuildingBlocks";
+import {
+  LargePanel,
+  LeftLoyalty,
+  RightLoyalty,
+} from "../../styles/SettingStyles";
 import {
   CustomButton,
   ModalComponent,
   Text,
-} from '../../../styles/CustomStyles';
-import { width } from '@material-ui/system';
-import CustomInput from '../../../components/Custom/CustomInput';
-import { AddIconSettings } from '../../../assets/icons/SettingsIcons/SettingsPageIcon';
-import { useTranslation } from 'react-i18next';
-import { Controller, useForm } from 'react-hook-form';
-import {
-  AddIcon,
-  SaveIcon,
-} from '../../../assets/icons/InfoPageIcons/InfoPageIcons';
-import partnerApi from '../../../services/interceptors/companyInterceptor';
-import { useQuery } from 'react-query';
+} from "../../../../../styles/CustomStyles";
+import CustomInput from "../../../../../components/Custom/CustomInput";
+import { useTranslation } from "react-i18next";
+import { Controller, useForm } from "react-hook-form";
+import { SaveIcon } from "../../../../../assets/icons/InfoPageIcons/InfoPageIcons";
+import partnerApi from "../../../../../services/interceptors/companyInterceptor";
+import { useQuery } from "react-query";
 import {
   fetchBonusPoints,
   fetchCashback,
-  fetchDiscount,
-} from '../../../services/queries/PartnerQueries';
-import { copyResponse } from 'workbox-core';
-import { COLORS, FONT_SIZE, FONT_WEIGHT } from '../../../services/Types/enums';
-import { StyledSwitch } from '../../../components/Custom/CustomSwitch';
-import { createMuiTheme } from '@material-ui/core';
-import { purple } from '@material-ui/core/colors';
-import CustomModal from '../../../components/Custom/CustomModal';
-import { SyncIcon } from '../../../assets/icons/FeedBackIcons.tsx/FeedbackIcons';
-import { CancelIcon } from '../../../assets/icons/ClientsPageIcons/ClientIcons';
+} from "../../../../../services/queries/PartnerQueries";
+import {
+  COLORS,
+  FONT_SIZE,
+  FONT_WEIGHT,
+} from "../../../../../services/Types/enums";
+import { StyledSwitch } from "../../../../../components/Custom/CustomSwitch";
+import { createMuiTheme } from "@material-ui/core";
+import { purple } from "@material-ui/core/colors";
+import CustomModal from "../../../../../components/Custom/CustomModal";
+import { SyncIcon } from "../../../../../assets/icons/FeedBackIcons.tsx/FeedbackIcons";
+import { CancelIcon } from "../../../../../assets/icons/ClientsPageIcons/ClientIcons";
 interface IFields {
   id: number;
   name: string;
@@ -59,10 +57,10 @@ const theme = createMuiTheme({
 });
 const useStyles = makeStyles({
   select: {
-    '& .MuiInput-underline:after': {
-      borderBottom: '2px solid ' + COLORS.purple, // Semi-transparent underline
+    "& .MuiInput-underline:after": {
+      borderBottom: "2px solid " + COLORS.purple, // Semi-transparent underline
     },
-    '& .MuiInput-underline': {
+    "& .MuiInput-underline": {
       color: COLORS.purple,
     },
   },
@@ -74,43 +72,41 @@ const LoyaltyProgramSection = () => {
   const initialFields: any = [
     {
       id: 0,
-      name: '',
+      name: "",
       percent: 0,
       requirements: [
-        { type: 1, amount: '', unit: 'UZS', condition: '', id: 0 },
+        { type: 1, amount: "", unit: "UZS", condition: "", id: 0 },
       ],
     },
   ];
   const { control, handleSubmit, setValue } = useForm({});
-  const rightLoyalty = document.getElementById('rightLoyalty');
-  const largePanel = document.getElementById('largePanel');
 
-  const [swithcState, setSwitchState] = useState('');
+  const [swithcState, setSwitchState] = useState("");
   const [refetchCashback, setRefetchCashback] = useState(0);
   const [refetchDiscount, setRefetchDiscount] = useState(0);
   const [refetchBonusPoints, setRefetchBonusPoints] = useState(0);
   const [active, setActive] = useState<
-    'discount' | 'cashback' | 'bonusPoints' | ''
-  >('');
+    "discount" | "cashback" | "bonusPoints" | ""
+  >("");
   const [switchChange, setSwitchChange] = useState(0);
   const [assertModalVisible, setAssertModalVisible] = useState<boolean>(false);
   const responseCashback = useQuery(
-    ['cashback', refetchCashback],
+    ["cashback", refetchCashback],
     fetchCashback,
     {
       retry: 0,
       refetchOnWindowFocus: false,
       onSuccess: (data: any) => {
         if (data?.data?.data?.isActive) {
-          setActive('cashback');
-          setValue('max_percent', data.data.data.maxAmount);
-          setValue('give_cashback_after', data.data.data.cashbackReturnedDay);
+          setActive("cashback");
+          setValue("max_percent", data.data.data.maxAmount);
+          setValue("give_cashback_after", data.data.data.cashbackReturnedDay);
           let copy = [...initialFields];
           copy[0].id = 0;
           copy[0].name = data?.data?.data.name;
           copy[0].percent = data?.data?.data.percent;
           copy[0].requirements = [
-            { type: 1, amount: 0, unit: 'UZS', condition: '', id: 0 },
+            { type: 1, amount: 0, unit: "UZS", condition: "", id: 0 },
           ];
           copy = [...copy, ...data.data.data.levels];
           setFileds(copy);
@@ -119,21 +115,21 @@ const LoyaltyProgramSection = () => {
     }
   );
   const responseBonusPoints = useQuery(
-    ['Bonus', refetchBonusPoints],
+    ["Bonus", refetchBonusPoints],
     fetchBonusPoints,
     {
       retry: 0,
       refetchOnWindowFocus: false,
       onSuccess: (data: any) => {
         if (data?.data?.data?.isActive) {
-          setActive('bonusPoints');
-          setValue('max_percent', data.data.data.maxAmount);
+          setActive("bonusPoints");
+          setValue("max_percent", data.data.data.maxAmount);
           let copy = [...initialFields];
           copy[0].id = 0;
           copy[0].name = data?.data?.data.name;
           copy[0].percent = data?.data?.data.percent;
           copy[0].requirements = [
-            { type: 1, amount: 0, unit: 'UZS', condition: '', id: 1 },
+            { type: 1, amount: 0, unit: "UZS", condition: "", id: 1 },
           ];
           copy = [...copy, ...data.data.data.levels];
           setFileds(copy);
@@ -146,30 +142,30 @@ const LoyaltyProgramSection = () => {
     let copy = [...fields];
     copy.splice(0, 1);
     try {
-      if (active === 'discount') {
-        const res = await partnerApi.put('/bonus/discounts', {
+      if (active === "discount") {
+        const res = await partnerApi.put("/bonus/discounts", {
           cashbackReturnedDay: 0,
-          description: '',
+          description: "",
           isActive: true,
           levels: copy,
           maxAmount: data.max_percent,
           name: fields[0].name,
           percent: fields[0].percent,
         });
-      } else if (active === 'cashback') {
-        const res = await partnerApi.put('/bonus/cashbacks', {
+      } else if (active === "cashback") {
+        const res = await partnerApi.put("/bonus/cashbacks", {
           cashbackReturnedDay: data.give_cashback_after || 0,
-          description: '',
+          description: "",
           isActive: true,
           levels: copy,
           maxAmount: data.max_percent,
           name: fields[0].name,
           percent: fields[0].percent,
         });
-      } else if (active === 'bonusPoints') {
-        const res = await partnerApi.put('/bonus/bonuspoints', {
+      } else if (active === "bonusPoints") {
+        const res = await partnerApi.put("/bonus/bonuspoints", {
           cashbackReturnedDay: 0,
-          description: '',
+          description: "",
           isActive: true,
           levels: copy,
           maxAmount: data.max_percent,
@@ -183,11 +179,11 @@ const LoyaltyProgramSection = () => {
     }
   };
   useEffect(() => {
-    if (active === 'cashback') {
+    if (active === "cashback") {
       setRefetchCashback(refetchCashback + 1);
-    } else if (active === 'discount') {
+    } else if (active === "discount") {
       setRefetchDiscount(refetchDiscount + 1);
-    } else if (active === 'bonusPoints') {
+    } else if (active === "bonusPoints") {
       setRefetchBonusPoints(refetchBonusPoints + 1);
     }
   }, [active]);
@@ -201,10 +197,10 @@ const LoyaltyProgramSection = () => {
       let copy = [...fields];
       let newObj = {
         id: item.id + 1,
-        name: '',
+        name: "",
         percent: 0,
         requirements: [
-          { type: 1, amount: 0, unit: 'UZS', condition: '', id: 1 },
+          { type: 1, amount: 0, unit: "UZS", condition: "", id: 1 },
         ],
       };
       copy.push(newObj);
@@ -216,8 +212,8 @@ const LoyaltyProgramSection = () => {
         let newObj = {
           type: 1,
           amount: 0,
-          unit: 'UZS',
-          condition: 'and',
+          unit: "UZS",
+          condition: "and",
           id: item?.requirements.id + 1,
         };
         existing?.requirements.push(newObj);
@@ -232,7 +228,7 @@ const LoyaltyProgramSection = () => {
       setActive(key);
       setSwitchChange(switchChange + 1);
     } else if (!checked) {
-      setSwitchState('');
+      setSwitchState("");
     }
   };
 
@@ -293,24 +289,24 @@ const LoyaltyProgramSection = () => {
   useEffect(() => {
     if (switchChange > 0) {
       setFileds(initialFields);
-      setValue('max_percent', '');
+      setValue("max_percent", "");
     }
   }, [switchChange]);
   const switchItems = [
     {
-      title: 'Предоставление скидки',
-      text: 'Клиент получает скидку при каждой покупке в размере определенного %',
-      key: 'discount',
+      title: "Предоставление скидки",
+      text: "Клиент получает скидку при каждой покупке в размере определенного %",
+      key: "discount",
     },
     {
-      title: 'Предоставление кешбэка',
-      text: 'Клиент получает кешбэк в виде реальных денег после каждой покупки',
-      key: 'cashback',
+      title: "Предоставление кешбэка",
+      text: "Клиент получает кешбэк в виде реальных денег после каждой покупки",
+      key: "cashback",
     },
     {
-      title: 'Предоставление баллов',
-      text: 'Клиент получает баллы после каждой покупки которые может потратить только у вас в компании',
-      key: 'bonusPoints',
+      title: "Предоставление баллов",
+      text: "Клиент получает баллы после каждой покупки которые может потратить только у вас в компании",
+      key: "bonusPoints",
     },
   ];
   const [fields, setFileds] = useState<IFields[]>(initialFields);
@@ -324,37 +320,37 @@ const LoyaltyProgramSection = () => {
   };
 
   return (
-    <Flex justifyContent='start' flexGrow='1' margin='0px'>
+    <Flex justifyContent="start" flexGrow="1" margin="0px">
       <LeftLoyalty>
         <Flex
-          flexDirection='column'
-          justifyContent='start'
-          margin='0px'
-          alignItems='flex-start'
+          flexDirection="column"
+          justifyContent="start"
+          margin="0px"
+          alignItems="flex-start"
         >
           {switchItems.map((item) => {
             return (
               <Flex
-                width='70%'
-                justifyContent='start'
-                margin='0px 0px 35px 0px'
-                alignItems='flex-start'
+                width="70%"
+                justifyContent="start"
+                margin="0px 0px 35px 0px"
+                alignItems="flex-start"
               >
                 <StyledSwitch
                   checked={item.key === active}
                   onChange={(e: any, checked: any) =>
                     handleSwitchChange(checked, item.key)
                   }
-                  color='primary'
+                  color="primary"
                 />
-                <Flex flexDirection='column' alignItems='flex-start'>
+                <Flex flexDirection="column" alignItems="flex-start">
                   <div style={{}}>
-                    <Text fontSize='18px' fontWeight={500}>
+                    <Text fontSize="18px" fontWeight={500}>
                       {item.title}
                     </Text>
                   </div>
-                  <div style={{ marginTop: '5px', width: '290px' }}>
-                    <Text fontSize='14px' fontWeight={300}>
+                  <div style={{ marginTop: "5px", width: "290px" }}>
+                    <Text fontSize="14px" fontWeight={300}>
                       {item.text}
                     </Text>
                   </div>
@@ -365,9 +361,9 @@ const LoyaltyProgramSection = () => {
         </Flex>
       </LeftLoyalty>
 
-      <RightLoyalty id='rightLoyalty'>
+      <RightLoyalty id="rightLoyalty">
         <LargePanel
-          id='largePanel'
+          id="largePanel"
           style={{
             marginTop:
               fields.length > 2
@@ -381,7 +377,7 @@ const LoyaltyProgramSection = () => {
                 return (
                   <>
                     <Controller
-                      name='main'
+                      name="main"
                       control={control}
                       render={({ field }) => {
                         return (
@@ -396,14 +392,14 @@ const LoyaltyProgramSection = () => {
                             handleDeleteClick={() =>
                               handleDeleteClick(item, index)
                             }
-                            style={{ width: '95%' }}
+                            style={{ width: "95%" }}
                             withPercent
-                            label='status_name'
+                            label="status_name"
                             aboveInput={
-                              item.id === 0 ? 'client_statuses' : undefined
+                              item.id === 0 ? "client_statuses" : undefined
                             }
                             aboveLabel={
-                              item.id === 0 ? 'create_status' : undefined
+                              item.id === 0 ? "create_status" : undefined
                             }
                           />
                         );
@@ -413,16 +409,16 @@ const LoyaltyProgramSection = () => {
                       return (
                         <div
                           style={{
-                            display: 'flex',
-                            justifyContent: 'space-evenly',
-                            alignItems: 'baseline',
+                            display: "flex",
+                            justifyContent: "space-evenly",
+                            alignItems: "baseline",
                           }}
                         >
                           <Select
                             //  color={COLORS.purple}
                             className={classes.select}
                             style={{
-                              marginLeft: '15px',
+                              marginLeft: "15px",
                               borderColor: COLORS.purple,
                             }}
                             value={
@@ -432,14 +428,14 @@ const LoyaltyProgramSection = () => {
                               handleConditionChange(e, item, value)
                             }
                           >
-                            <MenuItem value='and'>{t('and')}</MenuItem>
-                            <MenuItem value='or'>{t('or')}</MenuItem>
-                            <MenuItem value=''>{t('')}</MenuItem>
+                            <MenuItem value="and">{t("and")}</MenuItem>
+                            <MenuItem value="or">{t("or")}</MenuItem>
+                            <MenuItem value="">{t("")}</MenuItem>
                           </Select>
                           <Select
                             style={{
-                              marginLeft: '15px',
-                              width: '140px',
+                              marginLeft: "15px",
+                              width: "140px",
                               borderColor: COLORS.purple,
                             }}
                             className={classes.select}
@@ -448,13 +444,13 @@ const LoyaltyProgramSection = () => {
                             }
                             onChange={(e) => handleSelectChange(e, item, value)}
                           >
-                            <MenuItem value={1}>{t('purchaseSum')}</MenuItem>
-                            <MenuItem value={2}>{t('companyVisits')}</MenuItem>
-                            <MenuItem value={3}>{t('recomendations')}</MenuItem>
+                            <MenuItem value={1}>{t("purchaseSum")}</MenuItem>
+                            <MenuItem value={2}>{t("companyVisits")}</MenuItem>
+                            <MenuItem value={3}>{t("recomendations")}</MenuItem>
                           </Select>
-                          <div>{t('more')}</div>
+                          <div>{t("more")}</div>
                           <Input
-                            type='number'
+                            type="number"
                             value={
                               fields[index]?.requirements[smallIndex]?.amount
                             }
@@ -469,8 +465,8 @@ const LoyaltyProgramSection = () => {
                               )
                             }
                             style={{
-                              width: '140px',
-                              marginLeft: '15px',
+                              width: "140px",
+                              marginLeft: "15px",
                               borderColor: COLORS.purple,
                             }}
                             renderSuffix={() => <span></span>}
@@ -496,49 +492,49 @@ const LoyaltyProgramSection = () => {
 
             <div>
               <Controller
-                name='max_percent'
+                name="max_percent"
                 control={control}
                 render={({ field }) => {
                   return (
                     <CustomInput
                       field={field}
-                      label='max_percent'
-                      style={{ width: '80%' }}
+                      label="max_percent"
+                      style={{ width: "80%" }}
                     />
                   );
                 }}
               />
-              {active === 'cashback' && (
+              {active === "cashback" && (
                 <div>
                   <div>
                     <Controller
-                      name='give_cashback_after'
+                      name="give_cashback_after"
                       control={control}
                       render={({ field }) => {
                         return (
                           <CustomInput
                             field={field}
-                            label='give_cashback_after'
-                            style={{ width: '80%' }}
+                            label="give_cashback_after"
+                            style={{ width: "80%" }}
                           />
                         );
                       }}
                     />
                   </div>
-                  <div style={{ marginTop: '20px' }}>
+                  <div style={{ marginTop: "20px" }}>
                     <div>
-                      <Text marginLeft='5px'>{t('p2p')}</Text>
+                      <Text marginLeft="5px">{t("p2p")}</Text>
                     </div>
                     <div>
-                      <Checkbox />{' '}
-                      <Text marginLeft='15px' fontSize='16px' fontWeight={400}>
-                        {t('useLoyaltyProgram')}
+                      <Checkbox />{" "}
+                      <Text marginLeft="15px" fontSize="16px" fontWeight={400}>
+                        {t("useLoyaltyProgram")}
                       </Text>
                     </div>
                     <div>
                       <Checkbox />
-                      <Text marginLeft='15px' fontSize='16px' fontWeight={400}>
-                        {t('substractingPoints')}
+                      <Text marginLeft="15px" fontSize="16px" fontWeight={400}>
+                        {t("substractingPoints")}
                       </Text>
                     </div>
                   </div>
@@ -546,18 +542,18 @@ const LoyaltyProgramSection = () => {
               )}
             </div>
           </form>
-          <div style={{ marginTop: '20px' }}>
-            <CustomButton type='button' onClick={handleSaveClick}>
+          <div style={{ marginTop: "20px" }}>
+            <CustomButton type="button" onClick={handleSaveClick}>
               <SaveIcon />
-              <Text marginLeft='10px' color='white'>
-                {t('save')}
+              <Text marginLeft="10px" color="white">
+                {t("save")}
               </Text>
             </CustomButton>
           </div>
         </LargePanel>
         <CustomModal open={assertModalVisible}>
           <ModalComponent>
-            <div style={{ maxWidth: '370px' }}>
+            <div style={{ maxWidth: "370px" }}>
               <Text
                 fontSize={FONT_SIZE.modalTitle}
                 fontWeight={FONT_WEIGHT.modalTitle}
@@ -565,7 +561,7 @@ const LoyaltyProgramSection = () => {
                 Вы действительно хотите поменять программу лояльности?
               </Text>
             </div>
-            <div style={{ maxWidth: '370px' }}>
+            <div style={{ maxWidth: "370px" }}>
               <Text
                 fontSize={FONT_SIZE.modalText}
                 fontWeight={FONT_WEIGHT.modalText}
@@ -576,25 +572,25 @@ const LoyaltyProgramSection = () => {
             </div>
             <div
               style={{
-                display: 'flex',
-                marginTop: '20px',
-                justifyContent: 'flex-end',
-                width: '100%',
-                alignItems: 'center',
+                display: "flex",
+                marginTop: "20px",
+                justifyContent: "flex-end",
+                width: "100%",
+                alignItems: "center",
               }}
             >
               <CustomButton
-                background='white'
+                background="white"
                 onClick={() => setAssertModalVisible(false)}
               >
                 <CancelIcon />
-                <Text>{t('cancel')}</Text>
+                <Text>{t("cancel")}</Text>
               </CustomButton>
 
-              <CustomButton type='button'>
+              <CustomButton type="button">
                 <SyncIcon />
-                <Text color='white' onClick={handleChangeClick}>
-                  {t('change')}
+                <Text color="white" onClick={handleChangeClick}>
+                  {t("change")}
                 </Text>
               </CustomButton>
             </div>

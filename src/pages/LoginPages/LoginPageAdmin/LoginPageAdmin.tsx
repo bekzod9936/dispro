@@ -1,6 +1,5 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import axios from 'axios';
+import { useForm } from "react-hook-form";
+
 interface IForm {
   phoneNumber: string;
   password: string;
@@ -13,10 +12,10 @@ const LoginPageAdmin = () => {
     <div>
       <h2>Admin</h2>
       <form onSubmit={handleSubmit(onLoginFormSubmit)}>
-        <input type='text' {...register('phoneNumber')} />
+        <input type="text" {...register("phoneNumber")} />
         <br />
-        <input type='password' {...register('password')} />
-        <button type='submit'>Login</button>
+        <input type="password" {...register("password")} />
+        <button type="submit">Login</button>
       </form>
     </div>
   );

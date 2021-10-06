@@ -1,46 +1,36 @@
-import React, { useState } from 'react';
-import { Text } from '../../../styles/CustomStyles';
-import {
-  Backdrop,
-  InputLabel,
-  makeStyles,
-  MenuItem,
-  Select,
-} from '@material-ui/core';
-import { options } from 'yargs';
-import { classes } from 'istanbul-lib-coverage';
-import { useTranslation } from 'react-i18next';
-import { ArrowDown } from '../../../assets/icons/ClientStatisticsIcons/Filters';
-import { setOperationStatistics } from '../../../services/redux/Slices/statistics';
+import React, { useState } from "react";
+import { Text } from "../../../styles/CustomStyles";
+import { InputLabel, makeStyles, MenuItem, Select } from "@material-ui/core";
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles({
   root: {
-    border: '1px solid #c2c2c2',
-    borderRadius: '14px',
-    height: '57px',
-    width: '100%',
-    boxSizing: 'border-box',
-    padding: '14px 14px',
-    position: 'relative',
+    border: "1px solid #c2c2c2",
+    borderRadius: "14px",
+    height: "57px",
+    width: "100%",
+    boxSizing: "border-box",
+    padding: "14px 14px",
+    position: "relative",
   },
   value: {},
   label: {
-    marginBottom: '10px',
+    marginBottom: "10px",
   },
   chips: {
-    display: 'flex',
-    flexWrap: 'wrap',
+    display: "flex",
+    flexWrap: "wrap",
   },
   chip: {
-    marginRight: '2px',
-    padding: '4px 6px',
-    borderRadius: '18px',
-    background: '#f5f5f5',
+    marginRight: "2px",
+    padding: "4px 6px",
+    borderRadius: "18px",
+    background: "#f5f5f5",
   },
   paper: {
-    borderRadius: '14px',
+    borderRadius: "14px",
     top: 150,
-    position: 'absolute',
+    position: "absolute",
   },
 });
 
@@ -76,23 +66,23 @@ const CustomMulitpleSelect: React.FC<IProps> = ({
   //     setValues(newArr);
   // }
   return (
-    <div style={{ width: '85%', marginTop: '25px' }}>
-      <InputLabel style={{ marginBottom: '10px' }} htmlFor='multopleselect'>
-        <Text fontSize='16px' fontWeight={700} color='#c7c7c7'>
+    <div style={{ width: "85%", marginTop: "25px" }}>
+      <InputLabel style={{ marginBottom: "10px" }} htmlFor="multopleselect">
+        <Text fontSize="16px" fontWeight={700} color="#c7c7c7">
           {t(label)}
         </Text>
       </InputLabel>
       <Select
-        id='multipleselect'
+        id="multipleselect"
         multiple
         disableUnderline
         className={classes.root}
         displayEmpty
         {...field}
-        style={{ border: fieldState.error ? '1px solid red' : undefined }}
+        style={{ border: fieldState.error ? "1px solid red" : undefined }}
         SelectDisplayProps={{
           style: {
-            background: 'none',
+            background: "none",
             zIndex: 500,
           },
           onClick: (e) => {
@@ -100,17 +90,17 @@ const CustomMulitpleSelect: React.FC<IProps> = ({
           },
         }}
         inputProps={{
-          'aria-disabled': true,
+          "aria-disabled": true,
         }}
         MenuProps={{
           MenuListProps: {},
           anchorOrigin: {
-            vertical: 'bottom',
-            horizontal: 'left',
+            vertical: "bottom",
+            horizontal: "left",
           },
           transformOrigin: {
-            vertical: 'top',
-            horizontal: 'left',
+            vertical: "top",
+            horizontal: "left",
           },
           getContentAnchorEl: null,
           classes: { paper: classes.paper },
@@ -127,8 +117,8 @@ const CustomMulitpleSelect: React.FC<IProps> = ({
                     <div className={classes.chip}>
                       {!nodeType
                         ? options[+value - 1]?.name
-                        : options[+value - 1]?.key}{' '}
-                      <span style={{ fontSize: '10pt', color: '#c0c0c0' }}>
+                        : options[+value - 1]?.key}{" "}
+                      <span style={{ fontSize: "10pt", color: "#c0c0c0" }}>
                         x
                       </span>
                     </div>
@@ -145,7 +135,7 @@ const CustomMulitpleSelect: React.FC<IProps> = ({
               value={item.id}
               style={{
                 background: field?.value?.includes(item.id)
-                  ? '#f5f5f5'
+                  ? "#f5f5f5"
                   : undefined,
               }}
             >

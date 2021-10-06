@@ -1,7 +1,14 @@
-import React from 'react';
+import { useTranslation } from "react-i18next";
+import { NotificationDiv } from "./style";
 
 const NotificationsPage = () => {
-  return <div>Notifications</div>;
+  const { t } = useTranslation();
+
+  return (
+    <NotificationDiv>
+      <p>{t("male")}</p>
+    </NotificationDiv>
+  );
 };
 
 export default NotificationsPage;
