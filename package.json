@@ -38,6 +38,7 @@
     "material-ui-popup-state": "^1.9.3",
     "moment": "2.29.1",
     "react": "17.0.2",
+    "react-cookie": "^4.1.1",
     "react-css-transition-replace": "4.0.4",
     "react-dom": "17.0.2",
     "react-geocode": "0.2.3",

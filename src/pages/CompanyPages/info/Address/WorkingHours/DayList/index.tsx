@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Checkbox, Radio, RadioGroup } from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -13,7 +13,15 @@ import {
   WrapCheck,
   WrapTime,
   DeleteIcon,
+  WorkSign,
+  NoBreakIcon,
+  SunIcon,
+  CoffeeIcon,
+  Time,
+  Wrapper,
+  WrapperTimes,
 } from './style';
+import { useAppSelector } from '../../../../../../services/redux/hooks';
 
 interface Props {
   list?: {
@@ -23,10 +31,66 @@ interface Props {
     bHours?: { from?: string; to?: string };
     weekday?: string;
   };
+  onCopy?: (e: any) => void;
+  onChange?: (e: Props) => void;
 }
 
-const DayList = ({ list }: Props) => {
+const DayList = ({ list, onCopy = () => {}, onChange = () => {} }: Props) => {
   const { t } = useTranslation();
+  const [values, setValues] = useState<any>({
+    day: 0,
+    dayOff: false,
+    wHours: { from: '', to: '' },
+    bHours: { from: '', to: '' },
+    weekday: '',
+  });
+  const [radio, setRadio] = useState<any>(false);
+  const [noon, setNoon] = useState(true);
+  const [check, setCheck] = useState(false);
+  const dataAddress: any = useAppSelector(
+    (state) => state.infoSlice.addressInfo
+  );
+  useEffect(() => {
+    setValues(list);
+  }, [list]);
+
+  useEffect(() => {
+    setRadio(values.dayOff);
+  }, [values]);
+
+  const handleRadio = (e: any) => {
+    console.log(e.target.value, 'target');
+    if (e.target.value === 'dayOff') {
+      setRadio(true);
+      const value: any = {
+        day: values.day,
+        dayOff: e.target.value,
+      };
+      onChange(value);
+    }
+    if (e.target.value === 'dayOn') {
+      const value: any = {
+        day: values.day,
+        dayOff: e.target.value,
+      };
+      onChange(value);
+      setRadio(false);
+    }
+  };
+
+  const handleLunch = () => {
+    setNoon(!noon);
+  };
+
+  const handleCopy = (e: any) => {
+    if (e.target.checked) {
+      onCopy(list?.day);
+      setCheck(true);
+    } else {
+      onCopy(null);
+      setCheck(false);
+    }
+  };
 
   return (
     <Container>
@@ -38,8 +102,9 @@ const DayList = ({ list }: Props) => {
               bgcolor: 'rgba(96, 110, 234, 0.1)',
               weight: 300,
             }}
+            width={{ width: '100%', minwidth: 80 }}
           >
-            {list?.weekday}
+            {values?.weekday}
           </Button>
         }
         popoverStyle={{ margin: '-20px 0 0 0' }}
@@ -54,65 +119,210 @@ const DayList = ({ list }: Props) => {
       >
         <Content>
           <FormControl component='fieldset'>
-            <RadioGroup aria-label='position' name='position'>
+            <RadioGroup
+              aria-label='position'
+              value={radio ? 'dayOff' : 'dayOn'}
+              name='position'
+              onChange={handleRadio}
+            >
               <FormControlLabel
-                value='weekends'
+                value='dayOff'
                 control={<Radio color='primary' />}
                 label={t('weekends')}
                 labelPlacement='end'
               />
               <FormControlLabel
-                value='weekdays'
+                value='dayOn'
                 control={<Radio color='primary' />}
                 label={t('weekdays')}
                 labelPlacement='end'
               />
-              <WrapTime>
-                <Input
-                  label={t('starttime')}
-                  type='time'
-                  margin={{
-                    laptop: '20px 20px 25px 0',
-                  }}
-                />
-                <Input
-                  label={t('endtime')}
-                  type='time'
-                  margin={{
-                    laptop: '20px 0 25px',
-                  }}
-                />
-              </WrapTime>
-              <Button
-                buttonStyle={{ color: '#223367', bgcolor: 'transparent' }}
-              >
-                {t('breaktime')}
-                <DeleteIcon />
-              </Button>
-              <WrapTime>
-                <Input
-                  label={t('starttime')}
-                  type='time'
-                  margin={{
-                    laptop: '20px 20px 25px 0',
-                  }}
-                />
-                <Input
-                  label={t('endtime')}
-                  type='time'
-                  margin={{
-                    laptop: '20px 0 25px',
-                  }}
-                />
-              </WrapTime>
-              <WrapCheck>
-                <Checkbox id='applyallday' color='primary' />
-                <Label htmlFor='applyallday'>{t('24/7')}</Label>
-              </WrapCheck>
             </RadioGroup>
+            <WrapTime>
+              <Input
+                label={t('starttime')}
+                type='time'
+                margin={{
+                  laptop: '10px 20px 20px 0',
+                }}
+                value={values?.wHours.from}
+                disabled={radio}
+                inputStyle={{
+                  height: {
+                    laptop: 45,
+                    desktop: 45,
+                    planshet: 45,
+                    mobile: 45,
+                  },
+                }}
+                lmargin={{
+                  laptop: 5,
+                  desktop: 7,
+                  mobile: 5,
+                  planshet: 5,
+                }}
+                minLength='10:00'
+                maxLength='19:00'
+                onChange={(e: any) => {
+                  const value: any = {
+                    day: values.day,
+                    wHours: { from: e.target.value },
+                  };
+                  onChange(value);
+                }}
+              />
+              <Input
+                label={t('endtime')}
+                type='time'
+                margin={{
+                  laptop: '10px 0 20px',
+                }}
+                value={values?.wHours.to}
+                disabled={radio}
+                inputStyle={{
+                  height: {
+                    laptop: 45,
+                    desktop: 45,
+                    planshet: 45,
+                    mobile: 45,
+                  },
+                }}
+                lmargin={{
+                  laptop: 5,
+                  desktop: 7,
+                  mobile: 5,
+                  planshet: 5,
+                }}
+                onChange={(e: any) => {
+                  const value: any = {
+                    day: values.day,
+                    wHours: { to: e.target.value },
+                  };
+                  onChange(value);
+                }}
+              />
+            </WrapTime>
+            <Button
+              buttonStyle={{
+                color: noon ? '#223367' : '#3492FF',
+                bgcolor: 'transparent',
+              }}
+              padding={{
+                laptop: '0',
+                desktop: '0',
+                planshet: '0',
+                mobile: '0',
+              }}
+              onClick={handleLunch}
+            >
+              {noon ? (
+                <>
+                  {t('breaktime')}
+                  <DeleteIcon />
+                </>
+              ) : (
+                t('addbreaktime')
+              )}
+            </Button>
+            {noon ? (
+              <WrapTime>
+                <Input
+                  label={t('starttime')}
+                  type='time'
+                  margin={{
+                    laptop: '0 20px 20px 0',
+                  }}
+                  value={values?.bHours.from}
+                  disabled={radio}
+                  inputStyle={{
+                    height: {
+                      laptop: 45,
+                      desktop: 45,
+                      planshet: 45,
+                      mobile: 45,
+                    },
+                  }}
+                  lmargin={{
+                    laptop: 5,
+                    desktop: 7,
+                    mobile: 5,
+                    planshet: 5,
+                  }}
+                  onChange={(e: any) => {
+                    const value: any = {
+                      day: values.day,
+                      bHours: { from: e.target.value },
+                    };
+                    onChange(value);
+                  }}
+                />
+                <Input
+                  label={t('endtime')}
+                  type='time'
+                  margin={{
+                    laptop: '0 0 20px',
+                  }}
+                  value={values?.bHours.to}
+                  disabled={radio}
+                  inputStyle={{
+                    height: {
+                      laptop: 45,
+                      desktop: 45,
+                      planshet: 45,
+                      mobile: 45,
+                    },
+                  }}
+                  lmargin={{
+                    laptop: 5,
+                    desktop: 7,
+                    mobile: 5,
+                    planshet: 5,
+                  }}
+                  onChange={(e: any) => {
+                    const value: any = {
+                      day: values.day,
+                      bHours: { to: e.target.value },
+                    };
+                    onChange(value);
+                  }}
+                />
+              </WrapTime>
+            ) : null}
+            <WrapCheck>
+              <Checkbox
+                id='applyallday'
+                color='primary'
+                onChange={handleCopy}
+                checked={check}
+              />
+              <Label htmlFor='applyallday'>{t('copydate')}</Label>
+            </WrapCheck>
           </FormControl>
         </Content>
       </Popover>
+      {dataAddress ? (
+        <WorkSign>
+          {values.dayOff ? (
+            <SunIcon />
+          ) : (
+            <>
+              <Time>{values?.wHours.from}</Time>
+              {noon ? (
+                <Wrapper>
+                  <CoffeeIcon />
+                  <WrapperTimes>
+                    <Time>{values?.bHours.from}</Time>
+                    <Time>{values?.bHours.to}</Time>
+                  </WrapperTimes>
+                </Wrapper>
+              ) : (
+                <NoBreakIcon />
+              )}
+              <Time>{values?.wHours.to}</Time>
+            </>
+          )}
+        </WorkSign>
+      ) : null}
     </Container>
   );
 };

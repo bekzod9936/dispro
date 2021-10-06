@@ -55,7 +55,10 @@ import {
   useAppSelector,
   useAppDispatch,
 } from '../../../../services/redux/hooks';
-import { setAddressAdd } from '../../../../services/redux/Slices/infoSlice';
+import {
+  setAddressAdd,
+  setAddressInfo,
+} from '../../../../services/redux/Slices/infoSlice';
 import axios from 'axios';
 
 interface FormProps {
@@ -75,6 +78,7 @@ const Address = () => {
   const [isSearchInputFocus, setIsSearchInputFocus] = useState(false);
 
   const infoPageSlice = useAppSelector((state) => state.infoSlice.addressAdd);
+  const dataAddress = useAppSelector((state) => state.infoSlice.addressInfo);
   const dispatch = useAppDispatch();
   const [open, setOpen] = useState(infoPageSlice);
   const [fillial, setFillial] = useState<IAddress[]>([]);
@@ -82,6 +86,7 @@ const Address = () => {
   const [searchFocus, setSearchFocus] = useState<boolean>(false);
   const [inpuSearch, setInpuSearch] = useState<string>('');
   const [place, setPlace] = useState<any[]>([]);
+  const [editAddress, setEditAddress] = useState([]);
 
   const comId: any = localStorage.getItem('companyId');
 
@@ -140,7 +145,7 @@ const Address = () => {
 
   const onClickMap = (e: any) => {
     const coords = e.get('coords');
-    console.log(e);
+    console.log(e.events, 'ssss');
     if (place?.length !== 0) {
       setPlace(coords);
       fetchYandexAddressName(coords[0], coords[1]);
@@ -177,6 +182,10 @@ const Address = () => {
     shouldFocusError: true,
   });
 
+  useEffect(() => {
+    setValue('address', dataAddress?.address);
+  }, [dataAddress]);
+
   const handleSearch = (e: any) => {
     setInpuSearch(e.target.value);
 
@@ -193,6 +202,13 @@ const Address = () => {
   const handleChoosFillial = (v: any) => {
     setPlace([v?.location.lat, v?.location.lng]);
     yandexRef?.setCenter([v?.location.lat, v?.location.lng], 18);
+    dispatch(setAddressInfo(v));
+    setOpen(false);
+    dispatch(setAddressAdd(false));
+    setValue('address', v.address);
+    setSearchAddress(v.address);
+    setValue('addressDesc', v.addressDesc);
+    console.log(v, 'address');
   };
 
   return (
@@ -220,6 +236,9 @@ const Address = () => {
                 onClick={() => {
                   setOpen(false);
                   dispatch(setAddressAdd(false));
+                  dispatch(setAddressInfo(null));
+                  setSearchAddress('');
+                  setValue('addressDesc', '');
                 }}
               >
                 <PlusIcon />
@@ -293,6 +312,7 @@ const Address = () => {
                 onClick={() => {
                   setOpen(true);
                   dispatch(setAddressAdd(true));
+                  dispatch(setAddressInfo(null));
                 }}
               >
                 <CloseIcon />
@@ -309,6 +329,7 @@ const Address = () => {
                   laptop: '20px 0 25px',
                 }}
                 onChange={(e) => {
+                  setValue('address', e.target.value);
                   if (!e.target.value) setSearchaddressList([]);
                   setSearchAddress(e.target.value);
                 }}
@@ -401,15 +422,6 @@ const Address = () => {
               {t('addPhoneNumber')}
             </Button>
             <Title>{t('workingHours')}</Title>
-            <Controller
-              name='aroundTheClock'
-              rules={{ required: false }}
-              control={control}
-              render={({ field }) => (
-                <Checkbox {...field} id='aroundTheClock' color='primary' />
-              )}
-            />
-            <Label htmlFor='aroundTheClock'>{t('24/7')}</Label>
             <WorkingHours />
             <ButtonsWrap>
               <ButtonWrap>

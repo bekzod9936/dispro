@@ -77,10 +77,12 @@ export interface Props {
     laptop?: string;
     desktop?: string;
   };
-  maxLength?: number;
-  minLength?: number;
+  maxLength?: number | string;
+  minLength?: number | string;
   onFocus?: () => void;
   onBlur?: () => void;
+  min?: string;
+  max?: string;
 }
 
 const NInput = ({ onChange = () => {}, ...props }: Props) => {
@@ -102,6 +104,8 @@ const NInput = ({ onChange = () => {}, ...props }: Props) => {
         inputProps={{
           maxLength: props.maxLength,
           minLength: props.minLength,
+          min: props.min,
+          max: props.max,
         }}
         autoComplete={props.autoComplete}
         autoFocus={props.autoFocus}

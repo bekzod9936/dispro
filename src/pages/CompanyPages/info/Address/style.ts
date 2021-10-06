@@ -117,6 +117,11 @@ export const WrapAddress = styled.div`
   width: 100%;
 `;
 
+export const WrapSearch = styled.div`
+  position: relative;
+  width: 100%;
+`;
+
 export const LeftSide = styled.div`
   overflow-y: auto;
   overflow-x: hidden;

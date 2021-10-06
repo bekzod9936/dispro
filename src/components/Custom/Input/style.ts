@@ -33,8 +33,12 @@ export const MInput = styled(TextField)`
   .MuiInput-underline:after {
     border: none !important;
   }
-  background-color: ${({ inputStyle }: Props) =>
-    inputStyle?.bgcolor ? inputStyle?.bgcolor : 'white'} !important;
+  background-color: ${({ inputStyle, disabled }: Props) =>
+    disabled
+      ? 'lightgray'
+      : inputStyle?.bgcolor
+      ? inputStyle?.bgcolor
+      : 'white'} !important;
   border-radius: ${({ inputStyle }: Props) =>
     inputStyle?.radius ? `${inputStyle?.radius}px` : '14px'} !important;
   border: ${({ inputStyle, error }: Props) =>
