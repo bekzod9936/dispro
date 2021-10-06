@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useMutation } from "react-query";
 import Button from "../../../../components/Custom/Button";
@@ -17,9 +17,9 @@ import {
   WrapNoPhoto,
   LabelNoPhoto,
 } from "./style";
-import { uploadPhoto } from "../../../../services/queries/InfoQueries";
-import NoPhoto from "../../../../assets/images/NoPhotos.png";
-import ImageLazyLoad from "src/components/Custom/ImageLazyLoad/ImageLazyLoad";
+import { uploadPhoto } from "services/queries/InfoQueries";
+import NoPhoto from "assets/images/NoPhotos.png";
+import ImageLazyLoad from "components/Custom/ImageLazyLoad/ImageLazyLoad";
 
 const Photos = () => {
   const { t } = useTranslation();

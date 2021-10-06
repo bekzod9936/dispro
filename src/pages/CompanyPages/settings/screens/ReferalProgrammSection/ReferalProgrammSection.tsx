@@ -23,7 +23,7 @@ import { useQuery } from "react-query";
 import { fetchBonusReferals } from "../../../../../services/queries/PartnerQueries";
 import { ThreeHeadIcon } from "../../../../../assets/icons/ClientsPageIcons/ClientIcons";
 import { COLORS, FONT_SIZE } from "../../../../../services/Types/enums";
-import { StyledSwitch } from "../../../../../components/Custom/CustomSwitch";
+import { StyledSwitch } from "../../../../../components/Custom/CustomSwitch/CustomSwitch";
 
 export interface ILeftLoyalitiy {
   width?: string;

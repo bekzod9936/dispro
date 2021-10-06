@@ -1,5 +1,4 @@
-import { Switch, withStyles } from '@material-ui/core';
-import React from 'react';
+import { Switch, withStyles } from "@material-ui/core";
 
 export const StyledSwitch = withStyles((theme) => ({
   root: {
@@ -10,30 +9,29 @@ export const StyledSwitch = withStyles((theme) => ({
   },
   switchBase: {
     padding: 1,
-    '&$checked': {
-      transform: 'translateX(23px)',
+    "&$checked": {
+      transform: "translateX(23px)",
       color: theme.palette.common.white,
-      '& + $track': {
-        backgroundColor: '#3492FF',
+      "& + $track": {
+        backgroundColor: "#3492FF",
         opacity: 1,
-        border: 'none',
+        border: "none",
       },
     },
-    '&$focusVisible $thumb': {
+    "&$focusVisible $thumb": {
       //    color: '#52d869',
       //  border: '6px solid #ffffffb7',
     },
   },
   thumb: {
-    width: 18.6,
-    height: 18.6,
+    width: 18.2,
+    height: 18.2,
   },
   track: {
     borderRadius: 26 / 2,
-
-    backgroundColor: '#C4C4C4',
+    backgroundColor: "#C4C4C4",
     opacity: 1,
-    transition: theme.transitions.create(['background-color', 'border']),
+    transition: theme.transitions.create(["background-color", "border"]),
   },
   checked: {},
   focusVisible: {},
@@ -41,7 +39,7 @@ export const StyledSwitch = withStyles((theme) => ({
   return (
     <Switch
       focusVisibleClassName={classes.focusVisible}
-      disableRipple
+      // disableRipple
       classes={{
         root: classes.root,
         switchBase: classes.switchBase,

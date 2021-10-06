@@ -1,6 +1,6 @@
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { LazyImage } from "./styles";
-import fallbackImg from "../../../assets/icons/SideBar/logo.png";
+import fallbackImg from "assets/icons/SideBar/logo.png";
 
 interface IProps {
   alt: string;

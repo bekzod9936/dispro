@@ -9,7 +9,7 @@ import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 import { fetchSafeties } from "../../../../../services/queries/PartnerQueries";
 import partnerApi from "../../../../../services/interceptors/companyInterceptor";
-import { StyledSwitch } from "../../../../../components/Custom/CustomSwitch";
+import { StyledSwitch } from "../../../../../components/Custom/CustomSwitch/CustomSwitch";
 
 const SecuritySection = () => {
   const { t } = useTranslation();

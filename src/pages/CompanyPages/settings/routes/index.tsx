@@ -1,4 +1,4 @@
-import { lazy } from "react";
+import { lazy, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 const AwardingSection = lazy(
