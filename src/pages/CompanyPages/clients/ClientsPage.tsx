@@ -1,24 +1,25 @@
-import { Avatar, Checkbox, Grid, Input } from '@material-ui/core';
-import moment from 'moment';
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useQuery } from 'react-query';
+import { Checkbox, Grid } from "@material-ui/core";
+import moment from "moment";
+import { Avatar } from "./style/style";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useQuery } from "react-query";
 import {
-  CancelIcon,
-  CoinsIcon,
-  CoinsIconWhite,
+  // CancelIcon,
+  // CoinsIcon,
+  // CoinsIconWhite,
   QRIcon,
-  TickIconButton,
-} from '../../../assets/icons/ClientsPageIcons/ClientIcons';
+  // TickIconButton,
+} from "../../../assets/icons/ClientsPageIcons/ClientIcons";
 import {
   CalendarIcon,
   FilterIcon,
-} from '../../../assets/icons/ClientStatisticsIcons/ClientStatisticsIcons';
-import CustomDatePickerForUndersection from '../../../components/Custom/CustomDatePickerForUndersection';
-import CustomInputLarge from '../../../components/Custom/CustomInputLarge';
-import CustomTableAdvanced from '../../../components/Custom/CustomTableAdvanced';
-import { fetchClients } from '../../../services/queries/PartnerQueries';
-import { useAppDispatch, useAppSelector } from '../../../services/redux/hooks';
+} from "../../../assets/icons/ClientStatisticsIcons/ClientStatisticsIcons";
+import CustomDatePickerForUndersection from "../../../components/Custom/CustomDatePickerForUndersection";
+import CustomInputLarge from "../../../components/Custom/CustomInputLarge";
+import CustomTableAdvanced from "../../../components/Custom/CustomTableAdvanced";
+import { fetchClients } from "../../../services/queries/PartnerQueries";
+import { useAppDispatch, useAppSelector } from "../../../services/redux/hooks";
 import {
   choseAllClients,
   filterClientHeaders,
@@ -39,8 +40,8 @@ import {
   setClientStartDate,
   setClientStatus,
   setClientTrafficProvider,
-} from '../../../services/redux/Slices/clientSlice';
-import { Flex, GridContainer } from '../../../styles/BuildingBlocks';
+} from "../../../services/redux/Slices/clientSlice";
+import { Flex } from "../../../styles/BuildingBlocks";
 import {
   CustomButton,
   ModalComponent,
@@ -48,27 +49,22 @@ import {
   SectionWrapper,
   Text,
   UnderSectionButton,
-} from '../../../styles/CustomStyles';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import { RightSideDrawer } from '../../../styles/Elements';
-import RightSide from './RightSide';
-import CustomModalClients from './CustomModalClients';
-import TextareaAutosize from '@material-ui/core/TextareaAutosize';
-import { makeStyles } from '@material-ui/core';
-import { boxSizing } from '@material-ui/system';
-import { Controller, useForm } from 'react-hook-form';
-import OperationProceed from './OperationProceed';
-import PersonalCardClient from './PersonalCardClient';
-import { IClientStatisticFilter } from '../../../services/Types/Components';
-import Filter from '../../../components/Custom/Filter';
-import { createImmutableStateInvariantMiddleware } from '@reduxjs/toolkit';
-import Invite from './Invite';
-import Spinner from '../../../components/Helpers/Spinner';
+} from "../../../styles/CustomStyles";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { RightSideDrawer } from "../../../styles/Elements";
+import RightSide from "./RightSide";
+import CustomModalClients from "./CustomModalClients";
+import PersonalCardClient from "./PersonalCardClient";
+import { IClientStatisticFilter } from "../../../services/Types/Components";
+import Filter from "../../../components/Custom/Filter";
+import Invite from "./Invite";
+import Spinner from "../../../components/Helpers/Spinner";
+import ImageLazyLoad from "../../../components/Custom/ImageLazyLoad/ImageLazyLoad";
 
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: '#3492FF',
+      main: "#3492FF",
     },
   },
 });
@@ -77,38 +73,37 @@ const ClientsPage = () => {
   const { t } = useTranslation();
   // const classes = useStyles();
   const headers: any = [
-    'check',
-    'client',
-    'DiscountSum',
-    'PointSum',
-    'CashbackSum',
-    'gender',
-    'age',
+    "check",
+    "client",
+    "DiscountSum",
+    "PointSum",
+    "CashbackSum",
+    "gender",
+    "age",
   ];
   const extraHeaders: any = [
-    'purchuase_amount',
-    'paid',
-    'recomendations',
-    'traffic_providers',
-    'level',
-    'last_purchase',
+    "purchuase_amount",
+    "paid",
+    "recomendations",
+    "traffic_providers",
+    "level",
+    "last_purchase",
   ];
   const totalHeaders: any = [...headers, ...extraHeaders].filter(
-    (item) => item !== 'check'
+    (item) => item !== "check"
   );
   const tableHeaders = [...headers, ...extraHeaders];
   const dispatch = useAppDispatch();
-  const [filterOpen, setFilterOpen] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
   const clients = useAppSelector((state) => state.clients);
   const [headersState, setHeadersState] = useState(totalHeaders);
   const [rows, setRows] = useState<any>(null);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [totalCount, setTotalCount] = useState<number | null>(null);
-  const [date, setDate] = useState(moment(Date.now()).format('YYYY/MM/DD'));
+  const [date, setDate] = useState(moment(Date.now()).format("YYYY/MM/DD"));
   const [page, setPage] = useState(1);
-  const [process, setProcess] = useState<'accure' | 'substract' | 'VIP' | ' '>(
-    ' '
+  const [process, setProcess] = useState<"accure" | "substract" | "VIP" | " ">(
+    " "
   );
   const [proceed, setProceed] = useState<boolean>(false);
   const [invite, setInvite] = useState<boolean>(false);
@@ -119,20 +114,20 @@ const ClientsPage = () => {
 
   const filters: IClientStatisticFilter[] = [
     {
-      title: 'gender',
-      inputType: 'radio',
-      request: 'chose_gender',
-      numOfInputs: ['male', 'female'],
+      title: "gender",
+      inputType: "radio",
+      request: "chose_gender",
+      numOfInputs: ["male", "female"],
       inputHandler: (value: any) => {
         dispatch(setClientGender(value));
       },
       checked: clientState.gender,
     },
     {
-      title: 'registration_date',
-      inputType: 'date',
-      request: 'chose_date',
-      numOfInputs: ['from', 'to'],
+      title: "registration_date",
+      inputType: "date",
+      request: "chose_date",
+      numOfInputs: ["from", "to"],
       inputHandler: (value: any, index: number) => {
         if (index === 1) {
           dispatch(setClientDateFrom(value));
@@ -144,10 +139,10 @@ const ClientsPage = () => {
       dateTo: clientState.dateTo,
     },
     {
-      title: 'purchuase_amount',
-      inputType: 'input',
-      request: 'enter_purchuase_diaposone',
-      numOfInputs: ['from', 'to'],
+      title: "purchuase_amount",
+      inputType: "input",
+      request: "enter_purchuase_diaposone",
+      numOfInputs: ["from", "to"],
       inputHandler: (value: any, index: number) => {
         if (index === 1) {
           dispatch(setClientPurchuaseAmountFrom(value));
@@ -158,28 +153,28 @@ const ClientsPage = () => {
       checked: [clientState.purchaseAmountFrom, clientState.purchaseAmountFrom],
     },
     {
-      title: 'purchuase_cost',
-      inputType: 'input',
-      request: 'enter_amount',
-      numOfInputs: ['cost'],
+      title: "purchuase_cost",
+      inputType: "input",
+      request: "enter_amount",
+      numOfInputs: ["cost"],
       inputHandler: (value: number) => {
         dispatch(setClientPurchaseCost(value));
       },
     },
     {
-      title: 'status',
-      inputType: 'checkbox',
-      request: 'chose_status',
-      numOfInputs: ['base', 'silver', 'gold', 'platinum', 'blocked'],
+      title: "status",
+      inputType: "checkbox",
+      request: "chose_status",
+      numOfInputs: ["base", "silver", "gold", "platinum", "blocked"],
       inputHandler: (value: string) => {
         dispatch(setClientStatus(value));
       },
     },
     {
-      title: 'traffic_provider',
-      inputType: 'radio',
-      request: 'chose_trafic_provider',
-      numOfInputs: ['app', 'mobile', 'cashier'],
+      title: "traffic_provider",
+      inputType: "radio",
+      request: "chose_trafic_provider",
+      numOfInputs: ["app", "mobile", "cashier"],
       inputHandler: (value: any) => {
         dispatch(setClientTrafficProvider(value));
       },
@@ -188,7 +183,7 @@ const ClientsPage = () => {
   ];
 
   const response = useQuery(
-    ['clients', page, clientState.startDate, clientState.endDate],
+    ["clients", page, clientState.startDate, clientState.endDate],
     () => fetchClients(page, clientState.startDate, clientState.endDate),
     {
       refetchOnWindowFocus: false,
@@ -213,19 +208,15 @@ const ClientsPage = () => {
                 />
               ),
               client: (
-                <Flex justifyContent='start'>
-                  <Avatar
-                    style={{
-                      width: '36px',
-                      height: '36px',
-                      borderRadius: '12px',
-                    }}
-                    src={item.image}
-                  />
+                <Flex justifyContent="start">
+                  <Avatar>
+                    <ImageLazyLoad src={item.image} alt={item?.firstName} />
+                  </Avatar>
+
                   <Text
-                    marginRight='0px'
-                    marginLeft='14px'
-                    fontSize='15px'
+                    marginRight="0px"
+                    marginLeft="14px"
+                    fontSize="15px"
                     fontWeight={400}
                   >
                     {`${item.firstName} ${item.lastName}`}
@@ -239,12 +230,12 @@ const ClientsPage = () => {
               age: parseInt(moment(item.dateOfBirth).fromNow()),
               purchuase_amount: item.addInfo.countOperation,
               paid: item.addInfo.amountOperation,
-              recomendations: '',
+              recomendations: "",
               traffic_providers: item.addInfo.sourceBy,
               level: item.addInfo.referLevel,
               last_purchase: item.addInfo.lastPurchaseDate
-                ? moment(item.addInfo.lastPurchaseDate).format('DD.MM.YY')
-                : ' - ',
+                ? moment(item.addInfo.lastPurchaseDate).format("DD.MM.YY")
+                : " - ",
             },
             id: item.id,
           };
@@ -279,19 +270,14 @@ const ClientsPage = () => {
               />
             ),
             client: (
-              <Flex justifyContent='start'>
-                <Avatar
-                  style={{
-                    width: '36px',
-                    height: '36px',
-                    borderRadius: '12px',
-                  }}
-                  src={item.image}
-                />
+              <Flex justifyContent="start">
+                <Avatar>
+                  <ImageLazyLoad src={item.image} alt={item?.firstName} />
+                </Avatar>
                 <Text
-                  marginRight='0px'
-                  marginLeft='14px'
-                  fontSize='15px'
+                  marginRight="0px"
+                  marginLeft="14px"
+                  fontSize="15px"
                   fontWeight={400}
                 >
                   {`${item.firstName} ${item.lastName}`}
@@ -305,12 +291,12 @@ const ClientsPage = () => {
             age: parseInt(moment(item.dateOfBirth).fromNow()),
             purchuase_amount: item.addInfo.countOperation,
             paid: item.addInfo.amountOperation,
-            recomendations: '',
+            recomendations: "",
             traffic_providers: item.addInfo.sourceBy,
             level: item.addInfo.referLevel,
             last_purchase: item.addInfo.lastPurchaseDate
-              ? moment(item.addInfo.lastPurchaseDate).format('DD.MM.YY')
-              : ' - ',
+              ? moment(item.addInfo.lastPurchaseDate).format("DD.MM.YY")
+              : " - ",
           },
           id: item.id,
         };
@@ -320,23 +306,28 @@ const ClientsPage = () => {
   }, [client.length]);
 
   const accurePoints = () => {
-    setProcess('accure');
+    setProcess("accure");
     setModalVisible(true);
   };
+
   const substractPoints = () => {
-    setProcess('substract');
+    setProcess("substract");
     setModalVisible(true);
   };
+
   const vipHandle = () => {
-    setProcess('VIP');
+    setProcess("VIP");
     setModalVisible(true);
   };
+
   const choseAllHandler = () => {
     dispatch(choseAllClients(response.data?.data.data.clients));
   };
+
   const cancelChose = () => {
     dispatch(resetClients());
   };
+
   const handleCheckboxChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     checked: boolean,
@@ -353,6 +344,7 @@ const ClientsPage = () => {
       dispatch(filterClients(id));
     }
   };
+
   const handleAllChecked = (e: any, checked: any) => {
     if (checked) {
       dispatch(setAllClients(responseData));
@@ -399,56 +391,59 @@ const ClientsPage = () => {
 
   const addColumns = totalHeaders.map((item: string) => {
     return (
-      <Flex margin='0px' justifyContent='start' alignItems='center'>
+      <Flex margin="0px" justifyContent="start" alignItems="center">
         <ThemeProvider theme={theme}>
           <Checkbox
-            color='primary'
+            color="primary"
             checked={clients.clientsHeaders.includes(item)}
             value={item}
             onChange={(e, checked) => handleAddColumn(e, checked)}
           />
         </ThemeProvider>
 
-        <Text marginLeft='18px' fontSize='15px' fontWeight={400}>
+        <Text marginLeft="18px" fontSize="15px" fontWeight={400}>
           {t(item)}
         </Text>
       </Flex>
     );
   });
+
   return (
     <>
       {!persCard ? (
         <PageWrapper>
-          <Text marginLeft='0px' marginRight='0px' fontSize='21px'>
-            {t('clients')}
+          <Text marginLeft="0px" marginRight="0px" fontSize="21px">
+            {t("clients")}
           </Text>
           <Text
-            marginLeft='10px'
-            fontSize='14px'
+            marginLeft="10px"
+            fontSize="14px"
             fontWeight={500}
-            color='#8F8F8F'
+            color="#8F8F8F"
           >
             {response.data?.data.data.totalCount &&
-              `   ${t('totalClients')} ${response?.data?.data.data.totalCount}`}
+              `   ${t("totalClients")} ${response?.data?.data.data.totalCount}`}
           </Text>
+          {/* Filter Section  */}
+
           <Grid container lg={12}>
             <Grid container lg={7}>
               <CustomInputLarge onChange={handleSearchChange} />
               <Flex
-                justifyContent='space-between'
-                alignItems='center'
-                width='fit-content'
-                margin='0px'
+                justifyContent="space-between"
+                alignItems="center"
+                width="fit-content"
+                margin="0px"
               >
                 <UnderSectionButton
                   onClick={() => {
                     dispatch(setClientFilterIsOpen(!clientState.filterIsOpen));
                   }}
                 >
-                  <span style={{ minHeight: '28px', minWidth: '28px' }}>
+                  <span style={{ minHeight: "28px", minWidth: "28px" }}>
                     <FilterIcon />
                   </span>
-                  <Text>{t('filters')}</Text>
+                  <Text>{t("filters")}</Text>
                 </UnderSectionButton>
                 <UnderSectionButton>
                   <span
@@ -461,29 +456,29 @@ const ClientsPage = () => {
                   </span>
                   <div>
                     <div>
-                      <Text>{t('datePicker')}</Text>
+                      <Text>{t("datePicker")}</Text>
                     </div>
 
                     <div>
-                      <Text fontSize='12px' color='silver' fontWeight={400}>
+                      <Text fontSize="12px" color="silver" fontWeight={400}>
                         {(clients.startDate
                           ? moment(clients.startDate)
-                              .locale('ru')
-                              .format('ll') + '-'
-                          : '') +
+                              .locale("ru")
+                              .format("ll") + "-"
+                          : "") +
                           `${
                             clients.endDate
                               ? moment(clients.endDate)
-                                  .locale('ru')
-                                  .format('ll')
-                              : ''
+                                  .locale("ru")
+                                  .format("ll")
+                              : ""
                           }`}
                       </Text>
                     </div>
                   </div>
 
                   <CustomDatePickerForUndersection
-                    style={{ visibility: 'hidden', position: 'absolute' }}
+                    style={{ visibility: "hidden", position: "absolute" }}
                     handleDateChange={handleDateChange}
                     isOpen={open}
                     top={300}
@@ -497,15 +492,17 @@ const ClientsPage = () => {
                   }}
                 >
                   <QRIcon />
-                  <Text>{t('invite')}</Text>
+                  <Text>{t("invite")}</Text>
                 </UnderSectionButton>
               </Flex>
             </Grid>
           </Grid>
+
+          {/* Client Table  */}
           <SectionWrapper>
             {clientState.filterIsOpen && (
               <Filter
-                top='0px'
+                top="0px"
                 onApply={() => dispatch(setClientApplied(true))}
                 filters={filters}
               />
@@ -525,9 +522,9 @@ const ClientsPage = () => {
             ) : (
               <div
                 style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
                   flex: 1,
                 }}
               >

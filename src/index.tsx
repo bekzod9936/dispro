@@ -1,26 +1,26 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
 //import reportWebVitals from './reportWebVitals';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { store } from './services/redux/store';
-import { Provider } from 'react-redux';
+import { QueryClient, QueryClientProvider } from "react-query";
+import { store } from "./services/redux/store";
+import { Provider } from "react-redux";
 //import * as serviceWorkerRegistration from './serviceWorkerRegistration';
-import { StylesProvider } from '@material-ui/core';
+import { StylesProvider } from "@material-ui/core";
 //import { getToken } from "firebase"
 //import { URL } from 'url';
-import { I18nextProvider } from 'react-i18next';
-import i18n from './services/localization/i18n';
-import { BrowserRouter } from 'react-router-dom';
-import DateFnsUtils from '@material-ui/pickers/adapter/date-fns';
-import { enUS, ru, uz } from 'date-fns/locale';
-import { LocalizationProvider } from '@material-ui/pickers';
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import { I18nextProvider } from "react-i18next";
+import i18n from "./services/localization/i18n";
+import { BrowserRouter } from "react-router-dom";
+import DateFnsUtils from "@material-ui/pickers/adapter/date-fns";
+import { enUS, ru, uz } from "date-fns/locale";
+import { LocalizationProvider } from "@material-ui/pickers";
+import { createTheme, MuiThemeProvider } from "@material-ui/core/styles";
 
 const queryClient = new QueryClient();
 
-const theme = createMuiTheme({
+const theme = createTheme({
   breakpoints: {
     values: {
       xs: 0,
@@ -37,29 +37,29 @@ ReactDOM.render(
     <MuiThemeProvider theme={theme}>
       <LocalizationProvider
         locale={
-          localStorage.getItem('language') === 'en'
+          localStorage.getItem("language") === "en"
             ? enUS
-            : localStorage.getItem('language') === 'uz'
+            : localStorage.getItem("language") === "uz"
             ? uz
             : ru
         }
         dateAdapter={DateFnsUtils}
       >
-        <I18nextProvider i18n={i18n}>
-          <StylesProvider injectFirst>
-            <Provider store={store}>
-              <QueryClientProvider client={queryClient}>
-                <BrowserRouter>
+        <StylesProvider injectFirst>
+          <Provider store={store}>
+            <QueryClientProvider client={queryClient}>
+              <BrowserRouter>
+                <I18nextProvider i18n={i18n}>
                   <App />
-                </BrowserRouter>
-              </QueryClientProvider>
-            </Provider>
-          </StylesProvider>
-        </I18nextProvider>
+                </I18nextProvider>
+              </BrowserRouter>
+            </QueryClientProvider>
+          </Provider>
+        </StylesProvider>
       </LocalizationProvider>
     </MuiThemeProvider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // serviceWorkerRegistration.register({
