@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import CustomInput from "../../../../components/Custom/CustomInput";
-import { Flex } from "../../../../styles/BuildingBlocks";
-import { SettingsWrapper } from "../SettingStyles";
-import { CustomButton, Text } from "../../../../styles/CustomStyles";
-import { SaveIcon } from "../../../../assets/icons/InfoPageIcons/InfoPageIcons";
+import CustomInput from "../../../../../components/Custom/CustomInput";
+import { Flex } from "../../../../../styles/BuildingBlocks";
+import { SettingsWrapper } from "../../styles/SettingStyles";
+import { CustomButton, Text } from "../../../../../styles/CustomStyles";
+import { SaveIcon } from "../../../../../assets/icons/InfoPageIcons/InfoPageIcons";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
-import { fetchSafeties } from "../../../../services/queries/PartnerQueries";
-import partnerApi from "../../../../services/interceptors/companyInterceptor";
-import { StyledSwitch } from "../../../../components/Custom/CustomSwitch";
+import { fetchSafeties } from "../../../../../services/queries/PartnerQueries";
+import partnerApi from "../../../../../services/interceptors/companyInterceptor";
+import { StyledSwitch } from "../../../../../components/Custom/CustomSwitch";
 
 const SecuritySection = () => {
   const { t } = useTranslation();

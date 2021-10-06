@@ -16,7 +16,7 @@ export const Container = styled.div`
   grid-column-gap: 10px;
   overflow: auto;
 
-  padding: ${({ padding = "0 0 10px 0" }: Props) => padding};
+  padding: ${({ padding = "0 10px 10px 0" }: Props) => padding};
   margin: ${({ margin }: Props) => margin};
   &::-webkit-scrollbar {
     appearance: none;

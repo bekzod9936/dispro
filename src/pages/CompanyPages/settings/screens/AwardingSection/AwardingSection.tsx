@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import { Flex } from "../../../../styles/BuildingBlocks";
-import { CustomButton, Text } from "../../../../styles/CustomStyles";
+import { Flex } from "../../../../../styles/BuildingBlocks";
+import { CustomButton, Text } from "../../../../../styles/CustomStyles";
 import { Switch } from "@material-ui/core";
-import CustomInput from "../../../../components/Custom/CustomInput";
-import CustomTextArea from "../../info/CustomTextArea";
+import CustomInput from "../../../../../components/Custom/CustomInput";
+import CustomTextArea from "../../../info/CustomTextArea";
 import { Controller, useForm } from "react-hook-form";
-import { SaveIcon } from "../../../../assets/icons/InfoPageIcons/InfoPageIcons";
+import { SaveIcon } from "../../../../../assets/icons/InfoPageIcons/InfoPageIcons";
 import { useTranslation } from "react-i18next";
-import partnerApi from "../../../../services/interceptors/companyInterceptor";
+import partnerApi from "../../../../../services/interceptors/companyInterceptor";
 import { useQuery } from "react-query";
-import { fetchRewards } from "../../../../services/queries/PartnerQueries";
-import { SettingsWrapper } from "../SettingStyles";
-import { StyledSwitch } from "../../../../components/Custom/CustomSwitch";
+import { fetchRewards } from "../../../../../services/queries/PartnerQueries";
+import { SettingsWrapper } from "../../styles/SettingStyles";
+import { StyledSwitch } from "../../../../../components/Custom/CustomSwitch";
 
 interface IForm {
   awardLimit: number | null;

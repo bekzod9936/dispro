@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Flex } from "../../../../styles/BuildingBlocks";
+import { Flex } from "../../../../../styles/BuildingBlocks";
 
 import {
   LeftLoyalty,
@@ -7,23 +7,23 @@ import {
   ReferalScroll,
   RightLoyalty,
   SmallPanel,
-} from "../SettingStyles";
-import { CustomButton, Text } from "../../../../styles/CustomStyles";
+} from "../../styles/SettingStyles";
+import { CustomButton, Text } from "../../../../../styles/CustomStyles";
 import { useTranslation } from "react-i18next";
 import { Controller, useForm } from "react-hook-form";
-import CustomInput from "../../../../components/Custom/CustomInput";
-import TwoUsers from "../TwoUsers";
-import { SaveIcon } from "../../../../assets/icons/InfoPageIcons/InfoPageIcons";
+import CustomInput from "../../../../../components/Custom/CustomInput";
+import TwoUsers from "../../TwoUsers";
+import { SaveIcon } from "../../../../../assets/icons/InfoPageIcons/InfoPageIcons";
 import {
   AddIconSettings,
   XIcon,
-} from "../../../../assets/icons/SettingsIcons/SettingsPageIcon";
-import partnerApi from "../../../../services/interceptors/companyInterceptor";
+} from "../../../../../assets/icons/SettingsIcons/SettingsPageIcon";
+import partnerApi from "../../../../../services/interceptors/companyInterceptor";
 import { useQuery } from "react-query";
-import { fetchBonusReferals } from "../../../../services/queries/PartnerQueries";
-import { ThreeHeadIcon } from "../../../../assets/icons/ClientsPageIcons/ClientIcons";
-import { COLORS, FONT_SIZE } from "../../../../services/Types/enums";
-import { StyledSwitch } from "../../../../components/Custom/CustomSwitch";
+import { fetchBonusReferals } from "../../../../../services/queries/PartnerQueries";
+import { ThreeHeadIcon } from "../../../../../assets/icons/ClientsPageIcons/ClientIcons";
+import { COLORS, FONT_SIZE } from "../../../../../services/Types/enums";
+import { StyledSwitch } from "../../../../../components/Custom/CustomSwitch";
 
 export interface ILeftLoyalitiy {
   width?: string;

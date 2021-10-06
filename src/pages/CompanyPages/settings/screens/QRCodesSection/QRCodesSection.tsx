@@ -4,9 +4,9 @@ import { Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import QRCode from "react-qr-code";
 import { useQuery } from "react-query";
-import { CancelIcon } from "../../../../assets/icons/ClientsPageIcons/ClientIcons";
-import { BucketIcon } from "../../../../assets/icons/FeedBackIcons.tsx/FeedbackIcons";
-import { SaveIcon } from "../../../../assets/icons/InfoPageIcons/InfoPageIcons";
+import { CancelIcon } from "../../../../../assets/icons/ClientsPageIcons/ClientIcons";
+import { BucketIcon } from "../../../../../assets/icons/FeedBackIcons.tsx/FeedbackIcons";
+import { SaveIcon } from "../../../../../assets/icons/InfoPageIcons/InfoPageIcons";
 import {
   DeleteIcon,
   DeleteIconWhite,
@@ -14,19 +14,19 @@ import {
   FilledAddIcon,
   ScrapperIcon,
   ThreeDotsIcon,
-} from "../../../../assets/icons/SettingsIcons/SettingsPageIcon";
-import CustomInput from "../../../../components/Custom/CustomInput";
-import CustomSearchFlexible from "../../../../components/Custom/CustomLargeFlexible";
-import CustomModal from "../../../../components/Custom/CustomModal";
-import CustomSelectPopoverComponent from "../../../../components/Custom/CustomSelectPopoverComponent";
-import partnerApi from "../../../../services/interceptors/companyInterceptor";
-import { fetchQRCodes } from "../../../../services/queries/PartnerQueries";
+} from "../../../../../assets/icons/SettingsIcons/SettingsPageIcon";
+import CustomInput from "../../../../../components/Custom/CustomInput";
+import CustomSearchFlexible from "../../../../../components/Custom/CustomLargeFlexible";
+import CustomModal from "../../../../../components/Custom/CustomModal";
+import CustomSelectPopoverComponent from "../../../../../components/Custom/CustomSelectPopoverComponent";
+import partnerApi from "../../../../../services/interceptors/companyInterceptor";
+import { fetchQRCodes } from "../../../../../services/queries/PartnerQueries";
 import {
   COLORS,
   FONT_SIZE,
   FONT_WEIGHT,
-} from "../../../../services/Types/enums";
-import { Flex } from "../../../../styles/BuildingBlocks";
+} from "../../../../../services/Types/enums";
+import { Flex } from "../../../../../styles/BuildingBlocks";
 import {
   CustomButton,
   ModalComponent,
@@ -34,8 +34,8 @@ import {
   OptionsListItem,
   PageWrapper,
   UnderSectionButton,
-} from "../../../../styles/CustomStyles";
-import { Text } from "../../../../styles/CustomStyles";
+} from "../../../../../styles/CustomStyles";
+import { Text } from "../../../../../styles/CustomStyles";
 const QRCodesSection = () => {
   const { t } = useTranslation();
   const [qrcodes, setQrcodes] = useState<any>([]);

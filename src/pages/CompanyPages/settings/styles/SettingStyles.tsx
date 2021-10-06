@@ -2,7 +2,7 @@ import styled from "styled-components";
 import {
   ILeftLoyalitiy,
   IRightLoyalitiy,
-} from "./screens/ReferalProgrammSection";
+} from "../screens/ReferalProgrammSection/ReferalProgrammSection";
 
 export const RightLoyalty = styled.div`
   width: ${(props: IRightLoyalitiy) => props.width || "52%"};

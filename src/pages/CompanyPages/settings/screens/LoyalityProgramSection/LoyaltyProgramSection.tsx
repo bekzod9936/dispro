@@ -6,34 +6,38 @@ import {
   Select,
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import { Flex } from "../../../../styles/BuildingBlocks";
-import { LargePanel, LeftLoyalty, RightLoyalty } from "../SettingStyles";
+import { Flex } from "../../../../../styles/BuildingBlocks";
+import {
+  LargePanel,
+  LeftLoyalty,
+  RightLoyalty,
+} from "../../styles/SettingStyles";
 import {
   CustomButton,
   ModalComponent,
   Text,
-} from "../../../../styles/CustomStyles";
-import CustomInput from "../../../../components/Custom/CustomInput";
+} from "../../../../../styles/CustomStyles";
+import CustomInput from "../../../../../components/Custom/CustomInput";
 import { useTranslation } from "react-i18next";
 import { Controller, useForm } from "react-hook-form";
-import { SaveIcon } from "../../../../assets/icons/InfoPageIcons/InfoPageIcons";
-import partnerApi from "../../../../services/interceptors/companyInterceptor";
+import { SaveIcon } from "../../../../../assets/icons/InfoPageIcons/InfoPageIcons";
+import partnerApi from "../../../../../services/interceptors/companyInterceptor";
 import { useQuery } from "react-query";
 import {
   fetchBonusPoints,
   fetchCashback,
-} from "../../../../services/queries/PartnerQueries";
+} from "../../../../../services/queries/PartnerQueries";
 import {
   COLORS,
   FONT_SIZE,
   FONT_WEIGHT,
-} from "../../../../services/Types/enums";
-import { StyledSwitch } from "../../../../components/Custom/CustomSwitch";
+} from "../../../../../services/Types/enums";
+import { StyledSwitch } from "../../../../../components/Custom/CustomSwitch";
 import { createMuiTheme } from "@material-ui/core";
 import { purple } from "@material-ui/core/colors";
-import CustomModal from "../../../../components/Custom/CustomModal";
-import { SyncIcon } from "../../../../assets/icons/FeedBackIcons.tsx/FeedbackIcons";
-import { CancelIcon } from "../../../../assets/icons/ClientsPageIcons/ClientIcons";
+import CustomModal from "../../../../../components/Custom/CustomModal";
+import { SyncIcon } from "../../../../../assets/icons/FeedBackIcons.tsx/FeedbackIcons";
+import { CancelIcon } from "../../../../../assets/icons/ClientsPageIcons/ClientIcons";
 interface IFields {
   id: number;
   name: string;
