@@ -20,6 +20,7 @@ import {
 import { useAppDispatch } from '../../../../services/redux/hooks';
 import { refetchCompanyList } from '../../../../services/redux/Slices/authSlice';
 import LogoDef from '../../../../assets/icons/SideBar/logodefault.png';
+import Cookies from 'js-cookie';
 
 const Companylist = () => {
   const history = useHistory();
@@ -49,7 +50,11 @@ const Companylist = () => {
       onSuccess: (data) => {
         localStorage.setItem('companyId', data.data.data.companyId);
         localStorage.setItem('companyToken', data.data.data.accessToken);
-        history.push('/statistics');
+        if (Cookies.get('companyState') === 'new') {
+          history.push('/info');
+        } else {
+          history.push('/statistics');
+        }
       },
     });
   };

@@ -34,11 +34,11 @@
     "framer-motion": "4.1.17",
     "i18next": "20.3.1",
     "i18next-browser-languagedetector": "6.1.1",
+    "js-cookie": "^3.0.1",
     "jwt-decode": "3.1.2",
     "material-ui-popup-state": "^1.9.3",
     "moment": "2.29.1",
     "react": "17.0.2",
-    "react-cookie": "^4.1.1",
     "react-css-transition-replace": "4.0.4",
     "react-dom": "17.0.2",
     "react-geocode": "0.2.3",
@@ -98,6 +98,7 @@
     ]
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.0",
     "fork-ts-checker-webpack-plugin": "^6.3.2"
   }
 }

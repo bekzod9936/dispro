@@ -1,11 +1,11 @@
 import styled from 'styled-components';
-import { Map } from 'react-yandex-maps';
 import { device } from '../../../../styles/device';
 import { ReactComponent as Save } from '../../../../assets/icons/IconsInfo/save.svg';
 import { ReactComponent as Plus } from '../../../../assets/icons/IconsInfo/plus.svg';
 import { ReactComponent as Search } from '../../../../assets/icons/SideBar/search.svg';
 import { ReactComponent as Close } from '../../../../assets/icons/IconsInfo/close.svg';
 import { ReactComponent as Exit } from '../../../../assets/icons/IconsInfo/exit.svg';
+import { ReactComponent as Delete } from '../../../../assets/icons/IconsInfo/deleteword.svg';
 
 interface Props {
   visable?: boolean;
@@ -35,17 +35,11 @@ export const Li = styled.li`
   }
 `;
 
-export const MapYandex = styled(Map)`
-  border: 1px solid #c4c4c4;
-  box-sizing: border-box;
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.04));
-  border-radius: 14px !important;
-  background-color: white;
-`;
-
 export const SaveIcon = styled(Save)`
   margin-right: 15px;
 `;
+
+export const DeleteIcon = styled(Delete)``;
 
 export const ExitIcon = styled(Exit)`
   margin-left: 15px;
@@ -113,7 +107,6 @@ export const WrapInput = styled.div`
 `;
 
 export const WrapAddress = styled.div`
-  position: relative;
   width: 100%;
 `;
 
@@ -134,10 +127,11 @@ export const LeftSide = styled.div`
     background-color: transparent;
   }
 
-  ::-webkit-scrollbar-thumb {
+  &::-webkit-scrollbar-thumb {
     background: #606eea;
     border-radius: 14px 0px 0px 14px;
   }
+
   @media (max-width: ${device.mobile}) {
     padding: 0 15px 10px;
   }
@@ -151,14 +145,6 @@ export const Rightside = styled.div`
   @media (max-width: ${device.mobile}) {
     display: none;
   }
-`;
-
-export const Label = styled.label`
-  font-weight: 300;
-  font-size: 16px;
-  user-select: none;
-  color: #223367;
-  cursor: pointer;
 `;
 
 export const YandexContainer = styled.div`
@@ -277,15 +263,6 @@ export const AddWrap = styled.div`
   }
 `;
 
-export const Img = styled.img`
-  width: 30px;
-  height: 30px;
-  position: absolute;
-  top: calc(50% - 30px);
-  left: calc(50% - 30px);
-  z-index: 1000;
-`;
-
 export const ButtonWrap = styled.div`
   display: none;
   @media (max-width: ${device.mobile}) {
@@ -300,5 +277,18 @@ export const ButtonsWrap = styled.div`
     justify-content: center;
     border-top: 1px solid rgba(96, 110, 234, 0.3);
     margin-top: 20px;
+  }
+`;
+
+export const WrapLocationAddress = styled.div`
+  position: relative;
+  margin-bottom: 35px;
+  & > span {
+    position: absolute;
+    top: 100%;
+    color: black;
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 5px;
   }
 `;

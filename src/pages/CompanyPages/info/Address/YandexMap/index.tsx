@@ -10,18 +10,19 @@ interface Props {
   onBoundsChange?: any;
   handleRef?: (e: any) => void;
   place?: any;
-  onClick?: (e: any) => void;
+  onClickPlaceMark?: (e: any) => void;
+  onClickLocation?: (e: any) => void;
 }
 const YandexMap = ({
   onBoundsChange,
   handleRef = () => {},
   place,
-  onClick = () => {},
+  onClickPlaceMark = () => {},
 }: Props) => {
   const defaultToshkentAddress = [41.32847446609404, 69.24298268717716];
 
-  const handleOnClick = (e: any) => {
-    onClick(e);
+  const handlePlaceMark = (e: any) => {
+    onClickPlaceMark(e);
   };
   return (
     <YMaps
@@ -41,8 +42,8 @@ const YandexMap = ({
         }}
         instanceRef={(ref: any) => handleRef(ref)}
         onBoundsChange={onBoundsChange}
-        onClick={handleOnClick}
         onLoad={(ymaps: any) => console.log(ymaps)}
+        onClick={handlePlaceMark}
       >
         {place?.length !== 0 ? (
           <Placemark

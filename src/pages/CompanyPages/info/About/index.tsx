@@ -51,6 +51,8 @@ import { Text, Title } from '../style';
 import MultiSelect from '../../../../components/Custom/MultiSelect';
 import LogoDef from '../../../../assets/icons/SideBar/logodefault.png';
 import partnerApi from '../../../../services/interceptors/companyInterceptor';
+import { useHistory } from 'react-router';
+import Cookies from 'js-cookie';
 
 interface FormProps {
   telNumber?: string;
@@ -76,6 +78,7 @@ interface socialProps {
 }
 
 const Main = () => {
+  const history = useHistory();
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const [open, setOpen] = useState(false);
@@ -124,6 +127,7 @@ const Main = () => {
   ]);
 
   const companyInfo = useAppSelector((state) => state.partner.companyInfo);
+
   const [links, setLinks] = useState([
     {
       name: 'Facebook',
@@ -154,6 +158,7 @@ const Main = () => {
       value: '',
     },
   ]);
+
   const [logo, setLogo] = useState(companyInfo.logo);
   let companyId: any = localStorage.getItem('companyId');
 
@@ -278,6 +283,7 @@ const Main = () => {
       onError: (error) => console.log(error),
     });
   };
+
   const infoSubData = useMutation((v: any) =>
     partnerApi.put('/directory/company', v, {
       headers: {
@@ -306,7 +312,12 @@ const Main = () => {
         telNumber: v?.telNumber,
       },
       {
-        onSuccess: (data) => console.log(data, 'data'),
+        onSuccess: (data) => {
+          console.log(data, 'info');
+          if (Cookies.get('compnayState') === 'new') {
+            history.push('/info/address');
+          }
+        },
       }
     );
   };
@@ -336,9 +347,9 @@ const Main = () => {
           newData[i]?.id === companyInfo?.categories[0] ||
           companyInfo?.categories[1] === newData[i]?.id
         ) {
-          values.push({ value: newData[i]?.id, label: newData[i].name });
+          values.push({ value: newData[i]?.id, label: newData[i]?.name });
         }
-        option.push({ value: newData[i]?.id, label: newData[i].name });
+        option.push({ value: newData[i]?.id, label: newData[i]?.name });
       }
       setCategories(option);
       if (values.length === 2) {

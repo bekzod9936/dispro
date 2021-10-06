@@ -1,23 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  YMaps,
-  ZoomControl,
-  GeolocationControl,
-  SearchControl,
-  Placemark,
-  Map,
-} from 'react-yandex-maps';
 import { Title, Text } from '../style';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import Input from '../../../../components/Custom/Input';
 import Button from '../../../../components/Custom/Button';
 import Spinner from '../../../../components/Custom/Spinner';
+import { IconButton } from '@material-ui/core';
+import WorkingHours from './WorkingHours';
+import { fetchAddressInfo } from '../../../../services/queries/InfoQueries';
+import { useQuery } from 'react-query';
+import { IAddress } from '../../../../services/models/address_model';
+import YandexMap from './YandexMap';
+import {
+  useAppSelector,
+  useAppDispatch,
+} from '../../../../services/redux/hooks';
+import {
+  setAddressAdd,
+  setAddressInfo,
+} from '../../../../services/redux/Slices/infoSlice';
+import axios from 'axios';
 import {
   Container,
   Rightside,
-  MapYandex,
-  Label,
   YandexContainer,
   Form,
   LeftSide,
@@ -35,7 +40,6 @@ import {
   Right,
   Number,
   AddWrap,
-  Img,
   WrapInput,
   ExitIcon,
   ButtonWrap,
@@ -43,35 +47,21 @@ import {
   Ul,
   Li,
   WrapAddress,
+  DeleteIcon,
+  WrapSearch,
+  WrapLocationAddress,
 } from './style';
-import { Checkbox, IconButton } from '@material-ui/core';
-import WorkingHours from './WorkingHours';
-import { fetchAddressInfo } from '../../../../services/queries/InfoQueries';
-import { useQuery } from 'react-query';
-import { IAddress } from '../../../../services/models/address_model';
-import location from '../../../../assets/icons/IconsInfo/location.png';
-import YandexMap from './YandexMap';
-import {
-  useAppSelector,
-  useAppDispatch,
-} from '../../../../services/redux/hooks';
-import {
-  setAddressAdd,
-  setAddressInfo,
-} from '../../../../services/redux/Slices/infoSlice';
-import axios from 'axios';
-
 interface FormProps {
   address?: string;
   addressDesc?: string;
   telNumber?: string;
   name?: string;
   aroundTheClock?: boolean;
+  telNumbers?: any;
 }
 
 const Address = () => {
   const { t } = useTranslation();
-  const [coords, setCoords] = useState([]);
   const [yandexRef, setYandexRef] = useState<any>(null);
   const [searchAddressList, setSearchaddressList] = useState([]);
   const [searchAddress, setSearchAddress] = useState('');
@@ -86,7 +76,6 @@ const Address = () => {
   const [searchFocus, setSearchFocus] = useState<boolean>(false);
   const [inpuSearch, setInpuSearch] = useState<string>('');
   const [place, setPlace] = useState<any[]>([]);
-  const [editAddress, setEditAddress] = useState([]);
 
   const comId: any = localStorage.getItem('companyId');
 
@@ -103,11 +92,11 @@ const Address = () => {
   const fetchYandexAddressSearch = (searchName: any) => {
     axios
       .get(
-        `https://geocode-maps.yandex.ru/1.x?apikey=6f33a62b-bf0f-4218-9613-374e77d830ab&lang=en_US&format=json&geocode=${searchName}`
+        `https://geocode-maps.yandex.ru/1.x?apikey=6f33a62b-bf0f-4218-9613-374e77d830ab&lang=ru-RU&format=json&geocode=${searchName}`
       )
       .then((res) => {
         setSearchaddressList(
-          res.data.response.GeoObjectCollection.featureMember.slice(0)
+          res.data.response.GeoObjectCollection.featureMember
         );
       });
   };
@@ -130,25 +119,25 @@ const Address = () => {
   });
 
   const fetchYandexAddressName = (lat: any, lon: any) => {
+    console.log(lat);
     axios
       .get(
-        `https://geocode-maps.yandex.ru/1.x?apikey=6f33a62b-bf0f-4218-9613-374e77d830ab&lang=en_US&format=json&geocode=${lat},${lon}`
+        `https://geocode-maps.yandex.ru/1.x?apikey=6f33a62b-bf0f-4218-9613-374e77d830ab&lang=ru-RU&format=json&geocode=${lat},${lon}`
       )
       .then((res) => {
         setMapAddress({
           ...mapAddress,
           name: res.data.response.GeoObjectCollection.featureMember[0].GeoObject
-            .name,
+            .metaDataProperty.GeocoderMetaData.Address.formatted,
         });
       });
   };
 
-  const onClickMap = (e: any) => {
+  const onClickPlace = (e: any) => {
     const coords = e.get('coords');
-    console.log(e.events, 'ssss');
     if (place?.length !== 0) {
       setPlace(coords);
-      fetchYandexAddressName(coords[0], coords[1]);
+      yandexRef?.setCenter(coords, 18);
     }
   };
 
@@ -180,6 +169,14 @@ const Address = () => {
   } = useForm<FormProps>({
     mode: 'onBlur',
     shouldFocusError: true,
+    defaultValues: {
+      telNumbers: [],
+    },
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'telNumbers',
   });
 
   useEffect(() => {
@@ -196,6 +193,7 @@ const Address = () => {
         v.name.toLowerCase().includes(e.target.value?.toLowerCase())
       );
     });
+
     setSearchRes(searchResult);
   };
 
@@ -208,9 +206,22 @@ const Address = () => {
     setValue('address', v.address);
     setSearchAddress(v.address);
     setValue('addressDesc', v.addressDesc);
-    console.log(v, 'address');
+    setValue('telNumber', v.telNumbers[0]);
+    setValue('name', v.name);
+  };
+  const handlePluseClick = () => {
+    setOpen(false);
+    dispatch(setAddressAdd(false));
+    dispatch(setAddressInfo(null));
+    setSearchAddress('');
+    setValue('addressDesc', '');
+    setValue('telNumber', '+998');
+    setMapAddress({ name: '' });
   };
 
+  const handleSubmitAddress = (e: any) => {
+    console.log(e, 'value');
+  };
   return (
     <Container>
       {open ? (
@@ -233,13 +244,7 @@ const Address = () => {
                 margin={{
                   mobile: '15px 0 0 20px',
                 }}
-                onClick={() => {
-                  setOpen(false);
-                  dispatch(setAddressAdd(false));
-                  dispatch(setAddressInfo(null));
-                  setSearchAddress('');
-                  setValue('addressDesc', '');
-                }}
+                onClick={handlePluseClick}
               >
                 <PlusIcon />
                 {t('addFilial')}
@@ -264,9 +269,7 @@ const Address = () => {
             <WrapContent>
               {isLoading ? (
                 <Spinner />
-              ) : searchRes.length === 0 ||
-                !searchFocus ||
-                inpuSearch === '' ? (
+              ) : !searchFocus || inpuSearch === '' ? (
                 fillial?.map((v: IAddress) => (
                   <AddressInfo onClick={() => handleChoosFillial(v)}>
                     <Left>
@@ -304,7 +307,7 @@ const Address = () => {
           </AddWrap>
         </>
       ) : (
-        <Form>
+        <Form onSubmit={handleSubmit(handleSubmitAddress)}>
           {open ? null : (
             <WrapClose>
               <Title>{t('newbranch')}</Title>
@@ -313,6 +316,11 @@ const Address = () => {
                   setOpen(true);
                   dispatch(setAddressAdd(true));
                   dispatch(setAddressInfo(null));
+                  yandexRef?.setCenter(
+                    [41.32847446609404, 69.24298268717716],
+                    10
+                  );
+                  setPlace([]);
                 }}
               >
                 <CloseIcon />
@@ -323,32 +331,36 @@ const Address = () => {
             <Title>{t('Address')}</Title>
             <Text>{t('enterLocationText')}</Text>
             <WrapAddress>
-              <Input
-                label={t('enterLocation')}
-                margin={{
-                  laptop: '20px 0 25px',
-                }}
-                onChange={(e) => {
-                  setValue('address', e.target.value);
-                  if (!e.target.value) setSearchaddressList([]);
-                  setSearchAddress(e.target.value);
-                }}
-                onFocus={() => setIsSearchInputFocus(true)}
-                value={searchAddress}
-                autoComplete='off'
-                type='search'
-              />
-              <Ul
-                visable={searchAddressList.length !== 0 && isSearchInputFocus}
-              >
-                {searchAddressList?.map((v: any) => (
-                  <Li onClick={() => searchSelectedAddress(v)}>
-                    {v?.GeoObject.name}
-                  </Li>
-                ))}
-              </Ul>
-              <Title>{t('selectedaddress')}</Title>
-              <Text></Text>
+              <WrapSearch>
+                <Input
+                  label={t('enterLocation')}
+                  margin={{
+                    laptop: '20px 0 25px',
+                  }}
+                  onChange={(e) => {
+                    setValue('address', e.target.value);
+                    if (!e.target.value) setSearchaddressList([]);
+                    setSearchAddress(e.target.value);
+                  }}
+                  onFocus={() => setIsSearchInputFocus(true)}
+                  value={searchAddress}
+                  autoComplete='off'
+                  type='search'
+                />
+                <Ul
+                  visable={searchAddressList.length !== 0 && isSearchInputFocus}
+                >
+                  {searchAddressList?.map((v: any) => (
+                    <Li onClick={() => searchSelectedAddress(v)}>
+                      {v?.GeoObject.name}
+                    </Li>
+                  ))}
+                </Ul>
+              </WrapSearch>
+              <WrapLocationAddress>
+                <Title>{t('selectedaddress')}</Title>
+                <span>{mapAddress.name}</span>
+              </WrapLocationAddress>
             </WrapAddress>
             <MobileMap>
               <YandexContainer>
@@ -399,7 +411,7 @@ const Address = () => {
               name='telNumber'
               control={control}
               rules={{ required: true }}
-              defaultValue=''
+              defaultValue='+998'
               render={({ field }) => (
                 <Input
                   label={t('phoneNumber')}
@@ -413,11 +425,46 @@ const Address = () => {
                 />
               )}
             />
+            <ul style={{ listStyle: 'none' }}>
+              {fields.map((item, index) => {
+                return (
+                  <li key={item?.id}>
+                    <Controller
+                      defaultValue='+998'
+                      render={({ field }) => (
+                        <Input
+                          label={t('phoneNumber')}
+                          type='string'
+                          field={field}
+                          margin={{
+                            laptop: '20px 0 10px',
+                          }}
+                          IconEnd={
+                            <IconButton
+                              style={{ marginRight: '15px' }}
+                              onClick={() => remove(index)}
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          }
+                        />
+                      )}
+                      name={`telNumbers.${index}`}
+                      control={control}
+                    />
+                  </li>
+                );
+              })}
+            </ul>
             <Button
               buttonStyle={{
                 color: '#3492FF',
                 bgcolor: 'transparent',
               }}
+              onClick={() => {
+                append('+998');
+              }}
+              padding={{ laptop: '0' }}
             >
               {t('addPhoneNumber')}
             </Button>
@@ -455,6 +502,7 @@ const Address = () => {
                   laptop: '20px 0 0',
                   mobile: '10px 0 0 0',
                 }}
+                type='submit'
               >
                 <SaveIcon />
                 {t('save')}
@@ -470,7 +518,7 @@ const Address = () => {
             onBoundsChange={onBoundsChange}
             handleRef={(e: any) => setYandexRef(e)}
             place={place}
-            onClick={onClickMap}
+            onClickPlaceMark={onClickPlace}
           />
         </YandexContainer>
       </Rightside>

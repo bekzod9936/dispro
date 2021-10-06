@@ -62,3 +62,7 @@ input::-webkit-inner-spin-button {
 .ymaps-2-1-79-inner-panes {
   border-radius: 14px !important;
 }
+
+:root {
+  --blue: red;
+}
