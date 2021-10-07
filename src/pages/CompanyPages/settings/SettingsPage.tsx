@@ -1,9 +1,9 @@
 import { Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { Switch, Route } from "react-router-dom";
-import NavBar from "src/components/Custom/NavBar";
-import Spinner from "src/components/Custom/Spinner";
-import Title from "src/components/Custom/Title";
+import NavBar from "components/Custom/NavBar";
+import Spinner from "components/Custom/Spinner";
+import Title from "components/Custom/Title";
 import { Flex } from "../../../styles/BuildingBlocks";
 import { PageWrapperFlex } from "../../../styles/CustomStyles";
 import useSettingsRoute from "./routes";

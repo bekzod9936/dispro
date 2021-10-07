@@ -5,7 +5,7 @@ import {
   MenuItem,
   Select,
 } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Flex } from "../../../../../styles/BuildingBlocks";
 import {
   LargePanel,
@@ -17,27 +17,22 @@ import {
   ModalComponent,
   Text,
 } from "../../../../../styles/CustomStyles";
-import CustomInput from "../../../../../components/Custom/CustomInput";
+import CustomInput from "components/Custom/CustomInput";
 import { useTranslation } from "react-i18next";
 import { Controller, useForm } from "react-hook-form";
-import { SaveIcon } from "../../../../../assets/icons/InfoPageIcons/InfoPageIcons";
-import partnerApi from "../../../../../services/interceptors/companyInterceptor";
+import { SaveIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
+import partnerApi from "services/interceptors/companyInterceptor";
 import { useQuery } from "react-query";
 import {
   fetchBonusPoints,
   fetchCashback,
-} from "../../../../../services/queries/PartnerQueries";
-import {
-  COLORS,
-  FONT_SIZE,
-  FONT_WEIGHT,
-} from "../../../../../services/Types/enums";
-import { StyledSwitch } from "../../../../../components/Custom/CustomSwitch";
-import { createMuiTheme } from "@material-ui/core";
-import { purple } from "@material-ui/core/colors";
-import CustomModal from "../../../../../components/Custom/CustomModal";
-import { SyncIcon } from "../../../../../assets/icons/FeedBackIcons.tsx/FeedbackIcons";
-import { CancelIcon } from "../../../../../assets/icons/ClientsPageIcons/ClientIcons";
+} from "services/queries/PartnerQueries";
+import { COLORS, FONT_SIZE, FONT_WEIGHT } from "services/Types/enums";
+import { StyledSwitch } from "components/Custom/CustomSwitch/CustomSwitch";
+import CustomModal from "components/Custom/CustomModal";
+import { SyncIcon } from "assets/icons/FeedBackIcons.tsx/FeedbackIcons";
+import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
+import CustomToggle from "components/Custom/CustomToggleSwitch";
 interface IFields {
   id: number;
   name: string;
@@ -50,11 +45,7 @@ interface IFields {
     id: number;
   }[];
 }
-const theme = createMuiTheme({
-  palette: {
-    primary: purple,
-  },
-});
+
 const useStyles = makeStyles({
   select: {
     "& .MuiInput-underline:after": {
@@ -80,7 +71,6 @@ const LoyaltyProgramSection = () => {
     },
   ];
   const { control, handleSubmit, setValue } = useForm({});
-
   const [swithcState, setSwitchState] = useState("");
   const [refetchCashback, setRefetchCashback] = useState(0);
   const [refetchDiscount, setRefetchDiscount] = useState(0);
@@ -90,6 +80,7 @@ const LoyaltyProgramSection = () => {
   >("");
   const [switchChange, setSwitchChange] = useState(0);
   const [assertModalVisible, setAssertModalVisible] = useState<boolean>(false);
+
   const responseCashback = useQuery(
     ["cashback", refetchCashback],
     fetchCashback,
@@ -114,6 +105,7 @@ const LoyaltyProgramSection = () => {
       },
     }
   );
+
   const responseBonusPoints = useQuery(
     ["Bonus", refetchBonusPoints],
     fetchBonusPoints,
@@ -178,6 +170,7 @@ const LoyaltyProgramSection = () => {
       alert(err);
     }
   };
+
   useEffect(() => {
     if (active === "cashback") {
       setRefetchCashback(refetchCashback + 1);
@@ -187,11 +180,13 @@ const LoyaltyProgramSection = () => {
       setRefetchBonusPoints(refetchBonusPoints + 1);
     }
   }, [active]);
+
   const onPercentChange = (e: any, item: any) => {
     let copy = [...fields];
     copy[item.id].percent = e.target.value;
     setFileds(copy);
   };
+
   const handleAddClick = (item: any, index: number) => {
     if (item.id === 0) {
       let copy = [...fields];
@@ -223,6 +218,7 @@ const LoyaltyProgramSection = () => {
       }
     }
   };
+
   const handleSwitchChange = (checked: boolean, key: any) => {
     if (checked) {
       setActive(key);
@@ -240,6 +236,7 @@ const LoyaltyProgramSection = () => {
       setFileds(copy);
     }
   };
+
   const handleDeleteClick = (item: any, index: number) => {
     let finding = fields[item.id];
     let copy = [...fields];
@@ -256,6 +253,7 @@ const LoyaltyProgramSection = () => {
       }
     }
   };
+
   const handleConditionChange = (e: any, item: any, value: any) => {
     if (isNaN(e.target.value)) {
       return;
@@ -266,6 +264,7 @@ const LoyaltyProgramSection = () => {
       setFileds(copy);
     }
   };
+
   const handleChange = (e: any, item: any) => {
     let copy = [...fields];
     if (copy[item.id]) {
@@ -273,6 +272,7 @@ const LoyaltyProgramSection = () => {
       setFileds(copy);
     }
   };
+
   const handleAmountChange = (
     e: any,
     item: any,
@@ -286,12 +286,14 @@ const LoyaltyProgramSection = () => {
       setFileds(copy);
     }
   };
+
   useEffect(() => {
     if (switchChange > 0) {
       setFileds(initialFields);
       setValue("max_percent", "");
     }
   }, [switchChange]);
+
   const switchItems = [
     {
       title: "Предоставление скидки",
@@ -309,11 +311,13 @@ const LoyaltyProgramSection = () => {
       key: "bonusPoints",
     },
   ];
+
   const [fields, setFileds] = useState<IFields[]>(initialFields);
 
   const handleSaveClick = () => {
     setAssertModalVisible(true);
   };
+
   const handleChangeClick = () => {
     handleSubmit(onFormSubmit)();
     setAssertModalVisible(false);
@@ -327,22 +331,38 @@ const LoyaltyProgramSection = () => {
           justifyContent="start"
           margin="0px"
           alignItems="flex-start"
+          width="100%"
         >
           {switchItems.map((item) => {
             return (
               <Flex
-                width="70%"
-                justifyContent="start"
+                key={item.key}
+                width="100%"
+                justifyContent="space-between"
                 margin="0px 0px 35px 0px"
                 alignItems="flex-start"
               >
-                <StyledSwitch
+                <Flex
+                  flexDirection={"column"}
+                  justifyContent="start"
+                  alignItems="flex-start"
+                  margin="0"
+                >
+                  <CustomToggle
+                    checked={item.key === active}
+                    onChange={(checked: any) => {
+                      handleSwitchChange(checked.target.checked, item.key);
+                    }}
+                  />
+                </Flex>
+
+                {/* <StyledSwitch
                   checked={item.key === active}
                   onChange={(e: any, checked: any) =>
                     handleSwitchChange(checked, item.key)
                   }
                   color="primary"
-                />
+                /> */}
                 <Flex flexDirection="column" alignItems="flex-start">
                   <div style={{}}>
                     <Text fontSize="18px" fontWeight={500}>

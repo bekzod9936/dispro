@@ -8,14 +8,14 @@ import {
   TableRow,
 } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
-import { useAppSelector } from "../../../services/redux/hooks";
-import { Text } from "../../../styles/CustomStyles";
-import { PuzzleIcon } from "../../../assets/icons/ClientsPageIcons/ClientIcons";
-import { Flex } from "../../../styles/BuildingBlocks";
-import DropDown from "../DropDown";
-import { StyledPagination } from "../../../styles/Elements";
+import { useAppSelector } from "services/redux/hooks";
+import { Text } from "styles/CustomStyles";
+import { PuzzleIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
+import { Flex } from "styles/BuildingBlocks";
+import DropDown from "components/Custom/DropDown";
+import { StyledPagination } from "styles/Elements";
 import { TableDiv, TableLoader, useStyles } from "./style";
-import Spinner from "src/components/Helpers/Spinner";
+import Spinner from "components/Helpers/Spinner";
 
 interface IProps {
   rows: any;
