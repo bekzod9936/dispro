@@ -1,13 +1,17 @@
-import { CircularProgress } from '@material-ui/core';
-import React from 'react';
-import { COLORS } from '../../services/Types/enums';
-import { Container } from './style';
+import { CircularProgress } from "@material-ui/core";
+import { COLORS } from "../../services/Types/enums";
+import { Container } from "./style";
 
-const Spinner = () => {
+interface IProps {
+  size?: number;
+  color?: string;
+}
+
+const Spinner = ({ color = COLORS.purple, size = 40 }: IProps) => {
   return (
     <Container>
       <CircularProgress
-        style={{ width: '40px', height: '40px', color: COLORS.purple }}
+        style={{ width: `${size}px`, height: `${size}px`, color: color }}
       />
     </Container>
   );

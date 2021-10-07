@@ -1,15 +1,15 @@
-import styled from 'styled-components';
-import { Props } from './index';
-import { Button } from '@material-ui/core';
-import { device } from '../../../styles/device';
+import styled from "styled-components";
+import { Props } from "./index";
+import { Button } from "@material-ui/core";
+import { device } from "../../../styles/device";
 
 export const Container = styled.div`
   width: ${({ width, fullWidth }: Props) =>
     width?.width
       ? width?.width
       : fullWidth
-      ? '100%'
-      : 'fit-content'} !important;
+      ? "100%"
+      : "fit-content"} !important;
   min-width: ${({ width }: Props) =>
     width?.minwidth ? `${width?.minwidth}px` : null} !important;
   max-width: ${({ width }: Props) =>
@@ -18,88 +18,88 @@ export const Container = styled.div`
   height: ${({ buttonStyle }: Props) =>
     buttonStyle?.height?.laptop
       ? `${buttonStyle?.height.laptop}px`
-      : '45px'} !important;
+      : "45px"} !important;
   margin: ${({ margin }: Props) =>
     margin?.laptop ? margin?.laptop : null} !important;
   & > button.MuiButtonBase-root {
     padding: ${({ padding }: Props) =>
-      padding?.laptop ? padding?.laptop : '0 20px'} !important;
+      padding?.laptop ? padding?.laptop : "0 20px"} !important;
   }
   .Mui-disabled {
-    color: ${({ disabled }: Props) => disabled && 'white'}!important;
+    color: ${({ disabled }: Props) => disabled && "white"}!important;
     background-color: #c7c7c7 !important;
     border-color: transparent !important;
-    opacity: ${({ disabled }) => disabled && '1'}!important;
+    opacity: ${({ disabled }) => disabled && "1"}!important;
   }
-  cursor: ${({ disabled }: Props) => disabled && 'not-allowed !important'};
+  cursor: ${({ disabled }: Props) => disabled && "not-allowed !important"};
   @media (max-width: ${device.mobile}) {
     height: ${({ buttonStyle }: Props) =>
       buttonStyle?.height?.mobile
         ? `${buttonStyle?.height.mobile}px`
-        : '40px'} !important;
+        : "40px"} !important;
     margin: ${({ margin }: Props) =>
       margin?.mobile ? margin?.mobile : null} !important;
     .MuiButtonBase-root {
       padding: ${({ padding }: Props) =>
-        padding?.mobile ? padding?.mobile : '0 15px'} !important;
+        padding?.mobile ? padding?.mobile : "0 15px"} !important;
     }
   }
   @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
     height: ${({ buttonStyle }: Props) =>
       buttonStyle?.height?.planshet
         ? `${buttonStyle?.height.planshet}px`
-        : '40px'} !important;
+        : "40px"} !important;
     margin: ${({ margin }: Props) =>
       margin?.planshet ? margin?.planshet : null} !important;
     .MuiButtonBase-root {
       padding: ${({ padding }: Props) =>
-        padding?.planshet ? padding?.planshet : '0 15px'} !important;
+        padding?.planshet ? padding?.planshet : "0 15px"} !important;
     }
   }
   @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
     height: ${({ buttonStyle }: Props) =>
       buttonStyle?.height?.laptop
         ? `${buttonStyle?.height.laptop}px`
-        : '45px'} !important;
+        : "45px"} !important;
     margin: ${({ margin }: Props) =>
       margin?.laptop ? margin?.laptop : null} !important;
     .MuiButtonBase-root {
       padding: ${({ padding }: Props) =>
-        padding?.laptop ? padding?.laptop : '0 20px'} !important;
+        padding?.laptop ? padding?.laptop : "0 20px"} !important;
     }
   }
   @media (min-width: ${device.laptop}) {
     height: ${({ buttonStyle }: Props) =>
       buttonStyle?.height?.desktop
         ? `${buttonStyle?.height.desktop}px`
-        : '50px'} !important;
+        : "50px"} !important;
     margin: ${({ margin }: Props) =>
       margin?.desktop ? margin?.desktop : null} !important;
     .MuiButtonBase-root {
       padding: ${({ padding }: Props) =>
-        padding?.desktop ? padding?.desktop : '0 25px'} !important;
+        padding?.desktop ? padding?.desktop : "0 25px"} !important;
     }
   }
 `;
 
 export const MButton = styled(Button)`
-  font-family: 'Roboto' !important;
+  font-family: "Roboto" !important;
   font-style: normal !important;
   height: 100% !important;
   color: ${({ buttonStyle }: Props) =>
-    buttonStyle?.color ? buttonStyle?.color : '#FFFFFF'} !important;
+    buttonStyle?.color ? buttonStyle?.color : "#FFFFFF"} !important;
   background-color: ${({ buttonStyle }: Props) =>
-    buttonStyle?.bgcolor ? buttonStyle?.bgcolor : '#606EEA'}!important;
+    buttonStyle?.bgcolor ? buttonStyle?.bgcolor : "#606EEA"}!important;
   background-image: ${({ buttonStyle }: Props) =>
     buttonStyle?.bgimage ? `${buttonStyle?.bgimage} !important` : null};
   border-radius: ${({ buttonStyle }: Props) =>
-    typeof buttonStyle?.radius === 'string'
+    typeof buttonStyle?.radius === "string"
       ? buttonStyle?.radius
       : buttonStyle?.radius
       ? `${buttonStyle?.radius}px`
-      : '14px'}!important;
+      : "14px"}!important;
   border: ${({ buttonStyle }: Props) =>
-    buttonStyle?.border ? buttonStyle?.border : 'none'}!important;
+    buttonStyle?.border ? buttonStyle?.border : "none"}!important;
   box-shadow: ${({ buttonStyle, disabled }: Props) =>
     disabled
       ? null
@@ -107,15 +107,15 @@ export const MButton = styled(Button)`
       ? buttonStyle?.shadow
       : null}!important;
   font-weight: ${({ buttonStyle }: Props) =>
-    buttonStyle?.weight ? buttonStyle?.weight : 'normal'};
+    buttonStyle?.weight ? buttonStyle?.weight : "normal"};
   .MuiButton-startIcon {
     margin-right: ${({ iconmargin }: Props) =>
-      iconmargin?.laptop ? `${iconmargin?.laptop}px ` : '15px'}!important;
+      iconmargin?.laptop ? `${iconmargin?.laptop}px ` : "15px"}!important;
     margin-left: 0 !important;
   }
   .MuiButton-endIcon {
     margin-left: ${({ iconmargin }: Props) =>
-      iconmargin?.laptop ? `${iconmargin?.laptop}px ` : '15px'}!important;
+      iconmargin?.laptop ? `${iconmargin?.laptop}px ` : "15px"}!important;
     margin-right: 0 !important;
   }
   & > :hover {
@@ -130,64 +130,64 @@ export const MButton = styled(Button)`
   font-size: ${({ buttonStyle }: Props) =>
     buttonStyle?.fontSize?.laptop
       ? `${buttonStyle?.fontSize?.laptop}px`
-      : '16px'}!important;
+      : "16px"}!important;
   @media (max-width: ${device.mobile}) {
     font-size: ${({ buttonStyle }: Props) =>
       buttonStyle?.fontSize?.mobile
         ? `${buttonStyle?.fontSize?.mobile}px`
-        : '14px'}!important;
+        : "14px"}!important;
     .MuiButton-startIcon {
       margin-right: ${({ iconmargin }: Props) =>
-        iconmargin?.mobile ? `${iconmargin?.mobile}px ` : '10px'}!important;
+        iconmargin?.mobile ? `${iconmargin?.mobile}px ` : "10px"}!important;
     }
     .MuiButton-endIcon {
       margin-left: ${({ iconmargin }: Props) =>
-        iconmargin?.mobile ? `${iconmargin?.mobile}px ` : '10px'}!important;
+        iconmargin?.mobile ? `${iconmargin?.mobile}px ` : "10px"}!important;
     }
   }
   @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
     font-size: ${({ buttonStyle }: Props) =>
       buttonStyle?.fontSize?.planshet
         ? `${buttonStyle?.fontSize?.planshet}px`
-        : '14px'}!important;
+        : "14px"}!important;
 
     .MuiButton-startIcon {
       margin-right: ${({ iconmargin }: Props) =>
-        iconmargin?.planshet ? `${iconmargin?.planshet}px ` : '10px'}!important;
+        iconmargin?.planshet ? `${iconmargin?.planshet}px ` : "10px"}!important;
     }
     .MuiButton-endIcon {
       margin-left: ${({ iconmargin }: Props) =>
-        iconmargin?.planshet ? `${iconmargin?.planshet}px ` : '10px'}!important;
+        iconmargin?.planshet ? `${iconmargin?.planshet}px ` : "10px"}!important;
     }
   }
   @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
     font-size: ${({ buttonStyle }: Props) =>
       buttonStyle?.fontSize?.laptop
         ? `${buttonStyle?.fontSize?.laptop}px`
-        : '16px'}!important;
+        : "16px"}!important;
 
     .MuiButton-startIcon {
       margin-right: ${({ iconmargin }: Props) =>
-        iconmargin?.laptop ? `${iconmargin?.laptop}px ` : '15px'}!important;
+        iconmargin?.laptop ? `${iconmargin?.laptop}px ` : "15px"}!important;
     }
     .MuiButton-endIcon {
       margin-left: ${({ iconmargin }: Props) =>
-        iconmargin?.laptop ? `${iconmargin?.laptop}px ` : '15px'}!important;
+        iconmargin?.laptop ? `${iconmargin?.laptop}px ` : "15px"}!important;
     }
   }
   @media (min-width: ${device.laptop}) {
     font-size: ${({ buttonStyle }: Props) =>
       buttonStyle?.fontSize?.desktop
         ? `${buttonStyle?.fontSize?.desktop}px`
-        : '18px'}!important;
+        : "18px"}!important;
 
     .MuiButton-startIcon {
       margin-right: ${({ iconmargin }: Props) =>
-        iconmargin?.desktop ? `${iconmargin?.desktop}px ` : '15px'}!important;
+        iconmargin?.desktop ? `${iconmargin?.desktop}px ` : "15px"}!important;
     }
     .MuiButton-endIcon {
       margin-left: ${({ iconmargin }: Props) =>
-        iconmargin?.desktop ? `${iconmargin?.desktop}px ` : '15px'}!important;
+        iconmargin?.desktop ? `${iconmargin?.desktop}px ` : "15px"}!important;
     }
   }
 `;

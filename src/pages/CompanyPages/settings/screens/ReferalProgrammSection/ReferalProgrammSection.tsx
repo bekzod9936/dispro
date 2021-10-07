@@ -1,138 +1,45 @@
-import React, { useState } from "react";
-import { Flex } from "../../../../../styles/BuildingBlocks";
+import { Flex } from "styles/BuildingBlocks";
 
+import useReferalData from "./hooks/useReferalData";
 import {
-  LeftLoyalty,
+  LeftPanel,
   Levels,
   ReferalScroll,
-  RightLoyalty,
+  RightPanel,
   SmallPanel,
 } from "../../styles/SettingStyles";
-import { CustomButton, Text } from "../../../../../styles/CustomStyles";
+import { Text } from "styles/CustomStyles";
 import { useTranslation } from "react-i18next";
-import { Controller, useForm } from "react-hook-form";
-import CustomInput from "../../../../../components/Custom/CustomInput";
-import TwoUsers from "../../TwoUsers";
-import { SaveIcon } from "../../../../../assets/icons/InfoPageIcons/InfoPageIcons";
+import { Controller } from "react-hook-form";
+import CustomInput from "components/Custom/CustomInput";
+import TwoUsers from "../../components/TwoUsers";
+import { SaveIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
 import {
   AddIconSettings,
   XIcon,
-} from "../../../../../assets/icons/SettingsIcons/SettingsPageIcon";
-import partnerApi from "../../../../../services/interceptors/companyInterceptor";
-import { useQuery } from "react-query";
-import { fetchBonusReferals } from "../../../../../services/queries/PartnerQueries";
-import { ThreeHeadIcon } from "../../../../../assets/icons/ClientsPageIcons/ClientIcons";
-import { COLORS, FONT_SIZE } from "../../../../../services/Types/enums";
-import { StyledSwitch } from "../../../../../components/Custom/CustomSwitch/CustomSwitch";
-
-export interface ILeftLoyalitiy {
-  width?: string;
-  flexDirection?: "column" | "row";
-}
-export interface IRightLoyalitiy {
-  width?: string;
-}
-
-interface ILevels {
-  name: string;
-  number: number;
-  percent: number | string;
-}
-
-//<CustomInput specialCase label={`level`} style={{ width: "120px" }} field={field} />
-
-// <Controller
-// name={`level`}
-// control={control}
-// render={({ field }) => {
-//     return <div>
-//         <CustomInput specialCase label={`level`} style={{ width: "120px" }} field={field} />
-//     </div>
-
-// }}
-// />
+} from "assets/icons/SettingsIcons/SettingsPageIcon";
+import { ThreeHeadIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
+import { COLORS, FONT_SIZE } from "services/Types/enums";
+import CustomToggle from "components/Custom/CustomToggleSwitch";
+import { BottomBtnContainer } from "./styles";
+import Button from "components/Custom/Button";
+import RippleEffect from "components/Custom/RippleEffect";
 
 const ReferalProgrammSection = () => {
   const forMap = new Array(10).fill(250);
   const { t } = useTranslation();
-  const { control, handleSubmit, setValue } = useForm();
-  const [level, setLevels] = useState<ILevels[] | [] | any>([]);
-  const companyId = localStorage.getItem("companyId");
-  const [refetch, setRefetch] = useState(0);
-  const [newState, setNewState] = useState<string>("old");
-  const [checkedState, setCheckedState] = useState<boolean>(false);
+  const {
+    level,
+    checkedState,
+    control,
+    handleChange,
+    handleAddClick,
+    handleSave,
+    handleXClick,
+    handleSwitch,
+    saving,
+  } = useReferalData();
 
-  const response = useQuery(
-    ["bonusreferals", refetch],
-    () => fetchBonusReferals(),
-    {
-      retry: 0,
-      refetchOnWindowFocus: false,
-      onSuccess: (data: any) => {
-        setLevels(data?.data?.data?.levels);
-        data.data.data.levels.forEach((item: any) => {
-          setValue(item.name, item.percent);
-        });
-        if (data?.data?.data === null) {
-          setNewState("new");
-        } else if (data?.data?.data?.levels.length > 0) {
-          setCheckedState(true);
-        }
-      },
-    }
-  );
-
-  const handleChange = (e: any, item: any, index: any) => {
-    const existing = level?.find((value: any) => value.number === item.number);
-
-    if (existing && e.target.value) {
-      let updated = { ...existing, percent: +e.target.value };
-
-      let newState = [...level];
-      newState.splice(index, 1, updated);
-
-      setLevels(newState);
-    }
-  };
-  const handleAddClick = (item: any) => {
-    let newObj = {
-      name: `${+item.name + 1}`,
-      number: item.number + 1,
-      percent: "",
-    };
-    setLevels([...level, newObj]);
-  };
-  const handleSave = async () => {
-    let block = level.find((value: any) => value.percent === "");
-    if (block) {
-      return;
-    } else {
-      if (newState === "new") {
-        await partnerApi.post("/bonus/bonusreferals", {
-          companyId: companyId,
-          levels: level,
-        });
-      } else {
-        await partnerApi.put("/bonus/bonusreferals", {
-          companyId: companyId,
-          levels: level,
-        });
-      }
-      setRefetch(refetch + 1);
-    }
-  };
-  const handleXClick = () => {
-    const copy = [...level];
-    copy.pop();
-    setLevels(copy);
-  };
-  const handleSwitch = (checked: boolean) => {
-    if (checked && (!level || level?.length === 0)) {
-      setLevels([{ name: "1", number: 1, percent: 0 }]);
-    } else if (!checked && level?.length > 0) {
-      setLevels([]);
-    }
-  };
   return (
     <>
       <Flex
@@ -141,7 +48,7 @@ const ReferalProgrammSection = () => {
         alignItems="flex-start"
         margin="0px"
       >
-        <LeftLoyalty>
+        <LeftPanel flexDirection="column">
           <div
             style={{
               display: "flex",
@@ -164,9 +71,11 @@ const ReferalProgrammSection = () => {
               </div>
             </div>
             <div style={{ margin: "10px 0px 10px 20px" }}>
-              <StyledSwitch
+              <CustomToggle
                 checked={checkedState}
-                onChange={(e: any, checked: any) => handleSwitch(checked)}
+                onChange={(e: any) => {
+                  handleSwitch(e.target.checked);
+                }}
               />
             </div>
           </div>
@@ -185,7 +94,7 @@ const ReferalProgrammSection = () => {
                               return (
                                 <CustomInput
                                   specialCase
-                                  label={`Уровень${index + 1}`}
+                                  label={`Уровень ${index + 1}`}
                                   field={field}
                                   style={{ width: "120px" }}
                                   onChange={(e: any) =>
@@ -217,44 +126,33 @@ const ReferalProgrammSection = () => {
                       </div>
                     </SmallPanel>
                     {index === level.length - 2 && (
-                      <span
-                        onClick={() => handleXClick()}
-                        style={{
-                          marginRight: "10px",
-                          marginLeft: "5px",
-                          padding: "8px",
-                        }}
-                      >
+                      <RippleEffect onClick={() => handleXClick()}>
                         <XIcon />
-                      </span>
+                      </RippleEffect>
                     )}
                     {index === level.length - 1 && (
-                      <span
-                        onClick={() => handleAddClick(item)}
-                        style={{
-                          marginRight: "10px",
-                          marginLeft: "5px",
-                          padding: "8px",
-                        }}
-                      >
+                      <RippleEffect onClick={() => handleAddClick(item)}>
                         <AddIconSettings />
-                      </span>
+                      </RippleEffect>
                     )}
                   </div>
                 );
               })}
             </div>
           </ReferalScroll>
-          <div style={{ position: "fixed", bottom: "20px", width: "100%" }}>
-            <CustomButton onClick={handleSave}>
-              <SaveIcon />
-              <Text marginLeft="15px" color="white">
-                {t("save")}
-              </Text>
-            </CustomButton>
-          </div>
-        </LeftLoyalty>
-        <RightLoyalty>
+          <BottomBtnContainer>
+            <Button
+              disabled={saving}
+              loading={saving}
+              loadingColor="#fff"
+              startIcon={<SaveIcon />}
+              onClick={handleSave}
+            >
+              {t("save")}
+            </Button>
+          </BottomBtnContainer>
+        </LeftPanel>
+        <RightPanel>
           <Levels>
             <div
               style={{
@@ -307,7 +205,7 @@ const ReferalProgrammSection = () => {
               })}
             </div>
           </Levels>
-        </RightLoyalty>
+        </RightPanel>
       </Flex>
     </>
   );
