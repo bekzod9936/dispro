@@ -93,17 +93,14 @@ const useReferalData = () => {
     setLevels(copy);
   };
 
-  const handleSwitch = useCallback(
-    (checked: boolean) => {
-      setCheckedState(checked);
-      if (checked && (!level || level?.length === 0)) {
-        setLevels([{ name: "1", number: 1, percent: 0 }]);
-      } else if (!checked && level?.length > 0) {
-        setLevels([]);
-      }
-    },
-    [setLevels]
-  );
+  const handleSwitch = (checked: boolean) => {
+    setCheckedState(checked);
+    if (checked && (!level || level?.length === 0)) {
+      setLevels([{ name: "1", number: 1, percent: 0 }]);
+    } else if (!checked && level?.length > 0) {
+      setLevels([]);
+    }
+  };
 
   return {
     level,

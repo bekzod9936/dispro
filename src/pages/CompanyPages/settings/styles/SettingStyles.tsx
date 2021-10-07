@@ -31,6 +31,7 @@ export const LeftPanel = styled.div`
   box-sizing: border-box;
   margin-top: 20px;
   margin-bottom: 20px;
+  flex: 2;
   border-right: 3px solid #7a85e6;
   flex-direction: ${(props: ILeftLoyalitiy) => props.flexDirection || "row"};
 `;
@@ -64,14 +65,7 @@ export const SettingsWrapper = styled.div`
   border-radius: 14px;
   background-color: white;
 `;
-export const Levels = styled.div`
-  padding: 25px 50px;
-  border-radius: 14px;
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
+
 export const ReferalScroll = styled.div`
   overflow-y: scroll;
   max-height: 60vh;
