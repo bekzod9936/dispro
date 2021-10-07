@@ -51,10 +51,10 @@ import {
   WrapSearch,
   WrapLocationAddress,
 } from './style';
+import { inputPhoneNumber } from 'src/utilities/inputFormat';
 interface FormProps {
   address?: string;
   addressDesc?: string;
-  telNumber?: string;
   name?: string;
   aroundTheClock?: boolean;
   telNumbers?: any;
@@ -68,6 +68,7 @@ const Address = () => {
   const [isSearchInputFocus, setIsSearchInputFocus] = useState(false);
 
   const infoPageSlice = useAppSelector((state) => state.infoSlice.addressAdd);
+  const date = useAppSelector((state) => state.infoSlice.workingTime);
   const dataAddress = useAppSelector((state) => state.infoSlice.addressInfo);
   const dispatch = useAppDispatch();
   const [open, setOpen] = useState(infoPageSlice);
@@ -76,9 +77,10 @@ const Address = () => {
   const [searchFocus, setSearchFocus] = useState<boolean>(false);
   const [inpuSearch, setInpuSearch] = useState<string>('');
   const [place, setPlace] = useState<any[]>([]);
-
+  const [edit, setEdit] = useState<boolean>(false);
+  const [phone, setPhone] = useState<any>([]);
   const comId: any = localStorage.getItem('companyId');
-
+  console.log(date);
   const { data, isLoading } = useQuery(
     'fetchAddress',
     () => fetchAddressInfo(comId),
@@ -92,7 +94,7 @@ const Address = () => {
   const fetchYandexAddressSearch = (searchName: any) => {
     axios
       .get(
-        `https://geocode-maps.yandex.ru/1.x?apikey=6f33a62b-bf0f-4218-9613-374e77d830ab&lang=ru-RU&format=json&geocode=${searchName}`
+        `https://geocode-maps.yandex.ru/1.x?apikey=af28acb6-4b1c-4cd1-8251-b2f67a908cac&lang=ru-RU&format=json&geocode=${searchName}`
       )
       .then((res) => {
         setSearchaddressList(
@@ -119,10 +121,9 @@ const Address = () => {
   });
 
   const fetchYandexAddressName = (lat: any, lon: any) => {
-    console.log(lat);
     axios
       .get(
-        `https://geocode-maps.yandex.ru/1.x?apikey=6f33a62b-bf0f-4218-9613-374e77d830ab&lang=ru-RU&format=json&geocode=${lat},${lon}`
+        `https://geocode-maps.yandex.ru/1.x?apikey=af28acb6-4b1c-4cd1-8251-b2f67a908cac&lang=ru-RU&format=json&geocode=${lat},${lon}`
       )
       .then((res) => {
         setMapAddress({
@@ -130,12 +131,17 @@ const Address = () => {
           name: res.data.response.GeoObjectCollection.featureMember[0].GeoObject
             .metaDataProperty.GeocoderMetaData.Address.formatted,
         });
+        setValue(
+          'address',
+          res.data.response.GeoObjectCollection.featureMember[0].GeoObject
+            .metaDataProperty.GeocoderMetaData.Address.formatted
+        );
       });
   };
 
   const onClickPlace = (e: any) => {
     const coords = e.get('coords');
-    if (place?.length !== 0) {
+    if (place?.length !== 0 || !open) {
       setPlace(coords);
       yandexRef?.setCenter(coords, 18);
     }
@@ -170,9 +176,11 @@ const Address = () => {
     mode: 'onBlur',
     shouldFocusError: true,
     defaultValues: {
-      telNumbers: [],
+      telNumbers: [...phone],
     },
   });
+
+  const values = getValues();
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -198,6 +206,9 @@ const Address = () => {
   };
 
   const handleChoosFillial = (v: any) => {
+    const newNumbers = v.telNumbers.map((v: any) => {
+      return { number: v };
+    });
     setPlace([v?.location.lat, v?.location.lng]);
     yandexRef?.setCenter([v?.location.lat, v?.location.lng], 18);
     dispatch(setAddressInfo(v));
@@ -206,8 +217,9 @@ const Address = () => {
     setValue('address', v.address);
     setSearchAddress(v.address);
     setValue('addressDesc', v.addressDesc);
-    setValue('telNumber', v.telNumbers[0]);
+    setValue('telNumbers', newNumbers);
     setValue('name', v.name);
+    setPhone(newNumbers);
   };
   const handlePluseClick = () => {
     setOpen(false);
@@ -215,10 +227,11 @@ const Address = () => {
     dispatch(setAddressInfo(null));
     setSearchAddress('');
     setValue('addressDesc', '');
-    setValue('telNumber', '+998');
+    setValue('name', '');
+    setValue('telNumbers', ['+998']);
     setMapAddress({ name: '' });
+    setEdit(true);
   };
-
   const handleSubmitAddress = (e: any) => {
     console.log(e, 'value');
   };
@@ -321,6 +334,7 @@ const Address = () => {
                     10
                   );
                   setPlace([]);
+                  setEdit(false);
                 }}
               >
                 <CloseIcon />
@@ -377,7 +391,7 @@ const Address = () => {
               render={({ field }) => (
                 <Input
                   label={t('enterOrientation')}
-                  error={errors.address ? true : false}
+                  error={errors.addressDesc ? true : false}
                   message={t('requiredField')}
                   type='string'
                   field={field}
@@ -407,30 +421,18 @@ const Address = () => {
                 />
               )}
             />
-            <Controller
-              name='telNumber'
-              control={control}
-              rules={{ required: true }}
-              defaultValue='+998'
-              render={({ field }) => (
-                <Input
-                  label={t('phoneNumber')}
-                  error={errors.telNumber ? true : false}
-                  message={t('requiredField')}
-                  type='string'
-                  field={field}
-                  margin={{
-                    laptop: '20px 0 10px',
-                  }}
-                />
-              )}
-            />
+
             <ul style={{ listStyle: 'none' }}>
               {fields.map((item, index) => {
                 return (
                   <li key={item?.id}>
                     <Controller
-                      defaultValue='+998'
+                      name={`telNumbers.${index}`}
+                      rules={{ required: true, maxLength: 13, minLength: 13 }}
+                      control={control}
+                      defaultValue={
+                        !edit ? values.telNumbers?.[index].number : '+998'
+                      }
                       render={({ field }) => (
                         <Input
                           label={t('phoneNumber')}
@@ -439,18 +441,21 @@ const Address = () => {
                           margin={{
                             laptop: '20px 0 10px',
                           }}
+                          message={t('requiredField')}
+                          error={errors.telNumbers?.[index] ? true : false}
                           IconEnd={
-                            <IconButton
-                              style={{ marginRight: '15px' }}
-                              onClick={() => remove(index)}
-                            >
-                              <DeleteIcon />
-                            </IconButton>
+                            index === 0 ? null : (
+                              <IconButton
+                                style={{ marginRight: '15px' }}
+                                onClick={() => remove(index)}
+                              >
+                                <DeleteIcon />
+                              </IconButton>
+                            )
                           }
+                          maxLength={13}
                         />
                       )}
-                      name={`telNumbers.${index}`}
-                      control={control}
                     />
                   </li>
                 );
@@ -465,6 +470,9 @@ const Address = () => {
                 append('+998');
               }}
               padding={{ laptop: '0' }}
+              margin={{
+                laptop: '10px 0 0',
+              }}
             >
               {t('addPhoneNumber')}
             </Button>

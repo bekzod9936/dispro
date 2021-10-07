@@ -193,7 +193,9 @@ export const LoginPanel = () => {
         dispatch(setLogIn(data.data.data));
         refetchList();
         dispatch(setCompanyState(data.data.data.status));
-        Cookies.set('compnayState', data.data.data.status);
+        if (Cookies.get('compnayState') === 'new') {
+          Cookies.set('compnayState', data.data.data.status);
+        }
 
         if (Cookies.get('compnayState') === 'old') {
           history.push('/partner/company');
@@ -373,7 +375,6 @@ export const LoginPanel = () => {
                       />
                     )}
                   />
-
                   <Controller
                     name='phoneNumber'
                     control={control}

@@ -27,8 +27,9 @@ const YandexMap = ({
   return (
     <YMaps
       query={{
-        load: 'Map,control.GeolocationControl',
-        apikey: '6f33a62b-bf0f-4218-9613-374e77d830ab',
+        ns: 'use-load-option',
+        apikey: 'af28acb6-4b1c-4cd1-8251-b2f67a908cac',
+        load: 'package.full',
       }}
     >
       <Map
@@ -40,19 +41,14 @@ const YandexMap = ({
           center: defaultToshkentAddress,
           zoom: 11,
         }}
-        instanceRef={(ref: any) => handleRef(ref)}
+        instanceRef={(ref: any) => {
+          handleRef(ref);
+        }}
         onBoundsChange={onBoundsChange}
-        onLoad={(ymaps: any) => console.log(ymaps)}
         onClick={handlePlaceMark}
       >
-        {place?.length !== 0 ? (
-          <Placemark
-            geometry={place}
-            properties={{ balloonContentBody: 'Test 6' }}
-          />
-        ) : null}
+        {place?.length !== 0 ? <Placemark geometry={place} /> : null}
         <ZoomControl options={{ float: 'right' }} />
-        <GeolocationControl />
       </Map>
     </YMaps>
   );

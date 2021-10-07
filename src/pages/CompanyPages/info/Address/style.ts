@@ -281,14 +281,10 @@ export const ButtonsWrap = styled.div`
 `;
 
 export const WrapLocationAddress = styled.div`
-  position: relative;
-  margin-bottom: 35px;
   & > span {
-    position: absolute;
-    top: 100%;
     color: black;
     font-weight: bold;
     font-size: 16px;
-    margin-top: 5px;
+    margin: 5px 0;
   }
 `;

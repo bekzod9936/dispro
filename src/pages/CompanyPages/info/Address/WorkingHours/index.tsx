@@ -8,6 +8,7 @@ import {
 import {
   setAddressInfo,
   setCopyDate,
+  setWorkingTime,
 } from '../../../../../services/redux/Slices/infoSlice';
 import DayList from './DayList';
 import { Container, Label } from './style';
@@ -93,27 +94,79 @@ const WorkingHours = () => {
 
   const handleCheck = (e: any) => {
     setCheck(e.target.checked);
+    if (e.target.checked) {
+      const newDate: any = work.map((v: any) => {
+        return {
+          day: v.day,
+          dayOff: true,
+          weekday: v.weekday,
+        };
+      });
+      setWork(newDate);
+    } else {
+      if (dataAddress !== null) {
+        const newData = work.map((v: any) => {
+          const sort = dataAddress?.workingTime?.work.filter(
+            (i: any) => i.day === v.day
+          );
+          if (sort[0]) {
+            return { ...sort[0], weekday: v.weekday };
+          } else {
+            return v;
+          }
+        });
+        setWork(newData);
+      }
+    }
   };
+
+  useEffect(() => {
+    let newDate: any = [];
+    if (check) {
+      newDate = work.map((v: any) => {
+        return {
+          day: v.day,
+          dayOff: v.dayOff,
+        };
+      });
+    } else {
+      newDate = work.map((v: any) => {
+        return {
+          day: v.day,
+          dayOff: v.dayOff,
+          wHours: { from: v?.wHours?.from, to: v?.wHours?.to },
+          bHours: { from: v?.bHours?.from, to: v?.bHours?.to },
+        };
+      });
+    }
+
+    const sendDate = { aroundTheClock: check, work: newDate };
+    dispatch(setWorkingTime(sendDate));
+  }, [work]);
 
   const handleChangeTime = (e: any) => {
     const newDate = work.map((v: any) => {
       if (v.day === e.day) {
         return {
           day: v.day,
-          dayOff: e.dayOff ? (e.dayOff === 'dayOff' ? true : false) : v.dayOff,
-          wHours: e.wHours
+          dayOff: e?.dayOff
+            ? e.dayOff === 'dayOff'
+              ? true
+              : false
+            : v?.dayOff,
+          wHours: e?.wHours
             ? {
-                from: e.wHours.from ? e.wHours.from : v.wHours.from,
-                to: e.wHours.to ? e.wHours.to : v.wHours.to,
+                from: e?.wHours?.from ? e?.wHours?.from : v?.wHours?.from,
+                to: e?.wHours?.to ? e?.wHours?.to : v?.wHours?.to,
               }
-            : v.wHours,
-          bHours: e.bHours
+            : v?.wHours,
+          bHours: e?.bHours
             ? {
-                from: e.bHours.from ? e.bHours.from : v.bHours.from,
-                to: e.bHours.to ? e.bHours.to : v.bHours.to,
+                from: e?.bHours?.from ? e?.bHours?.from : v?.bHours?.from,
+                to: e?.bHours?.to ? e?.bHours?.to : v?.bHours?.to,
               }
-            : v.wHours,
-          weekday: v.weekday,
+            : v?.bHours,
+          weekday: v?.weekday,
         };
       } else {
         return v;
@@ -121,7 +174,7 @@ const WorkingHours = () => {
     });
     setWork(newDate);
     dispatch(
-      setAddressInfo({
+      setWorkingTime({
         workingTime: { work: newDate, aroundTheClock: check },
       })
     );

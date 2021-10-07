@@ -21,7 +21,11 @@ import {
   Wrapper,
   WrapperTimes,
 } from './style';
-import { useAppSelector } from '../../../../../../services/redux/hooks';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from '../../../../../../services/redux/hooks';
+import { setWorkingTime } from 'src/services/redux/Slices/infoSlice';
 
 interface Props {
   list?: {
@@ -37,6 +41,7 @@ interface Props {
 
 const DayList = ({ list, onCopy = () => {}, onChange = () => {} }: Props) => {
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
   const [values, setValues] = useState<any>({
     day: 0,
     dayOff: false,
@@ -50,6 +55,32 @@ const DayList = ({ list, onCopy = () => {}, onChange = () => {} }: Props) => {
   const dataAddress: any = useAppSelector(
     (state) => state.infoSlice.addressInfo
   );
+  const date: any = useAppSelector((state) => state.infoSlice.workingTime);
+
+  useEffect(() => {
+    let newDate: any;
+    if (noon) {
+      newDate = date?.work((v: any) => {
+        return {
+          day: v?.day,
+          dayOff: v?.dayOff,
+          wHours: { from: v?.wHours?.from, to: v?.wHours?.to },
+        };
+      });
+      dispatch(setWorkingTime(newDate));
+    } else {
+      newDate = date?.work((v: any) => {
+        return {
+          day: v?.day,
+          dayOff: v?.dayOff,
+          wHours: { from: v?.wHours?.from, to: v?.wHours?.to },
+          bHours: { from: '', to: '' },
+        };
+      });
+      dispatch(setWorkingTime(newDate));
+    }
+  }, [values]);
+
   useEffect(() => {
     setValues(list);
   }, [list]);
@@ -145,7 +176,7 @@ const DayList = ({ list, onCopy = () => {}, onChange = () => {} }: Props) => {
                 margin={{
                   laptop: '10px 20px 20px 0',
                 }}
-                value={values?.wHours.from}
+                value={values?.wHours?.from}
                 disabled={radio}
                 inputStyle={{
                   height: {
@@ -177,7 +208,7 @@ const DayList = ({ list, onCopy = () => {}, onChange = () => {} }: Props) => {
                 margin={{
                   laptop: '10px 0 20px',
                 }}
-                value={values?.wHours.to}
+                value={values?.wHours?.to}
                 disabled={radio}
                 inputStyle={{
                   height: {
@@ -232,7 +263,7 @@ const DayList = ({ list, onCopy = () => {}, onChange = () => {} }: Props) => {
                   margin={{
                     laptop: '0 20px 20px 0',
                   }}
-                  value={values?.bHours.from}
+                  value={values?.bHours?.from}
                   disabled={radio}
                   inputStyle={{
                     height: {
@@ -262,7 +293,7 @@ const DayList = ({ list, onCopy = () => {}, onChange = () => {} }: Props) => {
                   margin={{
                     laptop: '0 0 20px',
                   }}
-                  value={values?.bHours.to}
+                  value={values?.bHours?.to}
                   disabled={radio}
                   inputStyle={{
                     height: {
@@ -306,19 +337,19 @@ const DayList = ({ list, onCopy = () => {}, onChange = () => {} }: Props) => {
             <SunIcon />
           ) : (
             <>
-              <Time>{values?.wHours.from}</Time>
+              <Time>{values?.wHours?.from}</Time>
               {noon ? (
                 <Wrapper>
                   <CoffeeIcon />
                   <WrapperTimes>
-                    <Time>{values?.bHours.from}</Time>
-                    <Time>{values?.bHours.to}</Time>
+                    <Time>{values?.bHours?.from}</Time>
+                    <Time>{values?.bHours?.to}</Time>
                   </WrapperTimes>
                 </Wrapper>
               ) : (
                 <NoBreakIcon />
               )}
-              <Time>{values?.wHours.to}</Time>
+              <Time>{values?.wHours?.to}</Time>
             </>
           )}
         </WorkSign>
