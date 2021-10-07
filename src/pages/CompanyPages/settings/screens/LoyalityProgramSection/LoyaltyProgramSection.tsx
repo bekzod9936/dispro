@@ -4,11 +4,12 @@ import {
   makeStyles,
   MenuItem,
   Select,
+  Grid,
 } from "@material-ui/core";
 import { initialFields } from "./constants";
 import { useEffect, useState } from "react";
 import { Flex } from "styles/BuildingBlocks";
-import { LargePanel, LeftPanel, RightPanel } from "../../styles/SettingStyles";
+import { LargePanel } from "../../styles/SettingStyles";
 import { CustomButton, ModalComponent, Text } from "styles/CustomStyles";
 import CustomInput from "components/Custom/CustomInput";
 import { useTranslation } from "react-i18next";
@@ -22,6 +23,7 @@ import { SyncIcon } from "assets/icons/FeedBackIcons.tsx/FeedbackIcons";
 import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import CustomToggle from "components/Custom/CustomToggleSwitch";
 import useLoyality from "./hooks/useLoyality";
+import { LeftGrid } from "./styles";
 
 const useStyles = makeStyles({
   select: {
@@ -249,8 +251,8 @@ const LoyaltyProgramSection = () => {
   };
 
   return (
-    <Flex justifyContent="start" flexGrow="1" margin="0px">
-      <LeftPanel>
+    <Grid container spacing={3} justifyContent="space-between">
+      <LeftGrid item xs={4}>
         <Flex
           flexDirection="column"
           justifyContent="start"
@@ -300,9 +302,9 @@ const LoyaltyProgramSection = () => {
             );
           })}
         </Flex>
-      </LeftPanel>
+      </LeftGrid>
 
-      <RightPanel id="rightLoyalty">
+      <Grid item xs={8}>
         <LargePanel
           id="largePanel"
           // style={{
@@ -526,8 +528,8 @@ const LoyaltyProgramSection = () => {
             </div>
           </ModalComponent>
         </CustomModal>
-      </RightPanel>
-    </Flex>
+      </Grid>
+    </Grid>
   );
 };
 
