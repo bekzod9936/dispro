@@ -5,41 +5,23 @@ import {
   MenuItem,
   Select,
 } from "@material-ui/core";
+import { initialFields } from "./constants";
 import { useEffect, useState } from "react";
 import { Flex } from "styles/BuildingBlocks";
-import {
-  LargePanel,
-  LeftLoyalty,
-  RightPanel,
-} from "../../styles/SettingStyles";
+import { LargePanel, LeftPanel, RightPanel } from "../../styles/SettingStyles";
 import { CustomButton, ModalComponent, Text } from "styles/CustomStyles";
 import CustomInput from "components/Custom/CustomInput";
 import { useTranslation } from "react-i18next";
-import { Controller, useForm } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import { SaveIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
 import partnerApi from "services/interceptors/companyInterceptor";
-import { useQuery } from "react-query";
-import {
-  fetchBonusPoints,
-  fetchCashback,
-} from "services/queries/PartnerQueries";
+
 import { COLORS, FONT_SIZE, FONT_WEIGHT } from "services/Types/enums";
 import CustomModal from "components/Custom/CustomModal";
 import { SyncIcon } from "assets/icons/FeedBackIcons.tsx/FeedbackIcons";
 import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import CustomToggle from "components/Custom/CustomToggleSwitch";
-interface IFields {
-  id: number;
-  name: string;
-  percent: number;
-  requirements: {
-    amount: any;
-    condition: any;
-    type: number;
-    unit: any;
-    id: number;
-  }[];
-}
+import useLoyality from "./hooks/useLoyality";
 
 const useStyles = makeStyles({
   select: {
@@ -55,75 +37,67 @@ const useStyles = makeStyles({
 const LoyaltyProgramSection = () => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const initialFields: any = [
-    {
-      id: 0,
-      name: "",
-      percent: 0,
-      requirements: [
-        { type: 1, amount: "", unit: "UZS", condition: "", id: 0 },
-      ],
-    },
-  ];
-  const { control, handleSubmit, setValue } = useForm({});
+  const {
+    control,
+    fields,
+    active,
+    refetchBonusPoints,
+    refetchCashback,
+    refetchDiscount,
+    setValue,
+    setRefetchCashback,
+    setRefetchDiscount,
+    setRefetchBonusPoints,
+    setFileds,
+    handleSubmit,
+    setActive,
+  } = useLoyality();
+
   const [swithcState, setSwitchState] = useState("");
-  const [refetchCashback, setRefetchCashback] = useState(0);
-  const [refetchDiscount, setRefetchDiscount] = useState(0);
-  const [refetchBonusPoints, setRefetchBonusPoints] = useState(0);
-  const [active, setActive] = useState<
-    "discount" | "cashback" | "bonusPoints" | ""
-  >("");
+
   const [switchChange, setSwitchChange] = useState(0);
   const [assertModalVisible, setAssertModalVisible] = useState<boolean>(false);
 
-  const responseCashback = useQuery(
-    ["cashback", refetchCashback],
-    fetchCashback,
-    {
-      retry: 0,
-      refetchOnWindowFocus: false,
-      onSuccess: (data: any) => {
-        if (data?.data?.data?.isActive) {
-          setActive("cashback");
-          setValue("max_percent", data.data.data.maxAmount);
-          setValue("give_cashback_after", data.data.data.cashbackReturnedDay);
-          let copy = [...initialFields];
-          copy[0].id = 0;
-          copy[0].name = data?.data?.data.name;
-          copy[0].percent = data?.data?.data.percent;
-          copy[0].requirements = [
-            { type: 1, amount: 0, unit: "UZS", condition: "", id: 0 },
-          ];
-          copy = [...copy, ...data.data.data.levels];
-          setFileds(copy);
-        }
-      },
-    }
-  );
+  // useQuery(["cashback", refetchCashback], fetchCashback, {
+  //   retry: 0,
+  //   refetchOnWindowFocus: false,
+  //   onSuccess: (data: any) => {
+  //     if (data?.data?.data?.isActive) {
+  //       setActive("cashback");
+  //       setValue("max_percent", data.data.data.maxAmount);
+  //       setValue("give_cashback_after", data.data.data.cashbackReturnedDay);
+  //       let copy = [...initialFields];
+  //       copy[0].id = 0;
+  //       copy[0].name = data?.data?.data.name;
+  //       copy[0].percent = data?.data?.data.percent;
+  //       copy[0].requirements = [
+  //         { type: 1, amount: 0, unit: "UZS", condition: "", id: 0 },
+  //       ];
+  //       copy = [...copy, ...data.data.data.levels];
+  //       setFileds(copy);
+  //     }
+  //   },
+  // });
 
-  const responseBonusPoints = useQuery(
-    ["Bonus", refetchBonusPoints],
-    fetchBonusPoints,
-    {
-      retry: 0,
-      refetchOnWindowFocus: false,
-      onSuccess: (data: any) => {
-        if (data?.data?.data?.isActive) {
-          setActive("bonusPoints");
-          setValue("max_percent", data.data.data.maxAmount);
-          let copy = [...initialFields];
-          copy[0].id = 0;
-          copy[0].name = data?.data?.data.name;
-          copy[0].percent = data?.data?.data.percent;
-          copy[0].requirements = [
-            { type: 1, amount: 0, unit: "UZS", condition: "", id: 1 },
-          ];
-          copy = [...copy, ...data.data.data.levels];
-          setFileds(copy);
-        }
-      },
-    }
-  );
+  // useQuery(["Bonus", refetchBonusPoints], fetchBonusPoints, {
+  //   retry: 0,
+  //   refetchOnWindowFocus: false,
+  //   onSuccess: (data: any) => {
+  //     if (data?.data?.data?.isActive) {
+  //       setActive("bonusPoints");
+  //       setValue("max_percent", data.data.data.maxAmount);
+  //       let copy = [...initialFields];
+  //       copy[0].id = 0;
+  //       copy[0].name = data?.data?.data.name;
+  //       copy[0].percent = data?.data?.data.percent;
+  //       copy[0].requirements = [
+  //         { type: 1, amount: 0, unit: "UZS", condition: "", id: 1 },
+  //       ];
+  //       copy = [...copy, ...data.data.data.levels];
+  //       setFileds(copy);
+  //     }
+  //   },
+  // });
 
   const onFormSubmit = async (data: any) => {
     let copy = [...fields];
@@ -307,8 +281,6 @@ const LoyaltyProgramSection = () => {
     },
   ];
 
-  const [fields, setFileds] = useState<IFields[]>(initialFields);
-
   const handleSaveClick = () => {
     setAssertModalVisible(true);
   };
@@ -320,7 +292,7 @@ const LoyaltyProgramSection = () => {
 
   return (
     <Flex justifyContent="start" flexGrow="1" margin="0px">
-      <LeftLoyalty>
+      <LeftPanel>
         <Flex
           flexDirection="column"
           justifyContent="start"
@@ -370,7 +342,7 @@ const LoyaltyProgramSection = () => {
             );
           })}
         </Flex>
-      </LeftLoyalty>
+      </LeftPanel>
 
       <RightPanel id="rightLoyalty">
         <LargePanel

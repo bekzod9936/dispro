@@ -23,7 +23,7 @@ export const RightPanel = styled.div`
     display: none;
   }
 `;
-export const LeftLoyalty = styled.div`
+export const LeftPanel = styled.div`
   width: ${(props: ILeftLoyalitiy) => props.width || "38%"};
   height: 90%;
   display: flex;

@@ -2,7 +2,7 @@ import { Flex } from "styles/BuildingBlocks";
 
 import useReferalData from "./hooks/useReferalData";
 import {
-  LeftLoyalty,
+  LeftPanel,
   Levels,
   ReferalScroll,
   RightPanel,
@@ -24,19 +24,6 @@ import CustomToggle from "components/Custom/CustomToggleSwitch";
 import { BottomBtnContainer } from "./styles";
 import Button from "components/Custom/Button";
 import RippleEffect from "components/Custom/RippleEffect";
-
-//<CustomInput specialCase label={`level`} style={{ width: "120px" }} field={field} />
-
-// <Controller
-// name={`level`}
-// control={control}
-// render={({ field }) => {
-//     return <div>
-//         <CustomInput specialCase label={`level`} style={{ width: "120px" }} field={field} />
-//     </div>
-
-// }}
-// />
 
 const ReferalProgrammSection = () => {
   const forMap = new Array(10).fill(250);
@@ -61,7 +48,7 @@ const ReferalProgrammSection = () => {
         alignItems="flex-start"
         margin="0px"
       >
-        <LeftLoyalty flexDirection="column">
+        <LeftPanel flexDirection="column">
           <div
             style={{
               display: "flex",
@@ -164,7 +151,7 @@ const ReferalProgrammSection = () => {
               {t("save")}
             </Button>
           </BottomBtnContainer>
-        </LeftLoyalty>
+        </LeftPanel>
         <RightPanel>
           <Levels>
             <div
