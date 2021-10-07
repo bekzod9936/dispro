@@ -2,23 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Title, Text } from '../style';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
-import Input from '../../../../components/Custom/Input';
-import Button from '../../../../components/Custom/Button';
-import Spinner from '../../../../components/Custom/Spinner';
+import Input from 'components/Custom/Input';
+import Button from 'components/Custom/Button';
+import Spinner from 'components/Custom/Spinner';
 import { IconButton } from '@material-ui/core';
 import WorkingHours from './WorkingHours';
-import { fetchAddressInfo } from '../../../../services/queries/InfoQueries';
-import { useQuery } from 'react-query';
-import { IAddress } from '../../../../services/models/address_model';
+import { fetchAddressInfo } from 'services/queries/InfoQueries';
+import { useMutation, useQuery } from 'react-query';
+import { IAddress } from 'services/models/address_model';
 import YandexMap from './YandexMap';
-import {
-  useAppSelector,
-  useAppDispatch,
-} from '../../../../services/redux/hooks';
+import { useAppSelector, useAppDispatch } from 'services/redux/hooks';
 import {
   setAddressAdd,
   setAddressInfo,
-} from '../../../../services/redux/Slices/infoSlice';
+  setWorkingTime,
+} from 'services/redux/Slices/infoSlice';
 import axios from 'axios';
 import {
   Container,
@@ -50,14 +48,19 @@ import {
   DeleteIcon,
   WrapSearch,
   WrapLocationAddress,
+  NoResult,
 } from './style';
-import { inputPhoneNumber } from 'src/utilities/inputFormat';
+import Cookies from 'js-cookie';
+import partnerApi from 'services/interceptors/companyInterceptor';
+import NewCompanyNotification from './NewCompanyNotification';
 interface FormProps {
   address?: string;
   addressDesc?: string;
   name?: string;
   aroundTheClock?: boolean;
   telNumbers?: any;
+  regionId?: number;
+  id?: number;
 }
 
 const Address = () => {
@@ -66,7 +69,7 @@ const Address = () => {
   const [searchAddressList, setSearchaddressList] = useState([]);
   const [searchAddress, setSearchAddress] = useState('');
   const [isSearchInputFocus, setIsSearchInputFocus] = useState(false);
-
+  const [newComp, setNewComp] = useState(false);
   const infoPageSlice = useAppSelector((state) => state.infoSlice.addressAdd);
   const date = useAppSelector((state) => state.infoSlice.workingTime);
   const dataAddress = useAppSelector((state) => state.infoSlice.addressInfo);
@@ -80,8 +83,8 @@ const Address = () => {
   const [edit, setEdit] = useState<boolean>(false);
   const [phone, setPhone] = useState<any>([]);
   const comId: any = localStorage.getItem('companyId');
-  console.log(date);
-  const { data, isLoading } = useQuery(
+  console.log(dataAddress, 'tdd');
+  const { data, isLoading, refetch } = useQuery(
     'fetchAddress',
     () => fetchAddressInfo(comId),
     {
@@ -220,6 +223,8 @@ const Address = () => {
     setValue('telNumbers', newNumbers);
     setValue('name', v.name);
     setPhone(newNumbers);
+    setValue('regionId', v.regionId);
+    setValue('id', v.id);
   };
   const handlePluseClick = () => {
     setOpen(false);
@@ -232,9 +237,62 @@ const Address = () => {
     setMapAddress({ name: '' });
     setEdit(true);
   };
-  const handleSubmitAddress = (e: any) => {
-    console.log(e, 'value');
+
+  const addressPut = useMutation(
+    (v: any) => {
+      return partnerApi.put(`/directory/stores/${v.id}`, v);
+    },
+    {
+      onSuccess: () => {
+        setOpen(true);
+        refetch();
+        dispatch(setAddressAdd(true));
+        dispatch(setAddressInfo(null));
+        yandexRef?.setCenter([41.32847446609404, 69.24298268717716], 10);
+        setPlace([]);
+      },
+    }
+  );
+
+  const addressPost = useMutation(
+    (v: any) => {
+      return partnerApi.post('/directory/stores', v);
+    },
+    {
+      onSuccess: () => {
+        setOpen(true);
+        refetch();
+        dispatch(setAddressAdd(true));
+        dispatch(setAddressInfo(null));
+        yandexRef?.setCenter([41.32847446609404, 69.24298268717716], 10);
+        setPlace([]);
+        setNewComp(true);
+      },
+    }
+  );
+
+  const handleSubmitPut = (e: any) => {
+    const values = {
+      ...e,
+      telNumber: e.telNumbers[0],
+      companyId: comId,
+      location: { lat: place[0], lng: place[1] },
+      workingTime: date,
+    };
+    addressPut.mutate(values);
   };
+
+  const handleSubmitPost = (e: any) => {
+    const values = {
+      ...e,
+      telNumber: e.telNumbers[0],
+      companyId: comId,
+      location: { lat: place[0], lng: place[1] },
+      workingTime: date,
+    };
+    addressPost.mutate(values);
+  };
+
   return (
     <Container>
       {open ? (
@@ -296,6 +354,8 @@ const Address = () => {
                     </Right>
                   </AddressInfo>
                 ))
+              ) : searchRes.length === 0 ? (
+                <NoResult>{t('noresult')}</NoResult>
               ) : (
                 searchRes?.map((v: IAddress) => (
                   <AddressInfo onClick={() => handleChoosFillial(v)}>
@@ -320,7 +380,13 @@ const Address = () => {
           </AddWrap>
         </>
       ) : (
-        <Form onSubmit={handleSubmit(handleSubmitAddress)}>
+        <Form
+          onSubmit={
+            !edit
+              ? handleSubmit(handleSubmitPut)
+              : handleSubmit(handleSubmitPost)
+          }
+        >
           {open ? null : (
             <WrapClose>
               <Title>{t('newbranch')}</Title>
@@ -519,7 +585,6 @@ const Address = () => {
           </LeftSide>
         </Form>
       )}
-
       <Rightside>
         <YandexContainer>
           <YandexMap
@@ -530,6 +595,9 @@ const Address = () => {
           />
         </YandexContainer>
       </Rightside>
+      {newComp && Cookies.get('companyState') === 'new' ? (
+        <NewCompanyNotification />
+      ) : null}
     </Container>
   );
 };

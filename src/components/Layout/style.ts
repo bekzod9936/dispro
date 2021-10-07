@@ -1,22 +1,22 @@
-import styled, { css } from "styled-components";
-import { device } from "../../styles/device";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItem from "@material-ui/core/ListItem";
-import { SwipeableDrawer } from "@material-ui/core";
-import Drawer from "@material-ui/core/Drawer";
-import { ReactComponent as Hamburgermenu } from "../../assets/icons/SideBar/hamburgermenu.svg";
-import { ReactComponent as Setting } from "../../assets/icons/SideBar/setting.svg";
-import { ReactComponent as Statistics } from "../../assets/icons/SideBar/statistics.svg";
-import { ReactComponent as Client } from "../../assets/icons/SideBar/client.svg";
-import { ReactComponent as Order } from "../../assets/icons/SideBar/order.svg";
-import { ReactComponent as Conversation } from "../../assets/icons/SideBar/conversation.svg";
-import { ReactComponent as Basket } from "../../assets/icons/SideBar/basket.svg";
-import { ReactComponent as News } from "../../assets/icons/SideBar/news.svg";
-import { ReactComponent as Workers } from "../../assets/icons/SideBar/workers.svg";
-import { ReactComponent as Prize } from "../../assets/icons/SideBar/prize.svg";
-import { ReactComponent as Coin } from "../../assets/icons/SideBar/coin.svg";
-import { ReactComponent as Notification } from "../../assets/icons/SideBar/notification.svg";
-import { ReactComponent as Information } from "../../assets/icons/SideBar/information.svg";
+import styled, { css } from 'styled-components';
+import { device } from '../../styles/device';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItem from '@material-ui/core/ListItem';
+import { SwipeableDrawer } from '@material-ui/core';
+import Drawer from '@material-ui/core/Drawer';
+import { ReactComponent as Hamburgermenu } from '../../assets/icons/SideBar/hamburgermenu.svg';
+import { ReactComponent as Setting } from '../../assets/icons/SideBar/setting.svg';
+import { ReactComponent as Statistics } from '../../assets/icons/SideBar/statistics.svg';
+import { ReactComponent as Client } from '../../assets/icons/SideBar/client.svg';
+import { ReactComponent as Order } from '../../assets/icons/SideBar/order.svg';
+import { ReactComponent as Conversation } from '../../assets/icons/SideBar/conversation.svg';
+import { ReactComponent as Basket } from '../../assets/icons/SideBar/basket.svg';
+import { ReactComponent as News } from '../../assets/icons/SideBar/news.svg';
+import { ReactComponent as Workers } from '../../assets/icons/SideBar/workers.svg';
+import { ReactComponent as Prize } from '../../assets/icons/SideBar/prize.svg';
+import { ReactComponent as Coin } from '../../assets/icons/SideBar/coin.svg';
+import { ReactComponent as Notification } from '../../assets/icons/SideBar/notification.svg';
+import { ReactComponent as Information } from '../../assets/icons/SideBar/information.svg';
 
 const commonMedia = css`
   width: 29px;
@@ -35,7 +35,7 @@ const commonMedia = css`
 
 const ListBorder = css`
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     right: 0;
     top: 0;
@@ -180,7 +180,7 @@ export const WrapList = styled.div`
     justify-content: flex-start;
     align-items: center;
   }
-  @media (min-width: ${device.laptop}) {
+  @media (min-height: 800px) {
     & > ul:first-child {
       margin-top: 50px;
     }
@@ -198,7 +198,7 @@ export const ListText = styled(ListItemText)`
 
 export const ListI = styled(ListItem)`
   background-color: ${({ selected }: any) =>
-    selected ? "rgba(96, 110, 234, 0.1)" : "white"} !important;
+    selected ? 'rgba(96, 110, 234, 0.1)' : 'white'} !important;
   ${({ selected }: any) => (selected ? ListBorder : null)};
 `;
 

@@ -21,11 +21,8 @@ import {
   Wrapper,
   WrapperTimes,
 } from './style';
-import {
-  useAppDispatch,
-  useAppSelector,
-} from '../../../../../../services/redux/hooks';
-import { setWorkingTime } from 'src/services/redux/Slices/infoSlice';
+import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
+import { setWorkingTime } from 'services/redux/Slices/infoSlice';
 
 interface Props {
   list?: {
@@ -60,16 +57,15 @@ const DayList = ({ list, onCopy = () => {}, onChange = () => {} }: Props) => {
   useEffect(() => {
     let newDate: any;
     if (noon) {
-      newDate = date?.work((v: any) => {
+      newDate = date?.work.map((v: any) => {
         return {
           day: v?.day,
           dayOff: v?.dayOff,
           wHours: { from: v?.wHours?.from, to: v?.wHours?.to },
         };
       });
-      dispatch(setWorkingTime(newDate));
     } else {
-      newDate = date?.work((v: any) => {
+      newDate = date?.work.map((v: any) => {
         return {
           day: v?.day,
           dayOff: v?.dayOff,
@@ -77,9 +73,9 @@ const DayList = ({ list, onCopy = () => {}, onChange = () => {} }: Props) => {
           bHours: { from: '', to: '' },
         };
       });
-      dispatch(setWorkingTime(newDate));
     }
-  }, [values]);
+    dispatch(setWorkingTime(newDate));
+  }, [noon]);
 
   useEffect(() => {
     setValues(list);
@@ -90,14 +86,13 @@ const DayList = ({ list, onCopy = () => {}, onChange = () => {} }: Props) => {
   }, [values]);
 
   const handleRadio = (e: any) => {
-    console.log(e.target.value, 'target');
     if (e.target.value === 'dayOff') {
-      setRadio(true);
       const value: any = {
         day: values.day,
         dayOff: e.target.value,
       };
       onChange(value);
+      setRadio(true);
     }
     if (e.target.value === 'dayOn') {
       const value: any = {
@@ -331,14 +326,14 @@ const DayList = ({ list, onCopy = () => {}, onChange = () => {} }: Props) => {
           </FormControl>
         </Content>
       </Popover>
-      {dataAddress ? (
+      {values ? (
         <WorkSign>
           {values.dayOff ? (
             <SunIcon />
           ) : (
             <>
               <Time>{values?.wHours?.from}</Time>
-              {noon ? (
+              {noon && values?.bHours?.from && values?.bHours?.to ? (
                 <Wrapper>
                   <CoffeeIcon />
                   <WrapperTimes>

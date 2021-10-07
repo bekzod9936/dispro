@@ -52,8 +52,8 @@ export const CloseIcon = styled(Close)`
 
 export const PhotoWrap = styled.div`
   position: relative;
-  width: 130px;
-  height: 130px;
+  width: 100px;
+  height: 100px;
   margin: 20px 0;
   display: flex;
   align-items: center;
@@ -75,12 +75,12 @@ export const PhotoWrap = styled.div`
     }
   }
   @media (max-width: ${device.mobile}) {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
   }
   @media (min-width: ${device.laptop}) {
-    width: 150px;
-    height: 150px;
+    width: 120px;
+    height: 120px;
   }
   cursor: pointer;
   background-color: transparent;
@@ -196,6 +196,8 @@ export const DownSide = styled.div`
   & > div {
     width: 87%;
     border-top: 1px solid rgba(96, 110, 234, 0.3);
+    display: flex;
+    align-items: center;
   }
   @media (max-width: ${device.mobile}) {
     & > div {
@@ -292,21 +294,6 @@ export const LabelLoading = styled.label`
     font-size: 18px;
   }
 `;
-
-export const Img = styled.img`
-  width: 100px;
-  height: 100px;
-  @media (max-width: ${device.mobile}) {
-    width: 60px;
-    height: 60px;
-  }
-
-  @media (min-width: ${device.laptop}) {
-    width: 120px;
-    height: 120px;
-  }
-`;
-
 interface ButtonProps {
   mobile?: boolean;
 }

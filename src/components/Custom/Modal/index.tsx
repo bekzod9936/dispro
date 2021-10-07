@@ -3,6 +3,7 @@ import { MDialog } from './style';
 
 export interface Props {
   onClose?: (v: boolean) => void;
+  disableEnforceFocus?: boolean;
   open?: boolean;
   children?: any;
   modalStyle?: {
@@ -22,6 +23,7 @@ export interface Props {
     laptop?: string;
     desktop?: string;
   };
+  disableBackdropClick?: boolean;
 }
 
 const Modal = ({
@@ -42,6 +44,7 @@ const Modal = ({
       aria-describedby='alert-dialog-description'
       modalStyle={props.modalStyle}
       width={props.width}
+      disableBackdropClick={props.disableBackdropClick}
     >
       {children}
     </MDialog>

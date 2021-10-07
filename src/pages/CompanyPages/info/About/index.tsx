@@ -26,7 +26,6 @@ import {
   TrashIcon,
   WrapLoading,
   LabelLoading,
-  Img,
   PhotoWrap,
   WrapTrash,
   Form,
@@ -49,10 +48,10 @@ import Spinner from '../../../../components/Custom/Spinner';
 import Resizer from 'react-image-file-resizer';
 import { Text, Title } from '../style';
 import MultiSelect from '../../../../components/Custom/MultiSelect';
-import LogoDef from '../../../../assets/icons/SideBar/logodefault.png';
 import partnerApi from '../../../../services/interceptors/companyInterceptor';
 import { useHistory } from 'react-router';
 import Cookies from 'js-cookie';
+import ImageLazyLoad from 'components/Custom/ImageLazyLoad/ImageLazyLoad';
 
 interface FormProps {
   telNumber?: string;
@@ -313,7 +312,6 @@ const Main = () => {
       },
       {
         onSuccess: (data) => {
-          console.log(data, 'info');
           if (Cookies.get('compnayState') === 'new') {
             history.push('/info/address');
           }
@@ -360,9 +358,11 @@ const Main = () => {
       }
     },
   });
+
   if (infoSubData.isLoading) {
     return <Spinner />;
   }
+
   return (
     <Form onSubmit={handleSubmit(handleInfoSubmit)}>
       <UpSide>
@@ -393,13 +393,10 @@ const Main = () => {
                     </LabelLoading>
                   ) : (
                     <PhotoWrap onClick={handlePhotoDelete}>
-                      <Img
+                      <ImageLazyLoad
+                        objectFit='cover'
                         src={logo !== '' ? logo : companyInfo.logo}
                         alt='logo'
-                        onError={(e: any) => {
-                          e.target.onerror = null;
-                          e.target.src = LogoDef;
-                        }}
                       />
                       <WrapTrash>
                         <TrashIcon />

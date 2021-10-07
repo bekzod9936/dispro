@@ -288,3 +288,14 @@ export const WrapLocationAddress = styled.div`
     margin: 5px 0;
   }
 `;
+
+export const NoResult = styled.div`
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  font-weight: normal;
+  font-size: 16px;
+  color: #223367;
+`;
