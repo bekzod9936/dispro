@@ -15,6 +15,9 @@ interface Props {
     dynLink?: string;
   } | null;
   copyDate: any[];
+  workingTime?: {
+    work?: {};
+  };
 }
 const initialState: Props = {
   addressAdd: true,
@@ -35,8 +38,12 @@ const infoSlice = createSlice({
     setCopyDate: (state, action: PayloadAction<any[]>) => {
       state.copyDate = action.payload;
     },
+    setWorkingTime: (state, action: PayloadAction<Object>) => {
+      state.workingTime = action.payload;
+    },
   },
 });
 
-export const { setAddressAdd, setAddressInfo, setCopyDate } = infoSlice.actions;
+export const { setAddressAdd, setAddressInfo, setCopyDate, setWorkingTime } =
+  infoSlice.actions;
 export default infoSlice.reducer;

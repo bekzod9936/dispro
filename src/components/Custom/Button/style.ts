@@ -21,7 +21,7 @@ export const Container = styled.div`
       : "45px"} !important;
   margin: ${({ margin }: Props) =>
     margin?.laptop ? margin?.laptop : null} !important;
-  .MuiButtonBase-root {
+  & > button.MuiButtonBase-root {
     padding: ${({ padding }: Props) =>
       padding?.laptop ? padding?.laptop : "0 20px"} !important;
   }

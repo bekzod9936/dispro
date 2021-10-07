@@ -21,7 +21,8 @@ import {
   WrapButton,
 } from './style';
 import { useRouteMatch } from 'react-router-dom';
-import { useAppSelector } from '../../../services/redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../../services/redux/hooks';
+import { setCompanyInfo } from '../../../services/redux/Slices/partnerSlice';
 
 interface IInfoRoute {
   path: string;
@@ -31,6 +32,7 @@ interface IInfoRoute {
 const Infopage = () => {
   const { t } = useTranslation();
   const history = useHistory();
+  const dispatch = useAppDispatch();
   const infoPageSlice = useAppSelector((state) => state.infoSlice.addressAdd);
   const [open, setOpen] = useState(false);
 
@@ -94,6 +96,7 @@ const Infopage = () => {
                 localStorage.removeItem('companyId');
                 localStorage.removeItem('companyToken');
                 history.push('/partner/company');
+                dispatch(setCompanyInfo({}));
               }}
             >
               {t('logout')}

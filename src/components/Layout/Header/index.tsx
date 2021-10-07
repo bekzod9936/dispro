@@ -37,7 +37,7 @@ import {
   LogoIcon,
 } from './style';
 import Popover from '../../Custom/Popover';
-import { useAppSelector } from '../../../services/redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../../services/redux/hooks';
 import Button from '../../Custom/Button';
 import { useHistory } from 'react-router';
 import Modal from '../../Custom/Modal';
@@ -46,18 +46,20 @@ import { IconButton } from '@material-ui/core';
 import Input from '../../Custom/Input';
 import LangSelect from '../../LangSelect';
 import Logo from '../../../assets/icons/SideBar/logo.png';
+import Cookies from 'js-cookie';
+import { setCompanyInfo } from '../../../services/redux/Slices/partnerSlice';
 
 const Header = () => {
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
   const history = useHistory();
   const [open, setOpen] = useState(false);
 
   const companyInfo = useAppSelector((state) => state.partner.companyInfo);
-  const companyState = useAppSelector((state) => state.auth.companyState);
 
   return (
     <>
-      {companyState === 'new' ? (
+      {Cookies.get('compnayState') === 'new' ? (
         <Wrarning>
           <WranningIcon />
           {t('newcompanywarning')}
@@ -236,6 +238,7 @@ const Header = () => {
                           localStorage.removeItem('companyId');
                           localStorage.removeItem('companyToken');
                           history.push('/partner/company');
+                          dispatch(setCompanyInfo({}));
                         }}
                       >
                         {t('logout')}

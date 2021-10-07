@@ -37,6 +37,7 @@ import {
   LogInContentWrap,
   LogInWrap,
 } from './style';
+import Cookies from 'js-cookie';
 interface FormProps {
   role: { value?: string; label?: string };
   phoneNumber: string;
@@ -57,6 +58,7 @@ interface PropSign {
 export const LoginPanel = () => {
   const { t } = useTranslation();
   const [disable, setDisable] = useState(true);
+
   const proceedAuth = useAppSelector((state) => {
     return state.auth.proceedAuth;
   });
@@ -133,7 +135,6 @@ export const LoginPanel = () => {
 
   useEffect(() => {
     const subscription = watch((value) => {
-      console.log(value, 'ddd');
       if (
         value?.role?.value !== undefined &&
         value?.role?.value !== '' &&
@@ -192,7 +193,11 @@ export const LoginPanel = () => {
         dispatch(setLogIn(data.data.data));
         refetchList();
         dispatch(setCompanyState(data.data.data.status));
-        if (data.data.data.status === 'old') {
+        if (Cookies.get('compnayState') === 'new') {
+          Cookies.set('compnayState', data.data.data.status);
+        }
+
+        if (Cookies.get('compnayState') === 'old') {
           history.push('/partner/company');
         } else {
           history.push('/partner/registration');
@@ -370,7 +375,6 @@ export const LoginPanel = () => {
                       />
                     )}
                   />
-
                   <Controller
                     name='phoneNumber'
                     control={control}

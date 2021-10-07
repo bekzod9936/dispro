@@ -28,6 +28,8 @@ import {
 } from './style';
 import { useSideBarStyle } from './styles/SideBarStyle';
 import MenuList from './MenuList';
+import Cookies from 'js-cookie';
+
 export interface IDefaultLayout {
   children: any;
 }
@@ -40,7 +42,6 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
   const [open, setOpen] = useState(width <= 600 ? false : true);
 
   const dispatch = useAppDispatch();
-  const companyState = useAppSelector((state) => state.auth.companyState);
 
   const handleDrawerOpen = () => {
     if (width <= parseInt(device.mobile, 10)) {
@@ -75,6 +76,7 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
     {
       onSuccess: (data) => {
         dispatch(setCompanyInfo(data?.data.data));
+        console.log(data?.data.data);
       },
       keepPreviousData: true,
       refetchOnWindowFocus: false,
@@ -121,8 +123,9 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
           onClose={toggleDrawer(false)}
           onOpen={toggleDrawer(true)}
           style={{
-            pointerEvents: companyState === 'new' ? 'none' : 'auto',
-            opacity: companyState === 'new' ? 0.4 : 1,
+            pointerEvents:
+              Cookies.get('compnayState') === 'new' ? 'none' : 'auto',
+            opacity: Cookies.get('compnayState') === 'new' ? 0.4 : 1,
           }}
         >
           <div
@@ -172,8 +175,9 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
             }),
           }}
           style={{
-            pointerEvents: companyState === 'new' ? 'none' : 'auto',
-            opacity: companyState === 'new' ? 0.4 : 1,
+            pointerEvents:
+              Cookies.get('compnayState') === 'new' ? 'none' : 'auto',
+            opacity: Cookies.get('compnayState') === 'new' ? 0.4 : 1,
           }}
         >
           <div className={classes.toolbar}>

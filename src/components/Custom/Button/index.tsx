@@ -62,12 +62,12 @@ export interface Props {
 const Button = ({ children, ...props }: Props) => {
   return (
     <Container
-      padding={props.padding}
       margin={props.margin}
       buttonStyle={props.buttonStyle}
       disabled={props.disabled}
       width={props.width}
       fullWidth={props.fullWidth}
+      padding={props.padding}
     >
       <MButton
         fullWidth={props.fullWidth ? props.fullWidth : true}

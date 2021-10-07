@@ -1,8 +1,8 @@
-import styled from "styled-components";
-import { ReactComponent as Save } from "../../../../assets/icons/IconsInfo/save.svg";
-import { ReactComponent as Photo } from "../../../../assets/icons/IconsInfo/photo.svg";
-import { ReactComponent as Trash } from "../../../../assets/icons/IconsInfo/trash.svg";
-import { device } from "../../../../styles/device";
+import styled from 'styled-components';
+import { ReactComponent as Save } from '../../../../assets/icons/IconsInfo/save.svg';
+import { ReactComponent as Photo } from '../../../../assets/icons/IconsInfo/photo.svg';
+import { ReactComponent as Trash } from '../../../../assets/icons/IconsInfo/trash.svg';
+import { device } from '../../../../styles/device';
 
 interface Props {
   align?: string;
@@ -19,15 +19,15 @@ export const Container = styled.div`
 `;
 
 export const Text = styled.div`
-  font-weight: ${({ align }: Props) => (align ? "normal" : "300")};
+  font-weight: ${({ align }: Props) => (align ? 'normal' : '300')};
   font-size: 16px;
   color: #223367;
   margin-bottom: 15px;
   span {
     color: #3492ff;
   }
-  max-width: ${({ maxwidth }: Props) => (maxwidth ? maxwidth : "fit-content")};
-  text-align: ${({ align }: Props) => (align ? align : "left")};
+  max-width: ${({ maxwidth }: Props) => (maxwidth ? maxwidth : 'fit-content')};
+  text-align: ${({ align }: Props) => (align ? align : 'left')};
 `;
 
 export const SaveIcon = styled(Save)`
@@ -97,7 +97,7 @@ export const WrapImage = styled.div`
   height: 160px;
   border-radius: 14px;
   overflow: hidden;
-
+  margin-bottom: 10px;
   .lazy-load-image-background.blur.lazy-load-image-loaded {
     filter: blur(0);
     transition: filter 0.3s;
@@ -159,4 +159,20 @@ export const WrapNoPhoto = styled.div`
   flex-direction: column;
   flex: 1;
   height: 100%;
+`;
+
+export const Wrpaper = styled.div`
+  overflow-y: auto;
+
+  ::-webkit-scrollbar {
+    width: 7px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #606eea;
+    border-radius: 14px 0px 0px 14px;
+  }
 `;
