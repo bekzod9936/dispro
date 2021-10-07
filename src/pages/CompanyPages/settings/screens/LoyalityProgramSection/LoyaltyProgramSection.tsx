@@ -6,17 +6,13 @@ import {
   Select,
 } from "@material-ui/core";
 import { useEffect, useState } from "react";
-import { Flex } from "../../../../../styles/BuildingBlocks";
+import { Flex } from "styles/BuildingBlocks";
 import {
   LargePanel,
   LeftLoyalty,
-  RightLoyalty,
+  RightPanel,
 } from "../../styles/SettingStyles";
-import {
-  CustomButton,
-  ModalComponent,
-  Text,
-} from "../../../../../styles/CustomStyles";
+import { CustomButton, ModalComponent, Text } from "styles/CustomStyles";
 import CustomInput from "components/Custom/CustomInput";
 import { useTranslation } from "react-i18next";
 import { Controller, useForm } from "react-hook-form";
@@ -28,7 +24,6 @@ import {
   fetchCashback,
 } from "services/queries/PartnerQueries";
 import { COLORS, FONT_SIZE, FONT_WEIGHT } from "services/Types/enums";
-import { StyledSwitch } from "components/Custom/CustomSwitch/CustomSwitch";
 import CustomModal from "components/Custom/CustomModal";
 import { SyncIcon } from "assets/icons/FeedBackIcons.tsx/FeedbackIcons";
 import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
@@ -331,13 +326,12 @@ const LoyaltyProgramSection = () => {
           justifyContent="start"
           margin="0px"
           alignItems="flex-start"
-          width="100%"
         >
           {switchItems.map((item) => {
             return (
               <Flex
                 key={item.key}
-                width="100%"
+                // width="100%"
                 justifyContent="space-between"
                 margin="0px 0px 35px 0px"
                 alignItems="flex-start"
@@ -356,14 +350,11 @@ const LoyaltyProgramSection = () => {
                   />
                 </Flex>
 
-                {/* <StyledSwitch
-                  checked={item.key === active}
-                  onChange={(e: any, checked: any) =>
-                    handleSwitchChange(checked, item.key)
-                  }
-                  color="primary"
-                /> */}
-                <Flex flexDirection="column" alignItems="flex-start">
+                <Flex
+                  margin="0 0 0 20px"
+                  flexDirection="column"
+                  alignItems="flex-start"
+                >
                   <div style={{}}>
                     <Text fontSize="18px" fontWeight={500}>
                       {item.title}
@@ -381,15 +372,15 @@ const LoyaltyProgramSection = () => {
         </Flex>
       </LeftLoyalty>
 
-      <RightLoyalty id="rightLoyalty">
+      <RightPanel id="rightLoyalty">
         <LargePanel
           id="largePanel"
-          style={{
-            marginTop:
-              fields.length > 2
-                ? `${fields.length * (fields.length * 25)}px`
-                : `20px`,
-          }}
+          // style={{
+          //   marginTop:
+          //     fields.length > 2
+          //       ? `${fields.length * (fields.length * 25)}px`
+          //       : `20px`,
+          // }}
         >
           <form>
             <div>
@@ -498,17 +489,6 @@ const LoyaltyProgramSection = () => {
                 );
               })}
             </div>
-            {/* <div >
-                            <Controller
-                                name="additional"
-                                control={control}
-                                render={({ field }) => {
-                                    return <CustomInput field={field} style={{ width: '95%' }} withPercent label="status_name"
-                                    />
-                                }}
-
-                            />
-                        </div> */}
 
             <div>
               <Controller
@@ -616,7 +596,7 @@ const LoyaltyProgramSection = () => {
             </div>
           </ModalComponent>
         </CustomModal>
-      </RightLoyalty>
+      </RightPanel>
     </Flex>
   );
 };

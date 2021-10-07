@@ -2,15 +2,15 @@ import styled from "styled-components";
 import {
   ILeftLoyalitiy,
   IRightLoyalitiy,
-} from "../screens/ReferalProgrammSection/ReferalProgrammSection";
+} from "../screens/ReferalProgrammSection/constants";
 
-export const RightLoyalty = styled.div`
+export const RightPanel = styled.div`
   width: ${(props: IRightLoyalitiy) => props.width || "52%"};
   display: flex;
   height: 73vh;
 
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
   margin-top: 20px;
   margin-bottom: 20px;
   overflow-y: scroll;
