@@ -4,11 +4,12 @@ import {
   makeStyles,
   MenuItem,
   Select,
+  Grid,
 } from "@material-ui/core";
 import { initialFields } from "./constants";
 import { useEffect, useState } from "react";
 import { Flex } from "styles/BuildingBlocks";
-import { LargePanel, LeftPanel, RightPanel } from "../../styles/SettingStyles";
+import { LargePanel } from "../../styles/SettingStyles";
 import { CustomButton, ModalComponent, Text } from "styles/CustomStyles";
 import CustomInput from "components/Custom/CustomInput";
 import { useTranslation } from "react-i18next";
@@ -22,6 +23,7 @@ import { SyncIcon } from "assets/icons/FeedBackIcons.tsx/FeedbackIcons";
 import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import CustomToggle from "components/Custom/CustomToggleSwitch";
 import useLoyality from "./hooks/useLoyality";
+import { LeftGrid } from "./styles";
 
 const useStyles = makeStyles({
   select: {
@@ -54,50 +56,8 @@ const LoyaltyProgramSection = () => {
   } = useLoyality();
 
   const [swithcState, setSwitchState] = useState("");
-
   const [switchChange, setSwitchChange] = useState(0);
   const [assertModalVisible, setAssertModalVisible] = useState<boolean>(false);
-
-  // useQuery(["cashback", refetchCashback], fetchCashback, {
-  //   retry: 0,
-  //   refetchOnWindowFocus: false,
-  //   onSuccess: (data: any) => {
-  //     if (data?.data?.data?.isActive) {
-  //       setActive("cashback");
-  //       setValue("max_percent", data.data.data.maxAmount);
-  //       setValue("give_cashback_after", data.data.data.cashbackReturnedDay);
-  //       let copy = [...initialFields];
-  //       copy[0].id = 0;
-  //       copy[0].name = data?.data?.data.name;
-  //       copy[0].percent = data?.data?.data.percent;
-  //       copy[0].requirements = [
-  //         { type: 1, amount: 0, unit: "UZS", condition: "", id: 0 },
-  //       ];
-  //       copy = [...copy, ...data.data.data.levels];
-  //       setFileds(copy);
-  //     }
-  //   },
-  // });
-
-  // useQuery(["Bonus", refetchBonusPoints], fetchBonusPoints, {
-  //   retry: 0,
-  //   refetchOnWindowFocus: false,
-  //   onSuccess: (data: any) => {
-  //     if (data?.data?.data?.isActive) {
-  //       setActive("bonusPoints");
-  //       setValue("max_percent", data.data.data.maxAmount);
-  //       let copy = [...initialFields];
-  //       copy[0].id = 0;
-  //       copy[0].name = data?.data?.data.name;
-  //       copy[0].percent = data?.data?.data.percent;
-  //       copy[0].requirements = [
-  //         { type: 1, amount: 0, unit: "UZS", condition: "", id: 1 },
-  //       ];
-  //       copy = [...copy, ...data.data.data.levels];
-  //       setFileds(copy);
-  //     }
-  //   },
-  // });
 
   const onFormSubmit = async (data: any) => {
     let copy = [...fields];
@@ -291,8 +251,8 @@ const LoyaltyProgramSection = () => {
   };
 
   return (
-    <Flex justifyContent="start" flexGrow="1" margin="0px">
-      <LeftPanel>
+    <Grid container spacing={3} justifyContent="space-between">
+      <LeftGrid item xs={4}>
         <Flex
           flexDirection="column"
           justifyContent="start"
@@ -342,9 +302,9 @@ const LoyaltyProgramSection = () => {
             );
           })}
         </Flex>
-      </LeftPanel>
+      </LeftGrid>
 
-      <RightPanel id="rightLoyalty">
+      <Grid item xs={8}>
         <LargePanel
           id="largePanel"
           // style={{
@@ -568,8 +528,8 @@ const LoyaltyProgramSection = () => {
             </div>
           </ModalComponent>
         </CustomModal>
-      </RightPanel>
-    </Flex>
+      </Grid>
+    </Grid>
   );
 };
 

@@ -2,7 +2,7 @@ import React from "react";
 import { Text } from "styles/CustomStyles";
 import { ReactComponent as LeftUser } from "assets/icons/referal_icon_left.svg";
 import { ReactComponent as SimpleUser } from "assets/icons/simple_user.svg";
-import { ReactComponent as SalePerson } from "assets/icons/sale_person.svg";
+import { ReactComponent as SalePerson } from "assets/icons/sale_user.svg";
 import { ReactComponent as Arrow } from "assets/icons/arrow.svg";
 import { ReactComponent as LongArrow } from "assets/icons/long_arrow.svg";
 import { ReactComponent as ShortArrow } from "assets/icons/short_arrow.svg";

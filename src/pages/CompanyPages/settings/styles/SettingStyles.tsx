@@ -1,39 +1,4 @@
 import styled from "styled-components";
-import {
-  ILeftLoyalitiy,
-  IRightLoyalitiy,
-} from "../screens/ReferalProgrammSection/constants";
-
-export const RightPanel = styled.div`
-  width: ${(props: IRightLoyalitiy) => props.width || "52%"};
-  display: flex;
-  height: 73vh;
-
-  justify-content: center;
-  /* align-items: center; */
-  margin-top: 20px;
-  margin-bottom: 20px;
-  overflow-y: scroll;
-  &::-webkit-scrollbar {
-    appearance: none;
-    display: none;
-  }
-  &::-webkit-scrollbar-track {
-    appearance: none;
-    display: none;
-  }
-`;
-export const LeftPanel = styled.div`
-  width: ${(props: ILeftLoyalitiy) => props.width || "38%"};
-  height: 90%;
-  display: flex;
-  justify-content: start;
-  box-sizing: border-box;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  border-right: 3px solid #7a85e6;
-  flex-direction: ${(props: ILeftLoyalitiy) => props.flexDirection || "row"};
-`;
 
 export const LargePanel = styled.div`
   padding: 30px 40px;
@@ -64,14 +29,7 @@ export const SettingsWrapper = styled.div`
   border-radius: 14px;
   background-color: white;
 `;
-export const Levels = styled.div`
-  padding: 25px 50px;
-  border-radius: 14px;
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
+
 export const ReferalScroll = styled.div`
   overflow-y: scroll;
   max-height: 60vh;
