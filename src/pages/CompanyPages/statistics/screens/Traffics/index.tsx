@@ -1,8 +1,72 @@
 import React from 'react';
-import { Container } from './style';
+import { Container, AppIcon, MobileIcon, WrapIcon, Img } from './style';
+import Table from '../../components/Table';
+import useTrafficsHook from './useTrafficsHook';
+import { useTranslation } from 'react-i18next';
+import Spinner from 'components/Custom/Spinner';
+import cashier from 'assets/icons/StatistisPage/cash.png';
 
 const Traffics = () => {
-  return <Container>Traffics</Container>;
+  const { t } = useTranslation();
+  const { response, data } = useTrafficsHook();
+
+  const list = data?.map((v: any) => {
+    return {
+      col1: v?.source,
+      col2: v?.clientCount,
+      col3: v?.clientPayedCount,
+      col4: v?.chequeCount,
+      col5: v?.receipts,
+    };
+  });
+
+  const columns: any = React.useMemo(
+    () => [
+      {
+        Header: t('traffic_provider'),
+        accessor: 'col1',
+        Cell: (props: any) => (
+          <WrapIcon>
+            {props?.value.toLowerCase() === 'app' ? (
+              <AppIcon />
+            ) : props?.value.toLowerCase() === 'mobile' ? (
+              <MobileIcon />
+            ) : props?.value.toLowerCase() === 'cashier' ? (
+              <Img src={cashier} alt='cashier' />
+            ) : null}
+            {props?.value}
+          </WrapIcon>
+        ),
+      },
+      {
+        Header: t('clients'),
+        accessor: 'col2',
+      },
+      {
+        Header: t('uniqueChequeClient'),
+        accessor: 'col3',
+      },
+      {
+        Header: t('purchuase_amount'),
+        accessor: 'col4',
+      },
+      {
+        Header: t('revenueuzs'),
+        accessor: 'col5',
+      },
+    ],
+    []
+  );
+
+  return (
+    <Container>
+      {response.isLoading || response.isFetching ? (
+        <Spinner />
+      ) : (
+        <Table columns={columns} data={list} />
+      )}
+    </Container>
+  );
 };
 
 export default Traffics;
