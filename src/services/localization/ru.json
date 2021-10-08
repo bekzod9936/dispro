@@ -13,8 +13,8 @@
   "chequeAvg": "Средний чек",
   "cashbackSum": "Кешбэк",
   "discountSum": "Скидка",
-  "couponAmountSum": "Сертификат",
-  "couponDiscountSum": "Купон",
+  "couponAmountSum": "Сертификаты",
+  "couponDiscountSum": "Купоны",
   "allClientParkCards": "Количество карт",
   "filters": "Фильтр",
   "datePicker": "Выберите период",
@@ -310,5 +310,6 @@
   "newcompanyphototext": "Добавьте фотографии вашей компаниидля большей лояльности клиентовв разделе фотографии.",
   "stay": "Остаться",
   "addphoto": "Добавить фото",
-  "noresult": "По данному запросу ничего не найдено..."
+  "noresult": "По данному запросу ничего не найдено...",
+  "totalSum": "Общий счет"
 }

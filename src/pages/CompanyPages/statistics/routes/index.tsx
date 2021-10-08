@@ -21,11 +21,6 @@ const useStatisticsRoute = () => {
       component: Clients,
     },
     {
-      path: '/statistics/offers',
-      text: t('proposals'),
-      component: Offers,
-    },
-    {
       path: '/statistics/operations',
       text: t('operations'),
       component: Operations,
@@ -34,6 +29,11 @@ const useStatisticsRoute = () => {
       path: '/statistics/traffics',
       text: t('traffic_providers'),
       component: Traffics,
+    },
+    {
+      path: '/statistics/offers',
+      text: t('proposals'),
+      component: Offers,
     },
   ];
 

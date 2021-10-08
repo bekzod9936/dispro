@@ -1,8 +1,7 @@
-import React from 'react';
 import { Container } from './style';
 
 const Offers = () => {
-  return <Container>Offers</Container>;
+  return <Container>offers</Container>;
 };
 
 export default Offers;
