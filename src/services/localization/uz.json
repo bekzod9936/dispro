@@ -192,7 +192,7 @@
     "enter_sum": "Введите сумму",
     "client_statuses": "Статусы клиентов",
     "create_status": "Создайте статусы и определите размер скидки",
-    "status_name": "Название статуса",
+    "status_name": "Holat nomi",
     "purchaseSum": "Сумма покупок",
     "max_percent": "Какой процент счета можно оплатить баллами?",
     "more": "Больше",
@@ -305,6 +305,8 @@
     "addresscompany": "Адрес компании:",
     "selectedaddress": "Выбранный адрес:",
     "addbreaktime": "Добавить перерыв + ",
-    "copydate": "Применить ко всем дням"
+    "copydate": "Применить ко всем дням",
+    "or": "yoki",
+    "and": "va"
   }
   

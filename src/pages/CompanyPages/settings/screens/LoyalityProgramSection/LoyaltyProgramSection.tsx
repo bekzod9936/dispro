@@ -1,12 +1,12 @@
 import {
   Checkbox,
-  Input,
   makeStyles,
   MenuItem,
   Select,
   Grid,
 } from "@material-ui/core";
 import { initialFields } from "./constants";
+import Input from "components/Custom/Input";
 import { useEffect, useState } from "react";
 import { Flex } from "styles/BuildingBlocks";
 import { LargePanel } from "../../styles/SettingStyles";
@@ -16,14 +16,18 @@ import { useTranslation } from "react-i18next";
 import { Controller } from "react-hook-form";
 import { SaveIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
 import partnerApi from "services/interceptors/companyInterceptor";
-
+import {
+  AddIconSettings,
+  DeleteIcon,
+} from "assets/icons/SettingsIcons/SettingsPageIcon";
 import { COLORS, FONT_SIZE, FONT_WEIGHT } from "services/Types/enums";
 import CustomModal from "components/Custom/CustomModal";
 import { SyncIcon } from "assets/icons/FeedBackIcons.tsx/FeedbackIcons";
 import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import CustomToggle from "components/Custom/CustomToggleSwitch";
 import useLoyality from "./hooks/useLoyality";
-import { LeftGrid } from "./styles";
+import { AddIconDiv, LeftGrid, ThirdContainer } from "./styles";
+import { RippleDiv } from "components/Custom/RippleEffect/style";
 
 const useStyles = makeStyles({
   select: {
@@ -53,6 +57,12 @@ const LoyaltyProgramSection = () => {
     setFileds,
     handleSubmit,
     setActive,
+    dynamicFields,
+    append,
+    remove,
+    requirementFields,
+    removeRequirement,
+    addRequirement
   } = useLoyality();
 
   const [swithcState, setSwitchState] = useState("");
@@ -252,7 +262,7 @@ const LoyaltyProgramSection = () => {
 
   return (
     <Grid container spacing={3} justifyContent="space-between">
-      <LeftGrid item xs={4}>
+      <LeftGrid item xs={5}>
         <Flex
           flexDirection="column"
           justifyContent="start"
@@ -304,22 +314,14 @@ const LoyaltyProgramSection = () => {
         </Flex>
       </LeftGrid>
 
-      <Grid item xs={8}>
-        <LargePanel
-          id="largePanel"
-          // style={{
-          //   marginTop:
-          //     fields.length > 2
-          //       ? `${fields.length * (fields.length * 25)}px`
-          //       : `20px`,
-          // }}
-        >
+      <Grid item xs={7}>
+        <LargePanel id="largePanel">
           <form>
             <div>
-              {fields?.map((item, index: number) => {
+              {dynamicFields?.map((item, index: number) => {
                 return (
-                  <>
-                    <Controller
+                  <Grid container spacing={3} justifyContent="space-between">
+                    {/* <Controller
                       name="main"
                       control={control}
                       render={({ field }) => {
@@ -347,8 +349,83 @@ const LoyaltyProgramSection = () => {
                           />
                         );
                       }}
-                    />
-                    {item.requirements.map((value, smallIndex) => {
+                    /> */}
+                    <Grid
+                      container
+                      direction="row"
+                      alignItems="center"
+                      justifyContent="space-between"
+                      spacing={3}
+                      xs={12}
+                    >
+                      <Grid item xs={6}>
+                        <Controller
+                          name={`levels.${index}.name`}
+                          rules={{
+                            required: true,
+                            maxLength: 13,
+                            minLength: 13,
+                          }}
+                          control={control}
+                          render={({ field }) => (
+                            <Input
+                              label={t("status_name")}
+                              type="string"
+                              field={field}
+                              margin={{
+                                laptop: "20px 0 10px",
+                              }}
+                              message={t("requiredField")}
+                              // error={errors.telNumbers?.[index] ? true : false}
+
+                              // maxLength={13}
+                            />
+                          )}
+                        />
+                      </Grid>
+
+                      <Grid direction="row" alignItems="flex-end" item xs={4}>
+                        <Controller
+                          name={`levels.${index}.percent`}
+                          rules={{
+                            required: true,
+                            maxLength: 13,
+                            minLength: 13,
+                          }}
+                          control={control}
+                          render={({ field }) => (
+                            <Input
+                              label={""}
+                              type="string"
+                              field={field}
+                              width={{
+                                width: "106px",
+                              }}
+                              margin={{
+                                laptop: "20px 0 10px",
+                              }}
+                              message={t("requiredField")}
+                              // error={errors.telNumbers?.[index] ? true : false}
+
+                              // maxLength={13}
+                            />
+                          )}
+                        />
+                      </Grid>
+
+                      <Grid item xs={2} direction="row" alignItems="flex-end">
+                        <ThirdContainer>
+                          <AddIconDiv>
+                            <RippleDiv marginLeft={0} marginRight={0}>
+                              <AddIconSettings />
+                            </RippleDiv>
+                          </AddIconDiv>
+                        </ThirdContainer>
+                      </Grid>
+                    </Grid>
+
+                    {/* //Requirements section */}
+                    {requirementFields.map((value, smallIndex) => {
                       return (
                         <div
                           style={{
@@ -397,7 +474,7 @@ const LoyaltyProgramSection = () => {
                             value={
                               fields[index]?.requirements[smallIndex]?.amount
                             }
-                            className={classes.select}
+                            // className={classes.select}
                             onChange={(e) =>
                               handleAmountChange(
                                 e,
@@ -407,17 +484,17 @@ const LoyaltyProgramSection = () => {
                                 smallIndex
                               )
                             }
-                            style={{
-                              width: "140px",
-                              marginLeft: "15px",
-                              borderColor: COLORS.purple,
-                            }}
-                            renderSuffix={() => <span></span>}
+                            // style={{
+                            //   width: "140px",
+                            //   marginLeft: "15px",
+                            //   borderColor: COLORS.purple,
+                            // }}
+                            // renderSuffix={() => <span></span>}
                           />
                         </div>
                       );
                     })}
-                  </>
+                  </Grid>
                 );
               })}
             </div>

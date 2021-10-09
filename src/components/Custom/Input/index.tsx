@@ -1,5 +1,4 @@
-import React from 'react';
-import { Container, MInput, Label, Adornment, Message } from './style';
+import { Container, MInput, Label, Adornment, Message } from "./style";
 
 export interface Props {
   field?: any;
@@ -126,10 +125,10 @@ const NInput = ({ onChange = () => {}, ...props }: Props) => {
         value={props.value}
         InputProps={{
           startAdornment: props.IconStart ? (
-            <Adornment position='start'>{props.IconStart}</Adornment>
+            <Adornment position="start">{props.IconStart}</Adornment>
           ) : null,
           endAdornment: props.IconEnd ? (
-            <Adornment position='end'>{props.IconEnd}</Adornment>
+            <Adornment position="end">{props.IconEnd}</Adornment>
           ) : null,
         }}
         inputStyle={props.inputStyle}

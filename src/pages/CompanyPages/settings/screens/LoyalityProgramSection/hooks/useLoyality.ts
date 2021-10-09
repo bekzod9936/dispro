@@ -4,7 +4,7 @@ import {
   fetchBonusPoints,
   fetchCashback,
 } from "services/queries/PartnerQueries";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { initialFields } from "../constants";
 
 interface IFields {
@@ -21,7 +21,30 @@ interface IFields {
 }
 
 const useLoyality = () => {
-  const { control, handleSubmit, setValue } = useForm({});
+  const { control, handleSubmit, setValue } = useForm({
+    mode: "onBlur",
+    shouldFocusError: true,
+  });
+
+  const {
+    fields: dynamicFields,
+    append,
+    remove,
+  } = useFieldArray({
+    control,
+    name: "levels",
+  });
+
+  const {
+    fields: requirementFields,
+    append: addRequirement,
+    remove: removeRequirement,
+  } = useFieldArray({
+    control,
+    name: "requirements",
+  });
+
+  //other requirements
   const [fields, setFileds] = useState<IFields[]>(initialFields);
 
   const [refetchCashback, setRefetchCashback] = useState(0);
@@ -90,6 +113,12 @@ const useLoyality = () => {
     setFileds,
     handleSubmit,
     setActive,
+    dynamicFields,
+    append,
+    remove,
+    requirementFields,
+    addRequirement,
+    removeRequirement,
   };
 };
 
