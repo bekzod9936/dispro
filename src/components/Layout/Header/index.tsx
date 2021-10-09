@@ -1,5 +1,17 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import Popover from '../../Custom/Popover';
+import { useAppDispatch, useAppSelector } from '../../../services/redux/hooks';
+import Button from '../../Custom/Button';
+import { useHistory } from 'react-router';
+import Modal from '../../Custom/Modal';
+import LogoDef from '../../../assets/icons/SideBar/logodefault.png';
+import { IconButton } from '@material-ui/core';
+import Input from '../../Custom/Input';
+import LangSelect from '../../LangSelect';
+import Logo from '../../../assets/icons/SideBar/logo.png';
+import Cookies from 'js-cookie';
+import { setCompanyInfo } from '../../../services/redux/Slices/partnerSlice';
 import {
   Container,
   SearchIcon,
@@ -36,18 +48,6 @@ import {
   TitleLogo,
   LogoIcon,
 } from './style';
-import Popover from '../../Custom/Popover';
-import { useAppDispatch, useAppSelector } from '../../../services/redux/hooks';
-import Button from '../../Custom/Button';
-import { useHistory } from 'react-router';
-import Modal from '../../Custom/Modal';
-import LogoDef from '../../../assets/icons/SideBar/logodefault.png';
-import { IconButton } from '@material-ui/core';
-import Input from '../../Custom/Input';
-import LangSelect from '../../LangSelect';
-import Logo from '../../../assets/icons/SideBar/logo.png';
-import Cookies from 'js-cookie';
-import { setCompanyInfo } from '../../../services/redux/Slices/partnerSlice';
 
 const Header = () => {
   const { t } = useTranslation();

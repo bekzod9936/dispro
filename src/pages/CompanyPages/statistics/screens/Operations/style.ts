@@ -5,6 +5,7 @@ export const Container = styled.div`
   display: flex;
   flex: 1;
   overflow: hidden;
+  flex-direction: column;
 `;
 
 export const Wrapper = styled.div`
@@ -29,4 +30,14 @@ export const Wrapper = styled.div`
   @media (max-width: ${device.mobile}) {
     grid-template-columns: repeat(2, 1fr);
   }
+`;
+
+export const WrapFilter = styled.div`
+  padding-bottom: 20px;
+`;
+
+export const WrapperCon = styled.div`
+  display: flex;
+  flex: 1;
+  overflow: hidden;
 `;

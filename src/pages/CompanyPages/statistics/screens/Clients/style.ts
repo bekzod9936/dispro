@@ -9,12 +9,11 @@ import { ReactComponent as Discount } from 'assets/icons/StatistisPage/discount.
 import { ReactComponent as Man } from 'assets/icons/StatistisPage/man.svg';
 import { ReactComponent as Woman } from 'assets/icons/StatistisPage/woman.svg';
 import { ReactComponent as Money } from 'assets/icons/StatistisPage/money.svg';
-import { ReactComponent as Quistion } from 'assets/icons/StatistisPage/quistion.svg';
 import { ReactComponent as Rating } from 'assets/icons/StatistisPage/rating.svg';
 import { ReactComponent as Score } from 'assets/icons/StatistisPage/score.svg';
-import { ReactComponent as Sertificate } from 'assets/icons/StatistisPage/sertificate.svg';
+import { ReactComponent as Sertificate } from 'assets/icons/StatistisPage/cashnew.svg';
 import { ReactComponent as Users } from 'assets/icons/StatistisPage/users.svg';
-import { ReactComponent as Calendar } from 'assets/icons/StatistisPage/calendar.svg';
+import { ReactComponent as Calendar } from 'assets/icons/StatistisPage/buying.svg';
 import { ReactComponent as Laptop } from 'assets/icons/StatistisPage/laptop.svg';
 import { device } from 'styles/device';
 
@@ -50,9 +49,6 @@ export const WomanIcon = styled(Woman)`
 export const MoneyIcon = styled(Money)`
   ${iconstyle}
 `;
-export const QuistionIcon = styled(Quistion)`
-  ${iconstyle}
-`;
 export const RatingIcon = styled(Rating)`
   ${iconstyle}
 `;
@@ -71,6 +67,18 @@ export const CalendarIcon = styled(Calendar)`
     fill: #c4c4c4;
   }
 `;
+
+export const MainWrapper = styled.div`
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  flex-direction: column;
+`;
+
+export const WrapFilter = styled.div`
+  padding-bottom: 20px;
+`;
+
 export const Container = styled.div`
   display: flex;
   flex: 1;
@@ -134,3 +142,43 @@ export const Wrapper = styled.div`
 `;
 
 export const WrapIcon = styled.div``;
+
+export const Label = styled.label`
+  font-weight: bold;
+  font-size: 14px;
+  color: #c7c7c7;
+  @media (min-width: ${device.laptop}) {
+    font-size: 16px;
+  }
+  margin-bottom: 5px;
+`;
+
+export const WrapStatus = styled.div``;
+
+export const WrapCheck = styled.div`
+  display: grid;
+  grid-template-columns: auto auto;
+`;
+
+export const WrapPlaceHolder = styled.div`
+  width: fit-content;
+  font-weight: 500;
+  font-size: 18px;
+  color: #a5a5a5;
+  padding-left: 15px;
+`;
+
+export const WrapDate = styled.div`
+  font-weight: 500;
+  font-size: 18px;
+  color: #223367;
+  padding-left: 15px;
+`;
+
+export const WrapInputs = styled.div`
+  display: flex;
+  flex-direction: column;
+  & > div {
+    display: flex;
+  }
+`;

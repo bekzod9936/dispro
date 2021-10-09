@@ -57,6 +57,7 @@ export interface Props {
     border?: string;
     shadow?: string;
     radius?: number;
+    borderbottom?: string;
     fontSize?: {
       mobile?: number;
       planshet?: number;
@@ -70,6 +71,7 @@ export interface Props {
       desktop?: number;
     };
     placeholdercolor?: string;
+    fitheight?: boolean;
   };
   margin?: {
     mobile?: string;

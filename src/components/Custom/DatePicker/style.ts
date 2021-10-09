@@ -52,3 +52,5 @@ export const Text = styled.div`
 // }}
 // open={isOpen}
 // />
+
+export const Wrapper = styled.div``;

@@ -17,23 +17,28 @@ export interface Props {
     horizontal: 'center' | 'left' | 'right' | number;
     vertical: 'bottom' | 'center' | 'top' | number;
   };
+  onClose?: (e: any) => void;
 }
 
 const MPopover = ({
   children,
   click,
-  openBgColor = 'white',
+  openBgColor = 'transparent',
   radius = 0,
   anchorOrigin,
   popoverStyle,
   clickStyle,
   transformOrigin,
+  onClose = () => {},
 }: Props) => {
   return (
     <PopupState variant='popover' popupId='demo-popup-popover'>
       {(popupState) => {
         return (
-          <div>
+          <div
+            style={{ width: 'fit-content' }}
+            onClick={() => onClose(popupState)}
+          >
             <WrapClick
               openBgColor={popupState.isOpen ? openBgColor : 'transparent'}
               radius={radius}
