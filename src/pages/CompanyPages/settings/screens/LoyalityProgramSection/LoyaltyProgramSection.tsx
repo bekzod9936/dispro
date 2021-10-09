@@ -1,10 +1,4 @@
-import {
-  Checkbox,
-  makeStyles,
-  MenuItem,
-  Select,
-  Grid,
-} from "@material-ui/core";
+import { Checkbox, makeStyles, Grid } from "@material-ui/core";
 import { initialFields } from "./constants";
 import Input from "components/Custom/Input";
 import { useEffect, useState } from "react";
@@ -16,10 +10,7 @@ import { useTranslation } from "react-i18next";
 import { Controller } from "react-hook-form";
 import { SaveIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
 import partnerApi from "services/interceptors/companyInterceptor";
-import {
-  AddIconSettings,
-  DeleteIcon,
-} from "assets/icons/SettingsIcons/SettingsPageIcon";
+import { AddIconSettings } from "assets/icons/SettingsIcons/SettingsPageIcon";
 import { COLORS, FONT_SIZE, FONT_WEIGHT } from "services/Types/enums";
 import CustomModal from "components/Custom/CustomModal";
 import { SyncIcon } from "assets/icons/FeedBackIcons.tsx/FeedbackIcons";
@@ -30,10 +21,15 @@ import {
   AddIconDiv,
   LeftGrid,
   LevelGrid,
+  ProgramRow,
   SelectGrid,
   ThirdContainer,
+  SubText,
+  RequirementsGrid,
 } from "./styles";
 import { RippleDiv } from "components/Custom/RippleEffect/style";
+import MultiSelect from "components/Custom/MultiSelect";
+import NestedArray from "./components/NestedArray";
 
 const useStyles = makeStyles({
   select: {
@@ -64,6 +60,7 @@ const LoyaltyProgramSection = () => {
     handleSubmit,
     setActive,
     dynamicFields,
+    getValues,
     append,
     remove,
   } = useLoyality();
@@ -323,10 +320,16 @@ const LoyaltyProgramSection = () => {
         <LargePanel id="largePanel">
           <form>
             <div>
-              {dynamicFields?.map((item: any, index: number) => {
-                return (
-                  <Grid container spacing={3} justifyContent="space-between">
-                    {/* <Controller
+              {dynamicFields?.length > 0 &&
+                dynamicFields?.map((item: any, index: number) => {
+                  return (
+                    <ProgramRow
+                      container
+                      spacing={3}
+                      justifyContent="space-between"
+                      alignItems="flex-end"
+                    >
+                      {/* <Controller
                       name="main"
                       control={control}
                       render={({ field }) => {
@@ -355,196 +358,126 @@ const LoyaltyProgramSection = () => {
                         );
                       }}
                     /> */}
-                    <Grid
-                      container
-                      direction="row"
-                      alignItems="center"
-                      justifyContent="space-between"
-                      spacing={3}
-                      xs={12}
-                    >
-                      <Grid item xs={6}>
-                        <Controller
-                          name={`levels.${[index]}.name`}
-                          rules={{
-                            required: true,
-                            maxLength: 13,
-                            minLength: 13,
-                          }}
-                          defaultValue={item?.name || ""}
-                          control={control}
-                          render={({ field }) => (
-                            <Input
-                              label={t("status_name")}
-                              type="string"
-                              field={field}
-                              margin={{
-                                laptop: "20px 0 10px",
-                              }}
-                              message={t("requiredField")}
-                              // error={errors.telNumbers?.[index] ? true : false}
-
-                              // maxLength={13}
-                            />
-                          )}
-                        />
-                      </Grid>
-
-                      <LevelGrid
+                      <Grid
+                        container
                         direction="row"
-                        alignItems="flex-end"
-                        item
-                        xs={4}
+                        alignItems="center"
+                        justifyContent="space-between"
+                        spacing={3}
+                        xs={12}
                       >
-                        <Controller
-                          name={`levels.${[index]}.percent`}
-                          rules={{
-                            required: true,
-                            maxLength: 13,
-                            minLength: 13,
-                          }}
-                          control={control}
-                          render={({ field }) => (
-                            <Input
-                              label={""}
-                              type="string"
-                              field={field}
-                              width={{
-                                width: "106px",
-                              }}
-                              margin={{
-                                laptop: "20px 0 10px",
-                              }}
-                              message={t("requiredField")}
-                              // error={errors.telNumbers?.[index] ? true : false}
-
-                              // maxLength={13}
-                            />
-                          )}
-                        />
-                      </LevelGrid>
-
-                      <Grid item xs={2} direction="row" alignItems="flex-end">
-                        <ThirdContainer>
-                          <AddIconDiv>
-                            <RippleDiv
-                              onClick={() =>
-                                append({
-                                  requirements: {
-                                    amount: 15000000,
-                                    condition: "",
-                                    type: 1,
-                                    unit: "",
-                                  },
-                                })
-                              }
-                              marginLeft={0}
-                              marginRight={0}
-                            >
-                              <AddIconSettings />
-                            </RippleDiv>
-                          </AddIconDiv>
-                        </ThirdContainer>
-                      </Grid>
-                    </Grid>
-
-                    {/* //Requirements section */}
-                    {item?.requirements?.map(
-                      (value: any, smallIndex: number) => {
-                        return (
-                          <Grid
-                            container
-                            spacing={3}
-                            justifyContent="space-between"
-                          >
-                            <SelectGrid alignItems="flex-end" item xs={2}>
-                              <Select
-                                //  color={COLORS.purple}
-                                className={classes.select}
-                                style={{
-                                  marginLeft: "15px",
-                                  borderColor: COLORS.purple,
-                                }}
-                                value={
-                                  fields[index]?.requirements[smallIndex]
-                                    ?.condition
-                                }
-                                onChange={(e) =>
-                                  handleConditionChange(e, item, value)
-                                }
-                              >
-                                <MenuItem value="and">{t("and")}</MenuItem>
-                                <MenuItem value="or">{t("or")}</MenuItem>
-                                <MenuItem value="">{t("")}</MenuItem>
-                              </Select>
-                            </SelectGrid>
-                            <SelectGrid alignItems="flex-end" item xs={4}>
-                              <Select
-                                style={{
-                                  marginLeft: "15px",
-                                  width: "140px",
-                                  borderColor: COLORS.purple,
-                                }}
-                                className={classes.select}
-                                value={
-                                  fields[index]?.requirements[smallIndex]?.type
-                                }
-                                onChange={(e) =>
-                                  handleSelectChange(e, item, value)
-                                }
-                              >
-                                <MenuItem value={1}>
-                                  {t("purchaseSum")}
-                                </MenuItem>
-                                <MenuItem value={2}>
-                                  {t("companyVisits")}
-                                </MenuItem>
-                                <MenuItem value={3}>
-                                  {t("recomendations")}
-                                </MenuItem>
-                              </Select>
-                            </SelectGrid>
-
-                            <Grid
-                              item
-                              xs={6}
-                              direction="row"
-                              justifyContent="center"
-                            >
-                              <div>{t("more")}</div>
+                        <Grid item xs={6}>
+                          <Controller
+                            name={`levels.${[index]}.name`}
+                            rules={{
+                              required: true,
+                              maxLength: 13,
+                              minLength: 13,
+                            }}
+                            defaultValue={item?.name || ""}
+                            control={control}
+                            render={({ field }) => (
                               <Input
-                                name="base_level.name"
-                                type="number"
-                                variant="standard"
-                                // value={
-                                //   fields[index]?.requirements[smallIndex]
-                                //     ?.amount
-                                // }
-                                // className={classes.select}
-                                onChange={(e) =>
-                                  handleAmountChange(
-                                    e,
-                                    item,
-                                    value,
-                                    index,
-                                    smallIndex
-                                  )
-                                }
-                                // style={{
-                                //   width: "140px",
-                                //   marginLeft: "15px",
-                                //   borderColor: COLORS.purple,
-                                // }}
-                                // renderSuffix={() => <span></span>}
+                                label={t("status_name")}
+                                type="string"
+                                field={field}
+                                margin={{
+                                  laptop: "20px 0 10px",
+                                }}
+                                message={t("requiredField")}
+                                // error={errors.telNumbers?.[index] ? true : false}
+
+                                // maxLength={13}
                               />
-                            </Grid>
-                          </Grid>
-                        );
-                      }
-                    )}
-                  </Grid>
-                );
-              })}
+                            )}
+                          />
+                        </Grid>
+
+                        <LevelGrid
+                          direction="row"
+                          alignItems="flex-end"
+                          item
+                          xs={4}
+                        >
+                          <Controller
+                            name={`levels.${[index]}.percent`}
+                            rules={{
+                              required: true,
+                              maxLength: 13,
+                              minLength: 13,
+                            }}
+                            control={control}
+                            render={({ field }) => (
+                              <Input
+                                label={""}
+                                type="string"
+                                field={field}
+                                width={{
+                                  width: "106px",
+                                }}
+                                margin={{
+                                  laptop: "20px 0 10px",
+                                }}
+                                message={t("requiredField")}
+                                // error={errors.telNumbers?.[index] ? true : false}
+
+                                // maxLength={13}
+                              />
+                            )}
+                          />
+                        </LevelGrid>
+
+                        <LevelGrid
+                          item
+                          xs={2}
+                          direction="row"
+                          alignItems="flex-end"
+                        >
+                          <ThirdContainer>
+                            <AddIconDiv>
+                              <RippleDiv
+                                onClick={() => {
+                                  // setValue(`levels`, [
+                                  //   ...dynamicFields[index]?.requirements,
+                                  //   {
+                                  //     amount: 0,
+                                  //     condition: "or",
+                                  //     unit: 0,
+                                  //     type: 3,
+                                  //   },
+                                  // ])
+
+                                  setValue("levels", [
+                                    ...getValues().levels,
+                                    {
+                                      name: "append",
+                                      requirements: [
+                                        {
+                                          amount: 0,
+                                          condition: "or",
+                                          unit: 0,
+                                          type: 3,
+                                        },
+                                      ],
+                                    },
+                                  ]);
+                                }}
+                                marginLeft={0}
+                                marginRight={0}
+                              >
+                                <AddIconSettings />
+                              </RippleDiv>
+                            </AddIconDiv>
+                          </ThirdContainer>
+                        </LevelGrid>
+                      </Grid>
+
+                      {/* //Requirements section */}
+
+                      <NestedArray index={index} control={control} />
+                    </ProgramRow>
+                  );
+                })}
             </div>
 
             <div>

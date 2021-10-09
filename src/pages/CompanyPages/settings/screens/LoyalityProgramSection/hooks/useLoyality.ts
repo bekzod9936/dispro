@@ -31,7 +31,7 @@ interface FormProps {
 const useLoyality = () => {
   const [myLevels, setMyLevels] = useState<any>([]);
 
-  const { control, handleSubmit, setValue } = useForm<FormProps>({
+  const { control, handleSubmit, setValue, getValues } = useForm<FormProps>({
     mode: "onBlur",
     shouldFocusError: true,
   });
@@ -44,15 +44,6 @@ const useLoyality = () => {
     control,
     name: "levels",
   });
-
-  // const {
-  //   fields: requirementFields,
-  //   append: addRequirement,
-  //   remove: removeRequirement,
-  // } = useFieldArray({
-  //   control,
-  //   name: "requirements",
-  // });
 
   //other requirements
   const [fields, setFileds] = useState<IFields[]>(initialFields);
@@ -139,6 +130,7 @@ const useLoyality = () => {
     dynamicFields,
     append,
     remove,
+    getValues,
   };
 };
 
