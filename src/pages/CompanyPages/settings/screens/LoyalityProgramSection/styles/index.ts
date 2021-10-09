@@ -21,3 +21,13 @@ export const AddIconDiv = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
+export const SelectGrid = styled(Grid)`
+  display: flex;
+  align-items: flex-end;
+`;
+
+export const LevelGrid = styled(Grid)`
+  display: flex;
+  align-items: flex-end;
+`;

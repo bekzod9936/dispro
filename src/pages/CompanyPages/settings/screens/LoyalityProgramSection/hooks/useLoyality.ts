@@ -20,8 +20,18 @@ interface IFields {
   }[];
 }
 
+interface FormProps {
+  levels?: any;
+  requirements?: any;
+  max_percent?: string | number;
+  give_cashback_after?: string | number;
+  base_level?: any;
+}
+
 const useLoyality = () => {
-  const { control, handleSubmit, setValue } = useForm({
+  const [myLevels, setMyLevels] = useState<any>([]);
+
+  const { control, handleSubmit, setValue } = useForm<FormProps>({
     mode: "onBlur",
     shouldFocusError: true,
   });
@@ -35,14 +45,14 @@ const useLoyality = () => {
     name: "levels",
   });
 
-  const {
-    fields: requirementFields,
-    append: addRequirement,
-    remove: removeRequirement,
-  } = useFieldArray({
-    control,
-    name: "requirements",
-  });
+  // const {
+  //   fields: requirementFields,
+  //   append: addRequirement,
+  //   remove: removeRequirement,
+  // } = useFieldArray({
+  //   control,
+  //   name: "requirements",
+  // });
 
   //other requirements
   const [fields, setFileds] = useState<IFields[]>(initialFields);
@@ -58,7 +68,7 @@ const useLoyality = () => {
   const [switchChange, setSwitchChange] = useState(0);
   const [assertModalVisible, setAssertModalVisible] = useState<boolean>(false);
 
-  useQuery(["cashback", refetchCashback], fetchCashback, {
+  useQuery(["cashback", refetchCashback, myLevels], fetchCashback, {
     retry: 0,
     refetchOnWindowFocus: false,
     onSuccess: (data: any) => {
@@ -79,7 +89,7 @@ const useLoyality = () => {
     },
   });
 
-  useQuery(["Bonus", refetchBonusPoints], fetchBonusPoints, {
+  useQuery(["Bonus", refetchBonusPoints, myLevels], fetchBonusPoints, {
     retry: 0,
     refetchOnWindowFocus: false,
     onSuccess: (data: any) => {
@@ -95,6 +105,19 @@ const useLoyality = () => {
         ];
         copy = [...copy, ...data.data.data.levels];
         setFileds(copy);
+        setMyLevels(data.data.data);
+        setValue("levels", data.data.data.levels);
+        setValue("base_level", {
+          companyId: data.data.data.companyId,
+          description: data.data.data.description,
+          isActive: data.data.data.isActive,
+          maxAmount: data.data.data.maxAmount,
+          name: data.data.data.name,
+          percent: data.data.percent,
+        });
+
+        console.log(data.data.data, "data incoming");
+        // setValue("base_level", data.data.data)
       }
     },
   });
@@ -116,9 +139,6 @@ const useLoyality = () => {
     dynamicFields,
     append,
     remove,
-    requirementFields,
-    addRequirement,
-    removeRequirement,
   };
 };
 

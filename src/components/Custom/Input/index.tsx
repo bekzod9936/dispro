@@ -14,6 +14,7 @@ export interface Props {
   minRows?: number | string;
   multiline?: boolean;
   name?: string;
+  variant?: "filled" | "standard" | "outlined" | undefined;
   onChange?: (e: any) => void;
   placeholder?: string;
   required?: boolean;
@@ -123,6 +124,7 @@ const NInput = ({ onChange = () => {}, ...props }: Props) => {
         select={props.select}
         type={props.type}
         value={props.value}
+        variant={props.variant}
         InputProps={{
           startAdornment: props.IconStart ? (
             <Adornment position="start">{props.IconStart}</Adornment>

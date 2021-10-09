@@ -26,7 +26,13 @@ import { SyncIcon } from "assets/icons/FeedBackIcons.tsx/FeedbackIcons";
 import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import CustomToggle from "components/Custom/CustomToggleSwitch";
 import useLoyality from "./hooks/useLoyality";
-import { AddIconDiv, LeftGrid, ThirdContainer } from "./styles";
+import {
+  AddIconDiv,
+  LeftGrid,
+  LevelGrid,
+  SelectGrid,
+  ThirdContainer,
+} from "./styles";
 import { RippleDiv } from "components/Custom/RippleEffect/style";
 
 const useStyles = makeStyles({
@@ -60,9 +66,6 @@ const LoyaltyProgramSection = () => {
     dynamicFields,
     append,
     remove,
-    requirementFields,
-    removeRequirement,
-    addRequirement
   } = useLoyality();
 
   const [swithcState, setSwitchState] = useState("");
@@ -260,6 +263,8 @@ const LoyaltyProgramSection = () => {
     setAssertModalVisible(false);
   };
 
+  console.log(dynamicFields, "fields");
+
   return (
     <Grid container spacing={3} justifyContent="space-between">
       <LeftGrid item xs={5}>
@@ -318,7 +323,7 @@ const LoyaltyProgramSection = () => {
         <LargePanel id="largePanel">
           <form>
             <div>
-              {dynamicFields?.map((item, index: number) => {
+              {dynamicFields?.map((item: any, index: number) => {
                 return (
                   <Grid container spacing={3} justifyContent="space-between">
                     {/* <Controller
@@ -360,12 +365,13 @@ const LoyaltyProgramSection = () => {
                     >
                       <Grid item xs={6}>
                         <Controller
-                          name={`levels.${index}.name`}
+                          name={`levels.${[index]}.name`}
                           rules={{
                             required: true,
                             maxLength: 13,
                             minLength: 13,
                           }}
+                          defaultValue={item?.name || ""}
                           control={control}
                           render={({ field }) => (
                             <Input
@@ -384,9 +390,14 @@ const LoyaltyProgramSection = () => {
                         />
                       </Grid>
 
-                      <Grid direction="row" alignItems="flex-end" item xs={4}>
+                      <LevelGrid
+                        direction="row"
+                        alignItems="flex-end"
+                        item
+                        xs={4}
+                      >
                         <Controller
-                          name={`levels.${index}.percent`}
+                          name={`levels.${[index]}.percent`}
                           rules={{
                             required: true,
                             maxLength: 13,
@@ -411,12 +422,25 @@ const LoyaltyProgramSection = () => {
                             />
                           )}
                         />
-                      </Grid>
+                      </LevelGrid>
 
                       <Grid item xs={2} direction="row" alignItems="flex-end">
                         <ThirdContainer>
                           <AddIconDiv>
-                            <RippleDiv marginLeft={0} marginRight={0}>
+                            <RippleDiv
+                              onClick={() =>
+                                append({
+                                  requirements: {
+                                    amount: 15000000,
+                                    condition: "",
+                                    type: 1,
+                                    unit: "",
+                                  },
+                                })
+                              }
+                              marginLeft={0}
+                              marginRight={0}
+                            >
                               <AddIconSettings />
                             </RippleDiv>
                           </AddIconDiv>
@@ -425,75 +449,99 @@ const LoyaltyProgramSection = () => {
                     </Grid>
 
                     {/* //Requirements section */}
-                    {requirementFields.map((value, smallIndex) => {
-                      return (
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-evenly",
-                            alignItems: "baseline",
-                          }}
-                        >
-                          <Select
-                            //  color={COLORS.purple}
-                            className={classes.select}
-                            style={{
-                              marginLeft: "15px",
-                              borderColor: COLORS.purple,
-                            }}
-                            value={
-                              fields[index]?.requirements[smallIndex]?.condition
-                            }
-                            onChange={(e) =>
-                              handleConditionChange(e, item, value)
-                            }
+                    {item?.requirements?.map(
+                      (value: any, smallIndex: number) => {
+                        return (
+                          <Grid
+                            container
+                            spacing={3}
+                            justifyContent="space-between"
                           >
-                            <MenuItem value="and">{t("and")}</MenuItem>
-                            <MenuItem value="or">{t("or")}</MenuItem>
-                            <MenuItem value="">{t("")}</MenuItem>
-                          </Select>
-                          <Select
-                            style={{
-                              marginLeft: "15px",
-                              width: "140px",
-                              borderColor: COLORS.purple,
-                            }}
-                            className={classes.select}
-                            value={
-                              fields[index]?.requirements[smallIndex]?.type
-                            }
-                            onChange={(e) => handleSelectChange(e, item, value)}
-                          >
-                            <MenuItem value={1}>{t("purchaseSum")}</MenuItem>
-                            <MenuItem value={2}>{t("companyVisits")}</MenuItem>
-                            <MenuItem value={3}>{t("recomendations")}</MenuItem>
-                          </Select>
-                          <div>{t("more")}</div>
-                          <Input
-                            type="number"
-                            value={
-                              fields[index]?.requirements[smallIndex]?.amount
-                            }
-                            // className={classes.select}
-                            onChange={(e) =>
-                              handleAmountChange(
-                                e,
-                                item,
-                                value,
-                                index,
-                                smallIndex
-                              )
-                            }
-                            // style={{
-                            //   width: "140px",
-                            //   marginLeft: "15px",
-                            //   borderColor: COLORS.purple,
-                            // }}
-                            // renderSuffix={() => <span></span>}
-                          />
-                        </div>
-                      );
-                    })}
+                            <SelectGrid alignItems="flex-end" item xs={2}>
+                              <Select
+                                //  color={COLORS.purple}
+                                className={classes.select}
+                                style={{
+                                  marginLeft: "15px",
+                                  borderColor: COLORS.purple,
+                                }}
+                                value={
+                                  fields[index]?.requirements[smallIndex]
+                                    ?.condition
+                                }
+                                onChange={(e) =>
+                                  handleConditionChange(e, item, value)
+                                }
+                              >
+                                <MenuItem value="and">{t("and")}</MenuItem>
+                                <MenuItem value="or">{t("or")}</MenuItem>
+                                <MenuItem value="">{t("")}</MenuItem>
+                              </Select>
+                            </SelectGrid>
+                            <SelectGrid alignItems="flex-end" item xs={4}>
+                              <Select
+                                style={{
+                                  marginLeft: "15px",
+                                  width: "140px",
+                                  borderColor: COLORS.purple,
+                                }}
+                                className={classes.select}
+                                value={
+                                  fields[index]?.requirements[smallIndex]?.type
+                                }
+                                onChange={(e) =>
+                                  handleSelectChange(e, item, value)
+                                }
+                              >
+                                <MenuItem value={1}>
+                                  {t("purchaseSum")}
+                                </MenuItem>
+                                <MenuItem value={2}>
+                                  {t("companyVisits")}
+                                </MenuItem>
+                                <MenuItem value={3}>
+                                  {t("recomendations")}
+                                </MenuItem>
+                              </Select>
+                            </SelectGrid>
+
+                            <Grid
+                              item
+                              xs={6}
+                              direction="row"
+                              justifyContent="center"
+                            >
+                              <div>{t("more")}</div>
+                              <Input
+                                name="base_level.name"
+                                type="number"
+                                variant="standard"
+                                // value={
+                                //   fields[index]?.requirements[smallIndex]
+                                //     ?.amount
+                                // }
+                                // className={classes.select}
+                                onChange={(e) =>
+                                  handleAmountChange(
+                                    e,
+                                    item,
+                                    value,
+                                    index,
+                                    smallIndex
+                                  )
+                                }
+                                // style={{
+                                //   width: "140px",
+                                //   marginLeft: "15px",
+                                //   borderColor: COLORS.purple,
+                                // }}
+                                // renderSuffix={() => <span></span>}
+                              />
+                            </Grid>
+                          </Grid>
+                        );
+                      }
+                    )}
                   </Grid>
                 );
               })}
