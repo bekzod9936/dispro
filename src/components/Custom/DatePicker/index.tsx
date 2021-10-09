@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   DateRangePicker,
   DateRange,
@@ -10,8 +11,6 @@ import {
   CalendarIcon1,
   CalendarIcon,
 } from '../../../assets/icons/ClientStatisticsIcons/ClientStatisticsIcons';
-import { useTranslation } from 'react-i18next';
-import { Button } from '@material-ui/core';
 
 const DataPicker = () => {
   const { t } = useTranslation();
@@ -29,7 +28,7 @@ const DataPicker = () => {
           onClose={() => setIsOpen(!isOpen)}
           renderInput={(startProps, endProps) => {
             return (
-              <React.Fragment>
+              <>
                 <Container
                   onClick={() => setIsOpen(!isOpen)}
                   onBlur={() => setIsOpen(!isOpen)}
@@ -50,36 +49,7 @@ const DataPicker = () => {
                     },
                   }}
                 />
-              </React.Fragment>
-            );
-          }}
-        />
-      </div>
-      <div>
-        <DateRangePicker
-          value={value}
-          onChange={(newValue: any) => setValue(newValue)}
-          renderInput={(startProps, endProps) => {
-            console.log(startProps);
-            return (
-              <React.Fragment>
-                <TextField
-                  {...startProps}
-                  variant='standard'
-                  helperText=''
-                  placeholder=''
-                  style={{ width: 'fit-content' }}
-                  inputProps={{
-                    ...startProps.inputProps,
-                    onFocus: () => {
-                      return { ...startProps.inputProps?.onFocus };
-                    },
-                    onBlur: () => {
-                      return startProps?.inputProps?.onBlur;
-                    },
-                  }}
-                />
-              </React.Fragment>
+              </>
             );
           }}
         />

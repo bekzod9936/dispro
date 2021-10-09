@@ -34,7 +34,7 @@ export const useSideBarStyle = makeStyles((theme: Theme) =>
       }),
     },
     menuButton: {
-      margin: '0 30px',
+      margin: '0 15px',
       [theme.breakpoints.down('xs')]: {
         margin: '0',
       },

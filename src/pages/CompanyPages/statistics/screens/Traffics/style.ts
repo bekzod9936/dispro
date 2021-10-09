@@ -6,6 +6,7 @@ export const Container = styled.div`
   display: flex;
   flex: 1;
   overflow: hidden;
+  padding-right: 25px;
 `;
 
 const iconstyle = css`

@@ -1,6 +1,8 @@
 import { useTranslation } from 'react-i18next';
-import { Container, Wrapper } from './style';
+import { Container, Wrapper, WrapperCon } from './style';
 import Spinner from 'components/Custom/Spinner';
+import useOperationsHook from './useOperationsHook';
+import Filter from 'components/Custom/Filter/index';
 import {
   MoneyIcon,
   RatingIcon,
@@ -13,8 +15,8 @@ import {
   Content,
   Value,
   Title,
+  WrapFilter,
 } from '../Clients/style';
-import useOperationsHook from './useOperationsHook';
 
 const Operations = () => {
   const { t } = useTranslation();
@@ -55,21 +57,26 @@ const Operations = () => {
 
   return (
     <Container>
-      {response.isLoading ? (
-        <Spinner />
-      ) : (
-        <Wrapper>
-          {list.map((v: any) => (
-            <WrapInfo key={v.title}>
-              <WrapIcon>{v.Icon}</WrapIcon>
-              <Content>
-                <Title>{v.title}</Title>
-                <Value>{v.value}</Value>
-              </Content>
-            </WrapInfo>
-          ))}
-        </Wrapper>
-      )}
+      <WrapFilter>
+        <Filter />
+      </WrapFilter>
+      <WrapperCon>
+        {response.isLoading || response.isFetching ? (
+          <Spinner />
+        ) : (
+          <Wrapper>
+            {list.map((v: any) => (
+              <WrapInfo key={v.title}>
+                <WrapIcon>{v.Icon}</WrapIcon>
+                <Content>
+                  <Title>{v.title}</Title>
+                  <Value>{v.value}</Value>
+                </Content>
+              </WrapInfo>
+            ))}
+          </Wrapper>
+        )}
+      </WrapperCon>
     </Container>
   );
 };

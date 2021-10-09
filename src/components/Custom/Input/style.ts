@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { Props } from './index';
 import { device } from '../../../styles/device';
 import { TextField, InputLabel, InputAdornment } from '@material-ui/core';
+import dateicon from 'assets/icons/date.png';
 
 export const Container = styled.div`
   width: ${({ width }: Props) =>
@@ -26,6 +27,11 @@ export const Container = styled.div`
     position: static !important;
     transform: none !important;
   }
+  input[type='date']::-webkit-calendar-picker-indicator {
+    background: url(${dateicon}) no-repeat;
+    width: 20px;
+    height: 20px;
+  }
 `;
 
 export const MInput = styled(TextField)`
@@ -40,13 +46,23 @@ export const MInput = styled(TextField)`
       ? inputStyle?.bgcolor
       : 'white'} !important;
   border-radius: ${({ inputStyle }: Props) =>
-    inputStyle?.radius ? `${inputStyle?.radius}px` : '14px'} !important;
+    inputStyle?.radius === 0
+      ? 0
+      : inputStyle?.radius
+      ? `${inputStyle?.radius}px`
+      : '14px'} !important;
   border: ${({ inputStyle, error }: Props) =>
     error
       ? '1px solid #FF5E68'
       : inputStyle?.border
       ? inputStyle?.border
       : '1px solid #C2C2C2'} !important;
+  border-bottom: ${({ inputStyle, error }: Props) =>
+    error
+      ? '1px solid #FF5E68'
+      : inputStyle?.borderbottom
+      ? inputStyle?.borderbottom
+      : null} !important;
   margin: ${({ inputStyle }: Props) =>
     inputStyle?.margin ? inputStyle?.margin : 0} !important;
   padding: ${({ inputStyle }: Props) =>
@@ -63,9 +79,12 @@ export const MInput = styled(TextField)`
     border-radius: ${({ inputStyle }: Props) =>
       inputStyle?.radius ? `${inputStyle?.radius}px` : '14px'} !important;
     height: ${({ inputStyle }: Props) =>
-      inputStyle?.height?.laptop
+      inputStyle?.fitheight
+        ? 'fit-content'
+        : inputStyle?.height?.laptop
         ? `${inputStyle?.height?.laptop}px`
         : '50px'} !important;
+
     font-size: ${({ inputStyle }: Props) =>
       inputStyle?.fontSize?.laptop
         ? `${inputStyle?.fontSize?.laptop}px`
@@ -83,7 +102,9 @@ export const MInput = styled(TextField)`
           ? `${inputStyle?.fontSize?.mobile}px`
           : '14px'} !important;
       height: ${({ inputStyle }: Props) =>
-        inputStyle?.height?.mobile
+        inputStyle?.fitheight
+          ? 'fit-content'
+          : inputStyle?.height?.mobile
           ? `${inputStyle?.height?.mobile}px`
           : '45px'} !important;
     }
@@ -93,7 +114,9 @@ export const MInput = styled(TextField)`
           ? `${inputStyle?.fontSize?.planshet}px`
           : '14px'} !important;
       height: ${({ inputStyle }: Props) =>
-        inputStyle?.height?.planshet
+        inputStyle?.fitheight
+          ? 'fit-content'
+          : inputStyle?.height?.planshet
           ? `${inputStyle?.height?.planshet}px`
           : '45px'} !important;
     }
@@ -103,7 +126,9 @@ export const MInput = styled(TextField)`
           ? `${inputStyle?.fontSize?.laptop}px`
           : '15px'} !important;
       height: ${({ inputStyle }: Props) =>
-        inputStyle?.height?.laptop
+        inputStyle?.fitheight
+          ? 'fit-content'
+          : inputStyle?.height?.laptop
           ? `${inputStyle?.height?.laptop}px`
           : '50px'} !important;
     }
@@ -113,7 +138,9 @@ export const MInput = styled(TextField)`
           ? `${inputStyle?.fontSize?.desktop}px`
           : '16px'} !important;
       height: ${({ inputStyle }: Props) =>
-        inputStyle?.height?.desktop
+        inputStyle?.fitheight
+          ? 'fit-content'
+          : inputStyle?.height?.desktop
           ? `${inputStyle?.height?.desktop}px`
           : '60px'} !important;
     }
@@ -168,7 +195,9 @@ export const Label = styled(InputLabel)`
   }
 `;
 
-export const Adornment = styled(InputAdornment)``;
+export const Adornment = styled(InputAdornment)`
+  color: #606eea !important;
+`;
 
 export const Message = styled.div`
   position: absolute;
