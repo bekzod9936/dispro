@@ -13,8 +13,8 @@
   "chequeAvg": "Средний чек",
   "cashbackSum": "Кешбэк",
   "discountSum": "Скидка",
-  "couponAmountSum": "Сертификат",
-  "couponDiscountSum": "Купон",
+  "couponAmountSum": "Сертификаты",
+  "couponDiscountSum": "Купоны",
   "allClientParkCards": "Количество карт",
   "filters": "Фильтр",
   "datePicker": "Выберите период",
@@ -312,5 +312,12 @@
   "addphoto": "Добавить фото",
   "noresult": "По данному запросу ничего не найдено...",
   "or": "или",
-  "and": "и"
+  "and": "и",
+  "totalSum": "Общий счет",
+  "revenueuzs": "Выручка UZS",
+  "type": "Тип",
+  "bought": "Купленные",
+  "active": "Актуальные",
+  "overdue": "Просроченные",
+  "used": "Использованные"
 }

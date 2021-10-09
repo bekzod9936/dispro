@@ -16,14 +16,9 @@ const useStatisticsRoute = () => {
   const { t } = useTranslation();
   const menuItems: IStatisticRow[] = [
     {
-      path: '/statistics/clients',
+      path: '/statistics',
       text: t('clients'),
       component: Clients,
-    },
-    {
-      path: '/statistics/offers',
-      text: t('proposals'),
-      component: Offers,
     },
     {
       path: '/statistics/operations',
@@ -34,6 +29,11 @@ const useStatisticsRoute = () => {
       path: '/statistics/traffics',
       text: t('traffic_providers'),
       component: Traffics,
+    },
+    {
+      path: '/statistics/offers',
+      text: t('proposals'),
+      component: Offers,
     },
   ];
 
