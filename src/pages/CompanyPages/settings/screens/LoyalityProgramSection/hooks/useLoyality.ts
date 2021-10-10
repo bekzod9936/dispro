@@ -26,6 +26,8 @@ interface FormProps {
   max_percent?: string | number;
   give_cashback_after?: string | number;
   base_level?: any;
+  base_name?: any;
+  base_percent?: any;
 }
 
 const useLoyality = () => {
@@ -59,7 +61,7 @@ const useLoyality = () => {
   const [switchChange, setSwitchChange] = useState(0);
   const [assertModalVisible, setAssertModalVisible] = useState<boolean>(false);
 
-  useQuery(["cashback", refetchCashback, myLevels], fetchCashback, {
+  useQuery(["cashback", refetchCashback], fetchCashback, {
     retry: 0,
     refetchOnWindowFocus: false,
     onSuccess: (data: any) => {
@@ -80,7 +82,7 @@ const useLoyality = () => {
     },
   });
 
-  useQuery(["Bonus", refetchBonusPoints, myLevels], fetchBonusPoints, {
+  useQuery(["Bonus", refetchBonusPoints], fetchBonusPoints, {
     retry: 0,
     refetchOnWindowFocus: false,
     onSuccess: (data: any) => {
@@ -98,14 +100,8 @@ const useLoyality = () => {
         setFileds(copy);
         setMyLevels(data.data.data);
         setValue("levels", data.data.data.levels);
-        setValue("base_level", {
-          companyId: data.data.data.companyId,
-          description: data.data.data.description,
-          isActive: data.data.data.isActive,
-          maxAmount: data.data.data.maxAmount,
-          name: data.data.data.name,
-          percent: data.data.percent,
-        });
+        setValue("base_name", data.data.data.name);
+        setValue("base_percent", data.data.data.percent);
 
         console.log(data.data.data, "data incoming");
         // setValue("base_level", data.data.data)

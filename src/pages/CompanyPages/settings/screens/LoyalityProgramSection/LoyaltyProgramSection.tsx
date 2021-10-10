@@ -11,6 +11,7 @@ import { Controller } from "react-hook-form";
 import { SaveIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
 import partnerApi from "services/interceptors/companyInterceptor";
 import { AddIconSettings } from "assets/icons/SettingsIcons/SettingsPageIcon";
+import { ReactComponent as RemoveIconSettings } from "assets/icons/delete_level.svg";
 import { COLORS, FONT_SIZE, FONT_WEIGHT } from "services/Types/enums";
 import CustomModal from "components/Custom/CustomModal";
 import { SyncIcon } from "assets/icons/FeedBackIcons.tsx/FeedbackIcons";
@@ -26,9 +27,9 @@ import {
   ThirdContainer,
   SubText,
   RequirementsGrid,
+  RemoveIconDiv,
 } from "./styles";
 import { RippleDiv } from "components/Custom/RippleEffect/style";
-import MultiSelect from "components/Custom/MultiSelect";
 import NestedArray from "./components/NestedArray";
 
 const useStyles = makeStyles({
@@ -222,6 +223,99 @@ const LoyaltyProgramSection = () => {
         <LargePanel id="largePanel">
           <form onSubmit={handleSubmit(onFormSubmit, onError)}>
             <div>
+              <Grid
+                container
+                direction="row"
+                alignItems="center"
+                justifyContent="space-between"
+                spacing={3}
+                xs={12}
+              >
+                <Grid item xs={6}>
+                  <Controller
+                    name={`base_name`}
+                    rules={{
+                      required: true,
+                      maxLength: 13,
+                      minLength: 13,
+                    }}
+                    control={control}
+                    render={({ field }) => (
+                      <Input
+                        label={t("status_name")}
+                        type="string"
+                        field={field}
+                        margin={{
+                          laptop: "20px 0 10px",
+                        }}
+                        message={t("requiredField")}
+                        // error={errors.telNumbers?.[index] ? true : false}
+
+                        // maxLength={13}
+                      />
+                    )}
+                  />
+                </Grid>
+
+                <LevelGrid direction="row" alignItems="flex-end" item xs={4}>
+                  <Controller
+                    name={`base_percent`}
+                    rules={{
+                      required: true,
+                      maxLength: 13,
+                      minLength: 13,
+                    }}
+                    control={control}
+                    render={({ field }) => (
+                      <Input
+                        label={""}
+                        type="string"
+                        field={field}
+                        width={{
+                          width: "106px",
+                        }}
+                        margin={{
+                          laptop: "20px 0 10px",
+                        }}
+                        message={t("requiredField")}
+                        // error={errors.telNumbers?.[index] ? true : false}
+
+                        // maxLength={13}
+                      />
+                    )}
+                  />
+                </LevelGrid>
+
+                <LevelGrid item xs={2} direction="row" alignItems="flex-end">
+                  <ThirdContainer>
+                    <AddIconDiv>
+                      <RippleDiv
+                        onClick={() => {
+                          setValue("levels", [
+                            ...getValues().levels,
+                            {
+                              name: "",
+                              percent: 0,
+                              requirements: [
+                                {
+                                  amount: 0,
+                                  condition: "or",
+                                  unit: 0,
+                                  type: 3,
+                                },
+                              ],
+                            },
+                          ]);
+                        }}
+                        marginLeft={0}
+                        marginRight={0}
+                      >
+                        <AddIconSettings />
+                      </RippleDiv>
+                    </AddIconDiv>
+                  </ThirdContainer>
+                </LevelGrid>
+              </Grid>
               {dynamicFields?.length > 0 &&
                 dynamicFields?.map((item: any, index: number) => {
                   return (
@@ -231,35 +325,6 @@ const LoyaltyProgramSection = () => {
                       justifyContent="space-between"
                       alignItems="flex-end"
                     >
-                      {/* <Controller
-                      name="main"
-                      control={control}
-                      render={({ field }) => {
-                        return (
-                          <CustomInput
-                            onChange={(e: any) => handleChange(e, item)}
-                            value={item.name}
-                            valuePercent={item.percent}
-                            handleAddClick={() => handleAddClick(item, index)}
-                            onPercentChange={(e: any) =>
-                              onPercentChange(e, item)
-                            }
-                            handleDeleteClick={() =>
-                              handleDeleteClick(item, index)
-                            }
-                            style={{ width: "95%" }}
-                            withPercent
-                            label="status_name"
-                            aboveInput={
-                              item.id === 0 ? "client_statuses" : undefined
-                            }
-                            aboveLabel={
-                              item.id === 0 ? "create_status" : undefined
-                            }
-                          />
-                        );
-                      }}
-                    /> */}
                       <Grid
                         container
                         direction="row"
@@ -339,20 +404,10 @@ const LoyaltyProgramSection = () => {
                             <AddIconDiv>
                               <RippleDiv
                                 onClick={() => {
-                                  // setValue(`levels`, [
-                                  //   ...dynamicFields[index]?.requirements,
-                                  //   {
-                                  //     amount: 0,
-                                  //     condition: "or",
-                                  //     unit: 0,
-                                  //     type: 3,
-                                  //   },
-                                  // ])
-
                                   setValue("levels", [
                                     ...getValues().levels,
                                     {
-                                      name: "append",
+                                      name: "",
                                       requirements: [
                                         {
                                           amount: 0,
@@ -371,12 +426,28 @@ const LoyaltyProgramSection = () => {
                               </RippleDiv>
                             </AddIconDiv>
                           </ThirdContainer>
+
+                          <ThirdContainer>
+                            <RemoveIconDiv
+                              onClick={() => {
+                                remove(index);
+                              }}
+                            >
+                              <RippleDiv>
+                                <RemoveIconSettings />
+                              </RippleDiv>
+                            </RemoveIconDiv>
+                          </ThirdContainer>
                         </LevelGrid>
                       </Grid>
 
                       {/* //Requirements section */}
 
-                      <NestedArray index={index} control={control} />
+                      <NestedArray
+                        index={index}
+                        control={control}
+                        getValues={getValues}
+                      />
                     </ProgramRow>
                   );
                 })}
