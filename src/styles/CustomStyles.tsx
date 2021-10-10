@@ -149,7 +149,8 @@ export const UnderSectionButton = styled.div`
 export const SectionWrapper = styled.div`
   position: relative;
   height: 100%;
-  overflow-y: scroll;
+  margin-bottom: 100px;
+
   overflow-x: hidden;
   &::-webkit-scrollbar {
     -webkit-appearance: none;
@@ -220,6 +221,7 @@ export const PageWrapper = styled.div`
   position: relative;
   padding-left: 35px;
   padding-top: 30px;
+  overflow-y: scroll;
 `;
 
 export const ClicableOption = styled.div`

@@ -4,7 +4,7 @@ import {
   fetchBonusPoints,
   fetchCashback,
 } from "services/queries/PartnerQueries";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { initialFields } from "../constants";
 
 interface IFields {
@@ -20,8 +20,32 @@ interface IFields {
   }[];
 }
 
+interface FormProps {
+  levels?: any;
+  requirements?: any;
+  max_percent?: string | number;
+  give_cashback_after?: string | number;
+  base_level?: any;
+}
+
 const useLoyality = () => {
-  const { control, handleSubmit, setValue } = useForm({});
+  const [myLevels, setMyLevels] = useState<any>([]);
+
+  const { control, handleSubmit, setValue, getValues } = useForm<FormProps>({
+    mode: "onBlur",
+    shouldFocusError: true,
+  });
+
+  const {
+    fields: dynamicFields,
+    append,
+    remove,
+  } = useFieldArray({
+    control,
+    name: "levels",
+  });
+
+  //other requirements
   const [fields, setFileds] = useState<IFields[]>(initialFields);
 
   const [refetchCashback, setRefetchCashback] = useState(0);
@@ -35,7 +59,7 @@ const useLoyality = () => {
   const [switchChange, setSwitchChange] = useState(0);
   const [assertModalVisible, setAssertModalVisible] = useState<boolean>(false);
 
-  useQuery(["cashback", refetchCashback], fetchCashback, {
+  useQuery(["cashback", refetchCashback, myLevels], fetchCashback, {
     retry: 0,
     refetchOnWindowFocus: false,
     onSuccess: (data: any) => {
@@ -56,7 +80,7 @@ const useLoyality = () => {
     },
   });
 
-  useQuery(["Bonus", refetchBonusPoints], fetchBonusPoints, {
+  useQuery(["Bonus", refetchBonusPoints, myLevels], fetchBonusPoints, {
     retry: 0,
     refetchOnWindowFocus: false,
     onSuccess: (data: any) => {
@@ -72,6 +96,19 @@ const useLoyality = () => {
         ];
         copy = [...copy, ...data.data.data.levels];
         setFileds(copy);
+        setMyLevels(data.data.data);
+        setValue("levels", data.data.data.levels);
+        setValue("base_level", {
+          companyId: data.data.data.companyId,
+          description: data.data.data.description,
+          isActive: data.data.data.isActive,
+          maxAmount: data.data.data.maxAmount,
+          name: data.data.data.name,
+          percent: data.data.percent,
+        });
+
+        console.log(data.data.data, "data incoming");
+        // setValue("base_level", data.data.data)
       }
     },
   });
@@ -90,6 +127,10 @@ const useLoyality = () => {
     setFileds,
     handleSubmit,
     setActive,
+    dynamicFields,
+    append,
+    remove,
+    getValues,
   };
 };
 

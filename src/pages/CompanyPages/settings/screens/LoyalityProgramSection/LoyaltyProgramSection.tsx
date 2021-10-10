@@ -1,12 +1,6 @@
-import {
-  Checkbox,
-  Input,
-  makeStyles,
-  MenuItem,
-  Select,
-  Grid,
-} from "@material-ui/core";
+import { Checkbox, makeStyles, Grid } from "@material-ui/core";
 import { initialFields } from "./constants";
+import Input from "components/Custom/Input";
 import { useEffect, useState } from "react";
 import { Flex } from "styles/BuildingBlocks";
 import { LargePanel } from "../../styles/SettingStyles";
@@ -16,14 +10,26 @@ import { useTranslation } from "react-i18next";
 import { Controller } from "react-hook-form";
 import { SaveIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
 import partnerApi from "services/interceptors/companyInterceptor";
-
+import { AddIconSettings } from "assets/icons/SettingsIcons/SettingsPageIcon";
 import { COLORS, FONT_SIZE, FONT_WEIGHT } from "services/Types/enums";
 import CustomModal from "components/Custom/CustomModal";
 import { SyncIcon } from "assets/icons/FeedBackIcons.tsx/FeedbackIcons";
 import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import CustomToggle from "components/Custom/CustomToggleSwitch";
 import useLoyality from "./hooks/useLoyality";
-import { LeftGrid } from "./styles";
+import {
+  AddIconDiv,
+  LeftGrid,
+  LevelGrid,
+  ProgramRow,
+  SelectGrid,
+  ThirdContainer,
+  SubText,
+  RequirementsGrid,
+} from "./styles";
+import { RippleDiv } from "components/Custom/RippleEffect/style";
+import MultiSelect from "components/Custom/MultiSelect";
+import NestedArray from "./components/NestedArray";
 
 const useStyles = makeStyles({
   select: {
@@ -53,6 +59,10 @@ const LoyaltyProgramSection = () => {
     setFileds,
     handleSubmit,
     setActive,
+    dynamicFields,
+    getValues,
+    append,
+    remove,
   } = useLoyality();
 
   const [swithcState, setSwitchState] = useState("");
@@ -250,9 +260,11 @@ const LoyaltyProgramSection = () => {
     setAssertModalVisible(false);
   };
 
+  console.log(dynamicFields, "fields");
+
   return (
     <Grid container spacing={3} justifyContent="space-between">
-      <LeftGrid item xs={4}>
+      <LeftGrid item xs={5}>
         <Flex
           flexDirection="column"
           justifyContent="start"
@@ -304,22 +316,20 @@ const LoyaltyProgramSection = () => {
         </Flex>
       </LeftGrid>
 
-      <Grid item xs={8}>
-        <LargePanel
-          id="largePanel"
-          // style={{
-          //   marginTop:
-          //     fields.length > 2
-          //       ? `${fields.length * (fields.length * 25)}px`
-          //       : `20px`,
-          // }}
-        >
+      <Grid item xs={7}>
+        <LargePanel id="largePanel">
           <form>
             <div>
-              {fields?.map((item, index: number) => {
-                return (
-                  <>
-                    <Controller
+              {dynamicFields?.length > 0 &&
+                dynamicFields?.map((item: any, index: number) => {
+                  return (
+                    <ProgramRow
+                      container
+                      spacing={3}
+                      justifyContent="space-between"
+                      alignItems="flex-end"
+                    >
+                      {/* <Controller
                       name="main"
                       control={control}
                       render={({ field }) => {
@@ -347,79 +357,127 @@ const LoyaltyProgramSection = () => {
                           />
                         );
                       }}
-                    />
-                    {item.requirements.map((value, smallIndex) => {
-                      return (
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-evenly",
-                            alignItems: "baseline",
-                          }}
-                        >
-                          <Select
-                            //  color={COLORS.purple}
-                            className={classes.select}
-                            style={{
-                              marginLeft: "15px",
-                              borderColor: COLORS.purple,
+                    /> */}
+                      <Grid
+                        container
+                        direction="row"
+                        alignItems="center"
+                        justifyContent="space-between"
+                        spacing={3}
+                        xs={12}
+                      >
+                        <Grid item xs={6}>
+                          <Controller
+                            name={`levels.${[index]}.name`}
+                            rules={{
+                              required: true,
+                              maxLength: 13,
+                              minLength: 13,
                             }}
-                            value={
-                              fields[index]?.requirements[smallIndex]?.condition
-                            }
-                            onChange={(e) =>
-                              handleConditionChange(e, item, value)
-                            }
-                          >
-                            <MenuItem value="and">{t("and")}</MenuItem>
-                            <MenuItem value="or">{t("or")}</MenuItem>
-                            <MenuItem value="">{t("")}</MenuItem>
-                          </Select>
-                          <Select
-                            style={{
-                              marginLeft: "15px",
-                              width: "140px",
-                              borderColor: COLORS.purple,
-                            }}
-                            className={classes.select}
-                            value={
-                              fields[index]?.requirements[smallIndex]?.type
-                            }
-                            onChange={(e) => handleSelectChange(e, item, value)}
-                          >
-                            <MenuItem value={1}>{t("purchaseSum")}</MenuItem>
-                            <MenuItem value={2}>{t("companyVisits")}</MenuItem>
-                            <MenuItem value={3}>{t("recomendations")}</MenuItem>
-                          </Select>
-                          <div>{t("more")}</div>
-                          <Input
-                            type="number"
-                            value={
-                              fields[index]?.requirements[smallIndex]?.amount
-                            }
-                            className={classes.select}
-                            onChange={(e) =>
-                              handleAmountChange(
-                                e,
-                                item,
-                                value,
-                                index,
-                                smallIndex
-                              )
-                            }
-                            style={{
-                              width: "140px",
-                              marginLeft: "15px",
-                              borderColor: COLORS.purple,
-                            }}
-                            renderSuffix={() => <span></span>}
+                            defaultValue={item?.name || ""}
+                            control={control}
+                            render={({ field }) => (
+                              <Input
+                                label={t("status_name")}
+                                type="string"
+                                field={field}
+                                margin={{
+                                  laptop: "20px 0 10px",
+                                }}
+                                message={t("requiredField")}
+                                // error={errors.telNumbers?.[index] ? true : false}
+
+                                // maxLength={13}
+                              />
+                            )}
                           />
-                        </div>
-                      );
-                    })}
-                  </>
-                );
-              })}
+                        </Grid>
+
+                        <LevelGrid
+                          direction="row"
+                          alignItems="flex-end"
+                          item
+                          xs={4}
+                        >
+                          <Controller
+                            name={`levels.${[index]}.percent`}
+                            rules={{
+                              required: true,
+                              maxLength: 13,
+                              minLength: 13,
+                            }}
+                            control={control}
+                            render={({ field }) => (
+                              <Input
+                                label={""}
+                                type="string"
+                                field={field}
+                                width={{
+                                  width: "106px",
+                                }}
+                                margin={{
+                                  laptop: "20px 0 10px",
+                                }}
+                                message={t("requiredField")}
+                                // error={errors.telNumbers?.[index] ? true : false}
+
+                                // maxLength={13}
+                              />
+                            )}
+                          />
+                        </LevelGrid>
+
+                        <LevelGrid
+                          item
+                          xs={2}
+                          direction="row"
+                          alignItems="flex-end"
+                        >
+                          <ThirdContainer>
+                            <AddIconDiv>
+                              <RippleDiv
+                                onClick={() => {
+                                  // setValue(`levels`, [
+                                  //   ...dynamicFields[index]?.requirements,
+                                  //   {
+                                  //     amount: 0,
+                                  //     condition: "or",
+                                  //     unit: 0,
+                                  //     type: 3,
+                                  //   },
+                                  // ])
+
+                                  setValue("levels", [
+                                    ...getValues().levels,
+                                    {
+                                      name: "append",
+                                      requirements: [
+                                        {
+                                          amount: 0,
+                                          condition: "or",
+                                          unit: 0,
+                                          type: 3,
+                                        },
+                                      ],
+                                    },
+                                  ]);
+                                }}
+                                marginLeft={0}
+                                marginRight={0}
+                              >
+                                <AddIconSettings />
+                              </RippleDiv>
+                            </AddIconDiv>
+                          </ThirdContainer>
+                        </LevelGrid>
+                      </Grid>
+
+                      {/* //Requirements section */}
+
+                      <NestedArray index={index} control={control} />
+                    </ProgramRow>
+                  );
+                })}
             </div>
 
             <div>

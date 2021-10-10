@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Title, Text } from '../style';
-import { Controller, useFieldArray, useForm } from 'react-hook-form';
-import Input from 'components/Custom/Input';
-import Button from 'components/Custom/Button';
-import Spinner from 'components/Custom/Spinner';
-import { IconButton } from '@material-ui/core';
-import WorkingHours from './WorkingHours';
-import { fetchAddressInfo } from 'services/queries/InfoQueries';
-import { useMutation, useQuery } from 'react-query';
-import { IAddress } from 'services/models/address_model';
-import YandexMap from './YandexMap';
-import { useAppSelector, useAppDispatch } from 'services/redux/hooks';
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Title, Text } from "../style";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
+import Input from "components/Custom/Input";
+import Button from "components/Custom/Button";
+import Spinner from "components/Custom/Spinner";
+import { IconButton } from "@material-ui/core";
+import WorkingHours from "./WorkingHours";
+import { fetchAddressInfo } from "services/queries/InfoQueries";
+import { useMutation, useQuery } from "react-query";
+import { IAddress } from "services/models/address_model";
+import YandexMap from "./YandexMap";
+import { useAppSelector, useAppDispatch } from "services/redux/hooks";
 import {
   setAddressAdd,
   setAddressInfo,
   setWorkingTime,
-} from 'services/redux/Slices/infoSlice';
-import axios from 'axios';
+} from "services/redux/Slices/infoSlice";
+import axios from "axios";
 import {
   Container,
   Rightside,
@@ -49,10 +49,10 @@ import {
   WrapSearch,
   WrapLocationAddress,
   NoResult,
-} from './style';
-import Cookies from 'js-cookie';
-import partnerApi from 'services/interceptors/companyInterceptor';
-import NewCompanyNotification from './NewCompanyNotification';
+} from "./style";
+import Cookies from "js-cookie";
+import partnerApi from "services/interceptors/companyInterceptor";
+import NewCompanyNotification from "./NewCompanyNotification";
 interface FormProps {
   address?: string;
   addressDesc?: string;
@@ -67,7 +67,7 @@ const Address = () => {
   const { t } = useTranslation();
   const [yandexRef, setYandexRef] = useState<any>(null);
   const [searchAddressList, setSearchaddressList] = useState([]);
-  const [searchAddress, setSearchAddress] = useState('');
+  const [searchAddress, setSearchAddress] = useState("");
   const [isSearchInputFocus, setIsSearchInputFocus] = useState(false);
   const [newComp, setNewComp] = useState(false);
   const infoPageSlice = useAppSelector((state) => state.infoSlice.addressAdd);
@@ -78,14 +78,14 @@ const Address = () => {
   const [fillial, setFillial] = useState<IAddress[]>([]);
   const [searchRes, setSearchRes] = useState<IAddress[]>([]);
   const [searchFocus, setSearchFocus] = useState<boolean>(false);
-  const [inpuSearch, setInpuSearch] = useState<string>('');
+  const [inpuSearch, setInpuSearch] = useState<string>("");
   const [place, setPlace] = useState<any[]>([]);
   const [edit, setEdit] = useState<boolean>(false);
   const [phone, setPhone] = useState<any>([]);
-  const comId: any = localStorage.getItem('companyId');
-  console.log(dataAddress, 'tdd');
+  const comId: any = localStorage.getItem("companyId");
+  console.log(dataAddress, "tdd");
   const { data, isLoading, refetch } = useQuery(
-    'fetchAddress',
+    "fetchAddress",
     () => fetchAddressInfo(comId),
     {
       keepPreviousData: true,
@@ -111,7 +111,7 @@ const Address = () => {
   }, [searchAddress]);
 
   const [mapAddress, setMapAddress] = useState(() => {
-    let mapData: any = localStorage.getItem('map');
+    let mapData: any = localStorage.getItem("map");
     if (mapData) {
       mapData = JSON.parse(mapData);
       return {
@@ -119,7 +119,7 @@ const Address = () => {
       };
     } else
       return {
-        name: '',
+        name: "",
       };
   });
 
@@ -135,7 +135,7 @@ const Address = () => {
             .metaDataProperty.GeocoderMetaData.Address.formatted,
         });
         setValue(
-          'address',
+          "address",
           res.data.response.GeoObjectCollection.featureMember[0].GeoObject
             .metaDataProperty.GeocoderMetaData.Address.formatted
         );
@@ -143,7 +143,7 @@ const Address = () => {
   };
 
   const onClickPlace = (e: any) => {
-    const coords = e.get('coords');
+    const coords = e.get("coords");
     if (place?.length !== 0 || !open) {
       setPlace(coords);
       yandexRef?.setCenter(coords, 18);
@@ -151,13 +151,13 @@ const Address = () => {
   };
 
   const onBoundsChange = (e: any) => {
-    const latAndlot = e.get('target').getCenter();
+    const latAndlot = e.get("target").getCenter();
     fetchYandexAddressName(latAndlot[1], latAndlot[0]);
   };
 
   const searchSelectedAddress = (item: any) => {
     setSearchAddress(item.GeoObject.name);
-    const coordinates = item.GeoObject.Point.pos.split(' ');
+    const coordinates = item.GeoObject.Point.pos.split(" ");
     yandexRef?.setCenter([coordinates[1], coordinates[0]], 18);
     setIsSearchInputFocus(false);
   };
@@ -176,7 +176,7 @@ const Address = () => {
     watch,
     reset,
   } = useForm<FormProps>({
-    mode: 'onBlur',
+    mode: "onBlur",
     shouldFocusError: true,
     defaultValues: {
       telNumbers: [...phone],
@@ -187,11 +187,11 @@ const Address = () => {
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'telNumbers',
+    name: "telNumbers",
   });
 
   useEffect(() => {
-    setValue('address', dataAddress?.address);
+    setValue("address", dataAddress?.address);
   }, [dataAddress]);
 
   const handleSearch = (e: any) => {
@@ -217,24 +217,24 @@ const Address = () => {
     dispatch(setAddressInfo(v));
     setOpen(false);
     dispatch(setAddressAdd(false));
-    setValue('address', v.address);
+    setValue("address", v.address);
     setSearchAddress(v.address);
-    setValue('addressDesc', v.addressDesc);
-    setValue('telNumbers', newNumbers);
-    setValue('name', v.name);
+    setValue("addressDesc", v.addressDesc);
+    setValue("telNumbers", newNumbers);
+    setValue("name", v.name);
     setPhone(newNumbers);
-    setValue('regionId', v.regionId);
-    setValue('id', v.id);
+    setValue("regionId", v.regionId);
+    setValue("id", v.id);
   };
   const handlePluseClick = () => {
     setOpen(false);
     dispatch(setAddressAdd(false));
     dispatch(setAddressInfo(null));
-    setSearchAddress('');
-    setValue('addressDesc', '');
-    setValue('name', '');
-    setValue('telNumbers', ['+998']);
-    setMapAddress({ name: '' });
+    setSearchAddress("");
+    setValue("addressDesc", "");
+    setValue("name", "");
+    setValue("telNumbers", ["+998"]);
+    setMapAddress({ name: "" });
     setEdit(true);
   };
 
@@ -256,7 +256,7 @@ const Address = () => {
 
   const addressPost = useMutation(
     (v: any) => {
-      return partnerApi.post('/directory/stores', v);
+      return partnerApi.post("/directory/stores", v);
     },
     {
       onSuccess: () => {
@@ -301,10 +301,10 @@ const Address = () => {
             <WrapHeader>
               <Button
                 buttonStyle={{
-                  bgcolor: 'white',
-                  color: '#223367',
+                  bgcolor: "white",
+                  color: "#223367",
                   weight: 500,
-                  shadow: '0px 4px 4px rgba(0, 0, 0, 0.04)',
+                  shadow: "0px 4px 4px rgba(0, 0, 0, 0.04)",
                   height: {
                     mobile: 45,
                     planshet: 45,
@@ -313,25 +313,25 @@ const Address = () => {
                   },
                 }}
                 margin={{
-                  mobile: '15px 0 0 20px',
+                  mobile: "15px 0 0 20px",
                 }}
                 onClick={handlePluseClick}
               >
                 <PlusIcon />
-                {t('addFilial')}
+                {t("addFilial")}
               </Button>
               <WrapInput>
                 <Input
-                  inputStyle={{ inpadding: '0 10px', border: 'none' }}
-                  placeholder={t('searchbarnches')}
+                  inputStyle={{ inpadding: "0 10px", border: "none" }}
+                  placeholder={t("searchbarnches")}
                   IconStart={<SearchIcon />}
-                  margin={{ laptop: '0 0 0 20px', mobile: '0 20px' }}
+                  margin={{ laptop: "0 0 0 20px", mobile: "0 20px" }}
                   fullWidth={true}
                   onChange={handleSearch}
-                  type='search'
+                  type="search"
                   onFocus={() => setSearchFocus(true)}
                   onBlur={() =>
-                    inpuSearch === '' ? setSearchFocus(false) : null
+                    inpuSearch === "" ? setSearchFocus(false) : null
                   }
                   value={inpuSearch}
                 />
@@ -340,11 +340,11 @@ const Address = () => {
             <WrapContent>
               {isLoading ? (
                 <Spinner />
-              ) : !searchFocus || inpuSearch === '' ? (
+              ) : !searchFocus || inpuSearch === "" ? (
                 fillial?.map((v: IAddress) => (
                   <AddressInfo onClick={() => handleChoosFillial(v)}>
                     <Left>
-                      <Title>{t('addresscompany')}</Title>
+                      <Title>{t("addresscompany")}</Title>
                       <Text1>{v.address}</Text1>
                     </Left>
                     <Right>
@@ -355,12 +355,12 @@ const Address = () => {
                   </AddressInfo>
                 ))
               ) : searchRes.length === 0 ? (
-                <NoResult>{t('noresult')}</NoResult>
+                <NoResult>{t("noresult")}</NoResult>
               ) : (
                 searchRes?.map((v: IAddress) => (
                   <AddressInfo onClick={() => handleChoosFillial(v)}>
                     <Left>
-                      <Title>{t('addresscompany')}</Title>
+                      <Title>{t("addresscompany")}</Title>
                       <Text1>{v.address}</Text1>
                     </Left>
                     <Right>
@@ -389,7 +389,7 @@ const Address = () => {
         >
           {open ? null : (
             <WrapClose>
-              <Title>{t('newbranch')}</Title>
+              <Title>{t("newbranch")}</Title>
               <IconButton
                 onClick={() => {
                   setOpen(true);
@@ -408,24 +408,24 @@ const Address = () => {
             </WrapClose>
           )}
           <LeftSide>
-            <Title>{t('Address')}</Title>
-            <Text>{t('enterLocationText')}</Text>
+            <Title>{t("Address")}</Title>
+            <Text>{t("enterLocationText")}</Text>
             <WrapAddress>
               <WrapSearch>
                 <Input
-                  label={t('enterLocation')}
+                  label={t("enterLocation")}
                   margin={{
-                    laptop: '20px 0 25px',
+                    laptop: "20px 0 25px",
                   }}
                   onChange={(e) => {
-                    setValue('address', e.target.value);
+                    setValue("address", e.target.value);
                     if (!e.target.value) setSearchaddressList([]);
                     setSearchAddress(e.target.value);
                   }}
                   onFocus={() => setIsSearchInputFocus(true)}
                   value={searchAddress}
-                  autoComplete='off'
-                  type='search'
+                  autoComplete="off"
+                  type="search"
                 />
                 <Ul
                   visable={searchAddressList.length !== 0 && isSearchInputFocus}
@@ -438,7 +438,7 @@ const Address = () => {
                 </Ul>
               </WrapSearch>
               <WrapLocationAddress>
-                <Title>{t('selectedaddress')}</Title>
+                <Title>{t("selectedaddress")}</Title>
                 <span>{mapAddress.name}</span>
               </WrapLocationAddress>
             </WrapAddress>
@@ -447,48 +447,48 @@ const Address = () => {
                 <YandexMap />
               </YandexContainer>
             </MobileMap>
-            <Title>{t('addressClarification')}</Title>
-            <Text>{t('enterOrientationText')}</Text>
+            <Title>{t("addressClarification")}</Title>
+            <Text>{t("enterOrientationText")}</Text>
             <Controller
-              name='addressDesc'
+              name="addressDesc"
               control={control}
               rules={{ required: true }}
-              defaultValue=''
+              defaultValue=""
               render={({ field }) => (
                 <Input
-                  label={t('enterOrientation')}
+                  label={t("enterOrientation")}
                   error={errors.addressDesc ? true : false}
-                  message={t('requiredField')}
-                  type='string'
+                  message={t("requiredField")}
+                  type="string"
                   field={field}
                   margin={{
-                    laptop: '20px 0 25px',
+                    laptop: "20px 0 25px",
                   }}
                 />
               )}
             />
-            <Title>{t('filialName')}</Title>
-            <Text>{t('enterTitleText')}</Text>
+            <Title>{t("filialName")}</Title>
+            <Text>{t("enterTitleText")}</Text>
             <Controller
-              name='name'
+              name="name"
               control={control}
               rules={{ required: true }}
-              defaultValue=''
+              defaultValue=""
               render={({ field }) => (
                 <Input
-                  label={t('enterTitle')}
+                  label={t("enterTitle")}
                   error={errors.name ? true : false}
-                  message={t('requiredField')}
-                  type='string'
+                  message={t("requiredField")}
+                  type="string"
                   field={field}
                   margin={{
-                    laptop: '20px 0 25px',
+                    laptop: "20px 0 25px",
                   }}
                 />
               )}
             />
 
-            <ul style={{ listStyle: 'none' }}>
+            <ul style={{ listStyle: "none" }}>
               {fields.map((item, index) => {
                 return (
                   <li key={item?.id}>
@@ -497,22 +497,22 @@ const Address = () => {
                       rules={{ required: true, maxLength: 13, minLength: 13 }}
                       control={control}
                       defaultValue={
-                        !edit ? values.telNumbers?.[index].number : '+998'
+                        !edit ? values.telNumbers?.[index].number : "+998"
                       }
                       render={({ field }) => (
                         <Input
-                          label={t('phoneNumber')}
-                          type='string'
+                          label={t("phoneNumber")}
+                          type="string"
                           field={field}
                           margin={{
-                            laptop: '20px 0 10px',
+                            laptop: "20px 0 10px",
                           }}
-                          message={t('requiredField')}
+                          message={t("requiredField")}
                           error={errors.telNumbers?.[index] ? true : false}
                           IconEnd={
                             index === 0 ? null : (
                               <IconButton
-                                style={{ marginRight: '15px' }}
+                                style={{ marginRight: "15px" }}
                                 onClick={() => remove(index)}
                               >
                                 <DeleteIcon />
@@ -529,57 +529,57 @@ const Address = () => {
             </ul>
             <Button
               buttonStyle={{
-                color: '#3492FF',
-                bgcolor: 'transparent',
+                color: "#3492FF",
+                bgcolor: "transparent",
               }}
               onClick={() => {
-                append('+998');
+                append("+998");
               }}
-              padding={{ laptop: '0' }}
+              padding={{ laptop: "0" }}
               margin={{
-                laptop: '10px 0 0',
+                laptop: "10px 0 0",
               }}
             >
-              {t('addPhoneNumber')}
+              {t("addPhoneNumber")}
             </Button>
-            <Title>{t('workingHours')}</Title>
+            <Title>{t("workingHours")}</Title>
             <WorkingHours />
             <ButtonsWrap>
               <ButtonWrap>
                 <Button
                   buttonStyle={{
-                    bgcolor: 'rgba(96, 110, 234, 0.1)',
-                    weight: '500',
+                    bgcolor: "rgba(96, 110, 234, 0.1)",
+                    weight: "500",
                     radius: 12,
-                    color: '#606EEA',
+                    color: "#606EEA",
                   }}
                   margin={{
-                    laptop: '20px 10px 0',
-                    mobile: '10px 10px 0 0',
+                    laptop: "20px 10px 0",
+                    mobile: "10px 10px 0 0",
                   }}
                   onClick={() => {
                     setOpen(true);
                     dispatch(setAddressAdd(true));
                   }}
                 >
-                  {t('quit')}
+                  {t("quit")}
                   <ExitIcon />
                 </Button>
               </ButtonWrap>
 
               <Button
                 buttonStyle={{
-                  shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)',
-                  weight: '500',
+                  shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
+                  weight: "500",
                 }}
                 margin={{
-                  laptop: '20px 0 0',
-                  mobile: '10px 0 0 0',
+                  laptop: "20px 0 0",
+                  mobile: "10px 0 0 0",
                 }}
-                type='submit'
+                type="submit"
               >
                 <SaveIcon />
-                {t('save')}
+                {t("save")}
               </Button>
             </ButtonsWrap>
           </LeftSide>
@@ -595,7 +595,7 @@ const Address = () => {
           />
         </YandexContainer>
       </Rightside>
-      {newComp && Cookies.get('companyState') === 'new' ? (
+      {newComp && Cookies.get("companyState") === "new" ? (
         <NewCompanyNotification />
       ) : null}
     </Container>
