@@ -7,7 +7,7 @@ import { setCompanyInfo } from '../../services/redux/Slices/partnerSlice';
 const useLayout = () => {
   const dispatch = useAppDispatch();
 
-  const [data, setData] = useState();
+  const [data, setData] = useState({ name: '' });
 
   const response = useQuery(
     'logoANDname',

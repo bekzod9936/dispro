@@ -55,9 +55,12 @@ export const PhotoWrap = styled.div`
   width: 100px;
   height: 100px;
   margin: 20px 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  .lazy-load-image-background.blur.lazy-load-image-loaded {
+    filter: blur(0);
+    transition: filter 0.3s;
+    height: 100%;
+    width: 100%;
+  }
   :hover {
     div {
       background: rgba(34, 51, 103, 0.75);

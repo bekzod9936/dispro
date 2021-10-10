@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import Input from 'components/Custom/Input';
 import Button from 'components/Custom/Button';
 import Links from './Links';
-import { useAppSelector } from 'services/redux/hooks';
+import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import { useMutation, useQuery } from 'react-query';
 import {
   deletePhoto,
@@ -53,8 +53,9 @@ import {
   WrapWebLink,
   WebValue,
 } from './style';
-import { DeleteIcon } from './Links/style';
 import { IconButton } from '@material-ui/core';
+import { ReactComponent as Delete } from 'assets/icons/IconsInfo/delete.svg';
+import { setAddressAdd } from 'services/redux/Slices/infoSlice';
 
 interface FormProps {
   telNumber?: string;
@@ -67,6 +68,7 @@ interface FormProps {
   categories?: any[];
   socialLinks?: { name?: string; value?: string }[];
   logo?: string;
+  links?: [];
 }
 
 interface optionProps {
@@ -82,14 +84,16 @@ interface socialProps {
 const Main = () => {
   const history = useHistory();
   const { t } = useTranslation();
-  const [open, setOpen] = useState(false);
+  const [, setOpen] = useState(false);
   const [options, setOptions] = useState<optionProps>({
     option: [],
     values: [],
   });
 
+  const [web, setWeb] = useState<any>([]);
+
   const { response, data } = useLayout();
-  console.log(data);
+
   const [categories, setCategories] = useState([]);
   const [social, setSocial]: any = useState([
     {
@@ -130,6 +134,7 @@ const Main = () => {
   ]);
 
   const companyInfo = useAppSelector((state) => state.partner.companyInfo);
+  const dispatch = useAppDispatch();
 
   const [links, setLinks] = useState([
     {
@@ -189,6 +194,10 @@ const Main = () => {
     setValue('socialLinks', newLinks);
   }, [companyInfo?.socialLinks]);
 
+  useEffect(() => {
+    setWeb(companyInfo.links);
+  }, [companyInfo.links]);
+
   const {
     control,
     handleSubmit,
@@ -197,7 +206,7 @@ const Main = () => {
     getValues,
     setError,
     watch,
-    reset,
+    clearErrors,
   } = useForm<FormProps>({
     mode: 'onBlur',
     shouldFocusError: true,
@@ -206,10 +215,10 @@ const Main = () => {
   useEffect(() => {
     const subscription = watch((value: any) => {
       if (value?.categories.length === 2) {
-        setOptions({ values: value.categories, option: value.categories });
+        setOptions({ values: value?.categories, option: value?.categories });
       }
       if (value?.categories.length < 2) {
-        setOptions({ values: value.categories, option: categories });
+        setOptions({ values: value?.categories, option: categories });
       }
     });
     return () => subscription.unsubscribe();
@@ -308,7 +317,7 @@ const Main = () => {
         isKosher: false,
         keyWords: v?.keywords,
         linkEnable: false,
-        links: [],
+        links: web,
         logo: v?.logo,
         name: v?.name,
         socialLinks: v?.socialLinks,
@@ -319,10 +328,39 @@ const Main = () => {
           response.refetch();
           if (Cookies.get('compnayState') === 'new') {
             history.push('/info/address');
+            dispatch(setAddressAdd(false));
           }
         },
       }
     );
+  };
+
+  const handleWebDelete = () => {};
+
+  const handleWebLink = () => {
+    if (getValues('companyLink') === '') {
+      setError('companyLink', { shouldFocus: true });
+    } else {
+      clearErrors('companyLink');
+    }
+    if (getValues('link') === '') {
+      setError('link', { shouldFocus: true });
+    } else {
+      clearErrors('link');
+    }
+    if (getValues('companyLink') !== '' && getValues('link') !== '') {
+      setWeb([
+        ...web,
+        {
+          name: getValues('companyLink'),
+          address: getValues('link'),
+          enable: false,
+        },
+      ]);
+      setValue('link', '');
+      setValue('companyLink', '');
+    }
+    console.log(getValues('link'));
   };
 
   const handleSocialChange = ({ name, value }: socialProps) => {
@@ -341,30 +379,29 @@ const Main = () => {
     retry: 0,
     refetchOnWindowFocus: false,
     onSuccess: (data: any) => {
-      const newData = data?.data?.data;
-      let option: any = [];
+      let option: any = data?.data?.data.map((v: any) => {
+        return {
+          value: v?.id,
+          label: v?.name,
+        };
+      });
       let values: any = [];
 
-      for (let i = 0; i < newData?.length; i++) {
-        if (
-          newData[i]?.id === companyInfo?.categories[0] ||
-          companyInfo?.categories[1] === newData[i]?.id
-        ) {
-          values.push({ value: newData[i]?.id, label: newData[i]?.name });
-        }
-        option.push({ value: newData[i]?.id, label: newData[i]?.name });
-      }
       setCategories(option);
-      if (values.length === 2) {
+      if (values?.length === 2) {
         setOptions({ values: values, option: values });
       }
-      if (values.length < 2) {
+      if (values?.length < 2) {
         setOptions({ values: values, option: option });
       }
     },
   });
 
-  if (infoSubData.isLoading) {
+  useEffect(() => {
+    setValue('name', data.name);
+  }, [data.name]);
+
+  if (infoSubData.isLoading || response.isLoading) {
     return <Spinner />;
   }
 
@@ -389,7 +426,9 @@ const Main = () => {
                   type='file'
                   onChange={handleUpload}
                 />
-                {logo ? (
+                {response.isLoading ? (
+                  <Spinner />
+                ) : logo ? (
                   photoDelete.isLoading ? (
                     <Spinner />
                   ) : photoDelete.isSuccess && logo === '' ? (
@@ -399,15 +438,17 @@ const Main = () => {
                   ) : (
                     <PhotoWrap onClick={handlePhotoDelete}>
                       <ImageLazyLoad
-                        objectFit='cover'
+                        objectFit='scale-down'
                         src={logo !== '' ? logo : companyInfo.logo}
-                        alt='logo'
+                        alt='logo1'
                       />
                       <WrapTrash>
                         <TrashIcon />
                       </WrapTrash>
                     </PhotoWrap>
                   )
+                ) : photoUpLoad.isLoading ? (
+                  <Spinner />
                 ) : (
                   <LabelLoading htmlFor='logo1'>
                     {t('upload_photo')} <PhotoLoadingIcon />
@@ -520,7 +561,7 @@ const Main = () => {
                     laptop: '20px 0',
                   }}
                   IconEnd={
-                    <WrapArrow>
+                    <WrapArrow style={{ cursor: 'pointer' }}>
                       <ArrowIcon />
                     </WrapArrow>
                   }
@@ -558,6 +599,8 @@ const Main = () => {
               defaultValue=''
               render={({ field }) => (
                 <Input
+                  message={t('requiredField')}
+                  error={errors.companyLink ? true : false}
                   label={t('linkName')}
                   type='string'
                   field={field}
@@ -581,27 +624,38 @@ const Main = () => {
                   margin={{
                     laptop: '20px 0 25px',
                   }}
+                  message={t('requiredField')}
+                  error={errors.link ? true : false}
+                  IconEnd={
+                    <WrapArrow
+                      style={{ cursor: 'pointer' }}
+                      onClick={handleWebLink}
+                      bgcolor={getValues('link') !== ''}
+                    >
+                      <ArrowIcon />
+                    </WrapArrow>
+                  }
                 />
               )}
             />
             <Title>{t('companyLink')}</Title>
-            {companyInfo?.links?.map((v: any) => (
+            {web?.map((v: any) => (
               <>
                 <WrapWebLink>
                   <WebLink>{t('yourweb')}</WebLink>
                   <WebValue>
-                    {v.name}
-                    <IconButton>
-                      <DeleteIcon />
+                    {v?.name}
+                    <IconButton onClick={handleWebDelete}>
+                      <Delete />
                     </IconButton>
                   </WebValue>
                 </WrapWebLink>
                 <WrapWebLink margin='0 0 20px 0'>
                   <WebLink>{t('ordernow')}</WebLink>
                   <WebValue>
-                    {v.address}
-                    <IconButton>
-                      <DeleteIcon />
+                    {v?.address}
+                    <IconButton onClick={handleWebDelete}>
+                      <Delete />
                     </IconButton>
                   </WebValue>
                 </WrapWebLink>
