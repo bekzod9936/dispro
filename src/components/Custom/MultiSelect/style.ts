@@ -59,10 +59,9 @@ export const NewSelect = styled(Select)`
         ? selectStyle?.placeholdercolor
         : '#AAAAAA'} !important;
   }
-  .css-1ss0qri-control,
-  .css-tmmnte-control,
-  .css-xdsoz2-control,
-  .css-mhtds6-control {
+
+  [class$='ValueContainer'],
+  [class$='-control'] {
     min-height: ${({ selectStyle }: Props) =>
       selectStyle?.height?.laptop
         ? `${selectStyle?.height?.laptop}px`
@@ -128,7 +127,9 @@ export const NewSelect = styled(Select)`
           : '16px'} !important;
     }
   }
-
+  [class$='-indicatorContainer'] {
+    padding: 0 !important;
+  }
   .css-g1d714-ValueContainer {
     padding: ${({ selectStyle }: Props) =>
       selectStyle?.inpadding ? selectStyle?.inpadding : '2px 20px'}!important;
@@ -146,7 +147,8 @@ export const NewSelect = styled(Select)`
 `;
 
 export const DownIcon = styled(Down)`
-  margin-right: 15px;
+  margin-right: ${({ iconmargin }: Props) =>
+    iconmargin ? iconmargin : '15px'};
 `;
 
 export const Label = styled(InputLabel)`

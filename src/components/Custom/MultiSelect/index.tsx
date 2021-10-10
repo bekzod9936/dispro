@@ -41,11 +41,13 @@ export interface Props {
     weight?: string | number;
     margin?: string;
     border?: string;
+    borderbottom?: string;
     shadow?: string;
     radius?: number;
     deleteColor?: string;
     deleteBgColor?: string;
     inpadding?: string;
+
     fontSize?: {
       mobile?: number;
       planshet?: number;
@@ -75,12 +77,13 @@ export interface Props {
   };
   message?: any;
   field?: any;
+  iconmargin?: string;
 }
-const MultiSelect = ({ ...props }: Props) => {
+const MultiSelect = ({ iconmargin, ...props }: Props) => {
   const DropdownIndicator = (props: any) => {
     return (
       <components.DropdownIndicator {...props}>
-        {props.IconDown ? props.IconDown : <DownIcon />}
+        {props.IconDown ? props.IconDown : <DownIcon iconmargin={iconmargin} />}
       </components.DropdownIndicator>
     );
   };
@@ -93,13 +96,23 @@ const MultiSelect = ({ ...props }: Props) => {
         : props.selectStyle?.border
         ? props.selectStyle?.border
         : '1px solid #C2C2C2',
-      borderRadius: props.selectStyle?.border
-        ? `${props.selectStyle?.border}px`
-        : '14px',
+
       boxShadow: 'none',
       '&:hover': {
         border: 'inherite',
       },
+      borderBottom: props.selectStyle?.borderbottom
+        ? props.selectStyle?.borderbottom
+        : null,
+      backgroundColor: props.selectStyle?.bgcolor
+        ? props.selectStyle?.bgcolor
+        : 'white',
+      borderRadius:
+        props.selectStyle?.radius === 0
+          ? 0
+          : props.selectStyle?.radius
+          ? `${props.selectStyle?.radius}px`
+          : '14px',
     }),
     option: (base: any, state: any) => {
       return {

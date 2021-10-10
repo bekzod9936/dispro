@@ -81,3 +81,12 @@ export const CasherInfoWrap = styled.div`
   align-items: center;
   justify-content: flex-start;
 `;
+
+///index
+
+export const MainWrapper = styled.div`
+  padding: 25px 0 0 25px;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+`;
