@@ -1,9 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import Input from '../../../../components/Custom/Input';
-import Button from '../../../../components/Custom/Button';
+import Input from 'components/Custom/Input';
+import Button from 'components/Custom/Button';
 import Links from './Links';
+import { useAppSelector } from 'services/redux/hooks';
+import { useMutation, useQuery } from 'react-query';
+import {
+  deletePhoto,
+  fetchCategories,
+  uploadPhoto,
+} from 'services/queries/InfoQueries';
+import Spinner from 'components/Custom/Spinner';
+import Resizer from 'react-image-file-resizer';
+import { Text, Title } from '../../style';
+import MultiSelect from 'components/Custom/MultiSelect';
+import partnerApi from 'services/interceptors/companyInterceptor';
+import { useHistory } from 'react-router';
+import Cookies from 'js-cookie';
+import ImageLazyLoad from 'components/Custom/ImageLazyLoad/ImageLazyLoad';
+import useLayout from '../../../../../components/Layout/useLayout';
 import {
   Container,
   UpSide,
@@ -33,25 +49,12 @@ import {
   WrapButton,
   SaveIcon,
   CloseIcon,
+  WebLink,
+  WrapWebLink,
+  WebValue,
 } from './style';
-import {
-  useAppDispatch,
-  useAppSelector,
-} from '../../../../services/redux/hooks';
-import { useMutation, useQuery } from 'react-query';
-import {
-  deletePhoto,
-  fetchCategories,
-  uploadPhoto,
-} from '../../../../services/queries/InfoQueries';
-import Spinner from '../../../../components/Custom/Spinner';
-import Resizer from 'react-image-file-resizer';
-import { Text, Title } from '../style';
-import MultiSelect from '../../../../components/Custom/MultiSelect';
-import partnerApi from '../../../../services/interceptors/companyInterceptor';
-import { useHistory } from 'react-router';
-import Cookies from 'js-cookie';
-import ImageLazyLoad from 'components/Custom/ImageLazyLoad/ImageLazyLoad';
+import { DeleteIcon } from './Links/style';
+import { IconButton } from '@material-ui/core';
 
 interface FormProps {
   telNumber?: string;
@@ -79,13 +82,14 @@ interface socialProps {
 const Main = () => {
   const history = useHistory();
   const { t } = useTranslation();
-  const dispatch = useAppDispatch();
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState<optionProps>({
     option: [],
     values: [],
   });
 
+  const { response, data } = useLayout();
+  console.log(data);
   const [categories, setCategories] = useState([]);
   const [social, setSocial]: any = useState([
     {
@@ -311,7 +315,8 @@ const Main = () => {
         telNumber: v?.telNumber,
       },
       {
-        onSuccess: (data) => {
+        onSuccess: () => {
+          response.refetch();
           if (Cookies.get('compnayState') === 'new') {
             history.push('/info/address');
           }
@@ -332,7 +337,7 @@ const Main = () => {
     setValue('socialLinks', newLinks);
   };
 
-  const response = useQuery(['categories'], fetchCategories, {
+  const response1 = useQuery(['categories'], fetchCategories, {
     retry: 0,
     refetchOnWindowFocus: false,
     onSuccess: (data: any) => {
@@ -485,7 +490,7 @@ const Main = () => {
               defaultValue={options.values}
               render={({ field }) => (
                 <MultiSelect
-                  isLoading={response.isLoading}
+                  isLoading={response1.isLoading}
                   options={options.option}
                   isMulti={true}
                   label={t('chose_categories')}
@@ -562,6 +567,7 @@ const Main = () => {
                 />
               )}
             />
+
             <Controller
               name='link'
               control={control}
@@ -578,6 +584,30 @@ const Main = () => {
                 />
               )}
             />
+            <Title>{t('companyLink')}</Title>
+            {companyInfo?.links?.map((v: any) => (
+              <>
+                <WrapWebLink>
+                  <WebLink>{t('yourweb')}</WebLink>
+                  <WebValue>
+                    {v.name}
+                    <IconButton>
+                      <DeleteIcon />
+                    </IconButton>
+                  </WebValue>
+                </WrapWebLink>
+                <WrapWebLink margin='0 0 20px 0'>
+                  <WebLink>{t('ordernow')}</WebLink>
+                  <WebValue>
+                    {v.address}
+                    <IconButton>
+                      <DeleteIcon />
+                    </IconButton>
+                  </WebValue>
+                </WrapWebLink>
+              </>
+            ))}
+
             <Title>{t('socialLinks')}</Title>
             <div style={{ display: 'block' }}>
               {social?.map((v: any) => (

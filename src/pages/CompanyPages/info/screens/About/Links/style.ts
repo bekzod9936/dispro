@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { ReactComponent as Close } from '../../../../../assets/icons/SideBar/close.svg';
-import { ReactComponent as Delete } from '../../../../../assets/icons/IconsInfo/delete.svg';
+import { ReactComponent as Close } from 'assets/icons/SideBar/close.svg';
+import { ReactComponent as Delete } from 'assets/icons/IconsInfo/delete.svg';
 
 export const Container = styled.div``;
 

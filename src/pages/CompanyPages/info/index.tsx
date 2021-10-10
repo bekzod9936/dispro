@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
-import About from './About';
-import Photos from './Photos';
-import Address from './Address';
+import React, { Suspense, useState } from 'react';
 import { useHistory } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { Switch, Route } from 'react-router-dom';
-import Title from '../../../components/Custom/Title';
-import Modal from '../../../components/Custom/Modal';
-import Button from '../../../components/Custom/Button';
-import NavBar from '../../../components/Custom/NavBar';
+import Title from 'components/Custom/Title';
+import Modal from 'components/Custom/Modal';
+import Button from 'components/Custom/Button';
+import NavBar from 'components/Custom/NavBar';
+import { useRouteMatch } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
+import { setCompanyInfo } from 'services/redux/Slices/partnerSlice';
+import useInfoRoute from './routers';
+import Spinner from 'components/Custom/Spinner';
 import {
   Container,
   ModelContent,
@@ -20,14 +22,6 @@ import {
   WrapNav,
   WrapButton,
 } from './style';
-import { useRouteMatch } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../../services/redux/hooks';
-import { setCompanyInfo } from '../../../services/redux/Slices/partnerSlice';
-
-interface IInfoRoute {
-  path: string;
-  text: string;
-}
 
 const Infopage = () => {
   const { t } = useTranslation();
@@ -35,12 +29,8 @@ const Infopage = () => {
   const dispatch = useAppDispatch();
   const infoPageSlice = useAppSelector((state) => state.infoSlice.addressAdd);
   const [open, setOpen] = useState(false);
+  const { menuItems } = useInfoRoute();
 
-  const items: IInfoRoute[] = [
-    { path: '/info', text: t('aboutCompany') },
-    { path: '/info/address', text: t('address') },
-    { path: '/info/photos', text: t('photos') },
-  ];
   let match = useRouteMatch();
 
   return (
@@ -51,7 +41,7 @@ const Infopage = () => {
     >
       <Title>{t('info')}</Title>
       <WrapNav>
-        <NavBar list={items} margin='20px 0' />
+        <NavBar list={menuItems} margin='20px 0' />
         <WrapButton>
           <Button
             buttonStyle={{
@@ -106,15 +96,11 @@ const Infopage = () => {
         </ModelContent>
       </Modal>
       <Switch>
-        <Route exact path={'/info'}>
-          <About />
-        </Route>
-        <Route exact path={`/info/address`}>
-          <Address />
-        </Route>
-        <Route exact path={`/info/photos`}>
-          <Photos />
-        </Route>
+        <Suspense fallback={<Spinner />}>
+          {menuItems.map((item) => {
+            return <Route exact path={item.path} component={item.component} />;
+          })}
+        </Suspense>
       </Switch>
     </Container>
   );

@@ -21,14 +21,16 @@ const OrdersPage = () => {
     shouldFocusError: true,
   });
 
+  const options = [
+    { value: 'ili', label: 'ili' },
+    { value: 'i', label: 'i' },
+  ];
+
   return (
     <div style={{ padding: '20px' }}>
       <DatePicker />
       <MultiSelect
-        options={[
-          { value: 'ili', label: 'ili' },
-          { value: 'i', label: 'i' },
-        ]}
+        options={options}
         selectStyle={{
           radius: 0,
           borderbottom: '1px solid #606EEA',
@@ -47,6 +49,7 @@ const OrdersPage = () => {
         }}
         iconmargin='0'
         onChange={(v: any) => setValue('something', v.value)}
+        defaultValue={options[0]}
       />
     </div>
   );
