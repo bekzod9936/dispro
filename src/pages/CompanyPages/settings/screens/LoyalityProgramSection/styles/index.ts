@@ -48,6 +48,6 @@ export const SubText = styled.p`
   line-height: 18.75px;
   font-weight: 400;
   font-style: "Roboto";
-  margin: 0;
+  margin: 0 20px 0 0;
   padding: 0;
 `;
