@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Pagination from '@material-ui/lab/Pagination';
+import { device } from 'styles/device';
 
 export const MPagination = styled(Pagination)`
   button.Mui-selected {
@@ -13,8 +14,17 @@ export const MPagination = styled(Pagination)`
     & > :hover {
       background: #606eea !important;
     }
+    @media (max-width: ${device.planshet}) {
+      font-size: 14px !important;
+    }
+    @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
+      font-size: 16px !important;
+    }
   }
   .MuiPagination-ul {
+    display: flex;
+    width: fit-content;
+    align-self: flex-start;
     & > li:first-child,
     li:last-child > button {
       border-radius: 14px !important;
@@ -33,6 +43,23 @@ export const MPagination = styled(Pagination)`
     & > li > button {
       height: 50px !important;
       width: 50px !important;
+      font-weight: 500;
+      font-size: 18px !important;
+      color: #223367;
+    }
+    @media (max-width: ${device.planshet}) {
+      & > li > button {
+        height: 40px !important;
+        width: 40px !important;
+        font-size: 14px !important;
+      }
+    }
+    @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
+      & > li > button {
+        height: 45px !important;
+        width: 45px !important;
+        font-size: 16px !important;
+      }
     }
     .MuiButtonBase-root {
       & > svg {
@@ -60,11 +87,16 @@ export const MPagination = styled(Pagination)`
     justify-content: center;
     align-items: center;
     border: 1px solid #c2c2c2;
+    @media (max-width: ${device.planshet}) {
+      height: 40px !important;
+      width: 40px !important;
+    }
+    @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
+      height: 45px !important;
+      width: 45px !important;
+    }
   }
-  .MuiPagination-ul > li > button {
-    font-size: 18px;
-    font-weight: 500;
-  }
+
   .MuiPagination-ul > li:nth-child(n + 3) {
     border-width: 1px 0px;
   }
@@ -81,32 +113,10 @@ export const MPagination = styled(Pagination)`
   .MuiPagination-ul > li:nth-last-child(-n + 1) {
     border-width: 1px;
   }
-  .MuiPagination-ul > li:first-child {
-    margin-right: 5px;
+  .MuiPagination-ul > li:first-child,
+  li:last-child {
     color: #606eea;
     stroke: #606eea;
     border-radius: 14px;
-  }
-  .MuiPagination-ul > li:last-child {
-    margin-left: 5px;
-    color: #606eea;
-    stroke: #606eea;
-    border-radius: 14px;
-  }
-  .MuiPagination-ul {
-    display: flex;
-    width: fit-content;
-    float: right;
-    align-self: flex-start;
-  }
-  .MuiPaginationItem-page.Mui-selected {
-    border-radius: 14px;
-    width: 48px;
-    height: 48px;
-    font-weight: 900;
-    background-color: #606eea;
-    box-shadow: 0px 7px 16px rgba(0, 0, 0, 0.14);
-    color: white;
-    margin: 0px;
   }
 `;
