@@ -33,10 +33,11 @@ interface FormProps {
 const useLoyality = () => {
   const [myLevels, setMyLevels] = useState<any>([]);
 
-  const { control, handleSubmit, setValue, getValues } = useForm<FormProps>({
-    mode: "onBlur",
-    shouldFocusError: true,
-  });
+  const { control, handleSubmit, setValue, getValues, register } =
+    useForm<FormProps>({
+      mode: "onBlur",
+      shouldFocusError: true,
+    });
 
   const {
     fields: dynamicFields,
@@ -103,7 +104,7 @@ const useLoyality = () => {
         setValue("base_name", data.data.data.name);
         setValue("base_percent", data.data.data.percent);
 
-        console.log(data.data.data, "data incoming");
+        // console.log(data.data.data, "data incoming");
         // setValue("base_level", data.data.data)
       }
     },
@@ -127,6 +128,7 @@ const useLoyality = () => {
     append,
     remove,
     getValues,
+    register,
   };
 };
 

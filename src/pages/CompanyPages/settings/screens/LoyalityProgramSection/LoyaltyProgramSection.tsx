@@ -64,6 +64,7 @@ const LoyaltyProgramSection = () => {
     getValues,
     append,
     remove,
+    register,
   } = useLoyality();
 
   const [swithcState, setSwitchState] = useState("");
@@ -163,7 +164,7 @@ const LoyaltyProgramSection = () => {
     setAssertModalVisible(false);
   };
 
-  console.log(dynamicFields, "fields");
+  // console.log(dynamicFields, "fields");
 
   return (
     <Grid container spacing={3} justifyContent="space-between">
@@ -447,6 +448,7 @@ const LoyaltyProgramSection = () => {
                         index={index}
                         control={control}
                         getValues={getValues}
+                        register={register}
                       />
                     </ProgramRow>
                   );
