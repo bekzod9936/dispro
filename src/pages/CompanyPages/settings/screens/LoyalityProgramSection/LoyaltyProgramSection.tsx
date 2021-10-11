@@ -1,50 +1,37 @@
-import { Checkbox, makeStyles, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import { initialFields } from "./constants";
 import Input from "components/Custom/Input";
 import { useEffect, useState } from "react";
 import { Flex } from "styles/BuildingBlocks";
 import { LargePanel } from "../../styles/SettingStyles";
 import { CustomButton, ModalComponent, Text } from "styles/CustomStyles";
-import CustomInput from "components/Custom/CustomInput";
 import { useTranslation } from "react-i18next";
 import { Controller } from "react-hook-form";
 import { SaveIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
 import partnerApi from "services/interceptors/companyInterceptor";
 import { AddIconSettings } from "assets/icons/SettingsIcons/SettingsPageIcon";
 import { ReactComponent as RemoveIconSettings } from "assets/icons/delete_level.svg";
-import { COLORS, FONT_SIZE, FONT_WEIGHT } from "services/Types/enums";
+import { FONT_SIZE, FONT_WEIGHT } from "services/Types/enums";
 import CustomModal from "components/Custom/CustomModal";
 import { SyncIcon } from "assets/icons/FeedBackIcons.tsx/FeedbackIcons";
 import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import CustomToggle from "components/Custom/CustomToggleSwitch";
 import useLoyality from "./hooks/useLoyality";
+import { RippleDiv } from "components/Custom/RippleEffect/style";
+import NestedArray from "./components/NestedArray";
+import Checkbox from "components/Custom/CheckBox";
 import {
   AddIconDiv,
   LeftGrid,
   LevelGrid,
   ProgramRow,
-  SelectGrid,
   ThirdContainer,
-  SubText,
-  RequirementsGrid,
   RemoveIconDiv,
+  HeaderGrid,
 } from "./styles";
-import { RippleDiv } from "components/Custom/RippleEffect/style";
-import NestedArray from "./components/NestedArray";
-
-const useStyles = makeStyles({
-  select: {
-    "& .MuiInput-underline:after": {
-      borderBottom: "2px solid " + COLORS.purple, // Semi-transparent underline
-    },
-    "& .MuiInput-underline": {
-      color: COLORS.purple,
-    },
-  },
-});
+import Spinner from "components/Helpers/Spinner";
 
 const LoyaltyProgramSection = () => {
-  const classes = useStyles();
   const { t } = useTranslation();
   const {
     control,
@@ -63,8 +50,9 @@ const LoyaltyProgramSection = () => {
     dynamicFields,
     getValues,
     append,
+    prepend,
     remove,
-    register,
+    isLoading,
   } = useLoyality();
 
   const [swithcState, setSwitchState] = useState("");
@@ -219,9 +207,9 @@ const LoyaltyProgramSection = () => {
       </LeftGrid>
 
       <Grid item xs={7}>
-        <LargePanel id="largePanel">
-          <form onSubmit={handleSubmit(onFormSubmit, onError)}>
-            <div>
+        {!isLoading ? (
+          <LargePanel id="largePanel">
+            <form onSubmit={handleSubmit(onFormSubmit, onError)}>
               <Grid
                 container
                 direction="row"
@@ -230,7 +218,7 @@ const LoyaltyProgramSection = () => {
                 spacing={3}
                 xs={12}
               >
-                <Grid item xs={6}>
+                <HeaderGrid item xs={6}>
                   <Controller
                     name={`base_name`}
                     rules={{
@@ -248,9 +236,9 @@ const LoyaltyProgramSection = () => {
                       />
                     )}
                   />
-                </Grid>
+                </HeaderGrid>
 
-                <LevelGrid direction="row" alignItems="flex-end" item xs={4}>
+                <LevelGrid direction="row" alignItems="center" item xs={6}>
                   <Controller
                     name={`base_percent`}
                     rules={{
@@ -277,15 +265,12 @@ const LoyaltyProgramSection = () => {
                       />
                     )}
                   />
-                </LevelGrid>
-
-                <LevelGrid item xs={2} direction="row" alignItems="flex-end">
                   <ThirdContainer>
                     <AddIconDiv>
                       <RippleDiv
                         onClick={() => {
-                          setValue("levels", [
-                            ...getValues().levels,
+                          console.log(...getValues().levels, "levels get");
+                          prepend(
                             {
                               name: "",
                               percent: 0,
@@ -298,7 +283,8 @@ const LoyaltyProgramSection = () => {
                                 },
                               ],
                             },
-                          ]);
+                            { focusIndex: 0 }
+                          );
                         }}
                         marginLeft={0}
                         marginRight={0}
@@ -315,6 +301,7 @@ const LoyaltyProgramSection = () => {
                     <ProgramRow
                       container
                       spacing={3}
+                      key={index}
                       justifyContent="space-between"
                       alignItems="flex-end"
                     >
@@ -328,7 +315,7 @@ const LoyaltyProgramSection = () => {
                       >
                         <Grid item xs={6}>
                           <Controller
-                            name={`levels.${[index]}.name`}
+                            name={`levels.${index}.name`}
                             rules={{
                               required: true,
                               maxLength: 13,
@@ -357,10 +344,10 @@ const LoyaltyProgramSection = () => {
                           direction="row"
                           alignItems="flex-end"
                           item
-                          xs={4}
+                          xs={6}
                         >
                           <Controller
-                            name={`levels.${[index]}.percent`}
+                            name={`levels.${index}.percent`}
                             rules={{
                               required: true,
                               maxLength: 13,
@@ -385,32 +372,25 @@ const LoyaltyProgramSection = () => {
                               />
                             )}
                           />
-                        </LevelGrid>
-
-                        <LevelGrid
-                          item
-                          xs={2}
-                          direction="row"
-                          alignItems="flex-end"
-                        >
                           <ThirdContainer>
-                            <AddIconDiv>
+                            <AddIconDiv bgContain={false}>
                               <RippleDiv
                                 onClick={() => {
-                                  setValue("levels", [
-                                    ...getValues().levels,
+                                  prepend(
                                     {
                                       name: "",
+                                      percent: 0,
                                       requirements: [
                                         {
                                           amount: 0,
-                                          condition: "or",
+                                          condition: "and",
                                           unit: 0,
                                           type: 3,
                                         },
                                       ],
                                     },
-                                  ]);
+                                    { focusIndex: 0 }
+                                  );
                                 }}
                                 marginLeft={0}
                                 marginRight={0}
@@ -423,6 +403,7 @@ const LoyaltyProgramSection = () => {
                           <ThirdContainer>
                             <RemoveIconDiv
                               onClick={() => {
+                                console.log(index, "index remove");
                                 remove(index);
                               }}
                             >
@@ -440,77 +421,99 @@ const LoyaltyProgramSection = () => {
                         index={index}
                         control={control}
                         getValues={getValues}
-                        register={register}
+                        setValue={setValue}
                       />
                     </ProgramRow>
                   );
                 })}
-            </div>
-
-            <div>
-              <Controller
-                name="max_percent"
-                control={control}
-                render={({ field }) => {
-                  return (
-                    <CustomInput
-                      field={field}
-                      label="max_percent"
-                      style={{ width: "80%" }}
-                    />
-                  );
-                }}
-              />
-              {active === "cashback" && (
-                <div>
-                  <div>
-                    <Controller
-                      name="give_cashback_after"
-                      control={control}
-                      render={({ field }) => {
-                        return (
-                          <CustomInput
-                            field={field}
-                            label="give_cashback_after"
-                            style={{ width: "80%" }}
-                          />
-                        );
-                      }}
-                    />
-                  </div>
+              <div style={{ height: "25px" }} />
+              <Grid
+                container
+                direction="column"
+                alignItems="flex-start"
+                justifyContent="space-between"
+                spacing={3}
+                xs={12}
+              >
+                <HeaderGrid item xs={6}>
+                  <Controller
+                    name="max_percent"
+                    control={control}
+                    render={({ field }) => {
+                      return (
+                        <Input
+                          label={t("max_percent")}
+                          type="string"
+                          field={field}
+                          message={t("requiredField")}
+                        />
+                      );
+                    }}
+                  />
+                </HeaderGrid>
+                {active === "cashback" && (
+                  <HeaderGrid item xs={6}>
+                    <div>
+                      <div>
+                        <Controller
+                          name="give_cashback_after"
+                          control={control}
+                          render={({ field }) => {
+                            return (
+                              <Input
+                                field={field}
+                                label={t("give_cashback_after")}
+                                message={t("requiredField")}
+                              />
+                            );
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </HeaderGrid>
+                )}
+                <HeaderGrid>
                   <div style={{ marginTop: "20px" }}>
                     <div>
                       <Text marginLeft="5px">{t("p2p")}</Text>
                     </div>
                     <div>
-                      <Checkbox />{" "}
-                      <Text marginLeft="15px" fontSize="16px" fontWeight={400}>
-                        {t("useLoyaltyProgram")}
-                      </Text>
+                      <Controller
+                        name="useProgramLoyality"
+                        control={control}
+                        render={({ field }) => (
+                          <Checkbox {...field} label={t("useLoyaltyProgram")} />
+                        )}
+                      />{" "}
                     </div>
                     <div>
-                      <Checkbox />
-                      <Text marginLeft="15px" fontSize="16px" fontWeight={400}>
-                        {t("substractingPoints")}
-                      </Text>
+                      <Checkbox
+                        name="useBonus"
+                        label={t("substractingPoints")}
+                      />
                     </div>
                   </div>
-                </div>
-              )}
-            </div>
-            <div style={{ marginTop: "20px" }}>
-              <CustomButton
-                type="submit"
-                //  onClick={handleSaveClick}
-              >
-                <SaveIcon />
-                <Text marginLeft="10px" color="white">
-                  {t("save")}
-                </Text>
-              </CustomButton>
-            </div>
-          </form>
-        </LargePanel>
+                </HeaderGrid>
+                <HeaderGrid item xs={6}>
+                  <div style={{ marginTop: "20px" }}>
+                    <CustomButton
+                      type="submit"
+                      //  onClick={handleSaveClick}
+                    >
+                      <SaveIcon />
+                      <Text marginLeft="10px" color="white">
+                        {t("save")}
+                      </Text>
+                    </CustomButton>
+                  </div>
+                </HeaderGrid>
+              </Grid>
+            </form>
+          </LargePanel>
+        ) : (
+          <Spinner />
+        )}
+
         <CustomModal open={assertModalVisible}>
           <ModalComponent>
             <div style={{ maxWidth: "370px" }}>

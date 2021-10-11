@@ -12,6 +12,7 @@ interface IProps {
   control: any;
   getValues: any;
   register?: any;
+  setValue?: any;
 }
 
 interface ICategory {
@@ -19,7 +20,7 @@ interface ICategory {
   label: string;
 }
 
-const NestedArray = ({ index, control, getValues, register }: IProps) => {
+const NestedArray = ({ index, control, getValues, setValue }: IProps) => {
   const { t } = useTranslation();
   const levels = useWatch({
     control,
@@ -129,25 +130,31 @@ const NestedArray = ({ index, control, getValues, register }: IProps) => {
                     return (
                       <MultiSelect
                         {...field}
-                        defaultValue={{
-                          value: value?.condition,
-                          label: t(`${value?.condition}`),
-                        }}
                         placeholder={t(`${value?.condition}`)}
                         // defaultValue={{ value: "and", label: t("and") }}
                         options={
-                          value?.type !== 2 ? typeFullOptions : oneFullOptions
+                          levels[index].requirements[smallIndex]?.type !== 2
+                            ? typeFullOptions
+                            : oneFullOptions
                         }
                         value={
                           value?.type !== 2
                             ? typeFullOptions.find(
-                                (c) => c.value == value?.condition
+                                (c) =>
+                                  c.value ==
+                                  levels[index].requirements[smallIndex]
+                                    ?.condition
                               )
                             : oneFullOptions.find(
-                                (c) => c.value == value?.condition
+                                (c) =>
+                                  c.value ==
+                                  levels[index].requirements[smallIndex]
+                                    ?.condition
                               )
                         }
-                        onChange={(e) => field.onChange(e.value)}
+                        onChange={(e) => {
+                          field.onChange(e.value);
+                        }}
                         selectStyle={{
                           radius: 0,
                           borderbottom: "1px solid #606EEA",
@@ -183,18 +190,37 @@ const NestedArray = ({ index, control, getValues, register }: IProps) => {
                 render={({ field }) => {
                   return (
                     <MultiSelect
-                      defaultValue={{
-                        value: value?.type,
-                        label: labelType(value?.type),
-                      }}
+                      // defaultValue={{
+                      //   value: value?.type,
+                      //   label: labelType(value?.type),
+                      // }}
                       {...field}
-                      // name={name}
+                      name={field.name}
                       placeholder={labelType(value?.type)}
-                      options={loyalityOptions}
-                      value={loyalityOptions.find(
-                        (c) => c.value == value?.type
+                      // loyalityOptions
+                      // levels[index].requirements[smallIndex]
+                      options={loyalityOptions.filter(
+                        (item: any) =>
+                          !levels[index].requirements.find(
+                            (newItem: any) => newItem.type == item.value
+                          )
                       )}
-                      onChange={(e) => field.onChange(e.value)}
+                      value={loyalityOptions.find(
+                        (c) =>
+                          c.value ==
+                          levels[index].requirements[smallIndex]?.type
+                      )}
+                      onChange={(e) => {
+                        field.onChange(e.value);
+                        if (e.value == 2) {
+                          setValue(
+                            `levels.${[index]}.requirements.${[
+                              smallIndex,
+                            ]}.condition`,
+                            "and"
+                          );
+                        }
+                      }}
                       width={{
                         minwidth: 120,
                       }}

@@ -9,4 +9,5 @@ export const IconDiv = styled.div`
   height: 17px;
   border-radius: 30px;
   background-color: rgba(96, 110, 234, 0.1);
+  margin-bottom: 3px;
 `;
