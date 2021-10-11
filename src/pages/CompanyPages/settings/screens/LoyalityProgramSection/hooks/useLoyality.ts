@@ -28,21 +28,20 @@ interface FormProps {
   base_level?: any;
   base_name?: any;
   base_percent?: any;
+  useProgramLoyality?: any;
 }
 
 const useLoyality = () => {
-  const [myLevels, setMyLevels] = useState<any>([]);
-
-  const { control, handleSubmit, setValue, getValues, register } =
-    useForm<FormProps>({
-      mode: "onBlur",
-      shouldFocusError: true,
-    });
+  const { control, handleSubmit, setValue, getValues } = useForm<FormProps>({
+    mode: "onBlur",
+    shouldFocusError: true,
+  });
 
   const {
     fields: dynamicFields,
     append,
     remove,
+    prepend,
   } = useFieldArray({
     control,
     name: "levels",
@@ -83,32 +82,35 @@ const useLoyality = () => {
     },
   });
 
-  useQuery(["Bonus", refetchBonusPoints], fetchBonusPoints, {
-    retry: 0,
-    refetchOnWindowFocus: false,
-    onSuccess: (data: any) => {
-      if (data?.data?.data?.isActive) {
-        setActive("bonusPoints");
-        setValue("max_percent", data.data.data.maxAmount);
-        let copy = [...initialFields];
-        copy[0].id = 0;
-        copy[0].name = data?.data?.data.name;
-        copy[0].percent = data?.data?.data.percent;
-        copy[0].requirements = [
-          { type: 1, amount: 0, unit: "UZS", condition: "", id: 1 },
-        ];
-        copy = [...copy, ...data.data.data.levels];
-        setFileds(copy);
-        setMyLevels(data.data.data);
-        setValue("levels", data.data.data.levels);
-        setValue("base_name", data.data.data.name);
-        setValue("base_percent", data.data.data.percent);
+  const { isLoading } = useQuery(
+    ["Bonus", refetchBonusPoints],
+    fetchBonusPoints,
+    {
+      retry: 0,
+      refetchOnWindowFocus: false,
+      onSuccess: (data: any) => {
+        if (data?.data?.data?.isActive) {
+          setActive("bonusPoints");
+          setValue("max_percent", data.data.data.maxAmount);
+          let copy = [...initialFields];
+          copy[0].id = 0;
+          copy[0].name = data?.data?.data.name;
+          copy[0].percent = data?.data?.data.percent;
+          copy[0].requirements = [
+            { type: 1, amount: 0, unit: "UZS", condition: "", id: 1 },
+          ];
+          copy = [...copy, ...data.data.data.levels];
+          setFileds(copy);
+          setValue("levels", data.data.data.levels);
+          setValue("base_name", data.data.data.name);
+          setValue("base_percent", data.data.data.percent);
 
-        // console.log(data.data.data, "data incoming");
-        // setValue("base_level", data.data.data)
-      }
-    },
-  });
+          // console.log(data.data.data, "data incoming");
+          // setValue("base_level", data.data.data)
+        }
+      },
+    }
+  );
 
   return {
     control,
@@ -126,9 +128,10 @@ const useLoyality = () => {
     setActive,
     dynamicFields,
     append,
+    prepend,
     remove,
     getValues,
-    register,
+    isLoading,
   };
 };
 

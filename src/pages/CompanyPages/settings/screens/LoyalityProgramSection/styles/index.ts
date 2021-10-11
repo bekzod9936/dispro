@@ -1,6 +1,10 @@
 import styled from "styled-components";
 import { Grid } from "@material-ui/core";
 
+interface IProps {
+  bgContain?: boolean;
+}
+
 export const LeftGrid = styled(Grid)`
   border-right: 3px solid rgba(96, 110, 234, 0.3);
 `;
@@ -15,10 +19,15 @@ export const LevelsRow = styled(Grid)`
   flex-direction: row;
 `;
 
-export const ThirdContainer = styled.div``;
+export const ThirdContainer = styled.div`
+  padding-bottom: 10px;
+  padding-left: 10px;
+`;
 
 export const AddIconDiv = styled.div`
-  background: rgba(96, 110, 234, 0.1);
+  /* background: rgba(96, 110, 234, 0.1); */
+  background: ${({ bgContain = true }: IProps) =>
+    bgContain ? "rgba(96, 110, 234, 0.1)" : "#fff"};
   border-radius: 8px;
   width: 46px;
   height: 46px;
@@ -48,7 +57,6 @@ export const SelectGrid = styled(Grid)`
 export const LevelGrid = styled(Grid)`
   display: flex;
   align-items: flex-end;
-  justify-content: space-between;
 `;
 
 export const SubText = styled.p`
@@ -59,4 +67,8 @@ export const SubText = styled.p`
   font-style: "Roboto";
   margin: 0 20px 0 0;
   padding: 0;
+`;
+
+export const HeaderGrid = styled(Grid)`
+  padding-left: 0 !important;
 `;
