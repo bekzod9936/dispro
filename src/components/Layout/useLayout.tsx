@@ -16,6 +16,7 @@ const useLayout = () => {
       onSuccess: (data) => {
         dispatch(setCompanyInfo(data?.data.data));
         setData(data?.data.data);
+        console.log(data?.data.data, 'id1234');
       },
       keepPreviousData: true,
       refetchOnWindowFocus: false,

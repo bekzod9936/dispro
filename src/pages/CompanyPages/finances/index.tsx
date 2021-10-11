@@ -14,7 +14,7 @@ const Finance = () => {
   return (
     <MainWrapper>
       <Title>{t('statistics')}</Title>
-      <NavBar list={menuItems} margin='20px 0' />
+      <NavBar list={menuItems} margin='10px 0' />
 
       <Switch>
         <Suspense fallback={<Spinner />}>
