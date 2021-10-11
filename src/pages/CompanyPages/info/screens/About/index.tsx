@@ -379,19 +379,24 @@ const Main = () => {
     retry: 0,
     refetchOnWindowFocus: false,
     onSuccess: (data: any) => {
-      let option: any = data?.data?.data.map((v: any) => {
-        return {
-          value: v?.id,
-          label: v?.name,
-        };
-      });
+      const newData = data?.data?.data;
+      let option: any = [];
       let values: any = [];
 
+      for (let i = 0; i < newData?.length; i++) {
+        if (
+          newData[i]?.id === companyInfo?.categories[0] ||
+          companyInfo?.categories[1] === newData[i]?.id
+        ) {
+          values.push({ value: newData[i]?.id, label: newData[i]?.name });
+        }
+        option.push({ value: newData[i]?.id, label: newData[i]?.name });
+      }
       setCategories(option);
-      if (values?.length === 2) {
+      if (values.length === 2) {
         setOptions({ values: values, option: values });
       }
-      if (values?.length < 2) {
+      if (values.length < 2) {
         setOptions({ values: values, option: option });
       }
     },

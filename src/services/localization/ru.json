@@ -323,5 +323,10 @@
   "notless": "не менее",
   "when": "Когда",
   "yourweb": "Наш сайт",
-  "ordernow": "Заказать сейчас"
+  "ordernow": "Заказать сейчас",
+  "date": "Дата",
+  "customer": "Покупатель",
+  "purchaseamount": "Сумма покупки UZS",
+  "profit": "Прибыль",
+  "commission": "Комиссия DIS"
 }
