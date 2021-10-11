@@ -1,5 +1,5 @@
 import { Grid } from "@material-ui/core";
-import { initialFields } from "./constants";
+import { initialFields, switchItems } from "./constants";
 import Input from "components/Custom/Input";
 import { useEffect, useState } from "react";
 import { Flex } from "styles/BuildingBlocks";
@@ -11,12 +11,13 @@ import { SaveIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
 import partnerApi from "services/interceptors/companyInterceptor";
 import { AddIconSettings } from "assets/icons/SettingsIcons/SettingsPageIcon";
 import { ReactComponent as RemoveIconSettings } from "assets/icons/delete_level.svg";
+import { ReactComponent as PercentIcon } from "assets/icons/percent_icon.svg";
 import { FONT_SIZE, FONT_WEIGHT } from "services/Types/enums";
 import CustomModal from "components/Custom/CustomModal";
 import { SyncIcon } from "assets/icons/FeedBackIcons.tsx/FeedbackIcons";
 import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import CustomToggle from "components/Custom/CustomToggleSwitch";
-import useLoyality from "./hooks/useLoyality";
+import useLoyality, { FormProps } from "./hooks/useLoyality";
 import { RippleDiv } from "components/Custom/RippleEffect/style";
 import NestedArray from "./components/NestedArray";
 import Checkbox from "components/Custom/CheckBox";
@@ -28,71 +29,73 @@ import {
   ThirdContainer,
   RemoveIconDiv,
   HeaderGrid,
+  PercentDiv,
+  Form,
 } from "./styles";
 import Spinner from "components/Helpers/Spinner";
+import { useMutation } from "react-query";
+import Button from "components/Custom/Button";
+import RippleEffect from "components/Custom/RippleEffect";
 
 const LoyaltyProgramSection = () => {
   const { t } = useTranslation();
   const {
     control,
-    fields,
     active,
-    refetchBonusPoints,
-    refetchCashback,
-    refetchDiscount,
     setValue,
-    setRefetchCashback,
-    setRefetchDiscount,
-    setRefetchBonusPoints,
-    setFileds,
+    handleSwitchChange,
     handleSubmit,
-    setActive,
     dynamicFields,
     getValues,
     append,
     prepend,
     remove,
     isLoading,
+    cashbackLoading,
+    discountLoading,
   } = useLoyality();
 
-  const [swithcState, setSwitchState] = useState("");
-  const [switchChange, setSwitchChange] = useState(0);
   const [assertModalVisible, setAssertModalVisible] = useState<boolean>(false);
+  const [switchKey, setSwitchKey] = useState("discount");
 
-  const onFormSubmit = async (data: any) => {
+  //save loyality
+  const loayalityPut = useMutation((data: any) => {
+    return partnerApi.put(`/bonus/${active}`, data);
+  });
+
+  const onFormSubmit = async (data: FormProps) => {
     console.log(data, "data");
-    let copy = [...fields];
-    copy.splice(0, 1);
+
     try {
       if (active === "discount") {
-        const res = await partnerApi.put("/bonus/discounts", {
+        loayalityPut.mutate({
           cashbackReturnedDay: 0,
           description: "",
           isActive: true,
-          levels: copy,
+          levels: data.levels,
           maxAmount: data.max_percent,
-          name: fields[0].name,
-          percent: fields[0].percent,
+          name: data.base_name,
+          percent: data.base_percent,
         });
       } else if (active === "cashback") {
-        const res = await partnerApi.put("/bonus/cashbacks", {
+        loayalityPut.mutate({
           cashbackReturnedDay: data.give_cashback_after || 0,
           description: "",
           isActive: true,
-          levels: copy,
+          levels: data.levels,
           maxAmount: data.max_percent,
-          name: fields[0].name,
-          percent: fields[0].percent,
+          name: data.base_name,
+          percent: data.base_percent,
         });
       } else if (active === "bonusPoints") {
-        const res = await partnerApi.put("/bonus/bonuspoints", {
+        loayalityPut.mutate({
           cashbackReturnedDay: 0,
           description: "",
           isActive: true,
-          levels: copy,
+          levels: data.levels,
           maxAmount: data.max_percent,
-          name: fields[0].name,
-          percent: fields[0].percent,
+          name: data.base_name,
+          percent: data.base_percent,
         });
       }
       //alert("Goood");
@@ -102,55 +105,6 @@ const LoyaltyProgramSection = () => {
   };
 
   const onError = (errors: any, e: any) => console.log(errors, e);
-
-  useEffect(() => {
-    if (active === "cashback") {
-      setRefetchCashback(refetchCashback + 1);
-    } else if (active === "discount") {
-      setRefetchDiscount(refetchDiscount + 1);
-    } else if (active === "bonusPoints") {
-      setRefetchBonusPoints(refetchBonusPoints + 1);
-    }
-  }, [active]);
-
-  const handleSwitchChange = (checked: boolean, key: any) => {
-    if (checked) {
-      setActive(key);
-      setSwitchChange(switchChange + 1);
-    } else if (!checked) {
-      setSwitchState("");
-    }
-  };
-
-  useEffect(() => {
-    if (switchChange > 0) {
-      setFileds(initialFields);
-      setValue("max_percent", "");
-    }
-  }, [switchChange]);
-
-  const switchItems = [
-    {
-      title: "Предоставление скидки",
-      text: "Клиент получает скидку при каждой покупке в размере определенного %",
-      key: "discount",
-    },
-    {
-      title: "Предоставление кешбэка",
-      text: "Клиент получает кешбэк в виде реальных денег после каждой покупки",
-      key: "cashback",
-    },
-    {
-      title: "Предоставление баллов",
-      text: "Клиент получает баллы после каждой покупки которые может потратить только у вас в компании",
-      key: "bonusPoints",
-    },
-  ];
-
-  const handleChangeClick = () => {
-    handleSubmit(onFormSubmit)();
-    setAssertModalVisible(false);
-  };
 
   return (
     <Grid container spacing={3} justifyContent="space-between">
@@ -178,8 +132,10 @@ const LoyaltyProgramSection = () => {
                 >
                   <CustomToggle
                     checked={item.key === active}
+                    disabled={item.key === active}
                     onChange={(checked: any) => {
-                      handleSwitchChange(checked.target.checked, item.key);
+                      setAssertModalVisible(true);
+                      setSwitchKey(item.key);
                     }}
                   />
                 </Flex>
@@ -207,9 +163,9 @@ const LoyaltyProgramSection = () => {
       </LeftGrid>
 
       <Grid item xs={7}>
-        {!isLoading ? (
+        {!isLoading && !cashbackLoading && !discountLoading ? (
           <LargePanel id="largePanel">
-            <form onSubmit={handleSubmit(onFormSubmit, onError)}>
+            <Form onSubmit={handleSubmit(onFormSubmit, onError)}>
               <Grid
                 container
                 direction="row"
@@ -222,9 +178,7 @@ const LoyaltyProgramSection = () => {
                   <Controller
                     name={`base_name`}
                     rules={{
-                      required: true,
-                      maxLength: 13,
-                      minLength: 13,
+                      required: false,
                     }}
                     control={control}
                     render={({ field }) => (
@@ -242,9 +196,7 @@ const LoyaltyProgramSection = () => {
                   <Controller
                     name={`base_percent`}
                     rules={{
-                      required: true,
-                      maxLength: 13,
-                      minLength: 13,
+                      required: false,
                     }}
                     control={control}
                     render={({ field }) => (
@@ -258,6 +210,11 @@ const LoyaltyProgramSection = () => {
                         margin={{
                           laptop: "20px 0 0",
                         }}
+                        IconEnd={
+                          <PercentDiv>
+                            <PercentIcon />
+                          </PercentDiv>
+                        }
                         message={t("requiredField")}
                         // error={errors.telNumbers?.[index] ? true : false}
 
@@ -270,21 +227,45 @@ const LoyaltyProgramSection = () => {
                       <RippleDiv
                         onClick={() => {
                           console.log(...getValues().levels, "levels get");
-                          prepend(
-                            {
-                              name: "",
-                              percent: 0,
-                              requirements: [
-                                {
-                                  amount: 0,
-                                  condition: "or",
-                                  unit: 0,
-                                  type: 3,
-                                },
-                              ],
-                            },
-                            { focusIndex: 0 }
-                          );
+                          append({
+                            name: "new_row",
+                            percent: 15,
+                            requirements: [
+                              {
+                                amount: 100,
+                                condition: "",
+                                type: 1,
+                                unit: "UZS",
+                              },
+                            ],
+                          });
+                          // {
+                          //   name: "",
+                          //   percent: 0,
+                          //   requirements: [
+                          //     {
+                          //       amount: 0,
+                          //       condition: "or",
+                          //       unit: 0,
+                          //       type: 3,
+                          //     },
+                          //   ],
+                          // }
+                          // setValue("levels", [
+                          //   {
+                          //     name: "",
+                          //     percent: 0,
+                          //     requirements: [
+                          //       {
+                          //         amount: 0,
+                          //         condition: "and",
+                          //         unit: 0,
+                          //         type: 3,
+                          //       },
+                          //     ],
+                          //   },
+                          //   ...getValues().levels,
+                          // ]);
                         }}
                         marginLeft={0}
                         marginRight={0}
@@ -295,6 +276,7 @@ const LoyaltyProgramSection = () => {
                   </ThirdContainer>
                 </LevelGrid>
               </Grid>
+              <div style={{ height: "25px" }} />
               {dynamicFields?.length > 0 &&
                 dynamicFields?.map((item: any, index: number) => {
                   return (
@@ -317,9 +299,7 @@ const LoyaltyProgramSection = () => {
                           <Controller
                             name={`levels.${index}.name`}
                             rules={{
-                              required: true,
-                              maxLength: 13,
-                              minLength: 13,
+                              required: false,
                             }}
                             defaultValue={item?.name || ""}
                             control={control}
@@ -349,11 +329,10 @@ const LoyaltyProgramSection = () => {
                           <Controller
                             name={`levels.${index}.percent`}
                             rules={{
-                              required: true,
-                              maxLength: 13,
-                              minLength: 13,
+                              required: false,
                             }}
                             control={control}
+                            defaultValue={item?.percent}
                             render={({ field }) => (
                               <Input
                                 label={""}
@@ -365,6 +344,11 @@ const LoyaltyProgramSection = () => {
                                 margin={{
                                   laptop: "30px 0 0",
                                 }}
+                                IconEnd={
+                                  <PercentDiv>
+                                    <PercentIcon />
+                                  </PercentDiv>
+                                }
                                 message={t("requiredField")}
                                 // error={errors.telNumbers?.[index] ? true : false}
 
@@ -376,21 +360,45 @@ const LoyaltyProgramSection = () => {
                             <AddIconDiv bgContain={false}>
                               <RippleDiv
                                 onClick={() => {
-                                  prepend(
-                                    {
-                                      name: "",
-                                      percent: 0,
-                                      requirements: [
-                                        {
-                                          amount: 0,
-                                          condition: "and",
-                                          unit: 0,
-                                          type: 3,
-                                        },
-                                      ],
-                                    },
-                                    { focusIndex: 0 }
-                                  );
+                                  append({
+                                    name: "new_row",
+                                    percent: 5,
+                                    requirements: [
+                                      {
+                                        amount: 100,
+                                        condition: "",
+                                        type: 1,
+                                        unit: "UZS",
+                                      },
+                                    ],
+                                  });
+                                  // {
+                                  //   name: "new_level",
+                                  //   percent: 0,
+                                  //   requirements: [
+                                  //     {
+                                  //       amount: 0,
+                                  //       condition: "and",
+                                  //       unit: 0,
+                                  //       type: 3,
+                                  //     },
+                                  //   ],
+                                  // }
+                                  // setValue("levels", [
+                                  //   {
+                                  //     name: "",
+                                  //     percent: 0,
+                                  //     requirements: [
+                                  //       {
+                                  //         amount: 0,
+                                  //         condition: "and",
+                                  //         unit: 0,
+                                  //         type: 3,
+                                  //       },
+                                  //     ],
+                                  //   },
+                                  //   ...getValues().levels,
+                                  // ]);
                                 }}
                                 marginLeft={0}
                                 marginRight={0}
@@ -405,6 +413,13 @@ const LoyaltyProgramSection = () => {
                               onClick={() => {
                                 console.log(index, "index remove");
                                 remove(index);
+                                setValue(
+                                  "levels",
+                                  dynamicFields.filter(
+                                    (item: any, indexV: number) =>
+                                      indexV !== index
+                                  )
+                                );
                               }}
                             >
                               <RippleDiv>
@@ -496,19 +511,22 @@ const LoyaltyProgramSection = () => {
                 </HeaderGrid>
                 <HeaderGrid item xs={6}>
                   <div style={{ marginTop: "20px" }}>
-                    <CustomButton
+                    <Button
                       type="submit"
+                      startIcon={<SaveIcon />}
+                      loading={loayalityPut.isLoading}
+                      disabled={loayalityPut.isLoading}
+
                       //  onClick={handleSaveClick}
                     >
-                      <SaveIcon />
                       <Text marginLeft="10px" color="white">
                         {t("save")}
                       </Text>
-                    </CustomButton>
+                    </Button>
                   </div>
                 </HeaderGrid>
               </Grid>
-            </form>
+            </Form>
           </LargePanel>
         ) : (
           <Spinner />
@@ -542,20 +560,30 @@ const LoyaltyProgramSection = () => {
                 alignItems: "center",
               }}
             >
-              <CustomButton
-                background="white"
-                onClick={() => setAssertModalVisible(false)}
-              >
-                <CancelIcon />
-                <Text>{t("cancel")}</Text>
-              </CustomButton>
+              <RippleEffect>
+                <CustomButton
+                  background="white"
+                  onClick={() => {
+                    setAssertModalVisible(false);
+                  }}
+                >
+                  <CancelIcon />
+                  <div style={{ width: "15px" }} />
+                  <Text>{t("cancel")}</Text>
+                </CustomButton>
+              </RippleEffect>
 
-              <CustomButton type="button">
-                <SyncIcon />
-                <Text color="white" onClick={handleChangeClick}>
+              <Button startIcon={<SyncIcon />} type="button">
+                <Text
+                  color="white"
+                  onClick={() => {
+                    handleSwitchChange(true, switchKey);
+                    setAssertModalVisible(false);
+                  }}
+                >
                   {t("change")}
                 </Text>
-              </CustomButton>
+              </Button>
             </div>
           </ModalComponent>
         </CustomModal>
