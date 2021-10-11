@@ -5,12 +5,12 @@ import Spinner from 'components/Custom/Spinner';
 import Pagination from 'components/Custom/Pagination';
 import Table from '../../components/Table';
 import moment from 'moment';
-import { Container } from './style';
+import { Container, Wrap, WrapPag, Info } from './style';
 
 const Suggestions = () => {
   const { t } = useTranslation();
   const [page, setPage] = useState<number>(1);
-  const { response, data } = useSuggestion({ page: page });
+  const { response, data, totalCount, between } = useSuggestion({ page: page });
 
   const list = data?.map((v: any) => {
     const date = moment(v?.payDate).format('DD.MM.YYYY');
@@ -59,14 +59,36 @@ const Suggestions = () => {
     []
   );
 
+  const handlechangePage = (e: any) => {
+    setPage(e);
+  };
+  console.log(list.length);
   return (
     <Container>
-      {response.isLoading || response.isFetching ? (
-        <Spinner />
-      ) : (
-        <Table columns={columns} data={list} />
-      )}
-      <Pagination />
+      <Wrap>
+        {response.isLoading || response.isFetching ? (
+          <Spinner />
+        ) : (
+          <>
+            <Table columns={columns} data={list} />
+          </>
+        )}
+        {list.length > 1 ? (
+          <WrapPag>
+            <Info>
+              Показано
+              <span>{between}</span>
+              из <span>{totalCount}</span> операций
+            </Info>
+            <Pagination
+              page={page}
+              count={totalCount}
+              onChange={handlechangePage}
+              disabled={response.isLoading || response.isFetching}
+            />
+          </WrapPag>
+        ) : null}
+      </Wrap>
     </Container>
   );
 };
