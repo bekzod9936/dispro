@@ -11,9 +11,15 @@ interface IProps {
   index: number;
   control: any;
   getValues: any;
+  register?: any;
 }
 
-const NestedArray = ({ index, control, getValues }: IProps) => {
+interface ICategory {
+  value: string;
+  label: string;
+}
+
+const NestedArray = ({ index, control, getValues, register }: IProps) => {
   const { t } = useTranslation();
   const levels = useWatch({
     control,
@@ -23,6 +29,22 @@ const NestedArray = ({ index, control, getValues }: IProps) => {
     control,
     name: `levels[${index}].requirements`,
   });
+
+  const loyalityOptions = [
+    { value: 1, label: t("purchaseSum") },
+    { value: 3, label: t("companyVisits") },
+    {
+      value: 2,
+      label: t("recomendations"),
+    },
+  ];
+
+  const typeFullOptions = [
+    { value: "and", label: t("and") },
+    { value: "or", label: t("or") },
+  ];
+
+  const oneFullOptions = [{ value: "and", label: t("and") }];
 
   const removeIcon = (smallIndex: number) => {
     if (smallIndex !== 0) {
@@ -84,7 +106,6 @@ const NestedArray = ({ index, control, getValues }: IProps) => {
   return (
     <div>
       {fields?.map((value: any, smallIndex: number) => {
-        console.log(value.condition, "condition");
         return (
           <RequirementsGrid
             container
@@ -98,23 +119,85 @@ const NestedArray = ({ index, control, getValues }: IProps) => {
                     smallIndex,
                   ]}.condition`}
                   control={control}
-                  render={({ field }) => (
+                  render={({ field }) => {
+                    // : oneFullOptions.find(
+                    //     (c) => c.value === value?.condition
+                    //   );
+                    //   value?.type !== 2
+                    // ?
+
+                    return (
+                      <MultiSelect
+                        {...field}
+                        defaultValue={{
+                          value: value?.condition,
+                          label: t(`${value?.condition}`),
+                        }}
+                        placeholder={t(`${value?.condition}`)}
+                        // defaultValue={{ value: "and", label: t("and") }}
+                        options={
+                          value?.type !== 2 ? typeFullOptions : oneFullOptions
+                        }
+                        value={
+                          value?.type !== 2
+                            ? typeFullOptions.find(
+                                (c) => c.value == value?.condition
+                              )
+                            : oneFullOptions.find(
+                                (c) => c.value == value?.condition
+                              )
+                        }
+                        onChange={(e) => field.onChange(e.value)}
+                        selectStyle={{
+                          radius: 0,
+                          borderbottom: "1px solid #606EEA",
+                          border: "transparent",
+                          bgcolor: "transparent",
+                          inpadding: "2px 0",
+                          height: {
+                            laptop: 20,
+                            desktop: 20,
+                            planshet: 20,
+                            mobile: 20,
+                          },
+                        }}
+                        width={{
+                          maxwidth: 60,
+                        }}
+                        iconmargin="0"
+                        // error={errors.companyType ? true : false}
+                        message={t("requiredField")}
+                      />
+                    );
+                  }}
+                />
+              )}
+            </SelectGrid>
+
+            <SelectGrid alignItems="flex-end" item xs={4}>
+              <SubText>{t("when").toLowerCase()}</SubText>
+
+              <Controller
+                name={`levels.${[index]}.requirements.${[smallIndex]}.type`}
+                control={control}
+                render={({ field }) => {
+                  return (
                     <MultiSelect
                       defaultValue={{
-                        value: value?.condition,
-                        label: t(`${value?.condition}`),
+                        value: value?.type,
+                        label: labelType(value?.type),
                       }}
-                      placeholder={t(`${value?.condition}`)}
-                      // defaultValue={{ value: "and", label: t("and") }}
-                      options={
-                        value?.type !== 2
-                          ? [
-                              { value: "and", label: t("and") },
-                              { value: "or", label: t("or") },
-                            ]
-                          : [{ value: "and", label: t("and") }]
-                      }
-                      field={field}
+                      {...field}
+                      // name={name}
+                      placeholder={labelType(value?.type)}
+                      options={loyalityOptions}
+                      value={loyalityOptions.find(
+                        (c) => c.value == value?.type
+                      )}
+                      onChange={(e) => field.onChange(e.value)}
+                      width={{
+                        minwidth: 120,
+                      }}
                       selectStyle={{
                         radius: 0,
                         borderbottom: "1px solid #606EEA",
@@ -128,63 +211,12 @@ const NestedArray = ({ index, control, getValues }: IProps) => {
                           mobile: 20,
                         },
                       }}
-                      width={{
-                        maxwidth: 60,
-                      }}
                       iconmargin="0"
                       // error={errors.companyType ? true : false}
                       message={t("requiredField")}
                     />
-                  )}
-                />
-              )}
-            </SelectGrid>
-
-            <SelectGrid alignItems="flex-end" item xs={4}>
-              <SubText>{t("when").toLowerCase()}</SubText>
-
-              <Controller
-                name={`levels.${[index]}.requirements.${[smallIndex]}.type`}
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <MultiSelect
-                    // defaultValue={value.type}
-                    defaultValue={{
-                      value: value.type,
-                      label: labelType(value.type),
-                    }}
-                    placeholder={labelType(value.type)}
-                    options={[
-                      { value: 1, label: t("purchaseSum") },
-                      { value: 3, label: t("companyVisits") },
-                      {
-                        value: 2,
-                        label: t("recomendations"),
-                      },
-                    ]}
-                    selectStyle={{
-                      radius: 0,
-                      borderbottom: "1px solid #606EEA",
-                      border: "transparent",
-                      bgcolor: "transparent",
-                      inpadding: "2px 0",
-                      height: {
-                        laptop: 20,
-                        desktop: 20,
-                        planshet: 20,
-                        mobile: 20,
-                      },
-                    }}
-                    field={field}
-                    width={{
-                      minwidth: 120,
-                    }}
-                    iconmargin="0"
-                    // error={errors.companyType ? true : false}
-                    message={t("requiredField")}
-                  />
-                )}
+                  );
+                }}
               />
             </SelectGrid>
 
