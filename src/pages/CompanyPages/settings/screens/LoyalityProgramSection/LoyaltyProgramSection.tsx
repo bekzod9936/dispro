@@ -11,6 +11,7 @@ import { Controller } from "react-hook-form";
 import { SaveIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
 import partnerApi from "services/interceptors/companyInterceptor";
 import { AddIconSettings } from "assets/icons/SettingsIcons/SettingsPageIcon";
+import { ReactComponent as RemoveIconSettings } from "assets/icons/delete_level.svg";
 import { COLORS, FONT_SIZE, FONT_WEIGHT } from "services/Types/enums";
 import CustomModal from "components/Custom/CustomModal";
 import { SyncIcon } from "assets/icons/FeedBackIcons.tsx/FeedbackIcons";
@@ -26,9 +27,9 @@ import {
   ThirdContainer,
   SubText,
   RequirementsGrid,
+  RemoveIconDiv,
 } from "./styles";
 import { RippleDiv } from "components/Custom/RippleEffect/style";
-import MultiSelect from "components/Custom/MultiSelect";
 import NestedArray from "./components/NestedArray";
 
 const useStyles = makeStyles({
@@ -70,6 +71,7 @@ const LoyaltyProgramSection = () => {
   const [assertModalVisible, setAssertModalVisible] = useState<boolean>(false);
 
   const onFormSubmit = async (data: any) => {
+    console.log(data, "data");
     let copy = [...fields];
     copy.splice(0, 1);
     try {
@@ -110,6 +112,8 @@ const LoyaltyProgramSection = () => {
     }
   };
 
+  const onError = (errors: any, e: any) => console.log(errors, e);
+
   useEffect(() => {
     if (active === "cashback") {
       setRefetchCashback(refetchCashback + 1);
@@ -120,109 +124,12 @@ const LoyaltyProgramSection = () => {
     }
   }, [active]);
 
-  const onPercentChange = (e: any, item: any) => {
-    let copy = [...fields];
-    copy[item.id].percent = e.target.value;
-    setFileds(copy);
-  };
-
-  const handleAddClick = (item: any, index: number) => {
-    if (item.id === 0) {
-      let copy = [...fields];
-      let newObj = {
-        id: item.id + 1,
-        name: "",
-        percent: 0,
-        requirements: [
-          { type: 1, amount: 0, unit: "UZS", condition: "", id: 1 },
-        ],
-      };
-      copy.push(newObj);
-      setFileds(copy);
-    } else if (item.id > 0) {
-      let existing = fields?.find((value) => item.id === value.id);
-      if (existing) {
-        let copy = [...fields];
-        let newObj = {
-          type: 1,
-          amount: 0,
-          unit: "UZS",
-          condition: "and",
-          id: item?.requirements.id + 1,
-        };
-        existing?.requirements.push(newObj);
-
-        copy.splice(item.id, 1, existing);
-        setFileds(copy);
-      }
-    }
-  };
-
   const handleSwitchChange = (checked: boolean, key: any) => {
     if (checked) {
       setActive(key);
       setSwitchChange(switchChange + 1);
     } else if (!checked) {
       setSwitchState("");
-    }
-  };
-
-  const handleSelectChange = (e: any, item: any, value: any) => {
-    let copy = [...fields];
-
-    if (copy[item.id]?.requirements[value.id]) {
-      copy[item.id].requirements[value.id].type = e.target.value;
-      setFileds(copy);
-    }
-  };
-
-  const handleDeleteClick = (item: any, index: number) => {
-    let finding = fields[item.id];
-    let copy = [...fields];
-    if (item.id === 0) {
-      if (copy.length > 1) {
-        copy.pop();
-        setFileds(copy);
-      }
-    } else if (item.id > 0) {
-      let reqs = copy[item.id].requirements;
-      if (reqs.length > 1) {
-        copy[item.id].requirements.pop();
-        setFileds(copy);
-      }
-    }
-  };
-
-  const handleConditionChange = (e: any, item: any, value: any) => {
-    if (isNaN(e.target.value)) {
-      return;
-    }
-    let copy = [...fields];
-    if (copy[item.id]?.requirements[value.id]) {
-      copy[item.id].requirements[value.id].condition = e.target.value;
-      setFileds(copy);
-    }
-  };
-
-  const handleChange = (e: any, item: any) => {
-    let copy = [...fields];
-    if (copy[item.id]) {
-      copy[item.id].name = e.target.value;
-      setFileds(copy);
-    }
-  };
-
-  const handleAmountChange = (
-    e: any,
-    item: any,
-    value: any,
-    index: number,
-    smallIndex: number
-  ) => {
-    let copy = [...fields];
-    if (copy[index]?.requirements[smallIndex]) {
-      copy[index].requirements[smallIndex].amount = +e.target.value;
-      setFileds(copy);
     }
   };
 
@@ -250,10 +157,6 @@ const LoyaltyProgramSection = () => {
       key: "bonusPoints",
     },
   ];
-
-  const handleSaveClick = () => {
-    setAssertModalVisible(true);
-  };
 
   const handleChangeClick = () => {
     handleSubmit(onFormSubmit)();
@@ -318,8 +221,101 @@ const LoyaltyProgramSection = () => {
 
       <Grid item xs={7}>
         <LargePanel id="largePanel">
-          <form>
+          <form onSubmit={handleSubmit(onFormSubmit, onError)}>
             <div>
+              <Grid
+                container
+                direction="row"
+                alignItems="center"
+                justifyContent="space-between"
+                spacing={3}
+                xs={12}
+              >
+                <Grid item xs={6}>
+                  <Controller
+                    name={`base_name`}
+                    rules={{
+                      required: true,
+                      maxLength: 13,
+                      minLength: 13,
+                    }}
+                    control={control}
+                    render={({ field }) => (
+                      <Input
+                        label={t("status_name")}
+                        type="string"
+                        field={field}
+                        margin={{
+                          laptop: "20px 0 10px",
+                        }}
+                        message={t("requiredField")}
+                        // error={errors.telNumbers?.[index] ? true : false}
+
+                        // maxLength={13}
+                      />
+                    )}
+                  />
+                </Grid>
+
+                <LevelGrid direction="row" alignItems="flex-end" item xs={4}>
+                  <Controller
+                    name={`base_percent`}
+                    rules={{
+                      required: true,
+                      maxLength: 13,
+                      minLength: 13,
+                    }}
+                    control={control}
+                    render={({ field }) => (
+                      <Input
+                        label={""}
+                        type="string"
+                        field={field}
+                        width={{
+                          width: "106px",
+                        }}
+                        margin={{
+                          laptop: "20px 0 10px",
+                        }}
+                        message={t("requiredField")}
+                        // error={errors.telNumbers?.[index] ? true : false}
+
+                        // maxLength={13}
+                      />
+                    )}
+                  />
+                </LevelGrid>
+
+                <LevelGrid item xs={2} direction="row" alignItems="flex-end">
+                  <ThirdContainer>
+                    <AddIconDiv>
+                      <RippleDiv
+                        onClick={() => {
+                          setValue("levels", [
+                            ...getValues().levels,
+                            {
+                              name: "",
+                              percent: 0,
+                              requirements: [
+                                {
+                                  amount: 0,
+                                  condition: "or",
+                                  unit: 0,
+                                  type: 3,
+                                },
+                              ],
+                            },
+                          ]);
+                        }}
+                        marginLeft={0}
+                        marginRight={0}
+                      >
+                        <AddIconSettings />
+                      </RippleDiv>
+                    </AddIconDiv>
+                  </ThirdContainer>
+                </LevelGrid>
+              </Grid>
               {dynamicFields?.length > 0 &&
                 dynamicFields?.map((item: any, index: number) => {
                   return (
@@ -329,35 +325,6 @@ const LoyaltyProgramSection = () => {
                       justifyContent="space-between"
                       alignItems="flex-end"
                     >
-                      {/* <Controller
-                      name="main"
-                      control={control}
-                      render={({ field }) => {
-                        return (
-                          <CustomInput
-                            onChange={(e: any) => handleChange(e, item)}
-                            value={item.name}
-                            valuePercent={item.percent}
-                            handleAddClick={() => handleAddClick(item, index)}
-                            onPercentChange={(e: any) =>
-                              onPercentChange(e, item)
-                            }
-                            handleDeleteClick={() =>
-                              handleDeleteClick(item, index)
-                            }
-                            style={{ width: "95%" }}
-                            withPercent
-                            label="status_name"
-                            aboveInput={
-                              item.id === 0 ? "client_statuses" : undefined
-                            }
-                            aboveLabel={
-                              item.id === 0 ? "create_status" : undefined
-                            }
-                          />
-                        );
-                      }}
-                    /> */}
                       <Grid
                         container
                         direction="row"
@@ -437,20 +404,10 @@ const LoyaltyProgramSection = () => {
                             <AddIconDiv>
                               <RippleDiv
                                 onClick={() => {
-                                  // setValue(`levels`, [
-                                  //   ...dynamicFields[index]?.requirements,
-                                  //   {
-                                  //     amount: 0,
-                                  //     condition: "or",
-                                  //     unit: 0,
-                                  //     type: 3,
-                                  //   },
-                                  // ])
-
                                   setValue("levels", [
                                     ...getValues().levels,
                                     {
-                                      name: "append",
+                                      name: "",
                                       requirements: [
                                         {
                                           amount: 0,
@@ -469,12 +426,28 @@ const LoyaltyProgramSection = () => {
                               </RippleDiv>
                             </AddIconDiv>
                           </ThirdContainer>
+
+                          <ThirdContainer>
+                            <RemoveIconDiv
+                              onClick={() => {
+                                remove(index);
+                              }}
+                            >
+                              <RippleDiv>
+                                <RemoveIconSettings />
+                              </RippleDiv>
+                            </RemoveIconDiv>
+                          </ThirdContainer>
                         </LevelGrid>
                       </Grid>
 
                       {/* //Requirements section */}
 
-                      <NestedArray index={index} control={control} />
+                      <NestedArray
+                        index={index}
+                        control={control}
+                        getValues={getValues}
+                      />
                     </ProgramRow>
                   );
                 })}
@@ -531,15 +504,18 @@ const LoyaltyProgramSection = () => {
                 </div>
               )}
             </div>
+            <div style={{ marginTop: "20px" }}>
+              <CustomButton
+                type="submit"
+                //  onClick={handleSaveClick}
+              >
+                <SaveIcon />
+                <Text marginLeft="10px" color="white">
+                  {t("save")}
+                </Text>
+              </CustomButton>
+            </div>
           </form>
-          <div style={{ marginTop: "20px" }}>
-            <CustomButton type="button" onClick={handleSaveClick}>
-              <SaveIcon />
-              <Text marginLeft="10px" color="white">
-                {t("save")}
-              </Text>
-            </CustomButton>
-          </div>
         </LargePanel>
         <CustomModal open={assertModalVisible}>
           <ModalComponent>

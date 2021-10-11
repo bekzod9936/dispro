@@ -27,6 +27,15 @@ export const AddIconDiv = styled.div`
   align-items: center;
 `;
 
+export const RemoveIconDiv = styled.div`
+  border-radius: 8px;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const RequirementsGrid = styled(Grid)`
   margin-top: 25px;
 `;
@@ -48,6 +57,6 @@ export const SubText = styled.p`
   line-height: 18.75px;
   font-weight: 400;
   font-style: "Roboto";
-  margin: 0;
+  margin: 0 20px 0 0;
   padding: 0;
 `;

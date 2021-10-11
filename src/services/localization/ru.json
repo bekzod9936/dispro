@@ -328,5 +328,7 @@
   "customer": "Покупатель",
   "purchaseamount": "Сумма покупки UZS",
   "profit": "Прибыль",
-  "commission": "Комиссия DIS"
+  "commission": "Комиссия DIS",
+  "uzs": "сум",
+  "quantity": "шт"
 }
