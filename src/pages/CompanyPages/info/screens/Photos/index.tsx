@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from 'react-query';
-import Button from '../../../../components/Custom/Button';
-import { useAppSelector } from '../../../../services/redux/hooks';
+import Button from 'components/Custom/Button';
+import { useAppSelector } from 'services/redux/hooks';
 import {
   Container,
   Text,

@@ -1,11 +1,11 @@
 import styled from 'styled-components';
-import { device } from '../../../../styles/device';
-import { ReactComponent as Save } from '../../../../assets/icons/IconsInfo/save.svg';
-import { ReactComponent as Plus } from '../../../../assets/icons/IconsInfo/plus.svg';
-import { ReactComponent as Search } from '../../../../assets/icons/SideBar/search.svg';
-import { ReactComponent as Close } from '../../../../assets/icons/IconsInfo/close.svg';
-import { ReactComponent as Exit } from '../../../../assets/icons/IconsInfo/exit.svg';
-import { ReactComponent as Delete } from '../../../../assets/icons/IconsInfo/deleteword.svg';
+import { device } from 'styles/device';
+import { ReactComponent as Save } from 'assets/icons/IconsInfo/save.svg';
+import { ReactComponent as Plus } from 'assets/icons/IconsInfo/plus.svg';
+import { ReactComponent as Search } from 'assets/icons/SideBar/search.svg';
+import { ReactComponent as Close } from 'assets/icons/IconsInfo/close.svg';
+import { ReactComponent as Exit } from 'assets/icons/IconsInfo/exit.svg';
+import { ReactComponent as Delete } from 'assets/icons/IconsInfo/deleteword.svg';
 
 interface Props {
   visable?: boolean;

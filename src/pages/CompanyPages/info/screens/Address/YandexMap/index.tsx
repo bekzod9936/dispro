@@ -6,6 +6,7 @@ import {
   Placemark,
   Map,
 } from 'react-yandex-maps';
+
 interface Props {
   onBoundsChange?: any;
   handleRef?: (e: any) => void;
@@ -13,6 +14,7 @@ interface Props {
   onClickPlaceMark?: (e: any) => void;
   onClickLocation?: (e: any) => void;
 }
+
 const YandexMap = ({
   onBoundsChange,
   handleRef = () => {},
@@ -24,6 +26,7 @@ const YandexMap = ({
   const handlePlaceMark = (e: any) => {
     onClickPlaceMark(e);
   };
+
   return (
     <YMaps
       query={{

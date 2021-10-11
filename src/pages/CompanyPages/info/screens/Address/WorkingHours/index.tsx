@@ -1,15 +1,12 @@
 import { Checkbox } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  useAppDispatch,
-  useAppSelector,
-} from '../../../../../services/redux/hooks';
+import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import {
   setAddressInfo,
   setCopyDate,
   setWorkingTime,
-} from '../../../../../services/redux/Slices/infoSlice';
+} from 'services/redux/Slices/infoSlice';
 import DayList from './DayList';
 import { Container, Label } from './style';
 

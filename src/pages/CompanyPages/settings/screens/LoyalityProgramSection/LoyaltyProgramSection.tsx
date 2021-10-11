@@ -164,8 +164,6 @@ const LoyaltyProgramSection = () => {
     setAssertModalVisible(false);
   };
 
-  // console.log(dynamicFields, "fields");
-
   return (
     <Grid container spacing={3} justifyContent="space-between">
       <LeftGrid item xs={5}>
@@ -246,13 +244,7 @@ const LoyaltyProgramSection = () => {
                         label={t("status_name")}
                         type="string"
                         field={field}
-                        margin={{
-                          laptop: "20px 0 10px",
-                        }}
                         message={t("requiredField")}
-                        // error={errors.telNumbers?.[index] ? true : false}
-
-                        // maxLength={13}
                       />
                     )}
                   />
@@ -276,7 +268,7 @@ const LoyaltyProgramSection = () => {
                           width: "106px",
                         }}
                         margin={{
-                          laptop: "20px 0 10px",
+                          laptop: "20px 0 0",
                         }}
                         message={t("requiredField")}
                         // error={errors.telNumbers?.[index] ? true : false}
@@ -384,7 +376,7 @@ const LoyaltyProgramSection = () => {
                                   width: "106px",
                                 }}
                                 margin={{
-                                  laptop: "20px 0 10px",
+                                  laptop: "30px 0 0",
                                 }}
                                 message={t("requiredField")}
                                 // error={errors.telNumbers?.[index] ? true : false}

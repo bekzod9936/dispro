@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { ReactComponent as Delete } from '../../../../../../assets/icons/IconsInfo/delete.svg';
-import { ReactComponent as NoBreak } from '../../../../../../assets/icons/IconsInfo/nobreak.svg';
-import { ReactComponent as Sun } from '../../../../../../assets/icons/IconsInfo/sun.svg';
-import { ReactComponent as Coffee } from '../../../../../../assets/icons/IconsInfo/coffee.svg';
+import { ReactComponent as Delete } from 'assets/icons/IconsInfo/delete.svg';
+import { ReactComponent as NoBreak } from 'assets/icons/IconsInfo/nobreak.svg';
+import { ReactComponent as Sun } from 'assets/icons/IconsInfo/sun.svg';
+import { ReactComponent as Coffee } from 'assets/icons/IconsInfo/coffee.svg';
 
 export const Container = styled.div`
   width: fit-content;

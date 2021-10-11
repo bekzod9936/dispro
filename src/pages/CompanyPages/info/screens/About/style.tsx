@@ -1,18 +1,18 @@
-import styled from "styled-components";
-import { device } from "styles/device";
-import { ReactComponent as Facebook } from "assets/icons/IconsInfo/facebook.svg";
-import { ReactComponent as Instagram } from "assets/icons/IconsInfo/instagram.svg";
-import { ReactComponent as Telegram } from "assets/icons/IconsInfo/telegram.svg";
-import { ReactComponent as Twitter } from "assets/icons/IconsInfo/twitter.svg";
-import { ReactComponent as VK } from "assets/icons/IconsInfo/vk.svg";
-import { ReactComponent as WhatsApp } from "assets/icons/IconsInfo/whatsapp.svg";
-import { ReactComponent as Viber } from "assets/icons/IconsInfo/viber.svg";
-import { ReactComponent as Arrow } from "assets/icons/IconsInfo/arrowright.svg";
-import { ReactComponent as TextArea } from "assets/icons/IconsInfo/textarea.svg";
-import { ReactComponent as Trash } from "assets/icons/IconsInfo/trash.svg";
-import { ReactComponent as PhotoLoading } from "assets/icons/IconsInfo/photoloading.svg";
-import { ReactComponent as Save } from "assets/icons/IconsInfo/save.svg";
-import { ReactComponent as Close } from "assets/icons/SideBar/close.svg";
+import styled from 'styled-components';
+import { device } from 'styles/device';
+import { ReactComponent as Facebook } from 'assets/icons/IconsInfo/facebook.svg';
+import { ReactComponent as Instagram } from 'assets/icons/IconsInfo/instagram.svg';
+import { ReactComponent as Telegram } from 'assets/icons/IconsInfo/telegram.svg';
+import { ReactComponent as Twitter } from 'assets/icons/IconsInfo/twitter.svg';
+import { ReactComponent as VK } from 'assets/icons/IconsInfo/vk.svg';
+import { ReactComponent as WhatsApp } from 'assets/icons/IconsInfo/whatsapp.svg';
+import { ReactComponent as Viber } from 'assets/icons/IconsInfo/viber.svg';
+import { ReactComponent as Arrow } from 'assets/icons/IconsInfo/arrowright.svg';
+import { ReactComponent as TextArea } from 'assets/icons/IconsInfo/textarea.svg';
+import { ReactComponent as Trash } from 'assets/icons/IconsInfo/trash.svg';
+import { ReactComponent as PhotoLoading } from 'assets/icons/IconsInfo/photoloading.svg';
+import { ReactComponent as Save } from 'assets/icons/IconsInfo/save.svg';
+import { ReactComponent as Close } from 'assets/icons/SideBar/close.svg';
 
 interface Props {
   weight?: string;
@@ -43,10 +43,10 @@ export const SaveIcon = styled(Save)`
 `;
 
 export const CloseIcon = styled(Close)`
-  margin-right: ${({ mobile }: ButtonProps) => (mobile ? null : "15px")};
-  margin-left: ${({ mobile }: ButtonProps) => (mobile ? "15px" : null)};
+  margin-right: ${({ mobile }: ButtonProps) => (mobile ? null : '15px')};
+  margin-left: ${({ mobile }: ButtonProps) => (mobile ? '15px' : null)};
   & > path {
-    fill: ${({ mobile }: ButtonProps) => (mobile ? "#606EEA" : "#223367")};
+    fill: ${({ mobile }: ButtonProps) => (mobile ? '#606EEA' : '#223367')};
   }
 `;
 
@@ -55,9 +55,12 @@ export const PhotoWrap = styled.div`
   width: 100px;
   height: 100px;
   margin: 20px 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  .lazy-load-image-background.blur.lazy-load-image-loaded {
+    filter: blur(0);
+    transition: filter 0.3s;
+    height: 100%;
+    width: 100%;
+  }
   :hover {
     div {
       background: rgba(34, 51, 103, 0.75);
@@ -130,7 +133,7 @@ export const WrapArea = styled.div`
 
 export const WrapArrow = styled.div`
   background-color: ${({ bgcolor }: Props) =>
-    bgcolor ? "#606EEA" : "#C2C2C2"};
+    bgcolor ? '#606EEA' : '#C2C2C2'};
   height: 50px;
   width: 55px;
   border-radius: 0 14px 14px 0;
@@ -299,9 +302,43 @@ interface ButtonProps {
 }
 
 export const WrapButton = styled.div`
-  display: ${({ mobile }: ButtonProps) => (mobile ? "none" : "inline-block")};
+  display: ${({ mobile }: ButtonProps) => (mobile ? 'none' : 'inline-block')};
 
   @media (max-width: ${device.mobile}) {
-    display: ${({ mobile }: ButtonProps) => (mobile ? "inline-block" : "none")};
+    display: ${({ mobile }: ButtonProps) => (mobile ? 'inline-block' : 'none')};
   }
+`;
+
+export const WebLink = styled.div`
+  font-weight: normal;
+  user-select: none;
+  font-size: 15px;
+  color: #223367;
+  @media (max-width: ${device.mobile}) {
+    font-size: 14px;
+  }
+
+  @media (min-width: ${device.laptop}) {
+    font-size: 16px;
+  }
+`;
+
+interface Props {
+  margin?: string;
+}
+
+export const WrapWebLink = styled.div`
+  margin: ${({ margin }: Props) => margin};
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+`;
+
+export const WebValue = styled.div`
+  font-weight: 300;
+  font-size: 14px;
+  color: #223367;
+  display: flex;
+  align-items: center;
 `;
