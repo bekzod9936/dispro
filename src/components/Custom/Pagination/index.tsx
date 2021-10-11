@@ -1,4 +1,4 @@
-import { MPagination, Container } from './style';
+import { MPagination } from './style';
 
 interface Props {
   boundaryCount?: number;
@@ -17,11 +17,7 @@ interface Props {
 }
 
 const Pagination = () => {
-  return (
-    <Container>
-      <MPagination count={10} />
-    </Container>
-  );
+  return <MPagination className='rrrrr' count={10} />;
 };
 
 export default Pagination;
