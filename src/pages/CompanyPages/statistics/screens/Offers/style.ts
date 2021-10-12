@@ -5,6 +5,7 @@ export const Container = styled.div`
   flex: 1;
   overflow: hidden;
   padding-right: 25px;
+  flex-direction: column;
 `;
 
 export const Img = styled.img`

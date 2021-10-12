@@ -77,6 +77,7 @@ export const MainWrapper = styled.div`
 
 export const WrapFilter = styled.div`
   padding-bottom: 20px;
+  display: flex;
 `;
 
 export const Container = styled.div`

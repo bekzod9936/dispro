@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Spinner from 'components/Custom/Spinner';
 import { useTranslation } from 'react-i18next';
 import useClientsHook from './useClientsHook';
@@ -37,6 +37,7 @@ import {
   WrapDate,
   WrapInputs,
 } from './style';
+import DatePcker from 'components/Custom/DatePicker';
 
 const intialState = {
   startDate: '',
@@ -291,7 +292,7 @@ const Clients = () => {
     },
   ];
 
-  const handleFilterSubmit = async () => {
+  const handleFilterSubmit = async ({ startDate = '', endDate = '' }) => {
     await setFilterValues({
       genderTypeId: genderTypeId,
       regDateFrom: regDate.regDateFrom,
@@ -299,12 +300,14 @@ const Clients = () => {
       purchaseCountFrom: purchase.purchaseCountFrom,
       purchaseCountTo: purchase.purchaseCountTo,
       allPurchaseSum: allPurchaseSum,
-      startDate: '',
-      endDate: '',
+      startDate: startDate,
+      endDate: endDate,
       usedLevelNumber: '',
     });
     await response.refetch();
   };
+
+  const [date, setDate] = useState({ startDate: '', endDate: '' });
 
   const onReset = async () => {
     await setFilterValues(intialState);
@@ -313,14 +316,45 @@ const Clients = () => {
     await setAllPurchaseSum('');
     await response.refetch();
   };
+  useEffect(() => {
+    handleFilterSubmit({
+      startDate: date.startDate,
+      endDate: date.endDate,
+    });
+  }, [date]);
 
   return (
     <MainWrapper>
       <WrapFilter>
         <Filter
-          onSubmit={handleFilterSubmit}
+          onSubmit={() =>
+            handleFilterSubmit({
+              startDate: date.startDate,
+              endDate: date.endDate,
+            })
+          }
           onReset={onReset}
           list={filterList}
+        />
+        <DatePcker
+          onChange={async (e: any) => {
+            await setFilterValues({
+              genderTypeId: genderTypeId,
+              regDateFrom: regDate.regDateFrom,
+              regDateTo: regDate.regDateTo,
+              purchaseCountFrom: purchase.purchaseCountFrom,
+              purchaseCountTo: purchase.purchaseCountTo,
+              allPurchaseSum: allPurchaseSum,
+              startDate: e.slice(0, e.indexOf(' ~')),
+              endDate: e.slice(e.indexOf('~ ') + 2),
+              usedLevelNumber: '',
+            });
+            setDate({
+              startDate: e.slice(0, e.indexOf(' ~')),
+              endDate: e.slice(e.indexOf('~ ') + 2),
+            });
+          }}
+          margin='0 0 0 20px'
         />
       </WrapFilter>
       <Container>

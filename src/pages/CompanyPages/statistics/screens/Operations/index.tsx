@@ -17,10 +17,14 @@ import {
   Title,
   WrapFilter,
 } from '../Clients/style';
+import DatePcker from 'components/Custom/DatePicker';
+import { useState } from 'react';
 
 const Operations = () => {
   const { t } = useTranslation();
-  const { response, data } = useOperationsHook();
+  const [date, setDate] = useState({ startDate: '', endDate: '' });
+
+  const { response, data } = useOperationsHook({ filterValues: date });
 
   const list = [
     {
@@ -59,6 +63,16 @@ const Operations = () => {
     <Container>
       <WrapFilter>
         <Filter />
+        <DatePcker
+          onChange={async (e: any) => {
+            await setDate({
+              startDate: e.slice(0, e.indexOf(' ~')),
+              endDate: e.slice(e.indexOf('~ ') + 2),
+            });
+            await response.refetch();
+          }}
+          margin='0 0 0 20px'
+        />
       </WrapFilter>
       <WrapperCon>
         {response.isLoading || response.isFetching ? (

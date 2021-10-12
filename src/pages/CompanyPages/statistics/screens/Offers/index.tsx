@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Container, Img, WrapIcon } from './style';
 import useOffersHook from './useOffersHook';
 import { useTranslation } from 'react-i18next';
@@ -7,10 +7,12 @@ import Table from '../../components/Table';
 import coupon from 'assets/icons/StatistisPage/coupon.png';
 import coupon1 from 'assets/icons/StatistisPage/coupon1.png';
 import gift from 'assets/icons/StatistisPage/gift.png';
+import DatePcker from 'components/Custom/DatePicker';
 
 const Offers = () => {
   const { t } = useTranslation();
-  const { response, data } = useOffersHook();
+  const [date, setDate] = useState({ startDate: '', endDate: '' });
+  const { response, data } = useOffersHook({ filterValues: date });
 
   const list = useMemo(
     () => [
@@ -79,6 +81,16 @@ const Offers = () => {
 
   return (
     <Container>
+      <DatePcker
+        onChange={async (e: any) => {
+          await setDate({
+            startDate: e.slice(0, e.indexOf(' ~')),
+            endDate: e.slice(e.indexOf('~ ') + 2),
+          });
+          await response.refetch();
+        }}
+        margin='0 0 20px 0'
+      />
       {response.isLoading || response.isFetching ? (
         <Spinner />
       ) : (

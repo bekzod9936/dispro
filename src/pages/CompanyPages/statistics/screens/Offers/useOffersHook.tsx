@@ -2,7 +2,11 @@ import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { fetchCilentsData } from 'services/queries/StatisticsQueries';
 
-const useOffersHook = () => {
+interface Props {
+  filterValues?: any;
+}
+
+const useOffersHook = ({ filterValues }: Props) => {
   const [data, setData] = useState([
     {
       activeCount: '',
@@ -14,7 +18,12 @@ const useOffersHook = () => {
 
   const response = useQuery(
     'fetchOffersInfo',
-    () => fetchCilentsData({ section: 'coupons' }),
+    () => {
+      const url = Object.keys(filterValues)
+        .map((v: any) => `${v}=${filterValues[v]}&`)
+        .join('');
+      return fetchCilentsData({ section: `coupons?${url}` });
+    },
     {
       keepPreviousData: true,
       refetchOnWindowFocus: false,
