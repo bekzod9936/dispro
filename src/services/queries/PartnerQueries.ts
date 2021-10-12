@@ -1,7 +1,7 @@
 import moment from "moment";
-import adminInterceptor from "../interceptors/adminInterceptor";
-import partnerApi from "../interceptors/companyInterceptor";
-import { URL } from "../constants/config";
+import adminInterceptor from "services/interceptors/adminInterceptor";
+import partnerApi from "services/interceptors/companyInterceptor";
+import { URL } from "services/constants/config";
 
 export const fetchClientStatistics = async (
   section: string,
