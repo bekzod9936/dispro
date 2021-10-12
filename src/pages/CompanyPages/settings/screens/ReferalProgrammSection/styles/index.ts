@@ -1,18 +1,28 @@
 import styled from "styled-components";
 import Grid from "@material-ui/core/Grid";
 
+interface IProps {
+  deactivated?: boolean;
+}
+
 export const BottomBtnContainer = styled.div`
-  position: fixed;
-  bottom: 20px;
+  position: absolute;
+  padding-top: 25px;
+  padding-bottom: 20px;
+  bottom: 0;
+  left: 10px;
   width: 100%;
+  background-color: #f1f4f6;
 `;
 
 export const GridContainer = styled(Grid)`
-  margin-bottom: 120px;
+  /* margin-bottom: 120px; */
 `;
 
 export const LeftGrid = styled(Grid)`
   border-right: 1px solid rgba(96, 110, 234, 0.3);
+  position: relative;
+  overflow: hidden;
 `;
 
 export const RightGrid = styled(Grid)`
@@ -50,4 +60,24 @@ export const LevelsHead = styled.div`
   display: flex;
   align-items: center;
   margin: 10px 0;
+`;
+
+export const Form = styled.form``;
+
+export const ReferalCol = styled.div`
+  display: flex;
+  align-items: center;
+  opacity: ${({ deactivated }: IProps) => (deactivated ? 0.4 : 1)};
+`;
+
+export const TextDiv = styled.div`
+  width: 140px;
+  text-align: left;
+`;
+
+export const HeaderReferal = styled.div`
+  display: flex;
+  align-items: flex-start;
+  justify-content: start;
+  margin-bottom: 25px;
 `;
