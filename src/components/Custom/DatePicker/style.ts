@@ -1,56 +1,81 @@
 import styled from 'styled-components';
+import DatePicker from 'react-multi-date-picker';
+import { ReactComponent as Down } from 'assets/icons/down.svg';
+import { device } from '../../../styles/device';
+import { ReactComponent as Reset } from 'assets/icons/StatistisPage/reset.svg';
 
 export const Container = styled.div`
+  position: relative;
+  width: fit-content;
+  div.rmdp-container {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100px;
+  }
+
+  input.custom-input {
+    border-radius: 15px;
+    border: 1px #0c8af8 solid;
+    padding: 4px 12px;
+    background-color: white;
+    box-shadow: 0 0 2px #0074d9;
+    height: 45px;
+    width: inherit;
+    width: 100px;
+    display: none;
+  }
+`;
+
+export const RDatePicker = styled(DatePicker)``;
+
+export const DownIcon = styled(Down)`
+  transform: rotate(180deg);
+  width: 12px !important;
+  height: 6px !important;
+  & > path {
+    fill: #c4c4c4;
+  }
+`;
+
+export const WrapText = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  & > span:first-child {
+    font-weight: 500;
+    font-size: 15px;
+    color: #223367;
+  }
+  & > span:last-child {
+    font-weight: normal;
+    font-size: 13px;
+    color: #a5a5a5;
+  }
+  @media (max-width: ${device.mobile}) {
+    & > span:first-child {
+      font-size: 14px;
+    }
+    & > span:last-child {
+      font-size: 12px;
+    }
+  }
+  @media (min-width: ${device.laptop}) {
+    & > span:first-child {
+      font-size: 16px;
+    }
+    & > span:last-child {
+      font-size: 14px;
+    }
+  }
+`;
+
+export const ResetIcon = styled(Reset)``;
+
+export const WrapButton = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
   width: fit-content;
-  cursor: pointer;
-  background: #ffffff;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
-  border-radius: 14px;
-  padding: 10px;
-  margin-top: 100px;
-  margin-bottom: 10px;
+  margin-left: 20px;
 `;
-
-export const Text = styled.div`
-  user-select: none;
-  font-weight: 500;
-  font-size: 16px;
-  color: #223367;
-`;
-
-// <KeyboardDatePicker
-// disableToolbar
-// variant='inline'
-// id='date-picker-inline'
-// value={selectedDate}
-// inputVariant='standard'
-// format='MM/dd/yyyy'
-// keyboardIcon={<CalendarIcon1 />}
-// onChange={(newDate: any) => {
-//   handleDateChange(newDate);
-// }}
-// KeyboardButtonProps={{
-//   onFocus: (e: any) => {
-//     setIsOpen(true);
-//   },
-// }}
-// PopoverProps={{
-//   disableRestoreFocus: true,
-//   onClose: () => {
-//     setIsOpen(false);
-//   },
-// }}
-// InputProps={{
-//   disableUnderline: true,
-//   readOnly: true,
-//   onFocus: (e: any) => {
-//     setIsOpen(true);
-//   },
-// }}
-// open={isOpen}
-// />
-
-export const Wrapper = styled.div``;
