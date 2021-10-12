@@ -18,7 +18,7 @@ interface Props {
 }
 
 interface PProps {
-  page?: number;
+  filterValues: any;
 }
 
 interface FProps {
@@ -27,7 +27,7 @@ interface FProps {
   perPage: number;
 }
 
-const useSuggestion = ({ page = 1 }: PProps) => {
+const useSuggestion = ({ filterValues }: PProps) => {
   const [data, setData] = useState<Props[]>([
     {
       amount: 0,
@@ -46,9 +46,7 @@ const useSuggestion = ({ page = 1 }: PProps) => {
   ]);
   const [totalCount, setTotalCount] = useState<number>(0);
 
-  let companyId = localStorage.getItem('companyId');
-
-  function format({ total, page, perPage }: FProps) {
+  function format({ page, perPage }: FProps) {
     let start = 1;
     let end = 1;
     if (page === 1) {
@@ -63,29 +61,31 @@ const useSuggestion = ({ page = 1 }: PProps) => {
     return info;
   }
 
-  const perPage = 5;
   const [between, setBetween] = useState<string>('');
   const response = useQuery(
-    ['fetchSuggestionInfo', page],
-    () =>
-      fetchFinanceSuggestion({
-        id: companyId,
-        page: page,
-        perPage: perPage,
-      }),
+    ['fetchSuggestionInfo', filterValues],
+    () => {
+      const url = Object.keys(filterValues)
+        .map((v: any) => `${v}=${filterValues[v]}&`)
+        .join('');
+      return fetchFinanceSuggestion({
+        url: url,
+      });
+    },
     {
       keepPreviousData: true,
       refetchOnWindowFocus: false,
       retry: 0,
       onSuccess: (data) => {
-        console.log(data);
         setData(data.data.data.history);
-        setTotalCount(Math.ceil(data.data.data.totalCount / perPage));
+        setTotalCount(
+          Math.ceil(data.data.data.totalCount / filterValues?.perPage)
+        );
         setBetween(
           format({
             total: data.data.data.totalCount,
-            page: page,
-            perPage: perPage,
+            page: filterValues?.page,
+            perPage: filterValues?.perPage,
           })
         );
       },

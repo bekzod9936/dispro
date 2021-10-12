@@ -6,11 +6,32 @@ import Pagination from 'components/Custom/Pagination';
 import Table from '../../components/Table';
 import moment from 'moment';
 import { Container, Wrap, WrapPag, Info } from './style';
+import DatePcker from 'components/Custom/DatePicker';
+
+interface intialFilterProps {
+  page?: number;
+  perPage?: number;
+  dateFrom?: string;
+  dateTo?: string;
+}
+const companyId = localStorage.getItem('companyId');
+const intialFilter = {
+  companyId: companyId,
+  page: 1,
+  perPage: 5,
+  dateFrom: '',
+  dateTo: '',
+};
 
 const Suggestions = () => {
   const { t } = useTranslation();
-  const [page, setPage] = useState<number>(1);
-  const { response, data, totalCount, between } = useSuggestion({ page: page });
+  const [date, setDate] = useState({ dateFrom: '', dateTo: '' });
+  const [filterValues, setFilterValues] =
+    useState<intialFilterProps>(intialFilter);
+
+  const { response, data, totalCount, between } = useSuggestion({
+    filterValues: filterValues,
+  });
 
   const list = data?.map((v: any) => {
     const date = moment(v?.payDate).format('DD.MM.YYYY');
@@ -59,12 +80,24 @@ const Suggestions = () => {
     []
   );
 
-  const handlechangePage = (e: any) => {
-    setPage(e);
+  const handlechangePage = async (e: any) => {
+    await setFilterValues({ ...filterValues, page: e });
+    await response.refetch();
   };
-  console.log(list.length);
+
   return (
     <Container>
+      <DatePcker
+        onChange={async (e: any) => {
+          await setFilterValues({
+            ...filterValues,
+            dateFrom: e.slice(0, e.indexOf(' ~')),
+            dateTo: e.slice(e.indexOf('~ ') + 2),
+          });
+          await response.refetch();
+        }}
+        margin='0 0 20px 0'
+      />
       <Wrap>
         {response.isLoading || response.isFetching ? (
           <Spinner />
@@ -81,7 +114,7 @@ const Suggestions = () => {
               из <span>{totalCount}</span> операций
             </Info>
             <Pagination
-              page={page}
+              page={filterValues.page}
               count={totalCount}
               onChange={handlechangePage}
               disabled={response.isLoading || response.isFetching}
