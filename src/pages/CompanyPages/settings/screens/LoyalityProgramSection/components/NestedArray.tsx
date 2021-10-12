@@ -28,7 +28,7 @@ const NestedArray = ({ index, control, getValues, setValue }: IProps) => {
   });
   const { fields, append, remove } = useFieldArray({
     control,
-    name: `levels[${index}].requirements`,
+    name: `levels.${index}.requirements`,
   });
 
   const loyalityOptions = [
@@ -110,6 +110,7 @@ const NestedArray = ({ index, control, getValues, setValue }: IProps) => {
         return (
           <RequirementsGrid
             container
+            key={smallIndex}
             spacing={3}
             justifyContent="space-between"
           >
@@ -120,6 +121,19 @@ const NestedArray = ({ index, control, getValues, setValue }: IProps) => {
                     smallIndex,
                   ]}.condition`}
                   control={control}
+                  defaultValue={
+                    value?.type !== 2
+                      ? typeFullOptions.find(
+                          (c) =>
+                            c.value ==
+                            levels[index].requirements[smallIndex]?.condition
+                        )?.value
+                      : oneFullOptions.find(
+                          (c) =>
+                            c.value ==
+                            levels[index].requirements[smallIndex]?.condition
+                        )?.value
+                  }
                   render={({ field }) => {
                     // : oneFullOptions.find(
                     //     (c) => c.value === value?.condition
@@ -187,18 +201,18 @@ const NestedArray = ({ index, control, getValues, setValue }: IProps) => {
               <Controller
                 name={`levels.${[index]}.requirements.${[smallIndex]}.type`}
                 control={control}
+                defaultValue={
+                  loyalityOptions.find(
+                    (c) =>
+                      c.value == levels[index].requirements[smallIndex]?.type
+                  )?.value
+                }
                 render={({ field }) => {
                   return (
                     <MultiSelect
-                      // defaultValue={{
-                      //   value: value?.type,
-                      //   label: labelType(value?.type),
-                      // }}
                       {...field}
                       name={field.name}
                       placeholder={labelType(value?.type)}
-                      // loyalityOptions
-                      // levels[index].requirements[smallIndex]
                       options={loyalityOptions.filter(
                         (item: any) =>
                           !levels[index].requirements.find(
@@ -251,16 +265,14 @@ const NestedArray = ({ index, control, getValues, setValue }: IProps) => {
               <Controller
                 name={`levels.${[index]}.requirements.${[smallIndex]}.amount`}
                 rules={{
-                  required: true,
-                  maxLength: 13,
-                  minLength: 13,
+                  required: false,
                 }}
                 control={control}
+                defaultValue={value?.amount}
                 render={({ field }) => (
                   <Input
                     type="number"
                     variant="standard"
-                    defaultValue={value?.amount}
                     IconEnd={unitIcon(value.unit)}
                     width={{
                       minwidth: 100,
