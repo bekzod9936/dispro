@@ -14,9 +14,10 @@ import { IconButton } from '@material-ui/core';
 
 interface Props {
   onChange?: (e: any) => void;
+  margin?: string;
 }
 
-const DatePicker = ({ onChange = () => {} }: Props) => {
+const DatePicker = ({ onChange = () => {}, margin }: Props) => {
   const datePickerRef: any = useRef();
   const { t } = useTranslation();
 
@@ -39,7 +40,7 @@ const DatePicker = ({ onChange = () => {} }: Props) => {
   const format = 'YYYY-MM-DD';
   return (
     <Container>
-      <WrapButton>
+      <WrapButton margin={margin}>
         <Button
           startIcon={<Date />}
           endIcon={<DownIcon />}

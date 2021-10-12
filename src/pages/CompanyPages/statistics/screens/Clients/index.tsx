@@ -322,6 +322,7 @@ const Clients = () => {
       endDate: date.endDate,
     });
   }, [date]);
+
   return (
     <MainWrapper>
       <WrapFilter>
@@ -353,6 +354,7 @@ const Clients = () => {
               endDate: e.slice(e.indexOf('~ ') + 2),
             });
           }}
+          margin='0 0 0 20px'
         />
       </WrapFilter>
       <Container>

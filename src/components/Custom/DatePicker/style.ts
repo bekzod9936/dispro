@@ -73,9 +73,13 @@ export const WrapText = styled.div`
 
 export const ResetIcon = styled(Reset)``;
 
+interface Props {
+  margin?: string;
+}
+
 export const WrapButton = styled.div`
   display: flex;
   align-items: center;
   width: fit-content;
-  margin-left: 20px;
+  margin: ${({ margin }: Props) => margin};
 `;

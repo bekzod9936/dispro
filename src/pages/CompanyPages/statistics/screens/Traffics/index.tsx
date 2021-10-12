@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Container, AppIcon, MobileIcon, WrapIcon, Img } from './style';
 import Table from '../../components/Table';
 import useTrafficsHook from './useTrafficsHook';
 import { useTranslation } from 'react-i18next';
 import Spinner from 'components/Custom/Spinner';
 import cashier from 'assets/icons/StatistisPage/cash.png';
+import DatePcker from 'components/Custom/DatePicker';
 
 const Traffics = () => {
   const { t } = useTranslation();
-  const { response, data } = useTrafficsHook();
+  const [date, setDate] = useState({ startDate: '', endDate: '' });
+
+  const { response, data } = useTrafficsHook({ filterValues: date });
 
   const list = data?.map((v: any) => {
     return {
@@ -60,6 +63,16 @@ const Traffics = () => {
 
   return (
     <Container>
+      <DatePcker
+        onChange={async (e: any) => {
+          await setDate({
+            startDate: e.slice(0, e.indexOf(' ~')),
+            endDate: e.slice(e.indexOf('~ ') + 2),
+          });
+          await response.refetch();
+        }}
+        margin='0 0 20px 0'
+      />
       {response.isLoading || response.isFetching ? (
         <Spinner />
       ) : (
