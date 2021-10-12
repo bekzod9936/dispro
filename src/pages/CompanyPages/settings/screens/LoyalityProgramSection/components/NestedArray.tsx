@@ -103,7 +103,6 @@ const NestedArray = ({ index, control, getValues, setValue }: IProps) => {
     }
   };
 
-  console.log(levels, "levels");
   return (
     <div>
       {fields?.map((value: any, smallIndex: number) => {

@@ -1,7 +1,7 @@
 import { Grid } from "@material-ui/core";
-import { initialFields, switchItems } from "./constants";
+import { switchItems } from "./constants";
 import Input from "components/Custom/Input";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Flex } from "styles/BuildingBlocks";
 import { LargePanel } from "../../styles/SettingStyles";
 import { CustomButton, ModalComponent, Text } from "styles/CustomStyles";
@@ -48,61 +48,21 @@ const LoyaltyProgramSection = () => {
     dynamicFields,
     getValues,
     append,
-    prepend,
     remove,
     isLoading,
     cashbackLoading,
     discountLoading,
+    useProgram,
+    usePoint,
+    loayalityChange,
+    onFormSubmit,
+    loayalityPut,
   } = useLoyality();
 
   const [assertModalVisible, setAssertModalVisible] = useState<boolean>(false);
   const [switchKey, setSwitchKey] = useState("discount");
 
   //save loyality
-  const loayalityPut = useMutation((data: any) => {
-    return partnerApi.put(`/bonus/${active}`, data);
-  });
-
-  const onFormSubmit = async (data: FormProps) => {
-    console.log(data, "data");
-
-    try {
-      if (active === "discount") {
-        loayalityPut.mutate({
-          cashbackReturnedDay: 0,
-          description: "",
-          isActive: true,
-          levels: data.levels,
-          maxAmount: data.max_percent,
-          name: data.base_name,
-          percent: data.base_percent,
-        });
-      } else if (active === "cashback") {
-        loayalityPut.mutate({
-          cashbackReturnedDay: data.give_cashback_after || 0,
-          description: "",
-          isActive: true,
-          levels: data.levels,
-          maxAmount: data.max_percent,
-          name: data.base_name,
-          percent: data.base_percent,
-        });
-      } else if (active === "bonusPoints") {
-        loayalityPut.mutate({
-          cashbackReturnedDay: 0,
-          description: "",
-          isActive: true,
-          levels: data.levels,
-          maxAmount: data.max_percent,
-          name: data.base_name,
-          percent: data.base_percent,
-        });
-      }
-      //alert("Goood");
-    } catch (err) {
-      alert(err);
-    }
-  };
 
   const onError = (errors: any, e: any) => console.log(errors, e);
 
@@ -134,6 +94,7 @@ const LoyaltyProgramSection = () => {
                     checked={item.key === active}
                     disabled={item.key === active}
                     onChange={(checked: any) => {
+                      console.log(item.key, "item key");
                       setAssertModalVisible(true);
                       setSwitchKey(item.key);
                     }}
@@ -163,7 +124,10 @@ const LoyaltyProgramSection = () => {
       </LeftGrid>
 
       <Grid item xs={7}>
-        {!isLoading && !cashbackLoading && !discountLoading ? (
+        {!isLoading &&
+        !cashbackLoading &&
+        !discountLoading &&
+        !loayalityChange.isLoading ? (
           <LargePanel id="largePanel">
             <Form onSubmit={handleSubmit(onFormSubmit, onError)}>
               <Grid
@@ -494,17 +458,30 @@ const LoyaltyProgramSection = () => {
                     </div>
                     <div>
                       <Controller
-                        name="useProgramLoyality"
+                        name="useProgram"
                         control={control}
+                        defaultValue={useProgram}
                         render={({ field }) => (
-                          <Checkbox {...field} label={t("useLoyaltyProgram")} />
+                          <Checkbox
+                            {...field}
+                            checked={useProgram}
+                            label={t("useLoyaltyProgram")}
+                          />
                         )}
                       />{" "}
                     </div>
                     <div>
-                      <Checkbox
-                        name="useBonus"
-                        label={t("substractingPoints")}
+                      <Controller
+                        name="usePoint"
+                        control={control}
+                        defaultValue={usePoint}
+                        render={({ field }) => (
+                          <Checkbox
+                            {...field}
+                            checked={usePoint}
+                            label={t("substractingPoints")}
+                          />
+                        )}
                       />
                     </div>
                   </div>
@@ -514,9 +491,7 @@ const LoyaltyProgramSection = () => {
                     <Button
                       type="submit"
                       startIcon={<SaveIcon />}
-                      loading={loayalityPut.isLoading}
                       disabled={loayalityPut.isLoading}
-
                       //  onClick={handleSaveClick}
                     >
                       <Text marginLeft="10px" color="white">
@@ -573,16 +548,16 @@ const LoyaltyProgramSection = () => {
                 </CustomButton>
               </RippleEffect>
 
-              <Button startIcon={<SyncIcon />} type="button">
-                <Text
-                  color="white"
-                  onClick={() => {
-                    handleSwitchChange(true, switchKey);
-                    setAssertModalVisible(false);
-                  }}
-                >
-                  {t("change")}
-                </Text>
+              <Button
+                onClick={() => {
+                  console.log("clicked", switchKey);
+                  handleSwitchChange(true, switchKey);
+                  setAssertModalVisible(false);
+                }}
+                startIcon={<SyncIcon />}
+                type="button"
+              >
+                <Text color="white">{t("change")}</Text>
               </Button>
             </div>
           </ModalComponent>
