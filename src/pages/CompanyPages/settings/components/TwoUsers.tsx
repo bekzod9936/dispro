@@ -6,7 +6,7 @@ import { ReactComponent as SalePerson } from "assets/icons/sale_user.svg";
 import { ReactComponent as Arrow } from "assets/icons/arrow.svg";
 import { ReactComponent as LongArrow } from "assets/icons/long_arrow.svg";
 import { ReactComponent as ShortArrow } from "assets/icons/short_arrow.svg";
-import { ArrowDiv, TextContainer, TwoUserDiv, UsersRow } from "./style";
+import { ArrowDiv, TextContainer, TwoUserDiv, User, UsersRow } from "./style";
 
 interface ITwoUsers {
   name1?: any;
@@ -19,26 +19,26 @@ const TwoUsers: React.FC<ITwoUsers> = ({ name1, name2, name3 }) => {
     <TwoUserDiv>
       <ArrowDiv>{!name3 ? <ShortArrow /> : <LongArrow />}</ArrowDiv>
       <UsersRow width={name3 ? 210 : 120}>
-        <div className="user1">
+        <User>
           <LeftUser />
           <TextContainer>
             <Text fontSize="12px" color="rgba(96, 110, 234, 1)">
               {name1}
             </Text>
           </TextContainer>
-        </div>
+        </User>
         <div className="miniArrow">
           <Arrow />
         </div>
         {name3 && (
-          <div className="user3" style={{ alignSelf: "center" }}>
+          <User>
             <SimpleUser />
             <div>
               <Text fontSize="12px" color="rgba(194, 194, 194, 1)">
                 {name3}
               </Text>
             </div>
-          </div>
+          </User>
         )}
         {name3 && (
           <div className="miniArrow">
@@ -46,12 +46,12 @@ const TwoUsers: React.FC<ITwoUsers> = ({ name1, name2, name3 }) => {
           </div>
         )}
 
-        <div>
+        <User>
           <SalePerson />
           <TextContainer>
             <Text fontSize="12px">{name2}</Text>
           </TextContainer>
-        </div>
+        </User>
       </UsersRow>
     </TwoUserDiv>
   );

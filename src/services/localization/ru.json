@@ -349,5 +349,6 @@
   "certificate": "Сертификат",
   "total": "Итого",
   "exportexcel": "Экспортировать",
-  "subscription": "Подписка"
+  "subscription": "Подписка",
+  "people": "человека"
 }
