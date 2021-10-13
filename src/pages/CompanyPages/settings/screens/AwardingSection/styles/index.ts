@@ -54,3 +54,7 @@ export const RecomendationRow = styled.div`
 export const TextAreaGrid = styled(Grid)`
   padding-left: 20px;
 `;
+
+export const PayForGrid = styled(Grid)`
+  margin-top: 30px;
+`;

@@ -18,6 +18,7 @@ import {
   AwardGrid,
   RecomendationRow,
   TextAreaGrid,
+  PayForGrid,
 } from "./styles";
 import Button from "components/Custom/Button";
 import useAwards from "./hooks/useAwards";
@@ -35,11 +36,6 @@ const AwardingSection = () => {
     birthdayCheck,
     saveBonus,
   } = useAwards();
-
-  console.log(inviteCheck, "inviteCheck");
-  console.log(recommendCheck, "recommendCheck");
-  console.log(vipCheck, "vipCheck");
-  console.log(birthdayCheck, "birthdayCheck");
 
   return (
     <Flex flexGrow="1" margin="0px">
@@ -211,7 +207,8 @@ const AwardingSection = () => {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={12}>
+
+                      <PayForGrid item xs={12}>
                         <Controller
                           control={control}
                           name="payfor"
@@ -225,7 +222,7 @@ const AwardingSection = () => {
                             );
                           }}
                         />
-                      </Grid>
+                      </PayForGrid>
                     </Grid>
                     <Grid item sm="auto" md={1} lg={1}></Grid>
                     <TextAreaGrid item xs={12} md={7} sm={7}>
@@ -241,8 +238,8 @@ const AwardingSection = () => {
                               inputStyle={{
                                 height: {
                                   mobile: 70,
-                                  laptop: 110,
-                                  desktop: 150,
+                                  laptop: 140,
+                                  desktop: 190,
                                 },
                               }}
                               field={field}

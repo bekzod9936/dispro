@@ -7,9 +7,6 @@ import { saveBonusRewards } from "services/queries/AwardSettingsQueries";
 
 const useAwards = () => {
   const companyId: any = localStorage.getItem("companyId");
-
-  const [switchStates, setSwitchStates] = useState<any>([]);
-  const [data, setData] = useState([]);
   const { control, handleSubmit, setValue } = useForm<IForm>();
 
   const { refetch } = useQuery(["rewards"], () => fetchRewards(), {
@@ -41,10 +38,13 @@ const useAwards = () => {
         (item: any) => item?.levels[0]?.congratulationText
       );
       let forBeforeDay = result.find((item: any) => item?.levels[0]?.beforeDay);
+
+      console.log(result, "forSecond");
       //let forDescription = result.find((item:any)=>item.)  ;
       // let forMoreThan :any = result.find((item: any) => item?.levels[0]?.requirements[0]?.amount);
       // setValue("ifMoreThan", forMoreThan?.levels[0]?.requirements[0]?.amount);
       setValue("awardSizeFirst", forFirst?.amount);
+      setValue("awardSizeSecond", forThird?.amount);
       setValue("awardSizeThird", forThird?.amount);
       setValue("awardSizeFourth", forFourth?.amount);
       setValue("description", forCongrat?.levels[0]?.congratulationText);
@@ -129,7 +129,6 @@ const useAwards = () => {
   return {
     control,
     handleSubmit,
-    data,
     onFormSubmit,
     inviteCheck,
     recommendCheck,
