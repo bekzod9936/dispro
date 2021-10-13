@@ -16,7 +16,14 @@ export const fetchFinancePayment = ({ url }: Props) => {
   return response;
 };
 
-export const fetchFinanceCashBack = ({ url }: Props) => {
+export const fetchFinanceHistory = ({ url }: Props) => {
   const response = partnerApi.get(`core/staffs/get/cashier-histories?${url}`);
+  return response;
+};
+
+export const fetchFinanceCashBack = ({ url }: Props) => {
+  const response = partnerApi.get(
+    `/banking/accounts/company/cashback/history/out?${url}`
+  );
   return response;
 };

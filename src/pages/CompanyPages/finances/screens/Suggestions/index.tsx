@@ -25,7 +25,7 @@ const intialFilter = {
 
 const Suggestions = () => {
   const { t } = useTranslation();
-  const [date, setDate] = useState({ dateFrom: '', dateTo: '' });
+
   const [filterValues, setFilterValues] =
     useState<intialFilterProps>(intialFilter);
 

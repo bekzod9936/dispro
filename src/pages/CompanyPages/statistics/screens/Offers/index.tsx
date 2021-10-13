@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Container, Img, WrapIcon } from './style';
+import { Container, Img, WrapIcon, Wrapper } from './style';
 import useOffersHook from './useOffersHook';
 import { useTranslation } from 'react-i18next';
 import Spinner from 'components/Custom/Spinner';
@@ -82,11 +82,13 @@ const Offers = () => {
         }}
         margin='0 0 20px 0'
       />
-      {response.isLoading || response.isFetching ? (
-        <Spinner />
-      ) : (
-        <Table columns={columns} data={list} />
-      )}
+      <Wrapper>
+        {response.isLoading || response.isFetching ? (
+          <Spinner />
+        ) : (
+          <Table columns={columns} data={list} />
+        )}
+      </Wrapper>
     </Container>
   );
 };

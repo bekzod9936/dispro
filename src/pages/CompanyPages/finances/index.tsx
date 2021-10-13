@@ -3,19 +3,34 @@ import Title from 'components/Custom/Title';
 import Spinner from 'components/Custom/Spinner';
 import { Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Route, Switch } from 'react-router';
+import { Route, Switch, useRouteMatch } from 'react-router';
 import useFinanceRoute from './routes';
-import { MainWrapper } from './style';
+import {
+  MainWrapper,
+  WrapTotalSum,
+  TotalSum,
+  Label,
+  WrapTotal,
+  WrapHeader,
+  LeftHeader,
+  RightHeader,
+} from './style';
+import usePayment from './screens/Payment/usePayment';
 
 const Finance = () => {
   const { t } = useTranslation();
   const { menuItems } = useFinanceRoute();
-
+  const { header } = usePayment({ filterValues: '' });
+  let match = useRouteMatch();
+  console.log(match);
   return (
     <MainWrapper>
-      <Title>{t('finances')}</Title>
-      <NavBar list={menuItems} margin='10px 0' />
-
+      <WrapHeader>
+        <LeftHeader>
+          <Title>{t('finances')}</Title>
+          <NavBar list={menuItems} margin='10px 0' />
+        </LeftHeader>
+      </WrapHeader>
       <Switch>
         <Suspense fallback={<Spinner />}>
           {menuItems.map((item) => {

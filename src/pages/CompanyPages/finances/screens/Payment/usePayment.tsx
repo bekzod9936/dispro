@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useQuery } from 'react-query';
 import { fetchFinancePayment } from 'services/queries/FinanceQueries';
 
@@ -23,7 +24,13 @@ interface FProps {
   perPage: number;
 }
 
+interface HProps {
+  title?: string;
+  value?: number;
+}
+
 const usePayment = ({ filterValues }: PProps) => {
+  const { t } = useTranslation();
   const [data, setData] = useState<Props[]>([
     {
       amount: 0,
@@ -38,6 +45,8 @@ const usePayment = ({ filterValues }: PProps) => {
     },
   ]);
   const [totalCount, setTotalCount] = useState<number>(0);
+
+  const [header, setHeader] = useState<HProps[]>([{ title: '', value: 0 }]);
 
   function format({ page, perPage }: FProps) {
     let start = 1;
@@ -71,7 +80,16 @@ const usePayment = ({ filterValues }: PProps) => {
       retry: 0,
       onSuccess: (data) => {
         setData(data.data.data.history);
-        console.log(data.data.data.history);
+        setHeader([
+          {
+            title: t('totalpaidbyUZS'),
+            value: data.data.data.totalSum,
+          },
+          {
+            title: t('DISCommission'),
+            value: data.data.data.totalDisCommissionSum,
+          },
+        ]);
         setTotalCount(
           Math.ceil(data.data.data.totalCount / filterValues?.perPage)
         );
@@ -86,7 +104,7 @@ const usePayment = ({ filterValues }: PProps) => {
     }
   );
 
-  return { response, data, totalCount, between };
+  return { response, data, totalCount, between, header };
 };
 
 export default usePayment;

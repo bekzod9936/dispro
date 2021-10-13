@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useQuery } from 'react-query';
-import { fetchFinanceCashBack } from 'services/queries/FinanceQueries';
+import { fetchFinanceHistory } from 'services/queries/FinanceQueries';
 
 interface Props {
   cashierName?: string;
@@ -29,6 +29,11 @@ interface FProps {
   perPage: number;
 }
 
+interface CProps {
+  value?: number;
+  label?: string;
+}
+
 const useHistory = ({ filterValues }: PProps) => {
   const [data, setData] = useState<Props[]>([
     {
@@ -48,6 +53,13 @@ const useHistory = ({ filterValues }: PProps) => {
         value: 0,
         valueType: '',
       },
+    },
+  ]);
+
+  const [cashier, setCashier] = useState<CProps[]>([
+    {
+      value: 0,
+      label: '',
     },
   ]);
 
@@ -75,7 +87,7 @@ const useHistory = ({ filterValues }: PProps) => {
       const url = Object.keys(filterValues)
         .map((v: any) => `${v}=${filterValues[v]}&`)
         .join('');
-      return fetchFinanceCashBack({
+      return fetchFinanceHistory({
         url: url,
       });
     },
@@ -85,7 +97,14 @@ const useHistory = ({ filterValues }: PProps) => {
       retry: 0,
       onSuccess: (data) => {
         setData(data.data.data.cashierHistories.histories);
-        console.log(data.data.data);
+        setCashier(
+          data.data.data.cashierHistories.filter.cashierStaffs.map((v: any) => {
+            return {
+              value: v.id,
+              label: v.name,
+            };
+          })
+        );
         setTotalCount(
           Math.ceil(data.data.data.totalCount / filterValues?.perPage)
         );
@@ -99,7 +118,7 @@ const useHistory = ({ filterValues }: PProps) => {
     }
   );
 
-  return { response, data, totalCount, between };
+  return { response, data, totalCount, between, cashier };
 };
 
 export default useHistory;

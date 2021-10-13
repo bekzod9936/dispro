@@ -350,5 +350,16 @@
   "total": "Итого",
   "exportexcel": "Экспортировать",
   "subscription": "Подписка",
-  "people": "человека"
+  "people": "человека",
+  "bycashier": "По кассиру",
+  "cashiernotselected": "Кассир не выбран",
+  "report": "Репорт",
+  "shown": "Показано",
+  "from1": "из",
+  "operations1": "операций",
+  "accrued": "Начислено",
+  "pending": "В ожидании",
+  "canceled": "Отменено",
+  "totalpaidbyUZS": "Всего оплачено UZS",
+  "DISCommission": "Комиссия DIS (UZS)"
 }

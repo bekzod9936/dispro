@@ -1,43 +1,49 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useQuery } from 'react-query';
 import { fetchFinanceCashBack } from 'services/queries/FinanceQueries';
 
 interface Props {
-  amount: number;
-  amountPartner: number;
-  closed: boolean;
-  disCommission: number;
-  finished: boolean;
-  firstName: string;
-  id: number;
-  lastName: string;
-  payDate: string;
+  activateDate?: string;
+  amount?: number;
+  amountCommission?: number;
+  clientName?: string;
+  date?: string;
+  finished?: boolean;
+  status?: string;
 }
 interface PProps {
   filterValues: any;
 }
 
 interface FProps {
-  total: number;
   page: number;
   perPage: number;
 }
 
+interface HProps {
+  title?: string;
+  value?: number;
+}
+
 const useCashBack = ({ filterValues }: PProps) => {
+  const { t } = useTranslation();
+
   const [data, setData] = useState<Props[]>([
     {
+      activateDate: '',
       amount: 0,
-      amountPartner: 0,
-      closed: false,
-      disCommission: 0,
+      amountCommission: 0,
+      clientName: '',
+      date: '',
       finished: false,
-      firstName: '',
-      id: 0,
-      lastName: '',
-      payDate: '',
+      status: '',
     },
   ]);
+
   const [totalCount, setTotalCount] = useState<number>(0);
+
+  const [header, setHeader] = useState<HProps[]>([{ title: '', value: 0 }]);
 
   function format({ page, perPage }: FProps) {
     let start = 1;
@@ -71,13 +77,22 @@ const useCashBack = ({ filterValues }: PProps) => {
       retry: 0,
       onSuccess: (data) => {
         setData(data.data.data.history);
-        console.log(data.data.data.history);
+        console.log(data.data.data, 'ghhh');
+        setHeader([
+          {
+            title: t('totalpaidbyUZS'),
+            value: data.data.data.totalSum,
+          },
+          {
+            title: t('DISCommission'),
+            value: data.data.data.totalCommissionSum,
+          },
+        ]);
         setTotalCount(
           Math.ceil(data.data.data.totalCount / filterValues?.perPage)
         );
         setBetween(
           format({
-            total: data.data.data.totalCount,
             page: filterValues?.page,
             perPage: filterValues?.perPage,
           })
@@ -86,7 +101,7 @@ const useCashBack = ({ filterValues }: PProps) => {
     }
   );
 
-  return { response, data, totalCount, between };
+  return { response, data, totalCount, between, header };
 };
 
 export default useCashBack;

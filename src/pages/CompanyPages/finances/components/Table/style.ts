@@ -12,6 +12,22 @@ export const Container = styled.div`
   border-radius: 14px;
   overflow-x: auto;
   width: 100%;
+  &:hover {
+    ::-webkit-scrollbar-thumb {
+      background: #606eea;
+    }
+  }
+  ::-webkit-scrollbar {
+    height: 7px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 0 0 14px 14px;
+  }
 `;
 
 export const MTable = styled.table`
@@ -30,10 +46,6 @@ export const MTable = styled.table`
   &::-webkit-scrollbar-thumb {
     background: #606eea;
     border-radius: 14px 0px 0px 14px;
-    height: 150px; //for vertical scrollbar
-  }
-  ::-webkit-scrollbar-button {
-    height: 150px; //for vertical scrollbar
   }
 `;
 
@@ -61,6 +73,7 @@ export const Thead = styled.thead`
 export const Tr = styled.tr``;
 
 export const Th = styled.th`
+  padding: 0 10px;
   font-weight: normal;
   font-size: 16px;
   color: ${({ active }: Props) => (active ? '#223367' : '#a5a5a5')}!important;

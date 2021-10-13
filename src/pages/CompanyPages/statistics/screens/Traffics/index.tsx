@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
-import { Container, AppIcon, MobileIcon, WrapIcon, Img } from './style';
+import { useMemo, useState } from 'react';
 import Table from '../../components/Table';
 import useTrafficsHook from './useTrafficsHook';
 import { useTranslation } from 'react-i18next';
 import Spinner from 'components/Custom/Spinner';
 import cashier from 'assets/icons/StatistisPage/cash.png';
 import DatePcker from 'components/Custom/DatePicker';
+import {
+  Container,
+  AppIcon,
+  MobileIcon,
+  WrapIcon,
+  Img,
+  Wrapper,
+} from './style';
 
 const Traffics = () => {
   const { t } = useTranslation();
@@ -23,7 +30,7 @@ const Traffics = () => {
     };
   });
 
-  const columns: any = React.useMemo(
+  const columns: any = useMemo(
     () => [
       {
         Header: t('traffic_provider'),
@@ -73,11 +80,13 @@ const Traffics = () => {
         }}
         margin='0 0 20px 0'
       />
-      {response.isLoading || response.isFetching ? (
-        <Spinner />
-      ) : (
-        <Table columns={columns} data={list} />
-      )}
+      <Wrapper>
+        {response.isLoading || response.isFetching ? (
+          <Spinner />
+        ) : (
+          <Table columns={columns} data={list} />
+        )}
+      </Wrapper>
     </Container>
   );
 };

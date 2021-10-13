@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { device } from 'styles/device';
 
 export const Container = styled.div`
   overflow: hidden;
@@ -22,10 +23,6 @@ export const Wrap = styled.div`
   &::-webkit-scrollbar-thumb {
     background: #606eea;
     border-radius: 14px 0px 0px 14px;
-    height: 150px; //for vertical scrollbar
-  }
-  ::-webkit-scrollbar-button {
-    height: 150px; //for vertical scrollbar
   }
 `;
 
@@ -53,4 +50,29 @@ export const WrapFilter = styled.div`
   width: 100%;
   padding: 0 30px 0 0;
   margin-bottom: 20px;
+`;
+
+export const WrapInputs = styled.div`
+  display: flex;
+  flex-direction: column;
+  & > div {
+    display: flex;
+  }
+`;
+
+export const Label = styled.label`
+  font-weight: bold;
+  font-size: 14px;
+  color: #c7c7c7;
+  @media (min-width: ${device.laptop}) {
+    font-size: 16px;
+  }
+  margin-bottom: 5px;
+`;
+
+export const WrapDate = styled.div`
+  font-weight: 500;
+  font-size: 18px;
+  color: #223367;
+  padding-left: 15px;
 `;

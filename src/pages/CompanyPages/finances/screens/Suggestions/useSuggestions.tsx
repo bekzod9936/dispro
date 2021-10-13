@@ -78,6 +78,7 @@ const useSuggestion = ({ filterValues }: PProps) => {
       retry: 0,
       onSuccess: (data) => {
         setData(data.data.data.history);
+
         setTotalCount(
           Math.ceil(data.data.data.totalCount / filterValues?.perPage)
         );

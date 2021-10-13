@@ -21,10 +21,6 @@ export const Wrap = styled.div`
   &::-webkit-scrollbar-thumb {
     background: #606eea;
     border-radius: 14px 0px 0px 14px;
-    height: 150px; //for vertical scrollbar
-  }
-  ::-webkit-scrollbar-button {
-    height: 150px; //for vertical scrollbar
   }
 `;
 

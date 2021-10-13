@@ -7,6 +7,13 @@ import Table from '../../components/Table';
 import moment from 'moment';
 import { Container, Wrap, WrapPag, Info } from './style';
 import DatePcker from 'components/Custom/DatePicker';
+import {
+  Label,
+  RightHeader,
+  TotalSum,
+  WrapTotal,
+  WrapTotalSum,
+} from '../../style';
 
 interface intialFilterProps {
   page?: number;
@@ -29,7 +36,7 @@ const Payment = () => {
   const [filterValues, setFilterValues] =
     useState<intialFilterProps>(intialFilter);
 
-  const { response, data, totalCount, between } = usePayment({
+  const { response, data, totalCount, between, header } = usePayment({
     filterValues: filterValues,
   });
 
@@ -42,7 +49,7 @@ const Payment = () => {
       col3: '-',
       col4: v?.amount,
       col5: v?.amountPartner,
-      col6: pay,
+      col6: pay.toFixed(2)?.replace(/\.0+$/, ''),
     };
   });
 
@@ -82,43 +89,55 @@ const Payment = () => {
   };
 
   return (
-    <Container>
-      <DatePcker
-        onChange={async (e: any) => {
-          await setFilterValues({
-            ...filterValues,
-            dateFrom: e.slice(0, e.indexOf(' ~')),
-            dateTo: e.slice(e.indexOf('~ ') + 2),
-          });
-          await response.refetch();
-        }}
-        margin='0 0 20px 0'
-      />
-      <Wrap>
-        {response.isLoading || response.isFetching ? (
-          <Spinner />
-        ) : (
-          <>
-            <Table columns={columns} data={list} />
-          </>
-        )}
-        {list.length > 1 ? (
-          <WrapPag>
-            <Info>
-              Показано
-              <span>{between}</span>
-              из <span>{totalCount}</span> операций
-            </Info>
-            <Pagination
-              page={filterValues.page}
-              count={totalCount}
-              onChange={handlechangePage}
-              disabled={response.isLoading || response.isFetching}
-            />
-          </WrapPag>
-        ) : null}
-      </Wrap>
-    </Container>
+    <>
+      <RightHeader>
+        <WrapTotal>
+          {header.map((v: any) => (
+            <WrapTotalSum>
+              <Label>{v.title || ''}</Label>
+              <TotalSum>{v.value || 0}</TotalSum>
+            </WrapTotalSum>
+          ))}
+        </WrapTotal>
+      </RightHeader>
+      <Container>
+        <DatePcker
+          onChange={async (e: any) => {
+            await setFilterValues({
+              ...filterValues,
+              dateFrom: e.slice(0, e.indexOf(' ~')),
+              dateTo: e.slice(e.indexOf('~ ') + 2),
+            });
+            await response.refetch();
+          }}
+          margin='0 0 20px 0'
+        />
+        <Wrap>
+          {response.isLoading || response.isFetching ? (
+            <Spinner />
+          ) : (
+            <>
+              <Table columns={columns} data={list} />
+            </>
+          )}
+          {list.length > 1 ? (
+            <WrapPag>
+              <Info>
+                Показано
+                <span>{between}</span>
+                из <span>{totalCount}</span> операций
+              </Info>
+              <Pagination
+                page={filterValues.page}
+                count={totalCount}
+                onChange={handlechangePage}
+                disabled={response.isLoading || response.isFetching}
+              />
+            </WrapPag>
+          ) : null}
+        </Wrap>
+      </Container>
+    </>
   );
 };
 

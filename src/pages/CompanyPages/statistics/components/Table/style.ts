@@ -12,7 +12,6 @@ export const Container = styled.div`
   border-radius: 14px;
   height: fit-content;
   padding-bottom: 15px;
-  overflow-y: auto;
   width: 100%;
 `;
 
@@ -20,6 +19,24 @@ export const MTable = styled.table`
   border-collapse: collapse;
   width: 100%;
   table-layout: auto;
+  overflow-x: scroll;
+
+  &:hover {
+    ::-webkit-scrollbar-thumb {
+      background: #606eea;
+    }
+  }
+  ::-webkit-scrollbar {
+    width: 7px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 0 0 14px 14px;
+  }
 `;
 
 export const Thead = styled.thead`

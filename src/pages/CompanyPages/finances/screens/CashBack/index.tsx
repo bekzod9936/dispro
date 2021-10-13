@@ -4,6 +4,8 @@ import useCashBack from './useCashBack';
 import Spinner from 'components/Custom/Spinner';
 import Pagination from 'components/Custom/Pagination';
 import Table from '../../components/Table';
+import DatePcker from 'components/Custom/DatePicker';
+import moment from 'moment';
 import {
   Container,
   Wrap,
@@ -13,8 +15,13 @@ import {
   WrapIcon,
   WalletIcon,
 } from './style';
-import DatePcker from 'components/Custom/DatePicker';
-
+import {
+  Label,
+  RightHeader,
+  TotalSum,
+  WrapTotal,
+  WrapTotalSum,
+} from '../../style';
 interface intialFilterProps {
   page?: number;
   perPage?: number;
@@ -23,11 +30,9 @@ interface intialFilterProps {
 }
 const companyId = localStorage.getItem('companyId');
 const intialFilter = {
-  companyId: companyId,
+  accountId: companyId,
   page: 1,
   perPage: 5,
-  dateFrom: '',
-  dateTo: '',
 };
 
 const Payment = () => {
@@ -36,48 +41,23 @@ const Payment = () => {
   const [filterValues, setFilterValues] =
     useState<intialFilterProps>(intialFilter);
 
-  const { response, data, totalCount, between } = useCashBack({
+  const { response, data, totalCount, between, header } = useCashBack({
     filterValues: filterValues,
   });
 
-  const list = [
-    {
-      col1: 'Начисление кешбэка',
-      col2: 'Фахриддин Юлдошев',
-      col3: 15008,
-      col4: 150,
-      col5: '22.06.2021',
-      col6: '22.06.2021',
-      col7: 'Начислено',
-    },
-    {
-      col1: 'Пополнение депозита',
-      col2: 'Фахриддин Юлдошев',
-      col3: 1500,
-      col4: 20,
-      col5: '22.06.2021',
-      col6: '22.06.2021',
-      col7: 'Начислено',
-    },
-    {
-      col1: 'Начисление кешбэка',
-      col2: 'Фахриддин Юлдошев',
-      col3: 15000,
-      col4: 150,
-      col5: '22.06.2021',
-      col6: '22.06.2021',
-      col7: 'Начислено',
-    },
-    {
-      col1: 'Пополнение депозита',
-      col2: 'Фахриддин Юлдошев',
-      col3: 15000,
-      col4: 10,
-      col5: '22.06.2021',
-      col6: '22.06.2021',
-      col7: 'Начислено',
-    },
-  ];
+  const list = data?.map((v: any) => {
+    const date1 = moment(v.date).format('DD.MM.YYYY');
+    const date2 = moment(v.activateDate).format('DD.MM.YYYY');
+    return {
+      col1: '-',
+      col2: v.clientName,
+      col3: v.amount,
+      col4: v.amountCommission,
+      col5: date1,
+      col6: date2,
+      col7: v.status,
+    };
+  });
 
   const columns: any = useMemo(
     () => [
@@ -118,6 +98,15 @@ const Payment = () => {
       {
         Header: t('status'),
         accessor: 'col7',
+        Cell: (props: any) => (
+          <>
+            {props?.value === 'success'
+              ? t('accrued')
+              : props?.value === 'pending'
+              ? t('pending')
+              : t('canceled')}
+          </>
+        ),
       },
     ],
     []
@@ -129,43 +118,55 @@ const Payment = () => {
   };
 
   return (
-    <Container>
-      <DatePcker
-        onChange={async (e: any) => {
-          await setFilterValues({
-            ...filterValues,
-            dateFrom: e.slice(0, e.indexOf(' ~')),
-            dateTo: e.slice(e.indexOf('~ ') + 2),
-          });
-          await response.refetch();
-        }}
-        margin='0 0 20px 0'
-      />
-      <Wrap>
-        {response.isLoading || response.isFetching ? (
-          <Spinner />
-        ) : (
-          <>
-            <Table columns={columns} data={list} />
-          </>
-        )}
-        {list.length > 1 ? (
-          <WrapPag>
-            <Info>
-              Показано
-              <span>{between}</span>
-              из <span>{totalCount}</span> операций
-            </Info>
-            <Pagination
-              page={filterValues.page}
-              count={totalCount}
-              onChange={handlechangePage}
-              disabled={response.isLoading || response.isFetching}
-            />
-          </WrapPag>
-        ) : null}
-      </Wrap>
-    </Container>
+    <>
+      <RightHeader>
+        <WrapTotal>
+          {header.map((v: any) => (
+            <WrapTotalSum>
+              <Label>{v.title || ''}</Label>
+              <TotalSum>{v.value || 0}</TotalSum>
+            </WrapTotalSum>
+          ))}
+        </WrapTotal>
+      </RightHeader>
+      <Container>
+        <DatePcker
+          onChange={async (e: any) => {
+            await setFilterValues({
+              ...filterValues,
+              dateFrom: e.slice(0, e.indexOf(' ~')),
+              dateTo: e.slice(e.indexOf('~ ') + 2),
+            });
+            await response.refetch();
+          }}
+          margin='0 0 20px 0'
+        />
+        <Wrap>
+          {response.isLoading || response.isFetching ? (
+            <Spinner />
+          ) : (
+            <>
+              <Table columns={columns} data={list} />
+            </>
+          )}
+          {list.length > 1 ? (
+            <WrapPag>
+              <Info>
+                Показано
+                <span>{between}</span>
+                из <span>{totalCount}</span> операций
+              </Info>
+              <Pagination
+                page={filterValues.page}
+                count={totalCount}
+                onChange={handlechangePage}
+                disabled={response.isLoading || response.isFetching}
+              />
+            </WrapPag>
+          ) : null}
+        </Wrap>
+      </Container>
+    </>
   );
 };
 
