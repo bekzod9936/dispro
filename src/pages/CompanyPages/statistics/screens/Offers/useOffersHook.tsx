@@ -12,6 +12,7 @@ const useOffersHook = ({ filterValues }: Props) => {
       activeCount: '',
       expireCount: '',
       payedCount: '',
+      type: '',
       usedCount: '',
     },
   ]);
@@ -22,13 +23,15 @@ const useOffersHook = ({ filterValues }: Props) => {
       const url = Object.keys(filterValues)
         .map((v: any) => `${v}=${filterValues[v]}&`)
         .join('');
-      return fetchCilentsData({ section: `coupons?${url}` });
+      return fetchCilentsData({ section: `coupons/new?${url}` });
     },
     {
       keepPreviousData: true,
       refetchOnWindowFocus: false,
       retry: 0,
-      onSuccess: (data: any) => console.log(data.data.data),
+      onSuccess: (data: any) => {
+        setData(data.data.data);
+      },
     }
   );
 

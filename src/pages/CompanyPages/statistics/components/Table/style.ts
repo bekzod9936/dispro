@@ -10,16 +10,16 @@ export const Container = styled.div`
   background: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
   border-radius: 14px;
-  width: fit-content;
   height: fit-content;
   padding-bottom: 15px;
   overflow-y: auto;
+  width: 100%;
 `;
 
 export const MTable = styled.table`
   border-collapse: collapse;
   width: 100%;
-  table-layout: fixed;
+  table-layout: auto;
 `;
 
 export const Thead = styled.thead`

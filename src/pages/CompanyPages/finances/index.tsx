@@ -13,7 +13,7 @@ const Finance = () => {
 
   return (
     <MainWrapper>
-      <Title>{t('statistics')}</Title>
+      <Title>{t('finances')}</Title>
       <NavBar list={menuItems} margin='10px 0' />
 
       <Switch>
