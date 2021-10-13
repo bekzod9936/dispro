@@ -86,6 +86,8 @@ const NestedArray = ({ index, control, getValues, setValue }: IProps) => {
     }
   };
 
+  console.log(levels, "levels form");
+
   const unitIcon = (unit: string | number) => {
     if (unit === "UZS") return <div>{t("uzs")}</div>;
     else if (unit === "шт") return <div>{t("quantity")}</div>;
@@ -105,8 +107,13 @@ const NestedArray = ({ index, control, getValues, setValue }: IProps) => {
 
   return (
     <div>
-      {fields?.length > 0 &&
+      {levels?.length > 0 &&
+        fields?.length > 0 &&
         fields?.map((value: any, smallIndex: number) => {
+          // console.log(
+          //   levels[index]?.requirements[smallIndex]?.type,
+          //   "small Index"
+          // );
           return (
             <RequirementsGrid
               container
@@ -115,7 +122,9 @@ const NestedArray = ({ index, control, getValues, setValue }: IProps) => {
               justifyContent="space-between"
             >
               <SelectGrid alignItems="flex-end" item xs={2}>
-                {smallIndex === 0 ? null : (
+                {smallIndex === 0 ||
+                !levels?.length ||
+                !levels[index]?.requirements ? null : (
                   <Controller
                     name={`levels.${[index]}.requirements.${[
                       smallIndex,
@@ -135,17 +144,10 @@ const NestedArray = ({ index, control, getValues, setValue }: IProps) => {
                           )?.value
                     }
                     render={({ field }) => {
-                      // : oneFullOptions.find(
-                      //     (c) => c.value === value?.condition
-                      //   );
-                      //   value?.type !== 2
-                      // ?
-
                       return (
                         <MultiSelect
                           {...field}
                           placeholder={t(`${value?.condition}`)}
-                          // defaultValue={{ value: "and", label: t("and") }}
                           options={
                             levels[index]?.requirements[smallIndex]?.type !== 2
                               ? typeFullOptions
@@ -198,66 +200,70 @@ const NestedArray = ({ index, control, getValues, setValue }: IProps) => {
               <SelectGrid alignItems="flex-end" item xs={4}>
                 <SubText>{t("when").toLowerCase()}</SubText>
 
-                <Controller
-                  name={`levels.${[index]}.requirements.${[smallIndex]}.type`}
-                  control={control}
-                  defaultValue={
-                    loyalityOptions?.find(
-                      (c) =>
-                        c.value == levels[index]?.requirements[smallIndex]?.type
-                    )?.value
-                  }
-                  render={({ field }) => {
-                    return (
-                      <MultiSelect
-                        {...field}
-                        name={field.name}
-                        placeholder={labelType(value?.type)}
-                        options={loyalityOptions?.filter(
-                          (item: any) =>
-                            !levels[index].requirements?.find(
-                              (newItem: any) => newItem?.type == item?.value
-                            )
-                        )}
-                        value={loyalityOptions?.find(
-                          (c) =>
-                            c.value ==
-                            levels[index]?.requirements[smallIndex]?.type
-                        )}
-                        onChange={(e) => {
-                          field.onChange(e.value);
-                          if (e.value == 2) {
-                            setValue(
-                              `levels.${[index]}.requirements.${[
-                                smallIndex,
-                              ]}.condition`,
-                              "and"
-                            );
-                          }
-                        }}
-                        width={{
-                          minwidth: 120,
-                        }}
-                        selectStyle={{
-                          radius: 0,
-                          borderbottom: "1px solid #606EEA",
-                          border: "transparent",
-                          bgcolor: "transparent",
-                          inpadding: "2px 0",
-                          height: {
-                            laptop: 20,
-                            desktop: 20,
-                            planshet: 20,
-                            mobile: 20,
-                          },
-                        }}
-                        iconmargin="0"
-                        // error={errors.companyType ? true : false}
-                        message={t("requiredField")}
-                      />
-                    );
-                  }}
-                />
+                {!levels?.length || !levels[index]?.requirements ? null : (
+                  <Controller
+                    name={`levels.${[index]}.requirements.${[smallIndex]}.type`}
+                    control={control}
+                    defaultValue={
+                      value?.type &&
+                      loyalityOptions?.find(
+                        (c: any) =>
+                          c?.value ==
+                          levels[index]?.requirements[smallIndex]?.type
+                      )?.value
+                    }
+                    render={({ field }) => {
+                      return (
+                        <MultiSelect
+                          {...field}
+                          name={field.name}
+                          placeholder={labelType(value?.type)}
+                          options={loyalityOptions?.filter(
+                            (item: any) =>
+                              !levels[index].requirements?.find(
+                                (newItem: any) => newItem?.type == item?.value
+                              )
+                          )}
+                          value={loyalityOptions?.find(
+                            (c) =>
+                              c.value ==
+                              levels[index]?.requirements[smallIndex]?.type
+                          )}
+                          onChange={(e) => {
+                            field.onChange(e.value);
+                            if (e.value == 2) {
+                              setValue(
+                                `levels.${[index]}.requirements.${[
+                                  smallIndex,
+                                ]}.condition`,
+                                "and"
+                              );
+                            }
+                          }}
+                          width={{
+                            minwidth: 120,
+                          }}
+                          selectStyle={{
+                            radius: 0,
+                            borderbottom: "1px solid #606EEA",
+                            border: "transparent",
+                            bgcolor: "transparent",
+                            inpadding: "2px 0",
+                            height: {
+                              laptop: 20,
+                              desktop: 20,
+                              planshet: 20,
+                              mobile: 20,
+                            },
+                          }}
+                          iconmargin="0"
+                          // error={errors.companyType ? true : false}
+                          message={t("requiredField")}
+                        />
+                      );
+                    }}
+                  />
+                )}
               </SelectGrid>
 
               <LevelGrid item xs={5} direction="row" justifyContent="center">
