@@ -1,8 +1,8 @@
 import { Label } from "./style";
 
 export interface IProps {
-  checked: boolean;
-  onChange: any;
+  checked?: boolean;
+  onChange?: any;
   disabled?: boolean;
 }
 

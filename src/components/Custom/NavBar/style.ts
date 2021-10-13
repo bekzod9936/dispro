@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
-import { device } from '../../../styles/device';
+import styled from "styled-components";
+import { NavLink } from "react-router-dom";
+import { device } from "../../../styles/device";
 
 interface Props {
   listlength?: number;
@@ -15,8 +15,9 @@ export const Container = styled.div`
   width: fit-content;
   grid-column-gap: 10px;
   overflow: auto;
+  overflow-y: scroll;
 
-  padding: ${({ padding = '0 10px 10px 0' }: Props) => padding};
+  padding: ${({ padding = "0 10px 10px 0" }: Props) => padding};
   margin: ${({ margin }: Props) => margin};
   &::-webkit-scrollbar {
     appearance: none;

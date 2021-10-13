@@ -5,16 +5,6 @@ interface IProps {
   deactivated?: boolean;
 }
 
-export const BottomBtnContainer = styled.div`
-  position: absolute;
-  padding-top: 25px;
-  padding-bottom: 20px;
-  bottom: 0;
-  left: 10px;
-  width: 100%;
-  background-color: #f1f4f6;
-`;
-
 export const GridContainer = styled(Grid)`
   /* margin-bottom: 120px; */
 `;

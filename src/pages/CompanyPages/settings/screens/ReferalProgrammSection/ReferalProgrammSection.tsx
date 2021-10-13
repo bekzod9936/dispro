@@ -13,8 +13,8 @@ import {
 import { ThreeHeadIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import { COLORS, FONT_SIZE } from "services/Types/enums";
 import CustomToggle from "components/Custom/CustomToggleSwitch";
+import { BottomBtnContainer } from "../../styles/index";
 import {
-  BottomBtnContainer,
   GridContainer,
   LeftGrid,
   LevelsColumn,
@@ -49,7 +49,7 @@ const ReferalProgrammSection = () => {
 
   return (
     <GridContainer container spacing={3}>
-      <LeftGrid item xs={7}>
+      <LeftGrid item xs={12} sm={7}>
         <Form onSubmit={handleSubmit(handleSave)}>
           <HeaderReferal>
             <div>
@@ -170,7 +170,7 @@ const ReferalProgrammSection = () => {
         </Form>
       </LeftGrid>
 
-      <RightGrid item xs={4}>
+      <RightGrid item xs={12} sm={4}>
         <LevelsCard>
           <LevelsHead>
             <ThreeHeadIcon />
