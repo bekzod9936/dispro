@@ -15,16 +15,25 @@ import { IconButton } from '@material-ui/core';
 interface Props {
   onChange?: (e: any) => void;
   margin?: string;
+  defaultValue?: string[];
 }
 
-const DatePicker = ({ onChange = () => {}, margin }: Props) => {
+const DatePicker = ({
+  onChange = () => {},
+  margin,
+  defaultValue = [''],
+}: Props) => {
   const datePickerRef: any = useRef();
   const { t } = useTranslation();
 
-  const [values, setValues] = useState<any>();
+  const [values, setValues] = useState<any>(defaultValue);
+
   const [date, setDate] = useState('');
+  const handleChange = (e: any) => {
+    console.log(e, 'fff');
+    setValues(e);
+  };
   useEffect(() => {
-    setValues(datePickerRef?.current?.childNodes[0]?.attributes?.value?.value);
     setDate(datePickerRef?.current?.childNodes[0]?.attributes?.value?.value);
   }, [datePickerRef?.current?.childNodes[0]?.attributes?.value?.value]);
 
@@ -64,12 +73,11 @@ const DatePicker = ({ onChange = () => {}, margin }: Props) => {
       </WrapButton>
       <RDatePicker
         inputClass='custom-input'
-        className='asas'
         ref={datePickerRef}
         range={true}
-        onChange={setValues}
+        onChange={handleChange}
         numberOfMonths={2}
-        value={''}
+        value={values}
         format={format}
       />
     </Container>

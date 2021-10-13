@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Container, Img, WrapIcon } from './style';
+import { Container, Img, WrapIcon, Wrapper } from './style';
 import useOffersHook from './useOffersHook';
 import { useTranslation } from 'react-i18next';
 import Spinner from 'components/Custom/Spinner';
@@ -14,32 +14,15 @@ const Offers = () => {
   const [date, setDate] = useState({ startDate: '', endDate: '' });
   const { response, data } = useOffersHook({ filterValues: date });
 
-  const list = useMemo(
-    () => [
-      {
-        col1: 'Купон',
-        col2: 15,
-        col3: 10,
-        col4: 35,
-        col5: 430,
-      },
-      {
-        col1: 'Сертификат',
-        col2: 11,
-        col3: 5,
-        col4: 20,
-        col5: 2750,
-      },
-      {
-        col1: 'Подписка',
-        col2: 5,
-        col3: 3,
-        col4: 15,
-        col5: 112500,
-      },
-    ],
-    []
-  );
+  const list = data?.map((v: any) => {
+    return {
+      col1: v?.type,
+      col2: v?.payedCount,
+      col3: v?.activeCount,
+      col4: v?.expireCount,
+      col5: v?.usedCount,
+    };
+  });
 
   const columns: any = useMemo(
     () => [
@@ -48,14 +31,22 @@ const Offers = () => {
         accessor: 'col1',
         Cell: (props: any) => (
           <WrapIcon>
-            {props?.value === 'Купон' ? (
-              <Img src={coupon} alt='coupon' />
-            ) : props?.value === 'Сертификат' ? (
-              <Img src={coupon1} alt='coupon1' />
-            ) : props?.value === 'Подписка' ? (
-              <Img src={gift} alt='gift' />
+            {props?.value === 2 ? (
+              <>
+                <Img src={coupon} alt='coupon' />
+                {t('Купон')}
+              </>
+            ) : props?.value === 1 ? (
+              <>
+                <Img src={gift} alt='gift' />
+                {t('certificate')}
+              </>
+            ) : props?.value === 3 ? (
+              <>
+                <Img src={coupon1} alt='coupon1' />
+                {t('subscription')}
+              </>
             ) : null}
-            {props?.value}
           </WrapIcon>
         ),
       },
@@ -91,11 +82,13 @@ const Offers = () => {
         }}
         margin='0 0 20px 0'
       />
-      {response.isLoading || response.isFetching ? (
-        <Spinner />
-      ) : (
-        <Table columns={columns} data={list} />
-      )}
+      <Wrapper>
+        {response.isLoading || response.isFetching ? (
+          <Spinner />
+        ) : (
+          <Table columns={columns} data={list} />
+        )}
+      </Wrapper>
     </Container>
   );
 };
