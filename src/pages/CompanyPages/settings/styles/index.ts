@@ -7,3 +7,13 @@ export const SpinnerDiv = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
+export const BottomBtnContainer = styled.div`
+  position: absolute;
+  padding-top: 25px;
+  padding-bottom: 20px;
+  bottom: 0;
+  left: 10px;
+  width: 100%;
+  background-color: #f1f4f6;
+`;

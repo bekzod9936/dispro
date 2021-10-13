@@ -8,7 +8,6 @@ import { CustomButton, ModalComponent, Text } from "styles/CustomStyles";
 import { useTranslation } from "react-i18next";
 import { Controller } from "react-hook-form";
 import { SaveIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
-import partnerApi from "services/interceptors/companyInterceptor";
 import { AddIconSettings } from "assets/icons/SettingsIcons/SettingsPageIcon";
 import { ReactComponent as RemoveIconSettings } from "assets/icons/delete_level.svg";
 import { ReactComponent as PercentIcon } from "assets/icons/percent_icon.svg";
@@ -17,7 +16,7 @@ import CustomModal from "components/Custom/CustomModal";
 import { SyncIcon } from "assets/icons/FeedBackIcons.tsx/FeedbackIcons";
 import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import CustomToggle from "components/Custom/CustomToggleSwitch";
-import useLoyality, { FormProps } from "./hooks/useLoyality";
+import useLoyality from "./hooks/useLoyality";
 import { RippleDiv } from "components/Custom/RippleEffect/style";
 import NestedArray from "./components/NestedArray";
 import Checkbox from "components/Custom/CheckBox";
@@ -68,7 +67,7 @@ const LoyaltyProgramSection = () => {
 
   return (
     <Grid container spacing={3} justifyContent="space-between">
-      <LeftGrid item xs={5}>
+      <LeftGrid item xs={12} sm={5}>
         <Flex
           flexDirection="column"
           justifyContent="start"
@@ -123,7 +122,7 @@ const LoyaltyProgramSection = () => {
         </Flex>
       </LeftGrid>
 
-      <Grid item xs={7}>
+      <Grid item xs={12} sm={7}>
         {!isLoading &&
         !cashbackLoading &&
         !discountLoading &&

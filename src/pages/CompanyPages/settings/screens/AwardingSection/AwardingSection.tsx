@@ -1,16 +1,25 @@
 import { useState } from "react";
-import { Flex } from "../../../../../styles/BuildingBlocks";
-import { CustomButton, Text } from "../../../../../styles/CustomStyles";
-import CustomInput from "../../../../../components/Custom/CustomInput";
+import Grid from "@material-ui/core/Grid";
+import { Flex } from "styles/BuildingBlocks";
+import CustomToggle from "components/Custom/CustomToggleSwitch";
+import Input from "components/Custom/Input";
+import { Text } from "styles/CustomStyles";
 import CustomTextArea from "../../../info/CustomTextArea";
 import { Controller, useForm } from "react-hook-form";
-import { SaveIcon } from "../../../../../assets/icons/InfoPageIcons/InfoPageIcons";
+import { SaveIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
 import { useTranslation } from "react-i18next";
-import partnerApi from "../../../../../services/interceptors/companyInterceptor";
+import partnerApi from "services/interceptors/companyInterceptor";
 import { useQuery } from "react-query";
-import { fetchRewards } from "../../../../../services/queries/PartnerQueries";
+import { fetchRewards } from "services/queries/PartnerQueries";
 import { SettingsWrapper } from "../../styles/SettingStyles";
-import { StyledSwitch } from "../../../../../components/Custom/CustomSwitch/CustomSwitch";
+import {
+  AwardContainer,
+  BottomAwardBtnContainer,
+  Form,
+  LeftAwardGrid,
+  RightAwardGrid,
+} from "./styles";
+import Button from "components/Custom/Button";
 
 interface IForm {
   awardLimit: number | null;
@@ -93,9 +102,8 @@ const AwardingSection = () => {
   const { control, handleSubmit, setValue } = useForm<IForm>();
   const { t } = useTranslation();
   const companyId: any = localStorage.getItem("companyId");
-  const [refetch, setRefetch] = useState(0);
 
-  const response = useQuery(["rewards", refetch], () => fetchRewards(), {
+  const { refetch } = useQuery(["rewards"], () => fetchRewards(), {
     retry: 0,
     refetchOnWindowFocus: false,
 
@@ -148,6 +156,7 @@ const AwardingSection = () => {
       setSwitchStates([...filtered]);
     }
   };
+
   const renderUnderSwitchFirst = () => {
     return (
       <div style={{ width: "100%" }}>
@@ -156,10 +165,10 @@ const AwardingSection = () => {
           name="awardSizeFirst"
           render={({ field }) => {
             return (
-              <CustomInput
+              <Input
                 field={field}
-                style={{ width: "70%" }}
-                label="awardSize"
+                width={{ width: "70%" }}
+                label={t("awardSize")}
               />
             );
           }}
@@ -176,10 +185,10 @@ const AwardingSection = () => {
             name="awardSizeThird"
             render={({ field }) => {
               return (
-                <CustomInput
+                <Input
                   field={field}
-                  label="awardSize"
-                  style={{ width: "70%" }}
+                  label={t("awardSize")}
+                  width={{ width: "70%" }}
                 />
               );
             }}
@@ -191,10 +200,10 @@ const AwardingSection = () => {
             name="awardLimit"
             render={({ field }) => {
               return (
-                <CustomInput
+                <Input
                   field={field}
-                  label="awardLimit"
-                  style={{ width: "70%" }}
+                  label={t("awardLimit")}
+                  width={{ width: "70%" }}
                 />
               );
             }}
@@ -205,21 +214,14 @@ const AwardingSection = () => {
   };
   const renderSwitchSecond = () => {
     return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "start",
-          alignItems: "start",
-          width: "100%",
-        }}
-      >
-        <div style={{ width: "50%" }}>
+      <Grid container xs={12}>
+        <Grid item xs={12} sm={6}>
           <div>
             <Controller
               control={control}
               name="awardSizeSecond"
               render={({ field }) => {
-                return <CustomInput field={field} label="awardSize" />;
+                return <Input field={field} label={t("awardSize")} />;
               }}
             />
           </div>
@@ -229,17 +231,17 @@ const AwardingSection = () => {
               name="payfor"
               render={({ field }) => {
                 return (
-                  <CustomInput
+                  <Input
                     field={field}
-                    label="payfor"
-                    aboveLabel="dayTillBirthday"
+                    label={t("payfor")}
+                    // aboveLabel="dayTillBirthday"
                   />
                 );
               }}
             />
           </div>
-        </div>
-        <div style={{ width: "50%" }}>
+        </Grid>
+        <Grid item xs={12} sm={6}>
           <Controller
             name="description"
             control={control}
@@ -260,8 +262,8 @@ const AwardingSection = () => {
               );
             }}
           />
-        </div>
-      </div>
+        </Grid>
+      </Grid>
     );
   };
   const onFormSubmit = async (data: IForm) => {
@@ -307,7 +309,7 @@ const AwardingSection = () => {
         companyId: Number(companyId),
         rewards: TOTAL_FIELDS_PATTERN,
       });
-      setRefetch(refetch + 1);
+      refetch();
     } catch (err) {}
   };
 
@@ -326,10 +328,10 @@ const AwardingSection = () => {
             control={control}
             render={({ field }) => {
               return (
-                <CustomInput
+                <Input
                   field={field}
-                  style={{ width: "100%" }}
-                  label="awardSize"
+                  width={{ width: "100%" }}
+                  label={t("awardSize")}
                 />
               );
             }}
@@ -341,10 +343,10 @@ const AwardingSection = () => {
             control={control}
             render={({ field }) => {
               return (
-                <CustomInput
+                <Input
                   field={field}
-                  style={{ width: "100%" }}
-                  label="ifMoreThan"
+                  width={{ width: "100%" }}
+                  label={t("ifMoreThan")}
                 />
               );
             }}
@@ -353,6 +355,8 @@ const AwardingSection = () => {
       </div>
     );
   };
+
+  //Switches
   const switchesFirstline = [
     {
       title: "Приветственные баллы",
@@ -390,6 +394,7 @@ const AwardingSection = () => {
       rewardType: 4,
     },
   ];
+
   return (
     <>
       <Flex flexGrow="1" margin="0px">
@@ -400,29 +405,13 @@ const AwardingSection = () => {
             boxSizing: "border-box",
           }}
         >
-          <form onSubmit={handleSubmit(onFormSubmit)}>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "stretch",
-                alignItems: "start",
-                flexGrow: 1,
-                width: switchStates.length > 0 ? "100%" : "80%",
-              }}
-            >
-              <Flex
-                height="40%"
-                width="100%"
-                margin="0px"
-                style={{ alignContent: "stretch" }}
-                justifyContent="stretch"
-                flexDirection="column"
-                alignItems="flex-start"
-                flexWrap="wrap"
-              >
+          <Form onSubmit={handleSubmit(onFormSubmit)}>
+            <AwardContainer container spacing={3}>
+              <LeftAwardGrid item xs={6}>
                 {switchesFirstline.map((item: any, index: number) => {
                   return (
                     <Flex
+                      key={index}
                       width="100%"
                       margin="0px 0px 20px 0px"
                       justifyContent="start"
@@ -450,10 +439,10 @@ const AwardingSection = () => {
                           </div>
                         </div>
                         <div style={{ margin: "10px 0px 10px 20px" }}>
-                          <StyledSwitch
+                          <CustomToggle
                             checked={switchStates.includes(item.key)}
-                            onChange={(e: any, checked: any) =>
-                              handleSwitch(checked, item, index)
+                            onChange={(e: any) =>
+                              handleSwitch(e.target.checked, item, index)
                             }
                           />
                         </div>
@@ -464,20 +453,21 @@ const AwardingSection = () => {
                     </Flex>
                   );
                 })}
-              </Flex>
-              <Flex
-                height="40%"
-                width={switchStates.length > 0 ? "100%" : "80%"}
-                margin="0px"
-                style={{ alignContent: "stretch" }}
-                justifyContent="stretch"
-                flexDirection="column"
-                alignItems="flex-start"
-                flexWrap="wrap"
-              >
+                <BottomAwardBtnContainer>
+                  <Button type="submit">
+                    <SaveIcon />
+                    <Text marginLeft="15px" color="white">
+                      {t("save")}
+                    </Text>
+                  </Button>
+                </BottomAwardBtnContainer>
+              </LeftAwardGrid>
+
+              <RightAwardGrid item xs={6}>
                 {switchesSecond.map((item: any, index: number) => {
                   return (
                     <Flex
+                      key={index}
                       width="100%"
                       margin="0px 0px 20px 0px"
                       justifyContent="start"
@@ -505,10 +495,10 @@ const AwardingSection = () => {
                           </div>
                         </div>
                         <div style={{ margin: "10px 0px 10px 20px" }}>
-                          <StyledSwitch
+                          <CustomToggle
                             checked={switchStates.includes(item.key)}
-                            onChange={(e: any, checked: any) =>
-                              handleSwitch(checked, item, index)
+                            onChange={(e: any) =>
+                              handleSwitch(e.target.checked, item, index)
                             }
                           />
                         </div>
@@ -519,17 +509,9 @@ const AwardingSection = () => {
                     </Flex>
                   );
                 })}
-              </Flex>
-            </div>
-            <div style={{ width: "100%", position: "fixed", bottom: "10px" }}>
-              <CustomButton type="submit">
-                <SaveIcon />
-                <Text marginLeft="15px" color="white">
-                  {t("save")}
-                </Text>
-              </CustomButton>
-            </div>
-          </form>
+              </RightAwardGrid>
+            </AwardContainer>
+          </Form>
         </SettingsWrapper>
       </Flex>
     </>

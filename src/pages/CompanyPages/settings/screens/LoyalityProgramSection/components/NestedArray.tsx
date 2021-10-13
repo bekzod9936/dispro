@@ -15,11 +15,6 @@ interface IProps {
   setValue?: any;
 }
 
-interface ICategory {
-  value: string;
-  label: string;
-}
-
 const NestedArray = ({ index, control, getValues, setValue }: IProps) => {
   const { t } = useTranslation();
   const levels = useWatch({
@@ -85,8 +80,6 @@ const NestedArray = ({ index, control, getValues, setValue }: IProps) => {
       return null;
     }
   };
-
-  console.log(levels, "levels form");
 
   const unitIcon = (unit: string | number) => {
     if (unit === "UZS") return <div>{t("uzs")}</div>;
