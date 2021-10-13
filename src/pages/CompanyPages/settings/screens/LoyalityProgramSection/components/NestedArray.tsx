@@ -123,15 +123,15 @@ const NestedArray = ({ index, control, getValues, setValue }: IProps) => {
                     control={control}
                     defaultValue={
                       value?.type !== 2
-                        ? typeFullOptions.find(
+                        ? typeFullOptions?.find(
                             (c) =>
                               c.value ==
-                              levels[index].requirements[smallIndex]?.condition
+                              levels[index]?.requirements[smallIndex]?.condition
                           )?.value
-                        : oneFullOptions.find(
+                        : oneFullOptions?.find(
                             (c) =>
                               c.value ==
-                              levels[index].requirements[smallIndex]?.condition
+                              levels[index]?.requirements[smallIndex]?.condition
                           )?.value
                     }
                     render={({ field }) => {
@@ -147,22 +147,22 @@ const NestedArray = ({ index, control, getValues, setValue }: IProps) => {
                           placeholder={t(`${value?.condition}`)}
                           // defaultValue={{ value: "and", label: t("and") }}
                           options={
-                            levels[index].requirements[smallIndex]?.type !== 2
+                            levels[index]?.requirements[smallIndex]?.type !== 2
                               ? typeFullOptions
                               : oneFullOptions
                           }
                           value={
                             value?.type !== 2
-                              ? typeFullOptions.find(
+                              ? typeFullOptions?.find(
                                   (c) =>
                                     c.value ==
-                                    levels[index].requirements[smallIndex]
+                                    levels[index]?.requirements[smallIndex]
                                       ?.condition
                                 )
-                              : oneFullOptions.find(
+                              : oneFullOptions?.find(
                                   (c) =>
                                     c.value ==
-                                    levels[index].requirements[smallIndex]
+                                    levels[index]?.requirements[smallIndex]
                                       ?.condition
                                 )
                           }
@@ -202,7 +202,7 @@ const NestedArray = ({ index, control, getValues, setValue }: IProps) => {
                   name={`levels.${[index]}.requirements.${[smallIndex]}.type`}
                   control={control}
                   defaultValue={
-                    loyalityOptions.find(
+                    loyalityOptions?.find(
                       (c) =>
                         c.value == levels[index]?.requirements[smallIndex]?.type
                     )?.value
@@ -213,13 +213,13 @@ const NestedArray = ({ index, control, getValues, setValue }: IProps) => {
                         {...field}
                         name={field.name}
                         placeholder={labelType(value?.type)}
-                        options={loyalityOptions.filter(
+                        options={loyalityOptions?.filter(
                           (item: any) =>
-                            !levels[index].requirements.find(
-                              (newItem: any) => newItem.type == item.value
+                            !levels[index].requirements?.find(
+                              (newItem: any) => newItem?.type == item?.value
                             )
                         )}
-                        value={loyalityOptions.find(
+                        value={loyalityOptions?.find(
                           (c) =>
                             c.value ==
                             levels[index]?.requirements[smallIndex]?.type
