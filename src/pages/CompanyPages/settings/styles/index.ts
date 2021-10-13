@@ -17,3 +17,11 @@ export const BottomBtnContainer = styled.div`
   width: 100%;
   background-color: #f1f4f6;
 `;
+
+interface Props {
+  height: number;
+}
+
+export const Break = styled.div`
+  height: ${({ height }: Props) => `${height}px`};
+`;
