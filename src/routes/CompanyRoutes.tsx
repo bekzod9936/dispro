@@ -7,7 +7,7 @@ import { IPrivateRoute } from './Protection';
 const StatisticsPage = lazy(() => import('pages/CompanyPages/statistics'));
 const StaffPage = lazy(() => import('../pages/CompanyPages/staff/StaffPage'));
 const NotificationsPage = lazy(
-  () => import('../pages/CompanyPages/notifications/NotificationsPage')
+  () => import('../pages/CompanyPages/notifications')
 );
 const NewsPage = lazy(() => import('../pages/CompanyPages/news/NewsPage'));
 const FinancePage = lazy(() => import('../pages/CompanyPages/finances'));

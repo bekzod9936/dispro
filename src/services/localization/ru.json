@@ -361,5 +361,7 @@
   "pending": "В ожидании",
   "canceled": "Отменено",
   "totalpaidbyUZS": "Всего оплачено UZS",
-  "DISCommission": "Комиссия DIS (UZS)"
+  "DISCommission": "Комиссия DIS (UZS)",
+  "writetous": "Написать нам",
+  "notificationsfromdiscount": "Тут будут находиться уведомления от DIS-COUNT"
 }
