@@ -9,6 +9,7 @@ import {
   IText,
   IUndersectionButton,
 } from "../services/Types/Style";
+import { device } from "./device";
 
 export const CustomDrawer = styled.div`
   //width: 272px;
@@ -66,7 +67,18 @@ export const Text = styled.span<IText>`
   margin-left: ${(props: IText) =>
     props.marginLeft ? props.marginLeft : "0px"};
   font-weight: ${(props: IText) => (props.fontWeight ? props.fontWeight : 700)};
+
+  @media (max-width: ${device.mobile}) {
+    font-size: 16px;
+  }
+  @media (min-width: ${device.mobile}) {
+    font-size: 15px;
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.laptop}) {
+    font-size: 15px;
+  }
 `;
+
 export const Header = styled.div`
   display: flex;
   width: 100%;
@@ -79,6 +91,7 @@ export const Header = styled.div`
   height: 80px;
   box-sizing: border-box;
 `;
+
 export const CustomSearchInput = styled.input`
   outline: none;
   border: none;
@@ -94,6 +107,7 @@ export const CustomSearchInput = styled.input`
     color: "#888888";
   }
 `;
+
 export const CustomSelect = styled(Select)`
   width: 100%;
 

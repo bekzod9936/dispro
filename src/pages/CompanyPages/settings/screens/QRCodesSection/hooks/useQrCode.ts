@@ -1,7 +1,11 @@
 import { useState, useCallback } from "react";
-import { useQuery } from "react-query";
-import partnerApi from "services/interceptors/companyInterceptor";
+import { useMutation, useQuery } from "react-query";
 import { fetchQRCodes } from "services/queries/PartnerQueries";
+import {
+  createQrCode,
+  deleteQrCode,
+  editQrCode,
+} from "services/queries/QrSettingsQueries";
 
 const useQrCode = () => {
   const [searchQR, setSearchQR] = useState("");
@@ -16,6 +20,22 @@ const useQrCode = () => {
     refetchOnWindowFocus: false,
   });
 
+  const createQr = useMutation((data: any) => createQrCode(data), {
+    onSuccess: () => {
+      refetch();
+    },
+  });
+  const editQr = useMutation((data: any) => editQrCode(data), {
+    onSuccess: () => {
+      refetch();
+    },
+  });
+  const deleteQr = useMutation((data: any) => deleteQrCode(data), {
+    onSuccess: () => {
+      refetch();
+    },
+  });
+
   const handleCreateQRCode = () => {
     setState("create");
     setOptionsListOpen(!optionsListOpen);
@@ -23,24 +43,27 @@ const useQrCode = () => {
   };
   const handleDeleteClick = () => {
     setState("delete");
+    setOptionsOpen("");
     setModalVisible(true);
   };
   const handleEditClick = () => {
     setState("edit");
+    setOptionsOpen("");
     setModalVisible(true);
   };
+
   const handleSavePromocode = async () => {
     if (!currentName) {
       return;
     } else if (!optionsOpen) {
-      await partnerApi.post("/core/ref", {
+      await createQr.mutate({
         id: "",
         source: currentName,
       });
       setCurrentName("");
       setModalVisible(false);
     } else if (optionsOpen) {
-      await partnerApi.put("/core/ref", {
+      await editQr.mutate({
         id: optionsOpen,
         source: currentName,
       });
@@ -52,7 +75,7 @@ const useQrCode = () => {
 
   const handleDelete = async () => {
     try {
-      await partnerApi.delete("/core/ref", {
+      await deleteQr.mutate({
         data: {
           id: optionsOpen,
         },
@@ -67,13 +90,16 @@ const useQrCode = () => {
     setSearchQR(e.target.value);
   };
 
-  const handleOption = useCallback((id: any) => {
-    if (!optionsOpen) {
-      setOptionsOpen(id);
-    } else {
-      setOptionsOpen("");
-    }
-  }, []);
+  const handleOption = useCallback(
+    (id: any) => {
+      if (!optionsOpen) {
+        setOptionsOpen(id);
+      } else {
+        setOptionsOpen("");
+      }
+    },
+    [optionsOpen]
+  );
 
   return {
     isLoading,

@@ -1,4 +1,3 @@
-import { useCallback, useState } from "react";
 import { Grid } from "@material-ui/core";
 import { Text } from "styles/CustomStyles";
 import Input from "components/Custom/Input";
@@ -8,20 +7,17 @@ import useQrCode from "./hooks/useQrCode";
 import { Break } from "../../styles";
 import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import { SearchIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
-import { BucketIcon } from "assets/icons/FeedBackIcons.tsx/FeedbackIcons";
 import { SaveIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
 import {
   DeleteIconWhite,
   FilledAddIcon,
 } from "assets/icons/SettingsIcons/SettingsPageIcon";
-import CustomInput from "components/Custom/CustomInput";
 import CustomModal from "components/Custom/CustomModal";
 import CustomSelectPopoverComponent from "components/Custom/CustomSelectPopoverComponent";
-import partnerApi from "services/interceptors/companyInterceptor";
 import { FONT_SIZE, FONT_WEIGHT } from "services/Types/enums";
 import { Flex } from "styles/BuildingBlocks";
 import { CreateBtn, IconDiv, QRPageWrapper } from "./styles";
-import { CustomButton, ModalComponent } from "styles/CustomStyles";
+import { ModalComponent } from "styles/CustomStyles";
 import QrCodeCard from "./components/QrCodeCard";
 
 const QRCodesSection = () => {
@@ -70,7 +66,7 @@ const QRCodesSection = () => {
     <div style={{ flexGrow: 1 }}>
       <QRPageWrapper>
         <Grid alignItems="center" container spacing={3} xs={6}>
-          <CreateBtn item xs={4} sm={4}>
+          <CreateBtn item xs={12} sm={4}>
             <Button
               startIcon={<FilledAddIcon />}
               width={{
@@ -98,7 +94,7 @@ const QRCodesSection = () => {
             )}
           </CreateBtn>
           {/* <HBreak width={25} /> */}
-          <Grid item xs={7} sm={7}>
+          <Grid item xs={12} sm={7}>
             <Input
               IconStart={
                 <IconDiv>
@@ -116,14 +112,7 @@ const QRCodesSection = () => {
         <Break height={25} />
 
         {/* QR Code cards  */}
-        <Flex
-          flexWrap="wrap"
-          width="77%"
-          margin="0px"
-          flexDirection="row"
-          justifyContent="space-between"
-          alignItems="flex-start"
-        >
+        <Grid container xs={10}>
           {!isLoading &&
             data?.data &&
             data?.data?.data
@@ -136,17 +125,18 @@ const QRCodesSection = () => {
               })
               .map((item: any) => {
                 return (
-                  <QrCodeCard
-                    key={item?.id}
-                    item={item}
-                    handleOption={() => handleOption(item?.id)}
-                    optionsOpen={optionsOpen}
-                    handleDeleteClick={handleDeleteClick}
-                    handleEditClick={handleEditClick}
-                  />
+                  <Grid key={item?.id} item xs={12} sm={12} md={6} lg={6}>
+                    <QrCodeCard
+                      item={item}
+                      handleOption={() => handleOption(item?.id)}
+                      optionsOpen={optionsOpen}
+                      handleDeleteClick={handleDeleteClick}
+                      handleEditClick={handleEditClick}
+                    />
+                  </Grid>
                 );
               })}
-        </Flex>
+        </Grid>
 
         {/* Modal side  */}
         <CustomModal open={modalVisible}>

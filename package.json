@@ -35,6 +35,7 @@
     "jwt-decode": "3.1.2",
     "material-ui-popup-state": "^1.9.3",
     "moment": "2.29.1",
+    "qrcode.react": "^1.0.1",
     "react": "17.0.2",
     "react-css-transition-replace": "4.0.4",
     "react-dom": "17.0.2",
@@ -99,6 +100,7 @@
   "devDependencies": {
     "@types/file-saver": "^2.0.3",
     "@types/js-cookie": "^3.0.0",
+    "@types/qrcode.react": "^1.0.2",
     "@types/react-lazy-load-image-component": "^1.5.2",
     "@types/react-table": "^7.7.6",
     "@types/react-text-mask": "^5.4.10",

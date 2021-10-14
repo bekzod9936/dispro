@@ -1,7 +1,15 @@
 import { memo } from "react";
-import QRCode from "react-qr-code";
+import QRCode from "qrcode.react";
+
 import { Text } from "styles/CustomStyles";
-import { QrCard, QrRow } from "./style";
+import Popover from "components/Custom/Popover";
+import {
+  QrCard,
+  QrRow,
+  QeaderHeaderRow,
+  QrContainer,
+  OptionDiv,
+} from "./style";
 import { Break } from "../../../styles/index";
 import { OptionsList, OptionsListItem } from "styles/CustomStyles";
 import { useTranslation } from "react-i18next";
@@ -12,6 +20,7 @@ import {
   ScrapperIcon,
   ThreeDotsIcon,
 } from "assets/icons/SettingsIcons/SettingsPageIcon";
+import RippleEffect from "components/Custom/RippleEffect";
 
 interface IProps {
   item: any;
@@ -23,40 +32,52 @@ interface IProps {
 
 const QrCodeCard = ({
   item,
-  optionsOpen,
   handleEditClick,
   handleDeleteClick,
   handleOption,
 }: IProps) => {
   const { t } = useTranslation();
 
+  const downloadQR = () => {
+    console.log(item?.dynLinkToken, "dynamic Link token");
+
+    const canvas = document.getElementById(
+      "referral-qr-code"
+    ) as HTMLCanvasElement;
+    const pngUrl = canvas
+      ?.toDataURL("image/png")
+      .replace("image/png", "image/octet-stream");
+    let downloadLink = document.createElement("a");
+    downloadLink.href = pngUrl;
+    downloadLink.download = "qr-code.png";
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+  };
+
   return (
     <QrCard>
-      <div
-        style={{
-          display: "flex",
-          position: "relative",
-          alignItems: "center",
-          justifyContent: "space-between",
-          width: "100%",
-        }}
-      >
+      <QeaderHeaderRow>
         <div>
           <Text fontSize="18px">{item.source}</Text>
         </div>
-        <div onClick={handleOption}>
+        {/* <div onClick={handleOption}>
           <ThreeDotsIcon />
-        </div>
-        {optionsOpen === item.id && (
-          <div
-            style={{
-              position: "absolute",
-              top: 25,
-              right: -25,
-              zIndex: 2,
-              width: "250px",
-            }}
-          >
+        </div> */}
+
+        <Popover
+          click={
+            <RippleEffect padding={0}>
+              <ThreeDotsIcon />
+            </RippleEffect>
+          }
+          anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
+          transformOrigin={{ horizontal: "left", vertical: "top" }}
+          popoverStyle={{ marginTop: "20px" }}
+          onClose={handleOption}
+        >
+          {/* {optionsOpen === item.id && ( */}
+          <OptionDiv>
             <OptionsList style={{ width: "100%" }}>
               <OptionsListItem
                 style={{ width: "100%" }}
@@ -86,24 +107,24 @@ const QrCodeCard = ({
                 </Text>
               </OptionsListItem>
             </OptionsList>
-          </div>
-        )}
-      </div>
+          </OptionDiv>
+          {/* )} */}
+        </Popover>
+      </QeaderHeaderRow>
       <QrRow>
         <div>
-          <QRCode value={item.dynLinkToken} size={150} />
+          <QRCode
+            id="referral-qr-code"
+            value={item.dynLinkToken}
+            size={150}
+            bgColor="#FFFFFF"
+            fgColor="#000000"
+            level={"H"}
+          />
         </div>
 
-        <div
-          style={{
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "flex-end",
-            marginLeft: "15px",
-          }}
-        >
-          <Button startIcon={<DownloadIcon />}>
+        <QrContainer>
+          <Button onClick={() => downloadQR()} startIcon={<DownloadIcon />}>
             <Text marginLeft="15px" fontSize="17px" color="white">
               {t("downloadPNG")}
             </Text>
@@ -119,7 +140,7 @@ const QrCodeCard = ({
               {t("copyLink")}
             </Text>
           </Button>
-        </div>
+        </QrContainer>
       </QrRow>
     </QrCard>
   );
