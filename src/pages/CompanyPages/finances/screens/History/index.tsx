@@ -300,7 +300,7 @@ const Payment = () => {
             <Table header2={header2} columns={columns} data={list} />
           </>
         )}
-        {list.length > 1 ? (
+        {list.length > 0 ? (
           <WrapPag>
             <Info>
               {t('shown')}

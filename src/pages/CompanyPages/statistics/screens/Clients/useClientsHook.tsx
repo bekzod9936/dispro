@@ -18,6 +18,9 @@ const useClientsHook = ({ filterValues }: Props) => {
       keepPreviousData: true,
       refetchOnWindowFocus: false,
       retry: 0,
+      onSuccess: (data) => {
+        console.log(data, 'clients');
+      },
     }
   );
 
