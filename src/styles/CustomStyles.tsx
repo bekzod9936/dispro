@@ -369,10 +369,7 @@ export const ChatWrapper = styled.div`
 `;
 
 export const OptionsList = styled.div`
-  position: relative;
-  top: 20;
   height: fit-content;
-  right: 20px;
   background-color: white;
   border-radius: 14px;
   padding: 15px 0px 0px 0px;
@@ -381,11 +378,7 @@ export const OptionsList = styled.div`
   &::before {
     content: "";
     display: block;
-    position: absolute;
-    height: 9px;
-    width: 17px;
-    top: -8px;
-    right: 15px;
+
     background-color: white;
     // box-shadow:  0px 1px 28px rgba(0, 0, 0, 0.12);
     clip-path: polygon(50% 0%, 0% 100%, 100% 100%);

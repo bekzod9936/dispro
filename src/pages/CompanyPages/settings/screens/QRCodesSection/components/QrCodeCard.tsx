@@ -41,14 +41,12 @@ const QrCodeCard = ({
   const downloadQR = () => {
     console.log(item?.dynLinkToken, "dynamic Link token");
 
-    const canvas = document.getElementById(
-      "referral-qr-code"
-    ) as HTMLCanvasElement;
-    const pngUrl = canvas
-      ?.toDataURL("image/png")
-      .replace("image/png", "image/octet-stream");
+    // const canvas = item?.dynLinkToken as HTMLCanvasElement;
+    // const pngUrl = canvas
+    //   ?.toDataURL("image/png")
+    //   .replace("image/png", "image/octet-stream");
     let downloadLink = document.createElement("a");
-    downloadLink.href = pngUrl;
+    downloadLink.href = item?.dynLinkToken;
     downloadLink.download = "qr-code.png";
     document.body.appendChild(downloadLink);
     downloadLink.click();
