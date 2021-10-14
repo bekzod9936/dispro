@@ -1,4 +1,4 @@
-import partnerApi from '../interceptors/companyInterceptor';
+import partnerApi from 'services/interceptors/companyInterceptor';
 
 interface Props {
   section?: string;

@@ -21,7 +21,7 @@ interface Props {
 
 const Filter = ({ list, onSubmit = () => {}, onReset = () => {} }: Props) => {
   const { t } = useTranslation();
-
+  
   const [closeFun, setCloseFun] = useState<any>();
   const handleClose = (e: any) => {
     setCloseFun(e);

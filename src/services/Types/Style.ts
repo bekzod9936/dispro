@@ -9,6 +9,7 @@ export interface IText {
 }
 
 export interface IFlex {
+  maxWidth?: string,
   justifyContent?:
     | "space-between"
     | "space-around"
