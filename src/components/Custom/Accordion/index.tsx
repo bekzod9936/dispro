@@ -28,21 +28,10 @@ const Accordion = ({
   IconButtonProps,
   list,
 }: Props) => {
-  const [expanded1, setExpanded] = React.useState<string | false>(false);
-
-  const handleChange =
-    (panel: string) => (event: React.ChangeEvent<{}>, newExpanded: boolean) => {
-      setExpanded(newExpanded ? panel : false);
-    };
   return (
     <Container>
       {list?.map((v: any) => (
-        <MAccordion
-          square
-          expanded={expanded1 === v.title}
-          onChange={handleChange(v.title)}
-          key={v.title}
-        >
+        <MAccordion square key={v.title}>
           <MAccordionSummary expandIcon={<DownIcon />}>
             {v.title}
           </MAccordionSummary>

@@ -8,10 +8,6 @@ import {
 } from '../../assets/icons/ClientStatisticsIcons/Filters';
 import { Flex } from '../../styles/BuildingBlocks';
 import { CustomInput, DropDownTitle, Text } from '../../styles/CustomStyles';
-// import {
-//   KeyboardDatePicker,
-//   MuiPickersUtilsProvider,
-// } from '@material-ui/pickers';
 import CustomDatePicker from './CustomDatePicker';
 import { CalendarIcon } from '../../assets/icons/ClientStatisticsIcons/ClientStatisticsIcons';
 import { useDispatch } from 'react-redux';

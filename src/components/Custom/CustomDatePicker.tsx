@@ -1,13 +1,8 @@
-import DateFnsUtils from '@date-io/date-fns';
-import { Portal } from '@material-ui/core';
-// import {
-//   KeyboardDatePicker,
-//   MuiPickersUtilsProvider,
-// } from '@material-ui/pickers';
-import moment from 'moment';
-import React from 'react';
-import { setTimeout } from 'timers';
-import { CalendarIcon } from '../../assets/icons/ClientStatisticsIcons/ClientStatisticsIcons';
+import { Portal } from "@material-ui/core";
+import moment from "moment";
+import React from "react";
+import { setTimeout } from "timers";
+import { CalendarIcon } from "../../assets/icons/ClientStatisticsIcons/ClientStatisticsIcons";
 
 interface IProps {
   date: string;

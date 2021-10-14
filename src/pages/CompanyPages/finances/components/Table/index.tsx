@@ -5,15 +5,16 @@ import { Container, MTable, Thead, Tr, Th, Tbody, Td, UpIcon } from './style';
 interface Props {
   columns?: any;
   data?: any;
+  header2?: any;
 }
 
-const Table = ({ columns, data }: Props) => {
+const Table = ({ columns, data, header2 }: Props) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data }, useSortBy);
   return (
     <Container>
       <MTable {...getTableProps()}>
-        <Thead>
+        <Thead header2={header2 ? true : false}>
           {headerGroups.map((headerGroup: any) => (
             <Tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column: any) => (
@@ -27,6 +28,7 @@ const Table = ({ columns, data }: Props) => {
               ))}
             </Tr>
           ))}
+          {header2 ? header2 : null}
         </Thead>
         <Tbody {...getTableBodyProps()}>
           {rows.map((row: any) => {

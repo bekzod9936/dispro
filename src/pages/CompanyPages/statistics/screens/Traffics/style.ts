@@ -4,9 +4,10 @@ import { ReactComponent as Mobile } from 'assets/icons/StatistisPage/mobile.svg'
 
 export const Container = styled.div`
   display: flex;
-  flex: 1;
+  height: 100%;
+  width: 100%;
   overflow: hidden;
-  padding-right: 25px;
+  flex-direction: column;
 `;
 
 const iconstyle = css`
@@ -30,4 +31,21 @@ export const WrapIcon = styled.div`
 
 export const Img = styled.img`
   ${iconstyle}
+`;
+
+export const Wrapper = styled.div`
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    width: 7px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #606eea;
+    border-radius: 14px 0px 0px 14px;
+  }
+  padding-right: 25px;
+  padding-bottom: 30px;
 `;

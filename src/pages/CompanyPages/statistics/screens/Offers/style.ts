@@ -2,9 +2,10 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   display: flex;
-  flex: 1;
+  height: 100%;
+  width: 100%;
   overflow: hidden;
-  padding-right: 25px;
+  flex-direction: column;
 `;
 
 export const Img = styled.img`
@@ -16,4 +17,21 @@ export const WrapIcon = styled.div`
   flex: 1;
   justify-content: flex-start;
   align-items: center;
+`;
+
+export const Wrapper = styled.div`
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    width: 7px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #606eea;
+    border-radius: 14px 0px 0px 14px;
+  }
+  padding-right: 25px;
+  padding-bottom: 30px;
 `;

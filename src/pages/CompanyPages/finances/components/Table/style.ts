@@ -10,51 +10,72 @@ export const Container = styled.div`
   background: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
   border-radius: 14px;
-  width: fit-content;
-
-  display: flex;
-  flex: 1;
+  overflow-x: auto;
   width: 100%;
-  overflow: hidden;
-  flex-direction: column;
+  &:hover {
+    ::-webkit-scrollbar-thumb {
+      background: #606eea;
+    }
+  }
+  ::-webkit-scrollbar {
+    height: 7px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 0 0 14px 14px;
+  }
 `;
 
 export const MTable = styled.table`
   border-collapse: collapse;
   width: 100%;
-  table-layout: fixed;
-  display: flex;
-  flex: 1;
-  overflow: hidden;
-  flex-direction: column;
+  table-layout: auto;
+  white-space: nowrap;
+  overflow-x: scroll;
+  ::-webkit-scrollbar {
+    width: 7px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #606eea;
+    border-radius: 14px 0px 0px 14px;
+  }
 `;
+
+interface Props {
+  header2?: boolean;
+}
 
 export const Thead = styled.thead`
   background: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
   border-radius: 14px 14px 0 0;
-  width: 100%;
-
+  & > tr:last-child {
+    border-top: ${({ header2 }: Props) =>
+      header2 ? '1px solid rgba(96, 110, 234, 0.3)' : null};
+    & > th:first-child {
+      border-right: ${({ header2 }: Props) =>
+        header2 ? '1px solid rgba(96, 110, 234, 0.3)' : null};
+    }
+  }
   & > tr {
     height: 65px;
   }
 `;
 
-export const Tr = styled.tr`
-  width: 100%;
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
+export const Tr = styled.tr``;
 
 export const Th = styled.th`
+  padding: 0 10px;
   font-weight: normal;
   font-size: 16px;
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   color: ${({ active }: Props) => (active ? '#223367' : '#a5a5a5')}!important;
   border-radius: 14px 14px 0 0;
   :hover {
@@ -80,8 +101,6 @@ export const Tbody = styled.tbody`
   & > tr {
     height: 60px;
   }
-  width: 100%;
-  overflow-y: auto;
 `;
 
 export const Td = styled.td`
@@ -91,10 +110,6 @@ export const Td = styled.td`
   font-weight: normal;
   font-size: 16px;
   color: #223367;
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 export const UpIcon = styled(Up)`

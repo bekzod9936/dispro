@@ -27,7 +27,20 @@ export const Header = styled.div`
   }
 `;
 
-export const Body = styled.div``;
+export const Body = styled.div`
+  overflow-y: auto;
+  ::-webkit-scrollbar {
+    width: 7px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #606eea;
+    border-radius: 14px 0px 0px 14px;
+  }
+`;
 
 export const Footer = styled.div`
   margin: 20px 0 20px 20px;

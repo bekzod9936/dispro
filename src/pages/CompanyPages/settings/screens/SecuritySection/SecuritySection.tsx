@@ -1,93 +1,34 @@
-import { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import CustomInput from "../../../../../components/Custom/CustomInput";
+import { Controller } from "react-hook-form";
+import Input from "components/Custom/Input";
 import { Flex } from "../../../../../styles/BuildingBlocks";
 import { SettingsWrapper } from "../../styles/SettingStyles";
-import { CustomButton, Text } from "../../../../../styles/CustomStyles";
+import { Text } from "../../../../../styles/CustomStyles";
 import { SaveIcon } from "../../../../../assets/icons/InfoPageIcons/InfoPageIcons";
 import { useTranslation } from "react-i18next";
-import { useQuery } from "react-query";
-import { fetchSafeties } from "../../../../../services/queries/PartnerQueries";
-import partnerApi from "../../../../../services/interceptors/companyInterceptor";
-import { StyledSwitch } from "../../../../../components/Custom/CustomSwitch/CustomSwitch";
+import useSecurity from "./hooks/useSecurity";
+import Button from "components/Custom/Button";
+import CustomToggle from "components/Custom/CustomToggleSwitch";
+import { Break } from "../../styles";
+import { Grid } from "@material-ui/core";
 
 const SecuritySection = () => {
   const { t } = useTranslation();
-  const { control, handleSubmit, setValue } = useForm();
-  const [switchStates, setSwitchStates] = useState<any>([]);
-  const [refetch, setRefetch] = useState(0);
+  const { control, handleSubmit, onFormSubmit } = useSecurity();
 
-  const response = useQuery(["safeties", refetch], fetchSafeties, {
-    retry: 0,
-    refetchOnWindowFocus: false,
-    onSuccess: (data: any) => {
-      setValue("first", data.data.data.safeties.daily_purchase_limit);
-    },
-  });
-  const renderFirst = () => {
-    return (
-      <div style={{ width: "70%" }}>
-        <Controller
-          name="first"
-          control={control}
-          render={({ field }) => {
-            return <CustomInput field={field} label="operations_per_day" />;
-          }}
-        />
-      </div>
-    );
-  };
-  const renderSecond = () => {
-    return (
-      <div style={{ width: "70%" }}>
-        <Controller
-          name="second"
-          control={control}
-          render={({ field }) => {
-            return <CustomInput field={field} label="enterSum" />;
-          }}
-        />
-      </div>
-    );
-  };
+  // const handleSwitch = (checked: boolean, item: any, index: number) => {
+  //   let exist = switchStates?.includes(item.key);
+  //   if (!exist && checked) {
+  //     setSwitchStates([...switchStates, item.key]);
+  //   } else if (!checked && exist) {
+  //     let filtered = [...switchStates];
+  //     let searchingIndex = filtered.findIndex(
+  //       (value: any) => value === item.key
+  //     );
+  //     filtered.splice(searchingIndex, 1);
+  //     setSwitchStates([...filtered]);
+  //   }
+  // };
 
-  const handleSwitch = (checked: boolean, item: any, index: number) => {
-    let exist = switchStates?.includes(item.key);
-    if (!exist && checked) {
-      setSwitchStates([...switchStates, item.key]);
-    } else if (!checked && exist) {
-      let filtered = [...switchStates];
-      let searchingIndex = filtered.findIndex(
-        (value: any) => value === item.key
-      );
-      filtered.splice(searchingIndex, 1);
-      setSwitchStates([...filtered]);
-    }
-  };
-
-  const onFormSubmit = async (data: any) => {
-    await partnerApi.put("/core/company-safeties", {
-      safeties: {
-        daily_purchase_limit: +data.first,
-      },
-    });
-    setRefetch(refetch + 1);
-  };
-  const switchList = [
-    {
-      title: "Отслеживать подозрительных клиентов",
-      key: "first",
-      description:
-        "Оповестим, если какой-то клиент делает слишком много покупок",
-      renderRest: renderFirst,
-    },
-    {
-      title: "Ограничить сумму счета",
-      key: "second",
-      description: "Кассир не сможет провести операцию больше указанной суммы",
-      renderRest: renderSecond,
-    },
-  ];
   return (
     <div style={{ display: "flex", flexGrow: 1 }}>
       <SettingsWrapper>
@@ -98,57 +39,121 @@ const SecuritySection = () => {
             justifyContent="start"
             alignItems="flex-start"
           >
-            {switchList.map((item, index) => {
-              return (
-                <Flex
-                  width="49%"
-                  margin="20px 0px 0px 0px "
-                  justifyContent="start"
-                  alignItems="flex-start"
-                  flexDirection="column"
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "flex-start",
-                      justifyContent: "start",
-                      marginBottom: "15px",
+            {/* Security row settings  */}
+            <Grid
+              xs={7}
+              container
+              justifyContent="flex-start"
+              alignItems="flex-start"
+              direction="column"
+            >
+              <Grid
+                container
+                xs={10}
+                direction="row"
+                alignItems="flex-start"
+                justifyContent="flex-start"
+                style={{
+                  marginBottom: "15px",
+                }}
+              >
+                <Grid container direction="column" xs={10}>
+                  <Grid item xs={12}>
+                    <Text fontWeight={500} fontSize="18px">
+                      Отслеживать подозрительных клиентов
+                    </Text>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Text fontWeight={300} fontSize="14px">
+                      Оповестим, если какой-то клиент делает слишком много
+                      покупок
+                    </Text>
+                  </Grid>
+                </Grid>
+                <Grid item xs={2}>
+                  <Controller
+                    name="securityInvite"
+                    control={control}
+                    render={({ field }) => {
+                      return <CustomToggle checked={field.value} {...field} />;
                     }}
-                  >
-                    <div>
-                      <div>
-                        <Text fontWeight={500} fontSize="18px">
-                          {item.title}
-                        </Text>
-                      </div>
-                      <div style={{ maxWidth: "340px", minWidth: "340px" }}>
-                        <Text fontWeight={300} fontSize="14px">
-                          {item.description}
-                        </Text>
-                      </div>
-                    </div>
-                    <div style={{ margin: "10px 0px 10px 20px" }}>
-                      <StyledSwitch
-                        onChange={(e: any, checked: any) =>
-                          handleSwitch(checked, item, index)
-                        }
-                      />
-                    </div>
-                  </div>
-                  {switchStates.includes(item.key) && (
-                    <div style={{ width: "100%" }}>{item.renderRest()}</div>
-                  )}
-                </Flex>
-              );
-            })}
+                  />
+                </Grid>
+              </Grid>
+
+              <div style={{ width: "70%" }}>
+                <Controller
+                  name="first"
+                  control={control}
+                  render={({ field }) => {
+                    return (
+                      <Input field={field} label={t("operations_per_day")} />
+                    );
+                  }}
+                />
+              </div>
+            </Grid>
+
+            <Break height={50} />
+
+            {/* Security row second settings  */}
+            <Grid
+              xs={7}
+              container
+              justifyContent="flex-start"
+              alignItems="flex-start"
+              direction="column"
+            >
+              <Grid
+                container
+                xs={10}
+                direction="row"
+                alignItems="flex-start"
+                justifyContent="flex-start"
+                style={{
+                  marginBottom: "15px",
+                }}
+              >
+                <Grid container direction="column" xs={10}>
+                  <Grid item xs={12}>
+                    <Text fontWeight={500} fontSize="18px">
+                      Ограничить сумму счета
+                    </Text>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Text fontWeight={300} fontSize="14px">
+                      Кассир не сможет провести операцию больше указанной суммы
+                    </Text>
+                  </Grid>
+                </Grid>
+                <Grid item xs={2}>
+                  <Controller
+                    name="securitySumma"
+                    control={control}
+                    render={({ field }) => {
+                      return <CustomToggle checked={field.value} {...field} />;
+                    }}
+                  />
+                </Grid>
+              </Grid>
+              <div style={{ width: "70%" }}>
+                <Controller
+                  name="second"
+                  control={control}
+                  render={({ field }) => {
+                    return <Input field={field} label={t("enterSum")} />;
+                  }}
+                />
+              </div>
+            </Grid>
           </Flex>
           <div style={{ position: "fixed", bottom: "10px", width: "100%" }}>
-            <CustomButton>
+            <Button type="submit">
               <SaveIcon />
               <Text marginLeft="15px" color="white">
                 {t("save")}
               </Text>
-            </CustomButton>
+            </Button>
           </div>
         </form>
       </SettingsWrapper>

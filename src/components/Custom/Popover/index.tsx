@@ -1,4 +1,3 @@
-import React from 'react';
 import { PopoverM, WrapClick } from './style';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 

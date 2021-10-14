@@ -22,6 +22,7 @@ export const SmallPanel = styled.div`
   align-items: center;
   margin-top: 10px;
 `;
+
 export const SettingsWrapper = styled.div`
   width: 98%;
   height: 97%;
@@ -33,6 +34,7 @@ export const SettingsWrapper = styled.div`
 export const ReferalScroll = styled.div`
   overflow-y: scroll;
   max-height: 60vh;
+  padding-bottom: 100px;
   &::-webkit-scrollbar {
     appearance: none;
     display: none;

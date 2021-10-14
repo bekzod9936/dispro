@@ -15,6 +15,7 @@ export const Container = styled.div`
   width: fit-content;
   grid-column-gap: 10px;
   overflow: auto;
+  overflow-y: scroll;
 
   padding: ${({ padding = "0 10px 10px 0" }: Props) => padding};
   margin: ${({ margin }: Props) => margin};
@@ -50,6 +51,7 @@ export const Link = styled(NavLink)`
   white-space: nowrap;
   background: transparent;
   justify-self: center;
+  margin: 0 0 10px;
   @media (max-width: ${device.mobile}) {
     font-size: 14px;
     padding: 10px 15px;

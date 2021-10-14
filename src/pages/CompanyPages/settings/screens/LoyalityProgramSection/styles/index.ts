@@ -72,3 +72,13 @@ export const SubText = styled.p`
 export const HeaderGrid = styled(Grid)`
   padding-left: 0 !important;
 `;
+
+export const PercentDiv = styled.div`
+  padding-right: 15px;
+`;
+
+export const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+`;

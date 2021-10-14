@@ -1,14 +1,22 @@
+import { Label } from "./style";
+
 export interface IProps {
-  checked: boolean;
-  onChange: any;
+  checked?: boolean;
+  onChange?: any;
+  disabled?: boolean;
 }
 
-const CustomToggle = ({ checked, onChange = () => {} }: IProps) => {
+const CustomToggle = ({ checked, disabled, onChange = () => {} }: IProps) => {
   return (
-    <label className="toggle-switch">
-      <input type="checkbox" checked={checked} onChange={onChange} />
+    <Label disabled={disabled} className="toggle-switch">
+      <input
+        disabled={disabled}
+        type="checkbox"
+        checked={checked}
+        onChange={onChange}
+      />
       <span className="switch" />
-    </label>
+    </Label>
   );
 };
 
