@@ -1,10 +1,19 @@
 import { useQuery } from 'react-query';
 import { fetchCilentsData } from 'services/queries/StatisticsQueries';
 
-const useOperationsHook = () => {
+interface Props {
+  filterValues?: any;
+}
+
+const useOperationsHook = ({ filterValues }: Props) => {
   const response = useQuery(
     'fetchOperationsInfo',
-    () => fetchCilentsData({ section: 'operations' }),
+    () => {
+      const url = Object.keys(filterValues)
+        .map((v: any) => `${v}=${filterValues[v]}&`)
+        .join('');
+      return fetchCilentsData({ section: `operations?${url}` });
+    },
     {
       keepPreviousData: true,
       refetchOnWindowFocus: false,

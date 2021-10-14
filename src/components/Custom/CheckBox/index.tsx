@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import { Container } from './style';
+import { useState } from "react";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import { Container } from "./style";
 
 interface Props {
   id?: string;
@@ -12,7 +12,7 @@ interface Props {
   checkedIcon?: any;
   disabled?: boolean;
   required?: boolean;
-  labelPlacement?: 'bottom' | 'end' | 'start' | 'top';
+  labelPlacement?: "bottom" | "end" | "start" | "top";
   value?: any;
 }
 

@@ -2,7 +2,11 @@ import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { fetchCilentsData } from 'services/queries/StatisticsQueries';
 
-const useTrafficsHook = () => {
+interface Props {
+  filterValues?: any;
+}
+
+const useTrafficsHook = ({ filterValues }: Props) => {
   const [data, setData] = useState([
     {
       source: '',
@@ -15,7 +19,12 @@ const useTrafficsHook = () => {
 
   const response = useQuery(
     'fetchTrafficsInfo',
-    () => fetchCilentsData({ section: 'traffic' }),
+    () => {
+      const url = Object.keys(filterValues)
+        .map((v: any) => `${v}=${filterValues[v]}&`)
+        .join('');
+      return fetchCilentsData({ section: `traffic?${url}` });
+    },
     {
       keepPreviousData: true,
       refetchOnWindowFocus: false,

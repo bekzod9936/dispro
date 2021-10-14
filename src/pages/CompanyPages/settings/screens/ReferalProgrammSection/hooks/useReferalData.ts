@@ -1,31 +1,52 @@
-import { useCallback, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { useForm, useFieldArray } from "react-hook-form";
 
 //async functions
-import { useQuery } from "react-query";
+import { useQuery, useMutation } from "react-query";
 import partnerApi from "services/interceptors/companyInterceptor";
 import { fetchBonusReferals } from "services/queries/PartnerQueries";
-
+import {
+  changeReferal,
+  setNewReferal,
+} from "services/queries/ReferalProgramQueries";
 //types
-import { ILevels } from "../constants";
+interface FormProps {
+  referals?: any;
+}
 
 const useReferalData = () => {
   const companyId = localStorage.getItem("companyId");
   const [saving, setSaving] = useState(false);
   const [newState, setNewState] = useState<string>("old");
   const [checkedState, setCheckedState] = useState<boolean>(false);
-  const { control, setValue } = useForm();
-  const [refetch, setRefetch] = useState(0);
-  const [level, setLevels] = useState<ILevels[] | [] | any>([]);
+  const { control, setValue, handleSubmit } = useForm<FormProps>({
+    mode: "onBlur",
+    shouldFocusError: true,
+  });
 
-  useQuery(["bonusreferals", refetch], () => fetchBonusReferals(), {
+  const handleSwitch = (checked: boolean) => {
+    setCheckedState(checked);
+  };
+
+  //form field array
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "referals",
+  });
+
+  //get Bonus referals
+
+  const { refetch } = useQuery(["bonusreferals"], () => fetchBonusReferals(), {
     retry: 0,
     refetchOnWindowFocus: false,
     onSuccess: (data: any) => {
-      setLevels(data?.data?.data?.levels);
-      data.data.data.levels.forEach((item: any) => {
-        setValue(item.name, item.percent);
-      });
+      console.log(data?.data?.data, "referal program");
+
+      setValue(
+        "referals",
+        data.data.data.levels.sort((a: any, b: any) => a.number - b.number)
+      );
+
       if (data?.data?.data === null) {
         setNewState("new");
       } else if (data?.data?.data?.levels.length > 0) {
@@ -34,50 +55,52 @@ const useReferalData = () => {
     },
   });
 
-  const handleChange = (e: any, item: any, index: any) => {
-    const existing = level?.find((value: any) => value.number === item.number);
+  //Save Referal program
 
-    if (existing && e.target.value) {
-      let updated = { ...existing, percent: +e.target.value };
-
-      let newState = [...level];
-      newState.splice(index, 1, updated);
-
-      setLevels(newState);
+  const setBonusreferal = useMutation(
+    (data: any) =>
+      setNewReferal({
+        companyId: data.companyId,
+        referals: data.referals,
+      }),
+    {
+      onSuccess: () => {
+        refetch();
+      },
     }
-  };
+  );
 
-  //   Add click
-  const handleAddClick = (item: any) => {
-    console.log(item, "item per");
-    let newObj = {
-      name: `${+item.name + 1}`,
-      number: item.number + 1,
-      percent: item.percent,
-    };
-    setLevels([...level, newObj]);
-  };
+  const saveBonusReferal = useMutation(
+    (data: any) =>
+      changeReferal({
+        companyId: data.companyId,
+        referals: data.referals,
+      }),
+    {
+      onSuccess: () => {
+        refetch();
+      },
+    }
+  );
 
-  const handleSave = async () => {
+  const handleSave = async (data: FormProps) => {
     setSaving(true);
-    console.log(level, "level");
 
     try {
-      let block = level.find((value: any) => value.percent === "");
-      console.log(block, "block");
+      let block = data.referals.find((value: any) => value.percent === "");
       if (!block) {
         if (newState === "new") {
-          await partnerApi.post("/bonus/bonusreferals", {
+          setBonusreferal.mutate({
             companyId: companyId,
-            levels: level,
+            referals: data.referals,
           });
         } else {
-          await partnerApi.put("/bonus/bonusreferals", {
+          saveBonusReferal.mutate({
             companyId: companyId,
-            levels: level,
+            referals: data.referals,
           });
         }
-        setRefetch(refetch + 1);
+
         setSaving(false);
       }
       setSaving(false);
@@ -87,37 +110,19 @@ const useReferalData = () => {
     }
   };
 
-  const handleXClick = () => {
-    const copy = [...level];
-    copy.pop();
-    setLevels(copy);
-  };
-
-  const handleSwitch = (checked: boolean) => {
-    setCheckedState(checked);
-    if (checked && (!level || level?.length === 0)) {
-      setLevels([{ name: "1", number: 1, percent: 0 }]);
-    } else if (!checked && level?.length > 0) {
-      setLevels([]);
-    }
-  };
-
   return {
-    level,
-    refetch,
     newState,
     control,
     checkedState,
-    setRefetch,
     setValue,
-    setLevels,
-    handleChange,
-    handleAddClick,
     handleSave,
-    handleXClick,
     handleSwitch,
     companyId,
     saving,
+    fields,
+    append,
+    remove,
+    handleSubmit,
   };
 };
 

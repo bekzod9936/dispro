@@ -13,6 +13,7 @@ export const TwoUserDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
 `;
 
 export const UsersRow = styled.div`
@@ -25,4 +26,10 @@ export const UsersRow = styled.div`
 export const TextContainer = styled.div`
   width: max-content;
   text-align: center;
+`;
+
+export const User = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;

@@ -1,5 +1,4 @@
-import React, { Suspense, useEffect, useState } from 'react';
-import { useAppSelector } from '../../services/redux/hooks';
+import { memo, Suspense, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -7,12 +6,12 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import IconButton from '@material-ui/core/IconButton';
 import Logo from '../../assets/icons/SideBar/logo.png';
 import { device } from '../../styles/device';
-import { useAppDispatch } from '../../services/redux/hooks';
 import Header from './Header';
-import { useQuery } from 'react-query';
-import { fetchInfo } from '../../services/queries/PartnerQueries';
-import { setCompanyInfo } from '../../services/redux/Slices/partnerSlice';
 import Spinner from '../Custom/Spinner';
+import { useSideBarStyle } from './styles/SideBarStyle';
+import MenuList from './MenuList';
+import Cookies from 'js-cookie';
+import useLayout from './useLayout';
 import {
   Container,
   MenuIcon,
@@ -26,10 +25,6 @@ import {
   WrapLogo,
   WrapMenu,
 } from './style';
-import { useSideBarStyle } from './styles/SideBarStyle';
-import MenuList from './MenuList';
-import Cookies from 'js-cookie';
-
 export interface IDefaultLayout {
   children: any;
 }
@@ -37,11 +32,11 @@ export interface IDefaultLayout {
 const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
   const classes = useSideBarStyle();
 
+  const { response, data } = useLayout();
+
   const [width, setWidth] = useState(window.innerWidth);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [open, setOpen] = useState(width <= 600 ? false : true);
-
-  const dispatch = useAppDispatch();
 
   const handleDrawerOpen = () => {
     if (width <= parseInt(device.mobile, 10)) {
@@ -69,20 +64,6 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-  const response = useQuery(
-    'logoANDname',
-    () => fetchInfo(localStorage.getItem('companyId')),
-    {
-      onSuccess: (data) => {
-        dispatch(setCompanyInfo(data?.data.data));
-        console.log(data?.data.data);
-      },
-      keepPreviousData: true,
-      refetchOnWindowFocus: false,
-      retry: 0,
-    }
-  );
 
   const toggleDrawer = (open: boolean) => (event: any) => {
     if (
@@ -196,4 +177,4 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
   );
 };
 
-export default React.memo(DefaultLayoutAdmin);
+export default memo(DefaultLayoutAdmin);

@@ -22,7 +22,6 @@ import { setDate } from "date-fns";
 import CustomFileUpload from "../info/CustomFileUpload";
 import Resizer from "react-image-file-resizer";
 import CustomReusableSelect from "../../../components/Custom/CustomReusableSelect";
-import { StyledSwitch } from "../../../components/Custom/CustomSwitch/CustomSwitch";
 import { COLORS, FONT_SIZE, FONT_WEIGHT } from "../../../services/Types/enums";
 import { Checkbox, InputLabel, makeStyles, TextField } from "@material-ui/core";
 import CustomMulitpleSelect from "../info/CustomMulitpleSelect";
@@ -35,6 +34,7 @@ import CropImageModal from "./CropImageModal";
 import { fetchAddressInfo } from "../../../services/queries/InfoPageQueries";
 import { DeleteIconWhite } from "../../../assets/icons/SettingsIcons/SettingsPageIcon";
 import CustomModal from "../../../components/Custom/CustomModal";
+import CustomToggle from "components/Custom/CustomToggleSwitch";
 
 interface IProps {
 	setStatus?: any;
@@ -610,7 +610,7 @@ const CreateNews: React.FC<IProps> = ({ setStatus }) => {
 									>
 										{t("turn_on_push")}
 									</Text>
-									<StyledSwitch
+									<CustomToggle
 										checked={usePushNotificationsState}
 										onChange={(e: any, checked: any) => {
 											handleUsePush(checked);

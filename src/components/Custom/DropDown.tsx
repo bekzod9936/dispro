@@ -1,22 +1,19 @@
-import React, { useRef } from 'react';
-import { Grow, makeStyles, Paper, Popper } from '@material-ui/core';
-import { classicNameResolver } from 'typescript';
-import { Arrow } from '../../styles/Elements';
-
+import React from "react";
+import { Grow, makeStyles, Paper, Popper } from "@material-ui/core";
 // interface IProps {
 //     open: boolean,
 //     children: any
 // }
 const useStyles = makeStyles({
   paper: {
-    background: 'white',
+    background: "white",
     zIndex: 10,
-    borderRadius: '12px',
+    borderRadius: "12px",
   },
 
   popper: {
     zIndex: 15,
-    marginTop: '40px',
+    marginTop: "40px",
   },
 });
 
@@ -35,11 +32,11 @@ const DropDown = React.forwardRef(
           role={undefined}
           anchorEl={ref.current}
           className={classes.popper}
-          placement='bottom-end'
+          placement="bottom-end"
           modifiers={{
             preventOverflow: {
               enabled: true,
-              boundariesElement: 'scrollParent',
+              boundariesElement: "scrollParent",
             },
             arrow: {
               enabled: true,

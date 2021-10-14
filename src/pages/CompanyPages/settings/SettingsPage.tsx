@@ -16,7 +16,7 @@ const SettingsPage = () => {
   return (
     <PageWrapperFlex>
       <Title>{t("settings")}</Title>
-      <Flex width="80%" alignItems="center" margin="0px">
+      <Flex width="90%" alignItems="center" margin="0px">
         <NavBar list={menuItems} margin="20px 0" padding="0 10px 10px 0" />
       </Flex>
 

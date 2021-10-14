@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import DisIcon from '../../../../assets/icons/DisIcon';
-import { useTranslation } from 'react-i18next';
-import Button from '../../../../components/Custom/Button';
-import { useForm, Controller } from 'react-hook-form';
-import { logIn, signIn } from '../../../../services/queries/LoginQueries';
-import { useHistory } from 'react-router';
-import { useMutation } from 'react-query';
+import { useEffect, useState } from "react";
+import DisIcon from "../../../../assets/icons/DisIcon";
+import { useTranslation } from "react-i18next";
+import Button from "../../../../components/Custom/Button";
+import { useForm, Controller } from "react-hook-form";
+import { logIn, signIn } from "../../../../services/queries/LoginQueries";
+import { useHistory } from "react-router";
+import { useMutation } from "react-query";
 import {
   useAppDispatch,
   useAppSelector,
-} from '../../../../services/redux/hooks';
+} from "../../../../services/redux/hooks";
 import {
   setCompanyState,
   setLogIn,
   setProceedAuth,
-} from '../../../../services/redux/Slices/authSlice';
-import { inputPhoneNumber, inputSms } from '../../../../utilities/inputFormat';
-import Input from '../../../../components/Custom/Input';
-import MultiSelect from '../../../../components/Custom/MultiSelect';
+} from "../../../../services/redux/Slices/authSlice";
+import { inputPhoneNumber, inputSms } from "../../../../utilities/inputFormat";
+import Input from "../../../../components/Custom/Input";
+import MultiSelect from "../../../../components/Custom/MultiSelect";
 import {
   Container,
   MainWrap,
@@ -36,8 +36,9 @@ import {
   WrapButton,
   LogInContentWrap,
   LogInWrap,
-} from './style';
-import Cookies from 'js-cookie';
+} from "./style";
+import Cookies from "js-cookie";
+
 interface FormProps {
   role: { value?: string; label?: string };
   phoneNumber: string;
@@ -68,7 +69,7 @@ export const LoginPanel = () => {
   });
 
   const dispatch = useAppDispatch();
-  const [phone, setPhone] = useState('');
+  const [phone, setPhone] = useState("");
   const history = useHistory();
   const [time, setTime] = useState(60);
   const [fetch, setFetch] = useState(false);
@@ -82,7 +83,7 @@ export const LoginPanel = () => {
     watch,
     reset,
   } = useForm<FormProps>({
-    mode: 'onBlur',
+    mode: "onBlur",
     shouldFocusError: true,
   });
 
@@ -113,11 +114,11 @@ export const LoginPanel = () => {
 
   useEffect(() => {
     if (values?.phoneNumber === undefined) {
-      setValue('phoneNumber', '+998');
+      setValue("phoneNumber", "+998");
     } else {
-      setValue('phoneNumber', checkPhone.newString);
+      setValue("phoneNumber", checkPhone.newString);
     }
-  }, [checkPhone.check, watch('phoneNumber')]);
+  }, [checkPhone.check, watch("phoneNumber")]);
 
   let checkSms = inputSms({
     value: values?.smsCode,
@@ -125,19 +126,19 @@ export const LoginPanel = () => {
 
   useEffect(() => {
     if (values?.smsCode === undefined) {
-      setValue('smsCode', '');
+      setValue("smsCode", "");
     } else {
-      setValue('smsCode', checkSms.newString);
+      setValue("smsCode", checkSms.newString);
     }
-  }, [checkSms.check, watch('smsCode')]);
+  }, [checkSms.check, watch("smsCode")]);
 
-  watch(['role', 'phoneNumber']);
+  watch(["role", "phoneNumber"]);
 
   useEffect(() => {
     const subscription = watch((value) => {
       if (
         value?.role?.value !== undefined &&
-        value?.role?.value !== '' &&
+        value?.role?.value !== "" &&
         value?.phoneNumber?.length === 13
       ) {
         setDisable(false);
@@ -146,7 +147,7 @@ export const LoginPanel = () => {
       }
     });
     return () => subscription.unsubscribe();
-  }, [watch(['role', 'phoneNumber'])]);
+  }, [watch(["role", "phoneNumber"])]);
 
   const logRes = useMutation((values: PropSign) =>
     signIn({
@@ -183,23 +184,23 @@ export const LoginPanel = () => {
       onSuccess: (data) => {
         setTime(0);
         localStorage.setItem(
-          'partner_access_token',
+          "partner_access_token",
           data.data.data.accessToken
         );
         localStorage.setItem(
-          'partner_refresh_token',
+          "partner_refresh_token",
           data.data.data.refreshToken
         );
         dispatch(setLogIn(data.data.data));
         refetchList();
         dispatch(setCompanyState(data.data.data.status));
 
-        Cookies.set('compnayState', data.data.data.status);
+        Cookies.set("compnayState", data.data.data.status);
 
-        if (Cookies.get('compnayState') === 'old') {
-          history.push('/partner/company');
+        if (Cookies.get("compnayState") === "old") {
+          history.push("/partner/company");
         } else {
-          history.push('/partner/registration');
+          history.push("/partner/registration");
         }
       },
     });
@@ -209,18 +210,19 @@ export const LoginPanel = () => {
     dispatch(setProceedAuth(false));
     setTime(60);
     setFetch(false);
-    setValue('phoneNumber', '+998');
-    setValue('role', { value: '' });
-    setValue('smsCode', '');
+    setValue("phoneNumber", "+998");
+    setValue("role", { value: "" });
+    setValue("smsCode", "");
     setDisable(true);
-    setError('smsCode', {
-      message: t('requiredField'),
-      type: 'required',
+    setError("smsCode", {
+      message: t("requiredField"),
+      type: "required",
     });
     reset();
-    localStorage.removeItem('partner_access_token');
-    localStorage.removeItem('partner_refresh_token');
+    localStorage.removeItem("partner_access_token");
+    localStorage.removeItem("partner_refresh_token");
   };
+
   const handleReSend = () => {
     logRes.mutate(
       {
@@ -252,14 +254,14 @@ export const LoginPanel = () => {
           <Version>v1.0.130</Version>
           <Title>
             <DisIcon />
-            {proceedAuth ? t('disadmin') : t('discount')}
+            {proceedAuth ? t("disadmin") : t("discount")}
           </Title>
         </Header>
         <Body>
-          <Text fontSize={22} weight='bold' marginB={10}>
-            {proceedAuth ? t('enterAssertCode') : t('welcome')}
+          <Text fontSize={22} weight="bold" marginB={10}>
+            {proceedAuth ? t("enterAssertCode") : t("welcome")}
           </Text>
-          {!proceedAuth && <Text marginB={20}> {t('enterData')}</Text>}
+          {!proceedAuth && <Text marginB={20}> {t("enterData")}</Text>}
           <Form
             onSubmit={
               proceedAuth ? handleSubmit(onSubmitSms) : handleSubmit(onSubmit)
@@ -269,22 +271,22 @@ export const LoginPanel = () => {
               <WrapContent>
                 <Content>
                   <Controller
-                    name='smsCode'
+                    name="smsCode"
                     control={control}
                     rules={{
                       required: true,
                       maxLength: 4,
                       minLength: 4,
                     }}
-                    defaultValue=''
+                    defaultValue=""
                     render={({ field }) => (
                       <Input
-                        label={t('assertCode')}
+                        label={t("assertCode")}
                         error={errors.smsCode ? true : false}
-                        type='string'
+                        type="string"
                         field={field}
                         margin={{
-                          laptop: '20px 0 0',
+                          laptop: "20px 0 0",
                         }}
                         IconEnd={
                           <WrapTime time={time}>
@@ -296,22 +298,22 @@ export const LoginPanel = () => {
                       />
                     )}
                   />
-                  {errors.smsCode && <Message>{t('requiredField')}</Message>}
-                  {time === 0 && <Message>{t('wrongsmscode')}</Message>}
+                  {errors.smsCode && <Message>{t("requiredField")}</Message>}
+                  {time === 0 && <Message>{t("wrongsmscode")}</Message>}
                   {time === 0 && (
                     <Button
                       buttonStyle={{
-                        color: '#3492FF',
-                        bgcolor: 'transparent',
+                        color: "#3492FF",
+                        bgcolor: "transparent",
                       }}
                       onClick={handleReSend}
                       disabled={logRes.isLoading}
                     >
-                      {t('resend')}
+                      {t("resend")}
                     </Button>
                   )}
                   <SmsNumber time={time}>
-                    {t('smsphone')}
+                    {t("smsphone")}
                     {phone}
                   </SmsNumber>
                 </Content>
@@ -319,7 +321,7 @@ export const LoginPanel = () => {
                   <WrapButton>
                     <Button
                       buttonStyle={{
-                        shadow: '0px 19px 30px rgba(96, 110, 234, 0.35)',
+                        shadow: "0px 19px 30px rgba(96, 110, 234, 0.35)",
                         radius: 12,
                         fontSize: {
                           laptop: 17,
@@ -328,17 +330,17 @@ export const LoginPanel = () => {
                           planshet: 16,
                         },
                       }}
-                      type='submit'
+                      type="submit"
                       disabled={smsRes.isLoading}
                       fullWidth={true}
                     >
-                      {t('enter')}
+                      {t("enter")}
                     </Button>
                   </WrapButton>
                   <Button
                     buttonStyle={{
-                      bgcolor: 'transparent',
-                      color: '#606EEA',
+                      bgcolor: "transparent",
+                      color: "#606EEA",
                       fontSize: {
                         laptop: 17,
                         desktop: 18,
@@ -347,9 +349,9 @@ export const LoginPanel = () => {
                       },
                     }}
                     onClick={handleBack}
-                    width={{ width: '100%' }}
+                    width={{ width: "100%" }}
                   >
-                    {t('back')}
+                    {t("back")}
                   </Button>
                 </Content>
               </WrapContent>
@@ -357,44 +359,44 @@ export const LoginPanel = () => {
               <LogInWrap>
                 <LogInContentWrap>
                   <Controller
-                    name='role'
+                    name="role"
                     control={control}
                     rules={{ required: true }}
                     render={({ field }) => (
                       <MultiSelect
-                        label={t('staffRole')}
+                        label={t("staffRole")}
                         options={[
-                          { value: '2', label: t('admin') },
-                          { value: '5', label: t('manager') },
+                          { value: "2", label: t("admin") },
+                          { value: "5", label: t("manager") },
                         ]}
                         field={field}
                         error={errors.role ? true : false}
-                        message={t('requiredField')}
-                        placeholder=''
+                        message={t("requiredField")}
+                        placeholder=""
                       />
                     )}
                   />
                   <Controller
-                    name='phoneNumber'
+                    name="phoneNumber"
                     control={control}
                     rules={{ required: true, maxLength: 13, minLength: 13 }}
-                    defaultValue='+998'
+                    defaultValue="+998"
                     render={({ field }) => (
                       <Input
-                        label={t('phoneNumber')}
+                        label={t("phoneNumber")}
                         error={errors.phoneNumber ? true : false}
                         message={
                           <Message>
-                            <div>{t('phoneLength')}</div>
-                            <div>{t('tryagain')}</div>
+                            <div>{t("phoneLength")}</div>
+                            <div>{t("tryagain")}</div>
                           </Message>
                         }
-                        type='tel'
+                        type="tel"
                         field={field}
                         margin={{
-                          planshet: '20px 0 0',
-                          laptop: '20px 0 0',
-                          desktop: '20px 0 40px',
+                          planshet: "20px 0 0",
+                          laptop: "20px 0 0",
+                          desktop: "20px 0 40px",
                         }}
                         maxLength={13}
                       />
@@ -410,7 +412,7 @@ export const LoginPanel = () => {
                       mobile: 16,
                       planshet: 16,
                     },
-                    shadow: '0px 19px 30px rgba(96, 110, 234, 0.35)',
+                    shadow: "0px 19px 30px rgba(96, 110, 234, 0.35)",
                     height: {
                       mobile: 45,
                       planshet: 45,
@@ -418,11 +420,11 @@ export const LoginPanel = () => {
                       desktop: 60,
                     },
                   }}
-                  type='submit'
+                  type="submit"
                   disabled={disable || logRes.isLoading}
-                  width={{ width: '100%' }}
+                  width={{ width: "100%" }}
                 >
-                  {t('next')}
+                  {t("next")}
                 </Button>
               </LogInWrap>
             )}

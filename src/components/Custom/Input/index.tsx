@@ -139,6 +139,7 @@ const NInput = ({ onChange = () => {}, ...props }: Props) => {
         {...props.field}
         onFocus={props.onFocus}
         onBlur={props.onBlur}
+        inputComponent
       />
       <Message labelStyle={props.labelStyle}>
         {props.error ? props.message : null}
