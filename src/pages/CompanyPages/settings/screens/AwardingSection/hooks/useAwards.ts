@@ -8,6 +8,21 @@ const useAwards = () => {
   const companyId: any = localStorage.getItem("companyId");
   const { control, handleSubmit, setValue } = useForm<IForm>();
 
+  const inviteCheck = useWatch({
+    control,
+    name: "inviteCheck",
+  });
+
+  const recommendCheck = useWatch({
+    control,
+    name: "recommendCheck",
+  });
+
+  const vipCheck = useWatch({
+    control,
+    name: "vipCheck",
+  });
+
   const { refetch } = useQuery(["rewards"], () => fetchRewards(), {
     retry: 0,
     refetchOnWindowFocus: false,
@@ -48,21 +63,6 @@ const useAwards = () => {
       setValue("payfor", forBeforeDay?.levels[0]?.beforeDay);
       setValue("awardLimit", forSecond?.levels[0]?.limitCountReward);
     },
-  });
-
-  const inviteCheck = useWatch({
-    control,
-    name: "inviteCheck",
-  });
-
-  const recommendCheck = useWatch({
-    control,
-    name: "recommendCheck",
-  });
-
-  const vipCheck = useWatch({
-    control,
-    name: "vipCheck",
   });
 
   const birthdayCheck = useWatch({

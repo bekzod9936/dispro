@@ -1,19 +1,21 @@
 import { Controller } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import Input from "components/Custom/Input";
 import { Flex } from "../../../../../styles/BuildingBlocks";
 import { SettingsWrapper } from "../../styles/SettingStyles";
 import { Text } from "../../../../../styles/CustomStyles";
 import { SaveIcon } from "../../../../../assets/icons/InfoPageIcons/InfoPageIcons";
-import { useTranslation } from "react-i18next";
 import useSecurity from "./hooks/useSecurity";
 import Button from "components/Custom/Button";
 import CustomToggle from "components/Custom/CustomToggleSwitch";
 import { Break } from "../../styles";
 import { Grid } from "@material-ui/core";
+import { Form } from "./styles";
 
 const SecuritySection = () => {
   const { t } = useTranslation();
-  const { control, handleSubmit, onFormSubmit } = useSecurity();
+  const { control, suspendedClient, suspendedSum, handleSubmit, onFormSubmit } =
+    useSecurity();
 
   // const handleSwitch = (checked: boolean, item: any, index: number) => {
   //   let exist = switchStates?.includes(item.key);
@@ -32,7 +34,7 @@ const SecuritySection = () => {
   return (
     <div style={{ display: "flex", flexGrow: 1 }}>
       <SettingsWrapper>
-        <form onSubmit={handleSubmit(onFormSubmit)}>
+        <Form onSubmit={handleSubmit(onFormSubmit)}>
           <Flex
             margin="0px"
             flexDirection="column"
@@ -72,7 +74,7 @@ const SecuritySection = () => {
                 </Grid>
                 <Grid item xs={2}>
                   <Controller
-                    name="securityInvite"
+                    name="suspendedClient"
                     control={control}
                     render={({ field }) => {
                       return <CustomToggle checked={field.value} {...field} />;
@@ -81,22 +83,25 @@ const SecuritySection = () => {
                 </Grid>
               </Grid>
 
-              <div style={{ width: "70%" }}>
-                <Controller
-                  name="first"
-                  control={control}
-                  render={({ field }) => {
-                    return (
-                      <Input field={field} label={t("operations_per_day")} />
-                    );
-                  }}
-                />
-              </div>
+              {suspendedClient && (
+                <div style={{ width: "70%" }}>
+                  <Controller
+                    name="first"
+                    control={control}
+                    render={({ field }) => {
+                      return (
+                        <Input field={field} label={t("operations_per_day")} />
+                      );
+                    }}
+                  />
+                </div>
+              )}
             </Grid>
 
             <Break height={50} />
 
-            {/* Security row second settings  */}
+            {/* Security row suspended client count */}
+
             <Grid
               xs={7}
               container
@@ -128,7 +133,7 @@ const SecuritySection = () => {
                 </Grid>
                 <Grid item xs={2}>
                   <Controller
-                    name="securitySumma"
+                    name="suspendedSum"
                     control={control}
                     render={({ field }) => {
                       return <CustomToggle checked={field.value} {...field} />;
@@ -136,15 +141,17 @@ const SecuritySection = () => {
                   />
                 </Grid>
               </Grid>
-              <div style={{ width: "70%" }}>
-                <Controller
-                  name="second"
-                  control={control}
-                  render={({ field }) => {
-                    return <Input field={field} label={t("enterSum")} />;
-                  }}
-                />
-              </div>
+              {suspendedSum && (
+                <div style={{ width: "70%" }}>
+                  <Controller
+                    name="second"
+                    control={control}
+                    render={({ field }) => {
+                      return <Input field={field} label={t("enterSum")} />;
+                    }}
+                  />
+                </div>
+              )}
             </Grid>
           </Flex>
           <div style={{ position: "fixed", bottom: "10px", width: "100%" }}>
@@ -155,7 +162,7 @@ const SecuritySection = () => {
               </Text>
             </Button>
           </div>
-        </form>
+        </Form>
       </SettingsWrapper>
     </div>
   );
