@@ -17,20 +17,6 @@ const SecuritySection = () => {
   const { control, suspendedClient, suspendedSum, handleSubmit, onFormSubmit } =
     useSecurity();
 
-  // const handleSwitch = (checked: boolean, item: any, index: number) => {
-  //   let exist = switchStates?.includes(item.key);
-  //   if (!exist && checked) {
-  //     setSwitchStates([...switchStates, item.key]);
-  //   } else if (!checked && exist) {
-  //     let filtered = [...switchStates];
-  //     let searchingIndex = filtered.findIndex(
-  //       (value: any) => value === item.key
-  //     );
-  //     filtered.splice(searchingIndex, 1);
-  //     setSwitchStates([...filtered]);
-  //   }
-  // };
-
   return (
     <div style={{ display: "flex", flexGrow: 1 }}>
       <SettingsWrapper>
