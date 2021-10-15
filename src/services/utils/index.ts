@@ -50,3 +50,31 @@ export const formatFormData = (data: IFormInput) => {
 
   return newData;
 };
+
+export const numberWith = (
+  x: string,
+  replaceValue: string,
+  defaultValue?: string
+) => {
+  const defVal = defaultValue || "";
+
+  return x
+    ? x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, replaceValue)
+    : defVal;
+};
+
+export const normalInteger = (str: string, max?: number) => {
+  str = str.replace(/\s/g, "");
+  str = str?.toString().trim();
+
+  if (!str) {
+    return "";
+  }
+  str = str.replace(/^0+/, "") || "0";
+  const n = Math.floor(Number(str));
+  if (String(n) === str && n >= 0) {
+    return str;
+  }
+
+  return str.replace(/\D/g, "");
+};
