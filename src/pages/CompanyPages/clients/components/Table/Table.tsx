@@ -1,43 +1,98 @@
-import CheckBox from 'components/Custom/CheckBox'
-import React from 'react'
-import { useAppSelector } from 'services/redux/hooks'
-import { AddColumnButton } from './AddColumnBtn/AddColumnButton'
-import { AddButton, TableBlock, TableHeader, TableWrapper, TBody, Td, Th, THead, Title, TRow } from './style'
+import { Checkbox } from '@material-ui/core';
+import React from 'react';
+import { useSortBy, useTable } from 'react-table';
+import { AddColumnButton } from './AddColumnBtn/AddColumnButton';
+import { addedHeaders } from './headers';
+import { TableHeader, Tbody, Td, Th, Title, Container, MTable, Thead, UpIcon } from './style';
 
-export const Table = () => {
-    const { clients, addedHeaders, visibleClients } = useAppSelector(state => state.clients)
+export const Table = ({ visibleClients, selectedClients, dispatch }: any) => {
+	const [ headers, setHeaders ] = React.useState(addedHeaders);
 
+	const columns = React.useMemo(
+		() => {
+			return headers.map((header) => ({
+				Header: header.value,
+				accessor: header.label,
+			}));
+		},
+		[ headers ],
+	);
 
+		console.log(selectedClients);
+		
+	// const handleAddClient = (e: any, value: boolean, id: any) => {
+	// 	e.stopPropagation()
+	// 	if (value) {
+	// 		dispatch({ type: 'addClient', payload: id });
+	// 	} else {
+	// 		dispatch({ type: 'removeClient', payload: id });
+	// 	}
+	// };
+	const handleAddClientByClick = (e: any, id: any) => {
+		e.stopPropagation()
+		const isAdded = selectedClients.some((el: any) => el.id === id)
+		if (!isAdded) {
+			dispatch({type: "addClient", payload: id});
+		} else {
+			dispatch({type: "removeClient", payload: id})
+		}
+	}
 
-    return (
-            <TableWrapper>
-                <TableHeader>
-                    <Title>Клиенты</Title>
-                    <AddColumnButton />
-                </TableHeader>
-                <TableBlock>
-                    <THead>
-                        <TRow>
-                            <Th><CheckBox /></Th>
-                            {addedHeaders.map((header, index) => (
-                                <Th key={index}>{header.value}</Th>
-                            ))}
-                        </TRow>
-                    </THead>
-                    <TBody>
-                        {visibleClients.map((client, index: any) => (
-                            <TRow background={index % 2}>
-                                <Td><CheckBox /></Td>
-                                {Object.keys(client).map((el, i) => {
-                                    if(addedHeaders.some(e => e.label === String(el))) {
-                                        return <Td key={i}>{client[el]}</Td>
-                                    }
-                                })}
-                            </TRow>
-                        ))}
-                    </TBody>
-                </TableBlock>
-            </TableWrapper>
-        
-    )
-}
+	const { getTableBodyProps, headerGroups, getTableProps, rows, prepareRow } = useTable(
+		{ data: visibleClients, columns: columns },
+		useSortBy,
+	);
+	return (
+		<div>
+			<TableHeader>
+				<Title>Клиенты</Title>
+				<AddColumnButton
+					setHeaders={setHeaders}
+					addedHeaders={headers}
+					setAddedHeaders={setHeaders}
+				/>
+			</TableHeader>
+			<Container>
+				<MTable {...getTableProps()}>
+					<Thead>
+						{headerGroups.map((headerGroup) => (
+							<tr {...headerGroup.getHeaderGroupProps()}>
+								<Th>
+									<Checkbox
+										checked={visibleClients.length && selectedClients.length === visibleClients.length}
+										onChange={(e) => dispatch({ type: 'selectAll', payload: e.target.checked })}
+									/>
+								</Th>
+								{headerGroup.headers.map((column: any) => (
+									<Th active={column.isSorted}
+									 {...column.getHeaderProps(column.getSortByToggleProps())}>
+										{column.render('Header')}
+										<UpIcon up={column.isSortedDesc} active={column.isSorted} />
+									</Th>
+								))}
+							</tr>
+						))}
+					</Thead>
+					<Tbody {...getTableBodyProps()}>
+						{rows.map((row: any) => {
+							prepareRow(row);
+							return (
+								<tr onClick={(e) => handleAddClientByClick(e, row.original.id)} {...row.getRowProps()}>
+									<Td>
+										<Checkbox
+											checked={selectedClients.some((el: any) => el.id === row.original.id)}
+											// onChange={(e) => handleAddClientByClick(e, row.original.id)}
+										/>
+									</Td>
+									{row.cells.map((cell: any) => {
+										return <Td {...cell.getCellProps()}>{cell.render('Cell')}</Td>;
+									})}
+								</tr>
+							);
+						})}
+					</Tbody>
+				</MTable>
+			</Container>
+		</div>
+	);
+};

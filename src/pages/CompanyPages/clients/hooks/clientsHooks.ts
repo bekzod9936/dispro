@@ -1,26 +1,30 @@
-import { Dispatch } from "react";
 import { useQuery } from "react-query";
 import { fetchClients, searchClients } from "services/queries/ClientsQueries";
-import { IClientState, setClients, setTotalClients } from "services/redux/Slices/clientSlice";
 
 
 export const useFetchClients = (
     page: number,
-    dispatch: Dispatch<any> 
+    dispatch: any,
+    query: string,
+    filters: any
     ) => {
   const response = useQuery(
-    ["clients", page],
+    ["clients", page, query, filters],
     () => {
+      dispatch({type: "loading"})
+      if (query !== '') {
+        return searchClients(query)
+      }
       // const url = Object.keys(filters).map(e => `${e}=${filters[e]}&`).join('')
       const url = ''
-      return fetchClients(page, url)
+      return fetchClients(page)
     },
     {
       retry: 0,
       refetchOnWindowFocus: false,
       onSuccess: (data) => {
-        dispatch(setClients(data.data.data.clients))
-        dispatch(setTotalClients(data.data.data.totalCount))
+        dispatch({type: "setClients", payload: { clients: data.data.data.clients, totalCount: data.data.data.totalCount}})
+        
       }
     }
   )
@@ -29,18 +33,4 @@ export const useFetchClients = (
 
 
 
-
-export const useSearchClient = (clientState: any, queryString: string, setResponseData: any) => {
-  const response = useQuery(
-    ["clients", queryString],
-    () => searchClients(clientState.startDate, clientState.endDate, queryString),
-    {
-      refetchOnWindowFocus: false,
-      onSuccess: (data) => {
-        setResponseData(data.data.data.clients)
-      }
-    }
-  )
-  return response
-}
 

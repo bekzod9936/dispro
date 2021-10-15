@@ -11,7 +11,7 @@ export const fetchClientsData = ({ section }: Props) => {
 };
 
 
-export const fetchClients = async (page: number, url: string) => {
+export const fetchClients = async (page: number) => {
   const query = [];
   // if (start) {
   //   query.push(`&startDate=${moment(start).format('YYYY-MM-DD')}`);
@@ -21,23 +21,17 @@ export const fetchClients = async (page: number, url: string) => {
   // }
   // let combined = query.join('');
   const response = await partnerApi(
-    `/core/client/by/company?page=${page}&perPage=6&${url}`
+    `/core/client/by/company?page=${page}&perPage=3`
   );
   return response;
 };
 
 
-export const searchClients = async(start: any, end: any, queryString: string) => {
+export const searchClients = async(queryString: string) => {
   const query = [];
-  if (start) {
-    query.push(`&startDate=${moment(start).format('YYYY-MM-DD')}`);
-  }
-  if (end) {
-    query.push(`&endDate=${moment(end).format('YYYY-MM-DD')}`);
-  }
-  let combined = query.join('');
+  
   const response = await partnerApi(
-    `/core/client/by/company?perPage=6${combined}&key=${queryString}`
+    `/core/client/by/company?perPage=3&key=${queryString}`
   );
   return response;
 };

@@ -4,12 +4,12 @@ import moment from "moment";
 export interface IClientState {
 	page: number,
 	clients: any[],
-	selectedClients: Object[],
 	totalClients: number,
 	addedHeaders: any[],
 	headers: any[],
 	visibleClients: any[],
-	totalPages: number
+	totalPages: number,
+	checkedClients: any[]
 }
 
 
@@ -17,16 +17,17 @@ const initialState: IClientState = {
 	page: 1,
 	clients: [],
 	visibleClients: [],
-	selectedClients: [],
 	totalClients: 0,
 	totalPages: 0,
+	checkedClients: [],
 	addedHeaders: [
 		{value: "Клиент", label: "fullName"}, 
 		{value: "Сумма скидки", label: "discountSum"}, 
 		{value: "Сумма баллов", label: "pointSum"}, 
 		{value: "Сумма кешбека", label: "cashbackSum"}, 
 		{value: "Пол", label: "gender"}, 
-		{value: "Возраст", label: "age"}],
+		{value: "Возраст", label: "age"},
+	],
 
 	headers: [
 		{value: "Клиент", label: "fullName"}, 
@@ -39,8 +40,10 @@ const initialState: IClientState = {
 		{value: "Рекомендации", label: "countRefer"}, 
 		{value: "Источники трафика", label: "sourceBy"}, 
 		{value: "Уровень", label: "status"}, 
-		{value: "Последняя покупка", label: "lastPurchase"}]
+		{value: "Последняя покупка", label: "lastPurchase"},
+	]
 }
+
 
 
 
@@ -51,7 +54,7 @@ export const clientSlice = createSlice({
 		setClients: (state, { payload }) => {
 			state.clients = [...payload]
 			state.visibleClients = payload.map((el: any) => {
-				const client = {
+				const client = {id: el.id,
 					fullName: `${el.firstName} ${el.lastName}`,
 					discountSum: el.addInfo.discountSum || "-",
 					pointSum: el.addInfo.pointSum || "-",
@@ -62,7 +65,7 @@ export const clientSlice = createSlice({
 					countRefer: el.addInfo.countRefer || "-",
 					sourceBy: el.addInfo.sourceBy,
 					status: el.addInfo.status,
-					lastPurchase: el.addInfo.lastPurchaseAmount || '-'
+					lastPurchase: el.addInfo.lastPurchaseAmount || '-',
 				}
 				return client
 			})
@@ -72,7 +75,7 @@ export const clientSlice = createSlice({
 		},
 		setTotalClients: (state, { payload }) => {
 		state.totalClients = payload
-		state.totalPages = Math.ceil(payload / 6)
+		state.totalPages = Math.ceil(payload / 3)
 		},
 		setHeader: (state, { payload }) => {
 			state.addedHeaders = [...state.addedHeaders, payload]
@@ -80,13 +83,17 @@ export const clientSlice = createSlice({
 		removeHeader: (state, { payload }) => {
 			state.addedHeaders = state.addedHeaders.filter(header => header.value !== payload.value)
 		},
+		addClient: (state, { payload }) => {
+			
+		},
+		removeClient: (state, { payload }) => {
+			state.checkedClients = state.checkedClients.filter(client => client.id !== payload)
+		},
+		addAllClients: (state, { payload }) => {
+			state.checkedClients = payload ? [...state.clients] : []
+		}
 	}
 })
-
-
-
-
-
 
 
 
@@ -95,7 +102,9 @@ export const {
 	setClients, 
 	setTotalClients,
 	setHeader,
-	removeHeader
+	addClient,
+	removeHeader,
+	addAllClients
  } = clientSlice.actions
 export default clientSlice.reducer
 

@@ -2,14 +2,34 @@ import styled from 'styled-components';
 import { IButtonWrapper } from './types';
 
 export const Container = styled.div`
-  padding: 25px 25px 40px 25px;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+export const MainWrapper = styled.div`
+  padding: 25px 0 25px 25px;
   display: flex;
   height: 100%;
   flex-direction: column;
-  overflow: auto;
+  position: relative;
 `;
+export const Wrap = styled.div`
+  overflow-y: auto;
+  padding-right: 25px;
+  ::-webkit-scrollbar {
+    width: 7px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
 
-
+  &::-webkit-scrollbar-thumb {
+    background: #606eea;
+    border-radius: 14px 0px 0px 14px;
+  }
+`;
 export const SubTitle = styled.span`
   margin-left: 10px;
   font-size: 14px;
