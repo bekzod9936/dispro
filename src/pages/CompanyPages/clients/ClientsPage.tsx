@@ -9,22 +9,28 @@ import { clientsReducer, initialState } from './utils/clientsReducer';
 import { useFetchClients } from './hooks/clientsHooks';
 import { useDebounce } from 'use-debounce/lib';
 import { EmptyPage } from './components/EmptyPage';
+import { QrCodeBar } from './components/QrCodeBar';
 
 const ClientsPage = () => {
 	const { t } = useTranslation();
 	const [query, setQuery] = React.useState('')
+	const qrRef = React.useRef()
+	const [isOpenBar, setOpenBar] = React.useState({
+		qrBar: false,
+		sideBar: false
+	})
 	const [debouncedQuery] = useDebounce(query, 300)
-	const [ { loading, filters, page, visibleClients, totalCount, selectedClients, totalPages }, dispatch ] = React.useReducer(
+	const [ { period, loading, filters, page, visibleClients, totalCount, selectedClients, totalPages }, dispatch ] = React.useReducer(
 		clientsReducer,
 		initialState,
 	);
-	const { isLoading } = useFetchClients(page, dispatch, debouncedQuery, filters);
+	const { isLoading } = useFetchClients({page, dispatch, query: debouncedQuery, filters, period});
 	
 	
 	return (
 		<MainWrapper>
 			<Container>
-				<Header setQuery = {setQuery} 
+				<Header setOpenBar={setOpenBar} setQuery = {setQuery} 
 				query={query} totalCount={totalCount} dispatch={dispatch}/>
 				<Wrap>
 					{loading ? (
@@ -38,6 +44,8 @@ const ClientsPage = () => {
 					)}
 					{visibleClients.length !== 0 && <Footer totalPages={totalPages} totalCount={totalCount} page={page} setPage={dispatch} />}
 				</Wrap>
+				<QrCodeBar setOpenBar={setOpenBar} isOpen={isOpenBar.qrBar}/>
+
 			</Container>
 		</MainWrapper>
 	);
