@@ -11,7 +11,7 @@ export const fetchClientsData = ({ section }: Props) => {
 };
 
 
-export const fetchClients = async (page: number) => {
+export const fetchClients = async (page: number, url: string) => {
   const query = [];
   // if (start) {
   //   query.push(`&startDate=${moment(start).format('YYYY-MM-DD')}`);
@@ -21,7 +21,7 @@ export const fetchClients = async (page: number) => {
   // }
   // let combined = query.join('');
   const response = await partnerApi(
-    `/core/client/by/company?page=${page}&perPage=3`
+    `/core/client/by/company?page=${page}&perPage=3&${url}`
   );
   return response;
 };

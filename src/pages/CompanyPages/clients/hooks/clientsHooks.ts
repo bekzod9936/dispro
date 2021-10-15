@@ -1,23 +1,33 @@
 import { useQuery } from "react-query";
 import { fetchClients, searchClients } from "services/queries/ClientsQueries";
+interface IArgs {
+  page: number, 
+  dispatch: any,
+  query: string,
+  filters: any,
+  period: {
+    startDate: string,
+    endDate: string
+    [index: string]: string
+  }
+}
 
-
-export const useFetchClients = (
-    page: number,
-    dispatch: any,
-    query: string,
-    filters: any
-    ) => {
+export const useFetchClients = ({
+    page,
+    dispatch,
+    query,
+    filters,
+    period 
+    }: IArgs) => {
   const response = useQuery(
-    ["clients", page, query, filters],
+    ["clients", page, query, filters, period],
     () => {
       dispatch({type: "loading"})
       if (query !== '') {
         return searchClients(query)
       }
-      // const url = Object.keys(filters).map(e => `${e}=${filters[e]}&`).join('')
-      const url = ''
-      return fetchClients(page)
+      const url = Object.keys(period).map((e: string) => `${e}=${period[e]}&`).join('')
+      return fetchClients(page, url)
     },
     {
       retry: 0,

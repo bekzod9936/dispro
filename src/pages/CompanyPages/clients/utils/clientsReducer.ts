@@ -18,6 +18,10 @@ export const initialState = {
     loading: false,
     clients: [],
     page: 1,
+    period: {
+        startDate: '',
+        endDate: ''
+    },
     totalCount: 0,
     visibleClients: [],
     selectedClients: [],
@@ -113,6 +117,12 @@ export const clientsReducer = (state = initialState, action: any): any => {
             return {
                 ...state,
                 loading: true
+            }
+        }
+        case "setPeriod": {
+            return {
+                ...state,
+                period: payload
             }
         }
         default: {
