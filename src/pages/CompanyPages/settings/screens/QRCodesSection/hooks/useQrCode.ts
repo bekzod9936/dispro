@@ -14,6 +14,7 @@ const useQrCode = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [currentName, setCurrentName] = useState<string>("");
   const [state, setState] = useState("");
+  const [id, setId] = useState<number | string>();
 
   const { refetch, isLoading, data } = useQuery(["qrcodes"], fetchQRCodes, {
     retry: 0,
@@ -23,16 +24,19 @@ const useQrCode = () => {
   const createQr = useMutation((data: any) => createQrCode(data), {
     onSuccess: () => {
       refetch();
+      setId("");
     },
   });
   const editQr = useMutation((data: any) => editQrCode(data), {
     onSuccess: () => {
       refetch();
+      setId("");
     },
   });
   const deleteQr = useMutation((data: any) => deleteQrCode(data), {
     onSuccess: () => {
       refetch();
+      setId("");
     },
   });
 
@@ -41,30 +45,31 @@ const useQrCode = () => {
     setOptionsListOpen(!optionsListOpen);
     // setModalVisible(true)
   };
+
   const handleDeleteClick = () => {
+    console.log(optionsOpen, "options open");
     setState("delete");
-    setOptionsOpen("");
     setModalVisible(true);
   };
+
   const handleEditClick = () => {
     setState("edit");
-    setOptionsOpen("");
     setModalVisible(true);
   };
 
   const handleSavePromocode = async () => {
     if (!currentName) {
       return;
-    } else if (!optionsOpen) {
+    } else if (!id) {
       await createQr.mutate({
         id: "",
         source: currentName,
       });
       setCurrentName("");
       setModalVisible(false);
-    } else if (optionsOpen) {
+    } else if (id) {
       await editQr.mutate({
-        id: optionsOpen,
+        id: id,
         source: currentName,
       });
       setCurrentName("");
@@ -74,10 +79,11 @@ const useQrCode = () => {
   };
 
   const handleDelete = async () => {
+    console.log(optionsOpen, "options open");
     try {
       await deleteQr.mutate({
         data: {
-          id: optionsOpen,
+          id: id,
         },
       });
 
@@ -90,16 +96,13 @@ const useQrCode = () => {
     setSearchQR(e.target.value);
   };
 
-  const handleOption = useCallback(
-    (id: any) => {
-      if (!optionsOpen) {
-        setOptionsOpen(id);
-      } else {
-        setOptionsOpen("");
-      }
-    },
-    [optionsOpen]
-  );
+  const handleOption = (id: any) => {
+    if (!optionsOpen) {
+      setOptionsOpen(id);
+    } else {
+      setOptionsOpen("");
+    }
+  };
 
   return {
     isLoading,
@@ -119,6 +122,7 @@ const useQrCode = () => {
     setModalVisible,
     setOptionsListOpen,
     setCurrentName,
+    setId,
   };
 };
 

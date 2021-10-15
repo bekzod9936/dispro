@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useState } from "react";
 import QRCode from "qrcode.react";
 
 import { Text } from "styles/CustomStyles";
@@ -21,32 +21,45 @@ import {
   ThreeDotsIcon,
 } from "assets/icons/SettingsIcons/SettingsPageIcon";
 import RippleEffect from "components/Custom/RippleEffect";
+import { copyToClipboard } from "services/utils";
 
 interface IProps {
   item: any;
+  index: number;
   optionsOpen: number | string;
   handleEditClick: any;
   handleDeleteClick: any;
   handleOption: any;
+  setId: any;
 }
 
 const QrCodeCard = ({
   item,
+  index,
   handleEditClick,
   handleDeleteClick,
   handleOption,
+  setId,
 }: IProps) => {
   const { t } = useTranslation();
+  const [closeMenu, setCloseMenu] = useState<any>();
+
+  const handleClose = (e: any) => {
+    setCloseMenu(e);
+    handleOption(item);
+  };
 
   const downloadQR = () => {
     console.log(item?.dynLinkToken, "dynamic Link token");
 
-    // const canvas = item?.dynLinkToken as HTMLCanvasElement;
-    // const pngUrl = canvas
-    //   ?.toDataURL("image/png")
-    //   .replace("image/png", "image/octet-stream");
+    const canvas = document.getElementById(
+      `referral-qr-code-${index}`
+    ) as HTMLCanvasElement;
+    const pngUrl = canvas
+      ?.toDataURL("image/png")
+      .replace("image/png", "image/octet-stream");
     let downloadLink = document.createElement("a");
-    downloadLink.href = item?.dynLinkToken;
+    downloadLink.href = pngUrl;
     downloadLink.download = "qr-code.png";
     document.body.appendChild(downloadLink);
     downloadLink.click();
@@ -72,14 +85,18 @@ const QrCodeCard = ({
           anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
           transformOrigin={{ horizontal: "left", vertical: "top" }}
           popoverStyle={{ marginTop: "20px" }}
-          onClose={handleOption}
+          onClose={handleClose}
         >
           {/* {optionsOpen === item.id && ( */}
           <OptionDiv>
             <OptionsList style={{ width: "100%" }}>
               <OptionsListItem
                 style={{ width: "100%" }}
-                onClick={handleEditClick}
+                onClick={() => {
+                  handleEditClick();
+                  setId(item.id);
+                  closeMenu.close();
+                }}
               >
                 <Text
                   marginLeft="0px"
@@ -91,7 +108,11 @@ const QrCodeCard = ({
                 </Text>
               </OptionsListItem>
               <OptionsListItem
-                onClick={handleDeleteClick}
+                onClick={() => {
+                  handleDeleteClick();
+                  setId(item.id);
+                  closeMenu.close();
+                }}
                 style={{ width: "100%" }}
               >
                 <Text
@@ -112,7 +133,7 @@ const QrCodeCard = ({
       <QrRow>
         <div>
           <QRCode
-            id="referral-qr-code"
+            id={`referral-qr-code-${index}`}
             value={item.dynLinkToken}
             size={150}
             bgColor="#FFFFFF"
@@ -131,6 +152,9 @@ const QrCodeCard = ({
           <Button
             buttonStyle={{
               bgcolor: " rgba(96, 110, 234, 0.1)",
+            }}
+            onClick={() => {
+              copyToClipboard(item?.dynLinkToken);
             }}
             endIcon={<ScrapperIcon />}
           >

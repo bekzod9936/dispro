@@ -1,6 +1,7 @@
 import { Grid } from "@material-ui/core";
 import { Text } from "styles/CustomStyles";
 import Input from "components/Custom/Input";
+import Popover from "components/Custom/Popover";
 import Button from "components/Custom/Button";
 import { useTranslation } from "react-i18next";
 import useQrCode from "./hooks/useQrCode";
@@ -19,6 +20,7 @@ import { Flex } from "styles/BuildingBlocks";
 import { CreateBtn, IconDiv, QRPageWrapper } from "./styles";
 import { ModalComponent } from "styles/CustomStyles";
 import QrCodeCard from "./components/QrCodeCard";
+import { useState } from "react";
 
 const QRCodesSection = () => {
   const {
@@ -39,7 +41,12 @@ const QRCodesSection = () => {
     setModalVisible,
     setOptionsListOpen,
     setCurrentName,
+    setId,
   } = useQrCode();
+  const [closeFun, setCloseFun] = useState<any>();
+  const handleClose = (e: any) => {
+    setCloseFun(e);
+  };
   const { t } = useTranslation();
 
   const options = [
@@ -49,6 +56,7 @@ const QRCodesSection = () => {
       handler: () => {
         setModalVisible(true);
         setOptionsListOpen(false);
+        closeFun.close();
       },
     },
 
@@ -58,6 +66,7 @@ const QRCodesSection = () => {
       handler: () => {
         setModalVisible(true);
         setOptionsListOpen(false);
+        closeFun.close();
       },
     },
   ];
@@ -66,33 +75,42 @@ const QRCodesSection = () => {
     <div style={{ flexGrow: 1 }}>
       <QRPageWrapper>
         <Grid alignItems="center" container spacing={3} xs={6}>
-          <CreateBtn item xs={12} sm={4}>
-            <Button
-              startIcon={<FilledAddIcon />}
-              width={{
-                minwidth: 170,
-              }}
-              buttonStyle={{
-                bgcolor: "white",
-                height: {
-                  desktop: 60,
-                  laptop: 60,
-                },
-              }}
-              // style={{ width: "170px" }}
-              onClick={handleCreateQRCode}
-            >
-              <Text fontSize="18px" fontWeight={500}>
-                {t("create")}
-              </Text>
-            </Button>
+          <Popover
+            click={
+              <CreateBtn item xs={12} sm={4}>
+                <Button
+                  startIcon={<FilledAddIcon />}
+                  width={{
+                    minwidth: 170,
+                  }}
+                  buttonStyle={{
+                    bgcolor: "white",
+                    height: {
+                      desktop: 60,
+                      laptop: 60,
+                    },
+                  }}
+                  // style={{ width: "170px" }}
+                  onClick={handleCreateQRCode}
+                >
+                  <Text fontSize="18px" fontWeight={500}>
+                    {t("create")}
+                  </Text>
+                </Button>
+              </CreateBtn>
+            }
+            anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
+            transformOrigin={{ horizontal: "left", vertical: "top" }}
+            popoverStyle={{ marginTop: "20px" }}
+            onClose={handleClose}
+          >
             {optionsListOpen && (
               <CustomSelectPopoverComponent
                 options={options}
                 width="fit-content"
               />
             )}
-          </CreateBtn>
+          </Popover>
           {/* <HBreak width={25} /> */}
           <Grid item xs={12} sm={7}>
             <Input
@@ -123,15 +141,17 @@ const QRCodesSection = () => {
                   return value.source.match(searchQR);
                 }
               })
-              .map((item: any) => {
+              .map((item: any, index: number) => {
                 return (
                   <Grid key={item?.id} item xs={12} sm={12} md={6} lg={6}>
                     <QrCodeCard
                       item={item}
+                      index={index}
                       handleOption={() => handleOption(item?.id)}
                       optionsOpen={optionsOpen}
                       handleDeleteClick={handleDeleteClick}
                       handleEditClick={handleEditClick}
+                      setId={setId}
                     />
                   </Grid>
                 );
