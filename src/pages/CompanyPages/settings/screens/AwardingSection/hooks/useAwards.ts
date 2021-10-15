@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { TOTAL_FIELDS_PATTERN, IForm } from "../constants";
 import { useForm, useWatch } from "react-hook-form";
 import { useQuery, useMutation } from "react-query";
@@ -8,49 +7,6 @@ import { saveBonusRewards } from "services/queries/AwardSettingsQueries";
 const useAwards = () => {
   const companyId: any = localStorage.getItem("companyId");
   const { control, handleSubmit, setValue } = useForm<IForm>();
-
-  const { refetch } = useQuery(["rewards"], () => fetchRewards(), {
-    retry: 0,
-    refetchOnWindowFocus: false,
-    onSuccess: (data) => {
-      data.data.data.rewards.forEach((element: any) => {
-        if (element.isActive) {
-          if (element.rewardType === 1) {
-            setValue("inviteCheck", true);
-          }
-          if (element.rewardType === 2) {
-            setValue("recommendCheck", true);
-          }
-          if (element.rewardType === 3) {
-            setValue("birthdayCheck", true);
-          }
-          if (element.rewardType === 4) {
-            setValue("vipCheck", true);
-          }
-        }
-      });
-      let result = data?.data?.data?.rewards;
-      let forFirst = result.find((item: any) => item?.rewardType === 1);
-      let forSecond = result.find((item: any) => item?.rewardType === 2);
-      let forThird = result.find((item: any) => item?.rewardType === 3);
-      let forFourth = result.find((item: any) => item?.rewardType === 4);
-      let forCongrat = result.find(
-        (item: any) => item?.levels[0]?.congratulationText
-      );
-      let forBeforeDay = result.find((item: any) => item?.levels[0]?.beforeDay);
-
-      console.log(result, "forSecond");
-      //let forDescription = result.find((item:any)=>item.)  ;
-      // let forMoreThan :any = result.find((item: any) => item?.levels[0]?.requirements[0]?.amount);
-      // setValue("ifMoreThan", forMoreThan?.levels[0]?.requirements[0]?.amount);
-      setValue("awardSizeFirst", forFirst?.amount);
-      setValue("awardSizeSecond", forThird?.amount);
-      setValue("awardSizeThird", forThird?.amount);
-      setValue("awardSizeFourth", forFourth?.amount);
-      setValue("description", forCongrat?.levels[0]?.congratulationText);
-      setValue("payfor", forBeforeDay?.levels[0]?.beforeDay);
-    },
-  });
 
   const inviteCheck = useWatch({
     control,
@@ -65,6 +21,48 @@ const useAwards = () => {
   const vipCheck = useWatch({
     control,
     name: "vipCheck",
+  });
+
+  const { refetch } = useQuery(["rewards"], () => fetchRewards(), {
+    retry: 0,
+    refetchOnWindowFocus: false,
+    onSuccess: (data) => {
+      data.data.data.rewards.forEach((element: any) => {
+        if (element.rewardType === 1) {
+          setValue("inviteCheck", element.isActive);
+        }
+        if (element.rewardType === 2) {
+          setValue("recommendCheck", element.isActive);
+        }
+        if (element.rewardType === 3) {
+          setValue("birthdayCheck", element.isActive);
+        }
+        if (element.rewardType === 4) {
+          setValue("vipCheck", element.isActive);
+        }
+      });
+      let result = data?.data?.data?.rewards;
+      let forFirst = result.find((item: any) => item?.rewardType === 1);
+      let forSecond = result.find((item: any) => item?.rewardType === 2);
+      let forThird = result.find((item: any) => item?.rewardType === 3);
+      let forFourth = result.find((item: any) => item?.rewardType === 4);
+      let forCongrat = result.find(
+        (item: any) => item?.levels[0]?.congratulationText
+      );
+      let forBeforeDay = result.find((item: any) => item?.levels[0]?.beforeDay);
+
+      console.log(forSecond, "forSecond");
+      //let forDescription = result.find((item:any)=>item.)  ;
+      // let forMoreThan :any = result.find((item: any) => item?.levels[0]?.requirements[0]?.amount);
+      setValue("ifMoreThan", forFourth?.levels[0]?.requirements[0]?.amount);
+      setValue("awardSizeFirst", forFirst?.amount);
+      setValue("awardSizeSecond", forCongrat?.amount);
+      setValue("awardSizeThird", forSecond?.amount);
+      setValue("awardSizeFourth", forFourth?.amount);
+      setValue("description", forCongrat?.levels[0]?.congratulationText);
+      setValue("payfor", forBeforeDay?.levels[0]?.beforeDay);
+      setValue("awardLimit", forSecond?.levels[0]?.limitCountReward);
+    },
   });
 
   const birthdayCheck = useWatch({
@@ -95,7 +93,8 @@ const useAwards = () => {
     }
     if (data.awardSizeSecond) {
       TOTAL_FIELDS_PATTERN[1].amount = +data.awardSizeSecond;
-
+      TOTAL_FIELDS_PATTERN[1].levels[0].limitCountReward = data.awardLimit;
+      //   awardLimit
       TOTAL_FIELDS_PATTERN[1].isActive = data.recommendCheck;
     }
     if (data.awardSizeThird) {

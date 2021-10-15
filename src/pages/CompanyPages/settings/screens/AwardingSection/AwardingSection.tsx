@@ -260,13 +260,13 @@ const AwardingSection = () => {
                   <Grid xs={9}>
                     <div>
                       <Text fontWeight={500} fontSize="18px">
-                        Баллы ко дню рождения
+                        VIP баллы
                       </Text>
                     </div>
                     <div style={{ maxWidth: "340px", minWidth: "340px" }}>
                       <Text fontWeight={300} fontSize="14px">
-                        Автоматическое начисление баллов клиенту ко дню его
-                        рождения
+                        Баллы, которые можно добавить постоянным пользователям
+                        для повышения лояльности.
                       </Text>
                     </div>
                   </Grid>

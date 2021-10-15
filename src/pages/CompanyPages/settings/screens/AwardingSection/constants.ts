@@ -34,7 +34,11 @@ export const TOTAL_FIELDS_PATTERN: ITotal[] = [
   {
     amount: 0,
     isActive: false,
-    levels: [],
+    levels: [
+      {
+        limitCountReward: 0,
+      },
+    ],
     rewardType: 2,
     userType: 1,
   },

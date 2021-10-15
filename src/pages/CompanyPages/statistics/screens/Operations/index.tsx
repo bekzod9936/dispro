@@ -1,8 +1,8 @@
-import { useTranslation } from 'react-i18next';
-import { Container, Wrapper, WrapperCon } from './style';
-import Spinner from 'components/Custom/Spinner';
-import useOperationsHook from './useOperationsHook';
-import Filter from 'components/Custom/Filter/index';
+import { useTranslation } from "react-i18next";
+import { Container, Wrapper, WrapperCon } from "./style";
+import Spinner from "components/Custom/Spinner";
+import useOperationsHook from "./useOperationsHook";
+import Filter from "components/Custom/Filter/index";
 import {
   MoneyIcon,
   RatingIcon,
@@ -16,44 +16,45 @@ import {
   Value,
   Title,
   WrapFilter,
-} from '../Clients/style';
-import DatePcker from 'components/Custom/DatePicker';
-import { useState } from 'react';
+} from "../Clients/style";
+import DatePcker from "components/Custom/DatePicker";
+import { useState } from "react";
+import { numberWith } from "services/utils";
 
 const Operations = () => {
   const { t } = useTranslation();
-  const [date, setDate] = useState({ startDate: '', endDate: '' });
+  const [date, setDate] = useState({ startDate: "", endDate: "" });
 
   const { response, data } = useOperationsHook({ filterValues: date });
 
   const list = [
     {
-      title: t('totalSum'),
+      title: t("totalSum"),
       value: data?.chequeSum,
       Icon: <LaptopIcon />,
     },
     {
-      title: t('paidWithMoney'),
+      title: t("paidWithMoney"),
       value: data?.discountSum,
       Icon: <MoneyIcon />,
     },
     {
-      title: t('paidWithPoint'),
+      title: t("paidWithPoint"),
       value: data?.cashbackSum,
       Icon: <RatingIcon />,
     },
     {
-      title: t('chequeAvg'),
+      title: t("chequeAvg"),
       value: data?.paidWithPoint,
       Icon: <CheckIcon />,
     },
     {
-      title: t('cashbackSum'),
+      title: t("cashbackSum"),
       value: data?.paidWithMoney,
       Icon: <CashBackIcon />,
     },
     {
-      title: t('discountSum'),
+      title: t("discountSum"),
       value: data?.chequeAvg,
       Icon: <DiscountIcon />,
     },
@@ -66,12 +67,12 @@ const Operations = () => {
         <DatePcker
           onChange={async (e: any) => {
             await setDate({
-              startDate: e.slice(0, e.indexOf(' ~')),
-              endDate: e.slice(e.indexOf('~ ') + 2),
+              startDate: e.slice(0, e.indexOf(" ~")),
+              endDate: e.slice(e.indexOf("~ ") + 2),
             });
             await response.refetch();
           }}
-          margin='0 0 0 20px'
+          margin="0 0 0 20px"
         />
       </WrapFilter>
       <WrapperCon>
@@ -84,7 +85,7 @@ const Operations = () => {
                 <WrapIcon>{v.Icon}</WrapIcon>
                 <Content>
                   <Title>{v.title}</Title>
-                  <Value>{v.value}</Value>
+                  <Value>{numberWith(v.value.toString(), " ")}</Value>
                 </Content>
               </WrapInfo>
             ))}
