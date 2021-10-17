@@ -1,7 +1,8 @@
 import Select from "../Custom/Select";
 import { useTranslation } from "react-i18next";
 import { Arrow } from "../../assets/icons/LoginPage/LoginPageIcons";
-import i18n from "../../services/localization/i18n";
+
+// import i18n from "../../services/localization/i18n";
 // Components
 
 //Assets
@@ -17,7 +18,7 @@ interface Props {
 }
 
 const LangSelect = ({ border }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const handleChange = (lang: string) => {
     localStorage.setItem("language", lang);

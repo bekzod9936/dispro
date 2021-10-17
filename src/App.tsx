@@ -1,19 +1,18 @@
 import { useEffect } from "react";
-import { Switch, useRouteMatch } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { Switch } from "react-router-dom";
 import { RenderAllRoutes } from "./routes/Protection";
-import FallbackOnLazyLoad from "./pages/Fallbacks/FallbackOnLazyLoad";
-import { ReactQueryDevtools } from "react-query/devtools";
 import { useAppDispatch } from "./services/redux/hooks";
 import { setSocket } from "./services/redux/Slices/FeedbackSlice";
-import { StepConnector } from "@material-ui/core";
 
 import { setCurrentPage } from "./services/redux/Slices/partnerSlice";
-import i18n from "./services/localization/i18n";
+// import i18n from "./services/localization/i18n";
 
 const io = require("socket.io-client");
 
 function App() {
   //const match = useRouteMatch();
+  const { i18n } = useTranslation();
   const language: string = localStorage.getItem("language") || "";
   const dispatch = useAppDispatch();
 
