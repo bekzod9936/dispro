@@ -1,18 +1,12 @@
-import React from 'react';
-import {
-  YMaps,
-  ZoomControl,
-  GeolocationControl,
-  Placemark,
-  Map,
-} from 'react-yandex-maps';
+import { YMaps, ZoomControl, Placemark, Map } from 'react-yandex-maps';
 
 interface Props {
   onBoundsChange?: any;
   handleRef?: (e: any) => void;
   place?: any;
   onClickPlaceMark?: (e: any) => void;
-  onClickLocation?: (e: any) => void;
+  onClickLocation?: (lat: any, lng: any) => void;
+  placeOptions?: any[];
 }
 
 const YandexMap = ({
@@ -20,6 +14,7 @@ const YandexMap = ({
   handleRef = () => {},
   place,
   onClickPlaceMark = () => {},
+  placeOptions = [],
 }: Props) => {
   const defaultToshkentAddress = [41.32847446609404, 69.24298268717716];
 
@@ -31,8 +26,8 @@ const YandexMap = ({
     <YMaps
       query={{
         ns: 'use-load-option',
-        apikey: 'af28acb6-4b1c-4cd1-8251-b2f67a908cac',
-        load: 'package.full',
+        apikey: '6f33a62b-bf0f-4218-9613-374e77d830ab',
+        load: 'Map,control.GeolocationControl',
       }}
     >
       <Map
@@ -50,7 +45,22 @@ const YandexMap = ({
         onBoundsChange={onBoundsChange}
         onClick={handlePlaceMark}
       >
-        {place?.length !== 0 ? <Placemark geometry={place} /> : null}
+        {place?.length !== 0 ? (
+          <Placemark geometry={place} />
+        ) : (
+          placeOptions.map((v: any) => {
+            return (
+              <Placemark
+                geometry={[v.lat, v.lng]}
+                properties={{
+                  balloonContent: v.address,
+                  id: v.lat,
+                }}
+                modules={['geoObject.addon.balloon']}
+              />
+            );
+          })
+        )}
         <ZoomControl options={{ float: 'right' }} />
       </Map>
     </YMaps>

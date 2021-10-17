@@ -10,6 +10,10 @@ interface upLoadProps {
   body: any;
 }
 
+interface iProps {
+  companyId?: any;
+}
+
 const token = localStorage.getItem('companyToken');
 
 export const deletePhoto = ({ body }: deleteProps) => {
@@ -38,6 +42,6 @@ export const fetchCategories = () => {
   return partnerApi.get('/directory/category');
 };
 
-export const fetchAddressInfo = (id: string | number) => {
-  return partnerApi.get(`directory/stores/by-company/${id}`);
+export const fetchAddressInfo = ({ companyId }: iProps) => {
+  return partnerApi.get(`directory/stores/by-company/${companyId}`);
 };

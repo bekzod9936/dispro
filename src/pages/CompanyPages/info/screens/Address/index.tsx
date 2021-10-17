@@ -7,16 +7,10 @@ import Button from 'components/Custom/Button';
 import Spinner from 'components/Custom/Spinner';
 import { IconButton } from '@material-ui/core';
 import WorkingHours from './WorkingHours';
-import { fetchAddressInfo } from 'services/queries/InfoQueries';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation } from 'react-query';
 import { IAddress } from 'services/models/address_model';
 import YandexMap from './YandexMap';
 import { useAppSelector, useAppDispatch } from 'services/redux/hooks';
-import {
-  setAddressAdd,
-  setAddressInfo,
-  setWorkingTime,
-} from 'services/redux/Slices/infoSlice';
 import axios from 'axios';
 import {
   Container,
@@ -53,6 +47,7 @@ import {
 import Cookies from 'js-cookie';
 import partnerApi from 'services/interceptors/companyInterceptor';
 import NewCompanyNotification from './NewCompanyNotification';
+import useAddress from './useAddress';
 
 interface FormProps {
   address?: string;
@@ -64,77 +59,140 @@ interface FormProps {
   id?: number;
 }
 
+interface WProps {
+  aroundTheClock: boolean;
+  work: {
+    day: number;
+    dayOff: boolean;
+    wHours: { from: string; to: string };
+    bHours: { from: string; to: string };
+    weekday: string;
+  }[];
+}
+
+const inntialWorkTime = [
+  {
+    day: 1,
+    dayOff: false,
+    wHours: { from: '', to: '' },
+    bHours: { from: '', to: '' },
+  },
+  {
+    day: 2,
+    dayOff: false,
+    wHours: { from: '', to: '' },
+    bHours: { from: '', to: '' },
+  },
+  {
+    day: 3,
+    dayOff: false,
+    wHours: { from: '', to: '' },
+    bHours: { from: '', to: '' },
+  },
+  {
+    day: 4,
+    dayOff: false,
+    wHours: { from: '', to: '' },
+    bHours: { from: '', to: '' },
+  },
+  {
+    day: 5,
+    dayOff: false,
+    wHours: { from: '', to: '' },
+    bHours: { from: '', to: '' },
+  },
+  {
+    day: 6,
+    dayOff: false,
+    wHours: { from: '', to: '' },
+    bHours: { from: '', to: '' },
+  },
+  {
+    day: 7,
+    dayOff: false,
+    wHours: { from: '', to: '' },
+    bHours: { from: '', to: '' },
+  },
+];
+
 const Address = () => {
   const { t } = useTranslation();
+  const { response, data } = useAddress();
+
+  const [fillial, setFillial] = useState<any[]>([]);
+  const [searchRes, setSearchRes] = useState<IAddress[]>([]);
+  const [inpuSearch, setInpuSearch] = useState<string>('');
+  const [searchFocus, setSearchFocus] = useState<boolean>(false);
   const [yandexRef, setYandexRef] = useState<any>(null);
   const [searchAddressList, setSearchaddressList] = useState([]);
   const [searchAddress, setSearchAddress] = useState('');
   const [isSearchInputFocus, setIsSearchInputFocus] = useState(false);
   const [newComp, setNewComp] = useState(false);
-  const infoPageSlice = useAppSelector((state) => state.infoSlice.addressAdd);
-  const date = useAppSelector((state) => state.infoSlice.workingTime);
-  const dataAddress = useAppSelector((state) => state.infoSlice.addressInfo);
-  const dispatch = useAppDispatch();
-  const [open, setOpen] = useState(infoPageSlice);
-  const [fillial, setFillial] = useState<IAddress[]>([]);
-  const [searchRes, setSearchRes] = useState<IAddress[]>([]);
-  const [searchFocus, setSearchFocus] = useState<boolean>(false);
-  const [inpuSearch, setInpuSearch] = useState<string>('');
+  const [open, setOpen] = useState(true);
+  const [palceOptions, setPalceOptions] = useState<any[]>([]);
   const [place, setPlace] = useState<any[]>([]);
   const [edit, setEdit] = useState<boolean>(false);
-  const [phone, setPhone] = useState<any>([]);
-  const comId: any = localStorage.getItem('companyId');
-  console.log(dataAddress, 'tdd');
-  const { data, isLoading, refetch } = useQuery(
-    'fetchAddress',
-    () => fetchAddressInfo(comId),
+  const [mapAddress, setMapAddress] = useState({ name: '' });
+  const [send, setSendDate] = useState<any>({
+    aroundTheClock: false,
+    work: inntialWorkTime,
+  });
+
+  const weeks = [
     {
-      keepPreviousData: true,
-      refetchOnWindowFocus: false,
-      retry: 0,
-    }
-  );
+      day: 1,
+      weekday: t('md'),
+    },
+    {
+      day: 2,
+      weekday: t('td'),
+    },
+    {
+      day: 3,
+      weekday: t('wd'),
+    },
+    {
+      day: 4,
+      weekday: t('thd'),
+    },
+    {
+      day: 5,
+      weekday: t('fd'),
+    },
+    {
+      day: 6,
+      weekday: t('std'),
+    },
+    {
+      day: 7,
+      weekday: t('sd'),
+    },
+  ];
 
-  const fetchYandexAddressSearch = (searchName: any) => {
-    axios
-      .get(
-        `https://geocode-maps.yandex.ru/1.x?apikey=af28acb6-4b1c-4cd1-8251-b2f67a908cac&lang=ru-RU&format=json&geocode=${searchName}`
-      )
-      .then((res) => {
-        setSearchaddressList(
-          res.data.response.GeoObjectCollection.featureMember
-        );
-      });
-  };
+  const defaultTime = inntialWorkTime.map((v: any) => {
+    const common = weeks.find((i: any) => i.day === v.day);
+    return {
+      ...v,
+      weekday: common?.weekday,
+    };
+  });
 
-  useEffect(() => {
-    fetchYandexAddressSearch(searchAddress);
-  }, [searchAddress]);
-
-  const [mapAddress, setMapAddress] = useState(() => {
-    let mapData: any = localStorage.getItem('map');
-    if (mapData) {
-      mapData = JSON.parse(mapData);
-      return {
-        name: mapData?.name,
-      };
-    } else
-      return {
-        name: '',
-      };
+  const [workingTime, setworkingTime] = useState<WProps>({
+    aroundTheClock: false,
+    work: defaultTime,
   });
 
   const fetchYandexAddressName = (lat: any, lon: any) => {
     axios
       .get(
-        `https://geocode-maps.yandex.ru/1.x?apikey=af28acb6-4b1c-4cd1-8251-b2f67a908cac&lang=ru-RU&format=json&geocode=${lat},${lon}`
+        `https://geocode-maps.yandex.ru/1.x?apikey=6f33a62b-bf0f-4218-9613-374e77d830ab&lang=ru-RU&format=json&geocode=${lat},${lon}`
       )
       .then((res) => {
         setMapAddress({
-          ...mapAddress,
           name: res.data.response.GeoObjectCollection.featureMember[0].GeoObject
             .metaDataProperty.GeocoderMetaData.Address.formatted,
         });
+
         setValue(
           'address',
           res.data.response.GeoObjectCollection.featureMember[0].GeoObject
@@ -142,6 +200,14 @@ const Address = () => {
         );
       });
   };
+
+  useEffect(() => {
+    setFillial(data);
+    const newArr = data.map((v: any) => {
+      return { lat: v.location.lat, lng: v.location.lng, address: v.address };
+    });
+    setPalceOptions(newArr);
+  }, [data]);
 
   const onClickPlace = (e: any) => {
     const coords = e.get('coords');
@@ -152,8 +218,10 @@ const Address = () => {
   };
 
   const onBoundsChange = (e: any) => {
-    const latAndlot = e.get('target').getCenter();
-    fetchYandexAddressName(latAndlot[1], latAndlot[0]);
+    if ((place[0] !== '' && place[1] !== '') || !edit) {
+      const latAndlot = e.get('target').getCenter();
+      fetchYandexAddressName(latAndlot[1], latAndlot[0]);
+    }
   };
 
   const searchSelectedAddress = (item: any) => {
@@ -162,10 +230,6 @@ const Address = () => {
     yandexRef?.setCenter([coordinates[1], coordinates[0]], 18);
     setIsSearchInputFocus(false);
   };
-
-  useEffect(() => {
-    setFillial(data?.data?.data);
-  }, [data]);
 
   const {
     control,
@@ -179,10 +243,23 @@ const Address = () => {
   } = useForm<FormProps>({
     mode: 'onBlur',
     shouldFocusError: true,
-    defaultValues: {
-      telNumbers: [...phone],
-    },
   });
+
+  const fetchYandexAddressSearch = (searchName: any) => {
+    axios
+      .get(
+        `https://geocode-maps.yandex.ru/1.x?apikey=6f33a62b-bf0f-4218-9613-374e77d830ab&lang=ru-RU&format=json&geocode=${searchName}`
+      )
+      .then((res) => {
+        setSearchaddressList(
+          res.data.response.GeoObjectCollection.featureMember
+        );
+      });
+  };
+
+  useEffect(() => {
+    fetchYandexAddressSearch(searchAddress);
+  }, [searchAddress]);
 
   const values = getValues();
 
@@ -190,10 +267,6 @@ const Address = () => {
     control,
     name: 'telNumbers',
   });
-
-  useEffect(() => {
-    setValue('address', dataAddress?.address);
-  }, [dataAddress]);
 
   const handleSearch = (e: any) => {
     setInpuSearch(e.target.value);
@@ -215,28 +288,62 @@ const Address = () => {
     });
     setPlace([v?.location.lat, v?.location.lng]);
     yandexRef?.setCenter([v?.location.lat, v?.location.lng], 18);
-    dispatch(setAddressInfo(v));
     setOpen(false);
-    dispatch(setAddressAdd(false));
-    setValue('address', v.address);
-    setSearchAddress(v.address);
-    setValue('addressDesc', v.addressDesc);
-    setValue('telNumbers', newNumbers);
-    setValue('name', v.name);
-    setPhone(newNumbers);
-    setValue('regionId', v.regionId);
     setValue('id', v.id);
+    setValue('name', v.name);
+    setSearchAddress(v.address);
+    setValue('address', v.address);
+    setValue('regionId', v.regionId);
+    setValue('telNumbers', newNumbers);
+    setValue('addressDesc', v.addressDesc);
+    const newData: any = workingTime.work.map((a: any) => {
+      const common: any = v?.workingTime?.work?.find(
+        (i: any) => i.day === a.day
+      );
+      return {
+        day: a.day,
+        dayOff: common?.dayOff || false,
+        wHours: common?.wHours || { from: '', to: '' },
+        bHours: common?.bHours || { from: '', to: '' },
+        weekday: a.weekday,
+      };
+    });
+    setworkingTime({
+      aroundTheClock: v.workingTime.aroundTheClock,
+      work: newData,
+    });
+    setSendDate({
+      aroundTheClock: v.workingTime.aroundTheClock,
+      work: v?.workingTime?.work,
+    });
   };
   const handlePluseClick = () => {
     setOpen(false);
-    dispatch(setAddressAdd(false));
-    dispatch(setAddressInfo(null));
+    setMapAddress({ name: '' });
+    setValue('address', '');
+    yandexRef?.setCenter([41.32847446609404, 69.24298268717716], 10);
     setSearchAddress('');
     setValue('addressDesc', '');
     setValue('name', '');
     setValue('telNumbers', ['+998']);
-    setMapAddress({ name: '' });
     setEdit(true);
+    setValue('regionId', 0);
+    setPlace(['', '']);
+    setworkingTime({ aroundTheClock: false, work: defaultTime });
+  };
+
+  const getTime = (e: any) => {
+    setSendDate({
+      aroundTheClock: e?.aroundTheClock || send.aroundTheClock,
+      work: e.work.map((v: any) => {
+        return {
+          day: v.day,
+          dayOff: v.dayOff,
+          wHours: v.wHours,
+          bHours: v.bHours,
+        };
+      }),
+    });
   };
 
   const addressPut = useMutation(
@@ -246,50 +353,56 @@ const Address = () => {
     {
       onSuccess: () => {
         setOpen(true);
-        refetch();
-        dispatch(setAddressAdd(true));
-        dispatch(setAddressInfo(null));
+        response.refetch();
         yandexRef?.setCenter([41.32847446609404, 69.24298268717716], 10);
-        setPlace([]);
+        setPlace(['', '']);
+        setSendDate({ aroundTheClock: false, work: inntialWorkTime });
       },
     }
   );
 
   const addressPost = useMutation(
     (v: any) => {
-      return partnerApi.post('/directory/stores', v);
+      return partnerApi.post(`/directory/stores`, v);
     },
     {
       onSuccess: () => {
         setOpen(true);
-        refetch();
-        dispatch(setAddressAdd(true));
-        dispatch(setAddressInfo(null));
+        response.refetch();
         yandexRef?.setCenter([41.32847446609404, 69.24298268717716], 10);
-        setPlace([]);
+        setPlace(['', '']);
         setNewComp(true);
       },
     }
   );
-
+  const companyId: any = localStorage.getItem('companyId');
   const handleSubmitPut = (e: any) => {
     const values = {
-      ...e,
-      telNumber: e.telNumbers[0],
-      companyId: comId,
+      address: e.address,
+      addressDesc: e.addressDesc,
+      name: e.name,
+      regionId: 0,
+      telNumbers: e.telNumbers.map((v: any) => v?.number),
+      telNumber: e.telNumbers[0]?.number,
+      companyId: +companyId,
       location: { lat: place[0], lng: place[1] },
-      workingTime: date,
+      workingTime: send,
+      id: e.id,
     };
     addressPut.mutate(values);
   };
 
   const handleSubmitPost = (e: any) => {
     const values = {
-      ...e,
-      telNumber: e.telNumbers[0],
-      companyId: comId,
+      address: e.address,
+      addressDesc: e.addressDesc,
+      name: e.name,
+      regionId: 0,
+      telNumbers: e.telNumbers.map((v: any) => v?.number),
+      telNumber: e.telNumbers[0]?.number,
+      companyId: +companyId,
       location: { lat: place[0], lng: place[1] },
-      workingTime: date,
+      workingTime: send,
     };
     addressPost.mutate(values);
   };
@@ -339,7 +452,7 @@ const Address = () => {
               </WrapInput>
             </WrapHeader>
             <WrapContent>
-              {isLoading ? (
+              {response.isLoading || response.isFetching ? (
                 <Spinner />
               ) : !searchFocus || inpuSearch === '' ? (
                 fillial?.map((v: IAddress) => (
@@ -383,9 +496,9 @@ const Address = () => {
       ) : (
         <Form
           onSubmit={
-            !edit
-              ? handleSubmit(handleSubmitPut)
-              : handleSubmit(handleSubmitPost)
+            edit
+              ? handleSubmit(handleSubmitPost)
+              : handleSubmit(handleSubmitPut)
           }
         >
           {open ? null : (
@@ -394,14 +507,21 @@ const Address = () => {
               <IconButton
                 onClick={() => {
                   setOpen(true);
-                  dispatch(setAddressAdd(true));
-                  dispatch(setAddressInfo(null));
                   yandexRef?.setCenter(
                     [41.32847446609404, 69.24298268717716],
                     10
                   );
                   setPlace([]);
                   setEdit(false);
+                  setMapAddress({ name: '' });
+                  setValue('id', undefined);
+                  setValue('name', '');
+                  setSearchAddress('');
+                  setValue('address', '');
+                  setValue('regionId', 0);
+                  setValue('telNumbers', ['+998']);
+                  setValue('addressDesc', '');
+                  setSendDate({ aroundTheClock: false, work: inntialWorkTime });
                 }}
               >
                 <CloseIcon />
@@ -445,7 +565,13 @@ const Address = () => {
             </WrapAddress>
             <MobileMap>
               <YandexContainer>
-                <YandexMap />
+                <YandexMap
+                  onBoundsChange={onBoundsChange}
+                  handleRef={(e: any) => setYandexRef(e)}
+                  place={place}
+                  onClickPlaceMark={onClickPlace}
+                  placeOptions={palceOptions}
+                />
               </YandexContainer>
             </MobileMap>
             <Title>{t('addressClarification')}</Title>
@@ -494,11 +620,11 @@ const Address = () => {
                 return (
                   <li key={item?.id}>
                     <Controller
-                      name={`telNumbers.${index}`}
+                      name={`telNumbers.${index}.number`}
                       rules={{ required: true, maxLength: 13, minLength: 13 }}
                       control={control}
                       defaultValue={
-                        !edit ? values.telNumbers?.[index].number : '+998'
+                        !edit ? values.telNumbers?.[index]?.number : '+998'
                       }
                       render={({ field }) => (
                         <Input
@@ -509,7 +635,9 @@ const Address = () => {
                             laptop: '20px 0 10px',
                           }}
                           message={t('requiredField')}
-                          error={errors.telNumbers?.[index] ? true : false}
+                          error={
+                            errors.telNumbers?.[index]?.number ? true : false
+                          }
                           IconEnd={
                             index === 0 ? null : (
                               <IconButton
@@ -534,7 +662,7 @@ const Address = () => {
                 bgcolor: 'transparent',
               }}
               onClick={() => {
-                append('+998');
+                append({ number: '+998' });
               }}
               padding={{ laptop: '0' }}
               margin={{
@@ -544,7 +672,7 @@ const Address = () => {
               {t('addPhoneNumber')}
             </Button>
             <Title>{t('workingHours')}</Title>
-            <WorkingHours />
+            <WorkingHours workingTime={workingTime} getTime={getTime} />
             <ButtonsWrap>
               <ButtonWrap>
                 <Button
@@ -560,7 +688,6 @@ const Address = () => {
                   }}
                   onClick={() => {
                     setOpen(true);
-                    dispatch(setAddressAdd(true));
                   }}
                 >
                   {t('quit')}
@@ -593,12 +720,11 @@ const Address = () => {
             handleRef={(e: any) => setYandexRef(e)}
             place={place}
             onClickPlaceMark={onClickPlace}
+            placeOptions={palceOptions}
           />
         </YandexContainer>
       </Rightside>
-      {newComp && Cookies.get('companyState') === 'new' ? (
-        <NewCompanyNotification />
-      ) : null}
+      {newComp ? <NewCompanyNotification /> : null}
     </Container>
   );
 };

@@ -9,7 +9,7 @@ const useLayout = () => {
 
   const [data, setData] = useState({ name: '' });
 
-  const response = useQuery(
+  const resHeader = useQuery(
     'logoANDname',
     () => fetchInfo(localStorage.getItem('companyId')),
     {
@@ -24,7 +24,7 @@ const useLayout = () => {
     }
   );
 
-  return { response, data };
+  return { resHeader, data };
 };
 
 export default useLayout;
