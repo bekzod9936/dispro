@@ -73,6 +73,7 @@ interface socialProps {
 
 const Main = () => {
   const { response, data } = useInfoPage();
+  const [filled, setFilled] = useState<any>(false);
   const {
     resCategory,
     resDelete,
@@ -170,6 +171,7 @@ const Main = () => {
 
   useEffect(() => {
     setDefMulti(data.categories);
+    setFilled(data?.filled);
   }, [data]);
 
   useEffect(() => {
@@ -269,11 +271,11 @@ const Main = () => {
         isKosher: false,
       },
       {
-        onSuccess: (data) => {
-          response.refetch();
-          resHeader.refetch();
-          console.log(data);
-          if (Cookies.get('compnayState') === 'new') {
+        onSuccess: async () => {
+          await resHeader.refetch();
+          await response.refetch();
+
+          if (Cookies.get('compnayState') === 'new' || data.filled) {
             history.push('/info/address');
             dispatch(setAddressAdd(false));
           }

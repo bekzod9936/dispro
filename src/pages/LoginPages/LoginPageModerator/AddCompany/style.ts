@@ -79,19 +79,6 @@ export const Title = styled.div`
   }
 `;
 
-export const Text = styled.div`
-  font-weight: normal;
-  font-size: 15px;
-  text-align: center;
-  color: #223367;
-  @media (max-width: ${device.mobile}) {
-    font-size: 14px;
-  }
-  @media (min-width: ${device.laptop}) {
-    font-size: 16px;
-  }
-`;
-
 export const Version = styled.div`
   font-style: normal;
   font-weight: normal;

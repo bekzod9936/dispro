@@ -49,6 +49,7 @@ import partnerApi from 'services/interceptors/companyInterceptor';
 import NewCompanyNotification from './NewCompanyNotification';
 import useAddress from './useAddress';
 import useInfoPage from '../useInfoPage';
+import useLayout from 'components/Layout/useLayout';
 
 interface FormProps {
   address?: string;
@@ -120,7 +121,7 @@ const inntialWorkTime = [
 const Address = () => {
   const { t } = useTranslation();
   const { responseAddress, dataAddress, responseMain } = useAddress();
-
+  const { resHeader } = useLayout();
   const { response, data } = useInfoPage();
 
   const [fillial, setFillial] = useState<any[]>([]);
@@ -204,14 +205,6 @@ const Address = () => {
         );
       });
   };
-
-  useEffect(() => {
-    setFillial(dataAddress);
-    const newArr = dataAddress.map((v: any) => {
-      return { lat: v.location.lat, lng: v.location.lng, address: v.address };
-    });
-    setPalceOptions(newArr);
-  }, [dataAddress]);
 
   const onClickPlace = (e: any) => {
     const coords = e.get('coords');
@@ -389,21 +382,28 @@ const Address = () => {
       return partnerApi.put(`/directory/company/address`, v);
     },
     {
-      onSuccess: () => {
-        console.log(data, 'data');
-        if (data.filledAddress) {
-          responseAddress.refetch();
-          setOpen(true);
-          yandexRef?.setCenter([41.32847446609404, 69.24298268717716], 10);
-          setPlace(['', '']);
-          if (Cookies.get('compnayState') === 'new') {
-            Cookies.set('compnayState', 'old');
-            setNewComp(true);
-          }
+      onSuccess: async () => {
+        await resHeader.refetch();
+        await response.refetch();
+        await responseAddress.refetch();
+        setOpen(true);
+        yandexRef?.setCenter([41.32847446609404, 69.24298268717716], 10);
+        setPlace(['', '']);
+        if (Cookies.get('compnayState') === 'new') {
+          Cookies.set('compnayState', 'old');
+          setNewComp(true);
         }
       },
     }
   );
+
+  useEffect(() => {
+    setFillial(dataAddress);
+    const newArr = dataAddress.map((v: any) => {
+      return { lat: v.location.lat, lng: v.location.lng, address: v.address };
+    });
+    setPalceOptions(newArr);
+  }, [dataAddress]);
 
   const companyId: any = localStorage.getItem('companyId');
 
@@ -748,7 +748,11 @@ const Address = () => {
                   mobile: '10px 0 0 0',
                 }}
                 type='submit'
-                disabled={responseAddress.isLoading}
+                disabled={
+                  addressPut.isLoading ||
+                  mainPut.isLoading ||
+                  addressPost.isLoading
+                }
               >
                 <SaveIcon />
                 {t('save')}

@@ -32,7 +32,7 @@ export interface IDefaultLayout {
 const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
   const classes = useSideBarStyle();
 
-  const { resHeader, data } = useLayout();
+  const { resHeader } = useLayout();
 
   const [width, setWidth] = useState(window.innerWidth);
   const [mobileOpen, setMobileOpen] = useState(false);

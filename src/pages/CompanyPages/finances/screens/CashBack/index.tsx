@@ -65,11 +65,8 @@ const Payment = () => {
         accessor: 'col1',
         Cell: (props: any) => (
           <WrapIcon>
-            {props?.value === 'cashback_account_top_up' ? (
-              <WalletIcon />
-            ) : (
-              <CashBackIcon />
-            )}
+            {props?.value === 'cashback_account_top_up' ? <WalletIcon /> : null}
+            {props?.value === 'cashback_in' ? <CashBackIcon /> : null}
             {props?.value}
           </WrapIcon>
         ),

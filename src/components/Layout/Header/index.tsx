@@ -48,18 +48,20 @@ import {
   TitleLogo,
   LogoIcon,
 } from './style';
+import useLayout from '../useLayout';
 
 const Header = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { headerData } = useLayout();
   const history = useHistory();
   const [open, setOpen] = useState(false);
 
-  const companyInfo = useAppSelector((state) => state.partner.companyInfo);
-
   return (
     <>
-      {Cookies.get('compnayState') === 'new' ? (
+      {Cookies.get('compnayState') === 'new' ||
+      !headerData?.filled ||
+      !headerData?.filledAddress ? (
         <Wrarning>
           <WranningIcon />
           {t('newcompanywarning')}
@@ -130,7 +132,7 @@ const Header = () => {
                   }}
                 >
                   <Img
-                    src={companyInfo.logo === '' ? LogoDef : companyInfo.logo}
+                    src={headerData.logo === '' ? LogoDef : headerData.logo}
                     size='small'
                     alt='logo'
                     onError={(e: any) => {
@@ -139,7 +141,7 @@ const Header = () => {
                     }}
                   />
                   <WrapPop>
-                    <Name fontSize={16}>{companyInfo.name}</Name>
+                    <Name fontSize={16}>{headerData.name}</Name>
                     <TextCompany>{t('myCompany')}</TextCompany>
                   </WrapPop>
                   <ArrowIcon marginLeft={true} />
@@ -152,7 +154,7 @@ const Header = () => {
             >
               <Content>
                 <Img
-                  src={companyInfo.logo === '' ? LogoDef : companyInfo.logo}
+                  src={headerData.logo === '' ? LogoDef : headerData.logo}
                   size='large'
                   alt='logo'
                   onError={(e: any) => {
@@ -160,7 +162,7 @@ const Header = () => {
                     e.target.src = LogoDef;
                   }}
                 />
-                <Name fontSize={18}>{companyInfo.name}</Name>
+                <Name fontSize={18}>{headerData.name}</Name>
                 <Type>Компания прошла подерацию</Type>
                 <Button
                   buttonStyle={{

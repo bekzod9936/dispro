@@ -47,7 +47,6 @@ const Photos = () => {
 
   const handleDelete = (v: any) => {
     const newImgs = images.filter((i: any) => i !== v);
-    console.log(newImgs);
     setImages(newImgs);
   };
 
@@ -60,7 +59,9 @@ const Photos = () => {
   const handleSubmit = () => {
     subImg.mutate(images);
   };
-
+  if (photoUploading.isLoading) {
+    return <Spinner />;
+  }
   return (
     <Container>
       <input
@@ -133,6 +134,7 @@ const Photos = () => {
                   laptop: '20px 0 20px 0',
                 }}
                 onClick={handleSubmit}
+                disabled={subImg.isLoading}
               >
                 <SaveIcon />
                 {t('save')}

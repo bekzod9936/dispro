@@ -2,14 +2,12 @@ import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import DisIcon from '../../../../assets/icons/DisIcon';
 import Button from '../../../../components/Custom/Button';
-import { useAppSelector } from '../../../../services/redux/hooks';
 import { useHistory } from 'react-router';
 import Input from '../../../../components/Custom/Input';
 import {
   Container,
   Header,
   Title,
-  Text,
   Version,
   MainWrap,
   WrapGrid,
@@ -35,8 +33,6 @@ const AddCompany = () => {
     control,
     handleSubmit,
     formState: { errors },
-    watch,
-    reset,
   } = useForm<FormProps>({
     mode: 'onBlur',
     shouldFocusError: true,
@@ -48,7 +44,9 @@ const AddCompany = () => {
     },
     {
       onSuccess: (data) => {
-        console.log(data);
+        localStorage.setItem('companyId', data.data.data.companyId);
+        localStorage.setItem('companyToken', data.data.data.accessToken);
+        history.push('/info');
       },
     }
   );
@@ -137,7 +135,7 @@ const AddCompany = () => {
                 laptop: '0 0 30px 0',
               }}
               type='submit'
-              disabled={false}
+              disabled={resPostCompany.isLoading}
             >
               {t('create')}
             </Button>

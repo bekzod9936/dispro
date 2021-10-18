@@ -4,10 +4,20 @@ import { fetchInfo } from 'services/queries/PartnerQueries';
 import { useAppDispatch } from 'services/redux/hooks';
 import { setCompanyInfo } from '../../services/redux/Slices/partnerSlice';
 
+interface Props {
+  name?: string;
+  logo?: string;
+  filled?: boolean;
+  filledAddress?: boolean;
+}
+
 const useLayout = () => {
   const dispatch = useAppDispatch();
 
-  const [data, setData] = useState({ name: '' });
+  const [headerData, setData] = useState<Props>({
+    filled: true,
+    filledAddress: true,
+  });
 
   const resHeader = useQuery(
     'logoANDname',
@@ -16,7 +26,6 @@ const useLayout = () => {
       onSuccess: (data) => {
         dispatch(setCompanyInfo(data?.data.data));
         setData(data?.data.data);
-        console.log(data?.data.data, 'id1234');
       },
       keepPreviousData: true,
       refetchOnWindowFocus: false,
@@ -24,7 +33,7 @@ const useLayout = () => {
     }
   );
 
-  return { resHeader, data };
+  return { resHeader, headerData };
 };
 
 export default useLayout;
