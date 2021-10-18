@@ -3,29 +3,29 @@ import React from 'react'
 import { CancelButton, Container, Content, LinkBtn, QrBlock, QrCode, Wrapper } from './style'
 
 interface IProps {
-    isOpen: boolean,
     setOpenBar: any
 }
 
 
-export const QrCodeBar = ({isOpen, setOpenBar}: IProps) => {
+export const QrCodeBar = ({ setOpenBar }: IProps) => {
     const qrRef = React.useRef()
 
-    const handleCheck = (e: any) => {
-        console.log(e);
-        if(!e.path.includes(qrRef.current) && isOpen) {
-            setOpenBar((prev: any) => ({...prev, qrBar: false}))
-        }
-    }
-    React.useEffect(() => {
-        window.addEventListener("click", handleCheck)
-        return () => {
-            window.removeEventListener("click", handleCheck)
-        }
-    }, [])
+    // const handleCheck = (e: any) => {
+    //     if(!e.path.includes(qrRef.current) && isOpen) {
+    //         console.log("oops");
+            
+    //         setOpenBar((prev: any) => ({...prev, qrBar: false}))
+    //     }
+    // }
+    // React.useEffect(() => {
+    //     window.addEventListener("click", handleCheck)
+    //     return () => {
+    //         window.removeEventListener("click", handleCheck)
+    //     }
+    // }, [])
 
     return (
-        <Wrapper isOpen={isOpen}>
+        
             <Container ref={qrRef}>
                 <CancelButton onClick={(e) => setOpenBar((prev: any) => ({...prev, qrBar: false}))}>
                     <CloseIcon />
@@ -49,7 +49,6 @@ export const QrCodeBar = ({isOpen, setOpenBar}: IProps) => {
                     </QrBlock>
                 </Content>
             </Container>
-        </Wrapper>
     )
 }
 

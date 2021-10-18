@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { ITRow } from "../../style/types";
 import { ReactComponent as Up } from 'assets/icons/up.svg';
+import { device } from "styles/device";
 
 export const Container = styled.div`
   background: #ffffff;
@@ -75,6 +76,10 @@ export const Th = styled.th`
   font-weight: normal;
   cursor: pointer;
   font-size: 16px;
+  @media (max-width: ${device.planshet}) {
+    font-size: 14px;
+    padding: 6px;
+  }
   color: ${({ active }: ITh) => (active ? '#223367' : '#a5a5a5')}!important;
   border-radius: 14px 14px 0 0;
   :hover {
@@ -119,6 +124,9 @@ export const TableHeader = styled.div`
     background-color: #FFFFFF;
     border-radius: 14px 14px 0 0;
     border-bottom: 1px solid rgba(96, 110, 234, 0.1);
+    @media (max-width: ${device.planshet}) {
+      padding: 10px;
+    }
 `
 
 export const Title = styled.h2`
@@ -139,6 +147,9 @@ export const AddButton = styled.button`
     background-color: transparent;
     font-family: 'Roboto', sans-serif;
     margin-right: 10px;
+    @media (max-width: ${device.mobile}) {
+      display: none;
+    }
 `
 
 export const TableBlock = styled.table`
@@ -164,7 +175,11 @@ export const Td = styled.td`
   font-weight: normal;
   font-size: 16px;
   color: #223367;
-  cursor: pointer
+  cursor: pointer;
+  @media (max-width: ${device.planshet}) {
+    font-size: 14px;
+    padding: 6px;
+  }
 `;
 export const Tbody = styled.tbody`
   & > tr:nth-child(odd) {
@@ -181,5 +196,26 @@ export const Tbody = styled.tbody`
 `;
 export const TRow = styled.tr`
     border: none;
-    background: ${({ background }: ITRow) => background ? "rgba(96, 110, 234, 0.1)" : "transparent"};
+    transition: 100ms all;
+    /* background: ${({ background }: ITRow) => background ? "rgba(96, 110, 234, 0.1)" : "transparent"}; */
+    background-color: ${({checked}: ITRow) => checked ? "rgba(96, 110, 234, 0.3) !important" : "transparent"};
+`
+
+export const MCheckbox = styled.div`
+	span.MuiCheckbox-colorSecondary.Mui-checked {
+    color: #3492ff !important ;
+  }
+  span.MuiCheckbox-colorSecondary {
+    color: #a5a5a5 !important ;
+  }
+  span.MuiTypography-body1 {
+    font-weight: 500 !important ;
+    font-size: 16px !important ;
+    color: #223367 !important ;
+  }
+  @media (min-width: ${device.laptop}) {
+    span.MuiTypography-body1 {
+      font-size: 18px !important ;
+    }
+  }
 `

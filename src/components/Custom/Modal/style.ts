@@ -8,7 +8,7 @@ export const MDialog = styled(Dialog)`
     min-width: ${({ width }: Props) =>
       width?.minwidth ? width?.minwidth : 'fit-content'} !important;
     max-width: ${({ width }: Props) =>
-      width?.maxwidth ? width?.maxwidth : null} !important;
+      width?.maxwidth ? width?.maxwidth + "px" : null} !important;
     width: ${({ width }: Props) =>
       width?.width ? width?.width : 'fit-content'} !important;
     overflow: hidden !important;

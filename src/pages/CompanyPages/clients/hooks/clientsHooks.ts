@@ -4,7 +4,7 @@ interface IArgs {
   page: number, 
   dispatch: any,
   query: string,
-  filters: any,
+  filters?: any,
   period: {
     startDate: string,
     endDate: string
@@ -16,11 +16,10 @@ export const useFetchClients = ({
     page,
     dispatch,
     query,
-    filters,
     period 
     }: IArgs) => {
   const response = useQuery(
-    ["clients", page, query, filters, period],
+    ["clients", page, query, period],
     () => {
       dispatch({type: "loading"})
       if (query !== '') {

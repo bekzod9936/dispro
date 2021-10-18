@@ -16,6 +16,7 @@ type ActionTypes = setClientsAction
 
 export const initialState = {
     loading: false,
+    isFiltersVisible: false,
     clients: [],
     page: 1,
     period: {
@@ -26,22 +27,28 @@ export const initialState = {
     visibleClients: [],
     selectedClients: [],
     totalPages: 0,
-    filters: {
-       gender: '',
-       registration_date: {
-            regDateFrom: '',
-            regDateTo: ''
-        },
-       purchuase_amount: {
-            purchaseCountFrom: 0,
-            purchaseCountTo: 0
-       },
-       purchase_cost: 0,
-       status: [],
-       traffic_provider: ''
+    // filters: {
+    //    gender: '',
+    //    regDate: {
+    //         regDateFrom: '',
+    //         regDateTo: ''
+    //     },
+    //    purchaseAmount: {
+    //         purchaseCountFrom: 0,
+    //         purchaseCountTo: 0
+    //    },
+    //    notless: 0,
+    //    status: [],
+    //    trafficProvider: ''
 
-    }
+    // },
+    selectedFilters: [],
+    filters: {}
 }
+
+
+
+
 
 
 export const clientsReducer = (state = initialState, action: any): any => {
@@ -57,7 +64,7 @@ export const clientsReducer = (state = initialState, action: any): any => {
                         pointSum: el.addInfo.pointSum || "-",
                         cashbackSum: el.addInfo.cashbackSum || "-",
                         gender: el.addInfo.genderStr,
-                        age: 15,
+                        age: new Date().getFullYear() - new Date(el.dateOfBirth).getFullYear(),
                         amountOperation: el.addInfo.amountOperation || "-",
                         countRefer: el.addInfo.countRefer || "-",
                         sourceBy: el.addInfo.sourceBy,
@@ -71,7 +78,7 @@ export const clientsReducer = (state = initialState, action: any): any => {
                 visibleClients: [...visibleClients],
                 totalCount: payload.totalCount,
                 selectedClients: [],
-                totalPages: Math.ceil(payload.totalCount / 3),
+                totalPages: Math.ceil(payload.totalCount / 5),
                 loading: false
 
             }
@@ -86,6 +93,12 @@ export const clientsReducer = (state = initialState, action: any): any => {
             return {
                 ...state,
                 selectedClients: payload ? [...state.clients] : []
+            }
+        }
+        case "removeAll": {
+            return {
+                ...state,
+                selectedClients: []
             }
         }
         case "addClient": {
@@ -104,13 +117,26 @@ export const clientsReducer = (state = initialState, action: any): any => {
         case "setFilters": {
             return {
                 ...state,
-                filters: payload 
+                filters: {
+                    ...state.filters,
+                    [payload.key]: payload.value
+                },
+                // selectedFilters: payload.sFilters  
+            }
+        }
+        case "removeFilter": {
+            const filters: any = state.filters;
+            delete filters[payload]
+            return {
+                ...state,
+                filters: {...filters}
             }
         }
         case "resetFilters": {
             return {
                 ...state,
-                filters: {}
+                filters: {},
+                selectedFilters: [] 
             }
         }
         case "loading": {

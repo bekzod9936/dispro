@@ -5,4 +5,5 @@ export interface IButtonWrapper {
 
 export interface ITRow {
     background?: boolean | number;
+    checked?: boolean
 }

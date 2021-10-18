@@ -363,5 +363,9 @@
   "totalpaidbyUZS": "Всего оплачено UZS",
   "DISCommission": "Комиссия DIS (UZS)",
   "writetous": "Написать нам",
-  "notificationsfromdiscount": "Тут будут находиться уведомления от DIS-COUNT"
+  "notificationsfromdiscount": "Тут будут находиться уведомления от DIS-COUNT",
+  "Cashier": "Кассир",
+  "Mobile": "Мобильный",
+  "App": "Приложение",
+  "trafficProvider": "Источники трафика"
 }

@@ -21,7 +21,7 @@ export const fetchClients = async (page: number, url: string) => {
   // }
   // let combined = query.join('');
   const response = await partnerApi(
-    `/core/client/by/company?page=${page}&perPage=3&${url}`
+    `/core/client/by/company?page=${page}&perPage=5&${url}`
   );
   return response;
 };

@@ -1,12 +1,26 @@
 import styled from 'styled-components';
+import { device } from 'styles/device';
 import { IButtonWrapper } from './types';
 
 export const Container = styled.div`
-  overflow: hidden;
+  @media (max-width: ${device.mobile}) {
+    overflow: auto; 
+  }
   height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column;
+  &::-webkit-scrollbar {
+    width: 7px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #606eea;
+    border-radius: 14px 0px 0px 14px;
+  }
 `;
 export const MainWrapper = styled.div`
   padding: 25px 0 25px 25px;
@@ -14,14 +28,19 @@ export const MainWrapper = styled.div`
   height: 100%;
   flex-direction: column;
   position: relative;
+  flex-grow: 1;
+  
 `;
 export const Wrap = styled.div`
-  overflow-y: auto;
   padding-right: 25px;
-  ::-webkit-scrollbar {
+  overflow-y: auto;
+  @media (max-width: ${device.mobile}) {
+    overflow: visible;
+  }
+  &::-webkit-scrollbar {
     width: 7px;
   }
-  ::-webkit-scrollbar-track {
+  &::-webkit-scrollbar-track {
     background-color: transparent;
   }
 
@@ -49,10 +68,13 @@ export const ButtonsWrapper = styled.div`
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
   align-items: center;
   margin-bottom: ${(props: IButtonWrapper) => props.marginBottom + "px" || "0"};
   margin-top: ${(props: IButtonWrapper) => props.marginTop + "px" || "0"};
+  @media (max-width: ${device.planshet}) {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+  }
 `
 
 

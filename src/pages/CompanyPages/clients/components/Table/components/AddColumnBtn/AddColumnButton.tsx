@@ -2,8 +2,8 @@ import { PuzzleIcon } from 'assets/icons/ClientsPageIcons/ClientIcons';
 import CheckBox from 'components/Custom/CheckBox';
 import React from 'react';
 import styled from 'styled-components';
-import { addHeader, headers } from '../headers';
-import { AddButton } from '../style';
+import { addHeader, headers } from '../../headers';
+import { AddButton } from '../../style';
 
 export const AddColumnButton = ({ setHeaders, addedHeaders, setAddedHeaders }: any) => {
 	const popupRef = React.useRef(null);
@@ -30,7 +30,7 @@ export const AddColumnButton = ({ setHeaders, addedHeaders, setAddedHeaders }: a
 
 	return (
 		<Wrapper ref={popupRef}>
-			<AddButton>Add columns</AddButton>
+			<AddButton>Добавить пункт</AddButton>
 			<PuzzleIcon />
 			<Popup>
 				{isOpen && (
