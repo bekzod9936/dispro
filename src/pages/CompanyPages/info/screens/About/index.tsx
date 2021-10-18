@@ -197,8 +197,12 @@ const Main = () => {
     setValue('name', data.name);
     setLogo(data.logo);
     setWeb(data.links);
-    const keys: any = data?.keyWords?.split(',');
-    setKeywords(keys);
+    if (data?.keyWords !== '') {
+      const keys: any = data?.keyWords?.split(',');
+      setKeywords(keys);
+    } else {
+      setKeywords([]);
+    }
     const newLinks = links.map((v: any) => {
       const link = data?.socialLinks?.find((i: any) => i.name === v.name);
       return {
@@ -556,11 +560,12 @@ const Main = () => {
                   label={t('phoneNumber')}
                   error={errors.telNumber ? true : false}
                   message={t('requiredField')}
-                  type='tel'
+                  type='text'
                   field={field}
                   margin={{
                     laptop: '20px 0 25px',
                   }}
+                  maxLength={13}
                 />
               )}
             />

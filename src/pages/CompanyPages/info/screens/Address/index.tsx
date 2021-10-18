@@ -625,7 +625,7 @@ const Address = () => {
                   label={t('enterOrientation')}
                   error={errors.addressDesc ? true : false}
                   message={t('requiredField')}
-                  type='string'
+                  type='text'
                   field={field}
                   margin={{
                     laptop: '20px 0 25px',
@@ -647,7 +647,7 @@ const Address = () => {
                       label={t('enterTitle')}
                       error={errors.name ? true : false}
                       message={t('requiredField')}
-                      type='string'
+                      type='text'
                       field={field}
                       margin={{
                         laptop: '20px 0 25px',
@@ -672,7 +672,7 @@ const Address = () => {
                       render={({ field }) => (
                         <Input
                           label={t('phoneNumber')}
-                          type='string'
+                          type='text'
                           field={field}
                           margin={{
                             laptop: '20px 0 10px',
@@ -748,6 +748,7 @@ const Address = () => {
                   mobile: '10px 0 0 0',
                 }}
                 type='submit'
+                disabled={responseAddress.isLoading}
               >
                 <SaveIcon />
                 {t('save')}

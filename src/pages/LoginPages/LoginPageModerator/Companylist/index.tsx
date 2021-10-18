@@ -21,11 +21,13 @@ import { useAppDispatch } from '../../../../services/redux/hooks';
 import { refetchCompanyList } from '../../../../services/redux/Slices/authSlice';
 import LogoDef from '../../../../assets/icons/SideBar/logodefault.png';
 import Cookies from 'js-cookie';
+import AddCompany from '../AddCompany';
 
 const Companylist = () => {
   const history = useHistory();
   const { t } = useTranslation();
   const [id, setId] = useState(null);
+  const [openPlus, setOpenPlus] = useState(false);
 
   const company = useMutation((values: any) => enterCompany(values));
 
@@ -42,7 +44,7 @@ const Companylist = () => {
   dispatch(refetchCompanyList(refetch));
 
   const handleAddCompany = () => {
-    history.push('/info');
+    setOpenPlus(true);
   };
 
   const handleEnterCompany = (values: any) => {
@@ -59,7 +61,9 @@ const Companylist = () => {
     });
   };
 
-  return (
+  return openPlus ? (
+    <AddCompany />
+  ) : (
     <Main>
       <ChooseText>{t('choose-company')}</ChooseText>
       {isLoading || isFetching ? (
