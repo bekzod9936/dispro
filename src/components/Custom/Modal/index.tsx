@@ -11,6 +11,7 @@ export interface Props {
     bgcolor?: string;
     border?: string;
     shadow?: string;
+    padding?: string
   };
   width?: {
     maxwidth?: number;

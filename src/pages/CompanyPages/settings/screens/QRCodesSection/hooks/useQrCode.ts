@@ -1,7 +1,11 @@
 import { useState, useCallback } from "react";
-import { useQuery } from "react-query";
-import partnerApi from "services/interceptors/companyInterceptor";
+import { useMutation, useQuery } from "react-query";
 import { fetchQRCodes } from "services/queries/PartnerQueries";
+import {
+  createQrCode,
+  deleteQrCode,
+  editQrCode,
+} from "services/queries/QrSettingsQueries";
 
 const useQrCode = () => {
   const [searchQR, setSearchQR] = useState("");
@@ -10,10 +14,30 @@ const useQrCode = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [currentName, setCurrentName] = useState<string>("");
   const [state, setState] = useState("");
+  const [id, setId] = useState<number | string>();
 
   const { refetch, isLoading, data } = useQuery(["qrcodes"], fetchQRCodes, {
     retry: 0,
     refetchOnWindowFocus: false,
+  });
+
+  const createQr = useMutation((data: any) => createQrCode(data), {
+    onSuccess: () => {
+      refetch();
+      setId("");
+    },
+  });
+  const editQr = useMutation((data: any) => editQrCode(data), {
+    onSuccess: () => {
+      refetch();
+      setId("");
+    },
+  });
+  const deleteQr = useMutation((data: any) => deleteQrCode(data), {
+    onSuccess: () => {
+      refetch();
+      setId("");
+    },
   });
 
   const handleCreateQRCode = () => {
@@ -21,27 +45,31 @@ const useQrCode = () => {
     setOptionsListOpen(!optionsListOpen);
     // setModalVisible(true)
   };
+
   const handleDeleteClick = () => {
+    console.log(optionsOpen, "options open");
     setState("delete");
     setModalVisible(true);
   };
+
   const handleEditClick = () => {
     setState("edit");
     setModalVisible(true);
   };
+
   const handleSavePromocode = async () => {
     if (!currentName) {
       return;
-    } else if (!optionsOpen) {
-      await partnerApi.post("/core/ref", {
+    } else if (!id) {
+      await createQr.mutate({
         id: "",
         source: currentName,
       });
       setCurrentName("");
       setModalVisible(false);
-    } else if (optionsOpen) {
-      await partnerApi.put("/core/ref", {
-        id: optionsOpen,
+    } else if (id) {
+      await editQr.mutate({
+        id: id,
         source: currentName,
       });
       setCurrentName("");
@@ -51,10 +79,11 @@ const useQrCode = () => {
   };
 
   const handleDelete = async () => {
+    console.log(optionsOpen, "options open");
     try {
-      await partnerApi.delete("/core/ref", {
+      await deleteQr.mutate({
         data: {
-          id: optionsOpen,
+          id: id,
         },
       });
 
@@ -67,13 +96,13 @@ const useQrCode = () => {
     setSearchQR(e.target.value);
   };
 
-  const handleOption = useCallback((id: any) => {
+  const handleOption = (id: any) => {
     if (!optionsOpen) {
       setOptionsOpen(id);
     } else {
       setOptionsOpen("");
     }
-  }, []);
+  };
 
   return {
     isLoading,
@@ -93,6 +122,7 @@ const useQrCode = () => {
     setModalVisible,
     setOptionsListOpen,
     setCurrentName,
+    setId,
   };
 };
 

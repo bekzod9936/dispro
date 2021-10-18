@@ -82,7 +82,7 @@ const Suggestions = () => {
 
   const handlechangePage = async (e: any) => {
     await setFilterValues({ ...filterValues, page: e });
-    await response.refetch();
+    // await response.refetch();
   };
 
   return (

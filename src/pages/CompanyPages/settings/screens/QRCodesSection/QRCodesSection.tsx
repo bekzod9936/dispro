@@ -1,28 +1,26 @@
-import { useCallback, useState } from "react";
 import { Grid } from "@material-ui/core";
 import { Text } from "styles/CustomStyles";
 import Input from "components/Custom/Input";
+import Popover from "components/Custom/Popover";
 import Button from "components/Custom/Button";
 import { useTranslation } from "react-i18next";
 import useQrCode from "./hooks/useQrCode";
 import { Break } from "../../styles";
 import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import { SearchIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
-import { BucketIcon } from "assets/icons/FeedBackIcons.tsx/FeedbackIcons";
 import { SaveIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
 import {
   DeleteIconWhite,
   FilledAddIcon,
 } from "assets/icons/SettingsIcons/SettingsPageIcon";
-import CustomInput from "components/Custom/CustomInput";
 import CustomModal from "components/Custom/CustomModal";
 import CustomSelectPopoverComponent from "components/Custom/CustomSelectPopoverComponent";
-import partnerApi from "services/interceptors/companyInterceptor";
 import { FONT_SIZE, FONT_WEIGHT } from "services/Types/enums";
 import { Flex } from "styles/BuildingBlocks";
 import { CreateBtn, IconDiv, QRPageWrapper } from "./styles";
-import { CustomButton, ModalComponent } from "styles/CustomStyles";
+import { ModalComponent } from "styles/CustomStyles";
 import QrCodeCard from "./components/QrCodeCard";
+import { useState } from "react";
 
 const QRCodesSection = () => {
   const {
@@ -43,7 +41,12 @@ const QRCodesSection = () => {
     setModalVisible,
     setOptionsListOpen,
     setCurrentName,
+    setId,
   } = useQrCode();
+  const [closeFun, setCloseFun] = useState<any>();
+  const handleClose = (e: any) => {
+    setCloseFun(e);
+  };
   const { t } = useTranslation();
 
   const options = [
@@ -53,6 +56,7 @@ const QRCodesSection = () => {
       handler: () => {
         setModalVisible(true);
         setOptionsListOpen(false);
+        closeFun.close();
       },
     },
 
@@ -62,6 +66,7 @@ const QRCodesSection = () => {
       handler: () => {
         setModalVisible(true);
         setOptionsListOpen(false);
+        closeFun.close();
       },
     },
   ];
@@ -70,35 +75,44 @@ const QRCodesSection = () => {
     <div style={{ flexGrow: 1 }}>
       <QRPageWrapper>
         <Grid alignItems="center" container spacing={3} xs={6}>
-          <CreateBtn item xs={4} sm={4}>
-            <Button
-              startIcon={<FilledAddIcon />}
-              width={{
-                minwidth: 170,
-              }}
-              buttonStyle={{
-                bgcolor: "white",
-                height: {
-                  desktop: 60,
-                  laptop: 60,
-                },
-              }}
-              // style={{ width: "170px" }}
-              onClick={handleCreateQRCode}
-            >
-              <Text fontSize="18px" fontWeight={500}>
-                {t("create")}
-              </Text>
-            </Button>
+          <Popover
+            click={
+              <CreateBtn item xs={12} sm={4}>
+                <Button
+                  startIcon={<FilledAddIcon />}
+                  width={{
+                    minwidth: 170,
+                  }}
+                  buttonStyle={{
+                    bgcolor: "white",
+                    height: {
+                      desktop: 60,
+                      laptop: 60,
+                    },
+                  }}
+                  // style={{ width: "170px" }}
+                  onClick={handleCreateQRCode}
+                >
+                  <Text fontSize="18px" fontWeight={500}>
+                    {t("create")}
+                  </Text>
+                </Button>
+              </CreateBtn>
+            }
+            anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
+            transformOrigin={{ horizontal: "left", vertical: "top" }}
+            popoverStyle={{ marginTop: "20px" }}
+            onClose={handleClose}
+          >
             {optionsListOpen && (
               <CustomSelectPopoverComponent
                 options={options}
                 width="fit-content"
               />
             )}
-          </CreateBtn>
+          </Popover>
           {/* <HBreak width={25} /> */}
-          <Grid item xs={7} sm={7}>
+          <Grid item xs={12} sm={7}>
             <Input
               IconStart={
                 <IconDiv>
@@ -116,14 +130,7 @@ const QRCodesSection = () => {
         <Break height={25} />
 
         {/* QR Code cards  */}
-        <Flex
-          flexWrap="wrap"
-          width="77%"
-          margin="0px"
-          flexDirection="row"
-          justifyContent="space-between"
-          alignItems="flex-start"
-        >
+        <Grid container xs={10}>
           {!isLoading &&
             data?.data &&
             data?.data?.data
@@ -134,19 +141,22 @@ const QRCodesSection = () => {
                   return value.source.match(searchQR);
                 }
               })
-              .map((item: any) => {
+              .map((item: any, index: number) => {
                 return (
-                  <QrCodeCard
-                    key={item?.id}
-                    item={item}
-                    handleOption={() => handleOption(item?.id)}
-                    optionsOpen={optionsOpen}
-                    handleDeleteClick={handleDeleteClick}
-                    handleEditClick={handleEditClick}
-                  />
+                  <Grid key={item?.id} item xs={12} sm={12} md={6} lg={6}>
+                    <QrCodeCard
+                      item={item}
+                      index={index}
+                      handleOption={() => handleOption(item?.id)}
+                      optionsOpen={optionsOpen}
+                      handleDeleteClick={handleDeleteClick}
+                      handleEditClick={handleEditClick}
+                      setId={setId}
+                    />
+                  </Grid>
                 );
               })}
-        </Flex>
+        </Grid>
 
         {/* Modal side  */}
         <CustomModal open={modalVisible}>
