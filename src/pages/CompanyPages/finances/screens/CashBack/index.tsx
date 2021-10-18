@@ -37,7 +37,6 @@ const intialFilter = {
 
 const Payment = () => {
   const { t } = useTranslation();
-  const [date, setDate] = useState({ dateFrom: '', dateTo: '' });
   const [filterValues, setFilterValues] =
     useState<intialFilterProps>(intialFilter);
 
@@ -49,7 +48,7 @@ const Payment = () => {
     const date1 = moment(v.date).format('DD.MM.YYYY');
     const date2 = moment(v.activateDate).format('DD.MM.YYYY');
     return {
-      col1: '-',
+      col1: v.operationType,
       col2: v.clientName,
       col3: v.amount,
       col4: v.amountCommission,
@@ -66,7 +65,7 @@ const Payment = () => {
         accessor: 'col1',
         Cell: (props: any) => (
           <WrapIcon>
-            {props?.value === 'Пополнение депозита' ? (
+            {props?.value === 'cashback_account_top_up' ? (
               <WalletIcon />
             ) : (
               <CashBackIcon />

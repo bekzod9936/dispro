@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { useQuery } from 'react-query';
-import { fetchAddressInfo } from 'services/queries/InfoQueries';
+import {
+  fetchAddressInfo,
+  fetchAddressMain,
+} from 'services/queries/InfoQueries';
 
 interface Props {
   address?: string;
@@ -25,8 +28,8 @@ interface Props {
 
 const useAddress = () => {
   const companyId: any = localStorage.getItem('companyId');
-  const [data, setData] = useState<Props[]>([]);
-  const response = useQuery(
+  const [dataAddress, setData] = useState<Props[]>([]);
+  const responseAddress = useQuery(
     'fetchAddress',
     () => fetchAddressInfo({ companyId }),
     {
@@ -35,11 +38,25 @@ const useAddress = () => {
       retry: 0,
       onSuccess: (data) => {
         setData(data?.data?.data);
+        console.log(data.data.data, 'dddd');
       },
     }
   );
 
-  return { response, data };
+  const responseMain = useQuery(
+    'fetchAddressMain',
+    () => fetchAddressMain({ companyId }),
+    {
+      keepPreviousData: true,
+      refetchOnWindowFocus: false,
+      retry: 0,
+      onSuccess: (data) => {
+        console.log(data.data.data);
+      },
+    }
+  );
+
+  return { responseAddress, dataAddress, responseMain };
 };
 
 export default useAddress;

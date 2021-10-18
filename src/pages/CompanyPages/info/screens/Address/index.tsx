@@ -48,6 +48,7 @@ import Cookies from 'js-cookie';
 import partnerApi from 'services/interceptors/companyInterceptor';
 import NewCompanyNotification from './NewCompanyNotification';
 import useAddress from './useAddress';
+import useInfoPage from '../useInfoPage';
 
 interface FormProps {
   address?: string;
@@ -57,6 +58,7 @@ interface FormProps {
   telNumbers?: any;
   regionId?: number;
   id?: number;
+  isMain?: boolean;
 }
 
 interface WProps {
@@ -117,7 +119,9 @@ const inntialWorkTime = [
 
 const Address = () => {
   const { t } = useTranslation();
-  const { response, data } = useAddress();
+  const { responseAddress, dataAddress, responseMain } = useAddress();
+
+  const { response, data } = useInfoPage();
 
   const [fillial, setFillial] = useState<any[]>([]);
   const [searchRes, setSearchRes] = useState<IAddress[]>([]);
@@ -202,12 +206,12 @@ const Address = () => {
   };
 
   useEffect(() => {
-    setFillial(data);
-    const newArr = data.map((v: any) => {
+    setFillial(dataAddress);
+    const newArr = dataAddress.map((v: any) => {
       return { lat: v.location.lat, lng: v.location.lng, address: v.address };
     });
     setPalceOptions(newArr);
-  }, [data]);
+  }, [dataAddress]);
 
   const onClickPlace = (e: any) => {
     const coords = e.get('coords');
@@ -296,6 +300,7 @@ const Address = () => {
     setValue('regionId', v.regionId);
     setValue('telNumbers', newNumbers);
     setValue('addressDesc', v.addressDesc);
+    setValue('isMain', v.isMain);
     const newData: any = workingTime.work.map((a: any) => {
       const common: any = v?.workingTime?.work?.find(
         (i: any) => i.day === a.day
@@ -329,7 +334,11 @@ const Address = () => {
     setEdit(true);
     setValue('regionId', 0);
     setPlace(['', '']);
+
     setworkingTime({ aroundTheClock: false, work: defaultTime });
+    if (!data.filledAddress) {
+      setValue('isMain', true);
+    }
   };
 
   const getTime = (e: any) => {
@@ -353,7 +362,7 @@ const Address = () => {
     {
       onSuccess: () => {
         setOpen(true);
-        response.refetch();
+        responseAddress.refetch();
         yandexRef?.setCenter([41.32847446609404, 69.24298268717716], 10);
         setPlace(['', '']);
         setSendDate({ aroundTheClock: false, work: inntialWorkTime });
@@ -368,19 +377,41 @@ const Address = () => {
     {
       onSuccess: () => {
         setOpen(true);
-        response.refetch();
+        responseAddress.refetch();
         yandexRef?.setCenter([41.32847446609404, 69.24298268717716], 10);
         setPlace(['', '']);
-        setNewComp(true);
       },
     }
   );
+
+  const mainPut = useMutation(
+    (v: any) => {
+      return partnerApi.put(`/directory/company/address`, v);
+    },
+    {
+      onSuccess: () => {
+        console.log(data, 'data');
+        if (data.filledAddress) {
+          responseAddress.refetch();
+          setOpen(true);
+          yandexRef?.setCenter([41.32847446609404, 69.24298268717716], 10);
+          setPlace(['', '']);
+          if (Cookies.get('compnayState') === 'new') {
+            Cookies.set('compnayState', 'old');
+            setNewComp(true);
+          }
+        }
+      },
+    }
+  );
+
   const companyId: any = localStorage.getItem('companyId');
+
   const handleSubmitPut = (e: any) => {
     const values = {
+      isMain: e.isMain,
       address: e.address,
       addressDesc: e.addressDesc,
-      name: e.name,
       regionId: 0,
       telNumbers: e.telNumbers.map((v: any) => v?.number),
       telNumber: e.telNumbers[0]?.number,
@@ -389,22 +420,30 @@ const Address = () => {
       workingTime: send,
       id: e.id,
     };
-    addressPut.mutate(values);
+    if (e.isMain) {
+      mainPut.mutate(values);
+    } else {
+      addressPut.mutate({ ...values, name: e.name });
+    }
   };
 
   const handleSubmitPost = (e: any) => {
     const values = {
       address: e.address,
       addressDesc: e.addressDesc,
-      name: e.name,
       regionId: 0,
       telNumbers: e.telNumbers.map((v: any) => v?.number),
       telNumber: e.telNumbers[0]?.number,
       companyId: +companyId,
       location: { lat: place[0], lng: place[1] },
       workingTime: send,
+      isMain: e.isMain,
     };
-    addressPost.mutate(values);
+    if (data.filledAddress) {
+      addressPost.mutate({ ...values, name: e.name });
+    } else {
+      mainPut.mutate(values);
+    }
   };
 
   return (
@@ -452,7 +491,7 @@ const Address = () => {
               </WrapInput>
             </WrapHeader>
             <WrapContent>
-              {response.isLoading || response.isFetching ? (
+              {responseAddress.isLoading || responseAddress.isFetching ? (
                 <Spinner />
               ) : !searchFocus || inpuSearch === '' ? (
                 fillial?.map((v: IAddress) => (
@@ -594,26 +633,30 @@ const Address = () => {
                 />
               )}
             />
-            <Title>{t('filialName')}</Title>
-            <Text>{t('enterTitleText')}</Text>
-            <Controller
-              name='name'
-              control={control}
-              rules={{ required: true }}
-              defaultValue=''
-              render={({ field }) => (
-                <Input
-                  label={t('enterTitle')}
-                  error={errors.name ? true : false}
-                  message={t('requiredField')}
-                  type='string'
-                  field={field}
-                  margin={{
-                    laptop: '20px 0 25px',
-                  }}
+            {values.isMain ? null : (
+              <>
+                <Title>{t('filialName')}</Title>
+                <Text>{t('enterTitleText')}</Text>
+                <Controller
+                  name='name'
+                  control={control}
+                  rules={{ required: true }}
+                  defaultValue=''
+                  render={({ field }) => (
+                    <Input
+                      label={t('enterTitle')}
+                      error={errors.name ? true : false}
+                      message={t('requiredField')}
+                      type='string'
+                      field={field}
+                      margin={{
+                        laptop: '20px 0 25px',
+                      }}
+                    />
+                  )}
                 />
-              )}
-            />
+              </>
+            )}
 
             <ul style={{ listStyle: 'none' }}>
               {fields.map((item, index) => {

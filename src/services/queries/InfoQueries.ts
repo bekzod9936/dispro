@@ -45,3 +45,7 @@ export const fetchCategories = () => {
 export const fetchAddressInfo = ({ companyId }: iProps) => {
   return partnerApi.get(`directory/stores/by-company/${companyId}`);
 };
+
+export const fetchAddressMain = ({ companyId }: iProps) => {
+  return partnerApi.get(`directory/company/address/${companyId}`);
+};
