@@ -1,9 +1,10 @@
 import React from 'react'
+import { Wrapper } from './style'
 
-export const SideBar = () => {
+export const SideBar = ({children, isOpen}: any) => {
     return (
-        <div>
-            
-        </div>
+        <Wrapper isOpen={isOpen}>
+            {children}
+        </Wrapper>
     )
 }
