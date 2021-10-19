@@ -398,6 +398,7 @@ const Main = () => {
                           objectFit: 'scale-down',
                           borderRadius: '14px',
                         }}
+                        effect='blur'
                       />
 
                       <WrapTrash>
