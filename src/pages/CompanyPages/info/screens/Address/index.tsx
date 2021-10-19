@@ -142,7 +142,7 @@ const Address = () => {
     aroundTheClock: false,
     work: inntialWorkTime,
   });
-
+  const [isMain, setIsMain] = useState<boolean>(false);
   const weeks = [
     {
       day: 1,
@@ -293,7 +293,7 @@ const Address = () => {
     setValue('regionId', v.regionId);
     setValue('telNumbers', newNumbers);
     setValue('addressDesc', v.addressDesc);
-    setValue('isMain', v.isMain);
+    setIsMain(v.isMain);
     const newData: any = workingTime.work.map((a: any) => {
       const common: any = v?.workingTime?.work?.find(
         (i: any) => i.day === a.day
@@ -327,11 +327,8 @@ const Address = () => {
     setEdit(true);
     setValue('regionId', 0);
     setPlace(['', '']);
-
     setworkingTime({ aroundTheClock: false, work: defaultTime });
-    if (!data.filledAddress) {
-      setValue('isMain', true);
-    }
+    setIsMain(!data.filledAddress);
   };
 
   const getTime = (e: any) => {
@@ -382,10 +379,10 @@ const Address = () => {
       return partnerApi.put(`/directory/company/address`, v);
     },
     {
-      onSuccess: async () => {
-        await resHeader.refetch();
-        await response.refetch();
-        await responseAddress.refetch();
+      onSuccess: () => {
+        resHeader.refetch();
+        response.refetch();
+        responseAddress.refetch();
         setOpen(true);
         yandexRef?.setCenter([41.32847446609404, 69.24298268717716], 10);
         setPlace(['', '']);
@@ -428,6 +425,7 @@ const Address = () => {
   };
 
   const handleSubmitPost = (e: any) => {
+    console.log(e);
     const values = {
       address: e.address,
       addressDesc: e.addressDesc,
@@ -633,7 +631,7 @@ const Address = () => {
                 />
               )}
             />
-            {values.isMain ? null : (
+            {isMain ? null : (
               <>
                 <Title>{t('filialName')}</Title>
                 <Text>{t('enterTitleText')}</Text>
@@ -647,7 +645,6 @@ const Address = () => {
                       label={t('enterTitle')}
                       error={errors.name ? true : false}
                       message={t('requiredField')}
-                      type='text'
                       field={field}
                       margin={{
                         laptop: '20px 0 25px',

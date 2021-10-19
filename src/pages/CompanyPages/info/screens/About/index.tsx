@@ -271,14 +271,10 @@ const Main = () => {
         isKosher: false,
       },
       {
-        onSuccess: async () => {
-          await resHeader.refetch();
-          await response.refetch();
-
-          if (Cookies.get('compnayState') === 'new' || data.filled) {
-            history.push('/info/address');
-            dispatch(setAddressAdd(false));
-          }
+        onSuccess: () => {
+          resHeader.refetch();
+          response.refetch();
+          history.push('/info/address');
         },
       }
     );

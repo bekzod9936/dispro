@@ -368,5 +368,7 @@
   "Mobile": "Мобильный",
   "App": "Приложение",
   "trafficProvider": "Источники трафика",
-  "addingcompany": "Добавление компании"
+  "addingcompany": "Добавление компании",
+  "depositcashbek": "Пополнение депозита",
+  "cashbackaccrual": "Начисление кешбэка"
 }
