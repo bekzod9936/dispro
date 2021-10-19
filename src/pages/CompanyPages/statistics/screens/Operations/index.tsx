@@ -108,7 +108,12 @@ const Operations = () => {
         />
         <DatePcker
           onChange={async (e: any) => {
-            await setDate({
+            await setFilterValues({
+              ...filterValues,
+              startDate: e.slice(0, e.indexOf(' ~')),
+              endDate: e.slice(e.indexOf('~ ') + 2),
+            });
+            setDate({
               startDate: e.slice(0, e.indexOf(' ~')),
               endDate: e.slice(e.indexOf('~ ') + 2),
             });
