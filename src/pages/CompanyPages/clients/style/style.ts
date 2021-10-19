@@ -3,7 +3,7 @@ import { device } from 'styles/device';
 import { IButtonWrapper } from './types';
 
 export const Container = styled.div`
-  @media (max-width: ${device.mobile}) {
+  @media (max-width: ${device.laptop}) {
     overflow: auto; 
   }
   height: 100%;
@@ -34,7 +34,7 @@ export const MainWrapper = styled.div`
 export const Wrap = styled.div`
   padding-right: 25px;
   overflow-y: auto;
-  @media (max-width: ${device.mobile}) {
+  @media (max-width: ${device.laptop}) {
     overflow: visible;
   }
   &::-webkit-scrollbar {

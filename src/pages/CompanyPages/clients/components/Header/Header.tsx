@@ -10,29 +10,43 @@ import { SelectedFilter, SelectedFilters, Wrapper } from './style';
 import { RemoveFilterBtn } from './components/RemoveFilterBtn';
 import React from 'react';
 import { getSelected } from '../../utils/getSelectedFilters';
+import { ActionType, ActionTypes, IFilters } from '../../utils/reducerTypes';
 
 interface IProps {
 	totalCount: number;
 	query: string,
 	setQuery: any,
-	dispatch: any
+	dispatch: (arg: ActionType) => void,
 	setOpenBar: any,
-	filters: any,
+	filters: IFilters,
 	refetch: any,
 	isFiltersVisible: boolean;
 }
 
-export const Header = ({ isFiltersVisible, filters, refetch, totalCount, setQuery, query, dispatch, setOpenBar }: IProps) => {
+export const Header = ({ 
+	isFiltersVisible, 
+	filters, 
+	refetch, 
+	totalCount, 
+	setQuery, 
+	query, 
+	dispatch, 
+	setOpenBar }: IProps) => {
 	const { t } = useTranslation();
 	const [sFilters, setSFilters] = React.useState<any>({})
 
 	const handlePickDate = (date: string) => {
 		const [startDate, endDate] = date.split(' ~ ')
-		dispatch({type: "setPeriod", payload: {startDate, endDate}})
+		dispatch({type: ActionTypes.SET_PERIOD, payload: {startDate, endDate}})
 	}
 	
 	const handleRemoveFilter = (payload: any) => {
-		dispatch({type: "removeFilter", payload})
+		console.log(payload);
+		
+		if (Object.keys(sFilters).length <= 1) {
+			dispatch({type: ActionTypes.SET_VISIBLE_FILTERS, payload: false})
+		}
+		dispatch({type: ActionTypes.REMOVE_FILTER, payload})
 		refetch()
 	}
 
@@ -54,7 +68,7 @@ export const Header = ({ isFiltersVisible, filters, refetch, totalCount, setQuer
 				<QRButton setOpenBar={setOpenBar} />
 			</ButtonsWrapper>
 			<SelectedFilters>
-				{Object.keys(sFilters).map((key: any) => {
+				{isFiltersVisible && Object.keys(sFilters).map((key: string) => {
 					if (typeof sFilters[key] === "string") {
 						return (
 							<SelectedFilter>
@@ -67,7 +81,7 @@ export const Header = ({ isFiltersVisible, filters, refetch, totalCount, setQuer
 					} else {
 						return (
 							<SelectedFilter>
-								{Object.keys(sFilters[key]).map((el: any) => {
+								{Object.keys(sFilters[key]).map((el: string | any | number) => {
 									return <p>{t(el)}: {(sFilters[key][el])}</p>
 								})}
 								<RemoveFilterBtn onClick={() => handleRemoveFilter(key)}/>

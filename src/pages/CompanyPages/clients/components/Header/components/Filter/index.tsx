@@ -7,25 +7,7 @@ import { Label, WrapCheck, WrapDate, WrapInputs, WrapPlaceHolder, WrapStatus } f
 import CheckBox from 'components/Custom/CheckBox'
 import styled from 'styled-components'
 import { device } from 'styles/device'
-// const initialFilters = {
-//     genderTypeId: '',
-//     regDate: {
-//             regDateFrom: '',
-//             regDateTo: ''
-//         },
-//     purchuase_amount: {
-//             purchaseCountFrom: '',
-//             purchaseCountTo: ''
-//     },
-//     purchase_cost: null,
-//     status: [
-//         { Base: false, label: 'Base', name: 'Base' },
-//         { Silver: false, label: 'Silver', name: 'Silver' },
-//         { Gold: false, label: 'Gold', name: 'Gold' },
-//         { Platinum: false, label: 'Platinum', name: 'Platinum' },
-//       ],
-//     traffic_provider: ''
-// }
+
 export const MFilter = ({dispatch, initialFilters, refetch}: any) => {
     const { t } = useTranslation()
     
@@ -250,6 +232,7 @@ export const MFilter = ({dispatch, initialFilters, refetch}: any) => {
     ]
     
     const handleSubmit = () => {
+      dispatch({type: "setVisibleFilters", payload: true})
       refetch()
     }
 
@@ -273,6 +256,7 @@ export const MFilter = ({dispatch, initialFilters, refetch}: any) => {
             ],
           trafficProvider: ''
         }})
+        dispatch({type: "setVisibleFilters", payload: false})
         refetch()
         
     }

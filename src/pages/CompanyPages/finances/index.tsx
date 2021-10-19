@@ -22,7 +22,7 @@ const Finance = () => {
   const { menuItems } = useFinanceRoute();
   const { header } = usePayment({ filterValues: '' });
   let match = useRouteMatch();
-  console.log(match);
+  console.log(menuItems);
   return (
     <MainWrapper>
       <WrapHeader>

@@ -1,18 +1,25 @@
 import styled from 'styled-components';
 import Pagination from 'components/Custom/Pagination';
 import { device } from 'styles/device';
-
-export const Footer = ({ page, setPage, totalCount, totalPages, length }: any) => {
+import { ActionType, ActionTypes } from '../../utils/reducerTypes';
+interface IProps {
+	page: number,
+	setPage: (arg: ActionType) => void,
+	totalCount: number,
+	totalPages: number | string,
+	length: number
+}
+export const Footer = ({ page, setPage, totalCount, totalPages, length }: IProps) => {
 	
 	// TODO: fix how many clients have been shown 
 	return (
 		<WrapPag>
-			<p>Показано <span>{`${(page - 1) * 5 + 1}-${page * length + Math.floor(page * 0.5)}`}</span> из <span>{totalCount}</span> клиентов</p>
+			<p>Показано <span>{`${(page - 1) * 5 + 1}-${page * length + Math.round(page * 0.5)}`}</span> из <span>{totalCount}</span> клиентов</p>
 			<Pagination
-				count={totalPages}
+				count={+totalPages}
 				defaultPage={page}
 				onChange={(e: any) => {
-					setPage({ type: 'setPage', payload: e });
+					setPage({ type: ActionTypes.SET_PAGE, payload: e });
 				}}
 			/>
 		</WrapPag>

@@ -42,7 +42,7 @@ const OrdersPage = lazy(
   () => import('../pages/CompanyPages/orders/OrdersPage')
 );
 const ProposalsPage = lazy(
-  () => import('../pages/CompanyPages/proposals/ProposalsPage')
+  () => import('../pages/CompanyPages/proposals')
 );
 const SettingsPage = lazy(
   () => import('../pages/CompanyPages/settings/SettingsPage')
@@ -140,6 +140,11 @@ const privateCompanyRoutes: IPrivateRoute[] = [
     path: '/proposals',
     layout: DefaultLayoutAdmin,
     component: ProposalsPage,
+  },
+  {
+    path: '/proposals/:params',
+    layout: DefaultLayoutAdmin,
+    component: ProposalsPage
   },
   {
     path: '/settings',

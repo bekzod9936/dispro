@@ -370,5 +370,10 @@
   "trafficProvider": "Источники трафика",
   "addingcompany": "Добавление компании",
   "depositcashbek": "Пополнение депозита",
-  "cashbackaccrual": "Начисление кешбэка"
+  "cashbackaccrual": "Начисление кешбэка",
+  "archive": "Архив",
+  "deferred": "Отложенные",
+  "onsale": "В продаже",
+  "сanceled_proposals": "Отмененные",
+  "drafts": "Черновик"
 }
