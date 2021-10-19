@@ -13,10 +13,16 @@ import { ReactComponent as Trash } from 'assets/icons/IconsInfo/trash.svg';
 import { ReactComponent as PhotoLoading } from 'assets/icons/IconsInfo/photoloading.svg';
 import { ReactComponent as Save } from 'assets/icons/IconsInfo/save.svg';
 import { ReactComponent as Close } from 'assets/icons/SideBar/close.svg';
+import { ReactComponent as Delete } from 'assets/icons/IconsInfo/delete.svg';
 
 interface Props {
   weight?: string;
   bgcolor?: any;
+  color?: string;
+}
+
+interface ButtonProps {
+  mobile?: boolean;
   color?: string;
 }
 
@@ -27,6 +33,12 @@ export const TWIcon = styled(Twitter)``;
 export const VKIcon = styled(VK)``;
 export const WTIcon = styled(WhatsApp)``;
 export const VIcon = styled(Viber)``;
+
+export const DeleteIcon = styled(Delete)`
+  & > path {
+    fill: ${({ color }: ButtonProps) => (color ? color : null)};
+  }
+`;
 
 export const PhotoLoadingIcon = styled(PhotoLoading)`
   margin-left: 15px;
@@ -297,9 +309,6 @@ export const LabelLoading = styled.label`
     font-size: 18px;
   }
 `;
-interface ButtonProps {
-  mobile?: boolean;
-}
 
 export const WrapButton = styled.div`
   display: ${({ mobile }: ButtonProps) => (mobile ? 'none' : 'inline-block')};
@@ -314,6 +323,7 @@ export const WebLink = styled.div`
   user-select: none;
   font-size: 15px;
   color: #223367;
+
   @media (max-width: ${device.mobile}) {
     font-size: 14px;
   }
@@ -330,7 +340,7 @@ interface Props {
 export const WrapWebLink = styled.div`
   margin: ${({ margin }: Props) => margin};
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   flex-wrap: wrap;
 `;
@@ -341,4 +351,48 @@ export const WebValue = styled.div`
   color: #223367;
   display: flex;
   align-items: center;
+
+  a {
+    margin: 0 20px 0 15px;
+    text-decoration: none;
+    font-weight: 300;
+    font-size: 14px;
+    color: #223367;
+  }
+`;
+
+export const WrapKeyWords = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  @media (max-width: ${device.mobile}) {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+`;
+export const ButtonKeyWord = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #c4c4c4;
+  border-radius: 46px;
+  font-weight: 300;
+  font-size: 14px;
+  color: #223367;
+  padding: 0 5px 0 15px;
+  margin: 10px 10px 0 0;
+  height: 35px;
+  .MuiIconButton-root {
+    padding: 6px !important;
+    margin-left: 5px;
+  }
+  @media (max-width: ${device.mobile}) {
+    height: 25px;
+    font-weight: 300;
+    font-size: 12px;
+    color: #223367;
+  }
 `;

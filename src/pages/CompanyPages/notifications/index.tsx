@@ -75,7 +75,7 @@ const Notifications = () => {
       <Title>
         {t('notifications')} {t('from')} DIS-COUNT
       </Title>
-      {response.isLoading ? (
+      {response.isLoading || response.isFetching ? (
         <Spinner />
       ) : data.length > 0 ? (
         <Wrap>

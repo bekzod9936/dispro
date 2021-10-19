@@ -4,22 +4,18 @@ import { useTranslation } from 'react-i18next';
 import Input from 'components/Custom/Input';
 import Button from 'components/Custom/Button';
 import Links from './Links';
-import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
-import { useMutation, useQuery } from 'react-query';
-import {
-  deletePhoto,
-  fetchCategories,
-  uploadPhoto,
-} from 'services/queries/InfoQueries';
+import { useAppDispatch } from 'services/redux/hooks';
 import Spinner from 'components/Custom/Spinner';
-import Resizer from 'react-image-file-resizer';
 import { Text, Title } from '../../style';
 import MultiSelect from 'components/Custom/MultiSelect';
-import partnerApi from 'services/interceptors/companyInterceptor';
 import { useHistory } from 'react-router';
 import Cookies from 'js-cookie';
-import ImageLazyLoad from 'components/Custom/ImageLazyLoad/ImageLazyLoad';
 import useLayout from '../../../../../components/Layout/useLayout';
+import { IconButton } from '@material-ui/core';
+import { setAddressAdd } from 'services/redux/Slices/infoSlice';
+import useInfoPage from '../useInfoPage';
+import useAbout from './useAbout';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 import {
   Container,
   UpSide,
@@ -52,10 +48,10 @@ import {
   WebLink,
   WrapWebLink,
   WebValue,
+  WrapKeyWords,
+  ButtonKeyWord,
+  DeleteIcon,
 } from './style';
-import { IconButton } from '@material-ui/core';
-import { ReactComponent as Delete } from 'assets/icons/IconsInfo/delete.svg';
-import { setAddressAdd } from 'services/redux/Slices/infoSlice';
 
 interface FormProps {
   telNumber?: string;
@@ -70,31 +66,36 @@ interface FormProps {
   logo?: string;
   links?: [];
 }
-
-interface optionProps {
-  option?: any[];
-  values?: any[];
-}
-
 interface socialProps {
   name?: string;
   value?: any;
 }
 
 const Main = () => {
+  const { response, data } = useInfoPage();
+  const [filled, setFilled] = useState<any>(false);
+  const {
+    resCategory,
+    resDelete,
+    resUpLoad,
+    resinfoSubData,
+    handleUpload,
+    category,
+    handlePhotoDelete,
+    upload,
+  } = useAbout();
+  const { resHeader } = useLayout();
+
   const history = useHistory();
   const { t } = useTranslation();
   const [, setOpen] = useState(false);
-  const [options, setOptions] = useState<optionProps>({
-    option: [],
-    values: [],
-  });
-
+  const [defMulti, setDefMulti] = useState<any>([]);
+  const [categories, setCategories] = useState<any>([]);
+  const [logo, setLogo] = useState<any>('');
   const [web, setWeb] = useState<any>([]);
+  const [option, setOption] = useState<any[]>([]);
+  const [keywords, setKeywords] = useState<any[]>([]);
 
-  const { response, data } = useLayout();
-
-  const [categories, setCategories] = useState([]);
   const [social, setSocial]: any = useState([
     {
       Icon: FIcon,
@@ -133,9 +134,6 @@ const Main = () => {
     },
   ]);
 
-  const companyInfo = useAppSelector((state) => state.partner.companyInfo);
-  const dispatch = useAppDispatch();
-
   const [links, setLinks] = useState([
     {
       name: 'Facebook',
@@ -167,23 +165,55 @@ const Main = () => {
     },
   ]);
 
-  const [logo, setLogo] = useState(companyInfo.logo);
-  let companyId: any = localStorage.getItem('companyId');
+  useEffect(() => {
+    setCategories(category);
+  }, [category]);
 
   useEffect(() => {
+    setDefMulti(data.categories);
+    setFilled(data?.filled);
+  }, [data]);
+
+  useEffect(() => {
+    const newArr = categories.filter((v: any) => {
+      const def = defMulti.find((i: any) => i === v.value);
+      if (def !== undefined) {
+        return def;
+      }
+    });
+    setValue('categories', newArr);
+    setOption(newArr);
+  }, [defMulti, categories]);
+
+  useEffect(() => {
+    setLogo(upload);
+    setValue('logo', upload);
+  }, [upload]);
+
+  useEffect(() => {
+    setValue('annotation', data.annotation);
+    setValue('description', data.description);
+    setValue('logo', data.logo);
+    setValue('telNumber', `${data.telNumber}`);
+    setValue('socialLinks', data.socialLinks);
+    setValue('name', data.name);
+    setLogo(data.logo);
+    setWeb(data.links);
+    if (data?.keyWords !== '') {
+      const keys: any = data?.keyWords?.split(',');
+      setKeywords(keys);
+    } else {
+      setKeywords([]);
+    }
     const newLinks = links.map((v: any) => {
-      const link = companyInfo?.socialLinks?.find(
-        (i: any) => i.name === v.name
-      );
+      const link = data?.socialLinks?.find((i: any) => i.name === v.name);
       return {
         name: v.name,
         value: link?.value || '',
       };
     });
     const newSocial = social.map((v: any) => {
-      const link = companyInfo?.socialLinks?.find(
-        (i: any) => i.name === v.name
-      );
+      const link = data?.socialLinks?.find((i: any) => i.name === v.name);
       return {
         ...v,
         value: link?.value || '',
@@ -192,11 +222,9 @@ const Main = () => {
     setLinks(newLinks);
     setSocial(newSocial);
     setValue('socialLinks', newLinks);
-  }, [companyInfo?.socialLinks]);
+  }, [data]);
 
-  useEffect(() => {
-    setWeb(companyInfo.links);
-  }, [companyInfo.links]);
+  const dispatch = useAppDispatch();
 
   const {
     control,
@@ -214,119 +242,40 @@ const Main = () => {
 
   useEffect(() => {
     const subscription = watch((value: any) => {
-      if (value?.categories.length === 2) {
-        setOptions({ values: value?.categories, option: value?.categories });
-      }
-      if (value?.categories.length < 2) {
-        setOptions({ values: value?.categories, option: categories });
-      }
+      setOption(value.categories);
     });
     return () => subscription.unsubscribe();
   }, [watch(['categories'])]);
 
-  useEffect(() => {
-    setValue('categories', options.values);
-  }, [options.values]);
-
-  useEffect(() => {
-    setValue('logo', logo);
-  }, [logo]);
-
-  const photoDelete = useMutation(() => {
-    setLogo('');
-    photoUpLoad.reset();
-    return deletePhoto({ body: companyInfo.logo });
-  });
-
-  const handlePhotoDelete = () => {
-    photoDelete.mutate();
-  };
-
-  const dataURIToBlob = (dataURI: any) => {
-    const splitDataURI = dataURI.split(',');
-    const byteString =
-      splitDataURI[0].indexOf('base64') >= 0
-        ? atob(splitDataURI[1])
-        : decodeURI(splitDataURI[1]);
-    const mimeString = splitDataURI[0].split(':')[1].split(';')[0];
-
-    const ia = new Uint8Array(byteString.length);
-    for (let i = 0; i < byteString.length; i++)
-      ia[i] = byteString.charCodeAt(i);
-
-    return new Blob([ia], { type: mimeString });
-  };
-
-  const resizeFile = (file: any) =>
-    new Promise((resolve) => {
-      Resizer.imageFileResizer(
-        file,
-        400,
-        400,
-        'png',
-        100,
-        0,
-        (uri: any) => {
-          resolve(uri);
-        },
-        'base64',
-        400,
-        400
-      );
-    });
-
-  const formData = new FormData();
-  const photoUpLoad = useMutation((v: any) => uploadPhoto({ body: v }), {
-    retry: 1,
-  });
-
-  const handleUpload = async (e: any) => {
-    const file = e.target.files[0];
-    const image = await resizeFile(file);
-    const newFile = await dataURIToBlob(image);
-
-    await formData.append('itemId', companyId);
-    await formData.append('fileType', 'companyLogo');
-    await formData.append('file', newFile, 'logo.png');
-    await photoUpLoad.mutate(formData, {
-      onSuccess: (data) => {
-        setLogo(data?.data?.data?.link);
-      },
-      onError: (error) => console.log(error),
-    });
-  };
-
-  const infoSubData = useMutation((v: any) =>
-    partnerApi.put('/directory/company', v, {
-      headers: {
-        authorization: `Bearer ${localStorage.getItem('companyToken')}`,
-      },
-    })
-  );
+  const companyId: any = localStorage.getItem('companyId');
 
   const handleInfoSubmit = (v: any) => {
     const category = v.categories.map((v: any) => v.value);
-    infoSubData.mutate(
+
+    resinfoSubData.mutate(
       {
-        annotation: v?.annotation,
+        ...data,
+        annotation: v.annotation,
         categories: category,
         companyId: +companyId,
-        currencyId: 1,
-        description: v?.description,
+        currencyId: '1',
+        description: v.description,
         isHalol: true,
-        isKosher: false,
-        keyWords: v?.keywords,
+        keyWords: keywords.join(','),
         linkEnable: false,
         links: web,
-        logo: v?.logo,
-        name: v?.name,
-        socialLinks: v?.socialLinks,
-        telNumber: v?.telNumber,
+        logo: logo,
+        name: v.name,
+        socialLinks: links,
+        telNumber: v.telNumber,
+        isKosher: false,
       },
       {
-        onSuccess: () => {
-          response.refetch();
-          if (Cookies.get('compnayState') === 'new') {
+        onSuccess: async () => {
+          await resHeader.refetch();
+          await response.refetch();
+
+          if (Cookies.get('compnayState') === 'new' || data.filled) {
             history.push('/info/address');
             dispatch(setAddressAdd(false));
           }
@@ -335,7 +284,27 @@ const Main = () => {
     );
   };
 
-  const handleWebDelete = () => {};
+  const handleWebDelete = (v: any) => {
+    const newArr = web.filter((i: any) => {
+      if (i.address === v.address && i.name === v.name) {
+        return;
+      } else {
+        return i;
+      }
+    });
+    setWeb(newArr);
+  };
+
+  const handleKeyDelete = (v: any) => {
+    const newArr = keywords.filter((i: any) => {
+      if (i === v) {
+        return;
+      } else {
+        return i;
+      }
+    });
+    setKeywords(newArr);
+  };
 
   const handleWebLink = () => {
     if (getValues('companyLink') === '') {
@@ -360,7 +329,16 @@ const Main = () => {
       setValue('link', '');
       setValue('companyLink', '');
     }
-    console.log(getValues('link'));
+  };
+
+  const handleKeywords = () => {
+    if (getValues('keywords') === '') {
+      setError('keywords', { shouldFocus: true });
+    } else {
+      clearErrors('keywords');
+      setKeywords([...keywords, getValues('keywords')]);
+      setValue('keywords', '');
+    }
   };
 
   const handleSocialChange = ({ name, value }: socialProps) => {
@@ -375,38 +353,7 @@ const Main = () => {
     setValue('socialLinks', newLinks);
   };
 
-  const response1 = useQuery(['categories'], fetchCategories, {
-    retry: 0,
-    refetchOnWindowFocus: false,
-    onSuccess: (data: any) => {
-      const newData = data?.data?.data;
-      let option: any = [];
-      let values: any = [];
-
-      for (let i = 0; i < newData?.length; i++) {
-        if (
-          newData[i]?.id === companyInfo?.categories[0] ||
-          companyInfo?.categories[1] === newData[i]?.id
-        ) {
-          values.push({ value: newData[i]?.id, label: newData[i]?.name });
-        }
-        option.push({ value: newData[i]?.id, label: newData[i]?.name });
-      }
-      setCategories(option);
-      if (values.length === 2) {
-        setOptions({ values: values, option: values });
-      }
-      if (values.length < 2) {
-        setOptions({ values: values, option: option });
-      }
-    },
-  });
-
-  useEffect(() => {
-    setValue('name', data.name);
-  }, [data.name]);
-
-  if (infoSubData.isLoading || response.isLoading) {
+  if (resinfoSubData.isLoading || response.isLoading || response.isFetching) {
     return <Spinner />;
   }
 
@@ -423,7 +370,6 @@ const Main = () => {
                     {t('logo_text')}
                   </Text>
                 )}
-
                 <input
                   accept='image/*'
                   style={{ display: 'none' }}
@@ -434,25 +380,36 @@ const Main = () => {
                 {response.isLoading ? (
                   <Spinner />
                 ) : logo ? (
-                  photoDelete.isLoading ? (
+                  resDelete.isLoading ? (
                     <Spinner />
-                  ) : photoDelete.isSuccess && logo === '' ? (
+                  ) : resDelete.isSuccess && logo === '' ? (
                     <LabelLoading htmlFor='logo1'>
                       {t('upload_photo')} <PhotoLoadingIcon />
                     </LabelLoading>
                   ) : (
-                    <PhotoWrap onClick={handlePhotoDelete}>
-                      <ImageLazyLoad
-                        objectFit='scale-down'
-                        src={logo !== '' ? logo : companyInfo.logo}
-                        alt='logo1'
+                    <PhotoWrap
+                      onClick={async () => {
+                        await handlePhotoDelete();
+                        await setLogo('');
+                      }}
+                    >
+                      <LazyLoadImage
+                        alt='image'
+                        src={logo}
+                        height='100%'
+                        width='100%'
+                        style={{
+                          objectFit: 'scale-down',
+                          borderRadius: '14px',
+                        }}
                       />
+
                       <WrapTrash>
                         <TrashIcon />
                       </WrapTrash>
                     </PhotoWrap>
                   )
-                ) : photoUpLoad.isLoading ? (
+                ) : resUpLoad.isLoading ? (
                   <Spinner />
                 ) : (
                   <LabelLoading htmlFor='logo1'>
@@ -465,7 +422,6 @@ const Main = () => {
               name='name'
               control={control}
               rules={{ required: true }}
-              defaultValue={companyInfo.name}
               render={({ field }) => (
                 <Input
                   label={t('title')}
@@ -483,7 +439,6 @@ const Main = () => {
               name='annotation'
               control={control}
               rules={{ required: true }}
-              defaultValue={companyInfo.annotation}
               render={({ field }) => (
                 <Input
                   label={t('company_direction')}
@@ -501,7 +456,6 @@ const Main = () => {
               name='description'
               control={control}
               rules={{ required: true }}
-              defaultValue={companyInfo.description}
               render={({ field }) => (
                 <Input
                   label={t('description')}
@@ -533,11 +487,10 @@ const Main = () => {
               name='categories'
               control={control}
               rules={{ required: true }}
-              defaultValue={options.values}
               render={({ field }) => (
                 <MultiSelect
-                  isLoading={response1.isLoading}
-                  options={options.option}
+                  isLoading={resCategory.isLoading || response.isLoading}
+                  options={option?.length < 2 ? category : []}
                   isMulti={true}
                   label={t('chose_categories')}
                   margin={{
@@ -553,8 +506,8 @@ const Main = () => {
             <Controller
               name='keywords'
               control={control}
-              rules={{ required: true }}
-              defaultValue={companyInfo.keyWords}
+              rules={{ required: false }}
+              defaultValue=''
               render={({ field }) => (
                 <Input
                   label={t('keywords')}
@@ -563,16 +516,38 @@ const Main = () => {
                   type='string'
                   field={field}
                   margin={{
-                    laptop: '20px 0',
+                    laptop: '20px 0 15px',
+                  }}
+                  inputStyle={{
+                    border:
+                      getValues('keywords') !== ''
+                        ? '1px solid #606EEA'
+                        : '1px solid #C2C2C2',
                   }}
                   IconEnd={
-                    <WrapArrow style={{ cursor: 'pointer' }}>
+                    <WrapArrow
+                      onClick={handleKeywords}
+                      bgcolor={getValues('keywords') !== ''}
+                      style={{ cursor: 'pointer' }}
+                    >
                       <ArrowIcon />
                     </WrapArrow>
                   }
                 />
               )}
             />
+            <WrapKeyWords>
+              {keywords?.map((v: any) => {
+                return (
+                  <ButtonKeyWord>
+                    {v}
+                    <IconButton onClick={() => handleKeyDelete(v)}>
+                      <DeleteIcon color='#C4C4C4' />
+                    </IconButton>
+                  </ButtonKeyWord>
+                );
+              })}
+            </WrapKeyWords>
           </LeftSide>
           <RightSide>
             <Title>{t('phone')}</Title>
@@ -581,17 +556,18 @@ const Main = () => {
               name='telNumber'
               control={control}
               rules={{ required: true, maxLength: 13, minLength: 13 }}
-              defaultValue={companyInfo.telNumber}
+              defaultValue='+998'
               render={({ field }) => (
                 <Input
                   label={t('phoneNumber')}
                   error={errors.telNumber ? true : false}
                   message={t('requiredField')}
-                  type='tel'
+                  type='text'
                   field={field}
                   margin={{
                     laptop: '20px 0 25px',
                   }}
+                  maxLength={13}
                 />
               )}
             />
@@ -629,6 +605,12 @@ const Main = () => {
                   margin={{
                     laptop: '20px 0 25px',
                   }}
+                  inputStyle={{
+                    border:
+                      getValues('keywords') !== ''
+                        ? '1px solid #606EEA'
+                        : '1px solid #C2C2C2',
+                  }}
                   message={t('requiredField')}
                   error={errors.link ? true : false}
                   IconEnd={
@@ -643,30 +625,20 @@ const Main = () => {
                 />
               )}
             />
-            <Title>{t('companyLink')}</Title>
+            {web?.length > 0 ? <Title>{t('companyLink')}</Title> : null}
             {web?.map((v: any) => (
               <>
-                <WrapWebLink>
-                  <WebLink>{t('yourweb')}</WebLink>
+                <WrapWebLink key={v.address}>
+                  <WebLink>{v?.name}</WebLink>
                   <WebValue>
-                    {v?.name}
-                    <IconButton onClick={handleWebDelete}>
-                      <Delete />
-                    </IconButton>
-                  </WebValue>
-                </WrapWebLink>
-                <WrapWebLink margin='0 0 20px 0'>
-                  <WebLink>{t('ordernow')}</WebLink>
-                  <WebValue>
-                    {v?.address}
-                    <IconButton onClick={handleWebDelete}>
-                      <Delete />
+                    <a href='v?.address'>({v?.address})</a>
+                    <IconButton onClick={() => handleWebDelete(v)}>
+                      <DeleteIcon />
                     </IconButton>
                   </WebValue>
                 </WrapWebLink>
               </>
             ))}
-
             <Title>{t('socialLinks')}</Title>
             <div style={{ display: 'block' }}>
               {social?.map((v: any) => (
