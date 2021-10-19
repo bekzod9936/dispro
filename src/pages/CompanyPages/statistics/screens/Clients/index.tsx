@@ -321,7 +321,6 @@ const Clients = () => {
       ),
     },
   ];
-  console.log(data?.filter?.referal);
 
   const handleFilterSubmit = async ({ startDate = '', endDate = '' }) => {
     await setFilterValues({
@@ -350,6 +349,7 @@ const Clients = () => {
     await setRadioValue({});
     await response.refetch();
   };
+
   useEffect(() => {
     handleFilterSubmit({
       startDate: date.startDate,
