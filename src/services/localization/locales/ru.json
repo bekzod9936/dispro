@@ -367,5 +367,10 @@
   "Cashier": "Кассир",
   "Mobile": "Мобильный",
   "App": "Приложение",
-  "trafficProvider": "Источники трафика"
+  "trafficProvider": "Источники трафика",
+  "archive": "Архив",
+  "deferred": "Отложенные",
+  "onsale": "В продаже",
+  "сanceled_proposals": "Отмененные",
+  "drafts": "Черновик"
 }

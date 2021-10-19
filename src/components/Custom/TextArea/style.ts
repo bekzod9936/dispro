@@ -51,7 +51,7 @@ export const MTextArea = styled.textarea`
     box-sizing: border-box;
     border-radius: ${({borderRadius}: ITextAreaProps) => borderRadius || "14px"};
     margin: ${({margin}: ITextAreaProps) => margin || "0"};
-    padding: ${({padding}: ITextAreaProps) => padding || "10px"};
+    padding: ${({padding}: ITextAreaProps) => padding || "15px"};
     font-family: "Roboto", sans-serif;
     font-size: ${({fontSize}: ITextAreaProps) => fontSize || "16px"};
     max-width: ${({maxWidth}: ITextAreaProps) => maxWidth || "440px"};
@@ -59,6 +59,22 @@ export const MTextArea = styled.textarea`
     height: ${({height}: ITextAreaProps) => height || "100%"};
     min-height: ${({minHeight}: ITextAreaProps) => minHeight || "none"};
     outline: ${({outline}: ITextAreaProps) => outline || "none"};
+    /* position: relative;
+    max-height: 500px; */
+    /* &::after {
+        content: '';
+        background: #C2C2C2;
+        width: 23px;
+        height: 2px;
+        z-index: 100;
+        position: absolute;
+        right: 20px;
+        bottom: 20px;
+    } */
+    &::-webkit-resizer {
+        appearance: none;
+        display: none;
+    }
     &:focus {
         border: ${({focus}: ITextAreaProps) => focus?.border || "1px solid #C2C2C2;"};
     }

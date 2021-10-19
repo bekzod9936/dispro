@@ -1,20 +1,6 @@
+import { ActionType, ActionTypes, IClient, IState } from "./reducerTypes"
 
-export interface IState {
-    clients: any[],
-    page: number,
-    totalCount: number,
-    visibleClients: any[],
-    selectedClients: any[]
-}
-
-type setClientsAction = {
-    type: "setClients",
-    payload: any[]
-}
-
-type ActionTypes = setClientsAction
-
-export const initialState = {
+export const initialState: IState = {
     loading: false,
     isFiltersVisible: false,
     clients: [],
@@ -27,35 +13,14 @@ export const initialState = {
     visibleClients: [],
     selectedClients: [],
     totalPages: 0,
-    // filters: {
-    //    gender: '',
-    //    regDate: {
-    //         regDateFrom: '',
-    //         regDateTo: ''
-    //     },
-    //    purchaseAmount: {
-    //         purchaseCountFrom: 0,
-    //         purchaseCountTo: 0
-    //    },
-    //    notless: 0,
-    //    status: [],
-    //    trafficProvider: ''
-
-    // },
-    selectedFilters: [],
     filters: {}
 }
 
-
-
-
-
-
-export const clientsReducer = (state = initialState, action: any): any => {
+export const clientsReducer = (state = initialState, action: ActionType): IState => {
     const { type, payload } = action
     switch(type) {
-        case "setClients": {
-            const visibleClients = payload.clients.map((el: any) => {
+        case ActionTypes.SET_CLIENTS: {
+            const visibleClients = payload.clients.map((el: IClient) => {
                 return (
                     {
                         id: el.id,
@@ -83,48 +48,47 @@ export const clientsReducer = (state = initialState, action: any): any => {
 
             }
         } 
-        case "setPage": {
+        case ActionTypes.SET_VISIBLE_FILTERS: {
+            return {
+                ...state,
+                isFiltersVisible: payload
+            }
+        }
+        case ActionTypes.SET_PAGE: {
             return {
                 ...state,
                 page: payload
             }
         }
-        case "selectAll": {
+        case ActionTypes.SELECT_ALL: {
             return {
                 ...state,
                 selectedClients: payload ? [...state.clients] : []
             }
         }
-        case "removeAll": {
+        case ActionTypes.ADD_CLIENT: {
+            const client = state.clients.find((el: IClient) => el.id === payload)
             return {
                 ...state,
-                selectedClients: []
+                selectedClients: client ? [...state.selectedClients, client] : [...state.selectedClients]
             }
         }
-        case "addClient": {
-            const client = state.clients.find((el: any) => el.id === payload)
-            return {
-                ...state,
-                selectedClients: [...state.selectedClients, client]
-            }
-        }
-        case "removeClient": {
+        case ActionTypes.REMOVE_CLIENT: {
             return {
                 ...state,
                 selectedClients: [...state.selectedClients.filter((el: any) => el.id !== payload)]
             }
         }
-        case "setFilters": {
+        case ActionTypes.SET_FILTERS: {
             return {
                 ...state,
                 filters: {
                     ...state.filters,
                     [payload.key]: payload.value
                 },
-                // selectedFilters: payload.sFilters  
             }
         }
-        case "removeFilter": {
+        case ActionTypes.REMOVE_FILTER: {
             const filters: any = state.filters;
             delete filters[payload]
             return {
@@ -132,20 +96,19 @@ export const clientsReducer = (state = initialState, action: any): any => {
                 filters: {...filters}
             }
         }
-        case "resetFilters": {
+        case ActionTypes.RESET_FILTERS: {
             return {
                 ...state,
                 filters: {},
-                selectedFilters: [] 
             }
         }
-        case "loading": {
+        case ActionTypes.SET_LOADING: {
             return {
                 ...state,
                 loading: true
             }
         }
-        case "setPeriod": {
+        case ActionTypes.SET_PERIOD: {
             return {
                 ...state,
                 period: payload

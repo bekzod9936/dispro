@@ -1,10 +1,11 @@
 import { useQuery } from "react-query";
 import { fetchClients, searchClients } from "services/queries/ClientsQueries";
+import { ActionType, ActionTypes, IFilters } from "../utils/reducerTypes";
 interface IArgs {
   page: number, 
-  dispatch: any,
+  dispatch: (arg: ActionType) => void,
   query: string,
-  filters?: any,
+  filters?: IFilters,
   period: {
     startDate: string,
     endDate: string
@@ -21,7 +22,7 @@ export const useFetchClients = ({
   const response = useQuery(
     ["clients", page, query, period],
     () => {
-      dispatch({type: "loading"})
+      dispatch({type: ActionTypes.SET_LOADING, payload: true})
       if (query !== '') {
         return searchClients(query)
       }
@@ -32,7 +33,7 @@ export const useFetchClients = ({
       retry: 0,
       refetchOnWindowFocus: false,
       onSuccess: (data) => {
-        dispatch({type: "setClients", payload: { clients: data.data.data.clients, totalCount: data.data.data.totalCount}})
+        dispatch({type: ActionTypes.SET_CLIENTS, payload: { clients: data.data.data.clients, totalCount: data.data.data.totalCount}})
         
       }
     }

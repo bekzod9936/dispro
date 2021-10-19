@@ -22,7 +22,7 @@ export const TextArea = ({textarea, label, value, onChange, title, container}: I
         <Wrapper {...container}>
             <Label {...label} onClick={handleFocus}>{title}</Label>
             <MTextArea value={value} onChange={onChange} ref={textareaRef} {...textarea}>
-
+                
             </MTextArea>
         </Wrapper>
             

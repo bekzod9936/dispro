@@ -1,16 +1,26 @@
 import Checkbox from '@material-ui/core/Checkbox';
 import React from 'react';
 import { useSortBy, useTable } from 'react-table';
-import styled from 'styled-components';
-import { device } from 'styles/device';
+import { ActionType, ActionTypes, IClient, IVisibleClient } from '../../utils/reducerTypes';
 import { AddColumnButton } from './components/AddColumnBtn/AddColumnButton';
 import { addedHeaders } from './headers';
 import { TableHeader, Tbody, Td, Th, Title, Container, MTable, Thead, UpIcon, MCheckbox, TRow } from './style';
+export type HeadersType = {
+	value: string,
+	label: string
+}
 
-export const Table = ({ visibleClients, selectedClients, dispatch }: any) => {
-	const [ headers, setHeaders ] = React.useState(addedHeaders);
+interface IProps {
+	visibleClients: IVisibleClient[],
+	selectedClients: IClient[],
+	dispatch: (arg: ActionType) => void
+}
 
-	const columns = React.useMemo(
+
+export const Table = ({ visibleClients, selectedClients, dispatch }: IProps) => {
+	const [ headers, setHeaders ] = React.useState<HeadersType[]>(addedHeaders);
+
+	const columns: any = React.useMemo(
 		() => {
 			return headers.map((header) => ({
 				Header: header.value,
@@ -20,22 +30,14 @@ export const Table = ({ visibleClients, selectedClients, dispatch }: any) => {
 		[ headers ],
 	);
 
-		
-	// const handleAddClient = (e: any, value: boolean, id: any) => {
-	// 	e.stopPropagation()
-	// 	if (value) {
-	// 		dispatch({ type: 'addClient', payload: id });
-	// 	} else {
-	// 		dispatch({ type: 'removeClient', payload: id });
-	// 	}
-	// };
-	const handleAddClientByClick = (e: any, id: any) => {
+	const handleAddClientByClick = (e: any, id: number) => {
 		e.stopPropagation()
-		const isAdded = selectedClients.some((el: any) => el.id === id)
+		const isAdded = selectedClients.some((el: IClient) => el.id === id)
+		
 		if (!isAdded) {
-			dispatch({type: "addClient", payload: id});
+			dispatch({type: ActionTypes.ADD_CLIENT, payload: id});
 		} else {
-			dispatch({type: "removeClient", payload: id})
+			dispatch({type: ActionTypes.REMOVE_CLIENT, payload: id})
 		}
 	}
 
@@ -48,7 +50,6 @@ export const Table = ({ visibleClients, selectedClients, dispatch }: any) => {
 			<TableHeader>
 				<Title>Клиенты</Title>
 				<AddColumnButton
-					setHeaders={setHeaders}
 					addedHeaders={headers}
 					setAddedHeaders={setHeaders}
 				/>
@@ -61,8 +62,8 @@ export const Table = ({ visibleClients, selectedClients, dispatch }: any) => {
 								<Th>
 									<MCheckbox>
 										<Checkbox
-											checked={visibleClients.length && selectedClients.length === visibleClients.length}
-											onChange={(e) => dispatch({ type: 'selectAll', payload: e.target.checked })}
+											checked={!!visibleClients.length && selectedClients.length === visibleClients.length}
+											onChange={(e) => dispatch({ type: ActionTypes.SELECT_ALL, payload: e.target.checked })}
 										/>
 									</MCheckbox>
 								</Th>
@@ -80,18 +81,16 @@ export const Table = ({ visibleClients, selectedClients, dispatch }: any) => {
 						{rows.map((row: any) => {
 							prepareRow(row);
 							return (
-								<TRow checked={selectedClients.some((client: any) => client.id === row.original.id)} onClick={(e) => handleAddClientByClick(e, row.original.id)} {...row.getRowProps()}>
+								<TRow checked={selectedClients.some((client: IClient) => client.id === row.original.id)} onClick={(e) => handleAddClientByClick(e, row.original.id)} {...row.getRowProps()}>
 									<Td>
 										<MCheckbox>
 											<Checkbox
-												checked={selectedClients.some((el: any) => el.id === row.original.id)}
+												checked={selectedClients.some((el: IClient) => el.id === row.original.id)}
 											/>
 										</MCheckbox>
 									</Td>
 									{row.cells.map((cell: any) => {
-										return <Td
-										
-										 {...cell.getCellProps()}>{cell.render('Cell')}</Td>;
+										return <Td {...cell.getCellProps()}>{cell.render('Cell')}</Td>;
 									})}
 								</TRow>
 							);

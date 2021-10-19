@@ -6,14 +6,24 @@ interface Props {
   listlength?: number;
   margin?: string;
   padding?: string;
+  vertical?: boolean
 }
 
 export const Container = styled.div`
   display: grid;
-  grid-template-columns: ${({ listlength }: Props) =>
+  @media (min-width: ${device.planshet}) {
+    grid-template-rows: ${({vertical, listlength}: Props) => vertical ? `repeat(${listlength}), fit-content(100%)` : ""};
+  };
+  @media (max-width: ${device.planshet}) {
+    grid-template-columns: ${({ listlength, vertical }: Props) =>
     `repeat(${listlength}, fit-content(100%) )`};
+  };
+  /* grid-template-rows: ${({vertical, listlength}: Props) => vertical ? `repeat(${listlength}), fit-content(100%)` : ""}; */
+  grid-template-columns: ${({ listlength, vertical }: Props) =>
+    !vertical && `repeat(${listlength}, fit-content(100%) )`};
   width: fit-content;
   grid-column-gap: 10px;
+  grid-row-gap: 20px;
   overflow: auto;
   overflow-y: scroll;
 

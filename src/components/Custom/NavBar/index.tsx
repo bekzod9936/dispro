@@ -4,6 +4,7 @@ interface Props {
   list?: { path?: string; text?: string }[];
   margin?: string;
   padding?: string;
+  vertical?: boolean,
 }
 
 const activeStyle = {
@@ -12,9 +13,9 @@ const activeStyle = {
   boxShadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
 };
 
-const NavBar = ({ list, margin, padding }: Props) => {
+const NavBar = ({ list, margin, padding, vertical }: Props) => {
   return (
-    <Container listlength={list?.length} margin={margin} padding={padding}>
+    <Container vertical={vertical} listlength={list?.length} margin={margin} padding={padding}>
       {list?.map((v) => (
         <Link to={`${v.path}`} exact activeStyle={activeStyle}>
           {v.text}
