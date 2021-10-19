@@ -42,10 +42,21 @@ const useReferalData = () => {
     onSuccess: (data: any) => {
       console.log(data?.data?.data, "referal program");
 
-      setValue(
-        "referals",
-        data.data.data.levels.sort((a: any, b: any) => a.number - b.number)
-      );
+      if (data.data.data?.levels) {
+        setValue(
+          "referals",
+          data.data.data?.levels?.sort((a: any, b: any) => a.number - b.number)
+        );
+      } else {
+        setValue("referals", [
+          {
+            id: "37622af0-1e13-4321-9a8b-3b14c82cbb7f",
+            name: "1",
+            number: 1,
+            percent: 0,
+          },
+        ]);
+      }
 
       if (data?.data?.data === null) {
         setNewState("new");
