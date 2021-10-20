@@ -375,5 +375,8 @@
   "deferred": "Отложенные",
   "onsale": "В продаже",
   "сanceled_proposals": "Отмененные",
-  "drafts": "Черновик"
+  "drafts": "Черновик",
+  "searchbyclients": "Поиск по клиентам",
+  "overallscore": "Общая оценка компании",
+  "nobodydidnotevaluate": "Вашу компанию еще никто не оценивал"
 }
