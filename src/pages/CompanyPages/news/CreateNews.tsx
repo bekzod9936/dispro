@@ -7,33 +7,30 @@ import {
 	ModalComponent,
 	SectionWrapper,
 } from '../../../styles/CustomStyles';
-import { AboutSectionWrapper, ScrolableWrapper } from '../info/InfoPageStyes';
+import { AboutSectionWrapper, ScrolableWrapper } from './InfoPageStyes';
 import { Text } from '../../../styles/CustomStyles';
 import { useTranslation } from 'react-i18next';
 import { CancelIcon } from '../../../assets/icons/ClientsPageIcons/ClientIcons';
-import { setStatus } from '../../../services/redux/Slices/clientStatistics';
 import { Flex } from '../../../styles/BuildingBlocks';
 import { Controller, useForm } from 'react-hook-form';
 import CustomInput from '../../../components/Custom/CustomInput';
-import CustomTextArea from '../info/CustomTextArea';
-import CustomSelectInput from '../../../components/Custom/CustomSelectInput';
-import CustomDatePicker from '../../../components/Custom/CustomDatePicker';
+import CustomTextArea from './CustomTextArea';
 import moment from 'moment';
 import { min, setDate } from 'date-fns';
-import CustomFileUpload from '../info/CustomFileUpload';
+import CustomFileUpload from './CustomFileUpload';
 import Resizer from 'react-image-file-resizer';
 import CustomReusableSelect from '../../../components/Custom/CustomReusableSelect';
 import { COLORS, FONT_SIZE, FONT_WEIGHT } from '../../../services/Types/enums';
 import { Checkbox, InputLabel, makeStyles, TextField } from '@material-ui/core';
-import CustomMulitpleSelect from '../info/CustomMulitpleSelect';
-import { FilialIcon } from '../../../assets/icons/NewsIcons/NewsIcons';
+import CustomMulitpleSelect from './CustomMulitpleSelect';
+import { FilialIcon } from 'assets/icons/NewsIcons/NewsIcons';
 import axios from 'axios';
-import { STORAGE_URL } from '../../../services/constants/config';
-import partnerApi from '../../../services/interceptors/companyInterceptor';
+import { STORAGE_URL } from 'services/constants/config';
+import partnerApi from 'services/interceptors/companyInterceptor';
 import { useQuery } from 'react-query';
 import CropImageModal from './CropImageModal';
-import { fetchAddressInfo } from '../../../services/queries/InfoPageQueries';
-import { DeleteIconWhite } from '../../../assets/icons/SettingsIcons/SettingsPageIcon';
+import { fetchAddressInfo } from 'services/queries/InfoPageQueries';
+import { DeleteIconWhite } from 'assets/icons/SettingsIcons/SettingsPageIcon';
 import CustomModal from '../../../components/Custom/CustomModal';
 import CustomToggle from 'components/Custom/CustomToggleSwitch';
 import Title from 'components/Custom/Title';
@@ -640,24 +637,6 @@ const CreateNews: React.FC<IProps> = ({ setStatus }) => {
 											/>
 										</div>
 									</WrapInputs>
-
-									{/* <Flex width='86%' justifyContent='start' margin='0px'>
-										<CustomDatePicker
-											date={fromDate}
-											prefix={t('from')}
-											handleDateChange={(date: any) => {
-												setFromDate(date);
-											}}
-										/>
-										<CustomDatePicker
-											prefix={t('to')}
-											date={toDate}
-											handleDateChange={(date: any) => {
-												setToDate(date);
-											}}
-										/>
-									</Flex> */}
-
 									<div style={{ width: '100%' }}>
 										<Controller
 											control={control}
