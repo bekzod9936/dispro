@@ -36,6 +36,8 @@ import Button from "components/Custom/Button";
 import RippleEffect from "components/Custom/RippleEffect";
 import NotifySnack from "components/Custom/Snackbar";
 import { useAppSelector } from "services/redux/hooks";
+import MFormatInput from "components/Custom/MoneyInput";
+import { numberWith } from "services/utils";
 
 const LoyaltyProgramSection = () => {
   const { t } = useTranslation();
@@ -61,6 +63,8 @@ const LoyaltyProgramSection = () => {
     setOnSuccessSave,
     onErrorSave,
     setOnErrorSave,
+    basePercent,
+    errors,
   } = useLoyality();
   const usePoint: boolean = useAppSelector(
     (state) => state.loyalitySlice.usePoint
@@ -170,14 +174,22 @@ const LoyaltyProgramSection = () => {
                   <Controller
                     name={`base_percent`}
                     rules={{
-                      required: false,
+                      required: true,
+                      max: 100,
+                      min: 0,
                     }}
+                    defaultValue={numberWith(basePercent, " ")}
                     control={control}
                     render={({ field }) => (
-                      <Input
+                      <MFormatInput
                         label={""}
                         type="string"
-                        field={field}
+                        defaultValue={numberWith(basePercent, " ")}
+                        {...field}
+                        value={field?.value?.textmask}
+                        onChange={(e) => {
+                          field.onChange(e.target.value);
+                        }}
                         maxLength={3}
                         width={{
                           width: "106px",
@@ -191,7 +203,7 @@ const LoyaltyProgramSection = () => {
                           </PercentDiv>
                         }
                         message={t("requiredField")}
-                        // error={errors.telNumbers?.[index] ? true : false}
+                        error={errors.base_percent}
 
                         // maxLength={13}
                       />
@@ -274,7 +286,7 @@ const LoyaltyProgramSection = () => {
                           <Controller
                             name={`levels.${index}.name`}
                             rules={{
-                              required: false,
+                              required: true,
                             }}
                             defaultValue={item?.name || ""}
                             control={control}
@@ -287,7 +299,9 @@ const LoyaltyProgramSection = () => {
                                   laptop: "20px 0 10px",
                                 }}
                                 message={t("requiredField")}
-                                // error={errors.telNumbers?.[index] ? true : false}
+                                error={
+                                  errors.levels?.[index]?.name ? true : false
+                                }
 
                                 // maxLength={13}
                               />
@@ -304,15 +318,22 @@ const LoyaltyProgramSection = () => {
                           <Controller
                             name={`levels.${index}.percent`}
                             rules={{
-                              required: false,
+                              required: true,
+                              max: 100,
+                              min: 0,
                             }}
                             control={control}
-                            defaultValue={item?.percent}
+                            defaultValue={numberWith(item?.percent, " ")}
                             render={({ field }) => (
-                              <Input
+                              <MFormatInput
                                 label={""}
+                                defaultValue={numberWith(item?.percent, " ")}
                                 type="string"
-                                field={field}
+                                {...field}
+                                value={field?.value?.textmask}
+                                onChange={(e) => {
+                                  field.onChange(e.target.value);
+                                }}
                                 maxLength={3}
                                 width={{
                                   width: "106px",
@@ -325,8 +346,15 @@ const LoyaltyProgramSection = () => {
                                     <PercentIcon />
                                   </PercentDiv>
                                 }
-                                message={t("requiredField")}
-                                // error={errors.telNumbers?.[index] ? true : false}
+                                message={
+                                  errors.levels?.[index]?.percent?.type ===
+                                  "max"
+                                    ? "maksimal 100%"
+                                    : t("requiredField")
+                                }
+                                error={
+                                  errors.levels?.[index]?.percent ? true : false
+                                }
 
                                 // maxLength={13}
                               />
@@ -430,13 +458,18 @@ const LoyaltyProgramSection = () => {
                   <Controller
                     name="max_percent"
                     control={control}
+                    rules={{
+                      required: true,
+                    }}
                     render={({ field }) => {
                       return (
-                        <Input
+                        <MFormatInput
                           label={t("max_percent")}
                           type="string"
-                          field={field}
+                          {...field}
+                          value={field.value}
                           message={t("requiredField")}
+                          error={errors.max_percent?.type === "required"}
                         />
                       );
                     }}
@@ -449,11 +482,18 @@ const LoyaltyProgramSection = () => {
                         <Controller
                           name="give_cashback_after"
                           control={control}
+                          rules={{
+                            required: true,
+                          }}
                           render={({ field }) => {
                             return (
-                              <Input
+                              <MFormatInput
                                 field={field}
                                 label={t("give_cashback_after")}
+                                error={
+                                  errors.give_cashback_after?.type ===
+                                  "required"
+                                }
                                 message={t("requiredField")}
                               />
                             );

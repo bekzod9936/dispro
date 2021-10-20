@@ -60,7 +60,7 @@ const MFormatInput = ({ onChange = () => {}, ...props }: MProps) => {
           inputComponent: TextMask,
           value: props.value?.textmask,
           defaultValue: props.defaultValue,
-          onChange: onChange("textmask"),
+          onChange: (e: any) => onChange(e),
           startAdornment: props.IconStart ? (
             <Adornment position="start">{props.IconStart}</Adornment>
           ) : null,
