@@ -57,6 +57,8 @@ const Header = () => {
   const history = useHistory();
   const [open, setOpen] = useState(false);
 
+  const companyInfo = useAppSelector((state) => state.partner.companyInfo);
+
   return (
     <>
       {Cookies.get('compnayState') === 'new' ||
@@ -132,7 +134,7 @@ const Header = () => {
                   }}
                 >
                   <Img
-                    src={headerData.logo === '' ? LogoDef : headerData.logo}
+                    src={headerData.logo === '' ? LogoDef : companyInfo.logo}
                     size='small'
                     alt='logo'
                     onError={(e: any) => {
@@ -141,7 +143,7 @@ const Header = () => {
                     }}
                   />
                   <WrapPop>
-                    <Name fontSize={16}>{headerData.name}</Name>
+                    <Name fontSize={16}>{companyInfo.name}</Name>
                     <TextCompany>{t('myCompany')}</TextCompany>
                   </WrapPop>
                   <ArrowIcon marginLeft={true} />
@@ -154,7 +156,7 @@ const Header = () => {
             >
               <Content>
                 <Img
-                  src={headerData.logo === '' ? LogoDef : headerData.logo}
+                  src={headerData.logo === '' ? LogoDef : companyInfo.logo}
                   size='large'
                   alt='logo'
                   onError={(e: any) => {
@@ -162,7 +164,7 @@ const Header = () => {
                     e.target.src = LogoDef;
                   }}
                 />
-                <Name fontSize={18}>{headerData.name}</Name>
+                <Name fontSize={18}>{companyInfo.name}</Name>
                 <Type>Компания прошла подерацию</Type>
                 <Button
                   buttonStyle={{

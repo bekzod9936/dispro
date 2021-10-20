@@ -368,10 +368,15 @@
   "Mobile": "Мобильный",
   "App": "Приложение",
   "trafficProvider": "Источники трафика",
+  "addingcompany": "Добавление компании",
+  "depositcashbek": "Пополнение депозита",
+  "cashbackaccrual": "Начисление кешбэка",
   "archive": "Архив",
   "deferred": "Отложенные",
   "onsale": "В продаже",
   "сanceled_proposals": "Отмененные",
   "drafts": "Черновик",
-  "addingcompany": "Добавление компании"
+  "searchbyclients": "Поиск по клиентам",
+  "overallscore": "Общая оценка компании",
+  "nobodydidnotevaluate": "Вашу компанию еще никто не оценивал"
 }

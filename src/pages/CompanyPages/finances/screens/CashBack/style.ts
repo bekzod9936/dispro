@@ -46,4 +46,8 @@ export const Info = styled.div`
 export const CashBackIcon = styled(CashBack)``;
 export const WalletIcon = styled(Wallet)``;
 
-export const WrapIcon = styled.div``;
+export const WrapIcon = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;

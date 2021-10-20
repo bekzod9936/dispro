@@ -22,12 +22,15 @@ import { refetchCompanyList } from '../../../../services/redux/Slices/authSlice'
 import LogoDef from '../../../../assets/icons/SideBar/logodefault.png';
 import Cookies from 'js-cookie';
 import AddCompany from '../AddCompany';
+import useLayout from 'components/Layout/useLayout';
 
 const Companylist = () => {
   const history = useHistory();
   const { t } = useTranslation();
   const [id, setId] = useState(null);
   const [openPlus, setOpenPlus] = useState(false);
+
+  const { headerData } = useLayout();
 
   const company = useMutation((values: any) => enterCompany(values));
 
@@ -52,7 +55,11 @@ const Companylist = () => {
       onSuccess: (data) => {
         localStorage.setItem('companyId', data.data.data.companyId);
         localStorage.setItem('companyToken', data.data.data.accessToken);
-        if (Cookies.get('companyState') === 'new') {
+        if (
+          Cookies.get('companyState') === 'new' ||
+          !headerData.filled ||
+          !headerData.filledAddress
+        ) {
           history.push('/info');
         } else {
           history.push('/statistics');

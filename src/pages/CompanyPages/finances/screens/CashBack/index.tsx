@@ -67,7 +67,10 @@ const Payment = () => {
           <WrapIcon>
             {props?.value === 'cashback_account_top_up' ? <WalletIcon /> : null}
             {props?.value === 'cashback_in' ? <CashBackIcon /> : null}
-            {props?.value}
+            {props?.value === 'cashback_account_top_up'
+              ? t('depositcashbek')
+              : null}
+            {props?.value === 'cashback_in' ? t('cashbackaccrual') : null}
           </WrapIcon>
         ),
       },

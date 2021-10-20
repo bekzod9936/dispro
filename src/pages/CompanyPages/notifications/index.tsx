@@ -100,6 +100,7 @@ const Notifications = () => {
                         objectFit: 'scale-down',
                         borderRadius: '14px',
                       }}
+                      effect='blur'
                     />
                   </CardImg>
                   <CardBody open={open && v.id === id}>

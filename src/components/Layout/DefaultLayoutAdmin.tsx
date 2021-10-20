@@ -32,7 +32,7 @@ export interface IDefaultLayout {
 const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
   const classes = useSideBarStyle();
 
-  const { resHeader } = useLayout();
+  const { resHeader, headerData } = useLayout();
 
   const [width, setWidth] = useState(window.innerWidth);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -105,8 +105,13 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
           onOpen={toggleDrawer(true)}
           style={{
             pointerEvents:
-              Cookies.get('compnayState') === 'new' ? 'none' : 'auto',
-            opacity: Cookies.get('compnayState') === 'new' ? 0.4 : 1,
+              Cookies.get('compnayState') === 'new' || !headerData.filled
+                ? 'none'
+                : 'auto',
+            opacity:
+              Cookies.get('compnayState') === 'new' || !headerData.filled
+                ? 0.4
+                : 1,
           }}
         >
           <div
@@ -157,8 +162,17 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
           }}
           style={{
             pointerEvents:
-              Cookies.get('compnayState') === 'new' ? 'none' : 'auto',
-            opacity: Cookies.get('compnayState') === 'new' ? 0.4 : 1,
+              Cookies.get('compnayState') === 'new' ||
+              !headerData.filled ||
+              !headerData.filledAddress
+                ? 'none'
+                : 'auto',
+            opacity:
+              Cookies.get('compnayState') === 'new' ||
+              !headerData.filled ||
+              !headerData.filledAddress
+                ? 0.4
+                : 1,
           }}
         >
           <div className={classes.toolbar}>

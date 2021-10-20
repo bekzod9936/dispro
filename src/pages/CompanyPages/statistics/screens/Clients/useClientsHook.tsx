@@ -1,30 +1,56 @@
+import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { fetchCilentsData } from 'services/queries/StatisticsQueries';
 
 interface Props {
   filterValues?: any;
+  traffic?: any;
 }
 
-const useClientsHook = ({ filterValues }: Props) => {
+interface Props {
+  ageAvg?: number;
+  allClientParkCards?: number;
+  cashbackSum?: number;
+  chequeAvg?: number;
+  chequeCount?: number;
+  clientCount?: number;
+  couponAmountSum?: number;
+  couponDiscountSum?: number;
+  discountSum?: number;
+  femaleCount?: number;
+  filter?: {
+    gender?: { id?: number; name?: string }[];
+    levels?: { name?: string; number?: number }[];
+    referal?: { name?: string; refIds: number[] }[];
+  };
+  maleCount?: number;
+  paidWithMoney?: number;
+  paidWithPoint?: number;
+  pointSum?: number;
+  uniqueChequeClient?: number;
+}
+
+const useClientsHook = ({ filterValues, traffic }: Props) => {
+  const [data, setData] = useState<Props>({});
   const response = useQuery(
     'fetchClientsInfo',
     () => {
       const url = Object.keys(filterValues)
         .map((v: any) => `${v}=${filterValues[v]}&`)
         .join('');
-      return fetchCilentsData({ section: `clients?${url}` });
+      return fetchCilentsData({ section: `clients?${url}&${traffic}` });
     },
     {
       keepPreviousData: true,
       refetchOnWindowFocus: false,
       retry: 0,
       onSuccess: (data) => {
-        console.log(data, 'clients');
+        console.log(data.data.data, 'clients');
+        setData(data.data.data);
       },
     }
   );
 
-  const data = response?.data?.data?.data;
   return { response, data };
 };
 
