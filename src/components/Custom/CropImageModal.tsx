@@ -1,27 +1,27 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import CustomModal from '../../../components/Custom/CustomModal';
-import { FONT_SIZE, FONT_WEIGHT } from '../../../services/Types/enums';
-import { Flex } from '../../../styles/BuildingBlocks';
-import { CustomButton, ModalComponent } from '../../../styles/CustomStyles';
-import { Text } from '../../../styles/CustomStyles';
+import CustomModal from './CustomModal';
+import { FONT_SIZE, FONT_WEIGHT } from '../../services/Types/enums';
+import { Flex } from '../../styles/BuildingBlocks';
+import { ModalComponent } from '../../styles/CustomStyles';
+import { Text } from '../../styles/CustomStyles';
 import ReactCrop from 'react-image-crop';
-import { SaveIcon } from '../../../assets/icons/InfoPageIcons/InfoPageIcons';
+import { SaveIcon } from '../../assets/icons/InfoPageIcons/InfoPageIcons';
 import { useTranslation } from 'react-i18next';
 import 'react-image-crop/dist/ReactCrop.css';
-import { setFilterIsOpen } from '../../../services/redux/Slices/clientStatistics';
-import NewsCard from './NewsCard';
-import cropbackground from '../../../assets/images/CropRename.png';
-import { CancelIcon } from '../../../assets/icons/ClientsPageIcons/ClientIcons';
-import { resolve } from 'dns';
-import partnerApi from '../../../services/interceptors/companyInterceptor';
+import NewsCard from '../../pages/CompanyPages/news/NewsCard';
+import cropbackground from 'assets/images/CropRename.png';
 import axios from 'axios';
-import { STORAGE_URL } from '../../../services/constants/config';
-
+import { STORAGE_URL } from '../../services/constants/config';
+import { CancelIcon } from 'assets/icons/ClientsPageIcons/ClientIcons';
+import styled from 'styled-components';
+import Button from 'components/Custom/Button'
 interface IProps {
   isCropModalVisible: boolean;
   src: any;
   setOuterLink?: any;
   setIsCropModalVisible: Dispatch<SetStateAction<boolean>>;
+  label?: string,
+  mutation?: any
 }
 
 const CropImageModal: React.FC<IProps> = ({
@@ -29,16 +29,13 @@ const CropImageModal: React.FC<IProps> = ({
   src,
   setOuterLink,
   setIsCropModalVisible,
+  label,
+  mutation
 }) => {
-  const { t } = useTranslation();
   const [image, setImage] = useState<any>(null);
   const [imageUrl, setImageUrl] = useState<any>(null);
-  const [complete, setComplete] = useState(0);
   let companyToken = localStorage.getItem('companyToken');
   const [srcUrl, setSrcUrl] = useState<any>(null);
-  const [link, setLink] = useState<string>('');
-  const [file, setFile] = useState<any>(null);
-  const [onCompleteState, setOnComplete] = useState<boolean>(false);
 
   const [crop, setCrop] = useState<any>({
     unit: '%',
@@ -50,11 +47,13 @@ const CropImageModal: React.FC<IProps> = ({
     setSrcUrl(URL.createObjectURL(src));
   }, [src]);
 
-  const [blob, setBlob] = useState<any>(null);
 
   const handleSave = async (e: any) => {
     e.preventDefault();
+
     if (imageUrl) {
+      console.log(imageUrl);
+      
       fetch(imageUrl)
         .then((res: any) => res.blob())
         .then(
@@ -64,6 +63,8 @@ const CropImageModal: React.FC<IProps> = ({
           let formData = new FormData();
           formData.append('file', file);
           try {
+            console.log(formData);
+            
             let response = await axios.post(
               `${STORAGE_URL}/news/upload`,
               formData,
@@ -74,10 +75,10 @@ const CropImageModal: React.FC<IProps> = ({
                 },
               }
             );
-
             setIsCropModalVisible(false);
             setOuterLink(response.data.data.link);
             URL.revokeObjectURL(imageUrl);
+
           } catch (err) {}
         });
     }
@@ -135,15 +136,14 @@ const CropImageModal: React.FC<IProps> = ({
   return (
     <CustomModal open={isCropModalVisible}>
       <ModalComponent>
-        <div style={{}}>
+        <div>
           <div style={{ marginTop: '10px', marginBottom: '10px' }}>
             <Text fontSize={FONT_SIZE.large} fontWeight={FONT_WEIGHT.bold}>
               Выберите нужную область
               {/* <input type="file" onChange={(e: any) => setFile()} /> */}
             </Text>
           </div>
-          <Flex margin='0px' justifyContent='start' alignItems='flex-start'>
-            <div>
+          <Flex margin='0px' justifyContent='start' alignItems='flex-start' height="100%">
               <div
                 style={{
                   width: '550px',
@@ -164,49 +164,36 @@ const CropImageModal: React.FC<IProps> = ({
                       crop={crop}
                       onImageLoaded={setImage}
                       onComplete={() => getCroppedImage('complete')}
-                      //  onDragEnd={}
                       onChange={setCrop}
                     />
                   )}
                 </div>
               </div>
-            </div>
-            <div style={{ width: '300px', height: '100%' }}>
-              {imageUrl && (
-                <div style={{ marginLeft: '20px' }}>
-                  <div style={{ marginBottom: '15px' }}>
-                    <Text fontSize={FONT_SIZE.mediumPlus} color='#c4c4c4'>
-                      {t('newsPreview')}
-                    </Text>
-                  </div>
-                  <NewsCard
-                    src={imageUrl}
-                    text='newsCardSampleText'
-                    title='newsCardSampleTitle'
-                  />
-                </div>
-              )}
-            </div>
+              {imageUrl && 
+              <div style={{height: "100%", marginLeft: "20px"}}>
+                  <p>{label}</p> 
+                  <Preview>
+                    <Image src={imageUrl} />
+                  </Preview>     
+              </div>}
           </Flex>
         </div>
         <div style={{ marginTop: '20px', display: 'flex' }}>
-          <CustomButton
-            background='white'
+          <Button
+            buttonStyle={{bgcolor: "#ffffff", color: "#223367"}}
             onClick={() => setIsCropModalVisible(false)}
+            startIcon={<CancelIcon />}
           >
-            <CancelIcon />
-            <Text marginLeft='10px'>{t('cancel')}</Text>
-          </CustomButton>
-          <CustomButton
+            Отмена
+          </Button>
+          <Button
+            startIcon={<SaveIcon />}
             onClick={(e) => {
               handleSave(e);
             }}
           >
-            <SaveIcon />
-            <Text color='white' marginLeft='10px'>
-              {t('save')}
-            </Text>
-          </CustomButton>
+            Сохранить
+          </Button>
         </div>
       </ModalComponent>
     </CustomModal>
@@ -214,3 +201,19 @@ const CropImageModal: React.FC<IProps> = ({
 };
 
 export default CropImageModal;
+
+
+const Preview = styled.div`
+  position: relative;
+  overflow: hidden;
+`
+
+const Image = styled.img`
+  position: absolute;
+  left: 13px;
+  right: 10px;
+  width: 272px;
+  top: 13px;
+  height: 175px;
+  border-radius: 30px 30px 0 0;
+`

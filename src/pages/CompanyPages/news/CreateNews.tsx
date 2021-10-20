@@ -30,7 +30,7 @@ import axios from 'axios';
 import { STORAGE_URL } from '../../../services/constants/config';
 import partnerApi from '../../../services/interceptors/companyInterceptor';
 import { useQuery } from 'react-query';
-import CropImageModal from './CropImageModal';
+import CropImageModal from '../../../components/Custom/CropImageModal';
 import { fetchAddressInfo } from '../../../services/queries/InfoPageQueries';
 import { DeleteIconWhite } from '../../../assets/icons/SettingsIcons/SettingsPageIcon';
 import CustomModal from '../../../components/Custom/CustomModal';

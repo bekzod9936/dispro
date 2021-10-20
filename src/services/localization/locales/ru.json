@@ -376,5 +376,8 @@
   "onsale": "В продаже",
   "сanceled_proposals": "Отмененные",
   "drafts": "Черновик",
-  "hello_say": "Привет {{count}}"
+  "hello_say": "Привет {{count}}",
+  "searchbyclients": "Поиск по клиентам",
+  "overallscore": "Общая оценка компании",
+  "nobodydidnotevaluate": "Вашу компанию еще никто не оценивал"
 }

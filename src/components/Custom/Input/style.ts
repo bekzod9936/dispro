@@ -35,6 +35,8 @@ export const Container = styled.div`
 `;
 
 export const MInput = styled(TextField)`
+  box-shadow: ${({ inputStyle }: Props) =>
+    inputStyle?.shadow ? inputStyle?.shadow : null};
   .MuiInput-underline:before,
   .MuiInput-underline:after {
     border: none !important;
