@@ -1,33 +1,33 @@
-import { Portal } from "@material-ui/core";
-import moment from "moment";
-import React from "react";
-import { setTimeout } from "timers";
-import { CalendarIcon } from "../../assets/icons/ClientStatisticsIcons/ClientStatisticsIcons";
+import { Portal } from '@material-ui/core';
+import moment from 'moment';
+import React from 'react';
+import { setTimeout } from 'timers';
+import { CalendarIcon } from '../../assets/icons/ClientStatisticsIcons/ClientStatisticsIcons';
 
 interface IProps {
-  date: string;
-  isOpen?: boolean | undefined;
-  style?: object;
-  handleDateChange: Function;
-  index?: number;
-  prefix?: string;
-  mainStyle?: any;
+	date: string;
+	isOpen?: boolean | undefined;
+	style?: object;
+	handleDateChange: Function;
+	index?: number;
+	prefix?: string;
+	mainStyle?: any;
 }
 
 const CustomDatePicker: React.FC<IProps> = ({
-  mainStyle,
-  prefix,
-  date,
-  isOpen,
-  style,
-  handleDateChange,
-  index = 0,
+	mainStyle,
+	prefix,
+	date,
+	isOpen,
+	style,
+	handleDateChange,
+	index = 0,
 }) => {
-  return (
-    <>
-      {/* {isOpen != ? */}
-      {/* <MuiPickersUtilsProvider utils={DateFnsUtils}> */}
-      {/* <KeyboardDatePicker
+	return (
+		<>
+			{/* {isOpen != ? */}
+			{/* <MuiPickersUtilsProvider utils={DateFnsUtils}> */}
+			{/* <KeyboardDatePicker
           disableToolbar
           variant='inline'
           format='MM/dd/yyyy'
@@ -61,9 +61,9 @@ const CustomDatePicker: React.FC<IProps> = ({
             'aria-label': 'change date',
           }}
         /> */}
-      {/* </MuiPickersUtilsProvider> */}
-    </>
-  );
+			{/* </MuiPickersUtilsProvider> */}
+		</>
+	);
 };
 
 export default CustomDatePicker;
