@@ -23,7 +23,7 @@ export const fetchFinanceHistory = ({ url }: Props) => {
 
 export const fetchFinanceCashBack = ({ url }: Props) => {
   const response = partnerApi.get(
-    `/banking/accounts/company/cashback/history/out?${url}`
+    `/banking/accounts/company/cashback/history/new?${url}`
   );
   return response;
 };

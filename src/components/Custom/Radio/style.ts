@@ -17,6 +17,7 @@ export const Container = styled.div`
     font-weight: 500 !important ;
     font-size: 16px !important ;
     color: #223367 !important ;
+    text-transform: capitalize;
   }
   .MuiFormControl-root {
     display: flex !important ;

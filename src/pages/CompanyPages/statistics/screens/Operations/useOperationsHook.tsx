@@ -6,6 +6,7 @@ interface Props {
 }
 
 const useOperationsHook = ({ filterValues }: Props) => {
+  console.log(filterValues);
   const response = useQuery(
     'fetchOperationsInfo',
     () => {
@@ -21,6 +22,7 @@ const useOperationsHook = ({ filterValues }: Props) => {
     }
   );
   const data = response?.data?.data?.data;
+
   return { response, data };
 };
 

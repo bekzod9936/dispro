@@ -82,7 +82,7 @@ const Suggestions = () => {
 
   const handlechangePage = async (e: any) => {
     await setFilterValues({ ...filterValues, page: e });
-    await response.refetch();
+    // await response.refetch();
   };
 
   return (
@@ -106,12 +106,12 @@ const Suggestions = () => {
             <Table columns={columns} data={list} />
           </>
         )}
-        {list.length > 1 ? (
+        {list.length > 0 ? (
           <WrapPag>
             <Info>
-              Показано
+              {t('shown')}
               <span>{between}</span>
-              из <span>{totalCount}</span> операций
+              {t('from1')} <span>{totalCount}</span> {t('operations1')}раций
             </Info>
             <Pagination
               page={filterValues.page}

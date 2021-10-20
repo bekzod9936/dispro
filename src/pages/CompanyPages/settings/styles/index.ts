@@ -22,6 +22,14 @@ interface Props {
   height: number;
 }
 
+interface WProps {
+  width: number;
+}
+
 export const Break = styled.div`
   height: ${({ height }: Props) => `${height}px`};
+`;
+
+export const HBreak = styled.div`
+  width: ${({ width }: WProps) => `${width}px`};
 `;

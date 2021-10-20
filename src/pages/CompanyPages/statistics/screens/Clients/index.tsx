@@ -38,6 +38,7 @@ import {
   WrapInputs,
 } from './style';
 import DatePcker from 'components/Custom/DatePicker';
+import { numberWith } from 'services/utils';
 
 const intialState = {
   startDate: '',
@@ -59,17 +60,33 @@ const Clients = () => {
   const { t } = useTranslation();
   const [genderTypeId, setGenderTypeId] = useState('');
   const [traffic, setTraffic] = useState('');
-  const [status, setStatus] = useState([
-    { Base: false, label: 'Base', name: 'Base' },
-    { Silver: false, label: 'Silver', name: 'Silver' },
-    { Gold: false, label: 'Gold', name: 'Gold' },
-    { Platinum: false, label: 'Platinum', name: 'Platinum' },
-  ]);
+  const [status, setStatus] = useState<any[]>([]);
   const [filterValues, setFilterValues] = useState(intialState);
   const [regDate, setRegDate] = useState(intialReg);
   const [purchase, setPurchase] = useState(intialPur);
   const [allPurchaseSum, setAllPurchaseSum] = useState('');
-  const { response, data } = useClientsHook({ filterValues });
+  const { response, data } = useClientsHook({ filterValues, traffic });
+  const [usedLevel, setUsedLevel] = useState<any[]>([]);
+  const [radioValue, setRadioValue] = useState<any>();
+  useEffect(() => {
+    const newStatus: any = data?.filter?.levels?.map((v: any) => {
+      const check = usedLevel?.find((i: any) => {
+        if (i?.number === v?.number) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+      return {
+        number: v.number,
+        [v.name]: check?.[check?.name],
+        label: v.name,
+        name: v.name,
+      };
+    });
+
+    setStatus(newStatus);
+  }, [data]);
 
   const list = [
     {
@@ -143,6 +160,11 @@ const Clients = () => {
       Icon: <CouponIcon />,
     },
   ];
+
+  useEffect(() => {
+    const arrFilter = status?.filter((i: any) => i?.[i.name] === true);
+    setUsedLevel(arrFilter);
+  }, [status]);
 
   const filterList = [
     {
@@ -254,19 +276,21 @@ const Clients = () => {
         <WrapStatus>
           <Label>{t('chose_status')}</Label>
           <WrapCheck>
-            {status.map((v: any) => (
+            {status?.map((v: any) => (
               <CheckBox
                 key={v.label}
                 label={v.label}
-                checked={v.status}
+                checked={v?.[v?.name]}
+                name={v.name}
                 onChange={(e: any) => {
-                  const arr = status.map((i: any) => {
+                  const arr = status?.map((i: any) => {
                     if (i.name === e.target.name) {
                       return { ...i, [e.target.name]: e.target.checked };
                     } else {
                       return i;
                     }
                   });
+
                   setStatus(arr);
                 }}
               />
@@ -279,14 +303,20 @@ const Clients = () => {
       title: t('traffic_provider'),
       content: (
         <Radio
-          list={[
-            { value: '1', label: 'App' },
-            { value: '2', label: 'Mobile' },
-            { value: '3', label: 'Cashier' },
-          ]}
+          list={data?.filter?.referal?.map((v: any) => {
+            return { value: v.refIds.join(','), label: v.name };
+          })}
           title={t('chose_trafic_provider')}
-          onChange={(v: any) => setTraffic(v)}
-          value={traffic}
+          onChange={(v: any) => {
+            let newS = '';
+            v?.value?.forEach(
+              (v: any, i: any) => (newS = newS + `refIdsB%5B${i + 1}%5D=${v}&`)
+            );
+            setTraffic(newS);
+
+            setRadioValue(v);
+          }}
+          value={radioValue}
         />
       ),
     },
@@ -302,7 +332,7 @@ const Clients = () => {
       allPurchaseSum: allPurchaseSum,
       startDate: startDate,
       endDate: endDate,
-      usedLevelNumber: '',
+      usedLevelNumber: usedLevel?.map((v: any) => v.number).join(','),
     });
     await response.refetch();
   };
@@ -313,9 +343,13 @@ const Clients = () => {
     await setFilterValues(intialState);
     await setRegDate(intialReg);
     await setPurchase(intialPur);
+    await setTraffic('');
     await setAllPurchaseSum('');
+    await setUsedLevel([]);
+    await setRadioValue({});
     await response.refetch();
   };
+
   useEffect(() => {
     handleFilterSubmit({
       startDate: date.startDate,
@@ -368,7 +402,7 @@ const Clients = () => {
 
                 <Content>
                   <Title>{v.title}</Title>
-                  <Value>{v.value}</Value>
+                  <Value>{numberWith(v.value.toString(), ' ')}</Value>
                 </Content>
               </WrapInfo>
             ))}

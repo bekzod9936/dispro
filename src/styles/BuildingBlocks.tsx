@@ -4,6 +4,7 @@ import { IFlex, IGridContainer, IGridItem } from '../services/Types/Style';
 export const Flex = styled.div<IFlex>`
   display: flex;
   position: relative;
+  max-width: ${(props: any) => (props.maxWidth || "none")};
   flex-grow: ${(props: IFlex) => (props.flexGrow ? props.flexGrow : 0)};
   justify-content: ${(props: IFlex) =>
     props.justifyContent ? props.justifyContent : 'space-between'};

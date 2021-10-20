@@ -262,7 +262,7 @@ export const Name = styled.div`
   text-align: center;
   text-overflow: ellipsis;
   overflow: hidden;
-  white-space: nowrap;
+
   max-width: 120px;
   width: 120px;
 `;

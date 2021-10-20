@@ -7,6 +7,7 @@ interface IProps {
 
 export const GridContainer = styled(Grid)`
   /* margin-bottom: 120px; */
+  overflow-y: hidden;
 `;
 
 export const LeftGrid = styled(Grid)`

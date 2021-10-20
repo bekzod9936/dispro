@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Checkbox, Radio, RadioGroup } from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -49,33 +49,6 @@ const DayList = ({ list, onCopy = () => {}, onChange = () => {} }: Props) => {
   const [radio, setRadio] = useState<any>(false);
   const [noon, setNoon] = useState(true);
   const [check, setCheck] = useState(false);
-  const dataAddress: any = useAppSelector(
-    (state) => state.infoSlice.addressInfo
-  );
-  const date: any = useAppSelector((state) => state.infoSlice.workingTime);
-
-  useEffect(() => {
-    let newDate: any;
-    if (noon) {
-      newDate = date?.work.map((v: any) => {
-        return {
-          day: v?.day,
-          dayOff: v?.dayOff,
-          wHours: { from: v?.wHours?.from, to: v?.wHours?.to },
-        };
-      });
-    } else {
-      newDate = date?.work.map((v: any) => {
-        return {
-          day: v?.day,
-          dayOff: v?.dayOff,
-          wHours: { from: v?.wHours?.from, to: v?.wHours?.to },
-          bHours: { from: '', to: '' },
-        };
-      });
-    }
-    dispatch(setWorkingTime(newDate));
-  }, [noon]);
 
   useEffect(() => {
     setValues(list);
@@ -89,7 +62,7 @@ const DayList = ({ list, onCopy = () => {}, onChange = () => {} }: Props) => {
     if (e.target.value === 'dayOff') {
       const value: any = {
         day: values.day,
-        dayOff: e.target.value,
+        dayOff: true,
       };
       onChange(value);
       setRadio(true);
@@ -97,7 +70,7 @@ const DayList = ({ list, onCopy = () => {}, onChange = () => {} }: Props) => {
     if (e.target.value === 'dayOn') {
       const value: any = {
         day: values.day,
-        dayOff: e.target.value,
+        dayOff: false,
       };
       onChange(value);
       setRadio(false);
@@ -326,7 +299,7 @@ const DayList = ({ list, onCopy = () => {}, onChange = () => {} }: Props) => {
           </FormControl>
         </Content>
       </Popover>
-      {values ? (
+      {(values.wHours.from !== '' && values.wHours.to !== '') || radio ? (
         <WorkSign>
           {values.dayOff ? (
             <SunIcon />

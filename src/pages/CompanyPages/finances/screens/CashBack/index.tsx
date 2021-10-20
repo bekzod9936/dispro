@@ -37,7 +37,6 @@ const intialFilter = {
 
 const Payment = () => {
   const { t } = useTranslation();
-  const [date, setDate] = useState({ dateFrom: '', dateTo: '' });
   const [filterValues, setFilterValues] =
     useState<intialFilterProps>(intialFilter);
 
@@ -49,7 +48,7 @@ const Payment = () => {
     const date1 = moment(v.date).format('DD.MM.YYYY');
     const date2 = moment(v.activateDate).format('DD.MM.YYYY');
     return {
-      col1: '-',
+      col1: v.operationType,
       col2: v.clientName,
       col3: v.amount,
       col4: v.amountCommission,
@@ -66,12 +65,12 @@ const Payment = () => {
         accessor: 'col1',
         Cell: (props: any) => (
           <WrapIcon>
-            {props?.value === 'Пополнение депозита' ? (
-              <WalletIcon />
-            ) : (
-              <CashBackIcon />
-            )}
-            {props?.value}
+            {props?.value === 'cashback_account_top_up' ? <WalletIcon /> : null}
+            {props?.value === 'cashback_in' ? <CashBackIcon /> : null}
+            {props?.value === 'cashback_account_top_up'
+              ? t('depositcashbek')
+              : null}
+            {props?.value === 'cashback_in' ? t('cashbackaccrual') : null}
           </WrapIcon>
         ),
       },
@@ -149,12 +148,12 @@ const Payment = () => {
               <Table columns={columns} data={list} />
             </>
           )}
-          {list.length > 1 ? (
+          {list.length > 0 ? (
             <WrapPag>
               <Info>
-                Показано
+                {t('shown')}
                 <span>{between}</span>
-                из <span>{totalCount}</span> операций
+                {t('from1')} <span>{totalCount}</span> {t('operations1')}
               </Info>
               <Pagination
                 page={filterValues.page}

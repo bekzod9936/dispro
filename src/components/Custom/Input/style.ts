@@ -211,31 +211,35 @@ export const Message = styled.div`
   font-size: ${({ labelStyle }: Props) =>
     labelStyle?.fontSize?.laptop
       ? `${labelStyle?.fontSize?.laptop}px`
-      : '16px'} !important;
+      : '14px'} !important;
 
   @media (max-width: ${device.mobile}) {
     font-size: ${({ labelStyle }: Props) =>
       labelStyle?.fontSize?.mobile
         ? `${labelStyle?.fontSize?.mobile}px`
-        : '16px'} !important;
+        : '14px'} !important;
+    margin-top: 3px;
   }
   @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
     font-size: ${({ labelStyle }: Props) =>
       labelStyle?.fontSize?.planshet
         ? `${labelStyle?.fontSize?.planshet}px`
-        : '16px'} !important;
+        : '14px'} !important;
+    margin-top: 3px;
   }
   @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
     font-size: ${({ labelStyle }: Props) =>
       labelStyle?.fontSize?.laptop
         ? `${labelStyle?.fontSize?.laptop}px`
-        : '16px'} !important;
+        : '14px'} !important;
     flex-direction: column;
+    margin-top: 3px;
   }
   @media (min-width: ${device.laptop}) {
     font-size: ${({ labelStyle }: Props) =>
       labelStyle?.fontSize?.desktop
         ? `${labelStyle?.fontSize?.desktop}px`
         : '16px'} !important;
+    margin-top: 5px;
   }
 `;

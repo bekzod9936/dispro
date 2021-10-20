@@ -43,7 +43,7 @@ const NestedArray = ({ index, control, getValues, setValue }: IProps) => {
   const oneFullOptions = [{ value: "and", label: t("and") }];
 
   const removeIcon = (smallIndex: number) => {
-    if (smallIndex && smallIndex !== 0) {
+    if (smallIndex !== 0) {
       return (
         <RippleEffect onClick={() => remove(smallIndex)} padding={0}>
           <IconDiv>
@@ -57,7 +57,7 @@ const NestedArray = ({ index, control, getValues, setValue }: IProps) => {
   };
 
   const addIcon = (smallIndex: number, value: any) => {
-    if (smallIndex && smallIndex === 0 && fields.length < 3) {
+    if (smallIndex === 0 && fields.length < 3) {
       return (
         <RippleEffect
           onClick={() => {
