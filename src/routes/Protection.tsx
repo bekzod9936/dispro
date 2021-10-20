@@ -42,9 +42,7 @@ const InfoPage = lazy(() => import('../pages/CompanyPages/info'));
 const OrdersPage = lazy(
   () => import('../pages/CompanyPages/orders/OrdersPage')
 );
-const ProposalsPage = lazy(
-  () => import('../pages/CompanyPages/proposals')
-);
+const ProposalsPage = lazy(() => import('../pages/CompanyPages/proposals'));
 const SettingsPage = lazy(
   () => import('../pages/CompanyPages/settings/SettingsPage')
 );
@@ -54,9 +52,7 @@ const ServicesPage = lazy(
 const ClientsPage = lazy(
   () => import('../pages/CompanyPages/clients/ClientsPage')
 );
-const FeedbackPage = lazy(
-  () => import('../pages/CompanyPages/feedback/FeedbackPage')
-);
+const FeedbackPage = lazy(() => import('../pages/CompanyPages/feedback'));
 const TestLoginPage = lazy(
   () => import('../pages/LoginPages/LoginPageModerator/TestLoginpage/index')
 );
@@ -150,7 +146,7 @@ const privateCompanyRoutes: IPrivateRoute[] = [
   {
     path: '/proposals/:params',
     layout: DefaultLayoutAdmin,
-    component: ProposalsPage
+    component: ProposalsPage,
   },
   {
     path: '/settings',
@@ -179,6 +175,11 @@ const privateCompanyRoutes: IPrivateRoute[] = [
   },
   {
     path: '/feedback',
+    layout: DefaultLayoutAdmin,
+    component: FeedbackPage,
+  },
+  {
+    path: '/feedback/:params',
     layout: DefaultLayoutAdmin,
     component: FeedbackPage,
   },
