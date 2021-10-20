@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import clientSlice from "./Slices/clientSlice";
 import clientStatistics from "./Slices/clientStatistics";
 import partner from "./Slices/partnerSlice";
-import statistics from "./Slices/statistics";
+import statistics from "./Slices/statistics/statistics";
 import feedbackSlice from "./Slices/FeedbackSlice";
 import authSlice from "./Slices/authSlice";
 import settingsSlice from "./Slices/settingsSlice";

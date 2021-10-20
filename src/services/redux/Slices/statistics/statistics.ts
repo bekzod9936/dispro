@@ -1,39 +1,39 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-export interface Props {
-  ageAvg?: number;
-  allClientParkCards?: number;
-  cashbackSum?: number;
-  chequeAvg?: number;
-  chequeCount?: number;
-  clientCount?: number;
-  couponAmountSum?: number;
-  couponDiscountSum?: number;
-  discountSum?: number;
-  femaleCount?: number;
-  filter?: {
-    gender?: { id?: number; name?: string }[];
-    levels?: { name?: string; number?: number }[];
-    referal?: { name?: string; refIds: number[] }[];
-  };
-  maleCount?: number;
-  paidWithMoney?: number;
-  paidWithPoint?: number;
-  pointSum?: number;
-  uniqueChequeClient?: number;
-}
+import { OffersProps, Props, OperationsProps, TrafficProps } from "./types";
 
 interface statisticsState {
   currentSection: string;
   clientStatistics: Object[] | [];
   operationStatistics: Object[] | [];
   clientStats?: Props;
+  offers: OffersProps[];
+  operations?: OperationsProps;
+  traffics?: TrafficProps[];
 }
 const initialState: statisticsState = {
   currentSection: "clients",
   clientStatistics: [],
   operationStatistics: [],
   clientStats: {},
+  operations: {},
+  offers: [
+    {
+      activeCount: "",
+      expireCount: "",
+      payedCount: "",
+      type: "",
+      usedCount: "",
+    },
+  ],
+  traffics: [
+    {
+      source: "",
+      clientCount: "",
+      clientPayedCount: "",
+      chequeCount: "",
+      receipts: "",
+    },
+  ],
 };
 
 const statisticsSlice = createSlice({
@@ -52,6 +52,15 @@ const statisticsSlice = createSlice({
     setClientStats: (state, action: PayloadAction<Props>) => {
       state.clientStats = action.payload;
     },
+    setOffers: (state, action: PayloadAction<OffersProps[]>) => {
+      state.offers = action.payload;
+    },
+    setOperations: (state, action: PayloadAction<OperationsProps>) => {
+      state.operations = action.payload;
+    },
+    setTraffic: (state, action: PayloadAction<TrafficProps[]>) => {
+      state.traffics = action.payload;
+    },
   },
 });
 
@@ -60,5 +69,8 @@ export const {
   setStatistics,
   setOperationStatistics,
   setClientStats,
+  setOffers,
+  setOperations,
+  setTraffic,
 } = statisticsSlice.actions;
 export default statisticsSlice.reducer;
