@@ -83,7 +83,7 @@ const Main = () => {
     category,
     handlePhotoDelete,
     upload,
-  } = useAbout();
+  } = useAbout({ logo: data.logo });
   const { resHeader } = useLayout();
 
   const history = useHistory();
@@ -400,7 +400,6 @@ const Main = () => {
                         }}
                         effect='blur'
                       />
-
                       <WrapTrash>
                         <TrashIcon />
                       </WrapTrash>

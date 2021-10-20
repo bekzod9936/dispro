@@ -2,10 +2,13 @@ import NavBar from 'components/Custom/NavBar';
 import Title from 'components/Custom/Title';
 import Input from 'components/Custom/Input';
 import Spinner from 'components/Custom/Spinner';
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Route, Switch, useRouteMatch } from 'react-router';
 import useFinanceRoute from './routes';
+import Filter from 'components/Custom/Filter/index';
+import Grade from './components/Grade';
+import feedDef from 'assets/images/feedback.png';
 import {
   MainWrapper,
   WrapHeader,
@@ -14,9 +17,16 @@ import {
   FilterWarp,
   Wrapper,
   RightSide,
+  Rate,
+  RateText,
+  StarIcon,
+  WrapStars,
+  Content,
+  Img,
+  WrapDef,
 } from './style';
-import Filter from 'components/Custom/Filter/index';
-import Grad from './components/Grad';
+import { AnimatePresence, AnimateSharedLayout, motion } from 'framer-motion';
+import User from './components/User';
 
 const FeedBack = () => {
   const { t } = useTranslation();
@@ -27,7 +37,7 @@ const FeedBack = () => {
   const onReset = async () => {};
 
   let match = useRouteMatch();
-  console.log(match);
+
   return (
     <MainWrapper>
       <Wrapper>
@@ -50,6 +60,7 @@ const FeedBack = () => {
                       mobile: 40,
                     },
                   }}
+                  width={{ maxwidth: 280 }}
                   margin={{ laptop: '0 20px 0 0' }}
                   placeholder={t('searchbyclients')}
                 />
@@ -57,11 +68,71 @@ const FeedBack = () => {
               </FilterWarp>
             ) : null}
             <NavBar list={menuItems} margin='10px 0' />
+            {match.url === '/feedback' ? (
+              <Content>
+                <WrapDef>
+                  {/* <Img src={feedDef} alt='feedback' />
+                  {t('feeddef')} */}
+                  <User />
+                  <User />
+                  <User />
+                  <User />
+                  <User />
+                  <User />
+                </WrapDef>
+              </Content>
+            ) : null}
           </LeftHeader>
         </WrapHeader>
+
         {match.url === '/feedback' ? (
           <RightSide>
-            <Grad />
+            <Grade title={t('overallscore')} />
+            <Grade title={t('totalratings')} />
+            <Rate>{t('rate')}</Rate>
+            <WrapStars>
+              {[1, 2, 3, 4, 5].map(() => (
+                <StarIcon />
+              ))}
+              <div>
+                <RateText>&bull; 0% </RateText>
+                <RateText>0 оценок</RateText>
+              </div>
+            </WrapStars>
+            <WrapStars>
+              {[1, 2, 3, 4].map(() => (
+                <StarIcon />
+              ))}
+              <div>
+                <RateText>&bull; 0% </RateText>
+                <RateText>0 оценок</RateText>
+              </div>
+            </WrapStars>
+            <WrapStars>
+              {[1, 2, 3].map(() => (
+                <StarIcon />
+              ))}
+              <div>
+                <RateText>&bull; 0% </RateText>
+                <RateText>0 оценок</RateText>
+              </div>
+            </WrapStars>
+            <WrapStars>
+              {[1, 2].map(() => (
+                <StarIcon />
+              ))}
+              <div>
+                <RateText>&bull; 0% </RateText>
+                <RateText>0 оценок</RateText>
+              </div>
+            </WrapStars>
+            <WrapStars>
+              <StarIcon />
+              <div>
+                <RateText>&bull; 0% </RateText>
+                <RateText>0 оценок</RateText>
+              </div>
+            </WrapStars>
           </RightSide>
         ) : null}
       </Wrapper>
