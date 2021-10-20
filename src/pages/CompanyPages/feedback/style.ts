@@ -60,4 +60,9 @@ export const Wrapper = styled.div`
   height: 100%;
 `;
 
-export const RightSide = styled.div``;
+export const RightSide = styled.div`
+  border-left: 1px solid rgba(96, 110, 234, 0.3);
+  margin-bottom: 20px;
+  width: 25%;
+  padding: 0 40px;
+`;
