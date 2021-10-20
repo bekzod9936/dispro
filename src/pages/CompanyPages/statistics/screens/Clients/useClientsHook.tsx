@@ -1,6 +1,8 @@
-import { useState } from 'react';
-import { useQuery } from 'react-query';
-import { fetchCilentsData } from 'services/queries/StatisticsQueries';
+import { useState } from "react";
+import { useQuery } from "react-query";
+import { fetchCilentsData } from "services/queries/StatisticsQueries";
+import { useAppDispatch } from "services/redux/hooks";
+import { setClientStats } from "services/redux/Slices/statistics";
 
 interface Props {
   filterValues?: any;
@@ -31,22 +33,27 @@ interface Props {
 }
 
 const useClientsHook = ({ filterValues, traffic }: Props) => {
+  const dispatch = useAppDispatch();
   const [data, setData] = useState<Props>({});
   const response = useQuery(
-    'fetchClientsInfo',
+    "fetchClientsInfo",
     () => {
       const url = Object.keys(filterValues)
         .map((v: any) => `${v}=${filterValues[v]}&`)
-        .join('');
+        .join("");
       return fetchCilentsData({ section: `clients?${url}&${traffic}` });
     },
     {
       keepPreviousData: true,
       refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      refetchIntervalInBackground: true,
+      staleTime: 5000,
       retry: 0,
       onSuccess: (data) => {
-        console.log(data.data.data, 'clients');
+        console.log(data.data.data, "clients");
         setData(data.data.data);
+        dispatch(setClientStats(data.data.data));
       },
     }
   );

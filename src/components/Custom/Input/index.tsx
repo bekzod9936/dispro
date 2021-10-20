@@ -109,6 +109,8 @@ const NInput = ({ onChange = () => {}, ...props }: Props) => {
           min: props.min,
           max: props.max,
         }}
+        max={props.max}
+        min={props.min}
         autoComplete={props.autoComplete}
         autoFocus={props.autoFocus}
         defaultValue={props.defaultValue}
@@ -141,6 +143,7 @@ const NInput = ({ onChange = () => {}, ...props }: Props) => {
         onBlur={props.onBlur}
         inputComponent
       />
+
       <Message labelStyle={props.labelStyle}>
         {props.error ? props.message : null}
       </Message>

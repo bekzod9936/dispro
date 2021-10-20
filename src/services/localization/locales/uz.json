@@ -311,5 +311,6 @@
   "when": "Qachon",
   "uzs": "so'm",
   "quantity": "ta",
-  "people": "odam"
+  "people": "odam",
+  "hello_say": "{{count}} ta salom"
 }

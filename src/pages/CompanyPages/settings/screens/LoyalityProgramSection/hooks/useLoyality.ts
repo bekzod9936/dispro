@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { useMutation, useQuery } from "react-query";
+import { useDispatch } from "react-redux";
 import {
   fetchBonusPoints,
   fetchCashback,
   fetchDiscount,
 } from "services/queries/PartnerQueries";
+import { setLoyaltyUse } from "services/redux/Slices/loyalitySlice";
 import { useForm, useFieldArray } from "react-hook-form";
 import {
   changeProgramLoyality,
@@ -12,6 +14,7 @@ import {
   loyalitySaveChange,
   saveUseProgramLoyality,
 } from "services/queries/SettingsQueries";
+import { parseSimpleString } from "services/utils";
 
 export interface FormProps {
   levels?: any;
@@ -42,10 +45,14 @@ const useLoyality = () => {
   });
 
   //program and point USE
+  const dispatch = useDispatch();
+
   const [useProgram, setUseProgram] = useState<boolean>(false);
   const [usePoint, setUsePoint] = useState<boolean>(false);
 
   //program loyality
+  const [onSuccesSave, setOnSuccessSave] = useState(false);
+  const [onErrorSave, setOnErrorSave] = useState(false);
 
   const [refetchCashback, setRefetchCashback] = useState(0);
   const [refetchDiscount, setRefetchDiscount] = useState(0);
@@ -63,6 +70,7 @@ const useLoyality = () => {
     (data: any) => loyalitySaveChange(data, active),
     {
       onSuccess: () => {
+        setOnSuccessSave(true);
         refetch();
         refetchdiscount();
         refetchcashback();
@@ -70,8 +78,34 @@ const useLoyality = () => {
     }
   );
 
+  const checkLevels = (levels: any[]) => {
+    let checked: boolean = true;
+    levels.map((levelItem: any, index: number) => {
+      console.log(levels[index]);
+      if (
+        parseInt(levels[index]?.percent) > parseInt(levels[index + 1]?.percent)
+      ) {
+        setOnErrorSave(true);
+        checked = false;
+        return false;
+      } else {
+        checked = true;
+        // setOnErrorSave(false);
+        return true;
+      }
+    });
+
+    console.log(checked, "checked");
+
+    return checked;
+  };
+
   const onFormSubmit = async (data: FormProps) => {
     console.log(data, "data");
+
+    // if (checkLevels(data.levels) === true) {
+    // } else {
+    // }
     try {
       useProgramSave.mutate({
         useProgram: data.useProgram,
@@ -83,7 +117,20 @@ const useLoyality = () => {
           cashbackReturnedDay: 0,
           description: "",
           isActive: true,
-          levels: data.levels,
+          levels: data.levels.map((item: any) => {
+            return {
+              name: item.name,
+              percent: item.percent,
+              requirements: item.requirements.map((reqItem: any) => {
+                return {
+                  amount: parseSimpleString(reqItem?.amount),
+                  condition: reqItem?.condition,
+                  type: reqItem?.type,
+                  unit: reqItem?.unit,
+                };
+              }),
+            };
+          }),
           maxAmount: data.max_percent,
           name: data.base_name,
           percent: data.base_percent,
@@ -93,7 +140,20 @@ const useLoyality = () => {
           cashbackReturnedDay: data.give_cashback_after || 0,
           description: "",
           isActive: true,
-          levels: data.levels,
+          levels: data.levels.map((item: any) => {
+            return {
+              name: item.name,
+              percent: item.percent,
+              requirements: item.requirements.map((reqItem: any) => {
+                return {
+                  amount: parseSimpleString(reqItem?.amount),
+                  condition: reqItem?.condition,
+                  type: reqItem?.type,
+                  unit: reqItem?.unit,
+                };
+              }),
+            };
+          }),
           maxAmount: data.max_percent,
           name: data.base_name,
           percent: data.base_percent,
@@ -103,7 +163,20 @@ const useLoyality = () => {
           cashbackReturnedDay: 0,
           description: "",
           isActive: true,
-          levels: data.levels,
+          levels: data.levels.map((item: any) => {
+            return {
+              name: item.name,
+              percent: item.percent,
+              requirements: item.requirements.map((reqItem: any) => {
+                return {
+                  amount: parseSimpleString(reqItem?.amount),
+                  condition: reqItem?.condition,
+                  type: reqItem?.type,
+                  unit: reqItem?.unit,
+                };
+              }),
+            };
+          }),
           maxAmount: data.max_percent,
           name: data.base_name,
           percent: data.base_percent,
@@ -123,6 +196,10 @@ const useLoyality = () => {
     {
       retry: 0,
       refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+
+      refetchIntervalInBackground: true,
+      staleTime: 5000,
       onSuccess: (data: any) => {
         if (data?.data?.data?.isActive) {
           setActive("discount");
@@ -142,6 +219,10 @@ const useLoyality = () => {
     {
       retry: 0,
       refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+
+      refetchIntervalInBackground: true,
+      staleTime: 5000,
       onSuccess: (data: any) => {
         if (data?.data?.data?.isActive) {
           setActive("cashback");
@@ -162,6 +243,9 @@ const useLoyality = () => {
     {
       retry: 0,
       refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      refetchIntervalInBackground: true,
+      staleTime: 5000,
       onSuccess: (data: any) => {
         if (data?.data?.data?.isActive) {
           setActive("bonuspoint");
@@ -288,13 +372,17 @@ const useLoyality = () => {
   //using program loyality and balls
 
   useQuery(["programsUse"], fetchProgramSettings, {
-    retry: 0,
     refetchOnWindowFocus: false,
-    cacheTime: 10,
     onSuccess: (data: any) => {
+      console.log(data.data.data, "data");
       setValue("useProgram", data.data.data.useProgram);
       setValue("usePoint", data.data.data.usePoint);
-
+      dispatch(
+        setLoyaltyUse({
+          useProgram: data.data.data.useProgram,
+          usePoint: data.data.data.usePoint,
+        })
+      );
       setUseProgram(data.data.data.useProgram);
       setUsePoint(data.data.data.usePoint);
     },
@@ -339,6 +427,10 @@ const useLoyality = () => {
     refetchcashback,
     onFormSubmit,
     loayalityPut,
+    onSuccesSave,
+    setOnSuccessSave,
+    setOnErrorSave,
+    onErrorSave,
   };
 };
 
