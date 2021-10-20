@@ -35,3 +35,9 @@ export const searchClients = async(queryString: string) => {
   );
   return response;
 };
+
+
+export const changeVipPercent =  async(data: any) => {
+  const response = await partnerApi.put("/bonus/personals", data)
+  return response
+} 

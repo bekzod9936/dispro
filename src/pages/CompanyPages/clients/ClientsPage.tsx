@@ -73,7 +73,8 @@ const ClientsPage = () => {
 					<QrCodeBar setOpenBar={setOpenBar}/>
 				</SideBar>
 				<SideBar isOpen={!!selectedClients.length}>
-					<ClientsBar 
+					<ClientsBar
+						refetch={refetch} 
 						dispatch={dispatch} 
 						selectedClients={selectedClients}/>
 				</SideBar>

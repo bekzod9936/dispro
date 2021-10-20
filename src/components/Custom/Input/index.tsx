@@ -85,6 +85,7 @@ export interface Props {
   onBlur?: () => void;
   min?: string;
   max?: string;
+  register?: any;
 }
 
 const NInput = ({ onChange = () => {}, ...props }: Props) => {
@@ -140,6 +141,7 @@ const NInput = ({ onChange = () => {}, ...props }: Props) => {
         onFocus={props.onFocus}
         onBlur={props.onBlur}
         inputComponent
+        {...props.register}
       />
       <Message labelStyle={props.labelStyle}>
         {props.error ? props.message : null}
