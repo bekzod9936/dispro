@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import { device } from "styles/device"
 
 export const AgeWrapper = styled.div`
     width: 100%;
@@ -102,7 +103,7 @@ export const UploadButton = styled.div`
     align-items: center;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 14px;
-    margin-bottom: 40px;
+    margin-bottom: 10px;
     label {
         font-size: 18px;
         font-weight: 500;
@@ -113,3 +114,46 @@ export const UploadButton = styled.div`
     }
 
 `
+
+export const ErrorMessage = styled.span`
+  font-weight: 300;
+  color: #ff5e68;
+  overflow-wrap: normal;
+  display: flex;
+  margin-top: 5px;
+
+  font-size: ${({ labelStyle }: any) =>
+    labelStyle?.fontSize?.laptop
+      ? `${labelStyle?.fontSize?.laptop}px`
+      : '14px'} !important;
+
+  @media (max-width: ${device.mobile}) {
+    font-size: ${({ labelStyle }: any) =>
+      labelStyle?.fontSize?.mobile
+        ? `${labelStyle?.fontSize?.mobile}px`
+        : '14px'} !important;
+    margin-top: 3px;
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    font-size: ${({ labelStyle }: any) =>
+      labelStyle?.fontSize?.planshet
+        ? `${labelStyle?.fontSize?.planshet}px`
+        : '14px'} !important;
+    margin-top: 3px;
+  }
+  @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
+    font-size: ${({ labelStyle }: any) =>
+      labelStyle?.fontSize?.laptop
+        ? `${labelStyle?.fontSize?.laptop}px`
+        : '14px'} !important;
+    flex-direction: column;
+    margin-top: 3px;
+  }
+  @media (min-width: ${device.laptop}) {
+    font-size: ${({ labelStyle }: any) =>
+      labelStyle?.fontSize?.desktop
+        ? `${labelStyle?.fontSize?.desktop}px`
+        : '16px'} !important;
+    margin-top: 5px;
+  }
+`;

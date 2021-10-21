@@ -1,22 +1,37 @@
-import { Radio, Switch } from '@material-ui/core'
-import { CancelIcon, CoinsIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
-import { DeleteIcon, GoBackIcon, PhoneIcon, PlusIcon, PublishIcon, SaveIcon, UploadImage } from 'assets/icons/proposals/ProposalsIcons'
+import { CancelIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
+import { 
+    DeleteIcon, 
+    GoBackIcon, 
+    PhoneIcon, 
+    PlusIcon, 
+    PublishIcon, 
+    SaveIcon,
+    UploadImage } from 'assets/icons/proposals/ProposalsIcons'
 import Button from 'components/Custom/Button'
 import CustomToggle from 'components/Custom/CustomToggleSwitch'
 import Input from 'components/Custom/Input'
 import MultiSelect from 'components/Custom/MultiSelect'
-import { TextArea } from 'components/Custom/TextArea'
 import Title from 'components/Custom/Title'
-import CropImageModal from 'components/Custom/CropImageModal'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { useMutation } from 'react-query'
 import { useHistory } from 'react-router-dom'
-import { uploadImg } from 'services/queries/ProposalsQueries'
-import { AgeBlock, AgeWrapper, Container, DownSide, Form, Header, LeftSide, RightSide, UploadButton, UpSide, Wrapper } from './style'
+import { 
+    AgeBlock, 
+    AgeWrapper, 
+    Container, 
+    DownSide, 
+    ErrorMessage, 
+    Form, 
+    Header, 
+    LeftSide, 
+    RightSide, 
+    UploadButton, 
+    UpSide, 
+    Wrapper } from './style'
 import { useUploadImage } from './useUploadIMage'
 import CropCustomModal from 'components/Custom/CropImageModal/index'
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 
 interface IOptionFields {
     age: {
@@ -38,6 +53,7 @@ interface IOptionFields {
 
 const Coupons = () => {
     const history = useHistory()
+    const { t } = useTranslation()
     const [image, setImage] = React.useState('')
     const { handleUpload, deleteImage } = useUploadImage(setImage)
     const [file, setFile] = React.useState('')
@@ -59,7 +75,7 @@ const Coupons = () => {
             }
         }
     })
-    const { control, handleSubmit, watch, formState: {errors}} = useForm()
+    const { control, handleSubmit, register, formState: {errors}} = useForm()
     const options = [
         {
             value: "pharmacy",
@@ -71,7 +87,6 @@ const Coupons = () => {
         }
     ]
 
-    // const mutation = useMutation((data: any) => uploadImg(data))
 
     const handleAgeBlock = (e: any, action: "age" | "time" | "days") => {
         setOptionalFields((prev: IOptionFields) => ({
@@ -105,6 +120,7 @@ const Coupons = () => {
     const onSubmit = (data: any) => {
         console.log(data);
     }
+    console.log(errors);
     
 
     return (
@@ -121,15 +137,18 @@ const Coupons = () => {
                     <Container>
                         <LeftSide>
                             <Title>Фотографии</Title>
-                            {!image && <>
+                            {!image && 
+                            <div style={{marginBottom: 30}}>
                             <Header>
                                 <p>Можно загрузить фотографию JPG или PNG, минимальное разрешение 400*400рх, размер не более 3Мбайт.</p>
                             </Header>
                             <UploadButton>
                                 <label htmlFor="uploadImg">Загрузить фото</label>
-                                <input onChange={handleUploadImg} type="file" id="uploadImg" />
+                                <input {...register("image", { required: true})} onChange={handleUploadImg} type="file" id="uploadImg" />
                                 <UploadImage />
-                            </UploadButton></>}
+                            </UploadButton>
+                            {errors.image && <ErrorMessage>{t("requiredField")}</ErrorMessage>}
+                            </div>}
                             {image && 
                                 <ImageBlock>
                                     <img src={image} alt="logo"/>  
@@ -150,17 +169,93 @@ const Coupons = () => {
                                     required: true
                                 }}
                                 render={({field}) => (
-                                    <Input field={field} label="Название"/>
+                                    <Input 
+                                        error={!!errors.name}
+                                        message={t("requiredField")}
+                                        field={field} 
+                                        label="Название"/>
                                 )}
                             />
-                            <Input label="Укажите % купона" margin={{laptop: "25px 0"}}/>
-                            <Input label="Количество" />
-                            <TextArea 
-                                container={{maxWidth: "none", width: "100%"}}
-                                title="Описание" 
-                                textarea={{maxWidth: "none", width: "100%", minHeight: "124px"}}/>
-                            <MultiSelect label="Выберите категорию" options={options} margin={{laptop: "0 0 20px 0"}}/>
-                            <Input label="Цена купона" type="number" margin={{laptop: "25px 0"}}/>
+                            <Controller 
+                                name="percent"
+                                control={control}
+                                rules={{
+                                    required: true
+                                }}
+                                render={({field}) => (
+                                    <Input 
+                                        error={!!errors.percent}
+                                        message={t("requiredField")}
+                                        field={field} 
+                                        label="Укажите % купона" 
+                                        margin={{laptop: "35px 0"}}/>
+                                )}
+                            />
+                            <Controller
+                                name="amount"
+                                control={control}
+                                rules={{
+                                    required: true
+                                }}
+                                render={({field}) => (
+                                    <Input 
+                                        error={!!errors.amount}
+                                        message={t("requiredField")}
+                                        field={field} 
+                                        label="Количество" />
+                                )}
+                            />
+                            <Controller
+                                name="description"
+                                control={control}
+                                rules={{
+                                    required: true
+                                }}
+                                render={({field}) => (
+                                    <Input
+                                        field={field} 
+                                        margin={{laptop: "35px 0"}}
+                                        label="Описание" 
+                                        type="textarea"
+                                        message={t("requiredField")}
+                                        error={!!errors.description}
+                                        multiline={true}
+                                        inputStyle={{height: {desktop: 120, laptop: 90, mobile: 60}}}
+                                        />
+                                )}
+                            />
+                            <Controller 
+                                name="categories"
+                                control={control}
+                                rules={{
+                                    required: true
+                                }}
+                                render={({field}) => (
+                                    <MultiSelect 
+                                        error={!!errors.categories}
+                                        message={t("requiredField")}
+                                        field={field}
+                                        label="Выберите категорию" 
+                                        options={options} 
+                                        margin={{laptop: "0 0 35px 0"}}/>
+                                )}
+                            />
+                            <Controller
+                                name="cost"
+                                control={control}
+                                rules={{
+                                    required: true
+                                }}
+                                render={({field}) => (
+                                    <Input 
+                                        field={field}
+                                        error={!!errors.cost}
+                                        message={t("requiredField")}
+                                        label="Цена купона" 
+                                        type="number" 
+                                        margin={{laptop: "25px 0 35px 0"}}/>
+                                )}
+                            />
                         </LeftSide>
                         <RightSide>
                             <AgeWrapper>
@@ -170,9 +265,17 @@ const Coupons = () => {
                                         onChange={(e: any) => handleAgeBlock(e, "age")} />
                                 </AgeBlock>
                                 {optionalFields.age.isOpen && 
-                                <Input 
-                                    IconStart={<PlusIcon style={{marginLeft: "20px"}}/>} 
-                                    label="Возрастное ограничение"/>}
+                                <Controller
+                                    name="ageLimit"
+                                    control={control}
+                                    render={({field}) => (
+                                        <Input 
+                                            field={field}
+                                            defaultValue={0}
+                                            IconStart={<PlusIcon style={{marginLeft: "20px"}}/>} 
+                                            label="Возрастное ограничение"/>
+                                    )}
+                                />}
                             </AgeWrapper>
                             <AgeWrapper>
                                 <AgeBlock>
