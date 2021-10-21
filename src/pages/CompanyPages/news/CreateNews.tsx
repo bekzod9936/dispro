@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { SaveIcon } from '../../../assets/icons/InfoPageIcons/InfoPageIcons';
 import {
   CustomButton,
@@ -10,31 +11,33 @@ import { AboutSectionWrapper, ScrolableWrapper } from './InfoPageStyes';
 import { Text } from '../../../styles/CustomStyles';
 import { useTranslation } from 'react-i18next';
 import { CancelIcon } from '../../../assets/icons/ClientsPageIcons/ClientIcons';
-import { setStatus } from '../../../services/redux/Slices/clientStatistics';
 import { Flex } from '../../../styles/BuildingBlocks';
 import { Controller, useForm } from 'react-hook-form';
 import CustomInput from '../../../components/Custom/CustomInput';
 import CustomTextArea from './CustomTextArea';
-import CustomSelectInput from '../../../components/Custom/CustomSelectInput';
-import CustomDatePicker from '../../../components/Custom/CustomDatePicker';
 import moment from 'moment';
-import { setDate } from 'date-fns';
+import { min, setDate } from 'date-fns';
 import CustomFileUpload from './CustomFileUpload';
 import Resizer from 'react-image-file-resizer';
 import CustomReusableSelect from '../../../components/Custom/CustomReusableSelect';
 import { COLORS, FONT_SIZE, FONT_WEIGHT } from '../../../services/Types/enums';
 import { Checkbox, InputLabel, makeStyles, TextField } from '@material-ui/core';
 import CustomMulitpleSelect from './CustomMulitpleSelect';
-import { FilialIcon } from '../../../assets/icons/NewsIcons/NewsIcons';
+import { FilialIcon } from 'assets/icons/NewsIcons/NewsIcons';
 import axios from 'axios';
-import { STORAGE_URL } from '../../../services/constants/config';
-import partnerApi from '../../../services/interceptors/companyInterceptor';
+import { STORAGE_URL } from 'services/constants/config';
+import partnerApi from 'services/interceptors/companyInterceptor';
 import { useQuery } from 'react-query';
 import CropImageModal from '../../../components/Custom/CropImageModal';
 import { fetchAddressInfo } from '../../../services/queries/InfoPageQueries';
 import { DeleteIconWhite } from '../../../assets/icons/SettingsIcons/SettingsPageIcon';
 import CustomModal from '../../../components/Custom/CustomModal';
 import CustomToggle from 'components/Custom/CustomToggleSwitch';
+import Title from 'components/Custom/Title';
+import { BackIcon } from '../../../assets/icons/NewsIcons/NewsIcons';
+
+import { WrapInputs, WrapDate, Label } from './style';
+import Input from 'components/Custom/Input';
 
 interface IProps {
   setStatus?: any;
@@ -115,12 +118,22 @@ const resizeFile = (file: any) =>
       400
     );
   });
+
+const intialReg = { regDateFrom: '', regDateTo: '' };
+
 const CreateNews: React.FC<IProps> = ({ setStatus }) => {
+  let today = moment().format('YYYY-MM-DD');
+  const history = useHistory();
   const { t } = useTranslation();
   const companyId: any = localStorage.getItem('companyId');
   const [main, setMain] = useState<any>(null);
   const [imageError, setImageError] = useState<boolean>(false);
-  const { control, handleSubmit, formState: errors } = useForm<IFormState>();
+  const {
+    control,
+    handleSubmit,
+    formState: errors,
+    reset,
+  } = useForm<IFormState>();
   const filialOptions = [
     {
       key: (
@@ -179,6 +192,9 @@ const CreateNews: React.FC<IProps> = ({ setStatus }) => {
   const [timeTo, setTimeTo] = useState<string>('');
   const [hover, setHover] = useState<boolean>(false);
   const [aroundTheClock, setAroundTheClock] = useState<boolean>(false);
+  const [minDate, setMinDate] = useState<string | undefined>(today);
+  const [regDate, setRegDate] = useState(intialReg);
+
   const handleSelectChange = (checked: any, id: number) => {
     if (checked) {
       let copy = [...days];
@@ -203,8 +219,8 @@ const CreateNews: React.FC<IProps> = ({ setStatus }) => {
     setImageError(false);
     let submitingData: IPostDataNews | {} = {
       title: data.title,
-      startLifeTime: fromDate,
-      endLifeTime: toDate,
+      startLifeTime: regDate.regDateFrom,
+      endLifeTime: regDate.regDateTo,
       description: data.description,
       ageFrom: data.ageLimit,
       ageUnlimited: false,
@@ -224,7 +240,6 @@ const CreateNews: React.FC<IProps> = ({ setStatus }) => {
           }
         : {},
     };
-
     try {
       await partnerApi.post('/core/news', submitingData);
       setStatus('');
@@ -239,7 +254,8 @@ const CreateNews: React.FC<IProps> = ({ setStatus }) => {
     const newFile = dataURIToBlob(image);
     //  formData.append('itemId', companyId);
     // formData.append('fileType', 'companyLogo');
-    formData.append('file', newFile);
+    formData.append('file', file);
+
     try {
       const response = await axios.post(
         `${STORAGE_URL}/news/upload`,
@@ -437,140 +453,218 @@ const CreateNews: React.FC<IProps> = ({ setStatus }) => {
     },
   ];
 
+  const intialState = {
+    startDate: '',
+    endDate: '',
+    regDateFrom: '',
+    regDateTo: '',
+  };
+
+  const handleDate = () => {
+    return setMinDate(minDate);
+  };
   return (
-    <div style={{ flexGrow: 1 }}>
-      <AboutSectionWrapper
-        id='scrolable_wrapper'
-        style={{ boxSizing: 'border-box', position: 'relative' }}
+    <>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'flex-start',
+          flexDirection: 'row',
+          alignItems: 'center',
+          marginBottom: '30px',
+        }}
       >
-        <ScrolableWrapper style={{ padding: '30px 40px' }} id='scrollableDiv'>
-          <form>
-            <Flex
-              width='100%'
-              height='70vh'
-              justifyContent='start'
-              alignItems='flex-start'
-              overflowY='scroll'
-            >
+        <div
+          onClick={history.goBack}
+          style={{
+            marginRight: '23.25px',
+          }}
+        >
+          <BackIcon />
+        </div>
+        <Title>{t('addingNews')}</Title>
+      </div>
+
+      <div style={{ flexGrow: 1 }}>
+        <AboutSectionWrapper
+          id='scrolable_wrapper'
+          style={{ boxSizing: 'border-box', position: 'relative' }}
+        >
+          <ScrolableWrapper style={{ padding: '30px 40px' }} id='scrollableDiv'>
+            <form>
               <Flex
-                width='48%'
+                width='100%'
+                height='70vh'
+                justifyContent='start'
                 alignItems='flex-start'
-                flexDirection='column'
-                margin='0px 0px 50px 0px'
+                overflowY='scroll'
               >
-                {!imgLink ? (
-                  <div>
-                    <CustomFileUpload
-                      aboveInput='photos'
-                      aboveLabel='logo_text'
-                      onChange={handlePhotoChange}
-                      label='upload_photo'
-                    />
-
-                    {imageError && (
-                      <Text fontSize='14px' fontWeight={400} color='red'>
-                        {t('imageErrorRequired')}
-                      </Text>
-                    )}
-                  </div>
-                ) : (
-                  <div style={{ position: 'relative' }}>
-                    <div style={{ marginBottom: '15px' }}>
-                      <Text fontWeight={500} fontSize={FONT_SIZE.meduim}>
-                        {t('photos')}
-                      </Text>
-                    </div>
-                    <div
-                      style={{
-                        position: 'absolute',
-                        top: '55%',
-                        left: '50%',
-                        transform: 'translate(-55%, -50%)',
-                        opacity: hover ? 1 : 0,
-                        zIndex: 200,
-                      }}
-                      onClick={deleteImage}
-                      onMouseOver={() => setHover(true)}
-                    >
-                      <DeleteIconWhite />
-                    </div>
-                    <div
-                      onMouseOver={() => setHover(true)}
-                      onMouseOutCapture={() => setHover(false)}
-                      style={{
-                        width: '280px',
-                        height: '170px',
-                        borderRadius: '14px',
-                        objectFit: 'cover',
-                        overflow: 'hidden',
-                        position: 'relative',
-                        filter: hover ? 'brightness(0.6)' : 'brightness(1)',
-                      }}
-                    >
-                      <img
-                        style={{ width: '100%', height: '100%' }}
-                        src={imgLink}
-                        alt=''
+                <Flex
+                  width='48%'
+                  alignItems='flex-start'
+                  flexDirection='column'
+                  margin='0px 0px 50px 0px'
+                >
+                  {!imgLink ? (
+                    <div>
+                      <CustomFileUpload
+                        aboveInput='photos'
+                        aboveLabel='logo_text'
+                        onChange={handlePhotoChange}
+                        label='upload_photo'
                       />
-                    </div>
-                  </div>
-                )}
-                <Controller
-                  control={control}
-                  name='title'
-                  rules={{ required: true }}
-                  render={({ field }) => {
-                    return <CustomInput field={field} label='title' />;
-                  }}
-                />
-                {errors.errors.title?.type === 'required' && (
-                  <Text fontSize='14px' fontWeight={400} color='red'>
-                    {t('requiredField')}
-                  </Text>
-                )}
-                <Controller
-                  control={control}
-                  name='description'
-                  rules={{ required: true }}
-                  render={({ field }) => {
-                    return <CustomTextArea field={field} label='description' />;
-                  }}
-                />
-                {errors.errors.description?.type === 'required' && (
-                  <Text fontSize='14px' fontWeight={400} color='red'>
-                    {t('requiredField')}
-                  </Text>
-                )}
 
-                <Flex width='86%' justifyContent='start' margin='0px'>
-                  <CustomDatePicker
-                    date={fromDate}
-                    prefix={t('from')}
-                    handleDateChange={(date: any) => {
-                      setFromDate(date);
-                    }}
-                  />
-                  <CustomDatePicker
-                    prefix={t('to')}
-                    date={toDate}
-                    handleDateChange={(date: any) => {
-                      setToDate(date);
-                    }}
-                  />
-                </Flex>
-                <div style={{ width: '100%' }}>
+                      {imageError && (
+                        <Text fontSize='14px' fontWeight={400} color='red'>
+                          {t('imageErrorRequired')}
+                        </Text>
+                      )}
+                    </div>
+                  ) : (
+                    <div style={{ position: 'relative' }}>
+                      <div style={{ marginBottom: '15px' }}>
+                        <Text fontWeight={500} fontSize={FONT_SIZE.meduim}>
+                          {t('photos')}
+                        </Text>
+                      </div>
+                      <div
+                        style={{
+                          objectFit: 'cover',
+                          position: 'absolute',
+                          top: '55%',
+                          left: '50%',
+                          transform: 'translate(-55%, -50%)',
+                          opacity: hover ? 1 : 0,
+                          zIndex: 200,
+                        }}
+                        onClick={deleteImage}
+                        onMouseOver={() => setHover(true)}
+                      >
+                        <DeleteIconWhite />
+                      </div>
+                      <div
+                        onMouseOver={() => setHover(true)}
+                        onMouseOutCapture={() => setHover(false)}
+                        style={{
+                          width: '280px',
+                          height: '170px',
+                          borderRadius: '14px',
+                          objectFit: 'cover',
+                          overflow: 'hidden',
+                          position: 'relative',
+                          filter: hover ? 'brightness(0.6)' : 'brightness(1)',
+                        }}
+                      >
+                        <img
+                          style={{
+                            objectFit: 'cover',
+                            width: '100%',
+                            height: '100%',
+                          }}
+                          src={imgLink}
+                          alt=''
+                        />
+                      </div>
+                    </div>
+                  )}
                   <Controller
                     control={control}
-                    name='gender'
+                    name='title'
+                    rules={{ required: true }}
+                    render={({ field }) => {
+                      return <CustomInput field={field} label='title' />;
+                    }}
+                  />
+                  {errors.errors.title?.type === 'required' && (
+                    <Text fontSize='14px' fontWeight={400} color='red'>
+                      {t('requiredField')}
+                    </Text>
+                  )}
+                  <Controller
+                    control={control}
+                    name='description'
                     rules={{ required: true }}
                     render={({ field }) => {
                       return (
-                        <CustomReusableSelect
-                          field={field}
-                          label='chose_gender'
-                          options={options}
-                        />
+                        <CustomTextArea field={field} label='description' />
                       );
+                    }}
+                  />
+                  {errors.errors.description?.type === 'required' && (
+                    <Text fontSize='14px' fontWeight={400} color='red'>
+                      {t('requiredField')}
+                    </Text>
+                  )}
+
+                  <WrapInputs>
+                    <Label>{t('chose_date')}</Label>
+                    <div>
+                      <Input
+                        min={minDate}
+                        type='date'
+                        width={{
+                          maxwidth: 200,
+                        }}
+                        IconStart={<WrapDate>{t('from')}</WrapDate>}
+                        inputStyle={{
+                          inpadding: '0 10px 0 0',
+                        }}
+                        value={regDate.regDateFrom}
+                        onChange={(e: any) => {
+                          setRegDate({
+                            ...regDate,
+                            regDateFrom: e.target.value,
+                          });
+                          setMinDate(e.target.value);
+                        }}
+                      />
+                      <Input
+                        type='date'
+                        min={minDate}
+                        width={{
+                          maxwidth: 200,
+                        }}
+                        margin={{ laptop: '0 0 0 15px' }}
+                        IconStart={<WrapDate>{t('to')}</WrapDate>}
+                        inputStyle={{
+                          inpadding: '0 10px 0 0',
+                        }}
+                        value={regDate.regDateTo}
+                        onChange={(e: any) => {
+                          setRegDate({ ...regDate, regDateTo: e.target.value });
+                          setToDate(e.target.value);
+                        }}
+                      />
+                    </div>
+                  </WrapInputs>
+                  <div style={{ width: '100%' }}>
+                    <Controller
+                      control={control}
+                      name='gender'
+                      rules={{ required: true }}
+                      render={({ field }) => {
+                        return (
+                          <CustomReusableSelect
+                            field={field}
+                            label='chose_gender'
+                            options={options}
+                          />
+                        );
+                      }}
+                    />
+                    {errors.errors.gender?.type === 'required' && (
+                      <Text fontSize='14px' fontWeight={400} color='red'>
+                        {t('requiredField')}
+                      </Text>
+                    )}
+                  </div>
+
+                  <Controller
+                    control={control}
+                    name='ageLimit'
+                    rules={{ required: true }}
+                    render={({ field }) => {
+                      return <CustomInput field={field} label='ageLimit' />;
                     }}
                   />
                   {errors.errors.gender?.type === 'required' && (
@@ -578,176 +672,166 @@ const CreateNews: React.FC<IProps> = ({ setStatus }) => {
                       {t('requiredField')}
                     </Text>
                   )}
-                </div>
-
-                <Controller
-                  control={control}
-                  name='ageLimit'
-                  rules={{ required: true }}
-                  render={({ field }) => {
-                    return <CustomInput field={field} label='ageLimit' />;
-                  }}
-                />
-                {errors.errors.gender?.type === 'required' && (
-                  <Text fontSize='14px' fontWeight={400} color='red'>
-                    {t('requiredField')}
-                  </Text>
-                )}
-              </Flex>
-              <Flex
-                width='48%'
-                justifyContent='start'
-                alignItems='flex-start'
-                margin='0px'
-                flexDirection='column'
-              >
-                <div>
-                  <Text
-                    fontSize={FONT_SIZE.smallPlus}
-                    marginRight='15px'
-                    fontWeight={400}
-                    color='#c4c4c4'
-                  >
-                    {t('turn_on_push')}
-                  </Text>
-                  <CustomToggle
-                    checked={usePushNotificationsState}
-                    onChange={(e: any, checked: any) => {
-                      handleUsePush(checked);
-                    }}
-                  />
-                </div>
-                {usePushNotificationsState && (
-                  <>
-                    <Controller
-                      control={control}
-                      name='text_push'
-                      render={({ field }) => {
-                        return (
-                          <CustomTextArea field={field} label='text_push' />
-                        );
+                </Flex>
+                <Flex
+                  width='48%'
+                  justifyContent='start'
+                  alignItems='flex-start'
+                  margin='0px'
+                  flexDirection='column'
+                >
+                  <div>
+                    <Text
+                      fontSize={FONT_SIZE.smallPlus}
+                      marginRight='15px'
+                      fontWeight={400}
+                      color='#c4c4c4'
+                    >
+                      {t('turn_on_push')}
+                    </Text>
+                    <CustomToggle
+                      checked={usePushNotificationsState}
+                      onChange={(e: any, checked: any) => {
+                        handleUsePush(checked);
                       }}
                     />
-                    <CustomMulitpleSelect
-                      nodeType
-                      setValues={setDays}
-                      values={days}
-                      options={weekDays}
-                      label='Укажите дни'
-                    />
+                  </div>
+                  {usePushNotificationsState && (
+                    <>
+                      <Controller
+                        control={control}
+                        name='text_push'
+                        render={({ field }) => {
+                          return (
+                            <CustomTextArea field={field} label='text_push' />
+                          );
+                        }}
+                      />
+                      <CustomMulitpleSelect
+                        nodeType
+                        setValues={setDays}
+                        values={days}
+                        options={weekDays}
+                        label='Укажите дни'
+                      />
 
-                    <div style={{ marginTop: '20px', width: '100%' }}>
-                      <div style={{ marginTop: '15px', marginBottom: '15px' }}>
-                        <Text fontSize={FONT_SIZE.meduim} color='#c4c4c4'>
-                          {t('point_out_time')}
-                        </Text>
+                      <div style={{ marginTop: '20px', width: '100%' }}>
+                        <div
+                          style={{ marginTop: '15px', marginBottom: '15px' }}
+                        >
+                          <Text fontSize={FONT_SIZE.meduim} color='#c4c4c4'>
+                            {t('point_out_time')}
+                          </Text>
+                        </div>
+                        <div>
+                          <TextField
+                            type='time'
+                            className={classes.timepicker}
+                            InputProps={{
+                              disableUnderline: true,
+                            }}
+                            onChange={(e) => setTimeFrom(e.target.value)}
+                            variant='standard'
+                            value={timeFrom}
+                          />
+                          <TextField
+                            type='time'
+                            variant='standard'
+                            inputProps={{
+                              classes: classes,
+                            }}
+                            onChange={(e) => setTimeTo(e.target.value)}
+                            InputProps={{
+                              disableUnderline: true,
+                            }}
+                            className={classes.timepicker}
+                            value={timeTo}
+                          />
+                        </div>
+                        <div style={{ marginTop: '20px' }}>
+                          <Checkbox />
+                          <Text fontSize={FONT_SIZE.smallPlus}>
+                            {t('24/7')}
+                          </Text>
+                        </div>
+                        <div style={{ marginTop: '20px' }}>
+                          <Controller
+                            control={control}
+                            name='filials'
+                            render={({ field }) => {
+                              return (
+                                <CustomReusableSelect
+                                  field={field}
+                                  defaultValue={1}
+                                  fillColor='rgba(96, 110, 234,0.1)'
+                                  label=''
+                                  options={filials}
+                                />
+                              );
+                            }}
+                          />
+                        </div>
                       </div>
-                      <div>
-                        <TextField
-                          type='time'
-                          className={classes.timepicker}
-                          InputProps={{
-                            disableUnderline: true,
-                          }}
-                          onChange={(e) => setTimeFrom(e.target.value)}
-                          variant='standard'
-                          value={timeFrom}
-                        />
-                        <TextField
-                          type='time'
-                          variant='standard'
-                          inputProps={{
-                            classes: classes,
-                          }}
-                          onChange={(e) => setTimeTo(e.target.value)}
-                          InputProps={{
-                            disableUnderline: true,
-                          }}
-                          className={classes.timepicker}
-                          value={timeTo}
-                        />
-                      </div>
-                      <div style={{ marginTop: '20px' }}>
-                        <Checkbox />
-                        <Text fontSize={FONT_SIZE.smallPlus}>{t('24/7')}</Text>
-                      </div>
-                      <div style={{ marginTop: '20px' }}>
-                        <Controller
-                          control={control}
-                          name='filials'
-                          render={({ field }) => {
-                            return (
-                              <CustomReusableSelect
-                                field={field}
-                                defaultValue={1}
-                                fillColor='rgba(96, 110, 234,0.1)'
-                                label=''
-                                options={filials}
-                              />
-                            );
-                          }}
-                        />
-                      </div>
-                    </div>
-                  </>
-                )}
+                    </>
+                  )}
 
-                {/* {<CropImageModal src={file} setIsCropModalVisible={setIsCropModalIsVisible} isCropModalVisible={isCropModalVisible} setOuterLink={setImgLink} />} */}
+                  {/* {<CropImageModal src={file} setIsCropModalVisible={setIsCropModalIsVisible} isCropModalVisible={isCropModalVisible} setOuterLink={setImgLink} />} */}
+                </Flex>
               </Flex>
-            </Flex>
-          </form>
-        </ScrolableWrapper>
-        <div
-          className='areaforsavebutton'
-          style={{
-            position: 'fixed',
-            bottom: '-0px',
-            background: 'white',
-            width: +reusableWidth + 40 + 'px',
-            display: 'flex',
-            justifyContent: 'center',
-            margin: '0px',
-            boxSizing: 'border-box',
-            padding: '0px 20px',
-          }}
-        >
+            </form>
+          </ScrolableWrapper>
           <div
+            className='areaforsavebutton'
             style={{
-              width: `${reusableWidth}px`,
-              minWidth: `${reusableWidth}px`,
-              maxWidth: `${reusableWidth}px`,
-              display: 'flex',
-              borderTop: '1px solid #c4c4c4',
-              padding: '20px 0px',
-              boxSizing: 'border-box',
+              position: 'fixed',
+              bottom: '-0px',
               background: 'white',
+              width: +reusableWidth + 40 + 'px',
+              display: 'flex',
+              justifyContent: 'center',
+              margin: '0px',
+              boxSizing: 'border-box',
+              padding: '0px 20px',
             }}
           >
-            <CustomButton
-              disabled={imgLink ? true : false}
-              background='white'
-              onClick={() => {
-                setStatus('');
+            <div
+              style={{
+                width: `${reusableWidth}px`,
+                minWidth: `${reusableWidth}px`,
+                maxWidth: `${reusableWidth}px`,
+                display: 'flex',
+                borderTop: '1px solid #c4c4c4',
+                padding: '20px 0px',
+                boxSizing: 'border-box',
+                background: 'white',
               }}
             >
-              <CancelIcon />
-              <Text marginLeft='15px'>{t('cancel')} </Text>
-            </CustomButton>
-            <CustomButton
-              onClick={() => {
-                handleSubmit(onFormSubmit)();
-              }}
-              style={{ marginLeft: '10px' }}
-            >
-              <SaveIcon />
-              <Text marginLeft='15px' color='white'>
-                {t('save')}{' '}
-              </Text>
-            </CustomButton>
+              <CustomButton
+                disabled={imgLink ? true : false}
+                background='white'
+                onClick={() => {
+                  setStatus('');
+                }}
+              >
+                <CancelIcon />
+                <Text marginLeft='15px'>{t('cancel')} </Text>
+              </CustomButton>
+              <CustomButton
+                onClick={() => {
+                  handleSubmit(onFormSubmit)();
+                }}
+                style={{ marginLeft: '10px' }}
+              >
+                <SaveIcon />
+                <Text marginLeft='15px' color='white'>
+                  {t('save')}{' '}
+                </Text>
+              </CustomButton>
+            </div>
           </div>
-        </div>
-      </AboutSectionWrapper>
-    </div>
+        </AboutSectionWrapper>
+      </div>
+    </>
   );
 };
 
