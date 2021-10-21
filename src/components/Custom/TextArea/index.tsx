@@ -8,11 +8,11 @@ interface IProps {
     onChange?: any,
     value?: string | number
     title: string,
-    
+    field?: any
 }
 
 
-export const TextArea = ({textarea, label, value, onChange, title, container}: IProps) => {
+export const TextArea = ({textarea, label, value, onChange, title, container, field}: IProps) => {
     const textareaRef = React.useRef<HTMLTextAreaElement | any>(null)
     const handleFocus = () => {
         textareaRef.current.focus()
@@ -21,7 +21,7 @@ export const TextArea = ({textarea, label, value, onChange, title, container}: I
     return (
         <Wrapper {...container}>
             <Label {...label} onClick={handleFocus}>{title}</Label>
-            <MTextArea value={value} onChange={onChange} ref={textareaRef} {...textarea}>
+            <MTextArea {...field} value={value} onChange={onChange} ref={textareaRef} {...textarea}>
                 
             </MTextArea>
         </Wrapper>

@@ -67,7 +67,7 @@ export const Container = styled.div`
       padding: ${({ padding }: Props) =>
         padding?.laptop ? padding?.laptop : "0 20px"} !important;
     }
-  }
+  } 
   @media (min-width: ${device.laptop}) {
     height: ${({ buttonStyle }: Props) =>
       buttonStyle?.height?.desktop

@@ -13,7 +13,11 @@ interface Props {
   label?: string;
 }
 
-const useAbout = () => {
+interface IProps {
+  logo?: string;
+}
+
+const useAbout = ({ logo }: IProps) => {
   const [category, setCategory] = useState<Props[]>([]);
   const [upload, setUpload] = useState<string>();
   const resCategory = useQuery('categories123', fetchCategories, {
@@ -85,7 +89,7 @@ const useAbout = () => {
   const resDelete = useMutation(() => {
     setUpload('');
     resUpLoad.reset();
-    return deletePhoto({ body: '' });
+    return deletePhoto({ body: logo });
   });
 
   const handlePhotoDelete = () => {

@@ -36,6 +36,7 @@ const NotificationsPage = lazy(
   () => import('../pages/CompanyPages/notifications')
 );
 const NewsPage = lazy(() => import('../pages/CompanyPages/news/NewsPage'));
+
 const FinancePage = lazy(() => import('../pages/CompanyPages/finances'));
 const InfoPage = lazy(() => import('../pages/CompanyPages/info'));
 const OrdersPage = lazy(
@@ -109,6 +110,11 @@ const privateCompanyRoutes: IPrivateRoute[] = [
   },
   {
     path: '/news',
+    layout: DefaultLayoutAdmin,
+    component: NewsPage,
+  },
+  {
+    path: '/news/:params',
     layout: DefaultLayoutAdmin,
     component: NewsPage,
   },

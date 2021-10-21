@@ -67,7 +67,10 @@ const Clients = () => {
   const [regDate, setRegDate] = useState(intialReg);
   const [purchase, setPurchase] = useState(intialPur);
   const [allPurchaseSum, setAllPurchaseSum] = useState("");
-  const { response } = useClientsHook({ filterValues, traffic });
+  const { response, isFetching, setIsFetching } = useClientsHook({
+    filterValues,
+    traffic,
+  });
   const [usedLevel, setUsedLevel] = useState<any[]>([]);
   const [radioValue, setRadioValue] = useState<any>();
 
@@ -361,17 +364,18 @@ const Clients = () => {
       endDate: date.endDate,
     });
   }, [date]);
-
+  console.log(isFetching, "holat");
   return (
     <MainWrapper>
       <WrapFilter>
         <Filter
-          onSubmit={() =>
+          onSubmit={() => {
+            setIsFetching(true);
             handleFilterSubmit({
               startDate: date.startDate,
               endDate: date.endDate,
-            })
-          }
+            });
+          }}
           onReset={onReset}
           list={filterList}
         />
@@ -397,7 +401,7 @@ const Clients = () => {
         />
       </WrapFilter>
       <Container>
-        {response.isLoading ? (
+        {response.isLoading || isFetching ? (
           <Spinner />
         ) : (
           <Wrapper>
