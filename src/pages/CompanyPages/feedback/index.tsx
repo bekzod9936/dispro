@@ -73,28 +73,18 @@ const FeedBack = () => {
                 <WrapDef>
                   {/* <Img src={feedDef} alt='feedback' />
                   {t('feeddef')} */}
-                  <AnimateSharedLayout type='crossfade'>
-                    <motion.div layoutId='1' onClick={() => setState('1')}>
-                      <User />
-                    </motion.div>
-                    <User />
-                    <User />
-                    <User />
-                    <User />
-                    <User />
-                    <AnimatePresence>
-                      {state === '1' ? (
-                        <motion.div layoutId='1'>
-                          <User />
-                        </motion.div>
-                      ) : null}
-                      <User />
-                      <User />
-                      <User />
-                      <User />
-                      <User />
-                    </AnimatePresence>
-                  </AnimateSharedLayout>
+                  <User />
+                  <User />
+                  <User />
+                  <User />
+                  <User />
+                  <User />
+                  <User />
+                  <User />
+                  <User />
+                  <User />
+                  <User />
+                  <User />
                 </WrapDef>
               </Content>
             ) : null}

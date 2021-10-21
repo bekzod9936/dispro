@@ -23,6 +23,7 @@ export const Container = styled.div`
   box-shadow: 0px 12px 16px rgba(13, 19, 36, 0.08);
   border-radius: 14px;
   padding: 20px;
+  cursor: pointer;
 `;
 
 export const Header = styled.div`

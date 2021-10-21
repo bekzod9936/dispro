@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { useQuery } from "react-query";
-import { fetchCilentsData } from "services/queries/StatisticsQueries";
-import { useAppDispatch } from "services/redux/hooks";
-import { setClientStats } from "services/redux/Slices/statistics/statistics";
+import { useState } from 'react';
+import { useQuery } from 'react-query';
+import { fetchCilentsData } from 'services/queries/StatisticsQueries';
+import { useAppDispatch } from 'services/redux/hooks';
+import { setClientStats } from 'services/redux/Slices/statistics/statistics';
 
 interface Props {
   filterValues?: any;
@@ -35,29 +35,30 @@ interface Props {
 const useClientsHook = ({ filterValues, traffic }: Props) => {
   const dispatch = useAppDispatch();
   const [data, setData] = useState<Props>({});
+  const [isFetching, setIsFetching] = useState(false);
   const response = useQuery(
-    "fetchClientsInfo",
+    'fetchClientsInfo',
     () => {
       const url = Object.keys(filterValues)
         .map((v: any) => `${v}=${filterValues[v]}&`)
-        .join("");
+        .join('');
       return fetchCilentsData({ section: `clients?${url}&${traffic}` });
     },
     {
       keepPreviousData: true,
       refetchOnWindowFocus: false,
-      refetchOnReconnect: false,
       refetchIntervalInBackground: true,
-      staleTime: 5000,
+      staleTime: 2500000,
       retry: 0,
       onSuccess: (data) => {
         setData(data.data.data);
         dispatch(setClientStats(data.data.data));
+        setIsFetching(false);
       },
     }
   );
 
-  return { response, data };
+  return { response, data, isFetching, setIsFetching };
 };
 
 export default useClientsHook;
