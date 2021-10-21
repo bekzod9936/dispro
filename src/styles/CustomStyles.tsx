@@ -57,15 +57,17 @@ export const SideBarMenuItem = styled.div<ISidebarMenuItem>`
 `;
 
 export const Text = styled.span<IText>`
-  font-size: ${(props: IText) => (props.fontSize ? props.fontSize : "16px")};
+  font-size: ${(props: IText) =>
+    props.fontSize ? props.fontSize : "16px"} !important;
   font-family: ${(props: IText) =>
     props.fontFamily ? props.fontFamily : "Roboto"};
   margin-right: ${(props: IText) =>
     props.marginRight ? props.marginRight : "0px"};
   color: ${(props: IText) => props.color || "#223367"};
   //position: relative;
-  margin-left: ${(props: IText) =>
-    props.marginLeft ? props.marginLeft : "0px"};
+  margin-left: ${(props: IText) => (props.marginLeft ? props.marginLeft : "0")};
+  margin-bottom: ${(props: IText) =>
+    props.marginBottom ? props.marginBottom : "0"};
   font-weight: ${(props: IText) => (props.fontWeight ? props.fontWeight : 700)};
 
   @media (max-width: ${device.mobile}) {
@@ -264,6 +266,9 @@ export const ModalComponent = styled.div`
   height: ${(props: ICustomModal) => props.height || "auto"};
   box-sizing: border-box;
   align-items: flex-start;
+  max-width: 500px;
+  min-width: 200px;
+  position: relative;
 `;
 export const Panel = styled.div`
   padding: 15px;

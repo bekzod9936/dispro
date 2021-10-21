@@ -82,3 +82,43 @@ export const Form = styled.form`
   flex-direction: column;
   flex: 1;
 `;
+
+export const ModalTitle = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const ModalBody = styled.div`
+  text-align: left;
+  margin-top: 20px;
+  margin-bottom: 15px;
+`;
+
+export const LoyalDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 25px;
+
+  span.MuiTypography-body1 {
+    font-weight: normal !important;
+    font-size: 14px !important;
+    color: #223367 !important;
+    text-transform: none;
+  }
+`;
+
+export const BtnContainer = styled.div`
+  display: flex;
+  margin-top: 20px;
+  justify-content: flex-end;
+  width: 100%;
+  align-items: center;
+`;
+
+export const CloseBtn = styled.div`
+  position: absolute;
+  top: 10;
+  right: 10;
+`;

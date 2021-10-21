@@ -5,7 +5,7 @@ import partner from "./Slices/partnerSlice";
 import statistics from "./Slices/statistics/statistics";
 import feedbackSlice from "./Slices/FeedbackSlice";
 import authSlice from "./Slices/authSlice";
-import settingsSlice from "./Slices/settingsSlice";
+import settingsSlice from "./Slices/settingsSlice/index";
 import infoSlice from "./Slices/infoSlice";
 import loyalitySlice from "./Slices/loyalitySlice";
 

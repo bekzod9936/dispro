@@ -70,6 +70,7 @@ const Clients = () => {
   const { response } = useClientsHook({ filterValues, traffic });
   const [usedLevel, setUsedLevel] = useState<any[]>([]);
   const [radioValue, setRadioValue] = useState<any>();
+
   useEffect(() => {
     const newStatus: any = data?.filter?.levels?.map((v: any) => {
       const check = usedLevel?.find((i: any) => {
@@ -173,6 +174,7 @@ const Clients = () => {
       title: t("gender"),
       content: (
         <Radio
+          flexDirection="row"
           list={[
             { value: "1", label: `${t("male")}` },
             { value: "2", label: `${t("female")}` },
@@ -305,6 +307,7 @@ const Clients = () => {
       title: t("traffic_provider"),
       content: (
         <Radio
+          flexDirection="row"
           list={data?.filter?.referal?.map((v: any) => {
             return { value: v.refIds.join(","), label: v.name };
           })}

@@ -379,5 +379,9 @@
   "hello_say": "Привет {{count}}",
   "searchbyclients": "Поиск по клиентам",
   "overallscore": "Общая оценка компании",
-  "nobodydidnotevaluate": "Вашу компанию еще никто не оценивал"
+  "nobodydidnotevaluate": "Вашу компанию еще никто не оценивал",
+  "fields_not_filled": "Поля не заполнены",
+  "percentage_in": "Процент в",
+  "must_be_more_than": "должен быть больше чем",
+  "count": "Количество"
 }

@@ -1,4 +1,4 @@
-import { Grid } from "@material-ui/core";
+import { Grid, IconButton } from "@material-ui/core";
 import { switchItems } from "./constants";
 import Input from "components/Custom/Input";
 import { useState } from "react";
@@ -11,8 +11,8 @@ import { SaveIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
 import { AddIconSettings } from "assets/icons/SettingsIcons/SettingsPageIcon";
 import { ReactComponent as RemoveIconSettings } from "assets/icons/delete_level.svg";
 import { ReactComponent as PercentIcon } from "assets/icons/percent_icon.svg";
+import { ReactComponent as Close } from "assets/icons/IconsInfo/close.svg";
 import { FONT_SIZE, FONT_WEIGHT } from "services/Types/enums";
-import CustomModal from "components/Custom/CustomModal";
 import { SyncIcon } from "assets/icons/FeedBackIcons.tsx/FeedbackIcons";
 import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import CustomToggle from "components/Custom/CustomToggleSwitch";
@@ -30,6 +30,11 @@ import {
   HeaderGrid,
   PercentDiv,
   Form,
+  ModalTitle,
+  ModalBody,
+  LoyalDiv,
+  BtnContainer,
+  CloseBtn,
 } from "./styles";
 import Spinner from "components/Helpers/Spinner";
 import Button from "components/Custom/Button";
@@ -38,6 +43,8 @@ import NotifySnack from "components/Custom/Snackbar";
 import { useAppSelector } from "services/redux/hooks";
 import MFormatInput from "components/Custom/MoneyInput";
 import { numberWith } from "services/utils";
+import Modal from "components/Custom/Modal";
+import Radio from "components/Custom/Radio";
 
 const LoyaltyProgramSection = () => {
   const { t } = useTranslation();
@@ -54,8 +61,6 @@ const LoyaltyProgramSection = () => {
     isLoading,
     cashbackLoading,
     discountLoading,
-    // useProgram,
-    // usePoint,
     loayalityChange,
     onFormSubmit,
     loayalityPut,
@@ -63,9 +68,12 @@ const LoyaltyProgramSection = () => {
     setOnSuccessSave,
     onErrorSave,
     setOnErrorSave,
-    basePercent,
     errors,
+    alertName,
+    checkL,
+    setCheckL,
   } = useLoyality();
+  const base_loyality = useAppSelector((state) => state.settings.base_loyality);
   const usePoint: boolean = useAppSelector(
     (state) => state.loyalitySlice.usePoint
   );
@@ -73,6 +81,7 @@ const LoyaltyProgramSection = () => {
     (state) => state.loyalitySlice.useProgram
   );
 
+  const [modified, setModified] = useState("0");
   const [assertModalVisible, setAssertModalVisible] = useState<boolean>(false);
   const [switchKey, setSwitchKey] = useState("discount");
 
@@ -178,18 +187,14 @@ const LoyaltyProgramSection = () => {
                       max: 100,
                       min: 0,
                     }}
-                    defaultValue={numberWith(basePercent, " ")}
+                    defaultValue={base_loyality?.base_percent}
                     control={control}
                     render={({ field }) => (
                       <MFormatInput
                         label={""}
                         type="string"
-                        defaultValue={numberWith(basePercent, " ")}
-                        {...field}
-                        value={field?.value?.textmask}
-                        onChange={(e) => {
-                          field.onChange(e.target.value);
-                        }}
+                        defaultValue={base_loyality?.base_percent}
+                        field={field}
                         maxLength={3}
                         width={{
                           width: "106px",
@@ -461,10 +466,12 @@ const LoyaltyProgramSection = () => {
                     rules={{
                       required: true,
                     }}
+                    defaultValue={base_loyality?.max_percent}
                     render={({ field }) => {
                       return (
                         <MFormatInput
                           label={t("max_percent")}
+                          defaultValue={base_loyality?.max_percent}
                           type="string"
                           {...field}
                           value={field.value}
@@ -485,11 +492,15 @@ const LoyaltyProgramSection = () => {
                           rules={{
                             required: true,
                           }}
+                          defaultValue={base_loyality?.give_cashback_after}
                           render={({ field }) => {
                             return (
                               <MFormatInput
                                 field={field}
                                 label={t("give_cashback_after")}
+                                defaultValue={
+                                  base_loyality?.give_cashback_after
+                                }
                                 error={
                                   errors.give_cashback_after?.type ===
                                   "required"
@@ -559,34 +570,51 @@ const LoyaltyProgramSection = () => {
           <Spinner />
         )}
 
-        <CustomModal open={assertModalVisible}>
+        <Modal open={assertModalVisible}>
           <ModalComponent>
-            <div style={{ maxWidth: "370px" }}>
-              <Text
-                fontSize={FONT_SIZE.modalTitle}
-                fontWeight={FONT_WEIGHT.modalTitle}
-              >
-                Вы действительно хотите поменять программу лояльности?
+            <ModalTitle>
+              <Text fontSize={FONT_SIZE.large} fontWeight={FONT_WEIGHT.bold}>
+                Выберите тип замены программы лояльности?
               </Text>
-            </div>
-            <div style={{ maxWidth: "370px" }}>
+
+              <IconButton
+                onClick={() => {
+                  setAssertModalVisible(false);
+                }}
+              >
+                <Close />
+              </IconButton>
+            </ModalTitle>
+            <ModalBody>
               <Text
-                fontSize={FONT_SIZE.modalText}
+                fontSize={FONT_SIZE.mediumPlus}
                 fontWeight={FONT_WEIGHT.modalText}
+                marginBottom={"25px"}
               >
-                При изменении программы лояльности статусы ваших клиентов
-                обнулятся, что может привести к негативной реакции.
+                При изменении программы лояльности Вы можете обнулить статусы
+                ваших клиентов или заменить программу лояльности, сохранив
+                статусы клиентов.
               </Text>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                marginTop: "20px",
-                justifyContent: "flex-end",
-                width: "100%",
-                alignItems: "center",
-              }}
-            >
+              <LoyalDiv>
+                <Radio
+                  flexDirection="column"
+                  list={[
+                    {
+                      value: "1",
+                      label: `Обнулить статусы клиентов при замене лояльности`,
+                    },
+                    {
+                      value: "2",
+                      label: `Сохранить статусы клиентов при замене лояльности`,
+                    },
+                  ]}
+                  title={""}
+                  onChange={(v: any) => setModified(v)}
+                  value={modified}
+                />
+              </LoyalDiv>
+            </ModalBody>
+            <BtnContainer>
               <RippleEffect>
                 <CustomButton
                   background="white"
@@ -611,10 +639,20 @@ const LoyaltyProgramSection = () => {
               >
                 <Text color="white">{t("change")}</Text>
               </Button>
-            </div>
+            </BtnContainer>
           </ModalComponent>
-        </CustomModal>
+        </Modal>
       </Grid>
+      <NotifySnack
+        open={checkL}
+        error={true}
+        vertical="bottom"
+        horizontal="right"
+        message={alertName}
+        handleClose={() => {
+          setCheckL(false);
+        }}
+      />
       <NotifySnack
         open={onSuccesSave}
         vertical="top"

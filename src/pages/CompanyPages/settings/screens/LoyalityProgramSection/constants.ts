@@ -24,3 +24,24 @@ export const switchItems = [
     key: "bonuspoint",
   },
 ];
+
+export const levelReqs = [
+  {
+    forCashier: "Сумма операции",
+    id: 1,
+    name: "Сумма покупок",
+    unit: "UZS",
+  },
+  {
+    forCashier: "Рекомендации",
+    id: 2,
+    name: "Рекомендации",
+    unit: "шт",
+  },
+  {
+    forCashier: "Операции",
+    id: 3,
+    name: "Посещений компаний",
+    unit: "шт",
+  },
+];

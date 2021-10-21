@@ -80,7 +80,7 @@ export const normalInteger = (str: string, max?: number) => {
 };
 
 export const parseSimpleString = (str: string) => {
-  let parsed: string = str.split(" ").join("");
+  let parsed: string = str?.split(" ")?.join("");
 
   return parsed;
 };
