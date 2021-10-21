@@ -36,6 +36,7 @@ import { useMutation } from 'react-query'
 import { postCoupon, putCoupon } from 'services/queries/ProposalsQueries'
 import Modal from 'components/Custom/Modal'
 import { SetDate } from './components/SetDate'
+import { categories, days } from './constants'
 
 interface IOptionFields {
     age: boolean,
@@ -108,16 +109,7 @@ const Coupons = () => {
         }
     })
     const { control, handleSubmit, register, formState: {errors}} = useForm()
-    const options = [
-        {
-            value: "pharmacy",
-            label: "Аптека"
-        }, 
-        {
-            value: "carwash",
-            label: "Автомойка"
-        }
-    ]
+    
 
     React.useEffect(() => {
         const isCoupon = history.location.pathname.includes("coupon")
@@ -294,11 +286,12 @@ const Coupons = () => {
                                 }}
                                 render={({field}) => (
                                     <MultiSelect 
+                                        isMulti={true}
                                         error={!!errors.categories}
                                         message={t("requiredField")}
                                         field={field}
                                         label="Выберите категорию" 
-                                        options={options} 
+                                        options={categories} 
                                         margin={{laptop: "0 0 35px 0"}}/>
                                 )}
                             />
@@ -346,7 +339,9 @@ const Coupons = () => {
                                         onChange={(e: any) => handleOpenBlock(e, "days")} />
                                 </AgeBlock>
                                 {optionalFields.days && 
-                                <MultiSelect 
+                                <MultiSelect
+                                    isMulti={true}
+                                    options={days}
                                     label="Укажите дни"/>}
                             </AgeWrapper>
                             <AgeWrapper>
