@@ -23,6 +23,7 @@ import {
     ErrorMessage, 
     Form, 
     Header, 
+    ImageBlock, 
     LeftSide, 
     RightSide, 
     UploadButton, 
@@ -30,49 +31,80 @@ import {
     Wrapper } from './style'
 import { useUploadImage } from './useUploadIMage'
 import CropCustomModal from 'components/Custom/CropImageModal/index'
-import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
+import { useMutation } from 'react-query'
+import { postCoupon, putCoupon } from 'services/queries/ProposalsQueries'
+import Modal from 'components/Custom/Modal'
+import { SetDate } from './components/SetDate'
 
 interface IOptionFields {
-    age: {
-        isOpen: boolean,
-        value: number | string
-    },
-    days: {
-        isOpen: boolean,
-        value: string[]
-    },
-    time: {
-        isOpen: boolean,
-        value: {
-            from: string | number,
-            to: string | number
-        }
-    }
+    age: boolean,
+    days: boolean,
+    time: boolean
+}
+
+export interface ICoupon {
+    ageFrom: string | null,
+    ageTo: string | null,
+    ageUnlimited: boolean,
+    categoryIds: number[],
+    companyId: number,
+    count: string,
+    currencyId: number,
+    description: string,
+    endDate: string,
+    image: string,
+    price: string,
+    startDate: string,
+    title: string,
+    type: string,
+    value: string
+}
+
+const initialData: ICoupon = {
+    ageFrom: null,
+    ageTo: null,
+    ageUnlimited: true,
+    categoryIds: [],
+    companyId: 18,
+    count: "",
+    currencyId: 1,
+    description: "",
+    endDate: "2021-10-30",
+    image: "",
+    price: "",
+    startDate: "2021-10-22",
+    title: "",
+    type: "1",
+    value: ""
 }
 
 const Coupons = () => {
     const history = useHistory()
+    
+    
     const { t } = useTranslation()
+    const [isCoupon, setIsCoupon] = React.useState<boolean>(false)
+    const [coupon, setCoupon] = React.useState<ICoupon>(initialData)
+    const [period, setPeriod] = React.useState<boolean>(false)
     const [image, setImage] = React.useState('')
+    const [publishDate, setPublishDate] = React.useState<string>("")
+    const [publish, setPublish] = React.useState(false)
     const { handleUpload, deleteImage } = useUploadImage(setImage)
     const [file, setFile] = React.useState('')
     const [isCropVisible, setIsCropVisible] = React.useState(false)
     const [optionalFields, setOptionalFields] = React.useState<IOptionFields>({
-        age: {
-            isOpen: false,
-            value: 0
-        },
-        days: {
-            isOpen: false,
-            value: []
-        },
-        time: {
-            isOpen: false,
-            value: {
-                from: 0,
-                to: 0
-            }
+        age: false,
+        days: false,
+        time: false
+    })
+    const mutation = useMutation((data: ICoupon) => postCoupon(data), {
+        onSuccess: (data) => {
+            putCoupon(data.data.data.id, {
+                addDay: false,
+                publishDate: publishDate
+            })
+            
         }
     })
     const { control, handleSubmit, register, formState: {errors}} = useForm()
@@ -87,22 +119,43 @@ const Coupons = () => {
         }
     ]
 
+    React.useEffect(() => {
+        const isCoupon = history.location.pathname.includes("coupon")
+        setIsCoupon(isCoupon)
+    }, [])
 
-    const handleAgeBlock = (e: any, action: "age" | "time" | "days") => {
+
+    const handleOpenBlock = (e: any, action: "age" | "time" | "days") => {
         setOptionalFields((prev: IOptionFields) => ({
             ...prev,
-            [action]: {
-                ...prev[action],
-                isOpen: e.target.checked
-            }
+            [action]: e.target.checked
         }))
         
     }
 
-
     const handleUploadImg = (data: any) => {
         setFile(data.target.files[0])
         setIsCropVisible(true)
+    }
+    
+    const onUpdateData = (data: any) => {
+        setPeriod(true)
+        setCoupon((prev: ICoupon) => ({
+            ...prev,
+            ageFrom: data.ageLimit || null,
+            ageTo: null,
+            ageUnlimited: !!!data.ageLimit,
+            categoryIds: [],
+            companyId: 18,
+            count: data.amount,
+            currencyId: 1,
+            description: data.description,
+            image: image,
+            price: data.cost,
+            title: data.name,
+            type: isCoupon ? "1" : "2",
+            value: data.percent,
+        }))
     }
     
     const handleDelete = () => {
@@ -111,28 +164,37 @@ const Coupons = () => {
         deleteImage(image)
     }
     
-    
     const handleBack = () => {
         history.goBack()
     }
-
     
-    const onSubmit = (data: any) => {
+    const onSave = (data: any) => {
         console.log(data);
+        history.goBack()
     }
-    console.log(errors);
-    
+ 
+    const handleClose = () => {
+        setPeriod(false)
+    }
 
     return (
-        <Wrapper onSubmit={handleSubmit(onSubmit)}>
+        <Wrapper >
             <div 
                 style={{display: "flex", marginBottom: 30, alignItems: "center"}}>
                 <GoBackIcon onClick={handleBack} style={{marginRight: "25px", cursor: "pointer"}}/>
                 <Title>
-                    Создание купона
+                    Создание {isCoupon ? "купона" : "сертификата"}
                 </Title>
             </div>
-            <Form>
+                <Modal open={period}>
+                    <SetDate
+                        setDate={setPublishDate} 
+                        setPeriod={setPeriod} 
+                        mutation={mutation} 
+                        handleClose={handleClose} 
+                        coupon={coupon}/>
+                </Modal>
+            <Form onSubmit={publish ? handleSubmit(onUpdateData) : handleSubmit(onSave)}>
                 <UpSide>
                     <Container>
                         <LeftSide>
@@ -144,7 +206,7 @@ const Coupons = () => {
                             </Header>
                             <UploadButton>
                                 <label htmlFor="uploadImg">Загрузить фото</label>
-                                <input {...register("image", { required: true})} onChange={handleUploadImg} type="file" id="uploadImg" />
+                                <input {...register("image", { required: publish})} onChange={handleUploadImg} type="file" id="uploadImg" />
                                 <UploadImage />
                             </UploadButton>
                             {errors.image && <ErrorMessage>{t("requiredField")}</ErrorMessage>}
@@ -166,7 +228,7 @@ const Coupons = () => {
                                 name="name"
                                 control={control}
                                 rules={{
-                                    required: true
+                                    required: publish
                                 }}
                                 render={({field}) => (
                                     <Input 
@@ -180,14 +242,14 @@ const Coupons = () => {
                                 name="percent"
                                 control={control}
                                 rules={{
-                                    required: true
+                                    required: publish
                                 }}
                                 render={({field}) => (
                                     <Input 
                                         error={!!errors.percent}
                                         message={t("requiredField")}
                                         field={field} 
-                                        label="Укажите % купона" 
+                                        label={isCoupon ? `Укажите % купона` : "Укажите сумму сертификата"} 
                                         margin={{laptop: "35px 0"}}/>
                                 )}
                             />
@@ -195,7 +257,7 @@ const Coupons = () => {
                                 name="amount"
                                 control={control}
                                 rules={{
-                                    required: true
+                                    required: publish
                                 }}
                                 render={({field}) => (
                                     <Input 
@@ -209,7 +271,7 @@ const Coupons = () => {
                                 name="description"
                                 control={control}
                                 rules={{
-                                    required: true
+                                    required: publish
                                 }}
                                 render={({field}) => (
                                     <Input
@@ -228,7 +290,7 @@ const Coupons = () => {
                                 name="categories"
                                 control={control}
                                 rules={{
-                                    required: true
+                                    required: publish
                                 }}
                                 render={({field}) => (
                                     <MultiSelect 
@@ -244,14 +306,14 @@ const Coupons = () => {
                                 name="cost"
                                 control={control}
                                 rules={{
-                                    required: true
+                                    required: publish
                                 }}
                                 render={({field}) => (
                                     <Input 
                                         field={field}
                                         error={!!errors.cost}
                                         message={t("requiredField")}
-                                        label="Цена купона" 
+                                        label={isCoupon ? "Цена купона" : "Цена сертификата"} 
                                         type="number" 
                                         margin={{laptop: "25px 0 35px 0"}}/>
                                 )}
@@ -262,9 +324,9 @@ const Coupons = () => {
                                 <AgeBlock>
                                     <h6>Добавить возрастное ограничение</h6>
                                     <CustomToggle 
-                                        onChange={(e: any) => handleAgeBlock(e, "age")} />
+                                        onChange={(e: any) => handleOpenBlock(e, "age")} />
                                 </AgeBlock>
-                                {optionalFields.age.isOpen && 
+                                {optionalFields.age && 
                                 <Controller
                                     name="ageLimit"
                                     control={control}
@@ -279,25 +341,43 @@ const Coupons = () => {
                             </AgeWrapper>
                             <AgeWrapper>
                                 <AgeBlock>
-                                    <h6>Дни действия купона</h6>
+                                    <h6>Дни действия {isCoupon ? "купона" : "сертификата"}</h6>
                                     <CustomToggle 
-                                        onChange={(e: any) => handleAgeBlock(e, "days")} />
+                                        onChange={(e: any) => handleOpenBlock(e, "days")} />
                                 </AgeBlock>
-                                {optionalFields.days.isOpen && 
+                                {optionalFields.days && 
                                 <MultiSelect 
-                                    label="Возрастное ограничение"/>}
+                                    label="Укажите дни"/>}
                             </AgeWrapper>
                             <AgeWrapper>
                                 <AgeBlock>
-                                    <h6>Время действия купона</h6>
+                                    <h6>Время действия {isCoupon ? "купона" : "сертификата"}</h6>
                                     <CustomToggle 
-                                        onChange={(e: any) => handleAgeBlock(e, "time")} />
+                                        onChange={(e: any) => handleOpenBlock(e, "time")} />
                                 </AgeBlock>
-                                {optionalFields.time.isOpen && 
-                                    <MultiSelect 
-                                        label="Возрастное ограничение"/>}
+                                {optionalFields.time && 
+                                    <div style={{display: "flex"}}>
+                                        <Controller
+                                            control={control}
+                                            name="timeFrom"
+                                            render={({field}) => (
+                                                <Input margin={{laptop: "0 25px 0 0"}} type="time" field={field}/> 
+                                            )}
+                                        />   
+                                        <Controller
+                                            control={control}
+                                            name="timeTo"
+                                            render={({field}) => (
+                                                <Input type="time" field={field} /> 
+                                            )}
+                                        />   
+                                    </div>}
                             </AgeWrapper>
-                            <Button buttonStyle={{bgcolor: "#ffffff", color: "#606EEA"}} endIcon={<PhoneIcon />}>Показать превью</Button>
+                            <Button 
+                                buttonStyle={{bgcolor: "#ffffff", color: "#606EEA"}} 
+                                endIcon={<PhoneIcon />}>
+                                Показать превью
+                            </Button>
                         </RightSide>
                     </Container>
                 </UpSide>
@@ -309,11 +389,14 @@ const Coupons = () => {
                         Отменить
                     </Button>
                     <Button 
+                        onClick={() => setPublish(true)}
+                        type="submit"
                         margin={{laptop: "0 25px"}}
                         startIcon={<PublishIcon />}>
                         Опубликовать
                     </Button>
                     <Button
+                        onClick={() => setPublish(false)}                        
                         type="submit"
                         buttonStyle={{color: "#606EEA", bgcolor: "rgba(96, 110, 234, 0.1)"}}
                         startIcon={<SaveIcon />}
@@ -332,42 +415,3 @@ export default Coupons
 
 
 
-const ImageBlock = styled.div`
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: max-content;
-    img {
-        margin-bottom: 25px;
-        border-radius: 14px;
-        width: 250px;
-        margin-top: 15px;
-    }
-    svg {
-        position: absolute;
-        cursor: pointer;
-        z-index: 20;
-        opacity: 0;
-       
-    }
-    &:hover{
-        svg {
-            opacity: 1;
-        }
-        &::before{
-            opacity: 0.25;
-        }
-    }
-    &::before{
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: #ffffff;
-        opacity: 0;
-        transition: 200ms all;
-}
-`

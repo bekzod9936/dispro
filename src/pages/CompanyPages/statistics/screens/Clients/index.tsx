@@ -70,6 +70,7 @@ const Clients = () => {
   const { response } = useClientsHook({ filterValues, traffic });
   const [usedLevel, setUsedLevel] = useState<any[]>([]);
   const [radioValue, setRadioValue] = useState<any>();
+  
   useEffect(() => {
     const newStatus: any = data?.filter?.levels?.map((v: any) => {
       const check = usedLevel?.find((i: any) => {
