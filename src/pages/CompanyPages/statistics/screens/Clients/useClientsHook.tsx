@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useQuery } from "react-query";
 import { fetchCilentsData } from "services/queries/StatisticsQueries";
 import { useAppDispatch } from "services/redux/hooks";
-import { setClientStats } from "services/redux/Slices/statistics";
+import { setClientStats } from "services/redux/Slices/statistics/statistics";
 
 interface Props {
   filterValues?: any;
@@ -51,7 +51,6 @@ const useClientsHook = ({ filterValues, traffic }: Props) => {
       staleTime: 5000,
       retry: 0,
       onSuccess: (data) => {
-        console.log(data.data.data, "clients");
         setData(data.data.data);
         dispatch(setClientStats(data.data.data));
       },

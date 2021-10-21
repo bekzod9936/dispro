@@ -29,10 +29,19 @@ export interface FormProps {
 }
 
 const useLoyality = () => {
-  const { control, handleSubmit, setValue, getValues } = useForm<FormProps>({
-    mode: "onBlur",
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    getValues,
+    formState: { errors },
+  } = useForm<FormProps>({
+    mode: "onChange",
     shouldFocusError: true,
+    reValidateMode: "onChange",
   });
+
+  console.log(errors, "errors");
 
   const {
     fields: dynamicFields,
@@ -49,6 +58,7 @@ const useLoyality = () => {
 
   const [useProgram, setUseProgram] = useState<boolean>(false);
   const [usePoint, setUsePoint] = useState<boolean>(false);
+  const [basePercent, setBasePercent] = useState("");
 
   //program loyality
   const [onSuccesSave, setOnSuccessSave] = useState(false);
@@ -197,9 +207,8 @@ const useLoyality = () => {
       retry: 0,
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
-
       refetchIntervalInBackground: true,
-      staleTime: 5000,
+      staleTime: 2000,
       onSuccess: (data: any) => {
         if (data?.data?.data?.isActive) {
           setActive("discount");
@@ -207,6 +216,7 @@ const useLoyality = () => {
           setValue("give_cashback_after", data.data.data.cashbackReturnedDay);
           setValue("base_name", data.data.data.name);
           setValue("base_percent", data.data.data.percent);
+          setBasePercent(data.data.data.percent);
           setValue("levels", data.data.data.levels);
         }
       },
@@ -220,15 +230,14 @@ const useLoyality = () => {
       retry: 0,
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
-
       refetchIntervalInBackground: true,
-      staleTime: 5000,
+      staleTime: 2000,
       onSuccess: (data: any) => {
         if (data?.data?.data?.isActive) {
           setActive("cashback");
           setValue("max_percent", data.data.data.maxAmount);
           setValue("give_cashback_after", data.data.data.cashbackReturnedDay);
-
+          setBasePercent(data.data.data.percent);
           setValue("base_name", data.data.data.name);
           setValue("base_percent", data.data.data.percent);
           setValue("levels", data.data.data.levels);
@@ -245,14 +254,14 @@ const useLoyality = () => {
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
       refetchIntervalInBackground: true,
-      staleTime: 5000,
+      staleTime: 2000,
       onSuccess: (data: any) => {
         if (data?.data?.data?.isActive) {
           setActive("bonuspoint");
           setValue("max_percent", data.data.data.maxAmount);
-
           setValue("base_name", data.data.data.name);
           setValue("base_percent", data.data.data.percent);
+          setBasePercent(data.data.data.percent);
           setValue("levels", data.data.data.levels);
         }
       },
@@ -431,6 +440,8 @@ const useLoyality = () => {
     setOnSuccessSave,
     setOnErrorSave,
     onErrorSave,
+    basePercent,
+    errors,
   };
 };
 

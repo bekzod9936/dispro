@@ -1,6 +1,5 @@
-import React from 'react';
-import { useTable, useSortBy } from 'react-table';
-import { Container, MTable, Thead, Tr, Th, Tbody, Td, UpIcon } from './style';
+import { useTable, useSortBy } from "react-table";
+import { Container, MTable, Thead, Tr, Th, Tbody, Td, UpIcon } from "./style";
 
 interface Props {
   columns?: any;
@@ -21,7 +20,7 @@ const Table = ({ columns, data }: Props) => {
                   {...column.getHeaderProps(column.getSortByToggleProps())}
                   active={column.isSorted}
                 >
-                  {column.render('Header')}
+                  {column.render("Header")}
                   <UpIcon up={column.isSortedDesc} active={column.isSorted} />
                 </Th>
               ))}
@@ -35,7 +34,7 @@ const Table = ({ columns, data }: Props) => {
               <Tr {...row.getRowProps()}>
                 {row.cells.map((cell: any) => {
                   return (
-                    <Td {...cell.getCellProps()}>{cell.render('Cell')}</Td>
+                    <Td {...cell.getCellProps()}>{cell.render("Cell")}</Td>
                   );
                 })}
               </Tr>

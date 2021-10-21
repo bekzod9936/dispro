@@ -14,12 +14,14 @@ import {
   Wrapper,
 } from "./style";
 import { numberWith } from "services/utils";
+import { useAppSelector } from "services/redux/hooks";
 
 const Traffics = () => {
   const { t } = useTranslation();
   const [date, setDate] = useState({ startDate: "", endDate: "" });
 
-  const { response, data } = useTrafficsHook({ filterValues: date });
+  const data = useAppSelector((state) => state.statistics.traffics);
+  const { response } = useTrafficsHook({ filterValues: date });
 
   const list = data?.map((v: any) => {
     return {
@@ -82,7 +84,7 @@ const Traffics = () => {
         margin="0 0 20px 0"
       />
       <Wrapper>
-        {response.isLoading || response.isFetching ? (
+        {response.isLoading ? (
           <Spinner />
         ) : (
           <Table columns={columns} data={list} />
