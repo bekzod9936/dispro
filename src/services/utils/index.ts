@@ -78,3 +78,9 @@ export const normalInteger = (str: string, max?: number) => {
 
   return str.replace(/\D/g, "");
 };
+
+export const parseSimpleString = (str: string) => {
+  let parsed: string = str.split(" ").join("");
+
+  return parsed;
+};

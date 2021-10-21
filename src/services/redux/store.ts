@@ -1,12 +1,14 @@
-import { configureStore } from '@reduxjs/toolkit';
-import clientSlice from './Slices/clientSlice';
-import clientStatistics from './Slices/clientStatistics';
-import partner from './Slices/partnerSlice';
-import statistics from './Slices/statistics';
-import feedbackSlice from './Slices/FeedbackSlice';
-import authSlice from './Slices/authSlice';
-import settingsSlice from './Slices/settingsSlice';
-import infoSlice from './Slices/infoSlice';
+import { configureStore } from "@reduxjs/toolkit";
+import clientSlice from "./Slices/clientSlice";
+import clientStatistics from "./Slices/clientStatistics";
+import partner from "./Slices/partnerSlice";
+import statistics from "./Slices/statistics";
+import feedbackSlice from "./Slices/FeedbackSlice";
+import authSlice from "./Slices/authSlice";
+import settingsSlice from "./Slices/settingsSlice";
+import infoSlice from "./Slices/infoSlice";
+import loyalitySlice from "./Slices/loyalitySlice";
+
 export const store = configureStore({
   reducer: {
     partner: partner,
@@ -17,6 +19,7 @@ export const store = configureStore({
     auth: authSlice,
     settings: settingsSlice,
     infoSlice: infoSlice,
+    loyalitySlice: loyalitySlice,
   },
 });
 export type RootState = ReturnType<typeof store.getState>;

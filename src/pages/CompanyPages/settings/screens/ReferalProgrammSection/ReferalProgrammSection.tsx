@@ -56,6 +56,7 @@ const ReferalProgrammSection = () => {
               <div>
                 <Text fontWeight={500} fontSize="18px">
                   Реферальная система
+                  <br />
                 </Text>
               </div>
               <div style={{ maxWidth: "370px" }}>

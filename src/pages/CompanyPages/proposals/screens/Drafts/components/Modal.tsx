@@ -1,21 +1,17 @@
 import { CloseIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
 import { Certificate, VaucherIcon } from 'assets/icons/proposals/ProposalsIcons'
 import Modal from 'components/Custom/Modal'
-import { useHistory, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 interface IProps {
     open: boolean,
     setOpen: any
 }
 export const MModal = ({open, setOpen}: IProps) => {
-    const history = useHistory()
     const handleClose = () => {
         setOpen(false)
     }
 
-    const handleCreate = () => {
-        history.push("/proposals/create_coupon")
-    }
 
     return (
         <Modal modalStyle={{bgcolor: "#F1F4F6"}} open={open}>
@@ -37,15 +33,17 @@ export const MModal = ({open, setOpen}: IProps) => {
                             </CardContent>
                         </Card>
                     </Link>
-                    <Card>
-                        <Icon>
-                            <Certificate /> 
-                        </Icon>
-                        <CardContent>
-                            <h5>Сертификат</h5>
-                            <span>Идейные соображения высшего порядка, а также реализация намеченных плановых заданий позволяет выполнять важные задания.</span>
-                        </CardContent>
-                    </Card>
+                    <Link to="/proposals/create_certificate">
+                        <Card>
+                            <Icon>
+                                <Certificate /> 
+                            </Icon>
+                            <CardContent>
+                                <h5>Сертификат</h5>
+                                <span>Идейные соображения высшего порядка, а также реализация намеченных плановых заданий позволяет выполнять важные задания.</span>
+                            </CardContent>
+                        </Card>
+                    </Link>
                 </div>
             </Wrapper>
         </Modal>
@@ -60,7 +58,6 @@ const Icon = styled.div`
     margin-right: 25px;
 `
 const CardContent = styled.div`
-
     h5 {
         color: #223367;
         font-size: 16px;
@@ -85,14 +82,15 @@ const Card = styled.div`
     padding: 19px 25px;
     display: flex;
     align-items: center;
-    &:not(:last-child) {
-        margin-bottom: 15px;
-    }
+    margin-bottom: 15px;
+    
 `
 const Wrapper = styled.div`
     padding: 20px 25px;
     position: relative;
-    text-decoration: none !important;
+    a {
+        text-decoration: none;
+    }
     h3 {
         font-size: 22px;
         line-height: 26px;

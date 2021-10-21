@@ -10,6 +10,7 @@ import { ActionType, ActionTypes, IClient } from '../../utils/reducerTypes'
 interface IProps {
     selectedClients: IClient[],
     dispatch: (arg: ActionType) => void,
+    refetch: any
 }
 
 const modalInfo: any = {
@@ -37,7 +38,7 @@ const modalInfo: any = {
 // TODO: ****************************refactor buttons 
 
 
-export const ClientsBar = ({selectedClients, dispatch}: IProps) => {
+export const ClientsBar = ({selectedClients, dispatch, refetch}: IProps) => {
     const client = selectedClients[0]
     const [isModalOpen, setIsModalOpen] = React.useState(false)
     const [modalContent, setModalContent] = React.useState<any>({})
@@ -127,7 +128,8 @@ export const ClientsBar = ({selectedClients, dispatch}: IProps) => {
                     </button>
                 </SelectButtons>
             </div> : null}
-            <MModal 
+            <MModal
+                refetch={refetch} 
                 clients={selectedClients} 
                 modalContent={modalContent} 
                 handleOpen={setIsModalOpen} 

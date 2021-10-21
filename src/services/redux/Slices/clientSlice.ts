@@ -2,119 +2,108 @@ import { createSlice } from "@reduxjs/toolkit";
 import moment from "moment";
 
 export interface IClientState {
-	page: number,
-	clients: any[],
-	totalClients: number,
-	addedHeaders: any[],
-	headers: any[],
-	visibleClients: any[],
-	totalPages: number,
-	checkedClients: any[]
+  page: number;
+  clients: any[];
+  totalClients: number;
+  addedHeaders: any[];
+  headers: any[];
+  visibleClients: any[];
+  totalPages: number;
+  checkedClients: any[];
 }
-
 
 const initialState: IClientState = {
-	page: 1,
-	clients: [],
-	visibleClients: [],
-	totalClients: 0,
-	totalPages: 0,
-	checkedClients: [],
-	addedHeaders: [
-		{value: "Клиент", label: "fullName"}, 
-		{value: "Сумма скидки", label: "discountSum"}, 
-		{value: "Сумма баллов", label: "pointSum"}, 
-		{value: "Сумма кешбека", label: "cashbackSum"}, 
-		{value: "Пол", label: "gender"}, 
-		{value: "Возраст", label: "age"},
-	],
+  page: 1,
+  clients: [],
+  visibleClients: [],
+  totalClients: 0,
+  totalPages: 0,
+  checkedClients: [],
+  addedHeaders: [
+    { value: "Клиент", label: "fullName" },
+    { value: "Сумма скидки", label: "discountSum" },
+    { value: "Сумма баллов", label: "pointSum" },
+    { value: "Сумма кешбека", label: "cashbackSum" },
+    { value: "Пол", label: "gender" },
+    { value: "Возраст", label: "age" },
+  ],
 
-	headers: [
-		{value: "Клиент", label: "fullName"}, 
-		{value: "Сумма скидки", label: "discountSum"}, 
-		{value: "Сумма баллов", label: "pointSum"}, 
-		{value: "Сумма кешбека", label: "cashbackSum"}, 
-		{value: "Пол", label: "gender"}, 
-		{value: "Возраст", label: "age"}, 
-		{value: "Оплачено", label: "amountOperation"}, 
-		{value: "Рекомендации", label: "countRefer"}, 
-		{value: "Источники трафика", label: "sourceBy"}, 
-		{value: "Уровень", label: "status"}, 
-		{value: "Последняя покупка", label: "lastPurchase"},
-	]
-}
-
-
-
+  headers: [
+    { value: "Клиент", label: "fullName" },
+    { value: "Сумма скидки", label: "discountSum" },
+    { value: "Сумма баллов", label: "pointSum" },
+    { value: "Сумма кешбека", label: "cashbackSum" },
+    { value: "Пол", label: "gender" },
+    { value: "Возраст", label: "age" },
+    { value: "Оплачено", label: "amountOperation" },
+    { value: "Рекомендации", label: "countRefer" },
+    { value: "Источники трафика", label: "sourceBy" },
+    { value: "Уровень", label: "status" },
+    { value: "Последняя покупка", label: "lastPurchase" },
+  ],
+};
 
 export const clientSlice = createSlice({
-	name: "client",
-	initialState,
-	reducers: {
-		setClients: (state, { payload }) => {
-			state.clients = [...payload]
-			state.visibleClients = payload.map((el: any) => {
-				const client = {id: el.id,
-					fullName: `${el.firstName} ${el.lastName}`,
-					discountSum: el.addInfo.discountSum || "-",
-					pointSum: el.addInfo.pointSum || "-",
-					cashbackSum: el.addInfo.cashbackSum || "-",
-					gender: el.addInfo.genderStr,
-					age: 15,
-					amountOperation: el.addInfo.amountOperation || "-",
-					countRefer: el.addInfo.countRefer || "-",
-					sourceBy: el.addInfo.sourceBy,
-					status: el.addInfo.status,
-					lastPurchase: el.addInfo.lastPurchaseAmount || '-',
-				}
-				return client
-			})
-		},
-		setPage: (state, { payload }) => {
-			state.page = payload
-		},
-		setTotalClients: (state, { payload }) => {
-		state.totalClients = payload
-		state.totalPages = Math.ceil(payload / 3)
-		},
-		setHeader: (state, { payload }) => {
-			state.addedHeaders = [...state.addedHeaders, payload]
-		},
-		removeHeader: (state, { payload }) => {
-			state.addedHeaders = state.addedHeaders.filter(header => header.value !== payload.value)
-		},
-		addClient: (state, { payload }) => {
-			
-		},
-		removeClient: (state, { payload }) => {
-			state.checkedClients = state.checkedClients.filter(client => client.id !== payload)
-		},
-		addAllClients: (state, { payload }) => {
-			state.checkedClients = payload ? [...state.clients] : []
-		}
-	}
-})
+  name: "client",
+  initialState,
+  reducers: {
+    setClients: (state, { payload }) => {
+      state.clients = [...payload];
+      state.visibleClients = payload.map((el: any) => {
+        const client = {
+          id: el.id,
+          fullName: `${el.firstName} ${el.lastName}`,
+          discountSum: el.addInfo.discountSum || "-",
+          pointSum: el.addInfo.pointSum || "-",
+          cashbackSum: el.addInfo.cashbackSum || "-",
+          gender: el.addInfo.genderStr,
+          age: 15,
+          amountOperation: el.addInfo.amountOperation || "-",
+          countRefer: el.addInfo.countRefer || "-",
+          sourceBy: el.addInfo.sourceBy,
+          status: el.addInfo.status,
+          lastPurchase: el.addInfo.lastPurchaseAmount || "-",
+        };
+        return client;
+      });
+    },
+    setPage: (state, { payload }) => {
+      state.page = payload;
+    },
+    setTotalClients: (state, { payload }) => {
+      state.totalClients = payload;
+      state.totalPages = Math.ceil(payload / 3);
+    },
+    setHeader: (state, { payload }) => {
+      state.addedHeaders = [...state.addedHeaders, payload];
+    },
+    removeHeader: (state, { payload }) => {
+      state.addedHeaders = state.addedHeaders.filter(
+        (header) => header.value !== payload.value
+      );
+    },
+    addClient: (state, { payload }) => {},
+    removeClient: (state, { payload }) => {
+      state.checkedClients = state.checkedClients.filter(
+        (client) => client.id !== payload
+      );
+    },
+    addAllClients: (state, { payload }) => {
+      state.checkedClients = payload ? [...state.clients] : [];
+    },
+  },
+});
 
-
-
-export const { 
-	setPage, 
-	setClients, 
-	setTotalClients,
-	setHeader,
-	addClient,
-	removeHeader,
-	addAllClients
- } = clientSlice.actions
-export default clientSlice.reducer
-
-
-
-
-
-
-
-
+export const {
+  setPage,
+  setClients,
+  setTotalClients,
+  setHeader,
+  addClient,
+  removeHeader,
+  addAllClients,
+} = clientSlice.actions;
+export default clientSlice.reducer;
 
 // import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 // import { Moment } from "moment";
@@ -165,14 +154,6 @@ export default clientSlice.reducer
 // 	filterIsOpen: false,
 // 	applied: true,
 // };
-
-
-
-
-
-
-
-
 
 // const clientSlice = createSlice({
 // 	name: "client",

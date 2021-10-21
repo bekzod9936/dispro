@@ -32,9 +32,10 @@ import {
   Form,
 } from "./styles";
 import Spinner from "components/Helpers/Spinner";
-import { useMutation } from "react-query";
 import Button from "components/Custom/Button";
 import RippleEffect from "components/Custom/RippleEffect";
+import NotifySnack from "components/Custom/Snackbar";
+import { useAppSelector } from "services/redux/hooks";
 
 const LoyaltyProgramSection = () => {
   const { t } = useTranslation();
@@ -51,12 +52,22 @@ const LoyaltyProgramSection = () => {
     isLoading,
     cashbackLoading,
     discountLoading,
-    useProgram,
-    usePoint,
+    // useProgram,
+    // usePoint,
     loayalityChange,
     onFormSubmit,
     loayalityPut,
+    onSuccesSave,
+    setOnSuccessSave,
+    onErrorSave,
+    setOnErrorSave,
   } = useLoyality();
+  const usePoint: boolean = useAppSelector(
+    (state) => state.loyalitySlice.usePoint
+  );
+  const useProgram: boolean = useAppSelector(
+    (state) => state.loyalitySlice.useProgram
+  );
 
   const [assertModalVisible, setAssertModalVisible] = useState<boolean>(false);
   const [switchKey, setSwitchKey] = useState("discount");
@@ -167,6 +178,7 @@ const LoyaltyProgramSection = () => {
                         label={""}
                         type="string"
                         field={field}
+                        maxLength={3}
                         width={{
                           width: "106px",
                         }}
@@ -301,6 +313,7 @@ const LoyaltyProgramSection = () => {
                                 label={""}
                                 type="string"
                                 field={field}
+                                maxLength={3}
                                 width={{
                                   width: "106px",
                                 }}
@@ -562,6 +575,24 @@ const LoyaltyProgramSection = () => {
           </ModalComponent>
         </CustomModal>
       </Grid>
+      <NotifySnack
+        open={onSuccesSave}
+        vertical="top"
+        horizontal="center"
+        message="Сохранено"
+        handleClose={() => {
+          setOnSuccessSave(false);
+        }}
+      />
+      <NotifySnack
+        open={onErrorSave}
+        vertical="bottom"
+        horizontal="right"
+        message="Error"
+        handleClose={() => {
+          setOnErrorSave(false);
+        }}
+      />
     </Grid>
   );
 };

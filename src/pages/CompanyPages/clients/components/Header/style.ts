@@ -47,7 +47,6 @@ export const SelectedFilter = styled.div`
   border: 1px solid #C4C4C4;
   border-radius: 46px;
   display: flex;
-  flex-direction: column;
   width: max-content;
   position: relative;
   margin-bottom: 5px;

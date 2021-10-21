@@ -74,7 +74,7 @@ export const HeaderGrid = styled(Grid)`
 `;
 
 export const PercentDiv = styled.div`
-  padding-right: 15px;
+  padding-right: 10px;
 `;
 
 export const Form = styled.form`

@@ -6,8 +6,8 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { device } from 'styles/device'
-import { EmptyPage } from './EmptyPage'
-import { MModal } from './Modal'
+import { EmptyPage } from './components/EmptyPage'
+import { MModal } from './components/Modal'
 
 const Drafts = () => {
     const { t } = useTranslation()

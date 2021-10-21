@@ -12,7 +12,6 @@ import { Text } from '../../../styles/CustomStyles';
 import { DeleteIconWhite } from '../../../assets/icons/SettingsIcons/SettingsPageIcon';
 import { colors } from '@material-ui/core';
 import { COLORS, FONT_SIZE, FONT_WEIGHT } from '../../../services/Types/enums';
-import CropImageModal from './CropImageModal';
 import { setRegCompanyId } from '../../../services/redux/Slices/authSlice';
 import { stat } from 'fs';
 import CustomFileUpload from './CustomFileUpload';
@@ -27,6 +26,7 @@ import { SaveIcon } from '../../../assets/icons/InfoPageIcons/InfoPageIcons';
 import partnerApi from '../../../services/interceptors/companyInterceptor';
 import axios from 'axios';
 import { STORAGE_URL } from '../../../services/constants/config';
+import CropImageModal from 'components/Custom/CropImageModal';
 interface IProps {
   selectedSingleNews: any;
   setModalIsVisible: any;
