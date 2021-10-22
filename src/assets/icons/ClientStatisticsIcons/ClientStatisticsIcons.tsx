@@ -429,9 +429,10 @@ export const FilterIcon = () => {
     </svg>
   );
 };
-export const CalendarIcon = () => {
+export const CalendarIcon = (props: any) => {
   return (
     <svg
+    {...props}
       width='28'
       height='28'
       viewBox='0 0 28 28'

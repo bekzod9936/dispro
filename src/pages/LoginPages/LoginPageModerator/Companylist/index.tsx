@@ -16,6 +16,7 @@ import {
   Img,
   Main,
   ChooseText,
+  ImgDiv,
 } from './style';
 import { useAppDispatch } from '../../../../services/redux/hooks';
 import { refetchCompanyList } from '../../../../services/redux/Slices/authSlice';
@@ -135,14 +136,13 @@ const Companylist = () => {
               loading={v.company.id === id ? company.isLoading : false}
             >
               <Wrap>
-                <Img
-                  src={v.company.logo === '' ? LogoDef : v.company.logo}
-                  alt='Company-Logo'
-                  onError={(e: any) => {
-                    e.target.onerror = null;
-                    e.target.src = LogoDef;
-                  }}
-                />
+                <ImgDiv>
+                  <Img
+                    src={v.company.logo === '' ? LogoDef : v.company.logo}
+                    alt='Company-Logo'
+                    objectFit='contain'
+                  />
+                </ImgDiv>
               </Wrap>
               <Text color='#223367'>{v.company.name}</Text>
             </Box>

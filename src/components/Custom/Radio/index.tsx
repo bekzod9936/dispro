@@ -1,9 +1,9 @@
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
-import { Container } from './style';
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
+import { Container } from "./style";
 
 interface Props {
   title?: string;
@@ -19,7 +19,8 @@ interface Props {
   checkedIcon?: any;
   checked?: boolean;
   defaultValue?: string | number;
-  labelPlacement?: 'bottom' | 'end' | 'start' | 'top';
+  labelPlacement?: "bottom" | "end" | "start" | "top";
+  flexDirection: "row" | "column";
 }
 
 const MRadio = ({
@@ -28,15 +29,16 @@ const MRadio = ({
   onChange = () => {},
   labelPlacement,
   value,
+  flexDirection = "row",
 }: Props) => {
   const handleChange = (event: any) => {
     onChange(event.target.value);
   };
 
   return (
-    <Container>
-      <FormControl component='fieldset'>
-        <FormLabel component='legend'>{title}</FormLabel>
+    <Container flexDirection={flexDirection}>
+      <FormControl component="fieldset">
+        <FormLabel component="legend">{title}</FormLabel>
         {list?.map((v: any) => (
           <RadioGroup
             aria-label={title}

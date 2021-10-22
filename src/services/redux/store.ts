@@ -5,9 +5,10 @@ import partner from './Slices/partnerSlice';
 import statistics from './Slices/statistics/statistics';
 import feedbackSlice from './Slices/FeedbackSlice';
 import authSlice from './Slices/authSlice';
-import settingsSlice from './Slices/settingsSlice';
+import settingsSlice from './Slices/settingsSlice/index';
 import infoSlice from './Slices/infoSlice';
 import loyalitySlice from './Slices/loyalitySlice';
+import proposalsSlice from './Slices/proposals/proposals';
 import feedbackPostSlice from './Slices/feedback/index';
 
 export const store = configureStore({
@@ -22,6 +23,7 @@ export const store = configureStore({
     infoSlice: infoSlice,
     loyalitySlice: loyalitySlice,
     feedbackPost: feedbackPostSlice,
+    proposals: proposalsSlice,
   },
 });
 export type RootState = ReturnType<typeof store.getState>;

@@ -19,6 +19,8 @@ const ProposalsPage = () => {
         const res = history.location.pathname.includes("create")
         setCreating(res)
     }, [history])
+
+    
     return (
         <Wrapper>
             {!isCreating && 

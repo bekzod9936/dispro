@@ -13,7 +13,6 @@ import {
   DeleteIconWhite,
   FilledAddIcon,
 } from "assets/icons/SettingsIcons/SettingsPageIcon";
-import CustomModal from "components/Custom/CustomModal";
 import CustomSelectPopoverComponent from "components/Custom/CustomSelectPopoverComponent";
 import { FONT_SIZE, FONT_WEIGHT } from "services/Types/enums";
 import { Flex } from "styles/BuildingBlocks";
@@ -21,6 +20,7 @@ import { CreateBtn, IconDiv, QRPageWrapper } from "./styles";
 import { ModalComponent } from "styles/CustomStyles";
 import QrCodeCard from "./components/QrCodeCard";
 import { useState } from "react";
+import Modal from "components/Custom/Modal";
 
 const QRCodesSection = () => {
   const {
@@ -159,7 +159,7 @@ const QRCodesSection = () => {
         </Grid>
 
         {/* Modal side  */}
-        <CustomModal open={modalVisible}>
+        <Modal open={modalVisible}>
           <ModalComponent>
             {state === "edit" || state === "create" ? (
               <>
@@ -251,7 +251,7 @@ const QRCodesSection = () => {
               </>
             )}
           </ModalComponent>
-        </CustomModal>
+        </Modal>
       </QRPageWrapper>
     </div>
   );

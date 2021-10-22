@@ -40,7 +40,7 @@ const useProposalsRoute = () => {
         },
         {
             path: "/proposals/create_certificate",
-            component: Certificates,
+            component: Coupons,
             text: t("certificates")
         },
         {

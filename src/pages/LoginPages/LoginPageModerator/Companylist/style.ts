@@ -1,6 +1,7 @@
-import styled from 'styled-components';
-import { device } from '../../../../styles/device';
-import { ReactComponent as Plus } from '../../../../assets/icons/LoginPage/plus.svg';
+import styled from "styled-components";
+import { device } from "../../../../styles/device";
+import { ReactComponent as Plus } from "../../../../assets/icons/LoginPage/plus.svg";
+import ImageLazyLoad from "components/Custom/ImageLazyLoad/ImageLazyLoad";
 
 interface Props {
   border?: string;
@@ -71,8 +72,8 @@ export const Box = styled.div`
   background: white;
   box-shadow: ${({ loading }: Props) =>
     loading
-      ? '-1px -1px 9px black, 1px 1px 9px black'
-      : '0px 4px 4px rgba(0, 0, 0, 0.04)'};
+      ? "-1px -1px 9px black, 1px 1px 9px black"
+      : "0px 4px 4px rgba(0, 0, 0, 0.04)"};
   border-radius: 14px;
   flex: 100%;
   display: flex;
@@ -146,14 +147,33 @@ export const PlusIcon = styled(Plus)`
   }
 `;
 
-export const Img = styled.img`
+export const ImgDiv = styled.div`
+  border-radius: 50%;
   width: 100%;
   height: 100%;
-  border-radius: 50%;
+  overflow: hidden;
   min-width: 50px;
   max-width: 100px;
   min-height: 50px;
   max-height: 100px;
+  .lazy-load-image-background {
+    height: 100% !important;
+  }
+`;
+
+export const Img = styled(ImageLazyLoad)`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+
+  .lazy-load-image-background {
+    height: 100% !important;
+  }
+  /* min-width: 50px;
+  max-width: 100px;
+  min-height: 50px;
+  max-height: 100px; */
 `;
 
 export const ChooseText = styled.div`

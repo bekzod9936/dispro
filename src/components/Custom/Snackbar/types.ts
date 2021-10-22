@@ -3,6 +3,15 @@ export interface SProps {
   horizontal: "center" | "right" | "left";
   open: boolean;
   message: string;
-  //   severity: "success" | "error" | "warning" | "info";
+  error?: boolean;
   handleClose: () => void;
+}
+
+export interface StlyeProps {
+  error?: boolean;
+  success?: boolean;
+}
+
+export interface IDirections {
+  direction: "down" | "left" | "right" | "up";
 }

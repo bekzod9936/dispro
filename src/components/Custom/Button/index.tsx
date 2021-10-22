@@ -10,6 +10,7 @@ export interface Props {
   endIcon?: any;
   startIcon?: any;
   loadingColor?: string;
+  value?: string;
   type?: "submit" | "button" | "reset";
   onClick?: (e: any) => void;
   buttonStyle?: {
@@ -70,6 +71,7 @@ const Button = ({ children, ...props }: Props) => {
       padding={props.padding}
     >
       <MButton
+        value={props.value}
         fullWidth={props.fullWidth ? props.fullWidth : true}
         type={props.type}
         {...props}

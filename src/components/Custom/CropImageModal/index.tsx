@@ -43,8 +43,7 @@ const CropCustomModal = ({open, src, setIsCropVisible, setFile, handleUpload}: I
         }
     }
 
-    console.log(imageUrl);
-    console.log(src);
+
     
     const getCroppedImage = () => {
         if (image) {

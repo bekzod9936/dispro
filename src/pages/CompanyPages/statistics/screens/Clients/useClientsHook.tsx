@@ -51,12 +51,14 @@ const useClientsHook = ({ filterValues, traffic }: Props) => {
       staleTime: 2500000,
       retry: 0,
       onSuccess: (data) => {
+        
         setData(data.data.data);
         dispatch(setClientStats(data.data.data));
         setIsFetching(false);
       },
     }
   );
+
 
   return { response, data, isFetching, setIsFetching };
 };
