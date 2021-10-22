@@ -3,13 +3,14 @@ import { Wrapper } from './style'
 
 interface IProps {
     children: React.ReactChild,
-    isOpen: boolean
+    isOpen: boolean,
+    maxWidth?: string
 }
 
 
-export const SideBar = ({children, isOpen}: IProps) => {
+export const SideBar = ({children, isOpen, ...props}: IProps) => {
     return (
-        <Wrapper isOpen={isOpen}>
+        <Wrapper {...props} isOpen={isOpen}>
             {children}
         </Wrapper>
     )

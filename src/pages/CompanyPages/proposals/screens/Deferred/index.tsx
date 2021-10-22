@@ -1,25 +1,41 @@
-import React, { Suspense } from 'react'
+import React from 'react'
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks'
 import { IDeferred } from 'services/redux/Slices/proposals/types'
 import { RootState } from 'services/redux/store'
-import { CouponCard } from '../../components/CouponCard'
 import { Wrapper } from './style'
 import { useDeferred } from './useDeferred'
 import Input from "components/Custom/Input"
 import { SearchIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
 import { useDebounce } from 'use-debounce/lib'
 import Spinner from 'components/Helpers/Spinner'
+import { CouponCard } from '../../components/CouponCard'
+import { resetCurrentCoupon, setSelectedCoupon } from 'services/redux/Slices/proposals/proposals'
+import { SideBar } from 'pages/CompanyPages/clients/components/SideBar'
+import { CouponBar } from '../../components/CouponSideBar'
 
 const Deferred = () => {
     const dispatch = useAppDispatch()
-    const { deferred } = useAppSelector((state: RootState) => state.proposals)
+    const { deferred, currentCoupon } = useAppSelector((state: RootState) => state.proposals)
+    const [open, setOpen] = React.useState<boolean>(false)
     const [value, setValue] = React.useState<string>("")
     const [debouncedQuery] = useDebounce(value, 300)
     const { isLoading } = useDeferred({dispatch, query: debouncedQuery})
     
+    const handleOpen = (id: number) => {
+        dispatch(setSelectedCoupon(id))
+        setOpen(true)
+    }
     
+    const handleReset = () => {
+        dispatch(resetCurrentCoupon())
+    }
+
+
     return (
         <Wrapper>
+            <SideBar maxWidth="370px" isOpen={open}>
+                <CouponBar resetCoupon={handleReset} currentCoupon={currentCoupon} onClose={setOpen}/>
+            </SideBar>
             <Input 
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
@@ -29,7 +45,10 @@ const Deferred = () => {
                 inputStyle={{border: "none"}} 
                 width={{maxwidth: 500, width: "100%"}}/>
             {isLoading ? <Spinner /> : deferred.map((el: IDeferred) => (
-                <CouponCard 
+                <CouponCard
+                    isSelected={currentCoupon.id === el.id}
+                    onClick={() => handleOpen(el.id)}
+                    key={el.id} 
                     img={el.image}
                     title={el.title}
                     ageFrom={el.ageFrom}

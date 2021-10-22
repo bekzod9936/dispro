@@ -37,6 +37,9 @@ import { postCoupon, putCoupon } from 'services/queries/ProposalsQueries'
 import Modal from 'components/Custom/Modal'
 import { SetDate } from './components/SetDate'
 import { categories, days } from './constants'
+import ImageLazyLoad from 'components/Custom/ImageLazyLoad/ImageLazyLoad'
+import { CustomDatePicker } from '../../components/CustomDatePicker'
+import { getValidDate } from '../../utils/getValidDate'
 
 interface IOptionFields {
     age: boolean,
@@ -99,16 +102,8 @@ const Coupons = () => {
         days: false,
         time: false
     })
-    const mutation = useMutation((data: ICoupon) => postCoupon(data), {
-        onSuccess: (data) => {
-            putCoupon(data.data.data.id, {
-                addDay: false,
-                publishDate: publishDate
-            })
-            
-        }
-    })
-    const { control, handleSubmit, register, formState: {errors}} = useForm()
+    const { mutate } = useMutation((data: any) => postCoupon(data))
+    const { control, handleSubmit, register, watch, formState: {errors}} = useForm()
     
 
     React.useEffect(() => {
@@ -161,7 +156,25 @@ const Coupons = () => {
     }
     
     const onSave = (data: any) => {
-        console.log(data);
+        const validData = {
+            title: data.name,
+            startDate: getValidDate(data.startDate),
+            endDate: getValidDate(data.endDate),
+            count: data.amount,
+            ageUnlimited: !!!data.ageLimit,
+            price: data.cost,
+            value: data.percent,
+            type: isCoupon ? "1" : "2",
+            currencyId: 1,
+            categoryIds: [],
+            companyId: 18,
+            image: image, 
+            ageFrom: data.ageLimit || null,
+            ageTo: null,
+        }
+        // console.log(validData);
+        
+        mutate(validData)
         history.goBack()
     }
  
@@ -182,7 +195,7 @@ const Coupons = () => {
                     <SetDate
                         setDate={setPublishDate} 
                         setPeriod={setPeriod} 
-                        mutation={mutation} 
+                        mutation={mutate} 
                         handleClose={handleClose} 
                         coupon={coupon}/>
                 </Modal>
@@ -198,14 +211,14 @@ const Coupons = () => {
                             </Header>
                             <UploadButton>
                                 <label htmlFor="uploadImg">Загрузить фото</label>
-                                <input {...register("image", { required: publish})} onChange={handleUploadImg} type="file" id="uploadImg" />
+                                <input {...register("image", { required: true})} onChange={handleUploadImg} type="file" id="uploadImg" />
                                 <UploadImage />
                             </UploadButton>
                             {errors.image && <ErrorMessage>{t("requiredField")}</ErrorMessage>}
                             </div>}
                             {image && 
                                 <ImageBlock>
-                                    <img src={image} alt="logo"/>  
+                                    <ImageLazyLoad objectFit="contain" src={image} alt="logo"/>  
                                     <DeleteIcon onClick={handleDelete} />
                                 </ImageBlock>}
                             {file && 
@@ -220,7 +233,7 @@ const Coupons = () => {
                                 name="name"
                                 control={control}
                                 rules={{
-                                    required: publish
+                                    required: true
                                 }}
                                 render={({field}) => (
                                     <Input 
@@ -234,7 +247,7 @@ const Coupons = () => {
                                 name="percent"
                                 control={control}
                                 rules={{
-                                    required: publish
+                                    required: true
                                 }}
                                 render={({field}) => (
                                     <Input 
@@ -249,7 +262,7 @@ const Coupons = () => {
                                 name="amount"
                                 control={control}
                                 rules={{
-                                    required: publish
+                                    required: true
                                 }}
                                 render={({field}) => (
                                     <Input 
@@ -263,7 +276,7 @@ const Coupons = () => {
                                 name="description"
                                 control={control}
                                 rules={{
-                                    required: publish
+                                    required: true
                                 }}
                                 render={({field}) => (
                                     <Input
@@ -282,7 +295,7 @@ const Coupons = () => {
                                 name="categories"
                                 control={control}
                                 rules={{
-                                    required: publish
+                                    required: true
                                 }}
                                 render={({field}) => (
                                     <MultiSelect 
@@ -299,7 +312,7 @@ const Coupons = () => {
                                 name="cost"
                                 control={control}
                                 rules={{
-                                    required: publish
+                                    required: true
                                 }}
                                 render={({field}) => (
                                     <Input 
@@ -368,6 +381,28 @@ const Coupons = () => {
                                         />   
                                     </div>}
                             </AgeWrapper>
+                            <div style={{display: "flex"}}>
+                                <Controller
+                                    name="startDate"
+                                    rules={{
+                                        required: true
+                                    }}
+                                    control={control}
+                                    render={({field}) => (
+                                        <CustomDatePicker style={{marginRight: "20px"}} field={field} />
+                                    )}
+                                />
+                                <Controller
+                                    name="endDate"
+                                    rules={{
+                                        required: true
+                                    }}
+                                    control={control}
+                                    render={({field}) => (
+                                        <CustomDatePicker minDate={watch("startDate")?.toDate()} field={field} />
+                                    )}
+                                />
+                            </div>
                             <Button 
                                 buttonStyle={{bgcolor: "#ffffff", color: "#606EEA"}} 
                                 endIcon={<PhoneIcon />}>

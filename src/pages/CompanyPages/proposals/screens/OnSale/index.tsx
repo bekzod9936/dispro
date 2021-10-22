@@ -1,10 +1,65 @@
+import { SideBar } from 'pages/CompanyPages/clients/components/SideBar'
 import React from 'react'
-
+import { useAppDispatch, useAppSelector } from 'services/redux/hooks'
+import { RootState } from 'services/redux/store'
+import { useDebounce } from 'use-debounce/lib'
+import { CouponBar } from '../../components/CouponSideBar'
+import { Wrapper } from './style'
+import { useOnSale } from './useOnSale'
+import Input from "components/Custom/Input"
+import { SearchIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
+import Spinner from 'components/Helpers/Spinner'
+import { IDeferred } from 'services/redux/Slices/proposals/types'
+import { CouponCard } from '../../components/CouponCard'
+import { resetCurrentOnSaleCoupon, setCurrentOnSaleCoupon } from 'services/redux/Slices/proposals/proposals'
 const OnSale = () => {
+    const { onSale, currentOnSaleCoupon } = useAppSelector((state: RootState) => state.proposals)
+    const [query, setQuery] = React.useState<string>("")
+    const [open, setOpen] = React.useState<boolean>(false)
+    const [debounced] = useDebounce(query, 300)
+    const dispatch = useAppDispatch()
+    const { isLoading } = useOnSale({dispatch, query: debounced})
+
+    const handleOpen = (id: number) => {
+        dispatch(setCurrentOnSaleCoupon(id))
+        setOpen(true)
+    }
+
+    const handleResetCoupon = () => {
+        dispatch(resetCurrentOnSaleCoupon())
+    }
+
+
     return (
-        <div>
-            onsale
-        </div>
+        <Wrapper>
+            <SideBar maxWidth="370px" isOpen={open}>
+                <CouponBar resetCoupon={handleResetCoupon} disableUpdate={true} currentCoupon={currentOnSaleCoupon} onClose={setOpen}/>
+            </SideBar>
+            <Input 
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                IconStart={<SearchIcon style={{marginLeft: "35px"}}/>} 
+                placeholder="Поиск..." 
+                margin={{laptop: "0 0 20px 0"}} 
+                inputStyle={{border: "none"}} 
+                width={{maxwidth: 500, width: "100%"}}/>
+            {isLoading ? <Spinner /> : onSale.map((el: IDeferred) => (
+                <CouponCard
+                    isSelected={currentOnSaleCoupon.id === el.id}
+                    onClick={() => handleOpen(el.id)}
+                    key={el.id} 
+                    img={el.image}
+                    title={el.title}
+                    ageFrom={el.ageFrom}
+                    type={el.type}
+                    categoryIds={el.categoryIds}
+                    description={el.description}
+                    price={el.price}
+                    value={el.value}
+                    count={el.count}
+                />
+            ))}
+        </Wrapper>
     )
 }
 

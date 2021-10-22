@@ -11,14 +11,15 @@ const ProposalsPage = () => {
     const { routes } = useProposalsRoute()
     const history = useHistory()
     const [isCreating, setCreating] = React.useState<boolean>(false)
-    const filteredRoutes = routes.filter((el: any) => !el.path.includes("create"))
+    const filteredRoutes = routes.filter((el: any) => !el.path.includes("create") && !el.path.includes("update"))
     const { t } = useTranslation()
     
     
     React.useEffect(() => {
-        const res = history.location.pathname.includes("create")
+        const res = history.location.pathname.includes("create") || history.location.pathname.includes("update")
+        
         setCreating(res)
-    }, [history])
+    }, [history.location.pathname])
 
     
     return (
