@@ -181,7 +181,7 @@ const LoyaltyProgramSection = () => {
                     <Controller
                       name={`base_name`}
                       rules={{
-                        required: false,
+                        required: true,
                       }}
                       control={control}
                       render={({ field }) => (

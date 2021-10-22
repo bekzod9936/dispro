@@ -43,6 +43,7 @@ const ReferalProgrammSection = () => {
     append,
     remove,
     handleSubmit,
+    errors,
   } = useReferalData();
 
   console.log(fields, "fields");
@@ -80,6 +81,7 @@ const ReferalProgrammSection = () => {
             {fields
               ?.sort((a: any, b: any) => a.number - b.number)
               ?.map((item: any, index: number) => {
+                console.log(errors?.referals, "percent");
                 return (
                   <ReferalCol
                     onClick={(e: any) => {
@@ -95,6 +97,9 @@ const ReferalProgrammSection = () => {
                         name={`referals.${[index]}.percent`}
                         control={control}
                         defaultValue={item?.percent}
+                        rules={{
+                          required: true,
+                        }}
                         render={({ field }) => {
                           return (
                             <Input
@@ -104,6 +109,12 @@ const ReferalProgrammSection = () => {
                               disabled={!checkedState}
                               label={`Уровень ${index + 1}`}
                               field={field}
+                              message={""}
+                              error={
+                                errors?.referals?.[index]?.percent
+                                  ? true
+                                  : false
+                              }
                             />
                           );
                         }}
@@ -160,7 +171,7 @@ const ReferalProgrammSection = () => {
           </ReferalScroll>
           <BottomBtnContainer>
             <Button
-              disabled={saving}
+              disabled={saving || !checkedState}
               loadingColor="#fff"
               startIcon={<SaveIcon />}
               type="submit"
