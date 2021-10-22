@@ -12,11 +12,21 @@ export const Container = styled.div`
 `;
 
 export const Title = styled.div`
+  margin-bottom: 15px;
   font-weight: bold;
   font-size: 15px;
-  letter-spacing: 1px;
   color: #c7c7c7;
-  margin-bottom: 15px;
+  width: fit-content;
+  user-select: none;
+  @media (max-width: ${device.mobile}) {
+    font-size: 14px;
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    font-size: 14px;
+  }
+  @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
+    font-size: 15px;
+  }
   @media (min-width: ${device.laptop}) {
     font-size: 16px;
   }

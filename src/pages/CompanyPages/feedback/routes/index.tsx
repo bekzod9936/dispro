@@ -9,7 +9,7 @@ interface IFeedbackRow {
   component: any;
 }
 
-const useFinanceRoute = () => {
+const useFeedBackRoute = () => {
   const { t } = useTranslation();
   const menuItems: IFeedbackRow[] = [
     {
@@ -27,4 +27,4 @@ const useFinanceRoute = () => {
   return { menuItems };
 };
 
-export default useFinanceRoute;
+export default useFeedBackRoute;

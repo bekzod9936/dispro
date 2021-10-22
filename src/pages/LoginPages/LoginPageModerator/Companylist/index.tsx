@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from 'react-query';
 import { useHistory } from 'react-router';
@@ -23,6 +23,8 @@ import LogoDef from '../../../../assets/icons/SideBar/logodefault.png';
 import Cookies from 'js-cookie';
 import AddCompany from '../AddCompany';
 import useLayout from 'components/Layout/useLayout';
+import io from 'socket.io-client';
+import { SOCKET_EVENT } from 'services/constants/chat';
 
 const Companylist = () => {
   const history = useHistory();
@@ -67,6 +69,36 @@ const Companylist = () => {
       },
     });
   };
+
+  useEffect(() => {
+    if (
+      headerData.filled &&
+      headerData.filledAddress &&
+      Cookies.get('companyState') !== 'new'
+    ) {
+      console.log('connected');
+      const socket = io(
+        `${process.env.REACT_APP_WEBSOCKET_URL}/nsp_staff_svdfv8732f5rycf76f8732rvuy23cfi77c3u6fr2387frv8237vfidu23vf2vdd7324df4`,
+        {
+          path: '/',
+          auth: {
+            token: `Bearer ${localStorage.getItem('companyToken')}`,
+          },
+        }
+      );
+
+      socket.on(SOCKET_EVENT.CHAT_MODERATOR_TO_PARTNER, function (data: any) {
+        console.log(data, 'm');
+      });
+
+      socket.on(SOCKET_EVENT.CHAT_CLIENT_TO_PARTNER, function (data: any) {
+        console.log(data, 'p');
+      });
+
+      // dispatch(setSocketAction(socket));
+      // dispatch(setModeratorSocket(socket));
+    }
+  }, [headerData.filled, headerData.filledAddress]);
 
   return openPlus ? (
     <AddCompany />

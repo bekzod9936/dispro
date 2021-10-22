@@ -8,8 +8,6 @@ import { setSocket } from './services/redux/Slices/FeedbackSlice';
 import { setCurrentPage } from './services/redux/Slices/partnerSlice';
 // import i18n from "./services/localization/i18n";
 
-const io = require('socket.io-client');
-
 function App() {
   //const match = useRouteMatch();
   const { i18n } = useTranslation();
@@ -22,6 +20,7 @@ function App() {
       i18n.changeLanguage(language);
     }
   }, [language, i18n]);
+
   useEffect(() => {
     let path = window.location.pathname
       .split('')
