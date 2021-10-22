@@ -19,10 +19,18 @@ const useReferalData = () => {
   const [saving, setSaving] = useState(false);
   const [newState, setNewState] = useState<string>("old");
   const [checkedState, setCheckedState] = useState<boolean>(false);
-  const { control, setValue, handleSubmit } = useForm<FormProps>({
-    mode: "onBlur",
+  const {
+    control,
+    setValue,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormProps>({
+    mode: "onChange",
+    reValidateMode: "onChange",
     shouldFocusError: true,
   });
+
+  console.log(errors, "errors");
 
   const handleSwitch = (checked: boolean) => {
     setCheckedState(checked);
@@ -134,6 +142,7 @@ const useReferalData = () => {
     append,
     remove,
     handleSubmit,
+    errors,
   };
 };
 

@@ -5,11 +5,12 @@ export interface IText {
   color?: string;
   marginLeft?: string;
   marginRight?: string;
+  marginBottom?: string;
   fontFamily?: string;
 }
 
 export interface IFlex {
-  maxWidth?: string,
+  maxWidth?: string;
   justifyContent?:
     | "space-between"
     | "space-around"

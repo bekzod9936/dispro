@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from 'react-query';
 import { useHistory } from 'react-router';
@@ -16,6 +16,7 @@ import {
   Img,
   Main,
   ChooseText,
+  ImgDiv,
 } from './style';
 import { useAppDispatch } from '../../../../services/redux/hooks';
 import { refetchCompanyList } from '../../../../services/redux/Slices/authSlice';
@@ -23,6 +24,8 @@ import LogoDef from '../../../../assets/icons/SideBar/logodefault.png';
 import Cookies from 'js-cookie';
 import AddCompany from '../AddCompany';
 import useLayout from 'components/Layout/useLayout';
+import io from 'socket.io-client';
+import { SOCKET_EVENT } from 'services/constants/chat';
 
 const Companylist = () => {
   const history = useHistory();
@@ -68,6 +71,36 @@ const Companylist = () => {
     });
   };
 
+  useEffect(() => {
+    if (
+      headerData.filled &&
+      headerData.filledAddress &&
+      Cookies.get('companyState') !== 'new'
+    ) {
+      console.log('connected');
+      const socket = io(
+        `${process.env.REACT_APP_WEBSOCKET_URL}/nsp_staff_svdfv8732f5rycf76f8732rvuy23cfi77c3u6fr2387frv8237vfidu23vf2vdd7324df4`,
+        {
+          path: '/',
+          auth: {
+            token: `Bearer ${localStorage.getItem('companyToken')}`,
+          },
+        }
+      );
+
+      socket.on(SOCKET_EVENT.CHAT_MODERATOR_TO_PARTNER, function (data: any) {
+        console.log(data, 'm');
+      });
+
+      socket.on(SOCKET_EVENT.CHAT_CLIENT_TO_PARTNER, function (data: any) {
+        console.log(data, 'p');
+      });
+
+      // dispatch(setSocketAction(socket));
+      // dispatch(setModeratorSocket(socket));
+    }
+  }, [headerData.filled, headerData.filledAddress]);
+
   return openPlus ? (
     <AddCompany />
   ) : (
@@ -103,14 +136,13 @@ const Companylist = () => {
               loading={v.company.id === id ? company.isLoading : false}
             >
               <Wrap>
-                <Img
-                  src={v.company.logo === '' ? LogoDef : v.company.logo}
-                  alt='Company-Logo'
-                  onError={(e: any) => {
-                    e.target.onerror = null;
-                    e.target.src = LogoDef;
-                  }}
-                />
+                <ImgDiv>
+                  <Img
+                    src={v.company.logo === '' ? LogoDef : v.company.logo}
+                    alt='Company-Logo'
+                    objectFit='contain'
+                  />
+                </ImgDiv>
               </Wrap>
               <Text color='#223367'>{v.company.name}</Text>
             </Box>

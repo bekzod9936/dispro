@@ -1,27 +1,29 @@
 import Snackbar from "@material-ui/core/Snackbar";
 import Slide from "@material-ui/core/Slide";
-import { SProps } from "./types";
-import { AlertDiv, IconDiv } from "./style";
-import { ReactComponent as Remove } from "assets/icons/exit_mini.svg";
-import RippleEffect from "../RippleEffect";
+import { SProps, IDirections } from "./types";
+import { AlertDiv } from "./style";
 import { Text } from "./style";
 
 function TransitionDown(props: any) {
   return <Slide {...props} direction="down" />;
 }
 
+function TransitionLeft(props: any) {
+  return <Slide {...props} direction="left" />;
+}
+
 const NotifySnack = (props: SProps) => {
-  const { vertical, horizontal, open, message, handleClose } = props;
+  const { vertical, horizontal, open, message, handleClose, error } = props;
   return (
     <Snackbar
       anchorOrigin={{ vertical, horizontal }}
       autoHideDuration={5000}
       open={open}
-      TransitionComponent={TransitionDown}
+      TransitionComponent={!error ? TransitionDown : TransitionLeft}
       onClose={handleClose}
     >
-      <AlertDiv>
-        <Text color="white">{message}</Text>
+      <AlertDiv error={error}>
+        <Text error={error}>{message}</Text>
       </AlertDiv>
     </Snackbar>
   );

@@ -89,6 +89,7 @@ const Operations = () => {
       title: t("gender"),
       content: (
         <Radio
+          flexDirection="row"
           list={[
             { value: "1", label: `${t("male")}` },
             { value: "2", label: `${t("female")}` },

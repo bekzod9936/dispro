@@ -1,5 +1,6 @@
-import styled from 'styled-components';
-import { device } from '../../../styles/device';
+import styled from "styled-components";
+import { device } from "../../../styles/device";
+import { RProps, LabelProps } from "./types";
 
 export const Container = styled.div`
   span.MuiRadio-colorSecondary.Mui-checked {
@@ -15,13 +16,14 @@ export const Container = styled.div`
   }
   span.MuiTypography-body1 {
     font-weight: 500 !important ;
-    font-size: 16px !important ;
+    font-size: 16px;
     color: #223367 !important ;
     text-transform: capitalize;
   }
   .MuiFormControl-root {
     display: flex !important ;
-    flex-direction: row !important ;
+    flex-direction: ${({ flexDirection = "row" }: RProps) =>
+      flexDirection} !important;
   }
   @media (min-width: ${device.laptop}) {
     legend.MuiFormLabel-root {

@@ -1,7 +1,6 @@
 import MultiSelect from "components/Custom/MultiSelect";
 import { Controller, useFieldArray, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import Input from "components/Custom/Input";
 import { LevelGrid, RequirementsGrid, SelectGrid, SubText } from "../styles";
 import { IconDiv } from "./style";
 import RippleEffect from "components/Custom/RippleEffect";
@@ -279,7 +278,11 @@ const NestedArray = ({ index, control, getValues, setValue }: IProps) => {
                       width={{
                         minwidth: 100,
                       }}
-                      field={field}
+                      {...field}
+                      onChange={(e: any) => {
+                        field.onChange(e.target.value);
+                      }}
+                      // field={field}
                       inputStyle={{
                         inpadding: "0 0 5px 2px",
                         border: "none",
