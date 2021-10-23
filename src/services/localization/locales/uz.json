@@ -316,5 +316,6 @@
   "fields_not_filled": "Maydonlar to'ldirilmagan",
   "percentage_in": "Foizda",
   "must_be_more_than": "ko'proq",
-  "count": "Soni"
+  "count": "Soni",
+  "common": {}
 }
