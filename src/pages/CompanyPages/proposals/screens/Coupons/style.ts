@@ -120,7 +120,7 @@ export const DownSide = styled.div`
 `
 export const Form = styled.form`
     background-color: #FFFFFF;
-    width: 100%;
+    width: 95%;
     height: 100%;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
     border-radius: 14px;
@@ -170,31 +170,31 @@ export const ErrorMessage = styled.span`
 
   @media (max-width: ${device.mobile}) {
     font-size: ${({ labelStyle }: any) =>
-      labelStyle?.fontSize?.mobile
-        ? `${labelStyle?.fontSize?.mobile}px`
-        : '14px'} !important;
+    labelStyle?.fontSize?.mobile
+      ? `${labelStyle?.fontSize?.mobile}px`
+      : '14px'} !important;
     margin-top: 3px;
   }
   @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
     font-size: ${({ labelStyle }: any) =>
-      labelStyle?.fontSize?.planshet
-        ? `${labelStyle?.fontSize?.planshet}px`
-        : '14px'} !important;
+    labelStyle?.fontSize?.planshet
+      ? `${labelStyle?.fontSize?.planshet}px`
+      : '14px'} !important;
     margin-top: 3px;
   }
   @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
     font-size: ${({ labelStyle }: any) =>
-      labelStyle?.fontSize?.laptop
-        ? `${labelStyle?.fontSize?.laptop}px`
-        : '14px'} !important;
+    labelStyle?.fontSize?.laptop
+      ? `${labelStyle?.fontSize?.laptop}px`
+      : '14px'} !important;
     flex-direction: column;
     margin-top: 3px;
   }
   @media (min-width: ${device.laptop}) {
     font-size: ${({ labelStyle }: any) =>
-      labelStyle?.fontSize?.desktop
-        ? `${labelStyle?.fontSize?.desktop}px`
-        : '16px'} !important;
+    labelStyle?.fontSize?.desktop
+      ? `${labelStyle?.fontSize?.desktop}px`
+      : '16px'} !important;
     margin-top: 5px;
   }
 `;

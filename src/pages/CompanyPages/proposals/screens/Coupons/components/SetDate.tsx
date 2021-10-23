@@ -7,6 +7,7 @@ import { useHistory } from 'react-router'
 import { ICoupon } from '..'
 import { CancelIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
 import { PublishIcon } from 'assets/icons/proposals/ProposalsIcons'
+import { getValidDate } from 'pages/CompanyPages/proposals/utils/getValidDate'
 
 
 interface IProps {
@@ -20,12 +21,7 @@ interface IProps {
 export const SetDate = ({handleClose, mutation, setPeriod, coupon, setDate}: IProps) => {
 
 
-    const getValidDate = (obj: any) => {
-        const day = obj.day < 10 ? `0${obj.day}` : obj.day
-        const month = obj.month < 10 ? `0${obj.month}` : obj.month
-        const year = obj.year
-        return `${year}-${month}-${day}`
-    }
+    
 
     const {handleSubmit, control, watch} = useForm()
     const history = useHistory()
@@ -35,7 +31,7 @@ export const SetDate = ({handleClose, mutation, setPeriod, coupon, setDate}: IPr
         const publishDate = getValidDate(data.publishDate)
         
         setDate(publishDate)
-        mutation.mutate({
+        mutation({
             ...coupon,
             endDate: endDate,
             startDate: startDate,

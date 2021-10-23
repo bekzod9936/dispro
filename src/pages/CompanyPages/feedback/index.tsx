@@ -2,13 +2,17 @@ import NavBar from 'components/Custom/NavBar';
 import Title from 'components/Custom/Title';
 import Input from 'components/Custom/Input';
 import Spinner from 'components/Custom/Spinner';
-import { Suspense, useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Route, Switch, useRouteMatch } from 'react-router';
-import useFinanceRoute from './routes';
+import useFeedBackRoute from './routes';
 import Filter from 'components/Custom/Filter/index';
 import Grade from './components/Grade';
 import feedDef from 'assets/images/feedback.png';
+import User from './components/User';
+import MultiSelect from 'components/Custom/MultiSelect';
+import CheckBox from 'components/Custom/CheckBox';
+import useFeedBack from './hooks/useFeedBack';
 import {
   MainWrapper,
   WrapHeader,
@@ -24,26 +28,71 @@ import {
   Content,
   Img,
   WrapDef,
+  WrapChecks,
+  WrapCheck,
+  Label,
 } from './style';
-import { AnimatePresence, AnimateSharedLayout, motion } from 'framer-motion';
-import User from './components/User';
+import { useAppSelector } from 'services/redux/hooks';
 
 const FeedBack = () => {
   const { t } = useTranslation();
-  const { menuItems } = useFinanceRoute();
+  const { menuItems } = useFeedBackRoute();
+  const [page, setPage] = useState(1);
+
+  const { resClients, resCashiers, resRatings } = useFeedBack({ page });
+  const cashiers = useAppSelector((state) => state.feedbackPost.cashiers);
 
   const handleFilterSubmit = async () => {};
 
   const onReset = async () => {};
 
   let match = useRouteMatch();
-  const [state, setState] = useState('');
+  const [cashierStaffId, setCashierStaffId] = useState('');
+  const [checked, setChecked] = useState(false);
+  const filterList = [
+    {
+      title: t('bycashier'),
+      content: (
+        <MultiSelect
+          label={t('chose_cashier')}
+          options={[]}
+          onChange={(e: any) => setCashierStaffId(e)}
+          value={cashierStaffId}
+          selectStyle={{ bgcolor: '#eff0fd' }}
+        />
+      ),
+    },
+    {
+      title: t('byRating'),
+      content: (
+        <WrapCheck>
+          <Label>{t('chose_status')}</Label>
+          <WrapChecks>
+            {[1, 2, 3, 4, 5]?.map((v: any) => (
+              <CheckBox
+                checkedIcon={<StarIcon checked={checked} margin='0 10px' />}
+                icon={<StarIcon checked={checked} margin='0 10px' />}
+                key={v}
+                checked={checked}
+                name={v}
+                onChange={(e: any) => setChecked(e)}
+              />
+            ))}
+          </WrapChecks>
+        </WrapCheck>
+      ),
+    },
+  ];
+
   return (
     <MainWrapper>
       <Wrapper>
-        <WrapHeader className='ssss'>
+        <WrapHeader>
           <LeftHeader>
             <Title>{t('feedbackPage')}</Title>
+            <div style={{ display: 'flex' }}>
+              <NavBar list={menuItems} margin='10px 0 0' />
+            </div>
             {match.url === '/feedback' ? (
               <FilterWarp>
                 <Input
@@ -64,24 +113,18 @@ const FeedBack = () => {
                   margin={{ laptop: '0 20px 0 0' }}
                   placeholder={t('searchbyclients')}
                 />
-                <Filter onSubmit={handleFilterSubmit} onReset={onReset} />
+                <Filter
+                  list={filterList}
+                  onSubmit={handleFilterSubmit}
+                  onReset={onReset}
+                />
               </FilterWarp>
             ) : null}
-            <NavBar list={menuItems} margin='10px 0' />
             {match.url === '/feedback' ? (
               <Content>
                 <WrapDef>
                   {/* <Img src={feedDef} alt='feedback' />
                   {t('feeddef')} */}
-                  <User />
-                  <User />
-                  <User />
-                  <User />
-                  <User />
-                  <User />
-                  <User />
-                  <User />
-                  <User />
                   <User />
                   <User />
                   <User />

@@ -93,22 +93,22 @@ const MessagesSection = () => {
 
   let token = localStorage.getItem('partner_access_token');
   const dispatch = useAppDispatch();
-  useEffect(() => {
-    if (!socketConnection) {
-      const socket = io(
-        `${process.env.REACT_APP_WEBSOCKET_URL}/nsp_staff_svdfv8732f5rycf76f8732rvuy23cfi77c3u6fr2387frv8237vfidu23vf2vdd7324df4`,
-        {
-          path: '/',
-          auth: {
-            token: `Bearer ${token}`,
-          },
-        }
-      );
-      socket.on('connect', (res: any) => {
-        dispatch(setSocket(socket));
-      });
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!socketConnection) {
+  //     const socket = io(
+  //       `${process.env.REACT_APP_WEBSOCKET_URL}/nsp_staff_svdfv8732f5rycf76f8732rvuy23cfi77c3u6fr2387frv8237vfidu23vf2vdd7324df4`,
+  //       {
+  //         path: '/',
+  //         auth: {
+  //           token: `Bearer ${token}`,
+  //         },
+  //       }
+  //     );
+  //     socket.on('connect', (res: any) => {
+  //       dispatch(setSocket(socket));
+  //     });
+  //   }
+  // }, []);
 
   useEffect(() => {
     if (socketConnection !== null) {
