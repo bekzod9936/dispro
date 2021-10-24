@@ -1,16 +1,32 @@
 import Spinner from "components/Helpers/Spinner";
 import { useState } from "react";
-import { useAppSelector } from "services/redux/hooks";
+import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 import { numberWith } from "services/utils";
 import { useDebounce } from "use-debounce/lib";
+import Button from "components/Custom/Button";
 import CashierTable from "../../components/CashierTable";
+import { SideBar } from "../../components/SideBar";
 import useCashiers from "../../hooks/useCashiers";
 import { SpinnerDiv } from "../../style";
-import { CashierDiv } from "./style";
+import CashierBar from "./components/CashierBar";
+import { ReactComponent as EmptyCashier } from "assets/images/staffs_empty.svg";
+import { ReactComponent as AddCashier } from "assets/icons/add_cashier.svg";
+import {
+  CashierDiv,
+  EmptyContainer,
+  EmptyLeft,
+  EmptyRight,
+  Text,
+  Break,
+} from "./style";
 
 const CashierScreen = () => {
+  const dispatch = useAppDispatch();
   const query = useAppSelector((state) => state.staffs.query);
   const cashiers = useAppSelector((state) => state.staffs.cashiers);
+  const selectedCashiers = useAppSelector(
+    (state) => state.staffs.selectedCashiers
+  );
   const [period, setPeriod] = useState({
     startDate: "",
     endDate: "",
@@ -31,7 +47,7 @@ const CashierScreen = () => {
         <SpinnerDiv>
           <Spinner />
         </SpinnerDiv>
-      ) : (
+      ) : cashiers?.length > 0 ? (
         <CashierTable
           cashiers={cashiers.map((cashier: any) => {
             return {
@@ -49,7 +65,24 @@ const CashierScreen = () => {
             };
           })}
         />
+      ) : (
+        <EmptyContainer>
+          <EmptyLeft>
+            <EmptyCashier />
+          </EmptyLeft>
+          <EmptyRight>
+            <Text>
+              На данный момент кассиры в компании отсутствуют. Добавьте кассира,
+              для внесения оплат клиентами.
+            </Text>
+            <Break />
+            <Button startIcon={<AddCashier />}>Добавить кассира</Button>
+          </EmptyRight>
+        </EmptyContainer>
       )}
+      <SideBar isOpen={!!selectedCashiers.length}>
+        <CashierBar />
+      </SideBar>
     </CashierDiv>
   );
 };

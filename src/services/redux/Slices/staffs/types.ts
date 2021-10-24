@@ -2,6 +2,8 @@ export interface staffsState {
   cashiers: ICashiers[];
   managers: IManagers[];
   query?: string;
+  allCashiers?: any;
+  selectedCashiers?: any;
 }
 
 export interface ICashiers {

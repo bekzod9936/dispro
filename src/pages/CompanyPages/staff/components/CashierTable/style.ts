@@ -1,8 +1,30 @@
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import styled from "styled-components";
 import { ITRow } from "./types";
 
 import { ReactComponent as Up } from "assets/icons/up.svg";
 import { device } from "styles/device";
+
+export const ImgDiv = styled.div`
+  border-radius: 10px;
+  overflow: hidden;
+  object-fit: contain;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+`;
+
+export const Img = styled(LazyLoadImage)`
+  /* width: 100%;
+  height: 100%; */
+  object-fit: contain;
+  /* .lazy-load-image-background {
+    height: 100% !important;
+  } */
+`;
 
 export const Container = styled.div`
   background: #ffffff;
@@ -219,4 +241,11 @@ export const MCheckbox = styled.div`
       font-size: 18px !important ;
     }
   }
+`;
+
+export const WrapIcon = styled.div`
+  display: flex;
+  flex: 1;
+  justify-content: flex-start;
+  align-items: center;
 `;

@@ -5,6 +5,8 @@ const initialState: staffsState = {
   cashiers: [],
   managers: [],
   query: "",
+  allCashiers: [],
+  selectedCashiers: [],
 };
 
 const staffsSlice = createSlice({
@@ -20,8 +22,20 @@ const staffsSlice = createSlice({
     setQuery: (state, action: PayloadAction<string>) => {
       state.query = action.payload;
     },
+    selectAllCashier: (state, action: any) => {
+      state.allCashiers = action.payload;
+    },
+    setSelectedCashiers: (state, action: any) => {
+      state.selectedCashiers = action.payload;
+    },
   },
 });
 
-export const { setCashiers, setManagers, setQuery } = staffsSlice.actions;
+export const {
+  setCashiers,
+  setManagers,
+  setQuery,
+  selectAllCashier,
+  setSelectedCashiers,
+} = staffsSlice.actions;
 export default staffsSlice.reducer;

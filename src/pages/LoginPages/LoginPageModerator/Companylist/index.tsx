@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
 import { useHistory } from "react-router";
-import Spinner from "../../../../components/Helpers/Spinner";
+import Spinner from "components/Helpers/Spinner";
 import {
   fetchPartnerCompanies,
   enterCompany,
-} from "../../../../services/queries/PartnerQueries";
+} from "services/queries/PartnerQueries";
 import {
   Container,
   PlusIcon,
@@ -18,9 +18,9 @@ import {
   ChooseText,
   ImgDiv,
 } from "./style";
-import { useAppDispatch } from "../../../../services/redux/hooks";
-import { refetchCompanyList } from "../../../../services/redux/Slices/authSlice";
-import LogoDef from "../../../../assets/icons/SideBar/logodefault.png";
+import { useAppDispatch } from "services/redux/hooks";
+import { refetchCompanyList } from "services/redux/Slices/authSlice";
+import LogoDef from "assets/icons/SideBar/logodefault.png";
 import Cookies from "js-cookie";
 import AddCompany from "../AddCompany";
 import useLayout from "components/Layout/useLayout";

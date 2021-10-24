@@ -15,6 +15,12 @@ export const searchCashiers = async (queryString: string) => {
   return response;
 };
 
+export const deleteSingleCashier = (data: any) => {
+  const response = partnerApi.delete(`/core/staffs?ids=[${data}]`);
+
+  return response;
+};
+
 //managers tab
 
 export const getManagers = async (page: number, url: string) => {

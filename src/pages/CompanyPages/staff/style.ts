@@ -64,4 +64,7 @@ export const PopoverRow = styled(ButtonBase)`
     light ? "#fff" : "rgba(96, 110, 234, 0.1)"};
   padding: 15px 25px;
   width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
 `;
