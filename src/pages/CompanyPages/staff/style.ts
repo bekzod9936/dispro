@@ -1,5 +1,10 @@
 import { IFlex } from "services/Types/Style";
 import styled from "styled-components";
+import ButtonBase from "@material-ui/core/ButtonBase";
+
+export interface IRow {
+  light?: boolean;
+}
 
 export const MainWrapper = styled.div`
   padding: 25px 0 0 25px;
@@ -7,6 +12,8 @@ export const MainWrapper = styled.div`
   height: 100%;
   flex-direction: column;
   position: relative;
+  overflow-y: scroll;
+  padding-bottom: 40px;
 `;
 
 export const Flex = styled.div<IFlex>`
@@ -43,4 +50,18 @@ export const SpinnerDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+export const StaffPopover = styled.div`
+  border-radius: 14px;
+  background-color: white;
+  width: 250px;
+  padding: 10px 0;
+`;
+
+export const PopoverRow = styled(ButtonBase)`
+  background: ${({ light }: IRow) =>
+    light ? "#fff" : "rgba(96, 110, 234, 0.1)"};
+  padding: 15px 25px;
+  width: 100%;
 `;
