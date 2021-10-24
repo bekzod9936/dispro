@@ -80,7 +80,7 @@ const CashierScreen = () => {
           </EmptyRight>
         </EmptyContainer>
       )}
-      <SideBar isOpen={!!selectedCashiers.length}>
+      <SideBar isOpen={selectedCashiers.length}>
         <CashierBar />
       </SideBar>
     </CashierDiv>

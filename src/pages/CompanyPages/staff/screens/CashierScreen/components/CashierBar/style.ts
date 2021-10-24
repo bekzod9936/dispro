@@ -101,7 +101,7 @@ export const Text = styled.p`
 `;
 
 export const Break = styled.div`
-  height: ${({ height }: IBreakH) => height + "px"};
+  height: ${({ height = 50 }: IBreakH) => height + "px"};
 `;
 
 export const BreakH = styled.div`
@@ -111,6 +111,7 @@ export const BreakH = styled.div`
 export const UpSide = styled.div`
   display: flex;
   flex-direction: column;
+
   flex: 5;
 `;
 

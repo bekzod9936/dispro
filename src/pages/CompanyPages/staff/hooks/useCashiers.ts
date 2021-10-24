@@ -6,7 +6,11 @@ import {
   searchCashiers,
 } from "services/queries/StaffQueries";
 import { useAppDispatch } from "services/redux/hooks";
-import { selectAllCashier, setCashiers } from "services/redux/Slices/staffs";
+import {
+  selectAllCashier,
+  setCashiers,
+  setSelectedCashiers,
+} from "services/redux/Slices/staffs";
 import { numberWith } from "services/utils";
 
 const useCashiers = ({ page, query, period }: any) => {
@@ -59,6 +63,7 @@ const useCashiers = ({ page, query, period }: any) => {
     onSuccess: () => {
       setOpen(false);
       response.refetch();
+      dispatch(setSelectedCashiers([]));
     },
   });
 
