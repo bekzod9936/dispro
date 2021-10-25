@@ -89,6 +89,7 @@ const MultiSelect = ({ iconmargin, ...props }: Props) => {
   };
 
   const customStyle = {
+    menuPortal: (base: any) => ({ ...base, zIndex: 999999 }),
     control: (base: any, state: any) => ({
       ...base,
       border: props.error
@@ -148,6 +149,7 @@ const MultiSelect = ({ iconmargin, ...props }: Props) => {
         {...props}
         {...props.field}
         placeholder={props.placeholder ? props.placeholder : ""}
+        menuPortalTarget={document.body}
       />
       {props.error ? (
         <Message labelStyle={props.labelStyle}>{props.message}</Message>

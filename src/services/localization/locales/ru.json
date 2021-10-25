@@ -229,6 +229,7 @@
   "saturday": "Суббота",
   "sunday": "Воскресенье",
   "chose_filial": "Выберите филиалы",
+  "choose_branch": "Выберите филиал",
   "columnTitle": "Заголовок",
   "publishDate": "Срок публикации",
   "hookText": "Зазывающий текст",
@@ -390,5 +391,7 @@
   "writemessage": "Написать сообщение",
   "searchthere": "Искать здесь",
   "writeyoutmessage": "Напишите ваше сообщение",
-  "send": "Отправить"
+  "send": "Отправить",
+  "cashier_name": "Имя кассира",
+  "cashier_lastName": "Фамилия кассира"
 }
