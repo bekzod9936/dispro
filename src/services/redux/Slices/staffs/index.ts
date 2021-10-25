@@ -7,6 +7,8 @@ const initialState: staffsState = {
   query: "",
   allCashiers: [],
   selectedCashiers: [],
+  openFilter: false,
+  openCash: false,
 };
 
 const staffsSlice = createSlice({
@@ -28,6 +30,12 @@ const staffsSlice = createSlice({
     setSelectedCashiers: (state, action: any) => {
       state.selectedCashiers = action.payload;
     },
+    setOpenFilter: (state, action: any) => {
+      state.openFilter = action.payload;
+    },
+    setOpenCash: (state, action: any) => {
+      state.openCash = action.payload;
+    },
   },
 });
 
@@ -37,5 +45,7 @@ export const {
   setQuery,
   selectAllCashier,
   setSelectedCashiers,
+  setOpenFilter,
+  setOpenCash,
 } = staffsSlice.actions;
 export default staffsSlice.reducer;

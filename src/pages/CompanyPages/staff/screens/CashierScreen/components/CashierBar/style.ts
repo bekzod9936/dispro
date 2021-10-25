@@ -16,7 +16,9 @@ export const BarContainer = styled.div`
 `;
 
 export const CashierCard = styled.div`
-  padding: 30px;
+  padding-top: 15%;
+  padding-left: 10%;
+  padding-right: 10%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -111,30 +113,13 @@ export const BreakH = styled.div`
 export const UpSide = styled.div`
   display: flex;
   flex-direction: column;
-
-  flex: 5;
+  flex: 6;
 `;
 
 export const DownSide = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   flex: 1;
-`;
-
-export const ModalContent = styled.div`
-  padding: 30px 40px;
-`;
-
-export const ModalBody = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-`;
-
-export const ModalAction = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
 `;

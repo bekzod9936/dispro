@@ -1,6 +1,8 @@
 import moment from "moment";
+import { useTranslation } from "react-i18next";
 import { useAppSelector } from "services/redux/hooks";
 import useCashiers from "../../../../hooks/useCashiers";
+import { ModalContent, ModalBody, ModalAction } from "../../style";
 import {
   BarContainer,
   CashierCard,
@@ -16,9 +18,6 @@ import {
   BreakH,
   UpSide,
   DownSide,
-  ModalContent,
-  ModalBody,
-  ModalAction,
 } from "./style";
 import { ReactComponent as Logo } from "assets/icons/cashier_logo_placeholder.svg";
 import { ReactComponent as EditIcon } from "assets/icons/edit_cashier.svg";
@@ -30,8 +29,6 @@ import CashierAvg from "assets/icons/cashier_avg.png";
 import CashierRecommend from "assets/icons/cashier_recommend.png";
 import Button from "components/Custom/Button";
 import Modal from "components/Custom/Modal";
-import RippleEffect from "components/Custom/RippleEffect";
-import { useTranslation } from "react-i18next";
 
 const CashierBar = () => {
   const { t } = useTranslation();
@@ -44,7 +41,6 @@ const CashierBar = () => {
     (state) => state.staffs.selectedCashiers
   );
 
-  console.log(selectedCashiers, "selected");
   const staffsDiv = () => {
     if (selectedCashiers?.length === 1) {
       return (
@@ -131,6 +127,8 @@ const CashierBar = () => {
               </Button>
             </CashierRow>
           </DownSide>
+
+          {/* delete cashier */}
           <Modal open={open}>
             <ModalContent>
               <ModalBody>
