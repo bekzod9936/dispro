@@ -1,31 +1,36 @@
 import axios from "axios"
 import { ICoupon } from "pages/CompanyPages/proposals/screens/Coupons"
 import partnerApi from "services/interceptors/companyInterceptor"
+import { IDeferred } from "services/redux/Slices/proposals/types"
 
 
-export const uploadImg = async(data: any) => {
+export const uploadImg = async (data: any) => {
     const response = await axios.post("https://storage.uat.dis-count.app/coupon/upload", data)
     return response
 }
 
 
-export const fetchDeferred = async(query: any) => {
+export const fetchCoupons = async (query: string, situation: number) => {
     if (query) {
         const response = await partnerApi(`/bonus/coupons/type/2/search/by?key=${query}`)
         return response
     } else {
-        const response = await partnerApi("/bonus/coupons/type/2/by/company/situation/1")
+        const response = await partnerApi(`/bonus/coupons/type/2/by/company/situation/${situation}`)
         return response
     }
 }
 
 
-export const postCoupon = async(data: ICoupon) => {
+export const postCoupon = async (data: ICoupon) => {
     const response = await partnerApi.post("/bonus/coupons/", data)
     return response
 }
 
-export const putCoupon = async(id: number, data: any) => {
+export const putCoupon = async (id: number, data: any) => {
     const response = await partnerApi.put(`/bonus/coupons/${id}/publish`, data)
 }
 
+export const updateCoupon = async (id: number, data: IDeferred) => {
+    const response = partnerApi.put(`/bonus/coupons/${id}/publish`, data)
+    return response
+}

@@ -1,10 +1,12 @@
 export interface IState {
     drafts: any[],
     deferred: IDeferred[],
-    onSale: any[],
+    onSale: IDeferred[],
     archive: any[],
     canceled: any[],
-    isLoading: boolean
+    isLoading: boolean,
+    currentCoupon: IDeferred | any
+    currentOnSaleCoupon: IDeferred | any
 }
 
 

@@ -56,7 +56,7 @@ export const numberWith = (
   replaceValue: string,
   defaultValue?: string
 ) => {
-  const defVal = defaultValue || "";
+  const defVal = defaultValue || "-";
 
   return x
     ? x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, replaceValue)

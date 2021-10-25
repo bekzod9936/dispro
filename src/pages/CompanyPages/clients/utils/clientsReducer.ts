@@ -63,6 +63,7 @@ export const clientsReducer = (
       };
     }
     case ActionTypes.SELECT_ALL: {
+      console.log(state.clients, "clients");
       return {
         ...state,
         selectedClients: payload ? [...state.clients] : [],

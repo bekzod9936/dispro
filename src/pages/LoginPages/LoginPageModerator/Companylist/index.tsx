@@ -1,12 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from 'react-query';
 import { useHistory } from 'react-router';
-import Spinner from '../../../../components/Helpers/Spinner';
+import Spinner from 'components/Helpers/Spinner';
 import {
   fetchPartnerCompanies,
   enterCompany,
-} from '../../../../services/queries/PartnerQueries';
+} from 'services/queries/PartnerQueries';
 import {
   Container,
   PlusIcon,
@@ -56,7 +56,6 @@ const Companylist = () => {
       onSuccess: (data) => {
         localStorage.setItem('companyId', data.data.data.companyId);
         localStorage.setItem('companyToken', data.data.data.accessToken);
-
         if (
           Cookies.get('companyState') === 'new' ||
           !headerData.filled ||
