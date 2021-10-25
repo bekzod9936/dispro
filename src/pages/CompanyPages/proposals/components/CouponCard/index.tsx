@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import ImageLazyLoad from 'components/Custom/ImageLazyLoad/ImageLazyLoad';
 import { Container, ImageBlock, Main, Submain } from './style';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {
     img: string
@@ -16,26 +17,38 @@ interface IProps {
     onClick: (arg: any) => void,
     isSelected: boolean
 }
-export const CouponCard = ({isSelected, img, type, description, title, value, count, ageFrom, categoryIds, price, onClick}: IProps) => {
-    
+export const CouponCard = ({
+    isSelected, 
+    img, 
+    type, 
+    description, 
+    title, 
+    value, 
+    count, 
+    ageFrom, 
+    categoryIds, 
+    price, 
+    onClick}: IProps) => {
+    const isCoupon = type === 1 
+    const { t } = useTranslation()
     return (
         <Container isSelected={isSelected} onClick={onClick}>
             <ImageBlock>
                 <ImageLazyLoad objectFit="contain" src={img} alt=""/>
             </ImageBlock>
             <Main>
-                <h6>{type === 1 ? "Coupon" : "Certificate"}</h6>
+                <h6>{isCoupon ? t("coupon") : t("certificate")}</h6>
                 <h4>{title}</h4>
                 <p>{description}</p>
             </Main>
             <Submain>
-                <p>Value: {value}%</p>
-                <p>Categories: {categoryIds.map((el: number) => (
+                <p>{isCoupon ? t("coupon_value") : t("certificate_value")}: {value} {isCoupon ? "%" : "Сум"}</p>
+                <p>{isCoupon ? t("coupon_amount") : t("certificate_amount")}: {count} шт</p>
+                <p>{isCoupon ? t("coupon_price") : t("certificate_price")}: {price} Сум</p>
+                <p>{t("categories")}: {categoryIds.map((el: number) => (
                     <span>{el}</span>
-                ))}%</p>
-                <p>Amount: {count} items</p>
-                <p>Cost: {price} sum</p>
-                {!!ageFrom && <p>Age limit: +{ageFrom}</p>}
+                ))}</p>
+                {!!ageFrom && <p>{t("age_limit")}: +{ageFrom}</p>}
             </Submain>
         </Container>
     )

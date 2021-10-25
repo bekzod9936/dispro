@@ -8,6 +8,8 @@ import { ICoupon } from '..'
 import { CancelIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
 import { PublishIcon } from 'assets/icons/proposals/ProposalsIcons'
 import { getValidDate } from 'pages/CompanyPages/proposals/utils/getValidDate'
+import { useAppDispatch } from 'services/redux/hooks'
+import { resetCurrentCoupon } from 'services/redux/Slices/proposals/proposals'
 
 
 interface IProps {
@@ -22,9 +24,10 @@ export const SetDate = ({handleClose, mutation, setPeriod, coupon, setDate}: IPr
 
 
     
-
+    const dispatch = useAppDispatch()
     const {handleSubmit, control, watch} = useForm()
     const history = useHistory()
+
     const onPublish = (data: any) => {
         const startDate = getValidDate(data.startDate)
         const endDate = getValidDate(data.endDate)
@@ -34,15 +37,17 @@ export const SetDate = ({handleClose, mutation, setPeriod, coupon, setDate}: IPr
             setDate(publishDate)
         }
         mutation({
-            ...coupon,
-            endDate: endDate,
-            startDate: startDate,
+            id: coupon.id,
+            data: {
+                addDay: false,
+                publishDate
+            }
         })
-        
+        dispatch(resetCurrentCoupon())
         if(setPeriod) {
             setPeriod(false)
         }
-        history.goBack()
+        setTimeout(() => history.goBack(), 1000)
     }
 
     return (

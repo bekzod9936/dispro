@@ -6,7 +6,9 @@ export interface IState {
     canceled: any[],
     isLoading: boolean,
     currentCoupon: IDeferred | any
-    currentOnSaleCoupon: IDeferred | any
+    currentOnSaleCoupon: IDeferred | any,
+    isSaving: boolean,
+    isError: boolean
 }
 
 

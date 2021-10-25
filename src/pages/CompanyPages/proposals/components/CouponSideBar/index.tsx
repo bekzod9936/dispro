@@ -10,8 +10,11 @@ import { deleteCoupon, putCoupon } from 'services/queries/ProposalsQueries'
 import { IDeferred } from 'services/redux/Slices/proposals/types'
 import { SetDate } from '../../screens/Coupons/components/SetDate'
 import { categories } from '../../screens/Coupons/constants'
-import { Wrapper, Header, DeleteModal, Content } from './style'
-
+import { Wrapper, Header, DeleteModal, Content, Preview, PreviewContent } from './style'
+import iphone from "assets/images/iphone.png"
+import { useAppSelector } from 'services/redux/hooks'
+import { RootState } from 'services/redux/store'
+import { useTranslation } from 'react-i18next'
 interface IProps {
     onClose: (arg: boolean) => void,
     currentCoupon: IDeferred,
@@ -21,22 +24,24 @@ interface IProps {
 }
 
 export const CouponBar = ({
-    onClose, 
-    currentCoupon, 
+    onClose,
+    currentCoupon,
     disableUpdate,
     resetCoupon,
-    refetch}: IProps) => {
-    
+    refetch }: IProps) => {
+
     const isCoupon = currentCoupon.type === 1
     const history = useHistory()
+    const { t } = useTranslation()
     const [isDeleteOpen, setDeleteOpen] = React.useState<boolean>(false)
     const [isPublishOpen, setPublisOpen] = React.useState<boolean>(false)
+    const { logo, name } = useAppSelector((state: RootState) => state.partner.companyInfo)
     const handleClose = () => {
         onClose(false)
         resetCoupon()
     }
-    const { mutate } = useMutation(({id, data}: any) => putCoupon(id, data))
-    
+    const { mutate } = useMutation(({ id, data }: any) => putCoupon(id, data))
+
     const handleUpdate = () => {
         if (isCoupon) {
             history.push("/proposals/update_coupon")
@@ -45,7 +50,7 @@ export const CouponBar = ({
         }
     }
 
-    const onDelete = async() => {
+    const onDelete = async () => {
         await deleteCoupon(currentCoupon.id)
         refetch()
         resetCoupon()
@@ -57,9 +62,20 @@ export const CouponBar = ({
         <Wrapper>
             <Header>
                 <h6>{isCoupon ? "Купон" : "Сертификат"}</h6>
-                <CloseIcon onClick={handleClose} style={{cursor: "pointer"}}/>
+                <CloseIcon onClick={handleClose} style={{ cursor: "pointer" }} />
             </Header>
-            <ImageLazyLoad objectFit="contain" src={currentCoupon.image} alt="previewImg"/>
+            <Preview>
+                <img className="couponImg" src={currentCoupon.image} alt="" />
+                <img className="iphoneImg" width="300" src={iphone} />
+                <PreviewContent>
+                    <img src={logo} />
+                    <span>{name}</span>
+                    <p>{isCoupon ? t("coupon") : t("certificate")}</p>
+                    {isCoupon ?
+                        <h5><span>{currentCoupon.value} %</span> {t("sale")}</h5> :
+                        <h5><span>{currentCoupon.value} сум</span></h5>}
+                </PreviewContent>
+            </Preview>
             <Content>
                 <h5>Информация</h5>
                 <p>{isCoupon ? "Скидка Купона" : "Сумма Сертификата"}: {currentCoupon.value} {isCoupon ? "%" : "Сум"}</p>
@@ -67,27 +83,27 @@ export const CouponBar = ({
                 <p>Стоимость {isCoupon ? "купона" : "сертификата"}: {currentCoupon.price} Сум</p>
                 {currentCoupon?.categoryIds?.length !== 0 && <p>Категория: {currentCoupon?.categoryIds?.map((el: number) => {
                     return (
-                        <span>{categories[el].label}</span>
+                        <span>{categories[el - 1].label}{el < categories.length ? ", " : "."}</span>
                     )
                 })}</p>}
                 <p>Возрастное ограничение: {currentCoupon.ageUnlimited ? "Нет" : currentCoupon.ageFrom + "+"}</p>
             </Content>
-            <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                 {!disableUpdate && <>
+                    <Button
+                        onClick={handleUpdate}
+                        startIcon={<PenIcon />}
+                        buttonStyle={{ color: "#606EEA", bgcolor: "rgba(96, 110, 234, 0.1)" }}>
+                        Редактировать Купон
+                    </Button>
+                    <Button
+                        onClick={() => setPublisOpen(true)}
+                        margin={{ laptop: "25px 0" }}>
+                        Опубликовать
+                    </Button></>}
                 <Button
-                    onClick={handleUpdate}
-                    startIcon={<PenIcon />}
-                    buttonStyle={{ color: "#606EEA", bgcolor: "rgba(96, 110, 234, 0.1)" }}>
-                    Редактировать Купон
-                </Button>
-                <Button
-                    onClick={() => setPublisOpen(true)}
-                    margin={{ laptop: "25px 0" }}>
-                    Опубликовать
-                </Button></>}
-                <Button 
                     onClick={() => setDeleteOpen(true)}
-                    buttonStyle={{color: "#ffffff", bgcolor: "#FF5E68"}} 
+                    buttonStyle={{ color: "#ffffff", bgcolor: "#FF5E68" }}
                     startIcon={<DeleteIcon />}>
                     Удалить купон
                 </Button>
@@ -99,15 +115,15 @@ export const CouponBar = ({
                     </h5>
                     <p>Бесконечность не предел</p>
                     <Button
-                        buttonStyle={{color: "#223367", bgcolor: "#ffffff"}}
-                        margin={{laptop: "0 22px 0 0"}}
-                        onClick={() => setDeleteOpen(false)} 
+                        buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
+                        margin={{ laptop: "0 22px 0 0" }}
+                        onClick={() => setDeleteOpen(false)}
                         startIcon={<CancelIcon />}>
                         Отмена
                     </Button>
-                    <Button 
-                        buttonStyle={{bgcolor: "#FF5E68 "}}
-                        onClick={onDelete} 
+                    <Button
+                        buttonStyle={{ bgcolor: "#FF5E68 " }}
+                        onClick={onDelete}
                         startIcon={<DeleteIcon />}>
                         Удалить
                     </Button>

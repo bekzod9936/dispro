@@ -220,3 +220,19 @@ export const PeriodWrapper = styled.div`
     margin-bottom: 10px;
   }
 `
+
+
+export const PreviewMessage = styled.div`
+  display: flex;
+  align-items: center;
+  svg {
+    margin-right: 20px;
+  }
+  p {
+    font-size: 16px;
+    line-height: 18.75px;
+    color: #223367;
+    width: 258px;
+    font-weight: 300;
+  }
+`

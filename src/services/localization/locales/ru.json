@@ -390,5 +390,15 @@
   "writemessage": "Написать сообщение",
   "searchthere": "Искать здесь",
   "writeyoutmessage": "Напишите ваше сообщение",
-  "send": "Отправить"
+  "send": "Отправить",
+  "coupon_value": "Скидка купона",
+  "certificate_value": "Сертификат на сумму",
+  "coupon_amount": "Количество купонов",
+  "certificate_amount": "Количество сертификатов",
+  "coupon_price": "Стоимость купона",
+  "certificate_price": "Стоимость сертификата",
+  "categories": "Категория",
+  "age_limit": "Возрастное ограничение",
+  "price": "Стоимость",
+  "sale": "Скидка"
 }

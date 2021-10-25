@@ -8,7 +8,10 @@ const initialState: IState = {
     canceled: [],
     currentCoupon: {},
     isLoading: false,
-    currentOnSaleCoupon: {}
+    currentOnSaleCoupon: {},
+    isSaving: false,
+    isError: false,
+
 }
 const proposalsSlice = createSlice({
     name: "proposals",
@@ -37,6 +40,9 @@ const proposalsSlice = createSlice({
         },
         setDrafts: (state: IState, action: PayloadAction<IDeferred[]>) => {
             state.drafts = [...action.payload]
+        },
+        setSaving: (state: IState, action: PayloadAction<boolean>) => {
+            state.isSaving = action.payload
         }
     }
 })
@@ -48,7 +54,8 @@ export const {
     resetCurrentCoupon,
     setOnSale,
     setCurrentOnSaleCoupon,
-    resetCurrentOnSaleCoupon
+    resetCurrentOnSaleCoupon,
+    setSaving
 } = proposalsSlice.actions
 
 export default proposalsSlice.reducer

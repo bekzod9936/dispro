@@ -44,7 +44,7 @@ export const Header = styled.div`
 `
 
 export const Content = styled.div`
-    margin: 40px 0 35px 0;
+    margin: 20px 0;
 
     h5 {
         font-size: 16px;
@@ -59,6 +59,72 @@ export const Content = styled.div`
         color: #223367;
         &:not(:last-child) {
             margin-bottom: 9px;
+        }
+    }
+`
+
+export const Preview = styled.div`
+    position: relative;
+    z-index: 12;
+    height: 45%;
+    overflow: hidden;
+
+    img.couponImg {
+        position: absolute;
+        left: 10px;
+        right: 10px;
+        border-radius: 30px 30px 0 0;
+        width: 275px;
+        top: 10px;
+        min-height: 185px;
+    }
+    img.iphoneImg {
+        width: 300px;
+        position: relative;
+        /* z-index: 12; */
+    }
+`
+
+export const PreviewContent = styled.div`
+    position: absolute;
+    bottom: 0;
+    background-color: #eef0f2;
+    height: 185px;
+    left: 10px;
+    right: 10px;
+    border-radius: 30px 30px 0 0;
+    padding: 15px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    img {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        margin-bottom: 10px;
+    }
+    span {
+        font-weight: 500;
+        font-size: 14px;
+        color: #223367;
+        margin-bottom: 15px;
+    }
+    p {
+        font-weight: 700;
+        color: #223367;
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+    h5 {
+        font-size: 15px;
+        color: #223367;
+        display: flex;
+        align-items: center;
+        span {
+            font-size: 20px !important;
+            font-weight: 700;
+            margin-right: 10px;
+            margin-bottom: 0;
         }
     }
 `

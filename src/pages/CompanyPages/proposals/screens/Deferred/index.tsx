@@ -12,7 +12,6 @@ import { CouponCard } from '../../components/CouponCard'
 import { resetCurrentCoupon, setSelectedCoupon } from 'services/redux/Slices/proposals/proposals'
 import { SideBar } from 'pages/CompanyPages/clients/components/SideBar'
 import { CouponBar } from '../../components/CouponSideBar'
-import { deleteCoupon } from 'services/queries/ProposalsQueries'
 
 const Deferred = () => {
     const dispatch = useAppDispatch()
@@ -20,7 +19,7 @@ const Deferred = () => {
     const [open, setOpen] = React.useState<boolean>(false)
     const [value, setValue] = React.useState<string>("")
     const [debouncedQuery] = useDebounce(value, 300)
-    const { isLoading, refetch } = useDeferred({dispatch, query: debouncedQuery})
+    const { isFetching, refetch } = useDeferred({dispatch, query: debouncedQuery})
     
     const handleOpen = (id: number) => {
         dispatch(setSelectedCoupon(id))
@@ -31,7 +30,9 @@ const Deferred = () => {
         dispatch(resetCurrentCoupon())
     }
 
-   
+    React.useEffect(() => {
+        dispatch(resetCurrentCoupon())
+    }, [])
 
     return (
         <Wrapper>
@@ -46,7 +47,7 @@ const Deferred = () => {
                 margin={{laptop: "0 0 20px 0"}} 
                 inputStyle={{border: "none"}} 
                 width={{maxwidth: 500, width: "100%"}}/>
-            {isLoading ? <Spinner /> : deferred.map((el: IDeferred) => (
+            {isFetching ? <Spinner /> : deferred.map((el: IDeferred) => (
                 <CouponCard
                     isSelected={currentCoupon.id === el.id}
                     onClick={() => handleOpen(el.id)}
