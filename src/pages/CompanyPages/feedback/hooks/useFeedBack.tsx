@@ -24,6 +24,9 @@ const useFeedBack = ({ page }: Props) => {
   const dispatch = useAppDispatch();
 
   const resCashiers = useQuery('feedBackCashiers', fetchFeedBackCashiers, {
+    keepPreviousData: true,
+    refetchOnWindowFocus: false,
+    retry: 0,
     onSuccess: (data) => {
       dispatch(setCashiersFeedBack(data.data.data));
     },
@@ -36,6 +39,9 @@ const useFeedBack = ({ page }: Props) => {
         url: `/rating-review/?perPage=${perPage}&page=${page}`,
       }),
     {
+      keepPreviousData: true,
+      refetchOnWindowFocus: false,
+      retry: 0,
       onSuccess: (data) => {
         dispatch(setTotalCountFeedBack(data.data.data.totalCount));
         dispatch(setClientsFeedBack(data.data.data.ratingAndReviews));
@@ -44,6 +50,9 @@ const useFeedBack = ({ page }: Props) => {
   );
 
   const resRatings = useQuery('feedBackClientsRatings', fetchClientsRatings, {
+    keepPreviousData: true,
+    refetchOnWindowFocus: false,
+    retry: 0,
     onSuccess: (data) => {
       dispatch(setRatingsFeedBack(data.data.data.ratings));
       dispatch(setAverageRatingFeedBack(data.data.data.averageRating));

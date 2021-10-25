@@ -5,6 +5,7 @@ import { ReactComponent as Dots } from 'assets/icons/FeedBack/dots.svg';
 import { ReactComponent as Script } from 'assets/icons/FeedBack/script.svg';
 import { ReactComponent as Smile } from 'assets/icons/FeedBack/smile.svg';
 import { ReactComponent as Send } from 'assets/icons/FeedBack/send.svg';
+import { ReactComponent as Down } from 'assets/icons/FeedBack/down.svg';
 
 interface Props {
   right?: boolean;
@@ -17,11 +18,48 @@ export const SearchIcon = styled(Search)`
 `;
 
 export const DotsIcon = styled(Dots)``;
+
+export const DownIcon = styled(Down)`
+  width: 18px;
+  height: 18px;
+  @media (min-width: ${device.laptop}) {
+    width: 24px;
+    height: 24px;
+  }
+`;
+
 export const ScriptIcon = styled(Script)`
   margin: 0 30px;
 `;
+
 export const SmileIcon = styled(Smile)``;
+
 export const SendIcon = styled(Send)``;
+
+export const WrapDown = styled.div`
+  background: rgba(96, 110, 234, 0.45);
+  border-radius: 14px;
+  width: 50px;
+  height: 50px;
+  min-width: 50px;
+  min-height: 50px;
+  max-width: 50px;
+  max-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  @media (min-width: ${device.laptop}) {
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
+    min-height: 60px;
+    max-width: 60px;
+    max-height: 60px;
+  }
+`;
 
 export const Container = styled.div`
   display: flex;
@@ -41,6 +79,7 @@ export const LeftSide = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
+  min-width: 260px;
 `;
 
 export const RightSide = styled.div`
@@ -122,7 +161,7 @@ export const WrapInput = styled.div`
   border: 2px solid #c2c2c2;
   border-radius: 14px;
   width: 100%;
-  height: fit-content;
+  overflow: hidden;
 `;
 
 export const Body = styled.div`
@@ -132,6 +171,7 @@ export const Body = styled.div`
   width: 100%;
   flex-direction: column;
   justify-content: space-between;
+  overflow: hidden;
   padding: 15px;
 `;
 
@@ -141,15 +181,19 @@ export const InputDown = styled.div`
   flex: 1;
   background: #f5f5f5;
   border-radius: 0px 0px 14px 14px;
-  padding: 15px;
+  padding: 10px;
   align-items: center;
   justify-content: space-between;
+  @media (min-width: ${device.laptop}) {
+    padding: 15px;
+  }
 `;
 
 export const InputWarn = styled.div`
   font-weight: normal;
   font-size: 15px;
   color: #8f8f8f;
+  margin-left: 25px;
   @media (min-width: ${device.laptop}) {
     font-size: 16px;
   }
@@ -162,7 +206,57 @@ export const WrapIcons = styled.div`
 `;
 
 export const ChatPlace = styled.div`
-  flex-shrink: 1;
   display: flex;
-  flex-basis: 1;
+  flex: 1;
+  overflow: hidden;
+  margin-bottom: 15px;
+  position: relative;
+`;
+
+export const Messages = styled.div`
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    appearance: none;
+    display: none;
+  }
+  &::-webkit-scrollbar-thumb {
+    appearance: none;
+    display: none;
+  }
+
+  &::-webkit-scrollbar-track {
+    appearance: none;
+    display: none;
+  }
+`;
+
+export const Img = styled.img`
+  width: 25%;
+  height: 45%;
+`;
+
+export const WrapImg = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  flex-direction: column;
+`;
+
+export const WrapChoose = styled.div`
+  color: #223367;
+  font-weight: normal;
+  font-size: 16px;
+  margin-top: 25px;
+  @media (min-width: ${device.laptop}) {
+    font-size: 18px;
+  }
+`;
+
+export const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+  width: 100%;
 `;

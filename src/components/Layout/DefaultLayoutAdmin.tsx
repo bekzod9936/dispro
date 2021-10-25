@@ -12,6 +12,8 @@ import { useSideBarStyle } from './styles/SideBarStyle';
 import MenuList from './MenuList';
 import Cookies from 'js-cookie';
 import useLayout from './useLayout';
+import io from 'socket.io-client';
+import { SOCKET_EVENT } from 'services/constants/chat';
 import {
   Container,
   MenuIcon,
@@ -25,12 +27,19 @@ import {
   WrapLogo,
   WrapMenu,
 } from './style';
+import { setSocket } from 'services/redux/Slices/feedback';
+import { useAppDispatch } from 'services/redux/hooks';
+
 export interface IDefaultLayout {
   children: any;
 }
 
+const companyToken = localStorage.getItem('companyToken');
+
 const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
   const classes = useSideBarStyle();
+
+  const dispatch = useAppDispatch();
 
   const { resHeader, headerData } = useLayout();
 
@@ -50,6 +59,37 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    if (
+      Cookies.get('companyState') !== 'new' &&
+      headerData.filled &&
+      headerData.filledAddress
+    ) {
+      const socket = io(
+        `${process.env.REACT_APP_WEBSOCKET_URL}/nsp_staff_svdfv8732f5rycf76f8732rvuy23cfi77c3u6fr2387frv8237vfidu23vf2vdd7324df4`,
+        {
+          path: '/',
+          auth: {
+            token: `Bearer ${companyToken}`,
+          },
+        }
+      );
+
+      socket.on(SOCKET_EVENT.CHAT_MODERATOR_TO_PARTNER, function (data: any) {
+        console.log(data, 'm');
+      });
+
+      socket.on(SOCKET_EVENT.CHAT_CLIENT_TO_PARTNER, function (data: any) {
+        console.log(data, 'p');
+      });
+      dispatch(setSocket(socket));
+    }
+  }, [
+    Cookies.get('companyState'),
+    headerData.filled,
+    headerData.filledAddress,
+  ]);
 
   useEffect(() => {
     function handleResize() {
