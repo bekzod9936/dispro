@@ -80,6 +80,17 @@ export const BarSecondText = styled.p`
   color: #223367;
 `;
 
+export const BarNormalText = styled.p`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 21px;
+  /* identical to box height */
+
+  color: #223367;
+`;
+
 export const CountText = styled.p`
   font-family: Roboto;
   font-style: normal;

@@ -1,5 +1,4 @@
 import Popover from "components/Custom/Popover";
-
 import { AddIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
 import { ReactComponent as ArrowDown } from "assets/icons/arrow_down.svg";
 import { ReactComponent as SettingsIcon } from "assets/icons/settings_icon.svg";

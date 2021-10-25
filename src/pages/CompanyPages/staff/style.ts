@@ -1,6 +1,7 @@
 import { IFlex } from "services/Types/Style";
 import styled from "styled-components";
 import ButtonBase from "@material-ui/core/ButtonBase";
+import { device } from "styles/device";
 
 export interface IRow {
   light?: boolean;
@@ -37,6 +38,16 @@ export const Flex = styled.div<IFlex>`
   background-color: ${(props: IFlex) => props.background || "transparent"};
   overflow-y: ${(props: IFlex) => props.overflowY || "visible"};
   flex-wrap: ${(props: IFlex) => props.flexWrap || "nowrap"};
+
+  @media (max-width: ${device.mobile}) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
   &::-webkit-scrollbar {
     display: none;

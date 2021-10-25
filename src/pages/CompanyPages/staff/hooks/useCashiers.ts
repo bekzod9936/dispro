@@ -5,11 +5,13 @@ import {
   getCashiers,
   searchCashiers,
   getBranches,
+  createCashier,
 } from "services/queries/StaffQueries";
 import { useAppDispatch } from "services/redux/hooks";
 import {
   selectAllCashier,
   setCashiers,
+  setOpenCash,
   setSelectedCashiers,
 } from "services/redux/Slices/staffs";
 import { numberWith } from "services/utils";
@@ -69,6 +71,15 @@ const useCashiers = ({ page, query, period }: any) => {
     },
   });
 
+  const createCash = useMutation((data: any) => createCashier(data), {
+    onSuccess: (data) => {
+      setOpen(false);
+      response.refetch();
+      dispatch(setSelectedCashiers([]));
+      dispatch(setOpenCash(false));
+    },
+  });
+
   //fetch branches
   useQuery(
     ["branchesStore"],
@@ -82,7 +93,6 @@ const useCashiers = ({ page, query, period }: any) => {
       refetchIntervalInBackground: true,
       cacheTime: 50000,
       onSuccess: (data) => {
-        console.log(data.data.data, "branches");
         setBranches(
           data.data.data.map((v: any) => {
             return { value: v.id, label: v.name };
@@ -98,6 +108,7 @@ const useCashiers = ({ page, query, period }: any) => {
     open,
     setOpen,
     branches,
+    createCash,
   };
 };
 
