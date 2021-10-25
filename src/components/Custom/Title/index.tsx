@@ -1,5 +1,4 @@
-import React from 'react';
-import { Container } from './style';
+import { Container } from "./style";
 
 interface Props {
   children?: any;

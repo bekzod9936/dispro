@@ -1,15 +1,16 @@
-import { configureStore } from '@reduxjs/toolkit';
-import clientSlice from './Slices/clientSlice';
-import clientStatistics from './Slices/clientStatistics';
-import partner from './Slices/partnerSlice';
-import statistics from './Slices/statistics/statistics';
-import feedbackSlice from './Slices/FeedbackSlice';
-import authSlice from './Slices/authSlice';
-import settingsSlice from './Slices/settingsSlice/index';
-import infoSlice from './Slices/infoSlice';
-import loyalitySlice from './Slices/loyalitySlice';
-import proposalsSlice from './Slices/proposals/proposals';
-import feedbackPostSlice from './Slices/feedback/index';
+import { configureStore } from "@reduxjs/toolkit";
+import clientSlice from "./Slices/clientSlice";
+import clientStatistics from "./Slices/clientStatistics";
+import partner from "./Slices/partnerSlice";
+import statistics from "./Slices/statistics/statistics";
+import feedbackSlice from "./Slices/FeedbackSlice";
+import authSlice from "./Slices/authSlice";
+import settingsSlice from "./Slices/settingsSlice/index";
+import infoSlice from "./Slices/infoSlice";
+import loyalitySlice from "./Slices/loyalitySlice";
+import proposalsSlice from "./Slices/proposals/proposals";
+import feedbackPostSlice from "./Slices/feedback/index";
+import staffs from "./Slices/staffs";
 
 export const store = configureStore({
   reducer: {
@@ -24,6 +25,7 @@ export const store = configureStore({
     loyalitySlice: loyalitySlice,
     feedbackPost: feedbackPostSlice,
     proposals: proposalsSlice,
+    staffs: staffs,
   },
 });
 export type RootState = ReturnType<typeof store.getState>;
