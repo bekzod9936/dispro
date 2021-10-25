@@ -1,24 +1,31 @@
 import React from 'react'
 import Modal from 'components/Custom/Modal'
 import styled from 'styled-components'
-import cropbackground from 'assets/images/CropRename.png';
 import ReactCrop from 'react-image-crop';
 import Button from 'components/Custom/Button'
-import { CancelIcon } from 'assets/icons/ClientsPageIcons/ClientIcons';
+import { CancelIcon, CloseIcon } from 'assets/icons/ClientsPageIcons/ClientIcons';
 import { SaveIcon } from 'assets/icons/InfoPageIcons/InfoPageIcons';
 import 'react-image-crop/dist/ReactCrop.css';
-
+import { Bottom, Colka, Header, Left, Preview, PreviewBg, PreviewContent, PreviewDiv, Right, Wrapper } from './style';
+import iphone from "assets/images/iphone.png"
+import { useAppSelector } from 'services/redux/hooks';
+import { RootState } from 'services/redux/store';
+import { CouponIcon } from 'pages/CompanyPages/statistics/screens/Clients/style';
+import { useTranslation } from 'react-i18next';
 interface IProps {
     open: boolean,
     src?: any,
     setIsCropVisible?: any,
     setFile?: any,
-    handleUpload?: any
+    handleUpload?: any,
+    isCoupon: boolean
 }
-const CropCustomModal = ({open, src, setIsCropVisible, setFile, handleUpload}: IProps) => {
+const CropCustomModal = ({open, src, setIsCropVisible, setFile, handleUpload, isCoupon}: IProps) => {
+    const { logo, name } = useAppSelector((state: RootState) => state.partner.companyInfo)
     const [srcUrl, setSrcUrl] = React.useState<any>(null)
     const [image, setImage] = React.useState<any>(null)
     const [imageUrl, setImageUrl] = React.useState<any>(null)
+    const { t } = useTranslation()
     const [crop, setCrop] = React.useState<any>({
         unit: '%',
         width: 30,
@@ -81,27 +88,38 @@ const CropCustomModal = ({open, src, setIsCropVisible, setFile, handleUpload}: I
     return (
         <Modal open={open}>
             <Wrapper>
-                <div style={{display: "flex", marginBottom: "35px"}}>
-                    <Right>
-                        <div style={{width: "400px", height: "400px", objectFit: "contain", display: "flex", justifyContent: "center", alignItems: "center"}}>
-                            <ReactCrop
-                                maxWidth={400}
-                                src={srcUrl} 
-                                crop={crop} 
-                                onChange={(e) => setCrop(e)}
-                                onImageLoaded={(e) => setImage(e)}
-                                onComplete={() => getCroppedImage()}
-                                />
-                        </div>
-                    </Right>
-                    <Left>
-                        <Preview>
-                            {imageUrl?.length > 6 && <img src={imageUrl} alt="preview"/>}
-                            <Colka>
-                            </Colka>
-                            <Bottom></Bottom>
-                        </Preview>
-                    </Left>
+                <div style={{marginBottom: "35px"}}>
+                    <Header>
+                        <h4>Выберите нужную область</h4>
+                        <CloseIcon onClick={handleClose} />
+                    </Header>
+                    <div style={{display: "flex"}}>
+                        <Right>
+                            <div style={{width: "400px", height: "400px", objectFit: "contain", display: "flex", justifyContent: "center", alignItems: "center"}}>
+                                <ReactCrop
+                                    maxWidth={400}
+                                    src={srcUrl} 
+                                    crop={crop} 
+                                    onChange={(e) => setCrop(e)}
+                                    onImageLoaded={(e) => setImage(e)}
+                                    onComplete={() => getCroppedImage()}
+                                    />
+                            </div>
+                        </Right>
+                        <Left>
+                            <h4>Превью купона в приложении</h4>
+                            <PreviewDiv>
+                                {imageUrl?.length > 6 && <PreviewBg src={imageUrl} alt=""/>}
+                                <img style={{zIndex: 20, position: "relative"}} width="300" src={iphone} alt="" />
+                                <PreviewContent>
+                                    <img src={logo} alt="logo"/>
+                                    <p>{name}</p>
+                                    <span>{isCoupon ? t("coupon") : t("certificate")}</span>
+                                    
+                                </PreviewContent>
+                            </PreviewDiv>
+                        </Left>
+                    </div>
                 </div>
                 <div>
                     <Button
@@ -109,10 +127,10 @@ const CropCustomModal = ({open, src, setIsCropVisible, setFile, handleUpload}: I
                         startIcon={<CancelIcon />}
                         margin={{laptop: "0 25px 0 0"}}
                         buttonStyle={{bgcolor: "#FFFFFF", color: "#223367", weight: "500"}}>
-                        
                         Отмена
                     </Button>
                     <Button
+                        disabled={imageUrl?.length < 6}
                         onClick={handleSave}
                         startIcon={<SaveIcon />}>
                         Сохранить
@@ -124,77 +142,3 @@ const CropCustomModal = ({open, src, setIsCropVisible, setFile, handleUpload}: I
 }
 export default CropCustomModal
 
-const Wrapper = styled.div`
-    padding: 35px 45px 30px 45px;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column;
-    z-index: 100;
-`
-
-
-const Right = styled.div`
-    width: 565px;
-    border-radius: 14px;
-    overflow: hidden;
-    height: 375px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    object-fit: contain;
-    background-image: url(${cropbackground});
-    margin-right: 50px;
-
-`
-const Colka = styled.div`
-    width: 150px;
-    height: 20px;
-    background-color: #f4f0ec;
-    border-radius: 0 0 14px 14px;
-    position: relative;
-    z-index: 20;
-`
-
-const Left = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    `
-
-const Preview = styled.div`
-    position: relative;
-    overflow: hidden;
- 
-    img {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        width: 280px;
-        z-index: 1;
-    }
-    width: 300px;
-    height: 335px;
-    border-radius: 45px 45px 0 0;
-    border: 10px solid #f4f0ec;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid rgba(96, 110, 234, 0.3);
-    box-shadow: 0px -1px 5px rgba(96, 110, 234, 0.25);;
-    
-`
-
-
-const Bottom = styled.div`
-    width: 100%;
-    height: 180px;
-    border-radius: 14px 14px 0 0;
-    background-color: #ffffff;
-    z-index: 20;
-    position: relative;
-`

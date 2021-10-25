@@ -19,7 +19,7 @@ const Deferred = () => {
     const [open, setOpen] = React.useState<boolean>(false)
     const [value, setValue] = React.useState<string>("")
     const [debouncedQuery] = useDebounce(value, 300)
-    const { isLoading } = useDeferred({dispatch, query: debouncedQuery})
+    const { isFetching, refetch } = useDeferred({dispatch, query: debouncedQuery})
     
     const handleOpen = (id: number) => {
         dispatch(setSelectedCoupon(id))
@@ -30,11 +30,14 @@ const Deferred = () => {
         dispatch(resetCurrentCoupon())
     }
 
+    React.useEffect(() => {
+        dispatch(resetCurrentCoupon())
+    }, [])
 
     return (
         <Wrapper>
             <SideBar maxWidth="370px" isOpen={open}>
-                <CouponBar resetCoupon={handleReset} currentCoupon={currentCoupon} onClose={setOpen}/>
+                <CouponBar refetch={refetch} resetCoupon={handleReset} currentCoupon={currentCoupon} onClose={setOpen}/>
             </SideBar>
             <Input 
                 value={value}
@@ -44,7 +47,7 @@ const Deferred = () => {
                 margin={{laptop: "0 0 20px 0"}} 
                 inputStyle={{border: "none"}} 
                 width={{maxwidth: 500, width: "100%"}}/>
-            {isLoading ? <Spinner /> : deferred.map((el: IDeferred) => (
+            {isFetching ? <Spinner /> : deferred.map((el: IDeferred) => (
                 <CouponCard
                     isSelected={currentCoupon.id === el.id}
                     onClick={() => handleOpen(el.id)}

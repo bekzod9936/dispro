@@ -31,6 +31,14 @@ export const putCoupon = async (id: number, data: any) => {
 }
 
 export const updateCoupon = async (id: number, data: IDeferred) => {
-    const response = partnerApi.put(`/bonus/coupons/${id}/publish`, data)
+    const response = await partnerApi.put(`/bonus/coupons/${id}`, data)
     return response
+}
+
+export const deleteCoupon = async (id: number) => {
+    await partnerApi.delete("/bonus/coupons", {
+        data: {
+            ids: [id]
+        }
+    })
 }

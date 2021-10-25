@@ -2,15 +2,16 @@ import { SearchIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
 import { AddIcon } from 'assets/icons/InfoPageIcons/InfoPageIcons'
 import Button from 'components/Custom/Button'
 import Input from 'components/Custom/Input'
+import NotifySnack from 'components/Custom/Snackbar'
 import Spinner from 'components/Helpers/Spinner'
 import { SideBar } from 'pages/CompanyPages/clients/components/SideBar'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { deleteCoupon } from 'services/queries/ProposalsQueries'
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks'
-import { resetCurrentCoupon, setSelectedCoupon } from 'services/redux/Slices/proposals/proposals'
+import { resetCurrentCoupon, setSaving, setSelectedCoupon } from 'services/redux/Slices/proposals/proposals'
 import { IDeferred } from 'services/redux/Slices/proposals/types'
 import { RootState } from 'services/redux/store'
-import { Flex } from 'styles/BuildingBlocks'
 import { useDebounce } from 'use-debounce/lib'
 import { CouponCard } from '../../components/CouponCard'
 import { CouponBar } from '../../components/CouponSideBar'
@@ -25,9 +26,9 @@ const Drafts = () => {
     const [query, setQuery] = React.useState<string>("")
     const [debounced] = useDebounce(query, 300)
     const dispatch = useAppDispatch()
-    const { isLoading } = useDrafts({dispatch, query: debounced})
+    const { isLoading, refetch, isFetching } = useDrafts({dispatch, query: debounced})
     const [isSideBarOpen, setSideBarOpen] = React.useState<boolean>(false)
-    const { currentCoupon, drafts } = useAppSelector((state: RootState) => state.proposals)
+    const { currentCoupon, drafts, isSaving } = useAppSelector((state: RootState) => state.proposals)
     const handleOpen = () => {
         setOpen(true)
     }
@@ -37,15 +38,19 @@ const Drafts = () => {
         setSideBarOpen(true)
     }
 
+    React.useEffect(() => {
+        dispatch(resetCurrentCoupon())
+    }, [])
 
     const handleReset = () => {
         dispatch(resetCurrentCoupon())
     }
-
     return (
         <Wrapper>
+            <NotifySnack message="Сохранено" open={isSaving} handleClose={() => dispatch(setSaving(false))} vertical="top" horizontal="right"/>
             <SideBar maxWidth="370px" isOpen={isSideBarOpen}>
-                <CouponBar 
+                <CouponBar
+                    refetch={refetch}
                     resetCoupon={handleReset} 
                     currentCoupon={currentCoupon} 
                     onClose={setSideBarOpen}/>
@@ -60,14 +65,14 @@ const Drafts = () => {
                 </Button>
                 <Input
                     placeholder="Поиск..."
-                    onChange={setQuery}
+                    onChange={(e) => setQuery(e.target.value)}
                     inputStyle={{border: "none", height: {laptop: 45, planshet: 40}}}
                     width={{maxwidth: 500, width: "100%"}}
                     IconStart={<SearchIcon style={{marginLeft: 30}}/>} 
                     />
             </div>
             <Container>
-                {isLoading ? <Spinner /> : drafts.map((el: IDeferred) => (
+                {isFetching ? <Spinner /> : drafts.map((el: IDeferred) => (
                     <CouponCard
                         isSelected={currentCoupon.id === el.id}
                         onClick={() => handleSideBarOpen(el.id)}
@@ -83,6 +88,7 @@ const Drafts = () => {
                         count={el.count}
                     />
                 ))}
+                {!drafts.length && <EmptyPage />}
             </Container>
             <MModal setOpen={setOpen} open={isOpen}/>
         </Wrapper>

@@ -6,12 +6,12 @@ interface IProps {
     dispatch: any
 }
 export const useDrafts = ({ query, dispatch }: IProps) => {
-    const { isLoading } = useQuery(["fetchDrafts", query], () => fetchCoupons(query, 1), {
+    const { isLoading, isFetching, refetch } = useQuery(["fetchDrafts", query], () => fetchCoupons(query, 1), {
         refetchOnWindowFocus: false,
         retry: 0,
         onSuccess: (data) => {
             dispatch(setDrafts(data.data.data))
         }
     })
-    return { isLoading }
+    return { isLoading, refetch, isFetching }
 }
