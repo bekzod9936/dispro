@@ -6,6 +6,7 @@ import Spinner from 'components/Helpers/Spinner'
 import { SideBar } from 'pages/CompanyPages/clients/components/SideBar'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { deleteCoupon } from 'services/queries/ProposalsQueries'
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks'
 import { resetCurrentCoupon, setSelectedCoupon } from 'services/redux/Slices/proposals/proposals'
 import { IDeferred } from 'services/redux/Slices/proposals/types'
@@ -25,7 +26,7 @@ const Drafts = () => {
     const [query, setQuery] = React.useState<string>("")
     const [debounced] = useDebounce(query, 300)
     const dispatch = useAppDispatch()
-    const { isLoading } = useDrafts({dispatch, query: debounced})
+    const { isLoading, refetch } = useDrafts({dispatch, query: debounced})
     const [isSideBarOpen, setSideBarOpen] = React.useState<boolean>(false)
     const { currentCoupon, drafts } = useAppSelector((state: RootState) => state.proposals)
     const handleOpen = () => {
@@ -37,7 +38,6 @@ const Drafts = () => {
         setSideBarOpen(true)
     }
 
-
     const handleReset = () => {
         dispatch(resetCurrentCoupon())
     }
@@ -45,7 +45,8 @@ const Drafts = () => {
     return (
         <Wrapper>
             <SideBar maxWidth="370px" isOpen={isSideBarOpen}>
-                <CouponBar 
+                <CouponBar
+                    refetch={refetch}
                     resetCoupon={handleReset} 
                     currentCoupon={currentCoupon} 
                     onClose={setSideBarOpen}/>
@@ -60,7 +61,7 @@ const Drafts = () => {
                 </Button>
                 <Input
                     placeholder="Поиск..."
-                    onChange={setQuery}
+                    onChange={(e) => setQuery(e.target.value)}
                     inputStyle={{border: "none", height: {laptop: 45, planshet: 40}}}
                     width={{maxwidth: 500, width: "100%"}}
                     IconStart={<SearchIcon style={{marginLeft: 30}}/>} 
@@ -83,6 +84,7 @@ const Drafts = () => {
                         count={el.count}
                     />
                 ))}
+                {!drafts.length && <EmptyPage />}
             </Container>
             <MModal setOpen={setOpen} open={isOpen}/>
         </Wrapper>

@@ -12,6 +12,7 @@ import { CouponCard } from '../../components/CouponCard'
 import { resetCurrentCoupon, setSelectedCoupon } from 'services/redux/Slices/proposals/proposals'
 import { SideBar } from 'pages/CompanyPages/clients/components/SideBar'
 import { CouponBar } from '../../components/CouponSideBar'
+import { deleteCoupon } from 'services/queries/ProposalsQueries'
 
 const Deferred = () => {
     const dispatch = useAppDispatch()
@@ -19,7 +20,7 @@ const Deferred = () => {
     const [open, setOpen] = React.useState<boolean>(false)
     const [value, setValue] = React.useState<string>("")
     const [debouncedQuery] = useDebounce(value, 300)
-    const { isLoading } = useDeferred({dispatch, query: debouncedQuery})
+    const { isLoading, refetch } = useDeferred({dispatch, query: debouncedQuery})
     
     const handleOpen = (id: number) => {
         dispatch(setSelectedCoupon(id))
@@ -30,11 +31,12 @@ const Deferred = () => {
         dispatch(resetCurrentCoupon())
     }
 
+   
 
     return (
         <Wrapper>
             <SideBar maxWidth="370px" isOpen={open}>
-                <CouponBar resetCoupon={handleReset} currentCoupon={currentCoupon} onClose={setOpen}/>
+                <CouponBar refetch={refetch} resetCoupon={handleReset} currentCoupon={currentCoupon} onClose={setOpen}/>
             </SideBar>
             <Input 
                 value={value}

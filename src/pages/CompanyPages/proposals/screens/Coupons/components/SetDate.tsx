@@ -13,9 +13,9 @@ import { getValidDate } from 'pages/CompanyPages/proposals/utils/getValidDate'
 interface IProps {
     handleClose: any,
     mutation: any,
-    setPeriod: (arg: boolean) => void,
-    coupon: ICoupon,
-    setDate: (arg: string) => void
+    setPeriod?: (arg: boolean) => void,
+    coupon: ICoupon | any,
+    setDate?: (arg: string) => void
 }
 
 export const SetDate = ({handleClose, mutation, setPeriod, coupon, setDate}: IProps) => {
@@ -30,14 +30,18 @@ export const SetDate = ({handleClose, mutation, setPeriod, coupon, setDate}: IPr
         const endDate = getValidDate(data.endDate)
         const publishDate = getValidDate(data.publishDate)
         
-        setDate(publishDate)
+        if(setDate) {
+            setDate(publishDate)
+        }
         mutation({
             ...coupon,
             endDate: endDate,
             startDate: startDate,
         })
         
-        setPeriod(false)
+        if(setPeriod) {
+            setPeriod(false)
+        }
         history.goBack()
     }
 

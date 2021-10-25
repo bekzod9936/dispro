@@ -1,37 +1,42 @@
-import { CloseIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
+import { CancelIcon, CloseIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
 import { DeleteIcon, PenIcon } from 'assets/icons/proposals/ProposalsIcons'
 import Button from 'components/Custom/Button'
 import ImageLazyLoad from 'components/Custom/ImageLazyLoad/ImageLazyLoad'
+import Modal from 'components/Custom/Modal'
 import React from 'react'
+import { useMutation } from 'react-query'
 import { useHistory } from 'react-router'
-import { Link } from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from 'services/redux/hooks'
-import { resetCurrentCoupon } from 'services/redux/Slices/proposals/proposals'
+import { deleteCoupon, putCoupon } from 'services/queries/ProposalsQueries'
 import { IDeferred } from 'services/redux/Slices/proposals/types'
-import { RootState } from 'services/redux/store'
-import styled from 'styled-components'
+import { SetDate } from '../../screens/Coupons/components/SetDate'
 import { categories } from '../../screens/Coupons/constants'
+import { Wrapper, Header, DeleteModal, Content } from './style'
 
 interface IProps {
     onClose: (arg: boolean) => void,
     currentCoupon: IDeferred,
     disableUpdate?: boolean,
-    resetCoupon: any
+    resetCoupon: any,
+    refetch: () => void
 }
 
 export const CouponBar = ({
     onClose, 
     currentCoupon, 
-    disableUpdate, 
-    resetCoupon}: IProps) => {
+    disableUpdate,
+    resetCoupon,
+    refetch}: IProps) => {
     
     const isCoupon = currentCoupon.type === 1
     const history = useHistory()
+    const [isDeleteOpen, setDeleteOpen] = React.useState<boolean>(false)
+    const [isPublishOpen, setPublisOpen] = React.useState<boolean>(false)
     const handleClose = () => {
         onClose(false)
         resetCoupon()
     }
-
+    const { mutate } = useMutation(({id, data}: any) => putCoupon(id, data))
+    
     const handleUpdate = () => {
         if (isCoupon) {
             history.push("/proposals/update_coupon")
@@ -40,6 +45,13 @@ export const CouponBar = ({
         }
     }
 
+    const onDelete = async() => {
+        await deleteCoupon(currentCoupon.id)
+        refetch()
+        resetCoupon()
+        setDeleteOpen(false)
+        onClose(false)
+    }
 
     return (
         <Wrapper>
@@ -69,59 +81,46 @@ export const CouponBar = ({
                     Редактировать Купон
                 </Button>
                 <Button
+                    onClick={() => setPublisOpen(true)}
                     margin={{ laptop: "25px 0" }}>
                     Опубликовать
                 </Button></>}
                 <Button 
+                    onClick={() => setDeleteOpen(true)}
                     buttonStyle={{color: "#ffffff", bgcolor: "#FF5E68"}} 
                     startIcon={<DeleteIcon />}>
                     Удалить купон
                 </Button>
             </div>
+            <Modal open={isDeleteOpen}>
+                <DeleteModal>
+                    <h5>
+                        Вы действительно хотите удалить Купон?
+                    </h5>
+                    <p>Бесконечность не предел</p>
+                    <Button
+                        buttonStyle={{color: "#223367", bgcolor: "#ffffff"}}
+                        margin={{laptop: "0 22px 0 0"}}
+                        onClick={() => setDeleteOpen(false)} 
+                        startIcon={<CancelIcon />}>
+                        Отмена
+                    </Button>
+                    <Button 
+                        buttonStyle={{bgcolor: "#FF5E68 "}}
+                        onClick={onDelete} 
+                        startIcon={<DeleteIcon />}>
+                        Удалить
+                    </Button>
+                </DeleteModal>
+            </Modal>
+            <Modal open={isPublishOpen}>
+                <SetDate
+                    handleClose={() => setPublisOpen(false)}
+                    coupon={currentCoupon}
+                    mutation={mutate}
+                />
+            </Modal>
         </Wrapper>
     )
 }
 
-
-const Wrapper = styled.div`
-    position: relative;
-    height: 100%;
-    width: 100%;
-    padding: 15px 25px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-`
-
-const Header = styled.div`
-    width: 100%;
-    justify-content: space-between;
-    display: flex;
-    align-items: center;
-    margin-bottom: 30px;
-    h6 {
-        font-size: 18px;
-        color: #223367;
-        line-height: 21px;
-    }
-`
-
-const Content = styled.div`
-    margin: 40px 0 35px 0;
-
-    h5 {
-        font-size: 16px;
-        color: #C7C7C7;
-        line-height: 19px;
-        margin-bottom: 10px;
-    }
-    p {
-        font-size: 14px;
-        line-height: 16px;
-        font-weight: 300;
-        color: #223367;
-        &:not(:last-child) {
-            margin-bottom: 9px;
-        }
-    }
-`

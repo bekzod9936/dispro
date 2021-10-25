@@ -155,7 +155,7 @@ const Coupons = () => {
         history.goBack()
     }
     
-    const onSave = (data: any) => {
+    const onSave = async(data: any) => {
         const validData = {
             title: data.name,
             startDate: getValidDate(data.startDate),
@@ -171,11 +171,12 @@ const Coupons = () => {
             image: image, 
             ageFrom: data.ageLimit || null,
             ageTo: null,
+            description: data.description
         }
         // console.log(validData);
         
         mutate(validData)
-        history.goBack()
+        setTimeout(() => history.goBack(), 1000)
     }
  
     const handleClose = () => {

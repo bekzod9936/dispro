@@ -40,18 +40,19 @@ import { resetCurrentCoupon } from 'services/redux/Slices/proposals/proposals'
 import { categories, days } from '../Coupons/constants'
 import ImageLazyLoad from 'components/Custom/ImageLazyLoad/ImageLazyLoad'
 import { IDeferred } from 'services/redux/Slices/proposals/types'
+import moment from 'moment'
+import { useUploadImage } from '../Coupons/useUploadIMage'
 
 const UpdateCoupon = () => {
     const { currentCoupon } = useAppSelector((state: RootState) => state.proposals)
-    const [publishDate, setPublishDate] = React.useState<string>("")
     const { t } = useTranslation()
     const [file, setFile] = React.useState<string>("")
     const [isCoupon, setIsCoupon] = React.useState<boolean>(true)
-    const [image, setImage] = React.useState<string>("")
+    const [image, setImage] = React.useState<string>(currentCoupon.image)
     const dispatch = useAppDispatch()
     const [isCropVisible, setIsCropVisible] = React.useState<boolean>(false)
-    const [period, setPeriod] = React.useState<boolean>(false)
     const history = useHistory()
+    const { handleUpload, deleteImage} = useUploadImage(setImage)
     const { handleSubmit, register, formState: { errors }, control } = useForm()
     const [optionalFields, setOptionalFields] = React.useState(
         {
@@ -80,33 +81,41 @@ const UpdateCoupon = () => {
     }, [])
 
     const onSave = (data: any) => {
-        delete currentCoupon.publishDate
         const validData = {
-            ...currentCoupon,
             title: data.name,
             price: data.cost,
             description: data.description,
             count: data.amount,
             value: data.percent,
-
+            currencyId: 1,
+            startDate: moment(currentCoupon.startDate).format("YYYY-MM-DD"),
+            endDate: moment(currentCoupon.endDate).format("YYYY-MM-DD"),
+            ageFrom: data.ageLimit,
+            ageUnlimited: !!!data.ageLimit,
+            categoryIds: [],
+            companyId: 18,
+            id: currentCoupon.id,
+            image: image,
+            type: currentCoupon.type,
         }
         mutate({
             id: currentCoupon.id,
             data: validData
         })
-    }
-    console.log(errors);
-    
-    const handleUpload = () => {
-
+        dispatch(resetCurrentCoupon())
+        setTimeout(() => history.goBack(), 1000)
     }
 
-    const handleUploadImg = () => {
 
+
+    const handleUploadImg = (data: any) => {
+        setFile(data.target.files[0])
+        setIsCropVisible(true)
     }
 
     const handleDelete = () => {
-
+        deleteImage(image)
+        setImage("")
     }
     return (
         <Wrapper>
@@ -122,7 +131,7 @@ const UpdateCoupon = () => {
                     <Container>
                         <LeftSide>
                             <Title>Фотографии</Title>
-                            {!(!currentCoupon.image || !image) && 
+                            {!image && 
                             <div style={{marginBottom: 30}}>
                             <Header>
                                 <p>Можно загрузить фотографию JPG или PNG, минимальное разрешение 400*400рх, размер не более 3Мбайт.</p>
@@ -134,9 +143,9 @@ const UpdateCoupon = () => {
                             </UploadButton>
                             {errors.image && <ErrorMessage>{t("requiredField")}</ErrorMessage>}
                             </div>}
-                            {(currentCoupon.image || image) && 
+                            {image && 
                                 <ImageBlock>
-                                    <ImageLazyLoad objectFit="contain" src={image || currentCoupon.image} alt="logo"/>  
+                                    <ImageLazyLoad objectFit="contain" src={image} alt="logo"/>  
                                     <DeleteIcon onClick={handleDelete} />
                                 </ImageBlock>}
                             {file && 

@@ -15,6 +15,7 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 80px;
     p {
         font-size: 18px;
         line-height: 150%;
