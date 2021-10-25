@@ -1,10 +1,65 @@
+import { SideBar } from 'pages/CompanyPages/clients/components/SideBar'
 import React from 'react'
-
+import { useAppDispatch, useAppSelector } from 'services/redux/hooks'
+import { resetCurrentCoupon, setCanceledCoupon, setSelectedCoupon } from 'services/redux/Slices/proposals/proposals'
+import { RootState } from 'services/redux/store'
+import { CouponBar } from '../../components/CouponSideBar'
+import { Wrapper } from './style'
+import { useCanceled } from './useCanceled'
+import Input from "components/Custom/Input"
+import { useDebounce } from 'use-debounce/lib'
+import { SearchIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
+import Spinner from 'components/Helpers/Spinner'
+import { IDeferred } from 'services/redux/Slices/proposals/types'
+import { CouponCard } from '../../components/CouponCard'
 const Canceled = () => {
+    const dispatch = useAppDispatch()
+    const { currentCoupon, canceled } = useAppSelector((state: RootState) => state.proposals)
+    const [open, setOpen] = React.useState<boolean>(false)
+    const [value, setValue] = React.useState<string>("")
+    const [debounced] = useDebounce(value, 300)
+    const { refetch, isFetching } = useCanceled({ query: debounced, dispatch })
+    const handleReset = () => {
+        dispatch(resetCurrentCoupon())
+    }
+    const handleOpen = (id: number) => {
+        dispatch(setCanceledCoupon(id))
+        setOpen(true)
+    }
+
+    React.useEffect(() => {
+        dispatch(resetCurrentCoupon())
+    }, [])
     return (
-        <div>
-            canceled
-        </div>
+        <Wrapper>
+            <SideBar maxWidth="370px" isOpen={open}>
+                <CouponBar canceled refetch={refetch} resetCoupon={handleReset} currentCoupon={currentCoupon} onClose={setOpen} />
+            </SideBar>
+            <Input
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+                IconStart={<SearchIcon style={{ marginLeft: "35px" }} />}
+                placeholder="Поиск..."
+                margin={{ laptop: "0 0 20px 0" }}
+                inputStyle={{ border: "none" }}
+                width={{ maxwidth: 500, width: "100%" }} />
+            {isFetching ? <Spinner /> : canceled.map((el: IDeferred) => (
+                <CouponCard
+                    isSelected={currentCoupon.id === el.id}
+                    onClick={() => handleOpen(el.id)}
+                    key={el.id}
+                    img={el.image}
+                    title={el.title}
+                    ageFrom={el.ageFrom}
+                    type={el.type}
+                    categoryIds={el.categoryIds}
+                    description={el.description}
+                    price={el.price}
+                    value={el.value}
+                    count={el.count}
+                />
+            ))}
+        </Wrapper>
     )
 }
 

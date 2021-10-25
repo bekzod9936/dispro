@@ -1,5 +1,5 @@
 import { CancelIcon, CloseIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
-import { DeleteIcon, PenIcon } from 'assets/icons/proposals/ProposalsIcons'
+import { DeleteIcon, EyeIcon, PenIcon, PublishIcon, ReUseIcon } from 'assets/icons/proposals/ProposalsIcons'
 import Button from 'components/Custom/Button'
 import ImageLazyLoad from 'components/Custom/ImageLazyLoad/ImageLazyLoad'
 import Modal from 'components/Custom/Modal'
@@ -20,6 +20,7 @@ interface IProps {
     currentCoupon: IDeferred,
     disableUpdate?: boolean,
     resetCoupon: any,
+    canceled?: boolean
     refetch: () => void
 }
 
@@ -28,6 +29,7 @@ export const CouponBar = ({
     currentCoupon,
     disableUpdate,
     resetCoupon,
+    canceled,
     refetch }: IProps) => {
 
     const isCoupon = currentCoupon.type === 1
@@ -58,6 +60,13 @@ export const CouponBar = ({
         onClose(false)
     }
 
+    const handleCheck = () => {
+        if (isCoupon) {
+            history.push("check_coupon")
+        } else {
+            history.push("/proposals/check_certificate")
+        }
+    }
     return (
         <Wrapper>
             <Header>
@@ -89,24 +98,37 @@ export const CouponBar = ({
                 <p>Возрастное ограничение: {currentCoupon.ageUnlimited ? "Нет" : currentCoupon.ageFrom + "+"}</p>
             </Content>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                {!disableUpdate && <>
+                {disableUpdate ?
                     <Button
-                        onClick={handleUpdate}
-                        startIcon={<PenIcon />}
-                        buttonStyle={{ color: "#606EEA", bgcolor: "rgba(96, 110, 234, 0.1)" }}>
-                        Редактировать Купон
-                    </Button>
-                    <Button
-                        onClick={() => setPublisOpen(true)}
-                        margin={{ laptop: "25px 0" }}>
-                        Опубликовать
-                    </Button></>}
-                <Button
-                    onClick={() => setDeleteOpen(true)}
-                    buttonStyle={{ color: "#ffffff", bgcolor: "#FF5E68" }}
-                    startIcon={<DeleteIcon />}>
-                    Удалить купон
-                </Button>
+                        onClick={() => setDeleteOpen(true)}
+                        buttonStyle={{ color: "#ffffff", bgcolor: "#FF5E68" }}
+                        startIcon={<DeleteIcon />}>
+                        Удалить купон
+                    </Button> : canceled ?
+                        <><Button
+                            onClick={handleCheck}
+                            startIcon={<EyeIcon />}
+                            buttonStyle={{ color: "#606EEA", bgcolor: "#ffffff" }}>
+                            Смотреть полностью
+                        </Button>
+                            <Button
+                                onClick={handleUpdate}
+                                startIcon={<ReUseIcon />}
+                                margin={{ laptop: "25px 0" }}>
+                                Восстановить
+                            </Button></> :
+                        <><Button
+                            onClick={handleUpdate}
+                            startIcon={<PenIcon />}
+                            buttonStyle={{ color: "#606EEA", bgcolor: "rgba(96, 110, 234, 0.1)" }}>
+                            Редактировать Купон
+                        </Button>
+                            <Button
+                                startIcon={<PublishIcon />}
+                                onClick={() => setPublisOpen(true)}
+                                margin={{ laptop: "25px 0" }}>
+                                Опубликовать
+                            </Button></>}
             </div>
             <Modal open={isDeleteOpen}>
                 <DeleteModal>
