@@ -1,4 +1,5 @@
 import Popover from "components/Custom/Popover";
+import { useLocation } from "react-router-dom";
 import { AddIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
 import { ReactComponent as ArrowDown } from "assets/icons/arrow_down.svg";
 import { ReactComponent as SettingsIcon } from "assets/icons/settings_icon.svg";
@@ -16,7 +17,13 @@ import {
   setQuery,
 } from "services/redux/Slices/staffs";
 
-const Header = ({ handleOpen, handleClose, closeFun }: IProps) => {
+const Header = ({
+  handleOpen,
+  handleClose,
+  closeFun,
+  handleOpenSetting,
+}: IProps) => {
+  const location = useLocation();
   const dispatch = useAppDispatch();
   const query = useAppSelector((state) => state.staffs.query);
   const open = useAppSelector((state) => state.staffs.openFilter);
@@ -78,7 +85,13 @@ const Header = ({ handleOpen, handleClose, closeFun }: IProps) => {
 
       {/* Settings side  */}
       <Button
-        onClick={handleOpen}
+        onClick={
+          location.pathname !== "/staff/manager"
+            ? handleOpenSetting
+            : () => {
+                console.log("Manager");
+              }
+        }
         buttonStyle={{
           bgcolor: "#FFFFFF",
           color: "#223367",
@@ -95,21 +108,23 @@ const Header = ({ handleOpen, handleClose, closeFun }: IProps) => {
         {t("settings")}
       </Button>
       {/* Filter side  */}
+      {location.pathname !== "/staff/manager" && (
+        <Button
+          buttonStyle={{
+            shadow: "0px 4px 4px rgba(0, 0, 0, 0.04)",
+            bgcolor: "white",
+            color: "#223367",
+            weight: 500,
+          }}
+          startIcon={<FilterIcon />}
+          onClick={() => {
+            dispatch(setOpenFilter(!open));
+          }}
+        >
+          {t("filters")}
+        </Button>
+      )}
 
-      <Button
-        buttonStyle={{
-          shadow: "0px 4px 4px rgba(0, 0, 0, 0.04)",
-          bgcolor: "white",
-          color: "#223367",
-          weight: 500,
-        }}
-        startIcon={<FilterIcon />}
-        onClick={() => {
-          dispatch(setOpenFilter(!open));
-        }}
-      >
-        {t("filters")}
-      </Button>
       <div style={{ width: "70px" }} />
       <Input
         inputStyle={{ border: "none" }}

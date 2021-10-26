@@ -8,25 +8,33 @@ import { MainWrapper, Flex, SpinnerDiv } from "./style";
 import Spinner from "components/Helpers/Spinner";
 import Header from "./components/Header";
 import CreateCashier from "./screens/CashierScreen/components/CreateCashier";
-import { useAppSelector } from "services/redux/hooks";
+import { useAppDispatch, useAppSelector } from "services/redux/hooks";
+import { setQuery } from "services/redux/Slices/staffs";
+import CreateManager from "./screens/ManagerScreen/components/CreateManager";
 
 const StaffPage = () => {
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const history = useHistory();
   const { t } = useTranslation();
   const { menuItems } = useStaffRoute();
   const openCash = useAppSelector((state) => state.staffs.openCash);
 
+  const [openManager, setOpenManager] = useState(false);
+
   const [closeFun, setCloseFun] = useState<any>();
   const handleClose = (e: any) => {
     setCloseFun(e);
   };
 
-  const handleOpen = () => {
+  const handleOpen = () => {};
+
+  const handleOpenSetting = () => {
     history.push({
       pathname: "/staff/setting",
       state: { prevPage: location.pathname },
     });
+    dispatch(setQuery(""));
   };
 
   console.log(location.pathname, "pathName");
@@ -48,6 +56,7 @@ const StaffPage = () => {
           <Header
             closeFun={closeFun}
             handleOpen={handleOpen}
+            handleOpenSetting={handleOpenSetting}
             handleClose={handleClose}
           />
         </>
@@ -69,6 +78,9 @@ const StaffPage = () => {
 
       {/* create new cashier  */}
       <CreateCashier openCash={openCash} />
+
+      {/* create new manager */}
+      <CreateManager openManager={openManager} />
     </MainWrapper>
   );
 };

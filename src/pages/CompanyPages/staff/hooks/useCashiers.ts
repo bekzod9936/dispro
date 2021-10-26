@@ -42,7 +42,7 @@ const useCashiers = ({ page, query, period }: any) => {
         dispatch(setCashiers(data.data.data.staffs));
         dispatch(
           selectAllCashier(
-            data.data.data.staffs.map((cashier: any) => {
+            data?.data?.data?.staffs?.map((cashier: any) => {
               return {
                 ...cashier,
                 firstName: cashier?.firstName + " " + cashier?.lastName,

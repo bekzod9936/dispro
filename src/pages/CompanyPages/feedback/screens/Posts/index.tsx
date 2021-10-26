@@ -1,22 +1,22 @@
-import { createRef, useCallback, useEffect, useRef, useState } from 'react';
-import ChatUser from '../../components/ChatUser';
-import Input from 'components/Custom/Input';
-import Button from 'components/Custom/Button';
-import { useTranslation } from 'react-i18next';
-import { Avatar } from '../../style';
-import useChatClients from '../../hooks/useChatClients';
-import { useAppSelector } from 'services/redux/hooks';
-import defaultChat from 'assets/images/choosechat.png';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
-import useWindowWidth from 'services/hooks/useWindowWidth';
-import { SOCKET_EVENT } from 'services/constants/chat';
-import moment from 'moment';
-import Popover from 'components/Custom/Popover';
-import Spinner from 'components/Custom/Spinner';
-import 'emoji-mart/css/emoji-mart.css';
-import { Picker } from 'emoji-mart';
-import { IconButton } from '@material-ui/core';
-import { useForm, Controller } from 'react-hook-form';
+import { createRef, useCallback, useEffect, useRef, useState } from "react";
+import ChatUser from "../../components/ChatUser";
+import Input from "components/Custom/Input";
+import Button from "components/Custom/Button";
+import { useTranslation } from "react-i18next";
+import { Avatar } from "../../style";
+import useChatClients from "../../hooks/useChatClients";
+import { useAppSelector } from "services/redux/hooks";
+import defaultChat from "assets/images/choosechat.png";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import useWindowWidth from "services/hooks/useWindowWidth";
+import { SOCKET_EVENT } from "services/constants/chat";
+import moment from "moment";
+import Popover from "components/Custom/Popover";
+import Spinner from "components/Custom/Spinner";
+import "emoji-mart/css/emoji-mart.css";
+import { Picker } from "emoji-mart";
+import { IconButton } from "@material-ui/core";
+import { useForm, Controller } from "react-hook-form";
 import {
   Container,
   LeftSide,
@@ -57,7 +57,7 @@ import {
   Fetching,
   EPicker,
   WrapScript,
-} from './style';
+} from "./style";
 
 interface ChProps {
   date?: string;
@@ -73,13 +73,13 @@ interface FormProps {
   message?: string;
 }
 
-const companyId: any = localStorage.getItem('companyId');
+const companyId: any = localStorage.getItem("companyId");
 
 const Posts = () => {
   const { t } = useTranslation();
 
   const { control, handleSubmit, setValue, getValues } = useForm<FormProps>({
-    mode: 'onBlur',
+    mode: "onBlur",
     shouldFocusError: true,
   });
 
@@ -114,9 +114,9 @@ const Posts = () => {
 
   const scrollToBottom = () => {
     messagesEndRef?.current?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'end',
-      inline: 'nearest',
+      behavior: "smooth",
+      block: "end",
+      inline: "nearest",
     });
   };
 
@@ -141,7 +141,7 @@ const Posts = () => {
 
     if (e.message.length > 0) {
       socket.emit(
-        'chat_to_server',
+        "chat_to_server",
         {
           langId: 1,
           chatType: 2,
@@ -153,10 +153,11 @@ const Posts = () => {
           },
         },
         (res: any) => {
+          // console.log(res, "response sending");
           if (res.success) {
             resChatClientHistory.refetch();
             resChatClients.refetch();
-            setValue('message', '');
+            setValue("message", "");
           } else {
             console.log(res);
           }
@@ -172,11 +173,11 @@ const Posts = () => {
           <Input
             fullWidth={true}
             inputStyle={{
-              border: 'none',
-              inpadding: '0  5px 0 20px',
+              border: "none",
+              inpadding: "0  5px 0 20px",
               height: { desktop: 50, laptop: 45, planshet: 45, mobile: 40 },
             }}
-            placeholder={t('searchthere')}
+            placeholder={t("searchthere")}
             IconEnd={<SearchIcon />}
           />
           {resChatClients.isFetching && !resChatClients.isLoading ? (
@@ -185,7 +186,7 @@ const Posts = () => {
         </Header>
 
         {resChatClients.isLoading ? (
-          <Loading style={{ display: 'flex', justifyContent: 'center' }}>
+          <Loading style={{ display: "flex", justifyContent: "center" }}>
             Loading....
           </Loading>
         ) : (
@@ -219,13 +220,13 @@ const Posts = () => {
                 <WrapUserInfo>
                   <Avatar big={true}>
                     <LazyLoadImage
-                      src={chosen?.image ? chosen?.image : ''}
-                      alt='image'
+                      src={chosen?.image ? chosen?.image : ""}
+                      alt="image"
                       style={{
-                        objectFit: 'cover',
+                        objectFit: "cover",
                       }}
-                      height='100%'
-                      width='100%'
+                      height="100%"
+                      width="100%"
                     />
                   </Avatar>
                   <WrapInfo>
@@ -241,16 +242,16 @@ const Posts = () => {
                       <DotsIcon />
                     </DotsWrap>
                   }
-                  anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-                  transformOrigin={{ horizontal: 'left', vertical: 'top' }}
-                  openBgColor='rgba(96, 110, 234, 0.1)'
+                  anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
+                  transformOrigin={{ horizontal: "left", vertical: "top" }}
+                  openBgColor="rgba(96, 110, 234, 0.1)"
                   radius={14}
-                  popoverStyle={{ marginTop: '20px' }}
+                  popoverStyle={{ marginTop: "20px" }}
                   onClose={handleClose}
                 >
                   <SelectWrap>
-                    <Link>{t('sharelink')}</Link>
-                    <Delete>{t('deletechat')}</Delete>
+                    <Link>{t("sharelink")}</Link>
+                    <Delete>{t("deletechat")}</Delete>
                   </SelectWrap>
                 </Popover>
               </Header>
@@ -266,27 +267,27 @@ const Posts = () => {
                                 v.chatType === 1
                                   ? chosen?.image
                                     ? chosen?.image
-                                    : ''
+                                    : ""
                                   : companyInfo.logo
                               }
-                              alt='user'
+                              alt="user"
                               style={{
-                                objectFit: 'cover',
+                                objectFit: "cover",
                               }}
-                              height='100%'
-                              width='100%'
+                              height="100%"
+                              width="100%"
                             />
                           </Avatar>
                           <Message
-                            bgcolor={v.chatType === 1 ? '#E5E9FF' : '#606eea'}
+                            bgcolor={v.chatType === 1 ? "#E5E9FF" : "#606eea"}
                           >
                             <MessageDate
-                              bgcolor={v.chatType === 1 ? '#A5A5A5' : '#fff'}
+                              bgcolor={v.chatType === 1 ? "#A5A5A5" : "#fff"}
                             >
-                              {moment(v.createdAt).format('LT')}
+                              {moment(v.createdAt).format("LT")}
                             </MessageDate>
                             <MessageText
-                              bgcolor={v.chatType === 1 ? '#223367' : '#fff'}
+                              bgcolor={v.chatType === 1 ? "#223367" : "#fff"}
                             >
                               {v.msg}
                             </MessageText>
@@ -302,20 +303,20 @@ const Posts = () => {
                 </ChatPlace>
                 <Form onSubmit={handleSubmit(onSubmit)}>
                   <Controller
-                    name='message'
+                    name="message"
                     control={control}
                     rules={{
                       required: true,
                     }}
-                    defaultValue=''
+                    defaultValue=""
                     render={({ field }) => (
                       <Input
                         fullWidth={true}
                         multiline={width > 1500 ? true : false}
-                        placeholder={t('writeyoutmessage')}
+                        placeholder={t("writeyoutmessage")}
                         inputStyle={{
-                          border: 'none',
-                          inpadding: width > 1500 ? '10px 20px' : '',
+                          border: "none",
+                          inpadding: width > 1500 ? "10px 20px" : "",
                         }}
                         field={field}
                       />
@@ -332,8 +333,8 @@ const Posts = () => {
                           <ScriptIcon />
                         </IconButton>
                       </WrapScript>
-                      <Button type='submit' startIcon={<SendIcon />}>
-                        {t('send')}
+                      <Button type="submit" startIcon={<SendIcon />}>
+                        {t("send")}
                       </Button>
                     </WrapIcons>
                   </InputDown>
@@ -342,17 +343,17 @@ const Posts = () => {
               {showEmoji ? (
                 <EPicker onBlur={() => setShowEmoji(false)}>
                   <Picker
-                    set='google'
+                    set="google"
                     onSelect={(e: any) => {
-                      const m = getValues('message') + e.native;
-                      setValue('message', m);
+                      const m = getValues("message") + e.native;
+                      setValue("message", m);
                     }}
                     sheetSize={20}
                     showPreview={false}
                     emojiTooltip={true}
                     showSkinTones={false}
                     useButton={true}
-                    color='#606eea'
+                    color="#606eea"
                   />
                 </EPicker>
               ) : null}
@@ -360,8 +361,8 @@ const Posts = () => {
           )
         ) : (
           <WrapImg>
-            <Img src={defaultChat} alt='defphoto' />
-            <WrapChoose>{t('choseChat')}</WrapChoose>
+            <Img src={defaultChat} alt="defphoto" />
+            <WrapChoose>{t("choseChat")}</WrapChoose>
           </WrapImg>
         )}
       </RightSide>
