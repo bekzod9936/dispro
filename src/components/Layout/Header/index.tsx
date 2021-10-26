@@ -191,7 +191,7 @@ const Header = () => {
                   margin={{
                     laptop: '0 0 30px',
                   }}
-                  onClick={() => history.push('/')}
+                  onClick={() => history.push('/support')}
                 >
                   {t('supportcall')}
                   <HeadPhoneIcon />

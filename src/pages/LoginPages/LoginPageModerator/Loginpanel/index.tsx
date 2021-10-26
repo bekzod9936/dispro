@@ -14,6 +14,7 @@ import {
   setCompanyState,
   setLogIn,
   setProceedAuth,
+  setStaffId,
 } from '../../../../services/redux/Slices/authSlice';
 import { inputPhoneNumber, inputSms } from '../../../../utilities/inputFormat';
 import Input from '../../../../components/Custom/Input';
@@ -194,6 +195,7 @@ export const LoginPanel = () => {
         dispatch(setLogIn(data.data.data));
         refetchList();
         dispatch(setCompanyState(data.data.data.status));
+        dispatch(setStaffId(data.data.data.staffId));
 
         Cookies.set('compnayState', data.data.data.status);
 

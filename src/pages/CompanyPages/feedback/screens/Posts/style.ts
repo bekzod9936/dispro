@@ -59,7 +59,7 @@ export const WrapDown = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-
+  cursor: pointer;
   @media (min-width: ${device.laptop}) {
     width: 60px;
     height: 60px;
@@ -68,6 +68,13 @@ export const WrapDown = styled.div`
     max-width: 60px;
     max-height: 60px;
   }
+`;
+
+export const WrapDownIcon = styled.div`
+  position: absolute;
+  right: 20px;
+  bottom: 0;
+  z-index: 9999;
 `;
 
 export const Container = styled.div`
@@ -230,6 +237,7 @@ export const ChatPlace = styled.div`
   flex: 1;
   overflow: hidden;
   margin-bottom: 15px;
+  position: relative;
 `;
 
 export const Messages = styled.div`
@@ -237,7 +245,7 @@ export const Messages = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column-reverse;
-
+  overflow-x: hidden;
   &::-webkit-scrollbar {
     appearance: none;
     display: none;
