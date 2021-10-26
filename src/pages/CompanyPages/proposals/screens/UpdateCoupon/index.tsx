@@ -44,6 +44,8 @@ import moment from 'moment'
 import { useUploadImage } from '../Coupons/useUploadIMage'
 import { PreviewModal } from '../../components/PreviewModal'
 import { PreviewMessage } from '../Coupons/style'
+import { SetDate } from '../Coupons/components/SetDate'
+import Modal from 'components/Custom/Modal'
 
 const UpdateCoupon = () => {
     const { currentCoupon } = useAppSelector((state: RootState) => state.proposals)
@@ -51,9 +53,12 @@ const UpdateCoupon = () => {
     const [file, setFile] = React.useState<string>("")
     const [isCoupon, setIsCoupon] = React.useState<boolean>(true)
     const [image, setImage] = React.useState<string>(currentCoupon.image)
+    const [coupon, setCoupon] = React.useState<any>()
+    const [chooseDate, setChooseDate] = React.useState<boolean>(false)
     const dispatch = useAppDispatch()
     const [isCropVisible, setIsCropVisible] = React.useState<boolean>(false)
     const history = useHistory()
+    const [publish, setPublish] = React.useState<boolean>(false)
     const { handleUpload, deleteImage } = useUploadImage(setImage)
     const { handleSubmit, register, watch, formState: { errors, isValid }, control } = useForm({
         mode: "onChange",
@@ -95,10 +100,8 @@ const UpdateCoupon = () => {
             count: data.amount,
             value: data.percent,
             currencyId: 1,
-            startDate: moment(currentCoupon.startDate).format("YYYY-MM-DD"),
-            endDate: moment(currentCoupon.endDate).format("YYYY-MM-DD"),
-            ageFrom: data.ageLimit,
-            ageUnlimited: !!!data.ageLimit,
+            ageFrom: optionalFields.age ? data.ageLimit : null,
+            ageUnlimited: !!!data.ageLimit || !optionalFields.age,
             categoryIds: [],
             companyId: 18,
             id: currentCoupon.id,
@@ -114,7 +117,25 @@ const UpdateCoupon = () => {
     }
 
 
-    console.log(errors, isValid);
+    const onPublish = (data: any) => {
+        setChooseDate(true)
+        setCoupon({
+            ...currentCoupon,
+            title: data.name,
+            count: data.amount,
+            ageUnlimited: !!!data.ageLimit,
+            price: data.cost,
+            value: data.percent,
+            type: isCoupon ? "1" : "2",
+            currencyId: 1,
+            categoryIds: [],
+            companyId: 18,
+            image: image,
+            ageFrom: optionalFields.age ? (data.ageLimit || null) : null,
+            ageTo: null,
+            description: data.description
+        })
+    }
 
     const handleUploadImg = (data: any) => {
         setFile(data.target.files[0])
@@ -134,6 +155,14 @@ const UpdateCoupon = () => {
                     Редактирование {isCoupon ? "купона" : "сертификата"}
                 </Title>
             </div>
+            <Modal open={chooseDate}>
+                <SetDate
+                    coupon={coupon}
+                    handleClose={() => setChooseDate(false)}
+                    shouldUpdate
+                    handleUpdate={mutate}
+                />
+            </Modal>
             <PreviewModal
                 price={watch("cost")}
                 isCoupon={isCoupon}
@@ -142,7 +171,7 @@ const UpdateCoupon = () => {
                 open={previewModal}
                 handleClose={() => setPreviewModal(false)}
                 ageFrom={watch("ageLimit")} />
-            <Form onSubmit={handleSubmit(onSave)}>
+            <Form onSubmit={publish ? handleSubmit(onPublish) : handleSubmit(onSave)}>
                 <UpSide>
                     <Container>
                         <LeftSide>
@@ -360,6 +389,14 @@ const UpdateCoupon = () => {
                         Отменить
                     </Button>
                     <Button
+                        onClick={() => setPublish(true)}
+                        type="submit"
+                        startIcon={<CancelIcon />}
+                        buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}>
+                        Опубликовать
+                    </Button>
+                    <Button
+                        onClick={() => setPublish(false)}
                         type="submit"
                         buttonStyle={{ color: "#606EEA", bgcolor: "rgba(96, 110, 234, 0.1)" }}
                         startIcon={<SaveIcon />}

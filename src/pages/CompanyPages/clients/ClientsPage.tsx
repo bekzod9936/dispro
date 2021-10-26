@@ -21,62 +21,65 @@ const ClientsPage = () => {
 		qrBar: false,
 		sideBar: false
 	})
-	const [ { 
-		isFiltersVisible, 
-		period, 
-		loading, 
-		filters, 
-		page, 
-		visibleClients, 
-		totalCount, 
-		selectedClients, 
-		totalPages }, 
-		dispatch ] = React.useReducer<React.Reducer<IState, ActionType>>(
+	const [{
+		isFiltersVisible,
+		period,
+		loading,
+		filters,
+		page,
+		visibleClients,
+		totalCount,
+		selectedClients,
+		totalPages,
+		clients },
+		dispatch,
+	] = React.useReducer<React.Reducer<IState, ActionType>>(
 		clientsReducer,
 		initialState,
 	);
-	
-	
-	const { refetch } = useFetchClients({page, dispatch, query: debouncedQuery, period});
-	
+
+
+	const { refetch } = useFetchClients({ page, dispatch, query: debouncedQuery, period });
+
 	return (
 		<MainWrapper>
 			<Container>
-				<Header 
+				<Header
 					isFiltersVisible={isFiltersVisible}
-					refetch={refetch} 
-					setOpenBar={setOpenBar} 
-					setQuery = {setQuery} 
-					query={query} 
-					totalCount={totalCount} 
-					dispatch={dispatch} 
-					filters={filters}/>
+					refetch={refetch}
+					setOpenBar={setOpenBar}
+					setQuery={setQuery}
+					query={query}
+					totalCount={totalCount}
+					dispatch={dispatch}
+					filters={filters} />
 				<Wrap>
 					{loading ? (
 						<Spinner />
 					) : totalCount === 0 ? <EmptyPage /> : (
 						<Table
+							clients={clients}
 							visibleClients={visibleClients}
 							dispatch={dispatch}
 							selectedClients={selectedClients}
 						/>
 					)}
-					{visibleClients.length !== 0 
-						&& <Footer 
-								length={visibleClients.length} 
-								totalPages={totalPages} 
-								totalCount={totalCount} 
-								page={page} 
-								setPage={dispatch} />}
+					{visibleClients.length !== 0
+						&& <Footer
+							length={visibleClients.length}
+							totalPages={totalPages}
+							totalCount={totalCount}
+							page={page}
+							setPage={dispatch} />}
 				</Wrap>
 				<SideBar isOpen={isOpenBar.qrBar}>
-					<QrCodeBar setOpenBar={setOpenBar}/>
+					<QrCodeBar setOpenBar={setOpenBar} />
 				</SideBar>
 				<SideBar isOpen={!!selectedClients.length}>
 					<ClientsBar
-						refetch={refetch} 
-						dispatch={dispatch} 
-						selectedClients={selectedClients}/>
+						refetch={refetch}
+						dispatch={dispatch}
+						selectedClients={selectedClients} />
 				</SideBar>
 			</Container>
 		</MainWrapper>

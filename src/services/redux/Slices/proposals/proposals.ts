@@ -33,10 +33,7 @@ const proposalsSlice = createSlice({
         },
         setCurrentOnSaleCoupon: (state: IState, action: PayloadAction<number>) => {
             const coupon = state.onSale.find((el: IDeferred) => el.id === action.payload)
-            state.currentOnSaleCoupon = { ...coupon }
-        },
-        resetCurrentOnSaleCoupon: (state: IState) => {
-            state.currentOnSaleCoupon = {}
+            state.currentCoupon = { ...coupon }
         },
         setDrafts: (state: IState, action: PayloadAction<IDeferred[]>) => {
             state.drafts = [...action.payload]
@@ -61,7 +58,6 @@ export const {
     resetCurrentCoupon,
     setOnSale,
     setCurrentOnSaleCoupon,
-    resetCurrentOnSaleCoupon,
     setSaving,
     setCanceled,
     setCanceledCoupon

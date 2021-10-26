@@ -20,6 +20,7 @@ export const Container = styled.div`
 
 export const ImageBlock = styled.div`
     width: 32%;
+    
     img {
         border-radius: 14px;
         width: 200px;
@@ -31,6 +32,9 @@ export const ImageBlock = styled.div`
 export const Main = styled.div`
     /* margin-right: 60pxf; */
     width: 32%;
+    @media (max-width: 1210px) {
+        width: 49%;
+    }
     h6 {
     font-size : 14px;
     font-weight: 400;
@@ -53,6 +57,9 @@ export const Main = styled.div`
 
 export const Submain = styled.div`
     width: 32%;
+    @media (max-width: 1210px) {
+        display: none;
+    }
     p {
         color: #223367;
         font-size: 14px;

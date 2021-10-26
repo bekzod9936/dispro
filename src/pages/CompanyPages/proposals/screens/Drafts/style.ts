@@ -19,6 +19,9 @@ export const Nav = styled.div`
 export const Wrapper = styled.div`
     margin-left: 35px;
     height: 100%;
+    @media (max-width: ${device.planshet}) {
+        margin-left: 0;
+    }
     /* overflow: auto;
     ::-webkit-scrollbar {
     width: 7px;

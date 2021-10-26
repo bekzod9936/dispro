@@ -41,7 +41,7 @@ export const PreviewModal = ({ open, image, isCoupon, value, description, ageFro
                         {/* <p>{description}</p> */}
                         <MoreInfo>
                             <div><span>{t("price")}:</span><b>{price} сум</b></div>
-                            <div><span>{t("age_limit")}:</span><b>C {ageFrom} лет</b></div>
+                            {ageFrom && <div><span>{t("age_limit")}:</span><b>C {ageFrom} лет</b></div>}
                         </MoreInfo>
                     </PreviewContent>
                 </Preview>

@@ -14,10 +14,11 @@ const FullInfoPage = () => {
     const { t } = useTranslation()
     const isCoupon = currentCoupon.type === 1
     const { goBack } = useHistory()
+
     const handleBack = () => {
         goBack()
-
     }
+    
     return (
         <Wrapper>
             <div

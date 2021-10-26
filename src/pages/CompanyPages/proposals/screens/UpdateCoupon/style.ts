@@ -28,18 +28,24 @@ export const AgeBlock = styled.div`
 `
 export const LeftSide = styled.div`
     width: 45%;
-   
+    @media (max-width: 1250px) {
+      width: 48%;
+    }
 `
 export const RightSide = styled.div`
     width: 40%;
-   
+    @media (max-width: 1250px) {
+      width: 48%;
+    }
 `
 export const Container = styled.div`
     width: 100%;
     display: flex;
     justify-content: space-between;
     height: 100%;
-
+    @media (max-width: ${device.laptop}) {
+      padding-right: 20px;
+    }
     padding: 20px 60px 20px 0;
 `
 
@@ -116,6 +122,9 @@ export const DownSide = styled.div`
     display: flex;
     justify-content: flex-start;
     height: 20%;
+    @media (max-width: 1150px) {
+      padding-right: 20px;
+    }
 `
 export const Form = styled.form`
     background-color: #FFFFFF;
@@ -129,6 +138,12 @@ export const Form = styled.form`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    @media (max-width: ${device.laptop}) {
+      padding: 20px 25px;
+    }
+    @media (max-width: 1150px) {
+      padding-right: 0;
+    }
 `
 
 export const UploadButton = styled.div`
