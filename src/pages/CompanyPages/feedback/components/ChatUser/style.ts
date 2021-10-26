@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 import { device } from 'styles/device';
 
+interface Props {
+  bgcolor?: string;
+}
+
 export const Container = styled.div`
   display: flex;
   border-bottom: 1px solid rgba(96, 110, 234, 0.1);
@@ -10,6 +14,7 @@ export const Container = styled.div`
   :hover {
     background-color: #8590eb;
   }
+  background-color: ${({ bgcolor }: Props) => bgcolor};
 `;
 
 export const Name = styled.div`

@@ -5,6 +5,7 @@ import { ReactComponent as Dots } from 'assets/icons/FeedBack/dots.svg';
 import { ReactComponent as Script } from 'assets/icons/FeedBack/script.svg';
 import { ReactComponent as Smile } from 'assets/icons/FeedBack/smile.svg';
 import { ReactComponent as Send } from 'assets/icons/FeedBack/send.svg';
+import { ReactComponent as Down } from 'assets/icons/FeedBack/down.svg';
 
 interface Props {
   right?: boolean;
@@ -16,12 +17,58 @@ export const SearchIcon = styled(Search)`
   height: 20px;
 `;
 
-export const DotsIcon = styled(Dots)``;
-export const ScriptIcon = styled(Script)`
+export const DotsIcon = styled(Dots)`
+  margin: 10px;
+`;
+
+export const DotsWrap = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+`;
+
+export const DownIcon = styled(Down)`
+  width: 18px;
+  height: 18px;
+  @media (min-width: ${device.laptop}) {
+    width: 24px;
+    height: 24px;
+  }
+`;
+
+export const ScriptIcon = styled(Script)``;
+
+export const WrapScript = styled.div`
   margin: 0 30px;
 `;
+
 export const SmileIcon = styled(Smile)``;
+
 export const SendIcon = styled(Send)``;
+
+export const WrapDown = styled.div`
+  background: rgba(96, 110, 234, 0.45);
+  border-radius: 14px;
+  width: 50px;
+  height: 50px;
+  min-width: 50px;
+  min-height: 50px;
+  max-width: 50px;
+  max-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media (min-width: ${device.laptop}) {
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
+    min-height: 60px;
+    max-width: 60px;
+    max-height: 60px;
+  }
+`;
 
 export const Container = styled.div`
   display: flex;
@@ -41,6 +88,7 @@ export const LeftSide = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
+  min-width: 260px;
 `;
 
 export const RightSide = styled.div`
@@ -59,8 +107,8 @@ export const Header = styled.div`
   align-items: center;
   justify-content: space-between;
   flex: 1;
-  padding: 0 15px;
   background-color: ${({ right }: Props) => (right ? 'white' : 'transparent')};
+  padding: ${({ right }: Props) => (right ? '0 30px 0 15px' : '0 15px')};
   box-shadow: ${({ right }: Props) =>
     right ? '0px 4px 8px rgba(0, 0, 0, 0.12)' : null};
   border-radius: 0px 14px 0px 0px;
@@ -69,6 +117,18 @@ export const Header = styled.div`
     min-height: 90px;
     height: 90px;
   }
+  position: relative;
+`;
+
+export const Fetching = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
 `;
 
 export const WrapChatUsers = styled.div`
@@ -117,12 +177,11 @@ export const Status = styled.div`
 
 export const WrapInfo = styled.div``;
 
-export const WrapInput = styled.div`
+export const Form = styled.form`
   background: #ffffff;
   border: 2px solid #c2c2c2;
   border-radius: 14px;
   width: 100%;
-  height: fit-content;
 `;
 
 export const Body = styled.div`
@@ -132,6 +191,7 @@ export const Body = styled.div`
   width: 100%;
   flex-direction: column;
   justify-content: space-between;
+  overflow: hidden;
   padding: 15px;
 `;
 
@@ -141,15 +201,19 @@ export const InputDown = styled.div`
   flex: 1;
   background: #f5f5f5;
   border-radius: 0px 0px 14px 14px;
-  padding: 15px;
+  padding: 10px;
   align-items: center;
   justify-content: space-between;
+  @media (min-width: ${device.laptop}) {
+    padding: 15px;
+  }
 `;
 
 export const InputWarn = styled.div`
   font-weight: normal;
   font-size: 15px;
   color: #8f8f8f;
+  margin-left: 25px;
   @media (min-width: ${device.laptop}) {
     font-size: 16px;
   }
@@ -162,7 +226,156 @@ export const WrapIcons = styled.div`
 `;
 
 export const ChatPlace = styled.div`
-  flex-shrink: 1;
   display: flex;
-  flex-basis: 1;
+  flex: 1;
+  overflow: hidden;
+  margin-bottom: 15px;
+`;
+
+export const Messages = styled.div`
+  overflow-y: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column-reverse;
+
+  &::-webkit-scrollbar {
+    appearance: none;
+    display: none;
+  }
+  &::-webkit-scrollbar-thumb {
+    appearance: none;
+    display: none;
+  }
+
+  &::-webkit-scrollbar-track {
+    appearance: none;
+    display: none;
+  }
+`;
+
+export const Img = styled.img`
+  width: 25%;
+  height: 45%;
+  @media (min-width: ${device.laptop}) {
+    width: 20%;
+    height: 35%;
+  }
+`;
+
+export const WrapImg = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  flex-direction: column;
+`;
+
+export const WrapChoose = styled.div`
+  color: #223367;
+  font-weight: normal;
+  font-size: 16px;
+  margin-top: 25px;
+  @media (min-width: ${device.laptop}) {
+    font-size: 18px;
+  }
+`;
+
+export const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+  width: 100%;
+  position: relative;
+`;
+
+interface MProps {
+  bgcolor?: string;
+}
+
+export const Message = styled.div`
+  background: ${({ bgcolor }: MProps) => bgcolor};
+  border-radius: 16px 16px 16px 0;
+  margin-left: 10px;
+  position: relative;
+  padding: 15px;
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: ${({ bgcolor }: MProps) => `20px solid ${bgcolor}`};
+    left: -15px;
+    bottom: 0;
+  }
+`;
+
+export const MessageText = styled.div`
+  font-weight: normal;
+  font-size: 14px;
+  color: ${({ bgcolor }: MProps) => bgcolor};
+  margin-top: 5px;
+`;
+
+export const MessageDate = styled.div`
+  font-weight: normal;
+  font-size: 12px;
+  color: ${({ bgcolor }: MProps) => bgcolor};
+`;
+
+export const MessageWrap = styled.div`
+  display: flex;
+  margin: 20px 0 0 20px;
+  align-items: flex-end;
+  width: 100%;
+`;
+
+export const Delete = styled.div``;
+
+export const Link = styled.div``;
+
+export const SelectWrap = styled.div`
+  padding: 15px 0;
+  & > div {
+    font-weight: normal;
+    font-size: 16px;
+    padding: 15px 25px;
+  }
+  & > div:first-child {
+    color: #223367;
+    background-color: #eff0fd;
+  }
+  & > div:last-child {
+    color: #ff5e68;
+  }
+`;
+
+export const Loading = styled.div`
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const EPicker = styled.div`
+  position: absolute;
+  bottom: 15%;
+  right: 0;
+  .emoji-mart-scroll {
+    ::-webkit-scrollbar {
+      width: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #606eea;
+      border-radius: 14px 0px 0px 14px;
+      min-height: 80px;
+    }
+  }
 `;

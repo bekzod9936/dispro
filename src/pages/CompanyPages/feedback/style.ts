@@ -232,8 +232,15 @@ export const Avatar = styled.div`
   min-height: ${({ big }: Props) => (big ? '45px' : '40px')};
   background-color: lightgray;
   margin-right: 15px;
+  overflow: hidden;
+
   @media (min-width: ${device.laptop}) {
     width: ${({ big }: Props) => (big ? '55px' : '40px')};
     height: ${({ big }: Props) => (big ? '55px' : '40px')};
+  }
+  & > img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
   }
 `;

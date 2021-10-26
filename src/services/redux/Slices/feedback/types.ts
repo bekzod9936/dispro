@@ -27,6 +27,16 @@ export interface IratingAndReviews {
   review?: string;
 }
 
+export interface IHistory {
+  chatType?: number;
+  companyId?: number;
+  createdAt?: string;
+  fromId?: number;
+  id?: number;
+  msg?: string;
+  toId?: number;
+}
+
 export interface IRatings {
   amount?: number;
   percentage?: number;
@@ -38,7 +48,10 @@ export interface IFeedBack {
   cashiers?: ICashiers[];
   clients?: IratingAndReviews[];
   ratings?: IRatings[];
+  histories?: IHistory[];
+  totalHistory?: number;
   totalCount?: number;
   averageRating?: number;
   totalRating?: number;
+  socket?: any;
 }
