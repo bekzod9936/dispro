@@ -238,4 +238,9 @@ export const Avatar = styled.div`
     width: ${({ big }: Props) => (big ? '55px' : '40px')};
     height: ${({ big }: Props) => (big ? '55px' : '40px')};
   }
+  & > img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+  }
 `;

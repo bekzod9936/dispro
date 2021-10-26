@@ -12,7 +12,6 @@ import { useSideBarStyle } from './styles/SideBarStyle';
 import MenuList from './MenuList';
 import Cookies from 'js-cookie';
 import useLayout from './useLayout';
-import io from 'socket.io-client';
 import { SOCKET_EVENT } from 'services/constants/chat';
 import {
   Container,
@@ -33,6 +32,8 @@ import { useAppDispatch } from 'services/redux/hooks';
 export interface IDefaultLayout {
   children: any;
 }
+
+const io = require('socket.io-client');
 
 const companyToken = localStorage.getItem('companyToken');
 

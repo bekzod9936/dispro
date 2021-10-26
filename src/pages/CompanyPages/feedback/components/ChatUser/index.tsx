@@ -11,6 +11,7 @@ interface Props {
   lastMsg?: string;
   lastName?: string;
   onClick?: (v: any) => void;
+  isActive?: boolean;
 }
 
 const ChatUser = ({
@@ -22,9 +23,10 @@ const ChatUser = ({
   lastMsg,
   lastName,
   onClick,
+  isActive,
 }: Props) => {
   return (
-    <Container onClick={onClick}>
+    <Container bgcolor={isActive ? '#8590eb' : 'transparent'} onClick={onClick}>
       <Avatar>
         <ImageLazyLoad objectFit='contain' src={image} alt='image' />
       </Avatar>

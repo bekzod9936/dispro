@@ -17,7 +17,16 @@ export const SearchIcon = styled(Search)`
   height: 20px;
 `;
 
-export const DotsIcon = styled(Dots)``;
+export const DotsIcon = styled(Dots)`
+  margin: 10px;
+`;
+
+export const DotsWrap = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+`;
 
 export const DownIcon = styled(Down)`
   width: 18px;
@@ -28,7 +37,9 @@ export const DownIcon = styled(Down)`
   }
 `;
 
-export const ScriptIcon = styled(Script)`
+export const ScriptIcon = styled(Script)``;
+
+export const WrapScript = styled.div`
   margin: 0 30px;
 `;
 
@@ -48,9 +59,7 @@ export const WrapDown = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  bottom: 0;
-  right: 0;
+
   @media (min-width: ${device.laptop}) {
     width: 60px;
     height: 60px;
@@ -98,8 +107,8 @@ export const Header = styled.div`
   align-items: center;
   justify-content: space-between;
   flex: 1;
-  padding: 0 15px;
   background-color: ${({ right }: Props) => (right ? 'white' : 'transparent')};
+  padding: ${({ right }: Props) => (right ? '0 30px 0 15px' : '0 15px')};
   box-shadow: ${({ right }: Props) =>
     right ? '0px 4px 8px rgba(0, 0, 0, 0.12)' : null};
   border-radius: 0px 14px 0px 0px;
@@ -108,6 +117,18 @@ export const Header = styled.div`
     min-height: 90px;
     height: 90px;
   }
+  position: relative;
+`;
+
+export const Fetching = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
 `;
 
 export const WrapChatUsers = styled.div`
@@ -156,12 +177,11 @@ export const Status = styled.div`
 
 export const WrapInfo = styled.div``;
 
-export const WrapInput = styled.div`
+export const Form = styled.form`
   background: #ffffff;
   border: 2px solid #c2c2c2;
   border-radius: 14px;
   width: 100%;
-  overflow: hidden;
 `;
 
 export const Body = styled.div`
@@ -210,11 +230,14 @@ export const ChatPlace = styled.div`
   flex: 1;
   overflow: hidden;
   margin-bottom: 15px;
-  position: relative;
 `;
 
 export const Messages = styled.div`
   overflow-y: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column-reverse;
+
   &::-webkit-scrollbar {
     appearance: none;
     display: none;
@@ -233,6 +256,10 @@ export const Messages = styled.div`
 export const Img = styled.img`
   width: 25%;
   height: 45%;
+  @media (min-width: ${device.laptop}) {
+    width: 20%;
+    height: 35%;
+  }
 `;
 
 export const WrapImg = styled.div`
@@ -259,4 +286,96 @@ export const Wrapper = styled.div`
   flex: 1;
   height: 100%;
   width: 100%;
+  position: relative;
+`;
+
+interface MProps {
+  bgcolor?: string;
+}
+
+export const Message = styled.div`
+  background: ${({ bgcolor }: MProps) => bgcolor};
+  border-radius: 16px 16px 16px 0;
+  margin-left: 10px;
+  position: relative;
+  padding: 15px;
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: ${({ bgcolor }: MProps) => `20px solid ${bgcolor}`};
+    left: -15px;
+    bottom: 0;
+  }
+`;
+
+export const MessageText = styled.div`
+  font-weight: normal;
+  font-size: 14px;
+  color: ${({ bgcolor }: MProps) => bgcolor};
+  margin-top: 5px;
+`;
+
+export const MessageDate = styled.div`
+  font-weight: normal;
+  font-size: 12px;
+  color: ${({ bgcolor }: MProps) => bgcolor};
+`;
+
+export const MessageWrap = styled.div`
+  display: flex;
+  margin: 20px 0 0 20px;
+  align-items: flex-end;
+  width: 100%;
+`;
+
+export const Delete = styled.div``;
+
+export const Link = styled.div``;
+
+export const SelectWrap = styled.div`
+  padding: 15px 0;
+  & > div {
+    font-weight: normal;
+    font-size: 16px;
+    padding: 15px 25px;
+  }
+  & > div:first-child {
+    color: #223367;
+    background-color: #eff0fd;
+  }
+  & > div:last-child {
+    color: #ff5e68;
+  }
+`;
+
+export const Loading = styled.div`
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const EPicker = styled.div`
+  position: absolute;
+  bottom: 15%;
+  right: 0;
+  .emoji-mart-scroll {
+    ::-webkit-scrollbar {
+      width: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #606eea;
+      border-radius: 14px 0px 0px 14px;
+      min-height: 80px;
+    }
+  }
 `;
