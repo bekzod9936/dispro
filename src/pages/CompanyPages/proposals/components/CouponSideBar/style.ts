@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import { device } from "styles/device"
 
 export const DeleteModal = styled.div`
     padding: 40px 55px 35px 55px;
@@ -68,18 +69,22 @@ export const Preview = styled.div`
     z-index: 12;
     height: 45%;
     overflow: hidden;
-
+    /* @media (max-height: 900px) {
+        display: none;
+    } */
     img.couponImg {
         position: absolute;
         left: 10px;
         right: 10px;
         border-radius: 30px 30px 0 0;
-        width: 275px;
+        max-width: 275px;
+        width: 100%;
         top: 10px;
         min-height: 185px;
     }
     img.iphoneImg {
-        width: 300px;
+        max-width: 300px;
+        width: 100%;
         position: relative;
         /* z-index: 12; */
     }
@@ -89,7 +94,7 @@ export const PreviewContent = styled.div`
     position: absolute;
     bottom: 0;
     background-color: #eef0f2;
-    height: 185px;
+    height: 50%;
     left: 10px;
     right: 10px;
     border-radius: 30px 30px 0 0;
@@ -126,5 +131,16 @@ export const PreviewContent = styled.div`
             margin-right: 10px;
             margin-bottom: 0;
         }
+    }
+`
+export const Img = styled.img`
+    display: none;
+    width: 200px;
+    border-radius: 14px;
+    @media (max-height: 900px) {
+        display: block;
+    }
+    @media (max-width: ${device.laptop}) {
+        display: block;
     }
 `

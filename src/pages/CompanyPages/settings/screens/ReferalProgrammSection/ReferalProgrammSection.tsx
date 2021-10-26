@@ -29,6 +29,7 @@ import {
 } from "./styles";
 import Button from "components/Custom/Button";
 import RippleEffect from "components/Custom/RippleEffect";
+import NotifySnack from "components/Custom/Snackbar";
 
 const ReferalProgrammSection = () => {
   const forMap = new Array(10).fill(250);
@@ -44,9 +45,10 @@ const ReferalProgrammSection = () => {
     remove,
     handleSubmit,
     errors,
+    errorRef,
+    referalError,
+    setErrorRef,
   } = useReferalData();
-
-  console.log(fields, "fields");
 
   return (
     <GridContainer container spacing={3}>
@@ -81,7 +83,6 @@ const ReferalProgrammSection = () => {
             {fields
               ?.sort((a: any, b: any) => a.number - b.number)
               ?.map((item: any, index: number) => {
-                console.log(errors?.referals, "percent");
                 return (
                   <ReferalCol
                     onClick={(e: any) => {
@@ -212,6 +213,16 @@ const ReferalProgrammSection = () => {
           </LevelsColumn>
         </LevelsCard>
       </RightGrid>
+      <NotifySnack
+        open={errorRef}
+        error={true}
+        vertical="bottom"
+        horizontal="right"
+        message={referalError}
+        handleClose={() => {
+          setErrorRef(false);
+        }}
+      />
     </GridContainer>
   );
 };

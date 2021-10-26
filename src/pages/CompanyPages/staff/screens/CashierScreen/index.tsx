@@ -7,19 +7,12 @@ import Button from "components/Custom/Button";
 import CashierTable from "../../components/CashierTable";
 import { SideBar } from "../../components/SideBar";
 import useCashiers from "../../hooks/useCashiers";
-import { SpinnerDiv } from "../../style";
+import { SpinnerDiv, EmptyContainer, EmptyLeft, EmptyRight } from "../../style";
 import CashierBar from "./components/CashierBar";
 import { ReactComponent as EmptyCashier } from "assets/images/staffs_empty.svg";
 import { ReactComponent as AddCashier } from "assets/icons/add_cashier.svg";
-import {
-  CashierDiv,
-  EmptyContainer,
-  EmptyLeft,
-  EmptyRight,
-  Text,
-  Break,
-} from "./style";
-import { setOpenFilter } from "services/redux/Slices/staffs";
+import { CashierDiv, Text, Break } from "./style";
+import { setOpenCash, setOpenFilter } from "services/redux/Slices/staffs";
 
 const CashierScreen = () => {
   const dispatch = useAppDispatch();
@@ -85,7 +78,14 @@ const CashierScreen = () => {
               для внесения оплат клиентами.
             </Text>
             <Break />
-            <Button startIcon={<AddCashier />}>Добавить кассира</Button>
+            <Button
+              onClick={() => {
+                dispatch(setOpenCash(true));
+              }}
+              startIcon={<AddCashier />}
+            >
+              Добавить кассира
+            </Button>
           </EmptyRight>
         </EmptyContainer>
       )}

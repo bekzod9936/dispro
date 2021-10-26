@@ -165,6 +165,7 @@ const Posts = () => {
           },
         },
         (res: any) => {
+          // console.log(res, "response sending");
           if (res.success) {
             resChatClientHistory.refetch();
             resChatClients.refetch();

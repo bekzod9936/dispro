@@ -1,6 +1,7 @@
 import { IFlex } from "services/Types/Style";
 import styled from "styled-components";
 import ButtonBase from "@material-ui/core/ButtonBase";
+import { device } from "styles/device";
 
 export interface IRow {
   light?: boolean;
@@ -38,6 +39,16 @@ export const Flex = styled.div<IFlex>`
   overflow-y: ${(props: IFlex) => props.overflowY || "visible"};
   flex-wrap: ${(props: IFlex) => props.flexWrap || "nowrap"};
 
+  @media (max-width: ${device.mobile}) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
   &::-webkit-scrollbar {
     display: none;
     appearance: none;
@@ -68,4 +79,24 @@ export const PopoverRow = styled(ButtonBase)`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
+`;
+
+export const EmptyContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const EmptyLeft = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 60px;
+`;
+
+export const EmptyRight = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-start;
 `;

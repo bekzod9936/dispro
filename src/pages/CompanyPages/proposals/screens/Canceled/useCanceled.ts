@@ -7,7 +7,7 @@ interface IProps {
     dispatch: any
 }
 export const useCanceled = ({ query, dispatch }: IProps) => {
-    const { refetch, isFetching } = useQuery(["fetchCanceled", query], () => fetchCoupons(query, 6), {
+    const { refetch, isFetching } = useQuery(["fetchCanceled", query], () => fetchCoupons(query, 7), {
         refetchOnWindowFocus: false,
         retry: 0,
         onSuccess: (data: any) => {

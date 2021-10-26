@@ -20,12 +20,11 @@ export const Wrapper = styled.div`
     display: flex;
     height: 100%;
     flex-direction: column;
-    padding: 0 50px 0 0;
     @media (min-width: ${device.mobile}) and (max-width: ${device.laptop}) {
-    padding: 25px 0 30px 30px;
+    padding: 25px 15px 30px 30px;
     }
     @media (min-width: ${device.laptop}) {
-        padding: 30px 0 30px 35px;
+        padding: 30px 15px 30px 35px;
     }
 `
 
@@ -37,8 +36,13 @@ export const RightSide = styled.div`
     height: ${({ isCreating }: IRightSide) => isCreating ? "100%" : "80%"};
     border-left: ${({ isCreating }: IRightSide) => !isCreating ? "3px solid rgba(96, 110, 234, 0.3)" : "none"};
     flex: 1;
-
+    @media (max-width: ${device.planshet}) {
+        border: none;
+    }
 `
 export const LeftSide = styled.div`
     margin-right: 45px;
+    @media (max-width: ${device.laptop}) {
+        margin-right: 15px;
+    }
 `

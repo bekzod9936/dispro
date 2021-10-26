@@ -1,6 +1,9 @@
 import Checkbox from "@material-ui/core/Checkbox";
+import { CustomList } from "components/Custom/CustomList";
 import React from "react";
 import { useSortBy, useTable } from "react-table";
+import { useWindowSize } from "../../hooks/useWindowSize";
+import { getListFromClients } from "../../utils/getSelectedFilters";
 import {
   ActionType,
   ActionTypes,
@@ -31,14 +34,17 @@ interface IProps {
   visibleClients: IVisibleClient[];
   selectedClients: IClient[];
   dispatch: (arg: ActionType) => void;
+  clients: IClient[]
 }
 
 export const Table = ({
   visibleClients,
   selectedClients,
   dispatch,
+  clients
 }: IProps) => {
   const [headers, setHeaders] = React.useState<HeadersType[]>(addedHeaders);
+  const size = useWindowSize()
 
   const columns: any = React.useMemo(() => {
     return headers.map((header) => ({
@@ -63,74 +69,70 @@ export const Table = ({
 
   return (
     <div>
-      <TableHeader>
-        <Title>Клиенты</Title>
-        <AddColumnButton addedHeaders={headers} setAddedHeaders={setHeaders} />
-      </TableHeader>
-      <Container>
-        <MTable {...getTableProps()}>
-          <Thead>
-            {headerGroups.map((headerGroup) => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
-                <Th>
-                  <MCheckbox>
-                    <Checkbox
-                      checked={
-                        !!visibleClients.length &&
-                        selectedClients.length === visibleClients.length
-                      }
-                      onChange={(e) =>
-                        dispatch({
-                          type: ActionTypes.SELECT_ALL,
-                          payload: e.target.checked,
-                        })
-                      }
-                    />
-                  </MCheckbox>
-                </Th>
-                {headerGroup.headers.map((column: any) => (
-                  <Th
-                    active={column.isSorted}
-                    {...column.getHeaderProps(column.getSortByToggleProps())}
-                  >
-                    {column.render("Header")}
-                    <UpIcon up={column.isSortedDesc} active={column.isSorted} />
-                  </Th>
+      {size.width > 1000 ?
+        <><TableHeader>
+          <Title>Клиенты</Title>
+          <AddColumnButton addedHeaders={headers} setAddedHeaders={setHeaders} />
+        </TableHeader><Container>
+            <MTable {...getTableProps()}>
+              <Thead>
+                {headerGroups.map((headerGroup) => (
+                  <tr {...headerGroup.getHeaderGroupProps()}>
+                    <Th>
+                      <MCheckbox>
+                        <Checkbox
+                          checked={!!visibleClients.length &&
+                            selectedClients.length === visibleClients.length}
+                          onChange={(e) => dispatch({
+                            type: ActionTypes.SELECT_ALL,
+                            payload: e.target.checked,
+                          })} />
+                      </MCheckbox>
+                    </Th>
+                    {headerGroup.headers.map((column: any) => (
+                      <Th
+                        active={column.isSorted}
+                        {...column.getHeaderProps(column.getSortByToggleProps())}
+                      >
+                        {column.render("Header")}
+                        <UpIcon up={column.isSortedDesc} active={column.isSorted} />
+                      </Th>
+                    ))}
+                  </tr>
                 ))}
-              </tr>
-            ))}
-          </Thead>
-          <Tbody {...getTableBodyProps()}>
-            {rows.map((row: any) => {
-              prepareRow(row);
-              return (
-                <TRow
-                  checked={selectedClients.some(
-                    (client: IClient) => client.id === row.original.id
-                  )}
-                  onClick={(e) => handleAddClientByClick(e, row.original.id)}
-                  {...row.getRowProps()}
-                >
-                  <Td>
-                    <MCheckbox>
-                      <Checkbox
-                        checked={selectedClients.some(
-                          (el: IClient) => el.id === row.original.id
-                        )}
-                      />
-                    </MCheckbox>
-                  </Td>
-                  {row.cells.map((cell: any) => {
-                    return (
-                      <Td {...cell.getCellProps()}>{cell.render("Cell")}</Td>
-                    );
-                  })}
-                </TRow>
-              );
-            })}
-          </Tbody>
-        </MTable>
-      </Container>
+              </Thead>
+              <Tbody {...getTableBodyProps()}>
+                {rows.map((row: any) => {
+                  prepareRow(row);
+                  return (
+                    <TRow
+                      checked={selectedClients.some(
+                        (client: IClient) => client.id === row.original.id
+                      )}
+                      onClick={(e) => handleAddClientByClick(e, row.original.id)}
+                      {...row.getRowProps()}
+                    >
+                      <Td>
+                        <MCheckbox>
+                          <Checkbox
+                            checked={selectedClients.some(
+                              (el: IClient) => el.id === row.original.id
+                            )} />
+                        </MCheckbox>
+                      </Td>
+                      {row.cells.map((cell: any) => {
+                        return (
+                          <Td {...cell.getCellProps()}>{cell.render("Cell")}</Td>
+                        );
+                      })}
+                    </TRow>
+                  );
+                })}
+              </Tbody>
+            </MTable>
+          </Container></> :
+        <CustomList list={getListFromClients(clients)} />}
     </div>
   );
 };
+

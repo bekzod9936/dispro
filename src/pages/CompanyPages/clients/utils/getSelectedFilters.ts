@@ -1,7 +1,7 @@
 export const getSelected = (obj: any): any => {
     return Object.keys(obj).reduce((object: any, el: any) => {
         if (typeof obj[el] === "string" || typeof obj[el] === "number") {
-            if(obj[el]) {
+            if (obj[el]) {
                 if (el === "gender") {
                     object = {
                         ...object,
@@ -23,7 +23,7 @@ export const getSelected = (obj: any): any => {
             let res = {};
             for (let key in obj[el]) {
                 if (obj[el][key]) {
-                    if(key.includes("From")) {
+                    if (key.includes("From")) {
                         res = {
                             ...res,
                             "from": obj[el][key]
@@ -35,7 +35,7 @@ export const getSelected = (obj: any): any => {
                         }
                     } else {
                         res = {
-                            ...res, 
+                            ...res,
                             [key]: obj[el][key]
                         }
                     }
@@ -48,4 +48,15 @@ export const getSelected = (obj: any): any => {
         }
         return object
     }, {})
+}
+
+
+export const getListFromClients = (arr: any) => {
+    return arr.map((el: any) => {
+        const { firstName, lastName, image } = el
+        return {
+            name: firstName + " " + lastName,
+            image
+        }
+    })
 }

@@ -1,11 +1,14 @@
 import { useState } from "react";
-import { ManagerDiv } from "./style";
+import { ManagerDiv, Text, Break } from "./style";
+import { ReactComponent as EmptyManager } from "assets/icons/manager_empty.svg";
+import { ReactComponent as AddManager } from "assets/icons/add_manager.svg";
 import ManagerTable from "../../components/ManagerTable";
 import useManagers from "../../hooks/useManagers";
 import { useAppSelector } from "services/redux/hooks";
 import { useDebounce } from "use-debounce/lib";
-import { SpinnerDiv } from "../../style";
+import { SpinnerDiv, EmptyContainer, EmptyLeft, EmptyRight } from "../../style";
 import Spinner from "components/Helpers/Spinner";
+import Button from "components/Custom/Button";
 
 const ManagerScreen = () => {
   const query = useAppSelector((state) => state.staffs.query);
@@ -29,7 +32,7 @@ const ManagerScreen = () => {
         <SpinnerDiv>
           <Spinner />
         </SpinnerDiv>
-      ) : (
+      ) : managers?.length > 0 ? (
         <ManagerTable
           managers={managers.map((manager: any) => {
             return {
@@ -38,6 +41,27 @@ const ManagerScreen = () => {
             };
           })}
         />
+      ) : (
+        <EmptyContainer>
+          <EmptyLeft>
+            <EmptyManager />
+          </EmptyLeft>
+          <EmptyRight>
+            <Text>
+              На данный момент менеджеры в компании отсутствуют. Добавьте
+              менеджера, для большего контроля организации.
+            </Text>
+            <Break />
+            <Button
+              onClick={() => {
+                // dispatch(setOpenCash(true));
+              }}
+              startIcon={<AddManager />}
+            >
+              Добавить менеджера
+            </Button>
+          </EmptyRight>
+        </EmptyContainer>
       )}
     </ManagerDiv>
   );

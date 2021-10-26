@@ -11,15 +11,16 @@ import { SearchIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
 import Spinner from 'components/Helpers/Spinner'
 import { IDeferred } from 'services/redux/Slices/proposals/types'
 import { CouponCard } from '../../components/CouponCard'
-import { resetCurrentOnSaleCoupon, setCurrentOnSaleCoupon } from 'services/redux/Slices/proposals/proposals'
-import { deleteCoupon } from 'services/queries/ProposalsQueries'
+import { resetCurrentCoupon, setCurrentOnSaleCoupon } from 'services/redux/Slices/proposals/proposals'
+
+
 const OnSale = () => {
-    const { onSale, currentOnSaleCoupon } = useAppSelector((state: RootState) => state.proposals)
+    const { onSale, currentCoupon } = useAppSelector((state: RootState) => state.proposals)
     const [query, setQuery] = React.useState<string>("")
     const [open, setOpen] = React.useState<boolean>(false)
     const [debounced] = useDebounce(query, 300)
     const dispatch = useAppDispatch()
-    const { isLoading, refetch } = useOnSale({dispatch, query: debounced})
+    const { isLoading, refetch } = useOnSale({ dispatch, query: debounced })
 
     const handleOpen = (id: number) => {
         dispatch(setCurrentOnSaleCoupon(id))
@@ -27,28 +28,36 @@ const OnSale = () => {
     }
 
     const handleResetCoupon = () => {
-        dispatch(resetCurrentOnSaleCoupon())
+        dispatch(resetCurrentCoupon())
     }
 
+    React.useEffect(() => {
+        dispatch(resetCurrentCoupon())
+    }, [])
 
     return (
         <Wrapper>
             <SideBar maxWidth="370px" isOpen={open}>
-                <CouponBar refetch={refetch} resetCoupon={handleResetCoupon} disableUpdate={true} currentCoupon={currentOnSaleCoupon} onClose={setOpen}/>
+                <CouponBar
+                    refetch={refetch}
+                    resetCoupon={handleResetCoupon}
+                    disableUpdate={true}
+                    currentCoupon={currentCoupon}
+                    onClose={setOpen} />
             </SideBar>
-            <Input 
+            <Input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                IconStart={<SearchIcon style={{marginLeft: "35px"}}/>} 
-                placeholder="Поиск..." 
-                margin={{laptop: "0 0 20px 0"}} 
-                inputStyle={{border: "none"}} 
-                width={{maxwidth: 500, width: "100%"}}/>
+                IconStart={<SearchIcon style={{ marginLeft: "35px" }} />}
+                placeholder="Поиск..."
+                margin={{ laptop: "0 0 20px 0" }}
+                inputStyle={{ border: "none" }}
+                width={{ maxwidth: 500, width: "100%" }} />
             {isLoading ? <Spinner /> : onSale.map((el: IDeferred) => (
                 <CouponCard
-                    isSelected={currentOnSaleCoupon.id === el.id}
+                    isSelected={currentCoupon.id === el.id}
                     onClick={() => handleOpen(el.id)}
-                    key={el.id} 
+                    key={el.id}
                     img={el.image}
                     title={el.title}
                     ageFrom={el.ageFrom}

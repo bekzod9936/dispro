@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 
@@ -15,7 +16,10 @@ interface FormProps {
 }
 
 const useReferalData = () => {
+  const { t } = useTranslation();
   const companyId = localStorage.getItem("companyId");
+  const [errorRef, setErrorRef] = useState(false);
+  const [referalError, setReferalError] = useState("");
   const [saving, setSaving] = useState(false);
   const [newState, setNewState] = useState<string>("old");
   const [checkedState, setCheckedState] = useState<boolean>(false);
@@ -29,8 +33,6 @@ const useReferalData = () => {
     reValidateMode: "onChange",
     shouldFocusError: true,
   });
-
-  console.log(errors, "errors");
 
   const handleSwitch = (checked: boolean) => {
     setCheckedState(checked);
@@ -49,6 +51,7 @@ const useReferalData = () => {
     refetchOnWindowFocus: false,
     onSuccess: (data: any) => {
       console.log(data?.data?.data, "referal program");
+      setCheckedState(data?.data?.data?.isActive);
 
       if (data.data.data?.levels) {
         setValue(
@@ -81,6 +84,7 @@ const useReferalData = () => {
       setNewReferal({
         companyId: data.companyId,
         referals: data.referals,
+        isActive: data.isActive,
       }),
     {
       onSuccess: () => {
@@ -94,6 +98,7 @@ const useReferalData = () => {
       changeReferal({
         companyId: data.companyId,
         referals: data.referals,
+        isActive: data.isActive,
       }),
     {
       onSuccess: () => {
@@ -107,17 +112,42 @@ const useReferalData = () => {
 
     try {
       let block = data.referals.find((value: any) => value.percent === "");
+      let levels = data.referals;
+      for (let i = 0; i <= levels?.length; i++) {
+        if (
+          levels[i - 1]?.percent &&
+          parseInt(levels[i]?.percent) > parseInt(levels[i - 1]?.percent)
+        ) {
+          setErrorRef(true);
+          setReferalError(
+            `${t("percentage_in")} "${levels[i]?.number} ${t("level")}" ${t(
+              "must_be_more_than"
+            )}"${levels[i - 1]?.number} ${t("level")}"`
+          );
+          setSaving(false);
+          return;
+        }
+      }
+
+      console.log(data.referals, "first side");
+
       if (!block) {
+        console.log("second side", data.referals);
         if (newState === "new") {
+          console.log("third side", data.referals);
           setBonusreferal.mutate({
             companyId: companyId,
             referals: data.referals,
+            isActive: checkedState,
           });
+          setErrorRef(false);
         } else {
           saveBonusReferal.mutate({
             companyId: companyId,
             referals: data.referals,
+            isActive: checkedState,
           });
+          setErrorRef(false);
         }
 
         setSaving(false);
@@ -143,6 +173,9 @@ const useReferalData = () => {
     remove,
     handleSubmit,
     errors,
+    errorRef,
+    referalError,
+    setErrorRef,
   };
 };
 

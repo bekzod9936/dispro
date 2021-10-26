@@ -29,19 +29,27 @@ export const AgeBlock = styled.div`
 `
 export const LeftSide = styled.div`
     width: 45%;
+    @media (max-width: 1250px) {
+      width: 48%;
+    }
    
 `
 export const RightSide = styled.div`
     width: 40%;
-   
+    @media (max-width: 1250px) {
+      width: 48%;
+    }
 `
 export const Container = styled.div`
     width: 100%;
     display: flex;
     justify-content: space-between;
     height: 100%;
-
     padding: 20px 60px 20px 0;
+    @media (max-width: ${device.laptop}) {
+      padding-right: 20px;
+    }
+    
 `
 
 export const Wrapper = styled.div`
@@ -117,6 +125,9 @@ export const DownSide = styled.div`
     display: flex;
     justify-content: flex-start;
     height: 20%;
+    @media (max-width: 1150px) {
+      padding-right: 20px;
+    }
 `
 export const Form = styled.form`
     background-color: #FFFFFF;
@@ -125,6 +136,12 @@ export const Form = styled.form`
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
     border-radius: 14px;
     padding: 35px 110px 0 110px;
+    @media (max-width: ${device.laptop}) {
+      padding: 20px 25px;
+    }
+    @media (max-width: 1150px) {
+      padding-right: 0;
+    }
     overflow: hidden;
     min-height: 500px;
     display: flex;
@@ -202,6 +219,7 @@ export const ErrorMessage = styled.span`
 
 export const PeriodWrapper = styled.div`
   padding: 30px 40px 25px 30px;
+  
   background: #FFFFFF;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
   border-radius: 14px;
