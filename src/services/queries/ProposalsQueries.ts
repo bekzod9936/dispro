@@ -12,26 +12,26 @@ export const uploadImg = async (data: any) => {
 
 export const fetchCoupons = async (query: string, situation: number) => {
     if (query) {
-        const response = await partnerApi(`/bonus/coupons/type/2/search/by?key=${query}`)
+        const response = await partnerApi(`/bonus/coupons/by/situation/${situation}/new?key=${query}`)
         return response
     } else {
-        const response = await partnerApi(`/bonus/coupons/type/2/by/company/situation/${situation}`)
+        const response = await partnerApi(`/bonus/coupons/by/situation/${situation}/new`)
         return response
     }
 }
 
 
 export const postCoupon = async (data: ICoupon) => {
-    const response = await partnerApi.post("/bonus/coupons/", data)
+    const response = await partnerApi.post("/bonus/coupons/new", data)
     return response
 }
 
 export const putCoupon = async (id: number, data: any) => {
-    const response = await partnerApi.put(`/bonus/coupons/${id}/publish`, data)
+    const response = await partnerApi.put(`/bonus/coupons/${id}/publish/new`, data)
 }
 
 export const updateCoupon = async (id: number, data: IDeferred) => {
-    const response = await partnerApi.put(`/bonus/coupons/${id}`, data)
+    const response = await partnerApi.put(`/bonus/coupons/${id}/new`, data)
     return response
 }
 

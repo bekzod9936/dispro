@@ -85,7 +85,7 @@ export const CouponBar = ({
                         <h5><span>{currentCoupon.value} сум</span></h5>}
                 </PreviewContent>
             </Preview>
-            <Img src={currentCoupon.image} alt="" />
+            {/* <Img src={currentCoupon.image} alt="" /> */}
             <Content>
                 <h5>Информация</h5>
                 <p>{isCoupon ? "Скидка Купона" : "Сумма Сертификата"}: {currentCoupon.value} {isCoupon ? "%" : "Сум"}</p>
@@ -163,6 +163,8 @@ export const CouponBar = ({
                     handleClose={() => setPublisOpen(false)}
                     coupon={currentCoupon}
                     mutation={mutate}
+                    shouldPublish
+                    handlePost={mutate}
                 />
             </Modal>
         </Wrapper>

@@ -12,6 +12,7 @@ import { CouponCard } from '../../components/CouponCard'
 import { resetCurrentCoupon, setSelectedCoupon } from 'services/redux/Slices/proposals/proposals'
 import { SideBar } from 'pages/CompanyPages/clients/components/SideBar'
 import { CouponBar } from '../../components/CouponSideBar'
+import { EmptyPage } from '../Drafts/components/EmptyPage'
 
 const Deferred = () => {
     const dispatch = useAppDispatch()
@@ -19,13 +20,13 @@ const Deferred = () => {
     const [open, setOpen] = React.useState<boolean>(false)
     const [value, setValue] = React.useState<string>("")
     const [debouncedQuery] = useDebounce(value, 300)
-    const { isFetching, refetch } = useDeferred({dispatch, query: debouncedQuery})
-    
+    const { isFetching, refetch } = useDeferred({ dispatch, query: debouncedQuery })
+
     const handleOpen = (id: number) => {
         dispatch(setSelectedCoupon(id))
         setOpen(true)
     }
-    
+
     const handleReset = () => {
         dispatch(resetCurrentCoupon())
     }
@@ -37,21 +38,22 @@ const Deferred = () => {
     return (
         <Wrapper>
             <SideBar maxWidth="370px" isOpen={open}>
-                <CouponBar refetch={refetch} resetCoupon={handleReset} currentCoupon={currentCoupon} onClose={setOpen}/>
+                <CouponBar refetch={refetch} resetCoupon={handleReset} currentCoupon={currentCoupon} onClose={setOpen} />
             </SideBar>
-            <Input 
+            <Input
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
-                IconStart={<SearchIcon style={{marginLeft: "35px"}}/>} 
-                placeholder="Поиск..." 
-                margin={{laptop: "0 0 20px 0"}} 
-                inputStyle={{border: "none"}} 
-                width={{maxwidth: 500, width: "100%"}}/>
+                IconStart={<SearchIcon style={{ marginLeft: "35px" }} />}
+                placeholder="Поиск..."
+                margin={{ laptop: "0 0 20px 0" }}
+                inputStyle={{ border: "none" }}
+                width={{ maxwidth: 500, width: "100%" }} />
+            {deferred.length === 0 && <EmptyPage />}
             {isFetching ? <Spinner /> : deferred.map((el: IDeferred) => (
                 <CouponCard
                     isSelected={currentCoupon.id === el.id}
                     onClick={() => handleOpen(el.id)}
-                    key={el.id} 
+                    key={el.id}
                     img={el.image}
                     title={el.title}
                     ageFrom={el.ageFrom}

@@ -37,17 +37,16 @@ import { useUploadImage } from './useUploadIMage'
 import CropCustomModal from 'components/Custom/CropImageModal/index'
 import { useTranslation } from 'react-i18next'
 import { useMutation } from 'react-query'
-import { postCoupon, putCoupon } from 'services/queries/ProposalsQueries'
+import { postCoupon } from 'services/queries/ProposalsQueries'
 import Modal from 'components/Custom/Modal'
 import { SetDate } from './components/SetDate'
 import { categories, days } from './constants'
 import ImageLazyLoad from 'components/Custom/ImageLazyLoad/ImageLazyLoad'
-import { CustomDatePicker } from '../../components/CustomDatePicker'
-import { getValidDate } from '../../utils/getValidDate'
 import MFormatInput from 'components/Custom/MoneyInput'
 import { useAppDispatch } from 'services/redux/hooks'
 import { setSaving } from 'services/redux/Slices/proposals/proposals'
 import { PreviewModal } from '../../components/PreviewModal'
+import { getValidData } from './utils/getValidDate'
 
 interface IOptionFields {
     age: boolean,
@@ -92,16 +91,13 @@ const initialData: ICoupon = {
 }
 
 const Coupons = () => {
+
     const history = useHistory()
-
-
     const { t } = useTranslation()
     const [isCoupon, setIsCoupon] = React.useState<boolean>(false)
     const [coupon, setCoupon] = React.useState<ICoupon>(initialData)
     const [period, setPeriod] = React.useState<boolean>(false)
     const [image, setImage] = React.useState('')
-    // const [formAction, setFormAction] = React.useState<"publish">("save")
-    const [publishDate, setPublishDate] = React.useState<string>("")
     const [publish, setPublish] = React.useState(false)
     const { handleUpload, deleteImage } = useUploadImage(setImage)
     const [file, setFile] = React.useState('')
@@ -125,10 +121,6 @@ const Coupons = () => {
         setIsCoupon(isCoupon)
     }, [])
 
-    // console.log(errors, "errors")
-    // console.log(isValid);
-
-
 
     const handleOpenBlock = (e: any, action: "age" | "time" | "days") => {
         setOptionalFields((prev: IOptionFields) => ({
@@ -143,7 +135,7 @@ const Coupons = () => {
         setIsCropVisible(true)
     }
 
-    const onUpdateData = (data: any) => {
+    const onPublish = (data: any) => {
         setPeriod(true)
         setCoupon((prev: ICoupon) => ({
             ...prev,
@@ -174,33 +166,13 @@ const Coupons = () => {
     }
 
     const onSave = async (data: any) => {
-        const validData = {
-            title: data.name,
-            startDate: getValidDate(data.startDate),
-            endDate: getValidDate(data.endDate),
-            count: data.amount,
-            ageUnlimited: !!!data.ageLimit,
-            price: data.cost,
-            value: data.percent,
-            type: isCoupon ? "1" : "2",
-            currencyId: 1,
-            categoryIds: [...data.categories.map((el: any) => el.id)],
-            companyId: 18,
-            image: image,
-            ageFrom: data.ageLimit || null,
-            ageTo: null,
-            description: data.description
-        }
+        const validData = getValidData(data, isCoupon, image)
         mutate(validData)
         setTimeout(() => history.goBack(), 1000)
         dispatch(setSaving(true))
     }
 
-
-
-    const handleClose = () => {
-        setPeriod(false)
-    }
+    console.log(errors);
 
     return (
         <Wrapper>
@@ -213,10 +185,8 @@ const Coupons = () => {
             </div>
             <Modal open={period}>
                 <SetDate
-                    setDate={setPublishDate}
-                    setPeriod={setPeriod}
-                    mutation={mutate}
-                    handleClose={handleClose}
+                    handlePost={mutate}
+                    handleClose={() => setPeriod(false)}
                     coupon={coupon} />
             </Modal>
             <PreviewModal
@@ -229,7 +199,7 @@ const Coupons = () => {
                 image={image}
                 handleClose={() => setPreviewModal(false)}
             />
-            <Form onSubmit={publish ? handleSubmit(onUpdateData) : handleSubmit(onSave)}>
+            <Form onSubmit={publish ? handleSubmit(onPublish) : handleSubmit(onSave)}>
                 <UpSide>
                     <Container>
                         <LeftSide>
@@ -279,21 +249,13 @@ const Coupons = () => {
                                 control={control}
                                 rules={{
                                     required: true,
+                                    max: 100
                                 }}
                                 render={({ field }) => (
                                     <MFormatInput
+                                        max="100"
                                         {...field}
-                                        onChange={(e: any) => {
-                                            let myVal = e.target.value.split(' ').join("")
-                                            console.log(myVal);
-
-                                            if (parseInt(myVal) <= 100) {
-                                                field.onChange(e.target.value);
-                                            } else {
-                                                setValue("percent", "100")
-                                                field.onChange("100")
-                                            }
-                                        }}
+                                        onChange={(e: any) => field.onChange(e)}
                                         error={!!errors.percent}
                                         message={t("requiredField")}
                                         label={isCoupon ? `Укажите % купона` : "Укажите сумму сертификата"}
@@ -423,28 +385,6 @@ const Coupons = () => {
                                         />
                                     </div>}
                             </AgeWrapper>
-                            <div style={{ display: "flex" }}>
-                                <Controller
-                                    name="startDate"
-                                    rules={{
-                                        required: true
-                                    }}
-                                    control={control}
-                                    render={({ field }) => (
-                                        <CustomDatePicker style={{ marginRight: "20px" }} field={field} />
-                                    )}
-                                />
-                                <Controller
-                                    name="endDate"
-                                    rules={{
-                                        required: true
-                                    }}
-                                    control={control}
-                                    render={({ field }) => (
-                                        <CustomDatePicker minDate={watch("startDate")?.toDate()} field={field} />
-                                    )}
-                                />
-                            </div>
                             {isValid ?
                                 <Button
                                     onClick={() => setPreviewModal(true)}

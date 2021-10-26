@@ -69,9 +69,9 @@ export const Preview = styled.div`
     z-index: 12;
     height: 45%;
     overflow: hidden;
-    @media (max-height: 900px) {
+    /* @media (max-height: 900px) {
         display: none;
-    }
+    } */
     img.couponImg {
         position: absolute;
         left: 10px;
