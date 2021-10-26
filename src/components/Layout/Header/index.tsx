@@ -58,6 +58,7 @@ const Header = () => {
   const [open, setOpen] = useState(false);
 
   const companyInfo = useAppSelector((state) => state.partner.companyInfo);
+  const socket = useAppSelector((state) => state.feedbackPost.socket);
 
   return (
     <>
@@ -151,8 +152,8 @@ const Header = () => {
               }
               openBgColor='rgba(96, 110, 234, 0.1)'
               radius={14}
-              anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
               popoverStyle={{ marginTop: '20px' }}
+              anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
             >
               <Content>
                 <Img
@@ -243,6 +244,7 @@ const Header = () => {
                           localStorage.removeItem('companyToken');
                           history.push('/partner/company');
                           dispatch(setCompanyInfo({}));
+                          socket.disconnect();
                         }}
                       >
                         {t('logout')}
