@@ -32,10 +32,12 @@ export const days = [
 export const categories = [
     {
         value: "pharmacy",
-        label: "Аптека"
-    }, 
+        label: "Аптека",
+        id: 1
+    },
     {
         value: "carwash",
-        label: "Автомойка"
+        label: "Автомойка",
+        id: 2
     }
 ]

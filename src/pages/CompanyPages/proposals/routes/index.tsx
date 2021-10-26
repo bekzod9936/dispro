@@ -9,6 +9,7 @@ const Canceled = lazy(() => import("../screens/Canceled"));
 const Archive = lazy(() => import("../screens/Archive"));
 const Coupons = lazy(() => import("../screens/Coupons"));
 const Update = lazy(() => import("../screens/UpdateCoupon"));
+const FullInfo = lazy(() => import("../screens/FullInfo"))
 
 const useProposalsRoute = () => {
     const { t } = useTranslation()
@@ -22,7 +23,7 @@ const useProposalsRoute = () => {
             path: "/proposals/deferred",
             component: Deferred,
             text: t("deferred")
-        }, 
+        },
         {
             path: "/proposals/onsale",
             component: OnSale,
@@ -57,6 +58,16 @@ const useProposalsRoute = () => {
             path: "/proposals/update_certificate",
             component: Update,
             text: t("some")
+        },
+        {
+            path: "/proposals/check_coupon",
+            component: FullInfo,
+            text: t("coupon")
+        },
+        {
+            path: "/proposals/check_certificate",
+            component: FullInfo,
+            text: t("coupon")
         },
 
     ]

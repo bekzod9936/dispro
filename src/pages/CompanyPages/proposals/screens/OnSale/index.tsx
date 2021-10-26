@@ -12,13 +12,14 @@ import Spinner from 'components/Helpers/Spinner'
 import { IDeferred } from 'services/redux/Slices/proposals/types'
 import { CouponCard } from '../../components/CouponCard'
 import { resetCurrentOnSaleCoupon, setCurrentOnSaleCoupon } from 'services/redux/Slices/proposals/proposals'
+import { deleteCoupon } from 'services/queries/ProposalsQueries'
 const OnSale = () => {
     const { onSale, currentOnSaleCoupon } = useAppSelector((state: RootState) => state.proposals)
     const [query, setQuery] = React.useState<string>("")
     const [open, setOpen] = React.useState<boolean>(false)
     const [debounced] = useDebounce(query, 300)
     const dispatch = useAppDispatch()
-    const { isLoading } = useOnSale({dispatch, query: debounced})
+    const { isLoading, refetch } = useOnSale({dispatch, query: debounced})
 
     const handleOpen = (id: number) => {
         dispatch(setCurrentOnSaleCoupon(id))
@@ -33,7 +34,7 @@ const OnSale = () => {
     return (
         <Wrapper>
             <SideBar maxWidth="370px" isOpen={open}>
-                <CouponBar resetCoupon={handleResetCoupon} disableUpdate={true} currentCoupon={currentOnSaleCoupon} onClose={setOpen}/>
+                <CouponBar refetch={refetch} resetCoupon={handleResetCoupon} disableUpdate={true} currentCoupon={currentOnSaleCoupon} onClose={setOpen}/>
             </SideBar>
             <Input 
                 value={query}

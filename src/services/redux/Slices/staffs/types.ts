@@ -4,6 +4,8 @@ export interface staffsState {
   query?: string;
   allCashiers?: any;
   selectedCashiers?: any;
+  openFilter: boolean;
+  openCash: boolean;
 }
 
 export interface ICashiers {

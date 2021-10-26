@@ -1,5 +1,5 @@
 import Spinner from "components/Helpers/Spinner";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 import { numberWith } from "services/utils";
 import { useDebounce } from "use-debounce/lib";
@@ -19,14 +19,17 @@ import {
   Text,
   Break,
 } from "./style";
+import { setOpenFilter } from "services/redux/Slices/staffs";
 
 const CashierScreen = () => {
   const dispatch = useAppDispatch();
+  const open = useAppSelector((state) => state.staffs.openFilter);
   const query = useAppSelector((state) => state.staffs.query);
   const cashiers = useAppSelector((state) => state.staffs.cashiers);
   const selectedCashiers = useAppSelector(
     (state) => state.staffs.selectedCashiers
   );
+
   const [period, setPeriod] = useState({
     startDate: "",
     endDate: "",
@@ -40,6 +43,12 @@ const CashierScreen = () => {
     query: debouncedQuery,
     period,
   });
+
+  useEffect(() => {
+    return () => {
+      dispatch(setOpenFilter(false));
+    };
+  }, []);
 
   return (
     <CashierDiv>
@@ -80,6 +89,7 @@ const CashierScreen = () => {
           </EmptyRight>
         </EmptyContainer>
       )}
+      <SideBar isOpen={open}>Salom</SideBar>
       <SideBar isOpen={selectedCashiers.length}>
         <CashierBar />
       </SideBar>

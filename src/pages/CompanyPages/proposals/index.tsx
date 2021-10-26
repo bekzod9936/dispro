@@ -11,34 +11,34 @@ const ProposalsPage = () => {
     const { routes } = useProposalsRoute()
     const history = useHistory()
     const [isCreating, setCreating] = React.useState<boolean>(false)
-    const filteredRoutes = routes.filter((el: any) => !el.path.includes("create") && !el.path.includes("update"))
+    const filteredRoutes = routes.filter((el: any) => !el.path.includes("create") && !el.path.includes("update") && !el.path.includes("check"))
     const { t } = useTranslation()
-    
-    
+
+
     React.useEffect(() => {
-        const res = history.location.pathname.includes("create") || history.location.pathname.includes("update")
-        
+        const res = history.location.pathname.includes("create") || history.location.pathname.includes("update") || history.location.pathname.includes("check")
+
         setCreating(res)
     }, [history.location.pathname])
 
-    
+
     return (
         <Wrapper>
-            {!isCreating && 
-            <Header>
-                <Title>{t("proposals")}</Title>
-            </Header>}
+            {!isCreating &&
+                <Header>
+                    <Title>{t("proposals")}</Title>
+                </Header>}
             <Container>
-                {!isCreating && 
-                <LeftSide>
-                    <NavBar vertical list={filteredRoutes}/>
-                </LeftSide>}
+                {!isCreating &&
+                    <LeftSide>
+                        <NavBar vertical list={filteredRoutes} />
+                    </LeftSide>}
                 <RightSide isCreating={isCreating}>
                     <Switch>
                         <Suspense fallback={<Spinner />}>
-                        {routes.map((route: any) => (
-                            <Route exact path={route.path} component={route.component}/>
-                        ))}
+                            {routes.map((route: any) => (
+                                <Route exact path={route.path} component={route.component} />
+                            ))}
                         </Suspense>
                     </Switch>
                 </RightSide>

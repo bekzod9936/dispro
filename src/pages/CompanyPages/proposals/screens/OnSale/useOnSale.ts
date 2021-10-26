@@ -6,12 +6,12 @@ interface IParams {
     query: string
 }
 export const useOnSale = ({ dispatch, query }: IParams) => {
-    const { isLoading } = useQuery(["fetchOnSale", query], () => fetchCoupons(query, 2), {
+    const { isLoading, refetch } = useQuery(["fetchOnSale", query], () => fetchCoupons(query, 2), {
         refetchOnWindowFocus: false,
         retry: 0,
         onSuccess: (data: any) => {
             dispatch(setOnSale(data.data.data))
         }
     })
-    return { isLoading }
+    return { isLoading, refetch }
 }

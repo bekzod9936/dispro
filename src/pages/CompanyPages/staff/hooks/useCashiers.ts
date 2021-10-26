@@ -4,6 +4,7 @@ import {
   deleteSingleCashier,
   getCashiers,
   searchCashiers,
+  getBranches,
 } from "services/queries/StaffQueries";
 import { useAppDispatch } from "services/redux/hooks";
 import {
@@ -15,6 +16,7 @@ import { numberWith } from "services/utils";
 
 const useCashiers = ({ page, query, period }: any) => {
   const [open, setOpen] = useState(false);
+  const [branches, setBranches] = useState([]);
   const dispatch = useAppDispatch();
 
   const response = useQuery(
@@ -67,11 +69,35 @@ const useCashiers = ({ page, query, period }: any) => {
     },
   });
 
+  //fetch branches
+  useQuery(
+    ["branchesStore"],
+    () => {
+      return getBranches();
+    },
+    {
+      retry: 0,
+      refetchOnWindowFocus: false,
+      keepPreviousData: true,
+      refetchIntervalInBackground: true,
+      cacheTime: 50000,
+      onSuccess: (data) => {
+        console.log(data.data.data, "branches");
+        setBranches(
+          data.data.data.map((v: any) => {
+            return { value: v.id, label: v.name };
+          })
+        );
+      },
+    }
+  );
+
   return {
     response,
     deleteCashier,
     open,
     setOpen,
+    branches,
   };
 };
 

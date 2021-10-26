@@ -7,10 +7,13 @@ import useStaffRoute from "./routes";
 import { MainWrapper, Flex, SpinnerDiv } from "./style";
 import Spinner from "components/Helpers/Spinner";
 import Header from "./components/Header";
+import CreateCashier from "./screens/CashierScreen/components/CreateCashier";
+import { useAppSelector } from "services/redux/hooks";
 
 const StaffPage = () => {
   const { t } = useTranslation();
   const { menuItems } = useStaffRoute();
+  const openCash = useAppSelector((state) => state.staffs.openCash);
 
   const [closeFun, setCloseFun] = useState<any>();
   const handleClose = (e: any) => {
@@ -20,7 +23,7 @@ const StaffPage = () => {
   const handleOpen = () => {};
 
   return (
-    <MainWrapper>
+    <MainWrapper id="drawer-container">
       <Title>{t("staff")}</Title>
 
       <Flex width="90%" height="85px" alignItems="flex-start" margin="0">
@@ -45,6 +48,9 @@ const StaffPage = () => {
           })}
         </Suspense>
       </Switch>
+
+      {/* create new cashier  */}
+      <CreateCashier openCash={openCash} />
     </MainWrapper>
   );
 };

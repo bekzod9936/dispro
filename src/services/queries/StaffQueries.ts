@@ -21,6 +21,19 @@ export const deleteSingleCashier = (data: any) => {
   return response;
 };
 
+export const createCashier = (data: any) => {
+  const response = partnerApi.post("/core/staffs/other", data);
+
+  return response;
+};
+
+//branches
+export const getBranches = () => {
+  const response = partnerApi.get(`/directory/stores/`);
+
+  return response;
+};
+
 //managers tab
 
 export const getManagers = async (page: number, url: string) => {

@@ -229,6 +229,7 @@
   "saturday": "Суббота",
   "sunday": "Воскресенье",
   "chose_filial": "Выберите филиалы",
+  "choose_branch": "Выберите филиал",
   "columnTitle": "Заголовок",
   "publishDate": "Срок публикации",
   "hookText": "Зазывающий текст",
@@ -392,5 +393,17 @@
   "writeyoutmessage": "Напишите ваше сообщение",
   "send": "Отправить",
   "deletechat": "Удалить чат",
-  "sharelink": "Поделиться ссылкой"
+  "sharelink": "Поделиться ссылкой",
+  "cashier_name": "Имя кассира",
+  "cashier_lastName": "Фамилия кассира",
+  "coupon_value": "Скидка купона",
+  "certificate_value": "Сертификат на сумму",
+  "coupon_amount": "Количество купонов",
+  "certificate_amount": "Количество сертификатов",
+  "coupon_price": "Стоимость купона",
+  "certificate_price": "Стоимость сертификата",
+  "categories": "Категория",
+  "age_limit": "Возрастное ограничение",
+  "price": "Стоимость",
+  "sale": "Скидка"
 }
