@@ -203,7 +203,7 @@ const Coupons = () => {
     }
 
     return (
-        <Wrapper >
+        <Wrapper>
             <div
                 style={{ display: "flex", marginBottom: 30, alignItems: "center" }}>
                 <GoBackIcon onClick={handleBack} style={{ marginRight: "25px", cursor: "pointer" }} />

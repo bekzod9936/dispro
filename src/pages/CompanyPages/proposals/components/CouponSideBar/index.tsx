@@ -10,7 +10,7 @@ import { deleteCoupon, putCoupon } from 'services/queries/ProposalsQueries'
 import { IDeferred } from 'services/redux/Slices/proposals/types'
 import { SetDate } from '../../screens/Coupons/components/SetDate'
 import { categories } from '../../screens/Coupons/constants'
-import { Wrapper, Header, DeleteModal, Content, Preview, PreviewContent } from './style'
+import { Wrapper, Header, DeleteModal, Content, Preview, PreviewContent, Img } from './style'
 import iphone from "assets/images/iphone.png"
 import { useAppSelector } from 'services/redux/hooks'
 import { RootState } from 'services/redux/store'
@@ -85,6 +85,7 @@ export const CouponBar = ({
                         <h5><span>{currentCoupon.value} сум</span></h5>}
                 </PreviewContent>
             </Preview>
+            <Img src={currentCoupon.image} alt="" />
             <Content>
                 <h5>Информация</h5>
                 <p>{isCoupon ? "Скидка Купона" : "Сумма Сертификата"}: {currentCoupon.value} {isCoupon ? "%" : "Сум"}</p>
@@ -92,7 +93,7 @@ export const CouponBar = ({
                 <p>Стоимость {isCoupon ? "купона" : "сертификата"}: {currentCoupon.price} Сум</p>
                 {currentCoupon?.categoryIds?.length !== 0 && <p>Категория: {currentCoupon?.categoryIds?.map((el: number) => {
                     return (
-                        <span>{categories[el - 1].label}{el < categories.length ? ", " : "."}</span>
+                        <span>{categories[el - 1]?.label}{el < categories.length ? ", " : "."}</span>
                     )
                 })}</p>}
                 <p>Возрастное ограничение: {currentCoupon.ageUnlimited ? "Нет" : currentCoupon.ageFrom + "+"}</p>
@@ -128,6 +129,12 @@ export const CouponBar = ({
                                 onClick={() => setPublisOpen(true)}
                                 margin={{ laptop: "25px 0" }}>
                                 Опубликовать
+                            </Button>
+                            <Button
+                                onClick={() => setDeleteOpen(true)}
+                                buttonStyle={{ color: "#ffffff", bgcolor: "#FF5E68" }}
+                                startIcon={<DeleteIcon />}>
+                                Удалить купон
                             </Button></>}
             </div>
             <Modal open={isDeleteOpen}>
