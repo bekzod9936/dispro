@@ -10,7 +10,7 @@ const Archive = lazy(() => import("../screens/Archive"));
 const Coupons = lazy(() => import("../screens/Coupons"));
 const Update = lazy(() => import("../screens/UpdateCoupon"));
 const FullInfo = lazy(() => import("../screens/FullInfo"))
-
+const RePublish = lazy(() => import("../screens/RePublish"))
 const useProposalsRoute = () => {
     const { t } = useTranslation()
     const routes = [
@@ -69,6 +69,16 @@ const useProposalsRoute = () => {
             component: FullInfo,
             text: t("coupon")
         },
+        {
+            path: "/proposals/create_republishcoupon",
+            component: RePublish,
+            text: t("coupon")
+        },
+        {
+            path: "/proposals/create_republishcertificate",
+            component: RePublish,
+            text: t("certificate")
+        }
 
     ]
 

@@ -1,7 +1,7 @@
 import { SideBar } from 'pages/CompanyPages/clients/components/SideBar'
 import React from 'react'
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks'
-import { resetCurrentCoupon, setCanceledCoupon, setSelectedCoupon } from 'services/redux/Slices/proposals/proposals'
+import { resetCurrentCoupon, setCurrentCoupon } from 'services/redux/Slices/proposals/proposals'
 import { RootState } from 'services/redux/store'
 import { CouponBar } from '../../components/CouponSideBar'
 import { Wrapper } from './style'
@@ -12,6 +12,7 @@ import { SearchIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
 import Spinner from 'components/Helpers/Spinner'
 import { IDeferred } from 'services/redux/Slices/proposals/types'
 import { CouponCard } from '../../components/CouponCard'
+import { EmptyPage } from '../Drafts/components/EmptyPage'
 const Canceled = () => {
     const dispatch = useAppDispatch()
     const { currentCoupon, canceled } = useAppSelector((state: RootState) => state.proposals)
@@ -23,7 +24,7 @@ const Canceled = () => {
         dispatch(resetCurrentCoupon())
     }
     const handleOpen = (id: number) => {
-        dispatch(setCanceledCoupon(id))
+        dispatch(setCurrentCoupon({ id, location: "canceled" }))
         setOpen(true)
     }
 
@@ -45,6 +46,7 @@ const Canceled = () => {
                 width={{ maxwidth: 500, width: "100%" }} />
             {isFetching ? <Spinner /> : canceled.map((el: IDeferred) => (
                 <CouponCard
+                    stats={el.stat}
                     isSelected={currentCoupon.id === el.id}
                     onClick={() => handleOpen(el.id)}
                     key={el.id}
@@ -59,6 +61,7 @@ const Canceled = () => {
                     count={el.count}
                 />
             ))}
+            {!canceled.length && <EmptyPage />}
         </Wrapper>
     )
 }

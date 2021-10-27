@@ -11,3 +11,8 @@ export interface ILevels {
   number: number;
   percent: number | string;
 }
+
+export interface IReferal {
+  levelNumber: number;
+  count: number;
+}

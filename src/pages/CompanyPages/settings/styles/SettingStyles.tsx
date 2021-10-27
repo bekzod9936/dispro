@@ -35,12 +35,18 @@ export const ReferalScroll = styled.div`
   overflow-y: scroll;
   max-height: 60vh;
   padding-bottom: 100px;
-  &::-webkit-scrollbar {
-    appearance: none;
-    display: none;
+
+  scroll-behavior: auto;
+
+  ::-webkit-scrollbar {
+    width: 7px;
   }
-  &::-webkit-scrollbar-track {
-    appearance: none;
-    display: none;
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #606eea;
+    border-radius: 14px 0px 0px 14px;
   }
 `;

@@ -72,3 +72,21 @@ export const HeaderReferal = styled.div`
   justify-content: start;
   margin-bottom: 25px;
 `;
+
+export const ActDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  width: fit-content;
+  padding-left: 4px;
+`;
+
+export const AddDiv = styled.div`
+  background: rgba(96, 110, 234, 0.1);
+  border-radius: 8px;
+  height: 100%;
+  width: 100%;
+  padding: 8px;
+`;

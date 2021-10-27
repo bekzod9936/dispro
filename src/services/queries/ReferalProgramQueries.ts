@@ -19,3 +19,9 @@ export const changeReferal = ({ companyId, referals, isActive }: any) => {
 
   return response;
 };
+
+export const getReferalLevel = () => {
+  const response = partnerApi.get("/core/referals/clients-by-level");
+
+  return response;
+};

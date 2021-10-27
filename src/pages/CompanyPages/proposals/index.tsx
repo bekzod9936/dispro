@@ -21,7 +21,6 @@ const ProposalsPage = () => {
         setCreating(res)
     }, [history.location.pathname])
 
-
     return (
         <Wrapper>
             {!isCreating &&

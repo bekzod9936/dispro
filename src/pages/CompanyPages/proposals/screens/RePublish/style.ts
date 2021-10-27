@@ -1,4 +1,3 @@
-import DatePicker from "react-multi-date-picker"
 import styled from "styled-components"
 import { device } from "styles/device"
 
@@ -32,7 +31,6 @@ export const LeftSide = styled.div`
     @media (max-width: 1250px) {
       width: 48%;
     }
-   
 `
 export const RightSide = styled.div`
     width: 40%;
@@ -44,11 +42,11 @@ export const Container = styled.div`
     width: 100%;
     display: flex;
     justify-content: space-between;
-    padding: 20px 60px 20px 0;
+    height: 100%;
     @media (max-width: ${device.laptop}) {
       padding-right: 20px;
     }
-    
+    padding: 20px 60px 20px 0;
 `
 
 export const Wrapper = styled.div`
@@ -57,11 +55,11 @@ export const Wrapper = styled.div`
 `
 
 export const UpSide = styled.div`
-    height: 80%;
+    height: 75%;
     scroll-behavior: auto;
     display: flex;
     flex-direction: column;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
     ::-webkit-scrollbar {
     width: 7px;
@@ -135,17 +133,17 @@ export const Form = styled.form`
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
     border-radius: 14px;
     padding: 35px 110px 0 110px;
+    overflow: hidden;
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     @media (max-width: ${device.laptop}) {
       padding: 20px 25px;
     }
     @media (max-width: 1150px) {
       padding-right: 0;
     }
-    overflow: hidden;
-    min-height: 500px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
 `
 
 export const UploadButton = styled.div`
@@ -180,37 +178,37 @@ export const ErrorMessage = styled.span`
   margin-top: 5px;
 
   font-size: ${({ labelStyle }: any) =>
-    labelStyle?.fontSize?.laptop
-      ? `${labelStyle?.fontSize?.laptop}px`
-      : '14px'} !important;
+        labelStyle?.fontSize?.laptop
+            ? `${labelStyle?.fontSize?.laptop}px`
+            : '14px'} !important;
 
   @media (max-width: ${device.mobile}) {
     font-size: ${({ labelStyle }: any) =>
-    labelStyle?.fontSize?.mobile
-      ? `${labelStyle?.fontSize?.mobile}px`
-      : '14px'} !important;
+        labelStyle?.fontSize?.mobile
+            ? `${labelStyle?.fontSize?.mobile}px`
+            : '14px'} !important;
     margin-top: 3px;
   }
   @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
     font-size: ${({ labelStyle }: any) =>
-    labelStyle?.fontSize?.planshet
-      ? `${labelStyle?.fontSize?.planshet}px`
-      : '14px'} !important;
+        labelStyle?.fontSize?.planshet
+            ? `${labelStyle?.fontSize?.planshet}px`
+            : '14px'} !important;
     margin-top: 3px;
   }
   @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
     font-size: ${({ labelStyle }: any) =>
-    labelStyle?.fontSize?.laptop
-      ? `${labelStyle?.fontSize?.laptop}px`
-      : '14px'} !important;
+        labelStyle?.fontSize?.laptop
+            ? `${labelStyle?.fontSize?.laptop}px`
+            : '14px'} !important;
     flex-direction: column;
     margin-top: 3px;
   }
   @media (min-width: ${device.laptop}) {
     font-size: ${({ labelStyle }: any) =>
-    labelStyle?.fontSize?.desktop
-      ? `${labelStyle?.fontSize?.desktop}px`
-      : '16px'} !important;
+        labelStyle?.fontSize?.desktop
+            ? `${labelStyle?.fontSize?.desktop}px`
+            : '16px'} !important;
     margin-top: 5px;
   }
 `;
@@ -218,7 +216,6 @@ export const ErrorMessage = styled.span`
 
 export const PeriodWrapper = styled.div`
   padding: 30px 40px 25px 30px;
-  
   background: #FFFFFF;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
   border-radius: 14px;
@@ -235,21 +232,5 @@ export const PeriodWrapper = styled.div`
     font-size: 16px;
     font-weight: 700;
     margin-bottom: 10px;
-  }
-`
-
-
-export const PreviewMessage = styled.div`
-  display: flex;
-  align-items: center;
-  svg {
-    margin-right: 20px;
-  }
-  p {
-    font-size: 16px;
-    line-height: 18.75px;
-    color: #223367;
-    width: 258px;
-    font-weight: 300;
   }
 `

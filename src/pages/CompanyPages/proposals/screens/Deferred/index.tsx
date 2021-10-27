@@ -9,7 +9,7 @@ import { SearchIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
 import { useDebounce } from 'use-debounce/lib'
 import Spinner from 'components/Helpers/Spinner'
 import { CouponCard } from '../../components/CouponCard'
-import { resetCurrentCoupon, setSelectedCoupon } from 'services/redux/Slices/proposals/proposals'
+import { resetCurrentCoupon, setCurrentCoupon } from 'services/redux/Slices/proposals/proposals'
 import { SideBar } from 'pages/CompanyPages/clients/components/SideBar'
 import { CouponBar } from '../../components/CouponSideBar'
 import { EmptyPage } from '../Drafts/components/EmptyPage'
@@ -23,7 +23,7 @@ const Deferred = () => {
     const { isFetching, refetch } = useDeferred({ dispatch, query: debouncedQuery })
 
     const handleOpen = (id: number) => {
-        dispatch(setSelectedCoupon(id))
+        dispatch(setCurrentCoupon({ id, location: "deferred" }))
         setOpen(true)
     }
 
@@ -48,9 +48,10 @@ const Deferred = () => {
                 margin={{ laptop: "0 0 20px 0" }}
                 inputStyle={{ border: "none" }}
                 width={{ maxwidth: 500, width: "100%" }} />
-            {deferred.length === 0 && <EmptyPage />}
             {isFetching ? <Spinner /> : deferred.map((el: IDeferred) => (
                 <CouponCard
+                    startDate={el.startDate}
+                    endDate={el.endDate}
                     isSelected={currentCoupon.id === el.id}
                     onClick={() => handleOpen(el.id)}
                     key={el.id}
@@ -65,6 +66,7 @@ const Deferred = () => {
                     count={el.count}
                 />
             ))}
+            {!deferred.length && <EmptyPage />}
         </Wrapper>
     )
 }
