@@ -1,13 +1,14 @@
+import { IReferal } from "./../constants";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 //async functions
 import { useQuery, useMutation } from "react-query";
-import partnerApi from "services/interceptors/companyInterceptor";
 import { fetchBonusReferals } from "services/queries/PartnerQueries";
 import {
   changeReferal,
+  getReferalLevel,
   setNewReferal,
 } from "services/queries/ReferalProgramQueries";
 //types
@@ -23,6 +24,7 @@ const useReferalData = () => {
   const [saving, setSaving] = useState(false);
   const [newState, setNewState] = useState<string>("old");
   const [checkedState, setCheckedState] = useState<boolean>(false);
+  const [levelsRef, setLevelsRef] = useState<IReferal[]>([]);
   const {
     control,
     setValue,
@@ -38,11 +40,19 @@ const useReferalData = () => {
     setCheckedState(checked);
   };
 
-  //form field array
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "referals",
-  });
+  //by leve-get data
+  const { refetch: refetchLevel } = useQuery(
+    ["referal_level"],
+    () => getReferalLevel(),
+    {
+      retry: 0,
+      refetchOnWindowFocus: false,
+      onSuccess: (data) => {
+        console.log(data.data, "data levels");
+        setLevelsRef(data.data.data);
+      },
+    }
+  );
 
   //get Bonus referals
 
@@ -89,6 +99,7 @@ const useReferalData = () => {
     {
       onSuccess: () => {
         refetch();
+        refetchLevel();
       },
     }
   );
@@ -103,6 +114,7 @@ const useReferalData = () => {
     {
       onSuccess: () => {
         refetch();
+        refetchLevel();
       },
     }
   );
@@ -168,14 +180,13 @@ const useReferalData = () => {
     handleSwitch,
     companyId,
     saving,
-    fields,
-    append,
-    remove,
     handleSubmit,
     errors,
     errorRef,
     referalError,
     setErrorRef,
+    refetchLevel,
+    levelsRef,
   };
 };
 
