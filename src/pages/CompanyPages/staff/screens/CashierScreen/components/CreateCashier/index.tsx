@@ -18,7 +18,7 @@ interface IProps {
 }
 
 const CreateCashier = ({ openCash }: IProps) => {
-  const { branches } = useCashiers({
+  const { branches, createCash } = useCashiers({
     page: 1,
     query: "",
     period: "",
@@ -36,10 +36,16 @@ const CreateCashier = ({ openCash }: IProps) => {
     reValidateMode: "onChange",
   });
 
-  console.log(branches, "branches");
-
   const onSave = (data: FormProps) => {
     console.log(data, "data");
+    createCash.mutate({
+      comment: data.comment,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      storeId: data.storeId?.value,
+      telNumber: data.telNumber,
+      roleId: 3,
+    });
   };
 
   return (
@@ -177,7 +183,11 @@ const CreateCashier = ({ openCash }: IProps) => {
               {t("cancel")}
             </Button>
 
-            <Button disabled={!isValid} type="submit" startIcon={<SaveIcon />}>
+            <Button
+              disabled={!isValid || createCash.isLoading}
+              type="submit"
+              startIcon={<SaveIcon />}
+            >
               {t("save")}
             </Button>
           </ModalAction>

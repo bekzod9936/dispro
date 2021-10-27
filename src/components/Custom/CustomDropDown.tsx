@@ -13,7 +13,6 @@ import { CalendarIcon } from '../../assets/icons/ClientStatisticsIcons/ClientSta
 import { useDispatch } from 'react-redux';
 import { resetFilters } from '../../services/redux/Slices/clientStatistics';
 import CustomSelectWithArrow from './CustomSelectWithArrow';
-import RatingFilter from '../../pages/CompanyPages/feedback/RatingFilter';
 
 interface ICustomDropDown {
   title: string;
@@ -86,10 +85,6 @@ const CustomDropDown: React.FC<ICustomDropDown> = ({
           );
         });
 
-        {
-          /* </RadioGroup> */
-        }
-
       case 'date':
         return numOfInputs.map((item, index, array) => {
           return (
@@ -146,10 +141,6 @@ const CustomDropDown: React.FC<ICustomDropDown> = ({
             />
           );
         });
-      case 'star':
-        return (
-          <RatingFilter pickedRating={pickedRating} setPick={setPickedRating} />
-        );
     }
   };
 

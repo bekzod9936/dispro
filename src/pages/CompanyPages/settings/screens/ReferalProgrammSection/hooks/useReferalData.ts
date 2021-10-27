@@ -1,12 +1,14 @@
+import { IReferal } from "./../constants";
+import { useTranslation } from "react-i18next";
 import { useState } from "react";
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 //async functions
 import { useQuery, useMutation } from "react-query";
-import partnerApi from "services/interceptors/companyInterceptor";
 import { fetchBonusReferals } from "services/queries/PartnerQueries";
 import {
   changeReferal,
+  getReferalLevel,
   setNewReferal,
 } from "services/queries/ReferalProgramQueries";
 //types
@@ -15,10 +17,14 @@ interface FormProps {
 }
 
 const useReferalData = () => {
+  const { t } = useTranslation();
   const companyId = localStorage.getItem("companyId");
+  const [errorRef, setErrorRef] = useState(false);
+  const [referalError, setReferalError] = useState("");
   const [saving, setSaving] = useState(false);
   const [newState, setNewState] = useState<string>("old");
   const [checkedState, setCheckedState] = useState<boolean>(false);
+  const [levelsRef, setLevelsRef] = useState<IReferal[]>([]);
   const {
     control,
     setValue,
@@ -30,17 +36,23 @@ const useReferalData = () => {
     shouldFocusError: true,
   });
 
-  console.log(errors, "errors");
-
   const handleSwitch = (checked: boolean) => {
     setCheckedState(checked);
   };
 
-  //form field array
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "referals",
-  });
+  //by leve-get data
+  const { refetch: refetchLevel } = useQuery(
+    ["referal_level"],
+    () => getReferalLevel(),
+    {
+      retry: 0,
+      refetchOnWindowFocus: false,
+      onSuccess: (data) => {
+        console.log(data.data, "data levels");
+        setLevelsRef(data.data.data);
+      },
+    }
+  );
 
   //get Bonus referals
 
@@ -49,6 +61,7 @@ const useReferalData = () => {
     refetchOnWindowFocus: false,
     onSuccess: (data: any) => {
       console.log(data?.data?.data, "referal program");
+      setCheckedState(data?.data?.data?.isActive);
 
       if (data.data.data?.levels) {
         setValue(
@@ -81,10 +94,12 @@ const useReferalData = () => {
       setNewReferal({
         companyId: data.companyId,
         referals: data.referals,
+        isActive: data.isActive,
       }),
     {
       onSuccess: () => {
         refetch();
+        refetchLevel();
       },
     }
   );
@@ -94,10 +109,12 @@ const useReferalData = () => {
       changeReferal({
         companyId: data.companyId,
         referals: data.referals,
+        isActive: data.isActive,
       }),
     {
       onSuccess: () => {
         refetch();
+        refetchLevel();
       },
     }
   );
@@ -107,17 +124,42 @@ const useReferalData = () => {
 
     try {
       let block = data.referals.find((value: any) => value.percent === "");
+      let levels = data.referals;
+      for (let i = 0; i <= levels?.length; i++) {
+        if (
+          levels[i - 1]?.percent &&
+          parseInt(levels[i]?.percent) > parseInt(levels[i - 1]?.percent)
+        ) {
+          setErrorRef(true);
+          setReferalError(
+            `${t("percentage_in")} "${levels[i]?.number} ${t("level")}" ${t(
+              "must_be_more_than"
+            )}"${levels[i - 1]?.number} ${t("level")}"`
+          );
+          setSaving(false);
+          return;
+        }
+      }
+
+      console.log(data.referals, "first side");
+
       if (!block) {
+        console.log("second side", data.referals);
         if (newState === "new") {
+          console.log("third side", data.referals);
           setBonusreferal.mutate({
             companyId: companyId,
             referals: data.referals,
+            isActive: checkedState,
           });
+          setErrorRef(false);
         } else {
           saveBonusReferal.mutate({
             companyId: companyId,
             referals: data.referals,
+            isActive: checkedState,
           });
+          setErrorRef(false);
         }
 
         setSaving(false);
@@ -138,11 +180,13 @@ const useReferalData = () => {
     handleSwitch,
     companyId,
     saving,
-    fields,
-    append,
-    remove,
     handleSubmit,
     errors,
+    errorRef,
+    referalError,
+    setErrorRef,
+    refetchLevel,
+    levelsRef,
   };
 };
 

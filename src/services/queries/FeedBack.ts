@@ -28,3 +28,8 @@ export const fetchChatClientHistory = ({ url }: Props) => {
   const response = partnerApi.get(`/core/chat/history?${url}`);
   return response;
 };
+
+export const fetchChatSupportHistory = ({ url }: Props) => {
+  const response = partnerApi.get(`/core/chat/history?${url}`);
+  return response;
+};

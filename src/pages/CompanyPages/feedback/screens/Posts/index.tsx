@@ -57,6 +57,7 @@ import {
   Fetching,
   EPicker,
   WrapScript,
+  WrapDownIcon,
 } from './style';
 
 interface ChProps {
@@ -83,6 +84,8 @@ const Posts = () => {
     shouldFocusError: true,
   });
 
+  const staffId = useAppSelector((state) => state.auth.staffId);
+
   const { width } = useWindowWidth();
   const [chosen, setChosen] = useState<ChProps>({});
 
@@ -98,6 +101,21 @@ const Posts = () => {
   const companyInfo = useAppSelector((state) => state.partner.companyInfo);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesStartRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef?.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'end',
+    });
+  };
+
+  const scrollToTop = () => {
+    messagesStartRef?.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'end',
+    });
+  };
 
   const handleChoose = async (v: ChProps) => {
     await setChosen(v);
@@ -112,12 +130,10 @@ const Posts = () => {
     });
   }, []);
 
-  const scrollToBottom = () => {
-    messagesEndRef?.current?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'end',
-      inline: 'nearest',
-    });
+  const findScrollHeight = (e: any) => {
+    e.preventDefault();
+
+    setScrollHeight(Math.abs(e.target.scrollTop));
   };
 
   useEffect(() => {
@@ -135,10 +151,6 @@ const Posts = () => {
   };
 
   const onSubmit = (e: any) => {
-    const fromId = histories?.find((v: any) => {
-      if (v.chatType === 2) return v.fromId;
-    });
-
     if (e.message.length > 0) {
       socket.emit(
         'chat_to_server',
@@ -146,13 +158,14 @@ const Posts = () => {
           langId: 1,
           chatType: 2,
           toId: chosen.id,
-          fromId: fromId?.fromId,
+          fromId: staffId,
           companyId: +companyId,
           data: {
             message: e.message,
           },
         },
         (res: any) => {
+          // console.log(res, "response sending");
           if (res.success) {
             resChatClientHistory.refetch();
             resChatClients.refetch();
@@ -256,7 +269,15 @@ const Posts = () => {
               </Header>
               <Body>
                 <ChatPlace>
-                  <Messages>
+                  {scrollHeight > 0 ? (
+                    <WrapDownIcon>
+                      <WrapDown onClick={() => scrollToTop()}>
+                        <DownIcon />
+                      </WrapDown>
+                    </WrapDownIcon>
+                  ) : null}
+                  <Messages onScroll={findScrollHeight}>
+                    <div ref={messagesStartRef} />
                     {histories?.map((v: any) => {
                       return (
                         <MessageWrap>
@@ -295,9 +316,6 @@ const Posts = () => {
                       );
                     })}
                     <div ref={messagesEndRef} />
-                    <WrapDown>
-                      <DownIcon />
-                    </WrapDown>
                   </Messages>
                 </ChatPlace>
                 <Form onSubmit={handleSubmit(onSubmit)}>

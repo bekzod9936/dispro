@@ -33,7 +33,7 @@ const CashierTable = ({ cashiers }: IProps) => {
   const [checked, setChecked] = useState(false);
   const [headers, setHeaders] = useState<HeadersType[]>(cashierHeaders);
 
-  console.log(selectedCashiers, "all cashier");
+  // console.log(selectedCashiers, "all cashier");
 
   const columns: any = useMemo(() => {
     return headers.map((header) => {
@@ -105,7 +105,7 @@ const CashierTable = ({ cashiers }: IProps) => {
                     <MCheckbox>
                       <Checkbox
                         checked={
-                          checked &&
+                          checked ||
                           selectedCashiers.length === allCashier.length
                         }
                         onChange={(e) => {

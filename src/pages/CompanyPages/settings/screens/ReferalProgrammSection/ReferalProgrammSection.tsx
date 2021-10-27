@@ -2,7 +2,7 @@ import useReferalData from "./hooks/useReferalData";
 import { ReferalScroll, SmallPanel } from "../../styles/SettingStyles";
 import { Text } from "styles/CustomStyles";
 import { useTranslation } from "react-i18next";
-import { Controller } from "react-hook-form";
+import { Controller, useFieldArray } from "react-hook-form";
 import Input from "components/Custom/Input";
 import TwoUsers from "../../components/TwoUsers";
 import { SaveIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
@@ -26,12 +26,14 @@ import {
   ReferalCol,
   TextDiv,
   HeaderReferal,
+  ActDiv,
+  AddDiv,
 } from "./styles";
 import Button from "components/Custom/Button";
 import RippleEffect from "components/Custom/RippleEffect";
+import NotifySnack from "components/Custom/Snackbar";
 
 const ReferalProgrammSection = () => {
-  const forMap = new Array(10).fill(250);
   const { t } = useTranslation();
   const {
     checkedState,
@@ -39,14 +41,20 @@ const ReferalProgrammSection = () => {
     handleSave,
     handleSwitch,
     saving,
-    fields,
-    append,
-    remove,
     handleSubmit,
     errors,
+    errorRef,
+    referalError,
+    setErrorRef,
+    setValue,
+    levelsRef,
   } = useReferalData();
 
-  console.log(fields, "fields");
+  //form field array
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "referals",
+  });
 
   return (
     <GridContainer container spacing={3}>
@@ -76,72 +84,86 @@ const ReferalProgrammSection = () => {
               />
             </div>
           </HeaderReferal>
+          {/* ?.sort((a: any, b: any) => a.number - b.number) */}
 
           <ReferalScroll>
-            {fields
-              ?.sort((a: any, b: any) => a.number - b.number)
-              ?.map((item: any, index: number) => {
-                console.log(errors?.referals, "percent");
-                return (
-                  <ReferalCol
-                    onClick={(e: any) => {
-                      if (!checkedState) {
-                        e.stopPropagation();
-                      }
-                    }}
-                    deactivated={!checkedState}
-                    key={index}
-                  >
-                    <SmallPanel>
-                      <Controller
-                        name={`referals.${[index]}.percent`}
-                        control={control}
-                        defaultValue={item?.percent}
-                        rules={{
-                          required: true,
-                        }}
-                        render={({ field }) => {
-                          return (
-                            <Input
-                              width={{
-                                maxwidth: 122,
-                              }}
-                              disabled={!checkedState}
-                              label={`Уровень ${index + 1}`}
-                              field={field}
-                              message={""}
-                              error={
-                                errors?.referals?.[index]?.percent
-                                  ? true
-                                  : false
-                              }
-                            />
-                          );
-                        }}
-                      />
+            {fields?.map((item: any, index: number) => {
+              return (
+                <ReferalCol
+                  onClick={(e: any) => {
+                    if (!checkedState) {
+                      e.stopPropagation();
+                    }
+                  }}
+                  deactivated={!checkedState}
+                  key={index}
+                >
+                  <SmallPanel>
+                    <Controller
+                      name={`referals.${[index]}.percent`}
+                      control={control}
+                      defaultValue={item?.percent}
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field }) => {
+                        return (
+                          <Input
+                            width={{
+                              maxwidth: 122,
+                            }}
+                            disabled={!checkedState}
+                            label={`Уровень ${index + 1}`}
+                            field={field}
+                            message={""}
+                            error={
+                              errors?.referals?.[index]?.percent ? true : false
+                            }
+                          />
+                        );
+                      }}
+                    />
 
-                      <TwoUsers
-                        name1="Саша"
-                        name2="Егор"
-                        name3={
-                          item.number === 2
-                            ? "Петя"
-                            : item.number > 2
-                            ? `${index - 1} ${t("people")}`
-                            : null
+                    <TwoUsers
+                      name1="Саша"
+                      name2="Егор"
+                      name3={
+                        item.number === 2
+                          ? "Петя"
+                          : item.number > 2
+                          ? `${index - 1} ${t("people")}`
+                          : null
+                      }
+                    />
+                    <TextDiv>
+                      <Text fontSize="14px" fontWeight={300}>
+                        1 клиент получает
+                        {" " + item.percent}% с каждой покупки
+                        {" " + +(item.number + 1)} Клиентa
+                      </Text>
+                    </TextDiv>
+                  </SmallPanel>
+                  {index === fields.length - 2 && index !== 0 && (
+                    <RippleEffect
+                      onClick={() => {
+                        console.log(index, "index prev");
+                        if (checkedState) {
+                          remove(index);
+                          setValue(
+                            "referals",
+                            fields.filter((item, ind) => ind !== index)
+                          );
                         }
-                      />
-                      <TextDiv>
-                        <Text fontSize="14px" fontWeight={300}>
-                          1 клиент получает
-                          {" " + item.percent}% с каждой покупки
-                          {" " + +(item.number + 1)} Клиентa
-                        </Text>
-                      </TextDiv>
-                    </SmallPanel>
-                    {index === fields.length - 2 && (
+                      }}
+                    >
+                      <XIcon />
+                    </RippleEffect>
+                  )}
+                  {index === fields.length - 1 && (
+                    <ActDiv>
                       <RippleEffect
                         onClick={() => {
+                          console.log(index, "index next");
                           if (checkedState) {
                             remove(index);
                           }
@@ -149,9 +171,8 @@ const ReferalProgrammSection = () => {
                       >
                         <XIcon />
                       </RippleEffect>
-                    )}
-                    {index === fields.length - 1 && (
                       <RippleEffect
+                        padding={0}
                         onClick={() => {
                           if (checkedState) {
                             append({
@@ -162,16 +183,20 @@ const ReferalProgrammSection = () => {
                           }
                         }}
                       >
-                        <AddIconSettings />
+                        <AddDiv>
+                          <AddIconSettings />
+                        </AddDiv>
                       </RippleEffect>
-                    )}
-                  </ReferalCol>
-                );
-              })}
+                    </ActDiv>
+                  )}
+                </ReferalCol>
+              );
+            })}
           </ReferalScroll>
           <BottomBtnContainer>
+            {/* || !checkedState */}
             <Button
-              disabled={saving || !checkedState}
+              disabled={saving}
               loadingColor="#fff"
               startIcon={<SaveIcon />}
               type="submit"
@@ -193,17 +218,17 @@ const ReferalProgrammSection = () => {
             </div>
           </LevelsHead>
           <LevelsColumn>
-            {forMap.map((item, index) => {
+            {levelsRef.map((item, index) => {
               return (
                 <LevelsRow key={index}>
                   <div>
                     <Text fontSize={FONT_SIZE.smallPlus} fontWeight={400}>
-                      {index + 1 + " "} {t("level")}
+                      {item.levelNumber + 1 + " "} {t("level")}
                     </Text>
                   </div>
                   <div>
                     <Text color={COLORS.purple} fontSize={FONT_SIZE.smallPlus}>
-                      {item}
+                      {item.count}
                     </Text>
                   </div>
                 </LevelsRow>
@@ -212,6 +237,16 @@ const ReferalProgrammSection = () => {
           </LevelsColumn>
         </LevelsCard>
       </RightGrid>
+      <NotifySnack
+        open={errorRef}
+        error={true}
+        vertical="bottom"
+        horizontal="right"
+        message={referalError}
+        handleClose={() => {
+          setErrorRef(false);
+        }}
+      />
     </GridContainer>
   );
 };
