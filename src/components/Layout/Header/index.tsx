@@ -203,7 +203,7 @@ const Header = () => {
                   }}
                 />
                 <Name fontSize={18}>{companyInfo.name}</Name>
-                <Type>Компания прошла подерацию</Type>
+                <Type>Компания прошла модерацию</Type>
                 <Button
                   buttonStyle={{
                     bgcolor: 'rgba(96, 110, 234, 0.1)',

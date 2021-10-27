@@ -20,6 +20,7 @@ const Notification = () => {
         <ModalContent>
           <Img src={photoNote} alt='photonote' />
           <WrapHeader>
+            <span> {t('congratulations')}</span>
             <span> {t('newcompanyphototitle')}</span>
             <span> {t('newcompanyphototext')}</span>
           </WrapHeader>
@@ -33,7 +34,7 @@ const Notification = () => {
                 setOpen(false);
               }}
             >
-              {t('stay')}
+              {t('back')}
             </Button>
             <Button
               onClick={() => {
