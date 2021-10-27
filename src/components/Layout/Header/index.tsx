@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Popover from '../../Custom/Popover';
 import { useAppDispatch, useAppSelector } from '../../../services/redux/hooks';
@@ -12,6 +12,9 @@ import LangSelect from '../../LangSelect';
 import Logo from '../../../assets/icons/SideBar/logo.png';
 import Cookies from 'js-cookie';
 import { setCompanyInfo } from '../../../services/redux/Slices/partnerSlice';
+import useLayout from '../useLayout';
+import { setSocket } from 'services/redux/Slices/feedback';
+import { SOCKET_EVENT } from 'services/constants/chat';
 import {
   Container,
   SearchIcon,
@@ -48,7 +51,10 @@ import {
   TitleLogo,
   LogoIcon,
 } from './style';
-import useLayout from '../useLayout';
+
+const io = require('socket.io-client');
+
+const companyToken = localStorage.getItem('companyToken');
 
 const Header = () => {
   const { t } = useTranslation();
@@ -59,6 +65,37 @@ const Header = () => {
 
   const companyInfo = useAppSelector((state) => state.partner.companyInfo);
   const socket = useAppSelector((state) => state.feedbackPost.socket);
+
+  useEffect(() => {
+    if (
+      Cookies.get('companyState') !== 'new' &&
+      headerData.filled &&
+      headerData.filledAddress
+    ) {
+      const socket = io(
+        `${process.env.REACT_APP_WEBSOCKET_URL}/nsp_staff_svdfv8732f5rycf76f8732rvuy23cfi77c3u6fr2387frv8237vfidu23vf2vdd7324df4`,
+        {
+          path: '/',
+          auth: {
+            token: `Bearer ${companyToken}`,
+          },
+        }
+      );
+
+      socket.on(SOCKET_EVENT.CHAT_MODERATOR_TO_PARTNER, function (data: any) {
+        console.log(data, 'm');
+      });
+
+      socket.on(SOCKET_EVENT.CHAT_CLIENT_TO_PARTNER, function (data: any) {
+        console.log(data, 'p');
+      });
+      dispatch(setSocket(socket));
+    }
+  }, [
+    Cookies.get('companyState'),
+    headerData.filled,
+    headerData.filledAddress,
+  ]);
 
   return (
     <>

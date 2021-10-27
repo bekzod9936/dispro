@@ -16,11 +16,12 @@ import {
 
 interface Props {
   page?: number;
+  filterValues?: any;
 }
 
 const perPage = 6;
 
-const useFeedBack = ({ page }: Props) => {
+const useFeedBack = ({ page, filterValues }: Props) => {
   const dispatch = useAppDispatch();
 
   const resCashiers = useQuery('feedBackCashiers', fetchFeedBackCashiers, {
@@ -36,7 +37,7 @@ const useFeedBack = ({ page }: Props) => {
     'feedBackClientsInfo',
     () =>
       fetchFeedBackClients({
-        url: `/rating-review/?perPage=${perPage}&page=${page}`,
+        url: `/rating-review/${filterValues}?perPage=${perPage}&page=${page}`,
       }),
     {
       keepPreviousData: true,
@@ -44,7 +45,13 @@ const useFeedBack = ({ page }: Props) => {
       retry: 0,
       onSuccess: (data) => {
         dispatch(setTotalCountFeedBack(data.data.data.totalCount));
-        dispatch(setClientsFeedBack(data.data.data.ratingAndReviews));
+        dispatch(
+          setClientsFeedBack(
+            filterValues !== ''
+              ? data.data.data
+              : data.data.data.ratingAndReviews
+          )
+        );
       },
     }
   );

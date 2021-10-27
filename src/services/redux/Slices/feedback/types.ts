@@ -43,6 +43,11 @@ export interface IRatings {
   rating?: number;
 }
 
+export interface IChose {
+  data?: IratingAndReviews;
+  choose?: boolean;
+}
+
 export interface IFeedBack {
   messages?: IMessage[];
   cashiers?: ICashiers[];
@@ -56,4 +61,5 @@ export interface IFeedBack {
   averageRating?: number;
   totalRating?: number;
   socket?: any;
+  chosenClient?: IChose;
 }

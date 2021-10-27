@@ -15,10 +15,18 @@ export const MoneyIcon = styled(Money)``;
 
 export const MessageIcon = styled(Message)``;
 
+interface Props {
+  bgcolor?: boolean;
+}
+
 export const StarIcon = styled(Star)`
   margin-right: 3px;
   width: 10px;
   height: 10px;
+  & > path {
+    fill: ${({ bgcolor }: Props) =>
+      bgcolor ? '#FFC107' : 'rgba(255, 193, 7, 0.3)'};
+  }
   @media (min-width: ${device.laptop}) {
     margin-right: 5px;
     width: 13px;
@@ -51,12 +59,18 @@ export const LeftHeader = styled.div`
   align-items: center;
 `;
 
-export const WrapText = styled.div``;
+export const WrapText = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
 
 export const UserName = styled.div`
   font-weight: normal;
   font-size: 15px;
   color: #223367;
+  white-space: nowrap;
+
   @media (min-width: ${device.laptop}) {
     font-size: 16px;
   }
@@ -75,6 +89,8 @@ export const Date = styled.div`
   font-weight: normal;
   font-size: 13px;
   color: #8f8f8f;
+  white-space: nowrap;
+
   margin: ${({ margin }: Props) => margin};
   @media (min-width: ${device.laptop}) {
     font-size: 14px;

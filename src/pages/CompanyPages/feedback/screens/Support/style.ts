@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { device } from 'styles/device';
 import { ReactComponent as Down } from 'assets/icons/FeedBack/down.svg';
+import { ReactComponent as Dis } from 'assets/icons/disicon.svg';
 
 export const Container = styled.div`
   padding: 25px 0 0 25px;
@@ -154,7 +155,8 @@ export const Message = styled.div`
   margin-left: 10px;
   position: relative;
   padding: 15px;
-
+  max-width: 450px;
+  word-wrap: break-word;
   &::before {
     content: '';
     position: absolute;
@@ -173,6 +175,12 @@ export const MessageText = styled.div`
   font-size: 14px;
   color: ${({ bgcolor }: MProps) => bgcolor};
   margin-top: 5px;
+
+  white-space: pre-wrap; /* Since CSS 2.1 */
+  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  word-wrap: break-word;
 `;
 
 export const MessageDate = styled.div`
@@ -218,6 +226,10 @@ export const DownIcon = styled(Down)`
     width: 24px;
     height: 24px;
   }
+`;
+
+export const DisIcon = styled(Dis)`
+  width: 80%;
 `;
 
 export const WrapDownIcon = styled.div`

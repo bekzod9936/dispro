@@ -30,11 +30,9 @@ export const Text = styled.div`
   font-weight: normal;
   font-size: 13px;
   color: #ffffff;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+
   @media (min-width: ${device.laptop}) {
     font-size: 14px;
   }

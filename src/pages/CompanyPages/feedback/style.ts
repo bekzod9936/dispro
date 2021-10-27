@@ -15,21 +15,35 @@ export const StarIcon = styled(Star)`
     fill: ${({ checked }: Props) =>
       checked ? '#FFC107' : checked !== undefined ? '#C7C7C7' : '#FFC107'};
   }
+
   @media (max-width: ${device.laptop}) {
     margin-right: 5px;
     margin: ${({ margin }: Props) => margin}!important;
+    width: 20px;
+    height: 20px;
   }
 `;
 
 export const WrapStars = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: space-between;
   margin-bottom: 20px;
   width: 100%;
-  flex-wrap: wrap;
-  & > div {
-    display: flex;
+  @media (max-width: ${device.laptop}) {
+    grid-template-columns: 1fr;
+    grid-gap: 5px;
+    margin-bottom: 10px;
+  }
+`;
+
+export const WrapStartT = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  flex: 1;
+  @media (max-width: ${device.laptop}) {
+    justify-content: flex-end;
   }
 `;
 
@@ -63,6 +77,16 @@ export const WrapHeader = styled.div`
     background: #606eea;
     border-radius: 14px 0px 0px 14px;
   }
+`;
+
+export const WrapDefPhoto = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  height: 100%;
+  width: 100%;
 `;
 
 export const RightHeader = styled.div`
@@ -151,15 +175,15 @@ export const RateText = styled.div`
   @media (min-width: ${device.laptop}) {
     margin-left: 10px;
     font-size: 18px;
+    display: flex;
+    justify-content: center;
+    flex: 1;
   }
 `;
 
 export const Content = styled.div`
-  display: flex;
-  justify-content: center;
   height: 100%;
   width: 100%;
-  flex: 1;
 `;
 
 export const Img = styled.img`
@@ -174,15 +198,17 @@ export const Img = styled.img`
 
 export const WrapDef = styled.div`
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: minmax(auto, 1fr) minmax(auto, 1fr);
   color: #223367;
   font-weight: normal;
   font-size: 18px;
   text-align: center;
   grid-gap: 20px;
-  padding: 0 20px 0 0;
   align-items: start;
   align-content: start;
+  justify-content: center;
+  margin-right: 20px;
+  width: fit-content;
 `;
 
 export const WrapChecks = styled.div`
@@ -235,7 +261,9 @@ export const Avatar = styled.div`
   background-color: lightgray;
   margin-right: 15px;
   overflow: hidden;
-
+  display: flex;
+  align-items: center;
+  justify-content: center;
   @media (min-width: ${device.laptop}) {
     width: ${({ big }: Props) => (big ? '55px' : '40px')};
     height: ${({ big }: Props) => (big ? '55px' : '40px')};
@@ -245,4 +273,13 @@ export const Avatar = styled.div`
     height: 100%;
     object-fit: fill;
   }
+`;
+
+export const WrapIconStart = styled.div`
+  display: flex;
+  align-self: flex-start;
+  align-items: center;
+  flex: 1;
+  height: 100%;
+  justify-content: flex-end;
 `;

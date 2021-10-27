@@ -6,6 +6,7 @@ import {
   IratingAndReviews,
   IRatings,
   IHistory,
+  IChose,
 } from './types';
 
 const initialState: IFeedBack = {
@@ -21,6 +22,7 @@ const initialState: IFeedBack = {
   averageRating: 0,
   totalRating: 0,
   socket: {},
+  chosenClient: { data: {}, choose: false },
 };
 
 const feedbackPostSlice = createSlice({
@@ -64,6 +66,9 @@ const feedbackPostSlice = createSlice({
     setSocket: (state, action: PayloadAction<any>) => {
       state.socket = action.payload;
     },
+    setChosenClientChat: (state, action: PayloadAction<IChose>) => {
+      state.chosenClient = action.payload;
+    },
   },
 });
 
@@ -80,5 +85,6 @@ export const {
   setTotalHistory,
   setChatSupportHistory,
   setTotalSupportHistory,
+  setChosenClientChat,
 } = feedbackPostSlice.actions;
 export default feedbackPostSlice.reducer;

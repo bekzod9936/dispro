@@ -12,6 +12,7 @@ import feedDef from 'assets/images/feedback.png';
 import User from './components/User';
 import MultiSelect from 'components/Custom/MultiSelect';
 import CheckBox from 'components/Custom/CheckBox';
+import { useAppSelector } from 'services/redux/hooks';
 import useFeedBack from './hooks/useFeedBack';
 import {
   MainWrapper,
@@ -31,34 +32,65 @@ import {
   WrapChecks,
   WrapCheck,
   Label,
+  WrapIconStart,
+  WrapStartT,
+  WrapDefPhoto,
 } from './style';
-import { useAppSelector } from 'services/redux/hooks';
+
+interface CProps {
+  value?: any;
+  label?: any;
+}
 
 const FeedBack = () => {
   const { t } = useTranslation();
   const { menuItems } = useFeedBackRoute();
   const [page, setPage] = useState(1);
+  const [cashierStaffId, setCashierStaffId] = useState<CProps>();
+  const [checked, setChecked] = useState(false);
+  const [filterValues, setFilterValues] = useState<any>('');
 
-  const { resClients, resCashiers, resRatings } = useFeedBack({ page });
+  const { resClients, resCashiers } = useFeedBack({ page, filterValues });
+
   const cashiers = useAppSelector((state) => state.feedbackPost.cashiers);
+  const clients = useAppSelector((state) => state.feedbackPost.clients);
+  const rate = useAppSelector((state) => state.feedbackPost.averageRating);
+  const total = useAppSelector((state) => state.feedbackPost.totalRating);
+  const ratings = useAppSelector((state) => state.feedbackPost.ratings);
+  console.log(clients);
+  const handleFilterSubmit = async () => {
+    await setFilterValues(cashierStaffId?.value);
+    await await resClients.refetch();
+  };
 
-  const handleFilterSubmit = async () => {};
-
-  const onReset = async () => {};
+  const onReset = async () => {
+    await setFilterValues('');
+    await setCashierStaffId({});
+    await resClients.refetch();
+  };
 
   let match = useRouteMatch();
-  const [cashierStaffId, setCashierStaffId] = useState('');
-  const [checked, setChecked] = useState(false);
+
+  const cashiersFilter = cashiers
+    ?.filter((v: any) => v.firstName !== '' || v.lastName !== '')
+    ?.map((v: any) => {
+      return {
+        value: v.cashierId,
+        label: `${v.firstName} ${v.lastName}`,
+      };
+    });
+
   const filterList = [
     {
       title: t('bycashier'),
       content: (
         <MultiSelect
           label={t('chose_cashier')}
-          options={[]}
+          options={cashiersFilter}
           onChange={(e: any) => setCashierStaffId(e)}
           value={cashierStaffId}
           selectStyle={{ bgcolor: '#eff0fd' }}
+          isLoading={resCashiers.isLoading}
         />
       ),
     },
@@ -121,67 +153,57 @@ const FeedBack = () => {
               </FilterWarp>
             ) : null}
             {match.url === '/feedback' ? (
-              <Content>
-                <WrapDef>
-                  {/* <Img src={feedDef} alt='feedback' />
-                  {t('feeddef')} */}
-                  <User />
-                  <User />
-                  <User />
-                </WrapDef>
-              </Content>
+              resClients.isLoading || resClients.isFetching ? (
+                <Spinner />
+              ) : clients?.length === 0 ? (
+                <WrapDefPhoto>
+                  <Img src={feedDef} alt='feedback' />
+                  {t('feeddef')}
+                </WrapDefPhoto>
+              ) : (
+                <Content>
+                  <WrapDef>
+                    {clients?.map((v: any) => (
+                      <User value={v} />
+                    ))}
+                  </WrapDef>
+                </Content>
+              )
             ) : null}
           </LeftHeader>
         </WrapHeader>
-
         {match.url === '/feedback' ? (
           <RightSide>
-            <Grade title={t('overallscore')} />
-            <Grade title={t('totalratings')} />
+            <Grade title={t('overallscore')} rate={rate} />
+            <Grade title={t('totalratings')} total={total} />
             <Rate>{t('rate')}</Rate>
-            <WrapStars>
-              {[1, 2, 3, 4, 5].map(() => (
-                <StarIcon />
-              ))}
-              <div>
-                <RateText>&bull; 0% </RateText>
-                <RateText>0 оценок</RateText>
-              </div>
-            </WrapStars>
-            <WrapStars>
-              {[1, 2, 3, 4].map(() => (
-                <StarIcon />
-              ))}
-              <div>
-                <RateText>&bull; 0% </RateText>
-                <RateText>0 оценок</RateText>
-              </div>
-            </WrapStars>
-            <WrapStars>
-              {[1, 2, 3].map(() => (
-                <StarIcon />
-              ))}
-              <div>
-                <RateText>&bull; 0% </RateText>
-                <RateText>0 оценок</RateText>
-              </div>
-            </WrapStars>
-            <WrapStars>
-              {[1, 2].map(() => (
-                <StarIcon />
-              ))}
-              <div>
-                <RateText>&bull; 0% </RateText>
-                <RateText>0 оценок</RateText>
-              </div>
-            </WrapStars>
-            <WrapStars>
-              <StarIcon />
-              <div>
-                <RateText>&bull; 0% </RateText>
-                <RateText>0 оценок</RateText>
-              </div>
-            </WrapStars>
+            {[5, 4, 3, 2, 1].map((v: any, i: number) => {
+              return (
+                <WrapStars>
+                  <WrapIconStart>
+                    {Array(v)
+                      .fill(1)
+                      .map(() => (
+                        <StarIcon />
+                      ))}
+                  </WrapIconStart>
+                  <WrapStartT>
+                    <RateText>
+                      &bull;
+                      {ratings?.length === i + 1
+                        ? `${ratings[i]?.percentage}%`
+                        : '0%'}
+                    </RateText>
+                    <RateText>
+                      {ratings?.length === i + 1
+                        ? `${ratings[i]?.amount} `
+                        : '0 '}
+                    </RateText>
+                    <RateText>{t('evaluations')}</RateText>
+                  </WrapStartT>
+                </WrapStars>
+              );
+            })}
           </RightSide>
         ) : null}
       </Wrapper>
