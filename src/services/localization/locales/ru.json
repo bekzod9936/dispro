@@ -409,5 +409,6 @@
   "sale": "Скидка",
   "filial": "Филиал",
   "paidwithpoints": "Оплачено баллами",
-  "evaluations": "оценок"
+  "evaluations": "оценок",
+  "change_access": "Настроить доступ"
 }

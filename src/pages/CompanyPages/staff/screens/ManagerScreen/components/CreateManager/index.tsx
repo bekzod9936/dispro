@@ -160,7 +160,6 @@ const CreateManager = ({ openManager }: IProps) => {
                     <Input
                       label={t("comment")}
                       type="string"
-                      maxLength={13}
                       field={field}
                       fullWidth={true}
                       minRows={10}

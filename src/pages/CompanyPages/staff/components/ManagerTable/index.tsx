@@ -40,7 +40,6 @@ const ManagerTable = ({ managers }: IProps) => {
     const isAdded = selectedManagers?.some(
       (el: any) => el.id === row.original.id
     );
-
     if (!isAdded) {
       dispatch(setSelectedManagers(selectedManagers.concat(row.original)));
     } else {

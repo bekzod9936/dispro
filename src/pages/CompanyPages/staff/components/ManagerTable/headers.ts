@@ -1,5 +1,5 @@
 export const managerHeaders = [
-  { value: "Кассир", label: "firstName" },
-  { value: "Оценка", label: "telNumber" },
-  { value: "Средний чек", label: "comment" },
+  { value: "Менеджер", label: "firstName" },
+  // { value: "Филиал", label: "store" },
+  { value: "Номер телефона", label: "telNumber" },
 ];

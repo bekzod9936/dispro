@@ -28,19 +28,19 @@ const useManagers = ({ page, query, period }: any) => {
         dispatch(setManagers(data.data.data));
         dispatch(
           setAllManager(
-            data?.data?.data?.staffs?.map((cashier: any) => {
+            data?.data?.data?.map((manager: any) => {
               return {
-                ...cashier,
-                firstName: cashier?.firstName + " " + cashier?.lastName,
-                score: numberWith(cashier?.addInfo?.avgRating, " "),
-                avgCheque: numberWith(cashier?.addInfo?.avgCheque, " "),
-                clients: numberWith(cashier?.addInfo?.countClient, " "),
-                operations: numberWith(cashier?.addInfo?.countOperation, " "),
+                ...manager,
+                firstName: manager?.firstName + " " + manager?.lastName,
+                score: numberWith(manager?.addInfo?.avgRating, " "),
+                avgCheque: numberWith(manager?.addInfo?.avgCheque, " "),
+                clients: numberWith(manager?.addInfo?.countClient, " "),
+                operations: numberWith(manager?.addInfo?.countOperation, " "),
                 amountOperation: numberWith(
-                  cashier?.addInfo?.amountOperation,
+                  manager?.addInfo?.amountOperation,
                   " "
                 ),
-                countRefer: numberWith(cashier?.addInfo?.countRefer, " "),
+                countRefer: numberWith(manager?.addInfo?.countRefer, " "),
               };
             })
           )
