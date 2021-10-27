@@ -181,6 +181,8 @@ export const WrapDef = styled.div`
   text-align: center;
   grid-gap: 20px;
   padding: 0 20px 0 0;
+  align-items: start;
+  align-content: start;
 `;
 
 export const WrapChecks = styled.div`

@@ -2,7 +2,7 @@ import NavBar from 'components/Custom/NavBar';
 import Title from 'components/Custom/Title';
 import Input from 'components/Custom/Input';
 import Spinner from 'components/Custom/Spinner';
-import React, { Suspense, useState } from 'react';
+import { Suspense, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Route, Switch, useRouteMatch } from 'react-router';
 import useFeedBackRoute from './routes';

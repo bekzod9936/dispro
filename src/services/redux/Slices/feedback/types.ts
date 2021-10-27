@@ -49,7 +49,9 @@ export interface IFeedBack {
   clients?: IratingAndReviews[];
   ratings?: IRatings[];
   histories?: IHistory[];
+  supporthistories?: IHistory[];
   totalHistory?: number;
+  totalSupportHistory?: number;
   totalCount?: number;
   averageRating?: number;
   totalRating?: number;
