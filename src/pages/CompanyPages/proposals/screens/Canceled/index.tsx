@@ -1,7 +1,7 @@
 import { SideBar } from 'pages/CompanyPages/clients/components/SideBar'
 import React from 'react'
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks'
-import { resetCurrentCoupon, setCanceledCoupon, setCurrentCoupon, setSelectedCoupon } from 'services/redux/Slices/proposals/proposals'
+import { resetCurrentCoupon, setCurrentCoupon } from 'services/redux/Slices/proposals/proposals'
 import { RootState } from 'services/redux/store'
 import { CouponBar } from '../../components/CouponSideBar'
 import { Wrapper } from './style'
@@ -46,6 +46,7 @@ const Canceled = () => {
                 width={{ maxwidth: 500, width: "100%" }} />
             {isFetching ? <Spinner /> : canceled.map((el: IDeferred) => (
                 <CouponCard
+                    stats={el.stat}
                     isSelected={currentCoupon.id === el.id}
                     onClick={() => handleOpen(el.id)}
                     key={el.id}

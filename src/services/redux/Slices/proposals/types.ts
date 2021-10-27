@@ -36,5 +36,6 @@ export interface IDeferred {
     title: string,
     type: number,
     used: number,
-    value: number
+    value: number,
+    stat?: any
 }

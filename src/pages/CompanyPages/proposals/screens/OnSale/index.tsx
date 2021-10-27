@@ -11,7 +11,7 @@ import { SearchIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
 import Spinner from 'components/Helpers/Spinner'
 import { IDeferred } from 'services/redux/Slices/proposals/types'
 import { CouponCard } from '../../components/CouponCard'
-import { resetCurrentCoupon, setCurrentCoupon, setCurrentOnSaleCoupon } from 'services/redux/Slices/proposals/proposals'
+import { resetCurrentCoupon, setCurrentCoupon } from 'services/redux/Slices/proposals/proposals'
 import { EmptyPage } from '../Drafts/components/EmptyPage'
 
 
@@ -56,6 +56,7 @@ const OnSale = () => {
                 width={{ maxwidth: 500, width: "100%" }} />
             {isFetching ? <Spinner /> : onSale.map((el: IDeferred) => (
                 <CouponCard
+                    stats={el.stat}
                     isSelected={currentCoupon.id === el.id}
                     onClick={() => handleOpen(el.id)}
                     startDate={el.startDate}

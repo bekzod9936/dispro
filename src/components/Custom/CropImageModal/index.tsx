@@ -18,9 +18,10 @@ interface IProps {
     setIsCropVisible?: any,
     setFile?: any,
     handleUpload?: any,
+    setIsLoading?: (arg: boolean) => void,
     isCoupon: boolean
 }
-const CropCustomModal = ({open, src, setIsCropVisible, setFile, handleUpload, isCoupon}: IProps) => {
+const CropCustomModal = ({ open, src, setIsCropVisible, setFile, handleUpload, isCoupon, setIsLoading }: IProps) => {
     const { logo, name } = useAppSelector((state: RootState) => state.partner.companyInfo)
     const [srcUrl, setSrcUrl] = React.useState<any>(null)
     const [image, setImage] = React.useState<any>(null)
@@ -30,28 +31,34 @@ const CropCustomModal = ({open, src, setIsCropVisible, setFile, handleUpload, is
         unit: '%',
         width: 30,
         aspect: 16 / 9,
-      });
+    });
 
     React.useEffect(() => {
         setSrcUrl(URL.createObjectURL(src))
     }, [src])
-  
-   
+
+
     const handleClose = () => {
         setIsCropVisible(false)
         setFile(null)
     }
 
-    const handleSave = async() => {
-        if(imageUrl) {
-            handleUpload(imageUrl)
+    const handleSave = async () => {
+        if (imageUrl) {
+            if (setIsLoading) {
+                setIsLoading(true)
+            }
             setIsCropVisible(false)
+            await handleUpload(imageUrl)
+            if (setIsLoading) {
+                setIsLoading(false)
+            }
 
         }
     }
 
 
-    
+
     const getCroppedImage = () => {
         if (image) {
             const canvas = document.createElement('canvas');
@@ -88,34 +95,34 @@ const CropCustomModal = ({open, src, setIsCropVisible, setFile, handleUpload, is
     return (
         <Modal open={open}>
             <Wrapper>
-                <div style={{marginBottom: "35px"}}>
+                <div style={{ marginBottom: "35px" }}>
                     <Header>
                         <h4>Выберите нужную область</h4>
                         <CloseIcon onClick={handleClose} />
                     </Header>
-                    <div style={{display: "flex"}}>
+                    <div style={{ display: "flex" }}>
                         <Right>
-                            <div style={{width: "400px", height: "400px", objectFit: "contain", display: "flex", justifyContent: "center", alignItems: "center"}}>
+                            <div style={{ width: "400px", height: "400px", objectFit: "contain", display: "flex", justifyContent: "center", alignItems: "center" }}>
                                 <ReactCrop
                                     maxWidth={400}
-                                    src={srcUrl} 
-                                    crop={crop} 
+                                    src={srcUrl}
+                                    crop={crop}
                                     onChange={(e) => setCrop(e)}
                                     onImageLoaded={(e) => setImage(e)}
                                     onComplete={() => getCroppedImage()}
-                                    />
+                                />
                             </div>
                         </Right>
                         <Left>
                             <h4>Превью купона в приложении</h4>
                             <PreviewDiv>
-                                {imageUrl?.length > 6 && <PreviewBg src={imageUrl} alt=""/>}
-                                <img style={{zIndex: 20, position: "relative"}} width="300" src={iphone} alt="" />
+                                {imageUrl?.length > 6 && <PreviewBg src={imageUrl} alt="" />}
+                                <img style={{ zIndex: 20, position: "relative" }} width="300" src={iphone} alt="" />
                                 <PreviewContent>
-                                    <img src={logo} alt="logo"/>
+                                    <img src={logo} alt="logo" />
                                     <p>{name}</p>
                                     <span>{isCoupon ? t("coupon") : t("certificate")}</span>
-                                    
+
                                 </PreviewContent>
                             </PreviewDiv>
                         </Left>
@@ -125,8 +132,8 @@ const CropCustomModal = ({open, src, setIsCropVisible, setFile, handleUpload, is
                     <Button
                         onClick={handleClose}
                         startIcon={<CancelIcon />}
-                        margin={{laptop: "0 25px 0 0"}}
-                        buttonStyle={{bgcolor: "#FFFFFF", color: "#223367", weight: "500"}}>
+                        margin={{ laptop: "0 25px 0 0" }}
+                        buttonStyle={{ bgcolor: "#FFFFFF", color: "#223367", weight: "500" }}>
                         Отмена
                     </Button>
                     <Button

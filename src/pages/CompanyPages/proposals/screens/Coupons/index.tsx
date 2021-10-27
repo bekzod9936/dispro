@@ -47,6 +47,7 @@ import { useAppDispatch } from 'services/redux/hooks'
 import { setSaving } from 'services/redux/Slices/proposals/proposals'
 import { PreviewModal } from '../../components/PreviewModal'
 import { getValidData } from './utils/getValidDate'
+import Spinner from 'components/Helpers/Spinner'
 
 interface IOptionFields {
     age: boolean,
@@ -94,7 +95,7 @@ const Coupons = () => {
     const [period, setPeriod] = React.useState<boolean>(false)
     const [image, setImage] = React.useState('')
     const [publish, setPublish] = React.useState(false)
-    const { handleUpload, deleteImage } = useUploadImage(setImage)
+    const { handleUpload, deleteImage, loading, setLoading, isLoading } = useUploadImage(setImage)
     const [file, setFile] = React.useState('')
     const [previewModal, setPreviewModal] = React.useState<boolean>(false)
     const [isCropVisible, setIsCropVisible] = React.useState(false)
@@ -166,8 +167,8 @@ const Coupons = () => {
         setTimeout(() => history.goBack(), 1000)
         dispatch(setSaving(true))
     }
+    console.log(loading);
 
-    console.log(errors);
 
     return (
         <Wrapper>
@@ -199,7 +200,7 @@ const Coupons = () => {
                     <Container>
                         <LeftSide>
                             <Title>Фотографии</Title>
-                            {!image &&
+                            {!isLoading && (!image &&
                                 <div style={{ marginBottom: 30 }}>
                                     <Header>
                                         <p>Можно загрузить фотографию JPG или PNG, минимальное разрешение 400*400рх, размер не более 3Мбайт.</p>
@@ -210,6 +211,10 @@ const Coupons = () => {
                                         <UploadImage />
                                     </UploadButton>
                                     {errors.image && <ErrorMessage>{t("requiredField")}</ErrorMessage>}
+                                </div>)}
+                            {isLoading &&
+                                <div style={{ width: "100%", height: 140 }}>
+                                    <Spinner size={30} />
                                 </div>}
                             {image &&
                                 <ImageBlock>
@@ -218,6 +223,7 @@ const Coupons = () => {
                                 </ImageBlock>}
                             {file &&
                                 <CropCustomModal
+                                    setIsLoading={setLoading}
                                     isCoupon={isCoupon}
                                     handleUpload={handleUpload}
                                     setFile={setFile}
