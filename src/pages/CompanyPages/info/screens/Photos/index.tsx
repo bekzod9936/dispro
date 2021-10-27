@@ -23,6 +23,7 @@ import NoPhoto from 'assets/images/NoPhotos.png';
 import ImageLazyLoad from 'components/Custom/ImageLazyLoad/ImageLazyLoad';
 import partnerApi from 'services/interceptors/companyInterceptor';
 import Spinner from 'components/Custom/Spinner';
+import { ruCount } from 'services/utils/index';
 
 const Photos = () => {
   const { t } = useTranslation();
@@ -77,9 +78,10 @@ const Photos = () => {
           <ImgNo src={NoPhoto} alt='nophoto' />
           <Text maxwidth='500px' align='center'>
             {t('infouploadphotos1')}
+
             <span>
-              <span>{count}</span>
-              {t('photo1')}
+              <span> {count} </span>
+              {ruCount(images.length, 'фотографию', 'фотографии', 'фотографий')}
             </span>
             {t('infouploadphotos2')}
           </Text>
@@ -92,9 +94,10 @@ const Photos = () => {
         <>
           <Text maxwidth='800px'>
             {t('infouploadphotos1')}
+
             <span>
-              <span>{count}</span>
-              {t('photo1')}
+              <span> {count} </span>
+              {ruCount(1, 'фотографию', 'фотографии', 'фотографий')}
             </span>
             {t('infouploadphotos2')}
           </Text>

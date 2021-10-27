@@ -11,7 +11,8 @@ import { SearchIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
 import Spinner from 'components/Helpers/Spinner'
 import { IDeferred } from 'services/redux/Slices/proposals/types'
 import { CouponCard } from '../../components/CouponCard'
-import { resetCurrentCoupon, setCurrentOnSaleCoupon } from 'services/redux/Slices/proposals/proposals'
+import { resetCurrentCoupon, setCurrentCoupon } from 'services/redux/Slices/proposals/proposals'
+import { EmptyPage } from '../Drafts/components/EmptyPage'
 
 
 const OnSale = () => {
@@ -20,10 +21,10 @@ const OnSale = () => {
     const [open, setOpen] = React.useState<boolean>(false)
     const [debounced] = useDebounce(query, 300)
     const dispatch = useAppDispatch()
-    const { isLoading, refetch } = useOnSale({ dispatch, query: debounced })
+    const { isFetching, refetch } = useOnSale({ dispatch, query: debounced })
 
     const handleOpen = (id: number) => {
-        dispatch(setCurrentOnSaleCoupon(id))
+        dispatch(setCurrentCoupon({ id, location: "onSale" }))
         setOpen(true)
     }
 
@@ -53,10 +54,13 @@ const OnSale = () => {
                 margin={{ laptop: "0 0 20px 0" }}
                 inputStyle={{ border: "none" }}
                 width={{ maxwidth: 500, width: "100%" }} />
-            {isLoading ? <Spinner /> : onSale.map((el: IDeferred) => (
+            {isFetching ? <Spinner /> : onSale.map((el: IDeferred) => (
                 <CouponCard
+                    stats={el.stat}
                     isSelected={currentCoupon.id === el.id}
                     onClick={() => handleOpen(el.id)}
+                    startDate={el.startDate}
+                    endDate={el.endDate}
                     key={el.id}
                     img={el.image}
                     title={el.title}
@@ -69,6 +73,7 @@ const OnSale = () => {
                     count={el.count}
                 />
             ))}
+            {!onSale.length && <EmptyPage />}
         </Wrapper>
     )
 }

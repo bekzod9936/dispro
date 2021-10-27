@@ -10,7 +10,6 @@ import WorkingHours from './WorkingHours';
 import { useMutation } from 'react-query';
 import { IAddress } from 'services/models/address_model';
 import YandexMap from './YandexMap';
-import { useAppSelector, useAppDispatch } from 'services/redux/hooks';
 import axios from 'axios';
 import {
   Container,

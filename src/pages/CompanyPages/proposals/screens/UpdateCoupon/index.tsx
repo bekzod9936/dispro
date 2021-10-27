@@ -5,6 +5,7 @@ import {
     GoBackIcon,
     PhoneIcon,
     PlusIcon,
+    PublishIcon,
     SaveIcon,
     UploadImage
 } from 'assets/icons/proposals/ProposalsIcons'
@@ -34,13 +35,12 @@ import {
 import CropCustomModal from 'components/Custom/CropImageModal/index'
 import { useTranslation } from 'react-i18next'
 import { useMutation } from 'react-query'
-import { updateCoupon } from 'services/queries/ProposalsQueries'
+import { updateCoupon, postCoupon } from 'services/queries/ProposalsQueries'
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks'
 import { RootState } from 'services/redux/store'
 import { resetCurrentCoupon } from 'services/redux/Slices/proposals/proposals'
 import { categories, days } from '../Coupons/constants'
 import ImageLazyLoad from 'components/Custom/ImageLazyLoad/ImageLazyLoad'
-import moment from 'moment'
 import { useUploadImage } from '../Coupons/useUploadIMage'
 import { PreviewModal } from '../../components/PreviewModal'
 import { PreviewMessage } from '../Coupons/style'
@@ -58,6 +58,7 @@ const UpdateCoupon = () => {
     const dispatch = useAppDispatch()
     const [isCropVisible, setIsCropVisible] = React.useState<boolean>(false)
     const history = useHistory()
+
     const [publish, setPublish] = React.useState<boolean>(false)
     const { handleUpload, deleteImage } = useUploadImage(setImage)
     const { handleSubmit, register, watch, formState: { errors, isValid }, control } = useForm({
@@ -92,7 +93,7 @@ const UpdateCoupon = () => {
         setIsCoupon(res)
     }, [])
 
-    const onSave = (data: any) => {
+    const onSave = async (data: any) => {
         const validData = {
             title: data.name,
             price: data.cost,
@@ -112,8 +113,8 @@ const UpdateCoupon = () => {
             id: currentCoupon.id,
             data: validData
         })
-        dispatch(resetCurrentCoupon())
         setTimeout(() => history.goBack(), 1000)
+        dispatch(resetCurrentCoupon())
     }
 
 
@@ -391,16 +392,15 @@ const UpdateCoupon = () => {
                     <Button
                         onClick={() => setPublish(true)}
                         type="submit"
-                        startIcon={<CancelIcon />}
-                        buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}>
+                        margin={{ laptop: "0 25px" }}
+                        startIcon={<PublishIcon />}>
                         Опубликовать
                     </Button>
                     <Button
                         onClick={() => setPublish(false)}
                         type="submit"
                         buttonStyle={{ color: "#606EEA", bgcolor: "rgba(96, 110, 234, 0.1)" }}
-                        startIcon={<SaveIcon />}
-                    >
+                        startIcon={<SaveIcon />}>
                         Сохранить
                     </Button>
                 </DownSide>

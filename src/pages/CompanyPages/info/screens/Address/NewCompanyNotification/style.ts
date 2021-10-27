@@ -43,6 +43,11 @@ export const WrapHeader = styled.div`
   & > span:first-child {
     font-weight: bold;
     width: 300px;
+    margin-bottom: 10px;
+  }
+  & > span:nth-child(2) {
+    font-weight: bold;
+    width: 300px;
     margin-bottom: 30px;
   }
   & > span:last-child {

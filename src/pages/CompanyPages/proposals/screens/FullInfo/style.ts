@@ -12,6 +12,7 @@ export const Container = styled.div`
     overflow: auto;
     display: flex;
     justify-content: space-between;
+    min-height: 70vh;
 `
 
 export const Right = styled.div`

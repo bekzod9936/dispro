@@ -1,6 +1,7 @@
 import styled from "styled-components"
 interface IProps {
-    isSelected?: boolean
+    isSelected?: boolean,
+    stats?: any
 }
 export const Container = styled.div`
     transition: 200ms all;
@@ -11,7 +12,7 @@ export const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    max-width: 860px;
+    max-width: ${({ stats }: IProps) => stats ? "1035px" : "860px"};
     width: 100%;
     margin-bottom: 15px;
     cursor: pointer;
@@ -19,7 +20,7 @@ export const Container = styled.div`
 `
 
 export const ImageBlock = styled.div`
-    width: 32%;
+    width: ${({ stats }: IProps) => stats ? "25%" : "32%"};
     
     img {
         border-radius: 14px;
@@ -31,15 +32,26 @@ export const ImageBlock = styled.div`
 
 export const Main = styled.div`
     /* margin-right: 60pxf; */
-    width: 32%;
+    width: ${({ stats }: IProps) => stats ? "25%" : "32%"};
     @media (max-width: 1210px) {
         width: 49%;
     }
-    h6 {
-    font-size : 14px;
-    font-weight: 400;
-    color: #223367;
-    margin-bottom: 25px;
+    div {
+        display: flex;
+        align-items: center;
+        margin-bottom: 25px;
+        h6 {
+            font-size : 14px;
+            font-weight: 400;
+            color: #223367;
+        }
+        p {
+            color: #8F8F8F;
+            font-size: 14px;
+            line-height: 16px;
+            font-weight: 500;
+            margin-left: 30px;
+        }
     }
     p {
         font-size: 14px;
@@ -56,7 +68,7 @@ export const Main = styled.div`
 `
 
 export const Submain = styled.div`
-    width: 32%;
+    width: ${({ stats }: IProps) => stats ? "25%" : "32%"};
     @media (max-width: 1210px) {
         display: none;
     }
@@ -67,6 +79,64 @@ export const Submain = styled.div`
         line-height: 16.5px;
         &:not(:last-child) {
             margin-bottom: 9px;
+        }
+    }
+`
+
+export const Stats = styled.div`
+    width: 20%;
+    p {
+        font-size: 14px;
+        line-height: 16.45px;
+        font-weight: 300;
+        display: flex;
+        align-items: center;
+        &:not(:last-child) {
+            margin-bottom: 12px;
+        }
+    }
+    p.first {
+        color: #09D235;
+        &::before {
+            content: "";
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            margin-right: 8px;
+            background-color: #09D235;
+        }
+    }
+    p.second {
+        color: #3492FF;
+        &::before {
+            content: "";
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            margin-right: 8px;
+            background-color: #3492FF;
+        }
+    }
+    p.third {
+        color: #757EC6;
+        &::before {
+            content: "";
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            margin-right: 8px;
+            background-color: #757EC6;
+        }
+    }
+    p.fourth {
+        color: #C7C7C7;
+        &::before {
+            content: "";
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            margin-right: 8px;
+            background-color: #C7C7C7;
         }
     }
 `

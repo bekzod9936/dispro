@@ -1,7 +1,6 @@
 import { CancelIcon, CloseIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
 import { DeleteIcon, EyeIcon, PenIcon, PublishIcon, ReUseIcon } from 'assets/icons/proposals/ProposalsIcons'
 import Button from 'components/Custom/Button'
-import ImageLazyLoad from 'components/Custom/ImageLazyLoad/ImageLazyLoad'
 import Modal from 'components/Custom/Modal'
 import React from 'react'
 import { useMutation } from 'react-query'
@@ -10,7 +9,7 @@ import { deleteCoupon, putCoupon } from 'services/queries/ProposalsQueries'
 import { IDeferred } from 'services/redux/Slices/proposals/types'
 import { SetDate } from '../../screens/Coupons/components/SetDate'
 import { categories } from '../../screens/Coupons/constants'
-import { Wrapper, Header, DeleteModal, Content, Preview, PreviewContent, Img } from './style'
+import { Wrapper, Header, DeleteModal, Content, Preview, PreviewContent } from './style'
 import iphone from "assets/images/iphone.png"
 import { useAppSelector } from 'services/redux/hooks'
 import { RootState } from 'services/redux/store'
@@ -52,6 +51,13 @@ export const CouponBar = ({
         }
     }
 
+    const handleRePublish = () => {
+        if (isCoupon) {
+            history.push("/proposals/create_republishcoupon")
+        } else {
+            history.push("/proposals/create_republishcertificate")
+        }
+    }
     const onDelete = async () => {
         await deleteCoupon(currentCoupon.id)
         refetch()
@@ -85,7 +91,6 @@ export const CouponBar = ({
                         <h5><span>{currentCoupon.value} сум</span></h5>}
                 </PreviewContent>
             </Preview>
-            {/* <Img src={currentCoupon.image} alt="" /> */}
             <Content>
                 <h5>Информация</h5>
                 <p>{isCoupon ? "Скидка Купона" : "Сумма Сертификата"}: {currentCoupon.value} {isCoupon ? "%" : "Сум"}</p>
@@ -98,7 +103,7 @@ export const CouponBar = ({
                 })}</p>}
                 <p>Возрастное ограничение: {currentCoupon.ageUnlimited ? "Нет" : currentCoupon.ageFrom + "+"}</p>
             </Content>
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-end" }}>
                 {disableUpdate ?
                     <Button
                         onClick={() => setDeleteOpen(true)}
@@ -113,7 +118,7 @@ export const CouponBar = ({
                             Смотреть полностью
                         </Button>
                             <Button
-                                onClick={handleUpdate}
+                                onClick={handleRePublish}
                                 startIcon={<ReUseIcon />}
                                 margin={{ laptop: "25px 0" }}>
                                 Восстановить

@@ -3,6 +3,27 @@ import Title from 'components/Custom/Title';
 import { useTranslation } from 'react-i18next';
 import { useForm, Controller } from 'react-hook-form';
 import useWindowWidth from 'services/hooks/useWindowWidth';
+import { useAppSelector } from 'services/redux/hooks';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import Button from 'components/Custom/Button';
+import Input from 'components/Custom/Input';
+import { Avatar } from '../../style';
+import { IconButton } from '@material-ui/core';
+import { Picker } from 'emoji-mart';
+import useSupportChat from '../../hooks/useSupportChat';
+import moment from 'moment';
+import { CHAT_TYPES } from 'services/constants/chat';
+import disicon from 'assets/icons/disicon.png';
+import {
+  InputDown,
+  ScriptIcon,
+  SmileIcon,
+  SendIcon,
+  InputWarn,
+  WrapIcons,
+  EPicker,
+  WrapScript,
+} from '../Posts/style';
 import {
   Container,
   MessageContainer,
@@ -26,28 +47,8 @@ import {
   WrapDown,
   DownIcon,
   WrapDownIcon,
+  DisIcon,
 } from './style';
-import { useAppSelector } from 'services/redux/hooks';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
-import Button from 'components/Custom/Button';
-import Input from 'components/Custom/Input';
-import { Avatar } from '../../style';
-import {
-  InputDown,
-  ScriptIcon,
-  SmileIcon,
-  SendIcon,
-  InputWarn,
-  WrapIcons,
-  EPicker,
-  WrapScript,
-} from '../Posts/style';
-import { IconButton } from '@material-ui/core';
-import { Picker } from 'emoji-mart';
-import useSupportChat from '../../hooks/useSupportChat';
-import moment from 'moment';
-import { CHAT_TYPES } from 'services/constants/chat';
-
 interface FormProps {
   message?: string;
 }
@@ -145,7 +146,9 @@ const Support = () => {
         <Wrapper>
           <Header>
             <WrapImg>
-              <Avatar big={true} />
+              <Avatar big={true}>
+                <DisIcon />
+              </Avatar>
               <WrapTitile>
                 <HTitle>{t('supportcall')}</HTitle>
                 <LinkWrap>
@@ -185,7 +188,7 @@ const Support = () => {
                         <MessageDate
                           bgcolor={v.chatType === 1 ? '#A5A5A5' : '#fff'}
                         >
-                          {moment(v.createdAt).format('LT')}
+                          {moment(v.createdAt).format('HH:MM')}
                         </MessageDate>
                         <MessageText
                           bgcolor={v.chatType === 1 ? '#223367' : '#fff'}
@@ -217,7 +220,7 @@ const Support = () => {
                 render={({ field }) => (
                   <Input
                     fullWidth={true}
-                    multiline={width > 1500 ? true : false}
+                    multiline={true}
                     placeholder={t('writeyoutmessage')}
                     inputStyle={{
                       border: 'none',

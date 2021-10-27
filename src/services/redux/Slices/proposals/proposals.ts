@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IDeferred, IState } from "./types";
+import { IDeferred, ISetCoupon, IState } from "./types";
 const initialState: IState = {
     drafts: [],
     deferred: [],
@@ -13,6 +13,7 @@ const initialState: IState = {
     isError: false,
 
 }
+
 const proposalsSlice = createSlice({
     name: "proposals",
     initialState,
@@ -20,20 +21,15 @@ const proposalsSlice = createSlice({
         setDeferred: (state: IState, action: PayloadAction<IDeferred[]>) => {
             state.deferred = action.payload
         },
-        setSelectedCoupon: (state: IState, action: PayloadAction<number>) => {
-            const coupon = state.drafts.find((coupon: IDeferred) => coupon.id === action.payload)
-            state.currentCoupon = { ...coupon }
-
+        setCurrentCoupon: (state: IState, { payload }: PayloadAction<ISetCoupon>) => {
+            const coupon = state[payload.location].find(el => el.id === payload.id)
+            state.currentCoupon = coupon
         },
         resetCurrentCoupon: (state: IState) => {
             state.currentCoupon = {}
         },
         setOnSale: (state: IState, action: PayloadAction<IDeferred[]>) => {
             state.onSale = action.payload
-        },
-        setCurrentOnSaleCoupon: (state: IState, action: PayloadAction<number>) => {
-            const coupon = state.onSale.find((el: IDeferred) => el.id === action.payload)
-            state.currentCoupon = { ...coupon }
         },
         setDrafts: (state: IState, action: PayloadAction<IDeferred[]>) => {
             state.drafts = [...action.payload]
@@ -44,23 +40,21 @@ const proposalsSlice = createSlice({
         setCanceled: (state: IState, action: PayloadAction<IDeferred[]>) => {
             state.canceled = [...action.payload]
         },
-        setCanceledCoupon: (state: IState, action: PayloadAction<number>) => {
-            const coupon = state.canceled.find((el: IDeferred) => el.id === action.payload)
-            state.currentCoupon = coupon
-        }
+        setArchive: (state: IState, action: PayloadAction<IDeferred[]>) => {
+            state.archive = [...action.payload]
+        },
     }
 })
 
 export const {
     setDeferred,
     setDrafts,
-    setSelectedCoupon,
     resetCurrentCoupon,
     setOnSale,
-    setCurrentOnSaleCoupon,
     setSaving,
     setCanceled,
-    setCanceledCoupon
+    setArchive,
+    setCurrentCoupon
 } = proposalsSlice.actions
 
 export default proposalsSlice.reducer
