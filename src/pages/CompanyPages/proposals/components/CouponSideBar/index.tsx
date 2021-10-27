@@ -52,6 +52,13 @@ export const CouponBar = ({
         }
     }
 
+    const handleRePublish = () => {
+        if (isCoupon) {
+            history.push("/proposals/create_republishcoupon")
+        } else {
+            history.push("/proposals/create_republishcertificate")
+        }
+    }
     const onDelete = async () => {
         await deleteCoupon(currentCoupon.id)
         refetch()
@@ -113,7 +120,7 @@ export const CouponBar = ({
                             Смотреть полностью
                         </Button>
                             <Button
-                                onClick={handleUpdate}
+                                onClick={handleRePublish}
                                 startIcon={<ReUseIcon />}
                                 margin={{ laptop: "25px 0" }}>
                                 Восстановить

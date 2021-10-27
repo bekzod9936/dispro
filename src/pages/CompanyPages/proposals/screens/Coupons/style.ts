@@ -44,7 +44,6 @@ export const Container = styled.div`
     width: 100%;
     display: flex;
     justify-content: space-between;
-    height: 100%;
     padding: 20px 60px 20px 0;
     @media (max-width: ${device.laptop}) {
       padding-right: 20px;
@@ -58,11 +57,11 @@ export const Wrapper = styled.div`
 `
 
 export const UpSide = styled.div`
-    height: 75%;
+    height: 80%;
     scroll-behavior: auto;
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
+    overflow-y: scroll;
     overflow-x: hidden;
     ::-webkit-scrollbar {
     width: 7px;

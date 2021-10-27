@@ -99,7 +99,7 @@ export const SetDate = ({
                         required: true
                     }}
                     render={({ field }) => (
-                        <CustomDatePicker field={field} />
+                        <CustomDatePicker minDate={Date.now()} field={field} />
                     )}
                 />
                 <p>Выберите период действия купона</p>

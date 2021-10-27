@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import ImageLazyLoad from 'components/Custom/ImageLazyLoad/ImageLazyLoad';
 import { Container, ImageBlock, Main, Submain } from './style';
 import { useTranslation } from 'react-i18next';
+import moment from 'moment';
 
 interface IProps {
     img: string
@@ -15,29 +16,38 @@ interface IProps {
     count: number,
     categoryIds: number[],
     onClick: (arg: any) => void,
-    isSelected: boolean
+    isSelected: boolean,
+    startDate?: string,
+    endDate?: string,
+    publishDate?: string
 }
 export const CouponCard = ({
-    isSelected, 
-    img, 
-    type, 
-    description, 
-    title, 
-    value, 
-    count, 
-    ageFrom, 
-    categoryIds, 
-    price, 
-    onClick}: IProps) => {
-    const isCoupon = type === 1 
+    isSelected,
+    img,
+    type,
+    description,
+    title,
+    value,
+    count,
+    ageFrom,
+    categoryIds,
+    price,
+    onClick,
+    startDate,
+    endDate,
+    publishDate }: IProps) => {
+    const isCoupon = type === 1
     const { t } = useTranslation()
     return (
         <Container isSelected={isSelected} onClick={onClick}>
             <ImageBlock>
-                <ImageLazyLoad objectFit="contain" src={img} alt=""/>
+                <ImageLazyLoad objectFit="contain" src={img} alt="" />
             </ImageBlock>
             <Main>
-                <h6>{isCoupon ? t("coupon") : t("certificate")}</h6>
+                <div>
+                    <h6>{isCoupon ? t("coupon") : t("certificate")}</h6>
+                    {(startDate && endDate) && <p>{moment(startDate).format("DD MMM")} - {moment(endDate).format("DD MMM YYYY")}</p>}
+                </div>
                 <h4>{title}</h4>
                 <p>{description}</p>
             </Main>

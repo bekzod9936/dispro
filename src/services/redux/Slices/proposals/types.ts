@@ -11,7 +11,11 @@ export interface IState {
     isError: boolean
 }
 
+export interface ISetCoupon {
+    id: number,
+    location: "drafts" | "deferred" | "onSale" | "archive" | "canceled"
 
+}
 export interface IDeferred {
     ageFrom: number,
     ageUnlimited: boolean,

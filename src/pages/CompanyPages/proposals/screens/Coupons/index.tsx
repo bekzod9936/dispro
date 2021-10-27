@@ -63,10 +63,8 @@ export interface ICoupon {
     count: string,
     currencyId: number,
     description: string,
-    endDate: string,
     image: string,
     price: string,
-    startDate: string,
     title: string,
     type: string,
     value: string
@@ -81,17 +79,14 @@ const initialData: ICoupon = {
     count: "",
     currencyId: 1,
     description: "",
-    endDate: "2021-10-30",
     image: "",
     price: "",
-    startDate: "2021-10-22",
     title: "",
     type: "1",
     value: ""
 }
 
 const Coupons = () => {
-
     const history = useHistory()
     const { t } = useTranslation()
     const [isCoupon, setIsCoupon] = React.useState<boolean>(false)
@@ -109,7 +104,7 @@ const Coupons = () => {
         time: false
     })
     const { mutate } = useMutation((data: any) => postCoupon(data))
-    const { control, handleSubmit, register, watch, setValue, formState: { errors, isValid } } = useForm({
+    const { control, handleSubmit, register, watch, formState: { errors, isValid } } = useForm({
         mode: "onChange",
         shouldFocusError: true,
         reValidateMode: "onChange",
@@ -428,8 +423,3 @@ const Coupons = () => {
 }
 
 export default Coupons
-
-
-
-
-

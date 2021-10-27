@@ -35,11 +35,22 @@ export const Main = styled.div`
     @media (max-width: 1210px) {
         width: 49%;
     }
-    h6 {
-    font-size : 14px;
-    font-weight: 400;
-    color: #223367;
-    margin-bottom: 25px;
+    div {
+        display: flex;
+        align-items: center;
+        margin-bottom: 25px;
+        h6 {
+            font-size : 14px;
+            font-weight: 400;
+            color: #223367;
+        }
+        p {
+            color: #8F8F8F;
+            font-size: 14px;
+            line-height: 16px;
+            font-weight: 500;
+            margin-left: 30px;
+        }
     }
     p {
         font-size: 14px;
