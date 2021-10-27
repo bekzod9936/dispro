@@ -3,9 +3,12 @@ export interface staffsState {
   managers: IManagers[];
   query?: string;
   allCashiers?: any;
+  allManagers?: any;
   selectedCashiers?: any;
+  selectedManagers?: any;
   openFilter: boolean;
   openCash: boolean;
+  openManager: boolean;
 }
 
 export interface ICashiers {

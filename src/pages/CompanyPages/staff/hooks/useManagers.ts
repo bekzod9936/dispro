@@ -1,7 +1,8 @@
 import { useQuery } from "react-query";
 import { getManagers, searchManagers } from "services/queries/StaffQueries";
 import { useAppDispatch } from "services/redux/hooks";
-import { setManagers } from "services/redux/Slices/staffs";
+import { setAllManager, setManagers } from "services/redux/Slices/staffs";
+import { numberWith } from "services/utils";
 
 const useManagers = ({ page, query, period }: any) => {
   const dispatch = useAppDispatch();
@@ -25,6 +26,25 @@ const useManagers = ({ page, query, period }: any) => {
       cacheTime: 50000,
       onSuccess: (data) => {
         dispatch(setManagers(data.data.data));
+        dispatch(
+          setAllManager(
+            data?.data?.data?.staffs?.map((cashier: any) => {
+              return {
+                ...cashier,
+                firstName: cashier?.firstName + " " + cashier?.lastName,
+                score: numberWith(cashier?.addInfo?.avgRating, " "),
+                avgCheque: numberWith(cashier?.addInfo?.avgCheque, " "),
+                clients: numberWith(cashier?.addInfo?.countClient, " "),
+                operations: numberWith(cashier?.addInfo?.countOperation, " "),
+                amountOperation: numberWith(
+                  cashier?.addInfo?.amountOperation,
+                  " "
+                ),
+                countRefer: numberWith(cashier?.addInfo?.countRefer, " "),
+              };
+            })
+          )
+        );
       },
     }
   );
