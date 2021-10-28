@@ -43,12 +43,13 @@ import {
   WrapLocationAddress,
   NoResult,
 } from './style';
-import Cookies from 'js-cookie';
 import partnerApi from 'services/interceptors/companyInterceptor';
 import NewCompanyNotification from './NewCompanyNotification';
 import useAddress from './useAddress';
 import useInfoPage from '../useInfoPage';
 import useLayout from 'components/Layout/useLayout';
+
+const companyId: any = localStorage.getItem('companyId');
 
 interface FormProps {
   address?: string;
@@ -120,7 +121,7 @@ const inntialWorkTime = [
 const Address = () => {
   const { t } = useTranslation();
   const { responseAddress, dataAddress, responseMain } = useAddress();
-  const { resHeader } = useLayout();
+  const { resHeader } = useLayout({ id: companyId });
   const { response, data } = useInfoPage();
 
   const [fillial, setFillial] = useState<any[]>([]);
@@ -385,13 +386,13 @@ const Address = () => {
         setOpen(true);
         yandexRef?.setCenter([41.32847446609404, 69.24298268717716], 10);
         setPlace(['', '']);
-        if (Cookies.get('compnayState') === 'new') {
-          Cookies.set('compnayState', 'old');
-          setNewComp(true);
-        }
       },
     }
   );
+
+  const mainPost = useMutation((v: any) => {
+    return partnerApi.put(`/directory/company/address`, v);
+  });
 
   useEffect(() => {
     setFillial(dataAddress);
@@ -400,8 +401,6 @@ const Address = () => {
     });
     setPalceOptions(newArr);
   }, [dataAddress]);
-
-  const companyId: any = localStorage.getItem('companyId');
 
   const handleSubmitPut = (e: any) => {
     const values = {
@@ -424,7 +423,6 @@ const Address = () => {
   };
 
   const handleSubmitPost = (e: any) => {
-    console.log(e);
     const values = {
       address: e.address,
       addressDesc: e.addressDesc,
@@ -439,7 +437,16 @@ const Address = () => {
     if (data.filledAddress) {
       addressPost.mutate({ ...values, name: e.name });
     } else {
-      mainPut.mutate(values);
+      mainPost.mutateAsync(values).then((data) => {
+        console.log(data);
+        resHeader.refetch();
+        response.refetch();
+        responseAddress.refetch();
+        setOpen(true);
+        yandexRef?.setCenter([41.32847446609404, 69.24298268717716], 10);
+        setPlace(['', '']);
+        setNewComp(true);
+      });
     }
   };
 

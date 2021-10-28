@@ -1,17 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Popover from '../../Custom/Popover';
-import { useAppDispatch, useAppSelector } from '../../../services/redux/hooks';
+import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import Button from '../../Custom/Button';
 import { useHistory } from 'react-router';
 import Modal from '../../Custom/Modal';
-import LogoDef from '../../../assets/icons/SideBar/logodefault.png';
+import LogoDef from 'assets/icons/SideBar/logodefault.png';
 import { IconButton } from '@material-ui/core';
 import Input from '../../Custom/Input';
 import LangSelect from '../../LangSelect';
-import Logo from '../../../assets/icons/SideBar/logo.png';
-import Cookies from 'js-cookie';
-import { setCompanyInfo } from '../../../services/redux/Slices/partnerSlice';
+import Logo from 'assets/icons/SideBar/logo.png';
+import { setCompanyInfo } from 'services/redux/Slices/partnerSlice';
 import useLayout from '../useLayout';
 import { setSocket } from 'services/redux/Slices/feedback';
 import { SOCKET_EVENT } from 'services/constants/chat';
@@ -55,11 +54,12 @@ import {
 const io = require('socket.io-client');
 
 const companyToken = localStorage.getItem('companyToken');
+const companyId = localStorage.getItem('companyId');
 
 const Header = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const { headerData } = useLayout();
+  const { headerData } = useLayout({ id: companyId });
   const history = useHistory();
   const [open, setOpen] = useState(false);
 
@@ -67,11 +67,7 @@ const Header = () => {
   const socket = useAppSelector((state) => state.feedbackPost.socket);
 
   useEffect(() => {
-    if (
-      Cookies.get('companyState') !== 'new' &&
-      headerData.filled &&
-      headerData.filledAddress
-    ) {
+    if (headerData.filled && headerData.filledAddress) {
       const socket = io(
         `${process.env.REACT_APP_WEBSOCKET_URL}/nsp_staff_svdfv8732f5rycf76f8732rvuy23cfi77c3u6fr2387frv8237vfidu23vf2vdd7324df4`,
         {
@@ -91,22 +87,11 @@ const Header = () => {
       });
       dispatch(setSocket(socket));
     }
-  }, [
-    Cookies.get('companyState'),
-    headerData.filled,
-    headerData.filledAddress,
-  ]);
+  }, [headerData.filled, headerData.filledAddress]);
 
   return (
     <>
-      {Cookies.get('compnayState') === 'new' ||
-      !headerData?.filled ||
-      !headerData?.filledAddress ? (
-        <Wrarning>
-          <WranningIcon />
-          {t('newcompanywarning')}
-        </Wrarning>
-      ) : (
+      {headerData?.filled && headerData?.filledAddress ? (
         <Container>
           <WrapLogo>
             <LogoIcon src={Logo} alt='logo' />
@@ -136,7 +121,6 @@ const Header = () => {
                 IconStart={<SearchIcon />}
               />
             </WrapInput>
-
             <Wrap>
               <DepositIcon />
               <Title>
@@ -163,7 +147,6 @@ const Header = () => {
             <WrapLang>
               <LangSelect border='1px solid #F0F0F0' />
             </WrapLang>
-
             <Popover
               click={
                 <Button
@@ -236,8 +219,12 @@ const Header = () => {
                 <WrapLang mobile={true}>
                   <LangSelect border='1px solid #F0F0F0' />
                 </WrapLang>
-                <Link href='/'>{t('policy')}</Link>
-                <Link href='/'>{t('conditions')}</Link>
+                <Link href='/privacy-policy' target='_blank'>
+                  {t('policy')}
+                </Link>
+                <Link href='/terms-and-conditions' target='_blank'>
+                  {t('conditions')}
+                </Link>
                 <Button
                   buttonStyle={{
                     bgcolor: 'white',
@@ -294,6 +281,11 @@ const Header = () => {
             </Popover>
           </Wrapper>
         </Container>
+      ) : (
+        <Wrarning>
+          <WranningIcon />
+          {t('newcompanywarning')}
+        </Wrarning>
       )}
     </>
   );
