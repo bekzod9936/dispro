@@ -12,6 +12,7 @@ const initialState: staffsState = {
   openFilter: false,
   openCash: false,
   openManager: false,
+  summaOperations: 0,
 };
 
 const staffsSlice = createSlice({
@@ -48,6 +49,9 @@ const staffsSlice = createSlice({
     setOpenManager: (state, action: any) => {
       state.openManager = action.payload;
     },
+    setSummaOperations: (state, action: any) => {
+      state.summaOperations = action.payload;
+    },
   },
 });
 
@@ -62,5 +66,6 @@ export const {
   setOpenManager,
   setSelectedManagers,
   setAllManager,
+  setSummaOperations,
 } = staffsSlice.actions;
 export default staffsSlice.reducer;

@@ -104,7 +104,9 @@ const CashierTable = ({ cashiers }: IProps) => {
                   <Th>
                     <MCheckbox>
                       <Checkbox
-                        checked={selectedCashiers.length === allCashier.length}
+                        checked={
+                          selectedCashiers?.length === allCashier?.length
+                        }
                         onChange={(e) => {
                           setChecked(e.target.checked);
                           if (e.target.checked) {

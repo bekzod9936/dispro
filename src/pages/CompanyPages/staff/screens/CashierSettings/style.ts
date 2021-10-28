@@ -42,7 +42,7 @@ export const CashierBody = styled.div`
 
 export const Break = styled.div`
   width: ${({ width }: IBreak) => width + "px"};
-  height: ${({ height }: IBreak) => height + "px"};
+  margin-top: ${({ height }: IBreak) => height + "px"};
 `;
 
 export const SettingRow = styled.div`
@@ -89,8 +89,21 @@ export const UpSide = styled.div`
   flex-direction: column;
   justify-content: space-between;
   height: 85%;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
+  scroll-behavior: auto;
+
+  ::-webkit-scrollbar {
+    width: 7px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #606eea;
+    border-radius: 14px;
+  }
 `;
 
 export const DownSide = styled.div`

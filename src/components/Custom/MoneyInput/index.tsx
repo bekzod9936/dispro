@@ -61,20 +61,6 @@ const MFormatInput = ({ onChange = () => {}, ...props }: MProps) => {
           value: props.value?.textmask,
           defaultValue: props.defaultValue,
           onChange: (e: any) => onChange(e),
-          // {
-          //   let val = e.target.value.split(" ").join("");
-          //   if (parseInt(val) <= 100) {
-          //     onChange(e);
-          //   } else {
-          //     onChange({
-          //       ...e,
-          //       target: {
-          //         ...e["target"],
-          //         value: "100",
-          //       },
-          //     });
-          //   }
-          // },
           startAdornment: props.IconStart ? (
             <Adornment position="start">{props.IconStart}</Adornment>
           ) : null,

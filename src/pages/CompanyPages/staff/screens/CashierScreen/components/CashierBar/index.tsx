@@ -142,7 +142,9 @@ const CashierBar = () => {
           <UpSide>
             <CashierRow>
               <CashierCol>
-                <BarNormalText>Выбрано {selectedCashiers.length}</BarNormalText>
+                <BarNormalText>
+                  Выбрано {selectedCashiers?.length}
+                </BarNormalText>
               </CashierCol>
               <CashierCol>
                 <RippleEffect

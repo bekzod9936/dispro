@@ -14,6 +14,7 @@ import {
   UpSide,
   DownSide,
 } from "./style";
+import { useAppSelector } from "services/redux/hooks";
 import { SaveIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
 import { ReactComponent as ArrowBack } from "assets/icons/arrow_back.svg";
 import RippleEffect from "components/Custom/RippleEffect";
@@ -22,11 +23,15 @@ import CustomToggle from "components/Custom/CustomToggleSwitch";
 import MFormatInput from "components/Custom/MoneyInput";
 import Input from "components/Custom/Input";
 import useCashierSetting, { IForm } from "../../hooks/useCashierSetting";
-import { numberWith } from "services/utils";
+// import { numberWith } from "services/utils";
 import Button from "components/Custom/Button";
 
 const CashierSetting = () => {
+  const companyId: any = localStorage.getItem("companyId");
+
   const { t } = useTranslation();
+  const summaOp = useAppSelector((state) => state.staffs.summaOperations);
+
   const {
     handleSubmit,
     ballCheck,
@@ -35,18 +40,60 @@ const CashierSetting = () => {
     recommendCheck,
     ballUzs,
     ballPoint,
+    changeLoyality,
   } = useCashierSetting();
   const location = useLocation();
   const history = useHistory();
 
-  console.log(
-    ballPoint.toString(),
-    ballUzs.toString(),
-    "=== balls settings ==="
-  );
+  console.log(summaOp, "=== summa settings ===");
 
   const onSave = (data: IForm) => {
-    console.log(data);
+    console.log(data, "forma");
+    changeLoyality.mutate({
+      companyId: companyId,
+      rewards: [
+        {
+          isActive: ballCheck,
+          rewardType: 5,
+          amount: data.ballPoint,
+          levels: [],
+        },
+        {
+          isActive: additionalCheck,
+          rewardType: 6,
+          amount: data.ballUzs,
+          levels: [
+            {
+              requirements: [
+                {
+                  type: 1,
+                  amount: data.summaOperations?.toString()?.split(" ").join(""),
+                  unit: "UZS",
+                  condition: "or",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          isActive: additionalCheck,
+          rewardType: 7,
+          amount: data.referBallUzs?.toString()?.split(" ").join(""),
+          levels: [
+            {
+              requirements: [
+                {
+                  type: 1,
+                  amount: data.countRefer?.toString()?.split(" ").join(""),
+                  unit: "шт.",
+                  condition: "or",
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
   };
 
   const prevPage: any = location.state;
@@ -90,7 +137,7 @@ const CashierSetting = () => {
             <SettingRow>
               <Controller
                 name="ballPoint"
-                defaultValue={ballPoint.toString()}
+                defaultValue={ballPoint?.toString()}
                 control={control}
                 render={({ field }) => {
                   return (
@@ -98,11 +145,8 @@ const CashierSetting = () => {
                       label={"Размер вознаграждения %"}
                       disabled={!ballCheck}
                       type="string"
-                      defaultValue={ballPoint.toString()}
-                      // {...field}
-                      // onChange={(e: any) => {
-                      //   field.onChange(e.target.value);
-                      // }}
+                      defaultValue={ballPoint?.toString()}
+                      field={field}
                       fullWidth={true}
                       maxLength={3}
                       width={{
@@ -146,17 +190,16 @@ const CashierSetting = () => {
                 <Controller
                   control={control}
                   name="ballUzs"
-                  defaultValue={ballUzs.toString()}
+                  defaultValue={ballUzs}
                   render={({ field }) => {
                     return (
                       <Input
                         label={"Размер вознаграждения UZS"}
                         disabled={!additionalCheck}
-                        defaultValue={ballUzs.toString()}
+                        defaultValue={ballUzs}
                         type="string"
                         fullWidth={true}
-                        // {...field}
-                        // onChange={(e: any) => field.onChange(e.target.value)}
+                        field={field}
                         width={{
                           width: "100%",
                         }}
@@ -172,17 +215,18 @@ const CashierSetting = () => {
                 <Controller
                   control={control}
                   name="summaOperations"
+                  defaultValue={summaOp}
                   render={({ field }) => {
                     return (
                       <MFormatInput
                         label={"Сумма опреации"}
                         disabled={!additionalCheck}
-                        //   defaultValue={numberWith(item?.percent, " ")}
                         type="string"
+                        defaultValue={summaOp}
+                        field={field}
+                        // {...field}
+                        // onChange={(e: any) => field.onChange(e)}
                         fullWidth={true}
-                        {...field}
-                        value={field?.value?.textmask}
-                        onChange={(e: any) => field.onChange(e.target.value)}
                         width={{
                           width: "100%",
                         }}
@@ -225,15 +269,15 @@ const CashierSetting = () => {
                   name="referBallUzs"
                   render={({ field }) => {
                     return (
-                      <MFormatInput
+                      <Input
                         label={"Размер вознаграждения UZS"}
                         disabled={!recommendCheck}
-                        //   defaultValue={numberWith(item?.percent, " ")}
+                        defaultValue="0"
                         type="string"
                         fullWidth={true}
+                        // field={field}
                         {...field}
-                        value={field?.value?.textmask}
-                        onChange={(e: any) => field.onChange(e.target.value)}
+                        onChange={(e: any) => field.onChange(e)}
                         width={{
                           width: "100%",
                         }}
@@ -251,15 +295,16 @@ const CashierSetting = () => {
                   name="countRefer"
                   render={({ field }) => {
                     return (
-                      <MFormatInput
+                      <Input
                         label={"Количество рекомендаций"}
                         disabled={!recommendCheck}
                         //   defaultValue={numberWith(item?.percent, " ")}
                         type="string"
                         fullWidth={true}
-                        {...field}
-                        value={field?.value?.textmask}
-                        onChange={(e: any) => field.onChange(e.target.value)}
+                        field={field}
+                        defaultValue="0"
+                        // {...field}
+                        // onChange={(e: any) => field.onChange(e.target.value)}
                         width={{
                           width: "100%",
                         }}

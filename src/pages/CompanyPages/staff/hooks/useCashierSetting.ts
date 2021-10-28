@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { useQuery } from "react-query";
+import { useQuery, useMutation } from "react-query";
 import { fetchRewards } from "services/queries/PartnerQueries";
+import { changeLoyal } from "services/queries/StaffQueries";
+import { useAppDispatch } from "services/redux/hooks";
+import { setSummaOperations } from "services/redux/Slices/staffs";
 
 export interface IForm {
   ballCheck: boolean;
@@ -10,15 +13,15 @@ export interface IForm {
   ballPoint?: any;
   summaOperations?: any;
   ballUzs?: any;
-  referBallUzs?: any;
-  countRefer?: any;
+  referBallUzs: any;
+  countRefer: any;
 }
 
 const useCashierSetting = () => {
-  const companyId: any = localStorage.getItem("companyId");
-  const [reward, setRewards] = useState([]);
-  const [ballPoint, setBallPoint] = useState<any>("");
-  const [ballUzs, setBallUzs] = useState<any>("");
+  const dispatch = useAppDispatch();
+  const [ballPoint, setBallPoint] = useState<any>();
+  const [ballUzs, setBallUzs] = useState<any>();
+
   const { control, handleSubmit, setValue } = useForm<IForm>();
 
   const ballCheck = useWatch({
@@ -36,6 +39,16 @@ const useCashierSetting = () => {
     name: "recommendCheck",
   });
 
+  //change settings
+  const changeLoyality = useMutation((data: any) => changeLoyal(data), {
+    onSuccess: (data) => {
+      console.log(data, "data");
+    },
+    onError: (error) => {
+      console.log(error, "error");
+    },
+  });
+
   //   fetch rewards
   useQuery(
     ["rewardsCashier"],
@@ -47,23 +60,40 @@ const useCashierSetting = () => {
       refetchOnWindowFocus: false,
       onSuccess: (data) => {
         data.data.data.rewards.forEach((element: any) => {
-          if (element.rewardType === 5) {
+          if (element.rewardType === 5 && element?.userType === 3) {
             setValue("ballCheck", element.isActive);
           }
-          // if (element.rewardType === 2) {
-          //   setValue("recommendCheck", element.isActive);
-          // }
-          if (element.rewardType === 6) {
+          if (element.rewardType === 7 && element?.userType === 3) {
+            setValue("recommendCheck", element.isActive);
+          }
+          if (element.rewardType === 6 && element?.userType === 3) {
             setValue("additionalCheck", element.isActive);
           }
         });
         let result = data?.data?.data?.rewards;
-        let forFirst = result.find((item: any) => item?.rewardType === 5);
-        let forSecond = result.find((item: any) => item?.rewardType === 6);
+        let forFirst = result.find(
+          (item: any) => item?.rewardType === 5 && item?.userType === 3
+        );
+        let forSecond = result.find(
+          (item: any) => item?.rewardType === 6 && item?.userType === 3
+        );
 
-        // setValue("ballPoint", forFirst?.amount);
-        // setValue("ballUzs", forSecond?.amount);
+        let forThird = result.find(
+          (item: any) => item?.rewardType === 7 && item?.userType === 3
+        );
 
+        setValue("ballPoint", forFirst?.amount);
+        setValue("ballUzs", forSecond?.amount);
+        setValue(
+          "summaOperations",
+          forSecond?.levels[0]?.requirements[0]?.amount
+        );
+        setValue("referBallUzs", forThird?.amount);
+        setValue("countRefer", forThird?.levels[0]?.requirements[0]?.amount);
+
+        dispatch(
+          setSummaOperations(forSecond?.levels[0]?.requirements[0]?.amount)
+        );
         setBallPoint(forFirst?.amount);
         setBallUzs(forSecond?.amount);
       },
@@ -79,6 +109,7 @@ const useCashierSetting = () => {
     control,
     ballPoint,
     ballUzs,
+    changeLoyality,
   };
 };
 

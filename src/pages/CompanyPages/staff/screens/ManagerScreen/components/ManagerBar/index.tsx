@@ -148,7 +148,9 @@ const ManagerBar = () => {
           <UpSide>
             <ManagerRow>
               <ManagerCol>
-                <BarNormalText>Выбрано {selectedManagers.length}</BarNormalText>
+                <BarNormalText>
+                  Выбрано {selectedManagers?.length}
+                </BarNormalText>
               </ManagerCol>
               <ManagerCol>
                 <RippleEffect
