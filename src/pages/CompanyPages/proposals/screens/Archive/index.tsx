@@ -13,6 +13,7 @@ import { RootState } from "services/redux/store"
 import { IDeferred } from "services/redux/Slices/proposals/types"
 import { CouponCard } from "../../components/CouponCard"
 import { EmptyPage } from "../Drafts/components/EmptyPage"
+import { Container } from "../Drafts/style"
 
 const Archive = () => {
     const [open, setOpen] = React.useState(false)
@@ -50,24 +51,26 @@ const Archive = () => {
                 margin={{ laptop: "0 0 20px 0" }}
                 inputStyle={{ border: "none" }}
                 width={{ maxwidth: 500, width: "100%" }} />
-            {isFetching ? <Spinner /> : archive.map((el: IDeferred) => (
-                <CouponCard
-                    stats={el.stat}
-                    isSelected={currentCoupon.id === el.id}
-                    onClick={() => handleOpen(el.id)}
-                    key={el.id}
-                    img={el.image}
-                    title={el.title}
-                    ageFrom={el.ageFrom}
-                    type={el.type}
-                    categoryIds={el.categoryIds}
-                    description={el.description}
-                    price={el.price}
-                    value={el.value}
-                    count={el.count}
-                />
-            ))}
-            {!archive.length && <EmptyPage />}
+            <Container>
+                {isFetching ? <Spinner /> : archive.map((el: IDeferred) => (
+                    <CouponCard
+                        stats={el.stat}
+                        isSelected={currentCoupon.id === el.id}
+                        onClick={() => handleOpen(el.id)}
+                        key={el.id}
+                        img={el.image}
+                        title={el.title}
+                        ageFrom={el.ageFrom}
+                        type={el.type}
+                        categoryIds={el.categoryIds}
+                        description={el.description}
+                        price={el.price}
+                        value={el.value}
+                        count={el.count}
+                    />
+                ))}
+                {!archive.length && <EmptyPage />}
+            </Container>
         </Wrapper>
     )
 }

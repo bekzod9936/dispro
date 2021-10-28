@@ -13,6 +13,7 @@ import Spinner from 'components/Helpers/Spinner'
 import { IDeferred } from 'services/redux/Slices/proposals/types'
 import { CouponCard } from '../../components/CouponCard'
 import { EmptyPage } from '../Drafts/components/EmptyPage'
+import { Container } from '../Drafts/style'
 const Canceled = () => {
     const dispatch = useAppDispatch()
     const { currentCoupon, canceled } = useAppSelector((state: RootState) => state.proposals)
@@ -34,7 +35,12 @@ const Canceled = () => {
     return (
         <Wrapper>
             <SideBar maxWidth="370px" isOpen={open}>
-                <CouponBar canceled refetch={refetch} resetCoupon={handleReset} currentCoupon={currentCoupon} onClose={setOpen} />
+                <CouponBar
+                    canceled
+                    refetch={refetch}
+                    resetCoupon={handleReset}
+                    currentCoupon={currentCoupon}
+                    onClose={setOpen} />
             </SideBar>
             <Input
                 value={value}
@@ -44,24 +50,26 @@ const Canceled = () => {
                 margin={{ laptop: "0 0 20px 0" }}
                 inputStyle={{ border: "none" }}
                 width={{ maxwidth: 500, width: "100%" }} />
-            {isFetching ? <Spinner /> : canceled.map((el: IDeferred) => (
-                <CouponCard
-                    stats={el.stat}
-                    isSelected={currentCoupon.id === el.id}
-                    onClick={() => handleOpen(el.id)}
-                    key={el.id}
-                    img={el.image}
-                    title={el.title}
-                    ageFrom={el.ageFrom}
-                    type={el.type}
-                    categoryIds={el.categoryIds}
-                    description={el.description}
-                    price={el.price}
-                    value={el.value}
-                    count={el.count}
-                />
-            ))}
-            {!canceled.length && <EmptyPage />}
+            <Container>
+                {isFetching ? <Spinner /> : canceled.map((el: IDeferred) => (
+                    <CouponCard
+                        stats={el.stat}
+                        isSelected={currentCoupon.id === el.id}
+                        onClick={() => handleOpen(el.id)}
+                        key={el.id}
+                        img={el.image}
+                        title={el.title}
+                        ageFrom={el.ageFrom}
+                        type={el.type}
+                        categoryIds={el.categoryIds}
+                        description={el.description}
+                        price={el.price}
+                        value={el.value}
+                        count={el.count}
+                    />
+                ))}
+                {!canceled.length && <EmptyPage />}
+            </Container>
         </Wrapper>
     )
 }

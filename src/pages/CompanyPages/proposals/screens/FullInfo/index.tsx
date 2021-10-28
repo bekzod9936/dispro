@@ -6,19 +6,19 @@ import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router'
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks'
 import { RootState } from 'services/redux/store'
+import { useFetchCategories } from '../UpdateCoupon/useFetchCategories'
 import { Wrapper, Container, Right, Left } from './style'
 
 const FullInfoPage = () => {
     const { currentCoupon } = useAppSelector((state: RootState) => state.proposals)
-    const dispatch = useAppDispatch()
     const { t } = useTranslation()
     const isCoupon = currentCoupon.type === 1
     const { goBack } = useHistory()
-
+    const [{ defaults }, setCategories] = React.useState<any>({ defaults: [] })
     const handleBack = () => {
         goBack()
     }
-    
+    const _ = useFetchCategories(setCategories, currentCoupon.categoryIds)
     return (
         <Wrapper>
             <div
@@ -31,8 +31,8 @@ const FullInfoPage = () => {
             <Container>
                 <Right>
                     <h5>Фотография</h5>
-                    <div style={{ width: 270, margin: "0 0 25px 0" }}>
-                        <ImageLazyLoad objectFit="contain" alt="" src={currentCoupon.image} />
+                    <div style={{ width: 345, height: 175, margin: "0 0 25px 0", borderRadius: "14px !important", overflow: "hidden" }}>
+                        <ImageLazyLoad objectFit="cover" alt="" src={currentCoupon.image} />
                     </div>
                     <h6>Название</h6>
                     <p>{currentCoupon.title}</p>
@@ -44,8 +44,8 @@ const FullInfoPage = () => {
                     <p>{isCoupon ? t("coupon_value") : t("certificate_value")}: {currentCoupon.value} {isCoupon ? "%" : "Сум"}</p>
                     <p>{isCoupon ? t("coupon_amount") : t("certificate_amount")}: {currentCoupon.count} шт</p>
                     <p>{isCoupon ? t("coupon_price") : t("certificate_price")}: {currentCoupon.price} Сум</p>
-                    <p>{t("categories")}: {currentCoupon.categoryIds.map((el: number) => (
-                        <span>{el}</span>
+                    <p>{t("categories")}: {defaults?.map((el: any, index: number) => (
+                        <span>{el.label}{index < defaults?.length - 1 ? ", " : "."}</span>
                     ))}</p>
                     {!!currentCoupon.ageFrom && <p>{t("age_limit")}: +{currentCoupon.ageFrom}</p>}
                 </Left>

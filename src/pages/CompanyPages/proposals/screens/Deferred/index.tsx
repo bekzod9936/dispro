@@ -13,6 +13,7 @@ import { resetCurrentCoupon, setCurrentCoupon } from 'services/redux/Slices/prop
 import { SideBar } from 'pages/CompanyPages/clients/components/SideBar'
 import { CouponBar } from '../../components/CouponSideBar'
 import { EmptyPage } from '../Drafts/components/EmptyPage'
+import { Container } from '../Drafts/style'
 
 const Deferred = () => {
     const dispatch = useAppDispatch()
@@ -48,25 +49,27 @@ const Deferred = () => {
                 margin={{ laptop: "0 0 20px 0" }}
                 inputStyle={{ border: "none" }}
                 width={{ maxwidth: 500, width: "100%" }} />
-            {isFetching ? <Spinner /> : deferred.map((el: IDeferred) => (
-                <CouponCard
-                    startDate={el.startDate}
-                    endDate={el.endDate}
-                    isSelected={currentCoupon.id === el.id}
-                    onClick={() => handleOpen(el.id)}
-                    key={el.id}
-                    img={el.image}
-                    title={el.title}
-                    ageFrom={el.ageFrom}
-                    type={el.type}
-                    categoryIds={el.categoryIds}
-                    description={el.description}
-                    price={el.price}
-                    value={el.value}
-                    count={el.count}
-                />
-            ))}
-            {!deferred.length && <EmptyPage />}
+            <Container>
+                {isFetching ? <Spinner /> : deferred.map((el: IDeferred) => (
+                    <CouponCard
+                        startDate={el.startDate}
+                        endDate={el.endDate}
+                        isSelected={currentCoupon.id === el.id}
+                        onClick={() => handleOpen(el.id)}
+                        key={el.id}
+                        img={el.image}
+                        title={el.title}
+                        ageFrom={el.ageFrom}
+                        type={el.type}
+                        categoryIds={el.categoryIds}
+                        description={el.description}
+                        price={el.price}
+                        value={el.value}
+                        count={el.count}
+                    />
+                ))}
+                {!deferred.length && <EmptyPage />}
+            </Container>
         </Wrapper>
     )
 }

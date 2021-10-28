@@ -8,12 +8,12 @@ import { useHistory } from 'react-router'
 import { deleteCoupon, putCoupon } from 'services/queries/ProposalsQueries'
 import { IDeferred } from 'services/redux/Slices/proposals/types'
 import { SetDate } from '../../screens/Coupons/components/SetDate'
-import { categories } from '../../screens/Coupons/constants'
 import { Wrapper, Header, DeleteModal, Content, Preview, PreviewContent } from './style'
 import iphone from "assets/images/iphone.png"
 import { useAppSelector } from 'services/redux/hooks'
 import { RootState } from 'services/redux/store'
 import { useTranslation } from 'react-i18next'
+import { useFetchCategories } from '../../screens/UpdateCoupon/useFetchCategories'
 interface IProps {
     onClose: (arg: boolean) => void,
     currentCoupon: IDeferred,
@@ -30,6 +30,7 @@ export const CouponBar = ({
     resetCoupon,
     canceled,
     refetch }: IProps) => {
+    console.log(currentCoupon);
 
     const isCoupon = currentCoupon.type === 1
     const history = useHistory()
@@ -37,6 +38,7 @@ export const CouponBar = ({
     const [isDeleteOpen, setDeleteOpen] = React.useState<boolean>(false)
     const [isPublishOpen, setPublisOpen] = React.useState<boolean>(false)
     const { logo, name } = useAppSelector((state: RootState) => state.partner.companyInfo)
+    const [categories, setCategories] = React.useState<any>()
     const handleClose = () => {
         onClose(false)
         resetCoupon()
@@ -50,7 +52,7 @@ export const CouponBar = ({
             history.push("/proposals/update_certificate")
         }
     }
-
+    const _ = useFetchCategories(setCategories, currentCoupon.categoryIds)
     const handleRePublish = () => {
         if (isCoupon) {
             history.push("/proposals/create_republishcoupon")
@@ -58,6 +60,7 @@ export const CouponBar = ({
             history.push("/proposals/create_republishcertificate")
         }
     }
+
     const onDelete = async () => {
         await deleteCoupon(currentCoupon.id)
         refetch()
@@ -96,11 +99,6 @@ export const CouponBar = ({
                 <p>{isCoupon ? "Скидка Купона" : "Сумма Сертификата"}: {currentCoupon.value} {isCoupon ? "%" : "Сум"}</p>
                 <p>Количество {isCoupon ? "купонов" : "сертификатов"}: {currentCoupon.count} шт</p>
                 <p>Стоимость {isCoupon ? "купона" : "сертификата"}: {currentCoupon.price} Сум</p>
-                {currentCoupon?.categoryIds?.length !== 0 && <p>Категория: {currentCoupon?.categoryIds?.map((el: number) => {
-                    return (
-                        <span>{categories[el - 1]?.label}{el < categories.length ? ", " : "."}</span>
-                    )
-                })}</p>}
                 <p>Возрастное ограничение: {currentCoupon.ageUnlimited ? "Нет" : currentCoupon.ageFrom + "+"}</p>
             </Content>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-end" }}>
