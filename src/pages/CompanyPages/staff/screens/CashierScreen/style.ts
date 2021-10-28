@@ -25,6 +25,12 @@ export const ModalContent = styled.div`
   overflow-y: auto;
 `;
 
+export const ModalMain = styled.div`
+  padding: 30px 40px;
+  overflow-y: auto;
+  width: 580px;
+`;
+
 export const ModalBody = styled.div`
   display: flex;
   flex-direction: column;

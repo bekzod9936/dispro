@@ -13,6 +13,7 @@ import { IDeferred } from 'services/redux/Slices/proposals/types'
 import { CouponCard } from '../../components/CouponCard'
 import { resetCurrentCoupon, setCurrentCoupon } from 'services/redux/Slices/proposals/proposals'
 import { EmptyPage } from '../Drafts/components/EmptyPage'
+import { Container } from '../Drafts/style'
 
 
 const OnSale = () => {
@@ -54,26 +55,28 @@ const OnSale = () => {
                 margin={{ laptop: "0 0 20px 0" }}
                 inputStyle={{ border: "none" }}
                 width={{ maxwidth: 500, width: "100%" }} />
-            {isFetching ? <Spinner /> : onSale.map((el: IDeferred) => (
-                <CouponCard
-                    stats={el.stat}
-                    isSelected={currentCoupon.id === el.id}
-                    onClick={() => handleOpen(el.id)}
-                    startDate={el.startDate}
-                    endDate={el.endDate}
-                    key={el.id}
-                    img={el.image}
-                    title={el.title}
-                    ageFrom={el.ageFrom}
-                    type={el.type}
-                    categoryIds={el.categoryIds}
-                    description={el.description}
-                    price={el.price}
-                    value={el.value}
-                    count={el.count}
-                />
-            ))}
-            {!onSale.length && <EmptyPage />}
+            <Container>
+                {isFetching ? <Spinner /> : onSale.map((el: IDeferred) => (
+                    <CouponCard
+                        stats={el.stat}
+                        isSelected={currentCoupon.id === el.id}
+                        onClick={() => handleOpen(el.id)}
+                        startDate={el.startDate}
+                        endDate={el.endDate}
+                        key={el.id}
+                        img={el.image}
+                        title={el.title}
+                        ageFrom={el.ageFrom}
+                        type={el.type}
+                        categoryIds={el.categoryIds}
+                        description={el.description}
+                        price={el.price}
+                        value={el.value}
+                        count={el.count}
+                    />
+                ))}
+                {!onSale.length && <EmptyPage />}
+            </Container>
         </Wrapper>
     )
 }

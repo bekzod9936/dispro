@@ -37,15 +37,36 @@ export const getBranches = () => {
 //managers tab
 
 export const getManagers = async (page: number, url: string) => {
-  const response = await partnerApi(
+  const response = await partnerApi.get(
     `/core/staffs/get/managers?page=${page}&perPage=5&${url}`
   );
   return response;
 };
 
 export const searchManagers = async (queryString: string) => {
-  const response = await partnerApi(
+  const response = await partnerApi.get(
     `/core/staffs/get/managers?perPage=10&key=${queryString}`
   );
+  return response;
+};
+
+//change loyal
+export const changeLoyal = async (data: any) => {
+  const response = await partnerApi.post(`/bonus/rewards/cashier`, data);
+
+  return response;
+};
+
+//role manager
+
+export const getRoleManager = async (id: string | number) => {
+  const response = await partnerApi.get(`/core/staffs/permissions/${id}`);
+
+  return response;
+};
+
+export const setRoleManager = async (data: any) => {
+  const response = await partnerApi.put(`/core/staffs/permissions/${data.id}`);
+
   return response;
 };

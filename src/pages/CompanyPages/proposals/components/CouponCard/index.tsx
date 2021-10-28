@@ -4,6 +4,7 @@ import ImageLazyLoad from 'components/Custom/ImageLazyLoad/ImageLazyLoad';
 import { Container, ImageBlock, Main, Stats, Submain } from './style';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment';
+import { useFetchCategories } from '../../screens/UpdateCoupon/useFetchCategories';
 
 interface IProps {
     img: string
@@ -42,7 +43,8 @@ export const CouponCard = ({
 
     const isCoupon = type === 1
     const { t } = useTranslation()
-
+    const [categories, setCategories] = React.useState<any>()
+    const _ = useFetchCategories(setCategories, categoryIds)
 
     const getPercentage = (total: number, value: number) => {
         if (value === 0) return 0
@@ -68,8 +70,8 @@ export const CouponCard = ({
                 <p>{isCoupon ? t("coupon_value") : t("certificate_value")}: {value} {isCoupon ? "%" : "Сум"}</p>
                 <p>{isCoupon ? t("coupon_amount") : t("certificate_amount")}: {count} шт</p>
                 <p>{isCoupon ? t("coupon_price") : t("certificate_price")}: {price} Сум</p>
-                <p>{t("categories")}: {categoryIds.map((el: number) => (
-                    <span>{el}</span>
+                <p>{t("categories")}: {categories?.defaults?.map((el: any, index: number) => (
+                    <span>{el.label}{index < categories?.defaults?.length - 1 ? ", " : "."}</span>
                 ))}</p>
                 {!!ageFrom && <p>{t("age_limit")}: +{ageFrom}</p>}
             </Submain>

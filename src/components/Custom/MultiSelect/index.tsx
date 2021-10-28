@@ -9,7 +9,7 @@ export interface Props {
   isClearable?: boolean;
   isSearchable?: boolean;
   name?: string;
-  options?: { value?: any; label?: any }[];
+  options?: { value?: any; label?: any, name?: any }[];
   isMulti?: boolean;
   error?: boolean;
   autoFocus?: boolean;
@@ -95,8 +95,8 @@ const MultiSelect = ({ iconmargin, ...props }: Props) => {
       border: props.error
         ? "1px solid #FF5E68"
         : props.selectStyle?.border
-        ? props.selectStyle?.border
-        : "1px solid #C2C2C2",
+          ? props.selectStyle?.border
+          : "1px solid #C2C2C2",
 
       boxShadow: "none",
       "&:hover": {
@@ -112,8 +112,8 @@ const MultiSelect = ({ iconmargin, ...props }: Props) => {
         props.selectStyle?.radius === 0
           ? 0
           : props.selectStyle?.radius
-          ? `${props.selectStyle?.radius}px`
-          : "14px",
+            ? `${props.selectStyle?.radius}px`
+            : "14px",
     }),
     option: (base: any, state: any) => {
       return {
@@ -146,6 +146,8 @@ const MultiSelect = ({ iconmargin, ...props }: Props) => {
         components={{ DropdownIndicator }}
         inputId={props.label}
         inputStyle={props.selectStyle}
+        defaultValue={props.defaultValue}
+        value={props.defaultValue}
         {...props}
         {...props.field}
         placeholder={props.placeholder ? props.placeholder : ""}

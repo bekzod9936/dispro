@@ -39,14 +39,16 @@ import { updateCoupon, postCoupon } from 'services/queries/ProposalsQueries'
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks'
 import { RootState } from 'services/redux/store'
 import { resetCurrentCoupon } from 'services/redux/Slices/proposals/proposals'
-import { categories, days } from '../Coupons/constants'
+import { days } from '../Coupons/constants'
 import ImageLazyLoad from 'components/Custom/ImageLazyLoad/ImageLazyLoad'
-import { useUploadImage } from '../Coupons/useUploadIMage'
+import { useUploadImage } from '../Coupons/hooks/useUploadIMage'
 import { PreviewModal } from '../../components/PreviewModal'
 import { PreviewMessage } from '../Coupons/style'
 import { SetDate } from '../Coupons/components/SetDate'
 import Modal from 'components/Custom/Modal'
-
+import { getDefaultCategories } from '../../utils/getValidDate'
+import Select from "react-select"
+import { useFetchCategories } from './useFetchCategories'
 const UpdateCoupon = () => {
     const { currentCoupon } = useAppSelector((state: RootState) => state.proposals)
     const { t } = useTranslation()
@@ -58,10 +60,14 @@ const UpdateCoupon = () => {
     const dispatch = useAppDispatch()
     const [isCropVisible, setIsCropVisible] = React.useState<boolean>(false)
     const history = useHistory()
+    const [categories, setCategories] = React.useState<any>({
+        categories: [],
+        defaults: []
+    })
 
     const [publish, setPublish] = React.useState<boolean>(false)
     const { handleUpload, deleteImage } = useUploadImage(setImage)
-    const { handleSubmit, register, watch, formState: { errors, isValid }, control } = useForm({
+    const { handleSubmit, register, watch, formState: { errors, isValid }, control, setValue } = useForm({
         mode: "onChange",
         shouldFocusError: true,
         reValidateMode: "onChange",
@@ -78,6 +84,8 @@ const UpdateCoupon = () => {
         dispatch(resetCurrentCoupon())
         history.goBack()
     }
+
+    const _ = useFetchCategories(setCategories, currentCoupon.categoryIds)
 
     const handleOpenBlock = (e: any, payload: string) => {
         setOptionalFields((prev: any) => ({
@@ -103,7 +111,7 @@ const UpdateCoupon = () => {
             currencyId: 1,
             ageFrom: optionalFields.age ? data.ageLimit : null,
             ageUnlimited: !!!data.ageLimit || !optionalFields.age,
-            categoryIds: [],
+            categoryIds: data.categories.map((el: any) => el.id),
             companyId: 18,
             id: currentCoupon.id,
             image: image,
@@ -117,7 +125,6 @@ const UpdateCoupon = () => {
         dispatch(resetCurrentCoupon())
     }
 
-
     const onPublish = (data: any) => {
         setChooseDate(true)
         setCoupon({
@@ -129,7 +136,7 @@ const UpdateCoupon = () => {
             value: data.percent,
             type: isCoupon ? "1" : "2",
             currencyId: 1,
-            categoryIds: [],
+            categoryIds: data.categories.map((el: any) => el.id),
             companyId: 18,
             image: image,
             ageFrom: optionalFields.age ? (data.ageLimit || null) : null,
@@ -147,6 +154,11 @@ const UpdateCoupon = () => {
         deleteImage(image)
         setImage("")
     }
+
+    React.useEffect(() => {
+        setValue("categories", categories.defaults)
+    }, [categories.defaults])
+
     return (
         <Wrapper>
             <div
@@ -276,19 +288,19 @@ const UpdateCoupon = () => {
                             <Controller
                                 name="categories"
                                 control={control}
-                                defaultValue={currentCoupon?.categories}
                                 rules={{
-                                    required: false
+                                    required: true
                                 }}
+                                defaultValue={categories.defaults}
                                 render={({ field }) => (
                                     <MultiSelect
                                         isMulti={true}
                                         error={!!errors.categories}
                                         message={t("requiredField")}
                                         field={field}
-                                        defaultValue={currentCoupon?.categories}
+                                        defaultValue={categories.defaults}
                                         label="Выберите категорию"
-                                        options={categories}
+                                        options={categories.categories}
                                         margin={{ laptop: "0 0 35px 0" }} />
                                 )}
                             />

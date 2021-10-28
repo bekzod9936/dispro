@@ -4,3 +4,12 @@ export const getValidDate = (obj: any) => {
     const year = obj.year
     return `${year}-${month}-${day}`
 }
+interface ICategories {
+    value: string,
+    label: string,
+    id: number
+}
+
+export const getDefaultCategories = (initialArray: ICategories[], defaultArray: number[]) => {
+    return initialArray.filter(el => defaultArray?.includes(el.id))
+}

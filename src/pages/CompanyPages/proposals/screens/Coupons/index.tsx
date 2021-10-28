@@ -33,10 +33,10 @@ import {
     UpSide,
     Wrapper
 } from './style'
-import { useUploadImage } from './useUploadIMage'
+import { useUploadImage } from './hooks/useUploadIMage'
 import CropCustomModal from 'components/Custom/CropImageModal/index'
 import { useTranslation } from 'react-i18next'
-import { useMutation } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { postCoupon } from 'services/queries/ProposalsQueries'
 import Modal from 'components/Custom/Modal'
 import { SetDate } from './components/SetDate'
@@ -46,8 +46,9 @@ import MFormatInput from 'components/Custom/MoneyInput'
 import { useAppDispatch } from 'services/redux/hooks'
 import { setSaving } from 'services/redux/Slices/proposals/proposals'
 import { PreviewModal } from '../../components/PreviewModal'
-import { getValidData } from './utils/getValidDate'
 import Spinner from 'components/Helpers/Spinner'
+import { fetchCategories } from 'services/queries/InfoQueries'
+import { useFetchCategories } from './hooks/useFetchCategories'
 
 interface IOptionFields {
     age: boolean,
@@ -95,6 +96,7 @@ const Coupons = () => {
     const [period, setPeriod] = React.useState<boolean>(false)
     const [image, setImage] = React.useState('')
     const [publish, setPublish] = React.useState(false)
+    const [categories, setCategories] = React.useState<any>()
     const { handleUpload, deleteImage, loading, setLoading, isLoading } = useUploadImage(setImage)
     const [file, setFile] = React.useState('')
     const [previewModal, setPreviewModal] = React.useState<boolean>(false)
@@ -123,8 +125,9 @@ const Coupons = () => {
             ...prev,
             [action]: e.target.checked
         }))
-
     }
+
+    const _ = useFetchCategories(setCategories)
 
     const handleUploadImg = (data: any) => {
         setFile(data.target.files[0])
@@ -138,7 +141,7 @@ const Coupons = () => {
             ageFrom: data.ageLimit || null,
             ageTo: null,
             ageUnlimited: !!!data.ageLimit,
-            categoryIds: [],
+            categoryIds: data.categories.map((el: any) => el.id),
             companyId: 18,
             count: data.amount,
             currencyId: 1,
@@ -162,12 +165,26 @@ const Coupons = () => {
     }
 
     const onSave = async (data: any) => {
-        const validData = getValidData(data, isCoupon, image)
+        const validData = {
+            title: data.name,
+            price: data.cost,
+            description: data.description,
+            count: data.amount,
+            value: data.percent,
+            currencyId: 1,
+            ageFrom: optionalFields.age ? data.ageLimit : null,
+            ageUnlimited: !!!data.ageLimit || !optionalFields.age,
+            categoryIds: data.categories.map((el: any) => el.id),
+            companyId: 18,
+            image: image,
+            type: isCoupon ? "1" : "2",
+        }
+
         mutate(validData)
         setTimeout(() => history.goBack(), 1000)
         dispatch(setSaving(true))
     }
-    console.log(loading);
+
 
 
     return (

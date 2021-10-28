@@ -41,11 +41,12 @@ import { RootState } from 'services/redux/store'
 import { resetCurrentCoupon } from 'services/redux/Slices/proposals/proposals'
 import { categories, days } from '../Coupons/constants'
 import ImageLazyLoad from 'components/Custom/ImageLazyLoad/ImageLazyLoad'
-import { useUploadImage } from '../Coupons/useUploadIMage'
+import { useUploadImage } from '../Coupons/hooks/useUploadIMage'
 import { PreviewModal } from '../../components/PreviewModal'
 import { PreviewMessage } from '../Coupons/style'
 import { SetDate } from '../Coupons/components/SetDate'
 import Modal from 'components/Custom/Modal'
+import { useFetchCategories } from '../UpdateCoupon/useFetchCategories'
 
 const RePublish = () => {
     const { currentCoupon } = useAppSelector((state: RootState) => state.proposals)
@@ -58,11 +59,16 @@ const RePublish = () => {
     const dispatch = useAppDispatch()
     const [isCropVisible, setIsCropVisible] = React.useState<boolean>(false)
     const history = useHistory()
+    const [categories, setCategories] = React.useState<any>({
+        defaults: [],
+        categories: []
+    })
     const [publish, setPublish] = React.useState<boolean>(false)
     const { handleUpload, deleteImage } = useUploadImage(setImage)
     const {
         handleSubmit,
         register,
+        setValue,
         watch,
         formState: { errors, isValid },
         control } = useForm({
@@ -97,6 +103,8 @@ const RePublish = () => {
         setIsCoupon(res)
     }, [])
 
+    const _ = useFetchCategories(setCategories, currentCoupon.categoryIds)
+
     const onSave = async (data: any) => {
         const validData = {
             title: data.name,
@@ -107,7 +115,7 @@ const RePublish = () => {
             currencyId: 1,
             ageFrom: optionalFields.age ? data.ageLimit : null,
             ageUnlimited: !!!data.ageLimit || !optionalFields.age,
-            categoryIds: [],
+            categoryIds: data.categories.map((el: any) => el.id),
             companyId: 18,
             id: currentCoupon.id,
             image: image,
@@ -129,7 +137,7 @@ const RePublish = () => {
             value: data.percent,
             type: isCoupon ? "1" : "2",
             currencyId: 1,
-            categoryIds: [],
+            categoryIds: data.categories.map((el: any) => el.id),
             companyId: 18,
             image: image,
             ageFrom: optionalFields.age ? (data.ageLimit || null) : null,
@@ -147,7 +155,9 @@ const RePublish = () => {
         deleteImage(image)
         setImage("")
     }
-
+    React.useEffect(() => {
+        setValue("categories", categories.defaults)
+    }, [categories.defaults])
     return (
         <Wrapper>
             <div
@@ -276,9 +286,9 @@ const RePublish = () => {
                             <Controller
                                 name="categories"
                                 control={control}
-                                defaultValue={currentCoupon?.categories}
+                                defaultValue={categories.defaults}
                                 rules={{
-                                    required: false
+                                    required: true
                                 }}
                                 render={({ field }) => (
                                     <MultiSelect
@@ -286,9 +296,9 @@ const RePublish = () => {
                                         error={!!errors.categories}
                                         message={t("requiredField")}
                                         field={field}
-                                        defaultValue={currentCoupon?.categories}
+                                        defaultValue={categories.defaults}
                                         label="Выберите категорию"
-                                        options={categories}
+                                        options={categories.categories}
                                         margin={{ laptop: "0 0 35px 0" }} />
                                 )}
                             />
