@@ -107,9 +107,9 @@ export const RightSide = styled.div`
 `;
 
 export const Header = styled.div`
-  max-height: 75px;
-  min-height: 75px;
-  height: 75px;
+  max-height: 85px;
+  min-height: 85px;
+  height: 85px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -307,7 +307,8 @@ export const Message = styled.div`
   margin-left: 10px;
   position: relative;
   padding: 15px;
-
+  max-width: 450px;
+  word-wrap: break-word;
   &::before {
     content: '';
     position: absolute;
@@ -321,11 +322,17 @@ export const Message = styled.div`
   }
 `;
 
-export const MessageText = styled.div`
+export const MessageText = styled.pre`
   font-weight: normal;
   font-size: 14px;
   color: ${({ bgcolor }: MProps) => bgcolor};
   margin-top: 5px;
+
+  white-space: pre-wrap; /* Since CSS 2.1 */
+  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  word-wrap: break-word;
 `;
 
 export const MessageDate = styled.div`

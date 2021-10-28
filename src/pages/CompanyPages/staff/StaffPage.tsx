@@ -19,8 +19,7 @@ const StaffPage = () => {
   const { t } = useTranslation();
   const { menuItems } = useStaffRoute();
   const openCash = useAppSelector((state) => state.staffs.openCash);
-
-  const [openManager, setOpenManager] = useState(false);
+  const openManager = useAppSelector((state) => state.staffs.openManager);
 
   const [closeFun, setCloseFun] = useState<any>();
   const handleClose = (e: any) => {

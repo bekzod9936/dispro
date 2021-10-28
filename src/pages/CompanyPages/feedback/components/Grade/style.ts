@@ -18,6 +18,8 @@ export const Title = styled.div`
   color: #c7c7c7;
   width: fit-content;
   user-select: none;
+  text-align: center;
+  width: 100%;
   @media (max-width: ${device.mobile}) {
     font-size: 14px;
   }

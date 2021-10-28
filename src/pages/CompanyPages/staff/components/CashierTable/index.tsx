@@ -104,10 +104,7 @@ const CashierTable = ({ cashiers }: IProps) => {
                   <Th>
                     <MCheckbox>
                       <Checkbox
-                        checked={
-                          checked ||
-                          selectedCashiers.length === allCashier.length
-                        }
+                        checked={selectedCashiers.length === allCashier.length}
                         onChange={(e) => {
                           setChecked(e.target.checked);
                           if (e.target.checked) {
@@ -141,9 +138,9 @@ const CashierTable = ({ cashiers }: IProps) => {
               return (
                 <TRow
                   checked={
-                    selectedCashiers.some(
-                      (item: any) => item.id === row.original.id
-                    ) || selectedCashiers.length === allCashier.length
+                    selectedCashiers?.some(
+                      (item: any) => item?.id === row?.original?.id
+                    ) || selectedCashiers?.length === allCashier?.length
                   }
                   onClick={(e) => handleAddClientByClick(e, row)}
                   {...row.getRowProps()}
@@ -152,9 +149,9 @@ const CashierTable = ({ cashiers }: IProps) => {
                     <MCheckbox>
                       <Checkbox
                         checked={
-                          selectedCashiers.some(
-                            (item: any) => item.id === row.original.id
-                          ) || selectedCashiers.length === allCashier.length
+                          selectedCashiers?.some(
+                            (item: any) => item?.id === row?.original?.id
+                          ) || selectedCashiers?.length === allCashier?.length
                         }
                       />
                     </MCheckbox>

@@ -5,7 +5,7 @@ interface Props {
 }
 
 export const fetchFeedBackClients = ({ url }: Props) => {
-  const response = partnerApi.get(`core/cashier/${url}`);
+  const response = partnerApi.get(`core/cashier${url}`);
   return response;
 };
 

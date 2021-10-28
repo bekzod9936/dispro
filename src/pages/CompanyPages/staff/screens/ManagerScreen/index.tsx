@@ -9,10 +9,15 @@ import { useDebounce } from "use-debounce/lib";
 import { SpinnerDiv, EmptyContainer, EmptyLeft, EmptyRight } from "../../style";
 import Spinner from "components/Helpers/Spinner";
 import Button from "components/Custom/Button";
+import { SideBar } from "../../components/SideBar";
+import ManagerBar from "./components/ManagerBar";
 
 const ManagerScreen = () => {
   const query = useAppSelector((state) => state.staffs.query);
   const managers = useAppSelector((state) => state.staffs.managers);
+  const selectedManagers = useAppSelector(
+    (state) => state.staffs.selectedManagers
+  );
   const [period, setPeriod] = useState({
     startDate: "",
     endDate: "",
@@ -63,6 +68,10 @@ const ManagerScreen = () => {
           </EmptyRight>
         </EmptyContainer>
       )}
+
+      <SideBar isOpen={selectedManagers?.length}>
+        <ManagerBar />
+      </SideBar>
     </ManagerDiv>
   );
 };

@@ -16,8 +16,16 @@ import {
   TRow,
 } from "./style";
 import { managerHeaders } from "./headers";
+import { useAppDispatch, useAppSelector } from "services/redux/hooks";
+import { setSelectedManagers } from "services/redux/Slices/staffs";
 
 const ManagerTable = ({ managers }: IProps) => {
+  const dispatch = useAppDispatch();
+  const allManager = useAppSelector((state) => state.staffs.allManagers);
+
+  const selectedManagers = useAppSelector(
+    (state) => state.staffs.selectedManagers
+  );
   const [headers, setHeaders] = useState<HeadersType[]>(managerHeaders);
 
   const columns: any = useMemo(() => {
@@ -26,6 +34,21 @@ const ManagerTable = ({ managers }: IProps) => {
       accessor: header.label,
     }));
   }, [headers]);
+
+  const handleAddClientByClick = (e: any, row: any) => {
+    e.stopPropagation();
+    const isAdded = selectedManagers?.some(
+      (el: any) => el.id === row.original.id
+    );
+    if (!isAdded) {
+      dispatch(setSelectedManagers(selectedManagers.concat(row.original)));
+    } else {
+      let filteredItem = selectedManagers?.filter(
+        (item: any) => item.id !== row.original.id
+      );
+      dispatch(setSelectedManagers(filteredItem));
+    }
+  };
 
   const { getTableBodyProps, headerGroups, getTableProps, rows, prepareRow } =
     useTable({ data: managers, columns: columns }, useSortBy);
@@ -43,7 +66,16 @@ const ManagerTable = ({ managers }: IProps) => {
               <tr {...headerGroup.getHeaderGroupProps()}>
                 <Th>
                   <MCheckbox>
-                    <Checkbox checked={false} onChange={(e) => {}} />
+                    <Checkbox
+                      checked={selectedManagers?.length === allManager?.length}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          dispatch(setSelectedManagers(allManager));
+                        } else {
+                          dispatch(setSelectedManagers([]));
+                        }
+                      }}
+                    />
                   </MCheckbox>
                 </Th>
                 {headerGroup.headers.map((column: any) => (
@@ -63,13 +95,23 @@ const ManagerTable = ({ managers }: IProps) => {
               prepareRow(row);
               return (
                 <TRow
-                  checked={false}
-                  onClick={(e) => {}}
+                  checked={
+                    selectedManagers?.some(
+                      (item: any) => item?.id === row?.original?.id
+                    ) || selectedManagers?.length === allManager?.length
+                  }
+                  onClick={(e) => handleAddClientByClick(e, row)}
                   {...row.getRowProps()}
                 >
                   <Td>
                     <MCheckbox>
-                      <Checkbox checked={false} />
+                      <Checkbox
+                        checked={
+                          selectedManagers?.some(
+                            (item: any) => item?.id === row?.original?.id
+                          ) || selectedManagers?.length === allManager?.length
+                        }
+                      />
                     </MCheckbox>
                   </Td>
                   {row.cells.map((cell: any) => {

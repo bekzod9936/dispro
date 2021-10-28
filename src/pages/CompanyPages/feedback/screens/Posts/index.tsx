@@ -1,4 +1,4 @@
-import { createRef, useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ChatUser from '../../components/ChatUser';
 import Input from 'components/Custom/Input';
 import Button from 'components/Custom/Button';
@@ -75,14 +75,18 @@ interface FormProps {
 }
 
 const companyId: any = localStorage.getItem('companyId');
+const words = 400;
 
 const Posts = () => {
   const { t } = useTranslation();
 
-  const { control, handleSubmit, setValue, getValues } = useForm<FormProps>({
-    mode: 'onBlur',
-    shouldFocusError: true,
-  });
+  const { control, handleSubmit, setValue, getValues, watch } =
+    useForm<FormProps>({
+      mode: 'onBlur',
+      shouldFocusError: true,
+    });
+
+  const values = getValues();
 
   const staffId = useAppSelector((state) => state.auth.staffId);
 
@@ -99,6 +103,15 @@ const Posts = () => {
   const histories = useAppSelector((state) => state.feedbackPost.histories);
   const socket = useAppSelector((state) => state.feedbackPost.socket);
   const companyInfo = useAppSelector((state) => state.partner.companyInfo);
+  const chosenClient = useAppSelector(
+    (state) => state.feedbackPost.chosenClient
+  );
+
+  const [limit, setLimit] = useState(words);
+
+  useEffect(() => {
+    console.log(chosenClient, 'ddd');
+  }, [chosenClient]);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesStartRef = useRef<HTMLDivElement>(null);
@@ -124,7 +137,7 @@ const Posts = () => {
   };
 
   useEffect(() => {
-    socket?.on(SOCKET_EVENT.CHAT_CLIENT_TO_PARTNER, function (data: any) {
+    socket?.on(SOCKET_EVENT.CHAT_CLIENT_TO_PARTNER, function () {
       resChatClients.refetch();
       resChatClientHistory.refetch();
     });
@@ -150,8 +163,15 @@ const Posts = () => {
     setShowEmoji(!showEmoji);
   };
 
+  useEffect(() => {
+    if (values?.message !== undefined) {
+      setLimit(words - values?.message?.length);
+    }
+  }, [watch('message')]);
+
   const onSubmit = (e: any) => {
     if (e.message.length > 0) {
+      console.log(socket, chosen.id, staffId, companyId);
       socket.emit(
         'chat_to_server',
         {
@@ -165,7 +185,6 @@ const Posts = () => {
           },
         },
         (res: any) => {
-          // console.log(res, "response sending");
           if (res.success) {
             resChatClientHistory.refetch();
             resChatClients.refetch();
@@ -224,158 +243,158 @@ const Posts = () => {
       </LeftSide>
       <RightSide>
         {isChoose ? (
-          resChatClientHistory.isFetching ? (
-            <Spinner />
-          ) : (
-            <Wrapper>
-              <Header right={true}>
-                <WrapUserInfo>
-                  <Avatar big={true}>
-                    <LazyLoadImage
-                      src={chosen?.image ? chosen?.image : ''}
-                      alt='image'
-                      style={{
-                        objectFit: 'cover',
-                      }}
-                      height='100%'
-                      width='100%'
-                    />
-                  </Avatar>
-                  <WrapInfo>
-                    <UserName>
-                      {chosen.firstName} {chosen.lastName}
-                    </UserName>
-                    <Status>Base 5%</Status>
-                  </WrapInfo>
-                </WrapUserInfo>
-                <Popover
-                  click={
-                    <DotsWrap>
-                      <DotsIcon />
-                    </DotsWrap>
-                  }
-                  anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-                  transformOrigin={{ horizontal: 'left', vertical: 'top' }}
-                  openBgColor='rgba(96, 110, 234, 0.1)'
-                  radius={14}
-                  popoverStyle={{ marginTop: '20px' }}
-                  onClose={handleClose}
-                >
-                  <SelectWrap>
-                    <Link>{t('sharelink')}</Link>
-                    <Delete>{t('deletechat')}</Delete>
-                  </SelectWrap>
-                </Popover>
-              </Header>
-              <Body>
-                <ChatPlace>
-                  {scrollHeight > 0 ? (
-                    <WrapDownIcon>
-                      <WrapDown onClick={() => scrollToTop()}>
-                        <DownIcon />
-                      </WrapDown>
-                    </WrapDownIcon>
-                  ) : null}
-                  <Messages onScroll={findScrollHeight}>
-                    <div ref={messagesStartRef} />
-                    {histories?.map((v: any) => {
-                      return (
-                        <MessageWrap>
-                          <Avatar>
-                            <LazyLoadImage
-                              src={
-                                v.chatType === 1
+          <Wrapper>
+            <Header right={true}>
+              <WrapUserInfo>
+                <Avatar big={true}>
+                  <LazyLoadImage
+                    src={chosen?.image ? chosen?.image : ''}
+                    alt='image'
+                    style={{
+                      objectFit: 'cover',
+                    }}
+                    height='100%'
+                    width='100%'
+                  />
+                </Avatar>
+                <WrapInfo>
+                  <UserName>
+                    {chosen.firstName} {chosen.lastName}
+                  </UserName>
+                  <Status>Base 5%</Status>
+                </WrapInfo>
+              </WrapUserInfo>
+              <Popover
+                click={
+                  <DotsWrap>
+                    <DotsIcon />
+                  </DotsWrap>
+                }
+                anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+                transformOrigin={{ horizontal: 'left', vertical: 'top' }}
+                openBgColor='rgba(96, 110, 234, 0.1)'
+                radius={14}
+                popoverStyle={{ marginTop: '20px' }}
+                onClose={handleClose}
+              >
+                <SelectWrap>
+                  <Link>{t('sharelink')}</Link>
+                  <Delete>{t('deletechat')}</Delete>
+                </SelectWrap>
+              </Popover>
+            </Header>
+            <Body>
+              <ChatPlace>
+                {scrollHeight > 0 ? (
+                  <WrapDownIcon>
+                    <WrapDown onClick={() => scrollToTop()}>
+                      <DownIcon />
+                    </WrapDown>
+                  </WrapDownIcon>
+                ) : null}
+                <Messages onScroll={findScrollHeight}>
+                  <div ref={messagesStartRef} />
+                  {histories?.map((v: any) => {
+                    return (
+                      <MessageWrap>
+                        <Avatar>
+                          <LazyLoadImage
+                            src={
+                              v.chatType === 1
+                                ? chosen?.image
                                   ? chosen?.image
-                                    ? chosen?.image
-                                    : ''
-                                  : companyInfo.logo
-                              }
-                              alt='user'
-                              style={{
-                                objectFit: 'cover',
-                              }}
-                              height='100%'
-                              width='100%'
-                            />
-                          </Avatar>
-                          <Message
-                            bgcolor={v.chatType === 1 ? '#E5E9FF' : '#606eea'}
+                                  : ''
+                                : companyInfo.logo
+                            }
+                            alt='user'
+                            style={{
+                              objectFit: 'cover',
+                            }}
+                            height='100%'
+                            width='100%'
+                          />
+                        </Avatar>
+                        <Message
+                          bgcolor={v.chatType === 1 ? '#E5E9FF' : '#606eea'}
+                        >
+                          <MessageDate
+                            bgcolor={v.chatType === 1 ? '#A5A5A5' : '#fff'}
                           >
-                            <MessageDate
-                              bgcolor={v.chatType === 1 ? '#A5A5A5' : '#fff'}
-                            >
-                              {moment(v.createdAt).format('LT')}
-                            </MessageDate>
-                            <MessageText
-                              bgcolor={v.chatType === 1 ? '#223367' : '#fff'}
-                            >
-                              {v.msg}
-                            </MessageText>
-                          </Message>
-                        </MessageWrap>
-                      );
-                    })}
-                    <div ref={messagesEndRef} />
-                  </Messages>
-                </ChatPlace>
-                <Form onSubmit={handleSubmit(onSubmit)}>
-                  <Controller
-                    name='message'
-                    control={control}
-                    rules={{
-                      required: true,
-                    }}
-                    defaultValue=''
-                    render={({ field }) => (
-                      <Input
-                        fullWidth={true}
-                        multiline={width > 1500 ? true : false}
-                        placeholder={t('writeyoutmessage')}
-                        inputStyle={{
-                          border: 'none',
-                          inpadding: width > 1500 ? '10px 20px' : '',
-                        }}
-                        field={field}
-                      />
-                    )}
-                  />
-                  <InputDown>
-                    <InputWarn>Вы можете написать еще 400 сообщения</InputWarn>
-                    <WrapIcons>
-                      <IconButton onClick={handleShowEmoji}>
-                        <SmileIcon />
+                            {moment(v.createdAt).format('HH:MM')}
+                          </MessageDate>
+                          <MessageText
+                            bgcolor={v.chatType === 1 ? '#223367' : '#fff'}
+                          >
+                            {v.msg}
+                          </MessageText>
+                        </Message>
+                      </MessageWrap>
+                    );
+                  })}
+                  <div ref={messagesEndRef} />
+                </Messages>
+              </ChatPlace>
+              <Form onSubmit={handleSubmit(onSubmit)}>
+                <Controller
+                  name='message'
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  defaultValue=''
+                  render={({ field }) => (
+                    <Input
+                      fullWidth={true}
+                      multiline={true}
+                      placeholder={t('writeyoutmessage')}
+                      inputStyle={{
+                        border: 'none',
+                        inpadding: width > 1500 ? '10px 20px' : '',
+                      }}
+                      field={field}
+                      disabled={limit === 0}
+                    />
+                  )}
+                />
+                <InputDown>
+                  <InputWarn>
+                    Вы можете написать еще
+                    {` ${limit} `} сообщения
+                  </InputWarn>
+                  <WrapIcons>
+                    <IconButton onClick={handleShowEmoji}>
+                      <SmileIcon />
+                    </IconButton>
+                    <WrapScript>
+                      <IconButton>
+                        <ScriptIcon />
                       </IconButton>
-                      <WrapScript>
-                        <IconButton>
-                          <ScriptIcon />
-                        </IconButton>
-                      </WrapScript>
-                      <Button type='submit' startIcon={<SendIcon />}>
-                        {t('send')}
-                      </Button>
-                    </WrapIcons>
-                  </InputDown>
-                </Form>
-              </Body>
-              {showEmoji ? (
-                <EPicker onBlur={() => setShowEmoji(false)}>
-                  <Picker
-                    set='google'
-                    onSelect={(e: any) => {
-                      const m = getValues('message') + e.native;
-                      setValue('message', m);
-                    }}
-                    sheetSize={20}
-                    showPreview={false}
-                    emojiTooltip={true}
-                    showSkinTones={false}
-                    useButton={true}
-                    color='#606eea'
-                  />
-                </EPicker>
-              ) : null}
-            </Wrapper>
-          )
+                    </WrapScript>
+                    <Button type='submit' startIcon={<SendIcon />}>
+                      {t('send')}
+                    </Button>
+                  </WrapIcons>
+                </InputDown>
+              </Form>
+            </Body>
+            {showEmoji ? (
+              <EPicker onBlur={() => setShowEmoji(false)}>
+                <Picker
+                  set='google'
+                  onSelect={(e: any) => {
+                    const m = getValues('message') + e.native;
+                    setValue('message', m);
+                  }}
+                  sheetSize={20}
+                  showPreview={false}
+                  emojiTooltip={true}
+                  showSkinTones={false}
+                  useButton={true}
+                  color='#606eea'
+                />
+              </EPicker>
+            ) : null}
+          </Wrapper>
         ) : (
           <WrapImg>
             <Img src={defaultChat} alt='defphoto' />

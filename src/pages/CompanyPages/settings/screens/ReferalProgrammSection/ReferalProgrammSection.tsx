@@ -223,7 +223,7 @@ const ReferalProgrammSection = () => {
                 <LevelsRow key={index}>
                   <div>
                     <Text fontSize={FONT_SIZE.smallPlus} fontWeight={400}>
-                      {item.levelNumber + 1 + " "} {t("level")}
+                      {item.levelNumber} {t("level")}
                     </Text>
                   </div>
                   <div>

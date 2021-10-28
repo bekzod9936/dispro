@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useQuery, useMutation } from "react-query";
+import useManagers from "./useManagers";
 import {
   deleteSingleCashier,
   getCashiers,
@@ -20,6 +21,11 @@ const useCashiers = ({ page, query, period }: any) => {
   const [open, setOpen] = useState(false);
   const [branches, setBranches] = useState([]);
   const dispatch = useAppDispatch();
+  const { response: responseManager } = useManagers({
+    page: 1,
+    query: "",
+    period: "",
+  });
 
   const response = useQuery(
     ["cashiers", page, query, period],
@@ -73,8 +79,14 @@ const useCashiers = ({ page, query, period }: any) => {
 
   const createCash = useMutation((data: any) => createCashier(data), {
     onSuccess: (data) => {
+      console.log(data.data, "data responding");
+      if (data.data.data.roleId === 3) {
+        response.refetch();
+      } else {
+        responseManager.refetch();
+      }
       setOpen(false);
-      response.refetch();
+
       dispatch(setSelectedCashiers([]));
       dispatch(setOpenCash(false));
     },

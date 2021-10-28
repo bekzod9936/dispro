@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { fetchInfo } from 'services/queries/PartnerQueries';
 import { useAppDispatch } from 'services/redux/hooks';
+import { setStaffId } from 'services/redux/Slices/authSlice';
 import { setCompanyInfo } from '../../services/redux/Slices/partnerSlice';
 
 interface Props {
@@ -26,6 +27,7 @@ const useLayout = () => {
       onSuccess: (data) => {
         dispatch(setCompanyInfo(data?.data.data));
         setData(data?.data.data);
+        dispatch(setStaffId(data.data.data.staffId));
       },
       keepPreviousData: true,
       refetchOnWindowFocus: false,

@@ -2,6 +2,13 @@ import Modal from 'components/Custom/Modal';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IconButton } from '@material-ui/core';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import Button from 'components/Custom/Button';
+import { Avatar } from '../../style';
+import moment from 'moment';
+import { useHistory } from 'react-router';
+import { useAppDispatch } from 'services/redux/hooks';
+import { setChosenClientChat } from 'services/redux/Slices/feedback';
 import {
   Container,
   Header,
@@ -28,14 +35,15 @@ import {
   MoneyIcon,
   WrapMoney,
 } from './style';
-import Button from 'components/Custom/Button';
-import { Avatar } from '../../style';
+
 interface Props {
-  image?: string;
+  value?: any;
 }
 
-const User = ({ image }: Props) => {
+const User = ({ value }: Props) => {
   const { t } = useTranslation();
+  const history = useHistory();
+  const dispatch = useAppDispatch();
 
   const [open, setOpen] = useState<boolean>(false);
 
@@ -44,31 +52,40 @@ const User = ({ image }: Props) => {
       <Container onClick={() => setOpen(true)}>
         <Header>
           <LeftHeader>
-            <Avatar />
+            <Avatar>
+              <LazyLoadImage src={value.clientImage} />
+            </Avatar>
             <WrapText>
-              <UserName>Эмма Вудхаус</UserName>
-              <Status>Статус: Base 5%</Status>
+              <UserName>
+                {value.clientFirstName} {value.clientLastName}
+              </UserName>
+              <Status>{t('status')}: Base 5%</Status>
             </WrapText>
           </LeftHeader>
-          <Date margin='5px 0 0 20px'>11.05.2021 10:18</Date>
+          <Date margin='5px 0 0 20px'>
+            {moment(value.createdAt).format('DD.MM.YYYY HH:MM')}
+          </Date>
         </Header>
         <WrapStars>
           {[1, 2, 3, 4, 5].map((v: any) => (
-            <StarIcon />
+            <StarIcon bgcolor={value.rating >= v} />
           ))}
         </WrapStars>
         <Context>
-          <Title>Отзыв:</Title>
-          <Content>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nostrum
-            quidem, adipisci eum doloribus tempora saepe necessitatibus ullam
-            labore vero reprehenderit quaerat qui iste quos, ad eaque laudantium
-            debitis! Molestiae, sapiente! Lorem ipsum dolor sit amet
-            consectetur, adipisicing elit. Nostrum quidem, adipisci eum
-            doloribus tempora saepe necessitatibus ullam labore vero
-          </Content>
-          <Title>Кассир:</Title>
-          <Casher>Эльпадро</Casher>
+          {value.review ? (
+            <>
+              <Title>{t('review')}:</Title>
+              <Content>{value.review}</Content>{' '}
+            </>
+          ) : null}
+          {value.firstName || value.lastName ? (
+            <>
+              <Title>{t('cashier')}:</Title>
+              <Casher>
+                {value.firstName} {value.lastName}
+              </Casher>
+            </>
+          ) : null}
         </Context>
       </Container>
       <Modal onClose={(v: boolean) => setOpen(v)} open={open}>
@@ -76,14 +93,20 @@ const User = ({ image }: Props) => {
           <ModalWrap>
             <Header>
               <LeftHeader>
-                <Avatar />
+                <Avatar>
+                  <LazyLoadImage src={value.clientImage} />
+                </Avatar>
                 <WrapText>
-                  <UserName>Эмма Вудхаус</UserName>
-                  <Status>Статус: Base 5%</Status>
+                  <UserName>
+                    {value.clientFirstName} {value.clientLastName}
+                  </UserName>
+                  <Status>{t('status')}: Base 5%</Status>
                 </WrapText>
               </LeftHeader>
               <WrapClose>
-                <Date margin='10px 10px 0 20px'>11.05.2021 10:18</Date>
+                <Date margin='10px 10px 0 20px'>
+                  {moment(value.createdAt).format('DD.MM.YYYY HH:MM')}
+                </Date>
                 <IconButton onClick={() => setOpen(false)}>
                   <CloseIcon />
                 </IconButton>
@@ -91,26 +114,29 @@ const User = ({ image }: Props) => {
             </Header>
             <WrapStars>
               {[1, 2, 3, 4, 5].map((v: any) => (
-                <StarIcon />
+                <StarIcon bgcolor={value.rating >= v} />
               ))}
             </WrapStars>
             <Context>
-              <Title>Отзыв:</Title>
-              <ModalContext>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                Nostrum quidem, adipisci eum doloribus tempora saepe
-                necessitatibus ullam labore vero reprehenderit quaerat qui iste
-                quos, ad eaque laudantium debitis! Molestiae, sapiente! Lorem
-                ipsum dolor sit amet consectetur, adipisicing elit. Nostrum
-                quidem, adipisci eum doloribus tempora saepe necessitatibus
-              </ModalContext>
+              {value.review ? (
+                <>
+                  <Title>{t('review')}:</Title>
+                  <ModalContext>{value.review}</ModalContext>
+                </>
+              ) : null}
               <WrapFillial>
                 <Wrapper>
-                  <Title>Кассир:</Title>
-                  <ModalText>Кудрат Бекендер</ModalText>
+                  {value.firstName || value.lastName ? (
+                    <>
+                      <Title>{t('cashier')}:</Title>
+                      <ModalText>
+                        {value.firstName} {value.lastName}
+                      </ModalText>
+                    </>
+                  ) : null}
                 </Wrapper>
                 <Wrapper>
-                  <Title>Филиал:</Title>
+                  <Title>{t('filial')}:</Title>
                   <ModalText>
                     Rademakerstraat 14, 3769 BD Soesterberg, Ниде
                   </ModalText>
@@ -120,16 +146,20 @@ const User = ({ image }: Props) => {
                 <MoneyIcon />
                 <Wrapper>
                   <ModalText>Операция от 11.06.2021</ModalText>
-                  <ModalText>Общая сумма: 350 000 сум</ModalText>
+                  <ModalText>{t('totalsum')}: 350 000 сум</ModalText>
                   <WrapMoney>
-                    <ModalText>Скидка: 35 000 сум</ModalText>
-                    <ModalText>Оплачено баллами: 35 000</ModalText>
+                    <ModalText>{t('sale')}: 35 000 сум</ModalText>
+                    <ModalText>{t('paidwithpoints')}: 35 000</ModalText>
                   </WrapMoney>
                 </Wrapper>
               </WrapMoney>
               <Button
                 margin={{ laptop: '20px 0 0 0' }}
                 startIcon={<MessageIcon />}
+                onClick={() => {
+                  dispatch(setChosenClientChat({ data: value, choose: true }));
+                  history.push('/feedback/posts');
+                }}
               >
                 {t('writemessage')}
               </Button>

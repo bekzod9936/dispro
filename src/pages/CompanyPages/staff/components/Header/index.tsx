@@ -14,6 +14,7 @@ import { useAppSelector, useAppDispatch } from "services/redux/hooks";
 import {
   setOpenCash,
   setOpenFilter,
+  setOpenManager,
   setQuery,
 } from "services/redux/Slices/staffs";
 
@@ -75,6 +76,7 @@ const Header = ({
           <PopoverRow
             onClick={() => {
               closeFun?.close();
+              dispatch(setOpenManager(true));
             }}
             light={true}
           >

@@ -1,24 +1,22 @@
 import { useEffect, useState } from 'react';
-import DisIcon from '../../../../assets/icons/DisIcon';
+import DisIcon from 'assets/icons/DisIcon';
 import { useTranslation } from 'react-i18next';
-import Button from '../../../../components/Custom/Button';
+import Button from 'components/Custom/Button';
 import { useForm, Controller } from 'react-hook-form';
-import { logIn, signIn } from '../../../../services/queries/LoginQueries';
+import { logIn, signIn } from 'services/queries/LoginQueries';
 import { useHistory } from 'react-router';
 import { useMutation } from 'react-query';
-import {
-  useAppDispatch,
-  useAppSelector,
-} from '../../../../services/redux/hooks';
+import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import {
   setCompanyState,
   setLogIn,
   setProceedAuth,
   setStaffId,
-} from '../../../../services/redux/Slices/authSlice';
-import { inputPhoneNumber, inputSms } from '../../../../utilities/inputFormat';
-import Input from '../../../../components/Custom/Input';
-import MultiSelect from '../../../../components/Custom/MultiSelect';
+} from 'services/redux/Slices/authSlice';
+import { inputPhoneNumber, inputSms } from 'utilities/inputFormat';
+import Cookies from 'js-cookie';
+import Input from 'components/Custom/Input';
+import MultiSelect from 'components/Custom/MultiSelect';
 import {
   Container,
   MainWrap,
@@ -38,7 +36,6 @@ import {
   LogInContentWrap,
   LogInWrap,
 } from './style';
-import Cookies from 'js-cookie';
 
 interface FormProps {
   role: { value?: string; label?: string };
@@ -195,7 +192,6 @@ export const LoginPanel = () => {
         dispatch(setLogIn(data.data.data));
         refetchList();
         dispatch(setCompanyState(data.data.data.status));
-        dispatch(setStaffId(data.data.data.staffId));
 
         Cookies.set('compnayState', data.data.data.status);
 
