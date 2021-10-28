@@ -49,6 +49,7 @@ import {
   WrapLogo,
   TitleLogo,
   LogoIcon,
+  PName,
 } from './style';
 
 const io = require('socket.io-client');
@@ -185,7 +186,7 @@ const Header = () => {
                     e.target.src = LogoDef;
                   }}
                 />
-                <Name fontSize={18}>{companyInfo.name}</Name>
+                <PName fontSize={18}>{companyInfo.name}</PName>
                 <Type>Компания прошла модерацию</Type>
                 <Button
                   buttonStyle={{
