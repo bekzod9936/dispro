@@ -13,6 +13,7 @@ const initialState: staffsState = {
   openCash: false,
   openManager: false,
   summaOperations: 0,
+  stepManager: 1,
 };
 
 const staffsSlice = createSlice({
@@ -52,6 +53,9 @@ const staffsSlice = createSlice({
     setSummaOperations: (state, action: any) => {
       state.summaOperations = action.payload;
     },
+    setStepManager: (state, action: any) => {
+      state.stepManager = action.payload;
+    },
   },
 });
 
@@ -67,5 +71,6 @@ export const {
   setSelectedManagers,
   setAllManager,
   setSummaOperations,
+  setStepManager,
 } = staffsSlice.actions;
 export default staffsSlice.reducer;

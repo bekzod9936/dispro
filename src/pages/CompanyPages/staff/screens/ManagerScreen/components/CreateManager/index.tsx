@@ -1,9 +1,10 @@
 import { IProps } from "./types";
 import { Controller } from "react-hook-form";
 import Input from "components/Custom/Input";
-import { Form, FormRow, FormCol, Break } from "./style";
+import { Form, FormRow, FormCol, Break, ModalHead, ModalTitle } from "./style";
 import useCashiers from "pages/CompanyPages/staff/hooks/useCashiers";
-import { useAppDispatch } from "services/redux/hooks";
+import useManagers from "pages/CompanyPages/staff/hooks/useManagers";
+import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 import { FormProps } from "./types";
@@ -12,15 +13,26 @@ import {
   ModalAction,
   ModalBody,
   ModalContent,
+  ModalMain,
 } from "../../../CashierScreen/style";
+import Radio from "components/Custom/Radio";
+import { IconButton } from "@material-ui/core";
 import MultiSelect from "components/Custom/MultiSelect";
 import Button from "components/Custom/Button";
-import { setOpenManager } from "services/redux/Slices/staffs";
+import { setOpenManager, setStepManager } from "services/redux/Slices/staffs";
 import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import { ReactComponent as NextIcon } from "assets/icons/sign_tick.svg";
+import { ReactComponent as ExitIcon } from "assets/icons/exit.svg";
 
 const CreateManager = ({ openManager }: IProps) => {
+  const stepManager = useAppSelector((state) => state.staffs.stepManager);
   const { branches, createCash } = useCashiers({
+    page: 1,
+    query: "",
+    period: "",
+  });
+
+  const { saveRoleManager, modified, setModified } = useManagers({
     page: 1,
     query: "",
     period: "",
@@ -52,124 +64,204 @@ const CreateManager = ({ openManager }: IProps) => {
 
   return (
     <Modal open={openManager}>
-      <Form onSubmit={handleSubmit(onSave)}>
-        <ModalContent>
+      {/* first step */}
+      {stepManager === 1 && (
+        <Form onSubmit={handleSubmit(onSave)}>
+          <ModalContent>
+            <ModalHead>
+              <ModalTitle>Добавление менеджера</ModalTitle>
+              <IconButton
+                onClick={() => {
+                  dispatch(setOpenManager(false));
+                  dispatch(setStepManager(1));
+                }}
+              >
+                <ExitIcon />
+              </IconButton>
+            </ModalHead>
+            <ModalBody>
+              <FormRow>
+                <FormCol>
+                  <Controller
+                    control={control}
+                    name="firstName"
+                    rules={{ required: true }}
+                    render={({ field }) => (
+                      <Input
+                        label={t("cashier_name")}
+                        error={errors.firstName ? true : false}
+                        message={t("requiredField")}
+                        type="string"
+                        field={field}
+                        margin={{
+                          laptop: "20px 0 25px",
+                        }}
+                      />
+                    )}
+                  />
+                </FormCol>
+                <Break width={25} />
+                <FormCol>
+                  <Controller
+                    control={control}
+                    name="lastName"
+                    rules={{ required: true }}
+                    render={({ field }) => (
+                      <Input
+                        label={t("cashier_lastName")}
+                        error={errors.lastName ? true : false}
+                        message={t("requiredField")}
+                        type="string"
+                        field={field}
+                        margin={{
+                          laptop: "20px 0 25px",
+                        }}
+                      />
+                    )}
+                  />
+                </FormCol>
+              </FormRow>
+              <FormRow>
+                <Controller
+                  name="telNumber"
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field }) => {
+                    return (
+                      <Input
+                        label={t("phoneNumber")}
+                        error={errors.telNumber ? true : false}
+                        message={t("requiredField")}
+                        type="string"
+                        defaultValue={"+998"}
+                        maxLength={13}
+                        field={field}
+                        fullWidth={true}
+                        margin={{
+                          laptop: "20px 0 25px",
+                        }}
+                      />
+                    );
+                  }}
+                />
+              </FormRow>
+              <FormRow>
+                <Controller
+                  control={control}
+                  name="storeId"
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field }) => {
+                    return (
+                      <MultiSelect
+                        options={branches}
+                        isMulti={false}
+                        label={t("choose_branch")}
+                        placeholder={t("choose_branch")}
+                        margin={{
+                          laptop: "20px 0 25px",
+                        }}
+                        message={t("requiredField")}
+                        error={errors.storeId ? true : false}
+                        field={field}
+                        isClearable={false}
+                      />
+                    );
+                  }}
+                />
+              </FormRow>
+              <FormRow>
+                <Controller
+                  control={control}
+                  name="comment"
+                  render={({ field }) => {
+                    return (
+                      <Input
+                        label={t("comment")}
+                        type="string"
+                        field={field}
+                        fullWidth={true}
+                        minRows={10}
+                        multiline={true}
+                        margin={{
+                          laptop: "20px 0 25px",
+                        }}
+                      />
+                    );
+                  }}
+                />
+              </FormRow>
+            </ModalBody>
+            <ModalAction>
+              <Button
+                buttonStyle={{
+                  bgcolor: "white",
+                  color: "#223367",
+                }}
+                onClick={() => {
+                  dispatch(setOpenManager(false));
+                  dispatch(setStepManager(1));
+                }}
+                startIcon={<CancelIcon />}
+              >
+                {t("cancel")}
+              </Button>
+
+              <Button
+                disabled={!isValid || createCash.isLoading}
+                type="submit"
+                startIcon={<NextIcon />}
+              >
+                {t("next")}
+              </Button>
+            </ModalAction>
+          </ModalContent>
+        </Form>
+      )}
+
+      {/* second step  */}
+
+      {stepManager === 2 && (
+        <ModalMain>
+          <ModalHead>
+            <ModalTitle>Настройки доступа</ModalTitle>
+            <IconButton
+              onClick={() => {
+                dispatch(setOpenManager(false));
+                dispatch(setStepManager(1));
+              }}
+            >
+              <ExitIcon />
+            </IconButton>
+          </ModalHead>
+          <Break height={50} />
           <ModalBody>
             <FormRow>
               <FormCol>
-                <Controller
-                  control={control}
-                  name="firstName"
-                  rules={{ required: true }}
-                  render={({ field }) => (
-                    <Input
-                      label={t("cashier_name")}
-                      error={errors.firstName ? true : false}
-                      message={t("requiredField")}
-                      type="string"
-                      field={field}
-                      margin={{
-                        laptop: "20px 0 25px",
-                      }}
-                    />
-                  )}
+                <Radio
+                  flexDirection="row"
+                  list={[
+                    {
+                      value: "1",
+                      label: `Полный доступ`,
+                    },
+                    {
+                      value: "2",
+                      label: `Ограниченный доступ`,
+                    },
+                  ]}
+                  title={""}
+                  onChange={(v: any) => setModified(v)}
+                  value={modified}
                 />
               </FormCol>
-              <Break width={25} />
-              <FormCol>
-                <Controller
-                  control={control}
-                  name="lastName"
-                  rules={{ required: true }}
-                  render={({ field }) => (
-                    <Input
-                      label={t("cashier_lastName")}
-                      error={errors.lastName ? true : false}
-                      message={t("requiredField")}
-                      type="string"
-                      field={field}
-                      margin={{
-                        laptop: "20px 0 25px",
-                      }}
-                    />
-                  )}
-                />
-              </FormCol>
-            </FormRow>
-            <FormRow>
-              <Controller
-                name="telNumber"
-                control={control}
-                rules={{
-                  required: true,
-                }}
-                render={({ field }) => {
-                  return (
-                    <Input
-                      label={t("phoneNumber")}
-                      error={errors.telNumber ? true : false}
-                      message={t("requiredField")}
-                      type="string"
-                      defaultValue={"+998"}
-                      maxLength={13}
-                      field={field}
-                      fullWidth={true}
-                      margin={{
-                        laptop: "20px 0 25px",
-                      }}
-                    />
-                  );
-                }}
-              />
-            </FormRow>
-            <FormRow>
-              <Controller
-                control={control}
-                name="storeId"
-                rules={{
-                  required: true,
-                }}
-                render={({ field }) => {
-                  return (
-                    <MultiSelect
-                      options={branches}
-                      isMulti={false}
-                      label={t("choose_branch")}
-                      placeholder={t("choose_branch")}
-                      margin={{
-                        laptop: "20px 0 25px",
-                      }}
-                      message={t("requiredField")}
-                      error={errors.storeId ? true : false}
-                      field={field}
-                      isClearable={false}
-                    />
-                  );
-                }}
-              />
-            </FormRow>
-            <FormRow>
-              <Controller
-                control={control}
-                name="comment"
-                render={({ field }) => {
-                  return (
-                    <Input
-                      label={t("comment")}
-                      type="string"
-                      field={field}
-                      fullWidth={true}
-                      minRows={10}
-                      multiline={true}
-                      margin={{
-                        laptop: "20px 0 25px",
-                      }}
-                    />
-                  );
-                }}
-              />
             </FormRow>
           </ModalBody>
+          <Break height={35} />
+
           <ModalAction>
             <Button
               buttonStyle={{
@@ -178,6 +270,7 @@ const CreateManager = ({ openManager }: IProps) => {
               }}
               onClick={() => {
                 dispatch(setOpenManager(false));
+                dispatch(setStepManager(1));
               }}
               startIcon={<CancelIcon />}
             >
@@ -185,15 +278,64 @@ const CreateManager = ({ openManager }: IProps) => {
             </Button>
 
             <Button
-              disabled={!isValid || createCash.isLoading}
-              type="submit"
+              onClick={() => {
+                if (modified === "2") {
+                  dispatch(setStepManager(3));
+                } else {
+                  dispatch(setOpenManager(false));
+                  dispatch(setStepManager(1));
+                }
+              }}
+              startIcon={<NextIcon />}
+            >
+              {t("next")}
+            </Button>
+          </ModalAction>
+        </ModalMain>
+      )}
+
+      {/* third step */}
+      {stepManager === 3 && (
+        <ModalMain>
+          <ModalHead>
+            <ModalTitle>Настройки доступа</ModalTitle>
+            <IconButton
+              onClick={() => {
+                dispatch(setOpenManager(false));
+                dispatch(setStepManager(1));
+              }}
+            >
+              <ExitIcon />
+            </IconButton>
+          </ModalHead>
+          <ModalBody>{/* tables  */}</ModalBody>
+          <ModalAction>
+            <Button
+              buttonStyle={{
+                bgcolor: "white",
+                color: "#223367",
+              }}
+              onClick={() => {
+                dispatch(setOpenManager(false));
+                dispatch(setStepManager(1));
+              }}
+              startIcon={<CancelIcon />}
+            >
+              {t("cancel")}
+            </Button>
+
+            <Button
+              onClick={() => {
+                dispatch(setOpenManager(false));
+                dispatch(setStepManager(1));
+              }}
               startIcon={<NextIcon />}
             >
               {t("save")}
             </Button>
           </ModalAction>
-        </ModalContent>
-      </Form>
+        </ModalMain>
+      )}
     </Modal>
   );
 };

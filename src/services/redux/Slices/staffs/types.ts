@@ -10,6 +10,7 @@ export interface staffsState {
   openCash: boolean;
   openManager: boolean;
   summaOperations: any;
+  stepManager?: any;
 }
 
 export interface ICashiers {

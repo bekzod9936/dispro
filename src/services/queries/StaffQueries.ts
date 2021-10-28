@@ -56,3 +56,17 @@ export const changeLoyal = async (data: any) => {
 
   return response;
 };
+
+//role manager
+
+export const getRoleManager = async (id: string | number) => {
+  const response = await partnerApi.get(`/core/staffs/permissions/${id}`);
+
+  return response;
+};
+
+export const setRoleManager = async (data: any) => {
+  const response = await partnerApi.put(`/core/staffs/permissions/${data.id}`);
+
+  return response;
+};

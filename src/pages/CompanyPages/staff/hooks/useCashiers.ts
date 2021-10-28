@@ -14,6 +14,7 @@ import {
   setCashiers,
   setOpenCash,
   setSelectedCashiers,
+  setStepManager,
 } from "services/redux/Slices/staffs";
 import { numberWith } from "services/utils";
 
@@ -84,6 +85,7 @@ const useCashiers = ({ page, query, period }: any) => {
         response.refetch();
       } else {
         responseManager.refetch();
+        dispatch(setStepManager(2));
       }
       setOpen(false);
 
