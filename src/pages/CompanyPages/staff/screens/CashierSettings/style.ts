@@ -35,7 +35,7 @@ export const CashierBody = styled.div`
   background: #fff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
   border-radius: 14px;
-  padding: 40px 30px 60px 50px;
+  padding: 40px 30px 0 50px;
   overflow-y: auto;
   overflow-x: hidden;
 `;
@@ -57,6 +57,7 @@ export const SettingCol = styled.div`
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
+  width: 45%;
 `;
 
 export const SettingTitle = styled.h5`
@@ -77,4 +78,25 @@ export const SettingText = styled.p`
   color: #223367;
 `;
 
-export const Form = styled.form``;
+export const Form = styled.form`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+
+export const UpSide = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 85%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+`;
+
+export const DownSide = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 15%;
+  background-color: white;
+`;

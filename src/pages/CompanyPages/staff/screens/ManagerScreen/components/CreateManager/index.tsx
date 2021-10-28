@@ -50,9 +50,6 @@ const CreateManager = ({ openManager }: IProps) => {
     });
   };
 
-  console.log(branches, "branches");
-
-  console.log(openManager, "open Managers");
   return (
     <Modal open={openManager}>
       <Form onSubmit={handleSubmit(onSave)}>

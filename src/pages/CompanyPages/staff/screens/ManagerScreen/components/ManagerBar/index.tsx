@@ -18,6 +18,8 @@ import {
   CommentText,
   CommentContent,
   ButtonKeyWord,
+  ManagerCollection,
+  DeleteIc,
 } from "./style";
 import { IconButton } from "@material-ui/core";
 
@@ -29,7 +31,6 @@ import { ReactComponent as DeleteWhiteIcon } from "assets/icons/trash_white.svg"
 import { ReactComponent as ExitIcon } from "assets/icons/exit.svg";
 import { ReactComponent as TrashWhite } from "assets/icons/trash_white.svg";
 import { ReactComponent as RoleIcon } from "assets/icons/role_icon.svg";
-import { ReactComponent as Delete } from "assets/icons/IconsInfo/delete.svg";
 
 import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import Button from "components/Custom/Button";
@@ -160,7 +161,7 @@ const ManagerBar = () => {
               </ManagerCol>
             </ManagerRow>
 
-            <ManagerRow justifyContent="space-between">
+            <ManagerCollection>
               {selectedManagers.map((item: any, index: number) => {
                 return (
                   <ButtonKeyWord>
@@ -173,12 +174,12 @@ const ManagerBar = () => {
                         dispatch(setSelectedManagers(filteredItem));
                       }}
                     >
-                      <Delete color="#C4C4C4" />
+                      <DeleteIc color="#C4C4C4" />
                     </IconButton>
                   </ButtonKeyWord>
                 );
               })}
-            </ManagerRow>
+            </ManagerCollection>
 
             <Break height={20} />
 
@@ -221,15 +222,15 @@ const ManagerBar = () => {
                 <ManagerRow justifyContent="space-between">
                   <Button
                     buttonStyle={{
-                      bgcolor: "#FF5E68",
-                      color: "#fff",
+                      bgcolor: "#fff",
+                      color: "#FF5E68",
                     }}
                     onClick={() => {
                       setOpen(true);
                     }}
-                    startIcon={<TrashWhite />}
+                    startIcon={<DeleteIcon />}
                   >
-                    Удалить кассиров
+                    Удалить менеджеров
                   </Button>
                 </ManagerRow>
               </ManagerCol>
@@ -249,9 +250,28 @@ const ManagerBar = () => {
           <ModalBody>
             <BarTitle>Вы уверены что хотите удалить кассира?</BarTitle>
             <Break height={15} />
-            {selectedManagers.map((item: any) => {
+            {/* {selectedManagers.map((item: any) => {
               return <BarText>{item?.firstName}</BarText>;
-            })}
+            })} */}
+            <ManagerCollection>
+              {selectedManagers.map((item: any, index: number) => {
+                return (
+                  <ButtonKeyWord key={index}>
+                    {item?.firstName}
+                    <IconButton
+                      onClick={() => {
+                        let filteredItem = selectedManagers?.filter(
+                          (it: any) => it.id !== item.id
+                        );
+                        dispatch(setSelectedManagers(filteredItem));
+                      }}
+                    >
+                      <DeleteIc color="#C4C4C4" />
+                    </IconButton>
+                  </ButtonKeyWord>
+                );
+              })}
+            </ManagerCollection>
           </ModalBody>
           <Break height={35} />
           <ModalAction>

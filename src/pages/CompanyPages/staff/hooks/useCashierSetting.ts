@@ -17,6 +17,8 @@ export interface IForm {
 const useCashierSetting = () => {
   const companyId: any = localStorage.getItem("companyId");
   const [reward, setRewards] = useState([]);
+  const [ballPoint, setBallPoint] = useState<any>("");
+  const [ballUzs, setBallUzs] = useState<any>("");
   const { control, handleSubmit, setValue } = useForm<IForm>();
 
   const ballCheck = useWatch({
@@ -43,9 +45,6 @@ const useCashierSetting = () => {
     {
       retry: 0,
       refetchOnWindowFocus: false,
-      keepPreviousData: true,
-      refetchIntervalInBackground: true,
-      cacheTime: 50000,
       onSuccess: (data) => {
         data.data.data.rewards.forEach((element: any) => {
           if (element.rewardType === 5) {
@@ -62,8 +61,11 @@ const useCashierSetting = () => {
         let forFirst = result.find((item: any) => item?.rewardType === 5);
         let forSecond = result.find((item: any) => item?.rewardType === 6);
 
-        setValue("ballPoint", forFirst?.amount);
-        setValue("ballUzs", forSecond?.amount);
+        // setValue("ballPoint", forFirst?.amount);
+        // setValue("ballUzs", forSecond?.amount);
+
+        setBallPoint(forFirst?.amount);
+        setBallUzs(forSecond?.amount);
       },
     }
   );
@@ -75,6 +77,8 @@ const useCashierSetting = () => {
     handleSubmit,
     setValue,
     control,
+    ballPoint,
+    ballUzs,
   };
 };
 

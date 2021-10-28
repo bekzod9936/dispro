@@ -27,6 +27,32 @@ export const ManagerCard = styled.div`
   height: 100%;
 `;
 
+export const ManagerCollection = styled.div`
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  max-height: 400px;
+  max-width: 450px;
+  overflow-y: scroll;
+  margin-top: 15px;
+  scroll-behavior: auto;
+  padding: 0;
+  width: 100%;
+
+  ::-webkit-scrollbar {
+    width: 7px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #606eea;
+    border-radius: 14px 0px 0px 14px;
+  }
+  /* justify-content: space-between; */
+`;
+
 export const ManagerRow = styled.div`
   display: flex;
   flex-direction: row;
@@ -202,7 +228,7 @@ interface ButtonProps {
   color?: string;
 }
 
-export const DeleteIcon = styled(Delete)`
+export const DeleteIc = styled(Delete)`
   & > path {
     fill: ${({ color }: ButtonProps) => (color ? color : null)};
   }
