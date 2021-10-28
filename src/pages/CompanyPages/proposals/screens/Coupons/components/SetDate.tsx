@@ -7,10 +7,10 @@ import { useHistory } from 'react-router'
 import { ICoupon } from '..'
 import { CancelIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
 import { PublishIcon } from 'assets/icons/proposals/ProposalsIcons'
-import { getValidDate } from 'pages/CompanyPages/proposals/utils/getValidDate'
 import { useMutation } from 'react-query'
 import { postCoupon, putCoupon } from 'services/queries/ProposalsQueries'
-
+import moment from 'moment'
+import Input from "components/Custom/Input"
 
 interface IProps {
     handleClose: any,
@@ -49,23 +49,19 @@ export const SetDate = ({
     const history = useHistory()
 
     const onPublish = async (data: any) => {
-        let startDate = getValidDate(data.startDate)
-        let endDate = getValidDate(data.endDate)
-        let publishDate = getValidDate(data.publishDate)
-
         setValidDate({
-            startDate,
-            endDate,
-            publishDate
+            startDate: data.startDate,
+            endDate: data.endDate,
+            publishDate: data.publishDate
         })
 
         if (shouldPublish) {
             handlePost({
                 id: coupon.id,
                 data: {
-                    startDate,
-                    endDate,
-                    publishDate
+                    startDate: data.startDate,
+                    endDate: data.endDate,
+                    publishDate: data.publishDate
                 }
             })
         } else if (shouldUpdate) {
@@ -76,9 +72,9 @@ export const SetDate = ({
                 }
             })
             putCoupon(coupon.id, {
-                startDate,
-                endDate,
-                publishDate
+                startDate: data.startDate,
+                endDate: data.endDate,
+                publishDate: data.publishDate
             })
         } else {
             mutate(coupon)
@@ -86,6 +82,15 @@ export const SetDate = ({
         handleClose()
         setTimeout(() => history.goBack(), 1000)
     }
+
+    const handleFn = (str: string) => {
+        const res = new Date(new Date(str?.split("-")?.join(","))?.getTime() + 2592000000)
+        let day = res.getDate() < 10 ? `0${res.getDate()}` : res.getDate()
+        let month = (res.getMonth() + 1) < 10 ? `0${res.getMonth() + 1}` : res.getMonth() + 1;
+        return [res.getFullYear(), month, day].join("-")
+    }
+
+
 
     return (
         <form onSubmit={handleSubmit(onPublish)}>
@@ -99,7 +104,12 @@ export const SetDate = ({
                         required: true
                     }}
                     render={({ field }) => (
-                        <CustomDatePicker minDate={Date.now()} field={field} />
+                        <Input
+                            field={field}
+                            min={moment(Date.now()).format("YYYY-MM-DD")}
+                            type="date"
+                            margin={{ laptop: "0 0 20px 0" }}
+                        />
                     )}
                 />
                 <p>Выберите период действия купона</p>
@@ -111,11 +121,13 @@ export const SetDate = ({
                         }}
                         control={control}
                         render={({ field }) => (
-                            <CustomDatePicker
+                            <Input
                                 field={field}
-                                minDate={watch("publishDate")?.toDate()}
-                                disabled={!!!watch("publishDate")}
-                                marginRight="20px" />
+                                type="date"
+                                min={watch("publishDate")}
+                                max={handleFn(watch("publishDate"))}
+                                margin={{ laptop: "0 20px 20px 0" }}
+                            />
                         )}
                     />
                     <Controller
@@ -125,11 +137,12 @@ export const SetDate = ({
                         control={control}
                         name="endDate"
                         render={({ field }) => (
-                            <CustomDatePicker
+                            <Input
                                 field={field}
-                                minDate={watch("startDate")?.toDate()}
-                                maxDate={new Date(watch("publishDate")?.toDate()?.getTime() + 2592000000)}
-                                disabled={!!!watch("publishDate")} />
+                                min={watch("startDate")}
+                                type="date"
+                                max={handleFn(watch("publishDate"))}
+                            />
                         )}
                     />
                 </div>

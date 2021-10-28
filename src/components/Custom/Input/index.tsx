@@ -88,7 +88,10 @@ export interface Props {
   register?: any;
 }
 
-const NInput = ({ onChange = () => {}, ...props }: Props) => {
+const NInput = ({ onChange = () => { }, ...props }: Props) => {
+
+
+
   return (
     <Container width={props.width} margin={props.margin}>
       {props.label ? (
