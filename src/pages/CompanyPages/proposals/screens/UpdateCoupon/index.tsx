@@ -33,6 +33,7 @@ import {
     Wrapper
 } from './style'
 import CropCustomModal from 'components/Custom/CropImageModal/index'
+import MFormatInput from 'components/Custom/MoneyInput'
 import { useTranslation } from 'react-i18next'
 import { useMutation } from 'react-query'
 import { updateCoupon, postCoupon } from 'services/queries/ProposalsQueries'
@@ -239,13 +240,15 @@ const UpdateCoupon = () => {
                                     required: true
                                 }}
                                 render={({ field }) => (
-                                    <Input
+                                    <MFormatInput
+                                        {...field}
+                                        defaultValue={currentCoupon.value}
+                                        onChange={(e: any) => field.onChange(e)}
                                         error={!!errors.percent}
                                         message={t("requiredField")}
-                                        field={field}
-                                        defaultValue={currentCoupon.value}
                                         label={isCoupon ? `Укажите % купона` : "Укажите сумму сертификата"}
                                         margin={{ laptop: "35px 0" }} />
+
                                 )}
                             />
                             <Controller
