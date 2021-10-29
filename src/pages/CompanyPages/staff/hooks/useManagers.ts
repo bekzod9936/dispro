@@ -1,11 +1,20 @@
-import { useQuery } from "react-query";
-import { getManagers, searchManagers } from "services/queries/StaffQueries";
+import { useState } from "react";
+import { useQuery, useMutation } from "react-query";
+import {
+  getManagers,
+  searchManagers,
+  setRoleManager,
+} from "services/queries/StaffQueries";
 import { useAppDispatch } from "services/redux/hooks";
 import { setAllManager, setManagers } from "services/redux/Slices/staffs";
 import { numberWith } from "services/utils";
 
 const useManagers = ({ page, query, period }: any) => {
+  const [modified, setModified] = useState("1");
+
   const dispatch = useAppDispatch();
+
+  const saveRoleManager = useMutation((data: any) => setRoleManager(data));
 
   const response = useQuery(
     ["cashiers", page, query, period],
@@ -51,6 +60,9 @@ const useManagers = ({ page, query, period }: any) => {
 
   return {
     response,
+    saveRoleManager,
+    modified,
+    setModified,
   };
 };
 

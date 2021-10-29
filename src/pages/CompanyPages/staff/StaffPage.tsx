@@ -36,8 +36,6 @@ const StaffPage = () => {
     dispatch(setQuery(""));
   };
 
-  console.log(location.pathname, "pathName");
-
   return (
     <MainWrapper id="drawer-container">
       {location.pathname !== "/staff/setting" ? (

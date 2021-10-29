@@ -9,7 +9,6 @@ import Spinner from 'components/Custom/Spinner';
 import { Text, Title } from '../../style';
 import MultiSelect from 'components/Custom/MultiSelect';
 import { useHistory } from 'react-router';
-import Cookies from 'js-cookie';
 import useLayout from '../../../../../components/Layout/useLayout';
 import { IconButton } from '@material-ui/core';
 import { setAddressAdd } from 'services/redux/Slices/infoSlice';
@@ -70,7 +69,7 @@ interface socialProps {
   name?: string;
   value?: any;
 }
-
+const companyId: any = localStorage.getItem('companyId');
 const Main = () => {
   const { response, data } = useInfoPage();
   const [filled, setFilled] = useState<any>(false);
@@ -84,7 +83,7 @@ const Main = () => {
     handlePhotoDelete,
     upload,
   } = useAbout({ logo: data.logo });
-  const { resHeader } = useLayout();
+  const { resHeader } = useLayout({ id: companyId });
 
   const history = useHistory();
   const { t } = useTranslation();
@@ -246,8 +245,6 @@ const Main = () => {
     });
     return () => subscription.unsubscribe();
   }, [watch(['categories'])]);
-
-  const companyId: any = localStorage.getItem('companyId');
 
   const handleInfoSubmit = (v: any) => {
     const category = v.categories.map((v: any) => v.value);

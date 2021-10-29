@@ -163,12 +163,14 @@ export const Form = styled.form`
   }
 `;
 
-export const Link = styled.a`
+export const RLink = styled.a`
   color: #3492ff;
   font-style: normal;
   font-weight: normal;
   font-size: 16px;
   text-decoration: none;
+  cursor: pointer;
+  margin: 0 3px;
   @media (max-width: ${device.mobile}) {
     font-size: 14px;
   }

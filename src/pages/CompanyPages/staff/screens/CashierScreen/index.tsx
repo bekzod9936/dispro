@@ -13,6 +13,7 @@ import { ReactComponent as EmptyCashier } from "assets/images/staffs_empty.svg";
 import { ReactComponent as AddCashier } from "assets/icons/add_cashier.svg";
 import { CashierDiv, Text, Break } from "./style";
 import { setOpenCash, setOpenFilter } from "services/redux/Slices/staffs";
+import useCashierSetting from "../../hooks/useCashierSetting";
 
 const CashierScreen = () => {
   const dispatch = useAppDispatch();
@@ -22,6 +23,7 @@ const CashierScreen = () => {
   const selectedCashiers = useAppSelector(
     (state) => state.staffs.selectedCashiers
   );
+  const { ballUzs, ballPoint } = useCashierSetting();
 
   const [period, setPeriod] = useState({
     startDate: "",
@@ -90,7 +92,7 @@ const CashierScreen = () => {
         </EmptyContainer>
       )}
       <SideBar isOpen={open}>Salom</SideBar>
-      <SideBar isOpen={selectedCashiers.length}>
+      <SideBar isOpen={selectedCashiers?.length}>
         <CashierBar />
       </SideBar>
     </CashierDiv>

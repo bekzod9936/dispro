@@ -47,6 +47,7 @@
     "react-infinite-scroll-component": "^6.1.0",
     "react-lazy-load-image-component": "^1.5.1",
     "react-multi-date-picker": "^3.1.7",
+    "react-pdf": "^5.5.0",
     "react-qr-code": "1.1.1",
     "react-query": "3.16.1",
     "react-redux": "7.2.4",
@@ -107,6 +108,7 @@
     "@types/js-cookie": "^3.0.0",
     "@types/qrcode.react": "^1.0.2",
     "@types/react-lazy-load-image-component": "^1.5.2",
+    "@types/react-pdf": "^5.0.9",
     "@types/react-table": "^7.7.6",
     "@types/react-text-mask": "^5.4.10",
     "fork-ts-checker-webpack-plugin": "^6.3.2"
