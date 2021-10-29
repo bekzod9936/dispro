@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
-import react, { lazy } from 'react';
-import { Redirect, Route } from 'react-router-dom';
+import { lazy } from 'react';
+import { Redirect } from 'react-router-dom';
 import FallbackOnLazyLoad from '../pages/Fallbacks/FallbackOnLazyLoad';
 import DefaultLayoutAdmin, {
   IDefaultLayout,
@@ -228,9 +228,10 @@ const RenderPublicRoutes = () => {
   const moderatorRefreshToken = localStorage.getItem('partner_refresh_token');
   return publicRoutes.map((item: IPublicRoute) => {
     if (
-      moderatorAutehntificationToken &&
-      moderatorRefreshToken &&
-      window.location.pathname === '/'
+      // moderatorAutehntificationToken &&
+      // moderatorRefreshToken &&
+      // window.location.pathname === '/'
+      false
     ) {
       return <Redirect to='/partner/company' />;
     }

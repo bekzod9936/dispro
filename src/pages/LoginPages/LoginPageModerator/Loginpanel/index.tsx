@@ -11,12 +11,11 @@ import {
   setCompanyState,
   setLogIn,
   setProceedAuth,
-  setStaffId,
 } from 'services/redux/Slices/authSlice';
 import { inputPhoneNumber, inputSms } from 'utilities/inputFormat';
-import Cookies from 'js-cookie';
 import Input from 'components/Custom/Input';
 import MultiSelect from 'components/Custom/MultiSelect';
+import SnackBar from 'components/Custom/NewSnack';
 import {
   Container,
   MainWrap,
@@ -71,6 +70,9 @@ export const LoginPanel = () => {
   const history = useHistory();
   const [time, setTime] = useState(60);
   const [fetch, setFetch] = useState(false);
+  const [errorOpen, setErrorOpen] = useState<boolean>(false);
+  const [errorSms, setErrorSms] = useState<boolean>(false);
+  const [errorM, seterrorM] = useState('');
   const {
     control,
     handleSubmit,
@@ -166,6 +168,9 @@ export const LoginPanel = () => {
         setPhone(privateNumber);
         setFetch(true);
       },
+      onError: () => {
+        setErrorOpen(true);
+      },
     });
   };
 
@@ -193,13 +198,19 @@ export const LoginPanel = () => {
         refetchList();
         dispatch(setCompanyState(data.data.data.status));
 
-        Cookies.set('compnayState', data.data.data.status);
-
-        if (Cookies.get('compnayState') === 'old') {
+        if (data.data.data.status === 'old') {
           history.push('/partner/company');
         } else {
           history.push('/partner/registration');
         }
+      },
+      onError: (error: any) => {
+        setErrorSms(true);
+        seterrorM(
+          error?.response?.data?.error?.errMsg === t('warningsms')
+            ? t('warningsms')
+            : t('errorsmscode')
+        );
       },
     });
   };
@@ -280,7 +291,7 @@ export const LoginPanel = () => {
                     render={({ field }) => (
                       <Input
                         label={t('assertCode')}
-                        error={errors.smsCode ? true : false}
+                        error={errorSms || errors.smsCode ? true : false}
                         type='string'
                         field={field}
                         margin={{
@@ -304,6 +315,7 @@ export const LoginPanel = () => {
                         color: '#3492FF',
                         bgcolor: 'transparent',
                       }}
+                      padding={{ laptop: '0' }}
                       onClick={handleReSend}
                       disabled={logRes.isLoading}
                     >
@@ -314,6 +326,16 @@ export const LoginPanel = () => {
                     {t('smsphone')}
                     {phone}
                   </SmsNumber>
+                  <SnackBar
+                    message={errorM}
+                    status='error'
+                    open={errorSms}
+                    onClose={(e: any) => setErrorSms(e)}
+                    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                  />
+                  {errorSms || (smsRes.isError && time !== 0) ? (
+                    <Message>{t('errorsms')}</Message>
+                  ) : null}
                 </Content>
                 <Content>
                   <WrapButton>
@@ -435,6 +457,13 @@ export const LoginPanel = () => {
           </Form>
         </Body>
       </MainWrap>
+      <SnackBar
+        message={t('usernotfind')}
+        status='error'
+        open={errorOpen}
+        onClose={(e: any) => setErrorOpen(e)}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      />
     </Container>
   );
 };

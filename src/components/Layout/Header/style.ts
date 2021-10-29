@@ -260,11 +260,19 @@ export const Name = styled.div`
   font-size: ${({ fontSize }: NProps) => `${fontSize}px`};
   color: #223367;
   text-align: center;
-  text-overflow: ellipsis;
   overflow: hidden;
-
+  text-overflow: ellipsis;
   max-width: 120px;
+  white-space: nowrap;
+
   width: 120px;
+`;
+export const PName = styled.div`
+  font-style: normal;
+  font-weight: bold;
+  font-size: ${({ fontSize }: NProps) => `${fontSize}px`};
+  color: #223367;
+  text-align: center;
 `;
 
 export const TextCompany = styled.div`

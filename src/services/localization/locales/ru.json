@@ -119,7 +119,7 @@
   "your_name": "Ваше имя",
   "your_lastName": "Ваша фамилия",
   "email": "Электронная почта",
-  "read": "Я прочитал(-а) ",
+  "read": "Я прочитал(-а)",
   "policy": "Политику конфиденциальности",
   "agree": " и принимаю ее условия",
   "applicationApply": "Я прочитал(-а) и принимаю ",
@@ -269,7 +269,7 @@
   "phoneLength": "Некорректный номер телефона.",
   "tryagain": "Попробуйте еще раз.",
   "enter": "Войти",
-  "disadmin": "Dis-admin ",
+  "disadmin": "DIS-admin ",
   "discount": "DIS-COUNT",
   "smsphone": "SMS выслан на номер:",
   "wrongsmscode": "Код подтверждения введен неверно",
@@ -410,5 +410,9 @@
   "filial": "Филиал",
   "paidwithpoints": "Оплачено баллами",
   "evaluations": "оценок",
-  "change_access": "Настроить доступ"
+  "change_access": "Настроить доступ",
+  "usernotfind": "Пользователь не найден",
+  "errorsms": "OTP введен неверно",
+  "warningsms": "Слишком много попыток, пожалуйста повторите через час",
+  "errorsmscode": "Неверный СМС код"
 }

@@ -4,13 +4,12 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import IconButton from '@material-ui/core/IconButton';
-import Logo from '../../assets/icons/SideBar/logo.png';
-import { device } from '../../styles/device';
+import Logo from 'assets/icons/SideBar/logo.png';
+import { device } from 'styles/device';
 import Header from './Header';
 import Spinner from '../Custom/Spinner';
 import { useSideBarStyle } from './styles/SideBarStyle';
 import MenuList from './MenuList';
-import Cookies from 'js-cookie';
 import useLayout from './useLayout';
 import {
   Container,
@@ -29,11 +28,11 @@ import {
 export interface IDefaultLayout {
   children: any;
 }
-
+const companyId = localStorage.getItem('companyId');
 const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
   const classes = useSideBarStyle();
 
-  const { resHeader, headerData } = useLayout();
+  const { resHeader, headerData } = useLayout({id: companyId});
 
   const [width, setWidth] = useState(window.innerWidth);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -106,13 +105,8 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
           onOpen={toggleDrawer(true)}
           style={{
             pointerEvents:
-              Cookies.get('compnayState') === 'new' || !headerData.filled
-                ? 'none'
-                : 'auto',
-            opacity:
-              Cookies.get('compnayState') === 'new' || !headerData.filled
-                ? 0.4
-                : 1,
+              headerData.filled && headerData.filledAddress ? 'auto' : 'none',
+            opacity: headerData.filled && headerData.filledAddress ? 1 : 0.4,
           }}
         >
           <div
@@ -163,17 +157,8 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
           }}
           style={{
             pointerEvents:
-              Cookies.get('compnayState') === 'new' ||
-              !headerData.filled ||
-              !headerData.filledAddress
-                ? 'none'
-                : 'auto',
-            opacity:
-              Cookies.get('compnayState') === 'new' ||
-              !headerData.filled ||
-              !headerData.filledAddress
-                ? 0.4
-                : 1,
+              headerData.filled && headerData.filledAddress ? 'auto' : 'none',
+            opacity: headerData.filled && headerData.filledAddress ? 1 : 0.4,
           }}
         >
           <div className={classes.toolbar}>

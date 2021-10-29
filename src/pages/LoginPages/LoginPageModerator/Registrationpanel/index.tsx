@@ -22,7 +22,7 @@ import {
   WrapGrid,
   Content,
   Form,
-  Link,
+  RLink,
   Label,
   WrapCheck,
   CountryWrap,
@@ -229,7 +229,9 @@ const Registrationpanel = () => {
                   />
                   <Label htmlFor='readPolice'>
                     {t('read')}
-                    <Link href='/'>{t('policy')}</Link>
+                    <RLink href='/privacy-policy' target='_blank'>
+                      {t('policy')}
+                    </RLink>
                     {t('agree')}
                   </Label>
                 </WrapCheck>
@@ -244,7 +246,9 @@ const Registrationpanel = () => {
                   />
                   <Label>
                     {t('applicationApply')}
-                    <Link href='/'>{t('conditions')}</Link>
+                    <RLink href='/terms-and-conditions' target='_blank'>
+                      {t('conditions')}
+                    </RLink>
                   </Label>
                 </WrapCheck>
               </>
