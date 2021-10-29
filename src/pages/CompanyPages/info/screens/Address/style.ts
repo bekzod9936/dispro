@@ -147,11 +147,16 @@ export const Rightside = styled.div`
   }
 `;
 
+interface YProps {
+  bcolor?: boolean;
+}
+
 export const YandexContainer = styled.div`
   width: 100%;
   height: 100%;
   border-radius: 14px;
-  border: 1px solid #c4c4c4;
+  border: ${({ bcolor }: YProps) =>
+    bcolor ? '2px solid #FF5E68' : '1px solid #c4c4c4'};
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.04));
   overflow: hidden;
   position: relative;
@@ -298,4 +303,30 @@ export const NoResult = styled.div`
   font-weight: normal;
   font-size: 16px;
   color: #223367;
+`;
+
+export const Message = styled.div`
+  font-weight: 300;
+  color: #ff5e68;
+  overflow-wrap: normal;
+  margin-top: 5px;
+  font-size: 14px;
+
+  @media (max-width: ${device.mobile}) {
+    font-size: 14px;
+    margin-top: 3px;
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    font-size: 14px;
+    margin-top: 3px;
+  }
+  @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
+    font-size: 14px;
+
+    margin-top: 3px;
+  }
+  @media (min-width: ${device.laptop}) {
+    font-size: 16px;
+    margin-top: 5px;
+  }
 `;
