@@ -150,7 +150,14 @@ const Coupons = () => {
             price: data.cost,
             title: data.name,
             type: isCoupon ? "1" : "2",
-            value: data.percent,
+            value: data.percent.toString().split(" ").join(''),
+            settings: {
+                weekDays: optionalFields.days ? data.days.map((el: any) => el.id) : [0, 1, 2, 3, 4, 5, 6],
+                time: {
+                    from: !optionalFields.time ? "00:00" : data.timeFrom,
+                    to: !optionalFields.time ? "23:59" : data.timeTo
+                }
+            }
         }))
     }
 
@@ -170,7 +177,7 @@ const Coupons = () => {
             price: data.cost,
             description: data.description,
             count: data.amount,
-            value: data.percent,
+            value: data.percent.toString().split(" ").join(''),
             currencyId: 1,
             ageFrom: optionalFields.age ? data.ageLimit : null,
             ageUnlimited: !!!data.ageLimit || !optionalFields.age,
@@ -178,6 +185,13 @@ const Coupons = () => {
             companyId: 18,
             image: image,
             type: isCoupon ? "1" : "2",
+            settings: {
+                weekDays: optionalFields.days ? data.days.map((el: any) => el.id) : [0, 1, 2, 3, 4, 5, 6],
+                time: {
+                    from: !optionalFields.time ? "00:00" : data.timeFrom,
+                    to: !optionalFields.time ? "23:59" : data.timeTo
+                }
+            }
         }
 
         mutate(validData)
@@ -374,10 +388,20 @@ const Coupons = () => {
                                         onChange={(e: any) => handleOpenBlock(e, "days")} />
                                 </AgeBlock>
                                 {optionalFields.days &&
-                                    <MultiSelect
-                                        isMulti={true}
-                                        options={days}
-                                        label="Укажите дни" />}
+                                    <Controller
+                                        name="days"
+                                        control={control}
+                                        rules={{
+                                            required: optionalFields.days
+                                        }}
+                                        render={({ field }) => (
+                                            <MultiSelect
+                                                field={field}
+                                                isMulti={true}
+                                                options={days}
+                                                label="Укажите дни" />
+                                        )}
+                                    />}
                             </AgeWrapper>
                             <AgeWrapper>
                                 <AgeBlock>
@@ -390,6 +414,9 @@ const Coupons = () => {
                                         <Controller
                                             control={control}
                                             name="timeFrom"
+                                            rules={{
+                                                required: optionalFields.time
+                                            }}
                                             render={({ field }) => (
                                                 <Input margin={{ laptop: "0 25px 0 0" }} type="time" field={field} />
                                             )}
@@ -397,6 +424,9 @@ const Coupons = () => {
                                         <Controller
                                             control={control}
                                             name="timeTo"
+                                            rules={{
+                                                required: optionalFields.time
+                                            }}
                                             render={({ field }) => (
                                                 <Input type="time" field={field} />
                                             )}
