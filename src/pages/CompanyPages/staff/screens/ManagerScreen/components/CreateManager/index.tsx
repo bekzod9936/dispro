@@ -23,6 +23,8 @@ import { setOpenManager, setStepManager } from "services/redux/Slices/staffs";
 import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import { ReactComponent as NextIcon } from "assets/icons/sign_tick.svg";
 import { ReactComponent as ExitIcon } from "assets/icons/exit.svg";
+import { ReactComponent as SaveIcon } from "assets/icons/IconsInfo/save.svg";
+import RoleTable from "./components/RoleTable";
 
 const CreateManager = ({ openManager }: IProps) => {
   const stepManager = useAppSelector((state) => state.staffs.stepManager);
@@ -308,7 +310,10 @@ const CreateManager = ({ openManager }: IProps) => {
               <ExitIcon />
             </IconButton>
           </ModalHead>
-          <ModalBody>{/* tables  */}</ModalBody>
+          <ModalBody>
+            {/* tables  */}
+            <RoleTable />
+          </ModalBody>
           <ModalAction>
             <Button
               buttonStyle={{
@@ -329,7 +334,7 @@ const CreateManager = ({ openManager }: IProps) => {
                 dispatch(setOpenManager(false));
                 dispatch(setStepManager(1));
               }}
-              startIcon={<NextIcon />}
+              startIcon={<SaveIcon />}
             >
               {t("save")}
             </Button>
