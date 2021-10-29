@@ -33,6 +33,7 @@ import {
     Wrapper
 } from './style'
 import CropCustomModal from 'components/Custom/CropImageModal/index'
+import MFormatInput from 'components/Custom/MoneyInput'
 import { useTranslation } from 'react-i18next'
 import { useMutation } from 'react-query'
 import { updateCoupon, postCoupon } from 'services/queries/ProposalsQueries'
@@ -46,9 +47,8 @@ import { PreviewModal } from '../../components/PreviewModal'
 import { PreviewMessage } from '../Coupons/style'
 import { SetDate } from '../Coupons/components/SetDate'
 import Modal from 'components/Custom/Modal'
-import { getDefaultCategories } from '../../utils/getValidDate'
-import Select from "react-select"
 import { useFetchCategories } from './useFetchCategories'
+import { getWeekDays } from '../../utils/getValidDate'
 const UpdateCoupon = () => {
     const { currentCoupon } = useAppSelector((state: RootState) => state.proposals)
     const { t } = useTranslation()
@@ -76,8 +76,8 @@ const UpdateCoupon = () => {
     const [optionalFields, setOptionalFields] = React.useState(
         {
             age: !currentCoupon.ageUnlimited,
-            days: false,
-            time: false
+            days: currentCoupon?.settings?.weekDays?.length !== 7,
+            time: !(currentCoupon?.settings?.time?.from === "00:00" && currentCoupon?.settings?.time?.to === "23:59")
         }
     )
     const handleBack = () => {
@@ -107,7 +107,7 @@ const UpdateCoupon = () => {
             price: data.cost,
             description: data.description,
             count: data.amount,
-            value: data.percent,
+            value: data.percent.toString().split(" ").join(''),
             currencyId: 1,
             ageFrom: optionalFields.age ? data.ageLimit : null,
             ageUnlimited: !!!data.ageLimit || !optionalFields.age,
@@ -116,6 +116,13 @@ const UpdateCoupon = () => {
             id: currentCoupon.id,
             image: image,
             type: currentCoupon.type,
+            settings: {
+                weekDays: optionalFields.days ? data.days.map((el: any) => el.id) : [0, 1, 2, 3, 4, 5, 6],
+                time: {
+                    from: !optionalFields.time ? "00:00" : data.timeFrom,
+                    to: !optionalFields.time ? "23:59" : data.timeTo
+                }
+            }
         }
         mutate({
             id: currentCoupon.id,
@@ -133,7 +140,7 @@ const UpdateCoupon = () => {
             count: data.amount,
             ageUnlimited: !!!data.ageLimit,
             price: data.cost,
-            value: data.percent,
+            value: data.percent.toString().split(" ").join(''),
             type: isCoupon ? "1" : "2",
             currencyId: 1,
             categoryIds: data.categories.map((el: any) => el.id),
@@ -141,7 +148,14 @@ const UpdateCoupon = () => {
             image: image,
             ageFrom: optionalFields.age ? (data.ageLimit || null) : null,
             ageTo: null,
-            description: data.description
+            description: data.description,
+            settings: {
+                weekDays: optionalFields.days ? data.days.map((el: any) => el.id) : [0, 1, 2, 3, 4, 5, 6],
+                time: {
+                    from: !optionalFields.time ? "00:00" : data.timeFrom,
+                    to: !optionalFields.time ? "23:59" : data.timeTo
+                }
+            }
         })
     }
 
@@ -239,13 +253,15 @@ const UpdateCoupon = () => {
                                     required: true
                                 }}
                                 render={({ field }) => (
-                                    <Input
+                                    <MFormatInput
+                                        {...field}
+                                        defaultValue={currentCoupon.value}
+                                        onChange={(e: any) => field.onChange(e)}
                                         error={!!errors.percent}
                                         message={t("requiredField")}
-                                        field={field}
-                                        defaultValue={currentCoupon.value}
                                         label={isCoupon ? `Укажите % купона` : "Укажите сумму сертификата"}
                                         margin={{ laptop: "35px 0" }} />
+
                                 )}
                             />
                             <Controller
@@ -349,18 +365,33 @@ const UpdateCoupon = () => {
                                 <AgeBlock>
                                     <h6>Дни действия {isCoupon ? "купона" : "сертификата"}</h6>
                                     <CustomToggle
+                                        checked={optionalFields.days}
                                         onChange={(e: any) => handleOpenBlock(e, "days")} />
                                 </AgeBlock>
                                 {optionalFields.days &&
-                                    <MultiSelect
-                                        isMulti={true}
-                                        options={days}
-                                        label="Укажите дни" />}
+                                    <Controller
+                                        name="days"
+                                        control={control}
+                                        rules={{
+                                            required: optionalFields.days
+                                        }}
+                                        defaultValue={getWeekDays(currentCoupon?.settings?.weekDays)}
+                                        render={({ field }) => (
+                                            <MultiSelect
+                                                options={days}
+                                                field={field}
+                                                isMulti
+                                                defaultValue={getWeekDays(currentCoupon?.settings?.weekDays)}
+                                                label="Укажите дни"
+                                            />
+                                        )}
+                                    />}
                             </AgeWrapper>
                             <AgeWrapper>
                                 <AgeBlock>
                                     <h6>Время действия {isCoupon ? "купона" : "сертификата"}</h6>
                                     <CustomToggle
+                                        checked={optionalFields.time}
                                         onChange={(e: any) => handleOpenBlock(e, "time")} />
                                 </AgeBlock>
                                 {optionalFields.time &&
@@ -368,15 +399,24 @@ const UpdateCoupon = () => {
                                         <Controller
                                             control={control}
                                             name="timeFrom"
+                                            defaultValue={currentCoupon?.settings?.time?.from}
                                             render={({ field }) => (
-                                                <Input margin={{ laptop: "0 25px 0 0" }} type="time" field={field} />
+                                                <Input
+                                                    defaultValue={currentCoupon?.settings?.time?.from}
+                                                    margin={{ laptop: "0 25px 0 0" }}
+                                                    type="time"
+                                                    field={field} />
                                             )}
                                         />
                                         <Controller
                                             control={control}
                                             name="timeTo"
+                                            defaultValue={currentCoupon?.settings?.time?.to}
                                             render={({ field }) => (
-                                                <Input type="time" field={field} />
+                                                <Input
+                                                    defaultValue={currentCoupon?.settings?.time?.to}
+                                                    type="time"
+                                                    field={field} />
                                             )}
                                         />
                                     </div>}
