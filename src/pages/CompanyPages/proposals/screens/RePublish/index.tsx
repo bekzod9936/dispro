@@ -47,6 +47,8 @@ import { PreviewMessage } from '../Coupons/style'
 import { SetDate } from '../Coupons/components/SetDate'
 import Modal from 'components/Custom/Modal'
 import { useFetchCategories } from '../UpdateCoupon/useFetchCategories'
+import { getWeekDays } from '../../utils/getValidDate'
+import MFormatInput from 'components/Custom/MoneyInput'
 
 const RePublish = () => {
     const { currentCoupon } = useAppSelector((state: RootState) => state.proposals)
@@ -80,8 +82,8 @@ const RePublish = () => {
     const [optionalFields, setOptionalFields] = React.useState(
         {
             age: !currentCoupon.ageUnlimited,
-            days: false,
-            time: false
+            days: !!currentCoupon.settings && currentCoupon?.settings?.weekDays?.length !== 7,
+            time: !!currentCoupon.settings && !(currentCoupon?.settings?.time?.from === "00:00" && currentCoupon?.settings?.time?.to === "23:59")
         }
     )
     const handleBack = () => {
@@ -111,7 +113,7 @@ const RePublish = () => {
             price: data.cost,
             description: data.description,
             count: data.amount,
-            value: data.percent,
+            value: data.percent.toString().split(" ").join(''),
             currencyId: 1,
             ageFrom: optionalFields.age ? data.ageLimit : null,
             ageUnlimited: !!!data.ageLimit || !optionalFields.age,
@@ -121,6 +123,13 @@ const RePublish = () => {
             image: image,
             type: currentCoupon.type,
             ageTo: null,
+            settings: {
+                weekDays: optionalFields.days ? data.days.map((el: any) => el.id) : [0, 1, 2, 3, 4, 5, 6],
+                time: {
+                    from: !optionalFields.time ? "00:00" : data.timeFrom,
+                    to: !optionalFields.time ? "23:59" : data.timeTo
+                }
+            }
         }
         await postCoupon(validData)
         setTimeout(() => history.goBack(), 1000)
@@ -134,7 +143,7 @@ const RePublish = () => {
             count: data.amount,
             ageUnlimited: !!!data.ageLimit || !optionalFields.age,
             price: data.cost,
-            value: data.percent,
+            value: data.percent.toString().split(" ").join(''),
             type: isCoupon ? "1" : "2",
             currencyId: 1,
             categoryIds: data.categories.map((el: any) => el.id),
@@ -142,14 +151,24 @@ const RePublish = () => {
             image: image,
             ageFrom: optionalFields.age ? (data.ageLimit || null) : null,
             ageTo: null,
-            description: data.description
+            description: data.description,
+            settings: {
+                weekDays: optionalFields.days ? data.days.map((el: any) => el.id) : [0, 1, 2, 3, 4, 5, 6],
+                time: {
+                    from: !optionalFields.time ? "00:00" : data.timeFrom,
+                    to: !optionalFields.time ? "23:59" : data.timeTo
+                }
+            }
         })
     }
+
 
     const handleUploadImg = (data: any) => {
         setFile(data.target.files[0])
         setIsCropVisible(true)
     }
+
+    console.log(optionalFields.time);
 
     const handleDelete = () => {
         deleteImage(image)
@@ -237,11 +256,12 @@ const RePublish = () => {
                                     required: true
                                 }}
                                 render={({ field }) => (
-                                    <Input
+                                    <MFormatInput
+                                        {...field}
+                                        defaultValue={currentCoupon.value}
+                                        onChange={(e: any) => field.onChange(e)}
                                         error={!!errors.percent}
                                         message={t("requiredField")}
-                                        field={field}
-                                        defaultValue={currentCoupon.value}
                                         label={isCoupon ? `Укажите % купона` : "Укажите сумму сертификата"}
                                         margin={{ laptop: "35px 0" }} />
                                 )}
@@ -347,18 +367,34 @@ const RePublish = () => {
                                 <AgeBlock>
                                     <h6>Дни действия {isCoupon ? "купона" : "сертификата"}</h6>
                                     <CustomToggle
+                                        checked={optionalFields.days}
                                         onChange={(e: any) => handleOpenBlock(e, "days")} />
                                 </AgeBlock>
                                 {optionalFields.days &&
-                                    <MultiSelect
-                                        isMulti={true}
-                                        options={days}
-                                        label="Укажите дни" />}
+                                    <Controller
+                                        name="days"
+                                        control={control}
+                                        rules={{
+                                            required: optionalFields.days
+                                        }}
+                                        defaultValue={getWeekDays(currentCoupon?.settings?.weekDays) || days}
+                                        render={({ field }) => (
+                                            <MultiSelect
+                                                error={errors.days}
+                                                message={t("requiredField")}
+                                                defaultValue={getWeekDays(currentCoupon?.settings?.weekDays) || days}
+                                                isMulti
+                                                field={field}
+                                                options={days}
+                                                label="Укажите дни" />
+                                        )}
+                                    />}
                             </AgeWrapper>
                             <AgeWrapper>
                                 <AgeBlock>
                                     <h6>Время действия {isCoupon ? "купона" : "сертификата"}</h6>
                                     <CustomToggle
+                                        checked={optionalFields.time}
                                         onChange={(e: any) => handleOpenBlock(e, "time")} />
                                 </AgeBlock>
                                 {optionalFields.time &&
@@ -366,20 +402,40 @@ const RePublish = () => {
                                         <Controller
                                             control={control}
                                             name="timeFrom"
+                                            rules={{
+                                                required: optionalFields.time
+                                            }}
+                                            defaultValue={currentCoupon?.settings?.time?.from}
                                             render={({ field }) => (
-                                                <Input margin={{ laptop: "0 25px 0 0" }} type="time" field={field} />
+                                                <Input
+                                                    error={errors.timeFrom}
+                                                    message={t("requiredField")}
+                                                    margin={{ laptop: "0 25px 0 0" }}
+                                                    type="time"
+                                                    defaultValue={currentCoupon?.settings?.time?.from}
+                                                    field={field} />
                                             )}
                                         />
                                         <Controller
                                             control={control}
                                             name="timeTo"
+                                            defaultValue={currentCoupon?.settings?.time?.to}
+                                            rules={{
+                                                required: optionalFields.time
+                                            }}
                                             render={({ field }) => (
-                                                <Input type="time" field={field} />
+                                                <Input
+                                                    error={errors.timeTo}
+                                                    message={t("requiredField")}
+                                                    defaultValue={currentCoupon?.settings?.time?.to}
+                                                    type="time"
+                                                    field={field} />
                                             )}
                                         />
                                     </div>}
                             </AgeWrapper>
                             {isValid ? <Button
+                                margin={{ laptop: "40px 0 0 0" }}
                                 onClick={() => setPreviewModal(true)}
                                 buttonStyle={{ bgcolor: "#ffffff", color: "#606EEA" }}
                                 endIcon={<PhoneIcon />}>

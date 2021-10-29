@@ -242,6 +242,7 @@ export const PeriodWrapper = styled.div`
 export const PreviewMessage = styled.div`
   display: flex;
   align-items: center;
+  margin-top: 40px;
   svg {
     margin-right: 20px;
   }

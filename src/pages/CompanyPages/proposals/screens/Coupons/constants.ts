@@ -1,31 +1,38 @@
 export const days = [
     {
         value: "monday",
-        label: "Понедельник"
+        label: "Понедельник",
+        id: 1
     },
     {
         value: "tuesday",
-        label: "Вторник"
+        label: "Вторник",
+        id: 2
     },
     {
         value: "wednesday",
-        label: "Среда"
+        label: "Среда",
+        id: 3
     },
     {
         value: "thursday",
-        label: "Четверг"
+        label: "Четверг",
+        id: 4
     },
     {
         value: "friday",
-        label: "Пятьница"
+        label: "Пятьница",
+        id: 5
     },
     {
         value: "saturday",
-        label: "Суббота"
+        label: "Суббота",
+        id: 6
     },
     {
         value: "sunday",
-        label: "Воскресенье"
+        label: "Воскресенье",
+        id: 0
     }
 ]
 
