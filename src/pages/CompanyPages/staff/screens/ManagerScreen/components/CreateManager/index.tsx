@@ -25,9 +25,12 @@ import { ReactComponent as NextIcon } from "assets/icons/sign_tick.svg";
 import { ReactComponent as ExitIcon } from "assets/icons/exit.svg";
 import { ReactComponent as SaveIcon } from "assets/icons/IconsInfo/save.svg";
 import RoleTable from "./components/RoleTable";
+import useRoles from "./components/RoleTable/useRoles";
 
 const CreateManager = ({ openManager }: IProps) => {
   const stepManager = useAppSelector((state) => state.staffs.stepManager);
+  const selectedRole = useAppSelector((state) => state.staffs.selectedRole);
+  const { roles } = useRoles();
   const { branches, createCash } = useCashiers({
     page: 1,
     query: "",
@@ -314,7 +317,7 @@ const CreateManager = ({ openManager }: IProps) => {
             {/* tables  */}
             <RoleTable />
           </ModalBody>
-          <ModalAction>
+          <ModalAction justifyContent="center" mTop={25}>
             <Button
               buttonStyle={{
                 bgcolor: "white",
@@ -333,6 +336,13 @@ const CreateManager = ({ openManager }: IProps) => {
               onClick={() => {
                 dispatch(setOpenManager(false));
                 dispatch(setStepManager(1));
+                if (selectedRole.length > 0) {
+                  saveRoleManager.mutate(
+                    selectedRole.map((item: any) => item?.value)
+                  );
+                } else {
+                  saveRoleManager.mutate(roles.map((item: any) => item?.value));
+                }
               }}
               startIcon={<SaveIcon />}
             >

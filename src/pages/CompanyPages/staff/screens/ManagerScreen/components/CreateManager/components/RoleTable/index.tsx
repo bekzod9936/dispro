@@ -1,58 +1,50 @@
-import { useMemo } from "react";
 import { IProps } from "./types";
+import useRoles from "./useRoles";
 import {
   Container,
   MTable,
   Thead,
   Th,
   MCheckbox,
-  UpIcon,
   Tbody,
   TRow,
   Td,
+  Text,
 } from "./style";
 import Checkbox from "@material-ui/core/Checkbox";
-import { useTable, useSortBy } from "react-table";
+import { useTable } from "react-table";
 import { useTranslation } from "react-i18next";
+import { useAppSelector, useAppDispatch } from "services/redux/hooks";
+import { setSelectedRole } from "services/redux/Slices/staffs/index";
 
 const RoleTable = ({}: IProps) => {
+  const dispatch = useAppDispatch();
+  const { roles, columns } = useRoles();
   const { t } = useTranslation();
-  const headers = [
-    {
-      value: "statistics",
-      label: "statistics",
-    },
-  ];
-
-  const roles: any = [];
-
-  const columns: any = useMemo(() => {
-    return headers.map((header) => {
-      return {
-        Header: header.value,
-        accessor: header.label,
-      };
-    });
-  }, [headers]);
+  const permissions = useAppSelector((state) => state.staffs.permissions);
+  const selectedRole = useAppSelector((state) => state.staffs.selectedRole);
 
   const { getTableBodyProps, headerGroups, getTableProps, rows, prepareRow } =
-    useTable({ data: roles, columns: columns }, useSortBy);
+    useTable({ data: roles, columns: columns });
 
   const handleAddClientByClick = (e: any, row: any) => {
     e.stopPropagation();
-    // const isAdded = selectedCashiers?.some(
-    //   (el: any) => el.id === row.original.id
-    // );
+    const isAdded = selectedRole?.some(
+      (el: any) => el?.value === row.original?.value
+    );
 
-    // if (!isAdded) {
-    //   dispatch(setSelectedCashiers(selectedCashiers.concat(row.original)));
-    // } else {
-    //   let filteredItem = selectedCashiers?.filter(
-    //     (item: any) => item.id !== row.original.id
-    //   );
-    //   dispatch(setSelectedCashiers(filteredItem));
-    // }
+    if (!isAdded) {
+      dispatch(setSelectedRole(selectedRole.concat(row?.original)));
+    } else {
+      let filteredItem = selectedRole?.filter(
+        (item: any) => item.value !== row.original.value
+      );
+      dispatch(setSelectedRole(filteredItem));
+    }
   };
+
+  console.log(permissions, "selected Role");
+
   return (
     <Container>
       <MTable {...getTableProps()}>
@@ -60,30 +52,24 @@ const RoleTable = ({}: IProps) => {
           {headerGroups.map((headerGroup) => {
             return (
               <tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((column: any) => (
+                  <Th> </Th>
+                ))}
                 <Th>
                   <MCheckbox>
+                    <Text>Полный доступ</Text>
                     <Checkbox
-                      //   checked={selectedCashiers?.length === allCashier?.length}
+                      checked={selectedRole?.length === roles?.length}
                       onChange={(e) => {
-                        // setChecked(e.target.checked);
                         if (e.target.checked) {
-                          //   dispatch(setSelectedCashiers(allCashier));
+                          dispatch(setSelectedRole(roles));
                         } else {
-                          //   dispatch(setSelectedCashiers([]));
+                          dispatch(setSelectedRole([]));
                         }
                       }}
                     />
                   </MCheckbox>
                 </Th>
-                {headerGroup.headers.map((column: any) => (
-                  <Th
-                    active={column.isSorted}
-                    {...column.getHeaderProps(column.getSortByToggleProps())}
-                  >
-                    {column.render("Header")}
-                    <UpIcon up={column.isSortedDesc} active={column.isSorted} />
-                  </Th>
-                ))}
               </tr>
             );
           })}
@@ -93,36 +79,30 @@ const RoleTable = ({}: IProps) => {
             prepareRow(row);
             return (
               <TRow
-                // checked={
-                //   selectedCashiers?.some(
-                //     (item: any) => item?.id === row?.original?.id
-                //   ) || selectedCashiers?.length === allCashier?.length
-                // }
                 onClick={(e) => handleAddClientByClick(e, row)}
                 {...row.getRowProps()}
               >
-                <Td>
-                  <MCheckbox>
-                    <Checkbox
-                    //   checked={
-                    //     selectedCashiers?.some(
-                    //       (item: any) => item?.id === row?.original?.id
-                    //     ) || selectedCashiers?.length === allCashier?.length
-                    //   }
-                    />
-                  </MCheckbox>
-                </Td>
                 {row.cells.map((cell: any) => {
                   return (
                     <Td {...cell.getCellProps()}>{cell.render("Cell")}</Td>
                   );
                 })}
+                <Td>
+                  <MCheckbox>
+                    <Checkbox
+                      checked={
+                        selectedRole?.some(
+                          (item: any) => item?.value === row?.original?.value
+                        ) || selectedRole?.length === roles?.length
+                      }
+                    />
+                  </MCheckbox>
+                </Td>
               </TRow>
             );
           })}
         </Tbody>
       </MTable>
-      Salom
     </Container>
   );
 };

@@ -226,3 +226,13 @@ export const WrapIcon = styled.div`
   justify-content: flex-start;
   align-items: center;
 `;
+
+export const Text = styled.p`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 19px;
+  color: #223367;
+  text-align: center;
+`;
