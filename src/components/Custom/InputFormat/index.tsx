@@ -76,9 +76,10 @@ const InputFormat = ({ onChange = () => {}, ...props }: Props) => {
         type={props.type}
         value={props.value}
         variant={props.variant}
-        maxVal={props.max}
+        maxVal={props.maxNumber}
         InputProps={{
           inputComponent: NumberFormatCustom,
+          maxVal: props.maxNumber,
           startAdornment: props.IconStart ? (
             <Adornment position="start">{props.IconStart}</Adornment>
           ) : null,
@@ -137,6 +138,7 @@ export interface Props {
       desktop?: number;
     };
   };
+  maxNumber?: any;
   width?: {
     maxwidth?: number;
     minwidth?: number;

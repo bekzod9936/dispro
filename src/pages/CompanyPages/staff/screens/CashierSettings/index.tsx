@@ -39,17 +39,12 @@ const CashierSetting = () => {
     control,
     additionalCheck,
     recommendCheck,
-    ballUzs,
-    ballPoint,
     changeLoyality,
   } = useCashierSetting();
   const location = useLocation();
   const history = useHistory();
 
-  console.log(summaOp, "=== summa settings ===");
-
   const onSave = (data: IForm) => {
-    console.log(data, "forma");
     changeLoyality.mutate({
       companyId: companyId,
       rewards: [
@@ -138,7 +133,6 @@ const CashierSetting = () => {
             <SettingRow>
               <Controller
                 name="ballPoint"
-                // defaultValue={ballPoint?.toString()}
                 control={control}
                 render={({ field }) => {
                   return (
@@ -146,7 +140,6 @@ const CashierSetting = () => {
                       label={"Размер вознаграждения %"}
                       disabled={!ballCheck}
                       type="string"
-                      // defaultValue={ballPoint?.toString()}
                       field={field}
                       fullWidth={true}
                       maxLength={3}
