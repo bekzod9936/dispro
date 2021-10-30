@@ -107,7 +107,7 @@ const Coupons = () => {
         time: false
     })
     const { mutate } = useMutation((data: any) => postCoupon(data))
-    const { control, handleSubmit, register, watch, formState: { errors, isValid } } = useForm({
+    const { control, handleSubmit, register, watch, setValue, formState: { errors, isValid } } = useForm({
         mode: "onChange",
         shouldFocusError: true,
         reValidateMode: "onChange",
@@ -199,7 +199,13 @@ const Coupons = () => {
         dispatch(setSaving(true))
     }
 
-
+    React.useEffect(() => {
+        if (isCoupon) {
+            if (watch("percent") > 100) {
+                setValue("percent", 100)
+            }
+        }
+    }, [watch("percent")])
 
     return (
         <Wrapper>
@@ -281,17 +287,23 @@ const Coupons = () => {
                                 control={control}
                                 rules={{
                                     required: true,
-                                    max: 100
                                 }}
                                 render={({ field }) => (
-                                    <MFormatInput
-                                        max="100"
-                                        {...field}
-                                        onChange={(e: any) => field.onChange(e)}
-                                        error={!!errors.percent}
-                                        message={t("requiredField")}
-                                        label={isCoupon ? `Укажите % купона` : "Укажите сумму сертификата"}
-                                        margin={{ laptop: "35px 0" }} />
+                                    !isCoupon ?
+                                        <MFormatInput
+                                            {...field}
+                                            onChange={(e: any) => field.onChange(e)}
+                                            error={!!errors.percent}
+                                            message={t("requiredField")}
+                                            label={"Укажите сумму сертификата"}
+                                            margin={{ laptop: "35px 0" }} /> :
+                                        <Input
+                                            field={field}
+                                            max={"100"}
+                                            error={!!errors.percent}
+                                            message={t("requiredField")}
+                                            label="Укажите % купона"
+                                            margin={{ laptop: "35px 0" }} />
                                 )}
                             />
                             <Controller

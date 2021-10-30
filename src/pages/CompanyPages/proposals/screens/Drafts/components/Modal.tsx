@@ -1,20 +1,22 @@
 import { CloseIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
 import { Certificate, VaucherIcon } from 'assets/icons/proposals/ProposalsIcons'
 import Modal from 'components/Custom/Modal'
+import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 interface IProps {
     open: boolean,
     setOpen: any
 }
-export const MModal = ({open, setOpen}: IProps) => {
+export const MModal = ({ open, setOpen }: IProps) => {
+    const { t } = useTranslation()
     const handleClose = () => {
         setOpen(false)
     }
 
 
     return (
-        <Modal modalStyle={{bgcolor: "#F1F4F6"}} open={open}>
+        <Modal modalStyle={{ bgcolor: "#F1F4F6" }} open={open}>
             <Wrapper>
                 <CloseButton onClick={handleClose}>
                     <CloseIcon />
@@ -25,10 +27,10 @@ export const MModal = ({open, setOpen}: IProps) => {
                     <Link to="/proposals/create_coupon">
                         <Card>
                             <Icon>
-                                <VaucherIcon /> 
+                                <VaucherIcon />
                             </Icon>
                             <CardContent>
-                                <h5>Купон</h5>
+                                <h5>{t("coupon")}</h5>
                                 <span>Идейные соображения высшего порядка, а также реализация намеченных плановых заданий позволяет выполнять важные задания.</span>
                             </CardContent>
                         </Card>
@@ -36,10 +38,10 @@ export const MModal = ({open, setOpen}: IProps) => {
                     <Link to="/proposals/create_certificate">
                         <Card>
                             <Icon>
-                                <Certificate /> 
+                                <Certificate />
                             </Icon>
                             <CardContent>
-                                <h5>Сертификат</h5>
+                                <h5>{t("certificate")}</h5>
                                 <span>Идейные соображения высшего порядка, а также реализация намеченных плановых заданий позволяет выполнять важные задания.</span>
                             </CardContent>
                         </Card>

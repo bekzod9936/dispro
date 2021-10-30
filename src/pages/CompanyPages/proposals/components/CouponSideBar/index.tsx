@@ -145,7 +145,7 @@ export const CouponBar = ({
                     <h5>
                         Вы действительно хотите удалить Купон?
                     </h5>
-                    <p>Бесконечность не предел</p>
+                    <p>{currentCoupon.title}</p>
                     <Button
                         buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
                         margin={{ laptop: "0 22px 0 0" }}

@@ -173,6 +173,13 @@ const UpdateCoupon = () => {
         setValue("categories", categories.defaults)
     }, [categories.defaults])
 
+    React.useEffect(() => {
+        if (isCoupon) {
+            if (watch("percent") > 100) {
+                setValue("percent", 100)
+            }
+        }
+    }, [watch("percent")])
     return (
         <Wrapper>
             <div
@@ -253,15 +260,22 @@ const UpdateCoupon = () => {
                                     required: true
                                 }}
                                 render={({ field }) => (
-                                    <MFormatInput
-                                        {...field}
-                                        defaultValue={currentCoupon.value}
-                                        onChange={(e: any) => field.onChange(e)}
-                                        error={!!errors.percent}
-                                        message={t("requiredField")}
-                                        label={isCoupon ? `Укажите % купона` : "Укажите сумму сертификата"}
-                                        margin={{ laptop: "35px 0" }} />
-
+                                    !isCoupon ?
+                                        <MFormatInput
+                                            {...field}
+                                            defaultValue={currentCoupon.value}
+                                            onChange={(e: any) => field.onChange(e)}
+                                            error={!!errors.percent}
+                                            message={t("requiredField")}
+                                            label={"Укажите сумму сертификата"}
+                                            margin={{ laptop: "35px 0" }} /> :
+                                        <Input
+                                            field={field}
+                                            max={"100"}
+                                            error={!!errors.percent}
+                                            message={t("requiredField")}
+                                            label="Укажите % купона"
+                                            margin={{ laptop: "35px 0" }} />
                                 )}
                             />
                             <Controller
