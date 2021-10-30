@@ -36,7 +36,8 @@ const StaffPage = () => {
 
   return (
     <MainWrapper id="drawer-container">
-      {location.pathname !== "/staff/setting" ? (
+      {location.pathname !== "/staff/setting" &&
+      !location.pathname.includes("/staff/cashier/") ? (
         <>
           <Title>{t("staff")}</Title>
 
