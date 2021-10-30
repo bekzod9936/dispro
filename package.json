@@ -48,6 +48,7 @@
     "react-infinite-scroll-component": "^6.1.0",
     "react-lazy-load-image-component": "^1.5.1",
     "react-multi-date-picker": "^3.1.7",
+    "react-number-format": "^4.7.3",
     "react-pdf": "^5.5.0",
     "react-qr-code": "1.1.1",
     "react-query": "3.16.1",

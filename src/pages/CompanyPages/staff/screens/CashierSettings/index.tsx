@@ -25,6 +25,7 @@ import Input from "components/Custom/Input";
 import useCashierSetting, { IForm } from "../../hooks/useCashierSetting";
 // import { numberWith } from "services/utils";
 import Button from "components/Custom/Button";
+import InputFormat from "components/Custom/InputFormat";
 
 const CashierSetting = () => {
   const companyId: any = localStorage.getItem("companyId");
@@ -137,15 +138,15 @@ const CashierSetting = () => {
             <SettingRow>
               <Controller
                 name="ballPoint"
-                defaultValue={ballPoint?.toString()}
+                // defaultValue={ballPoint?.toString()}
                 control={control}
                 render={({ field }) => {
                   return (
-                    <Input
+                    <InputFormat
                       label={"Размер вознаграждения %"}
                       disabled={!ballCheck}
                       type="string"
-                      defaultValue={ballPoint?.toString()}
+                      // defaultValue={ballPoint?.toString()}
                       field={field}
                       fullWidth={true}
                       maxLength={3}
@@ -190,13 +191,11 @@ const CashierSetting = () => {
                 <Controller
                   control={control}
                   name="ballUzs"
-                  defaultValue={ballUzs}
                   render={({ field }) => {
                     return (
-                      <Input
+                      <InputFormat
                         label={"Размер вознаграждения UZS"}
                         disabled={!additionalCheck}
-                        defaultValue={ballUzs}
                         type="string"
                         fullWidth={true}
                         field={field}
@@ -215,17 +214,13 @@ const CashierSetting = () => {
                 <Controller
                   control={control}
                   name="summaOperations"
-                  defaultValue={summaOp}
                   render={({ field }) => {
                     return (
-                      <MFormatInput
+                      <InputFormat
                         label={"Сумма опреации"}
                         disabled={!additionalCheck}
                         type="string"
-                        defaultValue={summaOp}
                         field={field}
-                        // {...field}
-                        // onChange={(e: any) => field.onChange(e)}
                         fullWidth={true}
                         width={{
                           width: "100%",
@@ -269,15 +264,13 @@ const CashierSetting = () => {
                   name="referBallUzs"
                   render={({ field }) => {
                     return (
-                      <Input
+                      <InputFormat
                         label={"Размер вознаграждения UZS"}
                         disabled={!recommendCheck}
                         defaultValue="0"
                         type="string"
                         fullWidth={true}
-                        // field={field}
-                        {...field}
-                        onChange={(e: any) => field.onChange(e)}
+                        field={field}
                         width={{
                           width: "100%",
                         }}
@@ -295,16 +288,12 @@ const CashierSetting = () => {
                   name="countRefer"
                   render={({ field }) => {
                     return (
-                      <Input
+                      <InputFormat
                         label={"Количество рекомендаций"}
                         disabled={!recommendCheck}
-                        //   defaultValue={numberWith(item?.percent, " ")}
                         type="string"
                         fullWidth={true}
                         field={field}
-                        defaultValue="0"
-                        // {...field}
-                        // onChange={(e: any) => field.onChange(e.target.value)}
                         width={{
                           width: "100%",
                         }}
