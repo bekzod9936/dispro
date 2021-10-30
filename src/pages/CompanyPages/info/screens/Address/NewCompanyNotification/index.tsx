@@ -1,10 +1,11 @@
 import Modal from 'components/Custom/Modal';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import Button from 'components/Custom/Button';
 import photoNote from 'assets/images/goToPhotos.png';
 import { Img, ModalContent, WrapHeader, WrapButton } from './style';
+import DialogContent from '@material-ui/core/DialogContent';
 
 const Notification = () => {
   const { t } = useTranslation();
@@ -24,6 +25,7 @@ const Notification = () => {
             <span> {t('newcompanyphototitle')}</span>
             <span> {t('newcompanyphototext')}</span>
           </WrapHeader>
+
           <WrapButton>
             <Button
               buttonStyle={{

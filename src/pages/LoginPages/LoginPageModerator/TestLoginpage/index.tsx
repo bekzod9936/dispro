@@ -20,7 +20,10 @@ import {
   useAppSelector,
 } from '../../../../services/redux/hooks';
 import { useHistory, useRouteMatch } from 'react-router';
-import { setProceedAuth } from '../../../../services/redux/Slices/authSlice';
+import {
+  setProceedAuth,
+  setBackAddCompany,
+} from '../../../../services/redux/Slices/authSlice';
 import SamWalton from '../../../../assets/images/SamWalton.png';
 import jackMa from '../../../../assets/images/JackMa.png';
 import { LoginPanel } from '../Loginpanel/index';
@@ -37,23 +40,29 @@ const TestLoginpage = ({ children }: any) => {
   const match = useRouteMatch();
   const history = useHistory();
   const proceedAuth = useAppSelector((state) => state.auth.proceedAuth);
-
+  const backAddCompany = useAppSelector((state) => {
+    return state.auth.backAddCompany;
+  });
   const dispatch = useAppDispatch();
   const [display, setDisplay] = useState(false);
 
   const handleBack = () => {
-    if (match.path.includes('/partner/company')) {
-      localStorage.removeItem('partner_access_token');
-      localStorage.removeItem('partner_refresh_token');
-      history.push('/');
-    }
-    if (proceedAuth) {
-      dispatch(setProceedAuth(false));
-    }
-    if (match.path.includes('/partner/registration')) {
-      localStorage.removeItem('partner_access_token');
-      localStorage.removeItem('partner_refresh_token');
-      history.push('/');
+    if (backAddCompany) {
+      dispatch(setBackAddCompany(false));
+    } else {
+      if (match.path.includes('/partner/company')) {
+        localStorage.removeItem('partner_access_token');
+        localStorage.removeItem('partner_refresh_token');
+        history.push('/');
+      }
+      if (proceedAuth) {
+        dispatch(setProceedAuth(false));
+      }
+      if (match.path.includes('/partner/registration')) {
+        localStorage.removeItem('partner_access_token');
+        localStorage.removeItem('partner_refresh_token');
+        history.push('/');
+      }
     }
   };
 

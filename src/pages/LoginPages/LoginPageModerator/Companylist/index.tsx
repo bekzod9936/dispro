@@ -1,15 +1,17 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation } from 'react-query';
 import Spinner from 'components/Helpers/Spinner';
+import { enterCompany } from 'services/queries/PartnerQueries';
+import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import {
-  fetchPartnerCompanies,
-  enterCompany,
-} from 'services/queries/PartnerQueries';
-import { useAppDispatch } from 'services/redux/hooks';
-import { refetchCompanyList } from 'services/redux/Slices/authSlice';
+  refetchCompanyList,
+  setBackAddCompany,
+} from 'services/redux/Slices/authSlice';
 import LogoDef from 'assets/icons/SideBar/logodefault.png';
 import AddCompany from '../AddCompany';
+import useLayout from 'components/Layout/useLayout';
+import useList from './useList';
 import {
   Container,
   PlusIcon,
@@ -21,36 +23,30 @@ import {
   ChooseText,
   ImgDiv,
 } from './style';
-import useLayout from 'components/Layout/useLayout';
-
-const companyId = localStorage.getItem('companyId');
 
 const Companylist = () => {
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
   const [id, setId] = useState(null);
-  const [openPlus, setOpenPlus] = useState<any>(false);
   const [state, setState] = useState(null);
+
+  const { resHeader } = useLayout({ id: state, state: state });
+  const { data, isLoading, refetch, isFetching } = useList();
+
+  const backAddCompany = useAppSelector((state) => {
+    return state.auth.backAddCompany;
+  });
+
   const company = useMutation((values: any) => enterCompany(values), {
     onSuccess: (data) => {
       setState(data.data.data.companyId);
     },
   });
 
-  const { resHeader } = useLayout({ id: state, state: state });
-  const { data, isLoading, refetch, isFetching } = useQuery(
-    'ListCompany',
-    () => fetchPartnerCompanies(),
-    {
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
-    }
-  );
-  console.log(companyId);
-  const dispatch = useAppDispatch();
   dispatch(refetchCompanyList(refetch));
 
   const handleAddCompany = () => {
-    setOpenPlus(true);
+    dispatch(setBackAddCompany(true));
   };
 
   const handleEnterCompany = async (values: any) => {
@@ -62,7 +58,7 @@ const Companylist = () => {
     await resHeader.refetch();
   };
 
-  return openPlus ? (
+  return backAddCompany ? (
     <AddCompany />
   ) : (
     <Main>

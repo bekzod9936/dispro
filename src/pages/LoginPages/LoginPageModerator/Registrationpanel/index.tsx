@@ -230,7 +230,7 @@ const Registrationpanel = () => {
                   <Label htmlFor='readPolice'>
                     {t('read')}
                     <RLink href='/privacy-policy' target='_blank'>
-                      {t('policy')}
+                      {t('policy', { policy: 'Политику' })}
                     </RLink>
                     {t('agree')}
                   </Label>

@@ -228,10 +228,9 @@ const RenderPublicRoutes = () => {
   const moderatorRefreshToken = localStorage.getItem('partner_refresh_token');
   return publicRoutes.map((item: IPublicRoute) => {
     if (
-      // moderatorAutehntificationToken &&
-      // moderatorRefreshToken &&
-      // window.location.pathname === '/'
-      false
+      moderatorAutehntificationToken &&
+      moderatorRefreshToken &&
+      window.location.pathname === '/'
     ) {
       return <Redirect to='/partner/company' />;
     }
