@@ -75,3 +75,11 @@ export const setRoleManager = async (data: any) => {
 
   return response;
 };
+
+export const editStaff = async (data: any) => {
+  const response = await partnerApi.put(`/core/staffs/${data.id}`, {
+    ...data,
+  });
+
+  return response;
+};

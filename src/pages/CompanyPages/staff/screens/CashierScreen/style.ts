@@ -68,3 +68,22 @@ export const ModalAction = styled.div`
   align-items: center;
   margin-top: ${({ mTop = 1 }: IMAction) => mTop + "px"};
 `;
+
+export const ModalHead = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+`;
+
+export const ModalTitle = styled.p`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 22px;
+  line-height: 26px;
+  /* identical to box height */
+
+  color: #223367;
+`;

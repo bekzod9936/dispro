@@ -14,16 +14,12 @@ import {
   UpSide,
   DownSide,
 } from "./style";
-import { useAppSelector } from "services/redux/hooks";
 import { SaveIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
 import { ReactComponent as ArrowBack } from "assets/icons/arrow_back.svg";
 import RippleEffect from "components/Custom/RippleEffect";
 import { useHistory, useLocation } from "react-router-dom";
 import CustomToggle from "components/Custom/CustomToggleSwitch";
-import MFormatInput from "components/Custom/MoneyInput";
-import Input from "components/Custom/Input";
 import useCashierSetting, { IForm } from "../../hooks/useCashierSetting";
-// import { numberWith } from "services/utils";
 import Button from "components/Custom/Button";
 import InputFormat from "components/Custom/InputFormat";
 
@@ -31,8 +27,6 @@ const CashierSetting = () => {
   const companyId: any = localStorage.getItem("companyId");
 
   const { t } = useTranslation();
-  const summaOp = useAppSelector((state) => state.staffs.summaOperations);
-
   const {
     handleSubmit,
     ballCheck,
