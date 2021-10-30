@@ -1,5 +1,5 @@
 import moment from "moment";
-import useCashiers from "pages/CompanyPages/staff/hooks/useCashiers";
+import useManagers from "pages/CompanyPages/staff/hooks/useManagers";
 import { useTranslation } from "react-i18next";
 import { useAppSelector, useAppDispatch } from "services/redux/hooks";
 import {
@@ -29,14 +29,19 @@ import { ReactComponent as EditIcon } from "assets/icons/edit_cashier.svg";
 import { ReactComponent as DeleteIcon } from "assets/icons/delete_setting.svg";
 import { ReactComponent as DeleteWhiteIcon } from "assets/icons/trash_white.svg";
 import { ReactComponent as ExitIcon } from "assets/icons/exit.svg";
-import { ReactComponent as TrashWhite } from "assets/icons/trash_white.svg";
 import { ReactComponent as RoleIcon } from "assets/icons/role_icon.svg";
 
 import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import Button from "components/Custom/Button";
 import Modal from "components/Custom/Modal";
 import RippleEffect from "components/Custom/RippleEffect";
-import { setSelectedManagers } from "services/redux/Slices/staffs";
+import {
+  setOpenEditManager,
+  setOpenManager,
+  setSelectedManagers,
+  setStepManager,
+  setUserId,
+} from "services/redux/Slices/staffs";
 import {
   ModalAction,
   ModalBody,
@@ -46,7 +51,8 @@ import {
 const ManagerBar = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const { deleteCashier, open, setOpen } = useCashiers({
+
+  const { roleManager, deleteManager, open, setOpen } = useManagers({
     page: 1,
     query: "",
     period: "",
@@ -55,6 +61,8 @@ const ManagerBar = () => {
   const selectedManagers = useAppSelector(
     (state) => state.staffs.selectedManagers
   );
+
+  console.log(selectedManagers, "selected manager");
 
   //   Комментарий
   const staffsDiv = () => {
@@ -104,6 +112,9 @@ const ManagerBar = () => {
                     bgcolor: "rgba(96, 110, 234, 0.1)",
                     color: "#606EEA",
                   }}
+                  onClick={() => {
+                    dispatch(setOpenEditManager(true));
+                  }}
                 >
                   {t("edit")}
                 </Button>
@@ -116,7 +127,12 @@ const ManagerBar = () => {
                   color: "#606EEA",
                   bgcolor: "#fff",
                 }}
-                onClick={() => {}}
+                onClick={() => {
+                  dispatch(setOpenManager(true));
+                  dispatch(setStepManager(3));
+                  roleManager.mutate(selectedManagers[0].userId);
+                  dispatch(setUserId(selectedManagers[0].userId));
+                }}
                 endIcon={<RoleIcon />}
               >
                 {t("change_access")}
@@ -294,9 +310,9 @@ const ManagerBar = () => {
                 bgcolor: "#FF5E68",
                 color: "#fff",
               }}
-              disabled={deleteCashier.isLoading}
+              disabled={deleteManager.isLoading}
               onClick={() => {
-                deleteCashier.mutate(
+                deleteManager.mutate(
                   selectedManagers.map((item: any) => item.id)
                 );
               }}

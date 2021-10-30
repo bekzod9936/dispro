@@ -2,7 +2,7 @@ import { IProps } from "./types";
 import { Controller } from "react-hook-form";
 import Input from "components/Custom/Input";
 import { Form, FormRow, FormCol, Break, ModalHead, ModalTitle } from "./style";
-import useCashiers from "pages/CompanyPages/staff/hooks/useCashiers";
+import useStaff from "pages/CompanyPages/staff/hooks/useStaff";
 import useManagers from "pages/CompanyPages/staff/hooks/useManagers";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 import { useTranslation } from "react-i18next";
@@ -23,20 +23,23 @@ import { setOpenManager, setStepManager } from "services/redux/Slices/staffs";
 import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import { ReactComponent as NextIcon } from "assets/icons/sign_tick.svg";
 import { ReactComponent as ExitIcon } from "assets/icons/exit.svg";
+import { ReactComponent as SaveIcon } from "assets/icons/IconsInfo/save.svg";
+import RoleTable from "./components/RoleTable";
+import useRoles from "./components/RoleTable/useRoles";
 
 const CreateManager = ({ openManager }: IProps) => {
   const stepManager = useAppSelector((state) => state.staffs.stepManager);
-  const { branches, createCash } = useCashiers({
-    page: 1,
-    query: "",
-    period: "",
-  });
+  const selectedRole = useAppSelector((state) => state.staffs.selectedRole);
+  const { roles } = useRoles();
+  const { branches } = useStaff();
 
-  const { saveRoleManager, modified, setModified } = useManagers({
-    page: 1,
-    query: "",
-    period: "",
-  });
+  const { saveRoleManager, modified, setModified, createManager } = useManagers(
+    {
+      page: 1,
+      query: "",
+      period: "",
+    }
+  );
 
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
@@ -52,7 +55,7 @@ const CreateManager = ({ openManager }: IProps) => {
 
   const onSave = (data: FormProps) => {
     console.log(data, "data");
-    createCash.mutate({
+    createManager.mutate({
       comment: data.comment,
       firstName: data.firstName,
       lastName: data.lastName,
@@ -211,7 +214,7 @@ const CreateManager = ({ openManager }: IProps) => {
               </Button>
 
               <Button
-                disabled={!isValid || createCash.isLoading}
+                disabled={!isValid || createManager.isLoading}
                 type="submit"
                 startIcon={<NextIcon />}
               >
@@ -284,6 +287,7 @@ const CreateManager = ({ openManager }: IProps) => {
                 } else {
                   dispatch(setOpenManager(false));
                   dispatch(setStepManager(1));
+                  saveRoleManager.mutate(roles.map((item: any) => item?.value));
                 }
               }}
               startIcon={<NextIcon />}
@@ -308,8 +312,11 @@ const CreateManager = ({ openManager }: IProps) => {
               <ExitIcon />
             </IconButton>
           </ModalHead>
-          <ModalBody>{/* tables  */}</ModalBody>
-          <ModalAction>
+          <ModalBody>
+            {/* tables  */}
+            <RoleTable />
+          </ModalBody>
+          <ModalAction justifyContent="center" mTop={25}>
             <Button
               buttonStyle={{
                 bgcolor: "white",
@@ -328,8 +335,15 @@ const CreateManager = ({ openManager }: IProps) => {
               onClick={() => {
                 dispatch(setOpenManager(false));
                 dispatch(setStepManager(1));
+                if (selectedRole.length > 0) {
+                  saveRoleManager.mutate(
+                    selectedRole.map((item: any) => item?.value)
+                  );
+                } else {
+                  saveRoleManager.mutate(roles.map((item: any) => item?.value));
+                }
               }}
-              startIcon={<NextIcon />}
+              startIcon={<SaveIcon />}
             >
               {t("save")}
             </Button>

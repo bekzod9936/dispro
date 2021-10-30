@@ -9,8 +9,12 @@ export interface staffsState {
   openFilter: boolean;
   openCash: boolean;
   openManager: boolean;
+  openEditManager: boolean;
   summaOperations: any;
   stepManager?: any;
+  permissions?: any;
+  userId: any;
+  selectedRole?: any;
 }
 
 export interface ICashiers {

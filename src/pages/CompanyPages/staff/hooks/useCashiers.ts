@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { useQuery, useMutation } from "react-query";
-import useManagers from "./useManagers";
+
 import {
   deleteSingleCashier,
   getCashiers,
   searchCashiers,
-  getBranches,
   createCashier,
 } from "services/queries/StaffQueries";
 import { useAppDispatch } from "services/redux/hooks";
@@ -14,19 +13,13 @@ import {
   setCashiers,
   setOpenCash,
   setSelectedCashiers,
-  setStepManager,
+  setSelectedManagers,
 } from "services/redux/Slices/staffs";
 import { numberWith } from "services/utils";
 
 const useCashiers = ({ page, query, period }: any) => {
   const [open, setOpen] = useState(false);
-  const [branches, setBranches] = useState([]);
   const dispatch = useAppDispatch();
-  const { response: responseManager } = useManagers({
-    page: 1,
-    query: "",
-    period: "",
-  });
 
   const response = useQuery(
     ["cashiers", page, query, period],
@@ -42,9 +35,7 @@ const useCashiers = ({ page, query, period }: any) => {
     {
       retry: 0,
       refetchOnWindowFocus: false,
-      keepPreviousData: true,
-      refetchIntervalInBackground: true,
-      cacheTime: 50000,
+      cacheTime: 5000,
       onSuccess: (data) => {
         dispatch(setCashiers(data.data.data.staffs));
         dispatch(
@@ -73,55 +64,27 @@ const useCashiers = ({ page, query, period }: any) => {
   const deleteCashier = useMutation((data: any) => deleteSingleCashier(data), {
     onSuccess: () => {
       setOpen(false);
-      response.refetch();
       dispatch(setSelectedCashiers([]));
+      dispatch(setSelectedManagers([]));
+
+      response.refetch();
     },
   });
 
   const createCash = useMutation((data: any) => createCashier(data), {
     onSuccess: (data) => {
-      console.log(data.data, "data responding");
-      if (data.data.data.roleId === 3) {
-        response.refetch();
-      } else {
-        responseManager.refetch();
-        dispatch(setStepManager(2));
-      }
+      response.refetch();
       setOpen(false);
-
       dispatch(setSelectedCashiers([]));
       dispatch(setOpenCash(false));
     },
   });
-
-  //fetch branches
-  useQuery(
-    ["branchesStore"],
-    () => {
-      return getBranches();
-    },
-    {
-      retry: 0,
-      refetchOnWindowFocus: false,
-      keepPreviousData: true,
-      refetchIntervalInBackground: true,
-      cacheTime: 50000,
-      onSuccess: (data) => {
-        setBranches(
-          data.data.data.map((v: any) => {
-            return { value: v.id, label: v.name };
-          })
-        );
-      },
-    }
-  );
 
   return {
     response,
     deleteCashier,
     open,
     setOpen,
-    branches,
     createCash,
   };
 };
