@@ -5,6 +5,7 @@ import { useState } from 'react';
 import Spinner from 'components/Custom/Spinner';
 import Button from 'components/Custom/Button';
 import { Container, CPage, Wrapper, Text } from './style';
+import { useTranslation } from 'react-i18next';
 
 interface PProps {
   numPages?: any;
@@ -13,13 +14,10 @@ interface PProps {
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 const El = <Spinner height='100vh' />;
-const language =
-  localStorage.getItem('language') === 'uz'
-    ? 3
-    : localStorage.getItem('language') === 'ru'
-    ? 1
-    : 2;
+const language = localStorage.getItem('language') === 'uz' ? 3 : 1;
+
 const Condition = () => {
+  const { t } = useTranslation();
   const [numPages, setNumPages] = useState(0);
   const [pageNumber, setPageNumber] = useState(1);
   const [file, setFile] = useState('');
@@ -52,7 +50,7 @@ const Condition = () => {
   return (
     <Container>
       <Document
-        noData='Нет файл'
+        noData={t('nofile')}
         file={file}
         onLoadSuccess={onDocumentLoadSuccess}
         loading={El}
@@ -60,11 +58,11 @@ const Condition = () => {
         <CPage width={400} scale={2} pageNumber={pageNumber} />
       </Document>
       <Wrapper>
-        <Button onClick={handleBack}>Back</Button>
+        <Button onClick={handleBack}>{t('previous')}</Button>
         <Text>
           {pageNumber}/{numPages}
         </Text>
-        <Button onClick={handleNext}>Next</Button>
+        <Button onClick={handleNext}>{t('next')}</Button>
       </Wrapper>
     </Container>
   );

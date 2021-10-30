@@ -1,9 +1,7 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useQuery } from 'react-query';
-import {
-  fetchAddressInfo,
-  fetchAddressMain,
-} from 'services/queries/InfoQueries';
+import { fetchAddressInfo } from 'services/queries/InfoQueries';
 
 interface Props {
   address?: string;
@@ -25,9 +23,10 @@ interface Props {
     }[];
   } | null;
 }
+const companyId: any = localStorage.getItem('companyId');
 
 const useAddress = () => {
-  const companyId: any = localStorage.getItem('companyId');
+  const { t } = useTranslation();
   const [dataAddress, setData] = useState<Props[]>([]);
   const responseAddress = useQuery(
     'fetchAddress',
@@ -38,25 +37,87 @@ const useAddress = () => {
       retry: 0,
       onSuccess: (data) => {
         setData(data?.data?.data);
-        console.log(data.data.data, 'dddd');
       },
     }
   );
 
-  const responseMain = useQuery(
-    'fetchAddressMain',
-    () => fetchAddressMain({ companyId }),
+  const weeks = [
     {
-      keepPreviousData: true,
-      refetchOnWindowFocus: false,
-      retry: 0,
-      onSuccess: (data) => {
-        console.log(data.data.data);
-      },
-    }
-  );
+      day: 1,
+      weekday: t('md'),
+    },
+    {
+      day: 2,
+      weekday: t('td'),
+    },
+    {
+      day: 3,
+      weekday: t('wd'),
+    },
+    {
+      day: 4,
+      weekday: t('thd'),
+    },
+    {
+      day: 5,
+      weekday: t('fd'),
+    },
+    {
+      day: 6,
+      weekday: t('std'),
+    },
+    {
+      day: 7,
+      weekday: t('sd'),
+    },
+  ];
 
-  return { responseAddress, dataAddress, responseMain };
+  const inntialWorkTime = [
+    {
+      day: 1,
+      dayOff: false,
+      wHours: { from: '', to: '' },
+      bHours: { from: '', to: '' },
+    },
+    {
+      day: 2,
+      dayOff: false,
+      wHours: { from: '', to: '' },
+      bHours: { from: '', to: '' },
+    },
+    {
+      day: 3,
+      dayOff: false,
+      wHours: { from: '', to: '' },
+      bHours: { from: '', to: '' },
+    },
+    {
+      day: 4,
+      dayOff: false,
+      wHours: { from: '', to: '' },
+      bHours: { from: '', to: '' },
+    },
+    {
+      day: 5,
+      dayOff: false,
+      wHours: { from: '', to: '' },
+      bHours: { from: '', to: '' },
+    },
+    {
+      day: 6,
+      dayOff: false,
+      wHours: { from: '', to: '' },
+      bHours: { from: '', to: '' },
+    },
+    {
+      day: 7,
+      dayOff: false,
+      wHours: { from: '', to: '' },
+      bHours: { from: '', to: '' },
+    },
+  ];
+
+  return { responseAddress, dataAddress, weeks, inntialWorkTime };
 };
 
 export default useAddress;

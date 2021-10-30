@@ -22,6 +22,9 @@ import {
   WrapNav,
   WrapButton,
 } from './style';
+import useLayout from 'components/Layout/useLayout';
+
+const companyId: any = localStorage.getItem('companyId');
 
 const Infopage = () => {
   const { t } = useTranslation();
@@ -30,7 +33,7 @@ const Infopage = () => {
   const infoPageSlice = useAppSelector((state) => state.infoSlice.addressAdd);
   const [open, setOpen] = useState(false);
   const { menuItems } = useInfoRoute();
-
+  const { headerData } = useLayout({ id: companyId });
   let match = useRouteMatch();
 
   return (
@@ -42,19 +45,21 @@ const Infopage = () => {
       <Title>{t('info')}</Title>
       <WrapNav>
         <NavBar list={menuItems} margin='20px 0' />
-        <WrapButton>
-          <Button
-            buttonStyle={{
-              color: '#223367',
-              bgcolor: 'transparent',
-              weight: 500,
-            }}
-            onClick={() => setOpen(true)}
-          >
-            {t('logout')}
-            <LogOutIcon color='#223367' />
-          </Button>
-        </WrapButton>
+        {headerData.filled && headerData.filledAddress ? null : (
+          <WrapButton>
+            <Button
+              buttonStyle={{
+                color: '#223367',
+                bgcolor: 'transparent',
+                weight: 500,
+              }}
+              onClick={() => setOpen(true)}
+            >
+              {t('logout')}
+              <LogOutIcon color='#223367' />
+            </Button>
+          </WrapButton>
+        )}
       </WrapNav>
       <Modal onClose={(v: boolean) => setOpen(v)} open={open}>
         <ModelContent>

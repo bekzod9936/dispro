@@ -1,6 +1,6 @@
-import React from "react";
-import { Container, NewSelect, DownIcon, Label, Message } from "./style";
-import { components } from "react-select";
+import React from 'react';
+import { Container, NewSelect, DownIcon, Label, Message } from './style';
+import { components } from 'react-select';
 
 export interface Props {
   defaultValue?: any;
@@ -9,14 +9,14 @@ export interface Props {
   isClearable?: boolean;
   isSearchable?: boolean;
   name?: string;
-  options?: { value?: any; label?: any, name?: any }[];
+  options?: { value?: any; label?: any; name?: any }[];
   isMulti?: boolean;
   error?: boolean;
   autoFocus?: boolean;
   className?: any;
   onChange?: (e: any) => void;
   placeholder?: string;
-  noOptionsMessage?: any;
+  nooptionsmessage?: any;
   value?: any;
   label?: any;
   labelStyle?: {
@@ -79,7 +79,7 @@ export interface Props {
   field?: any;
   iconmargin?: string;
 }
-const MultiSelect = ({ iconmargin, ...props }: Props) => {
+const MultiSelect = ({ iconmargin, nooptionsmessage, ...props }: Props) => {
   const DropdownIndicator = (props: any) => {
     return (
       <components.DropdownIndicator {...props}>
@@ -88,41 +88,49 @@ const MultiSelect = ({ iconmargin, ...props }: Props) => {
     );
   };
 
+  const NoOptionsMessage = (props: any) => {
+    return (
+      <components.NoOptionsMessage {...props}>
+        <span className='custom-css-class'>{nooptionsmessage}</span>
+      </components.NoOptionsMessage>
+    );
+  };
+
   const customStyle = {
     menuPortal: (base: any) => ({ ...base, zIndex: 999999 }),
     control: (base: any, state: any) => ({
       ...base,
       border: props.error
-        ? "1px solid #FF5E68"
+        ? '1px solid #FF5E68'
         : props.selectStyle?.border
-          ? props.selectStyle?.border
-          : "1px solid #C2C2C2",
+        ? props.selectStyle?.border
+        : '1px solid #C2C2C2',
 
-      boxShadow: "none",
-      "&:hover": {
-        border: "inherite",
+      boxShadow: 'none',
+      '&:hover': {
+        border: 'inherite',
       },
       borderBottom: props.selectStyle?.borderbottom
         ? props.selectStyle?.borderbottom
         : null,
       backgroundColor: props.selectStyle?.bgcolor
         ? props.selectStyle?.bgcolor
-        : "white",
+        : 'white',
       borderRadius:
         props.selectStyle?.radius === 0
           ? 0
           : props.selectStyle?.radius
-            ? `${props.selectStyle?.radius}px`
-            : "14px",
+          ? `${props.selectStyle?.radius}px`
+          : '14px',
     }),
     option: (base: any, state: any) => {
       return {
         ...base,
-        color: props.selectStyle?.color ? props.selectStyle?.color : "#223367",
+        color: props.selectStyle?.color ? props.selectStyle?.color : '#223367',
         fontWeight: props.selectStyle?.weight
           ? props.selectStyle?.weight
-          : "500",
-        backgroundColor: state.isSelected ? "#E8F0FE" : "white",
+          : '500',
+        backgroundColor: state.isSelected ? '#E8F0FE' : 'white',
       };
     },
   };
@@ -143,14 +151,14 @@ const MultiSelect = ({ iconmargin, ...props }: Props) => {
       ) : null}
       <NewSelect
         styles={customStyle}
-        components={{ DropdownIndicator }}
+        components={{ DropdownIndicator, NoOptionsMessage }}
         inputId={props.label}
         inputStyle={props.selectStyle}
         defaultValue={props.defaultValue}
         value={props.defaultValue}
         {...props}
         {...props.field}
-        placeholder={props.placeholder ? props.placeholder : ""}
+        placeholder={props.placeholder ? props.placeholder : ''}
         menuPortalTarget={document.body}
       />
       {props.error ? (

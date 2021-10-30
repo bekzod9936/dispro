@@ -36,7 +36,12 @@ import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import Button from "components/Custom/Button";
 import Modal from "components/Custom/Modal";
 import RippleEffect from "components/Custom/RippleEffect";
-import { setSelectedManagers } from "services/redux/Slices/staffs";
+import {
+  setOpenManager,
+  setSelectedManagers,
+  setStepManager,
+  setUserId,
+} from "services/redux/Slices/staffs";
 import {
   ModalAction,
   ModalBody,
@@ -46,7 +51,7 @@ import {
 const ManagerBar = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const { deleteCashier, open, setOpen } = useCashiers({
+  const { deleteCashier, open, setOpen, roleManager } = useCashiers({
     page: 1,
     query: "",
     period: "",
@@ -55,6 +60,8 @@ const ManagerBar = () => {
   const selectedManagers = useAppSelector(
     (state) => state.staffs.selectedManagers
   );
+
+  console.log(selectedManagers, "selected manager");
 
   //   Комментарий
   const staffsDiv = () => {
@@ -116,7 +123,12 @@ const ManagerBar = () => {
                   color: "#606EEA",
                   bgcolor: "#fff",
                 }}
-                onClick={() => {}}
+                onClick={() => {
+                  dispatch(setOpenManager(true));
+                  dispatch(setStepManager(3));
+                  roleManager.mutate(selectedManagers[0].userId);
+                  dispatch(setUserId(selectedManagers[0].userId));
+                }}
                 endIcon={<RoleIcon />}
               >
                 {t("change_access")}

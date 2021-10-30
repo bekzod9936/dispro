@@ -7,14 +7,19 @@ import {
   searchCashiers,
   getBranches,
   createCashier,
+  getRoleManager,
+  setRoleManager,
 } from "services/queries/StaffQueries";
 import { useAppDispatch } from "services/redux/hooks";
 import {
   selectAllCashier,
   setCashiers,
   setOpenCash,
+  setPermissions,
   setSelectedCashiers,
   setStepManager,
+  setUserId,
+  setSelectedRole,
 } from "services/redux/Slices/staffs";
 import { numberWith } from "services/utils";
 
@@ -80,12 +85,13 @@ const useCashiers = ({ page, query, period }: any) => {
 
   const createCash = useMutation((data: any) => createCashier(data), {
     onSuccess: (data) => {
-      console.log(data.data, "data responding");
       if (data.data.data.roleId === 3) {
         response.refetch();
       } else {
         responseManager.refetch();
         dispatch(setStepManager(2));
+        roleManager.mutate(data?.data?.data?.userId);
+        dispatch(setUserId(data?.data?.data?.userId));
       }
       setOpen(false);
 
@@ -116,6 +122,28 @@ const useCashiers = ({ page, query, period }: any) => {
     }
   );
 
+  //get role manager id
+  const roleManager = useMutation(
+    (id: any) => {
+      return getRoleManager(id);
+    },
+    {
+      onSuccess: (data) => {
+        console.log(data.data.data, "data backend");
+        dispatch(setPermissions(data.data.data.permissions));
+        dispatch(
+          setSelectedRole(
+            data.data.data?.permissions?.map((item: any) => {
+              return {
+                value: item,
+              };
+            })
+          )
+        );
+      },
+    }
+  );
+
   return {
     response,
     deleteCashier,
@@ -123,6 +151,7 @@ const useCashiers = ({ page, query, period }: any) => {
     setOpen,
     branches,
     createCash,
+    roleManager,
   };
 };
 

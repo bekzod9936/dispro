@@ -29,6 +29,20 @@ export const ModalMain = styled.div`
   padding: 30px 40px;
   overflow-y: auto;
   width: 580px;
+
+  scroll-behavior: auto;
+
+  ::-webkit-scrollbar {
+    width: 7px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #606eea;
+    border-radius: 14px 0px 0px 14px;
+  }
 `;
 
 export const ModalBody = styled.div`
@@ -37,8 +51,20 @@ export const ModalBody = styled.div`
   align-items: flex-start;
 `;
 
+interface IMAction {
+  justifyContent?:
+    | "space-between"
+    | "center"
+    | "flex-end"
+    | "flex-start"
+    | "space-around";
+  mTop?: number;
+}
+
 export const ModalAction = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: ${({ justifyContent = "flex-end" }: IMAction) =>
+    justifyContent};
   align-items: center;
+  margin-top: ${({ mTop = 1 }: IMAction) => mTop + "px"};
 `;

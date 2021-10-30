@@ -11,6 +11,9 @@ export interface staffsState {
   openManager: boolean;
   summaOperations: any;
   stepManager?: any;
+  permissions?: any;
+  userId: any;
+  selectedRole?: any;
 }
 
 export interface ICashiers {
