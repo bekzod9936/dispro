@@ -41,6 +41,7 @@ const WorkingHours = ({ workingTime, getTime = () => {} }: Props) => {
   const handleCheck = (e: any) => {
     setCheck(e.target.checked);
     getTime({ aroundTheClock: e.target.checked, work: work });
+    console.log(e);
   };
 
   const handleChangeTime = (e: any) => {

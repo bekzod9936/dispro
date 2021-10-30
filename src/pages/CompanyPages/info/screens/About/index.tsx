@@ -15,6 +15,7 @@ import { setAddressAdd } from 'services/redux/Slices/infoSlice';
 import useInfoPage from '../useInfoPage';
 import useAbout from './useAbout';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { inputPhoneNumber } from 'utilities/inputFormat';
 import {
   Container,
   UpSide,
@@ -83,7 +84,7 @@ const Main = () => {
     handlePhotoDelete,
     upload,
   } = useAbout({ logo: data.logo });
-  const { resHeader } = useLayout({ id: companyId });
+  const { resHeader, headerData } = useLayout({ id: companyId });
 
   const history = useHistory();
   const { t } = useTranslation();
@@ -94,7 +95,6 @@ const Main = () => {
   const [web, setWeb] = useState<any>([]);
   const [option, setOption] = useState<any[]>([]);
   const [keywords, setKeywords] = useState<any[]>([]);
-
   const [social, setSocial]: any = useState([
     {
       Icon: FIcon,
@@ -190,10 +190,12 @@ const Main = () => {
   }, [upload]);
 
   useEffect(() => {
+    const tel: string =
+      String(data?.telNumber) !== '' ? `${data.telNumber}` : '+998';
     setValue('annotation', data.annotation);
     setValue('description', data.description);
     setValue('logo', data.logo);
-    setValue('telNumber', `${data.telNumber}`);
+    setValue('telNumber', tel);
     setValue('socialLinks', data.socialLinks);
     setValue('name', data.name);
     setLogo(data.logo);
@@ -239,6 +241,20 @@ const Main = () => {
     shouldFocusError: true,
   });
 
+  const tel: any = getValues();
+
+  let checkPhone = inputPhoneNumber({
+    value: tel?.telNumber,
+  });
+
+  useEffect(() => {
+    if (getValues('telNumber') === undefined) {
+      setValue('telNumber', '+998');
+    } else {
+      setValue('telNumber', checkPhone.newString);
+    }
+  }, [checkPhone.check, watch('telNumber')]);
+
   useEffect(() => {
     const subscription = watch((value: any) => {
       setOption(value.categories);
@@ -248,33 +264,36 @@ const Main = () => {
 
   const handleInfoSubmit = (v: any) => {
     const category = v.categories.map((v: any) => v.value);
-
-    resinfoSubData.mutate(
-      {
-        ...data,
-        annotation: v.annotation,
-        categories: category,
-        companyId: +companyId,
-        currencyId: '1',
-        description: v.description,
-        isHalol: true,
-        keyWords: keywords.join(','),
-        linkEnable: false,
-        links: web,
-        logo: logo,
-        name: v.name,
-        socialLinks: links,
-        telNumber: v.telNumber,
-        isKosher: false,
-      },
-      {
-        onSuccess: () => {
-          resHeader.refetch();
-          response.refetch();
-          history.push('/info/address');
+    if (logo !== '') {
+      resinfoSubData.mutate(
+        {
+          ...data,
+          annotation: v.annotation,
+          categories: category,
+          companyId: +companyId,
+          currencyId: '1',
+          description: v.description,
+          isHalol: true,
+          keyWords: keywords.join(','),
+          linkEnable: false,
+          links: web,
+          logo: logo,
+          name: v.name,
+          socialLinks: links,
+          telNumber: v.telNumber,
+          isKosher: false,
         },
-      }
-    );
+        {
+          onSuccess: () => {
+            resHeader.refetch();
+            response.refetch();
+            if (!headerData.filledAddress) {
+              history.push('/info/address');
+            }
+          },
+        }
+      );
+    }
   };
 
   const handleWebDelete = (v: any) => {
@@ -471,7 +490,6 @@ const Main = () => {
                 />
               )}
             />
-
             <WrapCurrency>
               <span>{t('currency')}</span>
               <div>UZS (Uzbekistan sum)</div>
@@ -493,13 +511,14 @@ const Main = () => {
                   error={errors.categories ? true : false}
                   field={field}
                   isClearable={false}
+                  nooptionsmessage={t('noOptionMessage')}
                 />
               )}
             />
             <Controller
               name='keywords'
               control={control}
-              rules={{ required: false }}
+              rules={{ required: keywords?.length === 0 ? true : false }}
               defaultValue=''
               render={({ field }) => (
                 <Input
@@ -555,7 +574,7 @@ const Main = () => {
                   label={t('phoneNumber')}
                   error={errors.telNumber ? true : false}
                   message={t('requiredField')}
-                  type='text'
+                  type='tel'
                   field={field}
                   margin={{
                     laptop: '20px 0 25px',
@@ -584,7 +603,6 @@ const Main = () => {
                 />
               )}
             />
-
             <Controller
               name='link'
               control={control}

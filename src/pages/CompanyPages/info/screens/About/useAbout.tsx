@@ -19,7 +19,7 @@ interface IProps {
 
 const useAbout = ({ logo }: IProps) => {
   const [category, setCategory] = useState<Props[]>([]);
-  const [upload, setUpload] = useState<string>();
+  const [upload, setUpload] = useState<string>('');
   const resCategory = useQuery('categories123', fetchCategories, {
     keepPreviousData: true,
     refetchOnWindowFocus: false,
@@ -96,13 +96,20 @@ const useAbout = ({ logo }: IProps) => {
     resDelete.mutate();
   };
 
-  const resinfoSubData = useMutation((v: any) => {
-    return partnerApi.put('/directory/company', v, {
-      headers: {
-        authorization: `Bearer ${localStorage.getItem('companyToken')}`,
+  const resinfoSubData = useMutation(
+    (v: any) => {
+      return partnerApi.put('/directory/company', v, {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('companyToken')}`,
+        },
+      });
+    },
+    {
+      onSuccess: (data) => {
+        console.log(data, 'sss');
       },
-    });
-  });
+    }
+  );
   return {
     resCategory,
     resDelete,

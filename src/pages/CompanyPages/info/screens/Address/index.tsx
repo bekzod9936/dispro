@@ -11,6 +11,11 @@ import { useMutation } from 'react-query';
 import { IAddress } from 'services/models/address_model';
 import YandexMap from './YandexMap';
 import axios from 'axios';
+import partnerApi from 'services/interceptors/companyInterceptor';
+import NewCompanyNotification from './NewCompanyNotification';
+import useAddress from './useAddress';
+import useInfoPage from '../useInfoPage';
+import useLayout from 'components/Layout/useLayout';
 import {
   Container,
   Rightside,
@@ -42,12 +47,8 @@ import {
   WrapSearch,
   WrapLocationAddress,
   NoResult,
+  Message,
 } from './style';
-import partnerApi from 'services/interceptors/companyInterceptor';
-import NewCompanyNotification from './NewCompanyNotification';
-import useAddress from './useAddress';
-import useInfoPage from '../useInfoPage';
-import useLayout from 'components/Layout/useLayout';
 
 const companyId: any = localStorage.getItem('companyId');
 
@@ -73,57 +74,12 @@ interface WProps {
   }[];
 }
 
-const inntialWorkTime = [
-  {
-    day: 1,
-    dayOff: false,
-    wHours: { from: '', to: '' },
-    bHours: { from: '', to: '' },
-  },
-  {
-    day: 2,
-    dayOff: false,
-    wHours: { from: '', to: '' },
-    bHours: { from: '', to: '' },
-  },
-  {
-    day: 3,
-    dayOff: false,
-    wHours: { from: '', to: '' },
-    bHours: { from: '', to: '' },
-  },
-  {
-    day: 4,
-    dayOff: false,
-    wHours: { from: '', to: '' },
-    bHours: { from: '', to: '' },
-  },
-  {
-    day: 5,
-    dayOff: false,
-    wHours: { from: '', to: '' },
-    bHours: { from: '', to: '' },
-  },
-  {
-    day: 6,
-    dayOff: false,
-    wHours: { from: '', to: '' },
-    bHours: { from: '', to: '' },
-  },
-  {
-    day: 7,
-    dayOff: false,
-    wHours: { from: '', to: '' },
-    bHours: { from: '', to: '' },
-  },
-];
-
 const Address = () => {
   const { t } = useTranslation();
-  const { responseAddress, dataAddress, responseMain } = useAddress();
+  const { responseAddress, dataAddress, weeks, inntialWorkTime } = useAddress();
   const { resHeader } = useLayout({ id: companyId });
   const { response, data } = useInfoPage();
-
+  const [workError, setWorkError] = useState<boolean>(false);
   const [fillial, setFillial] = useState<any[]>([]);
   const [searchRes, setSearchRes] = useState<IAddress[]>([]);
   const [inpuSearch, setInpuSearch] = useState<string>('');
@@ -142,37 +98,9 @@ const Address = () => {
     aroundTheClock: false,
     work: inntialWorkTime,
   });
+  const [showWork, setShowWork] = useState(false);
   const [isMain, setIsMain] = useState<boolean>(false);
-  const weeks = [
-    {
-      day: 1,
-      weekday: t('md'),
-    },
-    {
-      day: 2,
-      weekday: t('td'),
-    },
-    {
-      day: 3,
-      weekday: t('wd'),
-    },
-    {
-      day: 4,
-      weekday: t('thd'),
-    },
-    {
-      day: 5,
-      weekday: t('fd'),
-    },
-    {
-      day: 6,
-      weekday: t('std'),
-    },
-    {
-      day: 7,
-      weekday: t('sd'),
-    },
-  ];
+  const [mapError, setMapError] = useState(false);
 
   const defaultTime = inntialWorkTime.map((v: any) => {
     const common = weeks.find((i: any) => i.day === v.day);
@@ -186,6 +114,20 @@ const Address = () => {
     aroundTheClock: false,
     work: defaultTime,
   });
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    getValues,
+    reset,
+  } = useForm<FormProps>({
+    mode: 'onBlur',
+    shouldFocusError: true,
+  });
+
+  const values = getValues();
 
   const fetchYandexAddressName = (lat: any, lon: any) => {
     axios
@@ -211,6 +153,7 @@ const Address = () => {
     if (place?.length !== 0 || !open) {
       setPlace(coords);
       yandexRef?.setCenter(coords, 18);
+      setMapError(false);
     }
   };
 
@@ -228,20 +171,6 @@ const Address = () => {
     setIsSearchInputFocus(false);
   };
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-    getValues,
-    setError,
-    watch,
-    reset,
-  } = useForm<FormProps>({
-    mode: 'onBlur',
-    shouldFocusError: true,
-  });
-
   const fetchYandexAddressSearch = (searchName: any) => {
     axios
       .get(
@@ -255,10 +184,10 @@ const Address = () => {
   };
 
   useEffect(() => {
-    fetchYandexAddressSearch(searchAddress);
-  }, [searchAddress]);
-
-  const values = getValues();
+    if (!open && searchAddress !== '') {
+      fetchYandexAddressSearch(searchAddress);
+    }
+  }, [searchAddress, open]);
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -315,6 +244,32 @@ const Address = () => {
       work: v?.workingTime?.work,
     });
   };
+
+  const handleSaveClick = () => {
+    if (!send.aroundTheClock) {
+      const a = send.work.filter((v: any) => {
+        if (!v.dayOff) {
+          if (v.wHours?.from === '' || v.wHours.to === '') {
+            return { ...v };
+          }
+        }
+      });
+
+      setWorkError(a?.length === 0);
+      if (a?.length !== 0) {
+        setShowWork(true);
+      } else {
+        setShowWork(false);
+      }
+    }
+
+    if (place[0] !== '' && place[1] !== '') {
+      setMapError(false);
+    } else {
+      setMapError(true);
+    }
+  };
+
   const handlePluseClick = () => {
     setOpen(false);
     setMapAddress({ name: '' });
@@ -323,17 +278,46 @@ const Address = () => {
     setSearchAddress('');
     setValue('addressDesc', '');
     setValue('name', '');
-    setValue('telNumbers', ['+998']);
+    setValue('telNumbers', [{ number: '+998' }]);
     setEdit(true);
     setValue('regionId', 0);
-    setPlace(['', '']);
+    setPlace(['']);
     setworkingTime({ aroundTheClock: false, work: defaultTime });
     setIsMain(!data.filledAddress);
   };
 
+  const addressDelete = useMutation(
+    (v: any) => {
+      console.log(v);
+      return partnerApi.delete(`/directory/stores/${v}`);
+    },
+    {
+      onSuccess: () => {
+        responseAddress.refetch();
+        setOpen(true);
+        yandexRef?.setCenter([41.32847446609404, 69.24298268717716], 10);
+        setPlace([]);
+        setEdit(false);
+        setMapAddress({ name: '' });
+        setValue('id', undefined);
+        setValue('name', '');
+        setSearchAddress('');
+        setValue('address', '');
+        setValue('regionId', 0);
+        setValue('telNumbers', [{ number: '+998' }]);
+        setValue('addressDesc', '');
+        setSendDate({ aroundTheClock: false, work: inntialWorkTime });
+      },
+    }
+  );
+
+  const handleDeleteFilial = () => {
+    addressDelete.mutate(getValues('id'));
+  };
+
   const getTime = (e: any) => {
     setSendDate({
-      aroundTheClock: e?.aroundTheClock || send.aroundTheClock,
+      aroundTheClock: e?.aroundTheClock,
       work: e.work.map((v: any) => {
         return {
           day: v.day,
@@ -354,7 +338,7 @@ const Address = () => {
         setOpen(true);
         responseAddress.refetch();
         yandexRef?.setCenter([41.32847446609404, 69.24298268717716], 10);
-        setPlace(['', '']);
+        setPlace([]);
         setSendDate({ aroundTheClock: false, work: inntialWorkTime });
       },
     }
@@ -368,8 +352,9 @@ const Address = () => {
       onSuccess: () => {
         setOpen(true);
         responseAddress.refetch();
+
         yandexRef?.setCenter([41.32847446609404, 69.24298268717716], 10);
-        setPlace(['', '']);
+        setPlace([]);
       },
     }
   );
@@ -385,7 +370,7 @@ const Address = () => {
         responseAddress.refetch();
         setOpen(true);
         yandexRef?.setCenter([41.32847446609404, 69.24298268717716], 10);
-        setPlace(['', '']);
+        setPlace([]);
       },
     }
   );
@@ -393,6 +378,17 @@ const Address = () => {
   const mainPost = useMutation((v: any) => {
     return partnerApi.put(`/directory/company/address`, v);
   });
+
+  useEffect(() => {
+    const a = send.work.filter((v: any) => {
+      if (!v.dayOff) {
+        if (v.wHours?.from === '' || v.wHours.to === '') {
+          return { ...v };
+        }
+      }
+    });
+    setWorkError(a?.length === 0 || send.aroundTheClock);
+  }, [send]);
 
   useEffect(() => {
     setFillial(dataAddress);
@@ -409,16 +405,17 @@ const Address = () => {
       addressDesc: e.addressDesc,
       regionId: 0,
       telNumbers: e.telNumbers.map((v: any) => v?.number),
-      telNumber: e.telNumbers[0]?.number,
       companyId: +companyId,
       location: { lat: place[0], lng: place[1] },
       workingTime: send,
       id: e.id,
     };
-    if (e.isMain) {
-      mainPut.mutate(values);
-    } else {
-      addressPut.mutate({ ...values, name: e.name });
+    if (workError && place[0] !== '' && place[1] !== '') {
+      if (e.isMain) {
+        mainPut.mutate({ ...values, telNumber: e.telNumbers[0]?.number });
+      } else {
+        addressPut.mutate({ ...values, name: e.name });
+      }
     }
   };
 
@@ -428,25 +425,27 @@ const Address = () => {
       addressDesc: e.addressDesc,
       regionId: 0,
       telNumbers: e.telNumbers.map((v: any) => v?.number),
-      telNumber: e.telNumbers[0]?.number,
       companyId: +companyId,
       location: { lat: place[0], lng: place[1] },
       workingTime: send,
       isMain: e.isMain,
     };
-    if (data.filledAddress) {
-      addressPost.mutate({ ...values, name: e.name });
-    } else {
-      mainPost.mutateAsync(values).then((data) => {
-        console.log(data);
-        resHeader.refetch();
-        response.refetch();
-        responseAddress.refetch();
-        setOpen(true);
-        yandexRef?.setCenter([41.32847446609404, 69.24298268717716], 10);
-        setPlace(['', '']);
-        setNewComp(true);
-      });
+    if (workError && place[0] !== '' && place[1] !== '') {
+      if (data.filledAddress) {
+        addressPost.mutate({ ...values, name: e.name });
+      } else {
+        mainPost
+          .mutateAsync({ ...values, telNumber: e.telNumbers[0]?.number })
+          .then((data) => {
+            resHeader.refetch();
+            response.refetch();
+            responseAddress.refetch();
+            setOpen(true);
+            yandexRef?.setCenter([41.32847446609404, 69.24298268717716], 10);
+            setPlace([]);
+            setNewComp(true);
+          });
+      }
     }
   };
 
@@ -562,9 +561,11 @@ const Address = () => {
                   setSearchAddress('');
                   setValue('address', '');
                   setValue('regionId', 0);
-                  setValue('telNumbers', ['+998']);
+                  setValue('telNumbers', [{ number: '+998' }]);
                   setValue('addressDesc', '');
                   setSendDate({ aroundTheClock: false, work: inntialWorkTime });
+                  setShowWork(false);
+                  setMapError(false);
                 }}
               >
                 <CloseIcon />
@@ -603,11 +604,14 @@ const Address = () => {
               </WrapSearch>
               <WrapLocationAddress>
                 <Title>{t('selectedaddress')}</Title>
-                <span>{mapAddress.name}</span>
+                <span>
+                  {place[0] !== '' && place[1] !== '' ? mapAddress.name : null}
+                  {mapError ? <Message>{t('showinmap')}</Message> : null}
+                </span>
               </WrapLocationAddress>
             </WrapAddress>
             <MobileMap>
-              <YandexContainer>
+              <YandexContainer bcolor={mapError}>
                 <YandexMap
                   onBoundsChange={onBoundsChange}
                   handleRef={(e: any) => setYandexRef(e)}
@@ -669,9 +673,7 @@ const Address = () => {
                       name={`telNumbers.${index}.number`}
                       rules={{ required: true, maxLength: 13, minLength: 13 }}
                       control={control}
-                      defaultValue={
-                        !edit ? values.telNumbers?.[index]?.number : '+998'
-                      }
+                      defaultValue={values.telNumbers?.[index]?.number}
                       render={({ field }) => (
                         <Input
                           label={t('phoneNumber')}
@@ -719,6 +721,9 @@ const Address = () => {
             </Button>
             <Title>{t('workingHours')}</Title>
             <WorkingHours workingTime={workingTime} getTime={getTime} />
+            {workError === false && showWork ? (
+              <Message>{t('addressWorkingHours')}</Message>
+            ) : null}
             <ButtonsWrap>
               <ButtonWrap>
                 <Button
@@ -740,7 +745,6 @@ const Address = () => {
                   <ExitIcon />
                 </Button>
               </ButtonWrap>
-
               <Button
                 buttonStyle={{
                   shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)',
@@ -756,16 +760,36 @@ const Address = () => {
                   mainPut.isLoading ||
                   addressPost.isLoading
                 }
+                onClick={handleSaveClick}
               >
                 <SaveIcon />
                 {t('save')}
               </Button>
+              {isMain || edit ? null : (
+                <Button
+                  buttonStyle={{
+                    shadow: '0px 4px 9px rgba(255, 94, 104, 0.46)',
+                    weight: '500',
+                    bgcolor: '#FF5E68',
+                    color: '#FFFFFF',
+                  }}
+                  margin={{
+                    laptop: '20px 0 0 20px',
+                    mobile: '10px 0 0 10px',
+                  }}
+                  disabled={addressDelete.isLoading}
+                  type='button'
+                  onClick={handleDeleteFilial}
+                >
+                  {t('deletefilial')}
+                </Button>
+              )}
             </ButtonsWrap>
           </LeftSide>
         </Form>
       )}
       <Rightside>
-        <YandexContainer>
+        <YandexContainer bcolor={mapError}>
           <YandexMap
             onBoundsChange={onBoundsChange}
             handleRef={(e: any) => setYandexRef(e)}
