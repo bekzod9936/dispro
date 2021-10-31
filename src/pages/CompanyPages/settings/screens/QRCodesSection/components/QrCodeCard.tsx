@@ -50,8 +50,6 @@ const QrCodeCard = ({
   };
 
   const downloadQR = () => {
-    console.log(item?.dynLinkToken, "dynamic Link token");
-
     const canvas = document.getElementById(
       `referral-qr-code-${index}`
     ) as HTMLCanvasElement;

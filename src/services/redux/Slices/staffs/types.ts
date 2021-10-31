@@ -15,6 +15,8 @@ export interface staffsState {
   permissions?: any;
   userId: any;
   selectedRole?: any;
+  cashierId?: any;
+  staffData: any;
 }
 
 export interface ICashiers {

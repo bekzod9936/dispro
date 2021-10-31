@@ -364,7 +364,7 @@ const Clients = () => {
       endDate: date.endDate,
     });
   }, [date]);
-  console.log(isFetching, "holat");
+
   return (
     <MainWrapper>
       <WrapFilter>

@@ -3,7 +3,7 @@ import { useQuery } from "react-query";
 import { getBranches } from "services/queries/StaffQueries";
 
 const useStaff = () => {
-  const [branches, setBranches] = useState([]);
+  const [branches, setBranches] = useState<any>([]);
 
   //fetch branches
   useQuery(

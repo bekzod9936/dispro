@@ -89,7 +89,7 @@ const CashierScreen = () => {
           </EmptyRight>
         </EmptyContainer>
       )}
-      <SideBar isOpen={open}>Salom</SideBar>
+      {/* <SideBar isOpen={open}>Salom</SideBar> */}
       <SideBar isOpen={selectedCashiers?.length}>
         <CashierBar />
       </SideBar>

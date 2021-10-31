@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 const CashierScreen = lazy(() => import("../screens/CashierScreen"));
 const ManagerScreen = lazy(() => import("../screens/ManagerScreen"));
 const CashierSetting = lazy(() => import("../screens/CashierSettings"));
-const CashierCard = lazy(() => import("../screens/CashierCard"));
+const CashierCard = lazy(() => import("../screens/CashierCard/index"));
 const CashierBalls = lazy(
   () => import("../screens/CashierCard/screens/CashierBalls")
 );
