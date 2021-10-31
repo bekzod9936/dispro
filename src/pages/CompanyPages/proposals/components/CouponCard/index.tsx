@@ -61,7 +61,7 @@ export const CouponCard = ({
             <Main stats={stats}>
                 <div>
                     <h6>{isCoupon ? t("coupon") : t("certificate")}</h6>
-                    {(startDate && endDate) && <p>{moment(startDate).format("DD MMM")} - {moment(endDate).format("DD MMM YYYY")}</p>}
+                    {(startDate && endDate) && <p>{moment(startDate).format("DD.MM")} - {moment(endDate).format("DD.MM.YYYY")}</p>}
                 </div>
                 <h4>{title}</h4>
                 <p>{description}</p>
@@ -73,7 +73,7 @@ export const CouponCard = ({
                 <p>{t("categories")}: {categories?.defaults?.map((el: any, index: number) => (
                     <span>{el.label}{index < categories?.defaults?.length - 1 ? ", " : "."}</span>
                 ))}</p>
-                {!!ageFrom && <p>{t("age_limit")}: {ageFrom}+</p>}
+                <p>{t("age_limit")}: {ageFrom != 0 ? ageFrom + "+" : "Нет"}</p>
             </Submain>
             {stats &&
                 <Stats>

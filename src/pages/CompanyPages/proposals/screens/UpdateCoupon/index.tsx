@@ -33,7 +33,6 @@ import {
     Wrapper
 } from './style'
 import CropCustomModal from 'components/Custom/CropImageModal/index'
-import MFormatInput from 'components/Custom/MoneyInput'
 import { useTranslation } from 'react-i18next'
 import { useMutation } from 'react-query'
 import { updateCoupon, postCoupon } from 'services/queries/ProposalsQueries'
@@ -49,7 +48,7 @@ import { SetDate } from '../Coupons/components/SetDate'
 import Modal from 'components/Custom/Modal'
 import { useFetchCategories } from './useFetchCategories'
 import { getWeekDays } from '../../utils/getValidDate'
-import { CertificateSum } from '../Coupons/components/TextMask'
+import InputFormat from 'components/Custom/InputFormat'
 const UpdateCoupon = () => {
     const { currentCoupon } = useAppSelector((state: RootState) => state.proposals)
     const { t } = useTranslation()
@@ -65,7 +64,7 @@ const UpdateCoupon = () => {
         categories: [],
         defaults: []
     })
-
+    const [valid, setValid] = React.useState<boolean>(true)
     const [publish, setPublish] = React.useState<boolean>(false)
     const { handleUpload, deleteImage } = useUploadImage(setImage)
     const { handleSubmit, register, watch, formState: { errors, isValid }, control, setValue } = useForm({
@@ -169,18 +168,25 @@ const UpdateCoupon = () => {
         deleteImage(image)
         setImage("")
     }
+    React.useEffect(() => {
+        let res = Object.keys(errors)?.length
+        setValid(!!!res)
+    }, [isValid])
 
+
+
+    // React.useEffect(() => {
+
+    // }, [isValid])
     React.useEffect(() => {
         setValue("categories", categories.defaults)
     }, [categories.defaults])
 
+
+
     React.useEffect(() => {
-        if (isCoupon) {
-            if (watch("percent") > 100) {
-                setValue("percent", 100)
-            }
-        }
-    }, [watch("percent")])
+        setValue("percent", currentCoupon.value?.toString())
+    }, [currentCoupon.value])
     return (
         <Wrapper>
             <div
@@ -263,36 +269,41 @@ const UpdateCoupon = () => {
                                 }}
                                 render={({ field }) => {
                                     if (!isCoupon) return (
-                                        <MFormatInput
-                                            {...field}
-                                            textMask={CertificateSum}
-                                            defaultValue={currentCoupon.value}
-                                            onChange={(e: any) => field.onChange(e)}
+                                        <InputFormat
+                                            field={field}
+                                            type="string"
+                                            max="10000000"
+                                            defaultValue={currentCoupon.value?.toString()}
                                             error={!!errors.percent}
                                             message={t("requiredField")}
                                             label={"Укажите сумму сертификата"}
                                             margin={{ laptop: "35px 0" }} />)
                                     else return (
-                                        <Input
+                                        <InputFormat
                                             field={field}
-                                            max={"100"}
+                                            defaultValue={currentCoupon.value?.toString()}
+                                            type="string"
+                                            label={"Укажите % купона"}
                                             error={!!errors.percent}
-                                            message={t("requiredField")}
-                                            label="Укажите % купона"
-                                            margin={{ laptop: "35px 0" }} />)
+                                            max="100"
+                                            margin={{ laptop: "35px 0" }}
+                                            message={parseInt(watch("percent")) < 1 ? "Минимальный процент: 1" : t("requiredField")}
+                                        />)
                                 }}
                             />
                             <Controller
                                 name="amount"
                                 control={control}
                                 rules={{
-                                    required: true
+                                    required: true,
+                                    min: 5
                                 }}
                                 defaultValue={currentCoupon.count}
                                 render={({ field }) => (
-                                    <Input
+                                    <InputFormat
+                                        max="5000"
                                         error={!!errors.amount}
-                                        message={t("requiredField")}
+                                        message={parseInt(watch("amount")) < 5 ? "Минимальное количество: 5" : t("requiredField")}
                                         field={field}
                                         defaultValue={currentCoupon.count}
                                         label="Количество" />
@@ -342,17 +353,18 @@ const UpdateCoupon = () => {
                                 name="cost"
                                 control={control}
                                 rules={{
-                                    required: true
+                                    required: true,
+                                    min: 1000
                                 }}
                                 defaultValue={currentCoupon.price}
                                 render={({ field }) => (
-                                    <Input
+                                    <InputFormat
                                         field={field}
                                         error={!!errors.cost}
                                         defaultValue={currentCoupon.price}
-                                        message={t("requiredField")}
+                                        message={parseInt(watch("cost")) < 1000 ? "Минимальная цена: 1000" : t("requiredField")}
                                         label={isCoupon ? "Цена купона" : "Цена сертификата"}
-                                        type="number"
+                                        max="10000000"
                                         margin={{ laptop: "25px 0 35px 0" }} />
                                 )}
                             />
@@ -371,8 +383,9 @@ const UpdateCoupon = () => {
                                         control={control}
                                         defaultValue={currentCoupon.ageFrom}
                                         render={({ field }) => (
-                                            <Input
+                                            <InputFormat
                                                 field={field}
+                                                max="100"
                                                 defaultValue={0}
                                                 IconStart={<PlusIcon style={{ marginLeft: "20px" }} />}
                                                 label="Возрастное ограничение" />
@@ -439,7 +452,7 @@ const UpdateCoupon = () => {
                                         />
                                     </div>}
                             </AgeWrapper>
-                            {isValid ? <Button
+                            {valid ? <Button
                                 onClick={() => setPreviewModal(true)}
                                 buttonStyle={{ bgcolor: "#ffffff", color: "#606EEA" }}
                                 endIcon={<PhoneIcon />}>

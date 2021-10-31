@@ -63,6 +63,8 @@ const Drafts = () => {
                     {t("create")}
                 </Button>
                 <Input
+                    error={drafts.length === 0 && !isFetching}
+                    message={"По запросу ничего не найдено"}
                     placeholder="Поиск..."
                     onChange={(e) => setQuery(e.target.value)}
                     inputStyle={{ border: "none", height: { laptop: 45, planshet: 40 } }}

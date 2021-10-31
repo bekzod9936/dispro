@@ -22,7 +22,7 @@ export const MModal = ({ open, setOpen }: IProps) => {
                     <CloseIcon />
                 </CloseButton>
                 <h3>Выберите спецпредложение</h3>
-                <p>Выберите спецпредложение которые хотите создать</p>
+                <p>Выберите спецпредложение которое хотите создать</p>
                 <div>
                     <Link to="/proposals/create_coupon">
                         <Card>

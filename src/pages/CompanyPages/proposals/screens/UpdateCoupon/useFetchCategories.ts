@@ -11,7 +11,7 @@ export const useFetchCategories = (setCategories: (arg: any) => void, currentCat
             const defaults = getDefaultCategories(arr, currentCategories)
             setCategories({
                 defaults,
-                categories: arr
+                categories: defaults
             })
         }
     })

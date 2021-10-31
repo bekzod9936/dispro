@@ -11,6 +11,7 @@ import { useMutation } from 'react-query'
 import { postCoupon, putCoupon } from 'services/queries/ProposalsQueries'
 import moment from 'moment'
 import Input from "components/Custom/Input"
+import { useTranslation } from 'react-i18next'
 
 interface IProps {
     handleClose: any,
@@ -35,7 +36,7 @@ export const SetDate = ({
         endDate: "",
         publishDate: ""
     })
-
+    const { t } = useTranslation()
     const { mutate } = useMutation((data: ICoupon) => postCoupon(data), {
         onSuccess: (data) => {
             putCoupon(data.data.data.id, {
@@ -45,7 +46,7 @@ export const SetDate = ({
             })
         }
     })
-    const { handleSubmit, control, watch } = useForm()
+    const { handleSubmit, control, watch, formState: { errors } } = useForm()
     const history = useHistory()
 
     const onPublish = async (data: any) => {
@@ -106,6 +107,8 @@ export const SetDate = ({
                     render={({ field }) => (
                         <Input
                             field={field}
+                            error={!!errors.publishDate}
+                            message={t("requiredField")}
                             min={moment(Date.now()).format("YYYY-MM-DD")}
                             type="date"
                             margin={{ laptop: "0 0 20px 0" }}
@@ -124,7 +127,9 @@ export const SetDate = ({
                             <Input
                                 field={field}
                                 type="date"
+                                error={!!errors.startDate}
                                 min={watch("publishDate")}
+                                // message={t("requiredField")}
                                 max={handleFn(watch("publishDate"))}
                                 margin={{ laptop: "0 20px 20px 0" }}
                             />
@@ -139,6 +144,8 @@ export const SetDate = ({
                         render={({ field }) => (
                             <Input
                                 field={field}
+                                error={!!errors.endDate}
+                                // message={t("requiredField")}
                                 min={watch("startDate")}
                                 type="date"
                                 max={handleFn(watch("publishDate"))}

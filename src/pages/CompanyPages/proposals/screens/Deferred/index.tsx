@@ -43,6 +43,8 @@ const Deferred = () => {
             </SideBar>
             <Input
                 value={value}
+                error={deferred.length === 0 && !isFetching}
+                message={"По запросу ничего не найдено"}
                 onChange={(e) => setValue(e.target.value)}
                 IconStart={<SearchIcon style={{ marginLeft: "35px" }} />}
                 placeholder="Поиск..."

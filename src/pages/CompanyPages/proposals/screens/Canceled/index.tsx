@@ -43,6 +43,8 @@ const Canceled = () => {
                     onClose={setOpen} />
             </SideBar>
             <Input
+                error={canceled.length === 0 && !isFetching}
+                message={"По запросу ничего не найдено"}
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
                 IconStart={<SearchIcon style={{ marginLeft: "35px" }} />}

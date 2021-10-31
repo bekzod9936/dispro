@@ -9,10 +9,10 @@ function NumberFormatCustom(props: any) {
       {...other}
       ref={inputRef}
       onValueChange={(values) => {
-        if (parseInt(values.value) >= parseInt(other.maxVal)) {
+        if (parseInt(values.value) >= parseInt(other.max)) {
           onChange({
             target: {
-              value: other.maxVal.toString(),
+              value: other.max.toString(),
             },
           });
         } else {
@@ -22,6 +22,10 @@ function NumberFormatCustom(props: any) {
             },
           });
         }
+      }}
+      isAllowed={(values) => {
+        if (values.value.length > 1 && values.value.startsWith("0")) return false
+        else return true
       }}
       thousandSeparator=" "
       prefix=""
@@ -34,7 +38,7 @@ function NumberFormatCustom(props: any) {
   );
 }
 
-const InputFormat = ({ onChange = () => {}, ...props }: Props) => {
+const InputFormat = ({ onChange = () => { }, ...props }: Props) => {
   return (
     <Container width={props.width} margin={props.margin}>
       {props.label ? (
