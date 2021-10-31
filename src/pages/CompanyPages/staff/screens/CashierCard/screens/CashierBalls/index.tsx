@@ -37,8 +37,6 @@ const CashierBalls = ({ ballCount = 0 }: IProps) => {
   });
 
   const onSave = (data: FormProps) => {
-    console.log(data.ballAmount, "ball Amount that  I need");
-
     resetPoint.mutate({
       pointValue: +data.ballAmount,
       cashierStaffId: +cashierId,

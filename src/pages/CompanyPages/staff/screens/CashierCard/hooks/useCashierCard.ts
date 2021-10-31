@@ -28,8 +28,8 @@ const useCashierCard = () => {
     {
       retry: 0,
       refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
       onSuccess: (data) => {
-        console.log(data.data.data, "data 123");
         if (data?.data?.data?.cashier) {
           dispatch(setStaffData(data.data.data.cashier));
         } else {

@@ -163,5 +163,9 @@ export const Side = styled.div`
 export const Flex = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+`;
+
+export const ContentTable = styled.div`
+  padding-top: 30px;
 `;

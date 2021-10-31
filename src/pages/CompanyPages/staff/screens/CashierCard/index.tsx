@@ -31,6 +31,7 @@ import {
   StaffAction,
   Side,
   Flex,
+  ContentTable,
 } from "./style";
 import useCashierCard from "./hooks/useCashierCard";
 import Spinner from "components/Helpers/Spinner";
@@ -255,7 +256,9 @@ const CashierCard = () => {
           {cashierBalls()}
         </Side>
 
-        <Side>{cashierBallTable()}</Side>
+        <Side>
+          <ContentTable>{cashierBallTable()}</ContentTable>
+        </Side>
       </Flex>
       {renderData()}
 
