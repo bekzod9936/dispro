@@ -20,6 +20,19 @@ export interface IStaffsRow {
 
 const useStaffRoute = () => {
   const { t } = useTranslation();
+  const staffPath: IStaffsRow[] = [
+    {
+      path: "/staff",
+      text: t("cashier"),
+      component: CashierScreen,
+    },
+    {
+      path: "/staff/manager",
+      text: t("manager"),
+      component: ManagerScreen,
+    },
+  ];
+
   const menuItems: IStaffsRow[] = [
     {
       path: "/staff",
@@ -55,6 +68,7 @@ const useStaffRoute = () => {
 
   return {
     menuItems,
+    staffPath,
   };
 };
 

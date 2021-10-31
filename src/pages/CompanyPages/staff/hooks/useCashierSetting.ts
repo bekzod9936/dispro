@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useQuery, useMutation } from "react-query";
 import { fetchRewards } from "services/queries/PartnerQueries";
@@ -37,10 +36,10 @@ const useCashierSetting = () => {
     name: "recommendCheck",
   });
 
-  const ballPoint = useWatch({
-    control,
-    name: "ballPoint",
-  });
+  // const ballPoint = useWatch({
+  //   control,
+  //   name: "ballPoint",
+  // });
 
   //change settings
   const changeLoyality = useMutation((data: any) => changeLoyal(data), {
@@ -101,11 +100,11 @@ const useCashierSetting = () => {
     }
   );
 
-  useEffect(() => {
-    if (+ballPoint >= 100) {
-      setValue("ballPoint", "100");
-    }
-  }, [ballPoint]);
+  // useEffect(() => {
+  //   if (+ballPoint >= 100) {
+  //     setValue("ballPoint", "100");
+  //   }
+  // }, [ballPoint]);
 
   return {
     ballCheck,
@@ -114,7 +113,6 @@ const useCashierSetting = () => {
     handleSubmit,
     setValue,
     control,
-    ballPoint,
     changeLoyality,
   };
 };
