@@ -1,7 +1,8 @@
+import { lazy } from "react";
 import NavBar from "components/Custom/NavBar";
 import IconButton from "@material-ui/core/IconButton";
 import { useAppSelector, useAppDispatch } from "services/redux/hooks";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import { Flex, SpinnerDiv } from "pages/CompanyPages/staff/style";
 import useStaffRoute from "../../routes";
 import { ReactComponent as Laptop } from "assets/icons/StatistisPage/laptop.svg";
@@ -11,6 +12,7 @@ import { ReactComponent as Score } from "assets/icons/StatistisPage/score.svg";
 import { ReactComponent as Sertificate } from "assets/icons/StatistisPage/cashnew.svg";
 import { ReactComponent as Users } from "assets/icons/StatistisPage/users.svg";
 import { ReactComponent as QRStaff } from "assets/icons/qr_staff.svg";
+import { ReactComponent as ArrowBack } from "assets/icons/arrow_back.svg";
 import {
   CardContainer,
   StaticDiv,
@@ -41,8 +43,13 @@ import Button from "components/Custom/Button";
 import { ThreeDotsIcon } from "assets/icons/SettingsIcons/SettingsPageIcon";
 import { SideBar } from "pages/CompanyPages/staff/components/SideBar";
 import QrBar from "./components/QrBar";
+import { CashierWrapTitle, TitleText } from "../CashierSettings/style";
+
+const CashierBalls = lazy(() => import("./screens/CashierBalls"));
+const CashierFeedback = lazy(() => import("./screens/CashierFeedback"));
 
 const CashierCard = () => {
+  const history = useHistory();
   const { branches } = useStaff();
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
@@ -51,6 +58,7 @@ const CashierCard = () => {
   const { isLoading, openQr, setOpenQr } = useCashierCard();
   const staffData = useAppSelector((state) => state.staffs.staffData);
   const cashierId = useAppSelector((state) => state.staffs.cashierId);
+  const prevPage: any = state?.prevPage || "/staff";
 
   useEffect(() => {
     if (cashierId === "") {
@@ -69,6 +77,14 @@ const CashierCard = () => {
     return branch;
   };
 
+  useEffect(() => {
+    setTimeout(() => {
+      if (!staffData?.lastName) {
+        history.push(prevPage);
+      }
+    }, 3000);
+  }, []);
+
   const renderData = () => {
     if (isLoading) {
       return (
@@ -77,7 +93,8 @@ const CashierCard = () => {
         </SpinnerDiv>
       );
     } else if (pathname === "/staff/cashier/statistic") {
-      const statistic = staffData;
+      const statistic = staffData?.operations;
+      const statClient = staffData?.clients;
       return (
         <StaticDiv>
           <StatisticCol>
@@ -85,8 +102,8 @@ const CashierCard = () => {
               <Money />
             </StaticIcon>
             <Content>
-              <Title>{t("purchuase_cost")}</Title>
-              <Value>{numberWith(statistic?.avgCheque, " ")}</Value>
+              <Title>Количество операций</Title>
+              <Value>{numberWith(statistic?.payCount, " ")}</Value>
             </Content>
           </StatisticCol>
           <StatisticCol>
@@ -94,8 +111,8 @@ const CashierCard = () => {
               <Laptop />
             </StaticIcon>
             <Content>
-              <Title>Оплаченно в UZS</Title>
-              <Value>{numberWith(statistic?.amountOperation, " ")}</Value>
+              <Title>Сумма скидок</Title>
+              <Value>{numberWith(statistic?.discountSum, " ")}</Value>
             </Content>
           </StatisticCol>
           <StatisticCol>
@@ -103,8 +120,8 @@ const CashierCard = () => {
               <Rating />
             </StaticIcon>
             <Content>
-              <Title>Оплатили баллами</Title>
-              <Value>{numberWith(statistic?.avgRating, " ")}</Value>
+              <Title>Сумма кешбэка</Title>
+              <Value>{numberWith(statistic?.cashbackSum, " ")}</Value>
             </Content>
           </StatisticCol>
           <StatisticCol>
@@ -112,8 +129,8 @@ const CashierCard = () => {
               <Score />
             </StaticIcon>
             <Content>
-              <Title>Баллов клиентам</Title>
-              <Value>{numberWith(statistic?.countClient, " ")}</Value>
+              <Title>Баллы</Title>
+              <Value>{numberWith(statistic?.pointSum, " ")}</Value>
             </Content>
           </StatisticCol>
           <StatisticCol>
@@ -122,7 +139,7 @@ const CashierCard = () => {
             </StaticIcon>
             <Content>
               <Title>Всего клиентов</Title>
-              <Value>{numberWith(statistic?.countOperation, " ")}</Value>
+              <Value>{numberWith(statClient?.countClient, " ")}</Value>
             </Content>
           </StatisticCol>
           <StatisticCol>
@@ -131,15 +148,40 @@ const CashierCard = () => {
             </StaticIcon>
             <Content>
               <Title>Совершено покупок</Title>
-              <Value>{numberWith(statistic?.countRefer, " ")}</Value>
+              <Value>{numberWith(statClient?.countCheque, " ")}</Value>
+            </Content>
+          </StatisticCol>
+          <StatisticCol>
+            <StaticIcon>
+              <Users />
+            </StaticIcon>
+            <Content>
+              <Title>Баллы клиентов</Title>
+              <Value>{numberWith(statClient?.pointSum, " ")}</Value>
             </Content>
           </StatisticCol>
         </StaticDiv>
       );
+    } else if (pathname === "/staff/cashier/balls") {
+      return <CashierBalls />;
+    } else if (pathname === "/staff/cashier/feedback") {
+      return <CashierFeedback />;
     }
   };
+
   return (
     <CardContainer>
+      <CashierWrapTitle>
+        <IconButton
+          onClick={() => {
+            history.push(prevPage);
+          }}
+        >
+          <ArrowBack />
+        </IconButton>
+        <TitleText>Данные по кассиру</TitleText>
+      </CashierWrapTitle>
+      <Break height={20} />
       {!isLoading && (
         <CashierInfo>
           <StaffCol>

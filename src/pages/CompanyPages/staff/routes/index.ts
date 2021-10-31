@@ -60,7 +60,7 @@ const useStaffRoute = () => {
       component: CashierBalls,
     },
     {
-      path: "/staff/cashier/feedbackk",
+      path: "/staff/cashier/feedback",
       text: t("comments"),
       component: CashierFeedback,
     },

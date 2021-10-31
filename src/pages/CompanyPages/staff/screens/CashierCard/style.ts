@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { device } from "styles/device";
 
 export const CardContainer = styled.div`
-  margin-top: 50px;
+  margin-top: 25px;
   padding-right: 40px;
   padding-left: 45px;
   position: relative !important;
@@ -14,7 +14,7 @@ export const StaticDiv = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   width: 100%;
-  overflow-y: auto;
+  overflow-y: scroll;
   overflow-x: hidden;
   grid-auto-rows: minmax(90px, 110px);
   padding-top: 20px;

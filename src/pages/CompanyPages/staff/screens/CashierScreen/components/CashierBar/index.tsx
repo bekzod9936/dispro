@@ -131,6 +131,7 @@ const CashierBar = () => {
                     },
                   });
                   dispatch(setCashierId(selectedCashiers[0].id));
+                  dispatch(setSelectedCashiers([]));
                 }}
                 startIcon={<UserIcon />}
               >

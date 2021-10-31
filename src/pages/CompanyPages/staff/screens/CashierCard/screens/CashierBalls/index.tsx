@@ -1,5 +1,7 @@
+import { Container } from "./style";
+
 const CashierBalls = () => {
-  return <div>Cashier Balls</div>;
+  return <Container>Cashier Balls</Container>;
 };
 
 export default CashierBalls;
