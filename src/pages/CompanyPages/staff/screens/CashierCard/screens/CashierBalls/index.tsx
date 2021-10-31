@@ -12,13 +12,20 @@ import {
   SecondText,
   Form,
   ActDiv,
+  FormCol,
 } from "./style";
 import { numberWith } from "services/utils";
 import InputFormat from "components/Custom/InputFormat";
 import Button from "components/Custom/Button";
 import { DownloadIcon } from "assets/icons/SettingsIcons/SettingsPageIcon";
+import useCashierCard from "../../hooks/useCashierCard";
+import { useAppSelector } from "services/redux/hooks";
 
 const CashierBalls = ({ ballCount = 0 }: IProps) => {
+  const { resetPoint } = useCashierCard();
+  const cashierId = useAppSelector((state) => state.staffs.cashierId);
+  const staffData = useAppSelector((state) => state.staffs.staffData);
+
   const {
     handleSubmit,
     control,
@@ -31,6 +38,12 @@ const CashierBalls = ({ ballCount = 0 }: IProps) => {
 
   const onSave = (data: FormProps) => {
     console.log(data.ballAmount, "ball Amount that  I need");
+
+    resetPoint.mutate({
+      pointValue: +data.ballAmount,
+      cashierStaffId: +cashierId,
+      cashierUserId: staffData?.cashierUserId,
+    });
   };
 
   return (
@@ -49,34 +62,36 @@ const CashierBalls = ({ ballCount = 0 }: IProps) => {
           </ContentRow>
           <ContentRow>
             <Form onSubmit={handleSubmit(onSave)}>
-              <Controller
-                name="ballAmount"
-                control={control}
-                rules={{
-                  required: true,
-                }}
-                render={({ field }) => {
-                  return (
-                    <InputFormat
-                      label={"Колличество баллов"}
-                      type="string"
-                      field={field}
-                      max={parseInt(ballCount).toString()}
-                      fullWidth={true}
-                      width={{
-                        width: "50%",
-                      }}
-                      margin={{
-                        laptop: "30px 0 0",
-                      }}
-                      error={errors.ballAmount}
-                    />
-                  );
-                }}
-              />
+              <FormCol>
+                <Controller
+                  name="ballAmount"
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field }) => {
+                    return (
+                      <InputFormat
+                        label={"Колличество баллов"}
+                        type="string"
+                        field={field}
+                        max={parseInt(ballCount).toString()}
+                        fullWidth={true}
+                        width={{
+                          width: "100%",
+                        }}
+                        margin={{
+                          laptop: "30px 0 0",
+                        }}
+                        error={errors.ballAmount}
+                      />
+                    );
+                  }}
+                />
+              </FormCol>
               <ActDiv>
                 <Button
-                  disabled={!isValid}
+                  disabled={!isValid || resetPoint.isLoading}
                   startIcon={<DownloadIcon />}
                   type="submit"
                 >

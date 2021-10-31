@@ -90,3 +90,11 @@ export const getStaffData = async (id: any) => {
 
   return response;
 };
+
+//reset points
+
+export const resetPoints = async (data: any) => {
+  const response = await partnerApi.put("/core/cashier/reset-points", data);
+
+  return response;
+};

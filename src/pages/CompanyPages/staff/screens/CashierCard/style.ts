@@ -6,16 +6,14 @@ export const CardContainer = styled.div`
   padding-right: 40px;
   padding-left: 45px;
   position: relative !important;
-  overflow-y: scroll;
-  overflow-x: hidden;
+  overflow: auto;
 `;
 
 export const StaticDiv = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   width: 100%;
-  overflow-y: scroll;
-  overflow-x: hidden;
+  overflow: scroll;
   grid-auto-rows: minmax(90px, 110px);
   padding-top: 20px;
 

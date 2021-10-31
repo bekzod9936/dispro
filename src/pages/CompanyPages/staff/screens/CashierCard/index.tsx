@@ -80,14 +80,6 @@ const CashierCard = () => {
     return branch;
   };
 
-  useEffect(() => {
-    setTimeout(() => {
-      if (!staffData?.lastName) {
-        history.push(prevPage);
-      }
-    }, 3000);
-  }, []);
-
   const renderData = () => {
     if (isLoading) {
       return (

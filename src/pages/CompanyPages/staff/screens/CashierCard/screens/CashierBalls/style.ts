@@ -32,7 +32,7 @@ export const ContentBody = styled.div`
   background: #fff;
   display: flex;
   flex-direction: column;
-  padding: 21px 40px;
+  padding: 21px 35px;
   border-bottom-left-radius: 14px;
   border-bottom-right-radius: 14px;
 `;
@@ -93,6 +93,14 @@ export const ActDiv = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  align-items: center;
   height: 100%;
   padding-bottom: 5px;
+  margin-left: 15px;
+`;
+
+export const FormCol = styled.div`
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
 `;
