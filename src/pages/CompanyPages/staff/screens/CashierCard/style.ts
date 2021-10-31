@@ -153,3 +153,17 @@ export const StaffAction = styled.div`
   right: 0;
   top: 0;
 `;
+
+export const Side = styled.div`
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  flex-direction: column;
+`;
+
+export const Flex = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;

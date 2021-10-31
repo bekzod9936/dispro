@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { DownloadIcon } from "assets/icons/SettingsIcons/SettingsPageIcon";
 import { QrDiv, UpSide, DownSide, QrRow, QrText } from "./style";
 import { ReactComponent as ExitIcon } from "assets/icons/exit.svg";
+import { ReactComponent as ShareIcon } from "assets/icons/share_right.svg";
 
 import { IconButton } from "@material-ui/core";
 import { Break } from "../../style";
@@ -45,10 +46,22 @@ const QrBar = ({ qrLink, closeQr }: IProps) => {
           fgColor="#000000"
           level={"H"}
         />
+
+        {/* <QrText>{qrLink}</QrText> */}
       </UpSide>
 
       {/* Down Side  */}
       <DownSide>
+        <Button
+          buttonStyle={{
+            bgcolor: "rgba(96, 110, 234, 0.1)",
+            color: "#606EEA",
+          }}
+          endIcon={<ShareIcon />}
+        >
+          Поделится
+        </Button>
+        <Break height={10} />
         <Button onClick={() => downloadQR()} startIcon={<DownloadIcon />}>
           {t("downloadPNG")}
         </Button>

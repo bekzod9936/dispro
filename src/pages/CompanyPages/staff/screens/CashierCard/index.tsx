@@ -3,7 +3,7 @@ import NavBar from "components/Custom/NavBar";
 import IconButton from "@material-ui/core/IconButton";
 import { useAppSelector, useAppDispatch } from "services/redux/hooks";
 import { useLocation, useHistory } from "react-router-dom";
-import { Flex, SpinnerDiv } from "pages/CompanyPages/staff/style";
+import { SpinnerDiv } from "pages/CompanyPages/staff/style";
 import useStaffRoute from "../../routes";
 import { ReactComponent as Laptop } from "assets/icons/StatistisPage/laptop.svg";
 import { ReactComponent as Money } from "assets/icons/StatistisPage/money.svg";
@@ -29,6 +29,8 @@ import {
   Break,
   StaffSecondText,
   StaffAction,
+  Side,
+  Flex,
 } from "./style";
 import useCashierCard from "./hooks/useCashierCard";
 import Spinner from "components/Helpers/Spinner";
@@ -44,6 +46,7 @@ import { ThreeDotsIcon } from "assets/icons/SettingsIcons/SettingsPageIcon";
 import { SideBar } from "pages/CompanyPages/staff/components/SideBar";
 import QrBar from "./components/QrBar";
 import { CashierWrapTitle, TitleText } from "../CashierSettings/style";
+import BallTable from "./components/BallTable";
 
 const CashierBalls = lazy(() => import("./screens/CashierBalls"));
 const CashierFeedback = lazy(() => import("./screens/CashierFeedback"));
@@ -162,11 +165,24 @@ const CashierCard = () => {
           </StatisticCol>
         </StaticDiv>
       );
-    } else if (pathname === "/staff/cashier/balls") {
-      return <CashierBalls />;
     } else if (pathname === "/staff/cashier/feedback") {
       return <CashierFeedback />;
     }
+  };
+
+  const cashierBallTable = () => {
+    if (pathname === "/staff/cashier/balls") {
+      return <BallTable />;
+    }
+    return "";
+  };
+
+  const cashierBalls = () => {
+    if (pathname === "/staff/cashier/balls") {
+      return <CashierBalls ballCount={staffData?.cashierPointsSum} />;
+    }
+
+    return "";
   };
 
   return (
@@ -235,14 +251,19 @@ const CashierCard = () => {
           </StaffAction>
         </CashierInfo>
       )}
-      <Flex width="90%" height="85px" alignItems="flex-start" margin="0">
-        <NavBar
-          list={menuItems.filter((item) =>
-            item.path.includes("/staff/cashier")
-          )}
-          margin="20px 0"
-          padding="0 10px 10px 0"
-        />
+      <Flex>
+        <Side>
+          <NavBar
+            list={menuItems.filter((item) =>
+              item.path.includes("/staff/cashier")
+            )}
+            margin="20px 0"
+            padding="0 10px 10px 0"
+          />
+          {cashierBalls()}
+        </Side>
+
+        <Side>{cashierBallTable()}</Side>
       </Flex>
       {renderData()}
 

@@ -15,6 +15,7 @@ export const UpSide = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  flex-wrap: wrap;
 `;
 
 export const DownSide = styled.div`
