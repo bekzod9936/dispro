@@ -51,6 +51,7 @@ import {
   WrapKeyWords,
   ButtonKeyWord,
   DeleteIcon,
+  Message,
 } from './style';
 
 interface FormProps {
@@ -85,6 +86,8 @@ const Main = () => {
     upload,
   } = useAbout({ logo: data.logo });
   const { resHeader, headerData } = useLayout({ id: companyId });
+
+  const [errorLogo, setErrorLogo] = useState(false);
 
   const history = useHistory();
   const { t } = useTranslation();
@@ -188,6 +191,12 @@ const Main = () => {
     setLogo(upload);
     setValue('logo', upload);
   }, [upload]);
+
+  useEffect(() => {
+    if (logo !== '') {
+      setErrorLogo(false);
+    }
+  }, [logo]);
 
   useEffect(() => {
     const tel: string =
@@ -429,6 +438,7 @@ const Main = () => {
                   </LabelLoading>
                 )}
               </WrapLoading>
+              {errorLogo ? <Message>{t('addinfologo')}</Message> : null}
             </WrapHeader>
             <Controller
               name='name'
@@ -659,25 +669,27 @@ const Main = () => {
           </RightSide>
         </Container>
       </UpSide>
-      <DownSide>
+      <DownSide justify={headerData.filled && headerData.filledAddress}>
         <div>
-          <WrapButton mobile={true}>
-            <Button
-              onClick={() => setOpen(true)}
-              type='submit'
-              buttonStyle={{
-                color: '#606EEA',
-                bgcolor: 'rgba(96, 110, 234, 0.1)',
-                weight: 500,
-              }}
-              margin={{
-                laptop: '10px 10px 0 0',
-              }}
-            >
-              {t('logout')}
-              <CloseIcon mobile={true} />
-            </Button>
-          </WrapButton>
+          {headerData.filled && headerData.filledAddress ? null : (
+            <WrapButton mobile={true}>
+              <Button
+                onClick={() => setOpen(true)}
+                type='submit'
+                buttonStyle={{
+                  color: '#606EEA',
+                  bgcolor: 'rgba(96, 110, 234, 0.1)',
+                  weight: 500,
+                }}
+                margin={{
+                  laptop: '10px 10px 0 0',
+                }}
+              >
+                {t('logout')}
+                <CloseIcon mobile={true} />
+              </Button>
+            </WrapButton>
+          )}
           <Button
             type='submit'
             buttonStyle={{
@@ -686,6 +698,11 @@ const Main = () => {
             }}
             margin={{
               laptop: '10px 0 0',
+            }}
+            onClick={() => {
+              if (logo === '') {
+                setErrorLogo(true);
+              }
             }}
           >
             <SaveIcon />

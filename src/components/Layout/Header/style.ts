@@ -309,7 +309,9 @@ export const Link = styled.a`
   font-weight: 300;
   font-size: 14px;
   color: #3492ff;
-  text-transform: capitalize;
+  ::first-letter {
+    text-transform: capitalize;
+  }
   margin-bottom: 15px;
 `;
 

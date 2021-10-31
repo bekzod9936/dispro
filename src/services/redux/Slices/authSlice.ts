@@ -7,6 +7,7 @@ interface IAuthSlice {
   proceedAuth: boolean;
   refetch: Function;
   staffId: number;
+  backAddCompany: boolean;
 }
 
 const initialState: IAuthSlice = {
@@ -17,6 +18,7 @@ const initialState: IAuthSlice = {
   proceedAuth: false,
   refetch: () => {},
   staffId: 0,
+  backAddCompany: false,
 };
 
 const authSlice = createSlice({
@@ -44,6 +46,10 @@ const authSlice = createSlice({
     setStaffId: (state, action: PayloadAction<number>) => {
       state.staffId = action.payload;
     },
+    setBackAddCompany: (state, action: PayloadAction<boolean>) => {
+      console.log(action.payload, '[');
+      state.backAddCompany = action.payload;
+    },
   },
 });
 
@@ -55,6 +61,7 @@ export const {
   setProceedAuth,
   refetchCompanyList,
   setStaffId,
+  setBackAddCompany,
 } = authSlice.actions;
 
 export default authSlice.reducer;

@@ -51,6 +51,8 @@ import {
   LogoIcon,
   PName,
 } from './style';
+import { setInfoData, initialState } from 'services/redux/Slices/info/info';
+
 
 const io = require('socket.io-client');
 
@@ -60,15 +62,15 @@ const companyId = localStorage.getItem('companyId');
 const Header = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const { headerData } = useLayout({ id: companyId });
+  useLayout({ id: companyId });
   const history = useHistory();
   const [open, setOpen] = useState(false);
 
-  const companyInfo = useAppSelector((state) => state.partner.companyInfo);
+  const infoData = useAppSelector((state) => state.info.data);
   const socket = useAppSelector((state) => state.feedbackPost.socket);
 
   useEffect(() => {
-    if (headerData.filled && headerData.filledAddress) {
+    if (infoData?.filled && infoData?.filledAddress) {
       const socket = io(
         `${process.env.REACT_APP_WEBSOCKET_URL}/nsp_staff_svdfv8732f5rycf76f8732rvuy23cfi77c3u6fr2387frv8237vfidu23vf2vdd7324df4`,
         {
@@ -88,11 +90,11 @@ const Header = () => {
       });
       dispatch(setSocket(socket));
     }
-  }, [headerData.filled, headerData.filledAddress]);
+  }, [infoData?.filled, infoData?.filledAddress]);
 
   return (
     <>
-      {headerData?.filled && headerData?.filledAddress ? (
+      {infoData?.filled && infoData?.filledAddress ? (
         <Container>
           <WrapLogo>
             <LogoIcon src={Logo} alt='logo' />
@@ -156,7 +158,7 @@ const Header = () => {
                   }}
                 >
                   <Img
-                    src={headerData.logo === '' ? LogoDef : companyInfo.logo}
+                    src={infoData?.logo === '' ? LogoDef : infoData?.logo}
                     size='small'
                     alt='logo'
                     onError={(e: any) => {
@@ -165,7 +167,7 @@ const Header = () => {
                     }}
                   />
                   <WrapPop>
-                    <Name fontSize={16}>{companyInfo.name}</Name>
+                    <Name fontSize={16}>{infoData?.name}</Name>
                     <TextCompany>{t('myCompany')}</TextCompany>
                   </WrapPop>
                   <ArrowIcon marginLeft={true} />
@@ -178,7 +180,7 @@ const Header = () => {
             >
               <Content>
                 <Img
-                  src={headerData.logo === '' ? LogoDef : companyInfo.logo}
+                  src={infoData?.logo === '' ? LogoDef : infoData?.logo}
                   size='large'
                   alt='logo'
                   onError={(e: any) => {
@@ -186,7 +188,7 @@ const Header = () => {
                     e.target.src = LogoDef;
                   }}
                 />
-                <PName fontSize={18}>{companyInfo.name}</PName>
+                <PName fontSize={18}>{infoData?.name}</PName>
                 <Type>Компания прошла модерацию</Type>
                 <Button
                   buttonStyle={{
@@ -221,7 +223,7 @@ const Header = () => {
                   <LangSelect border='1px solid #F0F0F0' />
                 </WrapLang>
                 <Link href='/privacy-policy' target='_blank'>
-                  {t('policy')}
+                  {t('policy', { policy: 'Политика' })}
                 </Link>
                 <Link href='/terms-and-conditions' target='_blank'>
                   {t('conditions')}
@@ -270,6 +272,7 @@ const Header = () => {
                           history.push('/partner/company');
                           dispatch(setCompanyInfo({}));
                           socket.disconnect();
+                          dispatch(setInfoData({ ...initialState?.data }));
                         }}
                       >
                         {t('logout')}

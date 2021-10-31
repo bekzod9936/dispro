@@ -1,5 +1,5 @@
 import moment from "moment";
-import useCashiers from "pages/CompanyPages/staff/hooks/useCashiers";
+import useManagers from "pages/CompanyPages/staff/hooks/useManagers";
 import { useTranslation } from "react-i18next";
 import { useAppSelector, useAppDispatch } from "services/redux/hooks";
 import {
@@ -29,7 +29,6 @@ import { ReactComponent as EditIcon } from "assets/icons/edit_cashier.svg";
 import { ReactComponent as DeleteIcon } from "assets/icons/delete_setting.svg";
 import { ReactComponent as DeleteWhiteIcon } from "assets/icons/trash_white.svg";
 import { ReactComponent as ExitIcon } from "assets/icons/exit.svg";
-import { ReactComponent as TrashWhite } from "assets/icons/trash_white.svg";
 import { ReactComponent as RoleIcon } from "assets/icons/role_icon.svg";
 
 import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
@@ -37,6 +36,7 @@ import Button from "components/Custom/Button";
 import Modal from "components/Custom/Modal";
 import RippleEffect from "components/Custom/RippleEffect";
 import {
+  setOpenEditManager,
   setOpenManager,
   setSelectedManagers,
   setStepManager,
@@ -51,7 +51,8 @@ import {
 const ManagerBar = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const { deleteCashier, open, setOpen, roleManager } = useCashiers({
+
+  const { roleManager, deleteManager, open, setOpen } = useManagers({
     page: 1,
     query: "",
     period: "",
@@ -110,6 +111,9 @@ const ManagerBar = () => {
                   buttonStyle={{
                     bgcolor: "rgba(96, 110, 234, 0.1)",
                     color: "#606EEA",
+                  }}
+                  onClick={() => {
+                    dispatch(setOpenEditManager(true));
                   }}
                 >
                   {t("edit")}
@@ -306,9 +310,9 @@ const ManagerBar = () => {
                 bgcolor: "#FF5E68",
                 color: "#fff",
               }}
-              disabled={deleteCashier.isLoading}
+              disabled={deleteManager.isLoading}
               onClick={() => {
-                deleteCashier.mutate(
+                deleteManager.mutate(
                   selectedManagers.map((item: any) => item.id)
                 );
               }}

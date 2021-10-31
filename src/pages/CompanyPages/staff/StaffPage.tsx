@@ -10,7 +10,6 @@ import Header from "./components/Header";
 import CreateCashier from "./screens/CashierScreen/components/CreateCashier";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 import { setQuery } from "services/redux/Slices/staffs";
-import CreateManager from "./screens/ManagerScreen/components/CreateManager";
 
 const StaffPage = () => {
   const dispatch = useAppDispatch();
@@ -19,7 +18,6 @@ const StaffPage = () => {
   const { t } = useTranslation();
   const { menuItems } = useStaffRoute();
   const openCash = useAppSelector((state) => state.staffs.openCash);
-  const openManager = useAppSelector((state) => state.staffs.openManager);
 
   const [closeFun, setCloseFun] = useState<any>();
   const handleClose = (e: any) => {
@@ -38,7 +36,8 @@ const StaffPage = () => {
 
   return (
     <MainWrapper id="drawer-container">
-      {location.pathname !== "/staff/setting" ? (
+      {location.pathname !== "/staff/setting" &&
+      !location.pathname.includes("/staff/cashier/") ? (
         <>
           <Title>{t("staff")}</Title>
 
@@ -75,9 +74,6 @@ const StaffPage = () => {
 
       {/* create new cashier  */}
       <CreateCashier openCash={openCash} />
-
-      {/* create new manager */}
-      <CreateManager openManager={openManager} />
     </MainWrapper>
   );
 };

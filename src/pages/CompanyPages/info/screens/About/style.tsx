@@ -201,6 +201,10 @@ export const UpSide = styled.div`
   }
 `;
 
+interface DProps {
+  justify?: boolean;
+}
+
 export const DownSide = styled.div`
   background-color: white;
   width: 100%;
@@ -219,7 +223,8 @@ export const DownSide = styled.div`
       width: 100%;
       border-top: 1px solid rgba(96, 110, 234, 0.3);
       display: flex;
-      justify-content: center;
+      justify-content: ${({ justify }: DProps) =>
+        justify ? 'flex-start' : 'center'};
       align-items: center;
     }
   }
@@ -394,5 +399,31 @@ export const ButtonKeyWord = styled.div`
     font-weight: 300;
     font-size: 12px;
     color: #223367;
+  }
+`;
+
+export const Message = styled.div`
+  font-weight: 300;
+  color: #ff5e68;
+  overflow-wrap: normal;
+  margin-top: 5px;
+  font-size: 14px;
+
+  @media (max-width: ${device.mobile}) {
+    font-size: 14px;
+    margin-top: 3px;
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    font-size: 14px;
+    margin-top: 3px;
+  }
+  @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
+    font-size: 14px;
+
+    margin-top: 3px;
+  }
+  @media (min-width: ${device.laptop}) {
+    font-size: 16px;
+    margin-top: 5px;
   }
 `;

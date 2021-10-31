@@ -4,6 +4,7 @@ import { useHistory } from 'react-router';
 import { fetchInfo } from 'services/queries/PartnerQueries';
 import { useAppDispatch } from 'services/redux/hooks';
 import { setStaffId } from 'services/redux/Slices/authSlice';
+import { setInfoData } from 'services/redux/Slices/info/info';
 import { setCompanyInfo } from '../../services/redux/Slices/partnerSlice';
 
 interface Props {
@@ -23,16 +24,17 @@ const useLayout = ({ id, state }: LProps) => {
   const history = useHistory();
 
   const [headerData, setData] = useState<Props>({
-    filled: true,
-    filledAddress: true,
+    filled: false,
+    filledAddress: false,
   });
 
   const resHeader = useQuery('logoANDname', () => fetchInfo(id), {
     onSuccess: (data) => {
       dispatch(setCompanyInfo(data?.data.data));
+      dispatch(setInfoData(data?.data.data));
       setData(data?.data.data);
       dispatch(setStaffId(data.data.data.staffId));
-
+      console.log(data?.data.data);
       if (state !== undefined) {
         if (data.data.data.filled && data.data.data.filledAddress) {
           history.push('/statistics');

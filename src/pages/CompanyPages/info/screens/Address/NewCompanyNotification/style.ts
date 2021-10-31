@@ -6,14 +6,14 @@ export const ModalContent = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  max-width: 450px;
-  max-height: 500px;
   padding: 30px;
 `;
 
 export const Img = styled.img`
   max-width: 200px;
   max-height: 200px;
+  width: 50%;
+  height: 40%;
   user-select: none;
   @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
     max-width: 200px;
@@ -39,15 +39,13 @@ export const WrapHeader = styled.div`
     text-align: center;
     color: #223367;
     font-size: 18px;
+    max-width: 450px;
   }
   & > span:first-child {
     font-weight: bold;
-    width: 300px;
-    margin-bottom: 10px;
   }
   & > span:nth-child(2) {
     font-weight: bold;
-    width: 300px;
     margin-bottom: 30px;
   }
   & > span:last-child {
@@ -55,7 +53,13 @@ export const WrapHeader = styled.div`
   }
   @media (max-width: ${device.mobile}) {
     span {
-      width: 250px;
+      max-width: 300px;
+      font-size: 14px;
+    }
+  }
+  @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
+    span {
+      max-width: 350px;
       font-size: 16px;
     }
   }

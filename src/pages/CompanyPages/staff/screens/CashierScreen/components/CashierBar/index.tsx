@@ -1,4 +1,5 @@
 import moment from "moment";
+import { useHistory, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 import useCashiers from "../../../../hooks/useCashiers";
@@ -36,6 +37,8 @@ import RippleEffect from "components/Custom/RippleEffect";
 import { setSelectedCashiers } from "services/redux/Slices/staffs";
 
 const CashierBar = () => {
+  const history = useHistory();
+  const location = useLocation();
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { deleteCashier, open, setOpen } = useCashiers({
@@ -115,7 +118,15 @@ const CashierBar = () => {
 
           <DownSide>
             <CashierRow justifyContent="space-between">
-              <Button onClick={() => {}} startIcon={<UserIcon />}>
+              <Button
+                onClick={() => {
+                  history.push({
+                    pathname: "/staff/cashier/statistic",
+                    state: { prevPage: location.pathname },
+                  });
+                }}
+                startIcon={<UserIcon />}
+              >
                 Карточка кассира
               </Button>
             </CashierRow>

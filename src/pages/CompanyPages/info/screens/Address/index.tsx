@@ -528,8 +528,14 @@ const Address = () => {
                 ))
               )}
               <MobileMap>
-                <YandexContainer>
-                  <YandexMap />
+                <YandexContainer bcolor={mapError}>
+                  <YandexMap
+                    onBoundsChange={onBoundsChange}
+                    handleRef={(e: any) => setYandexRef(e)}
+                    place={place}
+                    onClickPlaceMark={onClickPlace}
+                    placeOptions={palceOptions}
+                  />
                 </YandexContainer>
               </MobileMap>
             </WrapContent>

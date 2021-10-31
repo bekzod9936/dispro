@@ -11,13 +11,18 @@ import Spinner from "components/Helpers/Spinner";
 import Button from "components/Custom/Button";
 import { SideBar } from "../../components/SideBar";
 import ManagerBar from "./components/ManagerBar";
+import CreateManager from "./components/CreateManager";
+import EditManager from "./components/EditManager";
 
 const ManagerScreen = () => {
+  const openManager = useAppSelector((state) => state.staffs.openManager);
   const query = useAppSelector((state) => state.staffs.query);
   const managers = useAppSelector((state) => state.staffs.managers);
   const selectedManagers = useAppSelector(
     (state) => state.staffs.selectedManagers
   );
+  const openEdit = useAppSelector((state) => state.staffs.openEditManager);
+
   const [period, setPeriod] = useState({
     startDate: "",
     endDate: "",
@@ -72,6 +77,12 @@ const ManagerScreen = () => {
       <SideBar maxWidth="450px" isOpen={selectedManagers?.length}>
         <ManagerBar />
       </SideBar>
+
+      {/* create new manager */}
+      <CreateManager openManager={openManager} />
+
+      {/* edit manager */}
+      <EditManager openEdit={openEdit} />
     </ManagerDiv>
   );
 };

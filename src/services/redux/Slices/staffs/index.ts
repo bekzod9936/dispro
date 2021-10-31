@@ -17,6 +17,7 @@ const initialState: staffsState = {
   permissions: [],
   userId: 0,
   selectedRole: [],
+  openEditManager: false,
 };
 
 const staffsSlice = createSlice({
@@ -68,6 +69,9 @@ const staffsSlice = createSlice({
     setSelectedRole: (state, action: any) => {
       state.selectedRole = action.payload;
     },
+    setOpenEditManager: (state, action: any) => {
+      state.openEditManager = action.payload;
+    },
   },
 });
 
@@ -87,5 +91,6 @@ export const {
   setPermissions,
   setUserId,
   setSelectedRole,
+  setOpenEditManager,
 } = staffsSlice.actions;
 export default staffsSlice.reducer;

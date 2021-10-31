@@ -23,7 +23,7 @@ const CashierScreen = () => {
   const selectedCashiers = useAppSelector(
     (state) => state.staffs.selectedCashiers
   );
-  const { ballUzs, ballPoint } = useCashierSetting();
+  const { ballPoint } = useCashierSetting();
 
   const [period, setPeriod] = useState({
     startDate: "",

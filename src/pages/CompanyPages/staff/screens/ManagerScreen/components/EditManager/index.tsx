@@ -1,37 +1,47 @@
+import { IProps, FormProps } from "./types";
 import { useForm, Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import Modal from "components/Custom/Modal";
-import Input from "components/Custom/Input";
 import Button from "components/Custom/Button";
-import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
+import Modal from "components/Custom/Modal";
+import {
+  ModalAction,
+  ModalBody,
+  ModalContent,
+  ModalHead,
+  ModalTitle,
+} from "../../../CashierScreen/style";
+import { IconButton } from "@material-ui/core";
 import MultiSelect from "components/Custom/MultiSelect";
+import Input from "components/Custom/Input";
 import { Form, FormRow, FormCol, Break } from "./style";
-import { FormProps } from "./types";
-import { ModalContent, ModalBody, ModalAction } from "../../style";
-import { useAppDispatch } from "services/redux/hooks";
-import { setOpenCash } from "services/redux/Slices/staffs";
+import { ReactComponent as ExitIcon } from "assets/icons/exit.svg";
 import { ReactComponent as SaveIcon } from "assets/icons/IconsInfo/save.svg";
-import useCashiers from "../../../../hooks/useCashiers";
-import useStaff from "../../../../hooks/useStaff";
+import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
+import { useAppDispatch, useAppSelector } from "services/redux/hooks";
+import { setOpenEditManager } from "services/redux/Slices/staffs";
+import useStaff from "pages/CompanyPages/staff/hooks/useStaff";
+import useManagers from "pages/CompanyPages/staff/hooks/useManagers";
+import { useEffect } from "react";
 
-interface IProps {
-  openCash: boolean;
-}
+const EditManager = ({ openEdit }: IProps) => {
+  const dispatch = useAppDispatch();
+  const { t } = useTranslation();
+  const { branches } = useStaff();
 
-const CreateCashier = ({ openCash }: IProps) => {
-  const { createCash } = useCashiers({
+  const selectedManagers = useAppSelector(
+    (state) => state.staffs.selectedManagers
+  );
+
+  const { editManager } = useManagers({
     page: 1,
     query: "",
     period: "",
   });
 
-  const { branches } = useStaff();
-  //   const [branches, setBranches] = useState([]);
-  const dispatch = useAppDispatch();
-  const { t } = useTranslation();
   const {
     control,
     handleSubmit,
+    setValue,
     formState: { errors, isValid },
   } = useForm<FormProps>({
     mode: "onChange",
@@ -40,21 +50,45 @@ const CreateCashier = ({ openCash }: IProps) => {
   });
 
   const onSave = (data: FormProps) => {
-    console.log(data, "data");
-    createCash.mutate({
-      comment: data.comment,
+    console.log(data, "data form");
+    editManager.mutate({
+      id: selectedManagers[0].id,
+      storeId: data.storeId?.value,
       firstName: data.firstName,
       lastName: data.lastName,
-      storeId: data.storeId?.value,
+      comment: data.comment,
       telNumber: data.telNumber,
-      roleId: 3,
     });
   };
 
+  useEffect(() => {
+    if (selectedManagers?.length) {
+      let firstname = selectedManagers[0].firstName.split(" ")[0];
+      let choseBranch: any = branches.find(
+        (item: any) => item.value == selectedManagers[0].storeId
+      );
+      setValue("firstName", firstname);
+      setValue("lastName", selectedManagers[0].lastName);
+      setValue("comment", selectedManagers[0].comment);
+      setValue("telNumber", selectedManagers[0].telNumber);
+      setValue("storeId", choseBranch?.value);
+    }
+  }, [selectedManagers]);
+
   return (
-    <Modal open={openCash}>
+    <Modal open={openEdit}>
       <Form onSubmit={handleSubmit(onSave)}>
         <ModalContent>
+          <ModalHead>
+            <ModalTitle>Измениния менеджера</ModalTitle>
+            <IconButton
+              onClick={() => {
+                dispatch(setOpenEditManager(false));
+              }}
+            >
+              <ExitIcon />
+            </IconButton>
+          </ModalHead>
           <ModalBody>
             <FormRow>
               <FormCol>
@@ -178,7 +212,7 @@ const CreateCashier = ({ openCash }: IProps) => {
                 color: "#223367",
               }}
               onClick={() => {
-                dispatch(setOpenCash(false));
+                dispatch(setOpenEditManager(false));
               }}
               startIcon={<CancelIcon />}
             >
@@ -186,7 +220,7 @@ const CreateCashier = ({ openCash }: IProps) => {
             </Button>
 
             <Button
-              disabled={!isValid || createCash.isLoading}
+              disabled={!isValid || editManager.isLoading}
               type="submit"
               startIcon={<SaveIcon />}
             >
@@ -199,4 +233,4 @@ const CreateCashier = ({ openCash }: IProps) => {
   );
 };
 
-export default CreateCashier;
+export default EditManager;

@@ -2,7 +2,7 @@ import { IProps } from "./types";
 import { Controller } from "react-hook-form";
 import Input from "components/Custom/Input";
 import { Form, FormRow, FormCol, Break, ModalHead, ModalTitle } from "./style";
-import useCashiers from "pages/CompanyPages/staff/hooks/useCashiers";
+import useStaff from "pages/CompanyPages/staff/hooks/useStaff";
 import useManagers from "pages/CompanyPages/staff/hooks/useManagers";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 import { useTranslation } from "react-i18next";
@@ -31,17 +31,15 @@ const CreateManager = ({ openManager }: IProps) => {
   const stepManager = useAppSelector((state) => state.staffs.stepManager);
   const selectedRole = useAppSelector((state) => state.staffs.selectedRole);
   const { roles } = useRoles();
-  const { branches, createCash } = useCashiers({
-    page: 1,
-    query: "",
-    period: "",
-  });
+  const { branches } = useStaff();
 
-  const { saveRoleManager, modified, setModified } = useManagers({
-    page: 1,
-    query: "",
-    period: "",
-  });
+  const { saveRoleManager, modified, setModified, createManager } = useManagers(
+    {
+      page: 1,
+      query: "",
+      period: "",
+    }
+  );
 
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
@@ -57,7 +55,7 @@ const CreateManager = ({ openManager }: IProps) => {
 
   const onSave = (data: FormProps) => {
     console.log(data, "data");
-    createCash.mutate({
+    createManager.mutate({
       comment: data.comment,
       firstName: data.firstName,
       lastName: data.lastName,
@@ -216,7 +214,7 @@ const CreateManager = ({ openManager }: IProps) => {
               </Button>
 
               <Button
-                disabled={!isValid || createCash.isLoading}
+                disabled={!isValid || createManager.isLoading}
                 type="submit"
                 startIcon={<NextIcon />}
               >
@@ -289,6 +287,7 @@ const CreateManager = ({ openManager }: IProps) => {
                 } else {
                   dispatch(setOpenManager(false));
                   dispatch(setStepManager(1));
+                  saveRoleManager.mutate(roles.map((item: any) => item?.value));
                 }
               }}
               startIcon={<NextIcon />}

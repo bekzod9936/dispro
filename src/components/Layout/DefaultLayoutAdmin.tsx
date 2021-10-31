@@ -24,6 +24,7 @@ import {
   WrapLogo,
   WrapMenu,
 } from './style';
+import { useAppSelector } from 'services/redux/hooks';
 
 export interface IDefaultLayout {
   children: any;
@@ -32,7 +33,8 @@ const companyId = localStorage.getItem('companyId');
 const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
   const classes = useSideBarStyle();
 
-  const { resHeader, headerData } = useLayout({id: companyId});
+  const { resHeader } = useLayout({ id: companyId });
+  const infoData = useAppSelector((state) => state.info.data);
 
   const [width, setWidth] = useState(window.innerWidth);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -105,8 +107,8 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
           onOpen={toggleDrawer(true)}
           style={{
             pointerEvents:
-              headerData.filled && headerData.filledAddress ? 'auto' : 'none',
-            opacity: headerData.filled && headerData.filledAddress ? 1 : 0.4,
+              infoData?.filled && infoData?.filledAddress ? 'auto' : 'none',
+            opacity: infoData?.filled && infoData?.filledAddress ? 1 : 0.4,
           }}
         >
           <div
@@ -157,8 +159,8 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
           }}
           style={{
             pointerEvents:
-              headerData.filled && headerData.filledAddress ? 'auto' : 'none',
-            opacity: headerData.filled && headerData.filledAddress ? 1 : 0.4,
+              infoData?.filled && infoData?.filledAddress ? 'auto' : 'none',
+            opacity: infoData?.filled && infoData?.filledAddress ? 1 : 0.4,
           }}
         >
           <div className={classes.toolbar}>

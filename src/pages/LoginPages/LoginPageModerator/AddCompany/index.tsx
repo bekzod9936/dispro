@@ -18,6 +18,8 @@ import {
 import MultiSelect from 'components/Custom/MultiSelect';
 import { useMutation } from 'react-query';
 import { fetchAddCompanList } from 'services/queries/PartnerQueries';
+import { setBackAddCompany } from 'services/redux/Slices/authSlice';
+import { useAppDispatch } from 'services/redux/hooks';
 
 interface FormProps {
   companyName: string;
@@ -26,6 +28,7 @@ interface FormProps {
 
 const AddCompany = () => {
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
 
   const history = useHistory();
 
@@ -47,6 +50,7 @@ const AddCompany = () => {
         localStorage.setItem('companyId', data.data.data.companyId);
         localStorage.setItem('companyToken', data.data.data.accessToken);
         history.push('/info');
+        dispatch(setBackAddCompany(false));
       },
     }
   );

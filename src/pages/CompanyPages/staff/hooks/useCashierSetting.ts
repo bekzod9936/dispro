@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useQuery, useMutation } from "react-query";
 import { fetchRewards } from "services/queries/PartnerQueries";
@@ -19,8 +19,6 @@ export interface IForm {
 
 const useCashierSetting = () => {
   const dispatch = useAppDispatch();
-  const [ballPoint, setBallPoint] = useState<any>();
-  const [ballUzs, setBallUzs] = useState<any>();
 
   const { control, handleSubmit, setValue } = useForm<IForm>();
 
@@ -37,6 +35,11 @@ const useCashierSetting = () => {
   const recommendCheck = useWatch({
     control,
     name: "recommendCheck",
+  });
+
+  const ballPoint = useWatch({
+    control,
+    name: "ballPoint",
   });
 
   //change settings
@@ -94,11 +97,15 @@ const useCashierSetting = () => {
         dispatch(
           setSummaOperations(forSecond?.levels[0]?.requirements[0]?.amount)
         );
-        setBallPoint(forFirst?.amount);
-        setBallUzs(forSecond?.amount);
       },
     }
   );
+
+  useEffect(() => {
+    if (+ballPoint >= 100) {
+      setValue("ballPoint", "100");
+    }
+  }, [ballPoint]);
 
   return {
     ballCheck,
@@ -108,7 +115,6 @@ const useCashierSetting = () => {
     setValue,
     control,
     ballPoint,
-    ballUzs,
     changeLoyality,
   };
 };
