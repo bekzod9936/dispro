@@ -21,7 +21,7 @@ export const days = [
     },
     {
         value: "friday",
-        label: "Пятьница",
+        label: "Пятница",
         id: 5
     },
     {
@@ -33,18 +33,5 @@ export const days = [
         value: "sunday",
         label: "Воскресенье",
         id: 0
-    }
-]
-
-export const categories = [
-    {
-        value: "pharmacy",
-        label: "Аптека",
-        id: 1
-    },
-    {
-        value: "carwash",
-        label: "Автомойка",
-        id: 2
     }
 ]

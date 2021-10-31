@@ -3,8 +3,10 @@ import createNumberMask from "services/utils/format_number";
 import { Container, MoneyInput, Label, Adornment, Message } from "./style";
 import { MProps } from "./types";
 
-function TextMask(props: any) {
+export function TextMask(props: any) {
   const { inputRef, ...other } = props;
+  console.log(props);
+
   return (
     <MaskedInput
       {...other}
@@ -18,7 +20,7 @@ function TextMask(props: any) {
   );
 }
 
-const MFormatInput = ({ onChange = () => {}, ...props }: MProps) => {
+const MFormatInput = ({ onChange = () => { }, ...props }: MProps) => {
   return (
     <Container width={props.width} margin={props.margin}>
       {props.label ? (
@@ -57,7 +59,7 @@ const MFormatInput = ({ onChange = () => {}, ...props }: MProps) => {
         type={props.type}
         variant={props.variant}
         InputProps={{
-          inputComponent: TextMask,
+          inputComponent: props.textMask || TextMask,
           value: props.value?.textmask,
           defaultValue: props.defaultValue,
           onChange: (e: any) => onChange(e),

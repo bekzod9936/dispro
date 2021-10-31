@@ -33,6 +33,7 @@ export const ImageBlock = styled.div`
 export const Main = styled.div`
     /* margin-right: 60pxf; */
     width: ${({ stats }: IProps) => stats ? "25%" : "32%"};
+    overflow-x: hidden;
     @media (max-width: 1210px) {
         width: 49%;
     }

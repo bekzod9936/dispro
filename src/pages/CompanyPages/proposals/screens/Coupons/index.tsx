@@ -40,15 +40,15 @@ import { useMutation, useQuery } from 'react-query'
 import { postCoupon } from 'services/queries/ProposalsQueries'
 import Modal from 'components/Custom/Modal'
 import { SetDate } from './components/SetDate'
-import { categories, days } from './constants'
+import { days } from './constants'
 import ImageLazyLoad from 'components/Custom/ImageLazyLoad/ImageLazyLoad'
 import MFormatInput from 'components/Custom/MoneyInput'
 import { useAppDispatch } from 'services/redux/hooks'
 import { setSaving } from 'services/redux/Slices/proposals/proposals'
 import { PreviewModal } from '../../components/PreviewModal'
 import Spinner from 'components/Helpers/Spinner'
-import { fetchCategories } from 'services/queries/InfoQueries'
 import { useFetchCategories } from './hooks/useFetchCategories'
+import { AmountMask, CertificateSum, CouponPercent, PriceMask } from './components/TextMask'
 
 interface IOptionFields {
     age: boolean,
@@ -143,11 +143,11 @@ const Coupons = () => {
             ageUnlimited: !!!data.ageLimit,
             categoryIds: data.categories.map((el: any) => el.id),
             companyId: 18,
-            count: data.amount,
+            count: data.amount.toString().split(" ").join(''),
             currencyId: 1,
             description: data.description,
             image: image,
-            price: data.cost,
+            price: data.cost.toString().split(" ").join(''),
             title: data.name,
             type: isCoupon ? "1" : "2",
             value: data.percent.toString().split(" ").join(''),
@@ -174,9 +174,9 @@ const Coupons = () => {
     const onSave = async (data: any) => {
         const validData = {
             title: data.name,
-            price: data.cost,
+            price: data.cost.toString().split(" ").join(''),
             description: data.description,
-            count: data.amount,
+            count: data.amount.toString().split(" ").join(''),
             value: data.percent.toString().split(" ").join(''),
             currencyId: 1,
             ageFrom: optionalFields.age ? data.ageLimit : null,
@@ -200,12 +200,20 @@ const Coupons = () => {
     }
 
     React.useEffect(() => {
-        if (isCoupon) {
-            if (watch("percent") > 100) {
-                setValue("percent", 100)
-            }
-        }
+        setValue("percent", watch("percent")?.trim())
     }, [watch("percent")])
+
+    React.useEffect(() => {
+        setValue("amount", watch("amount")?.trim())
+    }, [watch("amount")])
+
+    React.useEffect(() => {
+        setValue("cost", watch("cost")?.trim())
+    }, [watch("cost")])
+
+    React.useEffect(() => {
+        setValue("cost", watch("cost")?.trim())
+    }, [watch("cost")])
 
     return (
         <Wrapper>
@@ -287,44 +295,55 @@ const Coupons = () => {
                                 control={control}
                                 rules={{
                                     required: true,
+                                    min: isCoupon ? 1 : 1000,
+
                                 }}
-                                render={({ field }) => (
-                                    !isCoupon ?
+                                render={({ field }) => {
+                                    if (isCoupon) return (
                                         <MFormatInput
                                             {...field}
+                                            textMask={CouponPercent}
                                             onChange={(e: any) => field.onChange(e)}
                                             error={!!errors.percent}
-                                            message={t("requiredField")}
-                                            label={"Укажите сумму сертификата"}
-                                            margin={{ laptop: "35px 0" }} /> :
-                                        <Input
-                                            field={field}
-                                            max={"100"}
+                                            message={parseInt(watch("percent")) === 0 ? "Минимальный процент: 1%" : t("requiredField")}
+                                            label={"Укажите % купона"}
+                                            margin={{ laptop: "35px 0" }} />)
+                                    else return (
+                                        <MFormatInput
+                                            {...field}
+                                            textMask={CertificateSum}
+                                            onChange={(e: any) => field.onChange(e)}
                                             error={!!errors.percent}
-                                            message={t("requiredField")}
-                                            label="Укажите % купона"
+                                            message={parseInt(watch("percent")) < 1000 ? "Минимальная сумма: 1000" : t("requiredField")}
+                                            label={"Укажите сумму сертификата"}
                                             margin={{ laptop: "35px 0" }} />
-                                )}
+                                    )
+                                }}
                             />
                             <Controller
                                 name="amount"
                                 control={control}
                                 rules={{
-                                    required: true
+                                    required: true,
+                                    min: 5,
                                 }}
                                 render={({ field }) => (
-                                    <Input
+                                    <MFormatInput
+                                        {...field}
+                                        textMask={AmountMask}
+                                        onChange={(e: any) => field.onChange(e)}
                                         error={!!errors.amount}
-                                        message={t("requiredField")}
-                                        field={field}
-                                        label="Количество" />
+                                        message={parseInt(watch("amount")) < 5 ? "Минимальное количество: 5" : t("requiredField")}
+                                        label={"Количество"}
+                                        margin={{ laptop: "35px 0" }} />
                                 )}
                             />
                             <Controller
                                 name="description"
                                 control={control}
                                 rules={{
-                                    required: true
+                                    required: true,
+
                                 }}
                                 render={({ field }) => (
                                     <Input
@@ -360,15 +379,17 @@ const Coupons = () => {
                                 name="cost"
                                 control={control}
                                 rules={{
-                                    required: true
+                                    required: true,
+                                    min: 1000
                                 }}
                                 render={({ field }) => (
-                                    <Input
-                                        field={field}
+                                    <MFormatInput
+                                        {...field}
+                                        textMask={PriceMask}
+                                        onChange={(e: any) => field.onChange(e)}
                                         error={!!errors.cost}
-                                        message={t("requiredField")}
+                                        message={parseInt(watch("cost")) < 1000 ? "Минимальная цена: 1000" : t("requiredField")}
                                         label={isCoupon ? "Цена купона" : "Цена сертификата"}
-                                        type="number"
                                         margin={{ laptop: "25px 0 35px 0" }} />
                                 )}
                             />
@@ -384,10 +405,17 @@ const Coupons = () => {
                                     <Controller
                                         name="ageLimit"
                                         control={control}
+                                        rules={{
+                                            required: optionalFields.age
+                                        }}
                                         render={({ field }) => (
-                                            <Input
-                                                field={field}
+                                            <MFormatInput
                                                 defaultValue={0}
+                                                {...field}
+                                                onChange={(e) => field.onChange(e)}
+                                                textMask={CouponPercent}
+                                                error={!!errors.ageLimit}
+                                                message={t("requiredField")}
                                                 IconStart={<PlusIcon style={{ marginLeft: "20px" }} />}
                                                 label="Возрастное ограничение" />
                                         )}

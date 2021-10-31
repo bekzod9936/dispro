@@ -1,4 +1,5 @@
 export interface MProps {
+  textMask?: any,
   field?: any;
   autoComplete?: string;
   autoFocus?: boolean;

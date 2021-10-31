@@ -49,6 +49,7 @@ import { SetDate } from '../Coupons/components/SetDate'
 import Modal from 'components/Custom/Modal'
 import { useFetchCategories } from './useFetchCategories'
 import { getWeekDays } from '../../utils/getValidDate'
+import { CertificateSum } from '../Coupons/components/TextMask'
 const UpdateCoupon = () => {
     const { currentCoupon } = useAppSelector((state: RootState) => state.proposals)
     const { t } = useTranslation()
@@ -257,26 +258,29 @@ const UpdateCoupon = () => {
                                 control={control}
                                 defaultValue={currentCoupon.value}
                                 rules={{
-                                    required: true
+                                    required: true,
+                                    min: isCoupon ? 1 : 1000
                                 }}
-                                render={({ field }) => (
-                                    !isCoupon ?
+                                render={({ field }) => {
+                                    if (!isCoupon) return (
                                         <MFormatInput
                                             {...field}
+                                            textMask={CertificateSum}
                                             defaultValue={currentCoupon.value}
                                             onChange={(e: any) => field.onChange(e)}
                                             error={!!errors.percent}
                                             message={t("requiredField")}
                                             label={"Укажите сумму сертификата"}
-                                            margin={{ laptop: "35px 0" }} /> :
+                                            margin={{ laptop: "35px 0" }} />)
+                                    else return (
                                         <Input
                                             field={field}
                                             max={"100"}
                                             error={!!errors.percent}
                                             message={t("requiredField")}
                                             label="Укажите % купона"
-                                            margin={{ laptop: "35px 0" }} />
-                                )}
+                                            margin={{ laptop: "35px 0" }} />)
+                                }}
                             />
                             <Controller
                                 name="amount"

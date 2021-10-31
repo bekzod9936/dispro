@@ -73,7 +73,7 @@ export const CouponCard = ({
                 <p>{t("categories")}: {categories?.defaults?.map((el: any, index: number) => (
                     <span>{el.label}{index < categories?.defaults?.length - 1 ? ", " : "."}</span>
                 ))}</p>
-                {!!ageFrom && <p>{t("age_limit")}: +{ageFrom}</p>}
+                {!!ageFrom && <p>{t("age_limit")}: {ageFrom}+</p>}
             </Submain>
             {stats &&
                 <Stats>
