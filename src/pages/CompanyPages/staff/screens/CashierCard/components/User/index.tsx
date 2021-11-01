@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { IconButton } from '@material-ui/core';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import Button from 'components/Custom/Button';
-import { Avatar } from '../../style';
 import moment from 'moment';
 import { useHistory, useLocation } from 'react-router';
 import { useAppDispatch } from 'services/redux/hooks';
@@ -34,6 +33,7 @@ import {
   WrapFillial,
   MoneyIcon,
   WrapMoney,
+  Avatar,
 } from './style';
 import { setCashierId } from 'services/redux/Slices/staffs';
 

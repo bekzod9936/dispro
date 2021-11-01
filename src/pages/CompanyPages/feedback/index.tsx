@@ -57,7 +57,7 @@ const FeedBack = () => {
   const rate = useAppSelector((state) => state.feedbackPost.averageRating);
   const total = useAppSelector((state) => state.feedbackPost.totalRating);
   const ratings = useAppSelector((state) => state.feedbackPost.ratings);
-  console.log(clients);
+
   const handleFilterSubmit = async () => {
     await setFilterValues(cashierStaffId?.value);
     await await resClients.refetch();
