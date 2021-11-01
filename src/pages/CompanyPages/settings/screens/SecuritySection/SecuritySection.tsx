@@ -1,6 +1,5 @@
 import { Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import Input from "components/Custom/Input";
 import { Flex } from "../../../../../styles/BuildingBlocks";
 import { SettingsWrapper } from "../../styles/SettingStyles";
 import { Text } from "../../../../../styles/CustomStyles";
@@ -11,6 +10,7 @@ import CustomToggle from "components/Custom/CustomToggleSwitch";
 import { Break } from "../../styles";
 import { Grid } from "@material-ui/core";
 import { Form } from "./styles";
+import InputFormat from "components/Custom/InputFormat";
 
 const SecuritySection = () => {
   const { t } = useTranslation();
@@ -76,7 +76,10 @@ const SecuritySection = () => {
                     control={control}
                     render={({ field }) => {
                       return (
-                        <Input field={field} label={t("operations_per_day")} />
+                        <InputFormat
+                          field={field}
+                          label={t("operations_per_day")}
+                        />
                       );
                     }}
                   />
@@ -133,7 +136,9 @@ const SecuritySection = () => {
                     name="second"
                     control={control}
                     render={({ field }) => {
-                      return <Input field={field} label={t("enterSum")} />;
+                      return (
+                        <InputFormat field={field} label={t("enterSum")} />
+                      );
                     }}
                   />
                 </div>

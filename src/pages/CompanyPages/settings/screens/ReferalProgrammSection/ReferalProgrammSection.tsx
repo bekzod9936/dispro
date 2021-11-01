@@ -3,7 +3,6 @@ import { ReferalScroll, SmallPanel } from "../../styles/SettingStyles";
 import { Text } from "styles/CustomStyles";
 import { useTranslation } from "react-i18next";
 import { Controller, useFieldArray } from "react-hook-form";
-import Input from "components/Custom/Input";
 import TwoUsers from "../../components/TwoUsers";
 import { SaveIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
 import {
@@ -32,6 +31,7 @@ import {
 import Button from "components/Custom/Button";
 import RippleEffect from "components/Custom/RippleEffect";
 import NotifySnack from "components/Custom/Snackbar";
+import InputFormat from "components/Custom/InputFormat";
 
 const ReferalProgrammSection = () => {
   const { t } = useTranslation();
@@ -108,13 +108,14 @@ const ReferalProgrammSection = () => {
                       }}
                       render={({ field }) => {
                         return (
-                          <Input
+                          <InputFormat
                             width={{
                               maxwidth: 122,
                             }}
                             disabled={!checkedState}
                             label={`Уровень ${index + 1}`}
                             field={field}
+                            max="100"
                             message={""}
                             error={
                               errors?.referals?.[index]?.percent ? true : false

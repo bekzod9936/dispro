@@ -6,8 +6,9 @@ import { IconDiv } from "./style";
 import RippleEffect from "components/Custom/RippleEffect";
 import { ReactComponent as Plus } from "assets/icons/plus_mini.svg";
 import { ReactComponent as Remove } from "assets/icons/exit_mini.svg";
-import MFormatInput from "components/Custom/MoneyInput";
 import { numberWith } from "services/utils";
+import InputFormat from "components/Custom/InputFormat";
+
 interface IProps {
   index: number;
   control: any;
@@ -270,19 +271,14 @@ const NestedArray = ({ index, control, getValues, setValue }: IProps) => {
                   control={control}
                   defaultValue={numberWith(value?.amount, " ")}
                   render={({ field }) => (
-                    <MFormatInput
-                      // type="number"
+                    <InputFormat
                       defaultValue={numberWith(value?.amount, " ")}
                       variant="standard"
                       IconEnd={unitIcon(value.unit)}
                       width={{
                         minwidth: 100,
                       }}
-                      {...field}
-                      onChange={(e: any) => {
-                        field.onChange(e.target.value);
-                      }}
-                      // field={field}
+                      field={field}
                       inputStyle={{
                         inpadding: "0 0 5px 2px",
                         border: "none",
