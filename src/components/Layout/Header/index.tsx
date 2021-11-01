@@ -56,12 +56,11 @@ import useSupportChat from 'pages/CompanyPages/feedback/hooks/useSupportChat';
 
 const io = require('socket.io-client');
 
-const companyToken = localStorage.getItem('companyToken');
-const companyId = localStorage.getItem('companyId');
-
 const Header = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const companyToken = localStorage.getItem('companyToken');
+  const companyId = localStorage.getItem('companyId');
   useLayout({ id: companyId });
   const history = useHistory();
   const [open, setOpen] = useState(false);

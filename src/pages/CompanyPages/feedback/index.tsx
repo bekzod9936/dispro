@@ -174,36 +174,40 @@ const FeedBack = () => {
         </WrapHeader>
         {match.url === '/feedback' ? (
           <RightSide>
-            <Grade title={t('overallscore')} rate={rate} />
-            <Grade title={t('totalratings')} total={total} />
-            <Rate>{t('rate')}</Rate>
-            {[5, 4, 3, 2, 1].map((v: any, i: number) => {
-              return (
-                <WrapStars>
-                  <WrapIconStart>
-                    {Array(v)
-                      .fill(1)
-                      .map(() => (
-                        <StarIcon />
-                      ))}
-                  </WrapIconStart>
-                  <WrapStartT>
-                    <RateText>
-                      &bull;
-                      {ratings?.length === i + 1
-                        ? `${ratings[i]?.percentage}%`
-                        : '0%'}
-                    </RateText>
-                    <RateText>
-                      {ratings?.length === i + 1
-                        ? `${ratings[i]?.amount} `
-                        : '0 '}
-                    </RateText>
-                    <RateText>{t('evaluations')}</RateText>
-                  </WrapStartT>
-                </WrapStars>
-              );
-            })}
+            <div>
+              <div>
+                <Grade title={t('overallscore')} rate={rate} />
+                <Grade title={t('totalratings')} total={total} />
+                <Rate>{t('rate')}</Rate>
+                {[5, 4, 3, 2, 1].map((v: any, i: number) => {
+                  return (
+                    <WrapStars>
+                      <WrapIconStart>
+                        {Array(v)
+                          .fill(1)
+                          .map(() => (
+                            <StarIcon />
+                          ))}
+                      </WrapIconStart>
+                      <WrapStartT>
+                        <RateText>
+                          &bull;
+                          {ratings?.length === i + 1
+                            ? `${ratings[i]?.percentage}%`
+                            : '0%'}
+                        </RateText>
+                        <RateText>
+                          {ratings?.length === i + 1
+                            ? `${ratings[i]?.amount} `
+                            : '0 '}
+                        </RateText>
+                        <RateText>{t('evaluations')}</RateText>
+                      </WrapStartT>
+                    </WrapStars>
+                  );
+                })}
+              </div>
+            </div>
           </RightSide>
         ) : null}
       </Wrapper>

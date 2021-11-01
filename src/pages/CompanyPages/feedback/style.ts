@@ -51,7 +51,19 @@ export const MainWrapper = styled.div`
   padding: 25px 0 0 25px;
   display: flex;
   height: 100%;
+  width: 100%;
+  flex: 1;
   flex-direction: column;
+  position: relative;
+  &::after {
+    position: absolute;
+    content: '';
+    width: 1px;
+    height: 100%;
+    background-color: rgba(96, 110, 234, 0.3);
+    top: 20px;
+    right: 30%;
+  }
 `;
 
 export const WrapTotal = styled.div``;
@@ -60,23 +72,7 @@ export const WrapHeader = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  width: fit-content;
-  width: 100%;
-  flex: 1;
-
-  overflow-y: auto;
-  overflow-x: hidden;
-  ::-webkit-scrollbar {
-    width: 7px;
-  }
-  ::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: #606eea;
-    border-radius: 14px 0px 0px 14px;
-  }
+  width: 70%;
 `;
 
 export const WrapDefPhoto = styled.div`
@@ -89,11 +85,6 @@ export const WrapDefPhoto = styled.div`
   width: 100%;
 `;
 
-export const RightHeader = styled.div`
-  position: absolute;
-  right: 30px;
-  top: 25px;
-`;
 export const LeftHeader = styled.div`
   width: 100%;
   flex: 1;
@@ -126,16 +117,7 @@ export const Wrapper = styled.div`
   justify-content: space-between;
   flex: 1;
   height: 100%;
-`;
-
-export const RightSide = styled.div`
-  border-left: 1px solid rgba(96, 110, 234, 0.3);
-  margin-bottom: 20px;
-  width: 25%;
-  padding: 0 40px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   ::-webkit-scrollbar {
@@ -149,9 +131,20 @@ export const RightSide = styled.div`
     background: #606eea;
     border-radius: 14px 0px 0px 14px;
   }
-  @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
-    width: 30%;
-    padding: 0 30px;
+`;
+
+export const RightSide = styled.div`
+  margin-bottom: 20px;
+  width: 30%;
+  position: relative;
+  & > div {
+    width: 90%;
+    height: 100%;
+    & > div {
+      position: sticky;
+      top: 0;
+      right: 0;
+    }
   }
 `;
 
@@ -207,7 +200,6 @@ export const WrapDef = styled.div`
   align-items: start;
   align-content: start;
   justify-content: center;
-  margin-right: 20px;
   width: fit-content;
 `;
 

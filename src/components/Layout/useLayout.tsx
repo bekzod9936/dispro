@@ -13,13 +13,13 @@ interface Props {
   filledAddress?: boolean;
 }
 
-const companyId = localStorage.getItem('companyId');
 interface LProps {
   id?: any;
   state?: any;
 }
 const useLayout = ({ id, state }: LProps) => {
   const dispatch = useAppDispatch();
+  const companyId = localStorage.getItem('companyId');
 
   const [headerData, setData] = useState<Props>({
     filled: false,

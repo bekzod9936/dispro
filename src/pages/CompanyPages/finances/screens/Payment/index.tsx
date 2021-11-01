@@ -21,18 +21,17 @@ interface intialFilterProps {
   dateFrom?: string;
   dateTo?: string;
 }
-const companyId = localStorage.getItem('companyId');
-const intialFilter = {
-  companyId: companyId,
-  page: 1,
-  perPage: 5,
-  dateFrom: '',
-  dateTo: '',
-};
 
 const Payment = () => {
   const { t } = useTranslation();
-  const [date, setDate] = useState({ dateFrom: '', dateTo: '' });
+  const companyId = localStorage.getItem('companyId');
+  const intialFilter = {
+    companyId: companyId,
+    page: 1,
+    perPage: 5,
+    dateFrom: '',
+    dateTo: '',
+  };
   const [filterValues, setFilterValues] =
     useState<intialFilterProps>(intialFilter);
 

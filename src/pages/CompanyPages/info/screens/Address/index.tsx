@@ -16,6 +16,7 @@ import NewCompanyNotification from './NewCompanyNotification';
 import useAddress from './useAddress';
 import useInfoPage from '../useInfoPage';
 import useLayout from 'components/Layout/useLayout';
+import { useAppSelector } from 'services/redux/hooks';
 import {
   Container,
   Rightside,
@@ -50,8 +51,6 @@ import {
   Message,
 } from './style';
 
-const companyId: any = localStorage.getItem('companyId');
-
 interface FormProps {
   address?: string;
   addressDesc?: string;
@@ -76,10 +75,10 @@ interface WProps {
 
 const Address = () => {
   const { t } = useTranslation();
+  const companyId: any = localStorage.getItem('companyId');
   const { responseAddress, dataAddress, weeks, inntialWorkTime } = useAddress({
     id: companyId,
   });
-
   const { resHeader } = useLayout({ id: companyId });
   const { response, data } = useInfoPage();
   const [workError, setWorkError] = useState<boolean>(false);
@@ -118,13 +117,20 @@ const Address = () => {
     work: defaultTime,
   });
 
+  const infoData = useAppSelector((state) => state.info.data);
+  const regFilled = useAppSelector((state) => {
+    return state.auth.regFilled;
+  });
+  const fill =
+    (infoData?.filled && infoData?.filledAddress) ||
+    (regFilled?.filled && regFilled?.filledAddress);
+
   const {
     control,
     handleSubmit,
     formState: { errors },
     setValue,
     getValues,
-    reset,
   } = useForm<FormProps>({
     mode: 'onBlur',
     shouldFocusError: true,
@@ -216,7 +222,7 @@ const Address = () => {
       return { number: v };
     });
     setPlace([v?.location.lat, v?.location.lng]);
-    yandexRef?.setCenter([v?.location.lat, v?.location.lng], 18);
+    yandexRef?.setCenter([v?.location.lat, v?.location.lng], 100);
     setOpen(false);
     setValue('id', v.id);
     setValue('name', v.name);
@@ -735,26 +741,29 @@ const Address = () => {
               <Message>{t('requiredField')}</Message>
             ) : null}
             <ButtonsWrap>
-              <ButtonWrap>
-                <Button
-                  buttonStyle={{
-                    bgcolor: 'rgba(96, 110, 234, 0.1)',
-                    weight: '500',
-                    radius: 12,
-                    color: '#606EEA',
-                  }}
-                  margin={{
-                    laptop: '20px 10px 0',
-                    mobile: '10px 10px 0 0',
-                  }}
-                  onClick={() => {
-                    setOpen(true);
-                  }}
-                >
-                  {t('quit')}
-                  <ExitIcon />
-                </Button>
-              </ButtonWrap>
+              {fill ? null : (
+                <ButtonWrap>
+                  <Button
+                    buttonStyle={{
+                      bgcolor: 'rgba(96, 110, 234, 0.1)',
+                      weight: '500',
+                      radius: 12,
+                      color: '#606EEA',
+                    }}
+                    margin={{
+                      laptop: '20px 10px 0',
+                      mobile: '10px 10px 0 0',
+                    }}
+                    onClick={() => {
+                      setOpen(true);
+                    }}
+                  >
+                    {t('quit')}
+                    <ExitIcon />
+                  </Button>
+                </ButtonWrap>
+              )}
+
               <Button
                 buttonStyle={{
                   shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)',

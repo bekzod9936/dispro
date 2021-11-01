@@ -29,10 +29,10 @@ import { useAppSelector } from 'services/redux/hooks';
 export interface IDefaultLayout {
   children: any;
 }
-const companyId = localStorage.getItem('companyId');
+
 const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
   const classes = useSideBarStyle();
-
+  const companyId = localStorage.getItem('companyId');
   const { resHeader } = useLayout({ id: companyId });
   const infoData = useAppSelector((state) => state.info.data);
 

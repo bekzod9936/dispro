@@ -53,15 +53,15 @@ interface FormProps {
   message?: string;
 }
 
-const companyId: any = localStorage.getItem('companyId');
-
 const Support = () => {
   const { t } = useTranslation();
-
-  const { control, handleSubmit, setValue, getValues } = useForm<FormProps>({
-    mode: 'onBlur',
-    shouldFocusError: true,
-  });
+  const companyId: any = localStorage.getItem('companyId');
+  const words = 400;
+  const { control, handleSubmit, setValue, getValues, watch } =
+    useForm<FormProps>({
+      mode: 'onBlur',
+      shouldFocusError: true,
+    });
 
   const staffId = useAppSelector((state) => state.auth.staffId);
 
@@ -75,12 +75,15 @@ const Support = () => {
 
   const [showEmoji, setShowEmoji] = useState<boolean>(false);
   const [scrollHeight, setScrollHeight] = useState(0);
+  const [limit, setLimit] = useState(words);
 
   const socket = useAppSelector((state) => state.feedbackPost.socket);
   const companyInfo = useAppSelector((state) => state.partner.companyInfo);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesStartRef = useRef<HTMLDivElement>(null);
+
+  const values = getValues();
 
   const scrollToBottom = () => {
     messagesEndRef?.current?.scrollIntoView({
@@ -107,6 +110,12 @@ const Support = () => {
       scrollToBottom();
     }
   }, [socket]);
+
+  useEffect(() => {
+    if (values?.message !== undefined) {
+      setLimit(words - values?.message?.length);
+    }
+  }, [watch('message')]);
 
   const handleShowEmoji = () => {
     setShowEmoji(!showEmoji);
@@ -152,16 +161,18 @@ const Support = () => {
               <WrapTitile>
                 <HTitle>{t('supportcall')}</HTitle>
                 <LinkWrap>
-                  <Link href='tel:+998998586446'>+998 99 858 64 46</Link>
-                  <Link href='mailto:support@dis.uz'>support@dis.uz</Link>
+                  <Link href='tel:+998998586446'> +99871 200 20 15</Link>
+                  <Link href='mailto:support@dis-count.app'>
+                    support@dis-count.app
+                  </Link>
                 </LinkWrap>
               </WrapTitile>
             </WrapImg>
 
             <TimeWrap>
               <WorkingTime>Время работы службы поддержки:</WorkingTime>
-              <WorkingTime>ПН-ПТ с 9:00 до 21:00</WorkingTime>
-              <WorkingTime>СБ-ВС с 9:00 до 18:00</WorkingTime>
+              <WorkingTime>ПН-ПТ с 9:00 до 18:00</WorkingTime>
+              <WorkingTime>СБ-ВС выходной</WorkingTime>
             </TimeWrap>
           </Header>
           <Body>
@@ -192,7 +203,9 @@ const Support = () => {
                         <MessageDate
                           bgcolor={v.chatType === 6 ? '#A5A5A5' : '#fff'}
                         >
-                          {moment(v.createdAt).format('HH:MM')}
+                          {moment(v.createdAt)
+                            .subtract(2, 'minute')
+                            .format('hh:mm')}
                         </MessageDate>
                         <MessageText
                           bgcolor={v.chatType === 6 ? '#223367' : '#fff'}
@@ -231,11 +244,15 @@ const Support = () => {
                       inpadding: width > 1500 ? '10px 20px' : '',
                     }}
                     field={field}
+                    maxLength={400}
                   />
                 )}
               />
               <InputDown>
-                <InputWarn>Вы можете написать еще 400 сообщения</InputWarn>
+                <InputWarn>
+                  Вы можете написать еще
+                  {` ${limit} `} сообщения
+                </InputWarn>
                 <WrapIcons>
                   <IconButton onClick={handleShowEmoji}>
                     <SmileIcon />

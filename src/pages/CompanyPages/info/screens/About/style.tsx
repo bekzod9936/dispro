@@ -54,6 +54,13 @@ export const SaveIcon = styled(Save)`
   margin-right: 15px;
 `;
 
+export const ForExample = styled.div`
+  margin-bottom: 20px;
+  font-weight: 300;
+  font-size: 14px;
+  color: #223367;
+`;
+
 export const CloseIcon = styled(Close)`
   margin-right: ${({ mobile }: ButtonProps) => (mobile ? null : '15px')};
   margin-left: ${({ mobile }: ButtonProps) => (mobile ? '15px' : null)};
