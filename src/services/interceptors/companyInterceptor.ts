@@ -1,7 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { URL, VERSION } from '../constants/config';
 import jwtDecode from 'jwt-decode';
-import adminInterceptor from './adminInterceptor';
 import { IAuthToken } from '../Types/api';
 //import { decode } from "querystring";
 
@@ -12,7 +11,6 @@ const partnerApi = axios.create({
 
 partnerApi.interceptors.request.use((config: AxiosRequestConfig) => {
   let companyToken = localStorage.getItem('companyToken');
-  let moderatorToken = localStorage.getItem('partner_access_token');
   config.headers.authorization = `Bearer ${companyToken}`;
   config.headers.langId = 1;
   config.headers.vers = VERSION;

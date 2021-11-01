@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import {
   refetchCompanyList,
   setBackAddCompany,
+  setRegFilled,
 } from 'services/redux/Slices/authSlice';
 import LogoDef from 'assets/icons/SideBar/logodefault.png';
 import AddCompany from '../AddCompany';
@@ -23,23 +24,33 @@ import {
   ChooseText,
   ImgDiv,
 } from './style';
+import { useHistory } from 'react-router';
 
 const Companylist = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const [id, setId] = useState(null);
-  const [state, setState] = useState(null);
+  const history = useHistory();
 
-  const { resHeader } = useLayout({ id: state, state: state });
   const { data, isLoading, refetch, isFetching } = useList();
 
   const backAddCompany = useAppSelector((state) => {
     return state.auth.backAddCompany;
   });
 
+  const regFilled = useAppSelector((state) => {
+    return state.auth.regFilled;
+  });
+
   const company = useMutation((values: any) => enterCompany(values), {
-    onSuccess: (data) => {
-      setState(data.data.data.companyId);
+    onSuccess: async (data) => {
+      await localStorage.setItem('companyId', data.data.data.companyId);
+      await localStorage.setItem('companyToken', data.data.data.accessToken);
+      if (regFilled?.filled && regFilled.filledAddress) {
+        await history.push('/statistics');
+      } else {
+        await history.push('/info');
+      }
     },
   });
 
@@ -50,12 +61,7 @@ const Companylist = () => {
   };
 
   const handleEnterCompany = async (values: any) => {
-    await company.mutateAsync(values).then((data) => {
-      localStorage.setItem('companyId', data.data.data.companyId);
-      localStorage.setItem('companyToken', data.data.data.accessToken);
-    });
-
-    await resHeader.refetch();
+    await company.mutate(values);
   };
 
   return backAddCompany ? (
@@ -83,22 +89,23 @@ const Companylist = () => {
           {data?.data.data.map((v: any) => (
             <Box
               key={v.company.id}
-              onClick={() => {
-                setId(v.company.id);
-                handleEnterCompany({
+              onClick={async () => {
+                await setId(v.company.id);
+                await dispatch(
+                  setRegFilled({
+                    filled: v.company.filled,
+                    filledAddress: v.company.filledAddress,
+                  })
+                );
+                await handleEnterCompany({
                   companyId: v.company.id,
                   companyType: v.company.type,
                 });
               }}
               style={{
-                pointerEvents:
-                  company.isLoading || resHeader.isLoading ? 'none' : 'all',
+                pointerEvents: company.isLoading ? 'none' : 'all',
               }}
-              loading={
-                v.company.id === id
-                  ? company.isLoading || resHeader.isLoading
-                  : false
-              }
+              loading={v.company.id === id ? company.isLoading : false}
             >
               <Wrap>
                 <ImgDiv>

@@ -45,7 +45,7 @@ const Infopage = () => {
       <Title>{t('info')}</Title>
       <WrapNav>
         <NavBar list={menuItems} margin='20px 0' />
-        {headerData.filled && headerData.filledAddress ? null : (
+        {!headerData.filled || !headerData.filledAddress ? (
           <WrapButton>
             <Button
               buttonStyle={{
@@ -59,7 +59,7 @@ const Infopage = () => {
               <LogOutIcon color='#223367' />
             </Button>
           </WrapButton>
-        )}
+        ) : null}
       </WrapNav>
       <Modal onClose={(v: boolean) => setOpen(v)} open={open}>
         <ModelContent>

@@ -8,6 +8,7 @@ interface IAuthSlice {
   refetch: Function;
   staffId: number;
   backAddCompany: boolean;
+  regFilled?: { filled?: boolean; filledAddress?: boolean };
 }
 
 const initialState: IAuthSlice = {
@@ -19,6 +20,7 @@ const initialState: IAuthSlice = {
   refetch: () => {},
   staffId: 0,
   backAddCompany: false,
+  regFilled: { filled: false, filledAddress: false },
 };
 
 const authSlice = createSlice({
@@ -47,8 +49,11 @@ const authSlice = createSlice({
       state.staffId = action.payload;
     },
     setBackAddCompany: (state, action: PayloadAction<boolean>) => {
-      console.log(action.payload, '[');
       state.backAddCompany = action.payload;
+    },
+    setRegFilled: (state, action: PayloadAction<any>) => {
+      console.log(action.payload);
+      state.regFilled = action.payload;
     },
   },
 });
@@ -62,6 +67,7 @@ export const {
   refetchCompanyList,
   setStaffId,
   setBackAddCompany,
+  setRegFilled,
 } = authSlice.actions;
 
 export default authSlice.reducer;
