@@ -172,26 +172,30 @@ const Support = () => {
                   return (
                     <MessageWrap>
                       <Avatar>
-                        <LazyLoadImage
-                          src={companyInfo.logo}
-                          alt='user'
-                          style={{
-                            objectFit: 'cover',
-                          }}
-                          height='100%'
-                          width='100%'
-                        />
+                        {v.chatType === 6 ? (
+                          <DisIcon />
+                        ) : (
+                          <LazyLoadImage
+                            src={companyInfo.logo}
+                            alt='user'
+                            style={{
+                              objectFit: 'cover',
+                            }}
+                            height='100%'
+                            width='100%'
+                          />
+                        )}
                       </Avatar>
                       <Message
-                        bgcolor={v.chatType === 1 ? '#E5E9FF' : '#606eea'}
+                        bgcolor={v.chatType === 6 ? '#E5E9FF' : '#606eea'}
                       >
                         <MessageDate
-                          bgcolor={v.chatType === 1 ? '#A5A5A5' : '#fff'}
+                          bgcolor={v.chatType === 6 ? '#A5A5A5' : '#fff'}
                         >
                           {moment(v.createdAt).format('HH:MM')}
                         </MessageDate>
                         <MessageText
-                          bgcolor={v.chatType === 1 ? '#223367' : '#fff'}
+                          bgcolor={v.chatType === 6 ? '#223367' : '#fff'}
                         >
                           {v.msg}
                         </MessageText>

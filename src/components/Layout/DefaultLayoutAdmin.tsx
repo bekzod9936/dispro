@@ -40,6 +40,14 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [open, setOpen] = useState(width <= 600 ? false : true);
 
+  const regFilled = useAppSelector((state) => {
+    return state.auth.regFilled;
+  });
+
+  const fill =
+    (infoData?.filled && infoData?.filledAddress) ||
+    (regFilled?.filled && regFilled?.filledAddress);
+
   const handleDrawerOpen = () => {
     if (width <= parseInt(device.mobile, 10)) {
       setMobileOpen(!mobileOpen);
@@ -106,9 +114,8 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
           onClose={toggleDrawer(false)}
           onOpen={toggleDrawer(true)}
           style={{
-            pointerEvents:
-              infoData?.filled && infoData?.filledAddress ? 'auto' : 'none',
-            opacity: infoData?.filled && infoData?.filledAddress ? 1 : 0.4,
+            pointerEvents: fill ? 'auto' : 'none',
+            opacity: fill ? 1 : 0.4,
           }}
         >
           <div
@@ -158,9 +165,8 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
             }),
           }}
           style={{
-            pointerEvents:
-              infoData?.filled && infoData?.filledAddress ? 'auto' : 'none',
-            opacity: infoData?.filled && infoData?.filledAddress ? 1 : 0.4,
+            pointerEvents: fill ? 'auto' : 'none',
+            opacity: fill ? 1 : 0.4,
           }}
         >
           <div className={classes.toolbar}>

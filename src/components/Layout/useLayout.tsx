@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useQuery } from 'react-query';
-import { useHistory } from 'react-router';
 import { fetchInfo } from 'services/queries/PartnerQueries';
 import { useAppDispatch } from 'services/redux/hooks';
 import { setStaffId } from 'services/redux/Slices/authSlice';
@@ -21,7 +20,6 @@ interface LProps {
 }
 const useLayout = ({ id, state }: LProps) => {
   const dispatch = useAppDispatch();
-  const history = useHistory();
 
   const [headerData, setData] = useState<Props>({
     filled: false,
@@ -34,14 +32,6 @@ const useLayout = ({ id, state }: LProps) => {
       dispatch(setInfoData(data?.data.data));
       setData(data?.data.data);
       dispatch(setStaffId(data.data.data.staffId));
-      console.log(data?.data.data);
-      if (state !== undefined) {
-        if (data.data.data.filled && data.data.data.filledAddress) {
-          history.push('/statistics');
-        } else {
-          history.push('/info');
-        }
-      }
     },
     keepPreviousData: true,
     refetchOnWindowFocus: false,

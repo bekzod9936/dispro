@@ -76,7 +76,10 @@ interface WProps {
 
 const Address = () => {
   const { t } = useTranslation();
-  const { responseAddress, dataAddress, weeks, inntialWorkTime } = useAddress();
+  const { responseAddress, dataAddress, weeks, inntialWorkTime } = useAddress({
+    id: companyId,
+  });
+
   const { resHeader } = useLayout({ id: companyId });
   const { response, data } = useInfoPage();
   const [workError, setWorkError] = useState<boolean>(false);
@@ -336,6 +339,7 @@ const Address = () => {
     {
       onSuccess: () => {
         setOpen(true);
+        resHeader.refetch();
         responseAddress.refetch();
         yandexRef?.setCenter([41.32847446609404, 69.24298268717716], 10);
         setPlace([]);
@@ -352,7 +356,7 @@ const Address = () => {
       onSuccess: () => {
         setOpen(true);
         responseAddress.refetch();
-
+        resHeader.refetch();
         yandexRef?.setCenter([41.32847446609404, 69.24298268717716], 10);
         setPlace([]);
       },
@@ -728,7 +732,7 @@ const Address = () => {
             <Title>{t('workingHours')}</Title>
             <WorkingHours workingTime={workingTime} getTime={getTime} />
             {workError === false && showWork ? (
-              <Message>{t('addressWorkingHours')}</Message>
+              <Message>{t('requiredField')}</Message>
             ) : null}
             <ButtonsWrap>
               <ButtonWrap>

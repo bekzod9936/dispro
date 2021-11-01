@@ -52,7 +52,7 @@ import {
   PName,
 } from './style';
 import { setInfoData, initialState } from 'services/redux/Slices/info/info';
-
+import useSupportChat from 'pages/CompanyPages/feedback/hooks/useSupportChat';
 
 const io = require('socket.io-client');
 
@@ -69,8 +69,18 @@ const Header = () => {
   const infoData = useAppSelector((state) => state.info.data);
   const socket = useAppSelector((state) => state.feedbackPost.socket);
 
+  const regFilled = useAppSelector((state) => {
+    return state.auth.regFilled;
+  });
+
+  const { resChatSupportHistory } = useSupportChat();
+
+  const fill =
+    (infoData?.filled && infoData?.filledAddress) ||
+    (regFilled?.filled && regFilled?.filledAddress);
+
   useEffect(() => {
-    if (infoData?.filled && infoData?.filledAddress) {
+    if (fill) {
       const socket = io(
         `${process.env.REACT_APP_WEBSOCKET_URL}/nsp_staff_svdfv8732f5rycf76f8732rvuy23cfi77c3u6fr2387frv8237vfidu23vf2vdd7324df4`,
         {
@@ -82,7 +92,7 @@ const Header = () => {
       );
 
       socket.on(SOCKET_EVENT.CHAT_MODERATOR_TO_PARTNER, function (data: any) {
-        console.log(data, 'm');
+        resChatSupportHistory.refetch();
       });
 
       socket.on(SOCKET_EVENT.CHAT_CLIENT_TO_PARTNER, function (data: any) {
@@ -90,11 +100,16 @@ const Header = () => {
       });
       dispatch(setSocket(socket));
     }
-  }, [infoData?.filled, infoData?.filledAddress]);
+  }, [
+    infoData?.filled,
+    infoData?.filledAddress,
+    regFilled?.filled,
+    regFilled?.filledAddress,
+  ]);
 
   return (
     <>
-      {infoData?.filled && infoData?.filledAddress ? (
+      {fill ? (
         <Container>
           <WrapLogo>
             <LogoIcon src={Logo} alt='logo' />

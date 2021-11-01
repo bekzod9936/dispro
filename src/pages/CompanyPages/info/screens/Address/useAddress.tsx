@@ -23,14 +23,16 @@ interface Props {
     }[];
   } | null;
 }
-const companyId: any = localStorage.getItem('companyId');
+interface AProps {
+  id?: any;
+}
 
-const useAddress = () => {
+const useAddress = ({ id }: AProps) => {
   const { t } = useTranslation();
   const [dataAddress, setData] = useState<Props[]>([]);
   const responseAddress = useQuery(
     'fetchAddress',
-    () => fetchAddressInfo({ companyId }),
+    () => fetchAddressInfo({ companyId: id }),
     {
       keepPreviousData: true,
       refetchOnWindowFocus: false,
