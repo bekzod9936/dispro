@@ -135,6 +135,7 @@ const CashierSetting = () => {
                       disabled={!ballCheck}
                       type="string"
                       field={field}
+                      max="100"
                       fullWidth={true}
                       maxLength={3}
                       width={{

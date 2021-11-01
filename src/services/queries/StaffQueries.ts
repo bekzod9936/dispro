@@ -83,3 +83,18 @@ export const editStaff = async (data: any) => {
 
   return response;
 };
+
+//get staff data
+export const getStaffData = async (id: any) => {
+  const response = await partnerApi.get(`/core/staffs/get/cashiers/${id}`);
+
+  return response;
+};
+
+//reset points
+
+export const resetPoints = async (data: any) => {
+  const response = await partnerApi.put("/core/cashier/reset-points", data);
+
+  return response;
+};

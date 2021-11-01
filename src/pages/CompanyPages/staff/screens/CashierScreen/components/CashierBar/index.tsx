@@ -34,7 +34,10 @@ import CashierRecommend from "assets/icons/cashier_recommend.png";
 import Button from "components/Custom/Button";
 import Modal from "components/Custom/Modal";
 import RippleEffect from "components/Custom/RippleEffect";
-import { setSelectedCashiers } from "services/redux/Slices/staffs";
+import {
+  setCashierId,
+  setSelectedCashiers,
+} from "services/redux/Slices/staffs";
 
 const CashierBar = () => {
   const history = useHistory();
@@ -122,8 +125,13 @@ const CashierBar = () => {
                 onClick={() => {
                   history.push({
                     pathname: "/staff/cashier/statistic",
-                    state: { prevPage: location.pathname },
+                    state: {
+                      prevPage: location.pathname,
+                      id: selectedCashiers[0].id,
+                    },
                   });
+                  dispatch(setCashierId(selectedCashiers[0].id));
+                  dispatch(setSelectedCashiers([]));
                 }}
                 startIcon={<UserIcon />}
               >

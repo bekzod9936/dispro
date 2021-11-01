@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 const CashierScreen = lazy(() => import("../screens/CashierScreen"));
 const ManagerScreen = lazy(() => import("../screens/ManagerScreen"));
 const CashierSetting = lazy(() => import("../screens/CashierSettings"));
-const CashierCard = lazy(() => import("../screens/CashierCard"));
+const CashierCard = lazy(() => import("../screens/CashierCard/index"));
 const CashierBalls = lazy(
   () => import("../screens/CashierCard/screens/CashierBalls")
 );
@@ -20,6 +20,19 @@ export interface IStaffsRow {
 
 const useStaffRoute = () => {
   const { t } = useTranslation();
+  const staffPath: IStaffsRow[] = [
+    {
+      path: "/staff",
+      text: t("cashier"),
+      component: CashierScreen,
+    },
+    {
+      path: "/staff/manager",
+      text: t("manager"),
+      component: ManagerScreen,
+    },
+  ];
+
   const menuItems: IStaffsRow[] = [
     {
       path: "/staff",
@@ -47,7 +60,7 @@ const useStaffRoute = () => {
       component: CashierBalls,
     },
     {
-      path: "/staff/cashier/feedbackk",
+      path: "/staff/cashier/feedback",
       text: t("comments"),
       component: CashierFeedback,
     },
@@ -55,6 +68,7 @@ const useStaffRoute = () => {
 
   return {
     menuItems,
+    staffPath,
   };
 };
 

@@ -16,7 +16,7 @@ const StaffPage = () => {
   const location = useLocation();
   const history = useHistory();
   const { t } = useTranslation();
-  const { menuItems } = useStaffRoute();
+  const { menuItems, staffPath } = useStaffRoute();
   const openCash = useAppSelector((state) => state.staffs.openCash);
 
   const [closeFun, setCloseFun] = useState<any>();
@@ -42,11 +42,7 @@ const StaffPage = () => {
           <Title>{t("staff")}</Title>
 
           <Flex width="90%" height="85px" alignItems="flex-start" margin="0">
-            <NavBar
-              list={menuItems.filter((item) => item.path !== "/staff/setting")}
-              margin="20px 0"
-              padding="0 10px 10px 0"
-            />
+            <NavBar list={staffPath} margin="20px 0" padding="0 10px 10px 0" />
           </Flex>
 
           <Header
