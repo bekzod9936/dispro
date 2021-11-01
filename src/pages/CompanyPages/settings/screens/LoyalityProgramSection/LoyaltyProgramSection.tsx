@@ -45,6 +45,7 @@ import MFormatInput from "components/Custom/MoneyInput";
 import { numberWith } from "services/utils";
 import Modal from "components/Custom/Modal";
 import Radio from "components/Custom/Radio";
+import InputFormat from "components/Custom/InputFormat";
 
 const LoyaltyProgramSection = () => {
   const { t } = useTranslation();
@@ -206,15 +207,17 @@ const LoyaltyProgramSection = () => {
                       defaultValue={base_loyality?.base_percent}
                       control={control}
                       render={({ field }) => (
-                        <MFormatInput
+                        <InputFormat
                           label={""}
                           type="string"
                           defaultValue={base_loyality?.base_percent}
-                          {...field}
-                          onChange={(e: any) => {
-                            field.onChange(e.target.value);
-                          }}
+                          field={field}
+                          // {...field}
+                          // onChange={(e: any) => {
+                          //   field.onChange(e.target.value);
+                          // }}
                           maxLength={3}
+                          max="100"
                           width={{
                             width: "106px",
                           }}
