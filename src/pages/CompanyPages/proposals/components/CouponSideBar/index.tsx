@@ -99,7 +99,7 @@ export const CouponBar = ({
                 <p>{isCoupon ? "Скидка Купона" : "Сумма Сертификата"}: {currentCoupon.value} {isCoupon ? "%" : "Сум"}</p>
                 <p>Количество {isCoupon ? "купонов" : "сертификатов"}: {currentCoupon.count} шт</p>
                 <p>Стоимость {isCoupon ? "купона" : "сертификата"}: {currentCoupon.price} Сум</p>
-                <p>Возрастное ограничение: {currentCoupon.ageUnlimited ? "Нет" : currentCoupon.ageFrom + "+"}</p>
+                <p>Возрастное ограничение: {(currentCoupon.ageUnlimited || currentCoupon.ageFrom === 0) ? "Нет" : currentCoupon.ageFrom + "+"}</p>
             </Content>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-end" }}>
                 {disableUpdate ?

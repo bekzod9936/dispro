@@ -49,6 +49,7 @@ import Modal from 'components/Custom/Modal'
 import { useFetchCategories } from '../UpdateCoupon/useFetchCategories'
 import { getWeekDays } from '../../utils/getValidDate'
 import MFormatInput from 'components/Custom/MoneyInput'
+import InputFormat from 'components/Custom/InputFormat'
 
 const RePublish = () => {
     const { currentCoupon } = useAppSelector((state: RootState) => state.proposals)
@@ -168,7 +169,6 @@ const RePublish = () => {
         setIsCropVisible(true)
     }
 
-    console.log(optionalFields.time);
 
     const handleDelete = () => {
         deleteImage(image)
@@ -253,30 +253,44 @@ const RePublish = () => {
                                 control={control}
                                 defaultValue={currentCoupon.value}
                                 rules={{
-                                    required: true
+                                    required: true,
+                                    min: isCoupon ? 1 : 1000
                                 }}
-                                render={({ field }) => (
-                                    <MFormatInput
-                                        {...field}
-                                        defaultValue={currentCoupon.value}
-                                        onChange={(e: any) => field.onChange(e)}
-                                        error={!!errors.percent}
-                                        message={t("requiredField")}
-                                        label={isCoupon ? `Укажите % купона` : "Укажите сумму сертификата"}
-                                        margin={{ laptop: "35px 0" }} />
-                                )}
+                                render={({ field }) => {
+                                    if (isCoupon) return (
+                                        <InputFormat
+                                            field={field}
+                                            max="100"
+                                            defaultValue={currentCoupon.value}
+                                            error={!!errors.percent}
+                                            message={parseInt(watch("percent")) < 1 ? "Минимальный процент: 1" : t("requiredField")}
+                                            label={`Укажите % купона`}
+                                            margin={{ laptop: "35px 0" }} />)
+                                    else return (
+                                        <InputFormat
+                                            field={field}
+                                            type="string"
+                                            max="10000000"
+                                            defaultValue={currentCoupon.value?.toString()}
+                                            error={!!errors.percent}
+                                            message={parseInt(watch("percent")) < 1000 ? "Минимальная сумма: 1000" : t("requiredField")}
+                                            label={"Укажите сумму сертификата"}
+                                            margin={{ laptop: "35px 0" }} />)
+                                }}
                             />
                             <Controller
                                 name="amount"
                                 control={control}
                                 rules={{
-                                    required: true
+                                    required: true,
+                                    min: 5
                                 }}
                                 defaultValue={currentCoupon.count}
                                 render={({ field }) => (
-                                    <Input
+                                    <InputFormat
+                                        max="5000"
                                         error={!!errors.amount}
-                                        message={t("requiredField")}
+                                        message={parseInt(watch("amount")) < 5 ? "Минимальное количество: 5" : t("requiredField")}
                                         field={field}
                                         defaultValue={currentCoupon.count}
                                         label="Количество" />
@@ -326,17 +340,17 @@ const RePublish = () => {
                                 name="cost"
                                 control={control}
                                 rules={{
-                                    required: true
+                                    required: true,
+                                    min: 1000
                                 }}
                                 defaultValue={currentCoupon.price}
                                 render={({ field }) => (
-                                    <Input
+                                    <InputFormat
                                         field={field}
                                         error={!!errors.cost}
                                         defaultValue={currentCoupon.price}
-                                        message={t("requiredField")}
+                                        message={parseInt(watch("cost")) < 1000 ? "Минимальная цена: 1000" : t("requiredField")}
                                         label={isCoupon ? "Цена купона" : "Цена сертификата"}
-                                        type="number"
                                         margin={{ laptop: "25px 0 35px 0" }} />
                                 )}
                             />
@@ -355,9 +369,10 @@ const RePublish = () => {
                                         control={control}
                                         defaultValue={currentCoupon.ageFrom}
                                         render={({ field }) => (
-                                            <Input
+                                            <InputFormat
                                                 field={field}
                                                 defaultValue={0}
+                                                max="100"
                                                 IconStart={<PlusIcon style={{ marginLeft: "20px" }} />}
                                                 label="Возрастное ограничение" />
                                         )}

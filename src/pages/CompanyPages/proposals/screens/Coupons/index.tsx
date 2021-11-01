@@ -127,8 +127,7 @@ const Coupons = () => {
         }))
     }
 
-    const { data } = useInfoPage()
-    const _ = useFetchCategories(setCategories, data.categories)
+    const _ = useFetchCategories(setCategories)
 
 
     const handleUploadImg = (data: any) => {

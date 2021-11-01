@@ -64,7 +64,7 @@ export const CouponCard = ({
                     {(startDate && endDate) && <p>{moment(startDate).format("DD.MM")} - {moment(endDate).format("DD.MM.YYYY")}</p>}
                 </div>
                 <h4>{title}</h4>
-                <p>{description}</p>
+                <p>{description.length > 35 ? description.slice(0, 35) + "..." : description}</p>
             </Main>
             <Submain stats={stats}>
                 <p>{isCoupon ? t("coupon_value") : t("certificate_value")}: {value} {isCoupon ? "%" : "Сум"}</p>
