@@ -34,14 +34,12 @@ import {
   ModalBody,
   LoyalDiv,
   BtnContainer,
-  CloseBtn,
 } from "./styles";
 import Spinner from "components/Helpers/Spinner";
 import Button from "components/Custom/Button";
 import RippleEffect from "components/Custom/RippleEffect";
 import NotifySnack from "components/Custom/Snackbar";
 import { useAppSelector } from "services/redux/hooks";
-import MFormatInput from "components/Custom/MoneyInput";
 import { numberWith } from "services/utils";
 import Modal from "components/Custom/Modal";
 import Radio from "components/Custom/Radio";
@@ -212,10 +210,6 @@ const LoyaltyProgramSection = () => {
                           type="string"
                           defaultValue={base_loyality?.base_percent}
                           field={field}
-                          // {...field}
-                          // onChange={(e: any) => {
-                          //   field.onChange(e.target.value);
-                          // }}
                           maxLength={3}
                           max="100"
                           width={{
@@ -229,10 +223,8 @@ const LoyaltyProgramSection = () => {
                               <PercentIcon />
                             </PercentDiv>
                           }
-                          message={t("requiredField")}
+                          message={""}
                           error={errors.base_percent}
-
-                          // maxLength={13}
                         />
                       )}
                     />
@@ -253,33 +245,6 @@ const LoyaltyProgramSection = () => {
                                 },
                               ],
                             });
-                            // {
-                            //   name: "",
-                            //   percent: 0,
-                            //   requirements: [
-                            //     {
-                            //       amount: 0,
-                            //       condition: "or",
-                            //       unit: 0,
-                            //       type: 3,
-                            //     },
-                            //   ],
-                            // }
-                            // setValue("levels", [
-                            //   {
-                            //     name: "",
-                            //     percent: 0,
-                            //     requirements: [
-                            //       {
-                            //         amount: 0,
-                            //         condition: "and",
-                            //         unit: 0,
-                            //         type: 3,
-                            //       },
-                            //     ],
-                            //   },
-                            //   ...getValues().levels,
-                            // ]);
                           }}
                           marginLeft={0}
                           marginRight={0}
@@ -329,8 +294,6 @@ const LoyaltyProgramSection = () => {
                                   error={
                                     errors.levels?.[index]?.name ? true : false
                                   }
-
-                                  // maxLength={13}
                                 />
                               )}
                             />
@@ -352,16 +315,12 @@ const LoyaltyProgramSection = () => {
                               control={control}
                               defaultValue={numberWith(item?.percent, " ")}
                               render={({ field }) => (
-                                <MFormatInput
+                                <InputFormat
                                   label={""}
                                   defaultValue={numberWith(item?.percent, " ")}
                                   type="string"
-                                  {...field}
-                                  value={field?.value?.textmask}
-                                  onChange={(e) => {
-                                    field.onChange(e.target.value);
-                                  }}
-                                  maxLength={3}
+                                  field={field}
+                                  max="100"
                                   width={{
                                     width: "106px",
                                   }}
@@ -373,19 +332,18 @@ const LoyaltyProgramSection = () => {
                                       <PercentIcon />
                                     </PercentDiv>
                                   }
-                                  message={
-                                    errors.levels?.[index]?.percent?.type ===
-                                    "max"
-                                      ? "maksimal 100%"
-                                      : t("requiredField")
-                                  }
+                                  // message={
+                                  //   errors.levels?.[index]?.percent?.type ===
+                                  //   "max"
+                                  //     ? "maksimal 100%"
+                                  //     : t("requiredField")
+                                  // }
+                                  message={""}
                                   error={
                                     errors.levels?.[index]?.percent
                                       ? true
                                       : false
                                   }
-
-                                  // maxLength={13}
                                 />
                               )}
                             />
@@ -405,33 +363,6 @@ const LoyaltyProgramSection = () => {
                                         },
                                       ],
                                     });
-                                    // {
-                                    //   name: "new_level",
-                                    //   percent: 0,
-                                    //   requirements: [
-                                    //     {
-                                    //       amount: 0,
-                                    //       condition: "and",
-                                    //       unit: 0,
-                                    //       type: 3,
-                                    //     },
-                                    //   ],
-                                    // }
-                                    // setValue("levels", [
-                                    //   {
-                                    //     name: "",
-                                    //     percent: 0,
-                                    //     requirements: [
-                                    //       {
-                                    //         amount: 0,
-                                    //         condition: "and",
-                                    //         unit: 0,
-                                    //         type: 3,
-                                    //       },
-                                    //     ],
-                                    //   },
-                                    //   ...getValues().levels,
-                                    // ]);
                                   }}
                                   marginLeft={0}
                                   marginRight={0}
@@ -493,12 +424,11 @@ const LoyaltyProgramSection = () => {
                       defaultValue={base_loyality?.max_percent}
                       render={({ field }) => {
                         return (
-                          <MFormatInput
+                          <InputFormat
                             label={t("max_percent")}
                             defaultValue={base_loyality?.max_percent}
                             type="string"
-                            {...field}
-                            value={field.value}
+                            field={field}
                             message={t("requiredField")}
                             error={errors.max_percent?.type === "required"}
                           />
@@ -519,7 +449,7 @@ const LoyaltyProgramSection = () => {
                             defaultValue={base_loyality?.give_cashback_after}
                             render={({ field }) => {
                               return (
-                                <MFormatInput
+                                <InputFormat
                                   field={field}
                                   label={t("give_cashback_after")}
                                   defaultValue={
