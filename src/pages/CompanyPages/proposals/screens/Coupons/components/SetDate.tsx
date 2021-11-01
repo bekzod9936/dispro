@@ -111,7 +111,7 @@ export const SetDate = ({
                             message={t("requiredField")}
                             min={moment(Date.now()).format("YYYY-MM-DD")}
                             type="date"
-                            margin={{ laptop: "0 0 20px 0" }}
+                            margin={{ laptop: "0 0 30px 0" }}
                         />
                     )}
                 />
