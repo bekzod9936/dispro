@@ -48,7 +48,7 @@ const OnSale = () => {
                     onClose={setOpen} />
             </SideBar>
             <Input
-                error={onSale.length === 0 && !isFetching}
+                error={onSale.length === 0 && !isFetching && !!query}
                 message={"По запросу ничего не найдено"}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
