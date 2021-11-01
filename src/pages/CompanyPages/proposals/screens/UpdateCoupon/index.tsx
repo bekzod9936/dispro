@@ -275,7 +275,7 @@ const UpdateCoupon = () => {
                                             max="10000000"
                                             defaultValue={currentCoupon.value?.toString()}
                                             error={!!errors.percent}
-                                            message={t("requiredField")}
+                                            message={parseInt(watch("percent")) < 1000 ? "Минимальная сумма: 1000" : t("requiredField")}
                                             label={"Укажите сумму сертификата"}
                                             margin={{ laptop: "35px 0" }} />)
                                     else return (

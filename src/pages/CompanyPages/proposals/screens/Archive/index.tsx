@@ -44,7 +44,7 @@ const Archive = () => {
                     onClose={setOpen} />
             </SideBar>
             <Input
-                error={archive.length === 0 && !isFetching}
+                error={archive.length === 0 && !isFetching && !!query}
                 message={"По запросу ничего не найдено"}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
