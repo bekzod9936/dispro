@@ -89,6 +89,7 @@ const Posts = () => {
 
   const { width } = useWindowWidth();
   const [chosen, setChosen] = useState<ChProps>({});
+  const [loading, setLoading] = useState(false);
 
   const [closeFun, setCloseFun] = useState<any>();
   const [isChoose, setIsChoose] = useState<boolean>(false);
@@ -167,6 +168,7 @@ const Posts = () => {
   }, [watch('message')]);
 
   const onSubmit = (e: any) => {
+    setLoading(true);
     if (e.message.length > 0) {
       console.log(socket, chosen.id, staffId, companyId);
       socket.emit(
@@ -186,8 +188,10 @@ const Posts = () => {
             resChatClientHistory.refetch();
             resChatClients.refetch();
             setValue('message', '');
+            setLoading(false);
           } else {
             console.log(res);
+            setLoading(false);
           }
         }
       );
@@ -370,7 +374,11 @@ const Posts = () => {
                         <ScriptIcon />
                       </IconButton>
                     </WrapScript>
-                    <Button type='submit' startIcon={<SendIcon />}>
+                    <Button
+                      type='submit'
+                      disabled={loading}
+                      startIcon={<SendIcon />}
+                    >
                       {t('send')}
                     </Button>
                   </WrapIcons>

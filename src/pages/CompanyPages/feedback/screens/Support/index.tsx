@@ -62,6 +62,7 @@ const Support = () => {
       mode: 'onBlur',
       shouldFocusError: true,
     });
+  const [loading, setLoading] = useState(false);
 
   const staffId = useAppSelector((state) => state.auth.staffId);
 
@@ -122,6 +123,7 @@ const Support = () => {
   };
 
   const onSubmit = (e: any) => {
+    setLoading(true);
     if (e.message.length > 0) {
       socket.emit(
         'chat_to_server',
@@ -140,8 +142,10 @@ const Support = () => {
             console.log(res);
             setValue('message', '');
             resChatSupportHistory.refetch();
+            setLoading(false);
           } else {
             console.log('thereis errror');
+            setLoading(false);
           }
         }
       );
@@ -262,7 +266,11 @@ const Support = () => {
                       <ScriptIcon />
                     </IconButton>
                   </WrapScript>
-                  <Button type='submit' startIcon={<SendIcon />}>
+                  <Button
+                    type='submit'
+                    disabled={loading}
+                    startIcon={<SendIcon />}
+                  >
                     {t('send')}
                   </Button>
                 </WrapIcons>
