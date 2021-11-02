@@ -12,6 +12,7 @@ import { AddIconSettings } from "assets/icons/SettingsIcons/SettingsPageIcon";
 import { ReactComponent as RemoveIconSettings } from "assets/icons/delete_level.svg";
 import { ReactComponent as PercentIcon } from "assets/icons/percent_icon.svg";
 import { ReactComponent as Close } from "assets/icons/IconsInfo/close.svg";
+import { ReactComponent as EmptySetting } from "assets/images/empty_setting.svg";
 import { FONT_SIZE, FONT_WEIGHT } from "services/Types/enums";
 import { SyncIcon } from "assets/icons/FeedBackIcons.tsx/FeedbackIcons";
 import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
@@ -34,6 +35,8 @@ import {
   ModalBody,
   LoyalDiv,
   BtnContainer,
+  MainContainer,
+  EText,
 } from "./styles";
 import Spinner from "components/Helpers/Spinner";
 import Button from "components/Custom/Button";
@@ -75,10 +78,13 @@ const LoyaltyProgramSection = () => {
     setModified,
     activeCheck,
     setActiveCheck,
-    availCheck,
+    assertModalVisible,
+    setAssertModalVisible,
+    emptyCashback,
+    emptyDiscount,
+    emptyBonuspoint,
   } = useLoyality();
-
-  console.log("active", active);
+  console.log("active main", active);
 
   const base_loyality = useAppSelector((state) => state.settings.base_loyality);
   const usePoint: boolean = useAppSelector(
@@ -88,15 +94,16 @@ const LoyaltyProgramSection = () => {
     (state) => state.loyalitySlice.useProgram
   );
 
-  const [assertModalVisible, setAssertModalVisible] = useState<boolean>(false);
   const [switchKey, setSwitchKey] = useState("discount");
 
-  //save loyality
+  //save loyalitys
+
+  console.log(activeCheck, "====== 1111 switch key=====");
 
   const onError = (errors: any, e: any) => console.log(errors, e);
 
   return (
-    <Grid container spacing={3} justifyContent="space-between">
+    <MainContainer container spacing={3} justifyContent="space-between">
       <LeftGrid item xs={12} sm={5}>
         <Flex
           flexDirection="column"
@@ -104,7 +111,7 @@ const LoyaltyProgramSection = () => {
           margin="0px"
           alignItems="flex-start"
         >
-          {switchItems.map((item) => {
+          {switchItems.map((item: any) => {
             return (
               <Flex
                 key={item.key}
@@ -123,12 +130,26 @@ const LoyaltyProgramSection = () => {
                     checked={item.key === active}
                     disabled={item.key === active}
                     onChange={(checked: any) => {
-                      console.log(item.key, "item key");
-                      if (availCheck) {
-                        setAssertModalVisible(true);
-                        setSwitchKey(item.key);
+                      console.log(item.key, "item check");
+                      setSwitchKey(item.key);
+                      setActiveCheck(item?.key);
+                      if (
+                        emptyCashback.empty &&
+                        emptyCashback.type === item.key
+                      ) {
+                        setAssertModalVisible(false);
+                      } else if (
+                        emptyDiscount.empty &&
+                        emptyDiscount.type === item.key
+                      ) {
+                        setAssertModalVisible(false);
+                      } else if (
+                        emptyBonuspoint.empty &&
+                        emptyBonuspoint.type === item.key
+                      ) {
+                        setAssertModalVisible(false);
                       } else {
-                        setActiveCheck(item?.key);
+                        setAssertModalVisible(true);
                       }
                     }}
                   />
@@ -157,8 +178,16 @@ const LoyaltyProgramSection = () => {
       </LeftGrid>
 
       {active === "" && activeCheck === "" ? (
-        <Grid item xs={12} sm={7}>
-          Vibrite programma loyalnost
+        <Grid
+          justifyContent="center"
+          alignItems="center"
+          direction="column"
+          container
+          xs={12}
+          sm={7}
+        >
+          <EmptySetting />
+          <EText>{t("empty_setting_text")}</EText>
         </Grid>
       ) : (
         <Grid item xs={12} sm={7}>
@@ -436,7 +465,10 @@ const LoyaltyProgramSection = () => {
                       }}
                     />
                   </HeaderGrid>
-                  {active === "cashback" && (
+                  {(active === "cashback" ||
+                    activeCheck === "cashback" ||
+                    (emptyCashback.empty &&
+                      emptyCashback.type === activeCheck)) && (
                     <HeaderGrid item xs={6}>
                       <div>
                         <div>
@@ -525,6 +557,8 @@ const LoyaltyProgramSection = () => {
           )}
         </Grid>
       )}
+
+      {/* other settings tools  */}
       <Modal open={assertModalVisible}>
         <ModalComponent>
           <ModalTitle>
@@ -626,7 +660,7 @@ const LoyaltyProgramSection = () => {
           setOnErrorSave(false);
         }}
       />
-    </Grid>
+    </MainContainer>
   );
 };
 

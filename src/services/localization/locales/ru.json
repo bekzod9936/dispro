@@ -431,5 +431,6 @@
   "balls": "Баллы",
   "comments": "Отзывы",
   "totalgradecashier": "Общая оценка кассира",
-  "forexample": "Например"
+  "forexample": "Например",
+  "empty_setting_text": "Выберите подходящую вам, программу лояльности"
 }

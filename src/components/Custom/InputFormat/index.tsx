@@ -24,8 +24,9 @@ function NumberFormatCustom(props: any) {
         }
       }}
       isAllowed={(values) => {
-        if (values.value.length > 1 && values.value.startsWith("0")) return false
-        else return true
+        if (values.value.length > 1 && values.value.startsWith("0"))
+          return false;
+        else return true;
       }}
       thousandSeparator=" "
       prefix=""
@@ -38,7 +39,7 @@ function NumberFormatCustom(props: any) {
   );
 }
 
-const InputFormat = ({ onChange = () => { }, ...props }: Props) => {
+const InputFormat = ({ onChange = () => {}, ...props }: Props) => {
   return (
     <Container width={props.width} margin={props.margin}>
       {props.label ? (
