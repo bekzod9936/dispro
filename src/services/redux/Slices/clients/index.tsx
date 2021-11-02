@@ -27,6 +27,7 @@ const clientsSlice = createSlice({
             const visibleClients = payload.clients.map((el: IClient) => {
                 return {
                     id: el.id,
+                    image: el.image,
                     fullName: `${el.firstName} ${el.lastName}`,
                     discountSum: el.addInfo.discountSum || "-",
                     pointSum: el.addInfo.pointSum || "-",

@@ -1,18 +1,11 @@
 import Checkbox from "@material-ui/core/Checkbox";
-import { CustomList } from "components/Custom/CustomList";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { useSortBy, useTable } from "react-table";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 import { selectAll, setClient } from "services/redux/Slices/clients";
+import { IClient } from "services/redux/Slices/clients/types";
 import { RootState } from "services/redux/store";
-import { useWindowSize } from "../../hooks/useWindowSize";
-import { getListFromClients } from "../../utils/getSelectedFilters";
-import {
-  ActionType,
-  ActionTypes,
-  IClient,
-  IVisibleClient,
-} from "../../utils/reducerTypes";
 import { AddColumnButton } from "./components/AddColumnBtn/AddColumnButton";
 import { addedHeaders } from "./headers";
 import {
@@ -27,24 +20,20 @@ import {
   UpIcon,
   MCheckbox,
   TRow,
+  ClientTd,
+  DefaultImage,
 } from "./style";
 export type HeadersType = {
   value: string;
   label: string;
 };
 
-interface IProps {
-  visibleClients: IVisibleClient[];
-  selectedClients: IClient[];
-  dispatch: (arg: ActionType) => void;
-  clients: IClient[]
-}
 
-export const Table = ({
 
-}: IProps) => {
+export const Table = () => {
+  const { t } = useTranslation()
   const [headers, setHeaders] = React.useState<HeadersType[]>(addedHeaders);
-  const { visibleClients, selectedClients, clients } = useAppSelector((state: RootState) => state.clients)
+  const { visibleClients, selectedClients } = useAppSelector((state: RootState) => state.clients)
   const dispatch = useAppDispatch()
   const columns: any = React.useMemo(() => {
     return headers.map((header) => ({
@@ -64,7 +53,7 @@ export const Table = ({
   return (
     <div>
       <TableHeader>
-        <Title>Клиенты</Title>
+        <Title>{t("clients")}</Title>
         <AddColumnButton addedHeaders={headers} setAddedHeaders={setHeaders} />
       </TableHeader><Container>
         <MTable {...getTableProps()}>
@@ -111,9 +100,21 @@ export const Table = ({
                     </MCheckbox>
                   </Td>
                   {row.cells.map((cell: any) => {
-                    return (
-                      <Td {...cell.getCellProps()}>{cell.render("Cell")}</Td>
-                    );
+                    if (cell.column.Header === "Клиент") {
+                      let src = cell?.row?.original?.image
+                      return (
+                        <Td {...cell.getCellProps()}>
+                          <ClientTd>
+                            {src ? <img src={src} /> : <DefaultImage />}
+                            {cell.render("Cell")}
+                          </ClientTd>
+                        </Td>
+                      )
+                    } else {
+                      return (
+                        <Td {...cell.getCellProps()}>{cell.render("Cell")}</Td>
+                      );
+                    }
                   })}
                 </TRow>
               );

@@ -47,7 +47,7 @@ export const MTable = styled.table`
 `;
 
 interface IHeader {
-    header?: boolean
+  header?: boolean
 }
 export const Thead = styled.thead`
   background: #ffffff;
@@ -55,10 +55,10 @@ export const Thead = styled.thead`
   border-radius: 14px 14px 0 0;
   & > tr:last-child {
     border-top: ${({ header }: IHeader) =>
-      header ? '1px solid rgba(96, 110, 234, 0.3)' : null};
+    header ? '1px solid rgba(96, 110, 234, 0.3)' : null};
     & > th:first-child {
       border-right: ${({ header }: IHeader) =>
-        header ? '1px solid rgba(96, 110, 234, 0.3)' : null};
+    header ? '1px solid rgba(96, 110, 234, 0.3)' : null};
     }
   }
   & > tr {
@@ -67,7 +67,7 @@ export const Thead = styled.thead`
 `;
 
 interface ITh {
-    active?: boolean
+  active?: boolean
 }
 
 
@@ -87,7 +87,7 @@ export const Th = styled.th`
     & > svg {
       & > path {
         fill: ${({ active }: ITh) =>
-          active ? '#223367' :'#8f8f8f'}!important;
+    active ? '#223367' : '#8f8f8f'}!important;
       }
     }
   }
@@ -168,6 +168,19 @@ export const THead = styled.thead`
 //     border: none;
 //     font-size: 16px;
 // `
+
+export const ClientTd = styled.div`
+  display: flex; 
+  align-items: center; 
+  /* justify-content: center; */
+  /* margin-left: 15px; */
+  img {
+    border-radius: 14px;
+    width: 40px;
+    height: 40px;
+    margin-right: 15px;
+  }
+`
 export const Td = styled.td`
   padding: 15px;
   text-align: center;
@@ -198,7 +211,7 @@ export const TRow = styled.tr`
     border: none;
     transition: 100ms all;
     /* background: ${({ background }: ITRow) => background ? "rgba(96, 110, 234, 0.1)" : "transparent"}; */
-    background-color: ${({checked}: ITRow) => checked ? "rgba(96, 110, 234, 0.3) !important" : "transparent"};
+    background-color: ${({ checked }: ITRow) => checked ? "rgba(96, 110, 234, 0.3) !important" : "transparent"};
 `
 
 export const MCheckbox = styled.div`
@@ -218,4 +231,12 @@ export const MCheckbox = styled.div`
       font-size: 18px !important ;
     }
   }
+`
+
+export const DefaultImage = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  background: linear-gradient(215.2deg, #C7EEFF -12.1%, #FCA9EA 101.51%);
+  margin-right: 15px;
 `

@@ -1,5 +1,5 @@
 import Filter from "components/Custom/Filter/index";
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Radio from "components/Custom/Radio";
 import Input from "components/Custom/Input";
@@ -9,9 +9,6 @@ import {
   WrapInputs,
   WrapPlaceHolder,
 } from "../../style";
-import styled from "styled-components";
-import { device } from "styles/device";
-import { IFilters } from "services/redux/Slices/clients/types";
 import { Wrapper } from "./style";
 import { resetFilters, setFilters } from "services/redux/Slices/clients";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
@@ -26,9 +23,13 @@ export const MFilter = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch()
   const { filters } = useAppSelector(state => state.clients)
-  const [filter, setFilter] = useState<IFilters>(filters)
+  const [filter, setFilter] = useState<any>({})
+  const [gender, setGender] = useState<any>("")
+  const [traffic, setTraffic] = useState("")
 
-  React.useEffect(() => {
+  useEffect(() => {
+    setGender(filters.gender)
+    setTraffic(filters.trafficProvider?.value)
     setFilter(filters)
   }, [filters])
 
@@ -43,8 +44,10 @@ export const MFilter = () => {
             { value: "2", label: `${t("female")}` },
           ]}
           title={t("chose_gender")}
-          onChange={(v: any) => setFilter(prev => ({ ...prev, gender: v }))}
-          value={filter?.gender}
+          onChange={(v: string) => setGender(v)}
+          value={gender}
+        // onChange={(v: string) => setFilter((prev: any) => ({ ...prev, gender: v }))}
+        // value={filter.gender}
         />
       ),
     },
@@ -64,7 +67,7 @@ export const MFilter = () => {
                 inpadding: "0 10px 0 0",
               }}
               value={filter?.regDate?.regDateFrom}
-              onChange={(e) => setFilter(prev => ({
+              onChange={(e) => setFilter((prev: any) => ({
                 ...prev, regDate: {
                   ...prev["regDate"],
                   regDateFrom: e.target.value
@@ -82,7 +85,7 @@ export const MFilter = () => {
                 inpadding: "0 10px 0 0",
               }}
               value={filter?.regDate?.regDateTo}
-              onChange={(e) => setFilter(prev => ({
+              onChange={(e) => setFilter((prev: any) => ({
                 ...prev, regDate: {
                   ...prev["regDate"],
                   regDateTo: e.target.value
@@ -108,7 +111,7 @@ export const MFilter = () => {
             }}
             type="number"
             value={filter?.purchaseAmount?.purchaseCountFrom}
-            onChange={(e) => setFilter(prev => ({
+            onChange={(e) => setFilter((prev: any) => ({
               ...prev, purchaseAmount: {
                 ...prev["purchaseAmount"],
                 purchaseCountFrom: e.target.value
@@ -127,7 +130,7 @@ export const MFilter = () => {
             }}
             type="number"
             value={filter?.purchaseAmount?.purchaseCountTo}
-            onChange={(e) => setFilter(prev => ({
+            onChange={(e) => setFilter((prev: any) => ({
               ...prev, purchaseAmount: {
                 ...prev["purchaseAmount"],
                 purchaseCountTo: e.target.value
@@ -142,7 +145,7 @@ export const MFilter = () => {
       content: (
         <Input
           placeholder={t("notless")}
-          onChange={(e) => setFilter(prev => ({ ...prev, notless: e.target.value }))}
+          onChange={(e) => setFilter((prev: any) => ({ ...prev, notless: e.target.value }))}
           type="number"
           label={t("enter_amount")}
           value={filter?.notless}
@@ -183,15 +186,22 @@ export const MFilter = () => {
           flexDirection="row"
           list={traffics}
           title={t("chose_trafic_provider")}
-          onChange={(e) => setFilter(prev => ({ ...prev, trafficProvider: traffics.find(el => el.value === e) }))}
-          value={filter?.trafficProvider?.value}
+          // onChange={(e) => setFilter((prev: any) => ({ ...prev, trafficProvider: traffics.find(el => el.value === e) }))}
+          // value={filter?.trafficProvider?.value}
+          onChange={(e) => setTraffic(e)}
+          value={traffic}
         />
       ),
     },
   ];
 
   const handleSubmit = () => {
-    dispatch(setFilters(filter))
+    const res = {
+      ...filter,
+      gender: gender,
+      trafficProvider: traffics.find(el => el.value === traffic)
+    }
+    dispatch(setFilters(res))
   };
 
   const handleReset = () => {

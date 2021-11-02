@@ -56,16 +56,6 @@ export const getSelected = (obj: any): any => {
 }
 
 
-export const getListFromClients = (arr: any) => {
-    return arr.map((el: any) => {
-        const { firstName, lastName, image } = el
-        return {
-            name: firstName + " " + lastName,
-            image
-        }
-    })
-}
-
 interface IProps {
     filters: IFilters,
     handleRemove: (arg: string) => void

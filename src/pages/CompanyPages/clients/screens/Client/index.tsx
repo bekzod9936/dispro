@@ -1,7 +1,10 @@
 import React from 'react'
 import { useHistory } from 'react-router'
 import { useAppSelector } from 'services/redux/hooks'
-
+import { ClientBlock } from './components/ClientBlock'
+import { InfoBlock } from './components/InfoBlock'
+import { Recommendation } from './components/Recommendations'
+import { UpSide, Wrapper } from "./style"
 const Client = () => {
     const { selectedClients } = useAppSelector(state => state.clients)
     const client = selectedClients[0]
@@ -12,9 +15,13 @@ const Client = () => {
     }, [])
 
     return (
-        <div>
-            {JSON.stringify(client, null, 2)}
-        </div>
+        <Wrapper>
+            <UpSide>
+                <ClientBlock {...client} />
+                <InfoBlock {...client} />
+                <Recommendation />
+            </UpSide>
+        </Wrapper>
     )
 }
 
