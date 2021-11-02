@@ -110,7 +110,12 @@ const Photos = () => {
 
             <span>
               <span> {count} </span>
-              {ruCount(images.length, 'фотографию', 'фотографии', 'фотографий')}
+              {ruCount({
+                count: count,
+                firstWord: 'фотографию',
+                secondWord: 'фотографии',
+                thirdWord: 'фотографий',
+              })}
             </span>
             {t('infouploadphotos2')}
           </Text>
@@ -127,7 +132,12 @@ const Photos = () => {
                 {t('infouploadphotos1')}
                 <span>
                   <span> {count} </span>
-                  {ruCount(1, 'фотографию', 'фотографии', 'фотографий')}
+                  {ruCount({
+                    count: count,
+                    firstWord: 'фотографию',
+                    secondWord: 'фотографии',
+                    thirdWord: 'фотографий',
+                  })}
                 </span>
                 {t('infouploadphotos2')}
               </Text>

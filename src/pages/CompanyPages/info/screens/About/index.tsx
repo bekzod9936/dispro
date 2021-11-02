@@ -16,19 +16,13 @@ import useInfoPage from '../useInfoPage';
 import useAbout from './useAbout';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { inputPhoneNumber } from 'utilities/inputFormat';
+import { useAppSelector } from 'services/redux/hooks';
 import {
   Container,
   UpSide,
   LeftSide,
   RightSide,
   WrapHeader,
-  FIcon,
-  IIcon,
-  TIcon,
-  TWIcon,
-  VKIcon,
-  WTIcon,
-  VIcon,
   WrapCurrency,
   ArrowIcon,
   WrapArrow,
@@ -52,6 +46,7 @@ import {
   ButtonKeyWord,
   DeleteIcon,
   Message,
+  ForExample,
 } from './style';
 
 interface FormProps {
@@ -71,10 +66,10 @@ interface socialProps {
   name?: string;
   value?: any;
 }
-const companyId: any = localStorage.getItem('companyId');
+
 const Main = () => {
   const { response, data } = useInfoPage();
-  const [filled, setFilled] = useState<any>(false);
+  const companyId: any = localStorage.getItem('companyId');
   const {
     resCategory,
     resDelete,
@@ -84,8 +79,10 @@ const Main = () => {
     category,
     handlePhotoDelete,
     upload,
+    defSocial,
+    defLinks,
   } = useAbout({ logo: data.logo });
-  const { resHeader, headerData } = useLayout({ id: companyId });
+  const { resHeader } = useLayout({ id: companyId });
 
   const [errorLogo, setErrorLogo] = useState(false);
 
@@ -98,74 +95,17 @@ const Main = () => {
   const [web, setWeb] = useState<any>([]);
   const [option, setOption] = useState<any[]>([]);
   const [keywords, setKeywords] = useState<any[]>([]);
-  const [social, setSocial]: any = useState([
-    {
-      Icon: FIcon,
-      name: 'Facebook',
-      value: '',
-    },
-    {
-      Icon: IIcon,
-      name: 'Instagram',
-      value: '',
-    },
-    {
-      Icon: TIcon,
-      name: 'Telegram',
-      value: '',
-    },
-    {
-      Icon: TWIcon,
-      name: 'Twitter',
-      value: '',
-    },
-    {
-      Icon: VKIcon,
-      name: 'Vkontakte',
-      value: '',
-    },
-    {
-      Icon: WTIcon,
-      name: 'WhatsApp',
-      value: '',
-    },
-    {
-      Icon: VIcon,
-      name: 'Viber',
-      value: '',
-    },
-  ]);
+  const [social, setSocial]: any = useState(defSocial);
 
-  const [links, setLinks] = useState([
-    {
-      name: 'Facebook',
-      value: '',
-    },
-    {
-      name: 'Instagram',
-      value: '',
-    },
-    {
-      name: 'Telegram',
-      value: '',
-    },
-    {
-      name: 'Twitter',
-      value: '',
-    },
-    {
-      name: 'Vkontakte',
-      value: '',
-    },
-    {
-      name: 'WhatsApp',
-      value: '',
-    },
-    {
-      name: 'Viber',
-      value: '',
-    },
-  ]);
+  const [links, setLinks] = useState(defLinks);
+
+  const infoData = useAppSelector((state) => state.info.data);
+  const regFilled = useAppSelector((state) => {
+    return state.auth.regFilled;
+  });
+  const fill =
+    (infoData?.filled && infoData?.filledAddress) ||
+    (regFilled?.filled && regFilled?.filledAddress);
 
   useEffect(() => {
     setCategories(category);
@@ -173,7 +113,6 @@ const Main = () => {
 
   useEffect(() => {
     setDefMulti(data.categories);
-    setFilled(data?.filled);
   }, [data]);
 
   useEffect(() => {
@@ -296,7 +235,7 @@ const Main = () => {
           onSuccess: () => {
             resHeader.refetch();
             response.refetch();
-            if (!headerData.filledAddress) {
+            if (!infoData?.filledAddress || !regFilled?.filledAddress) {
               history.push('/info/address');
             }
           },
@@ -646,13 +585,14 @@ const Main = () => {
                 />
               )}
             />
+            <ForExample>{t('forexample')}: https://dis-count.app/</ForExample>
             {web?.length > 0 ? <Title>{t('companyLink')}</Title> : null}
             {web?.map((v: any) => (
               <>
                 <WrapWebLink key={v.address}>
                   <WebLink>{v?.name}</WebLink>
                   <WebValue>
-                    <a href='v?.address'>({v?.address})</a>
+                    <a href={v?.address}>({v?.address})</a>
                     <IconButton onClick={() => handleWebDelete(v)}>
                       <DeleteIcon />
                     </IconButton>
@@ -669,13 +609,12 @@ const Main = () => {
           </RightSide>
         </Container>
       </UpSide>
-      <DownSide justify={headerData.filled && headerData.filledAddress}>
+      <DownSide justify={fill}>
         <div>
-          {headerData.filled && headerData.filledAddress ? null : (
+          {fill ? null : (
             <WrapButton mobile={true}>
               <Button
                 onClick={() => setOpen(true)}
-                type='submit'
                 buttonStyle={{
                   color: '#606EEA',
                   bgcolor: 'rgba(96, 110, 234, 0.1)',

@@ -1,19 +1,20 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import "./index.css";
-import App from "./App";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './App';
 //import reportWebVitals from './reportWebVitals';
-import { QueryClient, QueryClientProvider } from "react-query";
-import { store } from "./services/redux/store";
-import { Provider } from "react-redux";
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { store } from './services/redux/store';
+import { Provider } from 'react-redux';
 //import * as serviceWorkerRegistration from './serviceWorkerRegistration';
-import { StylesProvider } from "@material-ui/core";
+import { StylesProvider } from '@material-ui/core';
 //import { getToken } from "firebase"
 //import { URL } from 'url';
-import { I18nextProvider } from "react-i18next";
-import i18n from "./services/localization/i18n";
-import { BrowserRouter } from "react-router-dom";
-import { createTheme, MuiThemeProvider } from "@material-ui/core/styles";
+import { I18nextProvider } from 'react-i18next';
+import i18n from './services/localization/i18n';
+import { BrowserRouter } from 'react-router-dom';
+import { createTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import 'emoji-mart/css/emoji-mart.css';
 
 const queryClient = new QueryClient();
 
@@ -45,7 +46,7 @@ ReactDOM.render(
       </MuiThemeProvider>
     </I18nextProvider>
   </React.StrictMode>,
-  document.getElementById("root")
+  document.getElementById('root')
 );
 
 // serviceWorkerRegistration.register({

@@ -47,6 +47,9 @@ export const Container = styled.div`
   border-radius: 14px;
   padding: 20px;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 `;
 
 export const Header = styled.div`

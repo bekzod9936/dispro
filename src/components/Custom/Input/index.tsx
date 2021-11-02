@@ -16,6 +16,7 @@ export interface Props {
   name?: string;
   variant?: 'filled' | 'standard' | 'outlined' | undefined;
   onChange?: (e: any) => void;
+
   placeholder?: string;
   required?: boolean;
   select?: boolean;
@@ -86,12 +87,14 @@ export interface Props {
   min?: string;
   max?: string;
   register?: any;
+  onKeyPress?: (e: any) => void;
 }
 
-const NInput = ({ onChange = () => { }, ...props }: Props) => {
-
-
-
+const NInput = ({
+  onChange = () => {},
+  onKeyPress = () => {},
+  ...props
+}: Props) => {
   return (
     <Container width={props.width} margin={props.margin}>
       {props.label ? (
@@ -146,6 +149,7 @@ const NInput = ({ onChange = () => { }, ...props }: Props) => {
         onFocus={props.onFocus}
         onBlur={props.onBlur}
         inputComponent
+        onKeyPress={onKeyPress}
         {...props.register}
       />
       <Message labelStyle={props.labelStyle}>

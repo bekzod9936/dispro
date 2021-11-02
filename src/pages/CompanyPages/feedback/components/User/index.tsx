@@ -48,7 +48,7 @@ const User = ({ value }: Props) => {
   const location = useLocation();
 
   const [open, setOpen] = useState<boolean>(false);
-  console.log(value, 'valll');
+
   return (
     <>
       <Container onClick={() => setOpen(true)}>

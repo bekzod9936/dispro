@@ -85,13 +85,14 @@ export const parseSimpleString = (str: string) => {
   return parsed;
 };
 
-export const ruCount = (
-  count: number,
-  firstWord: string,
-  secondWord: string,
-  thirdWord: string
-) => {
-  let res: string = firstWord;
+interface Props {
+  count: number;
+  firstWord: string;
+  secondWord: string;
+  thirdWord: string;
+}
+
+export const ruCount = ({ count, firstWord, secondWord, thirdWord }: Props) => {
   const lastTwoNumber: number = count % 100;
   const lastNumber: number = count % 10;
 
@@ -100,11 +101,12 @@ export const ruCount = (
   const group3: number[] = [11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
 
   if (group3.includes(lastTwoNumber)) {
-    res = thirdWord;
+    return thirdWord;
   } else if (group2.includes(lastNumber)) {
-    res = thirdWord;
+    return thirdWord;
   } else if (group1.includes(lastNumber)) {
-    res = secondWord;
+    return secondWord;
+  } else {
+    return firstWord;
   }
-  return res;
 };
