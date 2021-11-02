@@ -12,3 +12,11 @@ export const UpSide = styled.div`
     height: 205px;
     margin-bottom: 30px;
 `
+
+export const MiddleSide = styled.div`
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+`

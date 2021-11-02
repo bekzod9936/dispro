@@ -40,6 +40,7 @@ export const DefaultImage = styled.div`
 `
 
 export const DownSide = styled.div`
+    margin-left: 6px;
     h5 {
         font-size: 22px;
         line-height: 25px;
