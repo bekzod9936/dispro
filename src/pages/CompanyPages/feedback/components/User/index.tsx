@@ -36,7 +36,8 @@ import {
   WrapMoney,
 } from './style';
 import { setCashierId } from 'services/redux/Slices/staffs';
-
+import defuserman from 'assets/icons/defuserman.png';
+import defuserwoman from 'assets/icons/defuserwoman.png';
 interface Props {
   value?: any;
 }
@@ -49,13 +50,31 @@ const User = ({ value }: Props) => {
 
   const [open, setOpen] = useState<boolean>(false);
 
+  const image = {
+    alt: 'image',
+    src: value.clientImage
+      ? value.clientImage
+      : value.clientGenderTypeId === 1
+      ? defuserman
+      : defuserwoman,
+    height: '40px',
+    width: '40px',
+  };
+
   return (
     <>
       <Container onClick={() => setOpen(true)}>
         <Header>
           <LeftHeader>
             <Avatar>
-              <LazyLoadImage src={value.clientImage} />
+              <LazyLoadImage
+                alt={image.alt}
+                height={image.height}
+                src={image.src}
+                width={image.width}
+                effect='blur'
+                style={{ objectFit: 'cover' }}
+              />
             </Avatar>
             <WrapText>
               <UserName>
@@ -107,7 +126,14 @@ const User = ({ value }: Props) => {
             <Header>
               <LeftHeader>
                 <Avatar>
-                  <LazyLoadImage src={value.clientImage} />
+                  <LazyLoadImage
+                    alt={image.alt}
+                    height={image.height}
+                    src={image.src}
+                    width={image.width}
+                    effect='blur'
+                    style={{ objectFit: 'cover' }}
+                  />
                 </Avatar>
                 <WrapText>
                   <UserName>

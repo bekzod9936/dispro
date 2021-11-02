@@ -14,6 +14,7 @@ import useSupportChat from '../../hooks/useSupportChat';
 import moment from 'moment';
 import { CHAT_TYPES } from 'services/constants/chat';
 import disicon from 'assets/icons/disicon.png';
+import { ruCount } from '../../hooks/format';
 import {
   InputDown,
   ScriptIcon,
@@ -255,7 +256,12 @@ const Support = () => {
               <InputDown>
                 <InputWarn>
                   Вы можете написать еще
-                  {` ${limit} `} символов
+                  {` ${limit} ${ruCount({
+                    count: limit,
+                    firstWord: 'символ',
+                    secondWord: 'символа',
+                    thirdWord: 'символов',
+                  })}`}
                 </InputWarn>
                 <WrapIcons>
                   <IconButton onClick={handleShowEmoji}>

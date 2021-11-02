@@ -137,15 +137,13 @@ export const Wrapper = styled.div`
 export const RightSide = styled.div`
   margin-bottom: 20px;
   width: 30%;
-  position: relative;
+  top: 0;
+  right: 0;
+  position: sticky;
+  height: inherit;
   & > div {
     width: 90%;
-    height: 100%;
-    & > div {
-      position: sticky;
-      top: 0;
-      right: 0;
-    }
+    height: inherit;
   }
 `;
 
@@ -286,4 +284,22 @@ export const WrapIconStart = styled.div`
   flex: 1;
   height: 100%;
   justify-content: flex-end;
+`;
+
+export const Info = styled.div`
+  color: #223367;
+  font-size: 18px;
+  span {
+    font-weight: 900;
+    margin: 0px 5px;
+    font-size: 18px;
+  }
+`;
+
+export const WrapPag = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 25px 0 0;
+  padding-bottom: 25px;
 `;

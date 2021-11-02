@@ -13,6 +13,7 @@ import { SOCKET_EVENT } from 'services/constants/chat';
 import moment from 'moment';
 import Popover from 'components/Custom/Popover';
 import Spinner from 'components/Custom/Spinner';
+import { ruCount } from '../../hooks/format';
 import { Picker } from 'emoji-mart';
 import { IconButton } from '@material-ui/core';
 import { useForm, Controller } from 'react-hook-form';
@@ -363,7 +364,12 @@ const Posts = () => {
                 <InputDown>
                   <InputWarn>
                     Вы можете написать еще
-                    {` ${limit} `} символов
+                    {` ${limit} ${ruCount({
+                      count: limit,
+                      firstWord: 'символ',
+                      secondWord: 'символа',
+                      thirdWord: 'символов',
+                    })}`}
                   </InputWarn>
                   <WrapIcons>
                     <IconButton onClick={handleShowEmoji}>
