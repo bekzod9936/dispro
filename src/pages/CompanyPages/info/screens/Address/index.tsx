@@ -421,7 +421,7 @@ const Address = () => {
       id: e.id,
     };
     if (workError && place[0] !== '' && place[1] !== '') {
-      if (e.isMain) {
+      if (isMain) {
         mainPut.mutate({ ...values, telNumber: e.telNumbers[0]?.number });
       } else {
         addressPut.mutate({ ...values, name: e.name });
@@ -441,7 +441,7 @@ const Address = () => {
       isMain: e.isMain,
     };
     if (workError && place[0] !== '' && place[1] !== '') {
-      if (data.filledAddress) {
+      if (fill) {
         addressPost.mutate({ ...values, name: e.name });
       } else {
         mainPost

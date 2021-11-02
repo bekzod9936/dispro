@@ -272,12 +272,27 @@ const Main = () => {
     } else {
       clearErrors('companyLink');
     }
-    if (getValues('link') === '') {
-      setError('link', { shouldFocus: true });
+    if (
+      getValues('link') === '' ||
+      !getValues('link')?.startsWith('https://') ||
+      !getValues('link')?.startsWith('http://') ||
+      !getValues('link')?.startsWith('wwww.')
+    ) {
+      if (getValues('link') === '') {
+        setError('link', { shouldFocus: true, message: t('requiredField') });
+      } else {
+        setError('link', { shouldFocus: true, message: 'Неверная ссылка' });
+      }
     } else {
       clearErrors('link');
     }
-    if (getValues('companyLink') !== '' && getValues('link') !== '') {
+    if (
+      getValues('companyLink') !== '' &&
+      getValues('link') !== '' &&
+      (getValues('link')?.startsWith('https://') ||
+        getValues('link')?.startsWith('http://') ||
+        getValues('link')?.startsWith('wwww.'))
+    ) {
       setWeb([
         ...web,
         {
@@ -288,6 +303,8 @@ const Main = () => {
       ]);
       setValue('link', '');
       setValue('companyLink', '');
+      clearErrors('link');
+      clearErrors('companyLink');
     }
   };
 
@@ -567,11 +584,11 @@ const Main = () => {
                   }}
                   inputStyle={{
                     border:
-                      getValues('keywords') !== ''
+                      getValues('link') !== ''
                         ? '1px solid #606EEA'
                         : '1px solid #C2C2C2',
                   }}
-                  message={t('requiredField')}
+                  message={errors?.link?.message}
                   error={errors.link ? true : false}
                   IconEnd={
                     <WrapArrow

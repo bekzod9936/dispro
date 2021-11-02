@@ -73,6 +73,7 @@ export const LoginPanel = () => {
   const [errorOpen, setErrorOpen] = useState<boolean>(false);
   const [errorSms, setErrorSms] = useState<boolean>(false);
   const [errorM, seterrorM] = useState('');
+  const [errorCount, setErrorCount] = useState(3);
   const {
     control,
     handleSubmit,
@@ -206,10 +207,11 @@ export const LoginPanel = () => {
       },
       onError: (error: any) => {
         setErrorSms(true);
+        setErrorCount(errorCount - 1);
         seterrorM(
           error?.response?.data?.error?.errMsg === t('warningsms')
             ? t('warningsms')
-            : t('errorsmscode')
+            : `${t('errorsmscode')}${errorCount - 1}`
         );
       },
     });

@@ -14,6 +14,7 @@ import useSupportChat from '../../hooks/useSupportChat';
 import moment from 'moment';
 import { CHAT_TYPES } from 'services/constants/chat';
 import disicon from 'assets/icons/disicon.png';
+import { ruCount } from '../../hooks/format';
 import {
   InputDown,
   ScriptIcon,
@@ -62,6 +63,7 @@ const Support = () => {
       mode: 'onBlur',
       shouldFocusError: true,
     });
+  const [loading, setLoading] = useState(false);
 
   const staffId = useAppSelector((state) => state.auth.staffId);
 
@@ -122,6 +124,7 @@ const Support = () => {
   };
 
   const onSubmit = (e: any) => {
+    setLoading(true);
     if (e.message.length > 0) {
       socket.emit(
         'chat_to_server',
@@ -140,8 +143,10 @@ const Support = () => {
             console.log(res);
             setValue('message', '');
             resChatSupportHistory.refetch();
+            setLoading(false);
           } else {
             console.log('thereis errror');
+            setLoading(false);
           }
         }
       );
@@ -251,7 +256,12 @@ const Support = () => {
               <InputDown>
                 <InputWarn>
                   Вы можете написать еще
-                  {` ${limit} `} символов
+                  {` ${limit} ${ruCount({
+                    count: limit,
+                    firstWord: 'символ',
+                    secondWord: 'символа',
+                    thirdWord: 'символов',
+                  })}`}
                 </InputWarn>
                 <WrapIcons>
                   <IconButton onClick={handleShowEmoji}>
@@ -262,7 +272,11 @@ const Support = () => {
                       <ScriptIcon />
                     </IconButton>
                   </WrapScript>
-                  <Button type='submit' startIcon={<SendIcon />}>
+                  <Button
+                    type='submit'
+                    disabled={loading}
+                    startIcon={<SendIcon />}
+                  >
                     {t('send')}
                   </Button>
                 </WrapIcons>

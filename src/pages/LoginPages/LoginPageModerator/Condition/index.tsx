@@ -57,12 +57,16 @@ const Condition = () => {
       >
         <CPage width={400} scale={2} pageNumber={pageNumber} />
       </Document>
-      <Wrapper>
-        <Button onClick={handleBack}>{t('previous')}</Button>
+      <Wrapper margin={pageNumber === 1 ? '0 0 20px 150px' : '0 0 20px 0'}>
+        {pageNumber === 1 ? null : (
+          <Button onClick={handleBack}>{t('back')}</Button>
+        )}
         <Text>
           {pageNumber}/{numPages}
         </Text>
-        <Button onClick={handleNext}>{t('next')}</Button>
+        {numPages === pageNumber ? null : (
+          <Button onClick={handleNext}>{t('next')}</Button>
+        )}
       </Wrapper>
     </Container>
   );

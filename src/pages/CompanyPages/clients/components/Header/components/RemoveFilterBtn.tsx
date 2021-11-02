@@ -6,7 +6,6 @@ export const RemoveFilterBtn = (props: any) => {
     return (
         <Wrapper {...props}>
             <MiniCloseIcon />
-
         </Wrapper>
     )
 }

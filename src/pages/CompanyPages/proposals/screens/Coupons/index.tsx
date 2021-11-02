@@ -48,8 +48,7 @@ import { PreviewModal } from '../../components/PreviewModal'
 import Spinner from 'components/Helpers/Spinner'
 import { useFetchCategories } from './hooks/useFetchCategories'
 import InputFormat from "components/Custom/InputFormat"
-import useInfoPage from 'pages/CompanyPages/info/screens/useInfoPage'
-import { fetchCategories } from 'services/queries/InfoQueries'
+
 interface IOptionFields {
     age: boolean,
     days: boolean,
@@ -150,7 +149,7 @@ const Coupons = () => {
             image: image,
             price: data.cost.toString().split(" ").join(''),
             title: data.name,
-            type: isCoupon ? "1" : "2",
+            type: isCoupon ? "2" : "1",
             value: data.percent.toString().split(" ").join(''),
             settings: {
                 weekDays: optionalFields.days ? data.days.map((el: any) => el.id) : [0, 1, 2, 3, 4, 5, 6],
@@ -185,7 +184,7 @@ const Coupons = () => {
             categoryIds: data.categories.map((el: any) => el.id),
             companyId: 18,
             image: image,
-            type: isCoupon ? "1" : "2",
+            type: isCoupon ? "2" : "1",
             settings: {
                 weekDays: optionalFields.days ? data.days.map((el: any) => el.id) : [0, 1, 2, 3, 4, 5, 6],
                 time: {
