@@ -17,6 +17,13 @@ export const MiddleSide = styled.div`
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     flex-wrap: wrap;
+    max-width: 1250px;
+    width: 100%;
+    margin-bottom: 20px;
+`
+
+export const DownSide = styled.div`
+    width: 100%;
 `

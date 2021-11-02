@@ -58,7 +58,7 @@ export const ClientsBar = ({ refetch }: IProps) => {
     }
 
     const handleClient = () => {
-        history.push(`/clients/${selectedClients[0]?.id}`)
+        history.push(`/clients/client`)
     }
     return (
         <Wrapper>

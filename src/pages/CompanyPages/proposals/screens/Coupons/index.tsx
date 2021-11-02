@@ -15,7 +15,7 @@ import Input from 'components/Custom/Input'
 import MultiSelect from 'components/Custom/MultiSelect'
 import Title from 'components/Custom/Title'
 import React from 'react'
-import { Controller, useForm } from 'react-hook-form'
+import { Controller, useForm, useWatch } from 'react-hook-form'
 import { useHistory } from 'react-router-dom'
 import {
     AgeBlock,
@@ -26,6 +26,7 @@ import {
     Form,
     Header,
     ImageBlock,
+    LeaveModal,
     LeftSide,
     PreviewMessage,
     RightSide,
@@ -87,6 +88,7 @@ const initialData: ICoupon = {
     value: ""
 }
 
+
 const Coupons = () => {
     const history = useHistory()
     const { t } = useTranslation()
@@ -96,17 +98,18 @@ const Coupons = () => {
     const [image, setImage] = React.useState('')
     const [publish, setPublish] = React.useState(false)
     const [categories, setCategories] = React.useState<any>()
-    const { handleUpload, deleteImage, loading, setLoading, isLoading } = useUploadImage(setImage)
+    const { handleUpload, deleteImage, setLoading, isLoading } = useUploadImage(setImage)
     const [file, setFile] = React.useState('')
     const [previewModal, setPreviewModal] = React.useState<boolean>(false)
     const [isCropVisible, setIsCropVisible] = React.useState(false)
+    const [leave, setLeave] = React.useState<boolean>(false)
     const [optionalFields, setOptionalFields] = React.useState<IOptionFields>({
         age: false,
         days: false,
         time: false
     })
     const { mutate } = useMutation((data: any) => postCoupon(data))
-    const { control, handleSubmit, register, watch, setValue, formState: { errors, isValid } } = useForm({
+    const { control, handleSubmit, register, watch, formState: { errors, isValid } } = useForm({
         mode: "onChange",
         shouldFocusError: true,
         reValidateMode: "onChange",
@@ -128,6 +131,7 @@ const Coupons = () => {
 
     const _ = useFetchCategories(setCategories)
 
+    console.log(errors);
 
     const handleUploadImg = (data: any) => {
         setFile(data.target.files[0])
@@ -140,7 +144,7 @@ const Coupons = () => {
             ...prev,
             ageFrom: data.ageLimit || null,
             ageTo: null,
-            ageUnlimited: !!!data.ageLimit,
+            ageUnlimited: !optionalFields.age || !data.ageLimit,
             categoryIds: data.categories.map((el: any) => el.id),
             companyId: 18,
             count: data.amount.toString().split(" ").join(''),
@@ -152,10 +156,10 @@ const Coupons = () => {
             type: isCoupon ? "2" : "1",
             value: data.percent.toString().split(" ").join(''),
             settings: {
-                weekDays: optionalFields.days ? data.days.map((el: any) => el.id) : [0, 1, 2, 3, 4, 5, 6],
+                weekDays: (optionalFields.days && data?.days?.length) ? data.days.map((el: any) => el.id) : [0, 1, 2, 3, 4, 5, 6],
                 time: {
-                    from: !optionalFields.time ? "00:00" : data.timeFrom,
-                    to: !optionalFields.time ? "23:59" : data.timeTo
+                    from: (optionalFields.time && data?.timeFrom) ? data.timeFrom : "00:00",
+                    to: (optionalFields.time && data?.timeTo) ? data.timeTo : "23:59"
                 }
             }
         }))
@@ -180,16 +184,16 @@ const Coupons = () => {
             value: data.percent.toString().split(" ").join(''),
             currencyId: 1,
             ageFrom: optionalFields.age ? data.ageLimit : null,
-            ageUnlimited: !!!data.ageLimit || !optionalFields.age,
+            ageUnlimited: !optionalFields.age || !data.ageLimit,
             categoryIds: data.categories.map((el: any) => el.id),
             companyId: 18,
             image: image,
             type: isCoupon ? "2" : "1",
             settings: {
-                weekDays: optionalFields.days ? data.days.map((el: any) => el.id) : [0, 1, 2, 3, 4, 5, 6],
+                weekDays: (optionalFields.days && data?.days?.length) ? data.days.map((el: any) => el.id) : [0, 1, 2, 3, 4, 5, 6],
                 time: {
-                    from: !optionalFields.time ? "00:00" : data.timeFrom,
-                    to: !optionalFields.time ? "23:59" : data.timeTo
+                    from: (optionalFields.time && data?.timeFrom) ? data.timeFrom : "00:00",
+                    to: (optionalFields.time && data?.timeTo) ? data.timeTo : "23:59"
                 }
             }
         }
@@ -198,7 +202,6 @@ const Coupons = () => {
         setTimeout(() => history.goBack(), 1000)
         dispatch(setSaving(true))
     }
-
 
 
     return (
@@ -215,6 +218,19 @@ const Coupons = () => {
                     handlePost={mutate}
                     handleClose={() => setPeriod(false)}
                     coupon={coupon} />
+            </Modal>
+            <Modal open={leave}>
+                <LeaveModal>
+                    <p>Вы действительно хотите отменить создание спецпредложения?</p>
+                    <div className="buttons">
+                        <Button buttonStyle={{ bgcolor: "white", color: "#223367" }} margin={{ laptop: "0 15px 0 0" }} onClick={() => setLeave(false)}>
+                            Нет
+                        </Button>
+                        <Button onClick={handleBack}>
+                            Да
+                        </Button>
+                    </div>
+                </LeaveModal>
             </Modal>
             <PreviewModal
                 price={watch("cost")}
@@ -390,11 +406,9 @@ const Coupons = () => {
                                         control={control}
                                         render={({ field }) => (
                                             <InputFormat
-                                                defaultValue={0}
                                                 field={field}
-                                                error={!!errors.ageLimit}
+                                                defaultValue={0}
                                                 max="100"
-                                                message={t("requiredField")}
                                                 IconStart={<PlusIcon style={{ marginLeft: "20px" }} />}
                                                 label="Возрастное ограничение" />
                                         )}
@@ -410,9 +424,6 @@ const Coupons = () => {
                                     <Controller
                                         name="days"
                                         control={control}
-                                        rules={{
-                                            required: optionalFields.days
-                                        }}
                                         render={({ field }) => (
                                             <MultiSelect
                                                 field={field}
@@ -433,9 +444,6 @@ const Coupons = () => {
                                         <Controller
                                             control={control}
                                             name="timeFrom"
-                                            rules={{
-                                                required: optionalFields.time
-                                            }}
                                             render={({ field }) => (
                                                 <Input margin={{ laptop: "0 25px 0 0" }} type="time" field={field} />
                                             )}
@@ -443,9 +451,6 @@ const Coupons = () => {
                                         <Controller
                                             control={control}
                                             name="timeTo"
-                                            rules={{
-                                                required: optionalFields.time
-                                            }}
                                             render={({ field }) => (
                                                 <Input type="time" field={field} />
                                             )}
@@ -468,7 +473,7 @@ const Coupons = () => {
                 </UpSide>
                 <DownSide>
                     <Button
-                        onClick={handleBack}
+                        onClick={() => setLeave(true)}
                         startIcon={<CancelIcon />}
                         buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}>
                         Отменить

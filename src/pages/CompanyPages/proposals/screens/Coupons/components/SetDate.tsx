@@ -102,7 +102,7 @@ export const SetDate = ({
                     control={control}
                     name="publishDate"
                     rules={{
-                        required: true
+                        required: true,
                     }}
                     render={({ field }) => (
                         <Input
@@ -111,6 +111,7 @@ export const SetDate = ({
                             message={t("requiredField")}
                             min={moment(Date.now()).format("YYYY-MM-DD")}
                             type="date"
+                            max={"2023-01-01"}
                             margin={{ laptop: "0 0 30px 0" }}
                         />
                     )}
