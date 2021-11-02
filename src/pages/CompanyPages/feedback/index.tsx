@@ -223,7 +223,7 @@ const FeedBack = () => {
                       <Info>
                         {t('shown')}
                         <span>{between}</span>
-                        {t('from1')} <span>{totalCount}</span>{' '}
+                        {t('from1')} <span>{totalCount}</span>
                         {t('operations1')}
                       </Info>
                       <Pagination
@@ -242,38 +242,36 @@ const FeedBack = () => {
         {match.url === '/feedback' ? (
           <RightSide>
             <div>
-              <div>
-                <Grade title={t('overallscore')} rate={rate} />
-                <Grade title={t('totalratings')} total={total} />
-                <Rate>{t('rate')}</Rate>
-                {[5, 4, 3, 2, 1].map((v: any, i: number) => {
-                  return (
-                    <WrapStars>
-                      <WrapIconStart>
-                        {Array(v)
-                          .fill(1)
-                          .map(() => (
-                            <StarIcon />
-                          ))}
-                      </WrapIconStart>
-                      <WrapStartT>
-                        <RateText>
-                          &middot;
-                          {ratings?.length === i + 1
-                            ? `${ratings[i]?.percentage}%`
-                            : '0%'}
-                        </RateText>
-                        <RateText>
-                          {ratings?.length === i + 1
-                            ? `${ratings[i]?.amount} `
-                            : '0 '}
-                        </RateText>
-                        <RateText>{t('evaluations')}</RateText>
-                      </WrapStartT>
-                    </WrapStars>
-                  );
-                })}
-              </div>
+              <Grade title={t('overallscore')} rate={rate} />
+              <Grade title={t('totalratings')} total={total} />
+              <Rate>{t('rate')}</Rate>
+              {[5, 4, 3, 2, 1].map((v: any, i: number) => {
+                return (
+                  <WrapStars>
+                    <WrapIconStart>
+                      {Array(v)
+                        .fill(1)
+                        .map(() => (
+                          <StarIcon />
+                        ))}
+                    </WrapIconStart>
+                    <WrapStartT>
+                      <RateText>
+                        &middot;
+                        {ratings?.length === i + 1
+                          ? `${ratings[i]?.percentage}%`
+                          : '0%'}
+                      </RateText>
+                      <RateText>
+                        {ratings?.length === i + 1
+                          ? `${ratings[i]?.amount} `
+                          : '0 '}
+                      </RateText>
+                      <RateText>{t('evaluations')}</RateText>
+                    </WrapStartT>
+                  </WrapStars>
+                );
+              })}
             </div>
           </RightSide>
         ) : null}

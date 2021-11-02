@@ -137,17 +137,13 @@ export const Wrapper = styled.div`
 export const RightSide = styled.div`
   margin-bottom: 20px;
   width: 30%;
-
+  top: 0;
+  right: 0;
+  position: sticky;
+  height: inherit;
   & > div {
     width: 90%;
-    height: 100%;
-
-    & > div {
-      top: 0;
-      right: 0;
-      position: sticky;
-      background-color: red;
-    }
+    height: inherit;
   }
 `;
 

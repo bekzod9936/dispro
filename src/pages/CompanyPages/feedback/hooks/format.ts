@@ -8,9 +8,9 @@ interface Props {
 export const ruCount = ({ count, firstWord, secondWord, thirdWord }: Props) => {
   const lastNumber: number = count % 10;
 
-  const group1: number[] = [0];
-  const group2: number[] = [1, 2, 3, 4];
-  const group3: number[] = [5, 6, 7, 8, 9];
+  const group1: number[] = [1];
+  const group2: number[] = [2, 3, 4];
+  const group3: number[] = [0, 5, 6, 7, 8, 9];
 
   if (group3.includes(lastNumber)) {
     return thirdWord;

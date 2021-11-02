@@ -258,7 +258,7 @@ const Support = () => {
                   Вы можете написать еще
                   {` ${limit} ${ruCount({
                     count: limit,
-                    firstWord: 'символов',
+                    firstWord: 'символ',
                     secondWord: 'символа',
                     thirdWord: 'символов',
                   })}`}
