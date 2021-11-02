@@ -5,6 +5,21 @@ interface IProps {
   bgContain?: boolean;
 }
 
+export const MainContainer = styled(Grid)`
+  overflow-y: auto;
+  overflow-x: hidden;
+  ::-webkit-scrollbar {
+    width: 7px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #606eea;
+    border-radius: 14px 0px 0px 14px;
+  }
+`;
+
 export const LeftGrid = styled(Grid)`
   border-right: 3px solid rgba(96, 110, 234, 0.3);
 `;
@@ -121,4 +136,15 @@ export const CloseBtn = styled.div`
   position: absolute;
   top: 10;
   right: 10;
+`;
+
+export const EText = styled.p`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 150%;
+  color: #223367;
+  margin-top: 40px;
+  text-align: center;
 `;

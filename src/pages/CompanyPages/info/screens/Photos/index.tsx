@@ -51,7 +51,7 @@ const Photos = () => {
   });
 
   const handleUpload = (e: any) => {
-    for (let i = 0; i < e.target.files.length; i++) {
+    for (let i = 0; i < count; i++) {
       const formData = new FormData();
       formData.append('itemId', companyId);
       formData.append('fileType', 'companyImage');

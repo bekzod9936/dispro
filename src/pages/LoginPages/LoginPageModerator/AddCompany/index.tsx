@@ -18,7 +18,10 @@ import {
 import MultiSelect from 'components/Custom/MultiSelect';
 import { useMutation } from 'react-query';
 import { fetchAddCompanList } from 'services/queries/PartnerQueries';
-import { setBackAddCompany } from 'services/redux/Slices/authSlice';
+import {
+  setBackAddCompany,
+  setRegFilled,
+} from 'services/redux/Slices/authSlice';
 import { useAppDispatch } from 'services/redux/hooks';
 
 interface FormProps {
@@ -51,6 +54,12 @@ const AddCompany = () => {
         localStorage.setItem('companyToken', data.data.data.accessToken);
         history.push('/info');
         dispatch(setBackAddCompany(false));
+        dispatch(
+          setRegFilled({
+            filled: false,
+            filledAddress: false,
+          })
+        );
       },
     }
   );

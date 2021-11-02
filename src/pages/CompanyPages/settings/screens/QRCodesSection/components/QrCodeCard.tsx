@@ -141,24 +141,31 @@ const QrCodeCard = ({
         </div>
 
         <QrContainer>
-          <Button onClick={() => downloadQR()} startIcon={<DownloadIcon />}>
-            <Text marginLeft="15px" fontSize="17px" color="white">
-              {t("downloadPNG")}
-            </Text>
+          <Button
+            buttonStyle={{
+              color: "#fff",
+            }}
+            onClick={() => downloadQR()}
+            startIcon={<DownloadIcon />}
+          >
+            {t("downloadPNG")}
           </Button>
           <Break height={15} />
           <Button
             buttonStyle={{
               bgcolor: " rgba(96, 110, 234, 0.1)",
+              color: COLORS.purple,
+              fontSize: {
+                desktop: 14,
+                laptop: 13,
+              },
             }}
             onClick={() => {
               copyToClipboard(item?.dynLinkToken);
             }}
             endIcon={<ScrapperIcon />}
           >
-            <Text fontSize={FONT_SIZE.mediumPlus} color={COLORS.purple}>
-              {t("copyLink")}
-            </Text>
+            {t("copyLink")}
           </Button>
         </QrContainer>
       </QrRow>
