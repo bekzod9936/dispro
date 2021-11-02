@@ -52,11 +52,13 @@ const Photos = () => {
 
   const handleUpload = (e: any) => {
     for (let i = 0; i < e.target.files.length; i++) {
-      const formData = new FormData();
-      formData.append('itemId', companyId);
-      formData.append('fileType', 'companyImage');
-      formData.append('file', e.target.files[i]);
-      photoUploading.mutate(formData);
+      if (i < 10) {
+        const formData = new FormData();
+        formData.append('itemId', companyId);
+        formData.append('fileType', 'companyImage');
+        formData.append('file', e.target.files[i]);
+        photoUploading.mutate(formData);
+      }
     }
   };
 
