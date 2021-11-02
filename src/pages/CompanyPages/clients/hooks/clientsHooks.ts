@@ -1,23 +1,18 @@
 import { useQuery } from "react-query";
 import { fetchClients, searchClients } from "services/queries/ClientsQueries";
-import { ActionType, ActionTypes, IFilters } from "../utils/reducerTypes";
+import { useAppDispatch, useAppSelector } from "services/redux/hooks";
+import { setClients } from "services/redux/Slices/clients";
+import { RootState } from "services/redux/store";
 interface IArgs {
-  page: number;
-  dispatch: (arg: ActionType) => void;
   query: string;
-  filters?: IFilters;
-  period: {
-    startDate: string;
-    endDate: string;
-    [index: string]: string;
-  };
 }
 
-export const useFetchClients = ({ page, dispatch, query, period }: IArgs) => {
+export const useFetchClients = ({ query }: IArgs) => {
+  const dispatch = useAppDispatch()
+  const { page, filters, period } = useAppSelector((state: RootState) => state.clients)
   const response = useQuery(
-    ["clients", page, query, period],
+    ["clients", page, query, period, filters],
     () => {
-      dispatch({ type: ActionTypes.SET_LOADING, payload: true });
       if (query !== "") {
         return searchClients(query);
       }
@@ -33,13 +28,7 @@ export const useFetchClients = ({ page, dispatch, query, period }: IArgs) => {
       refetchIntervalInBackground: true,
       cacheTime: 50000,
       onSuccess: (data) => {
-        dispatch({
-          type: ActionTypes.SET_CLIENTS,
-          payload: {
-            clients: data.data.data.clients,
-            totalCount: data.data.data.totalCount,
-          },
-        });
+        dispatch(setClients({ clients: data.data.data.clients, totalCount: data.data.data.totalCount }))
       },
     }
   );

@@ -55,16 +55,15 @@ export const SelectedFilter = styled.div`
     color: #223367;
     font-size: 14px;
     font-weight: 300;
-    margin-right: 5px;
-    &:last-child {
-      margin-top: 5px;
+    &:not(:last-child) {
+      margin-right: 5px;
     }
   }
 
 `
 
 export const SelectedFilters = styled.div`
-  max-width: 400px;
+  max-width: 500px;
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;

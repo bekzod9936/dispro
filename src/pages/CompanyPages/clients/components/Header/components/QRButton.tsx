@@ -1,16 +1,16 @@
 import { QRIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
 import Button from 'components/Custom/Button'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
-interface IProps {
-    setOpenBar: any
-}
-export const QRButton = ({setOpenBar}: IProps) => {
+import { useAppDispatch } from 'services/redux/hooks'
+import { setOpenSideBar } from 'services/redux/Slices/clients'
+
+export const QRButton = () => {
+    const dispatch = useAppDispatch()
     const { t } = useTranslation()
     return (
         <Button
-            margin={{planshet: "0 0 20px 0", laptop: "0 20px", mobile: "0 0 20px 0"}}
-            onClick={(e) => setOpenBar((prev: any) => ({...prev, qrBar: true}))}
+            margin={{ planshet: "0 0 20px 0", laptop: "0 20px", mobile: "0 0 20px 0" }}
+            onClick={(e) => dispatch(setOpenSideBar(true))}
             buttonStyle={{
                 shadow: '0px 4px 4px rgba(0, 0, 0, 0.04)',
                 bgcolor: 'white',
