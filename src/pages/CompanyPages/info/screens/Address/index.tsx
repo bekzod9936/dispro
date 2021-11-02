@@ -446,7 +446,7 @@ const Address = () => {
       } else {
         mainPost
           .mutateAsync({ ...values, telNumber: e.telNumbers[0]?.number })
-          .then((data) => {
+          .then(() => {
             resHeader.refetch();
             response.refetch();
             responseAddress.refetch();

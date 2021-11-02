@@ -31,9 +31,8 @@ export const WrapStars = styled.div`
   margin-bottom: 20px;
   width: 100%;
   @media (max-width: ${device.laptop}) {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     grid-gap: 5px;
-    margin-bottom: 10px;
   }
 `;
 
@@ -54,16 +53,6 @@ export const MainWrapper = styled.div`
   width: 100%;
   flex: 1;
   flex-direction: column;
-  position: relative;
-  &::after {
-    position: absolute;
-    content: '';
-    width: 1px;
-    height: 100%;
-    background-color: rgba(96, 110, 234, 0.3);
-    top: 20px;
-    right: 30%;
-  }
 `;
 
 export const WrapTotal = styled.div``;
@@ -73,6 +62,7 @@ export const WrapHeader = styled.div`
   align-items: flex-start;
   justify-content: space-between;
   width: 70%;
+  height: 100%;
 `;
 
 export const WrapDefPhoto = styled.div`
@@ -91,6 +81,7 @@ export const LeftHeader = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
+  margin-right: 40px;
 `;
 
 export const SearchIcon = styled(Search)`
@@ -120,6 +111,16 @@ export const Wrapper = styled.div`
   width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
+  position: relative;
+  &::after {
+    position: sticky;
+    content: '';
+    width: 1px;
+    height: 100%;
+    background-color: rgba(96, 110, 234, 0.3);
+    top: 0;
+    right: calc(30% + 20px);
+  }
   ::-webkit-scrollbar {
     width: 7px;
   }
@@ -190,8 +191,8 @@ export const Img = styled.img`
 `;
 
 export const WrapDef = styled.div`
-  display: grid;
-  grid-template-columns: minmax(auto, 1fr) minmax(auto, 1fr);
+  display: flex;
+  flex-wrap: wrap;
   color: #223367;
   font-weight: normal;
   font-size: 18px;
@@ -201,6 +202,17 @@ export const WrapDef = styled.div`
   align-content: start;
   justify-content: center;
   width: fit-content;
+`;
+
+export const NoResult = styled.div`
+  display: flex;
+  flex: 1;
+  align-items: flex-start;
+  justify-content: center;
+  height: 200px;
+  font-weight: normal;
+  font-size: 16px;
+  color: #223367;
 `;
 
 export const WrapChecks = styled.div`

@@ -251,7 +251,7 @@ const Support = () => {
               <InputDown>
                 <InputWarn>
                   Вы можете написать еще
-                  {` ${limit} `} сообщения
+                  {` ${limit} `} символов
                 </InputWarn>
                 <WrapIcons>
                   <IconButton onClick={handleShowEmoji}>
