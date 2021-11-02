@@ -141,7 +141,7 @@ const UpdateCoupon = () => {
             ageUnlimited: !!!data.ageLimit,
             price: data.cost,
             value: data.percent.toString().split(" ").join(''),
-            type: isCoupon ? "1" : "2",
+            type: isCoupon ? "2" : "1",
             currencyId: 1,
             categoryIds: data.categories.map((el: any) => el.id),
             companyId: 18,

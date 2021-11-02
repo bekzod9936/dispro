@@ -56,7 +56,7 @@ const ServicesPage = lazy(
   () => import("../pages/CompanyPages/services/ServicesPage")
 );
 const ClientsPage = lazy(
-  () => import("../pages/CompanyPages/clients/ClientsPage")
+  () => import("../pages/CompanyPages/clients")
 );
 const FeedbackPage = lazy(() => import("../pages/CompanyPages/feedback"));
 const TestLoginPage = lazy(
@@ -186,6 +186,11 @@ const privateCompanyRoutes: IPrivateRoute[] = [
   },
   {
     path: "/clients",
+    layout: DefaultLayoutAdmin,
+    component: ClientsPage,
+  },
+  {
+    path: "/clients/:params",
     layout: DefaultLayoutAdmin,
     component: ClientsPage,
   },

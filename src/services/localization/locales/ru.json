@@ -431,5 +431,9 @@
   "balls": "Баллы",
   "comments": "Отзывы",
   "totalgradecashier": "Общая оценка кассира",
-  "forexample": "Например"
+  "forexample": "Например",
+  "lastPurchase": "Последняя покупка",
+  "byRecommendation": "По рекомендации",
+  "addNote": "Добавить заметку",
+  "recommendationLevels": "Рекомендации по уровням"
 }

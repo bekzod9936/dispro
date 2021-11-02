@@ -25,7 +25,7 @@ const ServicesPage = lazy(
   () => import('../pages/CompanyPages/services/ServicesPage')
 );
 const ClientsPage = lazy(
-  () => import('../pages/CompanyPages/clients/ClientsPage')
+  () => import('../pages/CompanyPages/clients')
 );
 const DefaultLayoutAdmin = lazy(
   () => import('../components/Layout/DefaultLayoutAdmin')

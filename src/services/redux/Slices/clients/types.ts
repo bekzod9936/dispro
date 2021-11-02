@@ -1,33 +1,24 @@
 export interface IState {
     clients: IClient[],
+    currentClient: IClient | null
     page: number,
     totalCount: number,
     visibleClients: IVisibleClient[],
     selectedClients: IClient[],
     loading: boolean,
     isFiltersVisible: boolean,
-    period: {
-        startDate: string,
-        endDate: string
-    },
+    period: IPeriod,
     totalPages: number | string,
-    filters: {
-        gender?: string | number,
-        regDate?: {
-            regDateFrom?: string,
-            regDateTo?: string,
-        },
-        purchaseAmount?: {
-            purchaseCountFrom?: string | number,
-            purchaseCountTo?: string | number,
-        }
-        notless?: number | string,
-        status?: any,
-        trafficProvider?: string | number
-    }
+    filters: IFilters,
+    qrCodeBar: boolean
 }
-
+export interface IPeriod {
+    startDate: string,
+    endDate: string,
+    [index: string]: string;
+}
 export interface IFilters {
+    [index: string]: any,
     gender?: string | number,
     regDate?: {
         regDateFrom?: string,
@@ -39,7 +30,7 @@ export interface IFilters {
     }
     notless?: number | string,
     status?: any,
-    trafficProvider?: string | number
+    trafficProvider?: string | number | any
 }
 
 export interface IVisibleClient {
@@ -89,7 +80,7 @@ interface IClientsInfo {
     pointSum: number,
     referLevel: number,
     sourceBy: string,
-    status: string, 
+    status: string,
 }
 export interface IClient {
     addInfo: IClientsInfo,
@@ -109,7 +100,10 @@ export interface IClient {
     userId: number
 
 }
-
+export interface IFetchData {
+    clients: IClient[],
+    totalCount: number
+}
 interface ActionSetClients {
     type: ActionTypes.SET_CLIENTS,
     payload: {
@@ -135,12 +129,12 @@ interface ActionSelectAll {
 
 interface ActionAddClient {
     type: ActionTypes.ADD_CLIENT,
-    payload: number 
+    payload: number
 }
 
 interface ActionRemoveClient {
     type: ActionTypes.REMOVE_CLIENT,
-    payload: number    
+    payload: number
 }
 
 interface ActionSetFilters {
@@ -170,14 +164,14 @@ interface ActionSetPeriod {
         endDate?: string
     }
 }
-export type ActionType = ActionSetClients | 
-                        ActionAddClient | 
-                        ActionSetVisibleFilters | 
-                        ActionSetPage | 
-                        ActionSelectAll |
-                        ActionSetPeriod |
-                        ActionSetLoading |
-                        ActionResetFilters |
-                        ActionRemoveFilter |
-                        ActionSetFilters |
-                        ActionRemoveClient
+export type ActionType = ActionSetClients |
+    ActionAddClient |
+    ActionSetVisibleFilters |
+    ActionSetPage |
+    ActionSelectAll |
+    ActionSetPeriod |
+    ActionSetLoading |
+    ActionResetFilters |
+    ActionRemoveFilter |
+    ActionSetFilters |
+    ActionRemoveClient
