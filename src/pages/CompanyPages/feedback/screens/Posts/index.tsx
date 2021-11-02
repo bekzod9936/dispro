@@ -13,7 +13,6 @@ import { SOCKET_EVENT } from 'services/constants/chat';
 import moment from 'moment';
 import Popover from 'components/Custom/Popover';
 import Spinner from 'components/Custom/Spinner';
-import 'emoji-mart/css/emoji-mart.css';
 import { Picker } from 'emoji-mart';
 import { IconButton } from '@material-ui/core';
 import { useForm, Controller } from 'react-hook-form';
@@ -74,12 +73,10 @@ interface FormProps {
   message?: string;
 }
 
-const companyId: any = localStorage.getItem('companyId');
-const words = 400;
-
 const Posts = () => {
   const { t } = useTranslation();
-
+  const companyId: any = localStorage.getItem('companyId');
+  const words = 400;
   const { control, handleSubmit, setValue, getValues, watch } =
     useForm<FormProps>({
       mode: 'onBlur',
@@ -92,6 +89,7 @@ const Posts = () => {
 
   const { width } = useWindowWidth();
   const [chosen, setChosen] = useState<ChProps>({});
+  const [loading, setLoading] = useState(false);
 
   const [closeFun, setCloseFun] = useState<any>();
   const [isChoose, setIsChoose] = useState<boolean>(false);
@@ -170,6 +168,7 @@ const Posts = () => {
   }, [watch('message')]);
 
   const onSubmit = (e: any) => {
+    setLoading(true);
     if (e.message.length > 0) {
       console.log(socket, chosen.id, staffId, companyId);
       socket.emit(
@@ -189,8 +188,10 @@ const Posts = () => {
             resChatClientHistory.refetch();
             resChatClients.refetch();
             setValue('message', '');
+            setLoading(false);
           } else {
             console.log(res);
+            setLoading(false);
           }
         }
       );
@@ -320,7 +321,9 @@ const Posts = () => {
                           <MessageDate
                             bgcolor={v.chatType === 1 ? '#A5A5A5' : '#fff'}
                           >
-                            {moment(v.createdAt).format('HH:MM')}
+                            {moment(v.createdAt)
+                              .subtract(2, 'minute')
+                              .format('hh:mm')}
                           </MessageDate>
                           <MessageText
                             bgcolor={v.chatType === 1 ? '#223367' : '#fff'}
@@ -340,6 +343,7 @@ const Posts = () => {
                   control={control}
                   rules={{
                     required: true,
+                    maxLength: 400,
                   }}
                   defaultValue=''
                   render={({ field }) => (
@@ -352,14 +356,14 @@ const Posts = () => {
                         inpadding: width > 1500 ? '10px 20px' : '',
                       }}
                       field={field}
-                      disabled={limit === 0}
+                      maxLength={400}
                     />
                   )}
                 />
                 <InputDown>
                   <InputWarn>
                     Вы можете написать еще
-                    {` ${limit} `} сообщения
+                    {` ${limit} `} символов
                   </InputWarn>
                   <WrapIcons>
                     <IconButton onClick={handleShowEmoji}>
@@ -370,7 +374,11 @@ const Posts = () => {
                         <ScriptIcon />
                       </IconButton>
                     </WrapScript>
-                    <Button type='submit' startIcon={<SendIcon />}>
+                    <Button
+                      type='submit'
+                      disabled={loading}
+                      startIcon={<SendIcon />}
+                    >
                       {t('send')}
                     </Button>
                   </WrapIcons>

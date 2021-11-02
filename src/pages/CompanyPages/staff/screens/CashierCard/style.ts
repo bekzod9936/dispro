@@ -1,12 +1,36 @@
-import styled from "styled-components";
-import { device } from "styles/device";
+import styled from 'styled-components';
+import { device } from 'styles/device';
 
 export const CardContainer = styled.div`
-  margin-top: 25px;
-  padding-right: 40px;
+  padding-top: 25px;
   padding-left: 45px;
   position: relative !important;
-  overflow: auto;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  height: 100%;
+`;
+
+export const Wrapper = styled.div`
+  overflow-y: scroll;
+  overflow-x: hidden;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  height: 100%;
+  padding-right: 40px;
+
+  ::-webkit-scrollbar {
+    width: 7px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #606eea;
+    border-radius: 14px 0px 0px 14px;
+  }
 `;
 
 export const StaticDiv = styled.div`
@@ -142,8 +166,8 @@ interface IBreak {
 }
 
 export const Break = styled.div`
-  width: ${({ width }: IBreak) => width + "px"};
-  height: ${({ height }: IBreak) => height + "px"};
+  width: ${({ width }: IBreak) => width + 'px'};
+  height: ${({ height }: IBreak) => height + 'px'};
 `;
 
 export const StaffAction = styled.div`

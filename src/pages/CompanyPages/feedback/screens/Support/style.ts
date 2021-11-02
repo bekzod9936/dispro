@@ -236,5 +236,5 @@ export const WrapDownIcon = styled.div`
   position: absolute;
   right: 20px;
   bottom: 0;
-  z-index: 9999;
+  z-index: 3;
 `;

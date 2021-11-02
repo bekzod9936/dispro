@@ -46,7 +46,12 @@ const YandexMap = ({
         onClick={handlePlaceMark}
       >
         {place?.length !== 0 ? (
-          <Placemark geometry={place} />
+          <Placemark
+            geometry={place}
+            options={{
+              iconColor: '#606EEA',
+            }}
+          />
         ) : (
           placeOptions.map((v: any) => {
             return (
@@ -57,6 +62,9 @@ const YandexMap = ({
                   id: v.lat,
                 }}
                 modules={['geoObject.addon.balloon']}
+                options={{
+                  iconColor: '#606EEA',
+                }}
               />
             );
           })

@@ -202,3 +202,30 @@ export const WrapMoney = styled.div`
   justify-content: start;
   grid-gap: 15px;
 `;
+
+interface Props {
+  big?: boolean;
+}
+
+export const Avatar = styled.div`
+  border-radius: 14px;
+  width: ${({ big }: Props) => (big ? '45px' : '40px')};
+  height: ${({ big }: Props) => (big ? '45px' : '40px')};
+  min-width: ${({ big }: Props) => (big ? '45px' : '40px')};
+  min-height: ${({ big }: Props) => (big ? '45px' : '40px')};
+  background-color: lightgray;
+  margin-right: 15px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @media (min-width: ${device.laptop}) {
+    width: ${({ big }: Props) => (big ? '55px' : '40px')};
+    height: ${({ big }: Props) => (big ? '55px' : '40px')};
+  }
+  & > img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+  }
+`;

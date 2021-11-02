@@ -7,7 +7,7 @@ import {
   fetchCategories,
   uploadPhoto,
 } from 'services/queries/InfoQueries';
-
+import { FIcon, IIcon, TIcon, TWIcon, VKIcon, WTIcon, VIcon } from './style';
 interface Props {
   value?: number;
   label?: string;
@@ -110,6 +110,76 @@ const useAbout = ({ logo }: IProps) => {
       },
     }
   );
+
+  const defSocial = [
+    {
+      Icon: FIcon,
+      name: 'Facebook',
+      value: '',
+    },
+    {
+      Icon: IIcon,
+      name: 'Instagram',
+      value: '',
+    },
+    {
+      Icon: TIcon,
+      name: 'Telegram',
+      value: '',
+    },
+    {
+      Icon: TWIcon,
+      name: 'Twitter',
+      value: '',
+    },
+    {
+      Icon: VKIcon,
+      name: 'Vkontakte',
+      value: '',
+    },
+    {
+      Icon: WTIcon,
+      name: 'WhatsApp',
+      value: '',
+    },
+    {
+      Icon: VIcon,
+      name: 'Viber',
+      value: '',
+    },
+  ];
+
+  const defLinks = [
+    {
+      name: 'Facebook',
+      value: '',
+    },
+    {
+      name: 'Instagram',
+      value: '',
+    },
+    {
+      name: 'Telegram',
+      value: '',
+    },
+    {
+      name: 'Twitter',
+      value: '',
+    },
+    {
+      name: 'Vkontakte',
+      value: '',
+    },
+    {
+      name: 'WhatsApp',
+      value: '',
+    },
+    {
+      name: 'Viber',
+      value: '',
+    },
+  ];
+
   return {
     resCategory,
     resDelete,
@@ -119,6 +189,8 @@ const useAbout = ({ logo }: IProps) => {
     handleUpload,
     upload,
     handlePhotoDelete,
+    defSocial,
+    defLinks,
   };
 };
 

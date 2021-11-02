@@ -23,6 +23,7 @@ import {
 import Button from "components/Custom/Button";
 import useAwards from "./hooks/useAwards";
 import { Break } from "../../styles";
+import InputFormat from "components/Custom/InputFormat";
 
 const AwardingSection = () => {
   const { t } = useTranslation();
@@ -78,7 +79,7 @@ const AwardingSection = () => {
                       name="awardSizeFirst"
                       render={({ field }) => {
                         return (
-                          <Input
+                          <InputFormat
                             field={field}
                             width={{ width: "70%" }}
                             label={t("awardSize")}
@@ -128,7 +129,7 @@ const AwardingSection = () => {
                         name="awardSizeThird"
                         render={({ field }) => {
                           return (
-                            <Input
+                            <InputFormat
                               field={field}
                               label={t("awardSize")}
                               width={{ width: "70%" }}
@@ -143,7 +144,7 @@ const AwardingSection = () => {
                         name="awardLimit"
                         render={({ field }) => {
                           return (
-                            <Input
+                            <InputFormat
                               field={field}
                               label={t("awardLimit")}
                               width={{ width: "70%" }}
@@ -202,7 +203,10 @@ const AwardingSection = () => {
                           name="awardSizeSecond"
                           render={({ field }) => {
                             return (
-                              <Input field={field} label={t("awardSize")} />
+                              <InputFormat
+                                field={field}
+                                label={t("awardSize")}
+                              />
                             );
                           }}
                         />
@@ -214,7 +218,7 @@ const AwardingSection = () => {
                           name="payfor"
                           render={({ field }) => {
                             return (
-                              <Input
+                              <InputFormat
                                 field={field}
                                 label={t("payfor")}
                                 // aboveLabel="dayTillBirthday"
@@ -298,7 +302,7 @@ const AwardingSection = () => {
                           control={control}
                           render={({ field }) => {
                             return (
-                              <Input
+                              <InputFormat
                                 field={field}
                                 width={{ width: "100%" }}
                                 label={t("awardSize")}
@@ -313,7 +317,7 @@ const AwardingSection = () => {
                           control={control}
                           render={({ field }) => {
                             return (
-                              <Input
+                              <InputFormat
                                 field={field}
                                 width={{ width: "100%" }}
                                 label={t("ifMoreThan")}

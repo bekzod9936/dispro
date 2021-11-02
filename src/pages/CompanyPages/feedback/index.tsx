@@ -35,6 +35,7 @@ import {
   WrapIconStart,
   WrapStartT,
   WrapDefPhoto,
+  NoResult,
 } from './style';
 
 interface CProps {
@@ -49,15 +50,17 @@ const FeedBack = () => {
   const [cashierStaffId, setCashierStaffId] = useState<CProps>();
   const [checked, setChecked] = useState(false);
   const [filterValues, setFilterValues] = useState<any>('');
-
+  const [inpuSearch, setInpuSearch] = useState<string>('');
+  const [searchRes, setSearchRes] = useState<any[]>([]);
+  const [searchFocus, setSearchFocus] = useState<boolean>(false);
   const { resClients, resCashiers } = useFeedBack({ page, filterValues });
 
   const cashiers = useAppSelector((state) => state.feedbackPost.cashiers);
-  const clients = useAppSelector((state) => state.feedbackPost.clients);
+  const clients: any = useAppSelector((state) => state.feedbackPost.clients);
   const rate = useAppSelector((state) => state.feedbackPost.averageRating);
   const total = useAppSelector((state) => state.feedbackPost.totalRating);
   const ratings = useAppSelector((state) => state.feedbackPost.ratings);
-  console.log(clients);
+
   const handleFilterSubmit = async () => {
     await setFilterValues(cashierStaffId?.value);
     await await resClients.refetch();
@@ -67,6 +70,21 @@ const FeedBack = () => {
     await setFilterValues('');
     await setCashierStaffId({});
     await resClients.refetch();
+  };
+  console.log(searchRes, 'res');
+  const handleSearch = (e: any) => {
+    setInpuSearch(e.target.value);
+
+    const searchResult: any = clients.filter((v: any) => {
+      return (
+        v.clientFirstName
+          .toLowerCase()
+          .includes(e.target.value?.toLowerCase()) ||
+        v.clientLastName.toLowerCase().includes(e.target.value?.toLowerCase())
+      );
+    });
+
+    setSearchRes(searchResult);
   };
 
   let match = useRouteMatch();
@@ -141,9 +159,16 @@ const FeedBack = () => {
                       mobile: 40,
                     },
                   }}
+                  type='search'
+                  onChange={handleSearch}
                   width={{ maxwidth: 280 }}
                   margin={{ laptop: '0 20px 0 0' }}
                   placeholder={t('searchbyclients')}
+                  onFocus={() => setSearchFocus(true)}
+                  onBlur={() =>
+                    inpuSearch === '' ? setSearchFocus(false) : null
+                  }
+                  value={inpuSearch}
                 />
                 <Filter
                   list={filterList}
@@ -163,9 +188,13 @@ const FeedBack = () => {
               ) : (
                 <Content>
                   <WrapDef>
-                    {clients?.map((v: any) => (
-                      <User value={v} />
-                    ))}
+                    {!searchFocus || inpuSearch === '' ? (
+                      clients?.map((v: any) => <User value={v} />)
+                    ) : searchRes?.length === 0 ? (
+                      <NoResult>{t('noresult')}</NoResult>
+                    ) : (
+                      searchRes?.map((v: any) => <User value={v} />)
+                    )}
                   </WrapDef>
                 </Content>
               )
@@ -174,36 +203,40 @@ const FeedBack = () => {
         </WrapHeader>
         {match.url === '/feedback' ? (
           <RightSide>
-            <Grade title={t('overallscore')} rate={rate} />
-            <Grade title={t('totalratings')} total={total} />
-            <Rate>{t('rate')}</Rate>
-            {[5, 4, 3, 2, 1].map((v: any, i: number) => {
-              return (
-                <WrapStars>
-                  <WrapIconStart>
-                    {Array(v)
-                      .fill(1)
-                      .map(() => (
-                        <StarIcon />
-                      ))}
-                  </WrapIconStart>
-                  <WrapStartT>
-                    <RateText>
-                      &bull;
-                      {ratings?.length === i + 1
-                        ? `${ratings[i]?.percentage}%`
-                        : '0%'}
-                    </RateText>
-                    <RateText>
-                      {ratings?.length === i + 1
-                        ? `${ratings[i]?.amount} `
-                        : '0 '}
-                    </RateText>
-                    <RateText>{t('evaluations')}</RateText>
-                  </WrapStartT>
-                </WrapStars>
-              );
-            })}
+            <div>
+              <div>
+                <Grade title={t('overallscore')} rate={rate} />
+                <Grade title={t('totalratings')} total={total} />
+                <Rate>{t('rate')}</Rate>
+                {[5, 4, 3, 2, 1].map((v: any, i: number) => {
+                  return (
+                    <WrapStars>
+                      <WrapIconStart>
+                        {Array(v)
+                          .fill(1)
+                          .map(() => (
+                            <StarIcon />
+                          ))}
+                      </WrapIconStart>
+                      <WrapStartT>
+                        <RateText>
+                          &middot;
+                          {ratings?.length === i + 1
+                            ? `${ratings[i]?.percentage}%`
+                            : '0%'}
+                        </RateText>
+                        <RateText>
+                          {ratings?.length === i + 1
+                            ? `${ratings[i]?.amount} `
+                            : '0 '}
+                        </RateText>
+                        <RateText>{t('evaluations')}</RateText>
+                      </WrapStartT>
+                    </WrapStars>
+                  );
+                })}
+              </div>
+            </div>
           </RightSide>
         ) : null}
       </Wrapper>

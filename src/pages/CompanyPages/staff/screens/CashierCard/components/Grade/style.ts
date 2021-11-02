@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { device } from 'styles/device';
-import { ReactComponent as Line } from 'assets/icons/FeedBack/line.svg';
 
 export const Container = styled.div`
   background: #ffffff;
@@ -8,7 +7,7 @@ export const Container = styled.div`
   border-radius: 14px;
   padding: 20px;
   width: 100%;
-  margin: 10px 0 20px;
+  margin-bottom: 60px;
 `;
 
 export const Title = styled.div`
@@ -34,44 +33,12 @@ export const Title = styled.div`
   }
 `;
 
-export const Text = styled.div`
-  font-weight: 300;
-  font-size: 15px;
-  color: #223367;
-  @media (min-width: ${device.laptop}) {
-    font-size: 16px;
-  }
-`;
-
 export const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-export const PercentInfo = styled.div`
-  background: #38e25d;
-  border-radius: 14px;
-  font-weight: bold;
-  font-size: 16px;
-  color: #ffffff;
-  width: fit-content;
-  padding: 6px 10px;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 
-export const LineIcon = styled(Line)`
-  margin-right: 10px;
-`;
-
-export const PercentNum = styled.div`
-  font-weight: bold;
-  font-size: 40px;
-  line-height: 47px;
-  color: #606eea;
-`;
 export const PercentDef = styled.div`
   font-weight: bold;
   font-size: 18px;
@@ -83,4 +50,11 @@ export const PercentWrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+export const PercentNum = styled.div`
+  font-weight: bold;
+  font-size: 40px;
+  line-height: 47px;
+  color: #606eea;
 `;
