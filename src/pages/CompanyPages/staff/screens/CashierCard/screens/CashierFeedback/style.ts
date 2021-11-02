@@ -10,6 +10,8 @@ export const Wrapper = styled.div`
 
 export const Left = styled.div`
   width: 70%;
+  display: flex;
+  flex: 1;
 `;
 
 export const Right = styled.div`
@@ -70,10 +72,8 @@ export const WrapDef = styled.div`
   font-size: 18px;
   text-align: center;
   grid-gap: 20px;
-  align-items: start;
-  align-content: start;
-  justify-content: center;
   width: fit-content;
+  flex-basis: auto;
 `;
 
 export const Rate = styled.div`

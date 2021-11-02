@@ -23,13 +23,16 @@ export const Container = styled.div`
 
 export const CPage = styled(Page)``;
 
+interface Props {
+  margin?: string;
+}
+
 export const Wrapper = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  display: flex;
   grid-gap: 20px;
   align-items: center;
   justify-content: center;
-  margin-bottom: 20px;
+  margin: ${({ margin }: Props) => margin};
 `;
 
 export const Text = styled.div`

@@ -55,7 +55,12 @@ const User = ({ value }: Props) => {
         <Header>
           <LeftHeader>
             <Avatar>
-              <LazyLoadImage src={value.clientImage} />
+              <LazyLoadImage
+                src={value.clientImage}
+                height='100%'
+                width='100%'
+                style={{ objectFit: 'cover' }}
+              />
             </Avatar>
             <WrapText>
               <UserName>

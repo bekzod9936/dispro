@@ -13,16 +13,36 @@ import {
   setTotalCountFeedBack,
   setTotalRatingFeedBack,
 } from 'services/redux/Slices/feedback';
+import { useState } from 'react';
 
 interface Props {
-  page?: number;
   filterValues?: any;
 }
 
-const perPage = 6;
+interface FProps {
+  page: number;
+  perPage: number;
+}
 
-const useFeedBack = ({ page, filterValues }: Props) => {
+const useFeedBack = ({ filterValues }: Props) => {
   const dispatch = useAppDispatch();
+  const [between, setBetween] = useState<string>('');
+  const [totalCount, setTotalCount] = useState<number>(0);
+
+  function format({ page, perPage }: FProps) {
+    let start = 1;
+    let end = 1;
+    if (page === 1) {
+      start = 1;
+      end = perPage;
+    } else {
+      start = (page - 1) * perPage + 1;
+      end = page * perPage;
+    }
+
+    let info = `${start}-${end}`;
+    return info;
+  }
 
   const resCashiers = useQuery('feedBackCashiers', fetchFeedBackCashiers, {
     keepPreviousData: true,
@@ -37,7 +57,7 @@ const useFeedBack = ({ page, filterValues }: Props) => {
     'feedBackClientsInfo',
     () =>
       fetchFeedBackClients({
-        url: `/rating-review/${filterValues}?perPage=${perPage}&page=${page}`,
+        url: `/rating-review/${filterValues.cashierStaffId}?perPage=${filterValues.perPage}&page=${filterValues?.page}`,
       }),
     {
       keepPreviousData: true,
@@ -47,10 +67,20 @@ const useFeedBack = ({ page, filterValues }: Props) => {
         dispatch(setTotalCountFeedBack(data.data.data.totalCount));
         dispatch(
           setClientsFeedBack(
-            filterValues !== ''
+            filterValues?.cashierStaffId !== ''
               ? data.data.data
               : data.data.data.ratingAndReviews
           )
+        );
+        setTotalCount(
+          Math.ceil(data.data.data.totalCount / filterValues?.perPage)
+        );
+        console.log(data);
+        setBetween(
+          format({
+            page: filterValues?.page,
+            perPage: filterValues?.perPage,
+          })
         );
       },
     }
@@ -67,7 +97,7 @@ const useFeedBack = ({ page, filterValues }: Props) => {
     },
   });
 
-  return { resClients, resCashiers, resRatings };
+  return { resClients, resCashiers, resRatings, between, totalCount };
 };
 
 export default useFeedBack;

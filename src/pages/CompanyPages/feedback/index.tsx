@@ -14,6 +14,7 @@ import MultiSelect from 'components/Custom/MultiSelect';
 import CheckBox from 'components/Custom/CheckBox';
 import { useAppSelector } from 'services/redux/hooks';
 import useFeedBack from './hooks/useFeedBack';
+import Pagination from 'components/Custom/Pagination';
 import {
   MainWrapper,
   WrapHeader,
@@ -36,6 +37,8 @@ import {
   WrapStartT,
   WrapDefPhoto,
   NoResult,
+  Info,
+  WrapPag,
 } from './style';
 
 interface CProps {
@@ -43,20 +46,34 @@ interface CProps {
   label?: any;
 }
 
+interface intialFilterProps {
+  page?: number;
+  cashierStaffId?: number | string;
+  perPage?: number;
+}
+
 const FeedBack = () => {
+  const intialFilter = {
+    page: 1,
+    cashierStaffId: '',
+    perPage: 6,
+  };
   const { t } = useTranslation();
   const { menuItems } = useFeedBackRoute();
-  const [page, setPage] = useState(1);
   const [cashierStaffId, setCashierStaffId] = useState<CProps>();
   const [checked, setChecked] = useState(false);
-  const [filterValues, setFilterValues] = useState<any>('');
+  const [filterValues, setFilterValues] =
+    useState<intialFilterProps>(intialFilter);
   const [inpuSearch, setInpuSearch] = useState<string>('');
   const [searchRes, setSearchRes] = useState<any[]>([]);
   const [searchFocus, setSearchFocus] = useState<boolean>(false);
-  const { resClients, resCashiers } = useFeedBack({ page, filterValues });
+  const { resClients, resCashiers, between, totalCount } = useFeedBack({
+    filterValues,
+  });
 
   const cashiers = useAppSelector((state) => state.feedbackPost.cashiers);
   const clients: any = useAppSelector((state) => state.feedbackPost.clients);
+
   const rate = useAppSelector((state) => state.feedbackPost.averageRating);
   const total = useAppSelector((state) => state.feedbackPost.totalRating);
   const ratings = useAppSelector((state) => state.feedbackPost.ratings);
@@ -67,7 +84,7 @@ const FeedBack = () => {
   };
 
   const onReset = async () => {
-    await setFilterValues('');
+    await setFilterValues({ ...filterValues, cashierStaffId: '' });
     await setCashierStaffId({});
     await resClients.refetch();
   };
@@ -97,6 +114,11 @@ const FeedBack = () => {
         label: `${v.firstName} ${v.lastName}`,
       };
     });
+
+  const handlechangePage = async (e: any) => {
+    await setFilterValues({ ...filterValues, page: e });
+    await resClients.refetch();
+  };
 
   const filterList = [
     {
@@ -196,6 +218,22 @@ const FeedBack = () => {
                       searchRes?.map((v: any) => <User value={v} />)
                     )}
                   </WrapDef>
+                  {clients.length > 0 ? (
+                    <WrapPag>
+                      <Info>
+                        {t('shown')}
+                        <span>{between}</span>
+                        {t('from1')} <span>{totalCount}</span>{' '}
+                        {t('operations1')}
+                      </Info>
+                      <Pagination
+                        page={filterValues.page}
+                        count={totalCount}
+                        onChange={handlechangePage}
+                        disabled={resClients.isLoading || resClients.isFetching}
+                      />
+                    </WrapPag>
+                  ) : null}
                 </Content>
               )
             ) : null}
