@@ -41,7 +41,7 @@ export const CouponCard = ({
     stats }: IProps) => {
     console.log(stats);
 
-    const isCoupon = type === 1
+    const isCoupon = type === 2
     const { t } = useTranslation()
     const [categories, setCategories] = React.useState<any>()
     const _ = useFetchCategories(setCategories, categoryIds)

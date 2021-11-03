@@ -190,7 +190,12 @@ const privateCompanyRoutes: IPrivateRoute[] = [
     component: ClientsPage,
   },
   {
-    path: "/clients/:params",
+    path: "/clients/client",
+    layout: DefaultLayoutAdmin,
+    component: ClientsPage,
+  },
+  {
+    path: "/clients/client/:params",
     layout: DefaultLayoutAdmin,
     component: ClientsPage,
   },

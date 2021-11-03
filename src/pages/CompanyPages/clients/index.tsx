@@ -1,7 +1,7 @@
 import Spinner from 'components/Helpers/Spinner'
 import React, { Suspense } from 'react'
 import { Redirect, Route, Switch } from 'react-router'
-import useClientsRoutes from './routes'
+import { useClientsRoutes } from './routes'
 import ClientsPage from './screens/ClientsPage/ClientsPage'
 
 const ClientPage = () => {

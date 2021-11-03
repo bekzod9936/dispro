@@ -11,7 +11,6 @@ import {
 } from 'services/redux/Slices/authSlice';
 import LogoDef from 'assets/icons/SideBar/logodefault.png';
 import AddCompany from '../AddCompany';
-import useLayout from 'components/Layout/useLayout';
 import useList from './useList';
 import {
   Container,
@@ -25,6 +24,7 @@ import {
   ImgDiv,
 } from './style';
 import { useHistory } from 'react-router';
+import { Tooltip } from '@material-ui/core';
 
 const Companylist = () => {
   const { t } = useTranslation();
@@ -87,37 +87,41 @@ const Companylist = () => {
             <Text color='#606EEA'>{t('addCompany')}</Text>
           </Box>
           {data?.data.data.map((v: any) => (
-            <Box
-              key={v.company.id}
-              onClick={async () => {
-                await setId(v.company.id);
-                await dispatch(
-                  setRegFilled({
-                    filled: v.company.filled,
-                    filledAddress: v.company.filledAddress,
-                  })
-                );
-                await handleEnterCompany({
-                  companyId: v.company.id,
-                  companyType: v.company.type,
-                });
-              }}
-              style={{
-                pointerEvents: company.isLoading ? 'none' : 'all',
-              }}
-              loading={v.company.id === id ? company.isLoading : false}
-            >
-              <Wrap>
-                <ImgDiv>
-                  <Img
-                    src={v.company.logo === '' ? LogoDef : v.company.logo}
-                    alt='Company-Logo'
-                    objectFit='contain'
-                  />
-                </ImgDiv>
-              </Wrap>
-              <Text color='#223367'>{v.company.name}</Text>
-            </Box>
+            <Tooltip title={v.company.name} arrow>
+              <Box
+                key={v.company.id}
+                onClick={async () => {
+                  await setId(v.company.id);
+                  await dispatch(
+                    setRegFilled({
+                      filled: v.company.filled,
+                      filledAddress: v.company.filledAddress,
+                    })
+                  );
+                  await handleEnterCompany({
+                    companyId: v.company.id,
+                    companyType: v.company.type,
+                  });
+                }}
+                style={{
+                  pointerEvents: company.isLoading ? 'none' : 'all',
+                }}
+                loading={v.company.id === id ? company.isLoading : false}
+              >
+                <Wrap>
+                  <ImgDiv>
+                    <Img
+                      src={v.company.logo === '' ? LogoDef : v.company.logo}
+                      alt='Company-Logo'
+                      objectFit='contain'
+                    />
+                  </ImgDiv>
+                </Wrap>
+                <Text color='#223367'>
+                  <div>{v.company.name}</div>
+                </Text>
+              </Box>
+            </Tooltip>
           ))}
         </Container>
       )}

@@ -254,3 +254,20 @@ export const PreviewMessage = styled.div`
     font-weight: 300;
   }
 `
+
+export const LeaveModal = styled.div`
+  padding: 20px;
+  max-width: 450px;
+  width: 100%;
+  p {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+  div.buttons {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    align-items: center;
+  }
+`

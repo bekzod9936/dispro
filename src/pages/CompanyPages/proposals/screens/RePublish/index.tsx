@@ -43,7 +43,7 @@ import { days } from "../Coupons/constants";
 import ImageLazyLoad from "components/Custom/ImageLazyLoad/ImageLazyLoad";
 import { useUploadImage } from "../Coupons/hooks/useUploadIMage";
 import { PreviewModal } from "../../components/PreviewModal";
-import { PreviewMessage } from "../Coupons/style";
+import { LeaveModal, PreviewMessage } from "../Coupons/style";
 import { SetDate } from "../Coupons/components/SetDate";
 import Modal from "components/Custom/Modal";
 import { useFetchCategories } from "../UpdateCoupon/useFetchCategories";
@@ -67,6 +67,7 @@ const RePublish = () => {
     defaults: [],
     categories: [],
   });
+  const [leave, setLeave] = React.useState(false)
   const [publish, setPublish] = React.useState<boolean>(false);
   const { handleUpload, deleteImage } = useUploadImage(setImage);
   const {
@@ -132,13 +133,11 @@ const RePublish = () => {
       type: currentCoupon.type,
       ageTo: null,
       settings: {
-        weekDays: optionalFields.days
-          ? data.days.map((el: any) => el.id)
-          : [0, 1, 2, 3, 4, 5, 6],
+        weekDays: (optionalFields.days && data?.days?.length) ? data.days.map((el: any) => el.id) : [0, 1, 2, 3, 4, 5, 6],
         time: {
-          from: !optionalFields.time ? "00:00" : data.timeFrom,
-          to: !optionalFields.time ? "23:59" : data.timeTo,
-        },
+          from: (optionalFields.time && data?.timeFrom) ? data.timeFrom : "00:00",
+          to: (optionalFields.time && data?.timeTo) ? data.timeTo : "23:59"
+        }
       },
     };
     await postCoupon(validData);
@@ -163,13 +162,11 @@ const RePublish = () => {
       ageTo: null,
       description: data.description,
       settings: {
-        weekDays: optionalFields.days
-          ? data.days.map((el: any) => el.id)
-          : [0, 1, 2, 3, 4, 5, 6],
+        weekDays: (optionalFields.days && data?.days?.length) ? data.days.map((el: any) => el.id) : [0, 1, 2, 3, 4, 5, 6],
         time: {
-          from: !optionalFields.time ? "00:00" : data.timeFrom,
-          to: !optionalFields.time ? "23:59" : data.timeTo,
-        },
+          from: (optionalFields.time && data?.timeFrom) ? data.timeFrom : "00:00",
+          to: (optionalFields.time && data?.timeTo) ? data.timeTo : "23:59"
+        }
       },
     });
   };
@@ -201,6 +198,19 @@ const RePublish = () => {
           handleClose={() => setChooseDate(false)}
           handleUpdate={mutate}
         />
+      </Modal>
+      <Modal open={leave}>
+        <LeaveModal>
+          <p>Вы действительно хотите отменить восстановление спецпредложения?</p>
+          <div className="buttons">
+            <Button buttonStyle={{ bgcolor: "white", color: "#223367" }} margin={{ laptop: "0 15px 0 0" }} onClick={() => setLeave(false)}>
+              Нет
+            </Button>
+            <Button onClick={handleBack}>
+              Да
+            </Button>
+          </div>
+        </LeaveModal>
       </Modal>
       <PreviewModal
         price={watch("cost")}
@@ -445,9 +455,6 @@ const RePublish = () => {
                   <Controller
                     name="days"
                     control={control}
-                    rules={{
-                      required: optionalFields.days,
-                    }}
                     defaultValue={
                       getWeekDays(currentCoupon?.settings?.weekDays) || days
                     }
@@ -480,9 +487,6 @@ const RePublish = () => {
                     <Controller
                       control={control}
                       name="timeFrom"
-                      rules={{
-                        required: optionalFields.time,
-                      }}
                       defaultValue={currentCoupon?.settings?.time?.from}
                       render={({ field }) => (
                         <Input
@@ -499,9 +503,6 @@ const RePublish = () => {
                       control={control}
                       name="timeTo"
                       defaultValue={currentCoupon?.settings?.time?.to}
-                      rules={{
-                        required: optionalFields.time,
-                      }}
                       render={({ field }) => (
                         <Input
                           error={errors.timeTo}
@@ -538,7 +539,7 @@ const RePublish = () => {
         </UpSide>
         <DownSide>
           <Button
-            onClick={handleBack}
+            onClick={() => setLeave(true)}
             startIcon={<CancelIcon />}
             buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
           >

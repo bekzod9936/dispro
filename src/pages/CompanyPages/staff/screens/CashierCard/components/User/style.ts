@@ -47,9 +47,11 @@ export const Container = styled.div`
   border-radius: 14px;
   padding: 20px;
   cursor: pointer;
+  overflow: hidden;
   display: flex;
+  flex-grow: 1;
   flex-direction: column;
-  flex: 1;
+  height: fit-content;
 `;
 
 export const Header = styled.div`
@@ -113,7 +115,10 @@ export const Title = styled.div`
   }
 `;
 
-export const Context = styled.div``;
+export const Context = styled.div`
+  overflow: hidden;
+  max-width: 80%;
+`;
 
 export const Casher = styled.div`
   font-weight: 300;
@@ -135,12 +140,12 @@ export const Content = styled.div`
 
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 100%;
   text-align: start;
   font-weight: 300;
   font-size: 13px;
   color: #223367;
   margin-bottom: 10px;
+
   @media (min-width: ${device.laptop}) {
     font-size: 14px;
   }
