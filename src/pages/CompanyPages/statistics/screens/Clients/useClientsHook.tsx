@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { useQuery } from 'react-query';
-import { fetchCilentsData } from 'services/queries/StatisticsQueries';
+import {
+  fetchChartStatustics,
+  fetchCilentsData,
+} from 'services/queries/StatisticsQueries';
 import { useAppDispatch } from 'services/redux/hooks';
 import { setClientStats } from 'services/redux/Slices/statistics/statistics';
 
@@ -36,6 +39,7 @@ const useClientsHook = ({ filterValues, traffic }: Props) => {
   const dispatch = useAppDispatch();
   const [data, setData] = useState<Props>({});
   const [isFetching, setIsFetching] = useState(false);
+
   const response = useQuery(
     'fetchClientsInfo',
     () => {
@@ -48,10 +52,8 @@ const useClientsHook = ({ filterValues, traffic }: Props) => {
       keepPreviousData: true,
       refetchOnWindowFocus: false,
       refetchIntervalInBackground: true,
-      staleTime: 2500000,
       retry: 0,
       onSuccess: (data) => {
-        
         setData(data.data.data);
         dispatch(setClientStats(data.data.data));
         setIsFetching(false);
@@ -59,8 +61,23 @@ const useClientsHook = ({ filterValues, traffic }: Props) => {
     }
   );
 
+  const resChart = useQuery(
+    'fetchChartStatistics',
+    () => {
+      return fetchChartStatustics();
+    },
+    {
+      keepPreviousData: true,
+      refetchOnWindowFocus: false,
+      refetchIntervalInBackground: true,
+      retry: 0,
+      onSuccess: (data) => {
+        console.log(data, 'stststs');
+      },
+    }
+  );
 
-  return { response, data, isFetching, setIsFetching };
+  return { response, data, isFetching, setIsFetching, resChart };
 };
 
 export default useClientsHook;

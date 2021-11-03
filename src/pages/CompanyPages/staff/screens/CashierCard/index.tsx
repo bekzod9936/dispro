@@ -11,7 +11,6 @@ import { ReactComponent as Rating } from 'assets/icons/StatistisPage/rating.svg'
 import { ReactComponent as Score } from 'assets/icons/StatistisPage/score.svg';
 import { ReactComponent as Sertificate } from 'assets/icons/StatistisPage/cashnew.svg';
 import { ReactComponent as Users } from 'assets/icons/StatistisPage/users.svg';
-import { ReactComponent as QRStaff } from 'assets/icons/qr_staff.svg';
 import { ReactComponent as ArrowBack } from 'assets/icons/arrow_back.svg';
 import {
   CardContainer,
@@ -33,6 +32,7 @@ import {
   Flex,
   ContentTable,
   Wrapper,
+  QRIcon,
 } from './style';
 import useCashierCard from './hooks/useCashierCard';
 import Spinner from 'components/Helpers/Spinner';
@@ -234,12 +234,12 @@ const CashierCard = () => {
                     bgcolor: 'rgba(96, 110, 234, 0.1)',
                     color: '#606EEA',
                   }}
-                  endIcon={<QRStaff />}
                   onClick={() => {
                     setOpenQr(true);
                   }}
                 >
                   QR код кассира
+                  <QRIcon />
                 </Button>
               </StaffCol>
               <StaffAction>

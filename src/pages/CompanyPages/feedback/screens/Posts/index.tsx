@@ -5,14 +5,13 @@ import Button from 'components/Custom/Button';
 import { useTranslation } from 'react-i18next';
 import { Avatar } from '../../style';
 import useChatClients from '../../hooks/useChatClients';
-import { useAppSelector } from 'services/redux/hooks';
+import { useAppSelector, useAppDispatch } from 'services/redux/hooks';
 import defaultChat from 'assets/images/choosechat.png';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import useWindowWidth from 'services/hooks/useWindowWidth';
 import { SOCKET_EVENT } from 'services/constants/chat';
 import moment from 'moment';
 import Popover from 'components/Custom/Popover';
-import Spinner from 'components/Custom/Spinner';
 import { ruCount } from '../../hooks/format';
 import { Picker } from 'emoji-mart';
 import { IconButton } from '@material-ui/core';
@@ -58,8 +57,11 @@ import {
   EPicker,
   WrapScript,
   WrapDownIcon,
+  NoResult,
 } from './style';
-
+import { setMessagesFeedBack } from 'services/redux/Slices/feedback';
+import defuserman from 'assets/icons/defuserman.png';
+import defuserwoman from 'assets/icons/defuserwoman.png';
 interface ChProps {
   date?: string;
   firstName?: string;
@@ -68,6 +70,7 @@ interface ChProps {
   isDeleted?: boolean;
   lastMsg?: string;
   lastName?: string;
+  genderTypeId?: number;
 }
 
 interface FormProps {
@@ -76,6 +79,7 @@ interface FormProps {
 
 const Posts = () => {
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
   const companyId: any = localStorage.getItem('companyId');
   const words = 400;
   const { control, handleSubmit, setValue, getValues, watch } =
@@ -96,7 +100,9 @@ const Posts = () => {
   const [isChoose, setIsChoose] = useState<boolean>(false);
   const [showEmoji, setShowEmoji] = useState<boolean>(false);
   const [scrollHeight, setScrollHeight] = useState(0);
-
+  const [inpuSearch, setInpuSearch] = useState<string>('');
+  const [searchRes, setSearchRes] = useState<any[]>([]);
+  const [searchFocus, setSearchFocus] = useState<boolean>(false);
   const { resChatClients, resChatClientHistory } = useChatClients({ chosen });
   const messages = useAppSelector((state) => state.feedbackPost.messages);
   const histories = useAppSelector((state) => state.feedbackPost.histories);
@@ -106,10 +112,79 @@ const Posts = () => {
     (state) => state.feedbackPost.chosenClient
   );
 
+  const [users, setUsers] = useState<any>([]);
+
   const [limit, setLimit] = useState(words);
 
   useEffect(() => {
-    console.log(chosenClient, 'ddd');
+    if (chosenClient?.choose) {
+      const newUser: any = messages;
+      const a: any = newUser.find((v: any) => {
+        if (v.id === chosenClient?.data?.clientId) {
+          return v;
+        } else {
+          return null;
+        }
+      });
+      if (a === undefined) {
+        setUsers([
+          {
+            date: '',
+            firstName: chosenClient?.data?.clientFirstName,
+            id: chosenClient?.data?.clientId,
+            image: chosenClient?.data?.clientImage,
+            isDeleted: false,
+            lastMsg: '',
+            lastName: chosenClient?.data?.clientLastName,
+            genderTypeId: chosenClient?.data?.clientGenderTypeId,
+          },
+          ...newUser,
+        ]);
+      }
+      scrollToTop();
+    } else {
+      setUsers(messages);
+    }
+  }, [messages]);
+
+  useEffect(() => {
+    if (chosenClient?.choose) {
+      handleChoose({
+        date: '',
+        firstName: chosenClient?.data?.clientFirstName,
+        id: chosenClient?.data?.clientId,
+        image: chosenClient?.data?.clientImage,
+        isDeleted: false,
+        lastMsg: '',
+        lastName: chosenClient?.data?.clientLastName,
+        genderTypeId: chosenClient?.data?.clientGenderTypeId,
+      });
+      setIsChoose(chosenClient?.choose);
+      const newUser: any = messages;
+      const a: any = newUser.find((v: any) => {
+        if (v.id === chosenClient?.data?.clientId) {
+          return v;
+        } else {
+          return null;
+        }
+      });
+      scrollToTop();
+      if (a === undefined) {
+        setUsers([
+          {
+            date: '',
+            firstName: chosenClient?.data?.clientFirstName,
+            id: chosenClient?.data?.clientId,
+            image: chosenClient?.data?.clientImage,
+            isDeleted: false,
+            lastMsg: '',
+            lastName: chosenClient?.data?.clientLastName,
+            genderTypeId: chosenClient?.data?.clientGenderTypeId,
+          },
+          ...newUser,
+        ]);
+      }
+    }
   }, [chosenClient]);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -133,6 +208,7 @@ const Posts = () => {
     await setChosen(v);
     await setIsChoose(true);
     await resChatClientHistory.refetch();
+    await scrollToTop();
   };
 
   useEffect(() => {
@@ -171,7 +247,6 @@ const Posts = () => {
   const onSubmit = (e: any) => {
     setLoading(true);
     if (e.message.length > 0) {
-      console.log(socket, chosen.id, staffId, companyId);
       socket.emit(
         'chat_to_server',
         {
@@ -199,6 +274,19 @@ const Posts = () => {
     }
   };
 
+  const handleSearch = (e: any) => {
+    setInpuSearch(e.target.value);
+
+    const searchResult: any = messages?.filter((v: any) => {
+      return (
+        v.firstName.toLowerCase().includes(e.target.value?.toLowerCase()) ||
+        v.lastName.toLowerCase().includes(e.target.value?.toLowerCase())
+      );
+    });
+
+    setSearchRes(searchResult);
+  };
+
   return (
     <Container>
       <LeftSide>
@@ -212,6 +300,11 @@ const Posts = () => {
             }}
             placeholder={t('searchthere')}
             IconEnd={<SearchIcon />}
+            type='search'
+            onChange={handleSearch}
+            onFocus={() => setSearchFocus(true)}
+            onBlur={() => (inpuSearch === '' ? setSearchFocus(false) : null)}
+            value={inpuSearch}
           />
           {resChatClients.isFetching && !resChatClients.isLoading ? (
             <Fetching>Loading....</Fetching>
@@ -224,22 +317,44 @@ const Posts = () => {
           </Loading>
         ) : (
           <WrapChatUsers>
-            {messages?.map((v: any) => {
-              return (
-                <ChatUser
-                  key={v.id}
-                  firstName={v.firstName}
-                  image={v.image}
-                  lastName={v.lastName}
-                  date={v.date}
-                  id={v.id}
-                  isDeleted={v.isDelete}
-                  onClick={() => handleChoose(v)}
-                  lastMsg={v.lastMsg}
-                  isActive={v.id === chosen.id}
-                />
-              );
-            })}
+            {!searchFocus || inpuSearch === '' ? (
+              users?.map((v: any) => {
+                return (
+                  <ChatUser
+                    key={v.id}
+                    firstName={v.firstName}
+                    image={v.image}
+                    lastName={v.lastName}
+                    date={v.date}
+                    id={v.id}
+                    isDeleted={v.isDelete}
+                    onClick={() => handleChoose(v)}
+                    lastMsg={v.lastMsg}
+                    isActive={v.id === chosen.id}
+                    clientGenderTypeId={v.genderTypeId}
+                  />
+                );
+              })
+            ) : searchRes?.length === 0 ? (
+              <NoResult>not find user</NoResult>
+            ) : (
+              searchRes?.map((v: any) => {
+                return (
+                  <ChatUser
+                    key={v.id}
+                    firstName={v.firstName}
+                    image={v.image}
+                    lastName={v.lastName}
+                    date={v.date}
+                    id={v.id}
+                    isDeleted={v.isDelete}
+                    onClick={() => handleChoose(v)}
+                    lastMsg={v.lastMsg}
+                    isActive={v.id === chosen.id}
+                  />
+                );
+              })
+            )}
           </WrapChatUsers>
         )}
       </LeftSide>
@@ -250,13 +365,20 @@ const Posts = () => {
               <WrapUserInfo>
                 <Avatar big={true}>
                   <LazyLoadImage
-                    src={chosen?.image ? chosen?.image : ''}
                     alt='image'
-                    style={{
-                      objectFit: 'cover',
-                    }}
                     height='100%'
+                    src={
+                      chosen.image
+                        ? chosen.image
+                        : chosen?.genderTypeId === 1
+                        ? defuserman
+                        : chosen?.genderTypeId === 2
+                        ? defuserwoman
+                        : ''
+                    }
                     width='100%'
+                    effect='blur'
+                    style={{ objectFit: 'cover' }}
                   />
                 </Avatar>
                 <WrapInfo>

@@ -48,8 +48,9 @@ export const Container = styled.div`
   padding: 20px;
   cursor: pointer;
   display: flex;
+  flex-grow: 1;
   flex-direction: column;
-  flex: 1;
+  height: fit-content;
 `;
 
 export const Header = styled.div`

@@ -6,6 +6,7 @@ export interface IMessage {
   isDeleted?: boolean;
   lastMsg?: string;
   lastName?: string;
+  genderTypeId?: number;
 }
 
 export interface ICashiers {
@@ -25,6 +26,7 @@ export interface IratingAndReviews {
   lastName?: string;
   rating?: number;
   review?: string;
+  clientGenderTypeId?: number;
 }
 
 export interface IHistory {
