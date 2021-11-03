@@ -3,6 +3,19 @@ import styled from "styled-components";
 export const Wrapper = styled.div`
     padding: 30px;
     width: 100%;
+    height: 100%;
+    overflow: auto;
+    ::-webkit-scrollbar {
+    width: 7px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #606eea;
+    border-radius: 14px 0px 0px 14px;
+  }
 `
 
 export const UpSide = styled.div`

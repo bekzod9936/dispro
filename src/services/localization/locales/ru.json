@@ -436,5 +436,6 @@
   "lastPurchase": "Последняя покупка",
   "byRecommendation": "По рекомендации",
   "addNote": "Добавить заметку",
-  "recommendationLevels": "Рекомендации по уровням"
+  "recommendationLevels": "Рекомендации по уровням",
+  "recommendations": "Рекомендации"
 }

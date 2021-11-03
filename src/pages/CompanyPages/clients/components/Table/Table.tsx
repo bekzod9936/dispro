@@ -55,7 +55,8 @@ export const Table = () => {
       <TableHeader>
         <Title>{t("clients")}</Title>
         <AddColumnButton addedHeaders={headers} setAddedHeaders={setHeaders} />
-      </TableHeader><Container>
+      </TableHeader>
+      <Container>
         <MTable {...getTableProps()}>
           <Thead>
             {headerGroups.map((headerGroup) => (
