@@ -1,28 +1,22 @@
 import { Grid } from "@material-ui/core";
-import { Text } from "styles/CustomStyles";
 import Input from "components/Custom/Input";
 import Popover from "components/Custom/Popover";
 import Button from "components/Custom/Button";
 import { useTranslation } from "react-i18next";
 import useQrCode from "./hooks/useQrCode";
+import useBranch from "./hooks/useBranch";
 import { Break } from "../../styles";
-import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import { SearchIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
-import { SaveIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
-import {
-  DeleteIconWhite,
-  FilledAddIcon,
-} from "assets/icons/SettingsIcons/SettingsPageIcon";
+import { FilledAddIcon } from "assets/icons/SettingsIcons/SettingsPageIcon";
 import CustomSelectPopoverComponent from "components/Custom/CustomSelectPopoverComponent";
-import { FONT_SIZE, FONT_WEIGHT } from "services/Types/enums";
-import { Flex } from "styles/BuildingBlocks";
-import { CreateBtn, IconDiv, QRPageWrapper, BtnAction } from "./styles";
-import { ModalComponent } from "styles/CustomStyles";
+import { CreateBtn, IconDiv, QRPageWrapper } from "./styles";
 import QrCodeCard from "./components/QrCodeCard";
 import { useState } from "react";
-import Modal from "components/Custom/Modal";
+import QrActionModal from "./components/QrActionModal";
+import QrForBranch from "./components/QrForBranch";
 
 const QRCodesSection = () => {
+  const { t } = useTranslation();
   const {
     isLoading,
     data,
@@ -30,31 +24,33 @@ const QRCodesSection = () => {
     handleSearchQR,
     optionsOpen,
     handleOption,
-    handleDelete,
     optionsListOpen,
-    modalVisible,
-    state,
     handleCreateQRCode,
     handleDeleteClick,
     handleEditClick,
-    handleSavePromocode,
     setModalVisible,
     setOptionsListOpen,
-    setCurrentName,
     setId,
+    modalVisible,
+    state,
+    handleDelete,
+    setCurrentName,
+    handleSavePromocode,
   } = useQrCode();
+
+  const { closeQr, onSave, qrVisible, openQr } = useBranch();
+
   const [closeFun, setCloseFun] = useState<any>();
   const handleClose = (e: any) => {
     setCloseFun(e);
   };
-  const { t } = useTranslation();
 
   const options = [
     {
       key: "forDownload",
       content: "forDownload",
       handler: () => {
-        setModalVisible(true);
+        openQr();
         setOptionsListOpen(false);
         closeFun.close();
       },
@@ -158,87 +154,17 @@ const QRCodesSection = () => {
         </Grid>
 
         {/* Modal side  */}
-        <Modal open={modalVisible}>
-          <ModalComponent>
-            {state === "edit" || state === "create" ? (
-              <>
-                <div>
-                  <Text fontSize="21px" fontWeight={700}>
-                    {t("create_promocode")}
-                  </Text>
-                </div>
-                <div style={{ margin: "10px 0px 0px 0px", maxWidth: "380px" }}>
-                  <Text
-                    fontSize={FONT_SIZE.mediumPlus}
-                    fontWeight={FONT_WEIGHT.modalText}
-                  >
-                    Для удобства, назовите QR, местом где вы собираетесь его
-                    использовать.
-                  </Text>
-                </div>
-                <div style={{ width: "100%" }}>
-                  <Input
-                    width={{ minwidth: 350 }}
-                    label={t("enterNewName")}
-                    onChange={(e: any) => setCurrentName(e.target.value)}
-                  />
-                </div>
-                <Flex
-                  width="100%"
-                  margin="25px 0px 0px 100px"
-                  justifyContent="end"
-                >
-                  <Button
-                    startIcon={<CancelIcon />}
-                    buttonStyle={{ bgcolor: "#fff" }}
-                    onClick={() => {
-                      setModalVisible(false);
-                      setCurrentName("");
-                    }}
-                  >
-                    <Text color="#223367">{t("cancel")}</Text>
-                  </Button>
-                  <Button
-                    startIcon={<SaveIcon />}
-                    onClick={handleSavePromocode}
-                    buttonStyle={{
-                      color: "#fff",
-                    }}
-                  >
-                    {t("save")}
-                  </Button>
-                </Flex>
-              </>
-            ) : (
-              <>
-                <div style={{ maxWidth: "300px" }}>
-                  <Text fontSize={FONT_SIZE.mediumPlus}>
-                    {t("sure_want_delete?")}
-                  </Text>
-                </div>
-                <BtnAction>
-                  <Button
-                    startIcon={<CancelIcon />}
-                    buttonStyle={{ bgcolor: "white", color: "#223367" }}
-                    onClick={() => setModalVisible(false)}
-                  >
-                    {t("cancel")}
-                  </Button>
-                  <Button
-                    buttonStyle={{
-                      bgcolor: "rgba(255, 94, 104, 1)",
-                      color: "#fff",
-                    }}
-                    onClick={handleDelete}
-                    endIcon={<DeleteIconWhite />}
-                  >
-                    {t("delete")}
-                  </Button>
-                </BtnAction>
-              </>
-            )}
-          </ModalComponent>
-        </Modal>
+
+        <QrActionModal
+          modalVisible={modalVisible}
+          state={state}
+          setModalVisible={setModalVisible}
+          setCurrentName={setCurrentName}
+          handleDelete={handleDelete}
+          handleSavePromocode={handleSavePromocode}
+        />
+
+        <QrForBranch qrVisible={qrVisible} onSave={onSave} closeQr={closeQr} />
       </QRPageWrapper>
     </div>
   );

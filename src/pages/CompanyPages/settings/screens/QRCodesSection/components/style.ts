@@ -37,3 +37,53 @@ export const QrContainer = styled.div`
 export const OptionDiv = styled.div`
   width: 100%;
 `;
+
+//modal
+export const ModalContent = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  padding: 30px 40px 25px 40px;
+  width: 520px;
+`;
+
+interface IRow {
+  jContent: "space-between" | "center" | "space-around";
+}
+
+export const ModalRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: ${({ jContent = "space-between" }: IRow) => jContent};
+  align-items: flex-start;
+`;
+
+export const ModalTitle = styled.p`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 22px;
+  line-height: 26px;
+  color: #223367;
+`;
+
+export const ModalText = styled.p`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 21px;
+  color: #223367;
+`;
+
+interface IBreak {
+  height?: number;
+}
+
+export const Break = styled.div`
+  height: ${({ height = 25 }: IBreak) => height + "px"};
+`;
