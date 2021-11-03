@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
 import {
@@ -35,6 +36,12 @@ interface Props {
   uniqueChequeClient?: number;
 }
 
+interface ChartProps {
+  startDate?: string;
+  endDate?: string;
+  chartPeriod?: number;
+}
+
 const useClientsHook = ({ filterValues, traffic }: Props) => {
   const dispatch = useAppDispatch();
   const [data, setData] = useState<Props>({});
@@ -64,7 +71,13 @@ const useClientsHook = ({ filterValues, traffic }: Props) => {
   const resChart = useQuery(
     'fetchChartStatistics',
     () => {
-      return fetchChartStatustics();
+      return fetchChartStatustics({
+        url: `startDate=${moment()
+          .startOf('month')
+          .format('YYYY-MM-DD')}&endDate=${moment()
+          .endOf('month')
+          .format('YYYY-MM-DD')}&chartPeriod=1`,
+      });
     },
     {
       keepPreviousData: true,

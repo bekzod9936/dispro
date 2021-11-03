@@ -50,6 +50,7 @@ const intialDate = {
 const Payment = () => {
   const { t } = useTranslation();
   const [date, setDate] = useState(intialDate);
+  const [dateLimit, setDateLimit] = useState({ startDate: '', endDate: '' });
   const [filterValues, setFilterValues] =
     useState<intialFilterProps>(intialFilter);
   const [total, setTotal] = useState(0);
@@ -212,21 +213,24 @@ const Payment = () => {
       title: t('byDate'),
       content: (
         <WrapInputs>
-          <Label>{t('chose_cashier')}</Label>
+          <Label>{t('chose_date')}</Label>
           <div>
             <Input
               type='date'
               width={{
                 maxwidth: 200,
               }}
+              min={dateLimit.startDate}
+              max={dateLimit.endDate}
               IconStart={<WrapDate>{t('from')}</WrapDate>}
               inputStyle={{
                 inpadding: '0 10px 0 0',
               }}
               value={date.startDate}
-              onChange={(e: any) =>
-                setDate({ ...date, startDate: e.target.value })
-              }
+              onChange={(e: any) => {
+                setDate({ ...date, startDate: e.target.value });
+                setDateLimit({ ...dateLimit, startDate: e.target.value });
+              }}
             />
             <Input
               type='date'
@@ -238,10 +242,13 @@ const Payment = () => {
               inputStyle={{
                 inpadding: '0 10px 0 0',
               }}
+              min={dateLimit.startDate}
+              max={dateLimit.endDate}
               value={date.endDate}
-              onChange={(e: any) =>
-                setDate({ ...date, endDate: e.target.value })
-              }
+              onChange={(e: any) => {
+                setDate({ ...date, endDate: e.target.value });
+                setDateLimit({ ...dateLimit, endDate: e.target.value });
+              }}
             />
           </div>
         </WrapInputs>

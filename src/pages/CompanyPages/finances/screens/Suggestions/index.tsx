@@ -110,7 +110,7 @@ const Suggestions = () => {
             <Info>
               {t('shown')}
               <span>{between}</span>
-              {t('from1')} <span>{totalCount}</span> {t('operations1')}раций
+              {t('from1')} <span>{totalCount}</span> {t('operations1')}
             </Info>
             <Pagination
               page={filterValues.page}

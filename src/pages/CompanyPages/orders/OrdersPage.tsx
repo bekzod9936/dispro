@@ -1,9 +1,10 @@
-import NewDatePicker from "components/Custom/DatePicker";
-import { TextArea } from "components/Custom/TextArea";
-import Snack from "components/Custom/NewSnack";
-import { useState, useEffect } from "react";
-import { useForm, Controller } from "react-hook-form";
-import InputFormat from "components/Custom/InputFormat";
+import NewDatePicker from 'components/Custom/DatePicker';
+import { TextArea } from 'components/Custom/TextArea';
+import Snack from 'components/Custom/NewSnack';
+import { useState, useEffect } from 'react';
+import { useForm, Controller } from 'react-hook-form';
+import InputFormat from 'components/Custom/InputFormat';
+
 interface IProps {
   count: any;
 }
@@ -16,26 +17,27 @@ const OrdersPage = () => {
   };
 
   useEffect(() => {
-    setValue("count", "1232");
+    setValue('count', '1232');
   }, []);
   return (
-    <div style={{ padding: "20px" }}>
+    <div style={{ padding: '20px' }}>
       <NewDatePicker />
       <button>ssss</button>
-      <TextArea title="Label" textarea={{ resize: "auto" }} />
+      <TextArea title='Label' textarea={{ resize: 'auto' }} />
       <Snack
-        message="ssssssss"
-        status="error"
+        message='ssssssss'
+        status='error'
         open={open}
         onClose={(e: any) => setOpen(e)}
       />
-
+      <input type='time' max='09:00' min='14:00' />
+      <span className='validity'></span>
       <form onSubmit={handleSubmit(onSave)}>
         <Controller
-          name="count"
+          name='count'
           control={control}
           render={({ field }) => {
-            return <InputFormat max="1300" type="string" field={field} />;
+            return <InputFormat max='1300' type='string' field={field} />;
           }}
         />
       </form>

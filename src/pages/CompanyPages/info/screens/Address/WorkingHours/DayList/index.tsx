@@ -21,8 +21,6 @@ import {
   Wrapper,
   WrapperTimes,
 } from './style';
-import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
-import { setWorkingTime } from 'services/redux/Slices/infoSlice';
 
 interface Props {
   list?: {
@@ -38,7 +36,6 @@ interface Props {
 
 const DayList = ({ list, onCopy = () => {}, onChange = () => {} }: Props) => {
   const { t } = useTranslation();
-  const dispatch = useAppDispatch();
   const [values, setValues] = useState<any>({
     day: 0,
     dayOff: false,
@@ -49,7 +46,7 @@ const DayList = ({ list, onCopy = () => {}, onChange = () => {} }: Props) => {
   const [radio, setRadio] = useState<any>(false);
   const [noon, setNoon] = useState(true);
   const [check, setCheck] = useState(false);
-
+  const [whoursMaxMin, setWhoursMaxMin] = useState({ from: '', to: '' });
   useEffect(() => {
     setValues(list);
   }, [list]);
@@ -90,7 +87,7 @@ const DayList = ({ list, onCopy = () => {}, onChange = () => {} }: Props) => {
       setCheck(false);
     }
   };
-
+  console.log(whoursMaxMin, 'fff');
   return (
     <Container>
       <Popover
@@ -160,13 +157,14 @@ const DayList = ({ list, onCopy = () => {}, onChange = () => {} }: Props) => {
                   mobile: 5,
                   planshet: 5,
                 }}
-                minLength='10:00'
-                maxLength='19:00'
+                min={whoursMaxMin.from}
+                max={whoursMaxMin.to}
                 onChange={(e: any) => {
                   const value: any = {
                     day: values.day,
                     wHours: { from: e.target.value },
                   };
+                  setWhoursMaxMin({ ...whoursMaxMin, from: e.target.value });
                   onChange(value);
                 }}
               />
@@ -192,11 +190,14 @@ const DayList = ({ list, onCopy = () => {}, onChange = () => {} }: Props) => {
                   mobile: 5,
                   planshet: 5,
                 }}
+                min={whoursMaxMin.from}
+                max={whoursMaxMin.to}
                 onChange={(e: any) => {
                   const value: any = {
                     day: values.day,
                     wHours: { to: e.target.value },
                   };
+                  setWhoursMaxMin({ ...whoursMaxMin, to: e.target.value });
                   onChange(value);
                 }}
               />

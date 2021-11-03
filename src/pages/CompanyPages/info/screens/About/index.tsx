@@ -410,6 +410,7 @@ const Main = () => {
                   margin={{
                     laptop: '20px 0 25px',
                   }}
+                  maxLength={30}
                 />
               )}
             />

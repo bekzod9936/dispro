@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import { device } from "../../../../styles/device";
-import { ReactComponent as Plus } from "../../../../assets/icons/LoginPage/plus.svg";
-import ImageLazyLoad from "components/Custom/ImageLazyLoad/ImageLazyLoad";
+import styled from 'styled-components';
+import { device } from '../../../../styles/device';
+import { ReactComponent as Plus } from '../../../../assets/icons/LoginPage/plus.svg';
+import ImageLazyLoad from 'components/Custom/ImageLazyLoad/ImageLazyLoad';
 
 interface Props {
   border?: string;
@@ -72,8 +72,8 @@ export const Box = styled.div`
   background: white;
   box-shadow: ${({ loading }: Props) =>
     loading
-      ? "-1px -1px 9px black, 1px 1px 9px black"
-      : "0px 4px 4px rgba(0, 0, 0, 0.04)"};
+      ? '-1px -1px 9px black, 1px 1px 9px black'
+      : '0px 4px 4px rgba(0, 0, 0, 0.04)'};
   border-radius: 14px;
   flex: 100%;
   display: flex;
@@ -107,6 +107,14 @@ export const Text = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 15px;
+
+  div {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 100%;
+  }
+
   @media (max-width: ${device.mobile}) {
     font-size: 16px;
   }
