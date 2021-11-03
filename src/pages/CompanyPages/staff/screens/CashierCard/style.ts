@@ -1,9 +1,14 @@
 import styled from 'styled-components';
 import { device } from 'styles/device';
+import { ReactComponent as QRStaff } from 'assets/icons/qr_staff.svg';
+
+export const QRIcon = styled(QRStaff)`
+  margin-left: 10px;
+`;
 
 export const CardContainer = styled.div`
   padding-top: 25px;
-  padding-left: 45px;
+  padding-left: 30px;
   position: relative !important;
   display: flex;
   flex: 1;
@@ -18,7 +23,7 @@ export const Wrapper = styled.div`
   flex: 1;
   flex-direction: column;
   height: 100%;
-  padding-right: 40px;
+  padding-right: 30px;
 
   ::-webkit-scrollbar {
     width: 7px;

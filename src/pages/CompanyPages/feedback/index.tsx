@@ -88,7 +88,7 @@ const FeedBack = () => {
     await setCashierStaffId({});
     await resClients.refetch();
   };
-  console.log(searchRes, 'res');
+
   const handleSearch = (e: any) => {
     setInpuSearch(e.target.value);
 
@@ -158,7 +158,7 @@ const FeedBack = () => {
 
   return (
     <MainWrapper>
-      <Wrapper>
+      <Wrapper isPosts={match.url === '/feedback' ? false : true}>
         <WrapHeader>
           <LeftHeader>
             <Title>{t('feedbackPage')}</Title>

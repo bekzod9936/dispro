@@ -24,6 +24,7 @@ const useChatClients = ({ chosen }: Props) => {
     retry: 0,
     onSuccess: (data) => {
       dispatch(setMessagesFeedBack(data.data.data));
+      console.log(data.data.data);
     },
   });
 

@@ -17,10 +17,10 @@ export const StarIcon = styled(Star)`
   }
 
   @media (max-width: ${device.laptop}) {
-    margin-right: 5px;
+    margin-right: 3px;
     margin: ${({ margin }: Props) => margin}!important;
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
   }
 `;
 
@@ -42,7 +42,7 @@ export const WrapStartT = styled.div`
   width: 100%;
   flex: 1;
   @media (max-width: ${device.laptop}) {
-    justify-content: flex-end;
+    justify-content: flex-start;
   }
 `;
 
@@ -61,8 +61,9 @@ export const WrapHeader = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  width: 70%;
+  width: 75%;
   height: 100%;
+  max-width: 75%;
 `;
 
 export const WrapDefPhoto = styled.div`
@@ -103,23 +104,27 @@ export const FilterWarp = styled.div`
   margin: 0 0 20px 0;
 `;
 
+interface Props {
+  isPosts?: boolean;
+}
+
 export const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   flex: 1;
   height: 100%;
   width: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow-y: ${({ isPosts }: Props) => (isPosts ? 'none' : 'auto')};
+  overflow-x: ${({ isPosts }: Props) => (isPosts ? 'none' : 'hidden')};
   position: relative;
   &::after {
     position: sticky;
     content: '';
-    width: 1px;
+    width: ${({ isPosts }: Props) => (isPosts ? '0' : '1px')};
     height: 100%;
     background-color: rgba(96, 110, 234, 0.3);
     top: 0;
-    right: calc(30% + 20px);
+    right: calc(25% + 20px);
   }
   ::-webkit-scrollbar {
     width: 7px;
@@ -136,7 +141,7 @@ export const Wrapper = styled.div`
 
 export const RightSide = styled.div`
   margin-bottom: 20px;
-  width: 30%;
+  width: 25%;
   top: 0;
   right: 0;
   position: sticky;
@@ -171,6 +176,9 @@ export const RateText = styled.div`
     justify-content: center;
     flex: 1;
   }
+  @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
+    font-size: 15px;
+  }
 `;
 
 export const Content = styled.div`
@@ -196,10 +204,8 @@ export const WrapDef = styled.div`
   font-size: 18px;
   text-align: center;
   grid-gap: 20px;
-  align-items: start;
   align-content: start;
   justify-content: center;
-  width: fit-content;
 `;
 
 export const NoResult = styled.div`

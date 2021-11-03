@@ -9,13 +9,14 @@ export const Wrapper = styled.div`
 `;
 
 export const Left = styled.div`
-  width: 70%;
+  width: 75%;
+  overflow: hidden;
   display: flex;
   flex: 1;
 `;
 
 export const Right = styled.div`
-  width: 30%;
+  width: 25%;
   display: flex;
   justify-content: flex-end;
   position: relative;
@@ -62,18 +63,20 @@ export const Img = styled.img`
 
 export const Content = styled.div`
   width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex: 1;
 `;
 
 export const WrapDef = styled.div`
   display: flex;
   flex-wrap: wrap;
+  grid-gap: 20px;
+  overflow: hidden;
   color: #223367;
   font-weight: normal;
   font-size: 18px;
   text-align: center;
-  grid-gap: 20px;
-  width: fit-content;
-  flex-basis: auto;
 `;
 
 export const Rate = styled.div`
@@ -124,10 +127,10 @@ export const StarIcon = styled(Star)`
   }
 
   @media (max-width: ${device.laptop}) {
-    margin-right: 5px;
+    margin-right: 3px;
     margin: ${({ margin }: Props) => margin}!important;
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
   }
 `;
 
@@ -135,7 +138,7 @@ export const WrapStartT = styled.div`
   display: flex;
   width: 100%;
   flex: 1;
-  justify-content: flex-start;
+  justify-content: space-between;
 `;
 
 export const RateText = styled.div`
@@ -149,5 +152,8 @@ export const RateText = styled.div`
     display: flex;
     justify-content: center;
     flex: 1;
+  }
+  @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
+    font-size: 15px;
   }
 `;
