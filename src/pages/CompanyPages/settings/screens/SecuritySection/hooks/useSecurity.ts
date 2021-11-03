@@ -25,8 +25,8 @@ const useSecurity = () => {
       setValue("suspendedSum", false);
       setValue("second", 0);
 
-      if (data.data.data.safeties.daily_purchase_limit) {
-        setValue("first", data.data.data.safeties.daily_purchase_limit);
+      if (data?.data?.data?.safeties?.daily_purchase_limit) {
+        setValue("first", data?.data?.data?.safeties?.daily_purchase_limit);
         setValue("suspendedClient", true);
       } else {
         setValue("first", 0);

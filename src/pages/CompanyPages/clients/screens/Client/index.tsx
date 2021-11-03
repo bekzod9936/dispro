@@ -1,17 +1,20 @@
 import { CartIcon, CashBackIcon, DiscountIcon, HandIcon, MoneyBagIcon, MoneyStatsIcon, RatingIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
-import React from 'react'
-import { useHistory } from 'react-router'
+import NavBar from 'components/Custom/NavBar'
+import Spinner from 'components/Helpers/Spinner'
+import React, { Suspense } from 'react'
+import { Route, Switch, useHistory } from 'react-router'
 import { useAppSelector } from 'services/redux/hooks'
+import { useClientRoutes } from '../../routes'
 import { ClientBlock } from './components/ClientBlock'
 import { InfoBlock } from './components/InfoBlock'
 import { Recommendation } from './components/Recommendations'
 import { StatsCard } from './components/StatsCard'
-import { MiddleSide, UpSide, Wrapper } from "./style"
+import { DownSide, MiddleSide, UpSide, Wrapper } from "./style"
 const Client = () => {
     const { selectedClients } = useAppSelector(state => state.clients)
     const client = selectedClients[0]
     const history = useHistory()
-
+    const { routes } = useClientRoutes()
     React.useEffect(() => {
         if (!client) history.push("/clients")
     }, [])
@@ -65,6 +68,16 @@ const Client = () => {
                     <StatsCard key={index} {...el} />
                 ))}
             </MiddleSide>
+            <DownSide>
+                <NavBar list={routes} />
+                <Switch>
+                    <Suspense fallback={<Spinner />}>
+                        {routes.map((route, index) => (
+                            <Route exact key={index} component={route.component} path={route.path} />
+                        ))}
+                    </Suspense>
+                </Switch>
+            </DownSide>
         </Wrapper>
     )
 }

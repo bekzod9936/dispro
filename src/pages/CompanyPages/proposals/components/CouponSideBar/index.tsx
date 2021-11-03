@@ -32,7 +32,7 @@ export const CouponBar = ({
     refetch }: IProps) => {
     console.log(currentCoupon);
 
-    const isCoupon = currentCoupon.type === 1
+    const isCoupon = currentCoupon.type === 2
     const history = useHistory()
     const { t } = useTranslation()
     const [isDeleteOpen, setDeleteOpen] = React.useState<boolean>(false)
@@ -53,6 +53,7 @@ export const CouponBar = ({
         }
     }
     const _ = useFetchCategories(setCategories, currentCoupon.categoryIds)
+
     const handleRePublish = () => {
         if (isCoupon) {
             history.push("/proposals/create_republishcoupon")

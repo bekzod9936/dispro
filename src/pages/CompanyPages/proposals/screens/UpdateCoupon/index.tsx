@@ -43,7 +43,7 @@ import { days } from '../Coupons/constants'
 import ImageLazyLoad from 'components/Custom/ImageLazyLoad/ImageLazyLoad'
 import { useUploadImage } from '../Coupons/hooks/useUploadIMage'
 import { PreviewModal } from '../../components/PreviewModal'
-import { PreviewMessage } from '../Coupons/style'
+import { LeaveModal, PreviewMessage } from '../Coupons/style'
 import { SetDate } from '../Coupons/components/SetDate'
 import Modal from 'components/Custom/Modal'
 import { useFetchCategories } from './useFetchCategories'
@@ -64,6 +64,7 @@ const UpdateCoupon = () => {
         categories: [],
         defaults: []
     })
+    const [leave, setLeave] = React.useState(false)
     const [valid, setValid] = React.useState<boolean>(true)
     const [publish, setPublish] = React.useState<boolean>(false)
     const { handleUpload, deleteImage } = useUploadImage(setImage)
@@ -117,10 +118,10 @@ const UpdateCoupon = () => {
             image: image,
             type: currentCoupon.type,
             settings: {
-                weekDays: optionalFields.days ? data.days.map((el: any) => el.id) : [0, 1, 2, 3, 4, 5, 6],
+                weekDays: (optionalFields.days && data?.days?.length) ? data.days.map((el: any) => el.id) : [0, 1, 2, 3, 4, 5, 6],
                 time: {
-                    from: !optionalFields.time ? "00:00" : data.timeFrom,
-                    to: !optionalFields.time ? "23:59" : data.timeTo
+                    from: (optionalFields.time && data?.timeFrom) ? data.timeFrom : "00:00",
+                    to: (optionalFields.time && data?.timeTo) ? data.timeTo : "23:59"
                 }
             }
         }
@@ -138,7 +139,7 @@ const UpdateCoupon = () => {
             ...currentCoupon,
             title: data.name,
             count: data.amount,
-            ageUnlimited: !!!data.ageLimit,
+            ageUnlimited: !optionalFields.age || !!!data.ageLimit,
             price: data.cost,
             value: data.percent.toString().split(" ").join(''),
             type: isCoupon ? "2" : "1",
@@ -150,10 +151,10 @@ const UpdateCoupon = () => {
             ageTo: null,
             description: data.description,
             settings: {
-                weekDays: optionalFields.days ? data.days.map((el: any) => el.id) : [0, 1, 2, 3, 4, 5, 6],
+                weekDays: (optionalFields.days && data?.days?.length) ? data.days.map((el: any) => el.id) : [0, 1, 2, 3, 4, 5, 6],
                 time: {
-                    from: !optionalFields.time ? "00:00" : data.timeFrom,
-                    to: !optionalFields.time ? "23:59" : data.timeTo
+                    from: (optionalFields.time && data?.timeFrom) ? data.timeFrom : "00:00",
+                    to: (optionalFields.time && data?.timeTo) ? data.timeTo : "23:59"
                 }
             }
         })
@@ -175,18 +176,16 @@ const UpdateCoupon = () => {
 
 
 
-    // React.useEffect(() => {
 
-    // }, [isValid])
     React.useEffect(() => {
         setValue("categories", categories.defaults)
     }, [categories.defaults])
 
 
-
     React.useEffect(() => {
         setValue("percent", currentCoupon.value?.toString())
     }, [currentCoupon.value])
+
     return (
         <Wrapper>
             <div
@@ -203,6 +202,19 @@ const UpdateCoupon = () => {
                     shouldUpdate
                     handleUpdate={mutate}
                 />
+            </Modal>
+            <Modal open={leave}>
+                <LeaveModal>
+                    <p>Вы действительно хотите отменить редактирование спецпредложения?</p>
+                    <div className="buttons">
+                        <Button buttonStyle={{ bgcolor: "white", color: "#223367" }} margin={{ laptop: "0 15px 0 0" }} onClick={() => setLeave(false)}>
+                            Нет
+                        </Button>
+                        <Button onClick={handleBack}>
+                            Да
+                        </Button>
+                    </div>
+                </LeaveModal>
             </Modal>
             <PreviewModal
                 price={watch("cost")}
@@ -403,9 +415,6 @@ const UpdateCoupon = () => {
                                     <Controller
                                         name="days"
                                         control={control}
-                                        rules={{
-                                            required: optionalFields.days
-                                        }}
                                         defaultValue={getWeekDays(currentCoupon?.settings?.weekDays)}
                                         render={({ field }) => (
                                             <MultiSelect
@@ -467,7 +476,7 @@ const UpdateCoupon = () => {
                 </UpSide>
                 <DownSide>
                     <Button
-                        onClick={handleBack}
+                        onClick={() => setLeave(true)}
                         startIcon={<CancelIcon />}
                         buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}>
                         Отменить

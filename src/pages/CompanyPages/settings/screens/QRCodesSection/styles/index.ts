@@ -15,3 +15,10 @@ export const CreateBtn = styled(Grid)``;
 export const IconDiv = styled.div`
   padding-left: 30px;
 `;
+
+export const BtnAction = styled.div`
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+`;

@@ -432,8 +432,10 @@
   "comments": "Отзывы",
   "totalgradecashier": "Общая оценка кассира",
   "forexample": "Например",
+  "empty_setting_text": "Выберите подходящую вам, программу лояльности",
   "lastPurchase": "Последняя покупка",
   "byRecommendation": "По рекомендации",
   "addNote": "Добавить заметку",
-  "recommendationLevels": "Рекомендации по уровням"
+  "recommendationLevels": "Рекомендации по уровням",
+  "recommendations": "Рекомендации"
 }

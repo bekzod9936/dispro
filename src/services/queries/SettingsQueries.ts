@@ -1,7 +1,4 @@
-import moment from "moment";
-import adminInterceptor from "services/interceptors/adminInterceptor";
 import partnerApi from "services/interceptors/companyInterceptor";
-import { URL } from "services/constants/config";
 
 // Using program loyality and customer point
 
@@ -17,6 +14,12 @@ export const changeProgramLoyality = ({ bonusType, data }: any) => {
 
 export const loyalitySaveChange = (data: any, active: any) => {
   const response = partnerApi.put(`/bonus/${active}s`, data);
+
+  return response;
+};
+
+export const loyalityNewSaveChange = (data: any, active: any) => {
+  const response = partnerApi.post(`/bonus/${active}s`, data);
 
   return response;
 };

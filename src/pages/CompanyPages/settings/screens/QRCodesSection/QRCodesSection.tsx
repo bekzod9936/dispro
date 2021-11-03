@@ -16,7 +16,7 @@ import {
 import CustomSelectPopoverComponent from "components/Custom/CustomSelectPopoverComponent";
 import { FONT_SIZE, FONT_WEIGHT } from "services/Types/enums";
 import { Flex } from "styles/BuildingBlocks";
-import { CreateBtn, IconDiv, QRPageWrapper } from "./styles";
+import { CreateBtn, IconDiv, QRPageWrapper, BtnAction } from "./styles";
 import { ModalComponent } from "styles/CustomStyles";
 import QrCodeCard from "./components/QrCodeCard";
 import { useState } from "react";
@@ -85,6 +85,7 @@ const QRCodesSection = () => {
                   }}
                   buttonStyle={{
                     bgcolor: "white",
+                    color: "#223367",
                     height: {
                       desktop: 60,
                       laptop: 60,
@@ -93,9 +94,7 @@ const QRCodesSection = () => {
                   // style={{ width: "170px" }}
                   onClick={handleCreateQRCode}
                 >
-                  <Text fontSize="18px" fontWeight={500}>
-                    {t("create")}
-                  </Text>
+                  {t("create")}
                 </Button>
               </CreateBtn>
             }
@@ -191,28 +190,22 @@ const QRCodesSection = () => {
                 >
                   <Button
                     startIcon={<CancelIcon />}
-                    buttonStyle={{ bgcolor: "white" }}
+                    buttonStyle={{ bgcolor: "#fff" }}
                     onClick={() => {
                       setModalVisible(false);
                       setCurrentName("");
                     }}
                   >
-                    <Text color="#223367" fontSize="16px" fontWeight={500}>
-                      {t("cancel")}
-                    </Text>
+                    <Text color="#223367">{t("cancel")}</Text>
                   </Button>
                   <Button
                     startIcon={<SaveIcon />}
                     onClick={handleSavePromocode}
+                    buttonStyle={{
+                      color: "#fff",
+                    }}
                   >
-                    <Text
-                      color="white"
-                      fontSize="16px"
-                      marginLeft="15px"
-                      fontWeight={500}
-                    >
-                      {t("save")}
-                    </Text>
+                    {t("save")}
                   </Button>
                 </Flex>
               </>
@@ -223,31 +216,25 @@ const QRCodesSection = () => {
                     {t("sure_want_delete?")}
                   </Text>
                 </div>
-                <div
-                  style={{
-                    marginTop: "20px",
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    width: "100%",
-                  }}
-                >
+                <BtnAction>
                   <Button
                     startIcon={<CancelIcon />}
-                    buttonStyle={{ bgcolor: "white" }}
+                    buttonStyle={{ bgcolor: "white", color: "#223367" }}
                     onClick={() => setModalVisible(false)}
                   >
-                    <Text fontSize={FONT_SIZE.meduim}>{t("cancel")}</Text>
+                    {t("cancel")}
                   </Button>
                   <Button
-                    buttonStyle={{ bgcolor: "rgba(255, 94, 104, 1)" }}
+                    buttonStyle={{
+                      bgcolor: "rgba(255, 94, 104, 1)",
+                      color: "#fff",
+                    }}
                     onClick={handleDelete}
+                    endIcon={<DeleteIconWhite />}
                   >
-                    <Text color="white" marginRight="15px">
-                      {t("delete")}
-                    </Text>
-                    <DeleteIconWhite />
+                    {t("delete")}
                   </Button>
-                </div>
+                </BtnAction>
               </>
             )}
           </ModalComponent>
