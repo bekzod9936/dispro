@@ -1,18 +1,27 @@
 import partnerApi from "services/interceptors/companyInterceptor";
 
-export const createQrCode = (data: any) => {
-  const response = partnerApi.post("/core/ref", data);
+export const createQrCode = async (data: any) => {
+  const response = await partnerApi.post("/core/ref", data);
 
   return response;
 };
 
-export const editQrCode = (data: any) => {
-  const response = partnerApi.put("/core/ref", data);
+export const editQrCode = async (data: any) => {
+  const response = await partnerApi.put("/core/ref", data);
   return response;
 };
 
-export const deleteQrCode = (data: any) => {
-  const response = partnerApi.delete("/core/ref", data);
+export const deleteQrCode = async (data: any) => {
+  const response = await partnerApi.delete("/core/ref", data);
+
+  return response;
+};
+
+export const generateBranchQr = async (data: any) => {
+  const response = await partnerApi.put(
+    "/directory/company/generate/qr-code",
+    data
+  );
 
   return response;
 };

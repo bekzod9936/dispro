@@ -1,4 +1,5 @@
-import { useState, useCallback } from "react";
+import { fetchAddressInfo } from "services/queries/InfoQueries";
+import { useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { fetchQRCodes } from "services/queries/PartnerQueries";
 import {
@@ -6,8 +7,12 @@ import {
   deleteQrCode,
   editQrCode,
 } from "services/queries/QrSettingsQueries";
+import { useAppDispatch } from "services/redux/hooks";
+import { setStores } from "services/redux/Slices/qrSetting";
 
 const useQrCode = () => {
+  const dispatch = useAppDispatch();
+  const companyId: any = localStorage.getItem("companyId");
   const [searchQR, setSearchQR] = useState("");
   const [optionsOpen, setOptionsOpen] = useState<string | number>("");
   const [optionsListOpen, setOptionsListOpen] = useState(false);
@@ -104,6 +109,22 @@ const useQrCode = () => {
     }
   };
 
+  //get branches
+  useQuery("fetchbranches", () => fetchAddressInfo({ companyId: companyId }), {
+    retry: 0,
+    refetchOnWindowFocus: false,
+    onSuccess: (data) => {
+      console.log(data.data.data, "branches");
+      dispatch(
+        setStores(
+          data.data.data.map((v: any) => {
+            return { value: v.id, label: v.name };
+          })
+        )
+      );
+    },
+  });
+
   return {
     isLoading,
     data,
@@ -123,6 +144,7 @@ const useQrCode = () => {
     setOptionsListOpen,
     setCurrentName,
     setId,
+    refetch,
   };
 };
 

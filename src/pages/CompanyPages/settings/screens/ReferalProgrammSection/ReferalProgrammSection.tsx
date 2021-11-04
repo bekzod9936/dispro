@@ -219,7 +219,7 @@ const ReferalProgrammSection = () => {
             </div>
           </LevelsHead>
           <LevelsColumn>
-            {levelsRef.map((item, index) => {
+            {levelsRef?.map((item, index) => {
               return (
                 <LevelsRow key={index}>
                   <div>
