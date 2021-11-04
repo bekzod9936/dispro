@@ -1,7 +1,6 @@
 import { ReactComponent as ExcelIcon } from 'assets/icons/FinanceIcons/excel.svg';
 import Button from 'components/Custom/Button';
 import * as FileSaver from 'file-saver';
-import moment from 'moment';
 import { useTranslation } from 'react-i18next';
 import * as XLSX from 'xlsx';
 

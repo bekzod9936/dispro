@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { fetchNotifactions } from 'services/queries/NotifucationsQueries';
+import { formatPagination } from 'services/utils/formatPagination';
 
 interface Props {
   body?: string;
@@ -15,29 +16,9 @@ interface PProps {
   filterValues: any;
 }
 
-interface FProps {
-  page: number;
-  perPage: number;
-}
-
 const useNotefications = ({ filterValues }: PProps) => {
   const [data, setData] = useState<Props[]>([]);
   const [totalCount, setTotalCount] = useState<number>(0);
-
-  function format({ page, perPage }: FProps) {
-    let start = 1;
-    let end = 1;
-    if (page === 1) {
-      start = 1;
-      end = perPage;
-    } else {
-      start = (page - 1) * perPage + 1;
-      end = page * perPage;
-    }
-
-    let info = `${start}-${end}`;
-    return info;
-  }
 
   const [between, setBetween] = useState<string>('');
   const response = useQuery(
@@ -60,9 +41,10 @@ const useNotefications = ({ filterValues }: PProps) => {
           Math.ceil(data.data.data.totalCount / filterValues?.perPage)
         );
         setBetween(
-          format({
+          formatPagination({
             page: filterValues?.page,
             perPage: filterValues?.perPage,
+            total: data.data.data.totalCount,
           })
         );
       },

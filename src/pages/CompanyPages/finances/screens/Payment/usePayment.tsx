@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQuery } from 'react-query';
 import { fetchFinancePayment } from 'services/queries/FinanceQueries';
+import { formatPagination } from 'services/utils/formatPagination';
 
 interface Props {
   amount: number;
@@ -16,12 +17,6 @@ interface Props {
 }
 interface PProps {
   filterValues: any;
-}
-
-interface FProps {
-  total: number;
-  page: number;
-  perPage: number;
 }
 
 interface HProps {
@@ -47,21 +42,6 @@ const usePayment = ({ filterValues }: PProps) => {
   const [totalCount, setTotalCount] = useState<number>(0);
 
   const [header, setHeader] = useState<HProps[]>([{ title: '', value: 0 }]);
-
-  function format({ page, perPage }: FProps) {
-    let start = 1;
-    let end = 1;
-    if (page === 1) {
-      start = 1;
-      end = perPage;
-    } else {
-      start = (page - 1) * perPage + 1;
-      end = page * perPage;
-    }
-
-    let info = `${start}-${end}`;
-    return info;
-  }
 
   const [between, setBetween] = useState<string>('');
   const response = useQuery(
@@ -94,10 +74,10 @@ const usePayment = ({ filterValues }: PProps) => {
           Math.ceil(data.data.data.totalCount / filterValues?.perPage)
         );
         setBetween(
-          format({
-            total: data.data.data.totalCount,
+          formatPagination({
             page: filterValues?.page,
             perPage: filterValues?.perPage,
+            total: data.data.data.totalCount,
           })
         );
       },

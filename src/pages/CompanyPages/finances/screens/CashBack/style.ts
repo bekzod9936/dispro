@@ -43,8 +43,12 @@ export const Info = styled.div`
   }
 `;
 
-export const CashBackIcon = styled(CashBack)``;
-export const WalletIcon = styled(Wallet)``;
+export const CashBackIcon = styled(CashBack)`
+  margin-right: 15px;
+`;
+export const WalletIcon = styled(Wallet)`
+  margin-right: 15px;
+`;
 
 export const WrapIcon = styled.div`
   display: flex;

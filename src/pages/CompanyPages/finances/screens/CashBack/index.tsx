@@ -22,6 +22,7 @@ import {
   WrapTotal,
   WrapTotalSum,
 } from '../../style';
+import { numberWith } from 'services/utils';
 interface intialFilterProps {
   page?: number;
   perPage?: number;
@@ -50,9 +51,9 @@ const Payment = () => {
     const date2 = moment(v.activateDate).format('DD.MM.YYYY');
     return {
       col1: v.operationType,
-      col2: v.clientName,
+      col2: v.clientName ? v.clientName : '-',
       col3: v.amount,
-      col4: v.amountCommission,
+      col4: Math.round((v.amount / 100) * 100) / 100,
       col5: date1,
       col6: date2,
       col7: v.status,
@@ -124,7 +125,7 @@ const Payment = () => {
           {header.map((v: any) => (
             <WrapTotalSum>
               <Label>{v.title || ''}</Label>
-              <TotalSum>{v.value || 0}</TotalSum>
+              <TotalSum>{numberWith(v.value, ' ', '0')}</TotalSum>
             </WrapTotalSum>
           ))}
         </WrapTotal>

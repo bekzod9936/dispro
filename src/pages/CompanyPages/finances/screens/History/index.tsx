@@ -63,7 +63,7 @@ const Payment = () => {
 
   const list = data?.map((v: any) => {
     const date = moment(v.chequeDate).format('DD.MM.YYYY');
-    const time = moment(v.chequeDate).format('HH:MM:SS');
+    const time = moment(v.chequeDate).format('HH:mm:ss');
     return {
       col1: v.cashierName,
       col2: date,
@@ -72,16 +72,25 @@ const Payment = () => {
       col5: v.payInfo.amountMinus,
       col6: v.payInfo.amountPayed,
       col7: v.clientName,
-      col8: v.payInfo.value,
-      col9: '-',
-      col10: '-',
+      col8:
+        v.payInfo.isDiscount || v.payInfo.isCashback || v.payInfo.isPoints
+          ? v.payInfo.value
+          : '-',
+      col9:
+        v.payInfo.isCoupon && v.payInfo.valueType === 'percent'
+          ? v.payInfo.value
+          : '-',
+      col10:
+        v.payInfo.isCoupon && v.payInfo.valueType === 'amount'
+          ? v.payInfo.value
+          : '-',
     };
   });
 
   const excellist = data
     ?.map((v: any) => {
       const date = moment(v.chequeDate).format('DD.MM.YYYY');
-      const time = moment(v.chequeDate).format('HH:MM:SS');
+      const time = moment(v.chequeDate).format('HH:mm:ss');
       return {
         [t('cashier')]: v.cashierName,
         [t('transactiondate')]: date,
@@ -90,9 +99,18 @@ const Payment = () => {
         [t('discountSum')]: v.payInfo.amountMinus,
         [t('paid')]: v.payInfo.amountPayed,
         [t('customer')]: v.clientName,
-        [t('loyaltypercentage')]: v.payInfo.value,
-        [t('coupon')]: '-',
-        [t('certificate')]: '-',
+        [t('loyaltypercentage')]:
+          v.payInfo.isDiscount || v.payInfo.isCashback || v.payInfo.isPoints
+            ? v.payInfo.value
+            : '-',
+        [t('coupon')]:
+          v.payInfo.isCoupon && v.payInfo.valueType === 'percent'
+            ? v.payInfo.value
+            : '-',
+        [t('certificate')]:
+          v.payInfo.isCoupon && v.payInfo.valueType === 'amount'
+            ? v.payInfo.value
+            : '-',
       };
     })
     .concat([
