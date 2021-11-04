@@ -1,9 +1,17 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import useHistory from './useHistory';
+import useHistory from './hook/useHistory';
 import Spinner from 'components/Custom/Spinner';
 import Pagination from 'components/Custom/Pagination';
 import Table from '../../components/Table';
+import { Tr, Th } from '../../components/Table/style';
+import Filter from 'components/Custom/Filter/index';
+import moment from 'moment';
+import Input from 'components/Custom/Input';
+import MultiSelect from 'components/Custom/MultiSelect';
+import { ReactComponent as ExcelIcon } from 'assets/icons/FinanceIcons/excel.svg';
+import useExcel from './hook/useExcel';
+import Button from 'components/Custom/Button';
 import {
   Container,
   Wrap,
@@ -14,13 +22,6 @@ import {
   Label,
   WrapDate,
 } from './style';
-import { Tr, Th } from '../../components/Table/style';
-import Filter from 'components/Custom/Filter/index';
-import moment from 'moment';
-import Input from 'components/Custom/Input';
-import MultiSelect from 'components/Custom/MultiSelect';
-import ExportCSV from './ExportCSV';
-
 interface intialFilterProps {
   page?: number;
   perPage?: number;
@@ -34,38 +35,36 @@ interface CashProp {
   label?: string;
 }
 
-const intialFilter = {
-  startDate: moment().startOf('month').format('YYYY-MM-DD'),
-  endDate: moment().endOf('month').format('YYYY-MM-DD'),
-  cashierStaffId: 0,
-  page: 1,
-  perPage: 5,
-};
-
-const intialDate = {
-  startDate: moment().startOf('month').format('YYYY-MM-DD'),
-  endDate: moment().endOf('month').format('YYYY-MM-DD'),
-};
-
 const Payment = () => {
   const { t } = useTranslation();
+  const intialFilter = {
+    startDate: moment().startOf('month').format('YYYY-MM-DD'),
+    endDate: moment().endOf('month').format('YYYY-MM-DD'),
+    cashierStaffId: 0,
+    page: 1,
+    perPage: 5,
+  };
+
+  const intialDate = {
+    startDate: moment().startOf('month').format('YYYY-MM-DD'),
+    endDate: moment().endOf('month').format('YYYY-MM-DD'),
+  };
   const [date, setDate] = useState(intialDate);
   const [dateLimit, setDateLimit] = useState({ startDate: '', endDate: '' });
   const [filterValues, setFilterValues] =
     useState<intialFilterProps>(intialFilter);
-  const [total, setTotal] = useState(0);
-  const [minus, setMinus] = useState(0);
-  const [paid, setPaid] = useState(0);
-  const [cashierStaffId, setCashierStaffId] = useState<CashProp>();
-  const { response, data, totalCount, between, cashier } = useHistory({
-    filterValues: filterValues,
-  });
 
+  const [cashierStaffId, setCashierStaffId] = useState<CashProp>();
+  const { response, data, totalCount, between, cashier, total, minus, paid } =
+    useHistory({
+      filterValues: filterValues,
+    });
+  const { resExcel } = useExcel();
   const list = data?.map((v: any) => {
     const date = moment(v.chequeDate).format('DD.MM.YYYY');
     const time = moment(v.chequeDate).format('HH:mm:ss');
     return {
-      col1: v.cashierName,
+      col1: v.cashierName === 'No cashier name' ? t('p2p') : v.cashierName,
       col2: date,
       col3: time,
       col4: v.payInfo.amountTotal,
@@ -86,83 +85,6 @@ const Payment = () => {
           : '-',
     };
   });
-
-  const excellist = data
-    ?.map((v: any) => {
-      const date = moment(v.chequeDate).format('DD.MM.YYYY');
-      const time = moment(v.chequeDate).format('HH:mm:ss');
-      return {
-        [t('cashier')]: v.cashierName,
-        [t('transactiondate')]: date,
-        [t('transactiontime')]: time,
-        [t('totalsum')]: v.payInfo.amountTotal,
-        [t('discountSum')]: v.payInfo.amountMinus,
-        [t('paid')]: v.payInfo.amountPayed,
-        [t('customer')]: v.clientName,
-        [t('loyaltypercentage')]:
-          v.payInfo.isDiscount || v.payInfo.isCashback || v.payInfo.isPoints
-            ? v.payInfo.value
-            : '-',
-        [t('coupon')]:
-          v.payInfo.isCoupon && v.payInfo.valueType === 'percent'
-            ? v.payInfo.value
-            : '-',
-        [t('certificate')]:
-          v.payInfo.isCoupon && v.payInfo.valueType === 'amount'
-            ? v.payInfo.value
-            : '-',
-      };
-    })
-    .concat([
-      {
-        [t('cashier')]: '',
-        [t('transactiondate')]: '',
-        [t('transactiontime')]: '',
-        [t('totalsum')]: '',
-        [t('discountSum')]: '',
-        [t('paid')]: '',
-        [t('customer')]: '',
-        [t('loyaltypercentage')]: '',
-        [t('coupon')]: '',
-        [t('certificate')]: '',
-      },
-      {
-        [t('cashier')]: '',
-        [t('transactiondate')]: '',
-        [t('transactiontime')]: '',
-        [t('totalsum')]: '',
-        [t('discountSum')]: t('total'),
-        [t('paid')]: '',
-        [t('customer')]: '',
-        [t('loyaltypercentage')]: '',
-        [t('coupon')]: '',
-        [t('certificate')]: '',
-      },
-      {
-        [t('cashier')]: '',
-        [t('transactiondate')]: '',
-        [t('transactiontime')]: '',
-        [t('totalsum')]: total,
-        [t('discountSum')]: minus,
-        [t('paid')]: paid,
-        [t('customer')]: '',
-        [t('loyaltypercentage')]: '',
-        [t('coupon')]: '',
-        [t('certificate')]: '',
-      },
-    ]);
-
-  useEffect(() => {
-    setTotal(
-      data.reduce((sum: any, v: any) => sum + v?.payInfo?.amountTotal, 0)
-    );
-    setMinus(
-      data.reduce((sum: any, v: any) => sum + v?.payInfo?.amountMinus, 0)
-    );
-    setPaid(
-      data.reduce((sum: any, v: any) => sum + v?.payInfo?.amountPayed, 0)
-    );
-  }, [data]);
 
   const columns: any = useMemo(
     () => [
@@ -302,6 +224,10 @@ const Payment = () => {
     await response.refetch();
   };
 
+  const handleClick = () => {
+    resExcel.refetch();
+  };
+
   return (
     <Container>
       <WrapFilter>
@@ -315,7 +241,14 @@ const Payment = () => {
           onReset={onReset}
           list={filterList}
         />
-        <ExportCSV date={date} csvData={excellist} />
+        <Button
+          onClick={handleClick}
+          startIcon={<ExcelIcon />}
+          buttonStyle={{ bgcolor: '#45A13B' }}
+          disabled={resExcel.isLoading}
+        >
+          {t('exportexcel')}
+        </Button>
       </WrapFilter>
       <Wrap>
         {response.isLoading || response.isFetching ? (
@@ -323,23 +256,22 @@ const Payment = () => {
         ) : (
           <>
             <Table header2={header2} columns={columns} data={list} />
+            <WrapPag>
+              <Info>
+                {t('shown')}
+                <span>{between}</span>
+                {t('from1')} <span>{totalCount}</span> {t('operations1')}
+              </Info>
+              <Pagination
+                page={filterValues.page}
+                count={totalCount}
+                onChange={handlechangePage}
+                disabled={response.isLoading || response.isFetching}
+              />
+            </WrapPag>
           </>
         )}
-        {list.length > 0 ? (
-          <WrapPag>
-            <Info>
-              {t('shown')}
-              <span>{between}</span>
-              {t('from1')} <span>{totalCount}</span> {t('operations1')}
-            </Info>
-            <Pagination
-              page={filterValues.page}
-              count={totalCount}
-              onChange={handlechangePage}
-              disabled={response.isLoading || response.isFetching}
-            />
-          </WrapPag>
-        ) : null}
+        )
       </Wrap>
     </Container>
   );

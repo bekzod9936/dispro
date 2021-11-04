@@ -1,6 +1,10 @@
+import moment from 'moment';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
-import { fetchFinanceHistory } from 'services/queries/FinanceQueries';
+import {
+  fetchFinanceHistory,
+  fetchFinanceHistoryExcel,
+} from 'services/queries/FinanceQueries';
 import { formatPagination } from 'services/utils/formatPagination';
 
 interface Props {
@@ -60,8 +64,11 @@ const useHistory = ({ filterValues }: PProps) => {
   ]);
 
   const [totalCount, setTotalCount] = useState<number>(0);
-
   const [between, setBetween] = useState<string>('');
+  const [total, setTotal] = useState(0);
+  const [minus, setMinus] = useState(0);
+  const [paid, setPaid] = useState(0);
+
   const response = useQuery(
     ['fetchPaymentInfo', filterValues],
     () => {
@@ -89,7 +96,6 @@ const useHistory = ({ filterValues }: PProps) => {
         setTotalCount(
           Math.ceil(data.data.data.totalCount / filterValues?.perPage)
         );
-
         setBetween(
           formatPagination({
             page: filterValues?.page,
@@ -97,11 +103,29 @@ const useHistory = ({ filterValues }: PProps) => {
             total: data.data.data.totalCount,
           })
         );
+        setTotal(
+          data.data.data.cashierHistories.histories.reduce(
+            (sum: any, v: any) => sum + v?.payInfo?.amountTotal,
+            0
+          )
+        );
+        setMinus(
+          data.data.data.cashierHistories.histories.reduce(
+            (sum: any, v: any) => sum + v?.payInfo?.amountMinus,
+            0
+          )
+        );
+        setPaid(
+          data.data.data.cashierHistories.histories.reduce(
+            (sum: any, v: any) => sum + v?.payInfo?.amountPayed,
+            0
+          )
+        );
       },
     }
   );
 
-  return { response, data, totalCount, between, cashier };
+  return { response, data, totalCount, between, cashier, total, minus, paid };
 };
 
 export default useHistory;

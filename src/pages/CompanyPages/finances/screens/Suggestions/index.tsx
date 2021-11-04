@@ -36,7 +36,7 @@ const Suggestions = () => {
     const date = moment(v?.payDate).format('DD.MM.YYYY');
     return {
       col1: date,
-      col2: v?.firstName + v?.lastName,
+      col2: `${v?.firstName}  ${v?.lastName}`,
       col3: v?.amount,
       col4: v?.couponName,
       col5: v?.amountPartner,
