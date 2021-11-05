@@ -5,7 +5,7 @@ export const MainWrapper = styled.div`
   display: flex;
   height: 100%;
   flex-direction: column;
-  position: relative;
+
   overflow: hidden;
   width: 100%;
   padding: 25px 0 0 25px;
@@ -13,7 +13,7 @@ export const MainWrapper = styled.div`
 
 export const Wrap = styled.div`
   overflow-y: auto;
-
+  position: relative;
   &::-webkit-scrollbar {
     appearance: none;
     display: none;
@@ -72,8 +72,8 @@ export const WrapHeader = styled.div`
 
 export const RightHeader = styled.div`
   position: absolute;
-  right: 30px;
-  top: 25px;
+  right: 25px;
+  top: 0;
 `;
 
 export const LeftHeader = styled.div``;

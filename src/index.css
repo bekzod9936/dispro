@@ -11,6 +11,8 @@
   --toggleColor: #2f855a;
   --whiteColor: #fff;
   --focusColor: #ff0;
+  touch-action: pan-x pan-y;
+  height: 100%;
 }
 
 body {
