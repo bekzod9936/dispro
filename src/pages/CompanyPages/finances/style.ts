@@ -2,14 +2,35 @@ import styled from 'styled-components';
 import { device } from 'styles/device';
 
 export const MainWrapper = styled.div`
-  padding: 25px 0 0 25px;
   display: flex;
   height: 100%;
   flex-direction: column;
   position: relative;
+  overflow: hidden;
+  width: 100%;
+  padding: 25px 0 0 25px;
+`;
+
+export const Wrap = styled.div`
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    appearance: none;
+    display: none;
+  }
+  &::-webkit-scrollbar-thumb {
+    appearance: none;
+    display: none;
+  }
+
+  &::-webkit-scrollbar-track {
+    appearance: none;
+    display: none;
+  }
 `;
 
 export const WrapTotalSum = styled.div``;
+
 export const TotalSum = styled.div`
   background: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
@@ -54,4 +75,5 @@ export const RightHeader = styled.div`
   right: 30px;
   top: 25px;
 `;
+
 export const LeftHeader = styled.div``;

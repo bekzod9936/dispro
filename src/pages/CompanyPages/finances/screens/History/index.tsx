@@ -12,16 +12,21 @@ import MultiSelect from 'components/Custom/MultiSelect';
 import { ReactComponent as ExcelIcon } from 'assets/icons/FinanceIcons/excel.svg';
 import useExcel from './hook/useExcel';
 import Button from 'components/Custom/Button';
+import { useAppSelector } from 'services/redux/hooks';
+import { IconButton } from '@material-ui/core';
 import {
   Container,
-  Wrap,
   WrapPag,
   Info,
   WrapFilter,
   WrapInputs,
   Label,
   WrapDate,
+  ButtonKeyWord,
+  DeleteIcon,
+  WrapFilterValues,
 } from './style';
+
 interface intialFilterProps {
   page?: number;
   perPage?: number;
@@ -37,6 +42,31 @@ interface CashProp {
 
 const Payment = () => {
   const { t } = useTranslation();
+
+  const data = useAppSelector((state) => state.finance.historyFinance.data);
+  const totalCount = useAppSelector(
+    (state) => state.finance.historyFinance.totalCount
+  );
+  const between = useAppSelector(
+    (state) => state.finance.historyFinance.between
+  );
+
+  const total = useAppSelector(
+    (state) => state.finance.historyFinance.sum.total
+  );
+
+  const minus = useAppSelector(
+    (state) => state.finance.historyFinance.sum.minus
+  );
+
+  const paid = useAppSelector((state) => state.finance.historyFinance.sum.paid);
+
+  const cashier = useAppSelector(
+    (state) => state.finance.historyFinance.cashier
+  );
+
+  const [dateFilter, setdateFilter] = useState({ startDate: '', endDate: '' });
+
   const intialFilter = {
     startDate: moment().startOf('month').format('YYYY-MM-DD'),
     endDate: moment().endOf('month').format('YYYY-MM-DD'),
@@ -49,16 +79,17 @@ const Payment = () => {
     startDate: moment().startOf('month').format('YYYY-MM-DD'),
     endDate: moment().endOf('month').format('YYYY-MM-DD'),
   };
+
   const [date, setDate] = useState(intialDate);
   const [dateLimit, setDateLimit] = useState({ startDate: '', endDate: '' });
   const [filterValues, setFilterValues] =
     useState<intialFilterProps>(intialFilter);
-
   const [cashierStaffId, setCashierStaffId] = useState<CashProp>();
-  const { response, data, totalCount, between, cashier, total, minus, paid } =
-    useHistory({
-      filterValues: filterValues,
-    });
+
+  const { response } = useHistory({
+    filterValues: filterValues,
+  });
+
   const { resExcel } = useExcel();
   const list = data?.map((v: any) => {
     const date = moment(v.chequeDate).format('DD.MM.YYYY');
@@ -215,12 +246,15 @@ const Payment = () => {
       startDate: startDate,
       endDate: endDate,
     });
-    await await response.refetch();
+
+    await response.refetch();
   };
 
   const onReset = async () => {
     await setFilterValues(intialFilter);
     await setDate(intialDate);
+    await setCashierStaffId({});
+    await setDateLimit({ startDate: '', endDate: '' });
     await response.refetch();
   };
 
@@ -231,16 +265,58 @@ const Payment = () => {
   return (
     <Container>
       <WrapFilter>
-        <Filter
-          onSubmit={() =>
-            handleFilterSubmit({
-              startDate: date.startDate,
-              endDate: date.endDate,
-            })
-          }
-          onReset={onReset}
-          list={filterList}
-        />
+        <WrapFilterValues>
+          <Filter
+            onSubmit={() =>
+              handleFilterSubmit({
+                startDate: date.startDate,
+                endDate: date.endDate,
+              })
+            }
+            onReset={onReset}
+            list={filterList}
+          />
+
+          {dateLimit?.startDate !== '' && dateLimit?.endDate !== '' ? (
+            <ButtonKeyWord
+              onClick={async () => {
+                await setFilterValues({
+                  ...filterValues,
+                  endDate: '',
+                  startDate: '',
+                });
+                await setDate(intialDate);
+                await setDateLimit({ startDate: '', endDate: '' });
+                await response.refetch();
+              }}
+            >
+              {`${moment(dateLimit?.startDate).format('Do MMMM')}-${moment(
+                dateLimit?.endDate
+              ).format('Do MMMM, YYYY')}`}
+              <IconButton>
+                <DeleteIcon />
+              </IconButton>
+            </ButtonKeyWord>
+          ) : null}
+          {cashierStaffId?.label ? (
+            <ButtonKeyWord
+              onClick={async () => {
+                await setFilterValues({
+                  ...filterValues,
+                  cashierStaffId: 0,
+                });
+                await setCashierStaffId({});
+                await response.refetch();
+              }}
+            >
+              {cashierStaffId?.label}
+              <IconButton>
+                <DeleteIcon />
+              </IconButton>
+            </ButtonKeyWord>
+          ) : null}
+        </WrapFilterValues>
+
         <Button
           onClick={handleClick}
           startIcon={<ExcelIcon />}
@@ -250,29 +326,27 @@ const Payment = () => {
           {t('exportexcel')}
         </Button>
       </WrapFilter>
-      <Wrap>
-        {response.isLoading || response.isFetching ? (
-          <Spinner />
-        ) : (
-          <>
-            <Table header2={header2} columns={columns} data={list} />
-            <WrapPag>
-              <Info>
-                {t('shown')}
-                <span>{between}</span>
-                {t('from1')} <span>{totalCount}</span> {t('operations1')}
-              </Info>
-              <Pagination
-                page={filterValues.page}
-                count={totalCount}
-                onChange={handlechangePage}
-                disabled={response.isLoading || response.isFetching}
-              />
-            </WrapPag>
-          </>
-        )}
-        )
-      </Wrap>
+
+      {response.isLoading || response.isFetching ? (
+        <Spinner />
+      ) : (
+        <Table header2={header2} columns={columns} data={list} />
+      )}
+      {list.length > 0 ? (
+        <WrapPag>
+          <Info>
+            {t('shown')}
+            <span>{between}</span>
+            {t('from1')} <span>{totalCount}</span> {t('operations1')}
+          </Info>
+          <Pagination
+            page={filterValues.page}
+            count={totalCount}
+            onChange={handlechangePage}
+            disabled={response.isLoading || response.isFetching}
+          />
+        </WrapPag>
+      ) : null}
     </Container>
   );
 };
