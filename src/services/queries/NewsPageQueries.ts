@@ -11,7 +11,7 @@ export const fetchPendingNews = (section: string) => {
 };
 
 export const fetchActiveQueries = () => {
-	const response = partnerApi.get("/core/news/by/company/actives");
+	const response = partnerApi.get("/core/news/by/company/actives/new");
 	return response;
 };
 

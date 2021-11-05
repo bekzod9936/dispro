@@ -65,7 +65,7 @@ interface Props {
       retry: 0,
       onSuccess:(data)=>{
         console.log('data',data.data.data)
-        setData(data.data.data)
+        setData(data.data.data.news)
       }
     }
     )
