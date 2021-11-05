@@ -13,8 +13,7 @@ export const Footer = () => {
   return (
     <WrapPag>
       <p>
-        Всего {formatPagination({ page, perPage: 5, total: totalCount })}
-        клиентов
+        Показано <span>{formatPagination({ page, perPage: 5, total: totalCount })}</span> из <span>{totalCount}</span> клиентов
       </p>
       <Pagination
         count={Number(totalPages)}

@@ -71,9 +71,8 @@ export const ButtonsWrapper = styled.div`
   align-items: center;
   margin-bottom: ${(props: IButtonWrapper) => props.marginBottom + "px" || "0"};
   margin-top: ${(props: IButtonWrapper) => props.marginTop + "px" || "0"};
-  @media (max-width: ${device.planshet}) {
-    flex-direction: column-reverse;
-    align-items: flex-start;
+  @media(max-width: ${device.mobile}) {
+    margin-top: 0;
   }
 `
 
