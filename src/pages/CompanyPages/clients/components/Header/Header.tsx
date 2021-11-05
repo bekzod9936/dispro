@@ -10,6 +10,7 @@ import { SelectedFilters, Wrapper } from "./style";
 import { useHandleGetFilters } from "../../utils/getSelectedFilters";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 import { removeFilter, setPeriod } from "services/redux/Slices/clients";
+import { useWindowSize } from "../../hooks/useWindowSize";
 
 interface IProps {
   query: string;
@@ -22,7 +23,7 @@ export const Header = ({ query, setQuery }: IProps) => {
   const { totalCount, filters } = useAppSelector(state => state.clients);
   const activeFilters = useHandleGetFilters({ filters, handleRemove })
   const dispatch = useAppDispatch()
-
+  const { width } = useWindowSize()
   function handleRemove(key: string) {
     dispatch(removeFilter(key))
   }
@@ -38,6 +39,7 @@ export const Header = ({ query, setQuery }: IProps) => {
         <SubTitle>{`${t("totalClients")}: ${totalCount}`}</SubTitle>
       </Flex>
       <Input
+        placeholder="Поиск по клиентам"
         inputStyle={{ border: "none" }}
         IconStart={<SearchIcon style={{ marginLeft: 20 }} />}
         value={query}
@@ -46,7 +48,7 @@ export const Header = ({ query, setQuery }: IProps) => {
       />
       <ButtonsWrapper marginBottom={20} marginTop={20}>
         <MFilter />
-        <NewDatePicker onChange={(e) => handlePickDate(e)} />
+        {width > 600 && <NewDatePicker onChange={(e) => handlePickDate(e)} />}
         <QRButton />
       </ButtonsWrapper>
       <SelectedFilters>
