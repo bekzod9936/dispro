@@ -14,14 +14,21 @@ const Active =()=>{
     const { t } = useTranslation();
     const {response,data}=useActive()
     {console.log("data,",data)}
+  
+  
+
+   
 // const list=
 const list=data?.map((v:any)=>{
     const startDate = moment(v?.startLifeTime).format('DD.MM.YYYY');
     const endDate=moment(v?.endLifeTime).format('DD.MM.YYYY')
+    const genderType=v?.genderType===0 ? 'girl':'boy'
+  
+   
     return {
         col1:v?.title,
         col2:v?.description,
-        col3:v?.genderType,
+        col3:genderType,
         col4:startDate+'---'+endDate
     }
 })
@@ -31,19 +38,19 @@ console.log('response',response)
 const columns: any = useMemo(
     () => [
       {
-        Header: t('title'),
+        Header: t('Заголовок'),
         accessor: 'col1',
       },
       {
-        Header: t('description'),
+        Header: t('Зазывающий текст'),
         accessor: 'col2',  
       },
       {
-        Header: t('genderType'),
+        Header: t('Пол'),
         accessor: 'col3', 
       },
       {
-        Header: t('date'),
+        Header: t('Срок публикации'),
         accessor: 'col4', 
       }
     ],
