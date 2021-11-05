@@ -112,6 +112,7 @@ const Payment = () => {
           ))}
         </WrapTotal>
       </RightHeader>
+
       <Container>
         <DatePcker
           onChange={async (e: any) => {
