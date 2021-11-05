@@ -1,5 +1,5 @@
 import Checkbox from "@material-ui/core/Checkbox";
-import { MobileTable } from "components/Custom/MobileTable";
+import { MobileTable } from "pages/CompanyPages/clients/components/MobileTable";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useSortBy, useTable } from "react-table";
@@ -42,7 +42,8 @@ export const Table = () => {
     return clients.map(client => ({
       name: client.firstName + " " + client.lastName,
       image: client.image,
-      discountValue: client.personalLoyaltyInfo.percent
+      discountValue: client.personalLoyaltyInfo.percent,
+      id: client.id
     }))
   }, [clients])
 
@@ -141,7 +142,7 @@ export const Table = () => {
         </Container>
       </> :
         <div>
-          <MobileTable array={clientsList} />
+          <MobileTable onClick={handleAddClientByClick} array={clientsList} />
         </div>}
     </div>
   );
