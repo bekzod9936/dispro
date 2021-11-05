@@ -1,29 +1,13 @@
 import styled from 'styled-components';
 import { device } from 'styles/device';
+import { ReactComponent as Delete } from 'assets/icons/IconsInfo/delete.svg';
 
 export const Container = styled.div`
   overflow: hidden;
-  height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column;
-`;
-
-export const Wrap = styled.div`
-  overflow-y: auto;
-
   padding-right: 25px;
-  ::-webkit-scrollbar {
-    width: 7px;
-  }
-  ::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: #606eea;
-    border-radius: 14px 0px 0px 14px;
-  }
 `;
 
 export const WrapPag = styled.div`
@@ -31,6 +15,12 @@ export const WrapPag = styled.div`
   justify-content: space-between;
   align-items: center;
   margin: 20px 0;
+`;
+
+export const DeleteIcon = styled(Delete)`
+  & > path {
+    fill: #c4c4c4;
+  }
 `;
 
 export const Info = styled.div`
@@ -48,7 +38,6 @@ export const WrapFilter = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 0 30px 0 0;
   margin-bottom: 20px;
 `;
 
@@ -75,4 +64,37 @@ export const WrapDate = styled.div`
   font-size: 18px;
   color: #223367;
   padding-left: 15px;
+`;
+
+export const ButtonKeyWord = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #c4c4c4;
+  border-radius: 46px;
+  font-weight: 300;
+  font-size: 13px;
+  color: #223367;
+  padding: 0 5px 0 15px;
+  margin: 0 0 0 10px;
+  height: 30px;
+  .MuiIconButton-root {
+    padding: 6px !important;
+    margin-left: 5px;
+  }
+  @media (max-width: ${device.mobile}) {
+    height: 25px;
+    font-weight: 300;
+    font-size: 12px;
+    color: #223367;
+  }
+  @media (min-width: ${device.laptop}) {
+    height: 35px;
+    font-size: 14px;
+  }
+`;
+
+export const WrapFilterValues = styled.div`
+  display: flex;
+  align-items: center;
 `;

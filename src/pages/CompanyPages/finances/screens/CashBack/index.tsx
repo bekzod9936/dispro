@@ -6,9 +6,10 @@ import Pagination from 'components/Custom/Pagination';
 import Table from '../../components/Table';
 import DatePcker from 'components/Custom/DatePicker';
 import moment from 'moment';
+import { numberWith } from 'services/utils';
+import { useAppSelector } from 'services/redux/hooks';
 import {
   Container,
-  Wrap,
   WrapPag,
   Info,
   CashBackIcon,
@@ -22,7 +23,7 @@ import {
   WrapTotal,
   WrapTotalSum,
 } from '../../style';
-import { numberWith } from 'services/utils';
+
 interface intialFilterProps {
   page?: number;
   perPage?: number;
@@ -32,6 +33,18 @@ interface intialFilterProps {
 
 const Payment = () => {
   const { t } = useTranslation();
+
+  const data = useAppSelector((state) => state.finance.cashBackFinance.data);
+  const totalCount = useAppSelector(
+    (state) => state.finance.cashBackFinance.totalCount
+  );
+  const between = useAppSelector(
+    (state) => state.finance.cashBackFinance.between
+  );
+  const header = useAppSelector(
+    (state) => state.finance.cashBackFinance.header
+  );
+
   const companyId = localStorage.getItem('companyId');
   const intialFilter = {
     accountId: companyId,
@@ -42,7 +55,7 @@ const Payment = () => {
   const [filterValues, setFilterValues] =
     useState<intialFilterProps>(intialFilter);
 
-  const { response, data, totalCount, between, header } = useCashBack({
+  const { response } = useCashBack({
     filterValues: filterValues,
   });
 
@@ -142,30 +155,29 @@ const Payment = () => {
           }}
           margin='0 0 20px 0'
         />
-        <Wrap>
-          {response.isLoading || response.isFetching ? (
-            <Spinner />
-          ) : (
-            <>
-              <Table columns={columns} data={list} />
-            </>
-          )}
-          {list.length > 0 ? (
-            <WrapPag>
-              <Info>
-                {t('shown')}
-                <span>{between}</span>
-                {t('from1')} <span>{totalCount}</span> {t('operations1')}
-              </Info>
-              <Pagination
-                page={filterValues.page}
-                count={totalCount}
-                onChange={handlechangePage}
-                disabled={response.isLoading || response.isFetching}
-              />
-            </WrapPag>
-          ) : null}
-        </Wrap>
+
+        {response.isLoading || response.isFetching ? (
+          <Spinner />
+        ) : (
+          <>
+            <Table columns={columns} data={list} />
+          </>
+        )}
+        {list.length > 0 ? (
+          <WrapPag>
+            <Info>
+              {t('shown')}
+              <span>{between}</span>
+              {t('from1')} <span>{totalCount}</span> {t('operations1')}
+            </Info>
+            <Pagination
+              page={filterValues.page}
+              count={totalCount}
+              onChange={handlechangePage}
+              disabled={response.isLoading || response.isFetching}
+            />
+          </WrapPag>
+        ) : null}
       </Container>
     </>
   );
