@@ -117,7 +117,12 @@ export const LoginPanel = () => {
     if (values?.phoneNumber === undefined) {
       setValue('phoneNumber', '');
     } else {
-      setValue('phoneNumber', checkPhone.newString);
+      if (checkPhone.newString !== '') {
+        setValue('phoneNumber', checkPhone.newString);
+      } else {
+        setValue('phoneNumber', checkPhone.newString);
+        setDisable(true);
+      }
     }
   }, [checkPhone.check, watch('phoneNumber')]);
 
