@@ -5,6 +5,7 @@ export const Table = styled.div`
     background: #FFFFFF;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
     border-radius: 12px;
+    overflow: hidden;
 `
 export const Thead = styled.div`
     padding: 13px 20px 13px 15px;
@@ -45,7 +46,30 @@ export const Tbody = styled.div`
     background-color: white;
   }
 `
+export const Trow = styled.div`
+    display: flex;
+    align-items: center;
+    padding: 9px 15px;
+    img {
+        margin-right: 15px;
+        border-radius: 14px;
+        width: 40px;
+        height: 40px;
+        display: block;
+    }
+`
+export const DefaultImg = styled.div`
+   background: linear-gradient(215.2deg, #C7EEFF -12.1%, #FCA9EA 101.51%);
+    border-radius: 14px;
+    width: 40px;
+    height: 40px;
+    margin-right: 15px;
+`
 export const MCheckbox = styled.div`
+    margin-right: 15px;
+    span {
+        padding: 0 !important;
+    }
 	span.MuiCheckbox-colorSecondary.Mui-checked {
     color: #3492ff !important ;
   }
