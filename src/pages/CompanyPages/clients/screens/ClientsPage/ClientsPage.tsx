@@ -13,11 +13,11 @@ import { SideBar } from '../../components/SideBar';
 import { useAppSelector } from 'services/redux/hooks';
 
 
+
 const ClientsPage = () => {
 	const [query, setQuery] = React.useState<string>('')
 	const [debouncedQuery] = useDebounce(query, 300)
 	const { totalCount, selectedClients, qrCodeBar } = useAppSelector(state => state.clients)
-
 
 
 	const { refetch, isFetching } = useFetchClients({ query: debouncedQuery });

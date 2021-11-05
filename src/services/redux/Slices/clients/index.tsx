@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IClient, IFetchData, IFilters, IPeriod, IState } from "./types";
+import { IClient, IFetchData, IFilters, IPeriod, IState, IVisibleClient } from "./types";
 
 const initialState: IState = {
     loading: false,
