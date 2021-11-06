@@ -5,8 +5,9 @@ import Spinner from 'components/Custom/Spinner';
 import Pagination from 'components/Custom/Pagination';
 import Table from '../../components/Table';
 import moment from 'moment';
-import { Container, Wrap, WrapPag, Info } from './style';
+import { Container, WrapPag, Info } from './style';
 import DatePcker from 'components/Custom/DatePicker';
+import { useAppSelector } from 'services/redux/hooks';
 
 interface intialFilterProps {
   page?: number;
@@ -18,6 +19,14 @@ interface intialFilterProps {
 const Suggestions = () => {
   const { t } = useTranslation();
   const companyId = localStorage.getItem('companyId');
+  const data = useAppSelector((state) => state.finance.suggestionFinance.data);
+  const totalCount = useAppSelector(
+    (state) => state.finance.suggestionFinance.totalCount
+  );
+  const between = useAppSelector(
+    (state) => state.finance.suggestionFinance.between
+  );
+
   const intialFilter = {
     companyId: companyId,
     page: 1,
@@ -25,18 +34,19 @@ const Suggestions = () => {
     dateFrom: '',
     dateTo: '',
   };
+
   const [filterValues, setFilterValues] =
     useState<intialFilterProps>(intialFilter);
 
-  const { response, data, totalCount, between } = useSuggestion({
+  const { response } = useSuggestion({
     filterValues: filterValues,
   });
 
-  const list = data?.map((v: any) => {
+  const list: any = data?.map((v: any) => {
     const date = moment(v?.payDate).format('DD.MM.YYYY');
     return {
       col1: date,
-      col2: v?.firstName + v?.lastName,
+      col2: `${v?.firstName}  ${v?.lastName}`,
       col3: v?.amount,
       col4: v?.couponName,
       col5: v?.amountPartner,
@@ -81,7 +91,7 @@ const Suggestions = () => {
 
   const handlechangePage = async (e: any) => {
     await setFilterValues({ ...filterValues, page: e });
-    // await response.refetch();
+    await response.refetch();
   };
 
   return (
@@ -97,30 +107,27 @@ const Suggestions = () => {
         }}
         margin='0 0 20px 0'
       />
-      <Wrap>
-        {response.isLoading || response.isFetching ? (
-          <Spinner />
-        ) : (
-          <>
-            <Table columns={columns} data={list} />
-          </>
-        )}
-        {list.length > 0 ? (
-          <WrapPag>
-            <Info>
-              {t('shown')}
-              <span>{between}</span>
-              {t('from1')} <span>{totalCount}</span> {t('operations1')}
-            </Info>
-            <Pagination
-              page={filterValues.page}
-              count={totalCount}
-              onChange={handlechangePage}
-              disabled={response.isLoading || response.isFetching}
-            />
-          </WrapPag>
-        ) : null}
-      </Wrap>
+
+      {response.isLoading || response.isFetching ? (
+        <Spinner />
+      ) : (
+        <Table columns={columns} data={list} />
+      )}
+      {list.length > 0 ? (
+        <WrapPag>
+          <Info>
+            {t('shown')}
+            <span>{between}</span>
+            {t('from1')} <span>{totalCount}</span> {t('operations1')}
+          </Info>
+          <Pagination
+            page={filterValues.page}
+            count={totalCount}
+            onChange={handlechangePage}
+            disabled={response.isLoading || response.isFetching}
+          />
+        </WrapPag>
+      ) : null}
     </Container>
   );
 };

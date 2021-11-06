@@ -5,8 +5,9 @@ import Spinner from 'components/Custom/Spinner';
 import Pagination from 'components/Custom/Pagination';
 import Table from '../../components/Table';
 import moment from 'moment';
-import { Container, Wrap, WrapPag, Info } from './style';
+import { Container, WrapPag, Info } from './style';
 import DatePcker from 'components/Custom/DatePicker';
+import { numberWith } from 'services/utils';
 import {
   Label,
   RightHeader,
@@ -14,7 +15,7 @@ import {
   WrapTotal,
   WrapTotalSum,
 } from '../../style';
-
+import { useAppSelector } from 'services/redux/hooks';
 interface intialFilterProps {
   page?: number;
   perPage?: number;
@@ -24,7 +25,18 @@ interface intialFilterProps {
 
 const Payment = () => {
   const { t } = useTranslation();
+
+  const data = useAppSelector((state) => state.finance.paymentFinance.data);
+  const totalCount = useAppSelector(
+    (state) => state.finance.paymentFinance.totalCount
+  );
+  const between = useAppSelector(
+    (state) => state.finance.paymentFinance.between
+  );
+  const header = useAppSelector((state) => state.finance.paymentFinance.header);
+
   const companyId = localStorage.getItem('companyId');
+
   const intialFilter = {
     companyId: companyId,
     page: 1,
@@ -32,20 +44,21 @@ const Payment = () => {
     dateFrom: '',
     dateTo: '',
   };
+
   const [filterValues, setFilterValues] =
     useState<intialFilterProps>(intialFilter);
 
-  const { response, data, totalCount, between, header } = usePayment({
+  const { response } = usePayment({
     filterValues: filterValues,
   });
 
   const list = data?.map((v: any) => {
-    const date = moment(v?.payDate).format('DD.MM.YYYY HH:MM');
+    const date = moment(v?.payDate).format('DD.MM.YYYY HH:mm');
     const pay: number = v?.amount - v?.amountPartner;
     return {
       col1: date,
       col2: `${v?.firstName}  ${v?.lastName}`,
-      col3: '-',
+      col3: v?.cardNumber,
       col4: v?.amount,
       col5: v?.amountPartner,
       col6: pay.toFixed(2)?.replace(/\.0+$/, ''),
@@ -94,11 +107,12 @@ const Payment = () => {
           {header.map((v: any) => (
             <WrapTotalSum>
               <Label>{v.title || ''}</Label>
-              <TotalSum>{v.value || 0}</TotalSum>
+              <TotalSum>{numberWith(v.value, ' ', '0')}</TotalSum>
             </WrapTotalSum>
           ))}
         </WrapTotal>
       </RightHeader>
+
       <Container>
         <DatePcker
           onChange={async (e: any) => {
@@ -111,30 +125,27 @@ const Payment = () => {
           }}
           margin='0 0 20px 0'
         />
-        <Wrap>
-          {response.isLoading || response.isFetching ? (
-            <Spinner />
-          ) : (
-            <>
-              <Table columns={columns} data={list} />
-            </>
-          )}
-          {list.length > 0 ? (
-            <WrapPag>
-              <Info>
-                {t('shown')}
-                <span>{between}</span>
-                {t('from1')} <span>{totalCount}</span> {t('operations1')}
-              </Info>
-              <Pagination
-                page={filterValues.page}
-                count={totalCount}
-                onChange={handlechangePage}
-                disabled={response.isLoading || response.isFetching}
-              />
-            </WrapPag>
-          ) : null}
-        </Wrap>
+
+        {response.isLoading || response.isFetching ? (
+          <Spinner />
+        ) : (
+          <Table columns={columns} data={list} />
+        )}
+        {list.length > 0 ? (
+          <WrapPag>
+            <Info>
+              {t('shown')}
+              <span>{between}</span>
+              {t('from1')} <span>{totalCount}</span> {t('operations1')}
+            </Info>
+            <Pagination
+              page={filterValues.page}
+              count={totalCount}
+              onChange={handlechangePage}
+              disabled={response.isLoading || response.isFetching}
+            />
+          </WrapPag>
+        ) : null}
       </Container>
     </>
   );

@@ -30,8 +30,20 @@ const OrdersPage = () => {
         open={open}
         onClose={(e: any) => setOpen(e)}
       />
-      <input type='time' max='09:00' min='14:00' />
-      <span className='validity'></span>
+      <form>
+        <label htmlFor='appt-time'>
+          Choose an appointment time (opening hours 12:00 to 18:00):{' '}
+        </label>
+        <input
+          id='appt-time'
+          type='time'
+          name='appt-time'
+          min='12:00'
+          max='18:00'
+        />
+        <span className='validity'></span>
+      </form>
+
       <form onSubmit={handleSubmit(onSave)}>
         <Controller
           name='count'

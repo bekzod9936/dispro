@@ -9,7 +9,7 @@ export const QRButton = () => {
     const { t } = useTranslation()
     return (
         <Button
-            margin={{ planshet: "0 0 20px 0", laptop: "0 20px", mobile: "0 0 20px 0" }}
+            margin={{ laptop: "0 20px", mobile: "0 0 0 20px" }}
             onClick={(e) => dispatch(setOpenSideBar(true))}
             buttonStyle={{
                 shadow: '0px 4px 4px rgba(0, 0, 0, 0.04)',

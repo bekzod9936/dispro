@@ -21,6 +21,18 @@ export const fetchFinanceHistory = ({ url }: Props) => {
   return response;
 };
 
+interface ExProps {
+  startDate?: string;
+  endDate?: string;
+}
+
+export const fetchFinanceHistoryExcel = ({ startDate, endDate }: ExProps) => {
+  const response = partnerApi.get(
+    `core/staffs/get/cashier-histories?startDate=${startDate}&endDate=${endDate}`
+  );
+  return response;
+};
+
 export const fetchFinanceCashBack = ({ url }: Props) => {
   const response = partnerApi.get(
     `/banking/accounts/company/cashback/history/new?${url}`

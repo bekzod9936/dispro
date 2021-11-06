@@ -111,3 +111,17 @@ export const Buttons = styled.div`
     margin-bottom: 50px;
 `
 
+
+
+export const MToggle = styled.div`
+    display: flex;
+    align-items: center;
+    p {
+        margin-right: 15px;
+        margin-bottom: 0;
+        font-size: 16px;
+        line-height: 21px;
+        color: #223367;
+        font-weight: 300;
+    }
+`

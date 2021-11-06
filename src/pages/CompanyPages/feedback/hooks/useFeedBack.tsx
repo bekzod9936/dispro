@@ -14,35 +14,16 @@ import {
   setTotalRatingFeedBack,
 } from 'services/redux/Slices/feedback';
 import { useState } from 'react';
+import { formatPagination } from 'services/utils/formatPagination';
 
 interface Props {
   filterValues?: any;
-}
-
-interface FProps {
-  page: number;
-  perPage: number;
 }
 
 const useFeedBack = ({ filterValues }: Props) => {
   const dispatch = useAppDispatch();
   const [between, setBetween] = useState<string>('');
   const [totalCount, setTotalCount] = useState<number>(0);
-
-  function format({ page, perPage }: FProps) {
-    let start = 1;
-    let end = 1;
-    if (page === 1) {
-      start = 1;
-      end = perPage;
-    } else {
-      start = (page - 1) * perPage + 1;
-      end = page * perPage;
-    }
-
-    let info = `${start}-${end}`;
-    return info;
-  }
 
   const resCashiers = useQuery('feedBackCashiers', fetchFeedBackCashiers, {
     keepPreviousData: true,
@@ -75,11 +56,12 @@ const useFeedBack = ({ filterValues }: Props) => {
         setTotalCount(
           Math.ceil(data.data.data.totalCount / filterValues?.perPage)
         );
-        console.log(data);
+
         setBetween(
-          format({
+          formatPagination({
             page: filterValues?.page,
             perPage: filterValues?.perPage,
+            total: data.data.data.totalCount,
           })
         );
       },

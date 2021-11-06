@@ -6,9 +6,10 @@ import Pagination from 'components/Custom/Pagination';
 import Table from '../../components/Table';
 import DatePcker from 'components/Custom/DatePicker';
 import moment from 'moment';
+import { numberWith } from 'services/utils';
+import { useAppSelector } from 'services/redux/hooks';
 import {
   Container,
-  Wrap,
   WrapPag,
   Info,
   CashBackIcon,
@@ -22,6 +23,7 @@ import {
   WrapTotal,
   WrapTotalSum,
 } from '../../style';
+
 interface intialFilterProps {
   page?: number;
   perPage?: number;
@@ -31,6 +33,18 @@ interface intialFilterProps {
 
 const Payment = () => {
   const { t } = useTranslation();
+
+  const data = useAppSelector((state) => state.finance.cashBackFinance.data);
+  const totalCount = useAppSelector(
+    (state) => state.finance.cashBackFinance.totalCount
+  );
+  const between = useAppSelector(
+    (state) => state.finance.cashBackFinance.between
+  );
+  const header = useAppSelector(
+    (state) => state.finance.cashBackFinance.header
+  );
+
   const companyId = localStorage.getItem('companyId');
   const intialFilter = {
     accountId: companyId,
@@ -41,7 +55,7 @@ const Payment = () => {
   const [filterValues, setFilterValues] =
     useState<intialFilterProps>(intialFilter);
 
-  const { response, data, totalCount, between, header } = useCashBack({
+  const { response } = useCashBack({
     filterValues: filterValues,
   });
 
@@ -50,9 +64,9 @@ const Payment = () => {
     const date2 = moment(v.activateDate).format('DD.MM.YYYY');
     return {
       col1: v.operationType,
-      col2: v.clientName,
+      col2: v.clientName ? v.clientName : '-',
       col3: v.amount,
-      col4: v.amountCommission,
+      col4: Math.round((v.amount / 100) * 100) / 100,
       col5: date1,
       col6: date2,
       col7: v.status,
@@ -124,7 +138,7 @@ const Payment = () => {
           {header.map((v: any) => (
             <WrapTotalSum>
               <Label>{v.title || ''}</Label>
-              <TotalSum>{v.value || 0}</TotalSum>
+              <TotalSum>{numberWith(v.value, ' ', '0')}</TotalSum>
             </WrapTotalSum>
           ))}
         </WrapTotal>
@@ -141,30 +155,29 @@ const Payment = () => {
           }}
           margin='0 0 20px 0'
         />
-        <Wrap>
-          {response.isLoading || response.isFetching ? (
-            <Spinner />
-          ) : (
-            <>
-              <Table columns={columns} data={list} />
-            </>
-          )}
-          {list.length > 0 ? (
-            <WrapPag>
-              <Info>
-                {t('shown')}
-                <span>{between}</span>
-                {t('from1')} <span>{totalCount}</span> {t('operations1')}
-              </Info>
-              <Pagination
-                page={filterValues.page}
-                count={totalCount}
-                onChange={handlechangePage}
-                disabled={response.isLoading || response.isFetching}
-              />
-            </WrapPag>
-          ) : null}
-        </Wrap>
+
+        {response.isLoading || response.isFetching ? (
+          <Spinner />
+        ) : (
+          <>
+            <Table columns={columns} data={list} />
+          </>
+        )}
+        {list.length > 0 ? (
+          <WrapPag>
+            <Info>
+              {t('shown')}
+              <span>{between}</span>
+              {t('from1')} <span>{totalCount}</span> {t('operations1')}
+            </Info>
+            <Pagination
+              page={filterValues.page}
+              count={totalCount}
+              onChange={handlechangePage}
+              disabled={response.isLoading || response.isFetching}
+            />
+          </WrapPag>
+        ) : null}
       </Container>
     </>
   );

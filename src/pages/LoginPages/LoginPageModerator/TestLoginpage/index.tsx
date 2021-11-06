@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Container,
   LeftSide,
@@ -15,25 +15,19 @@ import {
   WLogo,
 } from './style';
 import { useTranslation } from 'react-i18next';
-import {
-  useAppDispatch,
-  useAppSelector,
-} from '../../../../services/redux/hooks';
+import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import { useHistory, useRouteMatch } from 'react-router';
 import {
   setProceedAuth,
   setBackAddCompany,
-} from '../../../../services/redux/Slices/authSlice';
-import SamWalton from '../../../../assets/images/SamWalton.png';
-import jackMa from '../../../../assets/images/JackMa.png';
+} from 'services/redux/Slices/authSlice';
+import SamWalton from 'assets/images/SamWalton.png';
+import jackMa from 'assets/images/JackMa.png';
 import { LoginPanel } from '../Loginpanel/index';
-import {
-  Left,
-  LeftBack,
-} from '../../../../assets/icons/LoginPage/LoginPageIcons';
-import logo from '../../../../assets/icons/logo_mobile.svg';
-import Button from '../../../../components/Custom/Button';
-import LangSelect from '../../../../components/LangSelect';
+import { Left, LeftBack } from 'assets/icons/LoginPage/LoginPageIcons';
+import logo from 'assets/icons/logo_mobile.svg';
+import Button from 'components/Custom/Button';
+import LangSelect from 'components/LangSelect';
 
 const TestLoginpage = ({ children }: any) => {
   const { t } = useTranslation();
