@@ -115,9 +115,14 @@ export const LoginPanel = () => {
 
   useEffect(() => {
     if (values?.phoneNumber === undefined) {
-      setValue('phoneNumber', '+998');
+      setValue('phoneNumber', '');
     } else {
-      setValue('phoneNumber', checkPhone.newString);
+      if (checkPhone.newString !== '') {
+        setValue('phoneNumber', checkPhone.newString);
+      } else {
+        setValue('phoneNumber', checkPhone.newString);
+        setDisable(true);
+      }
     }
   }, [checkPhone.check, watch('phoneNumber')]);
 
@@ -140,7 +145,7 @@ export const LoginPanel = () => {
       if (
         value?.role?.value !== undefined &&
         value?.role?.value !== '' &&
-        value?.phoneNumber?.length === 13
+        value?.phoneNumber?.length === 9
       ) {
         setDisable(false);
       } else {
@@ -221,7 +226,7 @@ export const LoginPanel = () => {
     dispatch(setProceedAuth(false));
     setTime(60);
     setFetch(false);
-    setValue('phoneNumber', '+998');
+    setValue('phoneNumber', '');
     setValue('role', { value: '' });
     setValue('smsCode', '');
     setDisable(true);
@@ -294,11 +299,11 @@ export const LoginPanel = () => {
                       <Input
                         label={t('assertCode')}
                         error={errorSms || errors.smsCode ? true : false}
-                        type='string'
                         field={field}
                         margin={{
                           laptop: '20px 0 0',
                         }}
+                        type='number'
                         IconEnd={
                           <WrapTime time={time}>
                             <Time time={time}>{time}</Time>
@@ -401,14 +406,15 @@ export const LoginPanel = () => {
                         error={errors.role ? true : false}
                         message={t('requiredField')}
                         placeholder=''
+                        isSearchable={false}
                       />
                     )}
                   />
                   <Controller
                     name='phoneNumber'
                     control={control}
-                    rules={{ required: true, maxLength: 13, minLength: 13 }}
-                    defaultValue='+998'
+                    rules={{ required: true, maxLength: 9 }}
+                    defaultValue=''
                     render={({ field }) => (
                       <Input
                         label={t('phoneNumber')}
@@ -426,7 +432,9 @@ export const LoginPanel = () => {
                           laptop: '20px 0 0',
                           desktop: '20px 0 40px',
                         }}
-                        maxLength={13}
+                        maxLength={9}
+                        inputStyle={{ inpadding: '0 20px 0 0' }}
+                        IconStart={<div className='inputstyle'>+998</div>}
                       />
                     )}
                   />

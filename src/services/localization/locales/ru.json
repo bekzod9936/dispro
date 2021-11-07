@@ -437,5 +437,8 @@
   "byRecommendation": "По рекомендации",
   "addNote": "Добавить заметку",
   "recommendationLevels": "Рекомендации по уровням",
-  "recommendations": "Рекомендации"
+  "recommendations": "Рекомендации",
+  "rus": "Рус",
+  "uzb": "Узб",
+  "ang": "Анг"
 }
