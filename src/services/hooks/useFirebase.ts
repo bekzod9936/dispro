@@ -6,20 +6,24 @@ const useFirebase = () => {
 
   useEffect(() => {
     const messaging = firebase.default.messaging();
-    messaging
-      .requestPermission()
-      .then(() => {
-        return messaging.getToken();
-      })
-      .then((token) => {
-        setMessagingToken(token);
-        console.log("firebase token");
-      })
-      .catch((e) => {
-        console.log("connection error", e);
-      });
+    if (firebase.default.messaging.isSupported()) {
+      messaging
+        .requestPermission()
+        .then(() => {
+          return messaging.getToken();
+        })
+        .then((token) => {
+          setMessagingToken(token);
+          console.log("firebase token");
+        })
+        .catch((e) => {
+          console.log("connection error", e);
+        });
+    }
   }, []);
 
+  // deviceId
+  // fcmToken
   return {
     messagingToken,
   };
