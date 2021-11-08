@@ -17,6 +17,7 @@ import { ReactComponent as Prize } from '../../assets/icons/SideBar/prize.svg';
 import { ReactComponent as Coin } from '../../assets/icons/SideBar/coin.svg';
 import { ReactComponent as Notification } from '../../assets/icons/SideBar/notification.svg';
 import { ReactComponent as Information } from '../../assets/icons/SideBar/information.svg';
+import { ReactComponent as Warn } from 'assets/icons/SideBar/warning.svg';
 
 const commonMedia = css`
   width: 29px;
@@ -269,10 +270,53 @@ export const MobileHeader = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  /* .MuiButtonBase-root {
-    padding: 5px !important;
-  } */
   padding: 0 15px 0 20px;
 `;
 
 export const WrapMenu = styled.div``;
+
+export const Wrarning = styled.div`
+  width: 100%;
+  height: 80%;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 18px;
+  color: #223367;
+  background: #ffffff;
+  font-size: 16px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  @media (min-width: ${device.planshet}) {
+    padding: 0 15px;
+  }
+  @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
+    font-size: 16px;
+  }
+  @media (max-width: ${device.planshet}) and (min-width: ${device.mobile}) {
+    font-size: 15px;
+    height: 100%;
+    text-align: center;
+    box-shadow: none;
+    flex-direction: column;
+    margin-top: 20px;
+  }
+  @media (max-width: ${device.mobile}) {
+    font-size: 14px;
+    flex-direction: column;
+    height: 100%;
+    text-align: center;
+    box-shadow: none;
+    flex-direction: column;
+    margin-top: 20px;
+  }
+`;
+
+export const WranningIcon = styled(Warn)`
+  @media (min-width: ${device.planshet}) {
+    margin-right: 20px;
+  }
+`;
