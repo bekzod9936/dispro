@@ -1,5 +1,5 @@
 import { Checkbox } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import DayList from './DayList';
 import { Container, Label } from './style';
@@ -29,7 +29,7 @@ interface WProps {
 const WorkingHours = ({ workingTime, getTime = () => {} }: Props) => {
   const { t } = useTranslation();
   const [check, setCheck] = useState<boolean>(false);
-
+  
   const [work, setWork] = useState<WProps[]>();
 
   useEffect(() => {
@@ -101,7 +101,7 @@ const WorkingHours = ({ workingTime, getTime = () => {} }: Props) => {
       {check ? null : (
         <Container>
           {work?.map((v: any) => (
-            <DayList list={v} onCopy={handleCopy} onChange={handleChangeTime} />
+            <DayList list={v} onCopy={handleCopy} all={work} onChange={handleChangeTime} />
           ))}
         </Container>
       )}
