@@ -73,6 +73,7 @@ export const ButtonsWrapper = styled.div`
   margin-top: ${(props: IButtonWrapper) => props.marginTop + "px" || "0"};
   @media(max-width: ${device.mobile}) {
     margin-top: 0;
+    margin-bottom: 0;
   }
 `
 

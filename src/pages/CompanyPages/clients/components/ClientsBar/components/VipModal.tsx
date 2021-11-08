@@ -6,9 +6,9 @@ interface IProps {
     name: string,
     status: string,
     value: number | string,
-    handleClose: () => void
+    handleClose: () => void,
 }
-export const VipModal = ({ name = "Коплаков Александр", status, value, handleClose }: IProps) => {
+export const VipModal = ({ name, status, value, handleClose }: IProps) => {
     return (
         <Wrapper>
             <div className="header">
@@ -25,6 +25,7 @@ export const VipModal = ({ name = "Коплаков Александр", status,
                 max="100" />
             <div className="buttons">
                 <Button
+                    onClick={handleClose}
                     buttonStyle={{ bgcolor: "#ffffff", color: "#223367" }}
                     margin={{ laptop: "0 25px 0 0" }}
                     startIcon={<CancelIcon />}>

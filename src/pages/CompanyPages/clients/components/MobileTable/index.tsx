@@ -47,13 +47,13 @@ export const MobileTable = ({ array, onClick }: IProps) => {
             </Thead>
             <Tbody>
                 {array.map(client => (
-                    <Trow onClick={(e) => handleClick(e, client.id)}>
+                    <Trow selected={selectedClients.some(el => client.id === el.id)} onClick={(e) => handleClick(e, client.id)}>
                         {isSelecting &&
                             <MCheckbox>
                                 <Checkbox checked={selectedClients.some(el => client.id === el.id)} />
                             </MCheckbox>}
                         {client.image ? <img src={client.image} alt="clientImg" /> : <DefaultImg />}
-                        <div>
+                        <div className="content">
                             <h5>{client.name}</h5>
                             <p>{t('discount')}: {client.discountValue}%</p>
                         </div>
