@@ -1,7 +1,7 @@
-importScripts("https://www.gstatic.com/firebasejs/5.9.4/firebase-app.js");
-importScripts("https://www.gstatic.com/firebasejs/5.9.4/firebase-messaging.js");
-
-var firebaseConfig = {
+importScripts("https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js");
+importScripts("https://www.gstatic.com/firebasejs/8.6.5/firebase-messaging.js");
+console.warn("HERE IT IS !!");
+const firebaseConfig = {
   apiKey: "AIzaSyDFYaUQdP3lynCwt42TpGO6Wt9hJHMp5Ec",
   authDomain: "dis-mobile.firebaseapp.com",
   databaseURL: "https://dis-mobile.firebaseio.com",
@@ -12,25 +12,10 @@ var firebaseConfig = {
   measurementId: "G-63K4CE8KCY",
 };
 
-firebase.initializeApp(firebaseConfig);
+const firebaseApp = firebase.initializeApp(firebaseConfig);
+
 const messaging = firebase.messaging();
-messaging.setBackgroundMessageHandler(function (payload) {
-  const promiseChain = clients
-    .matchAll({
-      type: "window",
-      includeUncontrolled: true,
-    })
-    .then((windowClients) => {
-      for (let i = 0; i < windowClients.length; i++) {
-        const windowClient = windowClients[i];
-        windowClient.postMessage(payload);
-      }
-    })
-    .then(() => {
-      return registration.showNotification("my notification title");
-    });
-  return promiseChain;
-});
-self.addEventListener("notificationclick", function (event) {
-  // console.log(event);
+
+messaging.onBackgroundMessage((payload) => {
+  return self.registration.showNotification("Title", payload);
 });

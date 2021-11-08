@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import firebase from "../../firebase/firebase";
+import { isIOS } from "react-device-detect";
 
 const useFirebase = () => {
   const [messagingToken, setMessagingToken] = useState("");
 
   useEffect(() => {
-    const messaging = firebase.default.messaging();
-    if (firebase.default.messaging.isSupported()) {
+    if (firebase.default.messaging.isSupported() && !isIOS) {
+      const messaging = firebase.default.messaging();
       messaging
         .requestPermission()
         .then(() => {
