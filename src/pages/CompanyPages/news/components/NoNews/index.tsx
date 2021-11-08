@@ -40,11 +40,9 @@ const NoNews: React.FC<IProps> = ({handleOpenSetting}) => {
                {/* Settings side  */}
       <Button
         onClick={
-          location.pathname !== "/staff/manager"
-            ? handleOpenSetting
-            : () => {
-                console.log("Manager");
-              }
+         
+            handleOpenSetting
+            
         }
         buttonStyle={{
           bgcolor: "rgb(96, 110, 234)",

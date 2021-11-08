@@ -34,11 +34,8 @@ const Header = ({
       {/* Settings side  */}
       <Button
         onClick={
-          location.pathname !== "/staff/manager"
-            ? handleOpenSetting
-            : () => {
-                console.log("Manager");
-              }
+          handleOpenSetting
+          
         }
         buttonStyle={{
           bgcolor: "#FFFFFF",

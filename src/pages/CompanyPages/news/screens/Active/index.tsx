@@ -25,7 +25,7 @@ const Active =()=>{
     const { t } = useTranslation();
     const handleOpenSetting = () => {
       history.push({
-        pathname: '/staff/setting',
+        pathname: '/news/create',
         state: { prevPage: location.pathname },
       });
       dispatch(setQuery(''));
