@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import { setCompanyInfo } from 'services/redux/Slices/partnerSlice';
 import useInfoRoute from './routers';
 import Spinner from 'components/Custom/Spinner';
+import useWindowWidth from 'services/hooks/useWindowWidth';
 import {
   Container,
   ModelContent,
@@ -20,12 +21,12 @@ import {
   CloseIcon,
   Warn,
   WrapNav,
-  WrapButton,
 } from './style';
 
 const Infopage = () => {
   const { t } = useTranslation();
   const history = useHistory();
+  const { width } = useWindowWidth();
   const dispatch = useAppDispatch();
   const infoPageSlice = useAppSelector((state) => state.infoSlice.addressAdd);
   const [open, setOpen] = useState(false);
@@ -50,21 +51,19 @@ const Infopage = () => {
       <Title>{t('info')}</Title>
       <WrapNav>
         <NavBar list={menuItems} margin='20px 0' />
-        {fill ? null : (
-          <WrapButton>
-            <Button
-              buttonStyle={{
-                color: '#223367',
-                bgcolor: 'transparent',
-                weight: 500,
-              }}
-              onClick={() => setOpen(true)}
-            >
-              {t('logout')}
-              <LogOutIcon color='#223367' />
-            </Button>
-          </WrapButton>
-        )}
+        {fill ? null : width > 1000 ? (
+          <Button
+            buttonStyle={{
+              color: '#223367',
+              bgcolor: 'transparent',
+              weight: 500,
+            }}
+            onClick={() => setOpen(true)}
+          >
+            {t('logout')}
+            <LogOutIcon color='#223367' />
+          </Button>
+        ) : null}
       </WrapNav>
       <Modal onClose={(v: boolean) => setOpen(v)} open={open}>
         <ModelContent>

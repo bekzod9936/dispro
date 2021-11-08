@@ -71,7 +71,7 @@ export const Container = styled.div`
   @media (min-width: ${device.laptop}) {
     padding: 30px 50px 0 35px;
   }
-  @media (max-width: ${device.mobile}) {
+  @media (max-width: ${device.planshet}) {
     padding: 15px 0 0;
     background-color: ${({ bgcolor }: CProps) => bgcolor};
   }
@@ -134,13 +134,5 @@ export const WrapNav = styled.div`
   padding-right: 20px;
   @media (max-width: ${device.mobile}) {
     padding: 0 15px;
-  }
-`;
-
-export const WrapButton = styled.div`
-  display: ${({ mobile }: ButtonProps) => (mobile ? 'none' : 'inline-block')};
-
-  @media (max-width: ${device.mobile}) {
-    display: ${({ mobile }: ButtonProps) => (mobile ? 'inline-block' : 'none')};
   }
 `;

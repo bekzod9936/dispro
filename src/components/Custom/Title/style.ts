@@ -10,7 +10,9 @@ export const Container = styled.div`
   font-weight: bold;
   color: #223367;
   font-size: 20px;
-
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    padding-left: 20px;
+  }
   @media (min-width: ${device.laptop}) {
     font-size: 22px;
   }

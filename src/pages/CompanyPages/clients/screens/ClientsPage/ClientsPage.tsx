@@ -11,6 +11,8 @@ import { QrCodeBar } from '../../components/QrCodeBar';
 import { ClientsBar } from '../../components/ClientsBar';
 import { SideBar } from '../../components/SideBar';
 import { useAppSelector } from 'services/redux/hooks';
+import { useWindowSize } from '../../hooks/useWindowSize';
+import { DownBar } from '../../components/DownBar';
 
 
 
@@ -18,7 +20,7 @@ const ClientsPage = () => {
 	const [query, setQuery] = React.useState<string>('')
 	const [debouncedQuery] = useDebounce(query, 300)
 	const { totalCount, selectedClients, qrCodeBar } = useAppSelector(state => state.clients)
-
+	const { width } = useWindowSize()
 
 	const { refetch, isFetching } = useFetchClients({ query: debouncedQuery });
 
@@ -35,13 +37,16 @@ const ClientsPage = () => {
 					{!isFetching && (totalCount !== 0
 						&& <Footer />)}
 				</Wrap>
-				<SideBar isOpen={qrCodeBar}>
-					<QrCodeBar />
-				</SideBar>
-				<SideBar isOpen={!isFetching && !!selectedClients.length}>
-					<ClientsBar
-						refetch={refetch} />
-				</SideBar>
+				{width > 600 ? <>
+					<SideBar isOpen={qrCodeBar}>
+						<QrCodeBar />
+					</SideBar>
+					<SideBar isOpen={!isFetching && !!selectedClients.length}>
+						<ClientsBar
+							refetch={refetch} />
+					</SideBar>
+				</> :
+					<DownBar isOpen={selectedClients.length > 0 ? "show" : "hide"} />}
 			</Container>
 		</MainWrapper>
 	);

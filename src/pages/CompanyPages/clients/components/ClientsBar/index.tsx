@@ -1,14 +1,18 @@
 import { MButton } from './components/Button'
+import { VipModal } from './components/VipModal'
 import Button from 'components/Custom/Button'
 import moment from 'moment'
 import { CloseIcon, CoinsIcon, CrownIcon, MinusCoinsIcon, ProfileIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
 import { CancelButton } from '../QrCodeBar/style'
 import { MModal } from '../Modal'
-import React from 'react'
+import React, { useState } from 'react'
 import { useHistory } from 'react-router'
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks'
 import { selectAll } from 'services/redux/Slices/clients'
-import { AddInfo, Buttons, Content, ContentInfo, DefaultImage, SelectButtons, SubContent, Text, Wrapper, WrapperContent } from './style'
+import { AddInfo, Buttons, Content, ContentInfo, DefaultImage, MToggle, SelectButtons, SubContent, Text, Wrapper, WrapperContent } from './style'
+import CustomToggle from 'components/Custom/CustomToggleSwitch'
+import Modal from 'components/Custom/Modal'
+
 interface IProps {
     refetch: any
 }
@@ -39,7 +43,7 @@ export const ClientsBar = ({ refetch }: IProps) => {
     const dispatch = useAppDispatch()
     const { selectedClients } = useAppSelector(state => state.clients)
     const client = selectedClients[0]
-
+    const [vipModal, setVipModal] = React.useState(false)
     const history = useHistory()
     const [isModalOpen, setIsModalOpen] = React.useState(false)
     const [modalContent, setModalContent] = React.useState<any>({})
@@ -60,8 +64,22 @@ export const ClientsBar = ({ refetch }: IProps) => {
     const handleClient = () => {
         history.push(`/clients/client`)
     }
+
+    const handleChangeStatus = (e: any) => {
+        setVipModal(e.target.checked)
+    }
+
+
+
     return (
         <Wrapper>
+            <Modal open={vipModal}>
+                <VipModal
+                    handleClose={() => setVipModal(false)}
+                    status={client?.addInfo?.status}
+                    value={client?.personalLoyaltyInfo?.percent}
+                    name={client?.firstName + " " + client?.lastName} />
+            </Modal>
             <CancelButton onClick={handleClose}>
                 <CloseIcon />
             </CancelButton>
@@ -86,10 +104,10 @@ export const ClientsBar = ({ refetch }: IProps) => {
                                     Списать баллы
                                     <MinusCoinsIcon style={{ marginLeft: 10 }} />
                                 </MButton>
-                                <MButton onClick={() => handleOpen("vip")}>
-                                    VIP %
-                                    <CrownIcon style={{ marginLeft: 10 }} />
-                                </MButton>
+                                <MToggle>
+                                    <p>Индивидуальный статус</p>
+                                    <CustomToggle defaultChecked={client?.personalLoyaltyInfo?.isActive} onChange={handleChangeStatus} />
+                                </MToggle>
                             </Buttons>
                             <AddInfo>
                                 <div>

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { device } from "styles/device";
 
 export const Wrapper = styled.div`
     background: #FFFFFF;
@@ -31,6 +32,7 @@ export const UpSide = styled.div`
         border-radius: 14px;
 
     }
+    
 `
 export const DefaultImage = styled.div`
     background: linear-gradient(215.2deg, #C7EEFF -12.1%, #FCA9EA 101.51%);

@@ -87,7 +87,7 @@ const DayList = ({ list, onCopy = () => {}, onChange = () => {} }: Props) => {
       setCheck(false);
     }
   };
-  console.log(whoursMaxMin, 'fff');
+
   return (
     <Container>
       <Popover

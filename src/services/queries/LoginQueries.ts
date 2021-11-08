@@ -16,7 +16,7 @@ export const signIn = async ({ role, phoneNumber }: signInProps) => {
   const response = await axios.post(
     `${URL}/auth/signup`,
     {
-      telNumber: phoneNumber,
+      telNumber: `+998${phoneNumber}`,
       userType: role,
     },
     {
@@ -34,7 +34,7 @@ export const logIn = async ({ role, phoneNumber, smsCode }: logInProps) => {
     `${URL}/auth/login`,
     {
       smsCode: smsCode,
-      telNumber: phoneNumber,
+      telNumber: `+998${phoneNumber}`,
       userType: role,
     },
     {
