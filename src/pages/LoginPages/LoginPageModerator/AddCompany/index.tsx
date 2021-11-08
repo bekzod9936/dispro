@@ -118,6 +118,7 @@ const AddCompany = () => {
                     field={field}
                     error={errors.companyType ? true : false}
                     message={t('requiredField')}
+                    isSearchable={false}
                   />
                 )}
               />

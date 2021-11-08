@@ -322,14 +322,6 @@ export const LabelLoading = styled.label`
   }
 `;
 
-export const WrapButton = styled.div`
-  display: ${({ mobile }: ButtonProps) => (mobile ? 'none' : 'inline-block')};
-
-  @media (max-width: ${device.mobile}) {
-    display: ${({ mobile }: ButtonProps) => (mobile ? 'inline-block' : 'none')};
-  }
-`;
-
 export const WebLink = styled.div`
   font-weight: normal;
   user-select: none;
