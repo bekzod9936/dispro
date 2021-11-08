@@ -9,11 +9,17 @@ export const useSideBarStyle = makeStyles((theme: Theme) =>
       height: '100vh',
     },
     appBar: {
+      [theme.breakpoints.between('xs', 'md')]: {
+        height: 'fit-content',
+        padding: '0 15px',
+      },
       [theme.breakpoints.down('lg')]: {
         height: '65px',
+        padding: '0 15px',
       },
       [theme.breakpoints.up('lg')]: {
         height: '90px',
+        padding: '0 20px',
       },
       display: 'flex',
       justifyContent: 'center',
@@ -61,10 +67,10 @@ export const useSideBarStyle = makeStyles((theme: Theme) =>
       }),
       overflowX: 'hidden',
       width: theme.spacing(7) + 1,
-      [theme.breakpoints.up('xs')]: {
+      [theme.breakpoints.up('md')]: {
         width: '99px',
       },
-      [theme.breakpoints.down('xs')]: {
+      [theme.breakpoints.down('md')]: {
         width: '0',
       },
     },

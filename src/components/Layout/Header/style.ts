@@ -66,28 +66,6 @@ export const WrapLogo = styled.div`
   }
 `;
 
-export const Wrarning = styled.div`
-  width: 100%;
-  height: 80%;
-  font-style: normal;
-  font-weight: 300;
-  font-size: 18px;
-  color: #223367;
-  background: #ffffff;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  @media (max-width: ${device.laptop}) {
-    font-size: 16px;
-  }
-`;
-
-export const WranningIcon = styled(Warn)`
-  margin-right: 20px;
-`;
-
 export const Wrapper = styled.div`
   flex: 1;
   display: flex;
