@@ -10,10 +10,10 @@ export const fetchPendingNews = (section: string) => {
 	return response;
 };
 
-// export const fetchActiveQueries = () => {
-// 	const response = partnerApi.get("/core/news/by/company/actives");
-// 	return response;
-// };
+export const fetchActiveQueries = () => {
+	const response = partnerApi.get("/core/news/by/company/actives/new");
+	return response;
+};
 
 // export const fetchArchiveQueries = () => {
 // 	const response = partnerApi.get("/core/news/by/company/archives");

@@ -30,7 +30,7 @@ export const DownBar = ({ isOpen }: IProps) => {
 
 
     return (
-        <Wrapper isOpen={open}>
+        <Wrapper border={open === "fullShow"} isOpen={open}>
             <Header>
                 {open !== "fullShow" ?
                     <>
@@ -81,9 +81,10 @@ export const DownBar = ({ isOpen }: IProps) => {
 }
 interface IStyleProps {
     isOpen: "hide" | "show" | "fullShow"
+    border?: boolean
 }
 export const Wrapper = styled.div`
-    border-radius: 12px 12px 0 0;
+    border-radius: ${({ border }: IStyleProps) => border ? "0" : "12px 12px 0 0"};
     background-color: #ffffff;
     position: absolute;
     top: 0;

@@ -1,5 +1,6 @@
 import { lazy } from "react";
 import { useTranslation } from "react-i18next";
+import useWindowWidth from "services/hooks/useWindowWidth";
 
 
 
@@ -8,6 +9,7 @@ const Client = lazy(() => import("../screens/Client"))
 const Operations = lazy(() => import("../screens/Client/components/Tables/Operations"))
 const Recommendations = lazy(() => import("../screens/Client/components/Tables/Recommendations"))
 const Points = lazy(() => import("../screens/Client/components/Tables/Points"))
+const Information = lazy(() => import("../screens/Client/components/Tables/Information"))
 export const useClientsRoutes = () => {
     const { t } = useTranslation()
     const routes = [
@@ -32,6 +34,7 @@ export const useClientsRoutes = () => {
 
 export const useClientRoutes = () => {
     const { t } = useTranslation()
+    const { width } = useWindowWidth()
     const routes = [
         {
             path: "/clients/client",
@@ -49,5 +52,12 @@ export const useClientRoutes = () => {
             component: Recommendations
         }
     ]
+    if (!(width > 600)) return {
+        routes: [{
+            path: "/clients/client/information",
+            text: t("information"),
+            component: Information
+        }, ...routes]
+    }
     return { routes }
 }
