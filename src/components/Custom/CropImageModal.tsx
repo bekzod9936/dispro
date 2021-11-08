@@ -8,7 +8,7 @@ import ReactCrop from 'react-image-crop';
 import { SaveIcon } from '../../assets/icons/InfoPageIcons/InfoPageIcons';
 import { useTranslation } from 'react-i18next';
 import 'react-image-crop/dist/ReactCrop.css';
-import NewsCard from '../../pages/CompanyPages/news/NewsCard';
+// import NewsCard from '../../pages/CompanyPages/news/NewsCard';
 import cropbackground from 'assets/images/CropRename.png';
 import axios from 'axios';
 import { STORAGE_URL } from '../../services/constants/config';

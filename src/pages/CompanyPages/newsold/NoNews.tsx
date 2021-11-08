@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 interface IProps {
   setStatus?: any;
 }
-const NoNews: React.FC<IProps> = ({ setStatus }) => {
+const NoNews: React.FC<IProps> = () => {
   const { t } = useTranslation();
   return (
     <>
@@ -32,7 +32,7 @@ const NoNews: React.FC<IProps> = ({ setStatus }) => {
                 {t('noPendingNews')}
               </Text>
             </div>
-            <div style={{ marginTop: '15px' }}>
+            {/* <div style={{ marginTop: '15px' }}>
               <CustomButton
                 onClick={() => {
                   setStatus('create_news');
@@ -41,7 +41,7 @@ const NoNews: React.FC<IProps> = ({ setStatus }) => {
                 <CreateNewsIcon />
                 <Text color='white'>{t('createNews')}</Text>
               </CustomButton>
-            </div>
+            </div> */}
           </Flex>
         </Flex>
       </Flex>

@@ -9,7 +9,7 @@ const StaffPage = lazy(() => import('../pages/CompanyPages/staff/StaffPage'));
 const NotificationsPage = lazy(
   () => import('../pages/CompanyPages/notifications')
 );
-const NewsPage = lazy(() => import('../pages/CompanyPages/news/NewsPage'));
+const NewsPage = lazy(() => import('../pages/CompanyPages/news'));
 const FinancePage = lazy(() => import('../pages/CompanyPages/finances'));
 const InfoPage = lazy(() => import('../pages/CompanyPages/info'));
 const OrdersPage = lazy(

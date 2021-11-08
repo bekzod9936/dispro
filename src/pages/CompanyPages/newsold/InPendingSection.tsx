@@ -22,7 +22,7 @@ import CustomReusableTable from '../../../components/Custom/CustomReusableTable'
 import { RightSideDrawer } from '../../../styles/Elements';
 import { XIcon } from '../../../assets/icons/ClientStatisticsIcons/Filters';
 import { CloseIcon } from '../../../assets/icons/ClientsPageIcons/ClientIcons';
-import NewsCard from './NewsCard';
+// import NewsCard from './NewsCard';
 import InfoComponent from './InfoComponent';
 import { DeleteIconWhite } from '../../../assets/icons/SettingsIcons/SettingsPageIcon';
 import AssertModalNews from './AssertModalNews';
@@ -273,12 +273,12 @@ const InPendingSection: React.FC<IProps> = ({
 								<CloseIcon />
 							</div>
 						</div>
-						<NewsCard
+						{/* <NewsCard
 							date={moment(selectedSingleNews.createdAt).format('DD.MM.YYYY')}
 							src={selectedSingleNews.image}
 							title={selectedSingleNews.title}
 							text={selectedSingleNews.description}
-						/>
+						/> */}
 						<InfoComponent
 							ageLimit={selectedSingleNews.ageFrom}
 							gender={
