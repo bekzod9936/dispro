@@ -640,12 +640,13 @@ const Main = () => {
                 bgcolor: 'rgba(96, 110, 234, 0.1)',
                 weight: 500,
               }}
+              width={{ width: 'fit-content' }}
               margin={{
                 laptop: '10px 10px 0 0',
               }}
+              endIcon={<CloseIcon />}
             >
               {t('logout')}
-              <CloseIcon mobile={true} />
             </Button>
           ) : null}
           <Button
@@ -662,8 +663,9 @@ const Main = () => {
                 setErrorLogo(true);
               }
             }}
+            startIcon={width > 1000 ? <SaveIcon /> : null}
+            endIcon={width < 1000 ? <SaveIcon /> : null}
           >
-            <SaveIcon />
             {t('save')}
           </Button>
         </div>

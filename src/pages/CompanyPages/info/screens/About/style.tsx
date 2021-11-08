@@ -14,6 +14,7 @@ import { ReactComponent as PhotoLoading } from 'assets/icons/IconsInfo/photoload
 import { ReactComponent as Save } from 'assets/icons/IconsInfo/save.svg';
 import { ReactComponent as Close } from 'assets/icons/SideBar/close.svg';
 import { ReactComponent as Delete } from 'assets/icons/IconsInfo/delete.svg';
+import { ReactComponent as LogWhite } from 'assets/icons/SideBar/logoutwhite.svg';
 
 interface Props {
   weight?: string;
@@ -50,9 +51,7 @@ export const TrashIcon = styled(Trash)`
   }
 `;
 
-export const SaveIcon = styled(Save)`
-  margin-right: 15px;
-`;
+export const SaveIcon = styled(Save)``;
 
 export const ForExample = styled.div`
   margin-bottom: 20px;
@@ -61,11 +60,9 @@ export const ForExample = styled.div`
   color: #223367;
 `;
 
-export const CloseIcon = styled(Close)`
-  margin-right: ${({ mobile }: ButtonProps) => (mobile ? null : '15px')};
-  margin-left: ${({ mobile }: ButtonProps) => (mobile ? '15px' : null)};
+export const CloseIcon = styled(LogWhite)`
   & > path {
-    fill: ${({ mobile }: ButtonProps) => (mobile ? '#606EEA' : '#223367')};
+    fill: #606eea;
   }
 `;
 
