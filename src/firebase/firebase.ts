@@ -1,4 +1,4 @@
-import * as firebase from 'firebase';
+import * as firebase from "firebase";
 
 // import * as firebase from "firebase"
 
@@ -13,3 +13,21 @@ import * as firebase from 'firebase';
 // }
 
 // const firebaseApp = firebase.initializeApp(firebaseConfig);
+
+//oldone
+const firebaseConfig = {
+  apiKey: "AIzaSyDFYaUQdP3lynCwt42TpGO6Wt9hJHMp5Ec",
+  authDomain: "dis-mobile.firebaseapp.com",
+  databaseURL: "https://dis-mobile.firebaseio.com",
+  projectId: "dis-mobile",
+  storageBucket: "dis-mobile.appspot.com",
+  messagingSenderId: "897512733982",
+  appId: "1:897512733982:web:b0c0ee1385f524c1961d0f",
+  measurementId: "G-63K4CE8KCY",
+};
+
+// Initialize Firebase
+const app = firebase.default.initializeApp(firebaseConfig);
+const analytics = firebase.default.analytics(app);
+
+export default firebase;
