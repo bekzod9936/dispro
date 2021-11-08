@@ -141,9 +141,14 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
             [classes.appBarShift]: open,
           })}
         >
-          {fill && width > 1000 ? (
+          {!fill && width < 1000 ? (
+            <Wrarning>
+              <WranningIcon />
+              {t('newcompanywarning')}
+            </Wrarning>
+          ) : (
             <Toolbar>
-              {fill ? (
+              {!fill && width > 1000 ? null : (
                 <WrapMenu>
                   <IconButton
                     color='inherit'
@@ -157,14 +162,16 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
                     <MenuIcon />
                   </IconButton>
                 </WrapMenu>
-              ) : null}
-              <Header />
+              )}
+              {fill ? (
+                <Header />
+              ) : (
+                <Wrarning>
+                  <WranningIcon />
+                  {t('newcompanywarning')}
+                </Wrarning>
+              )}
             </Toolbar>
-          ) : (
-            <Wrarning>
-              <WranningIcon />
-              {t('newcompanywarning')}
-            </Wrarning>
           )}
         </AppBar>
         <DesktopDrawer

@@ -4,6 +4,7 @@ import { MDialog } from './style';
 export interface Props {
   onClose?: (v: boolean) => void;
   disableEnforceFocus?: boolean;
+  fullScreen?: boolean;
   open?: boolean;
   children?: any;
   modalStyle?: {
