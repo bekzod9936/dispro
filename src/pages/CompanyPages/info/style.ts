@@ -132,8 +132,9 @@ export const WrapNav = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-right: 20px;
+  padding: 20px 20px 20px 0;
+
   @media (max-width: ${device.mobile}) {
-    padding: 0 15px;
+    padding: 15px;
   }
 `;
