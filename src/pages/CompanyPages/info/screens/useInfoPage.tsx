@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { useQuery } from 'react-query';
-import { fetchInfo } from 'services/queries/PartnerQueries';
+import { useState } from "react";
+import { useQuery } from "react-query";
+import { fetchInfo } from "services/queries/partnerQuery";
 
 interface Props {
   annotation?: string;
@@ -41,9 +41,9 @@ const useInfoPage = () => {
   const [data, setData] = useState<Props>({ categories: [] });
 
   const response = useQuery(
-    'fetchInfoCompanyid123',
+    "fetchInfoCompanyid123",
     () => {
-      return fetchInfo(localStorage.getItem('companyId'));
+      return fetchInfo(localStorage.getItem("companyId"));
     },
     {
       keepPreviousData: true,

@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { fetchClients, searchClients } from "services/queries/ClientsQueries";
+import { fetchClients, searchClients } from "services/queries/clientsQuery";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 import { setClients } from "services/redux/Slices/clients";
 import { RootState } from "services/redux/store";
@@ -8,8 +8,10 @@ interface IArgs {
 }
 
 export const useFetchClients = ({ query }: IArgs) => {
-  const dispatch = useAppDispatch()
-  const { page, filters, period } = useAppSelector((state: RootState) => state.clients)
+  const dispatch = useAppDispatch();
+  const { page, filters, period } = useAppSelector(
+    (state: RootState) => state.clients
+  );
   const response = useQuery(
     ["clients", page, query, period, filters],
     () => {
@@ -28,11 +30,14 @@ export const useFetchClients = ({ query }: IArgs) => {
       refetchIntervalInBackground: true,
       cacheTime: 50000,
       onSuccess: (data) => {
-        dispatch(setClients({ clients: data.data.data.clients, totalCount: data.data.data.totalCount }))
+        dispatch(
+          setClients({
+            clients: data.data.data.clients,
+            totalCount: data.data.data.totalCount,
+          })
+        );
       },
     }
   );
   return response;
 };
-
-

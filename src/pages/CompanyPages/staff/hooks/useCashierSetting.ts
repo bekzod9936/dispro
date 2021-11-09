@@ -1,7 +1,7 @@
 import { useForm, useWatch } from "react-hook-form";
 import { useQuery, useMutation } from "react-query";
-import { fetchRewards } from "services/queries/PartnerQueries";
-import { changeLoyal } from "services/queries/StaffQueries";
+import { fetchRewards } from "services/queries/partnerQuery";
+import { changeLoyal } from "services/queries/staffQuery";
 import { useAppDispatch } from "services/redux/hooks";
 import { setSummaOperations } from "services/redux/Slices/staffs";
 

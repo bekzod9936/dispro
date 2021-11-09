@@ -1,13 +1,13 @@
-import { useState } from 'react';
-import Resizer from 'react-image-file-resizer';
-import { useMutation, useQuery } from 'react-query';
-import partnerApi from 'services/interceptors/companyInterceptor';
+import { useState } from "react";
+import Resizer from "react-image-file-resizer";
+import { useMutation, useQuery } from "react-query";
+import partnerApi from "services/interceptors/companyInterceptor";
 import {
   deletePhoto,
   fetchCategories,
   uploadPhoto,
-} from 'services/queries/InfoQueries';
-import { FIcon, IIcon, TIcon, TWIcon, VKIcon, WTIcon, VIcon } from './style';
+} from "services/queries/InfoQuery";
+import { FIcon, IIcon, TIcon, TWIcon, VKIcon, WTIcon, VIcon } from "./style";
 interface Props {
   value?: number;
   label?: string;
@@ -19,8 +19,8 @@ interface IProps {
 
 const useAbout = ({ logo }: IProps) => {
   const [category, setCategory] = useState<Props[]>([]);
-  const [upload, setUpload] = useState<string>('');
-  const resCategory = useQuery('categories123', fetchCategories, {
+  const [upload, setUpload] = useState<string>("");
+  const resCategory = useQuery("categories123", fetchCategories, {
     keepPreviousData: true,
     refetchOnWindowFocus: false,
     retry: 0,
@@ -34,12 +34,12 @@ const useAbout = ({ logo }: IProps) => {
   });
 
   const dataURIToBlob = (dataURI: any) => {
-    const splitDataURI = dataURI.split(',');
+    const splitDataURI = dataURI.split(",");
     const byteString =
-      splitDataURI[0].indexOf('base64') >= 0
+      splitDataURI[0].indexOf("base64") >= 0
         ? atob(splitDataURI[1])
         : decodeURI(splitDataURI[1]);
-    const mimeString = splitDataURI[0].split(':')[1].split(';')[0];
+    const mimeString = splitDataURI[0].split(":")[1].split(";")[0];
 
     const ia = new Uint8Array(byteString.length);
     for (let i = 0; i < byteString.length; i++)
@@ -54,13 +54,13 @@ const useAbout = ({ logo }: IProps) => {
         file,
         400,
         400,
-        'png',
+        "png",
         100,
         0,
         (uri: any) => {
           resolve(uri);
         },
-        'base64',
+        "base64",
         400,
         400
       );
@@ -75,9 +75,9 @@ const useAbout = ({ logo }: IProps) => {
     const image = await resizeFile(file);
     const newFile = await dataURIToBlob(image);
     const formData = new FormData();
-    await formData.append('itemId', `${localStorage.getItem('companyId')}`);
-    await formData.append('fileType', 'companyLogo');
-    await formData.append('file', newFile, 'logo.png');
+    await formData.append("itemId", `${localStorage.getItem("companyId")}`);
+    await formData.append("fileType", "companyLogo");
+    await formData.append("file", newFile, "logo.png");
     await resUpLoad.mutate(formData, {
       onSuccess: (data) => {
         setUpload(data?.data?.data?.link);
@@ -87,7 +87,7 @@ const useAbout = ({ logo }: IProps) => {
   };
 
   const resDelete = useMutation(() => {
-    setUpload('');
+    setUpload("");
     resUpLoad.reset();
     return deletePhoto({ body: logo });
   });
@@ -98,15 +98,15 @@ const useAbout = ({ logo }: IProps) => {
 
   const resinfoSubData = useMutation(
     (v: any) => {
-      return partnerApi.put('/directory/company', v, {
+      return partnerApi.put("/directory/company", v, {
         headers: {
-          authorization: `Bearer ${localStorage.getItem('companyToken')}`,
+          authorization: `Bearer ${localStorage.getItem("companyToken")}`,
         },
       });
     },
     {
       onSuccess: (data) => {
-        console.log(data, 'sss');
+        console.log(data, "sss");
       },
     }
   );
@@ -114,69 +114,69 @@ const useAbout = ({ logo }: IProps) => {
   const defSocial = [
     {
       Icon: FIcon,
-      name: 'Facebook',
-      value: '',
+      name: "Facebook",
+      value: "",
     },
     {
       Icon: IIcon,
-      name: 'Instagram',
-      value: '',
+      name: "Instagram",
+      value: "",
     },
     {
       Icon: TIcon,
-      name: 'Telegram',
-      value: '',
+      name: "Telegram",
+      value: "",
     },
     {
       Icon: TWIcon,
-      name: 'Twitter',
-      value: '',
+      name: "Twitter",
+      value: "",
     },
     {
       Icon: VKIcon,
-      name: 'Vkontakte',
-      value: '',
+      name: "Vkontakte",
+      value: "",
     },
     {
       Icon: WTIcon,
-      name: 'WhatsApp',
-      value: '',
+      name: "WhatsApp",
+      value: "",
     },
     {
       Icon: VIcon,
-      name: 'Viber',
-      value: '',
+      name: "Viber",
+      value: "",
     },
   ];
 
   const defLinks = [
     {
-      name: 'Facebook',
-      value: '',
+      name: "Facebook",
+      value: "",
     },
     {
-      name: 'Instagram',
-      value: '',
+      name: "Instagram",
+      value: "",
     },
     {
-      name: 'Telegram',
-      value: '',
+      name: "Telegram",
+      value: "",
     },
     {
-      name: 'Twitter',
-      value: '',
+      name: "Twitter",
+      value: "",
     },
     {
-      name: 'Vkontakte',
-      value: '',
+      name: "Vkontakte",
+      value: "",
     },
     {
-      name: 'WhatsApp',
-      value: '',
+      name: "WhatsApp",
+      value: "",
     },
     {
-      name: 'Viber',
-      value: '',
+      name: "Viber",
+      value: "",
     },
   ];
 
