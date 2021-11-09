@@ -124,7 +124,7 @@ const Client = () => {
         return (
             <MWrapper>
                 <Form
-                    handleClose={() => setForm(prev => ({ ...prev, isOpen: false }))}
+                    handleClose={setForm}
                     action={form.action}
                     isOpen={form.isOpen} />
                 {isOpen &&

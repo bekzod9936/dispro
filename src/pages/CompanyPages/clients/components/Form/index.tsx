@@ -13,7 +13,7 @@ import Button from 'components/Custom/Button'
 interface IProps {
     isOpen: boolean,
     action: number,
-    handleClose: (bool: boolean) => void
+    handleClose: (bool: any) => void
 }
 
 const contents: any = {
@@ -57,15 +57,24 @@ export const Form = ({ isOpen, action, handleClose }: IProps) => {
     const client = selectedClients[0]
     const content = contents[action]
     const [top, setTop] = useState(false)
-    const { control, watch, handleSubmit, formState: { errors }, } = useForm()
+    const { control, setValue, watch, handleSubmit, formState: { errors }, clearErrors } = useForm()
     const history = useHistory()
+
     const onSubmit = (data: any) => {
         console.log(data);
 
     }
-    useEffect(() => {
-    }, [watch()])
 
+    // useEffect(() => {
+
+    // }, [watch()])
+
+    const onClose = () => {
+        handleClose((prev: any) => ({ ...prev, isOpen: false }))
+        setValue("amount", "")
+        setValue("comment", "")
+        clearErrors()
+    }
     useEffect(() => {
         const res = history.location.pathname.endsWith("/clients")
         setTop(res)
@@ -75,7 +84,7 @@ export const Form = ({ isOpen, action, handleClose }: IProps) => {
         <Wrapper top={top} isOpen={isOpen}>
             <Header>
                 <h5>{content.title}</h5>
-                <CloseIcon onClick={handleClose} />
+                <CloseIcon onClick={onClose} />
             </Header>
             {content.subtitle && <Subtitle>{content.subtitle}</Subtitle>}
             {selectedClients.length > 1 ?
@@ -94,14 +103,16 @@ export const Form = ({ isOpen, action, handleClose }: IProps) => {
                             name="amount"
                             rules={{
                                 required: true,
-                                min: 10
+                                min: action != 3 ? 10 : 1
                             }}
                             render={({ field }) => (
                                 <InputFormat
+                                    value={watch("amount")}
+                                    field={field}
                                     margin={{ mobile: "0 0 25px 0" }}
                                     label={content.inputLabel}
-                                    field={field}
-                                    max="10000"
+                                    type="string"
+                                    max={action !== 3 ? "10000" : "50"}
                                     error={errors.amount}
                                     message={t("requiredField")} />
                             )}
@@ -140,7 +151,7 @@ export const Form = ({ isOpen, action, handleClose }: IProps) => {
                         </Button>}
                     <div>
                         <Button
-                            onClick={handleClose}
+                            onClick={onClose}
                             margin={{ mobile: "0 10px 0 0" }}
                             buttonStyle={{ bgcolor: "rgba(96, 110, 234, 0.1)", color: "#606EEA", weight: 500 }}
                             endIcon={content.subButtonIcon}>

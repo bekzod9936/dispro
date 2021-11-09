@@ -34,7 +34,7 @@ const ClientsPage = () => {
 				<Form
 					action={form.action}
 					isOpen={form.isOpen}
-					handleClose={() => setForm(prev => ({ ...prev, isOpen: false }))} />}
+					handleClose={setForm} />}
 			<Container>
 				<Header setQuery={setQuery} query={query} />
 				<Wrap>

@@ -6,14 +6,14 @@ interface IWrapper {
 export const Wrapper = styled.div`
     transition: 200ms all;
     position: absolute;
-    top: ${({ top }: IWrapper) => !top ? "65px" : "0"};
+    top: 0;
     left: 0;
-    height: calc(100vh - 65px);
+    height: 100vh;
     width: 100%;
-    z-index: 20;
+    z-index: 2001;
     background-color: #ffffff;
     transform: ${({ isOpen }: IWrapper) => !isOpen ? "translateX(100%)" : ""};
-    padding: 15px 15px 20px 15px;
+    padding: 20px;
 `
 
 export const Header = styled.div`

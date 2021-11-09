@@ -27,7 +27,7 @@ export const MainWrapper = styled.div`
   display: flex;
   height: 100%;
   flex-direction: column;
-  position: relative;
+  /* position: relative; */
   flex-grow: 1;
   
 `;

@@ -12,8 +12,9 @@ export const Wrapper = styled.div`
     left: 0;
     right: 0;
     bottom: 0;
+    z-index: 2000 !important;
     transition: 500ms all;
-    transform: ${({ isOpen }: IStyleProps) => isOpen === "show" ? "translateY(94%)" : isOpen === "fullShow" ? "translateY(0)" : "translateY(100%)"};
+    transform: ${({ isOpen }: IStyleProps) => isOpen === "show" ? "translateY(calc(100vh - 46px))" : isOpen === "fullShow" ? "translateY(0)" : "translateY(100%)"};
     `
 export const Header = styled.div`
     padding: 15px;
