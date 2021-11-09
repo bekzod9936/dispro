@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 import { useQuery, useMutation } from "react-query";
-import { getStaffData, resetPoints } from "services/queries/StaffQueries";
+import { getStaffData, resetPoints } from "services/queries/staffQuery";
 import { setCashierId, setStaffData } from "services/redux/Slices/staffs";
 
 const useCashierCard = () => {

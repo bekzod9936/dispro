@@ -4,7 +4,7 @@ import {
   fetchBonusPoints,
   fetchCashback,
   fetchDiscount,
-} from "services/queries/PartnerQueries";
+} from "services/queries/partnerQuery";
 import { setLoyaltyUse } from "services/redux/Slices/loyalitySlice";
 import { useForm, useFieldArray } from "react-hook-form";
 import {
@@ -13,7 +13,7 @@ import {
   loyalitySaveChange,
   loyalityNewSaveChange,
   saveUseProgramLoyality,
-} from "services/queries/SettingsQueries";
+} from "services/queries/settingsQuery";
 import { parseSimpleString } from "services/utils";
 import { useAppDispatch } from "services/redux/hooks";
 import { setBaseLoyality } from "services/redux/Slices/settingsSlice";

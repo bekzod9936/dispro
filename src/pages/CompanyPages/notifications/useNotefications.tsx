@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { useQuery } from 'react-query';
-import { fetchNotifactions } from 'services/queries/NotifucationsQueries';
-import { formatPagination } from 'services/utils/formatPagination';
+import { useState } from "react";
+import { useQuery } from "react-query";
+import { fetchNotifactions } from "services/queries/notificationQuery";
+import { formatPagination } from "services/utils/formatPagination";
 
 interface Props {
   body?: string;
@@ -20,13 +20,13 @@ const useNotefications = ({ filterValues }: PProps) => {
   const [data, setData] = useState<Props[]>([]);
   const [totalCount, setTotalCount] = useState<number>(0);
 
-  const [between, setBetween] = useState<string>('');
+  const [between, setBetween] = useState<string>("");
   const response = useQuery(
-    ['fetchSuggestionInfo', filterValues],
+    ["fetchSuggestionInfo", filterValues],
     () => {
       const url = Object.keys(filterValues)
         .map((v: any) => `${v}=${filterValues[v]}&`)
-        .join('');
+        .join("");
       return fetchNotifactions({
         url: url,
       });

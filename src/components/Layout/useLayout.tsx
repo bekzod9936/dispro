@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import { useQuery } from 'react-query';
-import { fetchInfo } from 'services/queries/PartnerQueries';
-import { useAppDispatch } from 'services/redux/hooks';
-import { setStaffId } from 'services/redux/Slices/authSlice';
-import { setInfoData } from 'services/redux/Slices/info/info';
-import { setCompanyInfo } from '../../services/redux/Slices/partnerSlice';
+import { useState } from "react";
+import { useQuery } from "react-query";
+import { fetchInfo } from "services/queries/partnerQuery";
+import { useAppDispatch } from "services/redux/hooks";
+import { setStaffId } from "services/redux/Slices/authSlice";
+import { setInfoData } from "services/redux/Slices/info/info";
+import { setCompanyInfo } from "../../services/redux/Slices/partnerSlice";
 
 interface Props {
   name?: string;
@@ -19,14 +19,14 @@ interface LProps {
 }
 const useLayout = ({ id, state }: LProps) => {
   const dispatch = useAppDispatch();
-  const companyId = localStorage.getItem('companyId');
+  const companyId = localStorage.getItem("companyId");
 
   const [headerData, setData] = useState<Props>({
     filled: false,
     filledAddress: false,
   });
 
-  const resHeader = useQuery('logoANDname', () => fetchInfo(id), {
+  const resHeader = useQuery("logoANDname", () => fetchInfo(id), {
     onSuccess: (data) => {
       dispatch(setCompanyInfo(data?.data.data));
       dispatch(setInfoData(data?.data.data));

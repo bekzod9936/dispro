@@ -9,7 +9,8 @@ import { Controller, useForm, useWatch } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { CancelIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
 import Modal from 'components/Custom/Modal'
-// import { useUploadImage } from './hooks/useUploadIMage'
+import Spinner from "components/Helpers/Spinner";
+import ImageLazyLoad from "components/Custom/ImageLazyLoad/ImageLazyLoad";
 import useStaff from "../../hooks/useStaff";
 import { CloseIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
 import CropCustomModal from "components/Custom/CropImageModal/index";
@@ -29,14 +30,12 @@ import {
   GoBackIcon,
   PhoneIcon,
   PlusIcon,
- 
-
   UploadImage,
 } from "assets/icons/proposals/ProposalsIcons";
 import {
     SaveIcon
 } from "assets/icons/news/newsIcons";
-import { days } from "./constants";
+import { days ,genders,language} from "./constants";
 import {
   PushBlock,
   PushWrapper,
@@ -71,6 +70,7 @@ const CreateNews = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const dispatch = useAppDispatch();
+  const [isCoupon, setIsCoupon] = React.useState<boolean>(false);
   const { filters } = useAppSelector((state) => state.clients);
   const [filter, setFilter] = React.useState<any>({});
   const { branches } = useStaff();
@@ -111,43 +111,7 @@ const CreateNews = () => {
     setFile(data.target.files[0]);
     setIsCropVisible(true);
   };
-
-  const language = [
-    {
-      id: 1,
-      label: "Uzbek",
-      value: "Uzbek",
-    },
-    {
-      id: 2,
-      label: "Russian",
-      value: "Russian",
-    },
-    {
-        id: 3,
-        label: "English",
-        value: "English",
-      },
-  ];
-
-
-  const genders = [
-    {
-      id: 1,
-      label: "Для мужчин",
-      value: "мужчин",
-    },
-    {
-      id: 2,
-      label: "Для женщин",
-      value: "женщин",
-    },
-    {
-        id: 3,
-        label: "Для всех",
-        value: "всех",
-      },
-  ];
+console.log('file',file)
 
   const handleOpenBlock = (e: any, action: "push") => {
     setOptionalFields((prev: IOptionFields) => ({
@@ -156,10 +120,17 @@ const CreateNews = () => {
     }));
   };
 
-  const handleLanguage=(data:any)=>{
+  const handleDelete = () => {
+    setFile("");
+    setImage("");
+    deleteImage(image);
+  };
+
+ 
+
+  const submitNews=(data:any)=>{
     console.log('data',data)
-    console.log('data.languages',data.languages)
-    setLeave(false)
+  
  
   }
 
@@ -172,65 +143,8 @@ const CreateNews = () => {
         />
         <Title>Добавление новости</Title>
       </div>
-    
-            <Modal open={leave}>
-                <LeaveModal>
-                  <WrapperModal>
-                    <h3 style={{color:'#223367'}}>Добавление названия на другом языке</h3>
-                    <CloseButton onClick={() => setLeave(false)}>
-                    <CloseIcon />
-                </CloseButton>
-                </WrapperModal>
-                <Controller
-                                        name="languages"
-                                        control={control}
-                                        render={({ field }) => (
-                                            <MultiSelect
-                                                field={field}
-                                                isMulti={true}
-                                                options={language}
-                                                label="Выберите язык" />
-                                        )}
-                                    />
-                    {/* <WrapSelect>
-                <Controller
-                  name="language"
-                  control={control}
-                  rules={{
-                    required: true,
-                  }}
-                  render={({ field }) => (
-                    <MultiSelect
-                      isMulti={false}
-                      error={!!errors.language}
-                      message={t("requiredField")}
-                      field={field}
-                      placeholder="Выберите язык"
-                      options={language}
-                      margin={{ laptop: "0 0 35px 0" }}
-                    />
-                  )}
-                />
-              </WrapSelect> */}
-              <Button
-                        onClick={() => setLeave(false)}
-                        startIcon={<CancelIcon />}
-                        margin={{ laptop: "0 15px 0 0" }}
-                        buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}>
-                        Отменить
-                        
-                    </Button>
-                    <Button
-                        onClick={handleLanguage}
-                        type="submit"
-                     
-                        startIcon={<SaveIcon />}    >
-                        Сохранить
-                    </Button>
-             
-                </LeaveModal>
-            </Modal>
-      <Form>
+   
+      <Form onSubmit={ handleSubmit(submitNews)}>
         <UpSide>
           <Container>
             <LeftSide>
@@ -258,6 +172,28 @@ const CreateNews = () => {
                   )}
                 </div>
               )}
+                {isLoading && (
+                <div style={{ width: "100%", height: 140 }}>
+                  <Spinner size={30} />
+                </div>
+              )}
+              {image && (
+                <ImageBlock>
+                  <ImageLazyLoad objectFit="contain" src={image} alt="logo" />
+                  <DeleteIcon onClick={handleDelete} />
+                </ImageBlock>
+              )}
+              {file && (
+                <CropCustomModal
+                  setIsLoading={setLoading}
+                
+                  handleUpload={handleUpload}
+                  setFile={setFile}
+                  setIsCropVisible={setIsCropVisible}
+                  open={isCropVisible}
+                  src={file}
+                />
+              )}
               <Controller
                 name="name"
                 control={control}
@@ -274,13 +210,6 @@ const CreateNews = () => {
                 )}
               />
                
-               <Button
-                        onClick={() => setLeave(true)}
-                        buttonStyle={{ color: "#3492FF", bgcolor: "#ffffff" }}>
-                        на другом языке +
-                 
-                    </Button>
-          
               <Controller
                 name="description"
                 control={control}
@@ -307,8 +236,6 @@ const CreateNews = () => {
                   />
                 )}
               />
-
-
 
               <WrapInputs>
                 <Label>{t("chose_date")}</Label>

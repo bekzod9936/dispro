@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "react-query";
-import { getBranches } from "services/queries/StaffQueries";
+import { getBranches } from "services/queries/staffQuery";
 
 const useStaff = () => {
   const [branches, setBranches] = useState<any>([]);

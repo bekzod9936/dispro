@@ -1,12 +1,12 @@
-import { fetchAddressInfo } from "services/queries/InfoQueries";
+import { fetchAddressInfo } from "services/queries/InfoQuery";
 import { useState } from "react";
 import { useMutation, useQuery } from "react-query";
-import { fetchQRCodes } from "services/queries/PartnerQueries";
+import { fetchQRCodes } from "services/queries/partnerQuery";
 import {
   createQrCode,
   deleteQrCode,
   editQrCode,
-} from "services/queries/QrSettingsQueries";
+} from "services/queries/qrSetttingQuery";
 import { useAppDispatch } from "services/redux/hooks";
 import { setStores } from "services/redux/Slices/qrSetting";
 

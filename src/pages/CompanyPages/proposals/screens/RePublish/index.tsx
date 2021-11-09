@@ -35,7 +35,7 @@ import {
 import CropCustomModal from "components/Custom/CropImageModal/index";
 import { useTranslation } from "react-i18next";
 import { useMutation } from "react-query";
-import { updateCoupon, postCoupon } from "services/queries/ProposalsQueries";
+import { updateCoupon, postCoupon } from "services/queries/proposalQuery";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 import { RootState } from "services/redux/store";
 import { resetCurrentCoupon } from "services/redux/Slices/proposals/proposals";
@@ -67,7 +67,7 @@ const RePublish = () => {
     defaults: [],
     categories: [],
   });
-  const [leave, setLeave] = React.useState(false)
+  const [leave, setLeave] = React.useState(false);
   const [publish, setPublish] = React.useState<boolean>(false);
   const { handleUpload, deleteImage } = useUploadImage(setImage);
   const {
@@ -133,11 +133,14 @@ const RePublish = () => {
       type: currentCoupon.type,
       ageTo: null,
       settings: {
-        weekDays: (optionalFields.days && data?.days?.length) ? data.days.map((el: any) => el.id) : [0, 1, 2, 3, 4, 5, 6],
+        weekDays:
+          optionalFields.days && data?.days?.length
+            ? data.days.map((el: any) => el.id)
+            : [0, 1, 2, 3, 4, 5, 6],
         time: {
-          from: (optionalFields.time && data?.timeFrom) ? data.timeFrom : "00:00",
-          to: (optionalFields.time && data?.timeTo) ? data.timeTo : "23:59"
-        }
+          from: optionalFields.time && data?.timeFrom ? data.timeFrom : "00:00",
+          to: optionalFields.time && data?.timeTo ? data.timeTo : "23:59",
+        },
       },
     };
     await postCoupon(validData);
@@ -162,11 +165,14 @@ const RePublish = () => {
       ageTo: null,
       description: data.description,
       settings: {
-        weekDays: (optionalFields.days && data?.days?.length) ? data.days.map((el: any) => el.id) : [0, 1, 2, 3, 4, 5, 6],
+        weekDays:
+          optionalFields.days && data?.days?.length
+            ? data.days.map((el: any) => el.id)
+            : [0, 1, 2, 3, 4, 5, 6],
         time: {
-          from: (optionalFields.time && data?.timeFrom) ? data.timeFrom : "00:00",
-          to: (optionalFields.time && data?.timeTo) ? data.timeTo : "23:59"
-        }
+          from: optionalFields.time && data?.timeFrom ? data.timeFrom : "00:00",
+          to: optionalFields.time && data?.timeTo ? data.timeTo : "23:59",
+        },
       },
     });
   };
@@ -201,14 +207,18 @@ const RePublish = () => {
       </Modal>
       <Modal open={leave}>
         <LeaveModal>
-          <p>Вы действительно хотите отменить восстановление спецпредложения?</p>
+          <p>
+            Вы действительно хотите отменить восстановление спецпредложения?
+          </p>
           <div className="buttons">
-            <Button buttonStyle={{ bgcolor: "white", color: "#223367" }} margin={{ laptop: "0 15px 0 0" }} onClick={() => setLeave(false)}>
+            <Button
+              buttonStyle={{ bgcolor: "white", color: "#223367" }}
+              margin={{ laptop: "0 15px 0 0" }}
+              onClick={() => setLeave(false)}
+            >
               Нет
             </Button>
-            <Button onClick={handleBack}>
-              Да
-            </Button>
+            <Button onClick={handleBack}>Да</Button>
           </div>
         </LeaveModal>
       </Modal>
