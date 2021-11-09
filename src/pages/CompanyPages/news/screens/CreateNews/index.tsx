@@ -126,12 +126,10 @@ console.log('file',file)
     deleteImage(image);
   };
 
- 
-
   const submitNews=(data:any)=>{
     console.log('data',data)
-  
- 
+    console.log('image',image)
+    console.log('checked',checked)
   }
 
   return (
@@ -236,7 +234,6 @@ console.log('file',file)
                   />
                 )}
               />
-
               <WrapInputs>
                 <Label>{t("chose_date")}</Label>
                 <div>
@@ -245,6 +242,7 @@ console.log('file',file)
                     width={{
                       maxwidth: 200,
                     }}
+                    required={true}
                     IconStart={<WrapDate>{t("from")}</WrapDate>}
                     inputStyle={{
                       inpadding: "0 10px 0 0",
@@ -265,6 +263,7 @@ console.log('file',file)
                     width={{
                       maxwidth: 200,
                     }}
+                    required={true}
                     margin={{ laptop: "0 0 0 15px" }}
                     IconStart={<WrapDate>{t("to")}</WrapDate>}
                     inputStyle={{
@@ -285,7 +284,7 @@ console.log('file',file)
               </WrapInputs>
               <WrapSelect>
                 <Controller
-                  name="categories"
+                  name="gender"
                   control={control}
                   rules={{
                     required: true,
@@ -293,7 +292,7 @@ console.log('file',file)
                   render={({ field }) => (
                     <MultiSelect
                       isMulti={false}
-                      error={!!errors.genders}
+                      error={!!errors.gender}
                       message={t("requiredField")}
                       field={field}
                       label="Выберите пол"
@@ -306,11 +305,16 @@ console.log('file',file)
               <Controller
                 name="ageLimit"
                 control={control}
+                rules={{
+                  required: true,
+                }}
                 render={({ field }) => (
                   <InputFormat
                     field={field}
                     defaultValue={0}
                     max="100"
+                    error={!!errors.ageLimit}
+                    message={t("requiredField")}
                     IconStart={<PlusIcon style={{ marginLeft: "20px" }} />}
                     label="Возрастное ограничение"
                   />
@@ -327,19 +331,15 @@ console.log('file',file)
                 </PushBlock>
                 {optionalFields.push && (
                   <Controller
-                    name="description"
+                    name="descriptionPush"
                     control={control}
-                    rules={{
-                      required: true,
-                    }}
                     render={({ field }) => (
                       <Input
                         field={field}
                         margin={{ laptop: "35px 0" }}
                         label="Текст Push-уведомления"
                         type="textarea"
-                        message={t("requiredField")}
-                        error={!!errors.description}
+                        
                         multiline={true}
                         inputStyle={{
                           height: { desktop: 120, laptop: 90, mobile: 60 },
@@ -415,24 +415,17 @@ console.log('file',file)
                 <FormRow>
                   <Controller
                     control={control}
-                    name="storeId"
-                    rules={{
-                      required: true,
-                    }}
+                    name="filialID"
                     render={({ field }) => {
                       return (
                         <MultiSelect
                           options={branches}
                           isMulti={true}
-                          selectStyle={{bgcolor:'#606EEA1A'}}
-                       
-                         
+                          selectStyle={{bgcolor:'#606EEA1A',border:'none',placeholdercolor:'red'}}
                           placeholder={t("choose_branch")}
                           margin={{
                             laptop: "20px 0 25px",
                           }}
-                          message={t("requiredField")}
-                      
                           field={field}
                           isClearable={false}
                         />
