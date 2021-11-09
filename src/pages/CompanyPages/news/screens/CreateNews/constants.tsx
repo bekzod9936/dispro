@@ -35,3 +35,38 @@ export const days = [
         id: 0
     }
 ]
+export const genders = [
+    {
+      id: 1,
+      label: "Для мужчин",
+      value: "мужчин",
+    },
+    {
+      id: 2,
+      label: "Для женщин",
+      value: "женщин",
+    },
+    {
+        id: 3,
+        label: "Для всех",
+        value: "всех",
+      },
+  ];
+
+  export const language = [
+    {
+      id: 1,
+      label: "Uzbek",
+      value: "Uzbek",
+    },
+    {
+      id: 2,
+      label: "Russian",
+      value: "Russian",
+    },
+    {
+        id: 3,
+        label: "English",
+        value: "English",
+      },
+  ];
