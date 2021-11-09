@@ -21,6 +21,7 @@ import {
   CloseIcon,
   Warn,
   WrapNav,
+  Wrap,
 } from './style';
 
 const Infopage = () => {
@@ -33,6 +34,7 @@ const Infopage = () => {
   const { menuItems } = useInfoRoute();
 
   const infoData = useAppSelector((state) => state.info.data);
+  const addressAdding = useAppSelector((state) => state.info.addressAdding);
   const regFilled = useAppSelector((state) => {
     return state.auth.regFilled;
   });
@@ -45,72 +47,78 @@ const Infopage = () => {
   return (
     <Container
       bgcolor={
-        match.path === '/info' || !infoPageSlice ? 'white' : 'transparent'
+        match.path === '/info' || !infoPageSlice || addressAdding
+          ? 'white'
+          : 'transparent'
       }
     >
-      <Title>{t('info')}</Title>
-      <WrapNav>
-        <NavBar list={menuItems} margin='20px 0' />
-        {fill ? null : width > 1000 ? (
-          <Button
-            buttonStyle={{
-              color: '#223367',
-              bgcolor: 'transparent',
-              weight: 500,
-            }}
-            onClick={() => setOpen(true)}
-          >
-            {t('logout')}
-            <LogOutIcon color='#223367' />
-          </Button>
-        ) : null}
-      </WrapNav>
-      <Modal onClose={(v: boolean) => setOpen(v)} open={open}>
-        <ModelContent>
-          <ModelTitle>{t('sureleave')}</ModelTitle>
-          <Warn>{t('warningcompanyinfo')}</Warn>
-          <ModalWrap>
+      <Wrap>
+        <Title>{t('info')}</Title>
+        <WrapNav>
+          <NavBar list={menuItems} margin='20px 0' />
+          {fill ? null : width > 1000 ? (
             <Button
               buttonStyle={{
                 color: '#223367',
-                bgcolor: 'white',
+                bgcolor: 'transparent',
                 weight: 500,
               }}
-              margin={{
-                laptop: '0 30px 0 0',
-              }}
-              onClick={() => setOpen(false)}
-            >
-              <CloseIcon />
-              {t('cancel')}
-            </Button>
-            <Button
-              buttonStyle={{
-                color: 'white',
-                bgcolor: '#FF5E68',
-                weight: 500,
-              }}
-              onClick={() => {
-                setOpen(true);
-                localStorage.removeItem('companyId');
-                localStorage.removeItem('companyToken');
-                history.push('/partner/company');
-                dispatch(setCompanyInfo({}));
-              }}
+              onClick={() => setOpen(true)}
             >
               {t('logout')}
-              <LogOutIcon />
+              <LogOutIcon color='#223367' />
             </Button>
-          </ModalWrap>
-        </ModelContent>
-      </Modal>
-      <Switch>
-        <Suspense fallback={<Spinner />}>
-          {menuItems.map((item) => {
-            return <Route exact path={item.path} component={item.component} />;
-          })}
-        </Suspense>
-      </Switch>
+          ) : null}
+        </WrapNav>
+        <Modal onClose={(v: boolean) => setOpen(v)} open={open}>
+          <ModelContent>
+            <ModelTitle>{t('sureleave')}</ModelTitle>
+            <Warn>{t('warningcompanyinfo')}</Warn>
+            <ModalWrap>
+              <Button
+                buttonStyle={{
+                  color: '#223367',
+                  bgcolor: 'white',
+                  weight: 500,
+                }}
+                margin={{
+                  laptop: '0 30px 0 0',
+                }}
+                onClick={() => setOpen(false)}
+              >
+                <CloseIcon />
+                {t('cancel')}
+              </Button>
+              <Button
+                buttonStyle={{
+                  color: 'white',
+                  bgcolor: '#FF5E68',
+                  weight: 500,
+                }}
+                onClick={() => {
+                  setOpen(true);
+                  localStorage.removeItem('companyId');
+                  localStorage.removeItem('companyToken');
+                  history.push('/partner/company');
+                  dispatch(setCompanyInfo({}));
+                }}
+              >
+                {t('logout')}
+                <LogOutIcon />
+              </Button>
+            </ModalWrap>
+          </ModelContent>
+        </Modal>
+        <Switch>
+          <Suspense fallback={<Spinner />}>
+            {menuItems.map((item) => {
+              return (
+                <Route exact path={item.path} component={item.component} />
+              );
+            })}
+          </Suspense>
+        </Switch>
+      </Wrap>
     </Container>
   );
 };

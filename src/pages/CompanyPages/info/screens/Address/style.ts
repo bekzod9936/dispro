@@ -84,6 +84,7 @@ export const Form = styled.form`
   @media (max-width: ${device.mobile}) {
     width: 100%;
     padding: 0;
+    border-radius: 0;
   }
 `;
 

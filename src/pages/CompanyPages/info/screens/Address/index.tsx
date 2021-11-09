@@ -16,7 +16,7 @@ import NewCompanyNotification from './NewCompanyNotification';
 import useAddress from './useAddress';
 import useInfoPage from '../useInfoPage';
 import useLayout from 'components/Layout/useLayout';
-import { useAppSelector } from 'services/redux/hooks';
+import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import {
   Container,
   Rightside,
@@ -50,6 +50,8 @@ import {
   NoResult,
   Message,
 } from './style';
+import { setAddressAdd } from 'services/redux/Slices/infoSlice';
+import { setAddressAdding } from 'services/redux/Slices/info/info';
 
 interface FormProps {
   address?: string;
@@ -79,6 +81,7 @@ const Address = () => {
   const { responseAddress, dataAddress, weeks, inntialWorkTime } = useAddress({
     id: companyId,
   });
+  const dispatch = useAppDispatch();
   const { resHeader } = useLayout({ id: companyId });
   const { response, data } = useInfoPage();
   const [workError, setWorkError] = useState<boolean>(false);
@@ -232,6 +235,7 @@ const Address = () => {
     setValue('telNumbers', newNumbers);
     setValue('addressDesc', v.addressDesc);
     setIsMain(v.isMain);
+    dispatch(setAddressAdding(true));
     const newData: any = workingTime.work.map((a: any) => {
       const common: any = v?.workingTime?.work?.find(
         (i: any) => i.day === a.day
@@ -293,6 +297,7 @@ const Address = () => {
     setPlace(['']);
     setworkingTime({ aroundTheClock: false, work: defaultTime });
     setIsMain(!data.filledAddress);
+    dispatch(setAddressAdding(true));
   };
 
   const addressDelete = useMutation(
@@ -316,6 +321,7 @@ const Address = () => {
         setValue('telNumbers', [{ number: '+998' }]);
         setValue('addressDesc', '');
         setSendDate({ aroundTheClock: false, work: inntialWorkTime });
+        dispatch(setAddressAdding(false));
       },
     }
   );
@@ -350,6 +356,7 @@ const Address = () => {
         yandexRef?.setCenter([41.32847446609404, 69.24298268717716], 10);
         setPlace([]);
         setSendDate({ aroundTheClock: false, work: inntialWorkTime });
+        dispatch(setAddressAdding(false));
       },
     }
   );
@@ -365,6 +372,7 @@ const Address = () => {
         resHeader.refetch();
         yandexRef?.setCenter([41.32847446609404, 69.24298268717716], 10);
         setPlace([]);
+        dispatch(setAddressAdding(false));
       },
     }
   );
@@ -381,6 +389,7 @@ const Address = () => {
         setOpen(true);
         yandexRef?.setCenter([41.32847446609404, 69.24298268717716], 10);
         setPlace([]);
+        dispatch(setAddressAdding(false));
       },
     }
   );
@@ -582,6 +591,7 @@ const Address = () => {
                   setSendDate({ aroundTheClock: false, work: inntialWorkTime });
                   setShowWork(false);
                   setMapError(false);
+                  dispatch(setAddressAdding(false));
                 }}
               >
                 <CloseIcon />

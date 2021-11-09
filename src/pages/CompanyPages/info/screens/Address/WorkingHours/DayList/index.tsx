@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Checkbox, Radio, RadioGroup } from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -61,16 +61,7 @@ const DayList = ({
   const [radio, setRadio] = useState<any>(false);
   const [noon, setNoon] = useState(true);
   const [check, setCheck] = useState(false);
-  const [whoursMaxMin, setWhoursMaxMin] = useState({ from: '', to: '' });
   const [modal, setModal] = useState(false);
-
-  const handleActive = (e: any) => {
-    all.forEach((v: any) => {
-      if (v.day === e) {
-        setValues(v);
-      }
-    });
-  };
 
   useEffect(() => {
     setValues(list);
@@ -111,6 +102,14 @@ const DayList = ({
       onCopy(null);
       setCheck(false);
     }
+  };
+
+  const handleActive = (e: any) => {
+    all.forEach((v: any) => {
+      if (v.day === e) {
+        setValues(v);
+      }
+    });
   };
 
   const content = (
@@ -158,14 +157,12 @@ const DayList = ({
               mobile: 5,
               planshet: 5,
             }}
-            min={whoursMaxMin.from}
-            max={whoursMaxMin.to}
             onChange={(e: any) => {
               const value: any = {
                 day: values.day,
                 wHours: { from: e.target.value },
               };
-              setWhoursMaxMin({ ...whoursMaxMin, from: e.target.value });
+
               onChange(value);
             }}
           />
@@ -191,14 +188,12 @@ const DayList = ({
               mobile: 5,
               planshet: 5,
             }}
-            min={whoursMaxMin.from}
-            max={whoursMaxMin.to}
             onChange={(e: any) => {
               const value: any = {
                 day: values.day,
                 wHours: { to: e.target.value },
               };
-              setWhoursMaxMin({ ...whoursMaxMin, to: e.target.value });
+
               onChange(value);
             }}
           />

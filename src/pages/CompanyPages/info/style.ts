@@ -65,6 +65,18 @@ export const Container = styled.div`
   flex-direction: column;
   padding: 0 50px 0 0;
   position: relative;
+  overflow-y: auto;
+  ::-webkit-scrollbar {
+    width: 7px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #606eea;
+    border-radius: 14px 0px 0px 14px;
+  }
   @media (min-width: ${device.mobile}) and (max-width: ${device.laptop}) {
     padding: 25px 40px 0 30px;
   }
@@ -76,6 +88,8 @@ export const Container = styled.div`
     background-color: ${({ bgcolor }: CProps) => bgcolor};
   }
 `;
+
+export const Wrap = styled.div``;
 
 export const LogOutIcon = styled(LogWhite)`
   margin-left: 15px;
