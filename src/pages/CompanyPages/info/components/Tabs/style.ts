@@ -22,6 +22,21 @@ export const Container = styled.div`
   }
   .MuiTabs-flexContainer {
     grid-gap: 10px !important;
+    overflow-x: scroll !important;
+    &::-webkit-scrollbar {
+      appearance: none;
+      display: none;
+    }
+    &::-webkit-scrollbar-thumb {
+      appearance: none;
+      display: none;
+    }
+
+    &::-webkit-scrollbar-track {
+      appearance: none;
+      display: none;
+    }
+    width: 100%;
   }
   .MuiTab-textColorInherit {
     opacity: 1 !important;
@@ -37,10 +52,12 @@ export const Container = styled.div`
   button.MuiTab-root {
     text-transform: capitalize;
   }
-  span.PrivateTabIndicator-root-30,
-  .PrivateTabIndicator-colorSecondary-31 {
+
+  [class*='PrivateTabIndicator-colorSecondary'] {
     height: 0 !important;
   }
+  overflow: hidden;
+  width: 100%;
 `;
 
 export const Appbar = styled(AppBar)``;

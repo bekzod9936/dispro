@@ -30,10 +30,15 @@ interface Props {
   xl?: false | 'auto' | true | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
   xs?: false | 'auto' | true | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
   zeroMinWidth?: boolean;
+  style?: any;
 }
 
 const Grid = (props: Props) => {
-  return <MGrid {...props}>{props.children}</MGrid>;
+  return (
+    <MGrid style={props.style} {...props}>
+      {props.children}
+    </MGrid>
+  );
 };
 
 export default Grid;

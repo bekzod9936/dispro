@@ -16,7 +16,8 @@ import NewCompanyNotification from './NewCompanyNotification';
 import useAddress from './useAddress';
 import useInfoPage from '../useInfoPage';
 import useLayout from 'components/Layout/useLayout';
-import { useAppSelector } from 'services/redux/hooks';
+import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
+import { setAddressAdding } from 'services/redux/Slices/info/info';
 import {
   Container,
   Rightside,
@@ -79,6 +80,7 @@ const Address = () => {
   const { responseAddress, dataAddress, weeks, inntialWorkTime } = useAddress({
     id: companyId,
   });
+  const dispatch = useAppDispatch();
   const { resHeader } = useLayout({ id: companyId });
   const { response, data } = useInfoPage();
   const [workError, setWorkError] = useState<boolean>(false);
@@ -111,6 +113,10 @@ const Address = () => {
       weekday: common?.weekday,
     };
   });
+
+  useEffect(() => {
+    dispatch(setAddressAdding(false));
+  }, []);
 
   const [workingTime, setworkingTime] = useState<WProps>({
     aroundTheClock: false,
@@ -232,6 +238,7 @@ const Address = () => {
     setValue('telNumbers', newNumbers);
     setValue('addressDesc', v.addressDesc);
     setIsMain(v.isMain);
+    dispatch(setAddressAdding(true));
     const newData: any = workingTime.work.map((a: any) => {
       const common: any = v?.workingTime?.work?.find(
         (i: any) => i.day === a.day
@@ -293,6 +300,7 @@ const Address = () => {
     setPlace(['']);
     setworkingTime({ aroundTheClock: false, work: defaultTime });
     setIsMain(!data.filledAddress);
+    dispatch(setAddressAdding(true));
   };
 
   const addressDelete = useMutation(
@@ -316,6 +324,7 @@ const Address = () => {
         setValue('telNumbers', [{ number: '+998' }]);
         setValue('addressDesc', '');
         setSendDate({ aroundTheClock: false, work: inntialWorkTime });
+        dispatch(setAddressAdding(false));
       },
     }
   );
@@ -350,6 +359,7 @@ const Address = () => {
         yandexRef?.setCenter([41.32847446609404, 69.24298268717716], 10);
         setPlace([]);
         setSendDate({ aroundTheClock: false, work: inntialWorkTime });
+        dispatch(setAddressAdding(false));
       },
     }
   );
@@ -365,6 +375,7 @@ const Address = () => {
         resHeader.refetch();
         yandexRef?.setCenter([41.32847446609404, 69.24298268717716], 10);
         setPlace([]);
+        dispatch(setAddressAdding(false));
       },
     }
   );
@@ -381,6 +392,7 @@ const Address = () => {
         setOpen(true);
         yandexRef?.setCenter([41.32847446609404, 69.24298268717716], 10);
         setPlace([]);
+        dispatch(setAddressAdding(false));
       },
     }
   );
@@ -464,91 +476,93 @@ const Address = () => {
       {open ? (
         <>
           <AddWrap>
-            <WrapHeader>
-              <Button
-                buttonStyle={{
-                  bgcolor: 'white',
-                  color: '#223367',
-                  weight: 500,
-                  shadow: '0px 4px 4px rgba(0, 0, 0, 0.04)',
-                  height: {
-                    mobile: 45,
-                    planshet: 45,
-                    laptop: 50,
-                    desktop: 60,
-                  },
-                }}
-                margin={{
-                  mobile: '15px 0 0 20px',
-                }}
-                onClick={handlePluseClick}
-              >
-                <PlusIcon />
-                {t('addFilial')}
-              </Button>
-              <WrapInput>
-                <Input
-                  inputStyle={{ inpadding: '0 10px', border: 'none' }}
-                  placeholder={t('searchbarnches')}
-                  IconStart={<SearchIcon />}
-                  margin={{ laptop: '0 0 0 20px', mobile: '0 20px' }}
-                  fullWidth={true}
-                  onChange={handleSearch}
-                  type='search'
-                  onFocus={() => setSearchFocus(true)}
-                  onBlur={() =>
-                    inpuSearch === '' ? setSearchFocus(false) : null
-                  }
-                  value={inpuSearch}
-                />
-              </WrapInput>
-            </WrapHeader>
-            <WrapContent>
-              {responseAddress.isLoading || responseAddress.isFetching ? (
-                <Spinner />
-              ) : !searchFocus || inpuSearch === '' ? (
-                fillial?.map((v: IAddress) => (
-                  <AddressInfo onClick={() => handleChoosFillial(v)}>
-                    <Left>
-                      <Title>{t('addresscompany')}</Title>
-                      <Text1>{v.address}</Text1>
-                    </Left>
-                    <Right>
-                      {v.telNumbers.map((n: any) => (
-                        <Number>{n}</Number>
-                      ))}
-                    </Right>
-                  </AddressInfo>
-                ))
-              ) : searchRes.length === 0 ? (
-                <NoResult>{t('noresult')}</NoResult>
-              ) : (
-                searchRes?.map((v: IAddress) => (
-                  <AddressInfo onClick={() => handleChoosFillial(v)}>
-                    <Left>
-                      <Title>{t('addresscompany')}</Title>
-                      <Text1>{v.address}</Text1>
-                    </Left>
-                    <Right>
-                      {v.telNumbers.map((n: any) => (
-                        <Number>{n}</Number>
-                      ))}
-                    </Right>
-                  </AddressInfo>
-                ))
-              )}
-              <MobileMap>
-                <YandexContainer bcolor={mapError}>
-                  <YandexMap
-                    onBoundsChange={onBoundsChange}
-                    handleRef={(e: any) => setYandexRef(e)}
-                    place={place}
-                    onClickPlaceMark={onClickPlace}
-                    placeOptions={palceOptions}
+            <div>
+              <WrapHeader>
+                <Button
+                  buttonStyle={{
+                    bgcolor: 'white',
+                    color: '#223367',
+                    weight: 500,
+                    shadow: '0px 4px 4px rgba(0, 0, 0, 0.04)',
+                    height: {
+                      mobile: 45,
+                      planshet: 45,
+                      laptop: 50,
+                      desktop: 60,
+                    },
+                  }}
+                  margin={{
+                    mobile: '15px 0 0 20px',
+                  }}
+                  onClick={handlePluseClick}
+                >
+                  <PlusIcon />
+                  {t('addFilial')}
+                </Button>
+                <WrapInput>
+                  <Input
+                    inputStyle={{ inpadding: '0 10px', border: 'none' }}
+                    placeholder={t('searchbarnches')}
+                    IconStart={<SearchIcon />}
+                    margin={{ laptop: '0 0 0 20px', mobile: '0 20px' }}
+                    fullWidth={true}
+                    onChange={handleSearch}
+                    type='search'
+                    onFocus={() => setSearchFocus(true)}
+                    onBlur={() =>
+                      inpuSearch === '' ? setSearchFocus(false) : null
+                    }
+                    value={inpuSearch}
                   />
-                </YandexContainer>
-              </MobileMap>
-            </WrapContent>
+                </WrapInput>
+              </WrapHeader>
+              <WrapContent>
+                {responseAddress.isLoading || responseAddress.isFetching ? (
+                  <Spinner />
+                ) : !searchFocus || inpuSearch === '' ? (
+                  fillial?.map((v: IAddress) => (
+                    <AddressInfo onClick={() => handleChoosFillial(v)}>
+                      <Left>
+                        <Title>{t('addresscompany')}</Title>
+                        <Text1>{v.address}</Text1>
+                      </Left>
+                      <Right>
+                        {v.telNumbers.map((n: any) => (
+                          <Number>{n}</Number>
+                        ))}
+                      </Right>
+                    </AddressInfo>
+                  ))
+                ) : searchRes.length === 0 ? (
+                  <NoResult>{t('noresult')}</NoResult>
+                ) : (
+                  searchRes?.map((v: IAddress) => (
+                    <AddressInfo onClick={() => handleChoosFillial(v)}>
+                      <Left>
+                        <Title>{t('addresscompany')}</Title>
+                        <Text1>{v.address}</Text1>
+                      </Left>
+                      <Right>
+                        {v.telNumbers.map((n: any) => (
+                          <Number>{n}</Number>
+                        ))}
+                      </Right>
+                    </AddressInfo>
+                  ))
+                )}
+                <MobileMap>
+                  <YandexContainer bcolor={mapError}>
+                    <YandexMap
+                      onBoundsChange={onBoundsChange}
+                      handleRef={(e: any) => setYandexRef(e)}
+                      place={place}
+                      onClickPlaceMark={onClickPlace}
+                      placeOptions={palceOptions}
+                    />
+                  </YandexContainer>
+                </MobileMap>
+              </WrapContent>
+            </div>
           </AddWrap>
         </>
       ) : (
@@ -582,6 +596,7 @@ const Address = () => {
                   setSendDate({ aroundTheClock: false, work: inntialWorkTime });
                   setShowWork(false);
                   setMapError(false);
+                  dispatch(setAddressAdding(false));
                 }}
               >
                 <CloseIcon />
