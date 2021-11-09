@@ -54,6 +54,8 @@ export const NewSelect = styled(Select)`
         : 'transparent'} !important;
   }
   [class$='-placeholder'] {
+    font-weight: ${({ selectStyle }: Props) =>
+      selectStyle?.placewieght ? selectStyle?.placewieght : 'normal'};
     color: ${({ selectStyle }: Props) =>
       selectStyle?.placeholdercolor
         ? selectStyle?.placeholdercolor
@@ -131,7 +133,7 @@ export const NewSelect = styled(Select)`
   }
   [class$='ValueContainer'] {
     padding: ${({ selectStyle }: Props) =>
-      selectStyle?.inpadding ? selectStyle?.inpadding : '2px 20px'}!important;
+      selectStyle?.inpadding ? selectStyle?.inpadding : '2px 40px'}!important;
   }
   .css-xb97g8 {
     & > svg {
@@ -148,6 +150,9 @@ export const NewSelect = styled(Select)`
 export const DownIcon = styled(Down)`
   margin-right: ${({ iconmargin }: Props) =>
     iconmargin ? iconmargin : '15px'};
+  & > path {
+    fill: ${({ icondowncolor }) => (icondowncolor ? icondowncolor : '#606EEA')};
+  }
 `;
 
 export const Label = styled(InputLabel)`

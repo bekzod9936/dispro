@@ -60,6 +60,7 @@ export interface Props {
       desktop?: number;
     };
     placeholdercolor?: string;
+    placewieght?: string;
   };
   IconDown?: any;
   width?: {
@@ -76,13 +77,29 @@ export interface Props {
   message?: any;
   field?: any;
   iconmargin?: string;
+  icon?: any;
+  iconleft?: string;
+  iconright?: string;
+  icondowncolor?: string;
 }
 
-const MultiSelect = ({ iconmargin, nooptionsmessage, ...props }: Props) => {
+const MultiSelect = ({
+  iconmargin,
+  nooptionsmessage,
+  icon,
+  iconleft,
+  iconright,
+  icondowncolor,
+  ...props
+}: Props) => {
   const DropdownIndicator = (props: any) => {
     return (
       <components.DropdownIndicator {...props}>
-        {props.IconDown ? props.IconDown : <DownIcon iconmargin={iconmargin} />}
+        {props.IconDown ? (
+          props.IconDown
+        ) : (
+          <DownIcon icondowncolor={icondowncolor} iconmargin={iconmargin} />
+        )}
       </components.DropdownIndicator>
     );
   };
@@ -99,8 +116,12 @@ const MultiSelect = ({ iconmargin, nooptionsmessage, ...props }: Props) => {
     return (
       components.ValueContainer && (
         <components.ValueContainer {...props}>
-          {!!props.children && (
-            <div style={{ position: 'absolute', left: 6 }}>ssss</div>
+          {icon && (
+            <div
+              style={{ position: 'absolute', left: iconleft, right: iconright }}
+            >
+              {icon}
+            </div>
           )}
           {props.children}
         </components.ValueContainer>

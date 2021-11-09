@@ -59,6 +59,7 @@ import {
 } from './style';
 import { useUploadImage } from '../../hooks/useUploadIMage';
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
+import { ReactComponent as MarketIcon } from 'assets/icons/SideBar/ilmarket.svg';
 
 interface IOptionFields {
   push: boolean;
@@ -420,9 +421,11 @@ const CreateNews = () => {
                           options={branches}
                           isMulti={true}
                           selectStyle={{
-                            bgcolor: '#606EEA1A',
+                            bgcolor: '#eff0fd',
                             border: 'none',
-                            placeholdercolor: 'red',
+                            placeholdercolor: '#223367',
+                            inpadding: '2px 10px 2px 60px',
+                            placewieght: '500',
                           }}
                           placeholder={t('choose_branch')}
                           margin={{
@@ -430,6 +433,9 @@ const CreateNews = () => {
                           }}
                           field={field}
                           isClearable={false}
+                          icon={<MarketIcon />}
+                          iconleft={'20px'}
+                          icondowncolor='#C4C4C4'
                         />
                       );
                     }}
