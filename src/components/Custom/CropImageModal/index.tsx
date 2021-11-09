@@ -6,7 +6,7 @@ import Button from 'components/Custom/Button'
 import { CancelIcon, CloseIcon } from 'assets/icons/ClientsPageIcons/ClientIcons';
 import { SaveIcon } from 'assets/icons/InfoPageIcons/InfoPageIcons';
 import 'react-image-crop/dist/ReactCrop.css';
-import { Bottom, Colka, Header, Left, Preview, PreviewBg, PreviewContent, PreviewDiv, Right, Wrapper } from './style';
+import { Bottom, Colka, Header, Left, Preview,PreviewBgNews, PreviewBg, PreviewContent,PreviewContentNews, PreviewDiv,PreviewDivNews,LeftRound, Right, Wrapper } from './style';
 import iphone from "assets/images/iphone.png"
 import { useAppSelector } from 'services/redux/hooks';
 import { RootState } from 'services/redux/store';
@@ -19,7 +19,7 @@ interface IProps {
     setFile?: any,
     handleUpload?: any,
     setIsLoading?: (arg: boolean) => void,
-    isCoupon: boolean
+    isCoupon?: boolean
 }
 const CropCustomModal = ({ open, src, setIsCropVisible, setFile, handleUpload, isCoupon, setIsLoading }: IProps) => {
     const { logo, name } = useAppSelector((state: RootState) => state.partner.companyInfo)
@@ -113,19 +113,31 @@ const CropCustomModal = ({ open, src, setIsCropVisible, setFile, handleUpload, i
                                 />
                             </div>
                         </Right>
-                        <Left>
+                        {isCoupon ? <Left>
                             <h4>Превью купона в приложении</h4>
                             <PreviewDiv>
                                 {imageUrl?.length > 6 && <PreviewBg src={imageUrl} alt="" />}
-                                <img style={{ zIndex: 20, position: "relative" }} width="300" src={iphone} alt="" />
+                                <img style={{ zIndex: 20, position: "relative" }} width="300" height="400" alt="" />
                                 <PreviewContent>
                                     <img src={logo} alt="logo" />
                                     <p>{name}</p>
-                                    <span>{isCoupon ? t("coupon") : t("certificate")}</span>
+                                    {isCoupon && <span>{isCoupon ? t("coupon") : t("certificate")}</span>}
 
                                 </PreviewContent>
                             </PreviewDiv>
                         </Left>
+                        :
+                        <LeftRound>
+                            <h4>Превью новости в приложении</h4>
+                            <PreviewDivNews>
+                                {imageUrl?.length > 6 && <PreviewBgNews src={imageUrl} alt="" />}
+                                <img style={{ zIndex: 20, position: "relative" }} width="285" height="180" alt="" />                     
+                            </PreviewDivNews>
+                         
+                            <h5>Название новости</h5>
+                            <p>Таким образом новая модель <br/>организационной деятельности</p>
+                        
+                        </LeftRound>}
                     </div>
                 </div>
                 <div>

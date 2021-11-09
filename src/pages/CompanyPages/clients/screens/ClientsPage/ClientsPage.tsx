@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import { Header } from '../../components/Header/Header';
 import { Container, MainWrapper, Wrap } from '../../style/style';
 import { Table } from '../../components/Table/Table';
@@ -13,19 +13,28 @@ import { SideBar } from '../../components/SideBar';
 import { useAppSelector } from 'services/redux/hooks';
 import { useWindowSize } from '../../hooks/useWindowSize';
 import { DownBar } from '../../components/DownBar';
+import { Form } from '../../components/Form';
 
 
 
 const ClientsPage = () => {
-	const [query, setQuery] = React.useState<string>('')
+	const [query, setQuery] = useState<string>('')
 	const [debouncedQuery] = useDebounce(query, 300)
 	const { totalCount, selectedClients, qrCodeBar } = useAppSelector(state => state.clients)
 	const { width } = useWindowSize()
-
+	const [form, setForm] = useState({
+		action: 1,
+		isOpen: false
+	})
 	const { refetch, isFetching } = useFetchClients({ query: debouncedQuery });
 
 	return (
 		<MainWrapper>
+			{width <= 600 &&
+				<Form
+					action={form.action}
+					isOpen={form.isOpen}
+					handleClose={setForm} />}
 			<Container>
 				<Header setQuery={setQuery} query={query} />
 				<Wrap>
@@ -46,7 +55,7 @@ const ClientsPage = () => {
 							refetch={refetch} />
 					</SideBar>
 				</> :
-					<DownBar isOpen={selectedClients.length > 0 ? "show" : "hide"} />}
+					<DownBar setForm={setForm} />}
 			</Container>
 		</MainWrapper>
 	);

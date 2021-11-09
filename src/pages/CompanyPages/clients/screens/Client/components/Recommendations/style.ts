@@ -1,11 +1,12 @@
 import styled from "styled-components";
+import { IProps } from ".";
 
 export const Wrapper = styled.div`
     background: #FFFFFF;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
     border-radius: 14px;
     padding: 25px 40px;
-    max-width: 370px;
+    max-width: ${({ maxWidth }: IProps) => maxWidth || "370px"};
     width: 100%;
     height: 100%;
     display: flex;

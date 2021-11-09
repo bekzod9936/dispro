@@ -178,7 +178,8 @@ export const Form = styled.form`
   flex-direction: column;
   justify-content: space-between;
   @media (max-width: ${device.mobile}) {
-    padding: 0 10px;
+    padding: 0;
+    border-radius: 0;
   }
 `;
 
@@ -188,7 +189,7 @@ export const UpSide = styled.div`
   height: 80%;
   width: 100%;
   @media (max-width: ${device.mobile}) {
-    padding: 15px 15px 0 15px;
+    padding: 0 15px 0 15px;
   }
   scroll-behavior: auto;
 
@@ -216,6 +217,7 @@ export const DownSide = styled.div`
   display: flex;
   justify-content: center;
   height: 20%;
+
   & > div {
     width: 87%;
     border-top: 1px solid rgba(96, 110, 234, 0.3);
@@ -223,6 +225,9 @@ export const DownSide = styled.div`
     align-items: center;
   }
   @media (max-width: ${device.mobile}) {
+    position: sticky;
+    bottom: 0;
+
     & > div {
       width: 100%;
       border-top: 1px solid rgba(96, 110, 234, 0.3);

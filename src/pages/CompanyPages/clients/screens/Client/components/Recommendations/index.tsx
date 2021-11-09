@@ -2,11 +2,13 @@ import { PersonsIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { DownSide, Level, UpSide, Wrapper } from './style'
-
-export const Recommendation = () => {
+export interface IProps {
+    maxWidth?: string
+}
+export const Recommendation = ({ maxWidth }: IProps) => {
     const { t } = useTranslation()
     return (
-        <Wrapper>
+        <Wrapper maxWidth={maxWidth}>
             <UpSide>
                 <PersonsIcon />
                 <h5>{t("recommendationLevels")}</h5>

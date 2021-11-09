@@ -1,5 +1,5 @@
-import { Container, NewSelect, DownIcon, Label, Message } from "./style";
-import { components } from "react-select";
+import { Container, NewSelect, DownIcon, Label, Message } from './style';
+import { components } from 'react-select';
 
 export interface Props {
   defaultValue?: any;
@@ -46,7 +46,6 @@ export interface Props {
     deleteColor?: string;
     deleteBgColor?: string;
     inpadding?: string;
-
     fontSize?: {
       mobile?: number;
       planshet?: number;
@@ -61,6 +60,7 @@ export interface Props {
       desktop?: number;
     };
     placeholdercolor?: string;
+    placewieght?: string;
   };
   IconDown?: any;
   width?: {
@@ -77,12 +77,29 @@ export interface Props {
   message?: any;
   field?: any;
   iconmargin?: string;
+  icon?: any;
+  iconleft?: string;
+  iconright?: string;
+  icondowncolor?: string;
 }
-const MultiSelect = ({ iconmargin, nooptionsmessage, ...props }: Props) => {
+
+const MultiSelect = ({
+  iconmargin,
+  nooptionsmessage,
+  icon,
+  iconleft,
+  iconright,
+  icondowncolor,
+  ...props
+}: Props) => {
   const DropdownIndicator = (props: any) => {
     return (
       <components.DropdownIndicator {...props}>
-        {props.IconDown ? props.IconDown : <DownIcon iconmargin={iconmargin} />}
+        {props.IconDown ? (
+          props.IconDown
+        ) : (
+          <DownIcon icondowncolor={icondowncolor} iconmargin={iconmargin} />
+        )}
       </components.DropdownIndicator>
     );
   };
@@ -90,8 +107,25 @@ const MultiSelect = ({ iconmargin, nooptionsmessage, ...props }: Props) => {
   const NoOptionsMessage = (props: any) => {
     return (
       <components.NoOptionsMessage {...props}>
-        <span className="custom-css-class">{nooptionsmessage}</span>
+        <span className='custom-css-class'>{nooptionsmessage}</span>
       </components.NoOptionsMessage>
+    );
+  };
+
+  const ValueContainer = (props: any) => {
+    return (
+      components.ValueContainer && (
+        <components.ValueContainer {...props}>
+          {icon && (
+            <div
+              style={{ position: 'absolute', left: iconleft, right: iconright }}
+            >
+              {icon}
+            </div>
+          )}
+          {props.children}
+        </components.ValueContainer>
+      )
     );
   };
 
@@ -100,36 +134,36 @@ const MultiSelect = ({ iconmargin, nooptionsmessage, ...props }: Props) => {
     control: (base: any, state: any) => ({
       ...base,
       border: props.error
-        ? "1px solid #FF5E68"
+        ? '1px solid #FF5E68'
         : props.selectStyle?.border
         ? props.selectStyle?.border
-        : "1px solid #C2C2C2",
+        : '1px solid #C2C2C2',
 
-      boxShadow: "none",
-      "&:hover": {
-        border: "inherite",
+      boxShadow: 'none',
+      '&:hover': {
+        border: 'inherite',
       },
       borderBottom: props.selectStyle?.borderbottom
         ? props.selectStyle?.borderbottom
         : null,
       backgroundColor: props.selectStyle?.bgcolor
         ? props.selectStyle?.bgcolor
-        : "white",
+        : 'white',
       borderRadius:
         props.selectStyle?.radius === 0
           ? 0
           : props.selectStyle?.radius
           ? `${props.selectStyle?.radius}px`
-          : "14px",
+          : '14px',
     }),
     option: (base: any, state: any) => {
       return {
         ...base,
-        color: props.selectStyle?.color ? props.selectStyle?.color : "#223367",
+        color: props.selectStyle?.color ? props.selectStyle?.color : '#223367',
         fontWeight: props.selectStyle?.weight
           ? props.selectStyle?.weight
-          : "500",
-        backgroundColor: state.isSelected ? "#E8F0FE" : "white",
+          : '500',
+        backgroundColor: state.isSelected ? '#E8F0FE' : 'white',
       };
     },
   };
@@ -150,14 +184,14 @@ const MultiSelect = ({ iconmargin, nooptionsmessage, ...props }: Props) => {
       ) : null}
       <NewSelect
         styles={customStyle}
-        components={{ DropdownIndicator, NoOptionsMessage }}
+        components={{ DropdownIndicator, NoOptionsMessage, ValueContainer }}
         inputId={props.label}
-        inputStyle={props.selectStyle}
+        selectStyle={props.selectStyle}
         defaultValue={props.defaultValue}
         value={props.defaultValue}
         {...props}
         {...props.field}
-        placeholder={props.placeholder ? props.placeholder : ""}
+        placeholder={props.placeholder ? props.placeholder : ''}
         menuPortalTarget={document.body}
       />
       {props.error ? (
