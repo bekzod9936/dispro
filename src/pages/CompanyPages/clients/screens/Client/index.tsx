@@ -3,7 +3,7 @@ import NavBar from 'components/Custom/NavBar'
 import Spinner from 'components/Helpers/Spinner'
 import React, { Suspense, useState } from 'react'
 import { Route, Switch, useHistory } from 'react-router'
-import { useAppSelector } from 'services/redux/hooks'
+import { useAppDispatch, useAppSelector } from 'services/redux/hooks'
 import { useClientRoutes } from '../../routes'
 import { ClientBlock } from './components/ClientBlock'
 import { InfoBlock } from './components/InfoBlock'
@@ -14,13 +14,8 @@ import { useWindowSize } from "../../hooks/useWindowSize"
 import { useTranslation } from 'react-i18next'
 import Button from 'components/Custom/Button'
 import { DownModal } from './components/DownModal'
-
-const modals: any = {
-    points: ["Начислить баллы", "Списать баллы"],
-    other: ["Индивидуальный статус", "Заблокировать"]
-}
-
-
+import { selectAll } from 'services/redux/Slices/clients'
+import { Form } from '../../components/Form'
 
 const Client = () => {
     const { selectedClients } = useAppSelector(state => state.clients)
@@ -31,12 +26,21 @@ const Client = () => {
     const { t } = useTranslation()
     const [isOpen, setIsOpen] = useState(false)
     const [modalContent, setModalContent] = useState<"points" | "other">("points")
+    const [form, setForm] = useState({
+        action: 1,
+        isOpen: false
+    })
+    const dispatch = useAppDispatch()
+
     const handleClose = () => {
+        dispatch(selectAll(false))
         history.push("/clients")
     }
+
     React.useEffect(() => {
-        if (!client) history.push("/clients")
+        if (!client) history.push("/clients");
     }, [])
+
     const statistics = [
         {
             icon: <MoneyStatsIcon />,
@@ -76,6 +80,15 @@ const Client = () => {
 
     ]
 
+    const handlePointsAction = (action: number) => {
+        setForm({
+            isOpen: true,
+            action
+        })
+        setIsOpen(false)
+    }
+
+
     const handleDownModal = (e: any, action: "other" | "points") => {
         e.stopPropagation()
         setModalContent(action)
@@ -111,8 +124,13 @@ const Client = () => {
     } else {
         return (
             <MWrapper>
+                <Form
+                    handleClose={() => setForm(prev => ({ ...prev, isOpen: false }))}
+                    action={form.action}
+                    isOpen={form.isOpen} />
                 {isOpen &&
                     <DownModal
+                        onClick={handlePointsAction}
                         modalContent={modalContent}
                         handleClose={() => setIsOpen(false)} />}
                 <MUpside>
