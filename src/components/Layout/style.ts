@@ -127,11 +127,8 @@ export const Container = styled.div`
       min-height: 90px !important;
     }
   }
-  /* .MuiButtonBase-root {
-    padding: 5px !important;
-  } */
   .MuiToolbar-gutters {
-    padding-left: 0 !important;
+    padding: 0 !important;
   }
 `;
 

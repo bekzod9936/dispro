@@ -4,14 +4,12 @@ import { useTranslation } from 'react-i18next';
 import Input from 'components/Custom/Input';
 import Button from 'components/Custom/Button';
 import Links from './Links';
-import { useAppDispatch } from 'services/redux/hooks';
 import Spinner from 'components/Custom/Spinner';
 import { Text, Title } from '../../style';
 import MultiSelect from 'components/Custom/MultiSelect';
 import { useHistory } from 'react-router';
 import useLayout from '../../../../../components/Layout/useLayout';
 import { IconButton } from '@material-ui/core';
-import { setAddressAdd } from 'services/redux/Slices/infoSlice';
 import useInfoPage from '../useInfoPage';
 import useAbout from './useAbout';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
@@ -139,8 +137,8 @@ const Main = () => {
   }, [logo]);
 
   useEffect(() => {
-    const tel: string =
-      String(data?.telNumber) !== '' ? `${data.telNumber}` : '+998';
+    const tel: string = String(data?.telNumber).slice(4);
+
     setValue('annotation', data.annotation);
     setValue('description', data.description);
     setValue('logo', data.logo);
@@ -173,8 +171,6 @@ const Main = () => {
     setSocial(newSocial);
     setValue('socialLinks', newLinks);
   }, [data]);
-
-  const dispatch = useAppDispatch();
 
   const {
     control,

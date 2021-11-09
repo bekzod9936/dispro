@@ -33,6 +33,7 @@ const Infopage = () => {
   const { menuItems } = useInfoRoute();
 
   const infoData = useAppSelector((state) => state.info.data);
+  const addressAdding = useAppSelector((state) => state.info.addressAdding);
   const regFilled = useAppSelector((state) => {
     return state.auth.regFilled;
   });
@@ -45,7 +46,9 @@ const Infopage = () => {
   return (
     <Container
       bgcolor={
-        match.path === '/info' || !infoPageSlice ? 'white' : 'transparent'
+        match.path === '/info' || !infoPageSlice || addressAdding
+          ? 'white'
+          : 'transparent'
       }
     >
       <Title>{t('info')}</Title>

@@ -11,11 +11,9 @@ export const useSideBarStyle = makeStyles((theme: Theme) =>
     appBar: {
       [theme.breakpoints.between('xs', 'md')]: {
         height: 'fit-content',
-        padding: '0 15px',
       },
       [theme.breakpoints.down('lg')]: {
         height: '65px',
-        padding: '0 15px',
       },
       [theme.breakpoints.up('lg')]: {
         height: '90px',
@@ -78,6 +76,7 @@ export const useSideBarStyle = makeStyles((theme: Theme) =>
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
+      padding: '0',
       [theme.breakpoints.down('lg')]: {
         height: '65px',
       },

@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useAppDispatch } from "services/redux/hooks";
+import { useEffect } from "react";
 import firebase from "../../firebase/firebase";
 import { isIOS } from "react-device-detect";
+import { setMessagingToken } from "services/redux/Slices/firebase";
 
 const useFirebase = () => {
-  const [messagingToken, setMessagingToken] = useState("");
-
+  const dispatch = useAppDispatch();
   useEffect(() => {
     if (firebase.default.messaging.isSupported() && !isIOS) {
       const messaging = firebase.default.messaging();
@@ -14,7 +15,8 @@ const useFirebase = () => {
           return messaging.getToken();
         })
         .then((token) => {
-          setMessagingToken(token);
+          dispatch(setMessagingToken(token));
+          localStorage.setItem("fcmToken", token);
           console.log("firebase token");
         })
         .catch((e) => {
@@ -25,9 +27,7 @@ const useFirebase = () => {
 
   // deviceId
   // fcmToken
-  return {
-    messagingToken,
-  };
+  return {};
 };
 
 export default useFirebase;
