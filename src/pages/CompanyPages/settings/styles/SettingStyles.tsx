@@ -35,7 +35,7 @@ export const ReferalScroll = styled.div`
   overflow-y: scroll;
   max-height: 60vh;
   padding-bottom: 100px;
-
+  border-right: 1px solid rgba(96, 110, 234, 0.3);
   scroll-behavior: auto;
 
   ::-webkit-scrollbar {

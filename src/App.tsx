@@ -32,15 +32,15 @@ function App() {
         <Route exact path="/terms-and-conditions" component={Condition} />
         <Route exact path="/privacy-policy" component={Policy} />
         <RenderAllRoutes />
-
-        <SnackBar
-          message={info.body}
-          status="error"
-          open={notifyOpen}
-          onClose={(e: any) => dispatch(setNotifyOpen(e))}
-          anchorOrigin={{ vertical: "top", horizontal: "right" }}
-        />
       </Switch>
+      <SnackBar
+        message={info.body}
+        status="info"
+        open={notifyOpen}
+        autoHideDuration={5000}
+        onClose={(e: any) => dispatch(setNotifyOpen(e))}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      />
     </>
   );
 }
