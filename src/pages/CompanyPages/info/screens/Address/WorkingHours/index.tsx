@@ -29,7 +29,7 @@ interface WProps {
 const WorkingHours = ({ workingTime, getTime = () => {} }: Props) => {
   const { t } = useTranslation();
   const [check, setCheck] = useState<boolean>(false);
-  
+
   const [work, setWork] = useState<WProps[]>();
 
   useEffect(() => {
@@ -45,6 +45,7 @@ const WorkingHours = ({ workingTime, getTime = () => {} }: Props) => {
   };
 
   const handleChangeTime = (e: any) => {
+    console.log(e);
     const newDate = work?.map((v: any) => {
       if (v.day === e.day) {
         return {
@@ -101,7 +102,12 @@ const WorkingHours = ({ workingTime, getTime = () => {} }: Props) => {
       {check ? null : (
         <Container>
           {work?.map((v: any) => (
-            <DayList list={v} onCopy={handleCopy} all={work} onChange={handleChangeTime} />
+            <DayList
+              list={v}
+              onCopy={handleCopy}
+              all={work}
+              onChange={handleChangeTime}
+            />
           ))}
         </Container>
       )}

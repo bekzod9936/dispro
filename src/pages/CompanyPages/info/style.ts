@@ -65,6 +65,7 @@ export const Container = styled.div`
   flex-direction: column;
   padding: 0 50px 0 0;
   position: relative;
+
   @media (min-width: ${device.mobile}) and (max-width: ${device.laptop}) {
     padding: 25px 40px 0 30px;
   }

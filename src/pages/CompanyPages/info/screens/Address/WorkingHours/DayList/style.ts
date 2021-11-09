@@ -17,7 +17,7 @@ export const Content = styled.div`
   width: 100%;
   & > fieldset {
     .MuiRadio-colorPrimary.Mui-checked {
-      color: #3492ff !important ;
+      color: #606eea !important ;
     }
     span.MuiFormControlLabel-label {
       font-weight: 300;
@@ -68,7 +68,7 @@ export const WrapCheck = styled.div`
   justify-content: flex-start;
   margin-left: -12px;
   & > span.MuiCheckbox-colorPrimary.Mui-checked {
-    color: #3492ff !important ;
+    color: #606eea !important ;
   }
 
   & > span.MuiCheckbox-root {

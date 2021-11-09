@@ -1,15 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {
-  ILinks,
-  ISocialLinks,
-  IFromTo,
-  IWork,
-  IWorkTime,
-  IInfo,
-} from './types';
+import { IInfo } from './types';
 
 interface Props {
   data?: IInfo;
+  addressAdding?: boolean;
 }
 
 export const initialState: Props = {
@@ -45,6 +39,7 @@ export const initialState: Props = {
     type: 0,
     workingTime: { aroundTheClock: false, work: [] },
   },
+  addressAdding: false,
 };
 
 const info = createSlice({
@@ -54,8 +49,11 @@ const info = createSlice({
     setInfoData: (state, action: PayloadAction<IInfo>) => {
       state.data = action.payload;
     },
+    setAddressAdding: (state, action: PayloadAction<boolean>) => {
+      state.addressAdding = action.payload;
+    },
   },
 });
 
-export const { setInfoData } = info.actions;
+export const { setInfoData, setAddressAdding } = info.actions;
 export default info.reducer;
