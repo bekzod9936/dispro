@@ -29,7 +29,8 @@ const ClientsPage = () => {
 	const { refetch, isFetching } = useFetchClients({ query: debouncedQuery });
 
 	return (
-		<MainWrapper>
+		<MainWrapper isRelative={width > 600}>
+
 			{width <= 600 &&
 				<Form
 					action={form.action}
