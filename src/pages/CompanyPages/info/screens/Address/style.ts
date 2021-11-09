@@ -191,29 +191,36 @@ export const WrapClose = styled.div`
 
 export const WrapContent = styled.div`
   margin-top: 25px;
-
-  overflow-y: auto;
   width: 100%;
-  scroll-behavior: auto;
-  &:hover {
-    ::-webkit-scrollbar-thumb {
-      background: #606eea;
-    }
-  }
-  ::-webkit-scrollbar {
-    width: 7px;
-  }
-  ::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
 
-  ::-webkit-scrollbar-thumb {
-    background: transparent;
-    border-radius: 14px;
-  }
   @media (max-width: ${device.mobile}) {
     margin-top: 15px;
     padding: 0 20px;
+    overflow-y: hidden;
+  }
+  @media (min-width: ${device.mobile}) {
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
+    scroll-behavior: auto;
+    :hover {
+      ::-webkit-scrollbar-thumb {
+        background: #606eea;
+      }
+    }
+    ::-webkit-scrollbar {
+      width: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      border-radius: 14px;
+      background: transparent;
+    }
   }
 `;
 
@@ -264,8 +271,42 @@ export const AddWrap = styled.div`
   flex-direction: column;
   width: 48%;
   overflow: hidden;
+
+  @media (min-width: ${device.mobile}) {
+    flex: 1;
+    width: 48%;
+    margin-right: 20px;
+    & > div {
+      overflow: hidden;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+  }
   @media (max-width: ${device.mobile}) {
     width: 100%;
+    & > div {
+      overflow-y: auto;
+      scroll-behavior: auto;
+      &:hover {
+        ::-webkit-scrollbar-thumb {
+          background: #606eea;
+        }
+      }
+      ::-webkit-scrollbar {
+        width: 7px;
+      }
+      ::-webkit-scrollbar-track {
+        background-color: transparent;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: transparent;
+        border-radius: 14px;
+      }
+    }
   }
 `;
 

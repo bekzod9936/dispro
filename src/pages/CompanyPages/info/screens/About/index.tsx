@@ -137,8 +137,8 @@ const Main = () => {
   }, [logo]);
 
   useEffect(() => {
-    const tel: string =
-      String(data?.telNumber) !== '' ? `${data.telNumber}` : '+998';
+    const tel: string = String(data?.telNumber).slice(4);
+
     setValue('annotation', data.annotation);
     setValue('description', data.description);
     setValue('logo', data.logo);

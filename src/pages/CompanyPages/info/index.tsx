@@ -21,7 +21,6 @@ import {
   CloseIcon,
   Warn,
   WrapNav,
-  Wrap,
 } from './style';
 
 const Infopage = () => {
@@ -52,73 +51,69 @@ const Infopage = () => {
           : 'transparent'
       }
     >
-      <Wrap>
-        <Title>{t('info')}</Title>
-        <WrapNav>
-          <NavBar list={menuItems} margin='20px 0' />
-          {fill ? null : width > 1000 ? (
+      <Title>{t('info')}</Title>
+      <WrapNav>
+        <NavBar list={menuItems} margin='20px 0' />
+        {fill ? null : width > 1000 ? (
+          <Button
+            buttonStyle={{
+              color: '#223367',
+              bgcolor: 'transparent',
+              weight: 500,
+            }}
+            onClick={() => setOpen(true)}
+          >
+            {t('logout')}
+            <LogOutIcon color='#223367' />
+          </Button>
+        ) : null}
+      </WrapNav>
+      <Modal onClose={(v: boolean) => setOpen(v)} open={open}>
+        <ModelContent>
+          <ModelTitle>{t('sureleave')}</ModelTitle>
+          <Warn>{t('warningcompanyinfo')}</Warn>
+          <ModalWrap>
             <Button
               buttonStyle={{
                 color: '#223367',
-                bgcolor: 'transparent',
+                bgcolor: 'white',
                 weight: 500,
               }}
-              onClick={() => setOpen(true)}
+              margin={{
+                laptop: '0 30px 0 0',
+              }}
+              onClick={() => setOpen(false)}
+            >
+              <CloseIcon />
+              {t('cancel')}
+            </Button>
+            <Button
+              buttonStyle={{
+                color: 'white',
+                bgcolor: '#FF5E68',
+                weight: 500,
+              }}
+              onClick={() => {
+                setOpen(true);
+                localStorage.removeItem('companyId');
+                localStorage.removeItem('companyToken');
+                history.push('/partner/company');
+                dispatch(setCompanyInfo({}));
+              }}
             >
               {t('logout')}
-              <LogOutIcon color='#223367' />
+              <LogOutIcon />
             </Button>
-          ) : null}
-        </WrapNav>
-        <Modal onClose={(v: boolean) => setOpen(v)} open={open}>
-          <ModelContent>
-            <ModelTitle>{t('sureleave')}</ModelTitle>
-            <Warn>{t('warningcompanyinfo')}</Warn>
-            <ModalWrap>
-              <Button
-                buttonStyle={{
-                  color: '#223367',
-                  bgcolor: 'white',
-                  weight: 500,
-                }}
-                margin={{
-                  laptop: '0 30px 0 0',
-                }}
-                onClick={() => setOpen(false)}
-              >
-                <CloseIcon />
-                {t('cancel')}
-              </Button>
-              <Button
-                buttonStyle={{
-                  color: 'white',
-                  bgcolor: '#FF5E68',
-                  weight: 500,
-                }}
-                onClick={() => {
-                  setOpen(true);
-                  localStorage.removeItem('companyId');
-                  localStorage.removeItem('companyToken');
-                  history.push('/partner/company');
-                  dispatch(setCompanyInfo({}));
-                }}
-              >
-                {t('logout')}
-                <LogOutIcon />
-              </Button>
-            </ModalWrap>
-          </ModelContent>
-        </Modal>
-        <Switch>
-          <Suspense fallback={<Spinner />}>
-            {menuItems.map((item) => {
-              return (
-                <Route exact path={item.path} component={item.component} />
-              );
-            })}
-          </Suspense>
-        </Switch>
-      </Wrap>
+          </ModalWrap>
+        </ModelContent>
+      </Modal>
+      <Switch>
+        <Suspense fallback={<Spinner />}>
+          {menuItems.map((item) => {
+            return <Route exact path={item.path} component={item.component} />;
+          })}
+        </Suspense>
+      </Switch>
     </Container>
   );
 };
