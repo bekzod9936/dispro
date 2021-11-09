@@ -431,7 +431,8 @@ const Coupons = () => {
                                                 options={days}
                                                 label="Укажите дни" />
                                         )}
-                                    />}
+                                    />
+                                    }
                             </AgeWrapper>
                             <AgeWrapper>
                                 <AgeBlock>
