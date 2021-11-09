@@ -1,8 +1,8 @@
 import { TOTAL_FIELDS_PATTERN, IForm } from "../constants";
 import { useForm, useWatch } from "react-hook-form";
 import { useQuery, useMutation } from "react-query";
-import { fetchRewards } from "services/queries/PartnerQueries";
-import { saveBonusRewards } from "services/queries/AwardSettingsQueries";
+import { fetchRewards } from "services/queries/partnerQuery";
+import { saveBonusRewards } from "services/queries/awardingSettingsQuery";
 
 const useAwards = () => {
   const companyId: any = localStorage.getItem("companyId");

@@ -8,7 +8,7 @@ import DefaultLayoutAdmin, {
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
 import CompanyList from "../pages/LoginPages/LoginPageModerator/Companylist/index";
-const prefix = "../pages/AdminDashBoard";
+
 //tokens
 // const adminAuthentificationToken = localStorage.getItem("admin_access_token");
 // const moderatorAutehntificationToken = localStorage.getItem("partner_access_token");
@@ -41,7 +41,7 @@ const CashierCard = lazy(
 const NotificationsPage = lazy(
   () => import("../pages/CompanyPages/notifications")
 );
-const NewsPage = lazy(() => import("../pages/CompanyPages/news/NewsPage"));
+const NewsPage = lazy(() => import("../pages/CompanyPages/news"));
 
 const FinancePage = lazy(() => import("../pages/CompanyPages/finances"));
 const InfoPage = lazy(() => import("../pages/CompanyPages/info"));
@@ -55,9 +55,7 @@ const SettingsPage = lazy(
 const ServicesPage = lazy(
   () => import("../pages/CompanyPages/services/ServicesPage")
 );
-const ClientsPage = lazy(
-  () => import("../pages/CompanyPages/clients")
-);
+const ClientsPage = lazy(() => import("../pages/CompanyPages/clients"));
 const FeedbackPage = lazy(() => import("../pages/CompanyPages/feedback"));
 const TestLoginPage = lazy(
   () => import("../pages/LoginPages/LoginPageModerator/TestLoginpage/index")
@@ -248,7 +246,7 @@ const RenderPublicRoutes = () => {
     if (
       moderatorAutehntificationToken &&
       moderatorRefreshToken &&
-      window.location.pathname === '/'
+      window.location.pathname === "/"
     ) {
       return <Redirect to="/partner/company" />;
     }

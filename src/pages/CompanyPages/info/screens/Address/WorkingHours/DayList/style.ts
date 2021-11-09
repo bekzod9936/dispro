@@ -1,8 +1,10 @@
 import styled from 'styled-components';
+import { device } from 'styles/device';
 import { ReactComponent as Delete } from 'assets/icons/IconsInfo/delete.svg';
 import { ReactComponent as NoBreak } from 'assets/icons/IconsInfo/nobreak.svg';
 import { ReactComponent as Sun } from 'assets/icons/IconsInfo/sun.svg';
 import { ReactComponent as Coffee } from 'assets/icons/IconsInfo/coffee.svg';
+import { ReactComponent as Close } from 'assets/icons/IconsInfo/close.svg';
 
 export const Container = styled.div`
   width: fit-content;
@@ -12,6 +14,24 @@ export const Container = styled.div`
 
 export const Content = styled.div`
   padding: 25px;
+  width: 100%;
+  & > fieldset {
+    .MuiRadio-colorPrimary.Mui-checked {
+      color: #606eea !important ;
+    }
+    span.MuiFormControlLabel-label {
+      font-weight: 300;
+      font-size: 16px;
+      color: #223367;
+    }
+    span.MuiRadio-root {
+      color: #a5a5a5;
+    }
+  }
+
+  @media (max-width: ${device.mobile}) {
+    padding: 0 15px 15px;
+  }
 `;
 
 export const DeleteIcon = styled(Delete)`
@@ -46,6 +66,19 @@ export const WrapCheck = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  margin-left: -12px;
+  & > span.MuiCheckbox-colorPrimary.Mui-checked {
+    color: #606eea !important ;
+  }
+
+  & > span.MuiCheckbox-root {
+    color: #a5a5a5 !important ;
+  }
+  span.MuiTypography-body1 {
+    font-weight: 300 !important;
+    font-size: 16px !important;
+    color: #223367 !important;
+  }
 `;
 
 export const WrapTime = styled.div`
@@ -92,3 +125,22 @@ export const WrapperTimes = styled.div`
     color: #606eea !important;
   }
 `;
+
+export const GraphWrap = styled.div`
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  color: #223367;
+`;
+
+export const WrapHeader = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 15px 5px;
+`;
+
+export const CloseIcon = styled(Close)``;
+
+export const Wrap = styled.div``;

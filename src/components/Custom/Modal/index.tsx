@@ -4,6 +4,8 @@ import { MDialog } from './style';
 export interface Props {
   onClose?: (v: boolean) => void;
   disableEnforceFocus?: boolean;
+  fullScreen?: boolean;
+  fullWidth?: boolean;
   open?: boolean;
   children?: any;
   modalStyle?: {
@@ -46,6 +48,8 @@ const Modal = ({
       modalStyle={props.modalStyle}
       width={props.width}
       disableBackdropClick={props.disableBackdropClick}
+      fullScreen={props.fullScreen}
+      fullWidth={props.fullWidth}
     >
       {children}
     </MDialog>

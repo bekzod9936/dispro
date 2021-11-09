@@ -1,9 +1,9 @@
-import { useQuery } from 'react-query';
-import { fetchPartnerCompanies } from 'services/queries/PartnerQueries';
+import { useQuery } from "react-query";
+import { fetchPartnerCompanies } from "services/queries/partnerQuery";
 
 const useList = () => {
   const { data, isLoading, refetch, isFetching } = useQuery(
-    'ListCompany',
+    "ListCompany",
     () => fetchPartnerCompanies(),
     {
       refetchOnMount: false,

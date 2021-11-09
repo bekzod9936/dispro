@@ -141,9 +141,8 @@ export const Table = () => {
           </MTable>
         </Container>
       </> :
-        <div>
-          <MobileTable onClick={handleAddClientByClick} array={clientsList} />
-        </div>}
+        <MobileTable onClick={handleAddClientByClick} array={clientsList} />
+      }
     </div>
   );
 };

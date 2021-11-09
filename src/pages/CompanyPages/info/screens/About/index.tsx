@@ -4,14 +4,12 @@ import { useTranslation } from 'react-i18next';
 import Input from 'components/Custom/Input';
 import Button from 'components/Custom/Button';
 import Links from './Links';
-import { useAppDispatch } from 'services/redux/hooks';
 import Spinner from 'components/Custom/Spinner';
 import { Text, Title } from '../../style';
 import MultiSelect from 'components/Custom/MultiSelect';
 import { useHistory } from 'react-router';
 import useLayout from '../../../../../components/Layout/useLayout';
 import { IconButton } from '@material-ui/core';
-import { setAddressAdd } from 'services/redux/Slices/infoSlice';
 import useInfoPage from '../useInfoPage';
 import useAbout from './useAbout';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
@@ -36,7 +34,6 @@ import {
   WrapTrash,
   Form,
   DownSide,
-  WrapButton,
   SaveIcon,
   CloseIcon,
   WebLink,
@@ -48,6 +45,7 @@ import {
   Message,
   ForExample,
 } from './style';
+import useWindowWidth from 'services/hooks/useWindowWidth';
 
 interface FormProps {
   telNumber?: string;
@@ -68,7 +66,10 @@ interface socialProps {
 }
 
 const Main = () => {
+  const { t } = useTranslation();
+  const history = useHistory();
   const { response, data } = useInfoPage();
+  const { width } = useWindowWidth();
   const companyId: any = localStorage.getItem('companyId');
   const {
     resCategory,
@@ -86,8 +87,6 @@ const Main = () => {
 
   const [errorLogo, setErrorLogo] = useState(false);
 
-  const history = useHistory();
-  const { t } = useTranslation();
   const [, setOpen] = useState(false);
   const [defMulti, setDefMulti] = useState<any>([]);
   const [categories, setCategories] = useState<any>([]);
@@ -138,8 +137,8 @@ const Main = () => {
   }, [logo]);
 
   useEffect(() => {
-    const tel: string =
-      String(data?.telNumber) !== '' ? `${data.telNumber}` : '+998';
+    const tel: string = String(data?.telNumber).slice(4);
+
     setValue('annotation', data.annotation);
     setValue('description', data.description);
     setValue('logo', data.logo);
@@ -173,8 +172,6 @@ const Main = () => {
     setValue('socialLinks', newLinks);
   }, [data]);
 
-  const dispatch = useAppDispatch();
-
   const {
     control,
     handleSubmit,
@@ -197,7 +194,7 @@ const Main = () => {
 
   useEffect(() => {
     if (getValues('telNumber') === undefined) {
-      setValue('telNumber', '+998');
+      setValue('telNumber', '');
     } else {
       setValue('telNumber', checkPhone.newString);
     }
@@ -228,7 +225,7 @@ const Main = () => {
           logo: logo,
           name: v.name,
           socialLinks: links,
-          telNumber: v.telNumber,
+          telNumber: `+998${v.telNumber}`,
           isKosher: false,
         },
         {
@@ -534,8 +531,8 @@ const Main = () => {
             <Controller
               name='telNumber'
               control={control}
-              rules={{ required: true, maxLength: 13, minLength: 13 }}
-              defaultValue='+998'
+              rules={{ required: true, maxLength: 9, minLength: 9 }}
+              defaultValue=''
               render={({ field }) => (
                 <Input
                   label={t('phoneNumber')}
@@ -546,7 +543,9 @@ const Main = () => {
                   margin={{
                     laptop: '20px 0 25px',
                   }}
-                  maxLength={13}
+                  inputStyle={{ inpadding: '0 20px 0 0' }}
+                  maxLength={9}
+                  IconStart={<div className='inputstyle'>+998</div>}
                 />
               )}
             />
@@ -629,24 +628,23 @@ const Main = () => {
       </UpSide>
       <DownSide justify={fill}>
         <div>
-          {fill ? null : (
-            <WrapButton mobile={true}>
-              <Button
-                onClick={() => setOpen(true)}
-                buttonStyle={{
-                  color: '#606EEA',
-                  bgcolor: 'rgba(96, 110, 234, 0.1)',
-                  weight: 500,
-                }}
-                margin={{
-                  laptop: '10px 10px 0 0',
-                }}
-              >
-                {t('logout')}
-                <CloseIcon mobile={true} />
-              </Button>
-            </WrapButton>
-          )}
+          {fill ? null : width < 1000 ? (
+            <Button
+              onClick={() => setOpen(true)}
+              buttonStyle={{
+                color: '#606EEA',
+                bgcolor: 'rgba(96, 110, 234, 0.1)',
+                weight: 500,
+              }}
+              width={{ width: 'fit-content' }}
+              margin={{
+                laptop: '10px 10px 0 0',
+              }}
+              endIcon={<CloseIcon />}
+            >
+              {t('logout')}
+            </Button>
+          ) : null}
           <Button
             type='submit'
             buttonStyle={{
@@ -661,8 +659,9 @@ const Main = () => {
                 setErrorLogo(true);
               }
             }}
+            startIcon={width > 1000 ? <SaveIcon /> : null}
+            endIcon={width < 1000 ? <SaveIcon /> : null}
           >
-            <SaveIcon />
             {t('save')}
           </Button>
         </div>

@@ -6,7 +6,7 @@ import {
   getCashiers,
   searchCashiers,
   createCashier,
-} from "services/queries/StaffQueries";
+} from "services/queries/staffQuery";
 import { useAppDispatch } from "services/redux/hooks";
 import {
   selectAllCashier,

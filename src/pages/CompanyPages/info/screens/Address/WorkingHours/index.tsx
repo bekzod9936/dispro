@@ -1,5 +1,5 @@
 import { Checkbox } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import DayList from './DayList';
 import { Container, Label } from './style';
@@ -45,6 +45,7 @@ const WorkingHours = ({ workingTime, getTime = () => {} }: Props) => {
   };
 
   const handleChangeTime = (e: any) => {
+    console.log(e);
     const newDate = work?.map((v: any) => {
       if (v.day === e.day) {
         return {
@@ -101,7 +102,12 @@ const WorkingHours = ({ workingTime, getTime = () => {} }: Props) => {
       {check ? null : (
         <Container>
           {work?.map((v: any) => (
-            <DayList list={v} onCopy={handleCopy} onChange={handleChangeTime} />
+            <DayList
+              list={v}
+              onCopy={handleCopy}
+              all={work}
+              onChange={handleChangeTime}
+            />
           ))}
         </Container>
       )}

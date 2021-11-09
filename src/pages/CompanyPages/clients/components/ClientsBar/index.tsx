@@ -106,7 +106,7 @@ export const ClientsBar = ({ refetch }: IProps) => {
                                 </MButton>
                                 <MToggle>
                                     <p>Индивидуальный статус</p>
-                                    <CustomToggle onChange={handleChangeStatus} />
+                                    <CustomToggle defaultChecked={client?.personalLoyaltyInfo?.isActive} onChange={handleChangeStatus} />
                                 </MToggle>
                             </Buttons>
                             <AddInfo>

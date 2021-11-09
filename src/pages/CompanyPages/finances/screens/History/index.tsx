@@ -191,7 +191,6 @@ const Payment = () => {
               width={{
                 maxwidth: 200,
               }}
-              min={dateLimit.startDate}
               max={dateLimit.endDate}
               IconStart={<WrapDate>{t('from')}</WrapDate>}
               inputStyle={{
@@ -214,7 +213,6 @@ const Payment = () => {
                 inpadding: '0 10px 0 0',
               }}
               min={dateLimit.startDate}
-              max={dateLimit.endDate}
               value={date.endDate}
               onChange={(e: any) => {
                 setDate({ ...date, endDate: e.target.value });

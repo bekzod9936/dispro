@@ -27,11 +27,27 @@ export const Container = styled.div`
     position: static !important;
     transform: none !important;
   }
-  input[type='date']::-webkit-calendar-picker-indicator {
-    background: url(${dateicon}) no-repeat;
-    width: 20px;
-    height: 20px;
-  }
+  input[type="date"] {
+    position: relative;
+}
+input[type="date"]:after {
+  content: url(${dateicon});
+  width: 20px;
+  height: 25px;
+  padding: 0 10px;
+}
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: auto;
+    height: auto;
+    color: transparent;
+    background: transparent;
+}
+ 
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus,

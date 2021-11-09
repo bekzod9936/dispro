@@ -11,6 +11,9 @@ import Spinner from '../Custom/Spinner';
 import { useSideBarStyle } from './styles/SideBarStyle';
 import MenuList from './MenuList';
 import useLayout from './useLayout';
+import { useAppSelector } from 'services/redux/hooks';
+import { useTranslation } from 'react-i18next';
+import Grid from 'components/Custom/Grid';
 import {
   Container,
   MenuIcon,
@@ -23,14 +26,16 @@ import {
   WrapperPage,
   WrapLogo,
   WrapMenu,
+  Wrarning,
+  WranningIcon,
 } from './style';
-import { useAppSelector } from 'services/redux/hooks';
 
 export interface IDefaultLayout {
   children: any;
 }
 
 const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
+  const { t } = useTranslation();
   const classes = useSideBarStyle();
   const companyId = localStorage.getItem('companyId');
   const { resHeader } = useLayout({ id: companyId });
@@ -38,7 +43,7 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
 
   const [width, setWidth] = useState(window.innerWidth);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [open, setOpen] = useState(width <= 600 ? false : true);
+  const [open, setOpen] = useState(width <= 1000 ? false : true);
 
   const regFilled = useAppSelector((state) => {
     return state.auth.regFilled;
@@ -64,10 +69,11 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
   useEffect(() => {
     function handleResize() {
       setWidth(window.innerWidth);
-      if (window.innerWidth <= parseInt(device.mobile, 10)) {
+      if (window.innerWidth <= parseInt(device.planshet, 10)) {
         setOpen(false);
       } else {
         setMobileOpen(false);
+        setOpen(true);
       }
     }
 
@@ -130,27 +136,46 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
           </div>
         </MobileDrawer>
         <AppBar
+          style={{
+            padding: width > 1000 && !fill ? '0 15px' : '0',
+          }}
           position='fixed'
           className={clsx(classes.appBar, {
             [classes.appBarShift]: open,
           })}
         >
-          <Toolbar>
-            <WrapMenu>
-              <IconButton
-                color='inherit'
-                aria-label='open drawer'
-                onClick={handleDrawerOpen}
-                edge='start'
-                className={clsx(classes.menuButton, {
-                  [classes.hide]: open,
-                })}
-              >
-                <MenuIcon />
-              </IconButton>
-            </WrapMenu>
-            <Header />
-          </Toolbar>
+          {!fill && width < 1000 ? (
+            <Wrarning>
+              <WranningIcon />
+              {t('newcompanywarning')}
+            </Wrarning>
+          ) : (
+            <Toolbar>
+              {!fill && width > 1000 ? null : (
+                <WrapMenu>
+                  <IconButton
+                    color='inherit'
+                    aria-label='open drawer'
+                    onClick={handleDrawerOpen}
+                    edge='start'
+                    className={clsx(classes.menuButton, {
+                      [classes.hide]: open,
+                    })}
+                  >
+                    <MenuIcon />
+                  </IconButton>
+                </WrapMenu>
+              )}
+              {fill ? (
+                <Header />
+              ) : (
+                <Wrarning>
+                  <WranningIcon />
+                  {t('newcompanywarning')}
+                </Wrarning>
+              )}
+            </Toolbar>
+          )}
         </AppBar>
         <DesktopDrawer
           variant='permanent'
