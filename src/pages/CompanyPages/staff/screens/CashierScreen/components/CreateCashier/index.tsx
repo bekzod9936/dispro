@@ -6,15 +6,18 @@ import Input from 'components/Custom/Input';
 import Button from 'components/Custom/Button';
 import { CancelIcon } from 'assets/icons/ClientsPageIcons/ClientIcons';
 import MultiSelect from 'components/Custom/MultiSelect';
-import { Form, FormRow, FormCol, Break } from './style';
+import { Form, FormRow, FormCol, Break, ModalHead, ModalTitle } from './style';
 import { FormProps } from './types';
 import { ModalContent, ModalBody, ModalAction } from '../../style';
 import { useAppDispatch } from 'services/redux/hooks';
 import { setOpenCash } from 'services/redux/Slices/staffs';
 import { ReactComponent as SaveIcon } from 'assets/icons/IconsInfo/save.svg';
+import { ReactComponent as ExitIcon } from 'assets/icons/exit.svg';
+import { ReactComponent as Market } from 'assets/icons/SideBar/ilmarket.svg';
 import useCashiers from '../../../../hooks/useCashiers';
 import useStaff from '../../../../hooks/useStaff';
 import { setTimeout } from 'timers';
+import { IconButton } from '@material-ui/core';
 
 interface IProps {
 	openCash: boolean;
@@ -72,6 +75,16 @@ const CreateCashier = ({ openCash }: IProps) => {
 		<Modal open={openCash}>
 			<Form onSubmit={handleSubmit(onSave)}>
 				<ModalContent>
+					<ModalHead>
+						<ModalTitle>{t('adding_cashier')}</ModalTitle>
+						<IconButton
+							onClick={() => {
+								dispatch(setOpenCash(false));
+							}}
+						>
+							<ExitIcon />
+						</IconButton>
+					</ModalHead>
 					<ModalBody>
 						<FormRow>
 							<FormCol>

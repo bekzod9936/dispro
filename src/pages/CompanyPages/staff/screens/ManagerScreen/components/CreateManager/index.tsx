@@ -88,7 +88,7 @@ const CreateManager = ({ openManager }: IProps) => {
 				<Form onSubmit={handleSubmit(onSave)}>
 					<ModalContent>
 						<ModalHead>
-							<ModalTitle>Добавление менеджера</ModalTitle>
+							<ModalTitle>{t('adding_manager')}</ModalTitle>
 							<IconButton
 								onClick={() => {
 									dispatch(setOpenManager(false));
@@ -107,7 +107,7 @@ const CreateManager = ({ openManager }: IProps) => {
 										rules={{ required: true }}
 										render={({ field }) => (
 											<Input
-												label={t('cashier_name')}
+												label={t('manager_name')}
 												error={errors.firstName ? true : false}
 												message={t('requiredField')}
 												type='string'
@@ -127,7 +127,7 @@ const CreateManager = ({ openManager }: IProps) => {
 										rules={{ required: true }}
 										render={({ field }) => (
 											<Input
-												label={t('cashier_lastName')}
+												label={t('manager_lastName')}
 												error={errors.lastName ? true : false}
 												message={t('requiredField')}
 												type='string'
