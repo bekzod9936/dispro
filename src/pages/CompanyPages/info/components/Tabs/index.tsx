@@ -1,13 +1,27 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+import { useState } from 'react';
+import { Container, Appbar, MMTabs, MTab } from './style';
 
-function TabPanel(props: any) {
+function a11yProps(index: any) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
+
+interface Props {
+  listTabs?: any[];
+  active?: number | string;
+  content?: any;
+  onActive?: (e: any) => void;
+}
+
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index?: any;
+  value?: any;
+}
+
+function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
   return (
@@ -18,65 +32,40 @@ function TabPanel(props: any) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && <>{children}</>}
     </div>
   );
 }
 
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-};
-
-function a11yProps(index: any) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-}
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
-  },
-}));
-
-const MTabs = () => {
-  const classes = useStyles();
-  const [value, setValue] = React.useState(0);
-
+const MTabs = ({ listTabs, active, content, onActive = () => {} }: Props) => {
   const handleChange = (event: any, newValue: any) => {
-    setValue(newValue);
+    onActive(newValue);
   };
+
   return (
-    <div className={classes.root}>
-      <AppBar position='static'>
-        <Tabs
-          value={value}
+    <Container>
+      <Appbar position='static'>
+        <MMTabs
+          value={active}
           onChange={handleChange}
           aria-label='simple tabs example'
         >
-          <Tab label='Item One' {...a11yProps(0)} />
-          <Tab label='Item Two' {...a11yProps(1)} />
-          <Tab label='Item Three' {...a11yProps(2)} />
-        </Tabs>
-      </AppBar>
-      <TabPanel value={value} index={0}>
-        Item One
+          {listTabs?.map((v) => {
+            return (
+              <MTab
+                key={v.day}
+                value={v.day}
+                label={v.weekday}
+                {...a11yProps(v.day)}
+              />
+            );
+          })}
+        </MMTabs>
+      </Appbar>
+      <TabPanel value={active} index={active}>
+        {content}
       </TabPanel>
-      <TabPanel value={value} index={1}>
-        Item Two
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        Item Three
-      </TabPanel>
-    </div>
+    </Container>
   );
 };
 
