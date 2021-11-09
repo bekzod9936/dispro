@@ -652,7 +652,7 @@ const Main = () => {
               weight: 500,
             }}
             margin={{
-              laptop: '0',
+              laptop: ' 0',
             }}
             onClick={() => {
               if (logo === '') {
