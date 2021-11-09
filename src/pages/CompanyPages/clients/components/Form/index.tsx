@@ -3,12 +3,14 @@ import InputFormat from 'components/Custom/InputFormat'
 import Input from "components/Custom/Input"
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { useAppSelector } from 'services/redux/hooks'
+import { useAppDispatch, useAppSelector } from 'services/redux/hooks'
 import { numberWith } from 'services/utils'
 import { Client, Header, Subtitle, Wrapper, MyForm } from "./style"
 import { useState, useEffect } from "react";
 import { useHistory } from 'react-router'
 import Button from 'components/Custom/Button'
+import { SuccessModal } from '../SuccessModal'
+import { selectAll } from 'services/redux/Slices/clients'
 
 interface IProps {
     isOpen: boolean,
@@ -59,15 +61,12 @@ export const Form = ({ isOpen, action, handleClose }: IProps) => {
     const [top, setTop] = useState(false)
     const { control, setValue, watch, handleSubmit, formState: { errors }, clearErrors } = useForm()
     const history = useHistory()
-
+    const [successModal, setSuccessModal] = useState(false)
+    const dispatch = useAppDispatch()
     const onSubmit = (data: any) => {
         console.log(data);
-
+        setSuccessModal(true)
     }
-
-    // useEffect(() => {
-
-    // }, [watch()])
 
     const onClose = () => {
         handleClose((prev: any) => ({ ...prev, isOpen: false }))
@@ -75,13 +74,21 @@ export const Form = ({ isOpen, action, handleClose }: IProps) => {
         setValue("comment", "")
         clearErrors()
     }
+
+    const handleDone = () => {
+        setSuccessModal(false)
+        onClose()
+        if (top) dispatch(selectAll(false))
+    }
+
     useEffect(() => {
         const res = history.location.pathname.endsWith("/clients")
         setTop(res)
-
     }, [history.location.pathname])
+
     return (
         <Wrapper top={top} isOpen={isOpen}>
+            <SuccessModal action={action} handleClose={handleDone} isOpen={successModal} />
             <Header>
                 <h5>{content.title}</h5>
                 <CloseIcon onClick={onClose} />
@@ -121,7 +128,7 @@ export const Form = ({ isOpen, action, handleClose }: IProps) => {
                         <Controller
                             control={control}
                             rules={{
-                                required: true,
+                                required: false,
                                 // maxLength: 200
                             }}
                             name="comment"
