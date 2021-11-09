@@ -8,7 +8,7 @@ import {
   setRoleManager,
   deleteSingleCashier,
   editStaff,
-} from "services/queries/StaffQueries";
+} from "services/queries/staffQuery";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 import {
   setAllManager,

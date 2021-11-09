@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { URL } from '../constants/config';
+import axios from "axios";
+import { URL } from "../../constants/config";
 
 interface signInProps {
   role: number;
@@ -22,7 +22,7 @@ export const signIn = async ({ role, phoneNumber }: signInProps) => {
     {
       headers: {
         langId: 1,
-        vers: '0.0.1',
+        vers: "0.0.1",
       },
     }
   );
@@ -40,7 +40,7 @@ export const logIn = async ({ role, phoneNumber, smsCode }: logInProps) => {
     {
       headers: {
         langId: 1,
-        vers: '0.0.1',
+        vers: "0.0.1",
       },
     }
   );

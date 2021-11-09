@@ -1,14 +1,14 @@
-import { useTranslation } from 'react-i18next';
-import { useQuery } from 'react-query';
-import { fetchFinanceCashBack } from 'services/queries/FinanceQueries';
-import { useAppDispatch } from 'services/redux/hooks';
+import { useTranslation } from "react-i18next";
+import { useQuery } from "react-query";
+import { fetchFinanceCashBack } from "services/queries/financeQuery";
+import { useAppDispatch } from "services/redux/hooks";
 import {
   setCashBackFinanceBetween,
   setCashBackFinanceData,
   setCashBackFinanceHeader,
   setCashBackFinanceTotal,
-} from 'services/redux/Slices/finance';
-import { formatPagination } from 'services/utils/formatPagination';
+} from "services/redux/Slices/finance";
+import { formatPagination } from "services/utils/formatPagination";
 
 interface PProps {
   filterValues: any;
@@ -19,11 +19,11 @@ const useCashBack = ({ filterValues }: PProps) => {
   const dispatch = useAppDispatch();
 
   const response = useQuery(
-    ['fetchPaymentInfo', filterValues],
+    ["fetchPaymentInfo", filterValues],
     () => {
       const url = Object.keys(filterValues)
         .map((v: any) => `${v}=${filterValues[v]}&`)
-        .join('');
+        .join("");
       return fetchFinanceCashBack({
         url: url,
       });
@@ -37,11 +37,11 @@ const useCashBack = ({ filterValues }: PProps) => {
         dispatch(
           setCashBackFinanceHeader([
             {
-              title: t('totalpaidbyUZS'),
+              title: t("totalpaidbyUZS"),
               value: data.data.data.totalSum,
             },
             {
-              title: t('DISCommission'),
+              title: t("DISCommission"),
               value: data.data.data.totalCommissionSum,
             },
           ])

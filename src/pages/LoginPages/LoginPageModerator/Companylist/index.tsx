@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useMutation } from "react-query";
 import Spinner from "components/Helpers/Spinner";
-import { enterCompany } from "services/queries/PartnerQueries";
+import { enterCompany } from "services/queries/partnerQuery";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 import {
   refetchCompanyList,

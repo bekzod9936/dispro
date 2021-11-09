@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { fetchCilentsData } from "services/queries/StatisticsQueries";
+import { fetchCilentsData } from "services/queries/statisticsQuery";
 import { useAppDispatch } from "services/redux/hooks";
 import { setOperations } from "services/redux/Slices/statistics/statistics";
 
