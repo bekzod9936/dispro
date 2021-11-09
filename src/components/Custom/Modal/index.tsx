@@ -27,10 +27,11 @@ export interface Props {
     desktop?: string;
   };
   disableBackdropClick?: boolean;
+  zIndex?: number
 }
 
 const Modal = ({
-  onClose = () => {},
+  onClose = () => { },
   open = false,
   children,
   ...props
@@ -50,6 +51,7 @@ const Modal = ({
       disableBackdropClick={props.disableBackdropClick}
       fullScreen={props.fullScreen}
       fullWidth={props.fullWidth}
+      zIndex={props.zIndex}
     >
       {children}
     </MDialog>

@@ -12,6 +12,7 @@ import { setCompanyInfo } from 'services/redux/Slices/partnerSlice';
 import useInfoRoute from './routers';
 import Spinner from 'components/Custom/Spinner';
 import useWindowWidth from 'services/hooks/useWindowWidth';
+import Grid from 'components/Custom/Grid';
 import {
   Container,
   ModelContent,
@@ -53,7 +54,9 @@ const Infopage = () => {
     >
       <Title>{t('info')}</Title>
       <WrapNav>
-        <NavBar list={menuItems} margin='20px 0' />
+        <Grid style={{ width: '100%', overflowY: 'auto', overflowX: 'hidden' }}>
+          <NavBar list={menuItems} padding='0' margin='0' />
+        </Grid>
         {fill ? null : width > 1000 ? (
           <Button
             buttonStyle={{

@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 import { device } from 'styles/device';
 import { IButtonWrapper } from './types';
-
+interface IProps {
+  isRelative: boolean
+}
 export const Container = styled.div`
   @media (max-width: ${device.laptop}) {
     overflow: auto; 
@@ -27,7 +29,7 @@ export const MainWrapper = styled.div`
   display: flex;
   height: 100%;
   flex-direction: column;
-  position: relative;
+  position: ${({ isRelative }: IProps) => isRelative ? "relative" : "static"};
   flex-grow: 1;
   
 `;

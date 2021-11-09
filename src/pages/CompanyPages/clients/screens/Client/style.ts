@@ -44,6 +44,19 @@ export const DownSide = styled.div`
 export const MWrapper = styled.div`
   width: 100%;
   height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  ::-webkit-scrollbar {
+    width: 1px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #606eea;
+    border-radius: 14px 0px 0px 14px;
+  }
   `
 export const MUpside = styled.div`
   padding-top: 20px;

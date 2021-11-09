@@ -32,7 +32,7 @@ export const MobileTable = ({ array, onClick }: IProps) => {
     const handleClick = (e: any, id: number) => {
         if (!isSelecting) {
             onClick(e, id)
-            history.push("/clients/client")
+            history.push("/clients/client/information")
         }
         else onClick(e, id)
     }

@@ -1,16 +1,15 @@
 import styled, { css } from 'styled-components';
-import { device } from '../../../styles/device';
-import { ReactComponent as Search } from '../../../assets/icons/SideBar/search.svg';
-import { ReactComponent as Arrow } from '../../../assets/icons/SideBar/arrow.svg';
-import { ReactComponent as Bell } from '../../../assets/icons/SideBar/bell.svg';
-import { ReactComponent as Deposit } from '../../../assets/icons/SideBar/deposit.svg';
-import { ReactComponent as Shield } from '../../../assets/icons/SideBar/shield.svg';
-import { ReactComponent as LogOut } from '../../../assets/icons/SideBar/logout.svg';
-import { ReactComponent as Market } from '../../../assets/icons/SideBar/ilmarket.svg';
-import { ReactComponent as HeadPhone } from '../../../assets/icons/SideBar/biheadphones.svg';
-import { ReactComponent as LogWhite } from '../../../assets/icons/SideBar/logoutwhite.svg';
-import { ReactComponent as Close } from '../../../assets/icons/SideBar/close.svg';
-import { ReactComponent as Warn } from '../../../assets/icons/SideBar/warning.svg';
+import { device } from 'styles/device';
+import { ReactComponent as Search } from 'assets/icons/SideBar/search.svg';
+import { ReactComponent as Arrow } from 'assets/icons/SideBar/arrow.svg';
+import { ReactComponent as Bell } from 'assets/icons/SideBar/bell.svg';
+import { ReactComponent as Deposit } from 'assets/icons/SideBar/deposit.svg';
+import { ReactComponent as Shield } from 'assets/icons/SideBar/shield.svg';
+import { ReactComponent as LogOut } from 'assets/icons/SideBar/logout.svg';
+import { ReactComponent as Market } from 'assets/icons/SideBar/ilmarket.svg';
+import { ReactComponent as HeadPhone } from 'assets/icons/SideBar/biheadphones.svg';
+import { ReactComponent as LogWhite } from 'assets/icons/SideBar/logoutwhite.svg';
+import { ReactComponent as Close } from 'assets/icons/SideBar/close.svg';
 
 interface ImgProps {
   size?: string;
