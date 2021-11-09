@@ -123,7 +123,7 @@ const SecuritySection = () => {
                         return (
                           <InputFormat
                             width={{
-                              width: "70%",
+                              width: "100%",
                             }}
                             field={field}
                             label={t("enterSum")}

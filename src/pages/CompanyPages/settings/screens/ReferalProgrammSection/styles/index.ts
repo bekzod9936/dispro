@@ -11,16 +11,18 @@ export const GridContainer = styled(Grid)`
 `;
 
 export const LeftGrid = styled(Grid)`
-  border-right: 1px solid rgba(96, 110, 234, 0.3);
   position: relative;
   overflow: hidden;
+  overflow-y: hidden;
 `;
 
 export const RightGrid = styled(Grid)`
   padding-left: 20%;
+  padding-top: 110px !important;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  overflow-y: hidden;
 `;
 
 export const LevelsCard = styled.div`

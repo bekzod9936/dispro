@@ -10,6 +10,7 @@ import {
   changeReferal,
   getReferalLevel,
   setNewReferal,
+  setReferalActive,
 } from "services/queries/referalProgramQuery";
 //types
 interface FormProps {
@@ -36,6 +37,8 @@ const useReferalData = () => {
     shouldFocusError: true,
   });
 
+  // /bonus/bonusreferals/active-status
+  // isActive
   const handleSwitch = (checked: boolean) => {
     setCheckedState(checked);
   };
@@ -81,11 +84,11 @@ const useReferalData = () => {
 
       if (data?.data?.data === null) {
         setNewState("new");
-      } else if (data?.data?.data?.levels.length > 0) {
-        setCheckedState(true);
       }
     },
   });
+
+  const setActivate = useMutation((data: any) => setReferalActive(data));
 
   //Save Referal program
 
@@ -100,6 +103,7 @@ const useReferalData = () => {
       onSuccess: () => {
         refetch();
         refetchLevel();
+        setNewState("old");
       },
     }
   );
@@ -145,16 +149,21 @@ const useReferalData = () => {
 
       if (!block) {
         console.log("second side", data.referals);
+
         if (newState === "new") {
           console.log("third side", data.referals);
-          setBonusreferal.mutate({
+
+          setBonusreferal.mutateAsync({
             companyId: companyId,
             referals: data.referals,
             isActive: checkedState,
           });
           setErrorRef(false);
         } else {
-          saveBonusReferal.mutate({
+          setActivate.mutateAsync({
+            isActive: checkedState,
+          });
+          saveBonusReferal.mutateAsync({
             companyId: companyId,
             referals: data.referals,
             isActive: checkedState,

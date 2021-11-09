@@ -32,9 +32,11 @@ import Button from "components/Custom/Button";
 import RippleEffect from "components/Custom/RippleEffect";
 import NotifySnack from "components/Custom/Snackbar";
 import InputFormat from "components/Custom/InputFormat";
+import useWindowWidth from "services/hooks/useWindowWidth";
 
 const ReferalProgrammSection = () => {
   const { t } = useTranslation();
+  const { width } = useWindowWidth();
   const {
     checkedState,
     control,
@@ -55,6 +57,8 @@ const ReferalProgrammSection = () => {
     control,
     name: "referals",
   });
+
+  console.log(checkedState, "checked state");
 
   return (
     <GridContainer container spacing={3}>
@@ -209,34 +213,41 @@ const ReferalProgrammSection = () => {
       </LeftGrid>
 
       <RightGrid item xs={12} sm={4}>
-        <LevelsCard>
-          <LevelsHead>
-            <ThreeHeadIcon />
-            <div>
-              <Text marginLeft="15px" fontSize={FONT_SIZE.mediumPlus}>
-                Клиентов по уровням
-              </Text>
-            </div>
-          </LevelsHead>
-          <LevelsColumn>
-            {levelsRef?.map((item, index) => {
-              return (
-                <LevelsRow key={index}>
-                  <div>
-                    <Text fontSize={FONT_SIZE.smallPlus} fontWeight={400}>
-                      {item.levelNumber} {t("level")}
-                    </Text>
-                  </div>
-                  <div>
-                    <Text color={COLORS.purple} fontSize={FONT_SIZE.smallPlus}>
-                      {item.count}
-                    </Text>
-                  </div>
-                </LevelsRow>
-              );
-            })}
-          </LevelsColumn>
-        </LevelsCard>
+        {levelsRef?.length > 0 ? (
+          <LevelsCard>
+            <LevelsHead>
+              <ThreeHeadIcon />
+              <div>
+                <Text marginLeft="15px" fontSize={FONT_SIZE.mediumPlus}>
+                  Клиентов по уровням
+                </Text>
+              </div>
+            </LevelsHead>
+            <LevelsColumn>
+              {levelsRef?.map((item, index) => {
+                return (
+                  <LevelsRow key={index}>
+                    <div>
+                      <Text fontSize={FONT_SIZE.smallPlus} fontWeight={400}>
+                        {item.levelNumber} {t("level")}
+                      </Text>
+                    </div>
+                    <div>
+                      <Text
+                        color={COLORS.purple}
+                        fontSize={FONT_SIZE.smallPlus}
+                      >
+                        {item.count}
+                      </Text>
+                    </div>
+                  </LevelsRow>
+                );
+              })}
+            </LevelsColumn>
+          </LevelsCard>
+        ) : (
+          <div></div>
+        )}
       </RightGrid>
       <NotifySnack
         open={errorRef}
