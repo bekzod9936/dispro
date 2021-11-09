@@ -1,17 +1,19 @@
 import styled from "styled-components";
 interface IWrapper {
     isOpen: boolean
+    top: boolean
 }
 export const Wrapper = styled.div`
     transition: 200ms all;
     position: absolute;
-    height: 100%;
+    top: ${({ top }: IWrapper) => !top ? "65px" : "0"};
+    left: 0;
+    height: calc(100vh - 65px);
     width: 100%;
     z-index: 20;
     background-color: #ffffff;
     transform: ${({ isOpen }: IWrapper) => !isOpen ? "translateX(100%)" : ""};
     padding: 15px 15px 20px 15px;
-
 `
 
 export const Header = styled.div`
@@ -53,5 +55,16 @@ margin-bottom: 15px;
         span {
             margin-left: 15px;
         }
+    }
+`
+
+export const MyForm = styled.form`
+    div.downSide {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        position: absolute;
+        bottom: 20px;
     }
 `

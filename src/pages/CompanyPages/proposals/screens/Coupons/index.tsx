@@ -136,7 +136,6 @@ const Coupons = () => {
 
   const _ = useFetchCategories(setCategories);
 
-  console.log(errors);
 
   const handleUploadImg = (data: any) => {
     setFile(data.target.files[0]);

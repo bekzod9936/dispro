@@ -108,7 +108,6 @@ const Client = () => {
                         <StatsCard key={index} {...el} />
                     ))}
                 </MiddleSide>
-
                 <DownSide>
                     <NavBar list={routes} />
                     <Switch>
