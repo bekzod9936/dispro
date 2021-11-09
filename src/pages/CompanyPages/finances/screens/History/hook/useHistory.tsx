@@ -1,14 +1,14 @@
-import { useQuery } from 'react-query';
-import { fetchFinanceHistory } from 'services/queries/FinanceQueries';
-import { useAppDispatch } from 'services/redux/hooks';
+import { useQuery } from "react-query";
+import { fetchFinanceHistory } from "services/queries/financeQuery";
+import { useAppDispatch } from "services/redux/hooks";
 import {
   setCashierHistoryFinance,
   setHistoryFinanceBetween,
   setHistoryFinanceData,
   setHistoryFinanceTotal,
   setSumHistoryFinance,
-} from 'services/redux/Slices/finance';
-import { formatPagination } from 'services/utils/formatPagination';
+} from "services/redux/Slices/finance";
+import { formatPagination } from "services/utils/formatPagination";
 
 interface PProps {
   filterValues: any;
@@ -18,11 +18,11 @@ const useHistory = ({ filterValues }: PProps) => {
   const dispatch = useAppDispatch();
 
   const response = useQuery(
-    ['fetchPaymentInfo', filterValues],
+    ["fetchPaymentInfo", filterValues],
     () => {
       const url = Object.keys(filterValues)
         .map((v: any) => `${v}=${filterValues[v]}&`)
-        .join('');
+        .join("");
       return fetchFinanceHistory({
         url: url,
       });

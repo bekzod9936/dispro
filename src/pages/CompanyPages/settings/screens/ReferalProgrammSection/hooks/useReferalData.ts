@@ -5,12 +5,12 @@ import { useForm } from "react-hook-form";
 
 //async functions
 import { useQuery, useMutation } from "react-query";
-import { fetchBonusReferals } from "services/queries/PartnerQueries";
+import { fetchBonusReferals } from "services/queries/partnerQuery";
 import {
   changeReferal,
   getReferalLevel,
   setNewReferal,
-} from "services/queries/ReferalProgramQueries";
+} from "services/queries/referalProgramQuery";
 //types
 interface FormProps {
   referals?: any;

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useMutation } from "react-query";
-import { generateBranchQr } from "services/queries/QrSettingsQueries";
+import { generateBranchQr } from "services/queries/qrSetttingQuery";
 import useQrCode from "./useQrCode";
 import { FormProps } from "../types";
 

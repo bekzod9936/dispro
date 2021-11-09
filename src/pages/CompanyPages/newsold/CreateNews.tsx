@@ -1,43 +1,43 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { SaveIcon } from '../../../assets/icons/InfoPageIcons/InfoPageIcons';
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { SaveIcon } from "../../../assets/icons/InfoPageIcons/InfoPageIcons";
 import {
   CustomButton,
   CustomSelect,
   ModalComponent,
   SectionWrapper,
-} from '../../../styles/CustomStyles';
-import { AboutSectionWrapper, ScrolableWrapper } from './InfoPageStyes';
-import { Text } from '../../../styles/CustomStyles';
-import { useTranslation } from 'react-i18next';
-import { CancelIcon } from '../../../assets/icons/ClientsPageIcons/ClientIcons';
-import { Flex } from '../../../styles/BuildingBlocks';
-import { Controller, useForm } from 'react-hook-form';
-import CustomInput from '../../../components/Custom/CustomInput';
-import CustomTextArea from './CustomTextArea';
-import moment from 'moment';
-import { min, setDate } from 'date-fns';
-import CustomFileUpload from './CustomFileUpload';
-import Resizer from 'react-image-file-resizer';
-import CustomReusableSelect from '../../../components/Custom/CustomReusableSelect';
-import { COLORS, FONT_SIZE, FONT_WEIGHT } from '../../../services/Types/enums';
-import { Checkbox, InputLabel, makeStyles, TextField } from '@material-ui/core';
-import CustomMulitpleSelect from './CustomMulitpleSelect';
-import { FilialIcon } from 'assets/icons/NewsIcons/NewsIcons';
-import axios from 'axios';
-import { STORAGE_URL } from 'services/constants/config';
-import partnerApi from 'services/interceptors/companyInterceptor';
-import { useQuery } from 'react-query';
-import CropImageModal from '../../../components/Custom/CropImageModal';
-import { fetchAddressInfo } from '../../../services/queries/InfoPageQueries';
-import { DeleteIconWhite } from '../../../assets/icons/SettingsIcons/SettingsPageIcon';
-import CustomModal from '../../../components/Custom/CustomModal';
-import CustomToggle from 'components/Custom/CustomToggleSwitch';
-import Title from 'components/Custom/Title';
-import { BackIcon } from '../../../assets/icons/NewsIcons/NewsIcons';
+} from "../../../styles/CustomStyles";
+import { AboutSectionWrapper, ScrolableWrapper } from "./InfoPageStyes";
+import { Text } from "../../../styles/CustomStyles";
+import { useTranslation } from "react-i18next";
+import { CancelIcon } from "../../../assets/icons/ClientsPageIcons/ClientIcons";
+import { Flex } from "../../../styles/BuildingBlocks";
+import { Controller, useForm } from "react-hook-form";
+import CustomInput from "../../../components/Custom/CustomInput";
+import CustomTextArea from "./CustomTextArea";
+import moment from "moment";
+import { min, setDate } from "date-fns";
+import CustomFileUpload from "./CustomFileUpload";
+import Resizer from "react-image-file-resizer";
+import CustomReusableSelect from "../../../components/Custom/CustomReusableSelect";
+import { COLORS, FONT_SIZE, FONT_WEIGHT } from "../../../services/Types/enums";
+import { Checkbox, InputLabel, makeStyles, TextField } from "@material-ui/core";
+import CustomMulitpleSelect from "./CustomMulitpleSelect";
+import { FilialIcon } from "assets/icons/NewsIcons/NewsIcons";
+import axios from "axios";
+import { STORAGE_URL } from "services/constants/config";
+import partnerApi from "services/interceptors/companyInterceptor";
+import { useQuery } from "react-query";
+import CropImageModal from "../../../components/Custom/CropImageModal";
+import { fetchAddressInfo } from "../../../services/queries/infoPageQuery";
+import { DeleteIconWhite } from "../../../assets/icons/SettingsIcons/SettingsPageIcon";
+import CustomModal from "../../../components/Custom/CustomModal";
+import CustomToggle from "components/Custom/CustomToggleSwitch";
+import Title from "components/Custom/Title";
+import { BackIcon } from "../../../assets/icons/NewsIcons/NewsIcons";
 
-import { WrapInputs, WrapDate, Label } from './style';
-import Input from 'components/Custom/Input';
+import { WrapInputs, WrapDate, Label } from "./style";
+import Input from "components/Custom/Input";
 
 interface IProps {
   setStatus?: any;
@@ -78,22 +78,22 @@ interface IPostDataNews {
 
 const useStyles = makeStyles({
   timepicker: {
-    marginRight: '15px',
-    width: '46%',
-    border: '1px solid #c4c4c4',
-    borderRadius: '14px',
-    padding: '10px 10px',
-    boxSizing: 'border-box',
+    marginRight: "15px",
+    width: "46%",
+    border: "1px solid #c4c4c4",
+    borderRadius: "14px",
+    padding: "10px 10px",
+    boxSizing: "border-box",
   },
 });
 
 const dataURIToBlob = (dataURI: any) => {
-  const splitDataURI = dataURI.split(',');
+  const splitDataURI = dataURI.split(",");
   const byteString =
-    splitDataURI[0].indexOf('base64') >= 0
+    splitDataURI[0].indexOf("base64") >= 0
       ? atob(splitDataURI[1])
       : decodeURI(splitDataURI[1]);
-  const mimeString = splitDataURI[0].split(':')[1].split(';')[0];
+  const mimeString = splitDataURI[0].split(":")[1].split(";")[0];
 
   const ia = new Uint8Array(byteString.length);
   for (let i = 0; i < byteString.length; i++) ia[i] = byteString.charCodeAt(i);
@@ -107,25 +107,25 @@ const resizeFile = (file: any) =>
       file,
       400,
       400,
-      'png',
+      "png",
       100,
       0,
       (uri: any) => {
         resolve(uri);
       },
-      'base64',
+      "base64",
       400,
       400
     );
   });
 
-const intialReg = { regDateFrom: '', regDateTo: '' };
+const intialReg = { regDateFrom: "", regDateTo: "" };
 
 const CreateNews: React.FC<IProps> = ({ setStatus }) => {
-  let today = moment().format('YYYY-MM-DD');
+  let today = moment().format("YYYY-MM-DD");
   const history = useHistory();
   const { t } = useTranslation();
-  const companyId: any = localStorage.getItem('companyId');
+  const companyId: any = localStorage.getItem("companyId");
   const [main, setMain] = useState<any>(null);
   const [imageError, setImageError] = useState<boolean>(false);
   const {
@@ -137,11 +137,11 @@ const CreateNews: React.FC<IProps> = ({ setStatus }) => {
   const filialOptions = [
     {
       key: (
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          {' '}
+        <div style={{ display: "flex", alignItems: "center" }}>
+          {" "}
           <FilialIcon />
           <div>
-            <Text marginLeft='12px'>{t('chose_filial')}</Text>
+            <Text marginLeft="12px">{t("chose_filial")}</Text>
           </div>
         </div>
       ),
@@ -151,7 +151,7 @@ const CreateNews: React.FC<IProps> = ({ setStatus }) => {
   const [filials, setFilials] = useState<any>([...filialOptions]);
 
   const responseFilials = useQuery(
-    ['filials'],
+    ["filials"],
     () => fetchAddressInfo(+companyId),
     {
       retry: 0,
@@ -172,7 +172,7 @@ const CreateNews: React.FC<IProps> = ({ setStatus }) => {
   );
   const [isCropModalVisible, setIsCropModalIsVisible] = useState(false);
   const [file, setFile] = useState(null);
-  const companyToken = localStorage.getItem('companyToken');
+  const companyToken = localStorage.getItem("companyToken");
 
   const [usePushNotificationsState, setUsePushNotificationsState] =
     useState<boolean>(false);
@@ -180,16 +180,16 @@ const CreateNews: React.FC<IProps> = ({ setStatus }) => {
   const [toDate, setToDate] = useState<any>(null);
   const reusableWidth =
     +(
-      document.getElementById('scrolable_wrapper')?.getBoundingClientRect()
+      document.getElementById("scrolable_wrapper")?.getBoundingClientRect()
         ?.width || 1000
     ) - 40;
 
   //const [filials, setFilials] = useState<number[] | []>([]);
-  const [imgLink, setImgLink] = useState<string>('');
+  const [imgLink, setImgLink] = useState<string>("");
   const [days, setDays] = useState<number[]>([]);
   const classes = useStyles();
-  const [timeFrom, setTimeFrom] = useState<string>('');
-  const [timeTo, setTimeTo] = useState<string>('');
+  const [timeFrom, setTimeFrom] = useState<string>("");
+  const [timeTo, setTimeTo] = useState<string>("");
   const [hover, setHover] = useState<boolean>(false);
   const [aroundTheClock, setAroundTheClock] = useState<boolean>(false);
   const [minDate, setMinDate] = useState<string | undefined>(today);
@@ -241,8 +241,8 @@ const CreateNews: React.FC<IProps> = ({ setStatus }) => {
         : {},
     };
     try {
-      await partnerApi.post('/core/news', submitingData);
-      setStatus('');
+      await partnerApi.post("/core/news", submitingData);
+      setStatus("");
     } catch (err) {}
   };
 
@@ -254,7 +254,7 @@ const CreateNews: React.FC<IProps> = ({ setStatus }) => {
     const newFile = dataURIToBlob(image);
     //  formData.append('itemId', companyId);
     // formData.append('fileType', 'companyLogo');
-    formData.append('file', file);
+    formData.append("file", file);
 
     try {
       const response = await axios.post(
@@ -262,7 +262,7 @@ const CreateNews: React.FC<IProps> = ({ setStatus }) => {
         formData,
         {
           headers: {
-            authorization: 'Bearer ' + companyToken,
+            authorization: "Bearer " + companyToken,
             langId: 1,
           },
         }
@@ -274,15 +274,15 @@ const CreateNews: React.FC<IProps> = ({ setStatus }) => {
   };
   const options = [
     {
-      key: t('all'),
+      key: t("all"),
       value: 0,
     },
     {
-      key: t('male'),
+      key: t("male"),
       value: 1,
     },
     {
-      key: t('female'),
+      key: t("female"),
       value: 2,
     },
   ];
@@ -292,11 +292,11 @@ const CreateNews: React.FC<IProps> = ({ setStatus }) => {
         links: [imgLink],
       },
       headers: {
-        authorization: 'Bearer ' + companyToken,
+        authorization: "Bearer " + companyToken,
         langId: 1,
       },
     });
-    setImgLink('');
+    setImgLink("");
     setHover(false);
   };
   const handleUsePush = (checked: boolean) => {
@@ -321,12 +321,12 @@ const CreateNews: React.FC<IProps> = ({ setStatus }) => {
             onClick={(e) => {
               e.stopPropagation();
             }}
-          />{' '}
-          <Text>{t('monday')}</Text>
+          />{" "}
+          <Text>{t("monday")}</Text>
         </div>
       ),
       id: 0,
-      key: t('monday'),
+      key: t("monday"),
     },
     {
       name: (
@@ -342,12 +342,12 @@ const CreateNews: React.FC<IProps> = ({ setStatus }) => {
             onClick={(e) => {
               e.stopPropagation();
             }}
-          />{' '}
-          <Text>{t('tuesday')}</Text>
+          />{" "}
+          <Text>{t("tuesday")}</Text>
         </div>
       ),
       id: 1,
-      key: t('tuesday'),
+      key: t("tuesday"),
     },
     {
       name: (
@@ -363,12 +363,12 @@ const CreateNews: React.FC<IProps> = ({ setStatus }) => {
             onClick={(e) => {
               e.stopPropagation();
             }}
-          />{' '}
-          <Text>{t('wednesday')}</Text>
+          />{" "}
+          <Text>{t("wednesday")}</Text>
         </div>
       ),
       id: 2,
-      key: t('wednesday'),
+      key: t("wednesday"),
     },
     {
       name: (
@@ -384,12 +384,12 @@ const CreateNews: React.FC<IProps> = ({ setStatus }) => {
             onClick={(e) => {
               e.stopPropagation();
             }}
-          />{' '}
-          <Text>{t('thursday')}</Text>
+          />{" "}
+          <Text>{t("thursday")}</Text>
         </div>
       ),
       id: 3,
-      key: t('thursday'),
+      key: t("thursday"),
     },
     {
       name: (
@@ -405,12 +405,12 @@ const CreateNews: React.FC<IProps> = ({ setStatus }) => {
             onClick={(e) => {
               e.stopPropagation();
             }}
-          />{' '}
-          <Text>{t('friday')}</Text>
+          />{" "}
+          <Text>{t("friday")}</Text>
         </div>
       ),
       id: 4,
-      key: t('friday'),
+      key: t("friday"),
     },
     {
       name: (
@@ -426,12 +426,12 @@ const CreateNews: React.FC<IProps> = ({ setStatus }) => {
             onClick={(e) => {
               e.stopPropagation();
             }}
-          />{' '}
-          <Text>{t('saturday')}</Text>
+          />{" "}
+          <Text>{t("saturday")}</Text>
         </div>
       ),
       id: 5,
-      key: t('saturday'),
+      key: t("saturday"),
     },
     {
       name: (
@@ -444,20 +444,20 @@ const CreateNews: React.FC<IProps> = ({ setStatus }) => {
           <Checkbox
             checked={days.includes(7) ? true : false}
             onChange={(e: any, checked: any) => handleSelectChange(checked, 7)}
-          />{' '}
-          <Text>{t('sunday')}</Text>
+          />{" "}
+          <Text>{t("sunday")}</Text>
         </div>
       ),
       id: 6,
-      key: t('sunday'),
+      key: t("sunday"),
     },
   ];
 
   const intialState = {
-    startDate: '',
-    endDate: '',
-    regDateFrom: '',
-    regDateTo: '',
+    startDate: "",
+    endDate: "",
+    regDateFrom: "",
+    regDateTo: "",
   };
 
   const handleDate = () => {
@@ -467,73 +467,73 @@ const CreateNews: React.FC<IProps> = ({ setStatus }) => {
     <>
       <div
         style={{
-          display: 'flex',
-          justifyContent: 'flex-start',
-          flexDirection: 'row',
-          alignItems: 'center',
-          marginBottom: '30px',
+          display: "flex",
+          justifyContent: "flex-start",
+          flexDirection: "row",
+          alignItems: "center",
+          marginBottom: "30px",
         }}
       >
         <div
           onClick={history.goBack}
           style={{
-            marginRight: '23.25px',
+            marginRight: "23.25px",
           }}
         >
           <BackIcon />
         </div>
-        <Title>{t('addingNews')}</Title>
+        <Title>{t("addingNews")}</Title>
       </div>
 
       <div style={{ flexGrow: 1 }}>
         <AboutSectionWrapper
-          id='scrolable_wrapper'
-          style={{ boxSizing: 'border-box', position: 'relative' }}
+          id="scrolable_wrapper"
+          style={{ boxSizing: "border-box", position: "relative" }}
         >
-          <ScrolableWrapper style={{ padding: '30px 40px' }} id='scrollableDiv'>
+          <ScrolableWrapper style={{ padding: "30px 40px" }} id="scrollableDiv">
             <form>
               <Flex
-                width='100%'
-                height='70vh'
-                justifyContent='start'
-                alignItems='flex-start'
-                overflowY='scroll'
+                width="100%"
+                height="70vh"
+                justifyContent="start"
+                alignItems="flex-start"
+                overflowY="scroll"
               >
                 <Flex
-                  width='48%'
-                  alignItems='flex-start'
-                  flexDirection='column'
-                  margin='0px 0px 50px 0px'
+                  width="48%"
+                  alignItems="flex-start"
+                  flexDirection="column"
+                  margin="0px 0px 50px 0px"
                 >
                   {!imgLink ? (
                     <div>
                       <CustomFileUpload
-                        aboveInput='photos'
-                        aboveLabel='logo_text'
+                        aboveInput="photos"
+                        aboveLabel="logo_text"
                         onChange={handlePhotoChange}
-                        label='upload_photo'
+                        label="upload_photo"
                       />
 
                       {imageError && (
-                        <Text fontSize='14px' fontWeight={400} color='red'>
-                          {t('imageErrorRequired')}
+                        <Text fontSize="14px" fontWeight={400} color="red">
+                          {t("imageErrorRequired")}
                         </Text>
                       )}
                     </div>
                   ) : (
-                    <div style={{ position: 'relative' }}>
-                      <div style={{ marginBottom: '15px' }}>
+                    <div style={{ position: "relative" }}>
+                      <div style={{ marginBottom: "15px" }}>
                         <Text fontWeight={500} fontSize={FONT_SIZE.meduim}>
-                          {t('photos')}
+                          {t("photos")}
                         </Text>
                       </div>
                       <div
                         style={{
-                          objectFit: 'cover',
-                          position: 'absolute',
-                          top: '55%',
-                          left: '50%',
-                          transform: 'translate(-55%, -50%)',
+                          objectFit: "cover",
+                          position: "absolute",
+                          top: "55%",
+                          left: "50%",
+                          transform: "translate(-55%, -50%)",
                           opacity: hover ? 1 : 0,
                           zIndex: 200,
                         }}
@@ -546,68 +546,68 @@ const CreateNews: React.FC<IProps> = ({ setStatus }) => {
                         onMouseOver={() => setHover(true)}
                         onMouseOutCapture={() => setHover(false)}
                         style={{
-                          width: '280px',
-                          height: '170px',
-                          borderRadius: '14px',
-                          objectFit: 'cover',
-                          overflow: 'hidden',
-                          position: 'relative',
-                          filter: hover ? 'brightness(0.6)' : 'brightness(1)',
+                          width: "280px",
+                          height: "170px",
+                          borderRadius: "14px",
+                          objectFit: "cover",
+                          overflow: "hidden",
+                          position: "relative",
+                          filter: hover ? "brightness(0.6)" : "brightness(1)",
                         }}
                       >
                         <img
                           style={{
-                            objectFit: 'cover',
-                            width: '100%',
-                            height: '100%',
+                            objectFit: "cover",
+                            width: "100%",
+                            height: "100%",
                           }}
                           src={imgLink}
-                          alt=''
+                          alt=""
                         />
                       </div>
                     </div>
                   )}
                   <Controller
                     control={control}
-                    name='title'
+                    name="title"
                     rules={{ required: true }}
                     render={({ field }) => {
-                      return <CustomInput field={field} label='title' />;
+                      return <CustomInput field={field} label="title" />;
                     }}
                   />
-                  {errors.errors.title?.type === 'required' && (
-                    <Text fontSize='14px' fontWeight={400} color='red'>
-                      {t('requiredField')}
+                  {errors.errors.title?.type === "required" && (
+                    <Text fontSize="14px" fontWeight={400} color="red">
+                      {t("requiredField")}
                     </Text>
                   )}
                   <Controller
                     control={control}
-                    name='description'
+                    name="description"
                     rules={{ required: true }}
                     render={({ field }) => {
                       return (
-                        <CustomTextArea field={field} label='description' />
+                        <CustomTextArea field={field} label="description" />
                       );
                     }}
                   />
-                  {errors.errors.description?.type === 'required' && (
-                    <Text fontSize='14px' fontWeight={400} color='red'>
-                      {t('requiredField')}
+                  {errors.errors.description?.type === "required" && (
+                    <Text fontSize="14px" fontWeight={400} color="red">
+                      {t("requiredField")}
                     </Text>
                   )}
 
                   <WrapInputs>
-                    <Label>{t('chose_date')}</Label>
+                    <Label>{t("chose_date")}</Label>
                     <div>
                       <Input
                         min={minDate}
-                        type='date'
+                        type="date"
                         width={{
                           maxwidth: 200,
                         }}
-                        IconStart={<WrapDate>{t('from')}</WrapDate>}
+                        IconStart={<WrapDate>{t("from")}</WrapDate>}
                         inputStyle={{
-                          inpadding: '0 10px 0 0',
+                          inpadding: "0 10px 0 0",
                         }}
                         value={regDate.regDateFrom}
                         onChange={(e: any) => {
@@ -619,15 +619,15 @@ const CreateNews: React.FC<IProps> = ({ setStatus }) => {
                         }}
                       />
                       <Input
-                        type='date'
+                        type="date"
                         min={minDate}
                         width={{
                           maxwidth: 200,
                         }}
-                        margin={{ laptop: '0 0 0 15px' }}
-                        IconStart={<WrapDate>{t('to')}</WrapDate>}
+                        margin={{ laptop: "0 0 0 15px" }}
+                        IconStart={<WrapDate>{t("to")}</WrapDate>}
                         inputStyle={{
-                          inpadding: '0 10px 0 0',
+                          inpadding: "0 10px 0 0",
                         }}
                         value={regDate.regDateTo}
                         onChange={(e: any) => {
@@ -637,57 +637,57 @@ const CreateNews: React.FC<IProps> = ({ setStatus }) => {
                       />
                     </div>
                   </WrapInputs>
-                  <div style={{ width: '100%' }}>
+                  <div style={{ width: "100%" }}>
                     <Controller
                       control={control}
-                      name='gender'
+                      name="gender"
                       rules={{ required: true }}
                       render={({ field }) => {
                         return (
                           <CustomReusableSelect
                             field={field}
-                            label='chose_gender'
+                            label="chose_gender"
                             options={options}
                           />
                         );
                       }}
                     />
-                    {errors.errors.gender?.type === 'required' && (
-                      <Text fontSize='14px' fontWeight={400} color='red'>
-                        {t('requiredField')}
+                    {errors.errors.gender?.type === "required" && (
+                      <Text fontSize="14px" fontWeight={400} color="red">
+                        {t("requiredField")}
                       </Text>
                     )}
                   </div>
 
                   <Controller
                     control={control}
-                    name='ageLimit'
+                    name="ageLimit"
                     rules={{ required: true }}
                     render={({ field }) => {
-                      return <CustomInput field={field} label='ageLimit' />;
+                      return <CustomInput field={field} label="ageLimit" />;
                     }}
                   />
-                  {errors.errors.gender?.type === 'required' && (
-                    <Text fontSize='14px' fontWeight={400} color='red'>
-                      {t('requiredField')}
+                  {errors.errors.gender?.type === "required" && (
+                    <Text fontSize="14px" fontWeight={400} color="red">
+                      {t("requiredField")}
                     </Text>
                   )}
                 </Flex>
                 <Flex
-                  width='48%'
-                  justifyContent='start'
-                  alignItems='flex-start'
-                  margin='0px'
-                  flexDirection='column'
+                  width="48%"
+                  justifyContent="start"
+                  alignItems="flex-start"
+                  margin="0px"
+                  flexDirection="column"
                 >
                   <div>
                     <Text
                       fontSize={FONT_SIZE.smallPlus}
-                      marginRight='15px'
+                      marginRight="15px"
                       fontWeight={400}
-                      color='#c4c4c4'
+                      color="#c4c4c4"
                     >
-                      {t('turn_on_push')}
+                      {t("turn_on_push")}
                     </Text>
                     <CustomToggle
                       checked={usePushNotificationsState}
@@ -700,10 +700,10 @@ const CreateNews: React.FC<IProps> = ({ setStatus }) => {
                     <>
                       <Controller
                         control={control}
-                        name='text_push'
+                        name="text_push"
                         render={({ field }) => {
                           return (
-                            <CustomTextArea field={field} label='text_push' />
+                            <CustomTextArea field={field} label="text_push" />
                           );
                         }}
                       />
@@ -712,31 +712,31 @@ const CreateNews: React.FC<IProps> = ({ setStatus }) => {
                         setValues={setDays}
                         values={days}
                         options={weekDays}
-                        label='Укажите дни'
+                        label="Укажите дни"
                       />
 
-                      <div style={{ marginTop: '20px', width: '100%' }}>
+                      <div style={{ marginTop: "20px", width: "100%" }}>
                         <div
-                          style={{ marginTop: '15px', marginBottom: '15px' }}
+                          style={{ marginTop: "15px", marginBottom: "15px" }}
                         >
-                          <Text fontSize={FONT_SIZE.meduim} color='#c4c4c4'>
-                            {t('point_out_time')}
+                          <Text fontSize={FONT_SIZE.meduim} color="#c4c4c4">
+                            {t("point_out_time")}
                           </Text>
                         </div>
                         <div>
                           <TextField
-                            type='time'
+                            type="time"
                             className={classes.timepicker}
                             InputProps={{
                               disableUnderline: true,
                             }}
                             onChange={(e) => setTimeFrom(e.target.value)}
-                            variant='standard'
+                            variant="standard"
                             value={timeFrom}
                           />
                           <TextField
-                            type='time'
-                            variant='standard'
+                            type="time"
+                            variant="standard"
                             inputProps={{
                               classes: classes,
                             }}
@@ -748,23 +748,23 @@ const CreateNews: React.FC<IProps> = ({ setStatus }) => {
                             value={timeTo}
                           />
                         </div>
-                        <div style={{ marginTop: '20px' }}>
+                        <div style={{ marginTop: "20px" }}>
                           <Checkbox />
                           <Text fontSize={FONT_SIZE.smallPlus}>
-                            {t('24/7')}
+                            {t("24/7")}
                           </Text>
                         </div>
-                        <div style={{ marginTop: '20px' }}>
+                        <div style={{ marginTop: "20px" }}>
                           <Controller
                             control={control}
-                            name='filials'
+                            name="filials"
                             render={({ field }) => {
                               return (
                                 <CustomReusableSelect
                                   field={field}
                                   defaultValue={1}
-                                  fillColor='rgba(96, 110, 234,0.1)'
-                                  label=''
+                                  fillColor="rgba(96, 110, 234,0.1)"
+                                  label=""
                                   options={filials}
                                 />
                               );
@@ -781,17 +781,17 @@ const CreateNews: React.FC<IProps> = ({ setStatus }) => {
             </form>
           </ScrolableWrapper>
           <div
-            className='areaforsavebutton'
+            className="areaforsavebutton"
             style={{
-              position: 'fixed',
-              bottom: '-0px',
-              background: 'white',
-              width: +reusableWidth + 40 + 'px',
-              display: 'flex',
-              justifyContent: 'center',
-              margin: '0px',
-              boxSizing: 'border-box',
-              padding: '0px 20px',
+              position: "fixed",
+              bottom: "-0px",
+              background: "white",
+              width: +reusableWidth + 40 + "px",
+              display: "flex",
+              justifyContent: "center",
+              margin: "0px",
+              boxSizing: "border-box",
+              padding: "0px 20px",
             }}
           >
             <div
@@ -799,32 +799,32 @@ const CreateNews: React.FC<IProps> = ({ setStatus }) => {
                 width: `${reusableWidth}px`,
                 minWidth: `${reusableWidth}px`,
                 maxWidth: `${reusableWidth}px`,
-                display: 'flex',
-                borderTop: '1px solid #c4c4c4',
-                padding: '20px 0px',
-                boxSizing: 'border-box',
-                background: 'white',
+                display: "flex",
+                borderTop: "1px solid #c4c4c4",
+                padding: "20px 0px",
+                boxSizing: "border-box",
+                background: "white",
               }}
             >
               <CustomButton
                 disabled={imgLink ? true : false}
-                background='white'
+                background="white"
                 onClick={() => {
-                  setStatus('');
+                  setStatus("");
                 }}
               >
                 <CancelIcon />
-                <Text marginLeft='15px'>{t('cancel')} </Text>
+                <Text marginLeft="15px">{t("cancel")} </Text>
               </CustomButton>
               <CustomButton
                 onClick={() => {
                   handleSubmit(onFormSubmit)();
                 }}
-                style={{ marginLeft: '10px' }}
+                style={{ marginLeft: "10px" }}
               >
                 <SaveIcon />
-                <Text marginLeft='15px' color='white'>
-                  {t('save')}{' '}
+                <Text marginLeft="15px" color="white">
+                  {t("save")}{" "}
                 </Text>
               </CustomButton>
             </div>

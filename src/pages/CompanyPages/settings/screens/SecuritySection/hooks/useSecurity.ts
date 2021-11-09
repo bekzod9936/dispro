@@ -1,7 +1,7 @@
 import { useQuery, useMutation } from "react-query";
 import { useForm, useWatch } from "react-hook-form";
-import { fetchSafeties } from "services/queries/PartnerQueries";
-import { changeCompanySecurity } from "services/queries/SecuritySettingsQueries";
+import { fetchSafeties } from "services/queries/partnerQuery";
+import { changeCompanySecurity } from "services/queries/securitySettingQuery";
 import { IForm } from "../constants";
 
 const useSecurity = () => {

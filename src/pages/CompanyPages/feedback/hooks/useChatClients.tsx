@@ -1,15 +1,15 @@
-import { useQuery } from 'react-query';
-import { USER_TYPES } from 'services/constants/chat';
+import { useQuery } from "react-query";
+import { USER_TYPES } from "services/constants/chat";
 import {
   fetchChatClients,
   fetchChatClientHistory,
-} from 'services/queries/FeedBack';
-import { useAppDispatch } from 'services/redux/hooks';
+} from "services/queries/feedbackQuery";
+import { useAppDispatch } from "services/redux/hooks";
 import {
   setChatClientHistory,
   setMessagesFeedBack,
   setTotalHistory,
-} from 'services/redux/Slices/feedback';
+} from "services/redux/Slices/feedback";
 
 interface Props {
   chosen?: any;
@@ -18,7 +18,7 @@ interface Props {
 const useChatClients = ({ chosen }: Props) => {
   const dispatch = useAppDispatch();
 
-  const resChatClients = useQuery('getClientsChat', fetchChatClients, {
+  const resChatClients = useQuery("getClientsChat", fetchChatClients, {
     keepPreviousData: true,
     refetchOnWindowFocus: false,
     retry: 0,
@@ -28,7 +28,7 @@ const useChatClients = ({ chosen }: Props) => {
   });
 
   const resChatClientHistory = useQuery(
-    'getClientChatHistory',
+    "getClientChatHistory",
     () => {
       return fetchChatClientHistory({
         url: `withUserType=${USER_TYPES.CUSTOMER}&withId=${chosen?.id}&page=1&perPage=22`,

@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useQuery } from 'react-query';
-import { fetchAddressInfo } from 'services/queries/InfoQueries';
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useQuery } from "react-query";
+import { fetchAddressInfo } from "services/queries/InfoQuery";
 
 interface Props {
   address?: string;
@@ -31,7 +31,7 @@ const useAddress = ({ id }: AProps) => {
   const { t } = useTranslation();
   const [dataAddress, setData] = useState<Props[]>([]);
   const responseAddress = useQuery(
-    'fetchAddress',
+    "fetchAddress",
     () => fetchAddressInfo({ companyId: id }),
     {
       keepPreviousData: true,
@@ -46,31 +46,31 @@ const useAddress = ({ id }: AProps) => {
   const weeks = [
     {
       day: 1,
-      weekday: t('md'),
+      weekday: t("md"),
     },
     {
       day: 2,
-      weekday: t('td'),
+      weekday: t("td"),
     },
     {
       day: 3,
-      weekday: t('wd'),
+      weekday: t("wd"),
     },
     {
       day: 4,
-      weekday: t('thd'),
+      weekday: t("thd"),
     },
     {
       day: 5,
-      weekday: t('fd'),
+      weekday: t("fd"),
     },
     {
       day: 6,
-      weekday: t('std'),
+      weekday: t("std"),
     },
     {
       day: 7,
-      weekday: t('sd'),
+      weekday: t("sd"),
     },
   ];
 
@@ -78,44 +78,44 @@ const useAddress = ({ id }: AProps) => {
     {
       day: 1,
       dayOff: false,
-      wHours: { from: '', to: '' },
-      bHours: { from: '', to: '' },
+      wHours: { from: "", to: "" },
+      bHours: { from: "", to: "" },
     },
     {
       day: 2,
       dayOff: false,
-      wHours: { from: '', to: '' },
-      bHours: { from: '', to: '' },
+      wHours: { from: "", to: "" },
+      bHours: { from: "", to: "" },
     },
     {
       day: 3,
       dayOff: false,
-      wHours: { from: '', to: '' },
-      bHours: { from: '', to: '' },
+      wHours: { from: "", to: "" },
+      bHours: { from: "", to: "" },
     },
     {
       day: 4,
       dayOff: false,
-      wHours: { from: '', to: '' },
-      bHours: { from: '', to: '' },
+      wHours: { from: "", to: "" },
+      bHours: { from: "", to: "" },
     },
     {
       day: 5,
       dayOff: false,
-      wHours: { from: '', to: '' },
-      bHours: { from: '', to: '' },
+      wHours: { from: "", to: "" },
+      bHours: { from: "", to: "" },
     },
     {
       day: 6,
       dayOff: false,
-      wHours: { from: '', to: '' },
-      bHours: { from: '', to: '' },
+      wHours: { from: "", to: "" },
+      bHours: { from: "", to: "" },
     },
     {
       day: 7,
       dayOff: false,
-      wHours: { from: '', to: '' },
-      bHours: { from: '', to: '' },
+      wHours: { from: "", to: "" },
+      bHours: { from: "", to: "" },
     },
   ];
 
