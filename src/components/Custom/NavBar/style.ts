@@ -22,7 +22,7 @@ export const Container = styled.div`
 
   grid-template-columns: ${({ listlength, vertical }: Props) =>
     !vertical && `repeat(${listlength}, fit-content(100%) )`};
-  width: fit-content;
+  width: 100%;
   grid-column-gap: 10px;
   grid-row-gap: 20px;
   overflow: auto;

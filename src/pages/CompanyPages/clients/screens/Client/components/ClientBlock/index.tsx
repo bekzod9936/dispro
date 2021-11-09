@@ -9,9 +9,11 @@ import { DefaultImage, DownSide, Icon, UpSide, Wrapper } from './style'
 export const ClientBlock = ({ image, firstName, lastName, addInfo, genderTypeId }: IClient) => {
     const { t } = useTranslation()
     const history = useHistory()
+
     const handleClose = () => {
-        history.goBack()
+        history.push("/clients")
     }
+
     return (
         <Wrapper>
             <UpSide>

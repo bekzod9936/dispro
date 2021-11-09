@@ -1,8 +1,8 @@
 import DatePicker from "react-multi-date-picker"
 import styled from "styled-components"
 import { device } from "styles/device"
-
-export const AgeWrapper = styled.div`
+import { ReactComponent as TextArea } from 'assets/icons/IconsInfo/textarea.svg';
+export const PushWrapper = styled.div`
     width: 100%;
     margin-bottom: 25px;
 `
@@ -14,8 +14,52 @@ export const Header = styled.div`
         margin-bottom: 20px;
     }
 `
+export const TextAreaIcon = styled(TextArea)``;
+export const FormRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+`;
 
-export const AgeBlock = styled.div`
+export const WrapperModal = styled.div`
+   padding-right:45px;
+   padding-top:10px;
+    position: relative;
+    h3 {
+      font-size: 22px;
+        line-height: 26px;
+        margin-bottom: 10px;
+        color: #223367;
+    }
+ 
+`
+
+export const CloseButton = styled.div`
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    cursor: pointer;
+`
+
+export const WrapArea = styled.div`
+  display: flex;
+  flex: 1;
+  align-items: flex-end;
+  margin: 65px 10px 0 0;
+  @media (max-width: ${device.mobile}) {
+    margin: 55px 5px 0 0;
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    margin: 30px 10px 0 0;
+  }
+  @media (min-width: ${device.laptop}) {
+    margin: 90px 10px 0 0;
+  }
+`;
+
+export const PushBlock = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -123,7 +167,7 @@ export const DownSide = styled.div`
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
     display: flex;
     justify-content: flex-start;
-    height: 20%;
+    height: 25%;
     @media (max-width: 1150px) {
       padding-right: 20px;
     }

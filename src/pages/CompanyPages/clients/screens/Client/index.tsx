@@ -1,9 +1,9 @@
 import { CartIcon, CashBackIcon, DiscountIcon, DownIcon, GoBackIcon, HandIcon, MoneyBagIcon, MoneyStatsIcon, PointActionsIcon, RatingIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
 import NavBar from 'components/Custom/NavBar'
 import Spinner from 'components/Helpers/Spinner'
-import React, { Suspense } from 'react'
+import React, { Suspense, useState } from 'react'
 import { Route, Switch, useHistory } from 'react-router'
-import { useAppSelector } from 'services/redux/hooks'
+import { useAppDispatch, useAppSelector } from 'services/redux/hooks'
 import { useClientRoutes } from '../../routes'
 import { ClientBlock } from './components/ClientBlock'
 import { InfoBlock } from './components/InfoBlock'
@@ -13,6 +13,9 @@ import { DownSide, MAddInfo, MButtons, MClientInfo, MDefaultImage, MiddleSide, M
 import { useWindowSize } from "../../hooks/useWindowSize"
 import { useTranslation } from 'react-i18next'
 import Button from 'components/Custom/Button'
+import { DownModal } from './components/DownModal'
+import { selectAll } from 'services/redux/Slices/clients'
+import { Form } from '../../components/Form'
 
 const Client = () => {
     const { selectedClients } = useAppSelector(state => state.clients)
@@ -21,13 +24,23 @@ const Client = () => {
     const { routes } = useClientRoutes()
     const { width } = useWindowSize()
     const { t } = useTranslation()
+    const [isOpen, setIsOpen] = useState(false)
+    const [modalContent, setModalContent] = useState<"points" | "other">("points")
+    const [form, setForm] = useState({
+        action: 1,
+        isOpen: false
+    })
+    const dispatch = useAppDispatch()
 
     const handleClose = () => {
+        dispatch(selectAll(false))
         history.push("/clients")
     }
+
     React.useEffect(() => {
-        if (!client) history.push("/clients")
+        if (!client) history.push("/clients");
     }, [])
+
     const statistics = [
         {
             icon: <MoneyStatsIcon />,
@@ -66,6 +79,22 @@ const Client = () => {
         },
 
     ]
+
+    const handlePointsAction = (action: number) => {
+        setForm({
+            isOpen: true,
+            action
+        })
+        setIsOpen(false)
+    }
+
+
+    const handleDownModal = (e: any, action: "other" | "points") => {
+        e.stopPropagation()
+        setModalContent(action)
+        setIsOpen(true)
+    }
+
     if (width > 600) {
         return (
             <Wrapper>
@@ -79,7 +108,6 @@ const Client = () => {
                         <StatsCard key={index} {...el} />
                     ))}
                 </MiddleSide>
-
                 <DownSide>
                     <NavBar list={routes} />
                     <Switch>
@@ -95,6 +123,15 @@ const Client = () => {
     } else {
         return (
             <MWrapper>
+                <Form
+                    handleClose={setForm}
+                    action={form.action}
+                    isOpen={form.isOpen} />
+                {isOpen &&
+                    <DownModal
+                        onClick={handlePointsAction}
+                        modalContent={modalContent}
+                        handleClose={() => setIsOpen(false)} />}
                 <MUpside>
                     <MNav>
                         <GoBackIcon onClick={handleClose} style={{ width: 10, height: 15, cursor: "pointer" }} />
@@ -113,12 +150,14 @@ const Client = () => {
                     </MAddInfo>
                     <MButtons>
                         <Button
-                            margin={{ mobile: "0 20px 0 0" }}
+                            onClick={(e) => handleDownModal(e, "points")}
+                            margin={{ mobile: "0 8px 0 0" }}
                             endIcon={<PointActionsIcon />}
                             buttonStyle={{ weight: "500", bgcolor: "rgba(96, 110, 234, 0.1)", color: "#606EEA" }}>
                             Действия с баллами
                         </Button>
                         <Button
+                            onClick={(e) => handleDownModal(e, "other")}
                             buttonStyle={{ bgcolor: "#F0F0F0", color: "#606EEA", weight: "500" }}
                             endIcon={<DownIcon />}>
                             Ещё
