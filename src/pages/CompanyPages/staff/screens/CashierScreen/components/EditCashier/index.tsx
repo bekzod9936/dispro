@@ -1,44 +1,49 @@
-import React from 'react';
+import { IProps, FormProps } from './types';
 import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import Modal from 'components/Custom/Modal';
-import Input from 'components/Custom/Input';
 import Button from 'components/Custom/Button';
-import { CancelIcon } from 'assets/icons/ClientsPageIcons/ClientIcons';
-import MultiSelect from 'components/Custom/MultiSelect';
-import { Form, FormRow, FormCol, Break, ModalHead, ModalTitle } from './style';
-import { FormProps } from './types';
-import { ModalContent, ModalBody, ModalAction } from '../../style';
-import { useAppDispatch } from 'services/redux/hooks';
-import { setOpenCash } from 'services/redux/Slices/staffs';
-import { ReactComponent as SaveIcon } from 'assets/icons/IconsInfo/save.svg';
-import { ReactComponent as ExitIcon } from 'assets/icons/exit.svg';
-import { ReactComponent as Market } from 'assets/icons/SideBar/ilmarket.svg';
-import useCashiers from '../../../../hooks/useCashiers';
-import useStaff from '../../../../hooks/useStaff';
-import { setTimeout } from 'timers';
+import Modal from 'components/Custom/Modal';
+import {
+	ModalAction,
+	ModalBody,
+	ModalContent,
+	ModalHead,
+	ModalTitle,
+} from '../../../CashierScreen/style';
 import { IconButton } from '@material-ui/core';
+import MultiSelect from 'components/Custom/MultiSelect';
+import Input from 'components/Custom/Input';
+import { Form, FormRow, FormCol, Break } from './style';
+import { ReactComponent as ExitIcon } from 'assets/icons/exit.svg';
+import { ReactComponent as SaveIcon } from 'assets/icons/IconsInfo/save.svg';
+import { ReactComponent as Market } from 'assets/icons/SideBar/ilmarket.svg';
+import { CancelIcon } from 'assets/icons/ClientsPageIcons/ClientIcons';
+import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
+import { setOpenEditCashier } from 'services/redux/Slices/staffs';
+import useStaff from 'pages/CompanyPages/staff/hooks/useStaff';
+import useCashiers from 'pages/CompanyPages/staff/hooks/useCashiers';
+import { useEffect } from 'react';
 
-interface IProps {
-	openCash: boolean;
-}
+const EditCashier = ({ openEdit }: IProps) => {
+	const dispatch = useAppDispatch();
+	const { t } = useTranslation();
+	const { branches } = useStaff();
 
-const CreateCashier = ({ openCash }: IProps) => {
-	const { createCash } = useCashiers({
+	const selectedCashiers = useAppSelector(
+		(state) => state.staffs.selectedCashiers
+	);
+
+	const { editCashier } = useCashiers({
 		page: 1,
 		query: '',
 		period: '',
 	});
 
-	const { branches } = useStaff();
-	//   const [branches, setBranches] = useState([]);
-	const dispatch = useAppDispatch();
-	const { t } = useTranslation();
 	const {
 		control,
 		handleSubmit,
-		reset,
-		formState: { errors, isValid, isSubmitSuccessful },
+		setValue,
+		formState: { errors, isValid },
 	} = useForm<FormProps>({
 		mode: 'onChange',
 		shouldFocusError: true,
@@ -46,40 +51,40 @@ const CreateCashier = ({ openCash }: IProps) => {
 	});
 
 	const onSave = (data: FormProps) => {
-		console.log(data, 'data');
-		createCash.mutate({
-			comment: data.comment,
+		console.log(data, 'data form');
+		editCashier.mutate({
+			id: selectedCashiers[0].id,
+			storeId: data.storeId?.value,
 			firstName: data.firstName,
 			lastName: data.lastName,
-			storeId: data.storeId?.value,
+			comment: data.comment,
 			telNumber: data.telNumber,
-			roleId: 3,
 		});
 	};
 
-	React.useEffect(() => {
-		if (isSubmitSuccessful) {
-			setTimeout(() => {
-				reset({
-					comment: '',
-					firstName: '',
-					lastName: '',
-					storeId: '',
-					telNumber: '+998',
-				});
-			}, 4000);
+	useEffect(() => {
+		if (selectedCashiers?.length) {
+			let firstname = selectedCashiers[0].firstName.split(' ')[0];
+			let choseBranch: any = branches.find(
+				(item: any) => item.value == selectedCashiers[0].storeId
+			);
+			setValue('firstName', firstname);
+			setValue('lastName', selectedCashiers[0].lastName);
+			setValue('comment', selectedCashiers[0].comment);
+			setValue('telNumber', selectedCashiers[0].telNumber);
+			setValue('storeId', choseBranch?.value);
 		}
-	}, [isSubmitSuccessful, reset]);
+	}, [selectedCashiers]);
 
 	return (
-		<Modal open={openCash}>
+		<Modal open={openEdit}>
 			<Form onSubmit={handleSubmit(onSave)}>
 				<ModalContent>
 					<ModalHead>
-						<ModalTitle>{t('adding_cashier')}</ModalTitle>
+						<ModalTitle>{t('editing_cashier')}</ModalTitle>
 						<IconButton
 							onClick={() => {
-								dispatch(setOpenCash(false));
+								dispatch(setOpenEditCashier(false));
 							}}
 						>
 							<ExitIcon />
@@ -218,7 +223,7 @@ const CreateCashier = ({ openCash }: IProps) => {
 								color: '#223367',
 							}}
 							onClick={() => {
-								dispatch(setOpenCash(false));
+								dispatch(setOpenEditCashier(false));
 							}}
 							startIcon={<CancelIcon />}
 						>
@@ -226,7 +231,7 @@ const CreateCashier = ({ openCash }: IProps) => {
 						</Button>
 
 						<Button
-							disabled={!isValid || createCash.isLoading}
+							disabled={!isValid || editCashier.isLoading}
 							type='submit'
 							startIcon={<SaveIcon />}
 						>
@@ -239,4 +244,4 @@ const CreateCashier = ({ openCash }: IProps) => {
 	);
 };
 
-export default CreateCashier;
+export default EditCashier;
