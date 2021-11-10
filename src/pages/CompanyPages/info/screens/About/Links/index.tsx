@@ -14,6 +14,8 @@ import {
   DeleteIcon,
   ValueStyle,
 } from './style';
+import SaveButton from 'pages/CompanyPages/info/components/Buttons/SaveButton';
+import CancelButton from 'pages/CompanyPages/info/components/Buttons/CancelButton';
 
 interface Props {
   Icon?: any;
@@ -40,7 +42,7 @@ const Links = ({ Icon, name, value, onChange = () => {} }: Props) => {
           <WrapLinkIcon>
             <Icon />
           </WrapLinkIcon>
-          {name}
+          <div>{name}</div>
         </WrapLink>
         <Button
           buttonStyle={{
@@ -71,26 +73,9 @@ const Links = ({ Icon, name, value, onChange = () => {} }: Props) => {
             autoFocus={true}
           />
           <ModalWrap>
-            <Button
-              buttonStyle={{
-                color: '#223367',
-                bgcolor: 'white',
-                weight: '500',
-              }}
-              onClick={() => setOpen(false)}
-              margin={{
-                laptop: '0 30px 0 0',
-              }}
-            >
-              <CloseIcon />
-              {t('cancel')}
-            </Button>
-            <Button
-              buttonStyle={{
-                shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)',
-                radius: 14,
-                weight: 500,
-              }}
+            <CancelButton onClick={() => setOpen(false)} />
+            <SaveButton
+              type='button'
               onClick={() => {
                 setOpen(false);
                 onChange({
@@ -99,9 +84,7 @@ const Links = ({ Icon, name, value, onChange = () => {} }: Props) => {
                 });
                 setInputValue(item === '' ? inputValue : item);
               }}
-            >
-              {t('save')}
-            </Button>
+            />
           </ModalWrap>
         </ModelContent>
       </Modal>

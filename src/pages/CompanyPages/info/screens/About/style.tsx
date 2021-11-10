@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { device } from 'styles/device';
 import { ReactComponent as Facebook } from 'assets/icons/IconsInfo/facebook.svg';
 import { ReactComponent as Instagram } from 'assets/icons/IconsInfo/instagram.svg';
@@ -11,10 +11,7 @@ import { ReactComponent as Arrow } from 'assets/icons/IconsInfo/arrowright.svg';
 import { ReactComponent as TextArea } from 'assets/icons/IconsInfo/textarea.svg';
 import { ReactComponent as Trash } from 'assets/icons/IconsInfo/trash.svg';
 import { ReactComponent as PhotoLoading } from 'assets/icons/IconsInfo/photoloading.svg';
-import { ReactComponent as Save } from 'assets/icons/IconsInfo/save.svg';
-import { ReactComponent as Close } from 'assets/icons/SideBar/close.svg';
 import { ReactComponent as Delete } from 'assets/icons/IconsInfo/delete.svg';
-import { ReactComponent as LogWhite } from 'assets/icons/SideBar/logoutwhite.svg';
 
 interface Props {
   weight?: string;
@@ -27,13 +24,36 @@ interface ButtonProps {
   color?: string;
 }
 
-export const FIcon = styled(Facebook)``;
-export const IIcon = styled(Instagram)``;
-export const TIcon = styled(Telegram)``;
-export const TWIcon = styled(Twitter)``;
-export const VKIcon = styled(VK)``;
-export const WTIcon = styled(WhatsApp)``;
-export const VIcon = styled(Viber)``;
+const iconcommon = css`
+  width: 24px;
+  height: 24px;
+  @media (max-width: ${device.mobile}) {
+    width: 20px;
+    height: 20px;
+  }
+`;
+
+export const FIcon = styled(Facebook)`
+  ${iconcommon}
+`;
+export const IIcon = styled(Instagram)`
+  ${iconcommon}
+`;
+export const TIcon = styled(Telegram)`
+  ${iconcommon}
+`;
+export const TWIcon = styled(Twitter)`
+  ${iconcommon}
+`;
+export const VKIcon = styled(VK)`
+  ${iconcommon}
+`;
+export const WTIcon = styled(WhatsApp)`
+  ${iconcommon}
+`;
+export const VIcon = styled(Viber)`
+  ${iconcommon}
+`;
 
 export const DeleteIcon = styled(Delete)`
   & > path {
@@ -43,6 +63,12 @@ export const DeleteIcon = styled(Delete)`
 
 export const PhotoLoadingIcon = styled(PhotoLoading)`
   margin-left: 15px;
+  width: 24px;
+  height: 24px;
+  @media (max-width: ${device.mobile}) {
+    width: 18px;
+    height: 18px;
+  }
 `;
 
 export const TrashIcon = styled(Trash)`
@@ -51,19 +77,11 @@ export const TrashIcon = styled(Trash)`
   }
 `;
 
-export const SaveIcon = styled(Save)``;
-
 export const ForExample = styled.div`
   margin-bottom: 20px;
   font-weight: 300;
   font-size: 14px;
   color: #223367;
-`;
-
-export const CloseIcon = styled(LogWhite)`
-  & > path {
-    fill: #606eea;
-  }
 `;
 
 export const PhotoWrap = styled.div`
@@ -181,6 +199,9 @@ export const Form = styled.form`
     padding: 0;
     border-radius: 0;
   }
+  @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
+    padding: 30px 0 0 0;
+  }
 `;
 
 export const UpSide = styled.div`
@@ -188,6 +209,7 @@ export const UpSide = styled.div`
   overflow-x: hidden;
   height: 80%;
   width: 100%;
+  flex-grow: 1;
   @media (max-width: ${device.mobile}) {
     padding: 0 15px 0 15px;
   }
@@ -217,7 +239,7 @@ export const DownSide = styled.div`
   display: flex;
   justify-content: center;
   height: 20%;
-
+  max-height: 65px;
   & > div {
     width: 87%;
     border-top: 1px solid rgba(96, 110, 234, 0.3);
@@ -235,6 +257,7 @@ export const DownSide = styled.div`
       justify-content: ${({ justify }: DProps) =>
         justify ? 'flex-start' : 'center'};
       align-items: center;
+      padding-left: ${({ justify }: DProps) => (justify ? '15px' : '0')};
     }
   }
 `;

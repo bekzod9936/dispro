@@ -9,10 +9,29 @@ interface Props {
   maxwidth?: string;
 }
 export const Container = styled.div`
+  overflow: hidden;
   display: flex;
-  flex-direction: column;
-  overflow-y: hidden;
   flex: 1;
+  width: 100%;
+  height: 100%;
+  & > div {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow-y: auto;
+
+    ::-webkit-scrollbar {
+      width: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #606eea;
+      border-radius: 14px 0px 0px 14px;
+    }
+  }
   @media (max-width: ${device.mobile}) {
     padding: 0 15px;
   }
@@ -28,6 +47,10 @@ export const Text = styled.div`
   }
   max-width: ${({ maxwidth }: Props) => (maxwidth ? maxwidth : 'fit-content')};
   text-align: ${({ align }: Props) => (align ? align : 'left')};
+
+  @media (max-width: ${device.mobile}) {
+    font-size: 14px;
+  }
 `;
 
 export const SaveIcon = styled(Save)`
@@ -42,6 +65,10 @@ export const ImgNo = styled.img`
   max-width: 200px;
   min-height: 120px;
   max-height: 220px;
+  @media (max-width: ${device.mobile}) {
+    max-height: 120px;
+    max-width: 110px;
+  }
 `;
 
 export const LabelNoPhoto = styled.label`
@@ -59,6 +86,16 @@ export const LabelNoPhoto = styled.label`
   cursor: pointer;
   & > svg {
     margin-left: 10px;
+    width: 22px;
+    height: 22px;
+  }
+  @media (max-width: ${device.mobile}) {
+    font-size: 14px;
+    padding: 10px 15px;
+    & > svg {
+      width: 17px;
+      height: 17px;
+    }
   }
 `;
 
@@ -161,19 +198,4 @@ export const WrapNoPhoto = styled.div`
   height: 100%;
 `;
 
-export const Wrpaper = styled.div`
-  overflow-y: auto;
-
-  ::-webkit-scrollbar {
-    width: 7px;
-  }
-  ::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: #606eea;
-    border-radius: 14px 0px 0px 14px;
-  }
-`;
-
+export const Wrpaper = styled.div``;
