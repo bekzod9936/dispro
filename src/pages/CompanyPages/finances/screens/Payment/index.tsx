@@ -105,7 +105,7 @@ const Payment = () => {
       <RightHeader>
         <WrapTotal>
           {header.map((v: any) => {
-            let a = +v.value;
+            let a = +v.value || 0;
             return (
               <WrapTotalSum>
                 <Label>{v.title || ''}</Label>
