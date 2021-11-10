@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { device } from "styles/device";
 
 export const QrCard = styled.div`
   display: flex;
@@ -9,6 +10,20 @@ export const QrCard = styled.div`
   margin: 10px 10px 10px 0px;
   border-radius: 14px;
   background: white;
+
+  @media (max-width: ${device.mobile}) {
+    margin: 0;
+    width: 100%;
+    margin-bottom: 16px;
+    padding: 15px;
+  }
+
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    margin: 0;
+    width: 100%;
+    margin-bottom: 16px;
+    padding: 15px;
+  }
 `;
 
 export const QrRow = styled.div`
@@ -16,6 +31,24 @@ export const QrRow = styled.div`
   margin: 10px 10px 10px 0px;
   justify-content: space-between;
   width: 100%;
+
+  @media (max-width: ${device.mobile}) {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0;
+  }
+
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0;
+  }
+`;
+
+export const QrImg = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const QeaderHeaderRow = styled.div`
@@ -32,6 +65,18 @@ export const QrContainer = styled.div`
   flex-direction: column;
   justify-content: flex-end;
   margin-left: 15px;
+
+  @media (max-width: ${device.mobile}) {
+    margin-left: 0;
+    align-items: center;
+    margin-top: 20px;
+  }
+
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    margin-left: 0;
+    align-items: center;
+    margin-top: 20px;
+  }
 `;
 
 export const OptionDiv = styled.div`
