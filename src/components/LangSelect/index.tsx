@@ -92,13 +92,16 @@ const LangSelect = ({ border }: Props) => {
         border={border}
         onChange={(e: any) => handleChange(e.target.value)}
         IconComponent={() => (
-          <IconWrap open={open}>
+          <IconWrap display={border} open={open}>
             <ArrowIcon />
           </IconWrap>
         )}
         onOpen={handleOpen}
         onClose={handleClose}
         MenuProps={{
+          style: {
+            zIndex: 9999999,
+          },
           PaperProps: {
             className: classes.paper,
           },
