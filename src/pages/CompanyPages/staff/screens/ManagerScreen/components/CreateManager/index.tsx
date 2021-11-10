@@ -25,6 +25,7 @@ import { CancelIcon } from 'assets/icons/ClientsPageIcons/ClientIcons';
 import { ReactComponent as NextIcon } from 'assets/icons/sign_tick.svg';
 import { ReactComponent as ExitIcon } from 'assets/icons/exit.svg';
 import { ReactComponent as SaveIcon } from 'assets/icons/IconsInfo/save.svg';
+import { ReactComponent as Market } from 'assets/icons/SideBar/ilmarket.svg';
 import RoleTable from './components/RoleTable';
 import useRoles from './components/RoleTable/useRoles';
 
@@ -176,6 +177,16 @@ const CreateManager = ({ openManager }: IProps) => {
 									render={({ field }) => {
 										return (
 											<MultiSelect
+												icon={<Market />}
+												selectStyle={{
+													bgcolor: '#eff0fd',
+													border: 'none',
+													placeholdercolor: '#223367',
+													inpadding: '2px 10px 2px 60px',
+													placewieght: '500',
+												}}
+												iconleft={'20px'}
+												icondowncolor='#C4C4C4'
 												options={branches}
 												isMulti={false}
 												label={t('choose_branch')}

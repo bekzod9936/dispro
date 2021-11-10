@@ -10,6 +10,7 @@ export interface staffsState {
   openCash: boolean;
   openManager: boolean;
   openEditManager: boolean;
+  openEditCashier: boolean;
   summaOperations: any;
   stepManager?: any;
   permissions?: any;
