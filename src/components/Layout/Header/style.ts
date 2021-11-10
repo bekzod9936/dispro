@@ -34,7 +34,7 @@ export const WrapLang = styled.div`
   @media (max-width: ${device.mobile}) {
     display: ${({ mobile }: LangProps) => (mobile ? 'block' : 'none')};
     margin: ${({ mobile }: LangProps) => (mobile ? '0 0 20px 0' : null)};
-    width: ${({ mobile }: LangProps) => (mobile ? '60%' : null)};
+    width: ${({ mobile }: LangProps) => (mobile ? 'fit-content' : null)};
   }
 `;
 
