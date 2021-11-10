@@ -1,10 +1,8 @@
 import styled from 'styled-components';
 import { device } from 'styles/device';
-import { ReactComponent as Save } from 'assets/icons/IconsInfo/save.svg';
 import { ReactComponent as Plus } from 'assets/icons/IconsInfo/plus.svg';
 import { ReactComponent as Search } from 'assets/icons/SideBar/search.svg';
 import { ReactComponent as Close } from 'assets/icons/IconsInfo/close.svg';
-import { ReactComponent as Exit } from 'assets/icons/IconsInfo/exit.svg';
 import { ReactComponent as Delete } from 'assets/icons/IconsInfo/deleteword.svg';
 
 interface Props {
@@ -35,15 +33,7 @@ export const Li = styled.li`
   }
 `;
 
-export const SaveIcon = styled(Save)`
-  margin-right: 15px;
-`;
-
 export const DeleteIcon = styled(Delete)``;
-
-export const ExitIcon = styled(Exit)`
-  margin-left: 15px;
-`;
 
 export const PlusIcon = styled(Plus)`
   margin-right: 15px;
@@ -310,20 +300,16 @@ export const AddWrap = styled.div`
   }
 `;
 
-export const ButtonWrap = styled.div`
-  display: none;
-  @media (max-width: ${device.mobile}) {
-    display: flex;
-  }
-`;
-
 export const ButtonsWrap = styled.div`
   display: flex;
+
+  background-color: white;
   @media (max-width: ${device.mobile}) {
     align-items: center;
     justify-content: center;
     border-top: 1px solid rgba(96, 110, 234, 0.3);
     margin-top: 20px;
+    max-height: 65px;
   }
 `;
 

@@ -9,9 +9,9 @@ import NavBar from 'components/Custom/NavBar';
 import { useRouteMatch } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import { setCompanyInfo } from 'services/redux/Slices/partnerSlice';
+import ExitButton from './components/Buttons/ExitButton';
 import useInfoRoute from './routers';
 import Spinner from 'components/Custom/Spinner';
-import useWindowWidth from 'services/hooks/useWindowWidth';
 import Grid from 'components/Custom/Grid';
 import {
   Container,
@@ -23,17 +23,18 @@ import {
   Warn,
   WrapNav,
 } from './style';
+import { setExitModal } from 'services/redux/Slices/info/info';
+import CancelButton from './components/Buttons/CancelButton';
 
 const Infopage = () => {
   const { t } = useTranslation();
   const history = useHistory();
-  const { width } = useWindowWidth();
   const dispatch = useAppDispatch();
   const infoPageSlice = useAppSelector((state) => state.infoSlice.addressAdd);
-  const [open, setOpen] = useState(false);
   const { menuItems } = useInfoRoute();
 
   const infoData = useAppSelector((state) => state.info.data);
+  const open = useAppSelector((state) => state.info.exitmodal);
   const addressAdding = useAppSelector((state) => state.info.addressAdding);
   const regFilled = useAppSelector((state) => {
     return state.auth.regFilled;
@@ -51,45 +52,26 @@ const Infopage = () => {
           ? 'white'
           : 'transparent'
       }
+      photosectionpadding={match?.url === '/info/photos' ? true : false}
     >
       <Title>{t('info')}</Title>
       <WrapNav>
         <Grid style={{ width: '100%', overflowY: 'auto', overflowX: 'hidden' }}>
           <NavBar list={menuItems} padding='0' margin='0' />
         </Grid>
-        {fill ? null : width > 1000 ? (
-          <Button
-            buttonStyle={{
-              color: '#223367',
-              bgcolor: 'transparent',
-              weight: 500,
-            }}
-            onClick={() => setOpen(true)}
-          >
-            {t('logout')}
-            <LogOutIcon color='#223367' />
-          </Button>
-        ) : null}
+        {fill ? null : (
+          <ExitButton
+            onClick={() => dispatch(setExitModal(true))}
+            mobile={false}
+          />
+        )}
       </WrapNav>
-      <Modal onClose={(v: boolean) => setOpen(v)} open={open}>
+      <Modal onClose={(v: boolean) => dispatch(setExitModal(v))} open={open}>
         <ModelContent>
           <ModelTitle>{t('sureleave')}</ModelTitle>
           <Warn>{t('warningcompanyinfo')}</Warn>
           <ModalWrap>
-            <Button
-              buttonStyle={{
-                color: '#223367',
-                bgcolor: 'white',
-                weight: 500,
-              }}
-              margin={{
-                laptop: '0 30px 0 0',
-              }}
-              onClick={() => setOpen(false)}
-            >
-              <CloseIcon />
-              {t('cancel')}
-            </Button>
+            <CancelButton onClick={() => dispatch(setExitModal(false))} />
             <Button
               buttonStyle={{
                 color: 'white',
@@ -97,7 +79,7 @@ const Infopage = () => {
                 weight: 500,
               }}
               onClick={() => {
-                setOpen(true);
+                dispatch(setExitModal(false));
                 localStorage.removeItem('companyId');
                 localStorage.removeItem('companyToken');
                 history.push('/partner/company');

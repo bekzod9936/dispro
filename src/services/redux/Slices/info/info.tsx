@@ -4,6 +4,7 @@ import { IInfo } from './types';
 interface Props {
   data?: IInfo;
   addressAdding?: boolean;
+  exitmodal?: boolean;
 }
 
 export const initialState: Props = {
@@ -40,6 +41,7 @@ export const initialState: Props = {
     workingTime: { aroundTheClock: false, work: [] },
   },
   addressAdding: false,
+  exitmodal: false,
 };
 
 const info = createSlice({
@@ -52,8 +54,11 @@ const info = createSlice({
     setAddressAdding: (state, action: PayloadAction<boolean>) => {
       state.addressAdding = action.payload;
     },
+    setExitModal: (state, action: PayloadAction<boolean>) => {
+      state.exitmodal = action.payload;
+    },
   },
 });
 
-export const { setInfoData, setAddressAdding } = info.actions;
+export const { setInfoData, setAddressAdding, setExitModal } = info.actions;
 export default info.reducer;
