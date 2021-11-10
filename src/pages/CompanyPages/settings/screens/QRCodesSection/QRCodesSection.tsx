@@ -9,7 +9,13 @@ import { Break } from "../../styles";
 import { SearchIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import { FilledAddIcon } from "assets/icons/SettingsIcons/SettingsPageIcon";
 import CustomSelectPopoverComponent from "components/Custom/CustomSelectPopoverComponent";
-import { CreateBtn, IconDiv, QRPageWrapper } from "./styles";
+import {
+  CreateBtn,
+  IconDiv,
+  QRPageWrapper,
+  MyHeadAction,
+  HeadInput,
+} from "./styles";
 import QrCodeCard from "./components/QrCodeCard";
 import { useState } from "react";
 import QrActionModal from "./components/QrActionModal";
@@ -70,10 +76,10 @@ const QRCodesSection = () => {
   return (
     <div style={{ flexGrow: 1 }}>
       <QRPageWrapper>
-        <Grid alignItems="center" container spacing={3} xs={6}>
-          <Popover
-            click={
-              <CreateBtn item xs={12} sm={4}>
+        <MyHeadAction>
+          <CreateBtn>
+            <Popover
+              click={
                 <Button
                   startIcon={<FilledAddIcon />}
                   width={{
@@ -92,22 +98,22 @@ const QRCodesSection = () => {
                 >
                   {t("create")}
                 </Button>
-              </CreateBtn>
-            }
-            anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
-            transformOrigin={{ horizontal: "left", vertical: "top" }}
-            popoverStyle={{ marginTop: "20px" }}
-            onClose={handleClose}
-          >
-            {optionsListOpen && (
-              <CustomSelectPopoverComponent
-                options={options}
-                width="fit-content"
-              />
-            )}
-          </Popover>
+              }
+              anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
+              transformOrigin={{ horizontal: "left", vertical: "top" }}
+              popoverStyle={{ marginTop: "20px" }}
+              onClose={handleClose}
+            >
+              {optionsListOpen && (
+                <CustomSelectPopoverComponent
+                  options={options}
+                  width="fit-content"
+                />
+              )}
+            </Popover>
+          </CreateBtn>
           {/* <HBreak width={25} /> */}
-          <Grid item xs={12} sm={7}>
+          <HeadInput>
             <Input
               IconStart={
                 <IconDiv>
@@ -120,12 +126,12 @@ const QRCodesSection = () => {
               placeholder="Поиск по QR"
               onChange={handleSearchQR}
             />
-          </Grid>
-        </Grid>
+          </HeadInput>
+        </MyHeadAction>
         <Break height={25} />
 
         {/* QR Code cards  */}
-        <Grid container xs={10}>
+        <Grid container xs={12} sm={12} md={10} lg={10}>
           {!isLoading &&
             data?.data &&
             data?.data?.data

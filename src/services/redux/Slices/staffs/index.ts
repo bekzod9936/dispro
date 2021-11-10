@@ -18,6 +18,7 @@ const initialState: staffsState = {
   userId: 0,
   selectedRole: [],
   openEditManager: false,
+  openEditCashier: false,
   cashierId: "",
   staffData: [],
 };
@@ -74,6 +75,9 @@ const staffsSlice = createSlice({
     setOpenEditManager: (state, action: any) => {
       state.openEditManager = action.payload;
     },
+    setOpenEditCashier: (state, action: any) => {
+      state.openEditCashier = action.payload;
+    },
     setCashierId: (state, action: any) => {
       state.cashierId = action.payload;
     },
@@ -100,6 +104,7 @@ export const {
   setUserId,
   setSelectedRole,
   setOpenEditManager,
+  setOpenEditCashier,
   setCashierId,
   setStaffData,
 } = staffsSlice.actions;

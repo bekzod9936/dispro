@@ -16,6 +16,7 @@ import Input from 'components/Custom/Input';
 import { Form, FormRow, FormCol, Break } from './style';
 import { ReactComponent as ExitIcon } from 'assets/icons/exit.svg';
 import { ReactComponent as SaveIcon } from 'assets/icons/IconsInfo/save.svg';
+import { ReactComponent as Market } from 'assets/icons/SideBar/ilmarket.svg';
 import { CancelIcon } from 'assets/icons/ClientsPageIcons/ClientIcons';
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import { setOpenEditManager } from 'services/redux/Slices/staffs';
@@ -167,6 +168,16 @@ const EditManager = ({ openEdit }: IProps) => {
 								render={({ field }) => {
 									return (
 										<MultiSelect
+											icon={<Market />}
+											selectStyle={{
+												bgcolor: '#eff0fd',
+												border: 'none',
+												placeholdercolor: '#223367',
+												inpadding: '2px 10px 2px 60px',
+												placewieght: '500',
+											}}
+											iconleft={'20px'}
+											icondowncolor='#C4C4C4'
 											options={branches}
 											isMulti={false}
 											label={t('choose_branch')}

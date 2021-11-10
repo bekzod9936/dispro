@@ -24,6 +24,7 @@ interface TProps {
 
 interface CProps {
   bgcolor?: string;
+  photosectionpadding?: boolean;
 }
 
 export const Title = styled.div`
@@ -63,14 +64,17 @@ export const Container = styled.div`
   display: flex;
   height: 100%;
   flex-direction: column;
-  padding: 0 50px 0 0;
+  padding: ${({ photosectionpadding }: CProps) =>
+    photosectionpadding ? '0' : '0 50px 0 0'};
   position: relative;
 
   @media (min-width: ${device.mobile}) and (max-width: ${device.laptop}) {
-    padding: 25px 40px 0 30px;
+    padding: ${({ photosectionpadding }: CProps) =>
+      photosectionpadding ? '25px 0 0 30px' : '25px 40px 0 30px'};
   }
   @media (min-width: ${device.laptop}) {
-    padding: 30px 50px 0 35px;
+    padding: ${({ photosectionpadding }: CProps) =>
+      photosectionpadding ? '30px 0 0 35px' : '30px 50px 0 35px'};
   }
   @media (max-width: ${device.planshet}) {
     padding: 15px 0 0;
@@ -81,7 +85,13 @@ export const Container = styled.div`
 export const LogOutIcon = styled(LogWhite)`
   margin-left: 15px;
   & > path {
-    fill: ${({ color }: Props) => (color ? color : 'white')};
+    fill: white;
+  }
+  width: 24px;
+  height: 24px;
+  @media (max-width: ${device.planshet}) {
+    width: 18px;
+    height: 18px;
   }
 `;
 
@@ -95,10 +105,18 @@ export const CloseIcon = styled(Close)`
 
 export const ModelContent = styled.div`
   padding: 40px 60px 35px 50px;
-  min-width: 300px;
+  min-width: 400px;
 
-  @media (max-width: ${device.mobile}) {
-    padding: 20px 30px 20px 15px;
+  @media (max-width: ${device.planshet}) {
+    padding: 15px;
+    min-width: 290px;
+    max-width: 290px;
+  }
+
+  @media (max-width: ${device.planshet}) {
+    padding: 25px;
+    min-width: 340px;
+    max-width: 340px;
   }
 `;
 export const ModelTitle = styled.div`
@@ -107,13 +125,13 @@ export const ModelTitle = styled.div`
   font-size: 18px;
   text-align: left;
   color: #223367;
-  @media (max-width: ${device.mobile}) {
+  @media (max-width: ${device.planshet}) {
     font-size: 16px;
   }
 `;
 export const ModalWrap = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   margin-top: 30px;
 `;
 
@@ -132,8 +150,12 @@ export const WrapNav = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-right: 20px;
+  padding: 20px 20px 20px 0;
+
   @media (max-width: ${device.mobile}) {
-    padding: 0 15px;
+    padding: 15px;
+  }
+  @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
+    padding: 10px 10px 10px 0;
   }
 `;
