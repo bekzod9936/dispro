@@ -1,16 +1,16 @@
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useMutation } from "react-query";
-import Button from "components/Custom/Button";
-import { useAppSelector } from "services/redux/hooks";
-import { uploadPhoto } from "services/queries/InfoQuery";
-import NoPhoto from "assets/images/NoPhotos.png";
-import ImageLazyLoad from "components/Custom/ImageLazyLoad/ImageLazyLoad";
-import partnerApi from "services/interceptors/companyInterceptor";
-import Spinner from "components/Custom/Spinner";
-import { ruCount } from "services/utils/index";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import useWindowWidth from "services/hooks/useWindowWidth";
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useMutation } from 'react-query';
+import Button from 'components/Custom/Button';
+import { useAppSelector } from 'services/redux/hooks';
+import { uploadPhoto } from 'services/queries/InfoQuery';
+import NoPhoto from 'assets/images/NoPhotos.png';
+import ImageLazyLoad from 'components/Custom/ImageLazyLoad/ImageLazyLoad';
+import partnerApi from 'services/interceptors/companyInterceptor';
+import Spinner from 'components/Custom/Spinner';
+import { ruCount } from 'services/utils/index';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import useWindowWidth from 'services/hooks/useWindowWidth';
 import {
   Container,
   Text,
@@ -25,7 +25,8 @@ import {
   WrapNoPhoto,
   LabelNoPhoto,
   Wrpaper,
-} from "./style";
+} from './style';
+import SaveButton from '../../components/Buttons/SaveButton';
 
 const reorder = (list: any, startIndex: any, endIndex: any) => {
   const result = Array.from(list);
@@ -39,7 +40,7 @@ const Photos = () => {
   const { t } = useTranslation();
   const { width } = useWindowWidth();
 
-  const companyId: any = localStorage.getItem("companyId");
+  const companyId: any = localStorage.getItem('companyId');
   const companyInfo = useAppSelector((state) => state.partner.companyInfo);
   const [images, setImages] = useState(companyInfo.images);
   const count = 10 - images.length;
@@ -53,9 +54,9 @@ const Photos = () => {
   const handleUpload = (e: any) => {
     for (let i = 0; i < count; i++) {
       const formData = new FormData();
-      formData.append("itemId", companyId);
-      formData.append("fileType", "companyImage");
-      formData.append("file", e.target.files[i]);
+      formData.append('itemId', companyId);
+      formData.append('fileType', 'companyImage');
+      formData.append('file', e.target.files[i]);
       photoUploading.mutate(formData);
     }
   };
@@ -66,7 +67,7 @@ const Photos = () => {
   };
 
   const subImg = useMutation((v: any) => {
-    return partnerApi.put("/directory/company/images", {
+    return partnerApi.put('/directory/company/images', {
       images: v,
     });
   });
@@ -94,127 +95,123 @@ const Photos = () => {
 
   return (
     <Container>
-      <input
-        accept="image/*"
-        style={{ display: "none" }}
-        id="photosloading"
-        type="file"
-        multiple
-        onChange={handleUpload}
-      />
-      {images.length === 0 ? (
-        <WrapNoPhoto>
-          <ImgNo src={NoPhoto} alt="nophoto" />
-          <Text maxwidth="500px" align="center">
-            {t("infouploadphotos1")}
+      <div>
+        <input
+          accept='image/*'
+          style={{ display: 'none' }}
+          id='photosloading'
+          type='file'
+          multiple
+          onChange={handleUpload}
+        />
+        {images.length === 0 ? (
+          <WrapNoPhoto>
+            <ImgNo src={NoPhoto} alt='nophoto' />
+            <Text maxwidth='500px' align='center'>
+              {t('infouploadphotos1')}
 
-            <span>
-              <span> {count} </span>
-              {ruCount({
-                count: count,
-                firstWord: "фотографию",
-                secondWord: "фотографии",
-                thirdWord: "фотографий",
-              })}
-            </span>
-            {t("infouploadphotos2")}
-          </Text>
-          <LabelNoPhoto htmlFor="photosloading">
-            <span>{t("upload_photo")}</span>
-            <PhotoIcon />
-          </LabelNoPhoto>
-        </WrapNoPhoto>
-      ) : (
-        <>
-          {images.length < 10 ? (
-            <>
-              <Text maxwidth="800px">
-                {t("infouploadphotos1")}
-                <span>
-                  <span> {count} </span>
-                  {ruCount({
-                    count: count,
-                    firstWord: "фотографию",
-                    secondWord: "фотографии",
-                    thirdWord: "фотографий",
-                  })}
-                </span>
-                {t("infouploadphotos2")}
-              </Text>
-            </>
-          ) : null}
-          <Text maxwidth="800px">{t("dragdropphoto")}</Text>
-          <Wrpaper>
-            {photoUploading.isLoading ? (
-              <Spinner />
-            ) : (
+              <span>
+                <span> {count} </span>
+                {ruCount({
+                  count: count,
+                  firstWord: 'фотографию',
+                  secondWord: 'фотографии',
+                  thirdWord: 'фотографий',
+                })}
+              </span>
+              {t('infouploadphotos2')}
+            </Text>
+            <LabelNoPhoto htmlFor='photosloading'>
+              <span>{t('upload_photo')}</span>
+              <PhotoIcon />
+            </LabelNoPhoto>
+          </WrapNoPhoto>
+        ) : (
+          <>
+            {images.length < 10 ? (
               <>
-                <DragDropContext onDragEnd={onDragEnd}>
-                  <Droppable
-                    droppableId="droppable"
-                    direction={width > 600 ? "horizontal" : "vertical"}
-                  >
-                    {(provided) => (
-                      <WrapImages
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                        style={{
-                          overflow: "hidden",
-                        }}
-                      >
-                        {images.map((v, index: number) => (
-                          <Draggable key={v} draggableId={v} index={index}>
-                            {(provided) => (
-                              <WrapImage
-                                key={index}
-                                onClick={() => handleDelete(v)}
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                                {...provided.dragHandleProps}
-                              >
-                                <ImageLazyLoad
-                                  objectFit="cover"
-                                  src={v}
-                                  alt="image"
-                                />
-                                <WrapTrash>
-                                  <TrashIcon />
-                                </WrapTrash>
-                              </WrapImage>
-                            )}
-                          </Draggable>
-                        ))}
-                        {images.length < 10 ? (
-                          <>
-                            <Label htmlFor="photosloading">
-                              <PhotoIcon />
-                              <span>{t("addMark")}</span>
-                            </Label>
-                          </>
-                        ) : null}
-                      </WrapImages>
-                    )}
-                  </Droppable>
-                </DragDropContext>
+                <Text maxwidth='800px'>
+                  {t('infouploadphotos1')}
+                  <span>
+                    <span> {count} </span>
+                    {ruCount({
+                      count: count,
+                      firstWord: 'фотографию',
+                      secondWord: 'фотографии',
+                      thirdWord: 'фотографий',
+                    })}
+                  </span>
+                  {t('infouploadphotos2')}
+                </Text>
               </>
-            )}
-            <Button
-              buttonStyle={{
-                shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
-                weight: 500,
-              }}
-              margin={{
-                laptop: "20px 0 20px 0",
-              }}
-              onClick={handleSubmit}
-              disabled={subImg.isLoading}
-            >
-              <SaveIcon />
-              {t("save")}
-            </Button>
-          </Wrpaper>
-        </>
-      )}
+            ) : null}
+            <Text maxwidth='800px'>{t('dragdropphoto')}</Text>
+            <Wrpaper>
+              {photoUploading.isLoading ? (
+                <Spinner />
+              ) : (
+                <>
+                  <DragDropContext onDragEnd={onDragEnd}>
+                    <Droppable
+                      droppableId='droppable'
+                      direction={width > 600 ? 'horizontal' : 'vertical'}
+                    >
+                      {(provided) => (
+                        <WrapImages
+                          ref={provided.innerRef}
+                          {...provided.droppableProps}
+                          style={{
+                            overflow: 'hidden',
+                          }}
+                        >
+                          {images.map((v, index: number) => (
+                            <Draggable key={v} draggableId={v} index={index}>
+                              {(provided) => (
+                                <WrapImage
+                                  key={index}
+                                  onClick={() => handleDelete(v)}
+                                  ref={provided.innerRef}
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                >
+                                  <ImageLazyLoad
+                                    objectFit='cover'
+                                    src={v}
+                                    alt='image'
+                                  />
+                                  <WrapTrash>
+                                    <TrashIcon />
+                                  </WrapTrash>
+                                </WrapImage>
+                              )}
+                            </Draggable>
+                          ))}
+                          {images.length < 10 ? (
+                            <>
+                              <Label htmlFor='photosloading'>
+                                <PhotoIcon />
+                                <span>{t('addMark')}</span>
+                              </Label>
+                            </>
+                          ) : null}
+                        </WrapImages>
+                      )}
+                    </Droppable>
+                  </DragDropContext>
+                </>
+              )}
+              <SaveButton
+                onClick={handleSubmit}
+                margin={{
+                  laptop: '20px 0 20px 0',
+                }}
+                disabled={subImg.isLoading}
+                type='button'
+              />
+            </Wrpaper>
+          </>
+        )}
+      </div>
     </Container>
   );
 };
