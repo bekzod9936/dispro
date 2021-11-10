@@ -252,81 +252,8 @@ const CreateManager = ({ openManager }: IProps) => {
 				</Form>
 			)}
 
-			{/* second step  */}
-
+			{/* second step */}
 			{stepManager === 2 && (
-				<ModalMain>
-					<ModalHead>
-						<ModalTitle>Настройки доступа</ModalTitle>
-						<IconButton
-							onClick={() => {
-								dispatch(setOpenManager(false));
-								dispatch(setStepManager(1));
-							}}
-						>
-							<ExitIcon />
-						</IconButton>
-					</ModalHead>
-					<Break height={50} />
-					<ModalBody>
-						<FormRow>
-							<FormCol>
-								<Radio
-									flexDirection='row'
-									list={[
-										{
-											value: '1',
-											label: `Полный доступ`,
-										},
-										{
-											value: '2',
-											label: `Ограниченный доступ`,
-										},
-									]}
-									title={''}
-									onChange={(v: any) => setModified(v)}
-									value={modified}
-								/>
-							</FormCol>
-						</FormRow>
-					</ModalBody>
-					<Break height={35} />
-
-					<ModalAction>
-						<Button
-							buttonStyle={{
-								bgcolor: 'white',
-								color: '#223367',
-							}}
-							onClick={() => {
-								dispatch(setOpenManager(false));
-								dispatch(setStepManager(1));
-							}}
-							startIcon={<CancelIcon />}
-						>
-							{t('cancel')}
-						</Button>
-
-						<Button
-							onClick={() => {
-								if (modified === '2') {
-									dispatch(setStepManager(3));
-								} else {
-									dispatch(setOpenManager(false));
-									dispatch(setStepManager(1));
-									saveRoleManager.mutate(roles.map((item: any) => item?.value));
-								}
-							}}
-							startIcon={<NextIcon />}
-						>
-							{t('next')}
-						</Button>
-					</ModalAction>
-				</ModalMain>
-			)}
-
-			{/* third step */}
-			{stepManager === 3 && (
 				<ModalMain>
 					<ModalHead>
 						<ModalTitle>Настройки доступа</ModalTitle>
