@@ -29,10 +29,12 @@ interface LangProps {
 }
 
 export const WrapLang = styled.div`
-  display: ${({ mobile }: LangProps) => (mobile ? 'none' : 'inline-block')};
+  display: ${({ mobile }: LangProps) => (mobile ? 'none' : 'block')};
+
   @media (max-width: ${device.mobile}) {
-    display: ${({ mobile }: LangProps) => (mobile ? 'inline-block' : 'none')};
+    display: ${({ mobile }: LangProps) => (mobile ? 'block' : 'none')};
     margin: ${({ mobile }: LangProps) => (mobile ? '0 0 20px 0' : null)};
+    width: ${({ mobile }: LangProps) => (mobile ? 'fit-content' : null)};
   }
 `;
 
@@ -208,6 +210,9 @@ export const Content = styled.div`
   border-radius: 14px;
   user-select: none;
   width: 360px;
+  @media (max-width: ${device.mobile}) {
+    width: 100%;
+  }
 `;
 
 const ImgSmall = css`
@@ -229,6 +234,14 @@ export const Img = styled.img`
 
 export const LogOutIcon = styled(LogOut)`
   margin-left: 15px;
+  & path {
+    fill: #223367;
+  }
+  @media (max-width: ${device.mobile}) {
+    & path {
+      fill: #606eea;
+    }
+  }
 `;
 
 export const Name = styled.div`
@@ -247,9 +260,12 @@ export const Name = styled.div`
 export const PName = styled.div`
   font-style: normal;
   font-weight: bold;
-  font-size: ${({ fontSize }: NProps) => `${fontSize}px`};
+  font-size: 18px;
   color: #223367;
   text-align: center;
+  @media (max-width: ${device.mobile}) {
+    font-size: 16px;
+  }
 `;
 
 export const TextCompany = styled.div`
@@ -278,6 +294,13 @@ export const Type = styled.div`
   color: #223367;
   margin-top: 5px;
   text-align: center;
+  margin-bottom: 20px;
+
+  @media (max-width: ${device.mobile}) {
+    font-size: 14px;
+    margin-top: 7px;
+    margin-bottom: 25px;
+  }
 `;
 
 export const Link = styled.a`

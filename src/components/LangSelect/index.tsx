@@ -29,7 +29,7 @@ const LangSelect = ({ border }: Props) => {
           : width < 1500 && width > 600
           ? 65
           : width < 600
-          ? 45
+          ? 55
           : 0,
     },
   });
@@ -92,13 +92,16 @@ const LangSelect = ({ border }: Props) => {
         border={border}
         onChange={(e: any) => handleChange(e.target.value)}
         IconComponent={() => (
-          <IconWrap open={open}>
+          <IconWrap display={border} open={open}>
             <ArrowIcon />
           </IconWrap>
         )}
         onOpen={handleOpen}
         onClose={handleClose}
         MenuProps={{
+          style: {
+            zIndex: width < 600 ? 9999999 : 1300,
+          },
           PaperProps: {
             className: classes.paper,
           },
