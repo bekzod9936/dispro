@@ -1,3 +1,4 @@
+import moment from "moment"
 import { useTranslation } from "react-i18next"
 import { IFilters } from "services/redux/Slices/clients/types"
 import { RemoveFilterBtn } from "../components/Header/components/RemoveFilterBtn"
@@ -153,7 +154,7 @@ export const getFiltersForQuery = (filters: any) => {
                 if (filters[el]) {
                     obj = {
                         ...obj,
-                        reflds: `[${filters[el].value}]`
+                        usedLevelNumber: filters[el].value
                     }
 
                 }
@@ -167,4 +168,23 @@ export const getFiltersForQuery = (filters: any) => {
             return `&${el}=${res[el]}`
         } else return `${el}=${res[el]}`
     }).join("")
+}
+
+export const getOneDayPlus = (date: any, action: string) => {
+
+    if (date) {
+        let [year, month, day] = date.split("-")
+        let res: any = "";
+        if (action === "minus") {
+            res = new Date(year, month - 1, day - 1)
+        } else {
+            console.log(year, month, day);
+
+            month = month - 1;
+            day = +day + 1;
+            res = new Date(year, month, day)
+        }
+
+        return moment(res).format("YYYY-MM-DD")
+    }
 }

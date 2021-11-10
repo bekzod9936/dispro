@@ -30,12 +30,6 @@ const modalInfo: any = {
         info: "Клиент будет проинформирован о списании баллов push-уведомлением",
         btn: "Списать",
         action: "removeCoins"
-    },
-    vip: {
-        title: "VIP индивидуальный %",
-        subtitle: "Введите индивидуальный %",
-        btn: "Готово",
-        action: "vip"
     }
 }
 
@@ -47,7 +41,8 @@ export const ClientsBar = ({ refetch }: IProps) => {
     const history = useHistory()
     const [isModalOpen, setIsModalOpen] = React.useState(false)
     const [modalContent, setModalContent] = React.useState<any>({})
-    const [vipModalState, setVipModalState] = React.useState<"selecting" | "submitting">("selecting")
+    const [vipModalState, setVipModalState] = React.useState<"selecting" | "updating" | "removing">("selecting")
+
     const handleOpen = (action: string) => {
         setIsModalOpen(true)
         setModalContent(modalInfo[action])
@@ -72,7 +67,7 @@ export const ClientsBar = ({ refetch }: IProps) => {
             setVipModalState("selecting")
         } else {
             setVipModal(true)
-            setVipModalState("submitting")
+            setVipModalState("removing")
         }
     }
 
@@ -116,11 +111,17 @@ export const ClientsBar = ({ refetch }: IProps) => {
                                 </MButton>
                                 <MToggle>
                                     <p>Индивидуальный статус</p>
-                                    <CustomToggle defaultChecked={client?.personalLoyaltyInfo?.isActive} onChange={handleChangeStatus} />
+                                    <CustomToggle
+                                        checked={client?.personalLoyaltyInfo?.isActive || vipModal}
+                                        defaultChecked={client?.personalLoyaltyInfo?.isActive}
+                                        onChange={handleChangeStatus} />
                                 </MToggle>
                                 {client?.personalLoyaltyInfo?.isActive &&
                                     <button
-                                        onClick={() => setVipModal(true)}
+                                        onClick={() => {
+                                            setVipModalState("updating")
+                                            setVipModal(true)
+                                        }}
                                         className="updatePercent">
                                         Настроить индивидуальный статус
                                     </button>}
@@ -152,10 +153,11 @@ export const ClientsBar = ({ refetch }: IProps) => {
                                 Списать баллы
                                 <MinusCoinsIcon style={{ marginLeft: 10 }} />
                             </MButton>
-                            <MButton onClick={() => handleOpen("vip")}>
-                                Изменить Статус %
-                                <CrownIcon style={{ marginLeft: 10 }} />
-                            </MButton>
+                            <MToggle>
+                                <p>Индивидуальный статус</p>
+                                <CustomToggle
+                                    onChange={handleChangeStatus} />
+                            </MToggle>
                         </Buttons>
                         <SelectButtons>
                             <button onClick={() => handleAddAll(true)}>

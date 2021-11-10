@@ -16,9 +16,11 @@ import Button from 'components/Custom/Button'
 import { DownModal } from './components/DownModal'
 import { selectAll } from 'services/redux/Slices/clients'
 import { Form } from '../../components/Form'
+import { useQuery } from 'react-query'
+import { fetchPersonalInfo } from 'services/queries/clientsQuery'
 
 const Client = () => {
-    const { selectedClients } = useAppSelector(state => state.clients)
+    const { selectedClients, period: { endDate, startDate } } = useAppSelector(state => state.clients)
     const client = selectedClients[0]
     const history = useHistory()
     const { routes } = useClientRoutes()
@@ -31,7 +33,19 @@ const Client = () => {
         isOpen: false
     })
     const dispatch = useAppDispatch()
+    const response = useQuery("fetch", () => fetchPersonalInfo({
+        clientUserId: client.userId,
+        clientId: client.id,
+        startDate,
+        endDate
+    }), {
+        retry: 0,
+        refetchOnWindowFocus: false,
+        onSuccess: (data) => {
+            console.log(data);
 
+        }
+    })
     const handleClose = () => {
         dispatch(selectAll(false))
         history.push("/clients")

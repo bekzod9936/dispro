@@ -12,6 +12,8 @@ import {
 import { Wrapper } from "./style";
 import { resetFilters, setFilters } from "services/redux/Slices/clients";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
+import { getOneDayPlus } from "pages/CompanyPages/clients/utils/getSelectedFilters";
+import InputFormat from "components/Custom/InputFormat";
 
 
 const traffics = [
@@ -65,6 +67,7 @@ export const MFilter = () => {
               inputStyle={{
                 inpadding: "0 10px 0 0",
               }}
+              max={getOneDayPlus(filter?.regDate?.regDateTo, "minus")}
               value={filter?.regDate?.regDateFrom}
               onChange={(e) => setFilter((prev: any) => ({
                 ...prev, regDate: {
@@ -78,6 +81,7 @@ export const MFilter = () => {
               width={{
                 maxwidth: 200,
               }}
+              min={getOneDayPlus(filter?.regDate?.regDateFrom, "plus")}
               margin={{ laptop: "0 0 0 15px" }}
               IconStart={<WrapDate>{t("to")}</WrapDate>}
               inputStyle={{
@@ -99,7 +103,7 @@ export const MFilter = () => {
       title: t("purchuase_amount"),
       content: (
         <>
-          <Input
+          <InputFormat
             label={t("enter_amount")}
             IconStart={<WrapPlaceHolder>{t("from")}</WrapPlaceHolder>}
             width={{
@@ -108,7 +112,7 @@ export const MFilter = () => {
             inputStyle={{
               inpadding: "0 10px",
             }}
-            type="number"
+            maxLength="11"
             value={filter?.purchaseAmount?.purchaseCountFrom}
             onChange={(e) => setFilter((prev: any) => ({
               ...prev, purchaseAmount: {
@@ -117,7 +121,7 @@ export const MFilter = () => {
               }
             }))}
           />
-          <Input
+          <InputFormat
             label={t("enter_amount")}
             margin={{ laptop: "0 0 0 15px" }}
             IconStart={<WrapPlaceHolder>{t("to")}</WrapPlaceHolder>}
@@ -127,7 +131,7 @@ export const MFilter = () => {
             inputStyle={{
               inpadding: "0 10px",
             }}
-            type="number"
+            maxLength="11"
             value={filter?.purchaseAmount?.purchaseCountTo}
             onChange={(e) => setFilter((prev: any) => ({
               ...prev, purchaseAmount: {
@@ -142,10 +146,10 @@ export const MFilter = () => {
     {
       title: t("purchuase_cost"),
       content: (
-        <Input
+        <InputFormat
+          maxLength="11"
           placeholder={t("notless")}
           onChange={(e) => setFilter((prev: any) => ({ ...prev, notless: e.target.value }))}
-          type="number"
           label={t("enter_amount")}
           value={filter?.notless}
         />

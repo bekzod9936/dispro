@@ -46,6 +46,12 @@ export const Wrapper = styled.form`
     }
     div.content {
         margin-bottom: 25px;
+        h5 {
+            font-size: 18px;
+            line-height: 21px;
+            color: #223367;
+            font-weight: 500;
+        }
         p.client {
             font-size: 18px;
             font-weight: 500;

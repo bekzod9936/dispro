@@ -1,8 +1,8 @@
+import { Checkbox } from '@material-ui/core';
 import { PuzzleIcon } from 'assets/icons/ClientsPageIcons/ClientIcons';
-import CheckBox from 'components/Custom/CheckBox';
 import React, { SyntheticEvent } from 'react';
-import { addHeader, headers } from '../../headers';
-import { AddButton } from '../../style';
+import { headers } from '../../headers';
+import { AddButton, MCheckbox } from '../../style';
 import { HeadersType } from '../../Table';
 import { Header, Popup, PopupContent, Wrapper } from './style';
 
@@ -14,10 +14,10 @@ interface IProps {
 
 export const AddColumnButton = ({ addedHeaders, setAddedHeaders }: IProps) => {
 	const popupRef = React.useRef<HTMLDivElement | null>(null);
-	const [ isOpen, setOpen ] = React.useState<boolean>(false);
+	const [isOpen, setOpen] = React.useState<boolean>(false);
 
 	const handlePopUp = (e: PointerEvent | MouseEvent | any) => {
-		
+
 		e.stopPropagation();
 		if (e.path.includes(popupRef.current)) {
 			setOpen(true);
@@ -27,8 +27,12 @@ export const AddColumnButton = ({ addedHeaders, setAddedHeaders }: IProps) => {
 	};
 
 	const handleAddHeader = (e: React.KeyboardEvent<SyntheticEvent> | any, el: HeadersType) => {
-		
-		setAddedHeaders(addHeader({ value: e.target.checked, addedHeaders, header: el }));
+		const value = addedHeaders.some(header => header.value === el.value)
+		if (value) {
+			setAddedHeaders((prev: any) => prev.filter((header: any) => header.value !== el.value))
+		} else {
+			setAddedHeaders((prev: any) => [...prev, el])
+		}
 	};
 
 	React.useEffect(() => {
@@ -46,11 +50,12 @@ export const AddColumnButton = ({ addedHeaders, setAddedHeaders }: IProps) => {
 					<PopupContent>
 						{headers.map((el) => {
 							return (
-								<Header>
-									<CheckBox
-										checked={addedHeaders.some((e: any) => e.value === el.value)}
-										onChange={(e) => handleAddHeader(e, el)}
-									/>
+								<Header onClick={(e) => handleAddHeader(e, el)}>
+									<MCheckbox>
+										<Checkbox
+											checked={addedHeaders.some((e: any) => e.value === el.value)}
+										/>
+									</MCheckbox>
 									<p>{el.value}</p>
 								</Header>
 							);
