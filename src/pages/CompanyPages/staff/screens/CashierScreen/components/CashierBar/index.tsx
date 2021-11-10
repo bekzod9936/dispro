@@ -20,7 +20,10 @@ import {
 	UpSide,
 	DownSide,
 	BarNormalText,
+	ButtonKeyWord,
+	DeleteIc,
 } from './style';
+import { IconButton } from '@material-ui/core';
 import { ReactComponent as Logo } from 'assets/icons/cashier_logo_placeholder.svg';
 import { ReactComponent as EditIcon } from 'assets/icons/edit_cashier.svg';
 import { ReactComponent as UserIcon } from 'assets/icons/user_setting.svg';
@@ -248,9 +251,27 @@ const CashierBar = () => {
 					<ModalBody>
 						<BarTitle>Вы уверены что хотите удалить кассира?</BarTitle>
 						<Break height={15} />
-						{selectedCashiers.map((item: any) => {
-							return <BarText>{item?.firstName}</BarText>;
-						})}
+						{selectedCashiers.length > 1
+							? selectedCashiers.map((item: any, index: number) => {
+									return (
+										<ButtonKeyWord key={index}>
+											{item?.firstName}
+											<IconButton
+												onClick={() => {
+													let filteredItem = selectedCashiers?.filter(
+														(it: any) => it.id !== item.id
+													);
+													dispatch(setSelectedCashiers(filteredItem));
+												}}
+											>
+												<DeleteIc color='#C4C4C4' />
+											</IconButton>
+										</ButtonKeyWord>
+									);
+							  })
+							: selectedCashiers.map((item: any) => {
+									return <BarText>{item?.firstName}</BarText>;
+							  })}
 					</ModalBody>
 					<Break height={35} />
 					<ModalAction>
