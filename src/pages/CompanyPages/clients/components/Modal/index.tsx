@@ -73,7 +73,7 @@ export const MModal = ({
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (clients.length <= 1) {
-      await mutation.mutate();
+      mutation.mutate();
       await refetch();
       handleOpen(false);
     }

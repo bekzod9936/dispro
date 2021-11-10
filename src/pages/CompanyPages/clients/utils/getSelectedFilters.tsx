@@ -119,3 +119,52 @@ export const useHandleGetFilters = ({ filters, handleRemove }: IProps) => {
     }
     return result
 }
+
+
+export const getFiltersForQuery = (filters: any) => {
+    let res: any = Object.keys(filters).reduce((obj, el) => {
+        if (typeof filters[el] === "string" || typeof filters[el] === "number") {
+            if (el === "gender") {
+                obj = {
+                    ...obj,
+                    genderTypeId: filters[el]
+                }
+            } else if (el === "notless") {
+                obj = {
+                    ...obj,
+                    allPurchaseSum: filters[el]
+                }
+            }
+        }
+        else {
+            if (el === "regDate") {
+                obj = {
+                    ...obj,
+                    regDateFrom: filters[el].regDateFrom,
+                    regDateTo: filters[el].regDateTo
+                }
+            } else if (el === "purchaseAmount") {
+                obj = {
+                    ...obj,
+                    purchaseCountFrom: filters[el].purchaseCountFrom,
+                    purchaseCountTo: filters[el].purchaseCountTo
+                }
+            } else if (el === "trafficProvider") {
+                if (filters[el]) {
+                    obj = {
+                        ...obj,
+                        reflds: `[${filters[el].value}]`
+                    }
+
+                }
+            }
+        }
+        return obj
+    }, {})
+
+    return Object.keys(res).map((el, index) => {
+        if (index > 0) {
+            return `&${el}=${res[el]}`
+        } else return `${el}=${res[el]}`
+    }).join("")
+}

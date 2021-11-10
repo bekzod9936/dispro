@@ -24,12 +24,8 @@ export const MFilter = () => {
   const dispatch = useAppDispatch()
   const { filters } = useAppSelector(state => state.clients)
   const [filter, setFilter] = useState<any>({})
-  const [gender, setGender] = useState<any>("")
-  const [traffic, setTraffic] = useState("")
 
   useEffect(() => {
-    setGender(filters.gender)
-    setTraffic(filters.trafficProvider?.value)
     setFilter(filters)
   }, [filters])
 
@@ -44,8 +40,11 @@ export const MFilter = () => {
             { value: "2", label: `${t("female")}` },
           ]}
           title={t("chose_gender")}
-          onChange={(v: string) => setGender(v)}
-          value={gender}
+          onChange={(v: string) => setFilter((prev: any) => ({
+            ...prev,
+            gender: v
+          }))}
+          value={filter?.gender}
         // onChange={(v: string) => setFilter((prev: any) => ({ ...prev, gender: v }))}
         // value={filter.gender}
         />
@@ -186,10 +185,8 @@ export const MFilter = () => {
           flexDirection="row"
           list={traffics}
           title={t("chose_trafic_provider")}
-          // onChange={(e) => setFilter((prev: any) => ({ ...prev, trafficProvider: traffics.find(el => el.value === e) }))}
-          // value={filter?.trafficProvider?.value}
-          onChange={(e) => setTraffic(e)}
-          value={traffic}
+          onChange={(e) => setFilter((prev: any) => ({ ...prev, trafficProvider: traffics.find(el => el.value === e) }))}
+          value={filter?.trafficProvider?.value}
         />
       ),
     },
@@ -198,8 +195,7 @@ export const MFilter = () => {
   const handleSubmit = () => {
     const res = {
       ...filter,
-      gender: gender,
-      trafficProvider: traffics.find(el => el.value === traffic)
+
     }
     dispatch(setFilters(res))
   };

@@ -47,7 +47,7 @@ export const ClientsBar = ({ refetch }: IProps) => {
     const history = useHistory()
     const [isModalOpen, setIsModalOpen] = React.useState(false)
     const [modalContent, setModalContent] = React.useState<any>({})
-
+    const [vipModalState, setVipModalState] = React.useState<"selecting" | "submitting">("selecting")
     const handleOpen = (action: string) => {
         setIsModalOpen(true)
         setModalContent(modalInfo[action])
@@ -66,7 +66,14 @@ export const ClientsBar = ({ refetch }: IProps) => {
     }
 
     const handleChangeStatus = (e: any) => {
-        setVipModal(e.target.checked)
+        let checked = e.target.checked
+        if (checked) {
+            setVipModal(true)
+            setVipModalState("selecting")
+        } else {
+            setVipModal(true)
+            setVipModalState("submitting")
+        }
     }
 
 
@@ -75,6 +82,9 @@ export const ClientsBar = ({ refetch }: IProps) => {
         <Wrapper>
             <Modal open={vipModal}>
                 <VipModal
+                    state={vipModalState}
+                    setState={setVipModalState}
+                    refetch={refetch}
                     handleClose={() => setVipModal(false)}
                     status={client?.addInfo?.status}
                     value={client?.personalLoyaltyInfo?.percent}
@@ -108,6 +118,12 @@ export const ClientsBar = ({ refetch }: IProps) => {
                                     <p>Индивидуальный статус</p>
                                     <CustomToggle defaultChecked={client?.personalLoyaltyInfo?.isActive} onChange={handleChangeStatus} />
                                 </MToggle>
+                                {client?.personalLoyaltyInfo?.isActive &&
+                                    <button
+                                        onClick={() => setVipModal(true)}
+                                        className="updatePercent">
+                                        Настроить индивидуальный статус
+                                    </button>}
                             </Buttons>
                             <AddInfo>
                                 <div>

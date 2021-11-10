@@ -1,7 +1,7 @@
 import { CloseIcon, CoinsIcon, MiniCloseIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
 import Button from 'components/Custom/Button'
 import CustomToggle from 'components/Custom/CustomToggleSwitch'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks'
 import { selectAll, setClient } from 'services/redux/Slices/clients'
 import { Content, Footer, Header, Main, Wrapper } from './style'
@@ -10,6 +10,7 @@ interface IProps {
 }
 export const DownBar = ({ setForm }: IProps) => {
     const { selectedClients } = useAppSelector(state => state.clients)
+    const downbarRef = useRef<HTMLDivElement | null>(null)
     const client = selectedClients[0]
     const [open, setOpen] = useState<"hide" | "show" | "fullShow">("hide")
     const dispatch = useAppDispatch()
@@ -18,11 +19,22 @@ export const DownBar = ({ setForm }: IProps) => {
     }
 
     useEffect(() => {
+        let timerId: any;
         if (selectedClients.length === 0) {
             setOpen("hide")
+            timerId = setTimeout(() => {
+                if (downbarRef.current) {
+                    downbarRef.current.style.visibility = "hidden"
+                }
+            }, 1000)
         }
-        else if (open === "hide") setOpen("show")
-
+        else if (open === "hide") {
+            if (downbarRef.current) {
+                downbarRef.current.style.visibility = "visible";
+                setOpen("show");
+            }
+        }
+        return () => clearTimeout(timerId)
     }, [selectedClients])
 
     const handleClick = (e: any) => {
@@ -36,7 +48,7 @@ export const DownBar = ({ setForm }: IProps) => {
         })
     }
     return (
-        <Wrapper border={open === "fullShow"} isOpen={open}>
+        <Wrapper ref={downbarRef} border={open === "fullShow"} isOpen={open}>
             <Header>
                 {open !== "fullShow" ?
                     <>
