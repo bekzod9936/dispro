@@ -43,6 +43,7 @@ import {
   DeleteIcon,
   Message,
   ForExample,
+  WrapPhoto,
 } from './style';
 import { setExitModal } from 'services/redux/Slices/info/info';
 
@@ -359,27 +360,29 @@ const Main = () => {
                       {t('upload_photo')} <PhotoLoadingIcon />
                     </LabelLoading>
                   ) : (
-                    <PhotoWrap
-                      onClick={async () => {
-                        await handlePhotoDelete();
-                        await setLogo('');
-                      }}
-                    >
-                      <LazyLoadImage
-                        alt='image'
-                        src={logo}
-                        height='100%'
-                        width='100%'
-                        style={{
-                          objectFit: 'scale-down',
-                          borderRadius: '14px',
+                    <WrapPhoto>
+                      <PhotoWrap
+                        onClick={async () => {
+                          await handlePhotoDelete();
+                          await setLogo('');
                         }}
-                        effect='blur'
-                      />
-                      <WrapTrash>
-                        <TrashIcon />
-                      </WrapTrash>
-                    </PhotoWrap>
+                      >
+                        <LazyLoadImage
+                          alt='image'
+                          src={logo}
+                          height='100%'
+                          width='100%'
+                          style={{
+                            objectFit: 'scale-down',
+                            borderRadius: '14px',
+                          }}
+                          effect='blur'
+                        />
+                        <WrapTrash>
+                          <TrashIcon />
+                        </WrapTrash>
+                      </PhotoWrap>
+                    </WrapPhoto>
                   )
                 ) : resUpLoad.isLoading ? (
                   <Spinner />
