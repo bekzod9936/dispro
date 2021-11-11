@@ -231,7 +231,6 @@ const Header = () => {
             <Text>
               {`${numberWithNew({
                 number: accountsBalance,
-                replaceValue: ' ',
                 defaultValue: 0,
               })} UZS`}
             </Text>
@@ -244,7 +243,6 @@ const Header = () => {
             <Text>
               {`${numberWithNew({
                 number: accountsLimit,
-                replaceValue: ' ',
                 defaultValue: 0,
               })} UZS`}
             </Text>

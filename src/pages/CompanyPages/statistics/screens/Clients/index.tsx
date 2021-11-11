@@ -6,6 +6,10 @@ import Filter from 'components/Custom/Filter/index';
 import Radio from 'components/Custom/Radio';
 import CheckBox from 'components/Custom/CheckBox';
 import Input from 'components/Custom/Input';
+import DatePcker from 'components/Custom/DatePicker';
+import { numberWithNew } from 'services/utils';
+import { useAppSelector } from 'services/redux/hooks';
+import InputFormat from 'components/Custom/InputFormat';
 import {
   Container,
   AgeIcon,
@@ -37,10 +41,6 @@ import {
   WrapDate,
   WrapInputs,
 } from './style';
-import DatePcker from 'components/Custom/DatePicker';
-import { numberWith } from 'services/utils';
-import { useAppSelector } from 'services/redux/hooks';
-import InputFormat from 'components/Custom/InputFormat';
 
 const intialState = {
   startDate: '',
@@ -72,7 +72,6 @@ const Clients = () => {
     filterValues,
     traffic,
   });
-  const [errorPurchase, setErrorPurchase] = useState(false);
   const [usedLevel, setUsedLevel] = useState<any[]>([]);
   const [radioValue, setRadioValue] = useState<any>();
 
@@ -427,10 +426,9 @@ const Clients = () => {
             {list.map((v: any) => (
               <WrapInfo key={v.title}>
                 <WrapIcon>{v.Icon}</WrapIcon>
-
                 <Content>
                   <Title>{v.title}</Title>
-                  <Value>{numberWith(v?.value?.toString(), ' ')}</Value>
+                  <Value>{numberWithNew({ number: v?.value })}</Value>
                 </Content>
               </WrapInfo>
             ))}

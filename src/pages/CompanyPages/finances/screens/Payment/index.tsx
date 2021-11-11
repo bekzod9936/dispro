@@ -7,7 +7,7 @@ import Table from '../../components/Table';
 import moment from 'moment';
 import { Container, WrapPag, Info } from './style';
 import DatePcker from 'components/Custom/DatePicker';
-import { numberWith } from 'services/utils';
+import { numberWithNew } from 'services/utils';
 import {
   Label,
   RightHeader,
@@ -105,12 +105,11 @@ const Payment = () => {
       <RightHeader>
         <WrapTotal>
           {header.map((v: any) => {
-            let a = +v.value || 0;
             return (
               <WrapTotalSum>
                 <Label>{v.title || ''}</Label>
                 <TotalSum>
-                  {a.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$& ')}
+                  {numberWithNew({ number: +v.value, defaultValue: 0 })}
                 </TotalSum>
               </WrapTotalSum>
             );

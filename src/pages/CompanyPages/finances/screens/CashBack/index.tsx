@@ -6,7 +6,7 @@ import Pagination from 'components/Custom/Pagination';
 import Table from '../../components/Table';
 import DatePcker from 'components/Custom/DatePicker';
 import moment from 'moment';
-import { numberWith } from 'services/utils';
+import { numberWithNew } from 'services/utils';
 import { useAppSelector } from 'services/redux/hooks';
 import {
   Container,
@@ -136,12 +136,14 @@ const Payment = () => {
       <RightHeader>
         <WrapTotal>
           {header.map((v: any) => {
-            let a = +v.value;
             return (
               <WrapTotalSum>
                 <Label>{v.title || ''}</Label>
                 <TotalSum>
-                  {a.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$& ')}
+                  {numberWithNew({
+                    number: +v.value,
+                    defaultValue: 0,
+                  })}
                 </TotalSum>
               </WrapTotalSum>
             );

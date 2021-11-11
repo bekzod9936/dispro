@@ -19,7 +19,7 @@ import {
 } from '../Clients/style';
 import DatePcker from 'components/Custom/DatePicker';
 import { useState } from 'react';
-import { numberWith } from 'services/utils';
+import { numberWith, numberWithNew } from 'services/utils';
 import Radio from 'components/Custom/Radio';
 import { useAppSelector } from 'services/redux/hooks';
 
@@ -136,7 +136,7 @@ const Operations = () => {
                 <WrapIcon>{v.Icon}</WrapIcon>
                 <Content>
                   <Title>{v.title}</Title>
-                  <Value>{numberWith(v?.value?.toString(), ' ')}</Value>
+                  <Value>{numberWithNew({ number: v?.value })}</Value>
                 </Content>
               </WrapInfo>
             ))}
