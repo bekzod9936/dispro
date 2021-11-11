@@ -98,7 +98,9 @@ export interface IClient {
     regionId: number,
     telNumber: string,
     userId: number
-
+    isPlBlocked: boolean,
+    blockedReason: string,
+    notes: string
 }
 export interface IFetchData {
     clients: IClient[],

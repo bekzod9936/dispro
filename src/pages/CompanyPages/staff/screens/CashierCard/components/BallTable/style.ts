@@ -183,3 +183,30 @@ export const EmptyDiv = styled.div`
   width: 100% !important;
   padding: 30px;
 `;
+
+export const NoData = styled.div`
+	padding: 100px 0 121px 0;
+	border-radius: 14px !important;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
+	background: #fff;
+	overflow-x: auto;
+	width: 100%;
+`;
+
+export const NoDataText = styled.div`
+	width: 317px;
+	display: flex;
+	justify-content: center;
+	align-ctems: center;
+	text-align: center;
+	color: #223367;
+	font-weight: 300;
+	font-size: 16px;
+	line-height: 19px;
+	font-style: normal;
+	margin-top: 35px;
+`;

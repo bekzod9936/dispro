@@ -33,6 +33,7 @@ const contents: any = {
 }
 export const SuccessModal = ({ isOpen, handleClose, action }: IProps) => {
     const content = contents[action]
+
     return (
         <Modal modalStyle={{ bgcolor: "transparent" }} open={isOpen}>
             <OutSideWrapper>

@@ -17,11 +17,12 @@ interface Props {
   list?: { title: string; content: any }[];
   onSubmit?: () => void;
   onReset?: () => void;
+  error?: boolean
 }
 
-const Filter = ({ list, onSubmit = () => {}, onReset = () => {} }: Props) => {
+const Filter = ({ list, onSubmit = () => { }, onReset = () => { }, error }: Props) => {
   const { t } = useTranslation();
-  
+
   const [closeFun, setCloseFun] = useState<any>();
   const handleClose = (e: any) => {
     setCloseFun(e);
@@ -75,6 +76,7 @@ const Filter = ({ list, onSubmit = () => {}, onReset = () => {} }: Props) => {
               shadow: ' 0px 4px 9px rgba(96, 110, 234, 0.46)',
             }}
             endIcon={<TickIcon />}
+            disabled={error}
             onClick={() => {
               closeFun?.close();
               onSubmit();

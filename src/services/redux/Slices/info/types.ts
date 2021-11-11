@@ -26,7 +26,12 @@ export interface IWorkTime {
   work?: IWork[];
 }
 
-
+export interface IAccounts {
+  id: number;
+  type: number;
+  balance: number;
+  limit: number;
+}
 
 export interface IInfo {
   annotation?: string;

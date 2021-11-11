@@ -26,7 +26,7 @@ interface Props {
 const MRadio = ({
   title,
   list,
-  onChange = () => {},
+  onChange = () => { },
   labelPlacement,
   value,
   flexDirection = "row",
@@ -39,13 +39,14 @@ const MRadio = ({
     <Container flexDirection={flexDirection}>
       <FormControl component="fieldset">
         <FormLabel component="legend">{title}</FormLabel>
-        {list?.map((v: any) => (
-          <RadioGroup
-            aria-label={title}
-            name={title}
-            value={value}
-            onChange={handleChange}
-          >
+        <RadioGroup
+          row
+          aria-label={title}
+          name={title}
+          value={value}
+          onChange={handleChange}
+        >
+          {list?.map((v: any) => (
             <FormControlLabel
               value={v.value}
               labelPlacement={labelPlacement}
@@ -53,8 +54,8 @@ const MRadio = ({
               label={v.label}
               key={v.value}
             />
-          </RadioGroup>
-        ))}
+          ))}
+        </RadioGroup>
       </FormControl>
     </Container>
   );
