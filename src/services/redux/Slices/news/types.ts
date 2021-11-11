@@ -13,7 +13,7 @@ date: string,
       data: INewsData[];
       totalCount: number;
       between: string;
-     
+      totalCountNews:number;
     };
 
     query?: string;

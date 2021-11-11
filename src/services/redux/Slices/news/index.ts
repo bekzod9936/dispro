@@ -10,6 +10,7 @@ const initialState: INews = {
     data: [],
     totalCount: 0,
     between: '',
+    totalCountNews:0
   },
   query:'',
 };
@@ -24,12 +25,17 @@ const newsSlice = createSlice({
     setNewsTotal: (state, action: PayloadAction<number>) => {
       state.NewsInfo.totalCount = action.payload;
     },
+    setNewsTotalCount: (state, action: PayloadAction<number>) => {
+      state.NewsInfo.totalCountNews = action.payload;
+    },
+
     setNewsBetween: (state, action: PayloadAction<string>) => {
       state.NewsInfo.between = action.payload;
     },
     setQuery: (state, action: PayloadAction<string>) => {
       state.query = action.payload;
     },
+    
     
   },
 });
@@ -39,5 +45,6 @@ export const {
     setNewsTotal,
     setNewsBetween,
     setQuery,
+    setNewsTotalCount,
 } = newsSlice.actions;
 export default newsSlice.reducer;

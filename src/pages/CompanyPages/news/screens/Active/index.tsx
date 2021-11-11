@@ -26,7 +26,8 @@ const Active = () => {
   const data = useAppSelector((state) => state.news.NewsInfo.data);
   const totalCount=useAppSelector((state)=>state.news.NewsInfo.totalCount);
   const between=useAppSelector((state)=>state.news.NewsInfo.between);
-  console.log('totalCount',totalCount)
+  const totalNewsCount=useAppSelector((state)=>state.news.NewsInfo.totalCountNews)
+  console.log('totalNewsCount',totalNewsCount)
   const { t } = useTranslation();
   const handleOpenSetting = () => {
     history.push({
@@ -49,6 +50,8 @@ const Active = () => {
  
 
   const { response } = useActive({filterValues: filterValues});
+ 
+  
 
   const handlechangePage = async (e: any) => {
     await setFilterValues({ ...filterValues, page: e });
@@ -133,7 +136,7 @@ const Active = () => {
           <Info>
             {t('shown')}
             <span>{between}</span>
-            {t('from1')} <span>{totalCount}</span> {t('news')}
+            {t('from1')} <span>{totalNewsCount}</span> {t('news')}
           </Info>
           <Pagination
             page={filterValues.page}
