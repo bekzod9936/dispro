@@ -98,12 +98,14 @@ export const useHandleGetFilters = ({ filters, handleRemove }: IProps) => {
     if (purchaseAmount) {
         result.push(
             <SelectedFilter>
-                <p>
-                    {t("from")}: {purchaseAmount?.purchaseCountFrom + " сум"}
-                </p>
-                <p>
-                    {t("to")}: {purchaseAmount?.purchaseCountTo + " сум"}
-                </p>
+                {purchaseAmount?.purchaseCountFrom &&
+                    <p>
+                        {t("from")}: {purchaseAmount?.purchaseCountFrom + " сум"}
+                    </p>}
+                {purchaseAmount?.purchaseCountTo &&
+                    <p>
+                        {t("to")}: {purchaseAmount?.purchaseCountTo + " сум"}
+                    </p>}
                 <RemoveFilterBtn onClick={() => handleRemove("purchaseAmount")} />
             </SelectedFilter>
         )
@@ -145,10 +147,17 @@ export const getFiltersForQuery = (filters: any) => {
                     regDateTo: filters[el].regDateTo
                 }
             } else if (el === "purchaseAmount") {
-                obj = {
-                    ...obj,
-                    purchaseCountFrom: filters[el].purchaseCountFrom,
-                    purchaseCountTo: filters[el].purchaseCountTo
+                if (filters[el].purchaseCountFrom) {
+                    obj = {
+                        ...obj,
+                        purchaseCountFrom: filters[el].purchaseCountFrom,
+                    }
+                }
+                if (filters[el].purchaseCountTo) {
+                    obj = {
+                        ...obj,
+                        purchaseCountTo: filters[el].purchaseCountTo
+                    }
                 }
             } else if (el === "trafficProvider") {
                 if (filters[el]) {
