@@ -53,7 +53,7 @@ import useSocket from './useSocket';
 import useWindowWidth from 'services/hooks/useWindowWidth';
 import FullModal from 'pages/CompanyPages/info/components/FullModal';
 import useLimit from './useLimit';
-import { numberWith } from 'services/utils';
+import { numberWith, numberWithNew } from 'services/utils';
 
 const Header = () => {
   const { t } = useTranslation();
@@ -228,14 +228,26 @@ const Header = () => {
           <DepositIcon />
           <Title>
             {t('deposit')}
-            <Text>{numberWith(String(accountsBalance), ' ', '0')} UZS</Text>
+            <Text>
+              {`${numberWithNew({
+                number: accountsBalance,
+                replaceValue: ' ',
+                defaultValue: 0,
+              })} UZS`}
+            </Text>
           </Title>
         </Wrap>
         <Wrap onClick={() => history.push('/finances')}>
           <ShieldIcon />
           <Title>
             {t('limit')}
-            <Text>{numberWith(String(accountsLimit), ' ', '0')} UZS</Text>
+            <Text>
+              {`${numberWithNew({
+                number: accountsLimit,
+                replaceValue: ' ',
+                defaultValue: 0,
+              })} UZS`}
+            </Text>
           </Title>
         </Wrap>
       </Wrapper>
