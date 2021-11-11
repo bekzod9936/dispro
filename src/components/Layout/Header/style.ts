@@ -90,11 +90,27 @@ export const Container = styled.div`
 `;
 
 export const LogOutWhiteIcon = styled(LogWhite)`
-  margin-left: 15px;
+  width: 24px;
+  height: 24px;
+  @media (max-width: ${device.mobile}) {
+    width: 18px;
+    height: 18px;
+  }
 `;
 
 export const CloseIcon = styled(Close)`
-  margin-right: 15px;
+  width: 24px;
+  height: 24px;
+  & path {
+    fill: #223367;
+  }
+  @media (max-width: ${device.mobile}) {
+    width: 18px;
+    height: 18px;
+    & path {
+      fill: #606eea;
+    }
+  }
 `;
 
 export const DepositIcon = styled(Deposit)`
@@ -173,7 +189,7 @@ export const Wrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-
+  cursor: pointer;
   @media (max-width: ${device.mobile}) {
     display: none;
   }
@@ -204,8 +220,10 @@ export const Text = styled.div`
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 30px 35px;
   align-items: center;
+  justify-content: center;
+  flex: 1;
+  height: 100%;
   background: #ffffff;
   border-radius: 14px;
   user-select: none;
@@ -325,6 +343,9 @@ export const ModelContent = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  @media (max-width: ${device.mobile}) {
+    width: 290px;
+  }
 `;
 
 export const ModelTitle = styled.div`
@@ -333,6 +354,10 @@ export const ModelTitle = styled.div`
   font-size: 18px;
   text-align: center;
   color: #223367;
+
+  @media (max-width: ${device.mobile}) {
+    font-size: 16px;
+  }
 `;
 
 export const ModalWrap = styled.div`
