@@ -1,8 +1,8 @@
 import { CartIcon, CashBackIcon, DiscountIcon, DownIcon, GoBackIcon, HandIcon, MoneyBagIcon, MoneyStatsIcon, PointActionsIcon, RatingIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
-import NavBar from 'components/Custom/NavBar'
+import NavBar, { activeStyle } from 'components/Custom/NavBar'
 import Spinner from 'components/Helpers/Spinner'
 import React, { Suspense, useState } from 'react'
-import { Route, Switch, useHistory } from 'react-router'
+import { Route, Switch, useHistory, useRouteMatch } from 'react-router'
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks'
 import { useClientRoutes } from '../../routes'
 import { ClientBlock } from './components/ClientBlock'
@@ -19,6 +19,9 @@ import { Form } from '../../components/Form'
 import { useQuery } from 'react-query'
 import { fetchPersonalInfo } from 'services/queries/clientsQuery'
 import { BlockModal } from '../../components/BlockModal'
+import { VipModal } from '../../components/ClientsBar/components/VipModal'
+import Modal from 'components/Custom/Modal'
+import { Link } from 'components/Custom/NavBar/style'
 
 const Client = () => {
     const { selectedClients, period: { endDate, startDate } } = useAppSelector(state => state.clients)
@@ -27,6 +30,8 @@ const Client = () => {
     const { routes } = useClientRoutes()
     const { width } = useWindowSize()
     const { t } = useTranslation()
+    const [vipModal, setVipModal] = useState(false)
+    const [vipModalState, setVipModalState] = useState<"selecting" | "updating" | "removing">("selecting")
     const [blockModal, setBlockModal] = useState(false)
     const [isOpen, setIsOpen] = useState(false)
     const [modalContent, setModalContent] = useState<"points" | "other">("points")
@@ -34,6 +39,7 @@ const Client = () => {
         action: 1,
         isOpen: false
     })
+
 
     const dispatch = useAppDispatch()
     const response = useQuery("fetch", () => fetchPersonalInfo({
@@ -113,11 +119,24 @@ const Client = () => {
     if (width > 600) {
         return (
             <Wrapper>
+                <Modal open={vipModal}>
+                    <VipModal
+                        handleClose={() => setVipModal(false)}
+                        name={client?.firstName + " " + client?.lastName}
+                        state={vipModalState}
+                        setState={setVipModalState}
+                        status={client?.addInfo?.status}
+                        value={client?.personalLoyaltyInfo?.percent}
+                    />
+                </Modal>
                 <UpSide>
                     <ClientBlock
                         client={client}
                         setBlockModal={setBlockModal} />
-                    <InfoBlock {...client} />
+                    <InfoBlock
+                        setVipModalState={setVipModalState}
+                        setVipModal={setVipModal}
+                        client={client} />
                     <Recommendation referLevels={response?.data?.data?.data?.childReferalClientsByLevel} />
                 </UpSide>
                 <MiddleSide>

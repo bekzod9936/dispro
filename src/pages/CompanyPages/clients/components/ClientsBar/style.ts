@@ -130,7 +130,7 @@ export const MToggle = styled.div`
     align-items: center;
     p {
         margin-right: 15px;
-        margin-bottom: 0;
+        margin-bottom: 0 !important;
         font-size: 16px;
         line-height: 21px;
         color: #223367;

@@ -209,8 +209,6 @@ export const MFilter = () => {
   const handleReset = () => {
     dispatch(resetFilters())
   }
-  console.log("from", filter?.purchaseAmount?.purchaseCountFrom);
-  console.log("to", filter?.purchaseAmount?.purchaseCountTo);
 
 
   return (

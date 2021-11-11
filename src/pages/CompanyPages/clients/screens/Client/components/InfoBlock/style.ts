@@ -48,4 +48,9 @@ export const DownSide = styled.div`
             margin-bottom: 10px;
         }
     }
+    .changeStatus {
+        display: flex;
+        align-items: center;
+        
+    }
 `
