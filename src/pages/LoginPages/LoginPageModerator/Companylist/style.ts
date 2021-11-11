@@ -44,16 +44,16 @@ export const Container = styled.div`
   height: 100%;
   display: grid;
   justify-content: center;
-  justify-items: center;
+  justify-items: start;
   grid-column-gap: 25px;
   grid-row-gap: 35px;
   grid-template-columns: minmax(140px, 250px) minmax(140px, 250px);
-  grid-row-gap: minmax(160px, 290px);
   margin-top: 25%;
   @media (max-width: ${device.mobile}) {
     grid-column-gap: 10px;
     grid-row-gap: 20px;
     margin-top: 0;
+    height: fit-content;
   }
   @media (min-width: ${device.mobile}) and (max-width: ${device.laptop}) {
     grid-column-gap: 18px;
