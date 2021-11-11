@@ -451,3 +451,5 @@ export const Message = styled.div`
     margin-top: 5px;
   }
 `;
+
+export const WrapPhoto = styled.div``;

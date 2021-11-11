@@ -129,7 +129,7 @@ const ManagerBar = () => {
 								}}
 								onClick={() => {
 									dispatch(setOpenManager(true));
-									dispatch(setStepManager(3));
+									dispatch(setStepManager(2));
 									roleManager.mutate(selectedManagers[0].userId);
 									dispatch(setUserId(selectedManagers[0].userId));
 								}}
