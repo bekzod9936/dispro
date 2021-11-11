@@ -40,6 +40,7 @@ import {
 import DatePcker from 'components/Custom/DatePicker';
 import { numberWith } from 'services/utils';
 import { useAppSelector } from 'services/redux/hooks';
+import InputFormat from 'components/Custom/InputFormat';
 
 const intialState = {
   startDate: '',
@@ -71,6 +72,7 @@ const Clients = () => {
     filterValues,
     traffic,
   });
+  const [errorPurchase, setErrorPurchase] = useState(false);
   const [usedLevel, setUsedLevel] = useState<any[]>([]);
   const [radioValue, setRadioValue] = useState<any>();
 
@@ -231,8 +233,9 @@ const Clients = () => {
       title: t('purchuase_amount'),
       content: (
         <>
-          <Input
-            label={t('enter_amount')}
+          <InputFormat
+            label={t('enter_number')}
+            value={purchase.purchaseCountFrom}
             IconStart={<WrapPlaceHolder>{t('from')}</WrapPlaceHolder>}
             width={{
               maxwidth: 200,
@@ -240,14 +243,13 @@ const Clients = () => {
             inputStyle={{
               inpadding: '0 10px',
             }}
-            type='number'
-            value={purchase.purchaseCountFrom}
-            onChange={(e: any) =>
-              setPurchase({ ...purchase, purchaseCountFrom: e.target.value })
-            }
+            min={9}
+            onChange={(e: any) => {
+              setPurchase({ ...purchase, purchaseCountFrom: e.target.value });
+            }}
           />
-          <Input
-            label={t('enter_amount')}
+          <InputFormat
+            label={t('enter_number')}
             margin={{ laptop: '0 0 0 15px' }}
             IconStart={<WrapPlaceHolder>{t('to')}</WrapPlaceHolder>}
             width={{
@@ -256,7 +258,7 @@ const Clients = () => {
             inputStyle={{
               inpadding: '0 10px',
             }}
-            type='number'
+            min={9}
             value={purchase.purchaseCountTo}
             onChange={(e: any) =>
               setPurchase({ ...purchase, purchaseCountTo: e.target.value })
