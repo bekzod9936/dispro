@@ -54,6 +54,7 @@ export const RightSide = styled.div`
   border-top-left-radius: 10%;
   display: flex;
   flex-direction: column;
+
   @media (max-width: ${device.mobile}) {
     background: white;
     border-top-left-radius: 0;
@@ -127,6 +128,7 @@ export const WrapSelect = styled.div`
   align-items: center;
   flex-shrink: 1;
   padding: 25px 35px 10px 25px;
+
   @media (max-width: ${device.mobile}) {
     width: 100%;
     display: flex;

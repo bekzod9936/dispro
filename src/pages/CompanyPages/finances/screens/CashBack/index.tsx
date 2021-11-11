@@ -135,12 +135,17 @@ const Payment = () => {
     <>
       <RightHeader>
         <WrapTotal>
-          {header.map((v: any) => (
-            <WrapTotalSum>
-              <Label>{v.title || ''}</Label>
-              <TotalSum>{numberWith(v.value, ' ', '0')}</TotalSum>
-            </WrapTotalSum>
-          ))}
+          {header.map((v: any) => {
+            let a = +v.value;
+            return (
+              <WrapTotalSum>
+                <Label>{v.title || ''}</Label>
+                <TotalSum>
+                  {a.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$& ')}
+                </TotalSum>
+              </WrapTotalSum>
+            );
+          })}
         </WrapTotal>
       </RightHeader>
       <Container>

@@ -6,6 +6,7 @@ import { device } from 'styles/device';
 
 interface LProps {
   open?: boolean;
+  display?: any;
 }
 
 interface MProps {
@@ -60,9 +61,9 @@ export const MSelect = styled(Select)`
 `;
 
 export const IconWrap = styled.div`
-  ${({ open }: LProps) => (open ? ' transform: rotateX(180deg);' : null)}
+  transform: ${({ open }: LProps) => (open ? 'rotateX(180deg)' : null)};
   padding-right: 15px;
   @media (max-width: ${device.mobile}) {
-    display: none;
+    display: ${({ display }: LProps) => (display ? null : 'none')};
   }
 `;

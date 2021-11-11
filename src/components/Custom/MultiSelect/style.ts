@@ -55,11 +55,11 @@ export const NewSelect = styled(Select)`
   }
   [class$='-placeholder'] {
     font-weight: ${({ selectStyle }: Props) =>
-      selectStyle?.placewieght ? selectStyle?.placewieght : 'normal'};
+      selectStyle?.placewieght ? selectStyle?.placewieght : '500'};
     color: ${({ selectStyle }: Props) =>
       selectStyle?.placeholdercolor
         ? selectStyle?.placeholdercolor
-        : 'red'} !important;
+        : ' #A5A5A5'} !important;
   }
 
   [class$='ValueContainer'],
@@ -133,7 +133,7 @@ export const NewSelect = styled(Select)`
   }
   [class$='ValueContainer'] {
     padding: ${({ selectStyle }: Props) =>
-      selectStyle?.inpadding ? selectStyle?.inpadding : '2px 40px'}!important;
+      selectStyle?.inpadding ? selectStyle?.inpadding : '2px 20px'}!important;
   }
   .css-xb97g8 {
     & > svg {

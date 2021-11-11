@@ -198,7 +198,22 @@ const Payment = () => {
               }}
               value={date.startDate}
               onChange={(e: any) => {
-                setDate({ ...date, startDate: e.target.value });
+                const d = new Date(e.target.value);
+                const isafter = moment(d).isAfter(moment(date.endDate));
+                if (isafter) {
+                  const a: any = moment(e.target.value, 'YYYY-MM-DD').add(
+                    1,
+                    'days'
+                  );
+                  let b: any = moment(a._d).format('YYYY-MM-DD');
+                  setDate({
+                    endDate: b,
+                    startDate: e.target.value,
+                  });
+                } else {
+                  setDate({ ...date, startDate: e.target.value });
+                }
+
                 setDateLimit({ ...dateLimit, startDate: e.target.value });
               }}
             />
@@ -215,7 +230,21 @@ const Payment = () => {
               min={dateLimit.startDate}
               value={date.endDate}
               onChange={(e: any) => {
-                setDate({ ...date, endDate: e.target.value });
+                const d = new Date(e.target.value);
+                const isafter = moment(d).isBefore(moment(date.startDate));
+                if (isafter) {
+                  const a: any = moment(e.target.value, 'YYYY-MM-DD').add(
+                    -1,
+                    'days'
+                  );
+                  let b: any = moment(a._d).format('YYYY-MM-DD');
+                  setDate({
+                    startDate: b,
+                    endDate: e.target.value,
+                  });
+                } else {
+                  setDate({ ...date, endDate: e.target.value });
+                }
                 setDateLimit({ ...dateLimit, endDate: e.target.value });
               }}
             />

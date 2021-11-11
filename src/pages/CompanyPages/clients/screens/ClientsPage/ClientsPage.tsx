@@ -14,6 +14,9 @@ import { useAppSelector } from 'services/redux/hooks';
 import { useWindowSize } from '../../hooks/useWindowSize';
 import { DownBar } from '../../components/DownBar';
 import { Form } from '../../components/Form';
+import { MobileQrBar } from '../../components/MobileQrBar';
+import { useMutation, useQuery } from 'react-query';
+import { fetchPersonalInfo } from 'services/queries/clientsQuery';
 
 
 
@@ -28,13 +31,17 @@ const ClientsPage = () => {
 	})
 	const { refetch, isFetching } = useFetchClients({ query: debouncedQuery });
 
+
 	return (
-		<MainWrapper>
+		<MainWrapper isRelative={width > 600}>
 			{width <= 600 &&
-				<Form
-					action={form.action}
-					isOpen={form.isOpen}
-					handleClose={setForm} />}
+				<>
+					<Form
+						action={form.action}
+						isOpen={form.isOpen}
+						handleClose={setForm} />
+					<MobileQrBar />
+				</>}
 			<Container>
 				<Header setQuery={setQuery} query={query} />
 				<Wrap>

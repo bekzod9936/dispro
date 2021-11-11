@@ -26,11 +26,33 @@ export const UpSide = styled.div`
     align-items: center;
     justify-content: space-between;
     margin-bottom: 15px;
-    img {
+    .imageBlock {
+        position: relative;
         width: 100px;
         height: 100px;
-        border-radius: 14px;
+        img {
+            width: 100px;
+            height: 100px;
+            border-radius: 14px;
 
+        }
+        .blocked {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            bottom: 0;
+            right: -5px;
+            bottom: -2px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+            background: #F1F4F6;
+            svg {
+                width: 12px;
+                height: 14px
+            }
+        }
     }
     
 `

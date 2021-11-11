@@ -163,6 +163,16 @@ const CreateCashier = ({ openCash }: IProps) => {
 								render={({ field }) => {
 									return (
 										<MultiSelect
+											icon={<Market />}
+											selectStyle={{
+												bgcolor: '#eff0fd',
+												border: 'none',
+												placeholdercolor: '#223367',
+												inpadding: '2px 10px 2px 60px',
+												placewieght: '500',
+											}}
+											iconleft={'20px'}
+											icondowncolor='#C4C4C4'
 											options={branches}
 											isMulti={false}
 											label={t('choose_branch')}

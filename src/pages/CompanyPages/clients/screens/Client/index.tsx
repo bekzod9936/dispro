@@ -16,21 +16,36 @@ import Button from 'components/Custom/Button'
 import { DownModal } from './components/DownModal'
 import { selectAll } from 'services/redux/Slices/clients'
 import { Form } from '../../components/Form'
+import { useQuery } from 'react-query'
+import { fetchPersonalInfo } from 'services/queries/clientsQuery'
+import { BlockModal } from '../../components/BlockModal'
 
 const Client = () => {
-    const { selectedClients } = useAppSelector(state => state.clients)
+    const { selectedClients, period: { endDate, startDate } } = useAppSelector(state => state.clients)
     const client = selectedClients[0]
     const history = useHistory()
     const { routes } = useClientRoutes()
     const { width } = useWindowSize()
     const { t } = useTranslation()
+    const [blockModal, setBlockModal] = useState(false)
     const [isOpen, setIsOpen] = useState(false)
     const [modalContent, setModalContent] = useState<"points" | "other">("points")
     const [form, setForm] = useState({
         action: 1,
         isOpen: false
     })
+
     const dispatch = useAppDispatch()
+    const response = useQuery("fetch", () => fetchPersonalInfo({
+        clientUserId: client.userId,
+        clientId: client.id,
+        startDate,
+        endDate
+    }), {
+        retry: 0,
+        refetchOnWindowFocus: false,
+    })
+
 
     const handleClose = () => {
         dispatch(selectAll(false))
@@ -99,9 +114,11 @@ const Client = () => {
         return (
             <Wrapper>
                 <UpSide>
-                    <ClientBlock {...client} />
+                    <ClientBlock
+                        client={client}
+                        setBlockModal={setBlockModal} />
                     <InfoBlock {...client} />
-                    <Recommendation />
+                    <Recommendation referLevels={response?.data?.data?.data?.childReferalClientsByLevel} />
                 </UpSide>
                 <MiddleSide>
                     {statistics.map((el, index) => (
@@ -118,6 +135,10 @@ const Client = () => {
                         </Suspense>
                     </Switch>
                 </DownSide>
+                <BlockModal
+                    isBlocking={!client.isPlBlocked}
+                    handleClose={setBlockModal}
+                    isOpen={blockModal} />
             </Wrapper>
         )
     } else {

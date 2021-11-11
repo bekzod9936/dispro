@@ -48,7 +48,12 @@ const Suggestions = () => {
       col1: date,
       col2: `${v?.firstName}  ${v?.lastName}`,
       col3: v?.amount,
-      col4: v?.couponName,
+      col4:
+        v?.couponType === 1
+          ? t('summoney')
+          : v?.couponType === 2
+          ? t('sale')
+          : '-',
       col5: v?.amountPartner,
       col6: v?.disCommission,
       col7: v?.couponName,

@@ -17,14 +17,18 @@ import useAddress from './useAddress';
 import useInfoPage from '../useInfoPage';
 import useLayout from 'components/Layout/useLayout';
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
-import { setAddressAdding } from 'services/redux/Slices/info/info';
+import SaveButton from '../../components/Buttons/SaveButton';
+import ExitButton from '../../components/Buttons/ExitButton';
+import {
+  setAddressAdding,
+  setExitModal,
+} from 'services/redux/Slices/info/info';
 import {
   Container,
   Rightside,
   YandexContainer,
   Form,
   LeftSide,
-  SaveIcon,
   MobileMap,
   PlusIcon,
   SearchIcon,
@@ -39,8 +43,6 @@ import {
   Number,
   AddWrap,
   WrapInput,
-  ExitIcon,
-  ButtonWrap,
   ButtonsWrap,
   Ul,
   Li,
@@ -471,6 +473,25 @@ const Address = () => {
     }
   };
 
+  useEffect(() => {
+    if (!fill) {
+      setOpen(false);
+      setMapAddress({ name: '' });
+      setValue('address', '');
+      yandexRef?.setCenter([41.32847446609404, 69.24298268717716], 10);
+      setSearchAddress('');
+      setValue('addressDesc', '');
+      setValue('name', '');
+      setValue('telNumbers', [{ number: '+998' }]);
+      setEdit(true);
+      setValue('regionId', 0);
+      setPlace(['']);
+      setworkingTime({ aroundTheClock: false, work: defaultTime });
+      setIsMain(!data.filledAddress);
+      dispatch(setAddressAdding(true));
+    }
+  }, [fill]);
+
   return (
     <Container>
       {open ? (
@@ -604,221 +625,210 @@ const Address = () => {
             </WrapClose>
           )}
           <LeftSide>
-            <Title>{t('Address')}</Title>
-            <Text>{t('enterLocationText')}</Text>
-            <WrapAddress>
-              <WrapSearch>
-                <Input
-                  label={t('enterLocation')}
-                  margin={{
-                    laptop: '20px 0 25px',
-                  }}
-                  onChange={(e) => {
-                    setValue('address', e.target.value);
-                    if (!e.target.value) setSearchaddressList([]);
-                    setSearchAddress(e.target.value);
-                  }}
-                  onFocus={() => setIsSearchInputFocus(true)}
-                  value={searchAddress}
-                  autoComplete='off'
-                  type='search'
-                />
-                <Ul
-                  visable={searchAddressList.length !== 0 && isSearchInputFocus}
-                >
-                  {searchAddressList?.map((v: any) => (
-                    <Li onClick={() => searchSelectedAddress(v)}>
-                      {v?.GeoObject.name}
-                    </Li>
-                  ))}
-                </Ul>
-              </WrapSearch>
-              <WrapLocationAddress>
-                <Title>{t('selectedaddress')}</Title>
-                <span>
-                  {place[0] !== '' && place[1] !== '' ? mapAddress.name : null}
-                  {mapError ? <Message>{t('showinmap')}</Message> : null}
-                </span>
-              </WrapLocationAddress>
-            </WrapAddress>
-            <MobileMap>
-              <YandexContainer bcolor={mapError}>
-                <YandexMap
-                  onBoundsChange={onBoundsChange}
-                  handleRef={(e: any) => setYandexRef(e)}
-                  place={place}
-                  onClickPlaceMark={onClickPlace}
-                  placeOptions={palceOptions}
-                />
-              </YandexContainer>
-            </MobileMap>
-            <Title>{t('addressClarification')}</Title>
-            <Text>{t('enterOrientationText')}</Text>
-            <Controller
-              name='addressDesc'
-              control={control}
-              rules={{ required: true }}
-              defaultValue=''
-              render={({ field }) => (
-                <Input
-                  label={t('enterOrientation')}
-                  error={errors.addressDesc ? true : false}
-                  message={t('requiredField')}
-                  type='text'
-                  field={field}
-                  margin={{
-                    laptop: '20px 0 25px',
-                  }}
-                />
-              )}
-            />
-            {isMain ? null : (
-              <>
-                <Title>{t('filialName')}</Title>
-                <Text>{t('enterTitleText')}</Text>
-                <Controller
-                  name='name'
-                  control={control}
-                  rules={{ required: true }}
-                  defaultValue=''
-                  render={({ field }) => (
-                    <Input
-                      label={t('enterTitle')}
-                      error={errors.name ? true : false}
-                      message={t('requiredField')}
-                      field={field}
-                      margin={{
-                        laptop: '20px 0 25px',
-                      }}
-                    />
-                  )}
-                />
-              </>
-            )}
-
-            <ul style={{ listStyle: 'none' }}>
-              {fields.map((item, index) => {
-                return (
-                  <li key={item?.id}>
-                    <Controller
-                      name={`telNumbers.${index}.number`}
-                      rules={{ required: true, maxLength: 13, minLength: 13 }}
-                      control={control}
-                      defaultValue={values.telNumbers?.[index]?.number}
-                      render={({ field }) => (
-                        <Input
-                          label={t('phoneNumber')}
-                          type='text'
-                          field={field}
-                          margin={{
-                            laptop: '20px 0 10px',
-                          }}
-                          message={t('requiredField')}
-                          error={
-                            errors.telNumbers?.[index]?.number ? true : false
-                          }
-                          IconEnd={
-                            index === 0 ? null : (
-                              <IconButton
-                                style={{ marginRight: '15px' }}
-                                onClick={() => remove(index)}
-                              >
-                                <DeleteIcon />
-                              </IconButton>
-                            )
-                          }
-                          maxLength={13}
-                        />
-                      )}
-                    />
-                  </li>
-                );
-              })}
-            </ul>
-            <Button
-              buttonStyle={{
-                color: '#3492FF',
-                bgcolor: 'transparent',
-              }}
-              onClick={() => {
-                append({ number: '+998' });
-              }}
-              padding={{ laptop: '0' }}
-              margin={{
-                laptop: '10px 0 0',
-              }}
-            >
-              {t('addPhoneNumber')}
-            </Button>
-            <Title>{t('workingHours')}</Title>
-            <WorkingHours workingTime={workingTime} getTime={getTime} />
-            {workError === false && showWork ? (
-              <Message>{t('requiredField')}</Message>
-            ) : null}
-            <ButtonsWrap>
-              {fill ? null : (
-                <ButtonWrap>
-                  <Button
-                    buttonStyle={{
-                      bgcolor: 'rgba(96, 110, 234, 0.1)',
-                      weight: '500',
-                      radius: 12,
-                      color: '#606EEA',
+            <div>
+              <Title>{t('Address')}</Title>
+              <Text>{t('enterLocationText')}</Text>
+              <WrapAddress>
+                <WrapSearch>
+                  <Input
+                    label={t('enterLocation')}
+                    margin={{
+                      laptop: '20px 0 25px',
                     }}
+                    onChange={(e) => {
+                      setValue('address', e.target.value);
+                      if (!e.target.value) setSearchaddressList([]);
+                      setSearchAddress(e.target.value);
+                    }}
+                    onFocus={() => setIsSearchInputFocus(true)}
+                    value={searchAddress}
+                    autoComplete='off'
+                    type='search'
+                  />
+                  <Ul
+                    visable={
+                      searchAddressList.length !== 0 && isSearchInputFocus
+                    }
+                  >
+                    {searchAddressList?.map((v: any) => (
+                      <Li onClick={() => searchSelectedAddress(v)}>
+                        {v?.GeoObject.name}
+                      </Li>
+                    ))}
+                  </Ul>
+                </WrapSearch>
+                <WrapLocationAddress>
+                  <Title>{t('selectedaddress')}</Title>
+                  <span>
+                    {place[0] !== '' && place[1] !== ''
+                      ? mapAddress.name
+                      : null}
+                    {mapError ? <Message>{t('showinmap')}</Message> : null}
+                  </span>
+                </WrapLocationAddress>
+              </WrapAddress>
+              <MobileMap>
+                <YandexContainer bcolor={mapError}>
+                  <YandexMap
+                    onBoundsChange={onBoundsChange}
+                    handleRef={(e: any) => setYandexRef(e)}
+                    place={place}
+                    onClickPlaceMark={onClickPlace}
+                    placeOptions={palceOptions}
+                  />
+                </YandexContainer>
+              </MobileMap>
+              <Title>{t('addressClarification')}</Title>
+              <Text>{t('enterOrientationText')}</Text>
+              <Controller
+                name='addressDesc'
+                control={control}
+                rules={{ required: true }}
+                defaultValue=''
+                render={({ field }) => (
+                  <Input
+                    label={t('enterOrientation')}
+                    error={errors.addressDesc ? true : false}
+                    message={t('requiredField')}
+                    type='text'
+                    field={field}
+                    margin={{
+                      laptop: '20px 0 25px',
+                    }}
+                  />
+                )}
+              />
+              {isMain ? null : (
+                <>
+                  <Title>{t('filialName')}</Title>
+                  <Text>{t('enterTitleText')}</Text>
+                  <Controller
+                    name='name'
+                    control={control}
+                    rules={{ required: true }}
+                    defaultValue=''
+                    render={({ field }) => (
+                      <Input
+                        label={t('enterTitle')}
+                        error={errors.name ? true : false}
+                        message={t('requiredField')}
+                        field={field}
+                        margin={{
+                          laptop: '20px 0 25px',
+                        }}
+                      />
+                    )}
+                  />
+                </>
+              )}
+
+              <ul style={{ listStyle: 'none' }}>
+                {fields.map((item, index) => {
+                  return (
+                    <li key={item?.id}>
+                      <Controller
+                        name={`telNumbers.${index}.number`}
+                        rules={{
+                          required: true,
+                          maxLength: 13,
+                          minLength: 13,
+                        }}
+                        control={control}
+                        defaultValue={values.telNumbers?.[index]?.number}
+                        render={({ field }) => (
+                          <Input
+                            label={t('phoneNumber')}
+                            type='text'
+                            field={field}
+                            margin={{
+                              laptop: '20px 0 10px',
+                            }}
+                            message={t('requiredField')}
+                            error={
+                              errors.telNumbers?.[index]?.number ? true : false
+                            }
+                            IconEnd={
+                              index === 0 ? null : (
+                                <IconButton
+                                  style={{ marginRight: '15px' }}
+                                  onClick={() => remove(index)}
+                                >
+                                  <DeleteIcon />
+                                </IconButton>
+                              )
+                            }
+                            maxLength={13}
+                          />
+                        )}
+                      />
+                    </li>
+                  );
+                })}
+              </ul>
+              <Button
+                buttonStyle={{
+                  color: '#3492FF',
+                  bgcolor: 'transparent',
+                }}
+                onClick={() => {
+                  append({ number: '+998' });
+                }}
+                padding={{ laptop: '0' }}
+                margin={{
+                  laptop: '10px 0 0',
+                }}
+              >
+                {t('addPhoneNumber')}
+              </Button>
+              <Title>{t('workingHours')}</Title>
+              <WorkingHours workingTime={workingTime} getTime={getTime} />
+              {workError === false && showWork ? (
+                <Message>{t('requiredField')}</Message>
+              ) : null}
+              <ButtonsWrap>
+                {fill ? null : (
+                  <ExitButton
+                    onClick={() => dispatch(setExitModal(true))}
                     margin={{
                       laptop: '20px 10px 0',
                       mobile: '10px 10px 0 0',
                     }}
-                    onClick={() => {
-                      setOpen(true);
-                    }}
-                  >
-                    {t('quit')}
-                    <ExitIcon />
-                  </Button>
-                </ButtonWrap>
-              )}
-
-              <Button
-                buttonStyle={{
-                  shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)',
-                  weight: '500',
-                }}
-                margin={{
-                  laptop: '20px 0 0',
-                  mobile: '10px 0 0 0',
-                }}
-                type='submit'
-                disabled={
-                  addressPut.isLoading ||
-                  mainPut.isLoading ||
-                  addressPost.isLoading
-                }
-                onClick={handleSaveClick}
-              >
-                <SaveIcon />
-                {t('save')}
-              </Button>
-              {isMain || edit ? null : (
-                <Button
-                  buttonStyle={{
-                    shadow: '0px 4px 9px rgba(255, 94, 104, 0.46)',
-                    weight: '500',
-                    bgcolor: '#FF5E68',
-                    color: '#FFFFFF',
-                  }}
+                    mobile={true}
+                  />
+                )}
+                <SaveButton
+                  onClick={() => handleSaveClick()}
+                  disabled={
+                    addressPut.isLoading ||
+                    mainPut.isLoading ||
+                    addressPost.isLoading
+                  }
                   margin={{
-                    laptop: '20px 0 0 20px',
-                    mobile: '10px 0 0 10px',
+                    laptop: '20px 0 0',
+                    mobile: '10px 0 0 0',
                   }}
-                  disabled={addressDelete.isLoading}
-                  type='button'
-                  onClick={handleDeleteFilial}
-                >
-                  {t('deletefilial')}
-                </Button>
-              )}
-            </ButtonsWrap>
+                />
+                {isMain || edit ? null : (
+                  <Button
+                    buttonStyle={{
+                      shadow: '0px 4px 9px rgba(255, 94, 104, 0.46)',
+                      weight: '500',
+                      bgcolor: '#FF5E68',
+                      color: '#FFFFFF',
+                    }}
+                    margin={{
+                      laptop: '20px 0 0 20px',
+                      mobile: '10px 0 0 10px',
+                    }}
+                    disabled={addressDelete.isLoading}
+                    type='button'
+                    onClick={handleDeleteFilial}
+                  >
+                    {t('deletefilial')}
+                  </Button>
+                )}
+              </ButtonsWrap>
+            </div>
           </LeftSide>
         </Form>
       )}

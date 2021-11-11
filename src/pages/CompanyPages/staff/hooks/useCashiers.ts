@@ -6,6 +6,7 @@ import {
   getCashiers,
   searchCashiers,
   createCashier,
+  editStaff,
 } from "services/queries/staffQuery";
 import { useAppDispatch } from "services/redux/hooks";
 import {
@@ -14,12 +15,24 @@ import {
   setOpenCash,
   setSelectedCashiers,
   setSelectedManagers,
+  setOpenEditCashier,
 } from "services/redux/Slices/staffs";
 import { numberWith } from "services/utils";
 
 const useCashiers = ({ page, query, period }: any) => {
   const [open, setOpen] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
   const dispatch = useAppDispatch();
+
+
+    //edit
+	const editCashier = useMutation((data: any) => editStaff(data), {
+		onSuccess: () => {
+		  setOpenEdit(false);
+		  dispatch(setOpenEditCashier(false));
+		  response.refetch();
+		},
+	  });
 
   const response = useQuery(
     ["cashiers", page, query, period],
@@ -86,6 +99,7 @@ const useCashiers = ({ page, query, period }: any) => {
     open,
     setOpen,
     createCash,
+	editCashier,
   };
 };
 

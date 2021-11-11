@@ -21,16 +21,25 @@ const useSecurity = () => {
   const { refetch } = useQuery(["safeties"], fetchSafeties, {
     retry: 0,
     refetchOnWindowFocus: false,
-    onSuccess: (data: any) => {
+    onSuccess: async (data: any) => {
       setValue("suspendedSum", false);
       setValue("second", 0);
 
-      if (data?.data?.data?.safeties?.daily_purchase_limit) {
-        setValue("first", data?.data?.data?.safeties?.daily_purchase_limit);
-        setValue("suspendedClient", true);
+      const safeties = await data?.data?.data?.safeties;
+
+      console.log(data.data.data);
+      if (safeties?.daily_purchase_limit) {
+        setValue("first", safeties?.daily_purchase_limit);
+        setValue("suspendedClient", data?.data?.data?.isEnabledPurchaseLimit);
       } else {
         setValue("first", 0);
-        setValue("suspendedClient", false);
+      }
+
+      if (safeties?.pay_sum_limit) {
+        setValue("second", safeties?.pay_sum_limit);
+        setValue("suspendedSum", data?.data?.data?.isEnabledPaySumLimit);
+      } else {
+        setValue("second", 0);
       }
     },
   });
@@ -45,12 +54,15 @@ const useSecurity = () => {
     }
   );
 
-  const onFormSubmit = (data: any) => {
+  const onFormSubmit = (data: IForm) => {
     console.log(data, "data submitted");
     changeSecurity.mutate({
       safeties: {
         daily_purchase_limit: +data.first,
+        pay_sum_limit: +data.second,
       },
+      isEnabledPurchaseLimit: data.suspendedClient,
+      isEnabledPaySumLimit: data.suspendedSum,
     });
   };
 

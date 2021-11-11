@@ -1,9 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IInfo } from './types';
+import { IInfo, IAccounts } from './types';
 
 interface Props {
   data?: IInfo;
   addressAdding?: boolean;
+  exitmodal?: boolean;
+  accounts?: IAccounts[];
+  balance?: number;
+  limit?: number;
 }
 
 export const initialState: Props = {
@@ -40,6 +44,10 @@ export const initialState: Props = {
     workingTime: { aroundTheClock: false, work: [] },
   },
   addressAdding: false,
+  exitmodal: false,
+  accounts: [],
+  balance: 0,
+  limit: 0,
 };
 
 const info = createSlice({
@@ -52,8 +60,27 @@ const info = createSlice({
     setAddressAdding: (state, action: PayloadAction<boolean>) => {
       state.addressAdding = action.payload;
     },
+    setExitModal: (state, action: PayloadAction<boolean>) => {
+      state.exitmodal = action.payload;
+    },
+    setBalance: (state, action: PayloadAction<number>) => {
+      state.balance = action.payload;
+    },
+    setLimit: (state, action: PayloadAction<number>) => {
+      state.limit = action.payload;
+    },
+    setAccounts: (state, action: PayloadAction<IAccounts[]>) => {
+      state.accounts = action.payload;
+    },
   },
 });
 
-export const { setInfoData, setAddressAdding } = info.actions;
+export const {
+  setInfoData,
+  setAddressAdding,
+  setExitModal,
+  setAccounts,
+  setLimit,
+  setBalance,
+} = info.actions;
 export default info.reducer;

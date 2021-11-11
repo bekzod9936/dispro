@@ -1,6 +1,8 @@
 import { memo, useState } from "react";
 import QRCode from "qrcode.react";
-
+import { IProps } from "./types";
+import { downloadQR } from "./utils";
+import useWindowWidth from "services/hooks/useWindowWidth";
 import { Text } from "styles/CustomStyles";
 import Popover from "components/Custom/Popover";
 import {
@@ -9,29 +11,20 @@ import {
   QeaderHeaderRow,
   QrContainer,
   OptionDiv,
+  QrImg,
 } from "./style";
 import { Break } from "../../../styles/index";
 import { OptionsList, OptionsListItem } from "styles/CustomStyles";
 import { useTranslation } from "react-i18next";
-import { COLORS, FONT_SIZE } from "services/Types/enums";
+import { COLORS } from "services/Types/enums";
 import Button from "components/Custom/Button";
 import {
   DownloadIcon,
   ScrapperIcon,
   ThreeDotsIcon,
 } from "assets/icons/SettingsIcons/SettingsPageIcon";
-import RippleEffect from "components/Custom/RippleEffect";
 import { copyToClipboard } from "services/utils";
-
-interface IProps {
-  item: any;
-  index: number;
-  optionsOpen: number | string;
-  handleEditClick: any;
-  handleDeleteClick: any;
-  handleOption: any;
-  setId: any;
-}
+import { IconButton } from "@material-ui/core";
 
 const QrCodeCard = ({
   item,
@@ -41,6 +34,7 @@ const QrCodeCard = ({
   handleOption,
   setId,
 }: IProps) => {
+  const { width } = useWindowWidth();
   const { t } = useTranslation();
   const [closeMenu, setCloseMenu] = useState<any>();
 
@@ -49,20 +43,24 @@ const QrCodeCard = ({
     handleOption(item);
   };
 
-  const downloadQR = () => {
+  const downloadQrCode = () => {
     const canvas = document.getElementById(
       `referral-qr-code-${index}`
     ) as HTMLCanvasElement;
-    const pngUrl = canvas
-      ?.toDataURL("image/png")
-      .replace("image/png", "image/octet-stream");
-    let downloadLink = document.createElement("a");
-    downloadLink.href = pngUrl;
-    downloadLink.download = "qr-code.png";
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-    document.body.removeChild(downloadLink);
+    downloadQR(canvas);
   };
+
+  const qrSize = () => {
+    if (width <= 600) {
+      return 200;
+    } else if (width > 600 && width <= 1000) {
+      return 180;
+    } else {
+      return 150;
+    }
+  };
+
+  console.log(width, "width");
 
   return (
     <QrCard>
@@ -70,15 +68,12 @@ const QrCodeCard = ({
         <div>
           <Text fontSize="18px">{item.source}</Text>
         </div>
-        {/* <div onClick={handleOption}>
-          <ThreeDotsIcon />
-        </div> */}
 
         <Popover
           click={
-            <RippleEffect padding={0}>
+            <IconButton>
               <ThreeDotsIcon />
-            </RippleEffect>
+            </IconButton>
           }
           anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
           transformOrigin={{ horizontal: "left", vertical: "top" }}
@@ -129,23 +124,26 @@ const QrCodeCard = ({
         </Popover>
       </QeaderHeaderRow>
       <QrRow>
-        <div>
+        <QrImg>
           <QRCode
             id={`referral-qr-code-${index}`}
             value={item.dynLinkToken}
-            size={150}
+            size={qrSize()}
             bgColor="#FFFFFF"
             fgColor="#000000"
             level={"H"}
           />
-        </div>
+        </QrImg>
 
         <QrContainer>
           <Button
             buttonStyle={{
               color: "#fff",
             }}
-            onClick={() => downloadQR()}
+            width={{
+              width: "60%",
+            }}
+            onClick={() => downloadQrCode()}
             startIcon={<DownloadIcon />}
           >
             {t("downloadPNG")}
@@ -160,6 +158,10 @@ const QrCodeCard = ({
                 laptop: 13,
               },
             }}
+            width={{
+              width: "90%",
+            }}
+            fullWidth={true}
             onClick={() => {
               copyToClipboard(item?.dynLinkToken);
             }}

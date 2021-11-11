@@ -1,17 +1,13 @@
-import Button from "components/Custom/Button";
 import Modal from "components/Custom/Modal";
 import Input from "components/Custom/Input";
 import { useTranslation } from "react-i18next";
-
-//styles
-import { ModalComponent, Text } from "styles/CustomStyles";
-import { FONT_SIZE, FONT_WEIGHT } from "services/Types/enums";
-import { Flex } from "styles/BuildingBlocks";
 import { BtnAction } from "../styles/index";
 //icons
-import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
-import { SaveIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
-import { DeleteIconWhite } from "assets/icons/SettingsIcons/SettingsPageIcon";
+
+import { MContent, ModalTitle, ModalCText, Break, ActMaxDiv } from "./style";
+import CancelButton from "pages/CompanyPages/settings/components/CancelButton";
+import DeleteButton from "pages/CompanyPages/settings/components/DeleteButton";
+import SaveButton from "pages/CompanyPages/settings/components/SaveButton";
 
 const QrActionModal = ({
   modalVisible,
@@ -25,23 +21,18 @@ const QrActionModal = ({
 
   return (
     <Modal open={modalVisible}>
-      <ModalComponent>
+      <MContent>
         {state === "edit" || state === "create" ? (
           <>
-            <div>
-              <Text fontSize="21px" fontWeight={700}>
-                {t("create_promocode")}
-              </Text>
-            </div>
-            <div style={{ margin: "10px 0px 0px 0px", maxWidth: "380px" }}>
-              <Text
-                fontSize={FONT_SIZE.mediumPlus}
-                fontWeight={FONT_WEIGHT.modalText}
-              >
+            <ModalTitle>QR для подписки на компанию</ModalTitle>
+            <Break mHeight={10} />
+            <ActMaxDiv>
+              <ModalCText>
                 Для удобства, назовите QR, местом где вы собираетесь его
                 использовать.
-              </Text>
-            </div>
+              </ModalCText>
+            </ActMaxDiv>
+            <Break mHeight={20} />
             <div style={{ width: "100%" }}>
               <Input
                 width={{ minwidth: 350 }}
@@ -49,57 +40,32 @@ const QrActionModal = ({
                 onChange={(e: any) => setCurrentName(e.target.value)}
               />
             </div>
-            <Flex width="100%" margin="25px 0px 0px 100px" justifyContent="end">
-              <Button
-                startIcon={<CancelIcon />}
-                buttonStyle={{ bgcolor: "#fff" }}
+            <BtnAction>
+              <CancelButton
                 onClick={() => {
                   setModalVisible(false);
                   setCurrentName("");
                 }}
-              >
-                <Text color="#223367">{t("cancel")}</Text>
-              </Button>
-              <Button
-                startIcon={<SaveIcon />}
-                onClick={handleSavePromocode}
-                buttonStyle={{
-                  color: "#fff",
-                }}
-              >
-                {t("save")}
-              </Button>
-            </Flex>
+                text={t("cancel")}
+              />
+              <SaveButton text={t("save")} onClick={handleSavePromocode} />
+            </BtnAction>
           </>
         ) : (
           <>
             <div style={{ maxWidth: "300px" }}>
-              <Text fontSize={FONT_SIZE.mediumPlus}>
-                {t("sure_want_delete?")}
-              </Text>
+              <ModalTitle>{t("sure_want_delete?")}</ModalTitle>
             </div>
             <BtnAction>
-              <Button
-                startIcon={<CancelIcon />}
-                buttonStyle={{ bgcolor: "white", color: "#223367" }}
+              <CancelButton
+                text={t("cancel")}
                 onClick={() => setModalVisible(false)}
-              >
-                {t("cancel")}
-              </Button>
-              <Button
-                buttonStyle={{
-                  bgcolor: "rgba(255, 94, 104, 1)",
-                  color: "#fff",
-                }}
-                onClick={handleDelete}
-                endIcon={<DeleteIconWhite />}
-              >
-                {t("delete")}
-              </Button>
+              />
+              <DeleteButton onClick={handleDelete} text={t("delete")} />
             </BtnAction>
           </>
         )}
-      </ModalComponent>
+      </MContent>
     </Modal>
   );
 };

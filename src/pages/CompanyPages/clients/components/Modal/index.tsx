@@ -7,7 +7,6 @@ import {
   CancelIcon,
   CoinsIconWhite,
   MinusCoinsIconWhite,
-  TickIconButton,
 } from "assets/icons/ClientsPageIcons/ClientIcons";
 import { useMutation } from "react-query";
 import { changeVipPercent } from "../../../../../services/queries/clientsQuery";
@@ -36,6 +35,7 @@ export const MModal = ({
 }: IProps) => {
   const client = clients[0];
   const [percent, setPercent] = React.useState<number>(0);
+
   const getIcon = (action: string) => {
     switch (action) {
       case "addCoins": {
@@ -43,9 +43,6 @@ export const MModal = ({
       }
       case "removeCoins": {
         return <MinusCoinsIconWhite />;
-      }
-      case "vip": {
-        return <TickIconButton />;
       }
       default:
         return null;
@@ -56,13 +53,7 @@ export const MModal = ({
     handleOpen(false);
   };
 
-  const mutation = useMutation(() => {
-    return changeVipPercent({
-      clientId: client.id,
-      isActive: true,
-      percent,
-    });
-  });
+
 
   React.useEffect(() => {
     if (client) {
@@ -72,11 +63,8 @@ export const MModal = ({
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    if (clients.length <= 1) {
-      await mutation.mutate();
-      await refetch();
-      handleOpen(false);
-    }
+    handleOpen(false);
+    await refetch();
   };
 
   return (

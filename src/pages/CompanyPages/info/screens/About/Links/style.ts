@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { device } from 'styles/device';
 import { ReactComponent as Close } from 'assets/icons/SideBar/close.svg';
 import { ReactComponent as Delete } from 'assets/icons/IconsInfo/delete.svg';
 
@@ -12,19 +13,27 @@ export const WrapLinkIcon = styled.div`
   border-radius: 14px;
   width: 40px;
   height: 40px;
-  margin: 15px 20px 0 0;
+
+  @media (max-width: ${device.mobile}) {
+    width: 33px;
+    height: 33px;
+    border-radius: 12px;
+  }
 `;
 
 export const ModelContent = styled.div`
   min-width: 400px;
   padding: 20px;
+  @media (max-width: ${device.mobile}) {
+    min-width: 290px;
+  }
 `;
 
 export const ModalWrap = styled.div`
   display: flex;
   align-items: center;
   margin-top: 20px;
-  justify-content: flex-end;
+  justify-content: center;
 `;
 
 export const CloseIcon = styled(Close)`
@@ -38,15 +47,25 @@ export const DeleteIcon = styled(Delete)`
 export const WrapLink = styled.div`
   display: flex;
   align-items: center;
-  font-weight: normal;
-  font-size: 16px;
-  line-height: 19px;
-  color: #223367;
+
+  div:last-child {
+    font-weight: normal;
+    font-size: 16px;
+    color: #223367;
+    margin-left: 20px;
+  }
+  @media (max-width: ${device.mobile}) {
+    div:last-child {
+      font-size: 14px;
+      margin-left: 15px;
+    }
+  }
 `;
 export const WrapSocial = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding-top: 15px;
 `;
 
 export const ValueStyle = styled.div`

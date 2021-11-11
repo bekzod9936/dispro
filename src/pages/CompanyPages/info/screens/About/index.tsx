@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import Input from 'components/Custom/Input';
-import Button from 'components/Custom/Button';
 import Links from './Links';
 import Spinner from 'components/Custom/Spinner';
 import { Text, Title } from '../../style';
@@ -14,7 +13,9 @@ import useInfoPage from '../useInfoPage';
 import useAbout from './useAbout';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { inputPhoneNumber } from 'utilities/inputFormat';
-import { useAppSelector } from 'services/redux/hooks';
+import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
+import SaveButton from '../../components/Buttons/SaveButton';
+import ExitButton from '../../components/Buttons/ExitButton';
 import {
   Container,
   UpSide,
@@ -34,8 +35,6 @@ import {
   WrapTrash,
   Form,
   DownSide,
-  SaveIcon,
-  CloseIcon,
   WebLink,
   WrapWebLink,
   WebValue,
@@ -44,8 +43,9 @@ import {
   DeleteIcon,
   Message,
   ForExample,
+  WrapPhoto,
 } from './style';
-import useWindowWidth from 'services/hooks/useWindowWidth';
+import { setExitModal } from 'services/redux/Slices/info/info';
 
 interface FormProps {
   telNumber?: string;
@@ -68,8 +68,9 @@ interface socialProps {
 const Main = () => {
   const { t } = useTranslation();
   const history = useHistory();
+  const dispatch = useAppDispatch();
+
   const { response, data } = useInfoPage();
-  const { width } = useWindowWidth();
   const companyId: any = localStorage.getItem('companyId');
   const {
     resCategory,
@@ -86,8 +87,6 @@ const Main = () => {
   const { resHeader } = useLayout({ id: companyId });
 
   const [errorLogo, setErrorLogo] = useState(false);
-
-  const [, setOpen] = useState(false);
   const [defMulti, setDefMulti] = useState<any>([]);
   const [categories, setCategories] = useState<any>([]);
   const [logo, setLogo] = useState<any>('');
@@ -361,27 +360,29 @@ const Main = () => {
                       {t('upload_photo')} <PhotoLoadingIcon />
                     </LabelLoading>
                   ) : (
-                    <PhotoWrap
-                      onClick={async () => {
-                        await handlePhotoDelete();
-                        await setLogo('');
-                      }}
-                    >
-                      <LazyLoadImage
-                        alt='image'
-                        src={logo}
-                        height='100%'
-                        width='100%'
-                        style={{
-                          objectFit: 'scale-down',
-                          borderRadius: '14px',
+                    <WrapPhoto>
+                      <PhotoWrap
+                        onClick={async () => {
+                          await handlePhotoDelete();
+                          await setLogo('');
                         }}
-                        effect='blur'
-                      />
-                      <WrapTrash>
-                        <TrashIcon />
-                      </WrapTrash>
-                    </PhotoWrap>
+                      >
+                        <LazyLoadImage
+                          alt='image'
+                          src={logo}
+                          height='100%'
+                          width='100%'
+                          style={{
+                            objectFit: 'scale-down',
+                            borderRadius: '14px',
+                          }}
+                          effect='blur'
+                        />
+                        <WrapTrash>
+                          <TrashIcon />
+                        </WrapTrash>
+                      </PhotoWrap>
+                    </WrapPhoto>
                   )
                 ) : resUpLoad.isLoading ? (
                   <Spinner />
@@ -628,42 +629,23 @@ const Main = () => {
       </UpSide>
       <DownSide justify={fill}>
         <div>
-          {fill ? null : width < 1000 ? (
-            <Button
-              onClick={() => setOpen(true)}
-              buttonStyle={{
-                color: '#606EEA',
-                bgcolor: 'rgba(96, 110, 234, 0.1)',
-                weight: 500,
-              }}
-              width={{ width: 'fit-content' }}
+          {fill ? null : (
+            <ExitButton
+              onClick={() => dispatch(setExitModal(true))}
+              mobile={true}
               margin={{
-                laptop: '10px 10px 0 0',
+                laptop: '0 10px 0 0',
               }}
-              endIcon={<CloseIcon />}
-            >
-              {t('logout')}
-            </Button>
-          ) : null}
-          <Button
-            type='submit'
-            buttonStyle={{
-              shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)',
-              weight: 500,
-            }}
-            margin={{
-              laptop: ' 0',
-            }}
+            />
+          )}
+          <SaveButton
             onClick={() => {
               if (logo === '') {
                 setErrorLogo(true);
               }
             }}
-            startIcon={width > 1000 ? <SaveIcon /> : null}
-            endIcon={width < 1000 ? <SaveIcon /> : null}
-          >
-            {t('save')}
-          </Button>
+            margin={{ laptop: '0' }}
+          />
         </div>
       </DownSide>
     </Form>

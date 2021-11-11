@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { device } from "styles/device";
 
 export const QrCard = styled.div`
   display: flex;
@@ -9,6 +10,20 @@ export const QrCard = styled.div`
   margin: 10px 10px 10px 0px;
   border-radius: 14px;
   background: white;
+
+  @media (max-width: ${device.mobile}) {
+    margin: 0;
+    width: 100%;
+    margin-bottom: 16px;
+    padding: 15px;
+  }
+
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    margin: 0;
+    width: 100%;
+    margin-bottom: 16px;
+    padding: 15px;
+  }
 `;
 
 export const QrRow = styled.div`
@@ -16,6 +31,24 @@ export const QrRow = styled.div`
   margin: 10px 10px 10px 0px;
   justify-content: space-between;
   width: 100%;
+
+  @media (max-width: ${device.mobile}) {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0;
+  }
+
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0;
+  }
+`;
+
+export const QrImg = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const QeaderHeaderRow = styled.div`
@@ -32,6 +65,18 @@ export const QrContainer = styled.div`
   flex-direction: column;
   justify-content: flex-end;
   margin-left: 15px;
+
+  @media (max-width: ${device.mobile}) {
+    margin-left: 0;
+    align-items: center;
+    margin-top: 20px;
+  }
+
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    margin-left: 0;
+    align-items: center;
+    margin-top: 20px;
+  }
 `;
 
 export const OptionDiv = styled.div`
@@ -49,6 +94,16 @@ export const Form = styled.form`
   flex-direction: column;
   padding: 30px 40px 25px 40px;
   width: 520px;
+
+  @media (max-width: ${device.mobile}) {
+    width: 90%;
+    padding: 20px 15px;
+  }
+
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    width: 420px;
+    padding: 20px 15px;
+  }
 `;
 
 interface IRow {
@@ -69,6 +124,18 @@ export const ModalTitle = styled.p`
   font-size: 22px;
   line-height: 26px;
   color: #223367;
+
+  @media (max-width: ${device.mobile}) {
+    font-size: 16px;
+  }
+
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    font-size: 16px;
+  }
+`;
+
+export const ActMaxDiv = styled.div`
+  max-width: 380px;
 `;
 
 export const ModalText = styled.p`
@@ -78,12 +145,59 @@ export const ModalText = styled.p`
   font-size: 18px;
   line-height: 21px;
   color: #223367;
+  @media (max-width: ${device.mobile}) {
+    font-size: 14px;
+  }
+
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    font-size: 14px;
+  }
 `;
 
 interface IBreak {
   height?: number;
+  mHeight?: number;
 }
 
 export const Break = styled.div`
   height: ${({ height = 25 }: IBreak) => height + "px"};
+
+  @media (max-width: ${device.mobile}) {
+    height: ${({ mHeight = 20 }: IBreak) => mHeight + "px"};
+  }
+
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    height: ${({ mHeight = 20 }: IBreak) => mHeight + "px"};
+  }
+`;
+
+export const MContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 30px 40px 25px 40px;
+  width: 520px;
+
+  @media (max-width: ${device.mobile}) {
+    width: 100%;
+    padding: 20px 15px;
+  }
+
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    width: 100px;
+    padding: 20px 15px;
+  }
+`;
+
+export const ModalCText = styled.p`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 21px;
+  color: #223367;
+  @media (max-width: ${device.planshet}) {
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 16px;
+  }
 `;

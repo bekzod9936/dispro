@@ -109,7 +109,19 @@ export const SubContent = styled.div`
 
 export const Buttons = styled.div`
     margin-bottom: 50px;
-`
+    button.updatePercent {
+        font-size: 16px;
+        line-height: 18.75px;
+        color: #3492FF;
+        background: transparent;
+        margin-top: 15px;
+        border: 0;
+        outline: 0;
+        cursor: pointer;
+        font-family: "Roboto", sans-serif;
+        font-weight: 300;
+    }
+    `
 
 
 
