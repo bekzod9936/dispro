@@ -12,6 +12,8 @@ import {
 import { Wrapper } from "./style";
 import { resetFilters, setFilters } from "services/redux/Slices/clients";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
+import { getOneDayPlus } from "pages/CompanyPages/clients/utils/getSelectedFilters";
+import InputFormat from "components/Custom/InputFormat";
 
 
 const traffics = [
@@ -24,12 +26,8 @@ export const MFilter = () => {
   const dispatch = useAppDispatch()
   const { filters } = useAppSelector(state => state.clients)
   const [filter, setFilter] = useState<any>({})
-  const [gender, setGender] = useState<any>("")
-  const [traffic, setTraffic] = useState("")
 
   useEffect(() => {
-    setGender(filters.gender)
-    setTraffic(filters.trafficProvider?.value)
     setFilter(filters)
   }, [filters])
 
@@ -44,8 +42,11 @@ export const MFilter = () => {
             { value: "2", label: `${t("female")}` },
           ]}
           title={t("chose_gender")}
-          onChange={(v: string) => setGender(v)}
-          value={gender}
+          onChange={(v: string) => setFilter((prev: any) => ({
+            ...prev,
+            gender: v
+          }))}
+          value={filter?.gender}
         // onChange={(v: string) => setFilter((prev: any) => ({ ...prev, gender: v }))}
         // value={filter.gender}
         />
@@ -66,6 +67,7 @@ export const MFilter = () => {
               inputStyle={{
                 inpadding: "0 10px 0 0",
               }}
+              max={getOneDayPlus(filter?.regDate?.regDateTo, "minus")}
               value={filter?.regDate?.regDateFrom}
               onChange={(e) => setFilter((prev: any) => ({
                 ...prev, regDate: {
@@ -79,6 +81,7 @@ export const MFilter = () => {
               width={{
                 maxwidth: 200,
               }}
+              min={getOneDayPlus(filter?.regDate?.regDateFrom, "plus")}
               margin={{ laptop: "0 0 0 15px" }}
               IconStart={<WrapDate>{t("to")}</WrapDate>}
               inputStyle={{
@@ -100,7 +103,7 @@ export const MFilter = () => {
       title: t("purchuase_amount"),
       content: (
         <>
-          <Input
+          <InputFormat
             label={t("enter_amount")}
             IconStart={<WrapPlaceHolder>{t("from")}</WrapPlaceHolder>}
             width={{
@@ -109,7 +112,7 @@ export const MFilter = () => {
             inputStyle={{
               inpadding: "0 10px",
             }}
-            type="number"
+            maxLength="11"
             value={filter?.purchaseAmount?.purchaseCountFrom}
             onChange={(e) => setFilter((prev: any) => ({
               ...prev, purchaseAmount: {
@@ -118,7 +121,7 @@ export const MFilter = () => {
               }
             }))}
           />
-          <Input
+          <InputFormat
             label={t("enter_amount")}
             margin={{ laptop: "0 0 0 15px" }}
             IconStart={<WrapPlaceHolder>{t("to")}</WrapPlaceHolder>}
@@ -128,7 +131,7 @@ export const MFilter = () => {
             inputStyle={{
               inpadding: "0 10px",
             }}
-            type="number"
+            maxLength="11"
             value={filter?.purchaseAmount?.purchaseCountTo}
             onChange={(e) => setFilter((prev: any) => ({
               ...prev, purchaseAmount: {
@@ -143,10 +146,10 @@ export const MFilter = () => {
     {
       title: t("purchuase_cost"),
       content: (
-        <Input
+        <InputFormat
+          maxLength="11"
           placeholder={t("notless")}
           onChange={(e) => setFilter((prev: any) => ({ ...prev, notless: e.target.value }))}
-          type="number"
           label={t("enter_amount")}
           value={filter?.notless}
         />
@@ -186,10 +189,8 @@ export const MFilter = () => {
           flexDirection="row"
           list={traffics}
           title={t("chose_trafic_provider")}
-          // onChange={(e) => setFilter((prev: any) => ({ ...prev, trafficProvider: traffics.find(el => el.value === e) }))}
-          // value={filter?.trafficProvider?.value}
-          onChange={(e) => setTraffic(e)}
-          value={traffic}
+          onChange={(e) => setFilter((prev: any) => ({ ...prev, trafficProvider: traffics.find(el => el.value === e) }))}
+          value={filter?.trafficProvider?.value}
         />
       ),
     },
@@ -198,8 +199,7 @@ export const MFilter = () => {
   const handleSubmit = () => {
     const res = {
       ...filter,
-      gender: gender,
-      trafficProvider: traffics.find(el => el.value === traffic)
+
     }
     dispatch(setFilters(res))
   };
