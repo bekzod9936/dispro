@@ -5,7 +5,7 @@
 }
 
 html {
-  height: -webkit-fill-available;
+  height: -webkit-fill-available !important;
 }
 
 :root {
@@ -26,7 +26,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
   background-color: white;
-  min-height: -webkit-fill-available;
+  min-height: -webkit-fill-available !important;
 }
 
 .MuiDialog-root {

@@ -2,9 +2,12 @@ import { useTranslation } from "react-i18next";
 import { useForm, Controller } from "react-hook-form";
 //components
 import Button from "components/Custom/Button";
+import CancelButton from "../../../components/CancelButton";
+import SaveButton from "../../../components/SaveButton";
 import Modal from "components/Custom/Modal";
 import MultiSelect from "components/Custom/MultiSelect";
 import IconButton from "@material-ui/core/IconButton";
+import { ReactComponent as Market } from "assets/icons/SideBar/ilmarket.svg";
 
 //style
 import {
@@ -17,14 +20,14 @@ import {
 } from "./style";
 import { BtnAction } from "../styles/index";
 import { ReactComponent as Close } from "assets/icons/exit.svg";
-import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
-import { SaveIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
 import { useAppSelector } from "services/redux/hooks";
 //types
 import { FormProps } from "../types";
+import useWindowWidth from "services/hooks/useWindowWidth";
 
 const QrForBranch = ({ qrVisible, onSave, closeQr }: IProps) => {
   const { t } = useTranslation();
+  const { width } = useWindowWidth();
   const stores = useAppSelector((state) => state.qrSetting.stores);
 
   const {
@@ -43,23 +46,25 @@ const QrForBranch = ({ qrVisible, onSave, closeQr }: IProps) => {
         <ModalContent>
           <ModalRow jContent="space-between">
             <ModalTitle>QR для оплаты на местах</ModalTitle>
-            <IconButton
-              style={{
-                padding: "5px",
-              }}
-              onClick={closeQr}
-            >
-              <Close />
-            </IconButton>
+            {width <= 1000 ? null : (
+              <IconButton
+                style={{
+                  padding: "5px",
+                }}
+                onClick={closeQr}
+              >
+                <Close />
+              </IconButton>
+            )}
           </ModalRow>
-          <Break />
+          <Break mHeight={10} />
           <ModalRow jContent="space-between">
             <ModalText>
               Выберите филиал, в которой будет производитьсяоплата на местах,
               через QR
             </ModalText>
           </ModalRow>
-          <Break />
+          <Break mHeight={20} />
 
           <ModalRow jContent="center">
             <Controller
@@ -75,9 +80,20 @@ const QrForBranch = ({ qrVisible, onSave, closeQr }: IProps) => {
                     error={!!errors.branch}
                     message={t("requiredField")}
                     field={field}
-                    label="Выберите категорию"
                     options={stores}
                     margin={{ laptop: "0 0 35px 0" }}
+                    icon={<Market />}
+                    selectStyle={{
+                      bgcolor: "#eff0fd",
+                      border: "none",
+                      placeholdercolor: "#223367",
+                      inpadding: "2px 10px 2px 60px",
+                      placewieght: "500",
+                    }}
+                    iconleft={"20px"}
+                    icondowncolor="#C4C4C4"
+                    placeholder={t("choose_branch")}
+                    isClearable={false}
                   />
                 );
               }}
@@ -86,16 +102,8 @@ const QrForBranch = ({ qrVisible, onSave, closeQr }: IProps) => {
         </ModalContent>
 
         <BtnAction>
-          <Button
-            startIcon={<CancelIcon />}
-            buttonStyle={{ bgcolor: "white", color: "#223367" }}
-            onClick={closeQr}
-          >
-            {t("cancel")}
-          </Button>
-          <Button startIcon={<SaveIcon />} type="submit">
-            {t("save")}
-          </Button>
+          <CancelButton onClick={closeQr} text={t("cancel")} />
+          <SaveButton text={t("save")} />
         </BtnAction>
       </Form>
     </Modal>

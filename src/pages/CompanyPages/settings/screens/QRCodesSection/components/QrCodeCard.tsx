@@ -23,8 +23,8 @@ import {
   ScrapperIcon,
   ThreeDotsIcon,
 } from "assets/icons/SettingsIcons/SettingsPageIcon";
-import RippleEffect from "components/Custom/RippleEffect";
 import { copyToClipboard } from "services/utils";
+import { IconButton } from "@material-ui/core";
 
 const QrCodeCard = ({
   item,
@@ -71,9 +71,9 @@ const QrCodeCard = ({
 
         <Popover
           click={
-            <RippleEffect padding={0}>
+            <IconButton>
               <ThreeDotsIcon />
-            </RippleEffect>
+            </IconButton>
           }
           anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
           transformOrigin={{ horizontal: "left", vertical: "top" }}
@@ -140,6 +140,9 @@ const QrCodeCard = ({
             buttonStyle={{
               color: "#fff",
             }}
+            width={{
+              width: "60%",
+            }}
             onClick={() => downloadQrCode()}
             startIcon={<DownloadIcon />}
           >
@@ -155,6 +158,10 @@ const QrCodeCard = ({
                 laptop: 13,
               },
             }}
+            width={{
+              width: "90%",
+            }}
+            fullWidth={true}
             onClick={() => {
               copyToClipboard(item?.dynLinkToken);
             }}
