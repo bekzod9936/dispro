@@ -22,11 +22,7 @@ export const VipModal = ({ name, status, value, handleClose, refetch, state, set
     const { selectedClients } = useAppSelector(state => state.clients)
     const client = selectedClients[0]
 
-    const mutation = useMutation(() => changeVipPercent({
-        percent: state !== "removing" ? percent : 5,
-        clientId: client.id,
-        isActive: true
-    }), {
+    const mutation = useMutation((data: any) => changeVipPercent(data), {
         onSuccess: () => {
             handleClose()
             refetch()
@@ -36,10 +32,21 @@ export const VipModal = ({ name, status, value, handleClose, refetch, state, set
     const onSubmit = (e: any) => {
         e.preventDefault()
         if (Number(percent) < 1 && state !== 'removing') return
-        mutation.mutate()
-        // if (state === "submitting") {
-        //     mutation.mutate()
-        // }
+        if (selectedClients.length === 1) {
+            mutation.mutate({
+                percent: state !== "removing" ? percent : 5,
+                clientId: client.id,
+                isActive: state !== "removing"
+            })
+        } else {
+            selectedClients.forEach(el => {
+                mutation.mutate({
+                    percent: percent,
+                    clientId: el.id,
+                    isActive: true
+                })
+            })
+        }
     }
 
     function handleChange(e: any) {
@@ -124,6 +131,7 @@ export const VipModal = ({ name, status, value, handleClose, refetch, state, set
                         Отменить
                     </Button>
                     <Button
+                        disabled={mutation.isLoading}
                         type="submit"
                         startIcon={<DoneIcon />}>
                         Готово
@@ -150,7 +158,7 @@ export const VipModal = ({ name, status, value, handleClose, refetch, state, set
                     </div>
                     <RightArrowIcon />
                     <div className="new child">
-                        <p>Стандартный статус статус</p>
+                        <p>Стандартный статус</p>
                         <b>Base 5%</b>
                     </div>
                 </Status>
@@ -162,7 +170,10 @@ export const VipModal = ({ name, status, value, handleClose, refetch, state, set
                         startIcon={<CancelIcon />}>
                         Отменить
                     </Button>
-                    <Button type="submit" startIcon={<DoneIcon />}>
+                    <Button
+                        disabled={mutation.isLoading}
+                        type="submit"
+                        startIcon={<DoneIcon />}>
                         Применить
                     </Button>
                 </div>

@@ -18,6 +18,7 @@ import { selectAll } from 'services/redux/Slices/clients'
 import { Form } from '../../components/Form'
 import { useQuery } from 'react-query'
 import { fetchPersonalInfo } from 'services/queries/clientsQuery'
+import { BlockModal } from '../../components/BlockModal'
 
 const Client = () => {
     const { selectedClients, period: { endDate, startDate } } = useAppSelector(state => state.clients)
@@ -26,12 +27,14 @@ const Client = () => {
     const { routes } = useClientRoutes()
     const { width } = useWindowSize()
     const { t } = useTranslation()
+    const [blockModal, setBlockModal] = useState(false)
     const [isOpen, setIsOpen] = useState(false)
     const [modalContent, setModalContent] = useState<"points" | "other">("points")
     const [form, setForm] = useState({
         action: 1,
         isOpen: false
     })
+
     const dispatch = useAppDispatch()
     const response = useQuery("fetch", () => fetchPersonalInfo({
         clientUserId: client.userId,
@@ -46,6 +49,7 @@ const Client = () => {
 
         }
     })
+
     const handleClose = () => {
         dispatch(selectAll(false))
         history.push("/clients")
@@ -113,7 +117,7 @@ const Client = () => {
         return (
             <Wrapper>
                 <UpSide>
-                    <ClientBlock {...client} />
+                    <ClientBlock client={client} setBlockModal={setBlockModal} />
                     <InfoBlock {...client} />
                     <Recommendation />
                 </UpSide>
@@ -132,6 +136,7 @@ const Client = () => {
                         </Suspense>
                     </Switch>
                 </DownSide>
+                <BlockModal handleClose={setBlockModal} isOpen={blockModal} />
             </Wrapper>
         )
     } else {
