@@ -29,7 +29,7 @@ const LangSelect = ({ border }: Props) => {
           : width < 1500 && width > 600
           ? 65
           : width < 600
-          ? 45
+          ? 55
           : 0,
     },
   });
@@ -100,7 +100,7 @@ const LangSelect = ({ border }: Props) => {
         onClose={handleClose}
         MenuProps={{
           style: {
-            zIndex: 9999999,
+            zIndex: width < 600 ? 9999999 : 1300,
           },
           PaperProps: {
             className: classes.paper,

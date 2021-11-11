@@ -14,15 +14,11 @@ export const fetchClientsChart = async () => {
   );
   return response;
 };
-
+export const fetchPersonalInfo = async (data: any) => {
+  const response = await partnerApi(`/core/client/personal-info?clientUserId=${data.clientUserId}&clientId=${data.clientId}&startDate=${data.startDate}&endDate=${data.endDate}`)
+  return response
+}
 export const fetchClients = async (page: number, url: string) => {
-  // if (start) {
-  //   query.push(`&startDate=${moment(start).format('YYYY-MM-DD')}`);
-  // }
-  // if (end) {
-  //   query.push(`&endDate=${moment(end).format('YYYY-MM-DD')}`);
-  // }
-  // let combined = query.join('');
   const response = await partnerApi(
     `/core/client/by/company?page=${page}&perPage=5&${url}`
   );
@@ -40,3 +36,9 @@ export const changeVipPercent = async (data: any) => {
   const response = await partnerApi.put("/bonus/personals", data);
   return response;
 };
+
+
+export const blockClient = async (data: any) => {
+  const response = await partnerApi.put("/core/client/blocked-pl", data);
+  return response
+}

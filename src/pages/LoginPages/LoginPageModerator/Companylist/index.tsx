@@ -1,17 +1,17 @@
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useMutation } from "react-query";
-import Spinner from "components/Helpers/Spinner";
-import { enterCompany } from "services/queries/partnerQuery";
-import { useAppDispatch, useAppSelector } from "services/redux/hooks";
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useMutation } from 'react-query';
+import Spinner from 'components/Helpers/Spinner';
+import { enterCompany } from 'services/queries/partnerQuery';
+import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import {
   refetchCompanyList,
   setBackAddCompany,
   setRegFilled,
-} from "services/redux/Slices/authSlice";
-import LogoDef from "assets/icons/SideBar/logodefault.png";
-import AddCompany from "../AddCompany";
-import useList from "./useList";
+} from 'services/redux/Slices/authSlice';
+import LogoDef from 'assets/icons/SideBar/logodefault.png';
+import AddCompany from '../AddCompany';
+import useList from './useList';
 import {
   Container,
   PlusIcon,
@@ -22,10 +22,10 @@ import {
   Main,
   ChooseText,
   ImgDiv,
-} from "./style";
-import { useHistory } from "react-router";
-import { Tooltip } from "@material-ui/core";
-import useFirebase from "services/hooks/useFirebase";
+} from './style';
+import { useHistory } from 'react-router';
+import { Tooltip } from '@material-ui/core';
+import useFirebase from 'services/hooks/useFirebase';
 
 const Companylist = () => {
   useFirebase();
@@ -46,12 +46,12 @@ const Companylist = () => {
 
   const company = useMutation((values: any) => enterCompany(values), {
     onSuccess: async (data) => {
-      await localStorage.setItem("companyId", data.data.data.companyId);
-      await localStorage.setItem("companyToken", data.data.data.accessToken);
+      await localStorage.setItem('companyId', data.data.data.companyId);
+      await localStorage.setItem('companyToken', data.data.data.accessToken);
       if (regFilled?.filled && regFilled.filledAddress) {
-        await history.push("/statistics");
+        await history.push('/statistics');
       } else {
-        await history.push("/info");
+        await history.push('/info');
       }
     },
   });
@@ -70,23 +70,23 @@ const Companylist = () => {
     <AddCompany />
   ) : (
     <Main>
-      <ChooseText>{t("choose-company")}</ChooseText>
+      <ChooseText>{t('choose-company')}</ChooseText>
       {isLoading || isFetching ? (
         <Spinner />
       ) : data?.data.data.length === 0 ? (
         <Box onClick={handleAddCompany}>
-          <Wrap border="1.5px dashed #606eea">
+          <Wrap border='1.5px dashed #606eea'>
             <PlusIcon />
           </Wrap>
-          <Text color="#606EEA">{t("addCompany")}</Text>
+          <Text color='#606EEA'>{t('addCompany')}</Text>
         </Box>
       ) : (
         <Container>
           <Box onClick={handleAddCompany}>
-            <Wrap border="1.5px dashed #606eea">
+            <Wrap border='1.5px dashed #606eea'>
               <PlusIcon />
             </Wrap>
-            <Text color="#606EEA">{t("addCompany")}</Text>
+            <Text color='#606EEA'>{t('addCompany')}</Text>
           </Box>
           {data?.data.data.map((v: any) => (
             <Tooltip title={v.company.name} arrow>
@@ -106,20 +106,20 @@ const Companylist = () => {
                   });
                 }}
                 style={{
-                  pointerEvents: company.isLoading ? "none" : "all",
+                  pointerEvents: company.isLoading ? 'none' : 'all',
                 }}
                 loading={v.company.id === id ? company.isLoading : false}
               >
                 <Wrap>
                   <ImgDiv>
                     <Img
-                      src={v.company.logo === "" ? LogoDef : v.company.logo}
-                      alt="Company-Logo"
-                      objectFit="contain"
+                      src={v.company.logo === '' ? LogoDef : v.company.logo}
+                      alt='Company-Logo'
+                      objectFit='contain'
                     />
                   </ImgDiv>
                 </Wrap>
-                <Text color="#223367">
+                <Text color='#223367'>
                   <div>{v.company.name}</div>
                 </Text>
               </Box>

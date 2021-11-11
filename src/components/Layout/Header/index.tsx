@@ -52,6 +52,8 @@ import {
 import useSocket from './useSocket';
 import useWindowWidth from 'services/hooks/useWindowWidth';
 import FullModal from 'pages/CompanyPages/info/components/FullModal';
+import useLimit from './useLimit';
+import { numberWith } from 'services/utils';
 
 const Header = () => {
   const { t } = useTranslation();
@@ -60,6 +62,10 @@ const Header = () => {
   const [modal, setModal] = useState(false);
   const companyId = localStorage.getItem('companyId');
   useLayout({ id: companyId });
+  const { resLimit } = useLimit();
+  const accountsBalance = useAppSelector((state) => state.info.balance);
+  const accountsLimit = useAppSelector((state) => state.info.limit);
+
   const history = useHistory();
   const [open, setOpen] = useState(false);
 
@@ -145,19 +151,21 @@ const Header = () => {
           <ModalWrap>
             <Button
               buttonStyle={{
-                bgcolor: 'white',
-                color: '#223367',
+                bgcolor: width > 600 ? 'white' : '#eff0fd',
+                color: width > 600 ? '#223367' : '#606EEA',
                 weight: 500,
               }}
               margin={{
                 laptop: '0 30px 0 0',
+                mobile: '0 10px 0 0',
               }}
               onClick={() => {
                 setOpen(false);
                 setModal(false);
               }}
+              startIcon={width > 600 ? <CloseIcon /> : null}
+              endIcon={width < 600 ? <CloseIcon /> : null}
             >
-              <CloseIcon />
               {t('cancel')}
             </Button>
             <Button
@@ -166,7 +174,8 @@ const Header = () => {
                 bgcolor: '#606EEA',
               }}
               onClick={() => {
-                setOpen(true);
+                setOpen(false);
+                setModal(false);
                 localStorage.removeItem('companyId');
                 localStorage.removeItem('companyToken');
                 history.push('/partner/company');
@@ -174,9 +183,9 @@ const Header = () => {
                 socket.disconnect();
                 dispatch(setInfoData({ ...initialState?.data }));
               }}
+              endIcon={<LogOutWhiteIcon />}
             >
               {t('logout')}
-              <LogOutWhiteIcon />
             </Button>
           </ModalWrap>
         </ModelContent>
@@ -206,6 +215,7 @@ const Header = () => {
               inpadding: '0 0 0 10px',
               placeholdercolor: '#AAAAAA',
             }}
+            type='search'
             placeholder={t('search')}
             width={{
               minwidth: 50,
@@ -214,16 +224,18 @@ const Header = () => {
             IconStart={<SearchIcon />}
           />
         </WrapInput>
-        <Wrap>
+        <Wrap onClick={() => history.push('/finances')}>
           <DepositIcon />
           <Title>
-            {t('deposit')} <Text>3 750 000 UZS</Text>
+            {t('deposit')}
+            <Text>{numberWith(String(accountsBalance), ' ', '0')} UZS</Text>
           </Title>
         </Wrap>
-        <Wrap>
+        <Wrap onClick={() => history.push('/finances')}>
           <ShieldIcon />
           <Title>
-            {t('limit')} <Text>100 000 UZS</Text>
+            {t('limit')}
+            <Text>{numberWith(String(accountsLimit), ' ', '0')} UZS</Text>
           </Title>
         </Wrap>
       </Wrapper>
@@ -278,7 +290,9 @@ const Header = () => {
               buttonStyle={{
                 bgcolor: 'transparent',
               }}
-              onClick={() => setModal(true)}
+              onClick={() => {
+                setModal(true);
+              }}
             >
               <Img
                 src={infoData?.logo === '' ? LogoDef : infoData?.logo}

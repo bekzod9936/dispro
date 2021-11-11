@@ -15,6 +15,8 @@ import { useWindowSize } from '../../hooks/useWindowSize';
 import { DownBar } from '../../components/DownBar';
 import { Form } from '../../components/Form';
 import { MobileQrBar } from '../../components/MobileQrBar';
+import { useMutation, useQuery } from 'react-query';
+import { fetchPersonalInfo } from 'services/queries/clientsQuery';
 
 
 
@@ -28,6 +30,7 @@ const ClientsPage = () => {
 		isOpen: false
 	})
 	const { refetch, isFetching } = useFetchClients({ query: debouncedQuery });
+
 
 	return (
 		<MainWrapper isRelative={width > 600}>

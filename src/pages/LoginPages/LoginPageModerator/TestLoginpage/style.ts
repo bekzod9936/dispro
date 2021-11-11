@@ -61,7 +61,6 @@ export const RightSide = styled.div`
     align-items: center;
     justify-content: center;
     flex: 1;
-    padding: env(safe-area-inset-top) 0 0 0;
   }
 `;
 

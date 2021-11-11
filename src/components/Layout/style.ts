@@ -313,6 +313,8 @@ export const Wrarning = styled.div`
 `;
 
 export const WranningIcon = styled(Warn)`
+  min-width: 32px;
+  min-height: 30px;
   @media (min-width: ${device.planshet}) {
     margin-right: 20px;
   }
