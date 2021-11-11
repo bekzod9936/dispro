@@ -1,10 +1,12 @@
 import { Wrapper, Content } from './style'
+import { numberWith } from 'services/utils';
+
 interface IProps {
     icon: JSX.Element,
     value: number | undefined | string,
     heading: string
 }
-export const StatsCard = ({ icon, value, heading }: IProps) => {
+export const StatsCard = ({ icon, value, heading }: IProps | any) => {
     return (
         <Wrapper>
             {icon}
@@ -13,7 +15,8 @@ export const StatsCard = ({ icon, value, heading }: IProps) => {
                     {heading}
                 </h4>
                 <p>
-                    {value || "-"}
+                    {Number(value) ? numberWith(value, " ") : value}
+                    {/* {value} */}
                 </p>
             </Content>
         </Wrapper>

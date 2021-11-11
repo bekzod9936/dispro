@@ -1,8 +1,8 @@
 import { CartIcon, CashBackIcon, DiscountIcon, DownIcon, GoBackIcon, HandIcon, MoneyBagIcon, MoneyStatsIcon, PointActionsIcon, RatingIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
-import NavBar, { activeStyle } from 'components/Custom/NavBar'
+import NavBar from 'components/Custom/NavBar'
 import Spinner from 'components/Helpers/Spinner'
-import React, { Suspense, useState } from 'react'
-import { Route, Switch, useHistory, useRouteMatch } from 'react-router'
+import { Suspense, useState } from 'react'
+import { Route, Switch, useHistory, useParams, useRouteMatch } from 'react-router'
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks'
 import { useClientRoutes } from '../../routes'
 import { ClientBlock } from './components/ClientBlock'
@@ -14,17 +14,20 @@ import { useWindowSize } from "../../hooks/useWindowSize"
 import { useTranslation } from 'react-i18next'
 import Button from 'components/Custom/Button'
 import { DownModal } from './components/DownModal'
-import { selectAll } from 'services/redux/Slices/clients'
+import { selectAll, setCurrentClient } from 'services/redux/Slices/clients'
 import { Form } from '../../components/Form'
 import { useQuery } from 'react-query'
 import { fetchPersonalInfo } from 'services/queries/clientsQuery'
 import { BlockModal } from '../../components/BlockModal'
 import { VipModal } from '../../components/ClientsBar/components/VipModal'
 import Modal from 'components/Custom/Modal'
-import { Link } from 'components/Custom/NavBar/style'
+import { getClientStatistics } from '../../utils/getSelectedFilters'
 
 const Client = () => {
-    const { selectedClients, period: { endDate, startDate } } = useAppSelector(state => state.clients)
+    const { selectedClients, period: { endDate, startDate }, currentClient } = useAppSelector(state => state.clients)
+    const { id }: any = useParams()
+    const [clientId, clientUserId] = id?.toString()?.split("-")
+    const clint = currentClient?.clientInfo
     const client = selectedClients[0]
     const history = useHistory()
     const { routes } = useClientRoutes()
@@ -43,13 +46,17 @@ const Client = () => {
 
     const dispatch = useAppDispatch()
     const response = useQuery("fetch", () => fetchPersonalInfo({
-        clientUserId: client.userId,
-        clientId: client.id,
+        clientUserId,
+        clientId,
         startDate,
         endDate
     }), {
         retry: 0,
         refetchOnWindowFocus: false,
+        onSuccess: (data: any) => {
+            dispatch(setCurrentClient(data.data.data));
+
+        }
     })
 
 
@@ -57,49 +64,6 @@ const Client = () => {
         dispatch(selectAll(false))
         history.push("/clients")
     }
-
-    React.useEffect(() => {
-        if (!client) history.push("/clients");
-    }, [])
-
-    const statistics = [
-        {
-            icon: <MoneyStatsIcon />,
-            heading: "Оплачено в UZS",
-            value: 99999999
-        },
-        {
-            icon: <CartIcon />,
-            heading: "Количество покупок",
-            value: 5670260
-        },
-        {
-            icon: <MoneyBagIcon />,
-            heading: "Сумма всех покупок",
-            value: 99999999
-        },
-        {
-            icon: <HandIcon />,
-            heading: "Остаток баллов",
-            value: 1125000
-        },
-        {
-            icon: <CashBackIcon />,
-            heading: "Получено кешбэк",
-            value: 620750
-        },
-        {
-            icon: <DiscountIcon />,
-            heading: "Оплаченно баллами",
-            value: 320260
-        },
-        {
-            icon: <RatingIcon />,
-            heading: "Оплаченно баллами",
-            value: 250000
-        },
-
-    ]
 
     const handlePointsAction = (action: number) => {
         setForm({
@@ -116,31 +80,37 @@ const Client = () => {
         setIsOpen(true)
     }
 
+    if (response.isFetching) {
+        return (
+            <Spinner />
+        )
+    }
     if (width > 600) {
         return (
             <Wrapper>
                 <Modal open={vipModal}>
                     <VipModal
                         handleClose={() => setVipModal(false)}
-                        name={client?.firstName + " " + client?.lastName}
+                        name={clint?.firstName + " " + clint?.lastName}
                         state={vipModalState}
                         setState={setVipModalState}
-                        status={client?.addInfo?.status}
-                        value={client?.personalLoyaltyInfo?.percent}
+                        status={clint?.addInfo?.status || ""}
+                        value={clint?.personalLoyaltyInfo?.percent || ""}
                     />
                 </Modal>
                 <UpSide>
                     <ClientBlock
-                        client={client}
+                        client={clint}
                         setBlockModal={setBlockModal} />
                     <InfoBlock
+                        vipModal={vipModal}
                         setVipModalState={setVipModalState}
                         setVipModal={setVipModal}
-                        client={client} />
-                    <Recommendation referLevels={response?.data?.data?.data?.childReferalClientsByLevel} />
+                        client={clint} />
+                    <Recommendation referLevels={currentClient?.childReferalClientsByLevel} />
                 </UpSide>
                 <MiddleSide>
-                    {statistics.map((el, index) => (
+                    {getClientStatistics(clint?.addInfo).map((el, index) => (
                         <StatsCard key={index} {...el} />
                     ))}
                 </MiddleSide>
@@ -155,7 +125,7 @@ const Client = () => {
                     </Switch>
                 </DownSide>
                 <BlockModal
-                    isBlocking={!client.isPlBlocked}
+                    isBlocking={!client?.isPlBlocked}
                     handleClose={setBlockModal}
                     isOpen={blockModal} />
             </Wrapper>

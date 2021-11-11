@@ -7,11 +7,12 @@ import { useTranslation } from 'react-i18next'
 import { IClient } from 'services/redux/Slices/clients/types'
 import { DownSide, UpSide, Wrapper } from './style'
 interface IProps {
-    client: IClient,
+    client: IClient | any,
     setVipModal: (arg: boolean) => void
     setVipModalState: (arg: "selecting" | "updating" | "removing") => void
+    vipModal: boolean
 }
-export const InfoBlock = ({ client: { addInfo, personalLoyaltyInfo }, setVipModal, setVipModalState }: IProps) => {
+export const InfoBlock = ({ vipModal, client: { addInfo, personalLoyaltyInfo }, setVipModal, setVipModalState }: IProps) => {
 
     const handleChangePercent = (e: any) => {
         let checked = e.target.checked;
@@ -47,7 +48,7 @@ export const InfoBlock = ({ client: { addInfo, personalLoyaltyInfo }, setVipModa
                     <MToggle>
                         <p>Индивидуальный статус</p>
                         <CustomToggle
-                            checked={personalLoyaltyInfo?.isActive}
+                            checked={personalLoyaltyInfo?.isActive || vipModal}
                             onChange={handleChangePercent} />
                     </MToggle>
                     {personalLoyaltyInfo?.isActive &&

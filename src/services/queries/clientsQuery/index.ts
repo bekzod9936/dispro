@@ -42,3 +42,4 @@ export const blockClient = async (data: any) => {
   const response = await partnerApi.put("/core/client/blocked-pl", data);
   return response
 }
+

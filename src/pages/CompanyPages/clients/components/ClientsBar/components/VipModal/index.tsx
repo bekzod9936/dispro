@@ -34,7 +34,7 @@ export const VipModal = ({ name, status, value, handleClose, refetch, state, set
         if (Number(percent) < 1 && state !== 'removing') return
         if (selectedClients.length === 1) {
             mutation.mutate({
-                percent: state !== "removing" ? percent : 5,
+                percent: state !== "removing" ? percent : 0,
                 clientId: client.id,
                 isActive: state !== "removing"
             })

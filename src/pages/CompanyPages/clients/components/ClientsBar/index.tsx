@@ -57,7 +57,7 @@ export const ClientsBar = ({ refetch }: IProps) => {
     }
 
     const handleClient = () => {
-        history.push(`/clients/${client.id}`)
+        history.push(`/clients/${client.id}-${client.userId}`)
     }
 
     const handleChangeStatus = (e: any) => {

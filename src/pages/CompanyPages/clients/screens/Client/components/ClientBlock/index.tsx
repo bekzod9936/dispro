@@ -4,10 +4,10 @@ import Button from 'components/Custom/Button'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router'
-import { IClient } from 'services/redux/Slices/clients/types'
+import { IClient, IPersonalInfo } from 'services/redux/Slices/clients/types'
 import { DefaultImage, DownSide, Icon, UpSide, Wrapper } from './style'
 interface IProps {
-    client: IClient,
+    client: IClient | any,
     setBlockModal: (e: boolean) => void
 }
 
