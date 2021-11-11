@@ -36,3 +36,9 @@ export const changeVipPercent = async (data: any) => {
   const response = await partnerApi.put("/bonus/personals", data);
   return response;
 };
+
+
+export const blockClient = async (data: any) => {
+  const response = await partnerApi.put("/core/client/blocked-pl", data);
+  return response
+}
