@@ -50,6 +50,13 @@ export const BtnAction = styled.div`
   display: flex;
   justify-content: flex-end;
   width: 100%;
+  @media (max-width: ${device.mobile}) {
+    justify-content: center;
+  }
+
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    justify-content: center;
+  }
 `;
 
 export const MyHeadAction = styled.div`

@@ -442,8 +442,9 @@ export const PageWrapperNoScroll = styled.div`
 `;
 
 export const PageWrapperFlex = styled.div`
-  padding: 20px 20px 0px 30px;
-  overflow: scroll;
+  padding: 20px 0 0px 0;
+  overflow-y: scroll;
+  overflow-x: hidden;
   height: 100%;
   width: 100%;
   position: relative;
