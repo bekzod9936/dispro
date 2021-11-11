@@ -1,4 +1,5 @@
 import { useQuery } from "react-query";
+import { useState, useEffect } from "react"
 import { fetchClients, searchClients } from "services/queries/clientsQuery";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 import { setClients } from "services/redux/Slices/clients";
@@ -46,3 +47,21 @@ export const useFetchClients = ({ query }: IArgs) => {
   );
   return response;
 };
+
+
+export const useGetPositionForFilter = (node: any, setPosition: any) => {
+  // const [position, setPosition] = useState(0)
+  const windowHeight = window.innerHeight
+  const [result, setResult] = useState(0)
+  function handleScroll() {
+    let res = node.getBoundingClientRect().bottom() - 45
+    setPosition(res)
+
+  }
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll)
+    // return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+  return result
+}

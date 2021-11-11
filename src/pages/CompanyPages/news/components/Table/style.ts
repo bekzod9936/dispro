@@ -73,7 +73,8 @@ export const Thead = styled.thead`
 export const Tr = styled.tr``;
 
 export const Th = styled.th`
-  padding: 0 10px;
+text-align:left;
+  padding: 0 40px;
   font-weight: normal;
   font-size: 16px;
   color: ${({ active }: Props) => (active ? '#223367' : '#a5a5a5')}!important;
@@ -105,7 +106,8 @@ export const Tbody = styled.tbody`
 
 export const Td = styled.td`
   padding: 15px;
-  text-align: center;
+  padding-left: 40px;
+  text-align: left;
   text-transform: capitalize;
   font-weight: normal;
   font-size: 16px;
@@ -119,3 +121,24 @@ export const UpIcon = styled(Up)`
     fill: ${({ active }: Props) => (active ? '#223367' : 'transparent')};
   }
 `;
+
+export const TitleData = styled.div`
+  display: flex; 
+  align-items: center; 
+  /* justify-content: center; */
+  /* margin-left: 15px; */
+  img {
+    border-radius: 14px;
+    width: 40px;
+    height: 40px;
+    margin-right: 15px;
+  }
+`
+
+export const DefaultImage = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  background: linear-gradient(215.2deg, #C7EEFF -12.1%, #FCA9EA 101.51%);
+  margin-right: 15px;
+`

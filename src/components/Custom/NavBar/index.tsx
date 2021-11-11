@@ -7,7 +7,7 @@ interface Props {
   vertical?: boolean,
 }
 
-const activeStyle = {
+export const activeStyle = {
   color: "white",
   background: "#606EEA",
   boxShadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
