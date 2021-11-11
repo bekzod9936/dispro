@@ -4,7 +4,8 @@ import Spinner from 'components/Custom/Spinner';
 import { Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
-
+import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
+import {setQuery} from 'services/redux/Slices/news';
 import useNewsRoute from './routes';
 import Header from './components/Header'
 
@@ -17,22 +18,22 @@ import {
 } from './style';
 
 
+
 const News = () => {
   const { t } = useTranslation();
   const { menuItems ,newsPath} = useNewsRoute();
-
+   const dispatch=useAppDispatch()
   const location = useLocation();
   const history = useHistory();
   const handleOpenSetting = () => {
     history.push({
       pathname: '/news/create',
       state: { prevPage: location.pathname },
-    });
-  
+    })
+    dispatch(setQuery(''));
   };
   return (
     <MainWrapper id='drawer-container'>
-      
          {location.pathname !== '/news/create' &&
     <div>
       <WrapHeader>
@@ -48,14 +49,17 @@ const News = () => {
 
       <Header
             handleOpenSetting={handleOpenSetting}
+
           />
         </div>}
     
       <Switch>
         <Suspense fallback={<Spinner />}>
+                {" "}
           {menuItems.map((item) => {
             return <Route exact path={item.path} component={item.component} />;
           })}
+    
         </Suspense>
       </Switch>
     </MainWrapper>

@@ -9,10 +9,8 @@ import { Flex } from "../../style";
 import { useTranslation } from "react-i18next";
 import { IProps } from "./types";
 import { useAppSelector, useAppDispatch } from "services/redux/hooks";
-import {
- 
-  setQuery,
-} from "services/redux/Slices/staffs";
+import {setQuery,
+} from "services/redux/Slices/news";
 
 const Header = ({
 
@@ -20,7 +18,7 @@ const Header = ({
 }: IProps) => {
   const location = useLocation();
   const dispatch = useAppDispatch();
-  const query = useAppSelector((state) => state.staffs.query);
+  const query = useAppSelector((state) => state.news.query);
 
   const { t } = useTranslation();
 
