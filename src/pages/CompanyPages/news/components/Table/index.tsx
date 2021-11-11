@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTable, useSortBy } from 'react-table';
-import { Container, MTable, Thead, Tr, Th, Tbody, Td, UpIcon } from './style';
+import { Container, MTable, Thead, Tr, Th, Tbody, Td, UpIcon,TitleData,DefaultImage} from './style';
 
 interface Props {
     columns?: any;

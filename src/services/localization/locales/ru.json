@@ -82,7 +82,7 @@
   "pointsLeft": "Остаток баллов",
   "receivedCashback": "Получено кешбэк",
   "receivedDiscount": "Получено скидки",
-  "operations": "Операциии",
+  "operations": "Операции",
   "points": "Баллы",
   "blocking": "Блокировка",
   "blockInfo": "Клиент не сможет использовать систему лояльности вашей компании",
@@ -450,5 +450,6 @@
   "graphWorking": "Рабочий график",
   "man": "Мужчина",
   "woman": "Женщина",
-  "summoney": "Сумма"
+  "summoney": "Сумма",
+  "enter_number": "Введите количество"
 }
