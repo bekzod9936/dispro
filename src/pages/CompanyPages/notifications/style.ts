@@ -34,11 +34,22 @@ export const Card = styled.div`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
   border-radius: 14px;
   height: 300px;
-  min-width: 300px;
+  /* width: calc(33% - 10px);
+  max-width: calc(33% - 10px);
+  min-width: 290px; */
   cursor: pointer;
   display: flex;
   flex-direction: column;
   flex: 1;
+  width: 100%;
+  @media (min-width: ${device.laptop}) {
+    /* width: calc(25% - 10px);
+    max-width: calc(25% - 10px); */
+  }
+  @media (max-width: ${device.mobile}) {
+    /* width: 100%;
+    min-width: 100%; */
+  }
 `;
 
 export const CardImg = styled.div`
@@ -106,6 +117,11 @@ export const WrapPag = styled.div`
   justify-content: space-between;
   align-items: center;
   margin: 20px 0;
+  @media (max-width: ${device.mobile}) {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
 `;
 
 export const Info = styled.div`
@@ -116,26 +132,31 @@ export const Info = styled.div`
     margin: 0px 5px;
     font-size: 18px;
   }
+  @media (max-width: ${device.mobile}) {
+    margin-bottom: 15px;
+  }
 `;
 
 export const WrapperCard = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: auto auto;
+  grid-template-columns: repeat(3, 1fr);
   grid-gap: 20px;
-  @media (min-width: ${device.laptop}) {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-gap: 30px;
-  }
   & > :hover {
     box-shadow: 4px 4px 10px grey;
   }
   border-radius: 14px;
+  @media (max-width: ${device.mobile}) {
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: ${device.laptop}) {
+    grid-template-columns: repeat(4, 1fr);
+  }
 `;
 
 export const Wrap = styled.div`
   overflow-y: auto;
   margin-top: 25px;
+  overflow-x: hidden;
   padding-right: 25px;
   ::-webkit-scrollbar {
     width: 7px;
@@ -167,6 +188,7 @@ export const SideText = styled.div`
 
 export const WrapScroll = styled.div`
   overflow-y: auto;
+  overflow-x: hidden;
   padding-right: 25px;
   ::-webkit-scrollbar {
     width: 7px;
@@ -191,26 +213,27 @@ interface Props {
 
 export const SideDrawer = styled.div`
   position: absolute;
-  top: 0;
   right: 0;
-  z-index: 1000;
-  width: ${({ open }: Props) => (open ? '30%' : '0')};
-  background: white;
-  box-shadow: -5px 2px 20px rgba(0, 0, 0, 0.06);
+  bottom: 0;
+  top: 0;
   display: flex;
   flex: 1;
-  height: 100%;
   flex-direction: column;
-  -webkit-transition: width 0.3s;
-  transition: width 0.3s;
+  max-width: 320px;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  z-index: 20;
+  transition: 500ms all;
+  transform: ${(props: Props) =>
+    props.open ? 'translateX(0)' : 'translateX(100%)'};
 `;
 
 export const WrapButton = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   width: 100%;
-  margin: 30px 0;
 `;
 
 export const WrapInfoBox = styled.div``;

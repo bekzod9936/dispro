@@ -410,7 +410,7 @@ const Clients = () => {
               endDate: e.slice(e.indexOf('~ ') + 2),
               usedLevelNumber: '',
             });
-            setDate({
+            await setDate({
               startDate: e.slice(0, e.indexOf(' ~')),
               endDate: e.slice(e.indexOf('~ ') + 2),
             });
@@ -419,7 +419,7 @@ const Clients = () => {
         />
       </WrapFilter>
       <Container>
-        {response.isLoading || isFetching ? (
+        {response.isLoading || isFetching || response.isFetching ? (
           <Spinner />
         ) : (
           <Wrapper>
