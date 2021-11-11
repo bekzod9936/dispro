@@ -41,7 +41,6 @@ export const Wrapper = styled.div`
 `;
 
 export const WrapperNav = styled.div`
-  overflow-x: scroll;
   padding-left: 30px;
   padding-right: 20px;
 
