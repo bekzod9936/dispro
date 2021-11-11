@@ -17,10 +17,11 @@ interface Props {
   list?: { title: string; content: any }[];
   onSubmit?: () => void;
   onReset?: () => void;
-  error?: boolean
+  error?: boolean,
+  position?: number
 }
 
-const Filter = ({ list, onSubmit = () => { }, onReset = () => { }, error }: Props) => {
+const Filter = ({ list, onSubmit = () => { }, onReset = () => { }, error, position }: Props) => {
   const { t } = useTranslation();
 
   const [closeFun, setCloseFun] = useState<any>();
@@ -43,7 +44,7 @@ const Filter = ({ list, onSubmit = () => { }, onReset = () => { }, error }: Prop
           {t('filters')}
         </Button>
       }
-      anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+      anchorOrigin={{ horizontal: 'left', vertical: position || 'bottom' }}
       transformOrigin={{ horizontal: 'left', vertical: 'top' }}
       popoverStyle={{ marginTop: '20px' }}
       onClose={handleClose}

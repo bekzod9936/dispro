@@ -63,6 +63,31 @@ export const numberWith = (
     : defVal;
 };
 
+interface WProps {
+  number?: number | string;
+  replaceValue?: string;
+  defaultValue?: string | number;
+}
+
+export const numberWithNew = ({
+  number,
+  replaceValue = ' ',
+  defaultValue = '-',
+}: WProps) => {
+  if (Number.isInteger(number)) {
+    const a = String(number);
+    return number
+      ? a.replace(/(\d)(?=(\d{3})+(?!\d))/g, `$&${replaceValue}`)
+      : defaultValue;
+  } else {
+    return number
+      ? Number(number)
+          .toFixed(2)
+          .replace(/(\d)(?=(\d{3})+(?!\d))/g, `$&${replaceValue}`)
+      : defaultValue;
+  }
+};
+
 export const normalInteger = (str: string, max?: number) => {
   str = str.replace(/\s/g, '');
   str = str?.toString().trim();

@@ -32,6 +32,7 @@ import {
   WrapInfoBox,
   WrapDefault,
 } from './style';
+import { useHistory } from 'react-router';
 
 interface intialFilterProps {
   page?: number;
@@ -54,6 +55,7 @@ interface infoProps {
 
 const Notifications = () => {
   const { t } = useTranslation();
+  const history = useHistory();
 
   const [open, setOpen] = useState(false);
   const [info, setInfo] = useState<infoProps>({});
@@ -165,7 +167,12 @@ const Notifications = () => {
             <SideText>{info.body} </SideText>
           </WrapInfoBox>
           <WrapButton>
-            <Button startIcon={<MessageIcon />}>{t('writetous')}</Button>
+            <Button
+              onClick={() => history.push('/support')}
+              startIcon={<MessageIcon />}
+            >
+              {t('writetous')}
+            </Button>
           </WrapButton>
         </WrapScroll>
       </SideDrawer>

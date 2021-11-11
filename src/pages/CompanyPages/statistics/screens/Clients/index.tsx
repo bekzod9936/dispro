@@ -243,7 +243,13 @@ const Clients = () => {
             inputStyle={{
               inpadding: '0 10px',
             }}
-            min={9}
+            error={
+              !!purchase.purchaseCountFrom &&
+              !!purchase.purchaseCountTo &&
+              Number(purchase.purchaseCountFrom) >
+                Number(purchase.purchaseCountTo)
+            }
+            maxLength={11}
             onChange={(e: any) => {
               setPurchase({ ...purchase, purchaseCountFrom: e.target.value });
             }}
@@ -255,10 +261,16 @@ const Clients = () => {
             width={{
               maxwidth: 200,
             }}
+            maxLength={11}
+            error={
+              !!purchase.purchaseCountFrom &&
+              !!purchase.purchaseCountTo &&
+              Number(purchase.purchaseCountFrom) >
+                Number(purchase.purchaseCountTo)
+            }
             inputStyle={{
               inpadding: '0 10px',
             }}
-            min={9}
             value={purchase.purchaseCountTo}
             onChange={(e: any) =>
               setPurchase({ ...purchase, purchaseCountTo: e.target.value })
@@ -270,10 +282,9 @@ const Clients = () => {
     {
       title: t('purchuase_cost'),
       content: (
-        <Input
+        <InputFormat
           placeholder={t('notless')}
           onChange={(e: any) => setAllPurchaseSum(e.target.value)}
-          type='number'
           label={t('enter_amount')}
           value={allPurchaseSum}
         />
@@ -378,6 +389,12 @@ const Clients = () => {
               endDate: date.endDate,
             });
           }}
+          error={
+            !!purchase.purchaseCountFrom &&
+            !!purchase.purchaseCountTo &&
+            Number(purchase.purchaseCountFrom) >
+              Number(purchase.purchaseCountTo)
+          }
           onReset={onReset}
           list={filterList}
         />

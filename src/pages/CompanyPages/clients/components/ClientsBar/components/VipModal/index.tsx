@@ -12,7 +12,7 @@ interface IProps {
     status: string,
     value: number | string,
     handleClose: () => void,
-    refetch: any,
+    refetch?: any,
     state: "selecting" | "updating" | "removing",
     setState: (arg: "selecting" | "removing" | "updating") => void
 }
