@@ -11,7 +11,7 @@ export const Wrapper = styled.form`
         margin-bottom: 8px;
         svg {
             cursor: pointer;
-            
+
         }
         h3 {
             font-size: 22px;
@@ -26,5 +26,11 @@ export const Wrapper = styled.form`
         color: #223367;
         width: 272px;
         margin-bottom: 30px;
+    }
+    .buttons {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: flex-end;
     }
 `

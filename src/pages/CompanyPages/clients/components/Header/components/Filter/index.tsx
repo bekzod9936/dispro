@@ -125,6 +125,7 @@ export const MFilter = () => {
             label={t("enter_amount")}
             margin={{ laptop: "0 0 0 15px" }}
             IconStart={<WrapPlaceHolder>{t("to")}</WrapPlaceHolder>}
+            error={Number(filter?.purchaseAmount?.purchaseCountFrom) > Number(filter?.purchaseAmount?.purchaseCountTo)}
             width={{
               maxwidth: 200,
             }}
@@ -199,8 +200,8 @@ export const MFilter = () => {
   const handleSubmit = () => {
     const res = {
       ...filter,
-
     }
+    if (Number(filter?.purchaseAmount?.purchaseCountFrom) > Number(filter?.purchaseAmount?.purchaseCountTo)) return
     dispatch(setFilters(res))
   };
 
@@ -210,7 +211,11 @@ export const MFilter = () => {
 
   return (
     <Wrapper>
-      <Filter list={filterList} onSubmit={handleSubmit} onReset={handleReset} />
+      <Filter
+        error={Number(filter?.purchaseAmount?.purchaseCountFrom) > Number(filter?.purchaseAmount?.purchaseCountTo)}
+        list={filterList}
+        onSubmit={handleSubmit}
+        onReset={handleReset} />
     </Wrapper>
   );
 };

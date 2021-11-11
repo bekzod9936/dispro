@@ -188,3 +188,8 @@ export const getOneDayPlus = (date: any, action: string) => {
         return moment(res).format("YYYY-MM-DD")
     }
 }
+
+
+export const getClientStatistics = (data: any) => {
+
+}

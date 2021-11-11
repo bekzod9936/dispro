@@ -44,11 +44,8 @@ const Client = () => {
     }), {
         retry: 0,
         refetchOnWindowFocus: false,
-        onSuccess: (data) => {
-            console.log(data);
-
-        }
     })
+
 
     const handleClose = () => {
         dispatch(selectAll(false))
@@ -117,9 +114,11 @@ const Client = () => {
         return (
             <Wrapper>
                 <UpSide>
-                    <ClientBlock client={client} setBlockModal={setBlockModal} />
+                    <ClientBlock
+                        client={client}
+                        setBlockModal={setBlockModal} />
                     <InfoBlock {...client} />
-                    <Recommendation />
+                    <Recommendation referLevels={response?.data?.data?.data?.childReferalClientsByLevel} />
                 </UpSide>
                 <MiddleSide>
                     {statistics.map((el, index) => (
@@ -136,7 +135,10 @@ const Client = () => {
                         </Suspense>
                     </Switch>
                 </DownSide>
-                <BlockModal handleClose={setBlockModal} isOpen={blockModal} />
+                <BlockModal
+                    isBlocking={!client.isPlBlocked}
+                    handleClose={setBlockModal}
+                    isOpen={blockModal} />
             </Wrapper>
         )
     } else {

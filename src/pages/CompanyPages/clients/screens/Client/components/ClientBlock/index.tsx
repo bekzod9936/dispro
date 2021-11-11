@@ -1,5 +1,5 @@
 import { IconButton } from '@material-ui/core'
-import { BlockIcon, CoinsIcon, CrownIcon, GoBackIcon, MinusCoinsIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
+import { BlockIcon, CoinsIcon, CrownIcon, GoBackIcon, MinusCoinsIcon, UnBlockIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
 import Button from 'components/Custom/Button'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -11,7 +11,10 @@ interface IProps {
     setBlockModal: (e: boolean) => void
 }
 
-export const ClientBlock = ({ client: { image, firstName, lastName, addInfo, genderTypeId, personalLoyaltyInfo }, setBlockModal }: IProps) => {
+export const ClientBlock = ({
+    client: { image, firstName, lastName, addInfo, genderTypeId, personalLoyaltyInfo, isPlBlocked },
+    setBlockModal
+}: IProps) => {
     const { t } = useTranslation()
     const history = useHistory()
 
@@ -26,7 +29,12 @@ export const ClientBlock = ({ client: { image, firstName, lastName, addInfo, gen
         <Wrapper>
             <UpSide>
                 <GoBackIcon onClick={handleClose} style={{ marginRight: "25px", cursor: "pointer" }} />
-                {image ? <img src={image} /> : <DefaultImage />}
+                {image ?
+                    <div className="imageBlock">
+                        <img src={image} />
+                        {isPlBlocked && <div className="blocked"><BlockIcon /></div>}
+                    </div> :
+                    <DefaultImage />}
                 <IconButton>
                     <CoinsIcon style={{ width: 35, height: 30 }} />
                 </IconButton>
@@ -34,7 +42,9 @@ export const ClientBlock = ({ client: { image, firstName, lastName, addInfo, gen
                     <MinusCoinsIcon style={{ width: 35, height: 30 }} />
                 </IconButton>
                 <IconButton onClick={handleBlock} style={{ width: 50, height: 50 }}>
-                    <BlockIcon style={{ width: 35, height: 30 }} />
+                    {!isPlBlocked ?
+                        <BlockIcon style={{ width: 35, height: 30 }} /> :
+                        <UnBlockIcon style={{ width: 35, height: 30 }} />}
                 </IconButton>
             </UpSide>
             <DownSide>
