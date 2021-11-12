@@ -40,6 +40,8 @@ export const BottomAwardBtnContainer = styled.div`
   @media (max-width: ${device.laptop}) {
     display: flex;
     justify-content: center;
+    height: 100%;
+    line-height: 75px;
   }
 `;
 
