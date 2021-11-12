@@ -7,6 +7,7 @@ import { ReactComponent as Reset } from 'assets/icons/StatistisPage/reset.svg';
 export const Container = styled.div`
   position: relative;
   width: fit-content;
+
   div.rmdp-container {
     position: absolute;
     top: 100%;

@@ -63,10 +63,10 @@ const info = createSlice({
     setExitModal: (state, action: PayloadAction<boolean>) => {
       state.exitmodal = action.payload;
     },
-    setBalance: (state, action: PayloadAction<number>) => {
+    setBalanceAccounts: (state, action: PayloadAction<number>) => {
       state.balance = action.payload;
     },
-    setLimit: (state, action: PayloadAction<number>) => {
+    setLimitAccounts: (state, action: PayloadAction<number>) => {
       state.limit = action.payload;
     },
     setAccounts: (state, action: PayloadAction<IAccounts[]>) => {
@@ -80,7 +80,7 @@ export const {
   setAddressAdding,
   setExitModal,
   setAccounts,
-  setLimit,
-  setBalance,
+  setLimitAccounts,
+  setBalanceAccounts,
 } = info.actions;
 export default info.reducer;
