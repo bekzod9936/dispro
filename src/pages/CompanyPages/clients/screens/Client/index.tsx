@@ -20,15 +20,14 @@ import { useQuery } from 'react-query'
 import { fetchPersonalInfo } from 'services/queries/clientsQuery'
 import { BlockModal } from '../../components/BlockModal'
 import { VipModal } from '../../components/ClientsBar/components/VipModal'
-import Modal from 'components/Custom/Modal'
-import { getClientStatistics } from '../../utils/getSelectedFilters'
-
+import Modal from 'components/Custom/Modal';
+import { getClientStatistics } from '../../utils/getSelectedFilters';
+import { useEffect } from "react";
 const Client = () => {
-    const { selectedClients, period: { endDate, startDate }, currentClient } = useAppSelector(state => state.clients)
+    const { period: { endDate, startDate }, currentClient } = useAppSelector(state => state.clients)
     const { id }: any = useParams()
     const [clientId, clientUserId] = id?.toString()?.split("-")
-    const clint = currentClient?.clientInfo
-    const client = selectedClients[0]
+    const client = currentClient?.clientInfo
     const history = useHistory()
     const { routes } = useClientRoutes()
     const { width } = useWindowSize()
@@ -45,7 +44,7 @@ const Client = () => {
 
 
     const dispatch = useAppDispatch()
-    const response = useQuery("fetch", () => fetchPersonalInfo({
+    const response = useQuery(["fetch"], () => fetchPersonalInfo({
         clientUserId,
         clientId,
         startDate,
@@ -59,6 +58,10 @@ const Client = () => {
         }
     })
 
+    useEffect(() => {
+        console.log("mount");
+
+    }, [])
 
     const handleClose = () => {
         dispatch(selectAll(false))
@@ -85,32 +88,33 @@ const Client = () => {
             <Spinner />
         )
     }
+
+
     if (width > 600) {
         return (
             <Wrapper>
                 <Modal open={vipModal}>
                     <VipModal
+                        id={client?.id || 0}
+                        refetch={response.refetch}
                         handleClose={() => setVipModal(false)}
-                        name={clint?.firstName + " " + clint?.lastName}
                         state={vipModalState}
-                        setState={setVipModalState}
-                        status={clint?.addInfo?.status || ""}
-                        value={clint?.personalLoyaltyInfo?.percent || ""}
                     />
                 </Modal>
                 <UpSide>
                     <ClientBlock
-                        client={clint}
+                        client={client}
                         setBlockModal={setBlockModal} />
                     <InfoBlock
+                        referBy={currentClient?.referBy}
                         vipModal={vipModal}
                         setVipModalState={setVipModalState}
                         setVipModal={setVipModal}
-                        client={clint} />
+                        client={client} />
                     <Recommendation referLevels={currentClient?.childReferalClientsByLevel} />
                 </UpSide>
                 <MiddleSide>
-                    {getClientStatistics(clint?.addInfo).map((el, index) => (
+                    {getClientStatistics(client?.addInfo)?.map((el, index) => (
                         <StatsCard key={index} {...el} />
                     ))}
                 </MiddleSide>

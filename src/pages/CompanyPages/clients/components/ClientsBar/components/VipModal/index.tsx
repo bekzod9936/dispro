@@ -8,20 +8,19 @@ import { changeVipPercent } from 'services/queries/clientsQuery'
 import { useAppSelector } from 'services/redux/hooks'
 import { Status, Wrapper } from './style'
 interface IProps {
-    name: string,
-    status: string,
-    value: number | string,
     handleClose: () => void,
     refetch?: any,
     state: "selecting" | "updating" | "removing",
-    setState: (arg: "selecting" | "removing" | "updating") => void
+    id: number
 }
-export const VipModal = ({ name, status, value, handleClose, refetch, state, setState }: IProps) => {
+export const VipModal = ({ handleClose, refetch, state, id }: IProps) => {
     const { t } = useTranslation()
     const [percent, setPercent] = useState("")
-    const { selectedClients } = useAppSelector(state => state.clients)
-    const client = selectedClients[0]
-
+    const { currentClient, selectedClients } = useAppSelector(state => state.clients)
+    const client = currentClient
+    const value = client?.clientInfo?.personalLoyaltyInfo?.percent
+    const name = client?.clientInfo?.firstName + " " + client?.clientInfo?.lastName
+    const status = client?.clientInfo?.addInfo?.status
     const mutation = useMutation((data: any) => changeVipPercent(data), {
         onSuccess: () => {
             handleClose()
@@ -32,10 +31,11 @@ export const VipModal = ({ name, status, value, handleClose, refetch, state, set
     const onSubmit = (e: any) => {
         e.preventDefault()
         if (Number(percent) < 1 && state !== 'removing') return
+
         if (selectedClients.length === 1) {
             mutation.mutate({
                 percent: state !== "removing" ? percent : 0,
-                clientId: client.id,
+                clientId: id,
                 isActive: state !== "removing"
             })
         } else {
@@ -47,6 +47,7 @@ export const VipModal = ({ name, status, value, handleClose, refetch, state, set
                 })
             })
         }
+
     }
 
     function handleChange(e: any) {
@@ -58,7 +59,11 @@ export const VipModal = ({ name, status, value, handleClose, refetch, state, set
             setPercent(percent)
 
         } else if (percent > 100) setPercent("100")
-        else setPercent(value.toString())
+        else {
+            if (value) {
+                setPercent(value.toString())
+            }
+        }
 
     }
 
@@ -77,7 +82,11 @@ export const VipModal = ({ name, status, value, handleClose, refetch, state, set
                 </div>
                 {selectedClients.length === 1 ?
                     <div className="content">
-                        <p className="client">{name}<b>•</b><span>Статус: {status + " " + value}%</span></p>
+                        <p className="client">
+                            {name}
+                            <b>•</b>
+                            <span>Статус: {status + " " + value}%</span>
+                        </p>
                     </div> :
                     <div className="content">
                         <h5>Выбрано клиентов: {selectedClients.length}</h5>
@@ -120,7 +129,7 @@ export const VipModal = ({ name, status, value, handleClose, refetch, state, set
                     error={Number(percent) < 1}
                     margin={{ laptop: "0 0 30px 0" }}
                     value={percent}
-                    defaultValue={value.toString()}
+                    defaultValue={value?.toString()}
                     onChange={handleChange} />
                 <div className="buttons">
                     <Button

@@ -10,9 +10,10 @@ interface IProps {
     client: IClient | any,
     setVipModal: (arg: boolean) => void
     setVipModalState: (arg: "selecting" | "updating" | "removing") => void
-    vipModal: boolean
+    vipModal: boolean,
+    referBy: any
 }
-export const InfoBlock = ({ vipModal, client: { addInfo, personalLoyaltyInfo }, setVipModal, setVipModalState }: IProps) => {
+export const InfoBlock = ({ referBy, vipModal, client: { addInfo, personalLoyaltyInfo }, setVipModal, setVipModalState }: IProps) => {
 
     const handleChangePercent = (e: any) => {
         let checked = e.target.checked;
@@ -37,10 +38,11 @@ export const InfoBlock = ({ vipModal, client: { addInfo, personalLoyaltyInfo }, 
                 </button>
             </UpSide>
             <DownSide>
-                <p>
-                    {t("byRecommendation")}
-                    : <span>Натальи Ни</span>({t("client")})
-                </p>
+                {referBy &&
+                    <p>
+                        {t("byRecommendation")}
+                        : <span>{referBy}</span>({t("client")})
+                    </p>}
                 <p>
                     {t('lastPurchase')}: {addInfo?.lastPurchaseDate ? moment(addInfo?.lastPurchaseDate).format("DD.MM.YYYY") : "-"}
                 </p>

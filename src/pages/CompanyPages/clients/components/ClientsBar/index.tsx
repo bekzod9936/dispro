@@ -57,7 +57,7 @@ export const ClientsBar = ({ refetch }: IProps) => {
     }
 
     const handleClient = () => {
-        history.push(`/clients/${client.id}-${client.userId}`)
+        history.push(`/clients/${client.id}-${client.userId}/operations`)
     }
 
     const handleChangeStatus = (e: any) => {
@@ -77,13 +77,10 @@ export const ClientsBar = ({ refetch }: IProps) => {
         <Wrapper>
             <Modal open={vipModal}>
                 <VipModal
+                    id={client?.id}
                     state={vipModalState}
-                    setState={setVipModalState}
                     refetch={refetch}
-                    handleClose={() => setVipModal(false)}
-                    status={client?.addInfo?.status}
-                    value={client?.personalLoyaltyInfo?.percent}
-                    name={client?.firstName + " " + client?.lastName} />
+                    handleClose={() => setVipModal(false)} />
             </Modal>
             <CancelButton onClick={handleClose}>
                 <CloseIcon />

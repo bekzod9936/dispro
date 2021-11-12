@@ -20,11 +20,6 @@ export const useClientsRoutes = () => {
             component: Clients
         },
         {
-            path: "/clients/:id",
-            title: t("client"),
-            component: Client
-        },
-        {
             path: "/clients/:id/:params",
             title: t("client"),
             component: Client
@@ -40,7 +35,7 @@ export const useClientRoutes = () => {
     const { width } = useWindowWidth()
     const routes = [
         {
-            path: `/clients/${params.id}`,
+            path: `/clients/${params.id}/operations`,
             text: t("operations"),
             component: Operations
         },

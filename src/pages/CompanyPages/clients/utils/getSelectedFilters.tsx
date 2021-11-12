@@ -201,52 +201,54 @@ export const getOneDayPlus = (date: any, action: string) => {
 
 
 export const getClientStatistics = (data: any) => {
-    const temp = Object.keys(data).map(el => {
-        if (el === "paidWithMoney") {
-            return {
-                icon: <MoneyStatsIcon />,
-                heading: "Оплачено в UZS",
-                value: data[el]
+    if (data) {
+        const temp = Object.keys(data).map(el => {
+            if (el === "paidWithMoney") {
+                return {
+                    icon: <MoneyStatsIcon />,
+                    heading: "Оплачено в UZS",
+                    value: data[el]
+                }
+            } else if (el === "amountOperation") {
+                return {
+                    icon: <MoneyBagIcon />,
+                    heading: "Сумма всех покупок",
+                    value: data[el]
+                }
+            } else if (el === "countOperation") {
+                return {
+                    icon: <CartIcon />,
+                    heading: "Количество покупок",
+                    value: data[el]
+                }
+            } else if (el === "pointSum") {
+                return {
+                    icon: <HandIcon />,
+                    heading: "Остаток баллов",
+                    value: data[el]
+                }
+            } else if (el === "cashbackSum") {
+                return {
+                    icon: <CashBackIcon />,
+                    heading: "Получено кешбэк",
+                    value: data[el]
+                }
+            } else if (el === "discountSum") {
+                return {
+                    icon: <DiscountIcon />,
+                    heading: "Получено скидки",
+                    value: data[el]
+                }
+            } else if (el === "paidWithPoint") {
+                return {
+                    icon: <RatingIcon />,
+                    heading: "Оплаченно баллами",
+                    value: 250000
+                }
             }
-        } else if (el === "amountOperation") {
-            return {
-                icon: <MoneyBagIcon />,
-                heading: "Сумма всех покупок",
-                value: data[el]
-            }
-        } else if (el === "countOperation") {
-            return {
-                icon: <CartIcon />,
-                heading: "Количество покупок",
-                value: data[el]
-            }
-        } else if (el === "pointSum") {
-            return {
-                icon: <HandIcon />,
-                heading: "Остаток баллов",
-                value: data[el]
-            }
-        } else if (el === "cashbackSum") {
-            return {
-                icon: <CashBackIcon />,
-                heading: "Получено кешбэк",
-                value: data[el]
-            }
-        } else if (el === "discountSum") {
-            return {
-                icon: <DiscountIcon />,
-                heading: "Получено скидки",
-                value: data[el]
-            }
-        } else if (el === "paidWithPoint") {
-            return {
-                icon: <RatingIcon />,
-                heading: "Оплаченно баллами",
-                value: 250000
-            }
-        }
-    })
-    return temp.filter(e => !!e)
+        })
+        return temp.filter(e => !!e)
+    }
 }
 
 
