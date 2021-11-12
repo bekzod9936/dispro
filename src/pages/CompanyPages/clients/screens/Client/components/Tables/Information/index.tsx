@@ -38,8 +38,9 @@ const statistics = [
 ]
 const Information = () => {
     const { t } = useTranslation()
-    const { selectedClients } = useAppSelector(state => state.clients)
-    const client = selectedClients[0]
+    const { selectedClients, currentClient } = useAppSelector(state => state.clients)
+
+    const client = currentClient?.clientInfo
     return (
         <Container>
             <Wrapper>
@@ -62,7 +63,7 @@ const Information = () => {
                     </div>
                     <Button margin={{ mobile: "7px 0 0 0" }} buttonStyle={{ bgcolor: "rgba(96, 110, 234, 0.1);", color: "#3492FF" }}>{t("addNote")} +</Button>
                 </InfoBlock>
-                <Recommendation maxWidth="none" />
+                <Recommendation maxWidth="none" referLevels={currentClient?.childReferalClientsByLevel} />
             </AddInfo>
         </Container>
     )

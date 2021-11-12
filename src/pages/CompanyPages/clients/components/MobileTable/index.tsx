@@ -12,7 +12,8 @@ interface IProps {
         image?: string,
         name: string,
         discountValue: number | string,
-        id: number
+        id: number,
+        userId: number
     }[],
     onClick: (e: any, id: number) => void
 }
@@ -29,10 +30,10 @@ export const MobileTable = ({ array, onClick }: IProps) => {
         dispatch(selectAll(false))
     }
 
-    const handleClick = (e: any, id: number) => {
+    const handleClick = (e: any, id: number, userId: number) => {
         if (!isSelecting) {
             onClick(e, id)
-            history.push("/clients/client/information")
+            history.push(`/clients/${id + "-" + userId}/information`)
         }
         else onClick(e, id)
     }
@@ -47,7 +48,9 @@ export const MobileTable = ({ array, onClick }: IProps) => {
             </Thead>
             <Tbody>
                 {array.map(client => (
-                    <Trow selected={selectedClients.some(el => client.id === el.id)} onClick={(e) => handleClick(e, client.id)}>
+                    <Trow
+                        selected={selectedClients.some(el => client.id === el.id)}
+                        onClick={(e) => handleClick(e, client.id, client.userId)}>
                         {isSelecting &&
                             <MCheckbox>
                                 <Checkbox checked={selectedClients.some(el => client.id === el.id)} />
