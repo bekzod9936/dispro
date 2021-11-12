@@ -1,5 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../store';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface partnerState {
   currentPage: string;
   company: object;
@@ -18,25 +17,25 @@ interface partnerState {
   };
 }
 const initialState: partnerState = {
-  currentPage: 'statistics',
+  currentPage: "statistics",
   company: {},
   companyInfo: {
-    annotation: '',
-    description: '',
-    email: '',
-    images: [''],
-    keyWords: '',
-    logo: '',
-    name: '',
-    socialLinks: [{ value: '', name: '' }],
-    telNumber: '',
-    links: [{ address: '', enable: false, name: '', id: 0 }],
+    annotation: "",
+    description: "",
+    email: "",
+    images: [""],
+    keyWords: "",
+    logo: "",
+    name: "",
+    socialLinks: [{ value: "", name: "" }],
+    telNumber: "",
+    links: [{ address: "", enable: false, name: "", id: 0 }],
     categories: [1, 2],
   },
 };
 
 const partnerSlice = createSlice({
-  name: 'partner',
+  name: "partner",
   initialState: initialState,
   reducers: {
     setCurrentPage: (state, action: PayloadAction<any>) => {

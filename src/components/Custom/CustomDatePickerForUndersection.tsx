@@ -1,8 +1,3 @@
-import moment from "moment";
-import React from "react";
-import { setTimeout } from "timers";
-import { CalendarIcon } from "../../assets/icons/ClientStatisticsIcons/ClientStatisticsIcons";
-
 interface IProps {
   date: string;
   style?: object;

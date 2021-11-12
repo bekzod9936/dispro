@@ -12,17 +12,17 @@ import {
   QrContainer,
   OptionDiv,
   QrImg,
+  DownloadDiv,
+  SaveIcon,
+  RightArrIcon,
+  ScrapperIcon,
 } from "./style";
 import { Break } from "../../../styles/index";
 import { OptionsList, OptionsListItem } from "styles/CustomStyles";
 import { useTranslation } from "react-i18next";
 import { COLORS } from "services/Types/enums";
 import Button from "components/Custom/Button";
-import {
-  DownloadIcon,
-  ScrapperIcon,
-  ThreeDotsIcon,
-} from "assets/icons/SettingsIcons/SettingsPageIcon";
+import { ThreeDotsIcon } from "assets/icons/SettingsIcons/SettingsPageIcon";
 import { copyToClipboard } from "services/utils";
 import { IconButton } from "@material-ui/core";
 
@@ -59,8 +59,6 @@ const QrCodeCard = ({
       return 150;
     }
   };
-
-  console.log(width, "width");
 
   return (
     <QrCard>
@@ -136,18 +134,25 @@ const QrCodeCard = ({
         </QrImg>
 
         <QrContainer>
-          <Button
-            buttonStyle={{
-              color: "#fff",
-            }}
-            width={{
-              width: "60%",
-            }}
-            onClick={() => downloadQrCode()}
-            startIcon={<DownloadIcon />}
-          >
-            {t("downloadPNG")}
-          </Button>
+          <DownloadDiv>
+            <Button
+              buttonStyle={{
+                color: "#fff",
+                fontSize: {
+                  desktop: 14,
+                  laptop: 13,
+                },
+              }}
+              width={{
+                width: "100%",
+              }}
+              onClick={() => downloadQrCode()}
+              startIcon={<SaveIcon />}
+            >
+              {t("downloadPNG")}
+            </Button>
+          </DownloadDiv>
+
           <Break height={15} />
           <Button
             buttonStyle={{
@@ -165,7 +170,7 @@ const QrCodeCard = ({
             onClick={() => {
               copyToClipboard(item?.dynLinkToken);
             }}
-            endIcon={<ScrapperIcon />}
+            endIcon={width < 1000 ? <RightArrIcon /> : <ScrapperIcon />}
           >
             {t("copyLink")}
           </Button>
