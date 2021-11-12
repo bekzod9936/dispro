@@ -9,7 +9,7 @@ import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import { PublishIcon } from "assets/icons/proposals/ProposalsIcons";
 import { useMutation } from "react-query";
 import { postCoupon, putCoupon } from "services/queries/proposalQuery";
-import moment from "moment";
+import dayjs from "dayjs";
 import Input from "components/Custom/Input";
 import { useTranslation } from "react-i18next";
 
@@ -116,7 +116,7 @@ export const SetDate = ({
               field={field}
               error={!!errors.publishDate}
               message={t("requiredField")}
-              min={moment(Date.now()).format("YYYY-MM-DD")}
+              min={dayjs(Date.now()).format("YYYY-MM-DD")}
               type="date"
               max={new Date().getFullYear() + 2 + "-01-01"}
               margin={{ laptop: "0 0 30px 0" }}

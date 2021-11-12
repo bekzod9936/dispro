@@ -1,4 +1,4 @@
-import moment from "moment";
+import dayjs from "dayjs";
 import adminInterceptor from "services/interceptors/adminInterceptor";
 import partnerApi from "services/interceptors/companyInterceptor";
 import { URL } from "services/constants/config";
@@ -32,16 +32,16 @@ export const fetchClientStatistics = async (
     query.push(`allPurchaseSum=${purchaseCost}`);
   }
   if (endDate) {
-    query.push(`regDateTo=${moment(endDate).format("YYYY-MM-DD")}`);
+    query.push(`regDateTo=${dayjs(endDate).format("YYYY-MM-DD")}`);
   }
   if (fromDate) {
-    query.push(`regDateFrom=${moment(fromDate).format("YYYY-MM-DD")}`);
+    query.push(`regDateFrom=${dayjs(fromDate).format("YYYY-MM-DD")}`);
   }
   if (startDateUpper) {
-    query.push(`startDate=${moment(startDateUpper).format("YYYY-MM-DD")}`);
+    query.push(`startDate=${dayjs(startDateUpper).format("YYYY-MM-DD")}`);
   }
   if (endDateUpper) {
-    query.push(`endDate=${moment(endDateUpper).format("YYYY-MM-DD")}`);
+    query.push(`endDate=${dayjs(endDateUpper).format("YYYY-MM-DD")}`);
   }
 
   const response = await partnerApi.get(
@@ -59,10 +59,10 @@ export const fetchClientStatistics = async (
 export const fetchClients = async (page: number, start: any, end: any) => {
   const query = [];
   if (start) {
-    query.push(`&startDate=${moment(start).format("YYYY-MM-DD")}`);
+    query.push(`&startDate=${dayjs(start).format("YYYY-MM-DD")}`);
   }
   if (end) {
-    query.push(`&endDate=${moment(end).format("YYYY-MM-DD")}`);
+    query.push(`&endDate=${dayjs(end).format("YYYY-MM-DD")}`);
   }
   let combined = query.join("");
   const response = await partnerApi(

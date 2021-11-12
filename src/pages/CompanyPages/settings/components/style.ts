@@ -4,6 +4,7 @@ import { ReactComponent as Save } from "assets/icons/IconsInfo/save.svg";
 import { ReactComponent as LogWhite } from "assets/icons/SideBar/logoutwhite.svg";
 import { ReactComponent as Cancel } from "assets/icons/SideBar/close.svg";
 import { ReactComponent as DeleteIconWhite } from "assets/icons/delete_ic.svg";
+import { ReactComponent as SettingIcon } from "assets/icons/setting_ic.svg";
 
 interface IUsers {
   width?: number;
@@ -78,6 +79,19 @@ export const CloseIcon = styled(LogWhite)`
 `;
 
 export const CancelIcon = styled(Cancel)`
+  margin-right: 15px;
+  @media (max-width: ${device.planshet}) {
+    width: 18px;
+    height: 18px;
+    margin-left: 10px;
+    margin-right: 0;
+    & > path {
+      fill: #606eea;
+    }
+  }
+`;
+
+export const SettingsIcon = styled(SettingIcon)`
   margin-right: 15px;
   @media (max-width: ${device.planshet}) {
     width: 18px;
