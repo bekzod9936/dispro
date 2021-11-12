@@ -1,12 +1,12 @@
-import moment from "moment";
-import { useState } from "react";
-import { useQuery } from "react-query";
+import moment from 'moment';
+import { useState } from 'react';
+import { useQuery } from 'react-query';
 import {
   fetchChartStatustics,
   fetchCilentsData,
-} from "services/queries/statisticsQuery";
-import { useAppDispatch } from "services/redux/hooks";
-import { setClientStats } from "services/redux/Slices/statistics/statistics";
+} from 'services/queries/statisticsQuery';
+import { useAppDispatch } from 'services/redux/hooks';
+import { setClientStats } from 'services/redux/Slices/statistics/statistics';
 
 interface Props {
   filterValues?: any;
@@ -48,17 +48,16 @@ const useClientsHook = ({ filterValues, traffic }: Props) => {
   const [isFetching, setIsFetching] = useState(false);
 
   const response = useQuery(
-    "fetchClientsInfo",
+    'fetchClientsInfo',
     () => {
       const url = Object.keys(filterValues)
         .map((v: any) => `${v}=${filterValues[v]}&`)
-        .join("");
+        .join('');
       return fetchCilentsData({ section: `clients?${url}&${traffic}` });
     },
     {
       keepPreviousData: true,
       refetchOnWindowFocus: false,
-      refetchIntervalInBackground: true,
       retry: 0,
       onSuccess: (data) => {
         setData(data.data.data);
@@ -69,14 +68,14 @@ const useClientsHook = ({ filterValues, traffic }: Props) => {
   );
 
   const resChart = useQuery(
-    "fetchChartStatistics",
+    'fetchChartStatistics',
     () => {
       return fetchChartStatustics({
         url: `startDate=${moment()
-          .startOf("month")
-          .format("YYYY-MM-DD")}&endDate=${moment()
-          .endOf("month")
-          .format("YYYY-MM-DD")}&chartPeriod=1`,
+          .startOf('month')
+          .format('YYYY-MM-DD')}&endDate=${moment()
+          .endOf('month')
+          .format('YYYY-MM-DD')}&chartPeriod=1`,
       });
     },
     {
@@ -85,7 +84,7 @@ const useClientsHook = ({ filterValues, traffic }: Props) => {
       refetchIntervalInBackground: true,
       retry: 0,
       onSuccess: (data) => {
-        console.log(data, "stststs");
+        console.log(data, 'stststs');
       },
     }
   );

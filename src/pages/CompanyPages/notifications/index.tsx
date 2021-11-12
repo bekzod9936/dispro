@@ -9,6 +9,7 @@ import Spinner from 'components/Custom/Spinner';
 import { ReactComponent as MessageIcon } from 'assets/icons/message.svg';
 import moment from 'moment';
 import notification from 'assets/images/notification.png';
+import notificationDef from 'assets/images/notificationDefault.png';
 import {
   Container,
   Card,
@@ -33,6 +34,8 @@ import {
   WrapDefault,
 } from './style';
 import { useHistory } from 'react-router';
+import useWindowWidth from 'services/hooks/useWindowWidth';
+import FullModal from 'components/Layout/Header/FullModal';
 
 interface intialFilterProps {
   page?: number;
@@ -55,6 +58,7 @@ interface infoProps {
 
 const Notifications = () => {
   const { t } = useTranslation();
+  const { width } = useWindowWidth();
   const history = useHistory();
 
   const [open, setOpen] = useState(false);
@@ -71,6 +75,49 @@ const Notifications = () => {
     await setFilterValues({ ...filterValues, page: e });
     await response.refetch();
   };
+
+  const content = (
+    <>
+      <SideImgWrap>
+        <WrapIcon
+          onClick={() => {
+            setOpen(false);
+            setInfo({});
+            setId(undefined);
+          }}
+        >
+          <CloseIcon />
+        </WrapIcon>
+        <LazyLoadImage
+          alt='image'
+          src={info.image ? info.image : notificationDef}
+          height='100%'
+          width='100%'
+          style={{
+            objectFit: 'scale-down',
+            userSelect: 'none',
+          }}
+        />
+      </SideImgWrap>
+      <WrapScroll>
+        <WrapInfoBox>
+          <WrapTitle>
+            <TitleCard>{info.title}</TitleCard>
+            <Date>{moment(info.createdAt).format('LL')}</Date>
+          </WrapTitle>
+          <SideText>{info.body} </SideText>
+        </WrapInfoBox>
+        <WrapButton>
+          <Button
+            onClick={() => history.push('/support')}
+            startIcon={<MessageIcon />}
+          >
+            {t('writetous')}
+          </Button>
+        </WrapButton>
+      </WrapScroll>
+    </>
+  );
 
   return (
     <Container>
@@ -95,7 +142,7 @@ const Notifications = () => {
                   <CardImg>
                     <LazyLoadImage
                       alt='image'
-                      src={v.image}
+                      src={v.image ? v.image : notificationDef}
                       height='100%'
                       width='100%'
                       style={{
@@ -136,46 +183,11 @@ const Notifications = () => {
           <span>{t('notificationsfromdiscount')}</span>
         </WrapDefault>
       )}
-      <SideDrawer open={open}>
-        <SideImgWrap>
-          <WrapIcon
-            onClick={() => {
-              setOpen(false);
-              setInfo({});
-              setId(undefined);
-            }}
-          >
-            <CloseIcon />
-          </WrapIcon>
-          <LazyLoadImage
-            alt='image'
-            src={info.image}
-            height='100%'
-            width='100%'
-            style={{
-              objectFit: 'scale-down',
-              userSelect: 'none',
-            }}
-          />
-        </SideImgWrap>
-        <WrapScroll>
-          <WrapInfoBox>
-            <WrapTitle>
-              <TitleCard>{info.title}</TitleCard>
-              <Date>{moment(info.createdAt).format('LL')}</Date>
-            </WrapTitle>
-            <SideText>{info.body} </SideText>
-          </WrapInfoBox>
-          <WrapButton>
-            <Button
-              onClick={() => history.push('/support')}
-              startIcon={<MessageIcon />}
-            >
-              {t('writetous')}
-            </Button>
-          </WrapButton>
-        </WrapScroll>
-      </SideDrawer>
+      {width > 600 ? (
+        <SideDrawer open={open}>{content}</SideDrawer>
+      ) : (
+        <FullModal open={open}>{content}</FullModal>
+      )}
     </Container>
   );
 };
