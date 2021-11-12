@@ -4,6 +4,7 @@ import FallbackOnLazyLoad from '../pages/Fallbacks/FallbackOnLazyLoad';
 import PrivateRoute from './PrivateRoute';
 
 import { IPrivateRoute } from './Protection';
+
 const StatisticsPage = lazy(() => import('pages/CompanyPages/statistics'));
 const StaffPage = lazy(() => import('../pages/CompanyPages/staff/StaffPage'));
 const NotificationsPage = lazy(
@@ -15,18 +16,14 @@ const InfoPage = lazy(() => import('../pages/CompanyPages/info'));
 const OrdersPage = lazy(
   () => import('../pages/CompanyPages/orders/OrdersPage')
 );
-const ProposalsPage = lazy(
-  () => import('../pages/CompanyPages/proposals')
-);
+const ProposalsPage = lazy(() => import('../pages/CompanyPages/proposals'));
 const SettingsPage = lazy(
   () => import('../pages/CompanyPages/settings/SettingsPage')
 );
 const ServicesPage = lazy(
   () => import('../pages/CompanyPages/services/ServicesPage')
 );
-const ClientsPage = lazy(
-  () => import('../pages/CompanyPages/clients')
-);
+const ClientsPage = lazy(() => import('../pages/CompanyPages/clients'));
 const DefaultLayoutAdmin = lazy(
   () => import('../components/Layout/DefaultLayoutAdmin')
 );
