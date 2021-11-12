@@ -4,15 +4,13 @@ import { useTranslation } from "react-i18next";
 import Spinner from "components/Custom/Spinner";
 import Table from "../../components/Table";
 import NoNews from "../../components/NoNews";
-import {NewsBar} from "../../components/NewsBar";
-import {setQuery,setSelectedNews} from "services/redux/Slices/news";
-import {SideBar} from "../../components/SideBar"
-import { useAppSelector, useAppDispatch } from "services/redux/hooks";
+import {setQuery} from "services/redux/Slices/news";
 
+import { useAppSelector, useAppDispatch } from "services/redux/hooks";
 import moment from "moment";
 import { Container, Wrap, TitleData,AgeData,Info,WrapPag, DefaultImage } from "./style";
 import {months} from './constants';
-import useActive from "./useActive";
+import useArchive from "./useArchive";
 import Pagination from 'components/Custom/Pagination';
 
 interface intialFilterProps {
@@ -29,9 +27,6 @@ const Active = () => {
   const totalCount=useAppSelector((state)=>state.news.NewsInfo.totalCount);
   const between=useAppSelector((state)=>state.news.NewsInfo.between);
   const totalNewsCount=useAppSelector((state)=>state.news.NewsInfo.totalCountNews)
-  const selectedNews = useAppSelector(
-    (state) => state.news.selectedNews
-  );
   console.log('totalNewsCount',totalNewsCount)
   const { t } = useTranslation();
   const handleOpenSetting = () => {
@@ -48,20 +43,21 @@ const Active = () => {
     
   };
 
+ 
   const [filterValues, setFilterValues] =
     useState<intialFilterProps>(intialFilter);
   
-
-  const { response } = useActive({filterValues: filterValues});
  
+
+  const { response } = useArchive({filterValues: filterValues});
+ 
+  
+
   const handlechangePage = async (e: any) => {
     await setFilterValues({ ...filterValues, page: e });
     await response.refetch();
   };
-  console.log()
- const onClose=()=>{
-   dispatch(setSelectedNews(''))
- }
+  
   const list = data?.map((v: any) => {
     const startDate = moment(v?.startLifeTime).format("YYYY-MM-DD");
     const endDate = moment(v?.endLifeTime).format("YYYY-MM-DD");
@@ -90,10 +86,9 @@ const Active = () => {
           {v?.title}
         </TitleData>
       ),
-      col2: v?.description,
+      col2: <p>{v?.description.length>50 ? v.description.slice(0,50)+"..." :v?.description}</p>,
       col3: genderType,
       col4: <AgeData>{date}<h4>{v?.ageFrom+'+'}</h4></AgeData>,
-      fullData:v,
     };
   });
 
@@ -118,8 +113,6 @@ const Active = () => {
     ],
     []
   );
- const newsById=selectedNews?.fullData;
- console.log('newsById',newsById)
   return (
     <Container>
       <Wrap>
@@ -131,19 +124,13 @@ const Active = () => {
           <>
             {list.length > 0 ? (
             
-                <Table columns={columns} data={list}  />
+                <Table columns={columns} data={list} />
              
             ) : (
               <div style={{ paddingRight: "20%", paddingTop: "10%" }}>
                 <NoNews handleOpenSetting={handleOpenSetting} />
               </div>
             )}
-            <SideBar isOpen={newsById?.id}>
-       {newsById?.id &&   <NewsBar
-            currentNews={newsById}
-                    onClose={onClose} />}
-        
-			</SideBar>
               {list.length > 0 ? (
         <WrapPag>
           <Info>
