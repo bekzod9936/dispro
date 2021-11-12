@@ -14,6 +14,7 @@ import useExcel from './hook/useExcel';
 import Button from 'components/Custom/Button';
 import { useAppSelector } from 'services/redux/hooks';
 import { IconButton } from '@material-ui/core';
+import { countPagination } from 'services/utils';
 import {
   Container,
   WrapPag,
@@ -26,7 +27,6 @@ import {
   DeleteIcon,
   WrapFilterValues,
 } from './style';
-import { ruCount } from './utils/count';
 
 interface intialFilterProps {
   page?: number;
@@ -365,9 +365,9 @@ const Payment = () => {
           <Info>
             {t('shown')}
             <span>{between}</span>
-            {t('from1')} <span>{totalCount}</span>{' '}
-            {ruCount({
-              count: 1,
+            {t('from1')} <span>{totalCount}</span>
+            {countPagination({
+              count: totalCount,
               firstWord: t('page1'),
               secondWord: t('page23'),
             })}

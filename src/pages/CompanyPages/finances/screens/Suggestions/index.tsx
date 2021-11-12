@@ -8,6 +8,7 @@ import moment from 'moment';
 import { Container, WrapPag, Info } from './style';
 import DatePcker from 'components/Custom/DatePicker';
 import { useAppSelector } from 'services/redux/hooks';
+import { countPagination } from 'services/utils';
 
 interface intialFilterProps {
   page?: number;
@@ -123,7 +124,12 @@ const Suggestions = () => {
           <Info>
             {t('shown')}
             <span>{between}</span>
-            {t('from1')} <span>{totalCount}</span> {t('operations1')}
+            {t('from1')} <span>{totalCount}</span>
+            {countPagination({
+              count: totalCount,
+              firstWord: t('page1'),
+              secondWord: t('page23'),
+            })}
           </Info>
           <Pagination
             page={filterValues.page}

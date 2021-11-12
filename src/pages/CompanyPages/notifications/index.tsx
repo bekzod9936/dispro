@@ -36,6 +36,7 @@ import {
 import { useHistory } from 'react-router';
 import useWindowWidth from 'services/hooks/useWindowWidth';
 import FullModal from 'components/Layout/Header/FullModal';
+import { countPagination } from 'services/utils';
 
 interface intialFilterProps {
   page?: number;
@@ -167,7 +168,12 @@ const Notifications = () => {
             <Info>
               {t('shown')}
               <span>{between}</span>
-              {t('from1')} <span>{totalCount}</span> {t('operations1')}
+              {t('from1')} <span>{totalCount}</span>
+              {countPagination({
+                count: totalCount,
+                firstWord: t('page1'),
+                secondWord: t('page23'),
+              })}
             </Info>
             <Pagination
               page={filterValues.page}

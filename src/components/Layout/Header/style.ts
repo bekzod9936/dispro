@@ -228,6 +228,9 @@ export const Content = styled.div`
   border-radius: 14px;
   user-select: none;
   width: 360px;
+  @media (min-width: ${device.mobile}) {
+    padding: 30px 0;
+  }
   @media (max-width: ${device.mobile}) {
     width: 100%;
   }
