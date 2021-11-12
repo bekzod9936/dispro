@@ -8,7 +8,9 @@ import moment from 'moment';
 import { Container, WrapPag, Info } from './style';
 import DatePcker from 'components/Custom/DatePicker';
 import { useAppSelector } from 'services/redux/hooks';
-
+import { countPagination } from 'services/utils';
+import useWindowWidth from 'services/hooks/useWindowWidth';
+import MobileTable from '../../components/MobileTable';
 interface intialFilterProps {
   page?: number;
   perPage?: number;
@@ -18,6 +20,8 @@ interface intialFilterProps {
 
 const Suggestions = () => {
   const { t } = useTranslation();
+  const { width } = useWindowWidth();
+
   const companyId = localStorage.getItem('companyId');
   const data = useAppSelector((state) => state.finance.suggestionFinance.data);
   const totalCount = useAppSelector(
@@ -115,15 +119,22 @@ const Suggestions = () => {
 
       {response.isLoading || response.isFetching ? (
         <Spinner />
-      ) : (
+      ) : width > 600 ? (
         <Table columns={columns} data={list} />
+      ) : (
+        <MobileTable />
       )}
       {list.length > 0 ? (
         <WrapPag>
           <Info>
             {t('shown')}
             <span>{between}</span>
-            {t('from1')} <span>{totalCount}</span> {t('operations1')}
+            {t('from1')} <span>{totalCount}</span>
+            {countPagination({
+              count: totalCount,
+              firstWord: t('page1'),
+              secondWord: t('page23'),
+            })}
           </Info>
           <Pagination
             page={filterValues.page}

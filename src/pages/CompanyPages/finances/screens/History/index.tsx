@@ -14,6 +14,7 @@ import useExcel from './hook/useExcel';
 import Button from 'components/Custom/Button';
 import { useAppSelector } from 'services/redux/hooks';
 import { IconButton } from '@material-ui/core';
+import { countPagination } from 'services/utils';
 import {
   Container,
   WrapPag,
@@ -51,21 +52,11 @@ const Payment = () => {
     (state) => state.finance.historyFinance.between
   );
 
-  const total = useAppSelector(
-    (state) => state.finance.historyFinance.sum.total
-  );
-
-  const minus = useAppSelector(
-    (state) => state.finance.historyFinance.sum.minus
-  );
-
-  const paid = useAppSelector((state) => state.finance.historyFinance.sum.paid);
+  const sum = useAppSelector((state) => state.finance.historyFinance.sum);
 
   const cashier = useAppSelector(
     (state) => state.finance.historyFinance.cashier
   );
-
-  const [dateFilter, setdateFilter] = useState({ startDate: '', endDate: '' });
 
   const intialFilter = {
     startDate: moment().startOf('month').format('YYYY-MM-DD'),
@@ -168,9 +159,9 @@ const Payment = () => {
       <Th style={{ textAlign: 'center' }} colSpan={3}>
         {t('total')}
       </Th>
-      <Th style={{ textAlign: 'center' }}>{total}</Th>
-      <Th style={{ textAlign: 'center' }}>{minus}</Th>
-      <Th style={{ textAlign: 'center' }}>{paid}</Th>
+      <Th style={{ textAlign: 'center' }}>{sum.total}</Th>
+      <Th style={{ textAlign: 'center' }}>{sum.minus}</Th>
+      <Th style={{ textAlign: 'center' }}>{sum.paid}</Th>
     </Tr>
   );
 
@@ -364,7 +355,12 @@ const Payment = () => {
           <Info>
             {t('shown')}
             <span>{between}</span>
-            {t('from1')} <span>{totalCount}</span> {t('operations1')}
+            {t('from1')} <span>{totalCount}</span>
+            {countPagination({
+              count: totalCount,
+              firstWord: t('page1'),
+              secondWord: t('page23'),
+            })}
           </Info>
           <Pagination
             page={filterValues.page}

@@ -6,7 +6,7 @@ import Pagination from 'components/Custom/Pagination';
 import Table from '../../components/Table';
 import DatePcker from 'components/Custom/DatePicker';
 import moment from 'moment';
-import { numberWithNew } from 'services/utils';
+import { countPagination, numberWithNew } from 'services/utils';
 import { useAppSelector } from 'services/redux/hooks';
 import {
   Container,
@@ -175,7 +175,12 @@ const Payment = () => {
             <Info>
               {t('shown')}
               <span>{between}</span>
-              {t('from1')} <span>{totalCount}</span> {t('operations1')}
+              {t('from1')} <span>{totalCount}</span>
+              {countPagination({
+                count: totalCount,
+                firstWord: t('page1'),
+                secondWord: t('page23'),
+              })}
             </Info>
             <Pagination
               page={filterValues.page}
