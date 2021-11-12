@@ -52,21 +52,11 @@ const Payment = () => {
     (state) => state.finance.historyFinance.between
   );
 
-  const total = useAppSelector(
-    (state) => state.finance.historyFinance.sum.total
-  );
-
-  const minus = useAppSelector(
-    (state) => state.finance.historyFinance.sum.minus
-  );
-
-  const paid = useAppSelector((state) => state.finance.historyFinance.sum.paid);
+  const sum = useAppSelector((state) => state.finance.historyFinance.sum);
 
   const cashier = useAppSelector(
     (state) => state.finance.historyFinance.cashier
   );
-
-  const [dateFilter, setdateFilter] = useState({ startDate: '', endDate: '' });
 
   const intialFilter = {
     startDate: moment().startOf('month').format('YYYY-MM-DD'),
@@ -169,9 +159,9 @@ const Payment = () => {
       <Th style={{ textAlign: 'center' }} colSpan={3}>
         {t('total')}
       </Th>
-      <Th style={{ textAlign: 'center' }}>{total}</Th>
-      <Th style={{ textAlign: 'center' }}>{minus}</Th>
-      <Th style={{ textAlign: 'center' }}>{paid}</Th>
+      <Th style={{ textAlign: 'center' }}>{sum.total}</Th>
+      <Th style={{ textAlign: 'center' }}>{sum.minus}</Th>
+      <Th style={{ textAlign: 'center' }}>{sum.paid}</Th>
     </Tr>
   );
 
