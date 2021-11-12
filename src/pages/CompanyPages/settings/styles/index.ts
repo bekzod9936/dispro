@@ -38,6 +38,9 @@ export const HBreak = styled.div`
 export const Wrapper = styled.div`
   padding-left: 30px;
   padding-right: 20px;
+  @media (max-width: ${device.planshet}) {
+    padding-left: 20px;
+  }
 `;
 
 export const WrapperNav = styled.div`

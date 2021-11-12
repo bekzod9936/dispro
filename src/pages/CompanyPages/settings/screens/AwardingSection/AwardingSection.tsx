@@ -4,9 +4,8 @@ import CustomToggle from "components/Custom/CustomToggleSwitch";
 import Input from "components/Custom/Input";
 import { Text } from "styles/CustomStyles";
 import { Controller } from "react-hook-form";
-import { SaveIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
 import { useTranslation } from "react-i18next";
-
+import SaveButton from "pages/CompanyPages/settings/components/SaveButton";
 import {
   AwardContainer,
   BottomAwardBtnContainer,
@@ -19,8 +18,9 @@ import {
   RecomendationRow,
   TextAreaGrid,
   PayForGrid,
+  UpSide,
+  DownSide,
 } from "./styles";
-import Button from "components/Custom/Button";
 import useAwards from "./hooks/useAwards";
 import { Break } from "../../styles";
 import InputFormat from "components/Custom/InputFormat";
@@ -39,15 +39,30 @@ const AwardingSection = () => {
   } = useAwards();
 
   return (
-    <Flex flexGrow="1" margin="0px">
-      <AwardWrapper>
-        <Form onSubmit={handleSubmit(onFormSubmit)}>
+    <AwardWrapper>
+      <Form onSubmit={handleSubmit(onFormSubmit)}>
+        <UpSide>
           <AwardContainer container spacing={3}>
             <LeftAwardGrid item xs={12} sm={5}>
               {/* Invite Settings  */}
               <AwardGrid container direction="column" xs={12}>
-                <Grid container xs={12} direction="row">
-                  <Grid xs={9}>
+                <Grid
+                  container
+                  xs={12}
+                  sm={12}
+                  md={7}
+                  lg={7}
+                  direction="row"
+                  alignItems="flex-start"
+                  justifyContent="flex-start"
+                >
+                  <Grid
+                    container
+                    justifyContent="flex-start"
+                    alignItems="flex-start"
+                    direction="column"
+                    xs={10}
+                  >
                     <div>
                       <Text fontWeight={500} fontSize="18px">
                         Приветственные баллы
@@ -60,7 +75,7 @@ const AwardingSection = () => {
                       </Text>
                     </div>
                   </Grid>
-                  <Grid xs={3}>
+                  <Grid container justifyContent="flex-end" xs={2}>
                     <Controller
                       name="inviteCheck"
                       control={control}
@@ -73,7 +88,7 @@ const AwardingSection = () => {
                   </Grid>
                 </Grid>
                 {inviteCheck && (
-                  <ControlGrid item xs={12}>
+                  <ControlGrid container xs={12} sm={12} md={4} lg={4}>
                     <Controller
                       control={control}
                       name="awardSizeFirst"
@@ -81,7 +96,7 @@ const AwardingSection = () => {
                         return (
                           <InputFormat
                             field={field}
-                            width={{ width: "70%" }}
+                            width={{ width: "100%" }}
                             label={t("awardSize")}
                           />
                         );
@@ -94,8 +109,17 @@ const AwardingSection = () => {
 
               {/* Recomendation balls */}
               <AwardGrid>
-                <Grid container xs={12} direction="row">
-                  <Grid xs={9}>
+                <Grid
+                  container
+                  xs={12}
+                  sm={12}
+                  md={7}
+                  lg={7}
+                  direction="row"
+                  alignItems="flex-start"
+                  justifyContent="flex-start"
+                >
+                  <Grid xs={10}>
                     <div>
                       <Text fontWeight={500} fontSize="18px">
                         Баллы за рекомендацию
@@ -108,7 +132,7 @@ const AwardingSection = () => {
                       </Text>
                     </div>
                   </Grid>
-                  <Grid xs={3}>
+                  <Grid container justifyContent="flex-end" xs={2}>
                     <Controller
                       name="recommendCheck"
                       control={control}
@@ -122,7 +146,7 @@ const AwardingSection = () => {
                 </Grid>
                 <Break height={15} />
                 {recommendCheck && (
-                  <Grid item xs={12}>
+                  <Grid container xs={12} sm={12} md={4} lg={4}>
                     <RecomendationRow>
                       <Controller
                         control={control}
@@ -132,7 +156,7 @@ const AwardingSection = () => {
                             <InputFormat
                               field={field}
                               label={t("awardSize")}
-                              width={{ width: "70%" }}
+                              width={{ width: "100%" }}
                             />
                           );
                         }}
@@ -161,8 +185,17 @@ const AwardingSection = () => {
             <RightAwardGrid item xs={12} sm={7}>
               {/* Birthday invite balls */}
               <AwardGrid>
-                <Grid container xs={12} direction="row">
-                  <Grid xs={9}>
+                <Grid
+                  container
+                  xs={12}
+                  sm={12}
+                  md={7}
+                  lg={7}
+                  direction="row"
+                  alignItems="flex-start"
+                  justifyContent="flex-start"
+                >
+                  <Grid xs={10}>
                     <div>
                       <Text fontWeight={500} fontSize="18px">
                         Баллы ко дню рождения
@@ -175,7 +208,7 @@ const AwardingSection = () => {
                       </Text>
                     </div>
                   </Grid>
-                  <Grid xs={3}>
+                  <Grid container justifyContent="flex-end" xs={2}>
                     <Controller
                       name="birthdayCheck"
                       control={control}
@@ -189,7 +222,7 @@ const AwardingSection = () => {
                 </Grid>
                 <Break height={15} />
                 {birthdayCheck && (
-                  <Grid container xs={12} direction="row">
+                  <Grid container xs={12}>
                     <Grid
                       container
                       justifyContent="space-between"
@@ -228,7 +261,6 @@ const AwardingSection = () => {
                         />
                       </PayForGrid>
                     </Grid>
-                    <Grid item sm="auto" md={1} lg={1}></Grid>
                     <TextAreaGrid item xs={12} md={7} sm={7}>
                       <Controller
                         name="description"
@@ -260,8 +292,17 @@ const AwardingSection = () => {
 
               {/* VIP Ball  */}
               <AwardGrid>
-                <Grid container xs={12} direction="row">
-                  <Grid xs={9}>
+                <Grid
+                  container
+                  xs={12}
+                  sm={12}
+                  md={7}
+                  lg={7}
+                  direction="row"
+                  alignItems="flex-start"
+                  justifyContent="flex-start"
+                >
+                  <Grid xs={10}>
                     <div>
                       <Text fontWeight={500} fontSize="18px">
                         VIP баллы
@@ -274,7 +315,7 @@ const AwardingSection = () => {
                       </Text>
                     </div>
                   </Grid>
-                  <Grid xs={3}>
+                  <Grid container justifyContent="flex-end" xs={2}>
                     <Controller
                       name="vipCheck"
                       control={control}
@@ -288,62 +329,55 @@ const AwardingSection = () => {
                 </Grid>
                 <Break height={15} />
                 {vipCheck && (
-                  <Grid container xs={12} direction="row">
-                    <div
-                      style={{
-                        display: "flex",
-                        width: "100%",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <div style={{ width: "48%" }}>
-                        <Controller
-                          name="awardSizeFourth"
-                          control={control}
-                          render={({ field }) => {
-                            return (
-                              <InputFormat
-                                field={field}
-                                width={{ width: "100%" }}
-                                label={t("awardSize")}
-                              />
-                            );
-                          }}
-                        />
-                      </div>
-                      <div style={{ width: "48%" }}>
-                        <Controller
-                          name="ifMoreThan"
-                          control={control}
-                          render={({ field }) => {
-                            return (
-                              <InputFormat
-                                field={field}
-                                width={{ width: "100%" }}
-                                label={t("ifMoreThan")}
-                              />
-                            );
-                          }}
-                        />
-                      </div>
-                    </div>
+                  <Grid container spacing={2} xs={12} direction="row">
+                    <Grid item xs={12} sm={12} md={6} lg={6}>
+                      <Controller
+                        name="awardSizeFourth"
+                        control={control}
+                        render={({ field }) => {
+                          return (
+                            <InputFormat
+                              field={field}
+                              width={{ width: "100%" }}
+                              label={t("awardSize")}
+                            />
+                          );
+                        }}
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={6} lg={6}>
+                      <Controller
+                        name="ifMoreThan"
+                        control={control}
+                        render={({ field }) => {
+                          return (
+                            <InputFormat
+                              field={field}
+                              width={{ width: "100%" }}
+                              label={t("ifMoreThan")}
+                            />
+                          );
+                        }}
+                      />
+                    </Grid>
                   </Grid>
                 )}
               </AwardGrid>
             </RightAwardGrid>
-
-            <BottomAwardBtnContainer>
-              <Button disabled={saveBonus.isLoading} type="submit">
-                <SaveIcon />
-                <Text marginLeft="15px" color="white">
-                  {t("save")}
-                </Text>
-              </Button>
-            </BottomAwardBtnContainer>
           </AwardContainer>
-        </Form>
-      </AwardWrapper>
-    </Flex>
+        </UpSide>
+
+        <DownSide>
+          <BottomAwardBtnContainer>
+            <SaveButton
+              type="submit"
+              disabled={saveBonus.isLoading}
+              text={t("save")}
+            />
+          </BottomAwardBtnContainer>
+        </DownSide>
+      </Form>
+    </AwardWrapper>
   );
 };
 

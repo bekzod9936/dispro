@@ -1,16 +1,14 @@
 import { Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-
 import { SettingsWrapper } from "../../styles/SettingStyles";
 import { Text } from "../../../../../styles/CustomStyles";
-import { SaveIcon } from "../../../../../assets/icons/InfoPageIcons/InfoPageIcons";
 import useSecurity from "./hooks/useSecurity";
-import Button from "components/Custom/Button";
 import CustomToggle from "components/Custom/CustomToggleSwitch";
 import { Break } from "../../styles";
 import { Grid } from "@material-ui/core";
-import { Form, UpSide, DownSide, UpRow } from "./styles";
+import { Form, UpSide, DownSide, UpRow, SecurityWrapper } from "./styles";
 import InputFormat from "components/Custom/InputFormat";
+import SaveButton from "pages/CompanyPages/settings/components/SaveButton";
 
 const SecuritySection = () => {
   const { t } = useTranslation();
@@ -18,7 +16,7 @@ const SecuritySection = () => {
     useSecurity();
 
   return (
-    <div style={{ display: "flex", flexGrow: 1 }}>
+    <SecurityWrapper>
       <SettingsWrapper>
         <Form onSubmit={handleSubmit(onFormSubmit)}>
           <Grid container xs={12} direction="column">
@@ -27,12 +25,21 @@ const SecuritySection = () => {
               <UpRow>
                 <Grid
                   container
-                  xs={7}
+                  xs={12}
+                  sm={12}
+                  md={7}
+                  lg={7}
                   direction="row"
                   alignItems="flex-start"
                   justifyContent="flex-start"
                 >
-                  <Grid container direction="column" xs={10}>
+                  <Grid
+                    container
+                    justifyContent="flex-start"
+                    alignItems="flex-start"
+                    direction="column"
+                    xs={10}
+                  >
                     <Grid item xs={12}>
                       <Text fontWeight={500} fontSize="18px">
                         Отслеживать подозрительных клиентов
@@ -45,7 +52,7 @@ const SecuritySection = () => {
                       </Text>
                     </Grid>
                   </Grid>
-                  <Grid item xs={2}>
+                  <Grid container justifyContent="flex-end" xs={2}>
                     <Controller
                       name="suspendedClient"
                       control={control}
@@ -59,7 +66,7 @@ const SecuritySection = () => {
                 </Grid>
                 <Break height={25} />
                 {suspendedClient && (
-                  <Grid container xs={4}>
+                  <Grid container xs={12} sm={12} md={4} lg={4}>
                     <Controller
                       name="first"
                       control={control}
@@ -83,12 +90,21 @@ const SecuritySection = () => {
               <UpRow>
                 <Grid
                   container
-                  xs={7}
+                  xs={12}
+                  sm={12}
+                  md={7}
+                  lg={7}
                   direction="row"
                   alignItems="flex-start"
                   justifyContent="flex-start"
                 >
-                  <Grid container direction="column" xs={10}>
+                  <Grid
+                    container
+                    justifyContent="flex-start"
+                    alignItems="flex-start"
+                    direction="column"
+                    xs={10}
+                  >
                     <Grid item xs={12}>
                       <Text fontWeight={500} fontSize="18px">
                         Ограничить сумму счета
@@ -101,7 +117,7 @@ const SecuritySection = () => {
                       </Text>
                     </Grid>
                   </Grid>
-                  <Grid item xs={2}>
+                  <Grid container justifyContent="flex-end" xs={2}>
                     <Controller
                       name="suspendedSum"
                       control={control}
@@ -115,7 +131,7 @@ const SecuritySection = () => {
                 </Grid>
                 <Break height={25} />
                 {suspendedSum && (
-                  <Grid xs={4}>
+                  <Grid xs={12} sm={12} md={4} lg={4}>
                     <Controller
                       name="second"
                       control={control}
@@ -138,14 +154,12 @@ const SecuritySection = () => {
 
             {/* Button side  */}
             <DownSide>
-              <Button startIcon={<SaveIcon />} type="submit">
-                {t("save")}
-              </Button>
+              <SaveButton type="submit" text={t("save")} />
             </DownSide>
           </Grid>
         </Form>
       </SettingsWrapper>
-    </div>
+    </SecurityWrapper>
   );
 };
 
