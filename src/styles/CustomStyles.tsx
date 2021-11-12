@@ -1,5 +1,5 @@
-import { Select } from "@material-ui/core";
-import styled from "styled-components";
+import { Select } from '@material-ui/core';
+import styled from 'styled-components';
 import {
   ICustomButton,
   ICustomModal,
@@ -8,8 +8,8 @@ import {
   ISidebarMenuItem,
   IText,
   IUndersectionButton,
-} from "../services/Types/Style";
-import { device } from "./device";
+} from '../services/Types/Style';
+import { device } from './device';
 
 export const CustomDrawer = styled.div`
   //width: 272px;
@@ -46,7 +46,7 @@ export const SideBarMenuItem = styled.div<ISidebarMenuItem>`
   width: 100%;
   box-sizing: border-box;
   padding-left: ${(props: ISidebarMenuItem) =>
-    props?.text === "Dis - count" ? "15px" : "25px"};
+    props?.text === 'Dis - count' ? '15px' : '25px'};
   height: 49px;
   display: flex;
   justify-content: flex-start;
@@ -58,16 +58,16 @@ export const SideBarMenuItem = styled.div<ISidebarMenuItem>`
 
 export const Text = styled.span<IText>`
   font-size: ${(props: IText) =>
-    props.fontSize ? props.fontSize : "16px"} !important;
+    props.fontSize ? props.fontSize : '16px'} !important;
   font-family: ${(props: IText) =>
-    props.fontFamily ? props.fontFamily : "Roboto"};
+    props.fontFamily ? props.fontFamily : 'Roboto'};
   margin-right: ${(props: IText) =>
-    props.marginRight ? props.marginRight : "0px"};
-  color: ${(props: IText) => props.color || "#223367"};
+    props.marginRight ? props.marginRight : '0px'};
+  color: ${(props: IText) => props.color || '#223367'};
   //position: relative;
-  margin-left: ${(props: IText) => (props.marginLeft ? props.marginLeft : "0")};
+  margin-left: ${(props: IText) => (props.marginLeft ? props.marginLeft : '0')};
   margin-bottom: ${(props: IText) =>
-    props.marginBottom ? props.marginBottom : "0"};
+    props.marginBottom ? props.marginBottom : '0'};
   font-weight: ${(props: IText) => (props.fontWeight ? props.fontWeight : 700)};
 
   @media (max-width: ${device.mobile}) {
@@ -102,11 +102,11 @@ export const CustomSearchInput = styled.input`
   width: 100%;
   border-radius: 35px;
   font-size: 16px;
-  background: "#AAAAAA";
+  background: '#AAAAAA';
   padding-left: 25px;
   padding-right: 25px;
   &::placeholder {
-    color: "#888888";
+    color: '#888888';
   }
 `;
 
@@ -136,10 +136,10 @@ export const DropDownTitle = styled.div`
   height: 45px;
   padding: 10px 15px;
   background: ${(props: IDropdownTitle) =>
-    props.index % 2 !== 0 ? "#F0F1FD" : "white"};
+    props.index % 2 !== 0 ? '#F0F1FD' : 'white'};
   font-size: 14px;
   font-weight: 400;
-  font-family: "Roboto";
+  font-family: 'Roboto';
   color: rgb(34, 51, 103);
   width: 400px;
   box-sizing: border-box;
@@ -153,14 +153,14 @@ export const UnderSectionButton = styled.div`
   justify-content: space-around;
   align-items: center;
   margin: ${(props: IUndersectionButton) =>
-    props.margin || "0px 20px 20px 0px"};
+    props.margin || '0px 20px 20px 0px'};
   height: 60px;
   box-sizing: border-box;
   width: content-fit;
   z-index: ${(props: IUndersectionButton) => props.zIndex || 10};
   position: ${(props: IUndersectionButton) =>
-    props.zIndex ? "relative" : "static"};
-  width: ${(props: IUndersectionButton) => props.width || "100%"};
+    props.zIndex ? 'relative' : 'static'};
+  width: ${(props: IUndersectionButton) => props.width || '100%'};
 `;
 export const SectionWrapper = styled.div`
   position: relative;
@@ -214,10 +214,10 @@ export const CustomButton = styled.button`
   align-items: center;
   padding: 10px 15px;
   box-sizing: border-box;
-  background-color: ${(props: ICustomButton) => props.background || "#606EEA"};
+  background-color: ${(props: ICustomButton) => props.background || '#606EEA'};
   border-radius: 12px;
   box-shadow: ${(props: ICustomButton) =>
-    props.background ? "none" : "0px 4px 9px rgba(96, 110, 234, 0.46)"};
+    props.background ? 'none' : '0px 4px 9px rgba(96, 110, 234, 0.46)'};
 `;
 
 export const InlineFilterWrapper = styled.div`
@@ -253,17 +253,17 @@ export const ClicableOption = styled.div`
   }
 `;
 export const ModalComponent = styled.div`
-  padding: ${(props: ICustomModal) => props.padding || "30px 40px"};
+  padding: ${(props: ICustomModal) => props.padding || '30px 40px'};
   background: white;
   border-radius: 12px;
   outline: none;
   border: none;
-  position: ${(props: ICustomModal) => props.position || "static"};
+  position: ${(props: ICustomModal) => props.position || 'static'};
   display: flex;
   flex-direction: column;
   justify-content: ${(props: ICustomModal) =>
-    props.justifyContent || "space-between"};
-  height: ${(props: ICustomModal) => props.height || "auto"};
+    props.justifyContent || 'space-between'};
+  height: ${(props: ICustomModal) => props.height || 'auto'};
   box-sizing: border-box;
   align-items: flex-start;
   max-width: 500px;
@@ -313,9 +313,9 @@ export const FeedbackPanel = styled.div`
   align-items: flex-start;
 `;
 export const FlexiblePanel = styled.div`
-  padding: ${(props: IFlexiblePanel) => props.padding || "20px 30px"};
-  width: ${(props: IFlexiblePanel) => props.width || "fit-content"};
-  height: ${(props: IFlexiblePanel) => props.height || "fit-content"};
+  padding: ${(props: IFlexiblePanel) => props.padding || '20px 30px'};
+  width: ${(props: IFlexiblePanel) => props.width || 'fit-content'};
+  height: ${(props: IFlexiblePanel) => props.height || 'fit-content'};
   background: white;
   border-radius: 14px;
   margin-top: 30px;
@@ -381,7 +381,7 @@ export const OptionsList = styled.div`
   box-shadow: 0px 1px 28px rgba(0, 0, 0, 0.12);
   width: 100%;
   &::before {
-    content: "";
+    content: '';
     display: block;
 
     background-color: white;
@@ -442,13 +442,10 @@ export const PageWrapperNoScroll = styled.div`
 `;
 
 export const PageWrapperFlex = styled.div`
-  padding: 20px 0 0px 0;
-  overflow-y: scroll;
-  overflow-x: hidden;
+  padding: 20px 30px 0 30px;
   height: 100%;
   width: 100%;
   position: relative;
-  flex-grow: 1;
   display: flex;
   flex-direction: column;
 `;

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { device } from "styles/device";
 
 export const LargePanel = styled.div`
   padding: 30px 40px;
@@ -29,6 +30,12 @@ export const SettingsWrapper = styled.div`
   padding: 15px;
   border-radius: 14px;
   background-color: white;
+
+  @media (max-width: ${device.laptop}) {
+    background-color: transparent;
+    padding: 0;
+    height: 100%;
+  }
 `;
 
 export const ReferalScroll = styled.div`

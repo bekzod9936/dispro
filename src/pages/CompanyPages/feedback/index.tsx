@@ -40,6 +40,7 @@ import {
   Info,
   WrapPag,
 } from './style';
+import { countPagination } from 'services/utils';
 
 interface CProps {
   value?: any;
@@ -224,7 +225,11 @@ const FeedBack = () => {
                         {t('shown')}
                         <span>{between}</span>
                         {t('from1')} <span>{totalCount}</span>
-                        {t('operations1')}
+                        {countPagination({
+              count: totalCount,
+              firstWord: t('page1'),
+              secondWord: t('page23'),
+            })}
                       </Info>
                       <Pagination
                         page={filterValues.page}

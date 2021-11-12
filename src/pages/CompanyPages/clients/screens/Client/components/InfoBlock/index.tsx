@@ -1,11 +1,11 @@
-import Button from 'components/Custom/Button'
-import CustomToggle from 'components/Custom/CustomToggleSwitch'
-import moment from 'moment'
-import { MToggle } from 'pages/CompanyPages/clients/components/ClientsBar/style'
-import React from 'react'
-import { useTranslation } from 'react-i18next'
-import { IClient } from 'services/redux/Slices/clients/types'
-import { DownSide, UpSide, Wrapper } from './style'
+import Button from "components/Custom/Button";
+import CustomToggle from "components/Custom/CustomToggleSwitch";
+import dayjs from "dayjs";
+import { MToggle } from "pages/CompanyPages/clients/components/ClientsBar/style";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { IClient } from "services/redux/Slices/clients/types";
+import { DownSide, UpSide, Wrapper } from "./style";
 interface IProps {
     client: IClient | any,
     setVipModal: (arg: boolean) => void
@@ -13,7 +13,10 @@ interface IProps {
     vipModal: boolean,
     referBy: any
 }
-export const InfoBlock = ({ referBy, vipModal, client: { addInfo, personalLoyaltyInfo, isPlBlocked }, setVipModal, setVipModalState }: IProps) => {
+export const InfoBlock = ({
+    referBy, vipModal, client: { addInfo, personalLoyaltyInfo, isPlBlocked },
+    setVipModal,
+    setVipModalState }: IProps) => {
 
     const handleChangePercent = (e: any) => {
         let checked = e.target.checked;
@@ -23,9 +26,9 @@ export const InfoBlock = ({ referBy, vipModal, client: { addInfo, personalLoyalt
         } else {
             setVipModalState("removing")
         }
-
     }
-    const { t } = useTranslation()
+
+    const { t } = useTranslation();
 
     return (
         <Wrapper>
@@ -44,7 +47,7 @@ export const InfoBlock = ({ referBy, vipModal, client: { addInfo, personalLoyalt
                         : <span>{referBy}</span>({t("client")})
                     </p>}
                 <p>
-                    {t('lastPurchase')}: {addInfo?.lastPurchaseDate ? moment(addInfo?.lastPurchaseDate).format("DD.MM.YYYY") : "-"}
+                    {t('lastPurchase')}: {addInfo?.lastPurchaseDate ? dayjs(addInfo?.lastPurchaseDate).format("DD.MM.YYYY") : "-"}
                 </p>
                 {isPlBlocked &&
                     <b>

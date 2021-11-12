@@ -1,14 +1,16 @@
-import { useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import useSuggestion from './useSuggestions';
-import Spinner from 'components/Custom/Spinner';
-import Pagination from 'components/Custom/Pagination';
-import Table from '../../components/Table';
-import moment from 'moment';
-import { Container, WrapPag, Info } from './style';
-import DatePcker from 'components/Custom/DatePicker';
-import { useAppSelector } from 'services/redux/hooks';
-
+import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import useSuggestion from "./useSuggestions";
+import Spinner from "components/Custom/Spinner";
+import Pagination from "components/Custom/Pagination";
+import Table from "../../components/Table";
+import dayjs from "dayjs";
+import { Container, WrapPag, Info } from "./style";
+import DatePcker from "components/Custom/DatePicker";
+import { useAppSelector } from "services/redux/hooks";
+import { countPagination } from "services/utils";
+import useWindowWidth from "services/hooks/useWindowWidth";
+import MobileTable from "../../components/MobileTable";
 interface intialFilterProps {
   page?: number;
   perPage?: number;
@@ -18,7 +20,9 @@ interface intialFilterProps {
 
 const Suggestions = () => {
   const { t } = useTranslation();
-  const companyId = localStorage.getItem('companyId');
+  const { width } = useWindowWidth();
+
+  const companyId = localStorage.getItem("companyId");
   const data = useAppSelector((state) => state.finance.suggestionFinance.data);
   const totalCount = useAppSelector(
     (state) => state.finance.suggestionFinance.totalCount
@@ -31,8 +35,8 @@ const Suggestions = () => {
     companyId: companyId,
     page: 1,
     perPage: 5,
-    dateFrom: '',
-    dateTo: '',
+    dateFrom: "",
+    dateTo: "",
   };
 
   const [filterValues, setFilterValues] =
@@ -43,17 +47,18 @@ const Suggestions = () => {
   });
 
   const list: any = data?.map((v: any) => {
-    const date = moment(v?.payDate).format('DD.MM.YYYY');
+    // const date = moment(v?.payDate).format('DD.MM.YYYY');
+    const date = dayjs(v?.payDate).format("DD.MM.YYYY");
     return {
       col1: date,
       col2: `${v?.firstName}  ${v?.lastName}`,
       col3: v?.amount,
       col4:
         v?.couponType === 1
-          ? t('summoney')
+          ? t("summoney")
           : v?.couponType === 2
-          ? t('sale')
-          : '-',
+          ? t("sale")
+          : "-",
       col5: v?.amountPartner,
       col6: v?.disCommission,
       col7: v?.couponName,
@@ -63,32 +68,32 @@ const Suggestions = () => {
   const columns: any = useMemo(
     () => [
       {
-        Header: t('date'),
-        accessor: 'col1',
+        Header: t("date"),
+        accessor: "col1",
       },
       {
-        Header: t('customer'),
-        accessor: 'col2',
+        Header: t("customer"),
+        accessor: "col2",
       },
       {
-        Header: t('purchaseamount'),
-        accessor: 'col3',
+        Header: t("purchaseamount"),
+        accessor: "col3",
       },
       {
-        Header: t('type'),
-        accessor: 'col4',
+        Header: t("type"),
+        accessor: "col4",
       },
       {
-        Header: t('profit'),
-        accessor: 'col5',
+        Header: t("profit"),
+        accessor: "col5",
       },
       {
-        Header: t('commission'),
-        accessor: 'col6',
+        Header: t("commission"),
+        accessor: "col6",
       },
       {
-        Header: t('title'),
-        accessor: 'col7',
+        Header: t("title"),
+        accessor: "col7",
       },
     ],
     []
@@ -105,25 +110,32 @@ const Suggestions = () => {
         onChange={async (e: any) => {
           await setFilterValues({
             ...filterValues,
-            dateFrom: e.slice(0, e.indexOf(' ~')),
-            dateTo: e.slice(e.indexOf('~ ') + 2),
+            dateFrom: e.slice(0, e.indexOf(" ~")),
+            dateTo: e.slice(e.indexOf("~ ") + 2),
           });
           await response.refetch();
         }}
-        margin='0 0 20px 0'
+        margin="0 0 20px 0"
       />
 
       {response.isLoading || response.isFetching ? (
         <Spinner />
-      ) : (
+      ) : width > 600 ? (
         <Table columns={columns} data={list} />
+      ) : (
+        <MobileTable />
       )}
       {list.length > 0 ? (
         <WrapPag>
           <Info>
-            {t('shown')}
+            {t("shown")}
             <span>{between}</span>
-            {t('from1')} <span>{totalCount}</span> {t('operations1')}
+            {t("from1")} <span>{totalCount}</span>
+            {countPagination({
+              count: totalCount,
+              firstWord: t("page1"),
+              secondWord: t("page23"),
+            })}
           </Info>
           <Pagination
             page={filterValues.page}

@@ -1,21 +1,39 @@
-import { MButton } from './components/Button'
-import { VipModal } from './components/VipModal'
-import Button from 'components/Custom/Button'
-import moment from 'moment'
-import { BlockIcon, CloseIcon, CoinsIcon, CrownIcon, MinusCoinsIcon, ProfileIcon, UnBlockIconBlue } from 'assets/icons/ClientsPageIcons/ClientIcons'
-import { CancelButton } from '../QrCodeBar/style'
-import { MModal } from '../Modal'
-import { useState } from 'react'
-import { useHistory } from 'react-router'
-import { useAppDispatch, useAppSelector } from 'services/redux/hooks'
+import { MButton } from "./components/Button";
+import { VipModal } from "./components/VipModal";
+import Button from "components/Custom/Button";
+import dayjs from "dayjs";
+import {
+    CloseIcon,
+    CoinsIcon,
+    MinusCoinsIcon,
+    ProfileIcon,
+    UnBlockIconBlue,
+} from "assets/icons/ClientsPageIcons/ClientIcons";
+import { CancelButton } from "../QrCodeBar/style";
 import { selectAll } from 'services/redux/Slices/clients'
-import { AddInfo, Buttons, Content, ContentInfo, DefaultImage, MToggle, SelectButtons, SubContent, Text, Wrapper, WrapperContent } from './style'
-import CustomToggle from 'components/Custom/CustomToggleSwitch'
-import Modal from 'components/Custom/Modal'
+import { MModal } from "../Modal";
+import { useState } from "react";
+import { useHistory } from "react-router";
+import { useAppDispatch, useAppSelector } from "services/redux/hooks";
+import {
+    AddInfo,
+    Buttons,
+    Content,
+    ContentInfo,
+    DefaultImage,
+    MToggle,
+    SelectButtons,
+    SubContent,
+    Text,
+    Wrapper,
+    WrapperContent,
+} from "./style";
+import CustomToggle from "components/Custom/CustomToggleSwitch";
 import { BlockModal } from '../BlockModal'
+import Modal from 'components/Custom/Modal'
 
 interface IProps {
-    refetch: any
+    refetch: any;
 }
 
 const modalInfo: any = {
@@ -23,16 +41,16 @@ const modalInfo: any = {
         title: "Начисление баллов",
         subtitle: "Количество баллов",
         btn: "Начислить",
-        action: "addCoins"
+        action: "addCoins",
     },
     removeCoins: {
         title: "Списание баллов",
         subtitle: "Количество баллов",
         info: "Клиент будет проинформирован о списании баллов push-уведомлением",
         btn: "Списать",
-        action: "removeCoins"
-    }
-}
+        action: "removeCoins",
+    },
+};
 
 export const ClientsBar = ({ refetch }: IProps) => {
     const dispatch = useAppDispatch()
@@ -45,33 +63,35 @@ export const ClientsBar = ({ refetch }: IProps) => {
     const [modalContent, setModalContent] = useState<any>({})
     const [vipModalState, setVipModalState] = useState<"selecting" | "updating" | "removing">("selecting")
 
+
     const handleOpen = (action: string) => {
-        setIsModalOpen(true)
-        setModalContent(modalInfo[action])
-    }
+        setIsModalOpen(true);
+        setModalContent(modalInfo[action]);
+    };
 
     const handleAddAll = (action: boolean) => {
-        dispatch(selectAll(action))
-    }
+        dispatch(selectAll(action));
+    };
 
     const handleClose = () => {
-        dispatch(selectAll(false))
-    }
+        dispatch(selectAll(false));
+    };
 
     const handleClient = () => {
         history.push(`/clients/${client.id}-${client.userId}/operations`)
     }
 
     const handleChangeStatus = (e: any) => {
-        let checked = e.target.checked
+        let checked = e.target.checked;
         if (checked) {
-            setVipModal(true)
-            setVipModalState("selecting")
+            setVipModal(true);
+            setVipModalState("selecting");
         } else {
-            setVipModal(true)
-            setVipModalState("removing")
+            setVipModal(true);
+            setVipModalState("removing");
         }
-    }
+    };
+
 
     const handleUnBlock = () => {
         setBlockModal(true)
@@ -113,7 +133,7 @@ export const ClientsBar = ({ refetch }: IProps) => {
                             </ContentInfo>
                         </Content>
                         <SubContent>
-                            <p>Последняя покупка: {client.addInfo.lastPurchaseDate ? moment(client.addInfo.lastPurchaseDate).format("DD.MM.YYYY") : "-"}</p>
+                            <p>Последняя покупка: {client.addInfo.lastPurchaseDate ? dayjs(client.addInfo.lastPurchaseDate).format("DD.MM.YYYY") : "-"}</p>
                             <Buttons>
                                 {client.isPlBlocked ?
                                     <div className="blockedContent">

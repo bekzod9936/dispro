@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { Container, MInput, Label, Adornment, Message } from './style';
+import { Container, MInput, Label, Adornment, Message } from "./style";
 
 export interface Props {
   field?: any;
@@ -15,7 +14,7 @@ export interface Props {
   minRows?: number | string;
   multiline?: boolean;
   name?: string;
-  variant?: 'filled' | 'standard' | 'outlined' | undefined;
+  variant?: "filled" | "standard" | "outlined" | undefined;
   onChange?: (e: any) => void;
 
   placeholder?: string;
@@ -139,10 +138,10 @@ const NInput = ({
         variant={props.variant}
         InputProps={{
           startAdornment: props.IconStart ? (
-            <Adornment position='start'>{props.IconStart}</Adornment>
+            <Adornment position="start">{props.IconStart}</Adornment>
           ) : null,
           endAdornment: props.IconEnd ? (
-            <Adornment position='end'>{props.IconEnd}</Adornment>
+            <Adornment position="end">{props.IconEnd}</Adornment>
           ) : null,
         }}
         inputStyle={props.inputStyle}

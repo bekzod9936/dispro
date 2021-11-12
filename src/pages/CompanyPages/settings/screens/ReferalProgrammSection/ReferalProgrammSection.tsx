@@ -27,12 +27,14 @@ import {
   HeaderReferal,
   ActDiv,
   AddDiv,
+  SettingDiv,
 } from "./styles";
 import Button from "components/Custom/Button";
 import RippleEffect from "components/Custom/RippleEffect";
 import NotifySnack from "components/Custom/Snackbar";
 import InputFormat from "components/Custom/InputFormat";
 import useWindowWidth from "services/hooks/useWindowWidth";
+import SettingButton from "../../components/SettingButton";
 
 const ReferalProgrammSection = () => {
   const { t } = useTranslation();
@@ -58,38 +60,16 @@ const ReferalProgrammSection = () => {
     name: "referals",
   });
 
-  console.log(checkedState, "checked state");
-
-  return (
-    <GridContainer container spacing={3}>
-      <LeftGrid item xs={12} sm={7}>
-        <Form onSubmit={handleSubmit(handleSave)}>
-          <HeaderReferal>
-            <div>
-              <div>
-                <Text fontWeight={500} fontSize="18px">
-                  Реферальная система
-                  <br />
-                </Text>
-              </div>
-              <div style={{ maxWidth: "370px" }}>
-                <Text fontWeight={300} fontSize="14px">
-                  Начисление баллов рекомендателю в размере процента от суммы
-                  счета приглашенных друзей
-                </Text>
-              </div>
-            </div>
-            <div style={{ margin: "10px 0px 10px 20px" }}>
-              <CustomToggle
-                checked={checkedState}
-                onChange={(e: any) => {
-                  handleSwitch(e.target.checked);
-                }}
-              />
-            </div>
-          </HeaderReferal>
-          {/* ?.sort((a: any, b: any) => a.number - b.number) */}
-
+  const mainContent = () => {
+    if (width <= 1000) {
+      return (
+        <SettingDiv>
+          <SettingButton text={"Настроить"} onClick={() => {}} />
+        </SettingDiv>
+      );
+    } else {
+      return (
+        <>
           <ReferalScroll>
             {fields?.map((item: any, index: number) => {
               return (
@@ -209,6 +189,44 @@ const ReferalProgrammSection = () => {
               {t("save")}
             </Button>
           </BottomBtnContainer>
+        </>
+      );
+    }
+  };
+
+  console.log(checkedState, "checked state");
+
+  return (
+    <GridContainer container spacing={3}>
+      <LeftGrid item xs={12} sm={7}>
+        <Form onSubmit={handleSubmit(handleSave)}>
+          <HeaderReferal>
+            <div>
+              <div>
+                <Text fontWeight={500} fontSize="18px">
+                  Реферальная система
+                  <br />
+                </Text>
+              </div>
+              <div style={{ maxWidth: "370px" }}>
+                <Text fontWeight={300} fontSize="14px">
+                  Начисление баллов рекомендателю в размере процента от суммы
+                  счета приглашенных друзей
+                </Text>
+              </div>
+            </div>
+            <div style={{ margin: "10px 0px 10px 20px" }}>
+              <CustomToggle
+                checked={checkedState}
+                onChange={(e: any) => {
+                  handleSwitch(e.target.checked);
+                }}
+              />
+            </div>
+          </HeaderReferal>
+          {/* ?.sort((a: any, b: any) => a.number - b.number) */}
+
+          {mainContent()}
         </Form>
       </LeftGrid>
 
@@ -249,6 +267,8 @@ const ReferalProgrammSection = () => {
           <div></div>
         )}
       </RightGrid>
+
+      {/* Notifications  */}
       <NotifySnack
         open={errorRef}
         error={true}

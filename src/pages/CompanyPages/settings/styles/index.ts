@@ -1,5 +1,4 @@
-import styled from "styled-components";
-import { device } from "styles/device";
+import styled from 'styled-components';
 
 export const SpinnerDiv = styled.div`
   width: 100%;
@@ -35,25 +34,8 @@ export const HBreak = styled.div`
   width: ${({ width }: WProps) => `${width}px`};
 `;
 
-export const Wrapper = styled.div`
-  padding-left: 30px;
-  padding-right: 20px;
-`;
-
 export const WrapperNav = styled.div`
-  padding-left: 30px;
-  padding-right: 20px;
-
-  @media (max-width: ${device.planshet}) {
-    padding-left: 0;
-    padding-right: 0;
-  }
+  height: fit-content;
 `;
 
-export const WrapperTitle = styled.div`
-  padding-left: 50px;
-
-  @media (max-width: ${device.planshet}) {
-    padding-left: 20px;
-  }
-`;
+export const WrapperTitle = styled.div``;

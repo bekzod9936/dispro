@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from 'react-query';
-import Button from 'components/Custom/Button';
 import { useAppSelector } from 'services/redux/hooks';
 import { uploadPhoto } from 'services/queries/InfoQuery';
 import NoPhoto from 'assets/images/NoPhotos.png';
@@ -11,10 +10,10 @@ import Spinner from 'components/Custom/Spinner';
 import { ruCount } from 'services/utils/index';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import useWindowWidth from 'services/hooks/useWindowWidth';
+import SaveButton from '../../components/Buttons/SaveButton';
 import {
   Container,
   Text,
-  SaveIcon,
   Label,
   PhotoIcon,
   WrapImage,
@@ -26,7 +25,6 @@ import {
   LabelNoPhoto,
   Wrpaper,
 } from './style';
-import SaveButton from '../../components/Buttons/SaveButton';
 
 const reorder = (list: any, startIndex: any, endIndex: any) => {
   const result = Array.from(list);

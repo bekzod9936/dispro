@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Grid from "@material-ui/core/Grid";
+import { device } from "styles/device";
 
 interface IProps {
   deactivated?: boolean;
@@ -23,6 +24,11 @@ export const RightGrid = styled(Grid)`
   justify-content: center;
   align-items: flex-start;
   overflow-y: hidden;
+
+  @media (max-width: ${device.laptop}) {
+    padding-top: 0 !important;
+    padding-left: 0 !important;
+  }
 `;
 
 export const LevelsCard = styled.div`
@@ -92,3 +98,5 @@ export const AddDiv = styled.div`
   width: 100%;
   padding: 8px;
 `;
+
+export const SettingDiv = styled.div``;

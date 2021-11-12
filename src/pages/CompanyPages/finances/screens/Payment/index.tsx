@@ -1,21 +1,21 @@
-import { useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import usePayment from './usePayment';
-import Spinner from 'components/Custom/Spinner';
-import Pagination from 'components/Custom/Pagination';
-import Table from '../../components/Table';
-import moment from 'moment';
-import { Container, WrapPag, Info } from './style';
-import DatePcker from 'components/Custom/DatePicker';
-import { numberWithNew } from 'services/utils';
+import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import usePayment from "./usePayment";
+import Spinner from "components/Custom/Spinner";
+import Pagination from "components/Custom/Pagination";
+import Table from "../../components/Table";
+import dayjs from "dayjs";
+import { Container, WrapPag, Info } from "./style";
+import DatePcker from "components/Custom/DatePicker";
+import { countPagination, numberWithNew } from "services/utils";
 import {
   Label,
   RightHeader,
   TotalSum,
   WrapTotal,
   WrapTotalSum,
-} from '../../style';
-import { useAppSelector } from 'services/redux/hooks';
+} from "../../style";
+import { useAppSelector } from "services/redux/hooks";
 interface intialFilterProps {
   page?: number;
   perPage?: number;
@@ -35,14 +35,14 @@ const Payment = () => {
   );
   const header = useAppSelector((state) => state.finance.paymentFinance.header);
 
-  const companyId = localStorage.getItem('companyId');
+  const companyId = localStorage.getItem("companyId");
 
   const intialFilter = {
     companyId: companyId,
     page: 1,
     perPage: 5,
-    dateFrom: '',
-    dateTo: '',
+    dateFrom: "",
+    dateTo: "",
   };
 
   const [filterValues, setFilterValues] =
@@ -53,7 +53,7 @@ const Payment = () => {
   });
 
   const list = data?.map((v: any) => {
-    const date = moment(v?.payDate).format('DD.MM.YYYY HH:mm');
+    const date = dayjs(v?.payDate).format("DD.MM.YYYY HH:mm");
     const pay: number = v?.amount - v?.amountPartner;
     return {
       col1: date,
@@ -61,35 +61,35 @@ const Payment = () => {
       col3: v?.cardNumber,
       col4: v?.amount,
       col5: v?.amountPartner,
-      col6: pay.toFixed(2)?.replace(/\.0+$/, ''),
+      col6: pay.toFixed(2)?.replace(/\.0+$/, ""),
     };
   });
 
   const columns: any = useMemo(
     () => [
       {
-        Header: t('dateandtime'),
-        accessor: 'col1',
+        Header: t("dateandtime"),
+        accessor: "col1",
       },
       {
-        Header: t('customer'),
-        accessor: 'col2',
+        Header: t("customer"),
+        accessor: "col2",
       },
       {
-        Header: t('cardnumber'),
-        accessor: 'col3',
+        Header: t("cardnumber"),
+        accessor: "col3",
       },
       {
-        Header: t('UZSamount'),
-        accessor: 'col4',
+        Header: t("UZSamount"),
+        accessor: "col4",
       },
       {
-        Header: t('Profit (99%)'),
-        accessor: 'col5',
+        Header: t("Profit (99%)"),
+        accessor: "col5",
       },
       {
-        Header: t('DIS Commission (1%)'),
-        accessor: 'col6',
+        Header: t("DIS Commission (1%)"),
+        accessor: "col6",
       },
     ],
     []
@@ -107,7 +107,7 @@ const Payment = () => {
           {header.map((v: any) => {
             return (
               <WrapTotalSum>
-                <Label>{v.title || ''}</Label>
+                <Label>{v.title || ""}</Label>
                 <TotalSum>
                   {numberWithNew({ number: +v.value, defaultValue: 0 })}
                 </TotalSum>
@@ -122,12 +122,12 @@ const Payment = () => {
           onChange={async (e: any) => {
             await setFilterValues({
               ...filterValues,
-              dateFrom: e.slice(0, e.indexOf(' ~')),
-              dateTo: e.slice(e.indexOf('~ ') + 2),
+              dateFrom: e.slice(0, e.indexOf(" ~")),
+              dateTo: e.slice(e.indexOf("~ ") + 2),
             });
             await response.refetch();
           }}
-          margin='0 0 20px 0'
+          margin="0 0 20px 0"
         />
 
         {response.isLoading || response.isFetching ? (
@@ -138,9 +138,14 @@ const Payment = () => {
         {list.length > 0 ? (
           <WrapPag>
             <Info>
-              {t('shown')}
+              {t("shown")}
               <span>{between}</span>
-              {t('from1')} <span>{totalCount}</span> {t('operations1')}
+              {t("from1")} <span>{totalCount}</span>
+              {countPagination({
+                count: totalCount,
+                firstWord: t("page1"),
+                secondWord: t("page23"),
+              })}
             </Info>
             <Pagination
               page={filterValues.page}
