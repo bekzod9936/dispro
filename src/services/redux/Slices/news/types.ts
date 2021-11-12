@@ -15,7 +15,7 @@ date: string,
       between: string;
       totalCountNews:number;
     };
-
+    selectedNews?: any;
     query?: string;
   }
   

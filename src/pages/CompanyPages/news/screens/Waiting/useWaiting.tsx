@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { fetchActivenews,searchActiveNews } from "services/queries/newPageQuery";
+import { fetchPendingNews,searchPendingNews } from "services/queries/newPageQuery";
 import {
   setNewsData,
   setNewsTotal,
@@ -12,19 +12,19 @@ import {
   interface PProps {
     filterValues: any;
   }
-const useActive = ({filterValues}:PProps) => {
+const useWaiting = ({filterValues}:PProps) => {
   const dispatch = useAppDispatch();
   const query=useAppSelector((state)=>state.news.query);
   const [debouncedQuery] = useDebounce(query, 300);
   const response=useQuery(["fetchNews",filterValues, debouncedQuery],
   () => {
      if(debouncedQuery !==''){
-       return searchActiveNews(debouncedQuery)
+       return searchPendingNews(debouncedQuery)
      }
     const url = Object.keys(filterValues)
       .map((v: any) => `${v}=${filterValues[v]}&`)
       .join("");
-      return fetchActivenews({
+      return fetchPendingNews({
         url: url,
       });
     // return fetchActiveQueries({
@@ -55,4 +55,4 @@ const useActive = ({filterValues}:PProps) => {
   return { response};
 };
 
-export default useActive;
+export default useWaiting;

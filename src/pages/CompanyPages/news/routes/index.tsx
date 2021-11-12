@@ -2,8 +2,8 @@ import { lazy } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const Active = lazy(() => import('../screens/Active'));
-const Waiting=lazy(()=>import ('../screens/Active'));
-const Archive=lazy(()=>import ('../screens/Active'));
+const Waiting=lazy(()=>import ('../screens/Waiting'));
+const Archive=lazy(()=>import ('../screens/Archive'));
 const CreateNews=lazy(()=>import('../screens/CreateNews'));
 
 interface INewsRow{
