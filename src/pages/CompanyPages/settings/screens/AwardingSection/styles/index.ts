@@ -1,63 +1,69 @@
-import styled from "styled-components";
-import Grid from "@material-ui/core/Grid";
-import { device } from "styles/device";
-
-export const AwardWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  border-radius: 14px;
-  background-color: white;
-  padding: 20px 50px 70px 45px;
-  box-sizing: border-box;
-  position: relative;
-  margin-bottom: 50px;
-  overflow-y: hidden;
-  overflow-x: hidden;
-
-  @media (max-width: ${device.laptop}) {
-    background-color: transparent;
-    padding: 0;
-  }
-`;
+import styled from 'styled-components';
+import Grid from '@material-ui/core/Grid';
+import { device } from 'styles/device';
 
 export const Form = styled.form`
+  overflow: hidden;
   height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+
+export const UpSide = styled.div`
+  width: 100%;
+  display: flex;
+  overflow: hidden;
+  height: 100%;
+  flex: 1;
+`;
+
+export const DownSide = styled.div`
+  height: 20%;
+  min-height: 75px;
+  display: flex;
+  align-items: center;
+  width: 100%;
 `;
 
 export const AwardContainer = styled(Grid)`
-  height: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
+  height: 100%;
+  width: 100%;
+  flex: 1;
+  ::-webkit-scrollbar {
+    width: 7px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #606eea;
+    border-radius: 14px 0px 0px 14px;
+  }
 `;
 
 export const BottomAwardBtnContainer = styled.div`
   width: 100%;
   background-color: transparent;
   display: flex;
-  flex-direction: row;
-  line-height: 60px;
-
+  justify-content: flex-start;
+  align-items: center;
   @media (max-width: ${device.laptop}) {
     display: flex;
-    justify-content: center;
     height: 100%;
-    line-height: 75px;
   }
 `;
 
-export const LeftAwardGrid = styled(Grid)`
-  padding-top: 20px;
-`;
+export const LeftAwardGrid = styled(Grid)``;
 
 export const RightAwardGrid = styled(Grid)``;
 
-export const ControlGrid = styled(Grid)`
-  padding-top: 20px;
-`;
+export const ControlGrid = styled(Grid)``;
 
-export const AwardGrid = styled(Grid)`
-  padding-top: 20px;
-`;
+export const AwardGrid = styled(Grid)``;
 
 //Birthday row
 export const RecomendationRow = styled.div`
@@ -70,30 +76,7 @@ export const TextAreaGrid = styled(Grid)`
 
   @media (max-width: ${device.laptop}) {
     padding-left: 0;
-    padding-top: 20px;
   }
 `;
 
-export const PayForGrid = styled(Grid)`
-  margin-top: 30px;
-`;
-
-export const UpSide = styled.div`
-  flex: 6;
-`;
-
-export const DownSide = styled.div`
-  flex: 1;
-  @media (max-width: ${device.laptop}) {
-    height: 75px;
-    width: 100%;
-    background-color: #fff;
-    content: "";
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-`;
+export const PayForGrid = styled(Grid)``;
