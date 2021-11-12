@@ -3,6 +3,7 @@ import { Container, Wrapper, WrapperCon } from './style';
 import Spinner from 'components/Custom/Spinner';
 import useOperationsHook from './useOperationsHook';
 import Filter from 'components/Custom/Filter/index';
+import DatePcker from 'components/Custom/DatePicker';
 import {
   MoneyIcon,
   RatingIcon,
@@ -17,9 +18,8 @@ import {
   Title,
   WrapFilter,
 } from '../Clients/style';
-import DatePcker from 'components/Custom/DatePicker';
 import { useState } from 'react';
-import { numberWith, numberWithNew } from 'services/utils';
+import { numberWithNew } from 'services/utils';
 import Radio from 'components/Custom/Radio';
 import { useAppSelector } from 'services/redux/hooks';
 
@@ -117,7 +117,7 @@ const Operations = () => {
               startDate: e.slice(0, e.indexOf(' ~')),
               endDate: e.slice(e.indexOf('~ ') + 2),
             });
-            setDate({
+            await setDate({
               startDate: e.slice(0, e.indexOf(' ~')),
               endDate: e.slice(e.indexOf('~ ') + 2),
             });
@@ -127,7 +127,7 @@ const Operations = () => {
         />
       </WrapFilter>
       <WrapperCon>
-        {response.isLoading ? (
+        {response.isLoading || response.isFetching ? (
           <Spinner />
         ) : (
           <Wrapper>

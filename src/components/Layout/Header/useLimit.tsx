@@ -3,10 +3,9 @@ import { fetchLimitFinance } from 'services/queries/InfoQuery';
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import {
   setAccounts,
-  setBalance,
-  setLimit,
+  setBalanceAccounts,
+  setLimitAccounts,
 } from 'services/redux/Slices/info/info';
-import { numberWithNew } from 'services/utils';
 
 const useLimit = () => {
   const companyId = localStorage.getItem('companyId');
@@ -18,14 +17,13 @@ const useLimit = () => {
     () => fetchLimitFinance({ companyId, currency }),
     {
       onSuccess: (data) => {
-        console.log(
-          Number.isInteger(data.data.data.accounts[0].limit),
-          Number.isInteger(data.data.data.accounts[0].balance)
-        );
         dispatch(setAccounts(data.data.data.accounts));
-        dispatch(setLimit(data.data.data.accounts[0].limit));
-        dispatch(setBalance(data.data.data.accounts[0].balance));
+        dispatch(setLimitAccounts(data.data.data.accounts[0].limit));
+        dispatch(setBalanceAccounts(data.data.data.accounts[0].balance));
       },
+      keepPreviousData: true,
+      refetchOnWindowFocus: false,
+      retry: 0,
     }
   );
   return { resLimit };

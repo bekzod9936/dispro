@@ -1,7 +1,5 @@
 import { lazy } from 'react';
 import { useTranslation } from 'react-i18next';
-
-
 const Drafts = lazy(() => import("../screens/Drafts"));
 const Deferred = lazy(() => import("../screens/Deferred"));
 const OnSale = lazy(() => import("../screens/OnSale"));

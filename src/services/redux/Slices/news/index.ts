@@ -13,6 +13,7 @@ const initialState: INews = {
     totalCountNews:0
   },
   query:'',
+  selectedNews:[]
 };
 
 const newsSlice = createSlice({
@@ -35,6 +36,9 @@ const newsSlice = createSlice({
     setQuery: (state, action: PayloadAction<string>) => {
       state.query = action.payload;
     },
+    setSelectedNews: (state, action: any) => {
+      state.selectedNews = action.payload;
+    },
     
     
   },
@@ -46,5 +50,6 @@ export const {
     setNewsBetween,
     setQuery,
     setNewsTotalCount,
+    setSelectedNews,
 } = newsSlice.actions;
 export default newsSlice.reducer;
