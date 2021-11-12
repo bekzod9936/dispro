@@ -26,6 +26,7 @@ import {
   DeleteIcon,
   WrapFilterValues,
 } from './style';
+import { ruCount } from './utils/count';
 
 interface intialFilterProps {
   page?: number;
@@ -364,7 +365,12 @@ const Payment = () => {
           <Info>
             {t('shown')}
             <span>{between}</span>
-            {t('from1')} <span>{totalCount}</span> {t('operations1')}
+            {t('from1')} <span>{totalCount}</span>{' '}
+            {ruCount({
+              count: 1,
+              firstWord: t('page1'),
+              secondWord: t('page23'),
+            })}
           </Info>
           <Pagination
             page={filterValues.page}
