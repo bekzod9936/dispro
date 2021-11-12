@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import moment from "moment";
 
 export interface IClientState {
   page: number;
@@ -106,19 +105,19 @@ export const {
 export default clientSlice.reducer;
 
 // import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-// import { Moment } from "moment";
+// import { dayjs } from "dayjs";
 
 // export interface clientState {
 // 	page: number;
 // 	clients: Object[],
-// 	startDate: Moment | null;
-// 	endDate: Moment | null;
+// 	startDate: dayjs | null;
+// 	endDate: dayjs | null;
 // 	clientsHeaders: any;
 // 	checkedClients: Object[] | [];
 // 	persCardClient: Object | null;
 // 	gender: "male" | "female" | "";
-// 	dateFrom: Moment | null;
-// 	dateTo: Moment | null;
+// 	dateFrom: dayjs | null;
+// 	dateTo: dayjs | null;
 // 	purchaseAmountFrom: number;
 // 	purchaseAmountTo: number;
 // 	purchaseCost: number;
