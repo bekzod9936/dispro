@@ -1,8 +1,8 @@
-import { CartIcon, CashBackIcon, DiscountIcon, DownIcon, GoBackIcon, HandIcon, MoneyBagIcon, MoneyStatsIcon, PointActionsIcon, RatingIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
+import { DownIcon, GoBackIcon, PointActionsIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
 import NavBar from 'components/Custom/NavBar'
 import Spinner from 'components/Helpers/Spinner'
 import { Suspense, useState } from 'react'
-import { Route, Switch, useHistory, useParams, useRouteMatch } from 'react-router'
+import { Route, Switch, useHistory, useParams } from 'react-router'
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks'
 import { useClientRoutes } from '../../routes'
 import { ClientBlock } from './components/ClientBlock'
@@ -22,7 +22,7 @@ import { BlockModal } from '../../components/BlockModal'
 import { VipModal } from '../../components/ClientsBar/components/VipModal'
 import Modal from 'components/Custom/Modal';
 import { getClientStatistics } from '../../utils/getSelectedFilters';
-import { useEffect } from "react";
+
 const Client = () => {
     const { period: { endDate, startDate }, currentClient } = useAppSelector(state => state.clients)
     const { id }: any = useParams()
@@ -58,11 +58,6 @@ const Client = () => {
         }
     })
 
-    useEffect(() => {
-        console.log("mount");
-
-    }, [])
-
     const handleClose = () => {
         dispatch(selectAll(false))
         history.push("/clients")
@@ -95,6 +90,13 @@ const Client = () => {
             <Wrapper>
                 <Modal open={vipModal}>
                     <VipModal
+                        clientInfo={{
+                            name: currentClient?.clientInfo.firstName + " " + currentClient?.clientInfo.lastName,
+                            prevPercent: currentClient?.clientInfo?.obtainProgramLoyalty?.percent + "",
+                            prevStatus: currentClient?.clientInfo?.obtainProgramLoyalty?.levelName + "",
+                            status: currentClient?.clientInfo.addInfo.status + "",
+                            value: currentClient?.clientInfo?.personalLoyaltyInfo?.percent + ""
+                        }}
                         id={client?.id || 0}
                         refetch={response.refetch}
                         handleClose={() => setVipModal(false)}
@@ -129,6 +131,8 @@ const Client = () => {
                     </Switch>
                 </DownSide>
                 <BlockModal
+                    clientId={client?.id || 0}
+                    refetch={response.refetch}
                     isBlocking={!client?.isPlBlocked}
                     handleClose={setBlockModal}
                     isOpen={blockModal} />
@@ -138,6 +142,14 @@ const Client = () => {
         return (
             <MWrapper>
                 <Form
+                    clientInfo={{
+                        status: currentClient?.clientInfo?.addInfo?.status + "",
+                        name: currentClient?.clientInfo?.firstName + " " + currentClient?.clientInfo?.lastName,
+                        percent: currentClient?.clientInfo?.personalLoyaltyInfo?.percent || "",
+                        points: currentClient?.clientInfo?.addInfo?.pointSum + "" || "",
+                        id: currentClient?.clientInfo?.id || 0
+                    }}
+                    refetch={response.refetch}
                     handleClose={setForm}
                     action={form.action}
                     isOpen={form.isOpen} />

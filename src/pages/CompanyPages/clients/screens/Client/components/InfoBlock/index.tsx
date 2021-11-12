@@ -13,7 +13,7 @@ interface IProps {
     vipModal: boolean,
     referBy: any
 }
-export const InfoBlock = ({ referBy, vipModal, client: { addInfo, personalLoyaltyInfo }, setVipModal, setVipModalState }: IProps) => {
+export const InfoBlock = ({ referBy, vipModal, client: { addInfo, personalLoyaltyInfo, isPlBlocked }, setVipModal, setVipModalState }: IProps) => {
 
     const handleChangePercent = (e: any) => {
         let checked = e.target.checked;
@@ -46,6 +46,10 @@ export const InfoBlock = ({ referBy, vipModal, client: { addInfo, personalLoyalt
                 <p>
                     {t('lastPurchase')}: {addInfo?.lastPurchaseDate ? moment(addInfo?.lastPurchaseDate).format("DD.MM.YYYY") : "-"}
                 </p>
+                {isPlBlocked &&
+                    <b>
+                        Клиент заблокирован
+                    </b>}
                 <div className="changeStatus">
                     <MToggle>
                         <p>Индивидуальный статус</p>

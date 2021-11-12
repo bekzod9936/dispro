@@ -111,7 +111,11 @@ export interface IClient {
     userId: number
     isPlBlocked: boolean,
     blockedReason: string,
-    notes: string
+    notes: string,
+    obtainProgramLoyalty: {
+        levelName: string,
+        percent: number
+    }
 }
 export interface IFetchData {
     clients: IClient[],

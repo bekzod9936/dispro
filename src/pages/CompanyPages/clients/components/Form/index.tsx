@@ -1,4 +1,4 @@
-import { VioletCancelIcon, CloseIcon, CoinsIconWhite, MinusCoinsIconWhite, NotAllowedIcon, BlockIcon, BlockWhiteIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
+import { VioletCancelIcon, CloseIcon, CoinsIconWhite, MinusCoinsIconWhite, NotAllowedIcon, BlockIcon, BlockWhiteIcon, RightArrowIcon, DoneIcon, CancelIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
 import InputFormat from 'components/Custom/InputFormat'
 import Input from "components/Custom/Input"
 import { Controller, useForm } from 'react-hook-form'
@@ -11,11 +11,22 @@ import { useHistory } from 'react-router'
 import Button from 'components/Custom/Button'
 import { SuccessModal } from '../SuccessModal'
 import { selectAll } from 'services/redux/Slices/clients'
+import { useMutation } from 'react-query'
+import { changeVipPercent } from 'services/queries/clientsQuery'
+import Modal from 'components/Custom/Modal'
 
 interface IProps {
     isOpen: boolean,
     action: number,
-    handleClose: (bool: any) => void
+    handleClose: (bool: any) => void,
+    refetch: () => void,
+    clientInfo: {
+        name: string,
+        points: string,
+        percent: string | number,
+        status: string,
+        id: number
+    }
 }
 
 const contents: any = {
@@ -51,23 +62,56 @@ const contents: any = {
         buttonLabel: "Заблокировать",
         mainButtonIcon: <BlockWhiteIcon />,
         subButtonIcon: <VioletCancelIcon />
-    }
+    },
+
 }
-export const Form = ({ isOpen, action, handleClose }: IProps) => {
-    const { selectedClients } = useAppSelector(state => state.clients)
+export const Form = ({ isOpen, action, handleClose, refetch, clientInfo }: IProps) => {
+    const { currentClient, selectedClients } = useAppSelector(state => state.clients)
     const { t } = useTranslation()
-    const client = selectedClients[0]
+    const name = clientInfo.name
+    const points = clientInfo.points;
+    const percent = clientInfo.percent
     const content = contents[action]
     const [top, setTop] = useState(false)
     const { control, setValue, watch, handleSubmit, formState: { errors }, clearErrors } = useForm()
     const history = useHistory()
     const [successModal, setSuccessModal] = useState(false)
     const dispatch = useAppDispatch()
+    const mutation = useMutation((data: any) => changeVipPercent(data))
     const onSubmit = (data: any) => {
-        console.log(data);
-        setSuccessModal(true)
+        if (action === 3) {
+            onClose()
+            if (selectedClients.length === 1) {
+                mutation.mutate({
+                    clientId: currentClient?.clientInfo.id,
+                    percent: data.amount,
+                    isActive: true
+                })
+            } else {
+                selectedClients.forEach(client => {
+                    mutation.mutate({
+                        clientId: client.id,
+                        percent: data.amount,
+                        isActive: true
+                    })
+                })
+                dispatch(selectAll(false))
+            }
+            refetch()
+
+        }
+        if (action !== 3) {
+            setSuccessModal(true)
+        }
     }
 
+    const handleRemoveStatus = () => {
+        if (selectedClients.length === 1) {
+            mutation.mutate({
+                clientId: clientInfo.id
+            })
+        }
+    }
     const onClose = () => {
         handleClose((prev: any) => ({ ...prev, isOpen: false }))
         setValue("amount", "")
@@ -85,10 +129,10 @@ export const Form = ({ isOpen, action, handleClose }: IProps) => {
         const res = history.location.pathname.endsWith("/clients")
         setTop(res)
     }, [history.location.pathname])
-
     return (
         <Wrapper top={top} isOpen={isOpen}>
-            <SuccessModal action={action} handleClose={handleDone} isOpen={successModal} />
+            <SuccessModal
+                action={action} handleClose={handleDone} isOpen={successModal} />
             <Header>
                 <h5>{content.title}</h5>
                 <CloseIcon onClick={onClose} />
@@ -100,7 +144,7 @@ export const Form = ({ isOpen, action, handleClose }: IProps) => {
                 </Client> :
                 <Client>
                     <h6>{t("client")}:</h6>
-                    <p>{client?.firstName + " " + client?.lastName} <span>{t("points")}: {numberWith(client?.addInfo?.pointSum.toString(), " ")}</span></p>
+                    <p>{name} <span>{action !== 3 ? t("points") : t("status")}: {action !== 3 ? numberWith(points, " ") : percent + "%"}</span></p>
                 </Client>}
             <MyForm onSubmit={handleSubmit(onSubmit)}>
                 <div>
@@ -119,7 +163,7 @@ export const Form = ({ isOpen, action, handleClose }: IProps) => {
                                     margin={{ mobile: "0 0 25px 0" }}
                                     label={content.inputLabel}
                                     type="string"
-                                    max={action !== 3 ? "10000" : "50"}
+                                    max={action !== 3 ? "10000" : "100"}
                                     error={errors.amount}
                                     message={t("requiredField")} />
                             )}

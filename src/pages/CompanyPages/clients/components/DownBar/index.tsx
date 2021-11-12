@@ -10,10 +10,11 @@ interface IProps {
 }
 export const DownBar = ({ setForm }: IProps) => {
     const { selectedClients } = useAppSelector(state => state.clients)
-    const downbarRef = useRef<HTMLDivElement | null>(null)
     const client = selectedClients[0]
+    const downbarRef = useRef<HTMLDivElement | null>(null)
     const [open, setOpen] = useState<"hide" | "show" | "fullShow">("hide")
     const dispatch = useAppDispatch()
+    const checked = selectedClients.length > 1 ? false : client?.personalLoyaltyInfo?.isActive
     const handleRemoveClient = (id: number) => {
         dispatch(setClient(id))
     }
@@ -43,13 +44,23 @@ export const DownBar = ({ setForm }: IProps) => {
     };
 
     const handleChange = (e: any) => {
-        setForm({
-            action: 3,
-            isOpen: e.target.checked,
-        });
+        const checked = e.target.checked;
+        if (checked) {
+            setForm({
+                action: 3,
+                isOpen: checked,
+            });
+
+        } else setForm({
+            action: 5,
+            isOpen: true
+        })
     };
     return (
-        <Wrapper ref={downbarRef} border={open === "fullShow"} isOpen={open}>
+        <Wrapper
+            ref={downbarRef}
+            border={open === "fullShow"}
+            isOpen={open}>
             <Header>
                 {open !== "fullShow" ? (
                     <>
@@ -86,7 +97,7 @@ export const DownBar = ({ setForm }: IProps) => {
                 <Footer>
                     <div className="vipProcent">
                         <h6>Индивидуальный статус</h6>
-                        <CustomToggle onChange={handleChange} />
+                        <CustomToggle checked={checked} onChange={handleChange} />
                     </div>
                     <Button
                         onClick={() =>

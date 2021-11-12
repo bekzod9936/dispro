@@ -2,16 +2,17 @@ import { MButton } from './components/Button'
 import { VipModal } from './components/VipModal'
 import Button from 'components/Custom/Button'
 import moment from 'moment'
-import { CloseIcon, CoinsIcon, CrownIcon, MinusCoinsIcon, ProfileIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
+import { BlockIcon, CloseIcon, CoinsIcon, CrownIcon, MinusCoinsIcon, ProfileIcon, UnBlockIconBlue } from 'assets/icons/ClientsPageIcons/ClientIcons'
 import { CancelButton } from '../QrCodeBar/style'
 import { MModal } from '../Modal'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useHistory } from 'react-router'
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks'
 import { selectAll } from 'services/redux/Slices/clients'
 import { AddInfo, Buttons, Content, ContentInfo, DefaultImage, MToggle, SelectButtons, SubContent, Text, Wrapper, WrapperContent } from './style'
 import CustomToggle from 'components/Custom/CustomToggleSwitch'
 import Modal from 'components/Custom/Modal'
+import { BlockModal } from '../BlockModal'
 
 interface IProps {
     refetch: any
@@ -37,11 +38,12 @@ export const ClientsBar = ({ refetch }: IProps) => {
     const dispatch = useAppDispatch()
     const { selectedClients } = useAppSelector(state => state.clients)
     const client = selectedClients[0]
-    const [vipModal, setVipModal] = React.useState(false)
+    const [vipModal, setVipModal] = useState(false)
     const history = useHistory()
-    const [isModalOpen, setIsModalOpen] = React.useState(false)
-    const [modalContent, setModalContent] = React.useState<any>({})
-    const [vipModalState, setVipModalState] = React.useState<"selecting" | "updating" | "removing">("selecting")
+    const [blockModal, setBlockModal] = useState(false)
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [modalContent, setModalContent] = useState<any>({})
+    const [vipModalState, setVipModalState] = useState<"selecting" | "updating" | "removing">("selecting")
 
     const handleOpen = (action: string) => {
         setIsModalOpen(true)
@@ -71,12 +73,27 @@ export const ClientsBar = ({ refetch }: IProps) => {
         }
     }
 
-
+    const handleUnBlock = () => {
+        setBlockModal(true)
+    }
 
     return (
         <Wrapper>
+            <BlockModal
+                handleClose={setBlockModal}
+                refetch={refetch}
+                clientId={client?.id || 0}
+                isOpen={blockModal}
+                isBlocking={!client?.isPlBlocked} />
             <Modal open={vipModal}>
                 <VipModal
+                    clientInfo={{
+                        name: client?.firstName + " " + client?.lastName,
+                        prevStatus: client?.obtainProgramLoyalty?.levelName,
+                        prevPercent: client?.obtainProgramLoyalty?.percent,
+                        value: client?.personalLoyaltyInfo?.percent,
+                        status: client?.addInfo?.status
+                    }}
                     id={client?.id}
                     state={vipModalState}
                     refetch={refetch}
@@ -92,36 +109,53 @@ export const ClientsBar = ({ refetch }: IProps) => {
                             {client.image ? <img src={client.image} alt="clientAvatar" /> : <DefaultImage />}
                             <ContentInfo>
                                 <p>{client.firstName} {client.lastName}</p>
-                                <span>Статус: {client.addInfo.status} {client.personalLoyaltyInfo.percent}%</span>
+                                <span>Статус: {client.personalLoyaltyInfo.isActive ? client.addInfo.status : client.obtainProgramLoyalty.levelName} {client.personalLoyaltyInfo.isActive ? client.personalLoyaltyInfo.percent : client.obtainProgramLoyalty.percent}%</span>
                             </ContentInfo>
                         </Content>
                         <SubContent>
                             <p>Последняя покупка: {client.addInfo.lastPurchaseDate ? moment(client.addInfo.lastPurchaseDate).format("DD.MM.YYYY") : "-"}</p>
                             <Buttons>
-                                <MButton onClick={() => handleOpen("addCoins")}>
-                                    Начислить баллы
-                                    <CoinsIcon style={{ marginLeft: 10 }} />
-                                </MButton>
-                                <MButton onClick={() => handleOpen("removeCoins")}>
-                                    Списать баллы
-                                    <MinusCoinsIcon style={{ marginLeft: 10 }} />
-                                </MButton>
-                                <MToggle>
-                                    <p>Индивидуальный статус</p>
-                                    <CustomToggle
-                                        checked={client?.personalLoyaltyInfo?.isActive || vipModal}
-                                        defaultChecked={client?.personalLoyaltyInfo?.isActive}
-                                        onChange={handleChangeStatus} />
-                                </MToggle>
-                                {client?.personalLoyaltyInfo?.isActive &&
-                                    <button
-                                        onClick={() => {
-                                            setVipModalState("updating")
-                                            setVipModal(true)
-                                        }}
-                                        className="updatePercent">
-                                        Настроить индивидуальный статус
-                                    </button>}
+                                {client.isPlBlocked ?
+                                    <div className="blockedContent">
+                                        <p>Клиент заблокирован</p>
+                                        {client.blockedReason && <span>{client.blockedReason}</span>}
+                                        <Button
+                                            onClick={handleUnBlock}
+                                            margin={{ laptop: "20px 0" }}
+                                            buttonStyle={{
+                                                color: "#606EEA",
+                                                bgcolor: "rgba(96, 110, 234, 0.1)"
+                                            }}
+                                            endIcon={<UnBlockIconBlue />}>
+                                            Разблокировать
+                                        </Button>
+                                    </div>
+                                    : <>
+                                        <MButton onClick={() => handleOpen("addCoins")}>
+                                            Начислить баллы
+                                            <CoinsIcon style={{ marginLeft: 10 }} />
+                                        </MButton>
+                                        <MButton onClick={() => handleOpen("removeCoins")}>
+                                            Списать баллы
+                                            <MinusCoinsIcon style={{ marginLeft: 10 }} />
+                                        </MButton>
+                                        <MToggle>
+                                            <p>Индивидуальный статус</p>
+                                            <CustomToggle
+                                                checked={client?.personalLoyaltyInfo?.isActive || vipModal}
+                                                defaultChecked={client?.personalLoyaltyInfo?.isActive}
+                                                onChange={handleChangeStatus} />
+                                        </MToggle>
+                                        {client?.personalLoyaltyInfo?.isActive &&
+                                            <button
+                                                onClick={() => {
+                                                    setVipModalState("updating")
+                                                    setVipModal(true)
+                                                }}
+                                                className="updatePercent">
+                                                Настроить индивидуальный статус
+                                            </button>}
+                                    </>}
                             </Buttons>
                             <AddInfo>
                                 <div>

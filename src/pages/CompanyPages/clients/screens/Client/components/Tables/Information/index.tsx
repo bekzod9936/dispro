@@ -63,7 +63,9 @@ const Information = () => {
                     </div>
                     <Button margin={{ mobile: "7px 0 0 0" }} buttonStyle={{ bgcolor: "rgba(96, 110, 234, 0.1);", color: "#3492FF" }}>{t("addNote")} +</Button>
                 </InfoBlock>
-                <Recommendation maxWidth="none" referLevels={currentClient?.childReferalClientsByLevel} />
+                <Recommendation
+                    maxWidth="none"
+                    referLevels={currentClient?.childReferalClientsByLevel} />
             </AddInfo>
         </Container>
     )

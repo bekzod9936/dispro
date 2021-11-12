@@ -8,7 +8,7 @@ export const Wrapper = styled.div`
     padding: 25px 40px;
     max-width: ${({ maxWidth }: IProps) => maxWidth || "370px"};
     width: 100%;
-    height: 100%;
+    min-height: inherit;
     display: flex;
     flex-direction: column;
     align-items: center;

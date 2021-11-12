@@ -11,16 +11,19 @@ interface IProps {
     handleClose: () => void,
     refetch?: any,
     state: "selecting" | "updating" | "removing",
-    id: number
+    id: number,
+    clientInfo: {
+        value: number | string,
+        name: string,
+        status: string,
+        prevStatus: string,
+        prevPercent: string | number
+    }
 }
-export const VipModal = ({ handleClose, refetch, state, id }: IProps) => {
+export const VipModal = ({ handleClose, refetch, state, id, clientInfo }: IProps) => {
     const { t } = useTranslation()
     const [percent, setPercent] = useState("")
     const { currentClient, selectedClients } = useAppSelector(state => state.clients)
-    const client = currentClient
-    const value = client?.clientInfo?.personalLoyaltyInfo?.percent
-    const name = client?.clientInfo?.firstName + " " + client?.clientInfo?.lastName
-    const status = client?.clientInfo?.addInfo?.status
     const mutation = useMutation((data: any) => changeVipPercent(data), {
         onSuccess: () => {
             handleClose()
@@ -60,8 +63,8 @@ export const VipModal = ({ handleClose, refetch, state, id }: IProps) => {
 
         } else if (percent > 100) setPercent("100")
         else {
-            if (value) {
-                setPercent(value.toString())
+            if (clientInfo.value) {
+                setPercent(clientInfo.value.toString())
             }
         }
 
@@ -83,9 +86,9 @@ export const VipModal = ({ handleClose, refetch, state, id }: IProps) => {
                 {selectedClients.length === 1 ?
                     <div className="content">
                         <p className="client">
-                            {name}
+                            {clientInfo.name}
                             <b>•</b>
-                            <span>Статус: {status + " " + value}%</span>
+                            <span>Статус: {clientInfo.status + " " + clientInfo.value}%</span>
                         </p>
                     </div> :
                     <div className="content">
@@ -122,14 +125,14 @@ export const VipModal = ({ handleClose, refetch, state, id }: IProps) => {
                     <CloseIcon onClick={handleClose} />
                 </div>
                 <div className="content">
-                    <p className="client">{name}<b>•</b><span>Статус: {status + " " + value}%</span></p>
+                    <p className="client">{clientInfo.name}<b>•</b><span>Статус: {clientInfo.status + " " + clientInfo.value}%</span></p>
                 </div>
                 <Input
                     message={Number(percent) < 1 ? t("requiredField") : "Минимальный процент: 1"}
                     error={Number(percent) < 1}
                     margin={{ laptop: "0 0 30px 0" }}
                     value={percent}
-                    defaultValue={value?.toString()}
+                    defaultValue={clientInfo.value?.toString()}
                     onChange={handleChange} />
                 <div className="buttons">
                     <Button
@@ -163,12 +166,12 @@ export const VipModal = ({ handleClose, refetch, state, id }: IProps) => {
                 <Status>
                     <div className="old child">
                         <p>Текущий статус</p>
-                        <b>{status} {value}%</b>
+                        <b>{clientInfo.status} {clientInfo.value}%</b>
                     </div>
                     <RightArrowIcon />
                     <div className="new child">
                         <p>Стандартный статус</p>
-                        <b>Base 5%</b>
+                        <b>{clientInfo.prevStatus} {clientInfo.prevPercent}%</b>
                     </div>
                 </Status>
                 <div className="buttons">
