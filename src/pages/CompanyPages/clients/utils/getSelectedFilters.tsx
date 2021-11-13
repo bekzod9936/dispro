@@ -1,8 +1,10 @@
+import { CartIcon, CashBackIcon, DiscountIcon, DownIcon, GoBackIcon, HandIcon, MoneyBagIcon, MoneyStatsIcon, PointActionsIcon, RatingIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
+import { useTranslation } from "react-i18next"
+import { IFilters } from "services/redux/Slices/clients/types"
+import { RemoveFilterBtn } from "../components/Header/components/RemoveFilterBtn"
+import { SelectedFilter } from "../components/Header/style"
 import dayjs from "dayjs";
-import { useTranslation } from "react-i18next";
-import { IFilters } from "services/redux/Slices/clients/types";
-import { RemoveFilterBtn } from "../components/Header/components/RemoveFilterBtn";
-import { SelectedFilter } from "../components/Header/style";
+
 
 export const getSelected = (obj: any): any => {
   return Object.keys(obj).reduce((object: any, el: any) => {
@@ -127,6 +129,74 @@ export const useHandleGetFilters = ({ filters, handleRemove }: IProps) => {
   }
   return result;
 };
+export const getOneDayPlus = (date: any, action: string) => {
+  if (date) {
+    let [year, month, day] = date.split("-");
+    let res: any = "";
+    if (action === "minus") {
+      res = new Date(year, month - 1, day - 1);
+    } else {
+      console.log(year, month, day);
+
+      month = month - 1;
+      day = +day + 1;
+      res = new Date(year, month, day);
+    }
+
+    return dayjs(res).format("YYYY-MM-DD");
+  }
+};
+export const getClientStatistics = (data: any) => {
+  if (data) {
+    const temp = Object.keys(data).map(el => {
+      if (el === "paidWithMoney") {
+        return {
+          icon: <MoneyStatsIcon />,
+          heading: "Оплачено в UZS",
+          value: data[el]
+        }
+      } else if (el === "amountOperation") {
+        return {
+          icon: <MoneyBagIcon />,
+          heading: "Сумма всех покупок",
+          value: data[el]
+        }
+      } else if (el === "countOperation") {
+        return {
+          icon: <CartIcon />,
+          heading: "Количество покупок",
+          value: data[el]
+        }
+      } else if (el === "pointSum") {
+        return {
+          icon: <HandIcon />,
+          heading: "Остаток баллов",
+          value: data[el]
+        }
+      } else if (el === "cashbackSum") {
+        return {
+          icon: <CashBackIcon />,
+          heading: "Получено кешбэк",
+          value: data[el]
+        }
+      } else if (el === "discountSum") {
+        return {
+          icon: <DiscountIcon />,
+          heading: "Получено скидки",
+          value: data[el]
+        }
+      } else if (el === "paidWithPoint") {
+        return {
+          icon: <RatingIcon />,
+          heading: "Оплаченно баллами",
+          value: 250000
+        }
+      }
+    })
+    return temp.filter(e => !!e)
+  }
+};
+
 
 export const getFiltersForQuery = (filters: any) => {
   let res: any = Object.keys(filters).reduce((obj, el) => {
@@ -183,22 +253,9 @@ export const getFiltersForQuery = (filters: any) => {
     .join("");
 };
 
-export const getOneDayPlus = (date: any, action: string) => {
-  if (date) {
-    let [year, month, day] = date.split("-");
-    let res: any = "";
-    if (action === "minus") {
-      res = new Date(year, month - 1, day - 1);
-    } else {
-      console.log(year, month, day);
 
-      month = month - 1;
-      day = +day + 1;
-      res = new Date(year, month, day);
-    }
 
-    return dayjs(res).format("YYYY-MM-DD");
-  }
-};
 
-export const getClientStatistics = (data: any) => {};
+
+
+

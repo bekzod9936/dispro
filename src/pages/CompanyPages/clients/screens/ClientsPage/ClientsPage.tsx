@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Header } from '../../components/Header/Header';
 import { Container, MainWrapper, Wrap } from '../../style/style';
 import { Table } from '../../components/Table/Table';
@@ -31,12 +31,23 @@ const ClientsPage = () => {
 	})
 	const { refetch, isFetching } = useFetchClients({ query: debouncedQuery });
 
+	useEffect(() => {
+		console.log("mount");
 
+	}, [])
 	return (
 		<MainWrapper isRelative={width > 600}>
 			{width <= 600 &&
 				<>
 					<Form
+						clientInfo={{
+							name: selectedClients[0]?.firstName + " " + selectedClients[0]?.lastName,
+							percent: selectedClients[0]?.personalLoyaltyInfo.percent,
+							points: selectedClients[0]?.addInfo.pointSum + "",
+							status: selectedClients[0]?.addInfo?.status,
+							id: selectedClients[0]?.id
+						}}
+						refetch={refetch}
 						action={form.action}
 						isOpen={form.isOpen}
 						handleClose={setForm} />
@@ -51,7 +62,7 @@ const ClientsPage = () => {
 						<Table />
 					)}
 					{!isFetching && (totalCount !== 0
-						&& <Footer />)}
+						&& <Footer query={query} />)}
 				</Wrap>
 				{width > 600 ? <>
 					<SideBar isOpen={qrCodeBar}>

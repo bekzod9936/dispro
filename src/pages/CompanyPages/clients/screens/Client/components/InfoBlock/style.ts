@@ -3,12 +3,13 @@ import styled from "styled-components";
 export const Wrapper = styled.div`
     max-width: 460px;
     width: 100%;
-    height: 100%;
     padding: 15px 25px;
     background: #FFFFFF;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
     border-radius: 14px;
     margin: 0 15px;
+    min-height: inherit;
+
 `
 export const UpSide = styled.div`
     display: flex;
@@ -36,6 +37,13 @@ export const UpSide = styled.div`
 `
 
 export const DownSide = styled.div`
+    b {
+        font-size: 16px;
+        line-height: 18px;
+        color: #FF5E68;
+        font-weight: 300;
+        margin-bottom: 10px;
+    }
     p {
         font-size: 16px;
         font-weight: 300;

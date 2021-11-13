@@ -1,6 +1,6 @@
 export interface IState {
     clients: IClient[],
-    currentClient: IClient | null
+    currentClient: IPersonalInfo | null
     page: number,
     totalCount: number,
     visibleClients: IVisibleClient[],
@@ -10,7 +10,18 @@ export interface IState {
     period: IPeriod,
     totalPages: number | string,
     filters: IFilters,
-    qrCodeBar: boolean
+    qrCodeBar: boolean,
+}
+
+export interface IPersonalInfo {
+    clientInfo: IClient,
+    childReferalClientsByLevel: IRefChild[],
+    referBy: null | any
+}
+
+export interface IRefChild {
+    levelNumber: number,
+    count: number
 }
 export interface IPeriod {
     startDate: string,
@@ -100,7 +111,11 @@ export interface IClient {
     userId: number
     isPlBlocked: boolean,
     blockedReason: string,
-    notes: string
+    notes: string,
+    obtainProgramLoyalty: {
+        levelName: string,
+        percent: number
+    }
 }
 export interface IFetchData {
     clients: IClient[],

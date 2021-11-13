@@ -16,7 +16,7 @@ import { CouponCard } from '../../components/CouponCard'
 import { CouponBar } from '../../components/CouponSideBar'
 import { EmptyPage } from './components/EmptyPage'
 import { MModal } from './components/Modal'
-import { Container, Wrapper } from './style'
+import { Container, SearchBar, SearchIconWrapper, Wrapper } from './style'
 import { useDrafts } from './useDrafts'
 
 const Drafts = () => {
@@ -54,11 +54,11 @@ const Drafts = () => {
                     currentCoupon={currentCoupon}
                     onClose={setSideBarOpen} />
             </SideBar>
-            <div style={{ display: "flex", margin: "0 0 20px 0" }}>
+            <SearchBar>
                 <Button
                     onClick={handleOpen}
                     buttonStyle={{ bgcolor: "#FFFFFF", color: "#223367", weight: 500, height: { desktop: 60 } }}
-                    margin={{ desktop: "0 25px 0 0", laptop: "0 25px 0 0", planshet: "0 0 20px 0" }}
+                    margin={{ desktop: "0 25px 0 0", laptop: "0 25px 0 0", planshet: "0 0 20px 0", mobile: "0 8px 0 0" }}
                     startIcon={<AddIcon />}>
                     {t("create")}
                 </Button>
@@ -67,11 +67,14 @@ const Drafts = () => {
                     message={"По запросу ничего не найдено"}
                     placeholder="Поиск..."
                     onChange={(e) => setQuery(e.target.value)}
-                    inputStyle={{ border: "none", height: { laptop: 45, planshet: 40 } }}
+                    inputStyle={{ inpadding: "0 8px 0 0", border: "none", height: { laptop: 45, planshet: 40, mobile: 40 } }}
                     width={{ maxwidth: 500, width: "100%" }}
-                    IconStart={<SearchIcon style={{ marginLeft: 30 }} />}
+                    IconStart={
+                        <SearchIconWrapper>
+                            <SearchIcon />
+                        </SearchIconWrapper>}
                 />
-            </div>
+            </SearchBar>
             <Container>
                 {isFetching ? <Spinner /> : drafts.map((el: IDeferred) => (
                     <CouponCard

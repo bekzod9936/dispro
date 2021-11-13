@@ -6,27 +6,27 @@ import { BlockWhiteIcon, CancelIcon, CloseIcon } from 'assets/icons/ClientsPageI
 import { Wrapper } from "./style"
 import { useMutation } from 'react-query'
 import { blockClient } from 'services/queries/clientsQuery'
-import { useAppSelector } from 'services/redux/hooks'
 
 interface IProps {
     isOpen: boolean,
     handleClose: (e: boolean) => void
     isBlocking: boolean
+    refetch: () => void,
+    clientId: number,
 }
 
-export const BlockModal = ({ isOpen, handleClose, isBlocking }: IProps) => {
+export const BlockModal = ({ isOpen, handleClose, isBlocking, refetch, clientId }: IProps) => {
     const [reason, setReason] = useState("")
-    const { selectedClients } = useAppSelector(state => state.clients)
-    const client = selectedClients[0]
     const mutation = useMutation((data: any) => blockClient(data))
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         mutation.mutate({
-            clientId: client.id,
-            isPlBlocked: true,
+            clientId: clientId,
+            isPlBlocked: isBlocking,
             blockedReason: reason
         })
+        refetch()
         handleClose(false)
     }
     return (

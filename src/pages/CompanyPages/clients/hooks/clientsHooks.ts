@@ -14,7 +14,6 @@ export const useFetchClients = ({ query }: IArgs) => {
   const { page, filters, period } = useAppSelector(
     (state: RootState) => state.clients
   );
-  console.log(filters);
 
   const response = useQuery(
     ["clients", page, query, period, filters],
@@ -32,9 +31,6 @@ export const useFetchClients = ({ query }: IArgs) => {
     {
       retry: 0,
       refetchOnWindowFocus: false,
-      keepPreviousData: true,
-      refetchIntervalInBackground: true,
-      cacheTime: 50000,
       onSuccess: (data) => {
         dispatch(
           setClients({

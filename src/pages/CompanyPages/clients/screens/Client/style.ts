@@ -22,8 +22,9 @@ export const UpSide = styled.div`
     width: 100%;
     display: flex;
     align-items: center;
-    height: 205px;
+    min-height: 205px;
     margin-bottom: 30px;
+    
 `
 
 export const MiddleSide = styled.div`

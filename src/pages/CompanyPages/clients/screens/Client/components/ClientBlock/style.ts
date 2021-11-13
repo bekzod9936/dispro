@@ -23,6 +23,7 @@ export const Icon = styled.div`
 export const UpSide = styled.div`
     display: flex;
     width: 100%;
+    height: 100%;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 15px;

@@ -106,10 +106,11 @@ const Recommendations = () => {
     ]
 
     const { getTableBodyProps, getTableProps, prepareRow, rows, headerGroups } = useTable({ columns: headers, data: columns })
+
     return (
         <>
             <div style={{ margin: "0 0 10px 0" }}>
-                <Filter position={-200} list={filterList} />
+                <Filter list={filterList} />
             </div>
             <Table {...getTableProps()}>
                 <THead>
