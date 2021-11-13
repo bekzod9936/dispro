@@ -74,10 +74,15 @@ export interface ICashier {
   label?: string;
 }
 
+export interface ITotal {
+  count?: number;
+  pages?: number;
+}
+
 export interface IFinance {
   suggestionFinance: {
     data: ISuggestion[];
-    totalCount: number;
+    total: ITotal;
     between: string;
   };
   paymentFinance: {

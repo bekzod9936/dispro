@@ -38,7 +38,6 @@ export const WrapFilter = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  margin-bottom: 20px;
 `;
 
 export const WrapInputs = styled.div`

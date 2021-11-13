@@ -8,12 +8,13 @@ import {
   IHistory,
   ISum,
   ICashier,
+  ITotal,
 } from './types';
 
 const initialState: IFinance = {
   suggestionFinance: {
     data: [],
-    totalCount: 0,
+    total: { count: 0, pages: 0 },
     between: '',
   },
   paymentFinance: {
@@ -48,8 +49,8 @@ const financeSlice = createSlice({
     setSuggestionFinanceData: (state, action: PayloadAction<ISuggestion[]>) => {
       state.suggestionFinance.data = action.payload;
     },
-    setSuggestionFinanceTotal: (state, action: PayloadAction<number>) => {
-      state.suggestionFinance.totalCount = action.payload;
+    setSuggestionFinanceTotal: (state, action: PayloadAction<ITotal>) => {
+      state.suggestionFinance.total = action.payload;
     },
     setSuggestionFinanceBetween: (state, action: PayloadAction<string>) => {
       state.suggestionFinance.between = action.payload;

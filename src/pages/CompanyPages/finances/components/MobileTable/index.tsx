@@ -1,24 +1,85 @@
 import { useTranslation } from 'react-i18next';
-import { useAppSelector } from 'services/redux/hooks';
-import { Container, Data, FullName, Title, Amount, Wrapper } from './style';
+import { ReactComponent as LeftBack } from 'assets/icons/FinanceIcons/leftback.svg';
 import FullModal from '../FullModal';
-const MobileTable = () => {
+import { useState } from 'react';
+import { IconButton } from '@material-ui/core';
+import {
+  Container,
+  Data,
+  FullName,
+  Title,
+  Amount,
+  Wrapper,
+  Header,
+  ModalContent,
+  WrapBox,
+  Box,
+  BoxTitle,
+  BoxInfo,
+} from './style';
+
+interface Props {
+  data?: {
+    title?: any;
+    info?: {
+      title?: any;
+      value?: any;
+      body?: { title?: any; value?: any }[];
+    }[];
+  };
+}
+
+const MobileTable = ({ data }: Props) => {
   const { t } = useTranslation();
-  const data = useAppSelector((state) => state.finance.suggestionFinance.data);
+
+  const [open, setOpen] = useState(false);
+  const [id, setId] = useState<any>(null);
 
   return (
     <Container>
-      {data.map((v: any) => {
+      {data?.info?.map((a: any, i: number) => {
         return (
           <>
-            <Data>
-              <FullName>{`${v?.firstName}  ${v?.lastName}`}</FullName>
+            <Data
+              onClick={() => {
+                setOpen(true);
+                setId(i);
+              }}
+            >
+              <FullName>{a?.title}</FullName>
               <Wrapper>
-                <Title>{t('amountofpurchase')}:</Title>
-                <Amount> {` ${v?.amount}`}</Amount>
+                <Title>{data?.title}:</Title>
+                <Amount>{a?.value}</Amount>
               </Wrapper>
             </Data>
-            <FullModal>ssss</FullModal>
+            {id === i ? (
+              <FullModal open={open}>
+                <ModalContent>
+                  <Header>
+                    <IconButton
+                      onClick={() => {
+                        setOpen(false);
+                        setId(null);
+                      }}
+                    >
+                      <LeftBack />
+                    </IconButton>
+                    <span>{t('proposals')}</span>
+                  </Header>
+
+                  <WrapBox>
+                    {a.body?.map((v: any) => {
+                      return (
+                        <Box>
+                          <BoxTitle>{v.title}</BoxTitle>
+                          <BoxInfo>{v.value}</BoxInfo>
+                        </Box>
+                      );
+                    })}
+                  </WrapBox>
+                </ModalContent>
+              </FullModal>
+            ) : null}
           </>
         );
       })}

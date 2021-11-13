@@ -5,15 +5,16 @@ export const MainWrapper = styled.div`
   display: flex;
   height: 100%;
   flex-direction: column;
-
   overflow: hidden;
   width: 100%;
   padding: 25px 0 0 25px;
+  flex: 1;
 `;
 
 export const Wrap = styled.div`
   overflow-y: auto;
   position: relative;
+  overflow-x: hidden;
   &::-webkit-scrollbar {
     appearance: none;
     display: none;
