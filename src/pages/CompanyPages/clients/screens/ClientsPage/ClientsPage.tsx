@@ -62,7 +62,7 @@ const ClientsPage = () => {
 						<Table />
 					)}
 					{!isFetching && (totalCount !== 0
-						&& <Footer />)}
+						&& <Footer query={query} />)}
 				</Wrap>
 				{width > 600 ? <>
 					<SideBar isOpen={qrCodeBar}>
