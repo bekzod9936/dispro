@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const SpinnerDiv = styled.div`
   width: 100%;
@@ -9,11 +9,8 @@ export const SpinnerDiv = styled.div`
 `;
 
 export const BottomBtnContainer = styled.div`
-  position: absolute;
   padding-top: 25px;
   padding-bottom: 20px;
-  bottom: 0;
-  left: 10px;
   width: 100%;
   background-color: #f1f4f6;
 `;

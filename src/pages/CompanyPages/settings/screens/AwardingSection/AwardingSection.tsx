@@ -6,7 +6,7 @@ import CustomToggle from "components/Custom/CustomToggleSwitch";
 import Input from "components/Custom/Input";
 import { Text } from "styles/CustomStyles";
 import SaveButton from "pages/CompanyPages/settings/components/SaveButton";
-import { Break } from "../../styles";
+import { Break, SpinnerDiv } from "../../styles";
 import InputFormat from "components/Custom/InputFormat";
 import {
   AwardContainer,
@@ -26,6 +26,7 @@ import {
 //hooks
 import useAwards from "./hooks/useAwards";
 import useScroll from "services/hooks/useScroll";
+import Spinner from "components/Helpers/Spinner";
 
 const AwardingSection = () => {
   const { t } = useTranslation();
@@ -43,8 +44,16 @@ const AwardingSection = () => {
     vipCheck,
     birthdayCheck,
     saveBonus,
+    isLoading,
   } = useAwards();
 
+  if (isLoading) {
+    return (
+      <SpinnerDiv>
+        <Spinner />
+      </SpinnerDiv>
+    );
+  }
   return (
     <Form
       pTop={height}

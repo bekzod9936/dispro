@@ -1,23 +1,32 @@
 import styled from "styled-components";
-import Grid from "@material-ui/core/Grid";
 import { device } from "styles/device";
 
 interface IProps {
   deactivated?: boolean;
 }
 
-export const GridContainer = styled(Grid)`
+export const GridContainer = styled.div`
   /* margin-bottom: 120px; */
   overflow-y: hidden;
+  height: 100%;
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 0.7fr;
+
+  @media (max-width: ${device.planshet}) {
+    grid-template-columns: 1fr;
+  }
 `;
 
-export const LeftGrid = styled(Grid)`
+export const LeftGrid = styled.div`
   position: relative;
   overflow: hidden;
   overflow-y: hidden;
+  flex: 1;
+  height: 100%;
 `;
 
-export const RightGrid = styled(Grid)`
+export const RightGrid = styled.div`
   padding-left: 20%;
   padding-top: 110px !important;
   display: flex;
@@ -25,9 +34,11 @@ export const RightGrid = styled(Grid)`
   align-items: flex-start;
   overflow-y: hidden;
 
-  @media (max-width: ${device.laptop}) {
+  @media (max-width: ${device.planshet}) {
     padding-top: 0 !important;
-    padding-left: 0 !important;
+    padding-left: 15px !important;
+    padding-right: 15px;
+    width: 100%;
   }
 `;
 
@@ -38,6 +49,11 @@ export const LevelsCard = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media (max-width: ${device.planshet}) {
+    width: 100%;
+    padding: 15px 40px;
+  }
 `;
 
 export const LevelsColumn = styled.div`
@@ -61,7 +77,15 @@ export const LevelsHead = styled.div`
   margin: 10px 0;
 `;
 
-export const Form = styled.form``;
+export const Form = styled.form`
+  flex: 1;
+  height: 100%;
+
+  @media (max-width: ${device.planshet}) {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+`;
 
 export const ReferalCol = styled.div`
   display: flex;
@@ -78,7 +102,7 @@ export const HeaderReferal = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: start;
-  margin-bottom: 25px;
+  margin-bottom: 0;
 `;
 
 export const ActDiv = styled.div`
@@ -99,4 +123,25 @@ export const AddDiv = styled.div`
   padding: 8px;
 `;
 
-export const SettingDiv = styled.div``;
+export const SettingDiv = styled.div`
+  width: 100%;
+  padding-top: 10px;
+`;
+
+export const ReferalContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 90%;
+`;
+
+export const ReferalContainer = styled.div`
+  height: 80%;
+  flex: 1;
+`;
+
+export const ReferalBtn = styled.div`
+  height: 20%;
+  display: flex;
+  align-items: center;
+`;
