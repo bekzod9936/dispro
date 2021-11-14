@@ -6,7 +6,6 @@ interface IProps {
 }
 
 export const GridContainer = styled.div`
-  /* margin-bottom: 120px; */
   overflow-y: hidden;
   height: 100%;
   flex: 1;
@@ -144,4 +143,74 @@ export const ReferalBtn = styled.div`
   height: 20%;
   display: flex;
   align-items: center;
+`;
+
+export const ReferalDiv = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  background: #fff;
+  visibility: hidden;
+  z-index: 9999999999999999999999;
+  transition: 1s all linear;
+`;
+
+//mobile side
+export const ReferalHeader = styled.div`
+  height: 10%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 5px;
+  padding-top: 5px;
+  padding-bottom: 3px;
+`;
+
+export const Htext = styled.p`
+  width: 190px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 19px;
+  color: #223367;
+`;
+
+export const ReferalBody = styled.div`
+  flex: 1;
+  height: 80%;
+  background-color: #f1f4f6;
+`;
+
+export const ReferalWrapper = styled.div`
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
+  width: 100%;
+  flex: 1;
+  ::-webkit-scrollbar {
+    width: 7px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #606eea;
+    border-radius: 14px 0px 0px 14px;
+  }
+`;
+
+export const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
 `;
