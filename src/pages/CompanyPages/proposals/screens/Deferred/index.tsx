@@ -16,6 +16,8 @@ import { EmptyPage } from '../Drafts/components/EmptyPage'
 import { Container } from '../Drafts/style'
 import { CouponList } from '../../components/CouponList'
 import useWindowWidth from 'services/hooks/useWindowWidth'
+import FullModal from 'components/Layout/Header/FullModal'
+import { FullSideBar } from '../../components/FullSideBar'
 
 const Deferred = () => {
     const dispatch = useAppDispatch()
@@ -70,9 +72,16 @@ const Deferred = () => {
     }
     return (
         <Wrapper>
-            <SideBar maxWidth="370px" isOpen={open}>
-                <CouponBar refetch={refetch} resetCoupon={handleReset} currentCoupon={currentCoupon} onClose={setOpen} />
-            </SideBar>
+            {width > 600 ?
+                <SideBar maxWidth="370px" isOpen={open}>
+                    <CouponBar refetch={refetch} resetCoupon={handleReset} currentCoupon={currentCoupon} onClose={setOpen} />
+                </SideBar> :
+                <FullModal open={open}>
+                    <FullSideBar
+                        edit
+                        refetch={refetch}
+                        onClose={setOpen} />
+                </FullModal>}
             <Input
                 value={value}
                 error={deferred.length === 0 && !isFetching && !!value}

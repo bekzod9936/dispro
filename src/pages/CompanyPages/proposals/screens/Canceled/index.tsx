@@ -16,6 +16,8 @@ import { EmptyPage } from '../Drafts/components/EmptyPage'
 import { Container } from '../Drafts/style'
 import useWindowWidth from 'services/hooks/useWindowWidth'
 import { CouponList } from '../../components/CouponList'
+import FullModal from 'components/Layout/Header/FullModal'
+import { FullSideBar } from '../../components/FullSideBar'
 const Canceled = () => {
     const dispatch = useAppDispatch()
     const { currentCoupon, canceled } = useAppSelector((state: RootState) => state.proposals)
@@ -67,14 +69,18 @@ const Canceled = () => {
     }
     return (
         <Wrapper>
-            <SideBar maxWidth="370px" isOpen={open}>
-                <CouponBar
-                    canceled
-                    refetch={refetch}
-                    resetCoupon={handleReset}
-                    currentCoupon={currentCoupon}
-                    onClose={setOpen} />
-            </SideBar>
+            {width > 600 ?
+                <SideBar maxWidth="370px" isOpen={open}>
+                    <CouponBar
+                        canceled
+                        refetch={refetch}
+                        resetCoupon={handleReset}
+                        currentCoupon={currentCoupon}
+                        onClose={setOpen} />
+                </SideBar> :
+                <FullModal open={open}>
+                    <FullSideBar rePublish refetch={refetch} onClose={setOpen} />
+                </FullModal>}
             <Input
                 error={canceled.length === 0 && !isFetching && !!value}
                 message={"По запросу ничего не найдено"}

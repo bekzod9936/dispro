@@ -16,7 +16,8 @@ import { EmptyPage } from "../Drafts/components/EmptyPage"
 import { Container } from "../Drafts/style"
 import useWindowWidth from "services/hooks/useWindowWidth"
 import { CouponList } from "../../components/CouponList"
-
+import FullModal from 'components/Layout/Header/FullModal'
+import { FullSideBar } from "../../components/FullSideBar"
 const Archive = () => {
     const [open, setOpen] = React.useState(false)
     const [query, setQuery] = React.useState("")
@@ -65,14 +66,18 @@ const Archive = () => {
     }
     return (
         <Wrapper>
-            <SideBar maxWidth="370px" isOpen={open}>
-                <CouponBar
-                    canceled
-                    refetch={refetch}
-                    resetCoupon={() => dispatch(resetCurrentCoupon())}
-                    currentCoupon={currentCoupon}
-                    onClose={setOpen} />
-            </SideBar>
+            {width > 600 ?
+                <SideBar maxWidth="370px" isOpen={open}>
+                    <CouponBar
+                        canceled
+                        refetch={refetch}
+                        resetCoupon={() => dispatch(resetCurrentCoupon())}
+                        currentCoupon={currentCoupon}
+                        onClose={setOpen} />
+                </SideBar> :
+                <FullModal open={open}>
+                    <FullSideBar refetch={refetch} rePublish onClose={setOpen} />
+                </FullModal>}
             <Input
                 error={archive.length === 0 && !isFetching && !!query}
                 message={"По запросу ничего не найдено"}

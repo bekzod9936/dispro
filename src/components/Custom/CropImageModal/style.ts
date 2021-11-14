@@ -225,6 +225,7 @@ export const Header = styled.div`
     cursor: pointer;
   }
   @media (max-width: ${device.mobile}) {
+    margin-bottom: 20px;
     h4 {
       font-weight: 500;
       font-size: 16px;

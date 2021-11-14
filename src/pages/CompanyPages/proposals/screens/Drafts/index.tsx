@@ -90,7 +90,10 @@ const Drafts = () => {
                         onClose={setSideBarOpen} />
                 </SideBar> :
                 <FullModal open={isSideBarOpen}>
-                    <FullSideBar rePublish onClose={setSideBarOpen} />
+                    <FullSideBar
+                        refetch={refetch}
+                        edit
+                        onClose={setSideBarOpen} />
                 </FullModal>}
             <SearchBar>
                 <Button

@@ -23,6 +23,7 @@ export const Wrapper = styled.div`
     @media (max-width: ${device.mobile}) {
         padding: 13px 0 13px 15px;
         position: static;
+        height: 95%;
     }
 `
 
