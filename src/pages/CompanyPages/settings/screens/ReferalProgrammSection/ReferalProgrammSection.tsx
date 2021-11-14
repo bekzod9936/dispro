@@ -38,9 +38,12 @@ import {
   ReferalBody,
   ReferalWrapper,
   Wrapper,
+  ActionDiv,
 } from "./styles";
 
 //components
+import CancelButton from "../../components/CancelButton";
+import SaveButton from "../../components/SaveButton";
 import CustomToggle from "components/Custom/CustomToggleSwitch";
 import SettingButton from "../../components/SettingButton";
 import NotifySnack from "components/Custom/Snackbar";
@@ -165,7 +168,6 @@ const ReferalProgrammSection = () => {
                     {index === fields.length - 2 && index !== 0 && (
                       <RippleEffect
                         onClick={() => {
-                          console.log(index, "index prev");
                           if (checkedState) {
                             remove(index);
                             setValue(
@@ -229,6 +231,14 @@ const ReferalProgrammSection = () => {
     }
   };
 
+  const removeCard = (index: any) => {
+    remove(index);
+    setValue(
+      "referals",
+      fields.filter((item, ind) => ind !== index)
+    );
+  };
+
   const mobileContent = () => {
     if (width <= 1000) {
       return (
@@ -247,13 +257,36 @@ const ReferalProgrammSection = () => {
                   return (
                     <ReferalCard
                       item={item}
+                      errors={errors}
+                      control={control}
+                      fields={fields}
                       index={index}
-                      removeCol={() => {}}
+                      removeCol={() => removeCard(index)}
                       key={index}
                     />
                   );
                 })}
               </Wrapper>
+              <Button
+                onClick={() => {
+                  append({
+                    name: `${fields.length + 1}`,
+                    number: fields.length + 1,
+                    percent: 0,
+                  });
+                }}
+                buttonStyle={{
+                  bgcolor: "transparent",
+                  color: "#3492FF",
+                }}
+              >
+                Добавить уровень +
+              </Button>
+
+              <ActionDiv>
+                <CancelButton onClick={handleClick} text={t("cancel")} />
+                <SaveButton type="submit" text={t("save")} />
+              </ActionDiv>
             </ReferalWrapper>
           </ReferalBody>
         </ReferalDiv>

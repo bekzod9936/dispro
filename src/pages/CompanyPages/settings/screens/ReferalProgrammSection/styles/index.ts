@@ -214,3 +214,10 @@ export const Wrapper = styled.div`
   padding-left: 15px;
   padding-right: 15px;
 `;
+
+export const ActionDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`;
