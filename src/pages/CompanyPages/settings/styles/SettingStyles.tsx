@@ -31,7 +31,7 @@ export const SettingsWrapper = styled.div`
   border-radius: 14px;
   background-color: white;
 
-  @media (max-width: ${device.laptop}) {
+  @media (max-width: ${device.planshet}) {
     background-color: transparent;
     padding: 0;
     height: 100%;
@@ -40,8 +40,7 @@ export const SettingsWrapper = styled.div`
 
 export const ReferalScroll = styled.div`
   overflow-y: scroll;
-  max-height: 60vh;
-  padding-bottom: 100px;
+  height: 100%;
   border-right: 1px solid rgba(96, 110, 234, 0.3);
   scroll-behavior: auto;
 

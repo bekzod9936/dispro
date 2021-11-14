@@ -1,9 +1,10 @@
-import useReferalData from "./hooks/useReferalData";
-import { ReferalScroll, SmallPanel } from "../../styles/SettingStyles";
-import { Text } from "styles/CustomStyles";
+import { useRef, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Controller, useFieldArray } from "react-hook-form";
-import TwoUsers from "../../components/TwoUsers";
+
+//assets and style
+import { ReactComponent as ArrowBack } from "assets/icons/arrow_left.svg";
+import { HBreak } from "../../styles";
 import { SaveIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
 import {
   AddIconSettings,
@@ -11,8 +12,8 @@ import {
 } from "assets/icons/SettingsIcons/SettingsPageIcon";
 import { ThreeHeadIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import { COLORS, FONT_SIZE } from "services/Types/enums";
-import CustomToggle from "components/Custom/CustomToggleSwitch";
-import { BottomBtnContainer } from "../../styles/index";
+import { ReferalScroll, SmallPanel } from "../../styles/SettingStyles";
+import { Text } from "styles/CustomStyles";
 import {
   GridContainer,
   LeftGrid,
@@ -28,15 +29,34 @@ import {
   ActDiv,
   AddDiv,
   SettingDiv,
+  ReferalBtn,
+  ReferalContent,
+  ReferalContainer,
+  ReferalDiv,
+  ReferalHeader,
+  Htext,
+  ReferalBody,
+  ReferalWrapper,
+  Wrapper,
 } from "./styles";
-import Button from "components/Custom/Button";
-import RippleEffect from "components/Custom/RippleEffect";
+
+//components
+import CustomToggle from "components/Custom/CustomToggleSwitch";
+import SettingButton from "../../components/SettingButton";
 import NotifySnack from "components/Custom/Snackbar";
 import InputFormat from "components/Custom/InputFormat";
+import RippleEffect from "components/Custom/RippleEffect";
+import Button from "components/Custom/Button";
+import TwoUsers from "../../components/TwoUsers";
+import { IconButton } from "@material-ui/core";
+
+//hooks
+import useReferalData from "./hooks/useReferalData";
 import useWindowWidth from "services/hooks/useWindowWidth";
-import SettingButton from "../../components/SettingButton";
+import ReferalCard from "./components/ReferalCard";
 
 const ReferalProgrammSection = () => {
+  const referalRef = useRef<null | HTMLDivElement>(null);
   const { t } = useTranslation();
   const { width } = useWindowWidth();
   const {
@@ -54,6 +74,17 @@ const ReferalProgrammSection = () => {
     levelsRef,
   } = useReferalData();
 
+  const handleClick = useCallback(() => {
+    const currentRef = referalRef.current;
+    if (currentRef) {
+      if (currentRef.style.visibility === "visible") {
+        currentRef.style.visibility = "hidden";
+      } else {
+        currentRef.style.visibility = "visible";
+      }
+    }
+  }, []);
+
   //form field array
   const { fields, append, remove } = useFieldArray({
     control,
@@ -64,122 +95,126 @@ const ReferalProgrammSection = () => {
     if (width <= 1000) {
       return (
         <SettingDiv>
-          <SettingButton text={"Настроить"} onClick={() => {}} />
+          <SettingButton text={"Настроить"} onClick={handleClick} />
         </SettingDiv>
       );
     } else {
       return (
-        <>
-          <ReferalScroll>
-            {fields?.map((item: any, index: number) => {
-              return (
-                <ReferalCol
-                  onClick={(e: any) => {
-                    if (!checkedState) {
-                      e.stopPropagation();
-                    }
-                  }}
-                  deactivated={!checkedState}
-                  key={index}
-                >
-                  <SmallPanel>
-                    <Controller
-                      name={`referals.${[index]}.percent`}
-                      control={control}
-                      defaultValue={item?.percent}
-                      rules={{
-                        required: true,
-                      }}
-                      render={({ field }) => {
-                        return (
-                          <InputFormat
-                            width={{
-                              maxwidth: 122,
-                            }}
-                            disabled={!checkedState}
-                            label={`Уровень ${index + 1}`}
-                            field={field}
-                            max="100"
-                            message={""}
-                            error={
-                              errors?.referals?.[index]?.percent ? true : false
-                            }
-                          />
-                        );
-                      }}
-                    />
-
-                    <TwoUsers
-                      name1="Саша"
-                      name2="Егор"
-                      name3={
-                        item.number === 2
-                          ? "Петя"
-                          : item.number > 2
-                          ? `${index - 1} ${t("people")}`
-                          : null
+        <ReferalContent>
+          <ReferalContainer>
+            <ReferalScroll>
+              {fields?.map((item: any, index: number) => {
+                return (
+                  <ReferalCol
+                    onClick={(e: any) => {
+                      if (!checkedState) {
+                        e.stopPropagation();
                       }
-                    />
-                    <TextDiv>
-                      <Text fontSize="14px" fontWeight={300}>
-                        1 клиент получает
-                        {" " + item.percent}% с каждой покупки
-                        {" " + +(item.number + 1)} Клиентa
-                      </Text>
-                    </TextDiv>
-                  </SmallPanel>
-                  {index === fields.length - 2 && index !== 0 && (
-                    <RippleEffect
-                      onClick={() => {
-                        console.log(index, "index prev");
-                        if (checkedState) {
-                          remove(index);
-                          setValue(
-                            "referals",
-                            fields.filter((item, ind) => ind !== index)
+                    }}
+                    deactivated={!checkedState}
+                    key={index}
+                  >
+                    <SmallPanel>
+                      <Controller
+                        name={`referals.${[index]}.percent`}
+                        control={control}
+                        defaultValue={item?.percent}
+                        rules={{
+                          required: true,
+                        }}
+                        render={({ field }) => {
+                          return (
+                            <InputFormat
+                              width={{
+                                maxwidth: 122,
+                              }}
+                              disabled={!checkedState}
+                              label={`Уровень ${index + 1}`}
+                              field={field}
+                              max="100"
+                              message={""}
+                              error={
+                                errors?.referals?.[index]?.percent
+                                  ? true
+                                  : false
+                              }
+                            />
                           );
+                        }}
+                      />
+
+                      <TwoUsers
+                        name1="Саша"
+                        name2="Егор"
+                        name3={
+                          item.number === 2
+                            ? "Петя"
+                            : item.number > 2
+                            ? `${index - 1} ${t("people")}`
+                            : null
                         }
-                      }}
-                    >
-                      <XIcon />
-                    </RippleEffect>
-                  )}
-                  {index === fields.length - 1 && (
-                    <ActDiv>
+                      />
+                      <TextDiv>
+                        <Text fontSize="14px" fontWeight={300}>
+                          1 клиент получает
+                          {" " + item.percent}% с каждой покупки
+                          {" " + +(item.number + 1)} Клиентa
+                        </Text>
+                      </TextDiv>
+                    </SmallPanel>
+                    {index === fields.length - 2 && index !== 0 && (
                       <RippleEffect
                         onClick={() => {
-                          console.log(index, "index next");
+                          console.log(index, "index prev");
                           if (checkedState) {
                             remove(index);
+                            setValue(
+                              "referals",
+                              fields.filter((item, ind) => ind !== index)
+                            );
                           }
                         }}
                       >
                         <XIcon />
                       </RippleEffect>
-                      <RippleEffect
-                        padding={0}
-                        onClick={() => {
-                          if (checkedState) {
-                            append({
-                              name: `${fields.length + 1}`,
-                              number: fields.length + 1,
-                              percent: 0,
-                            });
-                          }
-                        }}
-                      >
-                        <AddDiv>
-                          <AddIconSettings />
-                        </AddDiv>
-                      </RippleEffect>
-                    </ActDiv>
-                  )}
-                </ReferalCol>
-              );
-            })}
-          </ReferalScroll>
-          <BottomBtnContainer>
-            {/* || !checkedState */}
+                    )}
+                    {index === fields.length - 1 && (
+                      <ActDiv>
+                        <RippleEffect
+                          onClick={() => {
+                            console.log(index, "index next");
+                            if (checkedState) {
+                              remove(index);
+                            }
+                          }}
+                        >
+                          <XIcon />
+                        </RippleEffect>
+                        <RippleEffect
+                          padding={0}
+                          onClick={() => {
+                            if (checkedState) {
+                              append({
+                                name: `${fields.length + 1}`,
+                                number: fields.length + 1,
+                                percent: 0,
+                              });
+                            }
+                          }}
+                        >
+                          <AddDiv>
+                            <AddIconSettings />
+                          </AddDiv>
+                        </RippleEffect>
+                      </ActDiv>
+                    )}
+                  </ReferalCol>
+                );
+              })}
+            </ReferalScroll>
+          </ReferalContainer>
+
+          <ReferalBtn>
             <Button
               disabled={saving}
               loadingColor="#fff"
@@ -188,17 +223,49 @@ const ReferalProgrammSection = () => {
             >
               {t("save")}
             </Button>
-          </BottomBtnContainer>
-        </>
+          </ReferalBtn>
+        </ReferalContent>
       );
     }
   };
 
-  console.log(checkedState, "checked state");
+  const mobileContent = () => {
+    if (width <= 1000) {
+      return (
+        <ReferalDiv ref={referalRef}>
+          <ReferalHeader>
+            <IconButton onClick={handleClick}>
+              <ArrowBack />
+            </IconButton>
+            <HBreak width={15} />
+            <Htext>Настройка реферальной программы</Htext>
+          </ReferalHeader>
+          <ReferalBody>
+            <ReferalWrapper>
+              <Wrapper>
+                {fields?.map((item: any, index: number) => {
+                  return (
+                    <ReferalCard
+                      item={item}
+                      index={index}
+                      removeCol={() => {}}
+                      key={index}
+                    />
+                  );
+                })}
+              </Wrapper>
+            </ReferalWrapper>
+          </ReferalBody>
+        </ReferalDiv>
+      );
+    } else {
+      return null;
+    }
+  };
 
   return (
-    <GridContainer container spacing={3}>
-      <LeftGrid item xs={12} sm={7}>
+    <GridContainer>
+      <LeftGrid>
         <Form onSubmit={handleSubmit(handleSave)}>
           <HeaderReferal>
             <div>
@@ -230,7 +297,7 @@ const ReferalProgrammSection = () => {
         </Form>
       </LeftGrid>
 
-      <RightGrid item xs={12} sm={4}>
+      <RightGrid>
         {levelsRef?.length > 0 ? (
           <LevelsCard>
             <LevelsHead>
@@ -279,6 +346,7 @@ const ReferalProgrammSection = () => {
           setErrorRef(false);
         }}
       />
+      {mobileContent()}
     </GridContainer>
   );
 };
