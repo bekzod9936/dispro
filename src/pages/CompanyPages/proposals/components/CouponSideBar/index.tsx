@@ -47,7 +47,6 @@ export const CouponBar = ({
   canceled,
   refetch,
 }: IProps) => {
-  console.log(currentCoupon);
 
   const isCoupon = currentCoupon.type === 2;
   const history = useHistory();

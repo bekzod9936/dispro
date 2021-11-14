@@ -14,6 +14,8 @@ import { SideBar } from 'pages/CompanyPages/clients/components/SideBar'
 import { CouponBar } from '../../components/CouponSideBar'
 import { EmptyPage } from '../Drafts/components/EmptyPage'
 import { Container } from '../Drafts/style'
+import { CouponList } from '../../components/CouponList'
+import useWindowWidth from 'services/hooks/useWindowWidth'
 
 const Deferred = () => {
     const dispatch = useAppDispatch()
@@ -22,7 +24,7 @@ const Deferred = () => {
     const [value, setValue] = React.useState<string>("")
     const [debouncedQuery] = useDebounce(value, 300)
     const { isFetching, refetch } = useDeferred({ dispatch, query: debouncedQuery })
-
+    const { width } = useWindowWidth()
     const handleOpen = (id: number) => {
         dispatch(setCurrentCoupon({ id, location: "deferred" }))
         setOpen(true)
@@ -35,24 +37,10 @@ const Deferred = () => {
     React.useEffect(() => {
         dispatch(resetCurrentCoupon())
     }, [])
-
-    return (
-        <Wrapper>
-            <SideBar maxWidth="370px" isOpen={open}>
-                <CouponBar refetch={refetch} resetCoupon={handleReset} currentCoupon={currentCoupon} onClose={setOpen} />
-            </SideBar>
-            <Input
-                value={value}
-                error={deferred.length === 0 && !isFetching && !!value}
-                message={"По запросу ничего не найдено"}
-                onChange={(e) => setValue(e.target.value)}
-                IconStart={<SearchIcon style={{ marginLeft: "35px" }} />}
-                placeholder="Поиск..."
-                margin={{ laptop: "0 0 20px 0" }}
-                inputStyle={{ border: "none" }}
-                width={{ maxwidth: 500, width: "100%" }} />
-            <Container>
-                {isFetching ? <Spinner /> : deferred.map((el: IDeferred) => (
+    const coupons = () => {
+        if (width > 600) {
+            return (
+                deferred.map((el: IDeferred) => (
                     <CouponCard
                         startDate={el.startDate}
                         endDate={el.endDate}
@@ -69,7 +57,34 @@ const Deferred = () => {
                         value={el.value}
                         count={el.count}
                     />
-                ))}
+                ))
+            )
+        } else {
+            return (
+                <CouponList
+                    location="deferred"
+                    onClick={setOpen}
+                    coupons={deferred} />
+            )
+        }
+    }
+    return (
+        <Wrapper>
+            <SideBar maxWidth="370px" isOpen={open}>
+                <CouponBar refetch={refetch} resetCoupon={handleReset} currentCoupon={currentCoupon} onClose={setOpen} />
+            </SideBar>
+            <Input
+                value={value}
+                error={deferred.length === 0 && !isFetching && !!value}
+                message={"По запросу ничего не найдено"}
+                onChange={(e) => setValue(e.target.value)}
+                IconStart={<SearchIcon style={{ marginLeft: "35px" }} />}
+                placeholder="Поиск..."
+                margin={{ laptop: "0 0 20px 0" }}
+                inputStyle={{ border: "none" }}
+                width={{ maxwidth: 500, width: "100%" }} />
+            <Container>
+                {isFetching ? <Spinner /> : (deferred.length !== 0 && coupons())}
                 {!deferred.length && <EmptyPage />}
             </Container>
         </Wrapper>

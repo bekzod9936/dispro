@@ -13,7 +13,9 @@ import { IDeferred } from 'services/redux/Slices/proposals/types'
 import { CouponCard } from '../../components/CouponCard'
 import { resetCurrentCoupon, setCurrentCoupon } from 'services/redux/Slices/proposals/proposals'
 import { EmptyPage } from '../Drafts/components/EmptyPage'
-import { Container } from '../Drafts/style'
+import { Container, SearchBar } from '../Drafts/style'
+import useWindowWidth from 'services/hooks/useWindowWidth'
+import { CouponList } from '../../components/CouponList'
 
 
 const OnSale = () => {
@@ -22,6 +24,7 @@ const OnSale = () => {
     const [open, setOpen] = React.useState<boolean>(false)
     const [debounced] = useDebounce(query, 300)
     const dispatch = useAppDispatch()
+    const { width } = useWindowWidth()
     const { isFetching, refetch } = useOnSale({ dispatch, query: debounced })
 
     const handleOpen = (id: number) => {
@@ -36,35 +39,15 @@ const OnSale = () => {
     React.useEffect(() => {
         dispatch(resetCurrentCoupon())
     }, [])
-
-    return (
-        <Wrapper>
-            <SideBar maxWidth="370px" isOpen={open}>
-                <CouponBar
-                    refetch={refetch}
-                    resetCoupon={handleResetCoupon}
-                    disableUpdate={true}
-                    currentCoupon={currentCoupon}
-                    onClose={setOpen} />
-            </SideBar>
-            <Input
-                error={onSale.length === 0 && !isFetching && !!query}
-                message={"По запросу ничего не найдено"}
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                IconStart={<SearchIcon style={{ marginLeft: "35px" }} />}
-                placeholder="Поиск..."
-                margin={{ laptop: "0 0 20px 0" }}
-                inputStyle={{ border: "none" }}
-                width={{ maxwidth: 500, width: "100%" }} />
-            <Container>
-                {isFetching ? <Spinner /> : onSale.map((el: IDeferred) => (
+    const coupons = () => {
+        if (width > 600) {
+            return (
+                onSale.map((el: IDeferred) => (
                     <CouponCard
-                        stats={el.stat}
-                        isSelected={currentCoupon.id === el.id}
-                        onClick={() => handleOpen(el.id)}
                         startDate={el.startDate}
                         endDate={el.endDate}
+                        isSelected={currentCoupon.id === el.id}
+                        onClick={() => handleOpen(el.id)}
                         key={el.id}
                         img={el.image}
                         title={el.title}
@@ -76,7 +59,41 @@ const OnSale = () => {
                         value={el.value}
                         count={el.count}
                     />
-                ))}
+                ))
+            )
+        } else {
+            return (
+                <CouponList
+                    onClick={setOpen}
+                    location="onSale"
+                    coupons={onSale} />
+            )
+        }
+    }
+    return (
+        <Wrapper>
+            <SideBar maxWidth="370px" isOpen={open}>
+                <CouponBar
+                    refetch={refetch}
+                    resetCoupon={handleResetCoupon}
+                    disableUpdate={true}
+                    currentCoupon={currentCoupon}
+                    onClose={setOpen} />
+            </SideBar>
+            <SearchBar>
+                <Input
+                    error={onSale.length === 0 && !isFetching && !!query}
+                    message={"По запросу ничего не найдено"}
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    IconStart={<SearchIcon style={{ marginLeft: "35px" }} />}
+                    placeholder="Поиск..."
+                    margin={{ laptop: "0 0 20px 0" }}
+                    inputStyle={{ border: "none" }}
+                    width={{ maxwidth: 500, width: "100%" }} />
+            </SearchBar>
+            <Container>
+                {isFetching ? <Spinner /> : (onSale.length !== 0 && coupons())}
                 {!onSale.length && <EmptyPage />}
             </Container>
         </Wrapper>

@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import cropbackground from "assets/images/CropRename.png";
+import { device } from "styles/device";
 
 export const Image = styled.img`
   position: absolute;
@@ -19,6 +20,9 @@ export const Wrapper = styled.div`
   align-items: flex-start;
   flex-direction: column;
   z-index: 100;
+  @media (max-width: ${device.mobile}) {
+    padding: 15px;
+  }
 `;
 
 export const Right = styled.div`
@@ -32,6 +36,19 @@ export const Right = styled.div`
   object-fit: contain;
   background-image: url(${cropbackground});
   margin-right: 50px;
+  .cropBlock {
+    max-width: 400px;
+    width: 100%;
+    height: 400px;
+    object-fit: contain;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  @media (max-width: ${device.mobile}) {
+    width: 100%;
+    margin: 0;
+  }
 `;
 export const Colka = styled.div`
   width: 150px;
@@ -58,7 +75,9 @@ export const Left = styled.div`
     text-align: center;
   }
   border-bottom: 1px solid rgba(96, 110, 234, 0.3);
-  /* box-shadow: 0px -1px 5px rgba(96, 110, 234, 0.25); */
+  @media (max-width: ${device.mobile}) {
+    display: none;
+  }
 `;
 
 export const LeftRound = styled.div`
@@ -205,6 +224,13 @@ export const Header = styled.div`
   svg {
     cursor: pointer;
   }
+  @media (max-width: ${device.mobile}) {
+    h4 {
+      font-weight: 500;
+      font-size: 16px;
+      
+    }
+  }
 `;
 
 export const PreviewContent = styled.div`
@@ -241,3 +267,9 @@ export const PreviewContent = styled.div`
     margin-bottom: 10px;
   }
 `;
+
+
+
+export const MobileWrapper = styled.div`
+
+`

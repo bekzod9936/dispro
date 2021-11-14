@@ -21,7 +21,7 @@ export const fetchCoupons = async (query: string, situation: number) => {
 }
 
 
-export const postCoupon = async (data: ICoupon) => {
+export const postCoupon = async (data: any) => {
     const response = await partnerApi.post("/bonus/coupons/new", data)
     return response
 }

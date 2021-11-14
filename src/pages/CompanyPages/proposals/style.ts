@@ -21,7 +21,8 @@ export const Wrapper = styled.div`
     height: 100%;
     flex-direction: column;
     @media (max-width: ${device.mobile}) {
-        padding: 13px 15px;
+        padding: 13px 0 13px 15px;
+        position: static;
     }
 `
 
@@ -45,5 +46,8 @@ export const LeftSide = styled.div`
     margin-right: 45px;
     @media (max-width: ${device.laptop}) {
         margin-right: 15px;
+    }
+    @media (max-width: ${device.mobile}) {
+        margin: 0;
     }
 `

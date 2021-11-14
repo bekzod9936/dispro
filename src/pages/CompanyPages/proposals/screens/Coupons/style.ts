@@ -26,11 +26,21 @@ export const AgeBlock = styled.div`
         color: #223367;
         font-weight: 500;
     }
+    @media (max-width: ${device.mobile}) {
+      h6 {
+        font-weight: 300;
+        line-height: 16.41px;
+        font-size: 14px;
+      }
+    }
 `
 export const LeftSide = styled.div`
     width: 45%;
     @media (max-width: 1250px) {
       width: 48%;
+    }
+    @media (max-width: ${device.mobile}) {
+      width: 100%;
     }
    
 `
@@ -38,6 +48,9 @@ export const RightSide = styled.div`
     width: 40%;
     @media (max-width: 1250px) {
       width: 48%;
+    }
+    @media (max-width: ${device.mobile}) {
+      width: 100%;
     }
 `
 export const Container = styled.div`
@@ -48,14 +61,32 @@ export const Container = styled.div`
     @media (max-width: ${device.laptop}) {
       padding-right: 20px;
     }
+    @media (max-width: ${device.mobile}) {
+      flex-direction: column;
+      justify-content: initial;
+      padding: 15px;
+    }
     
 `
 
 export const Wrapper = styled.div`
     width: 100%;
     height: 100%;
+    @media (max-width: ${device.mobile}) {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 2500;
+    } 
 `
-
+export const MobileHeader = styled.div`
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  padding: 15px 0 0 15px;
+`
 export const UpSide = styled.div`
     height: 80%;
     scroll-behavior: auto;
@@ -72,6 +103,10 @@ export const UpSide = styled.div`
     ::-webkit-scrollbar-thumb {
         background: #606eea;
         border-radius: 14px 0px 0px 14px;
+    }
+    @media (max-width: ${device.mobile}) {
+      height: max-content;
+      width: 100%;
     }
 `
 
@@ -127,6 +162,9 @@ export const DownSide = styled.div`
     @media (max-width: 1150px) {
       padding-right: 20px;
     }
+    @media (max-width: ${device.mobile}) {
+      display: none;
+    }
 `
 export const Form = styled.form`
     background-color: #FFFFFF;
@@ -140,6 +178,15 @@ export const Form = styled.form`
     }
     @media (max-width: 1150px) {
       padding-right: 0;
+    }
+    @media (max-width: ${device.mobile}) {
+      width: 100%;
+      padding: 0;
+      overflow-y: auto;
+      justify-content: initial;
+      align-items: center;
+      min-height: none;
+      height: 100%;
     }
     overflow: hidden;
     min-height: 500px;
@@ -168,6 +215,14 @@ export const UploadButton = styled.div`
         margin-right: 10px;
         color: #606EEA;
 
+    }
+    @media (max-width: ${device.mobile}) {
+      padding: 10px 15px;
+      label {
+        font-size: 14px;
+        line-height: 16px;
+        
+      }
     }
 
 `
@@ -218,7 +273,6 @@ export const ErrorMessage = styled.span`
 
 export const PeriodWrapper = styled.div`
   padding: 30px 40px 25px 30px;
-  
   background: #FFFFFF;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
   border-radius: 14px;
@@ -235,6 +289,34 @@ export const PeriodWrapper = styled.div`
     font-size: 16px;
     font-weight: 700;
     margin-bottom: 10px;
+  }
+  .startAndEndDate {
+    display: flex;
+    justify-content: space-between;
+  }
+  .buttonsWrapper {
+    display: flex;
+    justify-content: flex-end;
+
+  }
+  @media (max-width: ${device.mobile}) {
+    box-shadow: none;
+    padding: 15px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100vw;
+    overflow: hidden;
+    .startAndEndDate {
+      max-width: calc(100vw - 30px);
+      width: 100%;
+    }
+  }
+  @media (max-width: 430px) {
+    .startAndEndDate {
+      flex-direction: column;
+    }
   }
 `
 
@@ -270,4 +352,28 @@ export const LeaveModal = styled.div`
     justify-content: flex-end;
     align-items: center;
   }
+`
+
+
+export const Buttons = styled.div`
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .upside {
+    @media (max-width: 347px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+  }
+  }
+`
+
+export const IconWrapper = styled.div`
+  width: 18px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `

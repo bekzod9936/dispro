@@ -24,6 +24,8 @@ import {
 import { useAppSelector } from "services/redux/hooks";
 import { RootState } from "services/redux/store";
 import { useTranslation } from "react-i18next";
+import useWindowWidth from "services/hooks/useWindowWidth";
+import { MobileUploadPhotoIcon } from "assets/icons/proposals/ProposalsIcons";
 interface IProps {
   open: boolean;
   src?: any;
@@ -49,6 +51,7 @@ const CropCustomModal = ({
   const [image, setImage] = React.useState<any>(null);
   const [imageUrl, setImageUrl] = React.useState<any>(null);
   const { t } = useTranslation();
+  const { width } = useWindowWidth()
   const [crop, setCrop] = React.useState<any>({
     unit: "%",
     width: 30,
@@ -120,16 +123,7 @@ const CropCustomModal = ({
           </Header>
           <div style={{ display: "flex" }}>
             <Right>
-              <div
-                style={{
-                  width: "400px",
-                  height: "400px",
-                  objectFit: "contain",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
+              <div className="cropBlock">
                 <ReactCrop
                   maxWidth={400}
                   src={srcUrl}
@@ -187,8 +181,8 @@ const CropCustomModal = ({
         <div>
           <Button
             onClick={handleClose}
-            startIcon={<CancelIcon />}
-            margin={{ laptop: "0 25px 0 0" }}
+            startIcon={width > 329 && <CancelIcon />}
+            margin={{ laptop: "0 25px 0 0", mobile: "0 8px 0 0" }}
             buttonStyle={{
               bgcolor: "#FFFFFF",
               color: "#223367",
@@ -200,7 +194,7 @@ const CropCustomModal = ({
           <Button
             disabled={imageUrl?.length < 6}
             onClick={handleSave}
-            startIcon={<SaveIcon />}
+            startIcon={width > 600 ? <SaveIcon /> : <MobileUploadPhotoIcon />}
           >
             Сохранить
           </Button>
