@@ -31,7 +31,7 @@ export const SettingsWrapper = styled.div`
   border-radius: 14px;
   background-color: white;
 
-  @media (max-width: ${device.laptop}) {
+  @media (max-width: ${device.planshet}) {
     background-color: transparent;
     padding: 0;
     height: 100%;
