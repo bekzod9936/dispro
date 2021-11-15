@@ -14,7 +14,9 @@ import useExcel from './hook/useExcel';
 import Button from 'components/Custom/Button';
 import { useAppSelector } from 'services/redux/hooks';
 import { IconButton } from '@material-ui/core';
-import { countPagination } from 'services/utils';
+import { countPagination, numberWithNew } from 'services/utils';
+import MobileTable from '../../components/MobileTable';
+import useWindowWidth from 'services/hooks/useWindowWidth';
 import {
   Container,
   WrapFilter,
@@ -26,6 +28,7 @@ import {
   WrapFilterValues,
 } from './style';
 import { WrapPag, Info } from '../../style';
+
 interface intialFilterProps {
   page?: number;
   perPage?: number;
@@ -41,11 +44,10 @@ interface CashProp {
 
 const Payment = () => {
   const { t } = useTranslation();
+  const { width } = useWindowWidth();
 
   const data = useAppSelector((state) => state.finance.historyFinance.data);
-  const totalCount = useAppSelector(
-    (state) => state.finance.historyFinance.totalCount
-  );
+  const total = useAppSelector((state) => state.finance.historyFinance.total);
   const between = useAppSelector(
     (state) => state.finance.historyFinance.between
   );
@@ -342,27 +344,97 @@ const Payment = () => {
           {t('exportexcel')}
         </Button>
       </WrapFilter>
-
       {response.isLoading || response.isFetching ? (
         <Spinner />
-      ) : (
+      ) : width > 600 ? (
         <Table header2={header2} columns={columns} data={list} />
+      ) : (
+        <MobileTable
+          data={{
+            title: t('totalsum'),
+            info: data.map((v: any) => {
+              const date = dayjs(v.chequeDate).format('DD.MM.YYYY');
+              const time = dayjs(v.chequeDate).format('HH:mm:ss');
+              return {
+                title:
+                  v.cashierName === 'No cashier name'
+                    ? t('p2p')
+                    : v.cashierName,
+                value: numberWithNew({ number: v.payInfo.amountTotal }),
+                body: [
+                  {
+                    title: t('cashier'),
+                    value:
+                      v.cashierName === 'No cashier name'
+                        ? t('p2p')
+                        : v.cashierName,
+                  },
+                  {
+                    title: t('transactiondate'),
+                    value: date,
+                  },
+                  {
+                    title: t('transactiontime'),
+                    value: time,
+                  },
+                  {
+                    title: t('totalsum'),
+                    value: v.payInfo.amountTotal,
+                  },
+                  {
+                    title: t('discountSum'),
+                    value: v.payInfo.amountMinus,
+                  },
+                  {
+                    title: t('paid'),
+                    value: v.payInfo.amountPayed,
+                  },
+                  { title: t('customer'), value: v.clientName },
+                  {
+                    title: t('loyaltypercentage'),
+                    value:
+                      v.payInfo.isDiscount ||
+                      v.payInfo.isCashback ||
+                      v.payInfo.isPoints
+                        ? v.payInfo.value
+                        : '-',
+                  },
+                  {
+                    title: t('coupon'),
+                    value:
+                      v.payInfo.isCoupon && v.payInfo.valueType === 'percent'
+                        ? v.payInfo.value
+                        : '-',
+                  },
+                  {
+                    title: t('certificate'),
+                    value:
+                      v.payInfo.isCoupon && v.payInfo.valueType === 'amount'
+                        ? v.payInfo.value
+                        : '-',
+                  },
+                ],
+              };
+            }),
+          }}
+          headertitle={t('byCashiers')}
+        />
       )}
       {list.length > 0 ? (
         <WrapPag>
           <Info>
             {t('shown')}
             <span>{between}</span>
-            {t('from1')} <span>{totalCount}</span>
+            {t('from1')} <span>{total.pages}</span>
             {countPagination({
-              count: totalCount,
-              firstWord: t('page1'),
-              secondWord: t('page23'),
+              count: Number(total.count),
+              firstWord: t('operations1'),
+              secondWord: t('operations23'),
             })}
           </Info>
           <Pagination
             page={filterValues.page}
-            count={totalCount}
+            count={total.count}
             onChange={handlechangePage}
             disabled={response.isLoading || response.isFetching}
           />

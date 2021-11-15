@@ -9,16 +9,25 @@ import dayjs from 'dayjs';
 import { countPagination, numberWithNew } from 'services/utils';
 import { useAppSelector } from 'services/redux/hooks';
 import useWindowWidth from 'services/hooks/useWindowWidth';
-import { Container, CashBackIcon, WrapIcon, WalletIcon } from './style';
+import {
+  Container,
+  CashBackIcon,
+  WrapIcon,
+  WalletIcon,
+  DiscountIcon,
+} from './style';
 import {
   Label,
   RightHeader,
   TotalSum,
   WrapTotal,
   WrapTotalSum,
+  WrapPag,
+  Info,
+  WrapSum,
 } from '../../style';
 import MobileTable from '../../components/MobileTable';
-import { WrapPag, Info } from '../../style';
+
 interface intialFilterProps {
   page?: number;
   perPage?: number;
@@ -31,9 +40,7 @@ const Payment = () => {
   const { width } = useWindowWidth();
 
   const data = useAppSelector((state) => state.finance.cashBackFinance.data);
-  const totalCount = useAppSelector(
-    (state) => state.finance.cashBackFinance.totalCount
-  );
+  const total = useAppSelector((state) => state.finance.cashBackFinance.total);
   const between = useAppSelector(
     (state) => state.finance.cashBackFinance.between
   );
@@ -163,7 +170,28 @@ const Payment = () => {
             await response.refetch();
           }}
         />
-
+        {width <= 600 ? (
+          <WrapTotal>
+            <WrapTotalSum>
+              <DiscountIcon />
+              <WrapSum>
+                <Label>{header[0]?.title || t('totalpaidbyUZS')}</Label>
+                <TotalSum>
+                  {numberWithNew({ number: header[0]?.value, defaultValue: 0 })}
+                </TotalSum>
+              </WrapSum>
+            </WrapTotalSum>
+            <WrapTotalSum>
+              <CashBackIcon mobile={true} />
+              <WrapSum>
+                <Label>{header[1]?.title || t('DISCommission')}</Label>
+                <TotalSum>
+                  {numberWithNew({ number: header[1]?.value, defaultValue: 0 })}
+                </TotalSum>
+              </WrapSum>
+            </WrapTotalSum>
+          </WrapTotal>
+        ) : null}
         {response.isLoading || response.isFetching ? (
           <Spinner />
         ) : width > 600 ? (
@@ -235,6 +263,7 @@ const Payment = () => {
                 };
               }),
             }}
+            headertitle={t('cashbackSum')}
           />
         )}
         {list.length > 0 ? (
@@ -242,16 +271,16 @@ const Payment = () => {
             <Info>
               {t('shown')}
               <span>{between}</span>
-              {t('from1')} <span>{totalCount}</span>
+              {t('from1')} <span>{total.pages}</span>
               {countPagination({
-                count: totalCount,
-                firstWord: t('page1'),
-                secondWord: t('page23'),
+                count: Number(total.count),
+                firstWord: t('operations1'),
+                secondWord: t('operations23'),
               })}
             </Info>
             <Pagination
               page={filterValues.page}
-              count={totalCount}
+              count={total.count}
               onChange={handlechangePage}
               disabled={response.isLoading || response.isFetching}
             />

@@ -1,6 +1,11 @@
 import Button from 'components/Custom/Button';
 import Popover from 'components/Custom/Popover';
 import { useTranslation } from 'react-i18next';
+import Accordion from 'components/Custom/Accordion';
+import { useState } from 'react';
+import useWindowWidth from 'services/hooks/useWindowWidth';
+import FullModal from 'components/Custom/FullModal';
+import { IconButton } from '@material-ui/core';
 import {
   FilterIcon,
   ResetIcon,
@@ -9,27 +14,42 @@ import {
   Body,
   Footer,
   TickIcon,
+  Container,
+  WrapHeader,
+  WrapTitle,
+  CloseIcon,
+  BoxWrap,
+  FooterModel,
+  WrapMain,
+  WrapBody,
 } from './style';
-import Accordion from 'components/Custom/Accordion';
-import { useState } from 'react';
 
 interface Props {
   list?: { title: string; content: any }[];
   onSubmit?: () => void;
   onReset?: () => void;
-  error?: boolean,
-  position?: number
+  error?: boolean;
+  position?: number;
 }
 
-const Filter = ({ list, onSubmit = () => { }, onReset = () => { }, error, position }: Props) => {
+const Filter = ({
+  list,
+  onSubmit = () => {},
+  onReset = () => {},
+  error,
+  position,
+}: Props) => {
   const { t } = useTranslation();
+  const { width } = useWindowWidth();
+
+  const [open, setOpen] = useState(false);
 
   const [closeFun, setCloseFun] = useState<any>();
   const handleClose = (e: any) => {
     setCloseFun(e);
   };
 
-  return (
+  return width > 600 ? (
     <Popover
       click={
         <Button
@@ -88,6 +108,71 @@ const Filter = ({ list, onSubmit = () => { }, onReset = () => { }, error, positi
         </Footer>
       </Content>
     </Popover>
+  ) : (
+    <Container>
+      <Button
+        buttonStyle={{
+          shadow: '0px 4px 4px rgba(0, 0, 0, 0.04)',
+          bgcolor: 'white',
+          color: '#223367',
+          weight: 500,
+        }}
+        startIcon={<FilterIcon />}
+        onClick={() => setOpen(true)}
+      >
+        {t('filters')}
+      </Button>
+      <FullModal open={open}>
+        <WrapMain>
+          <WrapBody>
+            <WrapHeader>
+              <WrapTitle>{t('filters')}</WrapTitle>
+              <IconButton
+                style={{ marginRight: '-12px' }}
+                onClick={() => setOpen(false)}
+              >
+                <CloseIcon />
+              </IconButton>
+            </WrapHeader>
+            <BoxWrap>
+              <Accordion list={list} />
+            </BoxWrap>
+          </WrapBody>
+
+          <FooterModel>
+            <Button
+              buttonStyle={{
+                bgcolor: '#F0F1FD',
+                color: '#606EEA',
+                weight: 500,
+              }}
+              endIcon={<ResetIcon />}
+              onClick={() => {
+                setOpen(false);
+                onReset();
+              }}
+            >
+              {t('reset')}
+            </Button>
+            <Button
+              buttonStyle={{
+                weight: 500,
+                shadow: ' 0px 4px 9px rgba(96, 110, 234, 0.46)',
+              }}
+              margin={{ mobile: '0 0 0 20px' }}
+              startIcon={<TickIcon />}
+              disabled={error}
+              onClick={() => {
+                setOpen(false);
+                onSubmit();
+              }}
+            >
+              {t('apply')}
+            </Button>
+          </FooterModel>
+        </WrapMain>
+      </FullModal>
+    </Container>
   );
 };
 

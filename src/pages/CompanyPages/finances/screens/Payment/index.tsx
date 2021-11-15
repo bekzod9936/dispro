@@ -34,9 +34,7 @@ const Payment = () => {
   const { width } = useWindowWidth();
 
   const data = useAppSelector((state) => state.finance.paymentFinance.data);
-  const totalCount = useAppSelector(
-    (state) => state.finance.paymentFinance.totalCount
-  );
+  const total = useAppSelector((state) => state.finance.paymentFinance.total);
   const between = useAppSelector(
     (state) => state.finance.paymentFinance.between
   );
@@ -116,7 +114,10 @@ const Payment = () => {
               <WrapTotalSum>
                 <Label>{v.title || ''}</Label>
                 <TotalSum>
-                  {numberWithNew({ number: +v.value, defaultValue: 0 })}
+                  {numberWithNew({
+                    number: +v.value,
+                    defaultValue: 0,
+                  })}
                 </TotalSum>
               </WrapTotalSum>
             );
@@ -134,21 +135,28 @@ const Payment = () => {
             await response.refetch();
           }}
         />
-        <WrapTotal>
-          {header.map((v: any, i: number) => {
-            return (
-              <WrapTotalSum>
-                {i === 0 ? <MoneyIcon /> : i === 1 ? <DiscountIcon /> : null}
-                <WrapSum>
-                  <Label>{v.title || ''}</Label>
-                  <TotalSum>
-                    {numberWithNew({ number: +v.value, defaultValue: 0 })}
-                  </TotalSum>
-                </WrapSum>
-              </WrapTotalSum>
-            );
-          })}
-        </WrapTotal>
+        {width <= 600 ? (
+          <WrapTotal>
+            <WrapTotalSum>
+              <MoneyIcon />
+              <WrapSum>
+                <Label>{header[0]?.title || t('totalpaidbyUZS')}</Label>
+                <TotalSum>
+                  {numberWithNew({ number: header[0]?.value, defaultValue: 0 })}
+                </TotalSum>
+              </WrapSum>
+            </WrapTotalSum>
+            <WrapTotalSum>
+              <DiscountIcon />
+              <WrapSum>
+                <Label>{header[1]?.title || t('DISCommission')}</Label>
+                <TotalSum>
+                  {numberWithNew({ number: header[1]?.value, defaultValue: 0 })}
+                </TotalSum>
+              </WrapSum>
+            </WrapTotalSum>
+          </WrapTotal>
+        ) : null}
         {response.isLoading || response.isFetching ? (
           <Spinner />
         ) : width > 600 ? (
@@ -189,6 +197,7 @@ const Payment = () => {
                 };
               }),
             }}
+            headertitle={t('p2p')}
           />
         )}
         {list.length > 0 ? (
@@ -196,16 +205,16 @@ const Payment = () => {
             <Info>
               {t('shown')}
               <span>{between}</span>
-              {t('from1')} <span>{totalCount}</span>
+              {t('from1')} <span>{total.pages}</span>
               {countPagination({
-                count: totalCount,
-                firstWord: t('page1'),
-                secondWord: t('page23'),
+                count: Number(total.count),
+                firstWord: t('operations1'),
+                secondWord: t('operations23'),
               })}
             </Info>
             <Pagination
               page={filterValues.page}
-              count={totalCount}
+              count={total.count}
               onChange={handlechangePage}
               disabled={response.isLoading || response.isFetching}
             />
