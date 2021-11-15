@@ -19,10 +19,10 @@ export const THead = styled.thead`
     z-index: 10;
   & > tr:last-child {
     border-top: ${({ header }: any) =>
-        header ? '1px solid rgba(96, 110, 234, 0.3)' : null};
+    header ? '1px solid rgba(96, 110, 234, 0.3)' : null};
     & > th:first-child {
       border-right: ${({ header }: any) =>
-        header ? '1px solid rgba(96, 110, 234, 0.3)' : null};
+    header ? '1px solid rgba(96, 110, 234, 0.3)' : null};
     }
   }
   & > tr {
@@ -67,7 +67,6 @@ export const Th = styled.th`
   padding: 0 10px;
   border-collapse: collapse;
   font-weight: normal;
-  cursor: pointer;
   font-size: 16px;
   @media (max-width: ${device.planshet}) {
     font-size: 14px;
@@ -76,3 +75,8 @@ export const Th = styled.th`
   color: '#a5a5a5';
   border-radius: 14px 14px 0 0;
 `;
+
+export const Footer = styled.div`
+  margin-top: 20px;
+
+`

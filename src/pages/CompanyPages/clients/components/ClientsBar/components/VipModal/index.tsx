@@ -23,7 +23,8 @@ interface IProps {
 export const VipModal = ({ handleClose, refetch, state, id, clientInfo }: IProps) => {
     const { t } = useTranslation()
     const [percent, setPercent] = useState("")
-    const { currentClient, selectedClients } = useAppSelector(state => state.clients)
+    const [error, setError] = useState(false)
+    const { selectedClients } = useAppSelector(state => state.clients)
     const mutation = useMutation((data: any) => changeVipPercent(data), {
         onSuccess: () => {
             handleClose()
@@ -34,14 +35,7 @@ export const VipModal = ({ handleClose, refetch, state, id, clientInfo }: IProps
     const onSubmit = (e: any) => {
         e.preventDefault()
         if (Number(percent) < 1 && state !== 'removing') return
-
-        if (selectedClients.length === 1) {
-            mutation.mutate({
-                percent: state !== "removing" ? percent : 0,
-                clientId: id,
-                isActive: state !== "removing"
-            })
-        } else {
+        if (selectedClients.length > 1) {
             selectedClients.forEach(el => {
                 mutation.mutate({
                     percent: percent,
@@ -49,12 +43,22 @@ export const VipModal = ({ handleClose, refetch, state, id, clientInfo }: IProps
                     isActive: true
                 })
             })
+
+        } else {
+            mutation.mutate({
+                percent: state !== "removing" ? percent : 0,
+                clientId: id,
+                isActive: state !== "removing"
+            })
         }
 
     }
 
     function handleChange(e: any) {
         const percent = e.target.value
+        if (!percent) {
+            setError(true)
+        }
         if (percent.toString().startsWith("0")) {
             setPercent("")
         }
@@ -83,20 +87,20 @@ export const VipModal = ({ handleClose, refetch, state, id, clientInfo }: IProps
                     <h3>Индивидуальный %</h3>
                     <CloseIcon onClick={handleClose} />
                 </div>
-                {selectedClients.length === 1 ?
+                {selectedClients.length > 1 ?
+                    <div className="content">
+                        <h5>Выбрано клиентов: {selectedClients.length}</h5>
+                    </div> :
                     <div className="content">
                         <p className="client">
                             {clientInfo.name}
                             <b>•</b>
                             <span>Статус: {clientInfo.status + " " + clientInfo.value}%</span>
                         </p>
-                    </div> :
-                    <div className="content">
-                        <h5>Выбрано клиентов: {selectedClients.length}</h5>
                     </div>}
                 <Input
                     message={Number(percent) < 1 ? t("requiredField") : "Минимальный процент: 1"}
-                    error={Number(percent) < 1}
+                    error={error && Number(percent) < 1}
                     margin={{ laptop: "0 0 30px 0" }}
                     value={percent}
                     onChange={handleChange} />

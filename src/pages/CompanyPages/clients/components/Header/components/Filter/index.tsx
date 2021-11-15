@@ -113,7 +113,7 @@ export const MFilter = () => {
             inputStyle={{
               inpadding: "0 10px",
             }}
-            maxLength="11"
+            maxLength="4"
             value={filter?.purchaseAmount?.purchaseCountFrom}
             onChange={(e) => setFilter((prev: any) => ({
               ...prev, purchaseAmount: {
@@ -133,7 +133,7 @@ export const MFilter = () => {
             inputStyle={{
               inpadding: "0 10px",
             }}
-            maxLength="11"
+            maxLength="4"
             value={filter?.purchaseAmount?.purchaseCountTo}
             onChange={(e) => setFilter((prev: any) => ({
               ...prev, purchaseAmount: {
@@ -214,6 +214,7 @@ export const MFilter = () => {
   return (
     <Wrapper>
       <Filter
+        position={-50}
         error={(filter?.purchaseAmount?.purchaseCountFrom != "" && filter?.purchaseAmount?.purchaseCountTo != "") && Number(filter?.purchaseAmount?.purchaseCountFrom) > Number(filter?.purchaseAmount?.purchaseCountTo)}
         list={filterList}
         onSubmit={handleSubmit}

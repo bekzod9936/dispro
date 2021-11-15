@@ -1,21 +1,48 @@
 import Filter from 'components/Custom/Filter'
 import { Label } from 'components/Custom/Input/style'
 import { WrapCheck, WrapDate, WrapInputs, WrapStatus } from 'pages/CompanyPages/clients/components/Header/style'
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useTable } from 'react-table'
 import { operationsColumns, operationsHeaders } from '../Operations/constants'
-import { Table, Tbody, Td, Th, THead, TRow } from '../Operations/style'
+import { Footer, Table, Tbody, Td, Th, THead, TRow } from '../Operations/style'
 import Input from "components/Custom/Input"
 import { getOneDayPlus } from 'pages/CompanyPages/clients/utils/getSelectedFilters'
 import CheckBox from 'components/Custom/CheckBox'
+import { useQuery } from 'react-query'
+import { fetchReferChilds } from 'services/queries/clientsQuery'
+import { useAppSelector } from 'services/redux/hooks'
+import Spinner from 'components/Helpers/Spinner'
+import { EmptyTable } from '../../EmptyTable'
+import recommendations from "assets/images/recomendations.png"
+import Pagination from 'components/Custom/Pagination'
+
 const Recommendations = () => {
     const { t } = useTranslation()
+    const [page, setPage] = useState(1)
+    const { currentClient, period } = useAppSelector(state => state.clients)
+    const [totalCount, setTotalCount] = useState(1)
+    const [recomendations, setRecomendations] = useState<any[]>([])
     const [filter, setFilter] = useState<any>({
         status: [{
         }]
     })
+    const { isFetching } = useQuery(["fetchRecommends", page], () => fetchReferChilds({
+        id: currentClient?.clientInfo.id,
+        startDate: period.startDate,
+        endDate: period.endDate,
+        regDateFrom: "",
+        regDateTo: "",
+        levelNumbers: [],
+        page
+    }), {
+        retry: 0,
+        refetchOnWindowFocus: false,
+        onSuccess: (data) => {
+            console.log(data.data.data);
 
+        }
+    })
 
 
     const headers: any = useMemo(() => operationsHeaders.map(header => (
@@ -106,12 +133,21 @@ const Recommendations = () => {
     ]
 
     const { getTableBodyProps, getTableProps, prepareRow, rows, headerGroups } = useTable({ columns: headers, data: columns })
-
+    if (isFetching) {
+        return (
+            <Spinner />
+        )
+    }
+    if (!isFetching && recomendations.length === 0) {
+        return (
+            <EmptyTable image={recommendations} text={"Тут будут отображаться все рекомендации клиента"} />
+        )
+    }
     return (
         <>
-            <div style={{ margin: "0 0 10px 0" }}>
+            {/* <div style={{ margin: "0 0 10px 0" }}>
                 <Filter list={filterList} />
-            </div>
+            </div> */}
             <Table {...getTableProps()}>
                 <THead>
                     {headerGroups.map(headerGroup => (
@@ -142,6 +178,13 @@ const Recommendations = () => {
 
                 </Tbody>
             </Table>
+            <Footer>
+                <Pagination
+                    defaultPage={1}
+                    onChange={(e: number) => setPage(e)}
+                    count={totalCount}
+                />
+            </Footer>
         </>
     )
 }
