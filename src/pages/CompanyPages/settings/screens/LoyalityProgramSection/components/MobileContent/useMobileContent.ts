@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ICheck } from "./type";
+import { ICheck, ISetting } from "./type";
 //hooks
 import useLoyality from "../../hooks/useLoyality";
 
@@ -9,6 +9,32 @@ const useMobileContent = () => {
   const [ballCheck, setBallCheck] = useState(false);
   const [cashbackCheck, setCashbackCheck] = useState(false);
   const [saleCheck, setSaleCheck] = useState(false);
+
+  const [openCashback, setOpenCashback] = useState<ISetting>({
+    type: "other",
+    open: false,
+  });
+
+  const handleClick = (type: "cashback" | "other", open: boolean) => {
+    if (open) {
+      setOpenCashback({
+        type: "cashback",
+        open: false,
+      });
+    } else {
+      if (type === "cashback") {
+        setOpenCashback({
+          type: "cashback",
+          open: true,
+        });
+      } else {
+        setOpenCashback({
+          type: "other",
+          open: true,
+        });
+      }
+    }
+  };
 
   const handleCheck = ({ checked, type }: ICheck) => {
     if (type === "bonuspoint") {
@@ -38,6 +64,10 @@ const useMobileContent = () => {
     cashbackCheck,
     saleCheck,
     handleCheck,
+
+    //click configure
+    openCashback,
+    handleClick,
   };
 };
 
