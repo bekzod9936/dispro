@@ -30,7 +30,12 @@ export const Wrap = styled.div`
   }
 `;
 
-export const WrapTotalSum = styled.div``;
+export const WrapTotalSum = styled.div`
+  @media (max-width: ${device.mobile}) {
+    display: flex;
+    align-items: center;
+  }
+`;
 
 export const TotalSum = styled.div`
   background: #ffffff;
@@ -55,6 +60,10 @@ export const TotalSum = styled.div`
   @media (max-width: ${device.mobile}) {
     background: transparent;
     box-shadow: none;
+    margin: 0;
+    padding-left: 0;
+    height: fit-content;
+    font-size: 16px;
   }
 `;
 
@@ -65,11 +74,17 @@ export const Label = styled.div`
   @media (min-width: ${device.laptop}) {
     font-size: 16px;
   }
+  @media (max-width: ${device.mobile}) {
+    font-weight: 500;
+    font-size: 13px;
+    color: #223367;
+  }
 `;
 
 export const WrapTotal = styled.div`
   @media (max-width: ${device.mobile}) {
     display: flex;
+    margin-top: 15px;
   }
 `;
 
@@ -113,4 +128,8 @@ export const Info = styled.div`
   @media (max-width: ${device.mobile}) {
     margin-bottom: 15px;
   }
+`;
+
+export const WrapSum = styled.div`
+  margin-left: 10px;
 `;

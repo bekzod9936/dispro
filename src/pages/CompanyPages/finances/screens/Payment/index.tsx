@@ -7,19 +7,20 @@ import Table from '../../components/Table';
 import dayjs from 'dayjs';
 import DatePcker from 'components/Custom/DatePicker';
 import { countPagination, numberWithNew } from 'services/utils';
+import { useAppSelector } from 'services/redux/hooks';
+import useWindowWidth from 'services/hooks/useWindowWidth';
+import MobileTable from '../../components/MobileTable';
+import { Container, MoneyIcon, DiscountIcon } from './style';
 import {
   Label,
   RightHeader,
   TotalSum,
   WrapTotal,
   WrapTotalSum,
+  WrapPag,
+  Info,
+  WrapSum,
 } from '../../style';
-import { useAppSelector } from 'services/redux/hooks';
-import useWindowWidth from 'services/hooks/useWindowWidth';
-import MobileTable from '../../components/MobileTable';
-import { ReactComponent as Money } from 'assets/icons/StatistisPage/money.svg';
-import { Container } from './style';
-import { WrapPag, Info } from '../../style';
 
 interface intialFilterProps {
   page?: number;
@@ -134,13 +135,16 @@ const Payment = () => {
           }}
         />
         <WrapTotal>
-          {header.map((v: any) => {
+          {header.map((v: any, i: number) => {
             return (
               <WrapTotalSum>
-                <Label>{v.title || ''}</Label>
-                <TotalSum>
-                  {numberWithNew({ number: +v.value, defaultValue: 0 })}
-                </TotalSum>
+                {i === 0 ? <MoneyIcon /> : i === 1 ? <DiscountIcon /> : null}
+                <WrapSum>
+                  <Label>{v.title || ''}</Label>
+                  <TotalSum>
+                    {numberWithNew({ number: +v.value, defaultValue: 0 })}
+                  </TotalSum>
+                </WrapSum>
               </WrapTotalSum>
             );
           })}
