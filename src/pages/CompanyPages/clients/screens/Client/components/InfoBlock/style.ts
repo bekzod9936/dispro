@@ -62,3 +62,52 @@ export const DownSide = styled.div`
         
     }
 `
+
+export const Note = styled.p`
+    font-size: 16px;
+    line-height: 18.75px;
+    color: #223367;
+    button {
+        outline: none;
+        border: none;
+        color: #3492FF;
+        font-weight: 300;
+        font-size: 16px;
+        line-height: 18.75px;
+        background: transparent;
+        font-family: "Roboto", sans-serif;
+        cursor: pointer;
+    }
+`
+
+
+export const NoteView = styled.div`
+    padding: 30px 40px 25px 40px;
+    max-width: 520px;
+    width: 100%;
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 20px;
+        h3 {
+            font-size: 22px;
+            color: #223367;
+        }
+        
+    }
+    p {
+        font-size: 16px;
+        line-height: 18.75px;
+        margin-bottom: 30px;
+        color: #223367;
+        width: 100%;
+        overflow: hidden;
+    }
+    .buttons {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+    }
+`

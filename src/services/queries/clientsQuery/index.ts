@@ -69,3 +69,9 @@ export const fetchReferChilds = async (data: any) => {
   }
   return await partnerApi(`/core/client/personal-info/refer-childs?clientUserId=${data.id}${url}&perPage=10&page=${data.page}`)
 }
+
+
+
+export const sendNote = async (data: any) => {
+  const response = await partnerApi.put(`/core/client/set-notes`, data)
+}

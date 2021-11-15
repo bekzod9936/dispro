@@ -108,6 +108,7 @@ const Client = () => {
                         client={client}
                         setBlockModal={setBlockModal} />
                     <InfoBlock
+                        refetch={response.refetch}
                         referBy={currentClient?.referBy}
                         vipModal={vipModal}
                         setVipModalState={setVipModalState}

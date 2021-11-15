@@ -83,16 +83,16 @@ export const VipModal = ({ handleClose, refetch, state, id, clientInfo }: IProps
                     <h3>Индивидуальный %</h3>
                     <CloseIcon onClick={handleClose} />
                 </div>
-                {selectedClients.length === 1 ?
+                {selectedClients.length > 1 ?
+                    <div className="content">
+                        <h5>Выбрано клиентов: {selectedClients.length}</h5>
+                    </div> :
                     <div className="content">
                         <p className="client">
                             {clientInfo.name}
                             <b>•</b>
                             <span>Статус: {clientInfo.status + " " + clientInfo.value}%</span>
                         </p>
-                    </div> :
-                    <div className="content">
-                        <h5>Выбрано клиентов: {selectedClients.length}</h5>
                     </div>}
                 <Input
                     message={Number(percent) < 1 ? t("requiredField") : "Минимальный процент: 1"}
