@@ -74,5 +74,5 @@ export const Column = styled.div`
   display: flex;
   flex-direction: column;
   gap: 25px;
-  justify-content: space-between;
+  justify-content: center;
 `;
