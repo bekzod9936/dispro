@@ -1,17 +1,17 @@
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { PeriodWrapper } from "../style";
-import { CustomDatePicker } from "../../../components/CustomDatePicker";
 import Button from "components/Custom/Button";
 import { useHistory } from "react-router";
 import { ICoupon } from "..";
 import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
-import { PublishIcon } from "assets/icons/proposals/ProposalsIcons";
+import { MobileCancelIcon, PublishIcon } from "assets/icons/proposals/ProposalsIcons";
 import { useMutation } from "react-query";
 import { postCoupon, putCoupon } from "services/queries/proposalQuery";
 import dayjs from "dayjs";
 import Input from "components/Custom/Input";
 import { useTranslation } from "react-i18next";
+import useWindowWidth from "services/hooks/useWindowWidth";
 
 interface IProps {
   handleClose: any;
@@ -38,6 +38,7 @@ export const SetDate = ({
     publishDate: "",
   });
   const { t } = useTranslation();
+  const { width } = useWindowWidth()
   const { mutate } = useMutation((data: ICoupon) => postCoupon(data), {
     onSuccess: (data) => {
       putCoupon(data.data.data.id, {
@@ -103,74 +104,77 @@ export const SetDate = ({
   return (
     <form onSubmit={handleSubmit(onPublish)}>
       <PeriodWrapper>
-        <h5>Выберите дату публикации</h5>
-        <p>Выберите дату публикации</p>
-        <Controller
-          control={control}
-          name="publishDate"
-          rules={{
-            required: true,
-          }}
-          render={({ field }) => (
-            <Input
-              field={field}
-              error={!!errors.publishDate}
-              message={t("requiredField")}
-              min={dayjs(Date.now()).format("YYYY-MM-DD")}
-              type="date"
-              max={new Date().getFullYear() + 2 + "-01-01"}
-              margin={{ laptop: "0 0 30px 0" }}
+        <div>
+          <h5>Выберите дату публикации</h5>
+          <p>Выберите дату публикации</p>
+          <Controller
+            control={control}
+            name="publishDate"
+            rules={{
+              required: true,
+            }}
+            render={({ field }) => (
+              <Input
+                field={field}
+                error={!!errors.publishDate}
+                message={t("requiredField")}
+                min={dayjs(Date.now()).format("YYYY-MM-DD")}
+                type="date"
+                max={new Date().getFullYear() + 2 + "-01-01"}
+                margin={{ laptop: "0 0 30px 0" }}
+              />
+            )}
+          />
+          <p>Выберите период действия купона</p>
+          <div className="startAndEndDate">
+            <Controller
+              name="startDate"
+              rules={{
+                required: true,
+              }}
+              control={control}
+              render={({ field }) => (
+                <Input
+                  label={width <= 430 && t("From")}
+                  field={field}
+                  type="date"
+                  error={!!errors.startDate}
+                  min={watch("publishDate")}
+                  // message={t("requiredField")}
+                  max={handleFn(watch("publishDate"))}
+                  margin={{ laptop: "0 20px 20px 0" }}
+                />
+              )}
             />
-          )}
-        />
-        <p>Выберите период действия купона</p>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <Controller
-            name="startDate"
-            rules={{
-              required: true,
-            }}
-            control={control}
-            render={({ field }) => (
-              <Input
-                field={field}
-                type="date"
-                error={!!errors.startDate}
-                min={watch("publishDate")}
-                // message={t("requiredField")}
-                max={handleFn(watch("publishDate"))}
-                margin={{ laptop: "0 20px 20px 0" }}
-              />
-            )}
-          />
-          <Controller
-            rules={{
-              required: true,
-            }}
-            control={control}
-            name="endDate"
-            render={({ field }) => (
-              <Input
-                field={field}
-                error={!!errors.endDate}
-                // message={t("requiredField")}
-                min={watch("startDate")}
-                type="date"
-                max={handleFn(watch("publishDate"))}
-              />
-            )}
-          />
+            <Controller
+              rules={{
+                required: true,
+              }}
+              control={control}
+              name="endDate"
+              render={({ field }) => (
+                <Input
+                  field={field}
+                  error={!!errors.endDate}
+                  label={width <= 430 && t("To")}
+                  min={watch("startDate")}
+                  type="date"
+                  max={handleFn(watch("publishDate"))}
+                />
+              )}
+            />
+          </div>
         </div>
-        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+        <div className="buttonsWrapper">
           <Button
-            buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
-            margin={{ laptop: "0 20px 0 0" }}
-            startIcon={<CancelIcon />}
+            buttonStyle={width > 600 ? { color: "#223367", bgcolor: "#ffffff" } : { color: "#606EEA", bgcolor: "rgba(96, 110, 234, 0.1)" }}
+            margin={{ laptop: "0 20px 0 0", mobile: "0 8px 0 0" }}
+            startIcon={width > 600 ? <CancelIcon /> : <MobileCancelIcon />}
             onClick={handleClose}
           >
             Отменить
           </Button>
-          <Button startIcon={<PublishIcon />} type="submit">
+          <Button startIcon={width > 335 && <PublishIcon />} type="submit">
             Опубликовать
           </Button>
         </div>

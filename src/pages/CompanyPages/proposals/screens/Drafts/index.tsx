@@ -18,16 +18,21 @@ import { EmptyPage } from './components/EmptyPage'
 import { MModal } from './components/Modal'
 import { Container, SearchBar, SearchIconWrapper, Wrapper } from './style'
 import { useDrafts } from './useDrafts'
+import useWindowWidth from 'services/hooks/useWindowWidth'
+import { CouponList } from '../../components/CouponList'
+import FullModal from 'components/Layout/Header/FullModal'
+import { FullSideBar } from '../../components/FullSideBar'
 
 const Drafts = () => {
     const { t } = useTranslation()
+    const { width } = useWindowWidth()
     const [isOpen, setOpen] = React.useState<boolean>(false)
     const [query, setQuery] = React.useState<string>("")
     const [debounced] = useDebounce(query, 300)
     const dispatch = useAppDispatch()
     const { refetch, isFetching } = useDrafts({ dispatch, query: debounced })
     const [isSideBarOpen, setSideBarOpen] = React.useState<boolean>(false)
-    const { currentCoupon, drafts, isSaving } = useAppSelector((state: RootState) => state.proposals)
+    const { currentCoupon, drafts } = useAppSelector((state: RootState) => state.proposals)
     const handleOpen = () => {
         setOpen(true)
     }
@@ -44,16 +49,52 @@ const Drafts = () => {
     const handleReset = () => {
         dispatch(resetCurrentCoupon())
     }
+
+    const coupons = () => {
+        if (width > 600) {
+            return (
+                drafts.map((el: IDeferred) => (
+                    <CouponCard
+                        isSelected={currentCoupon.id === el.id}
+                        onClick={() => handleSideBarOpen(el.id)}
+                        key={el.id}
+                        img={el.image}
+                        title={el.title}
+                        ageFrom={el.ageFrom}
+                        type={el.type}
+                        categoryIds={el.categoryIds}
+                        description={el.description}
+                        price={el.price}
+                        value={el.value}
+                        count={el.count}
+                    />
+                ))
+            )
+        } else {
+            return (
+                <CouponList
+                    location="drafts"
+                    onClick={setSideBarOpen}
+                    coupons={drafts} />
+            )
+        }
+    }
     return (
         <Wrapper>
-            <NotifySnack message="Сохранено" open={isSaving} handleClose={() => dispatch(setSaving(false))} vertical="top" horizontal="right" />
-            <SideBar maxWidth="370px" isOpen={isSideBarOpen}>
-                <CouponBar
-                    refetch={refetch}
-                    resetCoupon={handleReset}
-                    currentCoupon={currentCoupon}
-                    onClose={setSideBarOpen} />
-            </SideBar>
+            {width > 600 ?
+                <SideBar maxWidth="370px" isOpen={isSideBarOpen}>
+                    <CouponBar
+                        refetch={refetch}
+                        resetCoupon={handleReset}
+                        currentCoupon={currentCoupon}
+                        onClose={setSideBarOpen} />
+                </SideBar> :
+                <FullModal open={isSideBarOpen}>
+                    <FullSideBar
+                        refetch={refetch}
+                        edit
+                        onClose={setSideBarOpen} />
+                </FullModal>}
             <SearchBar>
                 <Button
                     onClick={handleOpen}
@@ -76,22 +117,7 @@ const Drafts = () => {
                 />
             </SearchBar>
             <Container>
-                {isFetching ? <Spinner /> : drafts.map((el: IDeferred) => (
-                    <CouponCard
-                        isSelected={currentCoupon.id === el.id}
-                        onClick={() => handleSideBarOpen(el.id)}
-                        key={el.id}
-                        img={el.image}
-                        title={el.title}
-                        ageFrom={el.ageFrom}
-                        type={el.type}
-                        categoryIds={el.categoryIds}
-                        description={el.description}
-                        price={el.price}
-                        value={el.value}
-                        count={el.count}
-                    />
-                ))}
+                {isFetching ? <Spinner /> : (drafts.length !== 0 && coupons())}
                 {!drafts.length && <EmptyPage />}
             </Container>
             <MModal setOpen={setOpen} open={isOpen} />

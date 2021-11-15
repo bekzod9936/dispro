@@ -39,7 +39,11 @@ export const Wrapper = styled.div`
 export const Container = styled.div`
     height: 100%;
     overflow: auto;
-    padding-bottom: 80px;
+    padding-bottom: 100px;
+    padding-right: 10px;
+    @media (max-width: ${device.mobile}) {
+        padding-right: 8px;
+    }
     ::-webkit-scrollbar {
     width: 7px;
     }
@@ -74,6 +78,7 @@ export const SearchBar = styled.div`
     margin-bottom: 20px;
     @media (max-width: ${device.mobile}) {
         margin-bottom: 13px;
+        margin-right: 15px;
         input {
             padding: 0 8px 0 0 !important;
         }
