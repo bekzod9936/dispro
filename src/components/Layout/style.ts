@@ -4,6 +4,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItem from '@material-ui/core/ListItem';
 import { SwipeableDrawer } from '@material-ui/core';
 import Drawer from '@material-ui/core/Drawer';
+import IconButton from '@material-ui/core/IconButton';
 import { ReactComponent as Hamburgermenu } from '../../assets/icons/SideBar/hamburgermenu.svg';
 import { ReactComponent as Setting } from '../../assets/icons/SideBar/setting.svg';
 import { ReactComponent as Statistics } from '../../assets/icons/SideBar/statistics.svg';
@@ -32,6 +33,10 @@ const commonMedia = css`
     width: 24px;
     height: 24px;
   }
+`;
+
+export const ButtonIcon = styled(IconButton)`
+  padding: 0 7px !important;
 `;
 
 const ListBorder = css`
