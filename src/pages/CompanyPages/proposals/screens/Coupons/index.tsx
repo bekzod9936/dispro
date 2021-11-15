@@ -77,7 +77,7 @@ export interface ICoupon {
   title: string;
   type: string;
   value: string;
-  id: number
+  id: number;
 }
 
 const initialData: ICoupon = {
@@ -94,7 +94,7 @@ const initialData: ICoupon = {
   title: "",
   type: "1",
   value: "",
-  id: 0
+  id: 0,
 };
 
 const Coupons = () => {
@@ -106,7 +106,7 @@ const Coupons = () => {
   const [image, setImage] = React.useState("");
   const [publish, setPublish] = React.useState(false);
   const [categories, setCategories] = React.useState<any>();
-  const { width } = useWindowWidth()
+  const { width } = useWindowWidth();
   const { handleUpload, deleteImage, setLoading, isLoading } =
     useUploadImage(setImage);
   const [file, setFile] = React.useState("");
@@ -146,11 +146,9 @@ const Coupons = () => {
 
   const _ = useFetchCategories(setCategories);
 
-
   const handleUploadImg = async (data: any) => {
     setFile(data.target.files[0]);
     setIsCropVisible(true);
-
   };
 
   const onPublish = (data: any) => {
@@ -226,28 +224,34 @@ const Coupons = () => {
 
   return (
     <Wrapper>
-      {width > 600 &&
-        <div style={{ display: "flex", marginBottom: 30, alignItems: "center" }}>
+      {width > 600 && (
+        <div
+          style={{ display: "flex", marginBottom: 30, alignItems: "center" }}
+        >
           <GoBackIcon
             onClick={handleBack}
             style={{ marginRight: "25px", cursor: "pointer" }}
           />
           <Title>Создание {isCoupon ? "купона" : "сертификата"}</Title>
-        </div>}
-      {width > 600 ?
+        </div>
+      )}
+      {width > 600 ? (
         <Modal open={period}>
           <SetDate
             handlePost={mutate}
             handleClose={() => setPeriod(false)}
             coupon={coupon}
           />
-        </Modal> :
+        </Modal>
+      ) : (
         <FullModal open={period}>
           <SetDate
             coupon={coupon}
             handleClose={() => setPeriod(false)}
-            handlePost={mutate} />
-        </FullModal>}
+            handlePost={mutate}
+          />
+        </FullModal>
+      )}
       <Modal open={leave}>
         <LeaveModal>
           <p>Вы действительно хотите отменить создание спецпредложения?</p>
@@ -263,7 +267,7 @@ const Coupons = () => {
           </div>
         </LeaveModal>
       </Modal>
-      {width > 600 &&
+      {width > 600 && (
         <PreviewModal
           price={watch("cost")}
           ageFrom={watch("ageLimit")}
@@ -273,16 +277,15 @@ const Coupons = () => {
           value={watch("percent")}
           image={image}
           handleClose={() => setPreviewModal(false)}
-        />}
+        />
+      )}
       <Form onSubmit={publish ? handleSubmit(onPublish) : handleSubmit(onSave)}>
-        {width <= 600 &&
+        {width <= 600 && (
           <MobileHeader>
-            <GoBackIcon
-              onClick={handleBack}
-              style={{ cursor: "pointer" }}
-            />
+            <GoBackIcon onClick={handleBack} style={{ cursor: "pointer" }} />
             <Title>Создание {isCoupon ? "купона" : "сертификата"}</Title>
-          </MobileHeader>}
+          </MobileHeader>
+        )}
         <UpSide>
           <Container>
             <LeftSide>
@@ -533,7 +536,10 @@ const Coupons = () => {
                       name="timeFrom"
                       render={({ field }) => (
                         <Input
-                          margin={{ laptop: "0 25px 0 0", mobile: "0 12px 0 0" }}
+                          margin={{
+                            laptop: "0 25px 0 0",
+                            mobile: "0 12px 0 0",
+                          }}
                           type="time"
                           field={field}
                         />
@@ -549,32 +555,39 @@ const Coupons = () => {
                   </div>
                 )}
               </AgeWrapper>
-              {width > 600 &&
-                <>{isValid ? (
-                  <Button
-                    onClick={() => setPreviewModal(true)}
-                    buttonStyle={{ bgcolor: "#ffffff", color: "#606EEA" }}
-                    endIcon={<PhoneIcon />}
-                  >
-                    Показать превью
-                  </Button>
-                ) : (
-                  <PreviewMessage>
-                    <DangerIcon />
-                    <p>
-                      Заполните все обязательные поля чтобы посмотреть как купон
-                      будет отображаться в приложениии
-                    </p>
-                  </PreviewMessage>
-                )}</>}
-              {width <= 600 &&
+              {width > 600 && (
+                <>
+                  {isValid ? (
+                    <Button
+                      onClick={() => setPreviewModal(true)}
+                      buttonStyle={{ bgcolor: "#ffffff", color: "#606EEA" }}
+                      endIcon={<PhoneIcon />}
+                    >
+                      Показать превью
+                    </Button>
+                  ) : (
+                    <PreviewMessage>
+                      <DangerIcon />
+                      <p>
+                        Заполните все обязательные поля чтобы посмотреть как
+                        купон будет отображаться в приложениии
+                      </p>
+                    </PreviewMessage>
+                  )}
+                </>
+              )}
+              {width <= 600 && (
                 <Buttons>
                   <div className="upside">
                     <Button
                       onClick={() => setLeave(true)}
                       endIcon={<MobileCancelIcon />}
-                      buttonStyle={{ bgcolor: "rgba(96, 110, 234, 0.1)", color: "#606EEA" }}
-                      margin={{ mobile: "0 8px 8px 0" }}>
+                      buttonStyle={{
+                        bgcolor: "rgba(96, 110, 234, 0.1)",
+                        color: "#606EEA",
+                      }}
+                      margin={{ mobile: "0 8px 8px 0" }}
+                    >
                       {t("cancel")}
                     </Button>
                     <Button
@@ -583,7 +596,8 @@ const Coupons = () => {
                       endIcon={
                         <IconWrapper>
                           <PublishIcon />
-                        </IconWrapper>}
+                        </IconWrapper>
+                      }
                     >
                       {t("publish")}
                     </Button>
@@ -592,11 +606,16 @@ const Coupons = () => {
                     onClick={() => setPublish(false)}
                     type="submit"
                     endIcon={<SaveIcon />}
-                    buttonStyle={{ bgcolor: "rgba(96, 110, 234, 0.1)", color: "#606EEA" }}
-                    margin={{ mobile: "8px 0 0 0" }}>
+                    buttonStyle={{
+                      bgcolor: "rgba(96, 110, 234, 0.1)",
+                      color: "#606EEA",
+                    }}
+                    margin={{ mobile: "8px 0 0 0" }}
+                  >
                     {t("saveToDrafts")}
                   </Button>
-                </Buttons>}
+                </Buttons>
+              )}
             </RightSide>
           </Container>
         </UpSide>

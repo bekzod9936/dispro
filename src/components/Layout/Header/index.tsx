@@ -13,7 +13,10 @@ import Logo from 'assets/icons/SideBar/logo.png';
 import { setCompanyInfo } from 'services/redux/Slices/partnerSlice';
 import useLayout from '../useLayout';
 import { setInfoData, initialState } from 'services/redux/Slices/info/info';
-
+import useSocket from './useSocket';
+import useWindowWidth from 'services/hooks/useWindowWidth';
+import FullModal from 'pages/CompanyPages/info/components/FullModal';
+import { numberWithNew } from 'services/utils';
 import {
   Container,
   SearchIcon,
@@ -49,11 +52,6 @@ import {
   LogoIcon,
   PName,
 } from './style';
-import useSocket from './useSocket';
-import useWindowWidth from 'services/hooks/useWindowWidth';
-import FullModal from 'pages/CompanyPages/info/components/FullModal';
-import useLimit from './useLimit';
-import { numberWith, numberWithNew } from 'services/utils';
 
 const Header = () => {
   const { t } = useTranslation();
@@ -61,8 +59,8 @@ const Header = () => {
   const { width } = useWindowWidth();
   const [modal, setModal] = useState(false);
   const companyId = localStorage.getItem('companyId');
-  useLayout({ id: companyId });
-  const { resLimit } = useLimit();
+  const { resLimit } = useLayout({ id: companyId });
+
   const accountsBalance = useAppSelector((state) => state.info.balance);
   const accountsLimit = useAppSelector((state) => state.info.limit);
 

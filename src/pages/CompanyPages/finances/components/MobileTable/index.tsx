@@ -30,9 +30,10 @@ interface Props {
       body?: { title?: any; value?: any }[];
     }[];
   };
+  headertitle?: string;
 }
 
-const MobileTable = ({ data }: Props) => {
+const MobileTable = ({ data, headertitle }: Props) => {
   const { t } = useTranslation();
 
   const [open, setOpen] = useState(false);
@@ -70,7 +71,7 @@ const MobileTable = ({ data }: Props) => {
                     >
                       <LeftBack />
                     </IconButton>
-                    <span>{t('proposals')}</span>
+                    <span>{headertitle}</span>
                   </Header>
 
                   <WrapBox>

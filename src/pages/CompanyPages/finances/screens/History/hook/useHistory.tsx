@@ -35,11 +35,12 @@ const useHistory = ({ filterValues }: PProps) => {
         dispatch(
           setHistoryFinanceData(data.data.data.cashierHistories.histories)
         );
-        console.log(data);
+
         dispatch(
-          setHistoryFinanceTotal(
-            Math.ceil(data.data.data.totalCount / filterValues?.perPage)
-          )
+          setHistoryFinanceTotal({
+            count: Math.ceil(data.data.data.totalCount / filterValues?.perPage),
+            pages: data.data.data.totalCount,
+          })
         );
         dispatch(
           setHistoryFinanceBetween(

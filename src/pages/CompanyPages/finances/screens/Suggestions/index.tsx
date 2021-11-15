@@ -163,6 +163,7 @@ const Suggestions = () => {
               };
             }),
           }}
+          headertitle={t('proposals')}
         />
       )}
       {list.length > 0 ? (
@@ -173,8 +174,8 @@ const Suggestions = () => {
             {t('from1')} <span>{total.pages}</span>
             {countPagination({
               count: Number(total?.count),
-              firstWord: t('page1'),
-              secondWord: t('page23'),
+              firstWord: t('operations1'),
+              secondWord: t('operations23'),
             })}
           </Info>
           <Pagination
