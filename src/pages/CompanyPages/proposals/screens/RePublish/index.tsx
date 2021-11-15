@@ -28,6 +28,7 @@ import {
   Header,
   ImageBlock,
   LeftSide,
+  MobileHeader,
   RightSide,
   UploadButton,
   UpSide,
@@ -251,6 +252,14 @@ const RePublish = () => {
         ageFrom={watch("ageLimit")}
       />
       <Form onSubmit={publish ? handleSubmit(onPublish) : handleSubmit(onSave)}>
+        {width <= 600 &&
+          <MobileHeader>
+            <GoBackIcon
+              onClick={handleBack}
+              style={{ cursor: "pointer" }}
+            />
+            <Title>Восстановление {isCoupon ? "купона" : "сертификата"}</Title>
+          </MobileHeader>}
         <UpSide>
           <Container>
             <LeftSide>
