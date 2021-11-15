@@ -1,6 +1,5 @@
-import { Container, Column } from "./style";
+import { Row, Column } from "./style";
 import { useFieldArray, Controller } from "react-hook-form";
-import Input from "components/Custom/Input";
 import InputFormat from "components/Custom/InputFormat";
 
 const NestedArray = ({ index, control }: IProps) => {
@@ -9,7 +8,7 @@ const NestedArray = ({ index, control }: IProps) => {
     name: `levels.${index}.requirements`,
   });
   return (
-    <Container>
+    <Row>
       {fields.map((item: any, smallIndex: number) => {
         return (
           <Column key={index}>
@@ -19,21 +18,10 @@ const NestedArray = ({ index, control }: IProps) => {
               render={({ field }) => {
                 return (
                   <InputFormat
-                    //   defaultValue={numberWith(value?.amount, " ")}
-                    variant="standard"
-                    //   IconEnd={unitIcon(value.unit)}
                     width={{
-                      minwidth: 100,
+                      width: "100%",
                     }}
                     field={field}
-                    inputStyle={{
-                      inpadding: "0 0 5px 2px",
-                      border: "none",
-                      borderbottom: "1px solid #606EEA",
-                      bgcolor: "transparent",
-                      radius: 0,
-                      fitheight: true,
-                    }}
                   />
                 );
               }}
@@ -41,7 +29,7 @@ const NestedArray = ({ index, control }: IProps) => {
           </Column>
         );
       })}
-    </Container>
+    </Row>
   );
 };
 

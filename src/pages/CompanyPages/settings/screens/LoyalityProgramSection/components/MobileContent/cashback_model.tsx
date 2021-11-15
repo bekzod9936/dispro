@@ -1,11 +1,12 @@
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+
 //assets and style
 import { ReactComponent as ArrowBack } from "assets/icons/arrow_left.svg";
 import { Container, Header, Body, Row, Htext, Text, Column } from "./style";
 import { FormProps } from "../../hooks/useLoyality";
 //hooks
-import { useAppSelector } from "services/redux/hooks";
+import { useAppSelector, useAppDispatch } from "services/redux/hooks";
 import useMobileContent from "./useMobileContent";
 //components
 import InputFormat from "components/Custom/InputFormat";
@@ -13,10 +14,13 @@ import Input from "components/Custom/Input";
 import { IconButton } from "@material-ui/core";
 import { Break } from "../../../QRCodesSection/components/style";
 import NestedArray from "./nested_array";
+import { handleClick } from "services/redux/Slices/settingsSlice";
+import Button from "components/Custom/Button";
 
 const CashbackModel = () => {
+  const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const { handleClick } = useMobileContent();
+
   const base_loyality = useAppSelector((state) => state.settings.base_loyality);
   const {
     control,
@@ -30,7 +34,16 @@ const CashbackModel = () => {
   return (
     <Container>
       <Header>
-        <IconButton onClick={() => handleClick("cashback", false)}>
+        <IconButton
+          onClick={() =>
+            dispatch(
+              handleClick({
+                type: "cashback",
+                open: false,
+              })
+            )
+          }
+        >
           <ArrowBack />
         </IconButton>
         <Htext>Настройка предостовления скидки</Htext>
@@ -52,6 +65,7 @@ const CashbackModel = () => {
               <Input
                 label={"№ 1 Название статуса"}
                 type="string"
+                // defaultValue={base_loyality}
                 field={field}
                 message={t("requiredField")}
               />
@@ -103,7 +117,7 @@ const CashbackModel = () => {
                   control={control}
                   render={({ field }) => (
                     <Input
-                      label={"№ 1 Название статуса"}
+                      label={`№ ${index + 2} Название статуса`}
                       type="string"
                       field={field}
                       message={t("requiredField")}
@@ -111,7 +125,6 @@ const CashbackModel = () => {
                   )}
                 />
               </Row>
-              <Break height={15} />
               <Row>
                 <Controller
                   name="base_percent"
@@ -150,6 +163,46 @@ const CashbackModel = () => {
             </Column>
           );
         })}
+        <Row>
+          <Button
+            buttonStyle={{
+              bgcolor: "transparent",
+              color: "#3492FF",
+              fontSize: {
+                mobile: 12.5,
+                planshet: 14,
+              },
+            }}
+            onClick={() => {
+              append({
+                name: "new_row",
+                percent: 15,
+                requirements: [
+                  {
+                    amount: 100,
+                    condition: "",
+                    type: 1,
+                    unit: "UZS",
+                  },
+                ],
+              });
+            }}
+          >
+            Добавить статус +
+          </Button>
+          <Button
+            buttonStyle={{
+              bgcolor: "transparent",
+              color: "#3492FF",
+              fontSize: {
+                mobile: 12.5,
+                planshet: 14,
+              },
+            }}
+          >
+            Добавить условие +
+          </Button>
+        </Row>
       </Body>
     </Container>
   );

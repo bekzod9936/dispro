@@ -8,16 +8,14 @@ import useMobileContent from "./useMobileContent";
 import FullModal from "components/Custom/FullModal";
 import CashbackModel from "./cashback_model";
 import LoyalityModel from "./loyality_model";
+import { useAppDispatch, useAppSelector } from "services/redux/hooks";
+import { handleClick } from "services/redux/Slices/settingsSlice";
 
 const MobileContent = () => {
-  const {
-    handleCheck,
-    cashbackCheck,
-    saleCheck,
-    ballCheck,
-    handleClick,
-    openCashback,
-  } = useMobileContent();
+  const dispatch = useAppDispatch();
+  const { handleCheck, cashbackCheck, saleCheck, ballCheck } =
+    useMobileContent();
+  const openCashback = useAppSelector((state) => state.settings.openState);
 
   const handleLoyal = () => {
     if (openCashback.type === "cashback") {
@@ -52,7 +50,7 @@ const MobileContent = () => {
       {saleCheck && (
         <SettingButton
           text={"Настроить"}
-          onClick={() => handleClick("other", false)}
+          onClick={() => dispatch(handleClick({ type: "other", open: true }))}
         />
       )}
       <Break height={25} />
@@ -79,7 +77,9 @@ const MobileContent = () => {
       {cashbackCheck && (
         <SettingButton
           text={"Настроить"}
-          onClick={() => handleClick("cashback", false)}
+          onClick={() =>
+            dispatch(handleClick({ type: "cashback", open: true }))
+          }
         />
       )}
       <Break height={25} />
@@ -107,7 +107,7 @@ const MobileContent = () => {
       {ballCheck && (
         <SettingButton
           text={"Настроить"}
-          onClick={() => handleClick("other", false)}
+          onClick={() => dispatch(handleClick({ type: "other", open: true }))}
         />
       )}
       <FullModal open={openCashback.open}>{handleLoyal()}</FullModal>
