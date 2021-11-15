@@ -5,12 +5,14 @@ import Spinner from 'components/Custom/Spinner';
 import Pagination from 'components/Custom/Pagination';
 import Table from '../../components/Table';
 import dayjs from 'dayjs';
-import { Container, WrapPag, Info } from './style';
+import { Container } from './style';
 import DatePcker from 'components/Custom/DatePicker';
 import { useAppSelector } from 'services/redux/hooks';
 import { countPagination, numberWithNew } from 'services/utils';
 import useWindowWidth from 'services/hooks/useWindowWidth';
 import MobileTable from '../../components/MobileTable';
+import { Info, WrapPag } from '../../style';
+
 interface intialFilterProps {
   page?: number;
   perPage?: number;

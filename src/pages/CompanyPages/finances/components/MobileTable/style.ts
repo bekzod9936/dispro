@@ -17,6 +17,8 @@ export const Container = styled.div`
 export const Data = styled.div`
   padding: 10px 20px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
 `;
 
 export const FullName = styled.div`
@@ -77,3 +79,11 @@ export const BoxInfo = styled.div`
   font-size: 16px;
   color: #223367;
 `;
+
+export const WrapMain = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
+
+export const WrapIcon = styled.div``;

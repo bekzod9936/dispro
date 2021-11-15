@@ -5,7 +5,6 @@ import Spinner from 'components/Custom/Spinner';
 import Pagination from 'components/Custom/Pagination';
 import Table from '../../components/Table';
 import dayjs from 'dayjs';
-import { Container, WrapPag, Info } from './style';
 import DatePcker from 'components/Custom/DatePicker';
 import { countPagination, numberWithNew } from 'services/utils';
 import {
@@ -18,6 +17,10 @@ import {
 import { useAppSelector } from 'services/redux/hooks';
 import useWindowWidth from 'services/hooks/useWindowWidth';
 import MobileTable from '../../components/MobileTable';
+import { ReactComponent as Money } from 'assets/icons/StatistisPage/money.svg';
+import { Container } from './style';
+import { WrapPag, Info } from '../../style';
+
 interface intialFilterProps {
   page?: number;
   perPage?: number;
@@ -119,7 +122,6 @@ const Payment = () => {
           })}
         </WrapTotal>
       </RightHeader>
-
       <Container>
         <DatePcker
           onChange={async (e: any) => {
@@ -131,7 +133,18 @@ const Payment = () => {
             await response.refetch();
           }}
         />
-
+        <WrapTotal>
+          {header.map((v: any) => {
+            return (
+              <WrapTotalSum>
+                <Label>{v.title || ''}</Label>
+                <TotalSum>
+                  {numberWithNew({ number: +v.value, defaultValue: 0 })}
+                </TotalSum>
+              </WrapTotalSum>
+            );
+          })}
+        </WrapTotal>
         {response.isLoading || response.isFetching ? (
           <Spinner />
         ) : width > 600 ? (
