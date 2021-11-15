@@ -54,7 +54,7 @@ const Infopage = () => {
       }
       photosectionpadding={match?.url === '/info/photos' ? true : false}
     >
-      <Title>{t('info')}</Title>
+      <Title padding={{ mobile: '0 0 0 15px' }}>{t('info')}</Title>
       <WrapNav>
         <Grid style={{ width: '100%', overflowY: 'auto', overflowX: 'hidden' }}>
           <NavBar list={menuItems} padding='0' margin='0' />

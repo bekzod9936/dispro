@@ -57,7 +57,7 @@ const Payment = () => {
     filterValues: filterValues,
   });
 
-  const list = data?.map((v: any) => {
+  const listdesktop = data?.map((v: any) => {
     const date = dayjs(v?.payDate).format('DD.MM.YYYY HH:mm');
     const pay: number = v?.amount - v?.amountPartner;
     return {
@@ -67,6 +67,38 @@ const Payment = () => {
       col4: numberWithNew({ number: v?.amount }),
       col5: numberWithNew({ number: v?.amountPartner }),
       col6: numberWithNew({ number: pay }),
+    };
+  });
+
+  const listmobile = data.map((v: any) => {
+    const date = dayjs(v?.payDate).format('DD.MM.YYYY HH:mm');
+    const pay: number = v?.amount - v?.amountPartner;
+    return {
+      title: `${v?.firstName}  ${v?.lastName}`,
+      value: numberWithNew({ number: v?.amount }),
+      body: [
+        { title: t('dateandtime'), value: date },
+        {
+          title: t('customer'),
+          value: `${v?.firstName}  ${v?.lastName}`,
+        },
+        {
+          title: t('cardnumber'),
+          value: v?.cardNumber,
+        },
+        {
+          title: t('UZSamount'),
+          value: numberWithNew({ number: v?.amount }),
+        },
+        {
+          title: t('Profit (99%)'),
+          value: numberWithNew({ number: v?.amountPartner }),
+        },
+        {
+          title: t('DIS Commission (1%)'),
+          value: numberWithNew({ number: pay }),
+        },
+      ],
     };
   });
 
@@ -112,7 +144,7 @@ const Payment = () => {
           {header.map((v: any) => {
             return (
               <WrapTotalSum>
-                <Label>{v.title || ''}</Label>
+                <Label>{v.title}</Label>
                 <TotalSum>
                   {numberWithNew({
                     number: +v.value,
@@ -160,66 +192,35 @@ const Payment = () => {
         {response.isLoading || response.isFetching ? (
           <Spinner />
         ) : width > 600 ? (
-          <Table columns={columns} data={list} />
+          <Table columns={columns} data={listdesktop} />
         ) : (
           <MobileTable
             data={{
               title: t('amountofpurchase'),
-              info: data.map((v: any) => {
-                const date = dayjs(v?.payDate).format('DD.MM.YYYY HH:mm');
-                const pay: number = v?.amount - v?.amountPartner;
-                return {
-                  title: `${v?.firstName}  ${v?.lastName}`,
-                  value: numberWithNew({ number: v?.amount }),
-                  body: [
-                    { title: t('dateandtime'), value: date },
-                    {
-                      title: t('customer'),
-                      value: `${v?.firstName}  ${v?.lastName}`,
-                    },
-                    {
-                      title: t('cardnumber'),
-                      value: v?.cardNumber,
-                    },
-                    {
-                      title: t('UZSamount'),
-                      value: numberWithNew({ number: v?.amount }),
-                    },
-                    {
-                      title: t('Profit (99%)'),
-                      value: numberWithNew({ number: v?.amountPartner }),
-                    },
-                    {
-                      title: t('DIS Commission (1%)'),
-                      value: numberWithNew({ number: pay }),
-                    },
-                  ],
-                };
-              }),
+              info: listmobile,
             }}
             headertitle={t('p2p')}
           />
         )}
-        {list.length > 0 ? (
-          <WrapPag>
-            <Info>
-              {t('shown')}
-              <span>{between}</span>
-              {t('from1')} <span>{total.pages}</span>
-              {countPagination({
-                count: Number(total.count),
-                firstWord: t('operations1'),
-                secondWord: t('operations23'),
-              })}
-            </Info>
-            <Pagination
-              page={filterValues.page}
-              count={total.count}
-              onChange={handlechangePage}
-              disabled={response.isLoading || response.isFetching}
-            />
-          </WrapPag>
-        ) : null}
+        <WrapPag>
+          <Info>
+            {t('shown')}
+            <span>{between}</span>
+            {t('from1')} <span>{total.pages}</span>
+            {countPagination({
+              count: Number(total.count),
+              firstWord: t('operations1'),
+              secondWord: t('operations23'),
+            })}
+          </Info>
+          <Pagination
+            page={filterValues.page}
+            count={total.count}
+            onChange={handlechangePage}
+            disabled={response.isLoading || response.isFetching}
+            siblingCount={0}
+          />
+        </WrapPag>
       </Container>
     </>
   );

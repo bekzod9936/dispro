@@ -58,6 +58,14 @@ const Filter = ({
             bgcolor: 'white',
             color: '#223367',
             weight: 500,
+            fontSize: {
+              mobile: 14,
+              desktop: 18,
+              laptop: 16,
+            },
+            height: {
+              mobile: 36,
+            },
           }}
           startIcon={<FilterIcon />}
         >
@@ -77,6 +85,14 @@ const Filter = ({
               bgcolor: 'white',
               color: '#606EEA',
               weight: 500,
+              fontSize: {
+                mobile: 14,
+                desktop: 18,
+                laptop: 16,
+              },
+              height: {
+                mobile: 36,
+              },
             }}
             endIcon={<ResetIcon />}
             onClick={() => {
@@ -95,6 +111,14 @@ const Filter = ({
             buttonStyle={{
               weight: 500,
               shadow: ' 0px 4px 9px rgba(96, 110, 234, 0.46)',
+              fontSize: {
+                mobile: 14,
+                desktop: 18,
+                laptop: 16,
+              },
+              height: {
+                mobile: 36,
+              },
             }}
             endIcon={<TickIcon />}
             disabled={error}
@@ -116,6 +140,14 @@ const Filter = ({
           bgcolor: 'white',
           color: '#223367',
           weight: 500,
+          fontSize: {
+            mobile: 14,
+            desktop: 18,
+            laptop: 16,
+          },
+          height: {
+            mobile: 36,
+          },
         }}
         startIcon={<FilterIcon />}
         onClick={() => setOpen(true)}
@@ -145,6 +177,14 @@ const Filter = ({
                 bgcolor: '#F0F1FD',
                 color: '#606EEA',
                 weight: 500,
+                fontSize: {
+                  mobile: 14,
+                  desktop: 18,
+                  laptop: 16,
+                },
+                height: {
+                  mobile: 36,
+                },
               }}
               endIcon={<ResetIcon />}
               onClick={() => {
@@ -158,6 +198,14 @@ const Filter = ({
               buttonStyle={{
                 weight: 500,
                 shadow: ' 0px 4px 9px rgba(96, 110, 234, 0.46)',
+                fontSize: {
+                  mobile: 14,
+                  desktop: 18,
+                  laptop: 16,
+                },
+                height: {
+                  mobile: 36,
+                },
               }}
               margin={{ mobile: '0 0 0 20px' }}
               startIcon={<TickIcon />}

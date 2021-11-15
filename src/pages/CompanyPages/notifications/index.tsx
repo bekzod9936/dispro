@@ -35,7 +35,7 @@ import {
 } from './style';
 import { useHistory } from 'react-router';
 import useWindowWidth from 'services/hooks/useWindowWidth';
-import FullModal from 'components/Layout/Header/FullModal';
+import FullModal from 'components/Custom/FullModal';
 import { countPagination } from 'services/utils';
 
 interface intialFilterProps {

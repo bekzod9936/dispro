@@ -13,7 +13,6 @@ import MenuList from './MenuList';
 import useLayout from './useLayout';
 import { useAppSelector } from 'services/redux/hooks';
 import { useTranslation } from 'react-i18next';
-import Grid from 'components/Custom/Grid';
 import {
   Container,
   MenuIcon,
@@ -28,6 +27,7 @@ import {
   WrapMenu,
   Wrarning,
   WranningIcon,
+  ButtonIcon,
 } from './style';
 
 export interface IDefaultLayout {
@@ -153,7 +153,7 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
             <Toolbar>
               {!fill && width > 1000 ? null : (
                 <WrapMenu>
-                  <IconButton
+                  <ButtonIcon
                     color='inherit'
                     aria-label='open drawer'
                     onClick={handleDrawerOpen}
@@ -163,7 +163,7 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
                     })}
                   >
                     <MenuIcon />
-                  </IconButton>
+                  </ButtonIcon>
                 </WrapMenu>
               )}
               {fill ? (
