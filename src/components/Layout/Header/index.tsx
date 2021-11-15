@@ -51,6 +51,9 @@ import {
   TitleLogo,
   LogoIcon,
   PName,
+  Close1Icon,
+  WrapClose,
+  WrapperIcon,
 } from './style';
 
 const Header = () => {
@@ -159,7 +162,6 @@ const Header = () => {
               }}
               onClick={() => {
                 setOpen(false);
-                setModal(false);
               }}
               startIcon={width > 600 ? <CloseIcon /> : null}
               endIcon={width < 600 ? <CloseIcon /> : null}
@@ -317,7 +319,18 @@ const Header = () => {
               </WrapPop>
               <ArrowIcon marginLeft={true} />
             </Button>
-            <FullModal open={modal}>{logocontent}</FullModal>
+            <FullModal open={modal}>
+              {
+                <WrapClose>
+                  <WrapperIcon>
+                    <IconButton onClick={() => setModal(false)}>
+                      <Close1Icon />
+                    </IconButton>
+                  </WrapperIcon>
+                  {logocontent}
+                </WrapClose>
+              }
+            </FullModal>
           </>
         )}
       </Wrapper>

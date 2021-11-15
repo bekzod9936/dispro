@@ -36,7 +36,15 @@ const commonMedia = css`
 `;
 
 export const ButtonIcon = styled(IconButton)`
-  padding: 0 7px !important;
+  @media (max-width: ${device.mobile}) {
+    padding: 0 7px !important;
+    &.sidebar {
+      padding: 10px !important;
+    }
+  }
+  &:hover {
+    background-color: transparent !important;
+  }
 `;
 
 const ListBorder = css`
