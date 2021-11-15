@@ -145,7 +145,7 @@ export const ReferalBtn = styled.div`
   align-items: center;
 `;
 
-export const ReferalDiv = styled.div`
+export const ReferalDiv = styled.footer`
   position: absolute;
   top: 0;
   left: 0;

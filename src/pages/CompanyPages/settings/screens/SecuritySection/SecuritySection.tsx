@@ -3,16 +3,31 @@ import { useTranslation } from "react-i18next";
 import { Text } from "../../../../../styles/CustomStyles";
 import useSecurity from "./hooks/useSecurity";
 import CustomToggle from "components/Custom/CustomToggleSwitch";
-import { Break } from "../../styles";
+import { Break, SpinnerDiv } from "../../styles";
 import { Grid } from "@material-ui/core";
 import { Form, UpSide, DownSide, UpRow, UpWrapper, Wrapper } from "./styles";
 import InputFormat from "components/Custom/InputFormat";
 import SaveButton from "pages/CompanyPages/settings/components/SaveButton";
+import Spinner from "components/Helpers/Spinner";
 
 const SecuritySection = () => {
   const { t } = useTranslation();
-  const { control, suspendedClient, suspendedSum, handleSubmit, onFormSubmit } =
-    useSecurity();
+  const {
+    control,
+    suspendedClient,
+    suspendedSum,
+    handleSubmit,
+    onFormSubmit,
+    isLoading,
+  } = useSecurity();
+
+  if (isLoading) {
+    return (
+      <SpinnerDiv>
+        <Spinner />
+      </SpinnerDiv>
+    );
+  }
 
   return (
     <Form onSubmit={handleSubmit(onFormSubmit)}>

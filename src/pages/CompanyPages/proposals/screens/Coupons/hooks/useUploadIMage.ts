@@ -54,8 +54,8 @@ export const useUploadImage = (handleSet: any) => {
     // const image: any = await resizeFile(file);
     const newFile = await dataURIToBlob(file);
     const formData = new FormData();
-    await formData.append("itemId", `${localStorage.getItem("companyId")}`);
-    await formData.append("fileType", "companyLogo");
+    await formData.set("itemId", `${localStorage.getItem("companyId")}`);
+    await formData.set("fileType", "companyLogo");
     await formData.append("file", newFile, "logo.png");
     await mutate(formData, {
       onSuccess: async (data) => {
