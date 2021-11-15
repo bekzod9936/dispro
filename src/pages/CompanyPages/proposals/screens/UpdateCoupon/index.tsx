@@ -198,6 +198,7 @@ const UpdateCoupon = () => {
     setValue("percent", currentCoupon.value?.toString());
   }, [currentCoupon.value]);
 
+ 
   return (
     <Wrapper>
       <div style={{ display: "flex", marginBottom: 30, alignItems: "center" }}>

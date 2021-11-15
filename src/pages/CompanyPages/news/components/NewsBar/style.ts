@@ -25,7 +25,7 @@ export const Wrapper = styled.div`
     position: relative;
     height: 100%;
     width: 100%;
-    padding: 15px 25px;
+    padding: 25px 25px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -34,10 +34,12 @@ export const Wrapper = styled.div`
 
 export const Header = styled.div`
     width: 100%;
+
     justify-content: space-between;
     display: flex;
     align-items: center;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
+    padding-top:25px;
     h6 {
         font-size: 18px;
         color: #223367;
@@ -45,14 +47,15 @@ export const Header = styled.div`
     }
 `
 
-export const Content = styled.div`
+export const ContentInfo = styled.div`
     margin: 20px 0;
-
+ 
     h5 {
         font-size: 16px;
         color: #C7C7C7;
         line-height: 19px;
         margin-bottom: 10px;
+        
     }
     p {
         font-size: 14px;
@@ -63,6 +66,16 @@ export const Content = styled.div`
             margin-bottom: 9px;
         }
     }
+`
+export const ContentButton=styled.div``
+export const ContentSideBar=styled.div`
+    height: 50%;
+    width: 100%;
+    padding: 5px 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
 `
 
 export const Preview = styled.div`
@@ -90,7 +103,64 @@ export const Preview = styled.div`
         /* z-index: 12; */
     }
 `
+export const PreviewDivNews = styled.div`
+  position: relative;
+  width: max-content;
+  overflow: hidden;
+  border-radius: 8px;
+  min-width:320px;
+  border: 1px solid white;
 
+`;
+export const LeftRound = styled.div`
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+  height: 280px;
+  overflow: hidden;
+
+  h4 {
+    font-size: 16px;
+    color: #c7c7c7;
+    margin-bottom: 20px;
+    line-height: 18.75px;
+    text-align: center;
+  }
+  h5 {
+    font-size: 16px;
+    width:280px;
+    padding:8px 0px 4px 15px;
+    line-height: 16px;
+    color: #223367;
+  }
+  p {
+    font-size: 14px;
+    padding:2px 15px;
+    width:280px;
+    line-height: 16px;
+    color: #223367;
+  }
+ 
+
+  background: #ffffff;
+
+  box-shadow: 0 8px 6px -6px rgba(0, 0, 0, 0.2);
+
+`;
+export const PreviewBgNews = styled.img`
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  min-width:320px;
+  height: 180px !important;
+  border-radius: 5px solid black;
+  border: 5px;
+  /* object-fit: fill; */
+  /* border-radius: 30px; */
+`;
 export const PreviewContent = styled.div`
     position: absolute;
     bottom: 0;

@@ -1,4 +1,5 @@
 
+import React,{useEffect} from 'react';
 import { useLocation } from "react-router-dom";
 import { AddIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
 
@@ -9,7 +10,7 @@ import { Flex } from "../../style";
 import { useTranslation } from "react-i18next";
 import { IProps } from "./types";
 import { useAppSelector, useAppDispatch } from "services/redux/hooks";
-import {setQuery,
+import {setQuery,setSelectedNews,
 } from "services/redux/Slices/news";
 
 const Header = ({
@@ -19,7 +20,11 @@ const Header = ({
   const location = useLocation();
   const dispatch = useAppDispatch();
   const query = useAppSelector((state) => state.news.query);
-
+  useEffect(()=>{
+    if(location.pathname !=='/news'){
+     dispatch(setSelectedNews([]))
+    }
+   },[ dispatch(setSelectedNews([]))])
   const { t } = useTranslation();
 
   return (

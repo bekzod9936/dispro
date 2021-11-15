@@ -16,7 +16,7 @@ export const Wrapper = styled.div`
   height: 100%;
   background-color: #ffffff;
   z-index: 20;
-  transition: 500ms all;
+  transition: 100ms all;
   transform: ${(props: IProps) =>
     props.isOpen ? "translateX(0)" : "translateX(100%)"};
 `;

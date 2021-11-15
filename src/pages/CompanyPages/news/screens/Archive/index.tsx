@@ -4,12 +4,12 @@ import { useTranslation } from "react-i18next";
 import Spinner from "components/Custom/Spinner";
 import Table from "../../components/Table";
 import NoNews from "../../components/NoNews";
-import {setQuery} from "services/redux/Slices/news";
-
+import { setQuery, setSelectedNews } from "services/redux/Slices/news";
 import { useAppSelector, useAppDispatch } from "services/redux/hooks";
-import moment from "moment";
+import { SideBar } from "../../components/SideBar";
+import { NewsBar } from "../../components/NewsBar";
 import { Container, Wrap, TitleData,AgeData,Info,WrapPag, DefaultImage } from "./style";
-import {months} from './constants';
+import useData from "../useData";
 import useArchive from "./useArchive";
 import Pagination from 'components/Custom/Pagination';
 
@@ -24,6 +24,7 @@ const Active = () => {
   const dispatch = useAppDispatch();   
   const history = useHistory();
   const data = useAppSelector((state) => state.news.NewsInfo.data);
+  const selectedNews = useAppSelector((state) => state.news.selectedNews);
   const totalCount=useAppSelector((state)=>state.news.NewsInfo.totalCount);
   const between=useAppSelector((state)=>state.news.NewsInfo.between);
   const totalNewsCount=useAppSelector((state)=>state.news.NewsInfo.totalCountNews)
@@ -48,71 +49,21 @@ const Active = () => {
     useState<intialFilterProps>(intialFilter);
   
  
-
+  
   const { response } = useArchive({filterValues: filterValues});
- 
+  const {list}=useData();
   
 
   const handlechangePage = async (e: any) => {
     await setFilterValues({ ...filterValues, page: e });
     await response.refetch();
   };
+  const onClose = () => {
+    dispatch(setSelectedNews(""));
+  };
   
-  const list = data?.map((v: any) => {
-    const startDate = moment(v?.startLifeTime).format("YYYY-MM-DD");
-    const endDate = moment(v?.endLifeTime).format("YYYY-MM-DD");
-    const startdates = new Date(startDate); 
-    const enddates=new Date(endDate);
-    const startmonthName=months[startdates.getMonth()]
-    const endmonthName=months[enddates.getMonth()]
-    const startDays=startdates.getDate()
-    const endDays=enddates.getDate()
-    const years=enddates.getFullYear()
-
-    const date=startDays+' '+startmonthName+' - '+endDays+' '+endmonthName+''+years
-    
-  
-    const genderType =
-      v?.genderType === 1
-        ? "Мужчина"
-        : v?.genderType === 2
-        ? "Женщины"
-        : "Для всех";
-    let src = v?.image;
-    return {
-      col1: (
-        <TitleData>
-          {src ? <img src={src} /> : <DefaultImage />}
-          {v?.title}
-        </TitleData>
-      ),
-      col2: <p>{v?.description.length>50 ? v.description.slice(0,50)+"..." :v?.description}</p>,
-      col3: genderType,
-      col4: <AgeData>{date}<h4>{v?.ageFrom+'+'}</h4></AgeData>,
-    };
-  });
-
-  const columns: any = useMemo(
-    () => [
-      {
-        Header: t("Заголовок"),
-        accessor: "col1",
-      },
-      {
-        Header: t("Зазывающий текст"),
-        accessor: "col2",
-      },
-      {
-        Header: t("Пол"),
-        accessor: "col3",
-      },
-      {
-        Header: t("Срок публикации"),
-        accessor: "col4",
-      },
-    ],
-    []
-  );
+ 
+  const newsById = selectedNews?.fullData;
   return (
     <Container>
       <Wrap>
@@ -122,16 +73,19 @@ const Active = () => {
  
         ) : (
           <>
-            {list.length > 0 ? (
+            {data.length > 0 ? (
             
-                <Table columns={columns} data={list} />
+                <Table data={list}/>
              
             ) : (
               <div style={{ paddingRight: "20%", paddingTop: "10%" }}>
                 <NoNews handleOpenSetting={handleOpenSetting} />
               </div>
             )}
-              {list.length > 0 ? (
+                 <SideBar isOpen={newsById} maxWidth={"370px"}>
+              {newsById && <NewsBar refetch={response} currentNews={newsById} onClose={onClose} />}
+            </SideBar>
+              {data.length > 0 ? (
         <WrapPag>
           <Info>
             {t('shown')}

@@ -47,7 +47,7 @@ export const genders = [
       value: "женщин",
     },
     {
-        id: 3,
+        id: 0,
         label: "Для всех",
         value: "всех",
       },

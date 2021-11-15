@@ -133,7 +133,6 @@ const CropCustomModal = ({ open, src, setIsCropVisible, setFile, handleUpload, i
                                 {imageUrl?.length > 6 && <PreviewBgNews src={imageUrl} alt="" />}
                                 <img style={{ zIndex: 20, position: "relative" }} width="285" height="180" alt="" />                     
                             </PreviewDivNews>
-                         
                             <h5>Название новости</h5>
                             <p>Таким образом новая модель <br/>организационной деятельности</p>
                         

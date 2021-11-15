@@ -17,6 +17,7 @@ export interface ISetCoupon {
 
 }
 export interface IDeferred {
+    
     ageFrom: number,
     ageUnlimited: boolean,
     categoryIds: number[],

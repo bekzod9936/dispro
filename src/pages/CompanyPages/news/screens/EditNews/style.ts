@@ -330,23 +330,3 @@ export const LeaveModal = styled.div`
     align-items: center;
   }
 `
-export const SubmitModal = styled.div`
-    padding: 40px 55px 35px 55px;
-    background: #FFFFFF;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
-    border-radius: 14px;
-    h5 {
-        font-size: 18px;
-        line-height: 21px;
-        font-weight: 500;
-        color: #223367;
-        margin-bottom: 20px;
-    }
-    p {
-        font-size: 14px;
-        line-height: 16.5px;
-        color: #223367;
-        font-weight: 300;
-        margin-bottom: 30px;
-    }
-`

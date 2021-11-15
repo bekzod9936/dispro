@@ -5,7 +5,10 @@ interface Props {
   up?: boolean;
   active?: boolean;
 }
-
+interface ITRow {
+  background?: boolean | number;
+  checked?: boolean
+}
 export const Container = styled.div`
   background: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
@@ -122,10 +125,23 @@ export const UpIcon = styled(Up)`
   }
 `;
 
+export const AgeData=styled.div`
+display:flex;
+position: relative;
+align-items:center;
+ h4 {
+  position: absolute;
+  margin-left:80%;
+  padding:10px 20px;
+  font-size: 14px;
+  background: linear-gradient(215.2deg, #8BDD59 -12.1%, #DCF089 101.51%);
+  border-radius: 14px;
+ }
+`
 export const TitleData = styled.div`
   display: flex; 
   align-items: center; 
-  /* justify-content: center; */
+  justify-content: left;
   /* margin-left: 15px; */
   img {
     border-radius: 14px;
@@ -135,6 +151,13 @@ export const TitleData = styled.div`
   }
 `
 
+export const TRow = styled.tr`
+    border: none;
+    transition: 100ms all;
+    cursor: pointer;
+    background-color: ${({ checked }: ITRow) => checked ? "rgba(96, 110, 234, 0.3) !important" : "transparent"};
+ 
+`
 export const DefaultImage = styled.div`
   width: 40px;
   height: 40px;

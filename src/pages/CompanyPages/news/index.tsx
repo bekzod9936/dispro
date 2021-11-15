@@ -1,3 +1,4 @@
+
 import NavBar from 'components/Custom/NavBar';
 import Title from 'components/Custom/Title';
 import Spinner from 'components/Custom/Spinner';
@@ -5,7 +6,7 @@ import { Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
-import {setQuery} from 'services/redux/Slices/news';
+import {setQuery,setSelectedNews} from 'services/redux/Slices/news';
 import useNewsRoute from './routes';
 import Header from './components/Header'
 
@@ -32,9 +33,11 @@ const News = () => {
     })
     dispatch(setQuery(''));
   };
+
+  
   return (
     <MainWrapper id='drawer-container'>
-         {location.pathname !== '/news/create' &&
+         {location.pathname !== '/news/create' && location.pathname !== '/news/detail' &&location.pathname !== '/news/repair' &&location.pathname !== '/news/showwaiting' &&location.pathname !== '/news/edit' &&
     <div>
       <WrapHeader>
         <LeftHeader>
