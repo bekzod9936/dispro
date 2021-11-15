@@ -11,7 +11,7 @@ export const formatPagination = ({
 }: Props) => {
   let start: number = 1;
   let end: number = 1;
-  if (page === 1) {
+  if (page === 1 && perPage <= total) {
     start = 1;
     end = total > perPage ? perPage : total;
   } else if (page * perPage > total) {

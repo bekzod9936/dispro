@@ -111,6 +111,9 @@ const AwardingSection = () => {
                   <ControlGrid container xs={12} sm={12} md={8} lg={8}>
                     <Controller
                       control={control}
+                      rules={{
+                        min: 1,
+                      }}
                       name="awardSizeFirst"
                       render={({ field }) => {
                         return (
@@ -118,6 +121,7 @@ const AwardingSection = () => {
                             field={field}
                             width={{ width: "100%" }}
                             label={t("awardSize")}
+                            maxLength={11}
                           />
                         );
                       }}
@@ -176,6 +180,7 @@ const AwardingSection = () => {
                               field={field}
                               label={t("awardSize")}
                               width={{ width: "100%" }}
+                              maxLength={11}
                             />
                           );
                         }}
@@ -191,6 +196,7 @@ const AwardingSection = () => {
                               field={field}
                               label={t("awardLimit")}
                               width={{ width: "100%" }}
+                              maxLength={11}
                             />
                           );
                         }}
@@ -257,6 +263,7 @@ const AwardingSection = () => {
                               <InputFormat
                                 field={field}
                                 label={t("awardSize")}
+                                maxLength={11}
                               />
                             );
                           }}
@@ -272,6 +279,7 @@ const AwardingSection = () => {
                               <InputFormat
                                 field={field}
                                 label={t("payfor")}
+                                maxLength={11}
                                 // aboveLabel="dayTillBirthday"
                               />
                             );
@@ -357,6 +365,7 @@ const AwardingSection = () => {
                               field={field}
                               width={{ width: "100%" }}
                               label={t("awardSize")}
+                              maxLength={11}
                             />
                           );
                         }}
@@ -372,6 +381,7 @@ const AwardingSection = () => {
                               field={field}
                               width={{ width: "100%" }}
                               label={t("ifMoreThan")}
+                              maxLength={11}
                             />
                           );
                         }}

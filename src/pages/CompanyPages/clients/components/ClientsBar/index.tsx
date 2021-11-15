@@ -111,8 +111,8 @@ export const ClientsBar = ({ refetch }: IProps) => {
                         name: client?.firstName + " " + client?.lastName,
                         prevStatus: client?.obtainProgramLoyalty?.levelName,
                         prevPercent: client?.obtainProgramLoyalty?.percent,
-                        value: client?.personalLoyaltyInfo?.percent,
-                        status: client?.addInfo?.status
+                        value: client?.personalLoyaltyInfo?.percent || client?.obtainProgramLoyalty.percent,
+                        status: client?.personalLoyaltyInfo?.percent ? client?.addInfo?.status : client?.obtainProgramLoyalty.levelName
                     }}
                     id={client?.id}
                     state={vipModalState}
@@ -207,6 +207,7 @@ export const ClientsBar = ({ refetch }: IProps) => {
                             <MToggle>
                                 <p>Индивидуальный статус</p>
                                 <CustomToggle
+                                    checked={vipModal}
                                     onChange={handleChangeStatus} />
                             </MToggle>
                         </Buttons>

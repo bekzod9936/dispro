@@ -5,6 +5,15 @@ import { RemoveFilterBtn } from "../components/Header/components/RemoveFilterBtn
 import { SelectedFilter } from "../components/Header/style"
 import dayjs from "dayjs";
 
+export interface ITableHelperItem {
+  date: string,
+  amount: number,
+  cashback: number,
+  discount: number,
+  name: string,
+  point: number,
+  status: number,
+}
 
 export const getSelected = (obj: any): any => {
   return Object.keys(obj).reduce((object: any, el: any) => {
@@ -105,12 +114,12 @@ export const useHandleGetFilters = ({ filters, handleRemove }: IProps) => {
       <SelectedFilter>
         {purchaseAmount?.purchaseCountFrom && (
           <p>
-            {t("from")}: {purchaseAmount?.purchaseCountFrom + " сум"}
+            Кол-во покупок: {t("from")}: {purchaseAmount?.purchaseCountFrom}
           </p>
         )}
         {purchaseAmount?.purchaseCountTo && (
           <p>
-            {t("to")}: {purchaseAmount?.purchaseCountTo + " сум"}
+            {!purchaseAmount?.purchaseCountFrom && "Кол-во покупок: "}{t("to")}: {purchaseAmount?.purchaseCountTo}
           </p>
         )}
         <RemoveFilterBtn onClick={() => handleRemove("purchaseAmount")} />
@@ -189,7 +198,7 @@ export const getClientStatistics = (data: any) => {
         return {
           icon: <RatingIcon />,
           heading: "Оплаченно баллами",
-          value: 250000
+          value: data[el]
         }
       }
     })
@@ -254,8 +263,43 @@ export const getFiltersForQuery = (filters: any) => {
 };
 
 
+export const tableDataHelper = (arr: ITableHelperItem[]) => {
+  return arr.map(el => ({
+    cashier: el.name,
+    date: dayjs(el.date).format("DD.MM.YYYY hh:mm"),
+    points: el.point,
+    type: "Оплата",
+    UZS: el.amount,
+    cashbackSum: el.cashback,
+    sale: el.discount,
+  }))
+}
 
 
 
+interface IPointHelperItem {
+  date: string,
+  amount: number,
+  type: number,
+  name?: string
+}
 
+const pointTypes: any = {
+  1: "Баллы за день рождения",
+  2: "Приветственные баллы",
+  3: "Баллы за покупки приглашенного клиента",
+  4: "VIP баллы",
+  7: "Баллы за покупки",
+  8: "Баллы вместо кешбэка",
+  9: "Баллы за приглашенного клиента",
+  10: "Использовано при покупки"
+}
 
+export const tablePointsHelper = (arr: IPointHelperItem[]) => {
+  return arr.map(el => ({
+    date: dayjs(el.date).format("DD.MM.YYYY hh:mm"),
+    type: pointTypes[el.type] || "",
+    referal: el.name || "",
+    points: el.amount
+  }))
+}

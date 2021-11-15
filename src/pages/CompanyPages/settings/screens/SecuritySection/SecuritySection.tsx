@@ -84,6 +84,7 @@ const SecuritySection = () => {
                       <InputFormat
                         field={field}
                         label={t("operations_per_day")}
+                        maxLength={11}
                       />
                     );
                   }}
@@ -149,6 +150,7 @@ const SecuritySection = () => {
                         }}
                         field={field}
                         label={t("enterSum")}
+                        maxLength={11}
                       />
                     );
                   }}

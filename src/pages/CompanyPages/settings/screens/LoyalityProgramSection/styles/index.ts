@@ -8,6 +8,7 @@ interface IProps {
 export const MainContainer = styled(Grid)`
   overflow-y: auto;
   overflow-x: hidden;
+  height: 100%;
   ::-webkit-scrollbar {
     width: 7px;
   }
