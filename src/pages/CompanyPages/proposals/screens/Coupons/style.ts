@@ -1,4 +1,3 @@
-import DatePicker from "react-multi-date-picker"
 import styled from "styled-components"
 import { device } from "styles/device"
 
@@ -105,7 +104,7 @@ export const UpSide = styled.div`
         border-radius: 14px 0px 0px 14px;
     }
     @media (max-width: ${device.mobile}) {
-      height: max-content;
+      height: 100%;
       width: 100%;
     }
 `

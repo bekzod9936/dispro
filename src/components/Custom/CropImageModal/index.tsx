@@ -1,6 +1,6 @@
 import React from "react";
 import Modal from "components/Custom/Modal";
-
+import iphone from "assets/images/iphone.png"
 import ReactCrop from "react-image-crop";
 import Button from "components/Custom/Button";
 import {
@@ -34,6 +34,7 @@ interface IProps {
   handleUpload?: any;
   setIsLoading?: (arg: boolean) => void;
   isCoupon?: boolean;
+  coupon?: boolean
 }
 const CropCustomModal = ({
   open,
@@ -43,6 +44,7 @@ const CropCustomModal = ({
   handleUpload,
   isCoupon,
   setIsLoading,
+  coupon
 }: IProps) => {
   const { logo, name } = useAppSelector(
     (state: RootState) => state.partner.companyInfo
@@ -73,6 +75,8 @@ const CropCustomModal = ({
         setIsLoading(true);
       }
       setIsCropVisible(false);
+      console.log(imageUrl);
+
       await handleUpload(imageUrl);
       if (setIsLoading) {
         setIsLoading(false);
@@ -134,15 +138,16 @@ const CropCustomModal = ({
                 />
               </div>
             </Right>
-            {isCoupon ? (
+            {coupon ? (
               <Left>
                 <h4>Превью купона в приложении</h4>
                 <PreviewDiv>
                   {imageUrl?.length > 6 && <PreviewBg src={imageUrl} alt="" />}
                   <img
+                    src={iphone}
                     style={{ zIndex: 20, position: "relative" }}
                     width="300"
-                    height="400"
+                    // height="400"
                     alt=""
                   />
                   <PreviewContent>

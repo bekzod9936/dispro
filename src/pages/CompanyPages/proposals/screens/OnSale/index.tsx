@@ -92,7 +92,7 @@ const OnSale = () => {
                     message={"По запросу ничего не найдено"}
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
-                    IconStart={<SearchIcon style={{ marginLeft: "35px" }} />}
+                    IconStart={<SearchIcon style={width > 600 ? { marginLeft: "35px" } : { marginLeft: "15px" }} />}
                     placeholder="Поиск..."
                     margin={{ laptop: "0 0 20px 0" }}
                     inputStyle={{ border: "none" }}

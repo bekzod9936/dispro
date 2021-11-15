@@ -67,7 +67,7 @@ const ReferalCard = ({
             item.number === 2
               ? "Петя"
               : item.number > 2
-              ? `${index - 1} ${t("people")}`
+              ? `${index} ${t("people")}`
               : null
           }
         />
