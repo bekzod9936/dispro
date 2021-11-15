@@ -1,6 +1,13 @@
 import styled from 'styled-components';
 import { device } from 'styles/device';
 import { ReactComponent as Delete } from 'assets/icons/IconsInfo/delete.svg';
+import { ReactComponent as Money } from 'assets/icons/StatistisPage/money.svg';
+import { ReactComponent as Cart } from 'assets/icons/StatistisPage/cart.svg';
+import { ReactComponent as Discount } from 'assets/icons/StatistisPage/discount.svg';
+import { ReactComponent as Pink } from 'assets/icons/StatistisPage/app.svg';
+import { ReactComponent as Spark } from 'assets/icons/StatistisPage/mobile.svg';
+import { ReactComponent as Green } from 'assets/icons/StatistisPage/green.svg';
+import { ReactComponent as Excel } from 'assets/icons/FinanceIcons/excel.svg';
 
 export const Container = styled.div`
   overflow: hidden;
@@ -8,6 +15,16 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   padding-right: 25px;
+`;
+
+export const ExcelIcon = styled(Excel)`
+  width: 18px;
+  height: 18px;
+`;
+
+export const CartIcon = styled(Cart)`
+  width: 20px;
+  height: 20px;
 `;
 
 export const DeleteIcon = styled(Delete)`
@@ -31,7 +48,7 @@ export const WrapInputs = styled.div`
   }
 `;
 
-export const Label = styled.label`
+export const Label1 = styled.label`
   font-weight: bold;
   font-size: 14px;
   color: #c7c7c7;
@@ -69,6 +86,7 @@ export const ButtonKeyWord = styled.div`
     font-weight: 300;
     font-size: 12px;
     color: #223367;
+    margin: 10px 0 0 0;
   }
   @media (min-width: ${device.laptop}) {
     height: 35px;
@@ -79,4 +97,24 @@ export const ButtonKeyWord = styled.div`
 export const WrapFilterValues = styled.div`
   display: flex;
   align-items: center;
+`;
+
+export const MoneyIcon = styled(Money)`
+  width: 17px;
+  height: 20px;
+`;
+
+export const DiscountIcon = styled(Discount)`
+  width: 20px;
+  height: 20px;
+`;
+
+export const PinkIcon = styled(Pink)``;
+export const SparkIcon = styled(Spark)``;
+export const GreenIcon = styled(Green)``;
+
+export const WrapSelectV = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  grid-gap: 10px;
 `;

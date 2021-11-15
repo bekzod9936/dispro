@@ -1,6 +1,7 @@
-import { useTranslation } from 'react-i18next';
 import { ReactComponent as LeftBack } from 'assets/icons/FinanceIcons/leftback.svg';
-import FullModal from '../FullModal';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { getRandomNumber } from 'services/utils';
+import FullModal from 'components/Custom/FullModal';
 import { useState } from 'react';
 import { IconButton } from '@material-ui/core';
 import {
@@ -18,6 +19,10 @@ import {
   BoxInfo,
   WrapMain,
   WrapIcon,
+  PinkIcon,
+  SparkIcon,
+  GreenIcon,
+  WrapAvatar,
 } from './style';
 
 interface Props {
@@ -25,23 +30,36 @@ interface Props {
     title?: any;
     info?: {
       title?: any;
-      icon?: any;
+      avatar?: any;
       value?: any;
       body?: { title?: any; value?: any }[];
     }[];
   };
   headertitle?: string;
+  isAvatar?: boolean;
 }
 
-const MobileTable = ({ data, headertitle }: Props) => {
-  const { t } = useTranslation();
-
+const MobileTable = ({ data, headertitle, isAvatar }: Props) => {
   const [open, setOpen] = useState(false);
   const [id, setId] = useState<any>(null);
+
+  const avatarrandom: any = () => {
+    const random = getRandomNumber({ min: 1, max: 3 });
+    return random === 1 ? (
+      <PinkIcon />
+    ) : random === 2 ? (
+      <SparkIcon />
+    ) : random === 3 ? (
+      <GreenIcon />
+    ) : (
+      <PinkIcon />
+    );
+  };
 
   return (
     <Container>
       {data?.info?.map((a: any, i: number) => {
+        const random = getRandomNumber({ min: 1, max: 3 });
         return (
           <>
             <Data
@@ -50,8 +68,29 @@ const MobileTable = ({ data, headertitle }: Props) => {
                 setId(i);
               }}
             >
-              {a?.icon ? <WrapIcon>{a?.icon}</WrapIcon> : null}
-              <WrapMain>
+              {isAvatar ? (
+                a.avatar ? (
+                  <WrapIcon>
+                    <LazyLoadImage
+                      alt='avatar'
+                      height='40px'
+                      src={a.avatar}
+                      width='40px'
+                      effect='blur'
+                      style={{ objectFit: 'cover', borderRadius: '14px' }}
+                    />
+                  </WrapIcon>
+                ) : random === 1 ? (
+                  <PinkIcon />
+                ) : random === 2 ? (
+                  <SparkIcon />
+                ) : random === 3 ? (
+                  <GreenIcon />
+                ) : (
+                  <PinkIcon />
+                )
+              ) : null}
+              <WrapMain isAvatar={isAvatar}>
                 <FullName>{a?.title}</FullName>
                 <Wrapper>
                   <Title>{data?.title}:</Title>
@@ -71,9 +110,44 @@ const MobileTable = ({ data, headertitle }: Props) => {
                     >
                       <LeftBack />
                     </IconButton>
-                    <span>{headertitle}</span>
+                    <WrapAvatar>
+                      {isAvatar ? (
+                        a.avatar ? (
+                          <>
+                            <WrapIcon>
+                              <LazyLoadImage
+                                alt='avatar'
+                                height='40px'
+                                src={a.avatar}
+                                width='40px'
+                                effect='blur'
+                                style={{
+                                  objectFit: 'cover',
+                                  borderRadius: '14px',
+                                }}
+                              />
+                            </WrapIcon>
+                            <span>{a?.title}</span>
+                          </>
+                        ) : (
+                          <>
+                            {random === 1 ? (
+                              <PinkIcon />
+                            ) : random === 2 ? (
+                              <SparkIcon />
+                            ) : random === 3 ? (
+                              <GreenIcon />
+                            ) : (
+                              <PinkIcon />
+                            )}
+                            <span>{a?.title}</span>
+                          </>
+                        )
+                      ) : (
+                        <span>{headertitle}</span>
+                      )}
+                    </WrapAvatar>
                   </Header>
-
                   <WrapBox>
                     {a.body?.map((v: any) => {
                       return (

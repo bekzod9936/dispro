@@ -6,9 +6,9 @@ import {
   WrapText,
   ResetIcon,
   WrapButton,
+  DateIcon,
 } from './style';
 import Button from 'components/Custom/Button';
-import { ReactComponent as Date } from 'assets/icons/date.svg';
 import { useTranslation } from 'react-i18next';
 import { IconButton } from '@material-ui/core';
 import useWindowWidth from 'services/hooks/useWindowWidth';
@@ -56,13 +56,16 @@ const DatePicker = ({
     <Container>
       <WrapButton margin={margin}>
         <Button
-          startIcon={<Date />}
-          endIcon={<DownIcon />}
+          startIcon={<DateIcon />}
+          endIcon={width > 600 ? <DownIcon /> : null}
           onClick={() => datePickerRef.current.openCalendar()}
           buttonStyle={{
             bgcolor: 'white',
             shadow: '0px 4px 4px rgba(0, 0, 0, 0.04)',
             color: '#223367',
+            height: {
+              mobile: 36,
+            },
           }}
         >
           <WrapText>

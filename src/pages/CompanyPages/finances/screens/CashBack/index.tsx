@@ -62,17 +62,82 @@ const Payment = () => {
     filterValues: filterValues,
   });
 
-  const list = data?.map((v: any) => {
+  const listdesktop = data?.map((v: any) => {
     const date1 = dayjs(v.date).format('DD.MM.YYYY');
     const date2 = dayjs(v.activateDate).format('DD.MM.YYYY');
     return {
       col1: v.operationType,
       col2: v.clientName ? v.clientName : '-',
-      col3: v.amount,
-      col4: Math.round((v.amount / 100) * 100) / 100,
+      col3: numberWithNew({ number: v.amount }),
+      col4: numberWithNew({ number: Math.round((v.amount / 100) * 100) / 100 }),
       col5: date1,
       col6: date2,
       col7: v.status,
+    };
+  });
+
+  const listmobile = data.map((v: any) => {
+    const date1 = dayjs(v.date).format('DD.MM.YYYY');
+    const date2 = dayjs(v.activateDate).format('DD.MM.YYYY');
+    return {
+      title:
+        v.operationType === 'cashback_account_top_up'
+          ? t('depositcashbek')
+          : v.operationType === 'cashback_in'
+          ? t('cashbackaccrual')
+          : '-',
+      value: numberWithNew({ number: v?.amount }),
+      icon: (
+        <WrapIcon>
+          {v.operationType === 'cashback_account_top_up' ? (
+            <WalletIcon />
+          ) : v.operationType === 'cashback_in' ? (
+            <CashBackIcon />
+          ) : null}
+        </WrapIcon>
+      ),
+      body: [
+        {
+          title: t('typeoftransaction'),
+          value:
+            v.operationType === 'cashback_account_top_up'
+              ? t('depositcashbek')
+              : v.operationType === 'cashback_in'
+              ? t('cashbackaccrual')
+              : '-',
+        },
+        {
+          title: t('customer'),
+          value: v.clientName ? v.clientName : '-',
+        },
+        {
+          title: t('cashbackUZS'),
+          value: numberWithNew({ number: v?.amount }),
+        },
+        {
+          title: t('commission/top-upamount'),
+          value: numberWithNew({
+            number: Math.round((v.amount / 100) * 100) / 100,
+          }),
+        },
+        {
+          title: t('purchasedate'),
+          value: date1,
+        },
+        {
+          title: t('dateofaccrual'),
+          value: date2,
+        },
+        {
+          title: t('status'),
+          value:
+            v.status === 'success'
+              ? t('accrued')
+              : v.status === 'pending'
+              ? t('pending')
+              : t('canceled'),
+        },
+      ],
     };
   });
 
@@ -147,7 +212,7 @@ const Payment = () => {
           {header.map((v: any) => {
             return (
               <WrapTotalSum>
-                <Label>{v.title || ''}</Label>
+                <Label>{v.title}</Label>
                 <TotalSum>
                   {numberWithNew({
                     number: +v.value,
@@ -195,97 +260,35 @@ const Payment = () => {
         {response.isLoading || response.isFetching ? (
           <Spinner />
         ) : width > 600 ? (
-          <Table columns={columns} data={list} />
+          <Table columns={columns} data={listdesktop} />
         ) : (
           <MobileTable
             data={{
               title: t('amountofpurchase'),
-              info: data.map((v: any) => {
-                const date1 = dayjs(v.date).format('DD.MM.YYYY');
-                const date2 = dayjs(v.activateDate).format('DD.MM.YYYY');
-                return {
-                  title:
-                    v.operationType === 'cashback_account_top_up'
-                      ? t('depositcashbek')
-                      : v.operationType === 'cashback_in'
-                      ? t('cashbackaccrual')
-                      : '-',
-                  value: numberWithNew({ number: v?.amount }),
-                  icon: (
-                    <WrapIcon>
-                      {v.operationType === 'cashback_account_top_up' ? (
-                        <WalletIcon />
-                      ) : v.operationType === 'cashback_in' ? (
-                        <CashBackIcon />
-                      ) : null}
-                    </WrapIcon>
-                  ),
-                  body: [
-                    {
-                      title: t('typeoftransaction'),
-                      value:
-                        v.operationType === 'cashback_account_top_up'
-                          ? t('depositcashbek')
-                          : v.operationType === 'cashback_in'
-                          ? t('cashbackaccrual')
-                          : '-',
-                    },
-                    {
-                      title: t('customer'),
-                      value: v.clientName ? v.clientName : '-',
-                    },
-                    {
-                      title: t('cashbackUZS'),
-                      value: numberWithNew({ number: v?.amount }),
-                    },
-                    {
-                      title: t('commission/top-upamount'),
-                      value: Math.round((v.amount / 100) * 100) / 100,
-                    },
-                    {
-                      title: t('purchasedate'),
-                      value: date1,
-                    },
-                    {
-                      title: t('dateofaccrual'),
-                      value: date2,
-                    },
-                    {
-                      title: t('status'),
-                      value:
-                        v.status === 'success'
-                          ? t('accrued')
-                          : v.status === 'pending'
-                          ? t('pending')
-                          : t('canceled'),
-                    },
-                  ],
-                };
-              }),
+              info: listmobile,
             }}
             headertitle={t('cashbackSum')}
           />
         )}
-        {list.length > 0 ? (
-          <WrapPag>
-            <Info>
-              {t('shown')}
-              <span>{between}</span>
-              {t('from1')} <span>{total.pages}</span>
-              {countPagination({
-                count: Number(total.count),
-                firstWord: t('operations1'),
-                secondWord: t('operations23'),
-              })}
-            </Info>
-            <Pagination
-              page={filterValues.page}
-              count={total.count}
-              onChange={handlechangePage}
-              disabled={response.isLoading || response.isFetching}
-            />
-          </WrapPag>
-        ) : null}
+        <WrapPag>
+          <Info>
+            {t('shown')}
+            <span>{between}</span>
+            {t('from1')} <span>{total.pages}</span>
+            {countPagination({
+              count: Number(total.count),
+              firstWord: t('operations1'),
+              secondWord: t('operations23'),
+            })}
+          </Info>
+          <Pagination
+            page={filterValues.page}
+            count={total.count}
+            onChange={handlechangePage}
+            disabled={response.isLoading || response.isFetching}
+            siblingCount={0}
+          />
+        </WrapPag>
       </Container>
     </>
   );

@@ -15,7 +15,7 @@ import useLayout from '../useLayout';
 import { setInfoData, initialState } from 'services/redux/Slices/info/info';
 import useSocket from './useSocket';
 import useWindowWidth from 'services/hooks/useWindowWidth';
-import FullModal from 'pages/CompanyPages/info/components/FullModal';
+import FullModal from 'components/Custom/FullModal';
 import { numberWithNew } from 'services/utils';
 import {
   Container,

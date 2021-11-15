@@ -65,7 +65,7 @@ export const Link = styled(NavLink)`
   margin: 0 0 10px;
   @media (max-width: ${device.mobile}) {
     font-size: 14px;
-    padding: 10px 15px;
+    padding: 8px 15px;
     border-radius: 12px;
     background: rgba(96, 110, 234, 0.1);
   }

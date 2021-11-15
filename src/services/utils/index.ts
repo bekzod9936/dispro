@@ -152,3 +152,12 @@ export const countPagination = ({ count, firstWord, secondWord }: PagProps) => {
     return firstWord;
   }
 };
+
+interface RProps {
+  min?: number;
+  max?: number;
+}
+
+export function getRandomNumber({ min, max }: RProps) {
+  return Math.floor(Math.random() * (Number(max) - Number(min))) + Number(min);
+}

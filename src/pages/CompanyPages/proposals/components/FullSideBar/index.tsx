@@ -2,7 +2,7 @@ import { IconButton } from '@material-ui/core';
 import { DeleteIcon, MobileCancelIcon, MobileGoBackIcon, PenIcon, PublishIcon, ReUseIcon } from 'assets/icons/proposals/ProposalsIcons'
 import Button from 'components/Custom/Button';
 import Modal from 'components/Custom/Modal';
-import FullModal from 'components/Layout/Header/FullModal';
+import FullModal from 'components/Custom/FullModal';
 import { useState } from "react"
 import { useTranslation } from 'react-i18next';
 import { useMutation } from 'react-query';

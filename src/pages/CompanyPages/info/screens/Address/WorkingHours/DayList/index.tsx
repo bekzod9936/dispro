@@ -7,7 +7,7 @@ import Popover from 'components/Custom/Popover';
 import Input from 'components/Custom/Input';
 import Button from 'components/Custom/Button';
 import useWindowWidth from 'services/hooks/useWindowWidth';
-import FullModal from '../../../../components/FullModal';
+import FullModal from 'components/Custom/FullModal';
 import { IconButton } from '@material-ui/core';
 import Tabs from '../../../../components/Tabs';
 import {

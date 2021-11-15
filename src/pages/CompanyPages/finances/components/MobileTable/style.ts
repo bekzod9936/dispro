@@ -1,4 +1,7 @@
 import styled from 'styled-components';
+import { ReactComponent as Pink } from 'assets/icons/StatistisPage/app.svg';
+import { ReactComponent as Spark } from 'assets/icons/StatistisPage/mobile.svg';
+import { ReactComponent as Green } from 'assets/icons/StatistisPage/green.svg';
 
 export const Container = styled.div`
   background: #ffffff;
@@ -13,6 +16,10 @@ export const Container = styled.div`
     background-color: white;
   }
 `;
+
+export const PinkIcon = styled(Pink)``;
+export const SparkIcon = styled(Spark)``;
+export const GreenIcon = styled(Green)``;
 
 export const Data = styled.div`
   padding: 10px 20px;
@@ -48,7 +55,7 @@ export const Header = styled.header`
   display: flex;
   align-items: center;
   margin-left: -10px;
-  grid-gap: 10px;
+  grid-gap: 15px;
   & > span {
     font-weight: 500;
     font-size: 16px;
@@ -80,10 +87,29 @@ export const BoxInfo = styled.div`
   color: #223367;
 `;
 
+interface MProps {
+  isAvatar?: boolean;
+}
+
 export const WrapMain = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-left: ${({ isAvatar }: MProps) => (isAvatar ? '15px' : '0')};
 `;
 
-export const WrapIcon = styled.div``;
+export const WrapIcon = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+export const WrapAvatar = styled.div`
+  display: flex;
+  align-items: center;
+  grid-gap: 15px;
+  & > span {
+    font-weight: 500;
+    font-size: 16px;
+    color: #223367;
+  }
+`;

@@ -13,7 +13,7 @@ export const formatPagination = ({
   let end: number = 1;
   if (page === 1) {
     start = 1;
-    end = perPage;
+    end = total > perPage ? perPage : total;
   } else if (page * perPage > total) {
     start = (page - 1) * perPage + 1;
     end = total;

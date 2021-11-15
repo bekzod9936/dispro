@@ -5,7 +5,12 @@ import { ReactComponent as Reset } from 'assets/icons/StatistisPage/reset.svg';
 import { ReactComponent as Tick } from 'assets/icons/tick.svg';
 import { ReactComponent as Close } from 'assets/icons/IconsInfo/close.svg';
 
-export const FilterIcon = styled(Filter)``;
+export const FilterIcon = styled(Filter)`
+  @media (max-width: ${device.mobile}) {
+    width: 16px;
+    height: 16px;
+  }
+`;
 
 export const ResetIcon = styled(Reset)`
   @media (max-width: ${device.mobile}) {
