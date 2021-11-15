@@ -14,6 +14,7 @@ export const GridContainer = styled.div`
 
   @media (max-width: ${device.planshet}) {
     grid-template-columns: 1fr;
+    overflow-y: auto;
   }
 `;
 
@@ -38,6 +39,8 @@ export const RightGrid = styled.div`
     padding-left: 15px !important;
     padding-right: 15px;
     width: 100%;
+    overflow-y: scroll !important;
+    margin-top: 15px;
   }
 `;
 

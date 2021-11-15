@@ -1,4 +1,3 @@
-import { useRef, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Controller, useFieldArray } from "react-hook-form";
 
@@ -59,7 +58,6 @@ import useWindowWidth from "services/hooks/useWindowWidth";
 import ReferalCard from "./components/ReferalCard";
 
 const ReferalProgrammSection = () => {
-  const referalRef = useRef<null | HTMLDivElement>(null);
   const { t } = useTranslation();
   const { width } = useWindowWidth();
   const {
@@ -75,18 +73,9 @@ const ReferalProgrammSection = () => {
     setErrorRef,
     setValue,
     levelsRef,
+    referalRef,
+    handleClick,
   } = useReferalData();
-
-  const handleClick = useCallback(() => {
-    const currentRef = referalRef.current;
-    if (currentRef) {
-      if (currentRef.style.visibility === "visible") {
-        currentRef.style.visibility = "hidden";
-      } else {
-        currentRef.style.visibility = "visible";
-      }
-    }
-  }, []);
 
   //form field array
   const { fields, append, remove } = useFieldArray({
@@ -242,54 +231,56 @@ const ReferalProgrammSection = () => {
   const mobileContent = () => {
     if (width <= 1000) {
       return (
-        <ReferalDiv ref={referalRef}>
-          <ReferalHeader>
-            <IconButton onClick={handleClick}>
-              <ArrowBack />
-            </IconButton>
-            <HBreak width={15} />
-            <Htext>Настройка реферальной программы</Htext>
-          </ReferalHeader>
-          <ReferalBody>
-            <ReferalWrapper>
-              <Wrapper>
-                {fields?.map((item: any, index: number) => {
-                  return (
-                    <ReferalCard
-                      item={item}
-                      errors={errors}
-                      control={control}
-                      fields={fields}
-                      index={index}
-                      removeCol={() => removeCard(index)}
-                      key={index}
-                    />
-                  );
-                })}
-              </Wrapper>
-              <Button
-                onClick={() => {
-                  append({
-                    name: `${fields.length + 1}`,
-                    number: fields.length + 1,
-                    percent: 0,
-                  });
-                }}
-                buttonStyle={{
-                  bgcolor: "transparent",
-                  color: "#3492FF",
-                }}
-              >
-                Добавить уровень +
-              </Button>
+        <Form onSubmit={handleSubmit(handleSave)}>
+          <ReferalDiv ref={referalRef}>
+            <ReferalHeader>
+              <IconButton onClick={handleClick}>
+                <ArrowBack />
+              </IconButton>
+              <HBreak width={15} />
+              <Htext>Настройка реферальной программы</Htext>
+            </ReferalHeader>
+            <ReferalBody>
+              <ReferalWrapper>
+                <Wrapper>
+                  {fields?.map((item: any, index: number) => {
+                    return (
+                      <ReferalCard
+                        item={item}
+                        errors={errors}
+                        control={control}
+                        fields={fields}
+                        index={index}
+                        removeCol={() => removeCard(index)}
+                        key={index}
+                      />
+                    );
+                  })}
+                </Wrapper>
+                <Button
+                  onClick={() => {
+                    append({
+                      name: `${fields.length + 1}`,
+                      number: fields.length + 1,
+                      percent: 0,
+                    });
+                  }}
+                  buttonStyle={{
+                    bgcolor: "transparent",
+                    color: "#3492FF",
+                  }}
+                >
+                  Добавить уровень +
+                </Button>
 
-              <ActionDiv>
-                <CancelButton onClick={handleClick} text={t("cancel")} />
-                <SaveButton type="submit" text={t("save")} />
-              </ActionDiv>
-            </ReferalWrapper>
-          </ReferalBody>
-        </ReferalDiv>
+                <ActionDiv>
+                  <CancelButton onClick={handleClick} text={t("cancel")} />
+                  <SaveButton type="submit" text={t("save")} />
+                </ActionDiv>
+              </ReferalWrapper>
+            </ReferalBody>
+          </ReferalDiv>
+        </Form>
       );
     } else {
       return null;

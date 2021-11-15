@@ -1,6 +1,6 @@
-import { forwardRef } from 'react';
-import Slide from '@material-ui/core/Slide';
-import { MDialog } from './style';
+import { forwardRef } from "react";
+import Slide from "@material-ui/core/Slide";
+import { MDialog } from "./style";
 
 interface Props {
   children?: any;
@@ -8,7 +8,7 @@ interface Props {
 }
 
 const Transition: any = forwardRef(function Transition(props: any, ref: any) {
-  return <Slide direction='left' ref={ref} {...props} />;
+  return <Slide direction="left" ref={ref} {...props} />;
 });
 
 const FullModal = ({ children, open = false }: Props) => {
