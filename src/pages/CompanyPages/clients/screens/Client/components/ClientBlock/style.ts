@@ -35,7 +35,7 @@ export const UpSide = styled.div`
             width: 100px;
             height: 100px;
             border-radius: 14px;
-
+            object-fit: cover;
         }
         .blocked {
             position: absolute;

@@ -26,7 +26,9 @@ const Points = () => {
         retry: 0,
         refetchOnWindowFocus: false,
         onSuccess: (data) => {
-            setPoints(tablePointsHelper(data.data.data))
+            setPoints(tablePointsHelper(data.data.data.clientCardPoints))
+            let res = Math.ceil(data.data.data.totalCount / 10);
+            setTotalCount(res)
         }
     })
 
