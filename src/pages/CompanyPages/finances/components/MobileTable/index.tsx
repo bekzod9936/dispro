@@ -16,6 +16,8 @@ import {
   Box,
   BoxTitle,
   BoxInfo,
+  WrapMain,
+  WrapIcon,
 } from './style';
 
 interface Props {
@@ -23,6 +25,7 @@ interface Props {
     title?: any;
     info?: {
       title?: any;
+      icon?: any;
       value?: any;
       body?: { title?: any; value?: any }[];
     }[];
@@ -46,11 +49,14 @@ const MobileTable = ({ data }: Props) => {
                 setId(i);
               }}
             >
-              <FullName>{a?.title}</FullName>
-              <Wrapper>
-                <Title>{data?.title}:</Title>
-                <Amount>{a?.value}</Amount>
-              </Wrapper>
+              {a?.icon ? <WrapIcon>{a?.icon}</WrapIcon> : null}
+              <WrapMain>
+                <FullName>{a?.title}</FullName>
+                <Wrapper>
+                  <Title>{data?.title}:</Title>
+                  <Amount>{a?.value}</Amount>
+                </Wrapper>
+              </WrapMain>
             </Data>
             {id === i ? (
               <FullModal open={open}>

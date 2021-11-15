@@ -1,24 +1,22 @@
-import { useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import useHistory from "./hook/useHistory";
-import Spinner from "components/Custom/Spinner";
-import Pagination from "components/Custom/Pagination";
-import Table from "../../components/Table";
-import { Tr, Th } from "../../components/Table/style";
-import Filter from "components/Custom/Filter/index";
-import dayjs from "dayjs";
-import Input from "components/Custom/Input";
-import MultiSelect from "components/Custom/MultiSelect";
-import { ReactComponent as ExcelIcon } from "assets/icons/FinanceIcons/excel.svg";
-import useExcel from "./hook/useExcel";
-import Button from "components/Custom/Button";
-import { useAppSelector } from "services/redux/hooks";
-import { IconButton } from "@material-ui/core";
-import { countPagination } from "services/utils";
+import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import useHistory from './hook/useHistory';
+import Spinner from 'components/Custom/Spinner';
+import Pagination from 'components/Custom/Pagination';
+import Table from '../../components/Table';
+import { Tr, Th } from '../../components/Table/style';
+import Filter from 'components/Custom/Filter/index';
+import dayjs from 'dayjs';
+import Input from 'components/Custom/Input';
+import MultiSelect from 'components/Custom/MultiSelect';
+import { ReactComponent as ExcelIcon } from 'assets/icons/FinanceIcons/excel.svg';
+import useExcel from './hook/useExcel';
+import Button from 'components/Custom/Button';
+import { useAppSelector } from 'services/redux/hooks';
+import { IconButton } from '@material-ui/core';
+import { countPagination } from 'services/utils';
 import {
   Container,
-  WrapPag,
-  Info,
   WrapFilter,
   WrapInputs,
   Label,
@@ -26,8 +24,8 @@ import {
   ButtonKeyWord,
   DeleteIcon,
   WrapFilterValues,
-} from "./style";
-
+} from './style';
+import { WrapPag, Info } from '../../style';
 interface intialFilterProps {
   page?: number;
   perPage?: number;
@@ -59,20 +57,20 @@ const Payment = () => {
   );
 
   const intialFilter = {
-    startDate: dayjs().startOf("month").format("YYYY-MM-DD"),
-    endDate: dayjs().endOf("month").format("YYYY-MM-DD"),
+    startDate: dayjs().startOf('month').format('YYYY-MM-DD'),
+    endDate: dayjs().endOf('month').format('YYYY-MM-DD'),
     cashierStaffId: 0,
     page: 1,
     perPage: 5,
   };
 
   const intialDate = {
-    startDate: dayjs().startOf("month").format("YYYY-MM-DD"),
-    endDate: dayjs().endOf("month").format("YYYY-MM-DD"),
+    startDate: dayjs().startOf('month').format('YYYY-MM-DD'),
+    endDate: dayjs().endOf('month').format('YYYY-MM-DD'),
   };
 
   const [date, setDate] = useState(intialDate);
-  const [dateLimit, setDateLimit] = useState({ startDate: "", endDate: "" });
+  const [dateLimit, setDateLimit] = useState({ startDate: '', endDate: '' });
   const [filterValues, setFilterValues] =
     useState<intialFilterProps>(intialFilter);
   const [cashierStaffId, setCashierStaffId] = useState<CashProp>();
@@ -83,10 +81,10 @@ const Payment = () => {
 
   const { resExcel } = useExcel();
   const list = data?.map((v: any) => {
-    const date = dayjs(v.chequeDate).format("DD.MM.YYYY");
-    const time = dayjs(v.chequeDate).format("HH:mm:ss");
+    const date = dayjs(v.chequeDate).format('DD.MM.YYYY');
+    const time = dayjs(v.chequeDate).format('HH:mm:ss');
     return {
-      col1: v.cashierName === "No cashier name" ? t("p2p") : v.cashierName,
+      col1: v.cashierName === 'No cashier name' ? t('p2p') : v.cashierName,
       col2: date,
       col3: time,
       col4: v.payInfo.amountTotal,
@@ -96,59 +94,59 @@ const Payment = () => {
       col8:
         v.payInfo.isDiscount || v.payInfo.isCashback || v.payInfo.isPoints
           ? v.payInfo.value
-          : "-",
+          : '-',
       col9:
-        v.payInfo.isCoupon && v.payInfo.valueType === "percent"
+        v.payInfo.isCoupon && v.payInfo.valueType === 'percent'
           ? v.payInfo.value
-          : "-",
+          : '-',
       col10:
-        v.payInfo.isCoupon && v.payInfo.valueType === "amount"
+        v.payInfo.isCoupon && v.payInfo.valueType === 'amount'
           ? v.payInfo.value
-          : "-",
+          : '-',
     };
   });
 
   const columns: any = useMemo(
     () => [
       {
-        Header: t("cashier"),
-        accessor: "col1",
+        Header: t('cashier'),
+        accessor: 'col1',
       },
       {
-        Header: t("transactiondate"),
-        accessor: "col2",
+        Header: t('transactiondate'),
+        accessor: 'col2',
       },
       {
-        Header: t("transactiontime"),
-        accessor: "col3",
+        Header: t('transactiontime'),
+        accessor: 'col3',
       },
       {
-        Header: t("totalsum"),
-        accessor: "col4",
+        Header: t('totalsum'),
+        accessor: 'col4',
       },
       {
-        Header: t("discountSum"),
-        accessor: "col5",
+        Header: t('discountSum'),
+        accessor: 'col5',
       },
       {
-        Header: t("paid"),
-        accessor: "col6",
+        Header: t('paid'),
+        accessor: 'col6',
       },
       {
-        Header: t("customer"),
-        accessor: "col7",
+        Header: t('customer'),
+        accessor: 'col7',
       },
       {
-        Header: t("loyaltypercentage"),
-        accessor: "col8",
+        Header: t('loyaltypercentage'),
+        accessor: 'col8',
       },
       {
-        Header: t("coupon"),
-        accessor: "col9",
+        Header: t('coupon'),
+        accessor: 'col9',
       },
       {
-        Header: t("certificate"),
-        accessor: "col10",
+        Header: t('certificate'),
+        accessor: 'col10',
       },
     ],
     []
@@ -156,12 +154,12 @@ const Payment = () => {
 
   const header2 = (
     <Tr>
-      <Th style={{ textAlign: "center" }} colSpan={3}>
-        {t("total")}
+      <Th style={{ textAlign: 'center' }} colSpan={3}>
+        {t('total')}
       </Th>
-      <Th style={{ textAlign: "center" }}>{sum.total}</Th>
-      <Th style={{ textAlign: "center" }}>{sum.minus}</Th>
-      <Th style={{ textAlign: "center" }}>{sum.paid}</Th>
+      <Th style={{ textAlign: 'center' }}>{sum.total}</Th>
+      <Th style={{ textAlign: 'center' }}>{sum.minus}</Th>
+      <Th style={{ textAlign: 'center' }}>{sum.paid}</Th>
     </Tr>
   );
 
@@ -172,31 +170,31 @@ const Payment = () => {
 
   const filterList = [
     {
-      title: t("byDate"),
+      title: t('byDate'),
       content: (
         <WrapInputs>
-          <Label>{t("chose_date")}</Label>
+          <Label>{t('chose_date')}</Label>
           <div>
             <Input
-              type="date"
+              type='date'
               width={{
                 maxwidth: 200,
               }}
               max={dateLimit.endDate}
-              IconStart={<WrapDate>{t("from")}</WrapDate>}
+              IconStart={<WrapDate>{t('from')}</WrapDate>}
               inputStyle={{
-                inpadding: "0 10px 0 0",
+                inpadding: '0 10px 0 0',
               }}
               value={date.startDate}
               onChange={(e: any) => {
                 const d = new Date(e.target.value);
                 const isafter = dayjs(d).isAfter(dayjs(date.endDate));
                 if (isafter) {
-                  const a: any = dayjs(e.target.value, "YYYY-MM-DD").add(
+                  const a: any = dayjs(e.target.value, 'YYYY-MM-DD').add(
                     1,
-                    "days"
+                    'days'
                   );
-                  let b: any = dayjs(a._d).format("YYYY-MM-DD");
+                  let b: any = dayjs(a._d).format('YYYY-MM-DD');
                   setDate({
                     endDate: b,
                     startDate: e.target.value,
@@ -209,14 +207,14 @@ const Payment = () => {
               }}
             />
             <Input
-              type="date"
+              type='date'
               width={{
                 maxwidth: 200,
               }}
-              margin={{ laptop: "0 0 0 15px" }}
-              IconStart={<WrapDate>{t("to")}</WrapDate>}
+              margin={{ laptop: '0 0 0 15px' }}
+              IconStart={<WrapDate>{t('to')}</WrapDate>}
               inputStyle={{
-                inpadding: "0 10px 0 0",
+                inpadding: '0 10px 0 0',
               }}
               min={dateLimit.startDate}
               value={date.endDate}
@@ -224,11 +222,11 @@ const Payment = () => {
                 const d = new Date(e.target.value);
                 const isafter = dayjs(d).isBefore(dayjs(date.startDate));
                 if (isafter) {
-                  const a: any = dayjs(e.target.value, "YYYY-MM-DD").add(
+                  const a: any = dayjs(e.target.value, 'YYYY-MM-DD').add(
                     -1,
-                    "days"
+                    'days'
                   );
-                  let b: any = dayjs(a._d).format("YYYY-MM-DD");
+                  let b: any = dayjs(a._d).format('YYYY-MM-DD');
                   setDate({
                     startDate: b,
                     endDate: e.target.value,
@@ -244,12 +242,12 @@ const Payment = () => {
       ),
     },
     {
-      title: t("bycashier"),
+      title: t('bycashier'),
       content: (
         <MultiSelect
-          label={t("chose_cashier")}
+          label={t('chose_cashier')}
           options={cashier}
-          placeholder={t("cashiernotselected")}
+          placeholder={t('cashiernotselected')}
           onChange={(e: any) => setCashierStaffId(e)}
           value={cashierStaffId}
         />
@@ -257,7 +255,7 @@ const Payment = () => {
     },
   ];
 
-  const handleFilterSubmit = async ({ startDate = "", endDate = "" }) => {
+  const handleFilterSubmit = async ({ startDate = '', endDate = '' }) => {
     await setFilterValues({
       ...filterValues,
       cashierStaffId: cashierStaffId?.value,
@@ -272,7 +270,7 @@ const Payment = () => {
     await setFilterValues(intialFilter);
     await setDate(intialDate);
     await setCashierStaffId({});
-    await setDateLimit({ startDate: "", endDate: "" });
+    await setDateLimit({ startDate: '', endDate: '' });
     await response.refetch();
   };
 
@@ -295,22 +293,22 @@ const Payment = () => {
             list={filterList}
           />
 
-          {dateLimit?.startDate !== "" && dateLimit?.endDate !== "" ? (
+          {dateLimit?.startDate !== '' && dateLimit?.endDate !== '' ? (
             <ButtonKeyWord
               onClick={async () => {
                 await setFilterValues({
                   ...filterValues,
-                  endDate: "",
-                  startDate: "",
+                  endDate: '',
+                  startDate: '',
                 });
                 await setDate(intialDate);
-                await setDateLimit({ startDate: "", endDate: "" });
+                await setDateLimit({ startDate: '', endDate: '' });
                 await response.refetch();
               }}
             >
-              {`${dayjs(dateLimit?.startDate).format("DD MMMM")}-${dayjs(
+              {`${dayjs(dateLimit?.startDate).format('DD MMMM')}-${dayjs(
                 dateLimit?.endDate
-              ).format("DD MMMM, YYYY")}`}
+              ).format('DD MMMM, YYYY')}`}
               <IconButton>
                 <DeleteIcon />
               </IconButton>
@@ -338,10 +336,10 @@ const Payment = () => {
         <Button
           onClick={handleClick}
           startIcon={<ExcelIcon />}
-          buttonStyle={{ bgcolor: "#45A13B" }}
+          buttonStyle={{ bgcolor: '#45A13B' }}
           disabled={resExcel.isLoading}
         >
-          {t("exportexcel")}
+          {t('exportexcel')}
         </Button>
       </WrapFilter>
 
@@ -353,13 +351,13 @@ const Payment = () => {
       {list.length > 0 ? (
         <WrapPag>
           <Info>
-            {t("shown")}
+            {t('shown')}
             <span>{between}</span>
-            {t("from1")} <span>{totalCount}</span>
+            {t('from1')} <span>{totalCount}</span>
             {countPagination({
               count: totalCount,
-              firstWord: t("page1"),
-              secondWord: t("page23"),
+              firstWord: t('page1'),
+              secondWord: t('page23'),
             })}
           </Info>
           <Pagination

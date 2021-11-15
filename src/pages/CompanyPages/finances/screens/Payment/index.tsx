@@ -5,19 +5,23 @@ import Spinner from 'components/Custom/Spinner';
 import Pagination from 'components/Custom/Pagination';
 import Table from '../../components/Table';
 import dayjs from 'dayjs';
-import { Container, WrapPag, Info } from './style';
 import DatePcker from 'components/Custom/DatePicker';
 import { countPagination, numberWithNew } from 'services/utils';
+import { useAppSelector } from 'services/redux/hooks';
+import useWindowWidth from 'services/hooks/useWindowWidth';
+import MobileTable from '../../components/MobileTable';
+import { Container, MoneyIcon, DiscountIcon } from './style';
 import {
   Label,
   RightHeader,
   TotalSum,
   WrapTotal,
   WrapTotalSum,
+  WrapPag,
+  Info,
+  WrapSum,
 } from '../../style';
-import { useAppSelector } from 'services/redux/hooks';
-import useWindowWidth from 'services/hooks/useWindowWidth';
-import MobileTable from '../../components/MobileTable';
+
 interface intialFilterProps {
   page?: number;
   perPage?: number;
@@ -119,7 +123,6 @@ const Payment = () => {
           })}
         </WrapTotal>
       </RightHeader>
-
       <Container>
         <DatePcker
           onChange={async (e: any) => {
@@ -131,7 +134,21 @@ const Payment = () => {
             await response.refetch();
           }}
         />
-
+        <WrapTotal>
+          {header.map((v: any, i: number) => {
+            return (
+              <WrapTotalSum>
+                {i === 0 ? <MoneyIcon /> : i === 1 ? <DiscountIcon /> : null}
+                <WrapSum>
+                  <Label>{v.title || ''}</Label>
+                  <TotalSum>
+                    {numberWithNew({ number: +v.value, defaultValue: 0 })}
+                  </TotalSum>
+                </WrapSum>
+              </WrapTotalSum>
+            );
+          })}
+        </WrapTotal>
         {response.isLoading || response.isFetching ? (
           <Spinner />
         ) : width > 600 ? (

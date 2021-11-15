@@ -1,15 +1,15 @@
-import Title from "components/Custom/Title";
-import { useTranslation } from "react-i18next";
-import Pagination from "components/Custom/Pagination";
-import { useState } from "react";
-import useNotefications from "./useNotefications";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import Button from "components/Custom/Button";
-import Spinner from "components/Custom/Spinner";
-import { ReactComponent as MessageIcon } from "assets/icons/message.svg";
-import dayjs from "dayjs";
-import notification from "assets/images/notification.png";
-import notificationDef from "assets/images/notificationDefault.png";
+import Title from 'components/Custom/Title';
+import { useTranslation } from 'react-i18next';
+import Pagination from 'components/Custom/Pagination';
+import { useState } from 'react';
+import useNotefications from './useNotefications';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import Button from 'components/Custom/Button';
+import Spinner from 'components/Custom/Spinner';
+import { ReactComponent as MessageIcon } from 'assets/icons/message.svg';
+import dayjs from 'dayjs';
+import notification from 'assets/images/notification.png';
+import notificationDef from 'assets/images/notificationDefault.png';
 import {
   Container,
   Card,
@@ -32,11 +32,11 @@ import {
   WrapIcon,
   WrapInfoBox,
   WrapDefault,
-} from "./style";
-import { useHistory } from "react-router";
-import useWindowWidth from "services/hooks/useWindowWidth";
-import FullModal from "components/Layout/Header/FullModal";
-import { countPagination } from "services/utils";
+} from './style';
+import { useHistory } from 'react-router';
+import useWindowWidth from 'services/hooks/useWindowWidth';
+import FullModal from 'components/Layout/Header/FullModal';
+import { countPagination } from 'services/utils';
 
 interface intialFilterProps {
   page?: number;
@@ -90,13 +90,13 @@ const Notifications = () => {
           <CloseIcon />
         </WrapIcon>
         <LazyLoadImage
-          alt="image"
+          alt='image'
           src={info.image ? info.image : notificationDef}
-          height="100%"
-          width="100%"
+          height='100%'
+          width='100%'
           style={{
-            objectFit: "scale-down",
-            userSelect: "none",
+            objectFit: 'scale-down',
+            userSelect: 'none',
           }}
         />
       </SideImgWrap>
@@ -104,16 +104,16 @@ const Notifications = () => {
         <WrapInfoBox>
           <WrapTitle>
             <TitleCard>{info.title}</TitleCard>
-            <Date>{dayjs(info.createdAt).format("LL")}</Date>
+            <Date>{dayjs(info.createdAt).format('DD MMMM YYYY')}</Date>
           </WrapTitle>
           <SideText>{info.body} </SideText>
         </WrapInfoBox>
         <WrapButton>
           <Button
-            onClick={() => history.push("/support")}
+            onClick={() => history.push('/support')}
             startIcon={<MessageIcon />}
           >
-            {t("writetous")}
+            {t('writetous')}
           </Button>
         </WrapButton>
       </WrapScroll>
@@ -123,7 +123,7 @@ const Notifications = () => {
   return (
     <Container>
       <Title>
-        {t("notifications")} {t("from")} DIS-COUNT
+        {t('notifications')} {t('from')} DIS-COUNT
       </Title>
       {response.isLoading || response.isFetching ? (
         <Spinner />
@@ -142,21 +142,21 @@ const Notifications = () => {
                 >
                   <CardImg>
                     <LazyLoadImage
-                      alt="image"
+                      alt='image'
                       src={v.image ? v.image : notificationDef}
-                      height="100%"
-                      width="100%"
+                      height='100%'
+                      width='100%'
                       style={{
-                        objectFit: "scale-down",
-                        borderRadius: "14px",
+                        objectFit: 'scale-down',
+                        borderRadius: '14px',
                       }}
-                      effect="blur"
+                      effect='blur'
                     />
                   </CardImg>
                   <CardBody open={open && v.id === id}>
                     <WrapTitle>
                       <TitleCard>{v.title}</TitleCard>
-                      <Date>{dayjs(v.createdAt).format("LL")}</Date>
+                      <Date>{dayjs(v.createdAt).format('DD MMMM YYYY')}</Date>
                     </WrapTitle>
                     <Text>{v.body}</Text>
                   </CardBody>
@@ -166,13 +166,13 @@ const Notifications = () => {
           </WrapperCard>
           <WrapPag>
             <Info>
-              {t("shown")}
+              {t('shown')}
               <span>{between}</span>
-              {t("from1")} <span>{totalCount}</span>
+              {t('from1')} <span>{totalCount}</span>
               {countPagination({
                 count: totalCount,
-                firstWord: t("page1"),
-                secondWord: t("page23"),
+                firstWord: t('page1'),
+                secondWord: t('page23'),
               })}
             </Info>
             <Pagination
@@ -185,8 +185,8 @@ const Notifications = () => {
         </Wrap>
       ) : (
         <WrapDefault>
-          <img src={notification} alt="notification.png" />
-          <span>{t("notificationsfromdiscount")}</span>
+          <img src={notification} alt='notification.png' />
+          <span>{t('notificationsfromdiscount')}</span>
         </WrapDefault>
       )}
       {width > 600 ? (
