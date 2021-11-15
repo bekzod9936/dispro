@@ -8,14 +8,8 @@ import DatePcker from 'components/Custom/DatePicker';
 import dayjs from 'dayjs';
 import { countPagination, numberWithNew } from 'services/utils';
 import { useAppSelector } from 'services/redux/hooks';
-import {
-  Container,
-  WrapPag,
-  Info,
-  CashBackIcon,
-  WrapIcon,
-  WalletIcon,
-} from './style';
+import useWindowWidth from 'services/hooks/useWindowWidth';
+import { Container, CashBackIcon, WrapIcon, WalletIcon } from './style';
 import {
   Label,
   RightHeader,
@@ -23,7 +17,8 @@ import {
   WrapTotal,
   WrapTotalSum,
 } from '../../style';
-
+import MobileTable from '../../components/MobileTable';
+import { WrapPag, Info } from '../../style';
 interface intialFilterProps {
   page?: number;
   perPage?: number;
@@ -33,6 +28,7 @@ interface intialFilterProps {
 
 const Payment = () => {
   const { t } = useTranslation();
+  const { width } = useWindowWidth();
 
   const data = useAppSelector((state) => state.finance.cashBackFinance.data);
   const totalCount = useAppSelector(
@@ -80,12 +76,18 @@ const Payment = () => {
         accessor: 'col1',
         Cell: (props: any) => (
           <WrapIcon>
-            {props?.value === 'cashback_account_top_up' ? <WalletIcon /> : null}
-            {props?.value === 'cashback_in' ? <CashBackIcon /> : null}
+            {props?.value === 'cashback_account_top_up' ? (
+              <WalletIcon />
+            ) : props?.value === 'cashback_in' ? (
+              <CashBackIcon />
+            ) : (
+              '-'
+            )}
             {props?.value === 'cashback_account_top_up'
               ? t('depositcashbek')
-              : null}
-            {props?.value === 'cashback_in' ? t('cashbackaccrual') : null}
+              : props?.value === 'cashback_in'
+              ? t('cashbackaccrual')
+              : '-'}
           </WrapIcon>
         ),
       },
@@ -164,10 +166,76 @@ const Payment = () => {
 
         {response.isLoading || response.isFetching ? (
           <Spinner />
+        ) : width > 600 ? (
+          <Table columns={columns} data={list} />
         ) : (
-          <>
-            <Table columns={columns} data={list} />
-          </>
+          <MobileTable
+            data={{
+              title: t('amountofpurchase'),
+              info: data.map((v: any) => {
+                const date1 = dayjs(v.date).format('DD.MM.YYYY');
+                const date2 = dayjs(v.activateDate).format('DD.MM.YYYY');
+                return {
+                  title:
+                    v.operationType === 'cashback_account_top_up'
+                      ? t('depositcashbek')
+                      : v.operationType === 'cashback_in'
+                      ? t('cashbackaccrual')
+                      : '-',
+                  value: numberWithNew({ number: v?.amount }),
+                  icon: (
+                    <WrapIcon>
+                      {v.operationType === 'cashback_account_top_up' ? (
+                        <WalletIcon />
+                      ) : v.operationType === 'cashback_in' ? (
+                        <CashBackIcon />
+                      ) : null}
+                    </WrapIcon>
+                  ),
+                  body: [
+                    {
+                      title: t('typeoftransaction'),
+                      value:
+                        v.operationType === 'cashback_account_top_up'
+                          ? t('depositcashbek')
+                          : v.operationType === 'cashback_in'
+                          ? t('cashbackaccrual')
+                          : '-',
+                    },
+                    {
+                      title: t('customer'),
+                      value: v.clientName ? v.clientName : '-',
+                    },
+                    {
+                      title: t('cashbackUZS'),
+                      value: numberWithNew({ number: v?.amount }),
+                    },
+                    {
+                      title: t('commission/top-upamount'),
+                      value: Math.round((v.amount / 100) * 100) / 100,
+                    },
+                    {
+                      title: t('purchasedate'),
+                      value: date1,
+                    },
+                    {
+                      title: t('dateofaccrual'),
+                      value: date2,
+                    },
+                    {
+                      title: t('status'),
+                      value:
+                        v.status === 'success'
+                          ? t('accrued')
+                          : v.status === 'pending'
+                          ? t('pending')
+                          : t('canceled'),
+                    },
+                  ],
+                };
+              }),
+            }}
+          />
         )}
         {list.length > 0 ? (
           <WrapPag>

@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import { ReactComponent as Money } from 'assets/icons/StatistisPage/money.svg';
+import { ReactComponent as Discount } from 'assets/icons/StatistisPage/discount.svg';
 
 export const Container = styled.div`
   overflow: hidden;
@@ -8,19 +10,12 @@ export const Container = styled.div`
   padding-right: 25px;
 `;
 
-export const WrapPag = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 20px 0;
+export const MoneyIcon = styled(Money)`
+  width: 17px;
+  height: 20px;
 `;
 
-export const Info = styled.div`
-  color: #223367;
-  font-size: 18px;
-  span {
-    font-weight: 900;
-    margin: 0px 5px;
-    font-size: 18px;
-  }
+export const DiscountIcon = styled(Discount)`
+  width: 20px;
+  height: 20px;
 `;
