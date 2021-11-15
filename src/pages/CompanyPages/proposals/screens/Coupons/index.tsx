@@ -147,9 +147,10 @@ const Coupons = () => {
   const _ = useFetchCategories(setCategories);
 
 
-  const handleUploadImg = (data: any) => {
+  const handleUploadImg = async (data: any) => {
     setFile(data.target.files[0]);
     setIsCropVisible(true);
+
   };
 
   const onPublish = (data: any) => {
@@ -322,6 +323,7 @@ const Coupons = () => {
               )}
               {file && (
                 <CropCustomModal
+                  coupon
                   setIsLoading={setLoading}
                   isCoupon={isCoupon}
                   handleUpload={handleUpload}
