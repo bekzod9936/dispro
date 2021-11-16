@@ -6,8 +6,7 @@ import CustomToggle from "components/Custom/CustomToggleSwitch";
 //hooks
 import useMobileContent from "./useMobileContent";
 import FullModal from "components/Custom/FullModal";
-import CashbackModel from "./cashback_model";
-import LoyalityModel from "./loyality_model";
+import CashbackModel from "./main_model";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 import { handleClick } from "services/redux/Slices/settingsSlice";
 
@@ -16,14 +15,6 @@ const MobileContent = () => {
   const { handleCheck, cashbackCheck, saleCheck, ballCheck } =
     useMobileContent();
   const openCashback = useAppSelector((state) => state.settings.openState);
-
-  const handleLoyal = () => {
-    if (openCashback.type === "cashback") {
-      return <CashbackModel />;
-    } else {
-      return <LoyalityModel />;
-    }
-  };
 
   return (
     <Container>
@@ -110,7 +101,9 @@ const MobileContent = () => {
           onClick={() => dispatch(handleClick({ type: "other", open: true }))}
         />
       )}
-      <FullModal open={openCashback.open}>{handleLoyal()}</FullModal>
+      <FullModal open={openCashback.open}>
+        <CashbackModel />
+      </FullModal>
     </Container>
   );
 };

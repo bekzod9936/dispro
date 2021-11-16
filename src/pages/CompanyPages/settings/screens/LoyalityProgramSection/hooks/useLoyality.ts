@@ -422,6 +422,7 @@ const useLoyality = () => {
                 max_percent: data.data.data.maxAmount,
                 base_percent: data.data.data.percent,
                 give_cashback_after: data.data.data.cashbackReturnedDay,
+                base_name: data.data.data.name,
               })
             );
             setValue("max_percent", data.data.data.maxAmount);
@@ -437,6 +438,7 @@ const useLoyality = () => {
                   max_percent: data.data.data.maxAmount,
                   base_percent: data.data.data.percent,
                   give_cashback_after: data.data.data.cashbackReturnedDay,
+                  base_name: data.data.data.name,
                 })
               );
               setValue("max_percent", data.data.data.maxAmount);
@@ -471,6 +473,7 @@ const useLoyality = () => {
               max_percent: "",
               base_percent: "",
               give_cashback_after: "",
+              base_name: "",
             })
           );
           reset();
@@ -484,6 +487,7 @@ const useLoyality = () => {
                 max_percent: data.data.data.maxAmount,
                 base_percent: data.data.data.percent,
                 give_cashback_after: data.data.data.cashbackReturnedDay,
+                base_name: data.data.data.name,
               })
             );
             setValue("give_cashback_after", data.data.data.cashbackReturnedDay);
@@ -498,6 +502,7 @@ const useLoyality = () => {
                   max_percent: data.data.data.maxAmount,
                   base_percent: data.data.data.percent,
                   give_cashback_after: data.data.data.cashbackReturnedDay,
+                  base_name: data.data.data.name,
                 })
               );
               setValue(
@@ -532,6 +537,7 @@ const useLoyality = () => {
               max_percent: "",
               base_percent: "",
               give_cashback_after: 0,
+              base_name: "",
             })
           );
         } else {
@@ -543,6 +549,7 @@ const useLoyality = () => {
                 max_percent: data.data.data.maxAmount,
                 base_percent: data.data.data.percent,
                 give_cashback_after: 0,
+                base_name: data.data.data.name,
               })
             );
             setValue("max_percent", data.data.data.maxAmount);
@@ -556,6 +563,7 @@ const useLoyality = () => {
                   max_percent: data.data.data.maxAmount,
                   base_percent: data.data.data.percent,
                   give_cashback_after: 0,
+                  base_name: data.data.data.name,
                 })
               );
               setValue("max_percent", data.data.data.maxAmount);
