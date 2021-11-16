@@ -18,6 +18,7 @@ import {
   Info,
   WrapPag,
   DefaultImage,
+  WrapSpinner,
 } from "./style";
 
 import useActive from "./useActive";
@@ -77,21 +78,11 @@ const Active = () => {
 
   return (
     <Container>
-      <div style={{height:'60px !important'}}>
-          {/* <DatePcker 
-        onChange={async (e: any) => {
-          await setFilterValues({
-            ...filterValues,
-            dateFrom: e.slice(0, e.indexOf(' ~')),
-            dateTo: e.slice(e.indexOf('~ ') + 2),
-          });
-          await response.refetch();
-        }}
-      /> */}
-     </div>
+    
       <Wrap>
         {response.isLoading || response.isFetching ? (
-          <Spinner />
+          <WrapSpinner><Spinner/></WrapSpinner>
+     
         ) : (
           <>
             {data.length > 0 ? (

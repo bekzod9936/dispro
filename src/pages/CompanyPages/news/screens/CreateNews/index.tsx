@@ -331,7 +331,7 @@ const CreateNews = () => {
                   />
                   <Input
                     type="date"
-                    min={nextDay}
+                    min={filter?.regDate?.regDateFrom ? filter?.regDate?.regDateFrom :nextDay}
                     width={{
                       maxwidth: 200,
                     }}

@@ -15,7 +15,7 @@ import {
   Flex,
   WrapHeader,
   LeftHeader,
-
+  Wrap,
 } from './style';
 
 
@@ -55,16 +55,20 @@ const News = () => {
 
           />
         </div>}
-    
+
       <Switch>
-        <Suspense fallback={<Spinner />}>
+
+        <Suspense fallback={<Spinner  />}>
+          
                 {" "}
           {menuItems.map((item) => {
             return <Route exact path={item.path} component={item.component} />;
           })}
     
         </Suspense>
+      
       </Switch>
+      
     </MainWrapper>
   );
 };

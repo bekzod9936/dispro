@@ -14,6 +14,24 @@ export const MainWrapper = styled.div`
   flex-direction: column;
   position: relative;
 `;
+export const Wrap = styled.div`
+  overflow-y: auto;
+  position: relative;
+  overflow-x: hidden;
+  &::-webkit-scrollbar {
+    appearance: none;
+    display: none;
+  }
+  &::-webkit-scrollbar-thumb {
+    appearance: none;
+    display: none;
+  }
+
+  &::-webkit-scrollbar-track {
+    appearance: none;
+    display: none;
+  }
+`;
 
 export const Label = styled.div`
   font-weight: bold;

@@ -8,7 +8,7 @@ import { setQuery, setSelectedNews } from "services/redux/Slices/news";
 import { useAppSelector, useAppDispatch } from "services/redux/hooks";
 import { SideBar } from "../../components/SideBar";
 import { NewsBar } from "../../components/NewsBar";
-import { Container, Wrap, TitleData,AgeData,Info,WrapPag, DefaultImage } from "./style";
+import { Container, Wrap, TitleData,AgeData,Info,WrapPag, DefaultImage,WrapSpinner } from "./style";
 import useData from "../useData";
 import useArchive from "./useArchive";
 import Pagination from "components/Custom/Pagination";
@@ -65,7 +65,7 @@ const Active = () => {
     <Container>
       <Wrap>
         {response.isLoading || response.isFetching ? (
-          <Spinner />
+           <WrapSpinner><Spinner/></WrapSpinner>
         ) : (
           <>
             {data.length > 0 ? (
