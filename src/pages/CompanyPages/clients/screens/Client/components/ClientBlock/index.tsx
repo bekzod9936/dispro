@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router'
 import { IClient, IPersonalInfo } from 'services/redux/Slices/clients/types'
 import { DefaultImage, DownSide, Icon, UpSide, Wrapper } from './style'
+import clientDefaultImg from "assets/images/staff_default.png"
 interface IProps {
     client: IClient | any,
     setBlockModal: (e: boolean) => void
@@ -29,7 +30,10 @@ export const ClientBlock = ({
                 <GoBackIcon onClick={handleClose} style={{ marginRight: "25px", cursor: "pointer" }} />
                 {image ?
                     <div className="imageBlock">
-                        <img src={image} />
+                        <img src={image} onError={(e: any) => {
+                            e.target.onerror = null;
+                            e.target.src = clientDefaultImg
+                        }} />
                         {isPlBlocked && <div className="blocked"><BlockIcon /></div>}
                     </div> :
                     <DefaultImage />}

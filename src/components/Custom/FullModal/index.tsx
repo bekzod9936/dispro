@@ -5,15 +5,20 @@ import { MDialog } from './style';
 interface Props {
   children?: any;
   open?: boolean;
+  direction?: "down" | "left"
 }
 
 const Transition: any = forwardRef(function Transition(props: any, ref: any) {
   return <Slide direction='left' ref={ref} {...props} />;
 });
 
-const FullModal = ({ children, open = false }: Props) => {
+const BottomTransition: any = forwardRef(function Transition(props: any, ref: any) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
+const FullModal = ({ children, direction = "left", open = false }: Props) => {
   return (
-    <MDialog fullScreen fullWidth open={open} TransitionComponent={Transition}>
+    <MDialog fullScreen fullWidth open={open} TransitionComponent={direction === "down" ? BottomTransition : Transition}>
       {children}
     </MDialog>
   );

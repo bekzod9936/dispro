@@ -26,6 +26,16 @@ interface INote {
     clientId: number,
     notes: string
 }
+
+const referTypes: any = {
+    1: "client",
+    2: "partner_admin",
+    3: "cashier",
+    4: "manager",
+    5: "worker"
+}
+
+
 export const InfoBlock = ({
     referBy, vipModal, client: { addInfo, personalLoyaltyInfo, isPlBlocked, notes },
     setVipModal,
@@ -110,7 +120,7 @@ export const InfoBlock = ({
                 {referBy?.name &&
                     <p>
                         {t("byRecommendation")}
-                        : <span>{referBy.name}</span>({t("client")})
+                        : <span>{referBy.name}</span>({t(referTypes[referBy.type])})
                     </p>}
                 <p>
                     {t('lastPurchase')}: {addInfo?.lastPurchaseDate ? dayjs(addInfo?.lastPurchaseDate).format("DD.MM.YYYY") : "-"}

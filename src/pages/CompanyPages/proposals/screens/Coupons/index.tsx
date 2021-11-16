@@ -280,13 +280,13 @@ const Coupons = () => {
         />
       )}
       <Form onSubmit={publish ? handleSubmit(onPublish) : handleSubmit(onSave)}>
+        <UpSide>
         {width <= 600 && (
           <MobileHeader>
             <GoBackIcon onClick={handleBack} style={{ cursor: 'pointer' }} />
             <Title>Создание {isCoupon ? 'купона' : 'сертификата'}</Title>
           </MobileHeader>
         )}
-        <UpSide>
           <Container>
             <LeftSide>
               <Title>Фотографии</Title>

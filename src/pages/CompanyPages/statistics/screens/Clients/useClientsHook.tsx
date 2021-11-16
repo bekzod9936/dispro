@@ -1,12 +1,12 @@
-import dayjs from "dayjs";
-import { useState } from "react";
-import { useQuery } from "react-query";
+
+import { useState } from 'react';
+import { useQuery } from 'react-query';
 import {
-  fetchChartStatustics,
+  
   fetchCilentsData,
-} from "services/queries/statisticsQuery";
-import { useAppDispatch } from "services/redux/hooks";
-import { setClientStats } from "services/redux/Slices/statistics/statistics";
+} from 'services/queries/statisticsQuery';
+import { useAppDispatch } from 'services/redux/hooks';
+import { setClientStats } from 'services/redux/Slices/statistics/statistics';
 
 interface Props {
   filterValues?: any;
@@ -36,23 +36,17 @@ interface Props {
   uniqueChequeClient?: number;
 }
 
-interface ChartProps {
-  startDate?: string;
-  endDate?: string;
-  chartPeriod?: number;
-}
-
 const useClientsHook = ({ filterValues, traffic }: Props) => {
   const dispatch = useAppDispatch();
   const [data, setData] = useState<Props>({});
   const [isFetching, setIsFetching] = useState(false);
 
   const response = useQuery(
-    "fetchClientsInfo",
+    'fetchClientsInfo',
     () => {
       const url = Object.keys(filterValues)
         .map((v: any) => `${v}=${filterValues[v]}&`)
-        .join("");
+        .join('');
       return fetchCilentsData({ section: `clients?${url}&${traffic}` });
     },
     {
@@ -67,29 +61,7 @@ const useClientsHook = ({ filterValues, traffic }: Props) => {
     }
   );
 
-  const resChart = useQuery(
-    "fetchChartStatistics",
-    () => {
-      return fetchChartStatustics({
-        url: `startDate=${dayjs()
-          .startOf("month")
-          .format("YYYY-MM-DD")}&endDate=${dayjs()
-          .endOf("month")
-          .format("YYYY-MM-DD")}&chartPeriod=1`,
-      });
-    },
-    {
-      keepPreviousData: true,
-      refetchOnWindowFocus: false,
-      refetchIntervalInBackground: true,
-      retry: 0,
-      onSuccess: (data) => {
-        console.log(data, "stststs");
-      },
-    }
-  );
-
-  return { response, data, isFetching, setIsFetching, resChart };
+  return { response, data, isFetching, setIsFetching };
 };
 
 export default useClientsHook;

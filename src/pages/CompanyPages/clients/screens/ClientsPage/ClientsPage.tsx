@@ -31,10 +31,7 @@ const ClientsPage = () => {
 	})
 	const { refetch, isFetching } = useFetchClients({ query: debouncedQuery });
 
-	useEffect(() => {
-		console.log("mount");
 
-	}, [])
 	return (
 		<MainWrapper isRelative={width > 600}>
 			{width <= 600 &&
