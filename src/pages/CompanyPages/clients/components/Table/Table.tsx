@@ -125,10 +125,12 @@ export const Table = () => {
                         return (
                           <Td {...cell.getCellProps()}>
                             <ClientTd>
-                              {src ? <img src={src} onError={(e: any) => {
-                                e.target.onerror = null;
-                                e.target.src = clientDefault
-                              }} /> : <DefaultImage />}
+                              {src ?
+                                <img src={src} onError={(e: any) => {
+                                  e.target.onerror = null;
+                                  e.target.src = clientDefault
+                                }} /> :
+                                <DefaultImage />}
                               {cell.render("Cell")}
                             </ClientTd>
                           </Td>

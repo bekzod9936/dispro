@@ -30,6 +30,11 @@ export const Container = styled.div`
   .MuiAccordionDetails-root {
     padding: 0 20px 20px 20px !important;
   }
+  @media (max-width: ${device.mobile}) {
+    .MuiAccordionDetails-root {
+    padding: 0 10px 10px 10px !important;
+  }
+  }
   .MuiAccordionSummary-root.Mui-expanded {
     min-height: 48px;
   }
