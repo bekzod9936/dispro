@@ -72,7 +72,7 @@ export const Wrapper = styled.div`
     width: 100%;
     height: 100%;
     @media (max-width: ${device.mobile}) {
-      position: absolute;
+      position: fixed;
       top: 0;
       left: 0;
       z-index: 2500;

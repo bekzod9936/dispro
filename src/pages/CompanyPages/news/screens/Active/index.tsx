@@ -8,8 +8,8 @@ import { NewsBar } from "../../components/NewsBar";
 import { setQuery, setSelectedNews } from "services/redux/Slices/news";
 import { SideBar } from "../../components/SideBar";
 import { useAppSelector, useAppDispatch } from "services/redux/hooks";
-
-import dayjs from "dayjs";
+import useData from "../useData";
+import DatePcker from 'components/Custom/DatePicker';
 import {
   Container,
   Wrap,
@@ -19,13 +19,15 @@ import {
   WrapPag,
   DefaultImage,
 } from "./style";
-import { months } from "./constants";
+
 import useActive from "./useActive";
 import Pagination from "components/Custom/Pagination";
 
 interface intialFilterProps {
   page?: number;
   perPage?: number;
+    dateFrom?: string;
+  dateTo?: string;
 }
 
 const Active = () => {
@@ -39,7 +41,7 @@ const Active = () => {
     (state) => state.news.NewsInfo.totalCountNews
   );
   const selectedNews = useAppSelector((state) => state.news.selectedNews);
-  console.log("totalNewsCount", totalNewsCount);
+  console.log("selectedNews", selectedNews);
   const { t } = useTranslation();
   const handleOpenSetting = () => {
     history.push({
@@ -48,17 +50,20 @@ const Active = () => {
     });
     dispatch(setQuery(""));
   };
-
+  const companyId = localStorage.getItem('companyId');
   const intialFilter = {
+    companyId: companyId,
     page: 1,
     perPage: 5,
+    dateFrom: '',
+    dateTo: '',
   };
 
   const [filterValues, setFilterValues] =
     useState<intialFilterProps>(intialFilter);
 
   const { response } = useActive({ filterValues: filterValues });
-
+ const {list}=useData()
   const handlechangePage = async (e: any) => {
     await setFilterValues({ ...filterValues, page: e });
     await response.refetch();
@@ -67,95 +72,26 @@ const Active = () => {
   const onClose = () => {
     dispatch(setSelectedNews(""));
   };
-  const list = data?.map((v: any) => {
-    const startDate = dayjs(v?.startLifeTime).format("YYYY-MM-DD");
-    const endDate = dayjs(v?.endLifeTime).format("YYYY-MM-DD");
-    const startdates = new Date(startDate);
-    const enddates = new Date(endDate);
-    const startmonthName = months[startdates.getMonth()];
-    const endmonthName = months[enddates.getMonth()];
-    const startDays = startdates.getDate();
-    const endDays = enddates.getDate();
-    const years = enddates.getFullYear();
-
-    const date =
-      startDays +
-      " " +
-      startmonthName +
-      " - " +
-      endDays +
-      " " +
-      endmonthName +
-      "" +
-      years;
-
-    const genderType =
-      v?.genderType === 1
-        ? "Мужчина"
-        : v?.genderType === 2
-        ? "Женщины"
-        : "Для всех";
-    let src = v?.image;
-    return {
-      col1: (
-        <TitleData>
-          {src ? <img src={src} /> : <DefaultImage />}
-          {v?.title}
-        </TitleData>
-      ),
-      col2: v?.description,
-      col3: genderType,
-      col4: (
-        <AgeData>
-          {date}
-          <h4>{v?.ageFrom + "+"}</h4>
-        </AgeData>
-      ),
-      fullData: v,
-    };
-  });
-
-  const columns: any = useMemo(
-    () => [
-      {
-        Header: t("Заголовок"),
-        accessor: "col1",
-      },
-      {
-        Header: t("Зазывающий текст"),
-        accessor: "col2",
-      },
-      {
-        Header: t("Пол"),
-        accessor: "col3",
-      },
-      {
-        Header: t("Срок публикации"),
-        accessor: "col4",
-      },
-    ],
-    []
-  );
+  
   const newsById = selectedNews?.fullData;
-  console.log("newsById", newsById);
+
   return (
     <Container>
+     
       <Wrap>
         {response.isLoading || response.isFetching ? (
           <Spinner />
         ) : (
           <>
-            {list.length > 0 ? (
-              <Table columns={columns} data={list} />
+            {data.length > 0 ? (
+              <Table  data={list} />
             ) : (
               <div style={{ paddingRight: "20%", paddingTop: "10%" }}>
                 <NoNews handleOpenSetting={handleOpenSetting} />
               </div>
             )}
-            <SideBar isOpen={newsById?.id}>
-              {newsById?.id && (
-                <NewsBar currentNews={newsById} onClose={onClose} />
-              )}
+            <SideBar isOpen={newsById} maxWidth={"370px"}>
+              {newsById && <NewsBar refetch={response} currentNews={newsById} onClose={onClose} />}
             </SideBar>
             {list.length > 0 ? (
               <WrapPag>

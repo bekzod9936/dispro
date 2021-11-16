@@ -51,9 +51,10 @@ export const Header = ({ query, setQuery }: IProps) => {
         {width > 600 && <NewDatePicker onChange={(e) => handlePickDate(e)} />}
         <QRButton />
       </ButtonsWrapper>
-      <SelectedFilters>
-        {activeFilters}
-      </SelectedFilters>
+      {width > 600 &&
+        <SelectedFilters>
+          {activeFilters}
+        </SelectedFilters>}
     </Wrapper>
   );
 };

@@ -1,7 +1,8 @@
+import DatePicker from "react-multi-date-picker"
 import styled from "styled-components"
 import { device } from "styles/device"
-
-export const AgeWrapper = styled.div`
+import { ReactComponent as TextArea } from 'assets/icons/IconsInfo/textarea.svg';
+export const PushWrapper = styled.div`
     width: 100%;
     margin-bottom: 25px;
 `
@@ -13,8 +14,52 @@ export const Header = styled.div`
         margin-bottom: 20px;
     }
 `
+export const TextAreaIcon = styled(TextArea)``;
+export const FormRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+`;
 
-export const AgeBlock = styled.div`
+export const WrapperModal = styled.div`
+   padding-right:45px;
+   padding-top:10px;
+    position: relative;
+    h3 {
+      font-size: 22px;
+        line-height: 26px;
+        margin-bottom: 10px;
+        color: #223367;
+    }
+ 
+`
+
+export const CloseButton = styled.div`
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    cursor: pointer;
+`
+
+export const WrapArea = styled.div`
+  display: flex;
+  flex: 1;
+  align-items: flex-end;
+  margin: 65px 10px 0 0;
+  @media (max-width: ${device.mobile}) {
+    margin: 55px 5px 0 0;
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    margin: 30px 10px 0 0;
+  }
+  @media (min-width: ${device.laptop}) {
+    margin: 90px 10px 0 0;
+  }
+`;
+
+export const PushBlock = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -25,21 +70,11 @@ export const AgeBlock = styled.div`
         color: #223367;
         font-weight: 500;
     }
-    @media (max-width: ${device.mobile}) {
-      h6 {
-        font-weight: 300;
-        line-height: 16.41px;
-        font-size: 14px;
-      }
-    }
 `
 export const LeftSide = styled.div`
     width: 45%;
     @media (max-width: 1250px) {
       width: 48%;
-    }
-    @media (max-width: ${device.mobile}) {
-      width: 100%;
     }
    
 `
@@ -47,9 +82,6 @@ export const RightSide = styled.div`
     width: 40%;
     @media (max-width: 1250px) {
       width: 48%;
-    }
-    @media (max-width: ${device.mobile}) {
-      width: 100%;
     }
 `
 export const Container = styled.div`
@@ -60,37 +92,14 @@ export const Container = styled.div`
     @media (max-width: ${device.laptop}) {
       padding-right: 20px;
     }
-    @media (max-width: ${device.mobile}) {
-      flex-direction: column;
-      justify-content: initial;
-      padding: 15px;
-    }
     
 `
 
 export const Wrapper = styled.div`
     width: 100%;
     height: 100%;
-    @media (max-width: ${device.mobile}) {
-      position: fixed;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      z-index: 2500;
-      display: flex;
-      align-items: center;
-      orientation: portret;
-    } 
 `
 
-export const MobileHeader = styled.div`
-  background-color: white;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100%;
-  padding: 15px 0 0 15px;
-`
 export const UpSide = styled.div`
     height: 80%;
     scroll-behavior: auto;
@@ -107,10 +116,6 @@ export const UpSide = styled.div`
     ::-webkit-scrollbar-thumb {
         background: #606eea;
         border-radius: 14px 0px 0px 14px;
-    }
-    @media (max-width: ${device.mobile}) {
-      height: 100%;
-      width: 100%;
     }
 `
 
@@ -162,12 +167,9 @@ export const DownSide = styled.div`
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
     display: flex;
     justify-content: flex-start;
-    height: 20%;
+    height: 25%;
     @media (max-width: 1150px) {
       padding-right: 20px;
-    }
-    @media (max-width: ${device.mobile}) {
-      display: none;
     }
 `
 export const Form = styled.form`
@@ -182,15 +184,6 @@ export const Form = styled.form`
     }
     @media (max-width: 1150px) {
       padding-right: 0;
-    }
-    @media (max-width: ${device.mobile}) {
-      width: 100%;
-      padding: 0;
-      justify-content: initial;
-      align-items: center;
-      min-height: none;
-      height: 100%;
-      border-radius: 0;
     }
     overflow: hidden;
     min-height: 500px;
@@ -219,14 +212,6 @@ export const UploadButton = styled.div`
         margin-right: 10px;
         color: #606EEA;
 
-    }
-    @media (max-width: ${device.mobile}) {
-      padding: 10px 15px;
-      label {
-        font-size: 14px;
-        line-height: 16px;
-        
-      }
     }
 
 `
@@ -277,6 +262,7 @@ export const ErrorMessage = styled.span`
 
 export const PeriodWrapper = styled.div`
   padding: 30px 40px 25px 30px;
+  
   background: #FFFFFF;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
   border-radius: 14px;
@@ -294,36 +280,23 @@ export const PeriodWrapper = styled.div`
     font-weight: 700;
     margin-bottom: 10px;
   }
-  .startAndEndDate {
-    display: flex;
-    justify-content: space-between;
-  }
-  .buttonsWrapper {
-    display: flex;
-    justify-content: flex-end;
-
-  }
-  @media (max-width: ${device.mobile}) {
-    box-shadow: none;
-    padding: 15px;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 100vw;
-    overflow: hidden;
-    .startAndEndDate {
-      max-width: calc(100vw - 30px);
-      width: 100%;
-    }
-  }
-  @media (max-width: 430px) {
-    .startAndEndDate {
-      flex-direction: column;
-    }
-  }
 `
+export const WrapChecks = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  flex: 1;
+  margin-left: 15px;
+  margin-top: 15px;
+`;
 
+export const WrapCheck = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  flex: 1;
+  flex-direction: column;
+`;
 
 export const PreviewMessage = styled.div`
   display: flex;
@@ -356,28 +329,4 @@ export const LeaveModal = styled.div`
     justify-content: flex-end;
     align-items: center;
   }
-`
-
-
-export const Buttons = styled.div`
-  margin-top: 25px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  .upside {
-    @media (max-width: 347px) {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    
-  }
-  }
-`
-
-export const IconWrapper = styled.div`
-  width: 18px;
-  height: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `

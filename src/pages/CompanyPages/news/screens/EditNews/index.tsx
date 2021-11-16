@@ -18,7 +18,10 @@ import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
 import InputFormat from "components/Custom/InputFormat";
 import Radio from "components/Custom/Radio";
-import {fetchCreateNews} from "services/queries/newPageQuery";
+
+import dayjs from "dayjs";
+import { fetchUpdateNews } from "services/queries/newPageQuery";
+import useAddress from "../../../info/screens/Address/useAddress";
 import {
   Label,
   WrapDate,
@@ -34,7 +37,7 @@ import {
   UploadImage,
 } from "assets/icons/proposals/ProposalsIcons";
 import { SaveIcon } from "assets/icons/news/newsIcons";
-import { days, genders, todayDate,language } from "./constants";
+import { days, genders, todayDate, language } from "../CreateNews/constants";
 import {
   PushBlock,
   PushWrapper,
@@ -45,7 +48,6 @@ import {
   Header,
   ImageBlock,
   LeaveModal,
-  SubmitModal,
   LeftSide,
   PreviewMessage,
   RightSide,
@@ -63,12 +65,12 @@ import { useUploadImage } from "../../hooks/useUploadIMage";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 import { ReactComponent as MarketIcon } from "assets/icons/SideBar/ilmarket.svg";
 
-
 interface IOptionFields {
   push: boolean;
 }
-
-
+interface SelectedBranches{
+    
+}
 
 const CreateNews = () => {
   const { t } = useTranslation();
@@ -76,38 +78,50 @@ const CreateNews = () => {
   const dispatch = useAppDispatch();
   const [isCoupon, setIsCoupon] = React.useState<boolean>(false);
   const { filters } = useAppSelector((state) => state.clients);
-  const [filter, setFilter] = React.useState<any>({});
-  const { branches } = useStaff();
-  const [optionalFields, setOptionalFields] = React.useState<IOptionFields>({
-    push: false,
+
+  const companyId: any = localStorage.getItem("companyId");
+  const { responseAddress, dataAddress, weeks, inntialWorkTime } = useAddress({
+    id: companyId,
   });
 
-  console.log('branches',branches)
+  const selectedNews = useAppSelector((state) => state.news.selectedNews);
+  const newsById = selectedNews?.fullData;
+  const startDate = dayjs(newsById?.data?.startLifeTime).format("YYYY-MM-DD");
+  const endDate = dayjs(newsById?.data?.endLifeTime).format("YYYY-MM-DD");
+  const [filter, setFilter] = React.useState<any>({});
+  const { branches } = useStaff();
+  console.log("filter", filter);
+  const [optionalFields, setOptionalFields] = React.useState<IOptionFields>({
+    push: newsById?.data?.pushUp,
+  });
 
   const [period, setPeriod] = React.useState<boolean>(false);
   const [file, setFile] = React.useState("");
-  const [checked, setChecked] = React.useState(false);
+  const [checked, setChecked] = React.useState(
+    newsById?.data?.settings?.aroundTheClock
+  );
   const [isCropVisible, setIsCropVisible] = React.useState(false);
-  const [image, setImage] = React.useState("");
+  const [image, setImage] = React.useState(newsById?.data?.image);
   const [leave, setLeave] = React.useState<boolean>(false);
-  const [submit, setSubmit] = React.useState(false);
-  const [sureSubmit,setSureSubmit]=React.useState(false);
-  const [formData,setFormData]=React.useState({})
+  const [publish, setPublish] = React.useState(false);
   const handleBack = () => {
     history.goBack();
   };
   const { handleUpload, deleteImage, setLoading, isLoading } =
     useUploadImage(setImage);
 
+  // React.useEffect(() => {
+  //   setFilter(filters);
+  // }, [filters]);
 
-
-  const {mutate}=useMutation((data:any)=>fetchCreateNews(data))
-
+  const { mutate } = useMutation((data:any)=>fetchUpdateNews(data));
+  console.log("edit news", newsById);
   const {
     control,
     handleSubmit,
     register,
     watch,
+    setValue,
     formState: { errors, isValid },
   } = useForm({
     mode: "onChange",
@@ -133,45 +147,96 @@ const CreateNews = () => {
     setImage("");
     deleteImage(image);
   };
+  
+  const newsId=newsById?.data?.id
+  const allFilials = dataAddress;
+  const filials = newsById?.data?.settings?.stores;
+
+  let filteredArray = allFilials?.filter(function (array_el: any) {
+    return (
+      filials?.filter(function (item: any) {
+        return item == array_el.id;
+      }).length == 1
+    );
+  });
+  
 
   const submitNews = (data: any) => {
-    let newsData={
-      title:data.name,
-      startLifeTime:filter?.regDate?.regDateFrom,
-      endLifeTime:filter?.regDate?.regDateTo,
-      description:data.description,
+    let newsData = {
+      idd:newsId,
+      title: data.name,
+      startLifeTime: filter?.regDate?.regDateFrom ? filter?.regDate?.regDateFrom:startDate,
+      endLifeTime: filter?.regDate?.regDateTo ? filter?.regDate?.regDateTo:endDate,
+      description: data.description,
       ageFrom: parseInt(data.ageLimit),
       ageTo: 100,
-      ageUnlimited:false,
-      couponIds:[],
-      image:image,
-      genderType:data.gender?.id,
-      pushUp:optionalFields.push,
-      settings:{
+      ageUnlimited: false,
+      couponIds: [],
+      image: image,
+      genderType: data.gender?.id,
+      pushUp: optionalFields.push,
+      settings: {
         weekDays:
-        optionalFields.push && data?.days?.length
-          ? data.days.map((el: any) => el.id)
-          : [0, 1, 2, 3, 4, 5, 6],
-        aroundTheClock:checked ? true:false,
-      time: {
-        from: optionalFields.push && data?.timeFrom ? data.timeFrom : "00:00",
-        to: optionalFields.push && data?.timeTo ? data.timeTo : "23:59",
+          optionalFields.push && data?.days?.length
+            ? data.days.map((el: any) => el.id)
+            : [0, 1, 2, 3, 4, 5, 6],
+        aroundTheClock: checked ? true : false,
+        time: {
+          from: optionalFields.push && data?.timeFrom ? data.timeFrom : "00:00",
+          to: optionalFields.push && data?.timeTo ? data.timeTo : "23:59",
+        },
+        stores:
+          optionalFields.push && data?.filialID?.length
+            ? data.filialID.map((el: any) => el.value)
+            : [],
       },
-        stores:optionalFields.push&&data?.filialID?.length ? data.filialID.map((el:any)=>el.value):[]
-      },
-      pushUpTitle: data.descriptionPush
-      
-    }
-
-    setSubmit(true)
-    setFormData(newsData)
+      pushUpTitle: data.descriptionPush,
+    };
+    
+    mutate(newsData);
+    setTimeout(() => history.push('/news/waiting'), 1000);
   };
- 
- const submitData=()=>{
-   console.log(formData)
-       mutate(formData);
-    setTimeout(() => history.goBack(), 1000);
- }
+  console.log("filters datse", filter);
+
+  const genderType = [
+    {
+      label:
+        newsById?.data?.genderType === 1
+          ? "Для мужчин"
+          : newsById?.data?.genderType === 2
+          ? "Для женщин"
+          :newsById?.data?.genderType === 0 ?"Для всех":'',
+    },
+  ];
+
+  const weekDays = newsById?.data?.settings?.weekDays.map((el: any) => {
+    return {
+      label:
+        el == 0
+          ? "Воскресенье"
+          : el == 1
+          ? "Вторник"
+          : el == 2
+          ? "tuesday"
+          : el == 3
+          ? "Среда"
+          : el == 4
+          ? "Четверг"
+          : el == 5
+          ? "Пятница"
+          : "Суббота",
+    };
+  });
+  const mergedBranches=filteredArray?.map((item:any)=>{
+    return {
+        value:item.id,
+        label:item.name
+    }
+  })
+
+  React.useEffect(() => {
+    setValue("filialID", mergedBranches);
+  }, [mergedBranches]);
 
 
   return (
@@ -183,58 +248,9 @@ const CreateNews = () => {
         />
         <Title>Добавление новости</Title>
       </div>
-      <Modal modalStyle={{ bgcolor: "#fff" }} open={submit}>
-            <WrapperModal>
-                <CloseButton  onClick={() => setSubmit(false)}>
-                    <CloseIcon />
-                </CloseButton>
-                <h3>{filter?.regDate?.regDateFrom>todayDate ? t('Новость будет добавлена в раздел В ожидании ') :t('Новость будет опубликована сразу')}</h3>
-                <p>{filter?.regDate?.regDateFrom>todayDate ? t(`Новость будет опубликована ${filter?.regDate?.regDateFrom} `) :t('Новость будет попадает сразу в разделе актуалные, и будет доступна вашим клиентам')}</p>
-                <Button
-            buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
-            margin={{ laptop: "0 22px 0 0" }}
-            onClick={() => setSubmit(false)}
-            startIcon={<CancelIcon />}
-          >
-            Отмена
-          </Button>
-          <Button
-            type="submit"
-            margin={{ laptop: "0 22px 0 0" }}
-            onClick={submitData}
-            startIcon={<SaveIcon />}
-          >
-            Сохранить
-          </Button>
-            </WrapperModal>
-        </Modal>
-{/*       
-      <Modal open={submit}>
-        <SubmitModal>
-        {filter?.regDate?.regDateFrom>todayDate ? t('Новость будет добавлена в раздел В ожидании ') :t('Новость будет опубликована сразу')}
-          <p>{filter?.regDate?.regDateFrom>todayDate ? t(`Новость будет опубликована ${filter?.regDate?.regDateFrom} `) :t('Новость будет попадает сразу в разделе актуалные, и будет доступна вашим клиентам')}</p>
-          <Button
-            buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
-            margin={{ laptop: "0 22px 0 0" }}
-            onClick={() => setSubmit(false)}
-            startIcon={<CancelIcon />}
-          >
-            Отмена
-          </Button>
-          <Button
-            type="submit"
-            margin={{ laptop: "0 22px 0 0" }}
-            onClick={submitData}
-            startIcon={<SaveIcon />}
-          >
-            Сохранить
-          </Button>
-        </SubmitModal>
-      </Modal> */}
 
       <Form onSubmit={handleSubmit(submitNews)}>
         <UpSide>
-    
           <Container>
             <LeftSide>
               <Title>Фотографии</Title>
@@ -289,12 +305,14 @@ const CreateNews = () => {
                 rules={{
                   required: true,
                 }}
+                defaultValue={newsById?.data?.title}
                 render={({ field }) => (
                   <Input
                     error={!!errors.name}
                     message={t("requiredField")}
                     field={field}
                     label="Название"
+                    defaultValue={newsById?.data?.title}
                   />
                 )}
               />
@@ -305,6 +323,7 @@ const CreateNews = () => {
                 rules={{
                   required: true,
                 }}
+                defaultValue={newsById?.data?.description}
                 render={({ field }) => (
                   <Input
                     field={field}
@@ -313,6 +332,7 @@ const CreateNews = () => {
                     type="textarea"
                     message={t("requiredField")}
                     error={!!errors.description}
+                    defaultValue={newsById?.data?.description}
                     multiline={true}
                     inputStyle={{
                       height: { desktop: 120, laptop: 90, mobile: 60 },
@@ -339,6 +359,7 @@ const CreateNews = () => {
                     inputStyle={{
                       inpadding: "0 10px 0 0",
                     }}
+                    defaultValue={startDate}
                     value={filter?.regDate?.regDateFrom}
                     onChange={(e) =>
                       setFilter((prev: any) => ({
@@ -352,6 +373,7 @@ const CreateNews = () => {
                   />
                   <Input
                     type="date"
+                    defaultValue={endDate}
                     min={filter?.regDate?.regDateFrom}
                     width={{
                       maxwidth: 200,
@@ -382,6 +404,7 @@ const CreateNews = () => {
                   rules={{
                     required: true,
                   }}
+                  defaultValue={genderType}
                   render={({ field }) => (
                     <MultiSelect
                       isMulti={false}
@@ -389,6 +412,7 @@ const CreateNews = () => {
                       message={t("requiredField")}
                       field={field}
                       label="Выберите пол"
+                      defaultValue={genderType}
                       options={genders}
                       margin={{ laptop: "0 0 35px 0" }}
                     />
@@ -401,10 +425,11 @@ const CreateNews = () => {
                 rules={{
                   required: true,
                 }}
+                defaultValue={newsById?.data?.ageFrom}
                 render={({ field }) => (
                   <InputFormat
                     field={field}
-                    defaultValue={''}
+                    defaultValue={newsById?.data?.ageFrom}
                     max="100"
                     error={!!errors.ageLimit}
                     message={t("requiredField")}
@@ -418,7 +443,7 @@ const CreateNews = () => {
               <PushWrapper>
                 <PushBlock>
                   <h6 style={{ width: "80%" }}>
-                    {t('Использовать новость в формате Push-уведомления')}
+                    {t("Использовать новость в формате Push-уведомления")}
                   </h6>
                   <CustomToggle
                     onChange={(e: any) => handleOpenBlock(e, "push")}
@@ -428,6 +453,7 @@ const CreateNews = () => {
                   <Controller
                     name="descriptionPush"
                     control={control}
+                    defaultValue={newsById?.data?.pushUpTitle}
                     render={({ field }) => (
                       <Input
                         field={field}
@@ -435,6 +461,7 @@ const CreateNews = () => {
                         label="Текст Push-уведомления"
                         type="textarea"
                         multiline={true}
+                        defaultValue={newsById?.data?.pushUpTitle}
                         inputStyle={{
                           height: { desktop: 120, laptop: 90, mobile: 60 },
                         }}
@@ -453,12 +480,14 @@ const CreateNews = () => {
                   <Controller
                     name="days"
                     control={control}
+                    defaultValue={weekDays}
                     render={({ field }) => (
                       <MultiSelect
                         field={field}
                         isMulti={true}
                         options={days}
                         label="Укажите дни"
+                        defaultValue={weekDays}
                       />
                     )}
                   />
@@ -477,10 +506,12 @@ const CreateNews = () => {
                     <Controller
                       control={control}
                       name="timeFrom"
+                      defaultValue={newsById?.data?.settings?.time?.from}
                       render={({ field }) => (
                         <Input
                           margin={{ laptop: "0 25px 0 0" }}
                           type="time"
+                          defaultValue={newsById?.data?.settings?.time?.from}
                           field={field}
                         />
                       )}
@@ -488,8 +519,13 @@ const CreateNews = () => {
                     <Controller
                       control={control}
                       name="timeTo"
+                      defaultValue={newsById?.data?.settings?.time?.to}
                       render={({ field }) => (
-                        <Input type="time" field={field} />
+                        <Input
+                          type="time"
+                          field={field}
+                          defaultValue={newsById?.data?.settings?.time?.to}
+                        />
                       )}
                     />
                   </div>
@@ -510,11 +546,13 @@ const CreateNews = () => {
                   <Controller
                     control={control}
                     name="filialID"
+                    defaultValue={mergedBranches? mergedBranches:''}
                     render={({ field }) => {
                       return (
                         <MultiSelect
                           options={branches}
                           isMulti={true}
+              
                           selectStyle={{
                             bgcolor: "#eff0fd",
                             border: "none",
@@ -549,7 +587,6 @@ const CreateNews = () => {
             Отменить
           </Button>
           <Button
-            // onClick={() => setSubmit(true)}
             type="submit"
             margin={{ laptop: "0 25px" }}
             startIcon={<SaveIcon />}

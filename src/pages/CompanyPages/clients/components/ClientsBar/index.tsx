@@ -31,7 +31,7 @@ import {
 import CustomToggle from "components/Custom/CustomToggleSwitch";
 import { BlockModal } from '../BlockModal'
 import Modal from 'components/Custom/Modal'
-
+import clientDefaultImage from "assets/images/staff_default.png"
 interface IProps {
     refetch: any;
 }
@@ -126,7 +126,10 @@ export const ClientsBar = ({ refetch }: IProps) => {
                 <WrapperContent>
                     <div>
                         <Content>
-                            {client.image ? <img src={client.image} alt="clientAvatar" /> : <DefaultImage />}
+                            {client.image ? <img src={client.image} onError={(e: any) => {
+                                e.target.onerror = null;
+                                e.target.src = clientDefaultImage;
+                            }} alt="clientAvatar" /> : <DefaultImage />}
                             <ContentInfo>
                                 <p>{client.firstName} {client.lastName}</p>
                                 <span>Статус: {client.personalLoyaltyInfo.isActive ? client.addInfo.status : client.obtainProgramLoyalty.levelName} {client.personalLoyaltyInfo.isActive ? client.personalLoyaltyInfo.percent : client.obtainProgramLoyalty.percent}%</span>
