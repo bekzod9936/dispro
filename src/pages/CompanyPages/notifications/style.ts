@@ -27,6 +27,9 @@ export const Container = styled.div`
   height: 100%;
   flex-direction: column;
   position: relative;
+  @media (max-width: ${device.mobile}) {
+    padding: 15px 0 0 15px;
+  }
 `;
 
 export const Card = styled.div`
@@ -46,7 +49,6 @@ export const CardImg = styled.div`
   width: 100%;
   height: 200px;
   overflow: hidden;
-  border-radius: 14px;
 `;
 
 export const TitleCard = styled.div`
@@ -58,6 +60,9 @@ export const TitleCard = styled.div`
   white-space: nowrap;
   @media (min-width: ${device.laptop}) {
     font-size: 16px;
+  }
+  @media (max-width: ${device.mobile}) {
+    font-size: 14px;
   }
 `;
 
@@ -141,6 +146,8 @@ export const WrapperCard = styled.div`
   border-radius: 14px;
   @media (max-width: ${device.mobile}) {
     grid-template-columns: minmax(100%, 1fr);
+    padding-right: 15px;
+    grid-gap: 25px;
   }
 `;
 
@@ -159,6 +166,9 @@ export const Wrap = styled.div`
   &::-webkit-scrollbar-thumb {
     background: #606eea;
     border-radius: 14px 0px 0px 14px;
+  }
+  @media (max-width: ${device.mobile}) {
+    margin-top: 15px;
   }
 `;
 

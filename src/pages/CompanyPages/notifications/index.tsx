@@ -95,7 +95,7 @@ const Notifications = () => {
           height='100%'
           width='100%'
           style={{
-            objectFit: 'scale-down',
+            objectFit: 'contain',
             userSelect: 'none',
           }}
         />
@@ -147,8 +147,8 @@ const Notifications = () => {
                       height='100%'
                       width='100%'
                       style={{
-                        objectFit: 'scale-down',
-                        borderRadius: '14px',
+                        objectFit: 'contain',
+                        borderRadius: '14px 14px 0 0',
                       }}
                       effect='blur'
                     />
@@ -180,6 +180,7 @@ const Notifications = () => {
               count={totalCount}
               onChange={handlechangePage}
               disabled={response.isLoading || response.isFetching}
+              siblingCount={0}
             />
           </WrapPag>
         </Wrap>
