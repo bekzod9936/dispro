@@ -1,8 +1,25 @@
 import styled from 'styled-components';
 import { device } from '../../../styles/device';
 import { ReactComponent as Close } from 'assets/icons/IconsInfo/close.svg';
+import { ReactComponent as Message } from 'assets/icons/message.svg';
 
-export const CloseIcon = styled(Close)``;
+export const MessageIcon = styled(Message)`
+  width: 24px;
+  height: 24px;
+  @media (max-width: ${device.mobile}) {
+    width: 18px;
+    height: 18px;
+  }
+`;
+
+export const CloseIcon = styled(Close)`
+  width: 18px;
+  height: 18px;
+  @media (max-width: ${device.mobile}) {
+    width: 15px;
+    height: 15px;
+  }
+`;
 
 export const WrapIcon = styled.div`
   position: absolute;
@@ -18,6 +35,11 @@ export const WrapIcon = styled.div`
   cursor: pointer;
   :hover {
     background-color: #ddd;
+  }
+  @media (max-width: ${device.mobile}) {
+    width: 33px;
+    height: 33px;
+    top: 10px;
   }
 `;
 
@@ -42,13 +64,15 @@ export const Card = styled.div`
   flex-direction: column;
   flex: 1;
   width: 100%;
-  margin-right: 25px;
 `;
 
 export const CardImg = styled.div`
   width: 100%;
   height: 200px;
   overflow: hidden;
+  @media (max-width: ${device.mobile}) {
+    height: 180px;
+  }
 `;
 
 export const TitleCard = styled.div`
@@ -60,9 +84,6 @@ export const TitleCard = styled.div`
   white-space: nowrap;
   @media (min-width: ${device.laptop}) {
     font-size: 16px;
-  }
-  @media (max-width: ${device.mobile}) {
-    font-size: 14px;
   }
 `;
 
@@ -100,6 +121,9 @@ export const CardBody = styled.div`
   padding: 10px 20px;
   background-color: ${({ open }: Props) => (open ? '#eff0fd' : 'white')};
   border-radius: 0 0 14px 14px;
+  @media (max-width: ${device.mobile}) {
+    padding: 10px;
+  }
 `;
 
 export const WrapTitle = styled.div`

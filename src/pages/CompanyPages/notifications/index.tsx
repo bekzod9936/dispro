@@ -6,7 +6,6 @@ import useNotefications from './useNotefications';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import Button from 'components/Custom/Button';
 import Spinner from 'components/Custom/Spinner';
-import { ReactComponent as MessageIcon } from 'assets/icons/message.svg';
 import dayjs from 'dayjs';
 import notification from 'assets/images/notification.png';
 import notificationDef from 'assets/images/notificationDefault.png';
@@ -36,6 +35,7 @@ import {
   WrapIcon,
   WrapInfoBox,
   WrapDefault,
+  MessageIcon,
 } from './style';
 
 interface intialFilterProps {
@@ -111,7 +111,16 @@ const Notifications = () => {
         <WrapButton>
           <Button
             onClick={() => history.push('/support')}
-            startIcon={<MessageIcon />}
+            startIcon={width > 600 ? <MessageIcon /> : null}
+            endIcon={width <= 600 ? <MessageIcon /> : null}
+            buttonStyle={{
+              height: {
+                mobile: 38,
+              },
+              fontSize: {
+                mobile: 14,
+              },
+            }}
           >
             {t('writetous')}
           </Button>
