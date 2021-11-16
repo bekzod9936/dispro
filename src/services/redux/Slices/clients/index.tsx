@@ -33,8 +33,7 @@ const clientsSlice = createSlice({
                     pointSum: el.addInfo.pointSum || "-",
                     cashbackSum: el.addInfo.cashbackSum || "-",
                     gender: el.addInfo.genderStr,
-                    age:
-                        new Date().getFullYear() - new Date(el.dateOfBirth).getFullYear(),
+                    age: new Date().getFullYear() - new Date(el.dateOfBirth).getFullYear(),
                     amountOperation: el.addInfo.amountOperation || "-",
                     countRefer: el.addInfo.countRefer || "-",
                     sourceBy: el.addInfo.sourceBy,
@@ -66,9 +65,11 @@ const clientsSlice = createSlice({
         },
         setFilters: (state: IState, { payload }: PayloadAction<IFilters>) => {
             state.filters = { ...payload }
+            state.page = 1
         },
         resetFilters: (state: IState) => {
             state.filters = {}
+            state.page = 1
         },
         setOpenSideBar: (state: IState, { payload }: PayloadAction<boolean>) => {
             state.qrCodeBar = payload

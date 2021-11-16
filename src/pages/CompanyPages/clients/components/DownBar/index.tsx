@@ -2,7 +2,7 @@ import { CloseIcon, CoinsIcon, MiniCloseIcon } from 'assets/icons/ClientsPageIco
 import Button from "components/Custom/Button";
 import CustomToggle from "components/Custom/CustomToggleSwitch";
 import FullModal from 'components/Custom/FullModal';
-import React, { useEffect, useState, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 import { selectAll, setClient } from "services/redux/Slices/clients";
 import { Content, Footer, Header, Main, Wrapper } from "./style";
@@ -12,51 +12,40 @@ interface IProps {
 export const DownBar = ({ setForm }: IProps) => {
     const { selectedClients } = useAppSelector(state => state.clients)
     const client = selectedClients[0]
-    const downbarRef = useRef<HTMLDivElement | null>(null)
+
     const [open, setOpen] = useState<"hide" | "show" | "fullShow">("hide")
     const dispatch = useAppDispatch()
+
     const checked = selectedClients.length > 1 ? false : client?.personalLoyaltyInfo?.isActive
+
     const handleRemoveClient = (id: number) => {
         dispatch(setClient(id))
     }
 
-    useEffect(() => {
-        let timerId: any;
-        if (selectedClients.length === 0) {
-            setOpen("hide")
-            timerId = setTimeout(() => {
-                if (downbarRef.current) {
-                    downbarRef.current.style.visibility = "hidden"
-                }
-            }, 1000)
-        }
-        else if (open === "hide") {
-            if (downbarRef.current) {
-                downbarRef.current.style.visibility = "visible";
-                setOpen("show");
-            }
-        }
-        return () => clearTimeout(timerId)
-    }, [selectedClients])
+
 
 
     const handleClick = (e: any) => {
         dispatch(selectAll(e.target.value === "true"));
     };
 
-    const handleChange = (e: any) => {
-        const checked = e.target.checked;
-        if (checked) {
-            setForm({
-                action: 3,
-                isOpen: checked,
-            });
+    // const handleChange = (e: any) => {
+    //     const checked = e.target.checked;
+    //     if (checked) {
+    //         setForm({
+    //             action: 3,
+    //             isOpen: checked,
+    //         });
 
-        } else setForm({
-            action: 5,
-            isOpen: true
-        })
-    };
+    //     } else setForm({
+    //         action: 5,
+    //         isOpen: true
+    //     })
+    // };
+
+    useEffect(() => {
+        if (selectedClients.length === 0) setOpen("hide")
+    }, [selectedClients.length])
     return (
         <>
             <Header>
@@ -83,6 +72,12 @@ export const DownBar = ({ setForm }: IProps) => {
             <FullModal
                 direction="down"
                 open={open === "fullShow"}>
+                <Header>
+                    <>
+                        <h5>Выбранно клиентов: {selectedClients.length}</h5>
+                        <CloseIcon onClick={() => setOpen("show")} />
+                    </>
+                </Header>
                 <Main>
                     <Content>
                         {selectedClients.map((client) => (
@@ -98,7 +93,7 @@ export const DownBar = ({ setForm }: IProps) => {
                     <Footer>
                         <div className="vipProcent">
                             <h6>Индивидуальный статус</h6>
-                            <CustomToggle checked={checked} onChange={handleChange} />
+                            <CustomToggle checked={checked} />
                         </div>
                         <Button
                             onClick={() =>
