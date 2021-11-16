@@ -18,6 +18,7 @@ export interface staffsState {
   selectedRole?: any;
   cashierId?: any;
   staffData: any;
+  pointHistories: any;
 }
 
 export interface ICashiers {
@@ -72,3 +73,10 @@ export interface IManagers {
   telNumber?: string;
   userId?: number;
 }
+
+export interface IPointHistories {
+	amount: number;
+	date: number;
+	operation: number;
+	
+  }

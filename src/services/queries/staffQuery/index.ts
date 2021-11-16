@@ -1,3 +1,4 @@
+import id from "date-fns/locale/id";
 import partnerApi from "services/interceptors/companyInterceptor";
 
 //cashiers tab
@@ -95,6 +96,19 @@ export const getStaffData = async (id: any) => {
 
 export const resetPoints = async (data: any) => {
   const response = await partnerApi.put("/core/cashier/reset-points", data);
+
+  return response;
+};
+
+//point histories
+
+interface Props {
+	url: string;
+	id: number
+  }
+
+export const getPointHistories = async ({id, url}: Props) => {
+  const response = await partnerApi.get(`/core/staffs/cashier/point-histories/${id}?${url}`);
 
   return response;
 };
