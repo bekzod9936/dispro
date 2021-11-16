@@ -468,5 +468,7 @@
   "selectdate": "Выберите дату публикации",
   "chooseperiod": "Выбрать период",
   "sortnewclients": "Прирост новых клиентов",
-  "therewillbeahistoryofcashiers": "Тут будет находиться история по кассирам"
+  "therewillbeahistoryofcashiers": "Тут будет находиться история по кассирам",
+  "notification1": " уведомления",
+  "notification23": "уведомлений"
 }

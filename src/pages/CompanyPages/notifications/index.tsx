@@ -10,6 +10,10 @@ import { ReactComponent as MessageIcon } from 'assets/icons/message.svg';
 import dayjs from 'dayjs';
 import notification from 'assets/images/notification.png';
 import notificationDef from 'assets/images/notificationDefault.png';
+import { useHistory } from 'react-router';
+import useWindowWidth from 'services/hooks/useWindowWidth';
+import FullModal from 'components/Custom/FullModal';
+import { countPagination } from './utils';
 import {
   Container,
   Card,
@@ -33,10 +37,6 @@ import {
   WrapInfoBox,
   WrapDefault,
 } from './style';
-import { useHistory } from 'react-router';
-import useWindowWidth from 'services/hooks/useWindowWidth';
-import FullModal from 'components/Custom/FullModal';
-import { countPagination } from 'services/utils';
 
 interface intialFilterProps {
   page?: number;
@@ -68,7 +68,7 @@ const Notifications = () => {
   const [filterValues, setFilterValues] =
     useState<intialFilterProps>(intialFilter);
 
-  const { response, data, totalCount, between } = useNotefications({
+  const { response, data, totalCount, between, pages } = useNotefications({
     filterValues: filterValues,
   });
 
@@ -168,11 +168,11 @@ const Notifications = () => {
             <Info>
               {t('shown')}
               <span>{between}</span>
-              {t('from1')} <span>{totalCount}</span>
+              {t('from1')} <span>{pages}</span>
               {countPagination({
                 count: totalCount,
-                firstWord: t('page1'),
-                secondWord: t('page23'),
+                firstWord: t('notification1'),
+                secondWord: t('notification23'),
               })}
             </Info>
             <Pagination

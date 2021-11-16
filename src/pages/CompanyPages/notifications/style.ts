@@ -34,22 +34,11 @@ export const Card = styled.div`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
   border-radius: 14px;
   height: 300px;
-  /* width: calc(33% - 10px);
-  max-width: calc(33% - 10px);
-  min-width: 290px; */
   cursor: pointer;
   display: flex;
   flex-direction: column;
   flex: 1;
   width: 100%;
-  @media (min-width: ${device.laptop}) {
-    /* width: calc(25% - 10px);
-    max-width: calc(25% - 10px); */
-  }
-  @media (max-width: ${device.mobile}) {
-    /* width: 100%;
-    min-width: 100%; */
-  }
 `;
 
 export const CardImg = styled.div`
@@ -63,6 +52,9 @@ export const TitleCard = styled.div`
   font-weight: bold;
   font-size: 14px;
   color: #223367;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   @media (min-width: ${device.laptop}) {
     font-size: 16px;
   }
@@ -88,6 +80,8 @@ export const Date = styled.div`
   font-weight: normal;
   font-size: 11px;
   color: #8f8f8f;
+  white-space: nowrap;
+  margin-left: 10px;
   @media (min-width: ${device.laptop}) {
     font-size: 12px;
   }
@@ -95,13 +89,10 @@ export const Date = styled.div`
 
 export const CardBody = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
   flex-direction: column;
   flex: 1;
-  padding: 0 20px;
+  padding: 10px 20px;
   background-color: ${({ open }: Props) => (open ? '#eff0fd' : 'white')};
-
   border-radius: 0 0 14px 14px;
 `;
 
@@ -110,6 +101,7 @@ export const WrapTitle = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  margin-bottom: 10px;
 `;
 
 export const WrapPag = styled.div`
@@ -139,7 +131,7 @@ export const Info = styled.div`
 
 export const WrapperCard = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(30%, 1fr));
   grid-gap: 20px;
   & > :hover {
     box-shadow: 4px 4px 10px grey;
@@ -147,9 +139,6 @@ export const WrapperCard = styled.div`
   border-radius: 14px;
   @media (max-width: ${device.mobile}) {
     grid-template-columns: 1fr;
-  }
-  @media (min-width: ${device.laptop}) {
-    grid-template-columns: repeat(4, 1fr);
   }
 `;
 
@@ -204,7 +193,7 @@ export const WrapScroll = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
-  padding: 15px 25px;
+  padding: 15px 25px 0 25px;
   justify-content: space-between;
 `;
 interface Props {
@@ -219,7 +208,7 @@ export const SideDrawer = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
-  max-width: 320px;
+  max-width: 40%;
   width: 100%;
   height: 100%;
   background-color: #ffffff;
@@ -234,6 +223,7 @@ export const WrapButton = styled.div`
   align-items: flex-end;
   justify-content: center;
   width: 100%;
+  margin: 35px 0;
 `;
 
 export const WrapInfoBox = styled.div``;
@@ -247,12 +237,27 @@ export const WrapDefault = styled.div`
   height: 100%;
   width: 100%;
   & > img {
-    width: 30%;
+    width: 25%;
     height: 50%;
+    min-width: 200px;
+    min-height: 200px;
+    max-width: 360px;
+    max-height: 320px;
   }
   & > span {
     margin-top: 30px;
     font-size: 18px;
     color: #223367;
+    text-align: center;
+  }
+  @media (max-width: ${device.mobile}) {
+    & > img {
+      width: 50%;
+      height: 50%;
+    }
+    & > span {
+      margin-top: 40px;
+      font-size: 16px;
+    }
   }
 `;
