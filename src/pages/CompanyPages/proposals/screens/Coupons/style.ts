@@ -72,12 +72,17 @@ export const Wrapper = styled.div`
     width: 100%;
     height: 100%;
     @media (max-width: ${device.mobile}) {
-      position: absolute;
+      position: fixed;
       top: 0;
       left: 0;
+      bottom: 0;
       z-index: 2500;
+      display: flex;
+      align-items: center;
+      orientation: portret;
     } 
 `
+
 export const MobileHeader = styled.div`
   background-color: white;
   display: flex;
@@ -181,11 +186,11 @@ export const Form = styled.form`
     @media (max-width: ${device.mobile}) {
       width: 100%;
       padding: 0;
-      overflow-y: auto;
       justify-content: initial;
       align-items: center;
       min-height: none;
       height: 100%;
+      border-radius: 0;
     }
     overflow: hidden;
     min-height: 500px;
