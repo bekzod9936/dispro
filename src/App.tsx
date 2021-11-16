@@ -1,4 +1,6 @@
 import { useEffect } from "react";
+import { useQueryErrorResetBoundary } from "react-query";
+// import { ErrorBoundary } from 'react-error-boundary';
 import { useTranslation } from "react-i18next";
 import { Switch, Route } from "react-router-dom";
 import { RenderAllRoutes } from "./routes/Protection";
@@ -18,8 +20,8 @@ function App() {
   const language: string = localStorage.getItem("language") || "";
   const notifyOpen = useAppSelector((state) => state.firebaseSlice.notifyOpen);
   const info = useAppSelector((state) => state.firebaseSlice.info);
+  const { reset } = useQueryErrorResetBoundary();
 
-  console.log(notifyOpen, "open notify");
   useEffect(() => {
     if (language !== "") {
       i18n.changeLanguage(language);

@@ -4,10 +4,9 @@ import { Switch, Route } from "react-router-dom";
 import NavBar from "components/Custom/NavBar";
 import Spinner from "components/Custom/Spinner";
 import Title from "components/Custom/Title";
-import { Flex } from "../../../styles/BuildingBlocks";
 import { PageWrapperFlex } from "../../../styles/CustomStyles";
 import useSettingsRoute from "./routes";
-import { SpinnerDiv } from "./styles";
+import { SpinnerDiv, WrapperNav, WrapperTitle } from "./styles";
 
 const SettingsPage = () => {
   const { t } = useTranslation();
@@ -15,10 +14,12 @@ const SettingsPage = () => {
 
   return (
     <PageWrapperFlex>
-      <Title>{t("settings")}</Title>
-      <Flex width="90%" alignItems="center" margin="0px">
+      <WrapperTitle>
+        <Title>{t("settings")}</Title>
+      </WrapperTitle>
+      <WrapperNav>
         <NavBar list={menuItems} margin="20px 0" padding="0 10px 10px 0" />
-      </Flex>
+      </WrapperNav>
 
       <Switch>
         <Suspense

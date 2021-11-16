@@ -10,6 +10,7 @@ import { RootState } from "services/redux/store";
 import { useWindowSize } from "../../hooks/useWindowSize";
 import { AddColumnButton } from "./components/AddColumnBtn/AddColumnButton";
 import { addedHeaders } from "./headers";
+import clientDefault from "assets/images/staff_default.png"
 import {
   TableHeader,
   Tbody,
@@ -43,7 +44,8 @@ export const Table = () => {
       name: client.firstName + " " + client.lastName,
       image: client.image,
       discountValue: client.personalLoyaltyInfo.percent,
-      id: client.id
+      id: client.id,
+      userId: client.userId
     }))
   }, [clients])
 
@@ -123,7 +125,12 @@ export const Table = () => {
                         return (
                           <Td {...cell.getCellProps()}>
                             <ClientTd>
-                              {src ? <img src={src} /> : <DefaultImage />}
+                              {src ?
+                                <img src={src} onError={(e: any) => {
+                                  e.target.onerror = null;
+                                  e.target.src = clientDefault
+                                }} /> :
+                                <DefaultImage />}
                               {cell.render("Cell")}
                             </ClientTd>
                           </Td>

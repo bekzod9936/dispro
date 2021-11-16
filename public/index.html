@@ -5,8 +5,9 @@
     <link rel="icon" href="%PUBLIC_URL%/logo.ico" />
     <meta
       name="viewport"
-      content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width viewport-fit=cover"
+      content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width, user-scalable=no"
     />
+    <!-- width=device-width, viewport-fit=cover -->
     <!-- <meta name="viewport" content="viewport-fit=fill" /> -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="theme-color" content="#000000" />
@@ -39,6 +40,18 @@
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <script>
+      var goFS = document.getElementById("goFS");
+      goFS.addEventListener(
+        "click",
+        function () {
+          const elem = document.documentElement;
+          if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+          }
+        },
+        false
+      );
+
       var customViewportCorrectionVariable = "vh";
 
       function setViewportProperty(doc) {

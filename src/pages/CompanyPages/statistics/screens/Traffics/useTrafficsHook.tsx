@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { useQuery } from "react-query";
-import { fetchCilentsData } from "services/queries/statisticsQuery";
-import { useAppDispatch } from "services/redux/hooks";
-import { setTraffic } from "services/redux/Slices/statistics/statistics";
+import { useState } from 'react';
+import { useQuery } from 'react-query';
+import { fetchCilentsData } from 'services/queries/statisticsQuery';
+import { useAppDispatch } from 'services/redux/hooks';
+import { setTraffic } from 'services/redux/Slices/statistics/statistics';
 interface Props {
   filterValues?: any;
 }
@@ -11,27 +11,25 @@ const useTrafficsHook = ({ filterValues }: Props) => {
   const dispatch = useAppDispatch();
   const [data, setData] = useState([
     {
-      source: "",
-      clientCount: "",
-      clientPayedCount: "",
-      chequeCount: "",
-      receipts: "",
+      source: '',
+      clientCount: '',
+      clientPayedCount: '',
+      chequeCount: '',
+      receipts: '',
     },
   ]);
 
   const response = useQuery(
-    "fetchTrafficsInfo",
+    'fetchTrafficsInfo',
     () => {
       const url = Object.keys(filterValues)
         .map((v: any) => `${v}=${filterValues[v]}&`)
-        .join("");
+        .join('');
       return fetchCilentsData({ section: `traffic?${url}` });
     },
     {
       keepPreviousData: true,
       refetchOnWindowFocus: false,
-      refetchIntervalInBackground: true,
-      staleTime: 5000,
       retry: 0,
       onSuccess: (data: any) => {
         setData(data?.data?.data?.refStats);

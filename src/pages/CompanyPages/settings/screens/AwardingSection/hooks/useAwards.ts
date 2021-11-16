@@ -23,7 +23,7 @@ const useAwards = () => {
     name: "vipCheck",
   });
 
-  const { refetch } = useQuery(["rewards"], () => fetchRewards(), {
+  const { refetch, isLoading } = useQuery(["rewards"], () => fetchRewards(), {
     retry: 0,
     refetchOnWindowFocus: false,
     onSuccess: (data) => {
@@ -134,6 +134,7 @@ const useAwards = () => {
     vipCheck,
     birthdayCheck,
     saveBonus,
+    isLoading,
   };
 };
 

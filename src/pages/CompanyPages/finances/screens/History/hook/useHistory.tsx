@@ -1,14 +1,14 @@
-import { useQuery } from "react-query";
-import { fetchFinanceHistory } from "services/queries/financeQuery";
-import { useAppDispatch } from "services/redux/hooks";
+import { useQuery } from 'react-query';
+import { fetchFinanceHistory } from 'services/queries/financeQuery';
+import { useAppDispatch } from 'services/redux/hooks';
 import {
   setCashierHistoryFinance,
   setHistoryFinanceBetween,
   setHistoryFinanceData,
   setHistoryFinanceTotal,
   setSumHistoryFinance,
-} from "services/redux/Slices/finance";
-import { formatPagination } from "services/utils/formatPagination";
+} from 'services/redux/Slices/finance';
+import { formatPagination } from 'services/utils/formatPagination';
 
 interface PProps {
   filterValues: any;
@@ -18,11 +18,11 @@ const useHistory = ({ filterValues }: PProps) => {
   const dispatch = useAppDispatch();
 
   const response = useQuery(
-    ["fetchPaymentInfo", filterValues],
+    ['fetchPaymentInfo', filterValues],
     () => {
       const url = Object.keys(filterValues)
         .map((v: any) => `${v}=${filterValues[v]}&`)
-        .join("");
+        .join('');
       return fetchFinanceHistory({
         url: url,
       });
@@ -37,9 +37,10 @@ const useHistory = ({ filterValues }: PProps) => {
         );
 
         dispatch(
-          setHistoryFinanceTotal(
-            Math.ceil(data.data.data.totalCount / filterValues?.perPage)
-          )
+          setHistoryFinanceTotal({
+            count: Math.ceil(data.data.data.totalCount / filterValues?.perPage),
+            pages: data.data.data.totalCount,
+          })
         );
         dispatch(
           setHistoryFinanceBetween(
@@ -52,18 +53,9 @@ const useHistory = ({ filterValues }: PProps) => {
         );
         dispatch(
           setSumHistoryFinance({
-            total: data.data.data.cashierHistories.histories.reduce(
-              (sum: any, v: any) => sum + v?.payInfo?.amountTotal,
-              0
-            ),
-            minus: data.data.data.cashierHistories.histories.reduce(
-              (sum: any, v: any) => sum + v?.payInfo?.amountMinus,
-              0
-            ),
-            paid: data.data.data.cashierHistories.histories.reduce(
-              (sum: any, v: any) => sum + v?.payInfo?.amountPayed,
-              0
-            ),
+            total: data.data.data.amountTotal,
+            minus: data.data.data.amountMinus,
+            paid: data.data.data.amountPayed,
           })
         );
         dispatch(

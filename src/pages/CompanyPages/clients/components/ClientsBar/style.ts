@@ -109,6 +109,25 @@ export const SubContent = styled.div`
 
 export const Buttons = styled.div`
     margin-bottom: 50px;
+    .blockedContent {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        p {
+            color: #FF5E68;
+            font-size: 14px;
+            font-weight: 300;
+            margin-bottom: 5px;
+
+
+        }
+        b {
+            color: #223367;
+            font-size: 14px;
+            font-weight: 300;
+            margin-bottom: 20px;
+        }
+    }
     button.updatePercent {
         font-size: 16px;
         line-height: 18.75px;
@@ -130,7 +149,7 @@ export const MToggle = styled.div`
     align-items: center;
     p {
         margin-right: 15px;
-        margin-bottom: 0;
+        margin-bottom: 0 !important;
         font-size: 16px;
         line-height: 21px;
         color: #223367;

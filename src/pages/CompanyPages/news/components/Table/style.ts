@@ -1,11 +1,14 @@
-import styled from 'styled-components';
-import { ReactComponent as Up } from 'assets/icons/up.svg';
+import styled from "styled-components";
+import { ReactComponent as Up } from "assets/icons/up.svg";
 
 interface Props {
   up?: boolean;
   active?: boolean;
 }
-
+interface ITRow {
+  background?: boolean | number;
+  checked?: boolean;
+}
 export const Container = styled.div`
   background: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
@@ -59,10 +62,10 @@ export const Thead = styled.thead`
   border-radius: 14px 14px 0 0;
   & > tr:last-child {
     border-top: ${({ header2 }: Props) =>
-      header2 ? '1px solid rgba(96, 110, 234, 0.3)' : null};
+      header2 ? "1px solid rgba(96, 110, 234, 0.3)" : null};
     & > th:first-child {
       border-right: ${({ header2 }: Props) =>
-        header2 ? '1px solid rgba(96, 110, 234, 0.3)' : null};
+        header2 ? "1px solid rgba(96, 110, 234, 0.3)" : null};
     }
   }
   & > tr {
@@ -73,17 +76,18 @@ export const Thead = styled.thead`
 export const Tr = styled.tr``;
 
 export const Th = styled.th`
-  padding: 0 10px;
+  text-align: left;
+  padding: 0 40px;
   font-weight: normal;
   font-size: 16px;
-  color: ${({ active }: Props) => (active ? '#223367' : '#a5a5a5')}!important;
+  color: ${({ active }: Props) => (active ? "#223367" : "#a5a5a5")}!important;
   border-radius: 14px 14px 0 0;
   :hover {
-    color: ${({ active }: Props) => (active ? null : '#3492FF')}!important;
+    color: ${({ active }: Props) => (active ? null : "#3492FF")}!important;
     & > svg {
       & > path {
         fill: ${({ active }: Props) =>
-          active ? '#223367' : '#8f8f8f'}!important;
+          active ? "#223367" : "#8f8f8f"}!important;
       }
     }
   }
@@ -105,7 +109,8 @@ export const Tbody = styled.tbody`
 
 export const Td = styled.td`
   padding: 15px;
-  text-align: center;
+  padding-left: 40px;
+  text-align: left;
   text-transform: capitalize;
   font-weight: normal;
   font-size: 16px;
@@ -113,9 +118,101 @@ export const Td = styled.td`
 `;
 
 export const UpIcon = styled(Up)`
-  transform: ${({ up }: Props) => (up ? 'rotate(-180deg)' : 'rotate(0)')};
+  transform: ${({ up }: Props) => (up ? "rotate(-180deg)" : "rotate(0)")};
   margin-left: 5px;
   & > path {
-    fill: ${({ active }: Props) => (active ? '#223367' : 'transparent')};
+    fill: ${({ active }: Props) => (active ? "#223367" : "transparent")};
   }
 `;
+
+export const AgeData = styled.div`
+  display: flex;
+  position: relative;
+  align-items: center;
+
+  p {
+    font-size: 14px;
+  }
+  h4 {
+    padding: 10px 20px;
+    font-size: 14px;
+    background: linear-gradient(215.2deg, #8bdd59 -12.1%, #dcf089 101.51%);
+    border-radius: 14px;
+  }
+  h3 {
+    padding: 10px 20px;
+    margin-left:30px;
+    font-size: 14px;
+    background: linear-gradient(215.2deg, #C7EEFF -12.1%, #FCA9EA 101.51%);
+border-radius: 14px;
+  }
+  `
+
+export const TitleData = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  /* margin-left: 15px; */
+  img {
+    border-radius: 14px;
+    width: 40px;
+    height: 40px;
+    margin-right: 15px;
+  }
+`;
+
+export const TRow = styled.tr`
+  border: none;
+  transition: 100ms all;
+  cursor: pointer;
+  background-color: ${({ checked }: ITRow) =>
+    checked ? "rgba(96, 110, 234, 0.3) !important" : "transparent"};
+`;
+export const DefaultImage = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  background: linear-gradient(215.2deg, #c7eeff -12.1%, #fca9ea 101.51%);
+  margin-right: 15px;
+`;
+
+
+export const ToolTipText = styled("span")({
+
+  visibility: "hidden",
+  width: "400px",
+  backgroundColor: "#fff",
+  color: "#223367",
+  textAlign: "center",
+  borderRadius: "6px",
+  padding: "20px 30px",
+  position: "absolute",
+  zIndex: 1,
+
+
+  left: "100%",
+  marginLeft: "-500px",
+  marginTop: "-50px",
+  ":after": {
+    content: '""',
+    position: "absolute",
+    top: "50%",
+    left: "100%",
+    marginLeft: "-5px",
+    
+    borderWidth: "5px",
+    borderStyle: "solid",
+    borderRadius: '14px',
+    borderColor: "white transparent transparent transparent"
+  }
+
+});
+
+export const ToolTip = styled("div")({
+  position: "relative",
+  display: "inline-block",
+ 
+  ":hover span": {
+    visibility: "visible"
+  }
+});

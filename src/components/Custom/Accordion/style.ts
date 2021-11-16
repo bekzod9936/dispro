@@ -3,6 +3,7 @@ import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
 import { ReactComponent as Down } from 'assets/icons/down.svg';
+import { device } from 'styles/device';
 
 export const DownIcon = styled(Down)`
   width: 12px !important;
@@ -29,6 +30,11 @@ export const Container = styled.div`
   .MuiAccordionDetails-root {
     padding: 0 20px 20px 20px !important;
   }
+  @media (max-width: ${device.mobile}) {
+    .MuiAccordionDetails-root {
+    padding: 0 10px 10px 10px !important;
+  }
+  }
   .MuiAccordionSummary-root.Mui-expanded {
     min-height: 48px;
   }
@@ -51,6 +57,11 @@ export const Container = styled.div`
   &::-webkit-scrollbar-thumb {
     background: #606eea;
     border-radius: 14px 0px 0px 14px;
+  }
+  @media (max-width: ${device.mobile}) {
+    .MuiAccordionSummary-content {
+      font-size: 14px;
+    }
   }
 `;
 

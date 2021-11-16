@@ -9,11 +9,8 @@ export const SpinnerDiv = styled.div`
 `;
 
 export const BottomBtnContainer = styled.div`
-  position: absolute;
   padding-top: 25px;
   padding-bottom: 20px;
-  bottom: 0;
-  left: 10px;
   width: 100%;
   background-color: #f1f4f6;
 `;
@@ -33,3 +30,9 @@ export const Break = styled.div`
 export const HBreak = styled.div`
   width: ${({ width }: WProps) => `${width}px`};
 `;
+
+export const WrapperNav = styled.div`
+  height: fit-content;
+`;
+
+export const WrapperTitle = styled.div``;

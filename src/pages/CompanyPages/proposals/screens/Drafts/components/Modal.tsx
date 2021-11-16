@@ -3,12 +3,15 @@ import { Certificate, VaucherIcon } from 'assets/icons/proposals/ProposalsIcons'
 import Modal from 'components/Custom/Modal'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
+import useWindowWidth from 'services/hooks/useWindowWidth'
 import styled from 'styled-components'
+import { device } from 'styles/device'
 interface IProps {
     open: boolean,
     setOpen: any
 }
 export const MModal = ({ open, setOpen }: IProps) => {
+    const { width } = useWindowWidth()
     const { t } = useTranslation()
     const handleClose = () => {
         setOpen(false)
@@ -30,7 +33,10 @@ export const MModal = ({ open, setOpen }: IProps) => {
                                 <VaucherIcon />
                             </Icon>
                             <CardContent>
-                                <h5>{t("coupon")}</h5>
+                                <div className="iconContainer">
+                                    {width <= 600 && <VaucherIcon style={{ height: 25, width: 30 }} />}
+                                    <h5>{t("coupon")}</h5>
+                                </div>
                                 <span>Идейные соображения высшего порядка, а также реализация намеченных плановых заданий позволяет выполнять важные задания.</span>
                             </CardContent>
                         </Card>
@@ -41,7 +47,10 @@ export const MModal = ({ open, setOpen }: IProps) => {
                                 <Certificate />
                             </Icon>
                             <CardContent>
-                                <h5>{t("certificate")}</h5>
+                                <div className="iconContainer">
+                                    {width <= 600 && <Certificate style={{ height: 20, width: 20 }} />}
+                                    <h5>{t("certificate")}</h5>
+                                </div>
                                 <span>Идейные соображения высшего порядка, а также реализация намеченных плановых заданий позволяет выполнять важные задания.</span>
                             </CardContent>
                         </Card>
@@ -58,8 +67,25 @@ const Icon = styled.div`
     box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.04);
     border-radius: 14px;
     margin-right: 25px;
+    @media (max-width: ${device.mobile}) {
+        display: none;
+    }
 `
 const CardContent = styled.div`
+    .iconContainer {
+        @media(max-width: ${device.mobile}) {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            h5 {
+                margin-left: 10px;
+                margin-bottom: 0;
+            }
+            svg {
+
+            }
+        }   
+    }
     h5 {
         color: #223367;
         font-size: 16px;
@@ -105,6 +131,16 @@ const Wrapper = styled.div`
         font-weight: 300;
         color: #223367;
         margin-bottom: 25px;
+    }
+    @media (max-width: ${device.mobile}) {
+        h3 {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+        p {
+            display: none;
+        }
     }
 `
 

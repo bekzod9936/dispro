@@ -11,7 +11,7 @@ export const Container = styled.div`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
   border-radius: 14px;
   overflow-x: auto;
-
+  margin-top: 20px;
   width: 100%;
   &:hover {
     ::-webkit-scrollbar-thumb {

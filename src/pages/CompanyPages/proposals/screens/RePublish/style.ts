@@ -25,17 +25,30 @@ export const AgeBlock = styled.div`
         color: #223367;
         font-weight: 500;
     }
+    @media (max-width: ${device.mobile}) {
+      h6 {
+        font-weight: 300;
+        line-height: 16.41px;
+        font-size: 14px;
+      }
+    }
 `
 export const LeftSide = styled.div`
     width: 45%;
     @media (max-width: 1250px) {
       width: 48%;
     }
+    @media (max-width: ${device.mobile}) {
+      width: 100%;
+    }
 `
 export const RightSide = styled.div`
     width: 40%;
     @media (max-width: 1250px) {
       width: 48%;
+    }
+    @media (max-width: ${device.mobile}) {
+      width: 100%;
     }
 `
 export const Container = styled.div`
@@ -47,13 +60,32 @@ export const Container = styled.div`
       padding-right: 20px;
     }
     padding: 20px 60px 20px 0;
+    @media (max-width: ${device.mobile}) {
+      flex-direction: column;
+      justify-content: initial;
+      padding: 15px;
+      height: initial;
+    }
 `
 
 export const Wrapper = styled.div`
     width: 100%;
     height: 100%;
+    @media (max-width: ${device.mobile}) {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 2500;
+    }
 `
-
+export const MobileHeader = styled.div`
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  padding: 15px 0 0 15px;
+`
 export const UpSide = styled.div`
     height: 75%;
     scroll-behavior: auto;
@@ -70,6 +102,10 @@ export const UpSide = styled.div`
     ::-webkit-scrollbar-thumb {
         background: #606eea;
         border-radius: 14px 0px 0px 14px;
+    }
+    @media (max-width: ${device.mobile}) {
+      height: 100%;
+      width: 100%;
     }
 `
 
@@ -125,6 +161,9 @@ export const DownSide = styled.div`
     @media (max-width: 1150px) {
       padding-right: 20px;
     }
+    @media (max-width: ${device.mobile}) {
+      display: none;
+    }
 `
 export const Form = styled.form`
     background-color: #FFFFFF;
@@ -143,6 +182,15 @@ export const Form = styled.form`
     }
     @media (max-width: 1150px) {
       padding-right: 0;
+    }
+    @media (max-width: ${device.mobile}) {
+      width: 100%;
+      padding: 0;
+      overflow-y: auto;
+      justify-content: initial;
+      align-items: center;
+      min-height: none;
+      height: 100%;
     }
 `
 
@@ -167,6 +215,14 @@ export const UploadButton = styled.div`
         color: #606EEA;
 
     }
+    @media (max-width: ${device.mobile}) {
+      padding: 10px 15px;
+      label {
+        font-size: 14px;
+        line-height: 16px;
+        
+      }
+    }
 
 `
 
@@ -178,37 +234,37 @@ export const ErrorMessage = styled.span`
   margin-top: 5px;
 
   font-size: ${({ labelStyle }: any) =>
-        labelStyle?.fontSize?.laptop
-            ? `${labelStyle?.fontSize?.laptop}px`
-            : '14px'} !important;
+    labelStyle?.fontSize?.laptop
+      ? `${labelStyle?.fontSize?.laptop}px`
+      : '14px'} !important;
 
   @media (max-width: ${device.mobile}) {
     font-size: ${({ labelStyle }: any) =>
-        labelStyle?.fontSize?.mobile
-            ? `${labelStyle?.fontSize?.mobile}px`
-            : '14px'} !important;
+    labelStyle?.fontSize?.mobile
+      ? `${labelStyle?.fontSize?.mobile}px`
+      : '14px'} !important;
     margin-top: 3px;
   }
   @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
     font-size: ${({ labelStyle }: any) =>
-        labelStyle?.fontSize?.planshet
-            ? `${labelStyle?.fontSize?.planshet}px`
-            : '14px'} !important;
+    labelStyle?.fontSize?.planshet
+      ? `${labelStyle?.fontSize?.planshet}px`
+      : '14px'} !important;
     margin-top: 3px;
   }
   @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
     font-size: ${({ labelStyle }: any) =>
-        labelStyle?.fontSize?.laptop
-            ? `${labelStyle?.fontSize?.laptop}px`
-            : '14px'} !important;
+    labelStyle?.fontSize?.laptop
+      ? `${labelStyle?.fontSize?.laptop}px`
+      : '14px'} !important;
     flex-direction: column;
     margin-top: 3px;
   }
   @media (min-width: ${device.laptop}) {
     font-size: ${({ labelStyle }: any) =>
-        labelStyle?.fontSize?.desktop
-            ? `${labelStyle?.fontSize?.desktop}px`
-            : '16px'} !important;
+    labelStyle?.fontSize?.desktop
+      ? `${labelStyle?.fontSize?.desktop}px`
+      : '16px'} !important;
     margin-top: 5px;
   }
 `;
@@ -232,5 +288,33 @@ export const PeriodWrapper = styled.div`
     font-size: 16px;
     font-weight: 700;
     margin-bottom: 10px;
+  }
+  .startAndEndDate {
+    display: flex;
+    justify-content: space-between;
+  }
+  .buttonsWrapper {
+    display: flex;
+    justify-content: flex-end;
+
+  }
+  @media (max-width: ${device.mobile}) {
+    box-shadow: none;
+    padding: 15px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100vw;
+    overflow: hidden;
+    .startAndEndDate {
+      max-width: calc(100vw - 30px);
+      width: 100%;
+    }
+  }
+  @media (max-width: 430px) {
+    .startAndEndDate {
+      flex-direction: column;
+    }
   }
 `

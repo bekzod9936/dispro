@@ -1,10 +1,16 @@
-import { useState } from "react";
-import { useQuery } from "react-query";
-import { fetchInfo } from "services/queries/partnerQuery";
-import { useAppDispatch } from "services/redux/hooks";
-import { setStaffId } from "services/redux/Slices/authSlice";
-import { setInfoData } from "services/redux/Slices/info/info";
-import { setCompanyInfo } from "../../services/redux/Slices/partnerSlice";
+import { useState } from 'react';
+import { useQuery } from 'react-query';
+import { fetchLimitFinance } from 'services/queries/InfoQuery';
+import { fetchInfo } from 'services/queries/partnerQuery';
+import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
+import { setStaffId } from 'services/redux/Slices/authSlice';
+import {
+  setAccounts,
+  setBalanceAccounts,
+  setInfoData,
+  setLimitAccounts,
+} from 'services/redux/Slices/info/info';
+import { setCompanyInfo } from '../../services/redux/Slices/partnerSlice';
 
 interface Props {
   name?: string;
@@ -19,14 +25,14 @@ interface LProps {
 }
 const useLayout = ({ id, state }: LProps) => {
   const dispatch = useAppDispatch();
-  const companyId = localStorage.getItem("companyId");
+  const companyId = localStorage.getItem('companyId');
 
   const [headerData, setData] = useState<Props>({
     filled: false,
     filledAddress: false,
   });
 
-  const resHeader = useQuery("logoANDname", () => fetchInfo(id), {
+  const resHeader = useQuery('logoANDname', () => fetchInfo(id), {
     onSuccess: (data) => {
       dispatch(setCompanyInfo(data?.data.data));
       dispatch(setInfoData(data?.data.data));
@@ -39,7 +45,24 @@ const useLayout = ({ id, state }: LProps) => {
     enabled: companyId !== null ? true : false,
   });
 
-  return { resHeader, headerData };
+  const currency = useAppSelector((state) => state.info.data?.currencyId);
+
+  const resLimit = useQuery(
+    'fetchLimitFinance',
+    () => fetchLimitFinance({ companyId, currency }),
+    {
+      onSuccess: (data) => {
+        dispatch(setAccounts(data?.data?.data?.accounts));
+        dispatch(setLimitAccounts(data?.data?.data?.accounts[0]?.limit));
+        dispatch(setBalanceAccounts(data?.data?.data?.accounts[0]?.balance));
+      },
+      keepPreviousData: true,
+      refetchOnWindowFocus: false,
+      retry: 0,
+    }
+  );
+
+  return { resHeader, headerData, resLimit };
 };
 
 export default useLayout;

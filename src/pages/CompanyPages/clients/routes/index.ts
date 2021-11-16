@@ -1,5 +1,6 @@
 import { lazy } from "react";
 import { useTranslation } from "react-i18next";
+import { useHistory, useParams, useRouteMatch } from "react-router";
 import useWindowWidth from "services/hooks/useWindowWidth";
 
 
@@ -19,12 +20,7 @@ export const useClientsRoutes = () => {
             component: Clients
         },
         {
-            path: "/clients/client",
-            title: t("client"),
-            component: Client
-        },
-        {
-            path: "/clients/client/:params",
+            path: "/clients/:id/:params",
             title: t("client"),
             component: Client
         },
@@ -33,28 +29,30 @@ export const useClientsRoutes = () => {
 }
 
 export const useClientRoutes = () => {
+    const params: any = useParams()
+
     const { t } = useTranslation()
     const { width } = useWindowWidth()
     const routes = [
         {
-            path: "/clients/client",
+            path: `/clients/${params.id}/operations`,
             text: t("operations"),
             component: Operations
         },
         {
-            path: "/clients/client/points",
+            path: `/clients/${params.id}/points`,
             text: t("points"),
             component: Points
         },
         {
-            path: "/clients/client/recommendations",
+            path: `/clients/${params.id}/recommendations`,
             text: t("recommendations"),
             component: Recommendations
         }
     ]
     if (!(width > 600)) return {
         routes: [{
-            path: "/clients/client/information",
+            path: `/clients/${params.id}/information`,
             text: t("information"),
             component: Information
         }, ...routes]

@@ -1,4 +1,5 @@
 
+import React,{useEffect} from 'react';
 import { useLocation } from "react-router-dom";
 import { AddIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
 
@@ -9,10 +10,9 @@ import { Flex } from "../../style";
 import { useTranslation } from "react-i18next";
 import { IProps } from "./types";
 import { useAppSelector, useAppDispatch } from "services/redux/hooks";
-import {
- 
-  setQuery,
-} from "services/redux/Slices/staffs";
+import DatePcker from 'components/Custom/DatePicker';
+import {setQuery,setSelectedNews,
+} from "services/redux/Slices/news";
 
 const Header = ({
 
@@ -20,8 +20,12 @@ const Header = ({
 }: IProps) => {
   const location = useLocation();
   const dispatch = useAppDispatch();
-  const query = useAppSelector((state) => state.staffs.query);
-
+  const query = useAppSelector((state) => state.news.query);
+  useEffect(()=>{
+    if(location.pathname !=='/news'){
+     dispatch(setSelectedNews([]))
+    }
+   },[ dispatch(setSelectedNews([]))])
   const { t } = useTranslation();
 
   return (
@@ -52,6 +56,7 @@ const Header = ({
       >
         {t("Создать новость")}
       </Button>
+  
       <div style={{ width: "20px" }} />
       <Input
         inputStyle={{ border: "none" }}
@@ -61,6 +66,19 @@ const Header = ({
         onChange={(e) => dispatch(setQuery(e.target.value))}
         width={{ maxwidth: 700 }}
       />
+        <div style={{ width: "20px" }} />
+       {/* <div style={{height:'60px !important'}}>
+          <DatePcker 
+        onChange={async (e: any) => {
+          // await setFilterValues({
+          //   ...filterValues,
+          //   dateFrom: e.slice(0, e.indexOf(' ~')),
+          //   dateTo: e.slice(e.indexOf('~ ') + 2),
+          // });
+          // await response.refetch();
+        }}
+      />
+     </div> */}
     </Flex>
   );
 };

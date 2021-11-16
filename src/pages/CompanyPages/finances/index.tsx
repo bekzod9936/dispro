@@ -5,17 +5,7 @@ import { Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Route, Switch } from 'react-router';
 import useFinanceRoute from './routes';
-import {
-  MainWrapper,
-  WrapTotalSum,
-  TotalSum,
-  Label,
-  WrapTotal,
-  WrapHeader,
-  LeftHeader,
-  RightHeader,
-  Wrap,
-} from './style';
+import { MainWrapper, WrapHeader, LeftHeader, Wrap } from './style';
 
 const Finance = () => {
   const { t } = useTranslation();
@@ -27,7 +17,7 @@ const Finance = () => {
         <WrapHeader>
           <LeftHeader>
             <Title>{t('finances')}</Title>
-            <NavBar list={menuItems} margin='10px 0' />
+            <NavBar list={menuItems} padding='0 15px 0 0' margin='10px 0' />
           </LeftHeader>
         </WrapHeader>
         <Switch>

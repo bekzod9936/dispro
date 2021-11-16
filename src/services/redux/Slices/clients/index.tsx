@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IClient, IFetchData, IFilters, IPeriod, IState, IVisibleClient } from "./types";
+import { IClient, IFetchData, IFilters, IPeriod, IPersonalInfo, IState, IVisibleClient } from "./types";
 
 const initialState: IState = {
     loading: false,
@@ -16,7 +16,7 @@ const initialState: IState = {
     totalPages: 0,
     filters: {},
     currentClient: null,
-    qrCodeBar: false
+    qrCodeBar: false,
 };
 
 const clientsSlice = createSlice({
@@ -86,6 +86,9 @@ const clientsSlice = createSlice({
             } else {
                 state.period = { startDate: "", endDate: "" }
             }
+        },
+        setCurrentClient: (state: IState, { payload }: PayloadAction<any>) => {
+            state.currentClient = payload
         }
     }
 })
@@ -99,5 +102,6 @@ export const {
     selectAll,
     setFilters,
     resetFilters,
-    setPeriod } = clientsSlice.actions
+    setPeriod,
+    setCurrentClient } = clientsSlice.actions
 export default clientsSlice.reducer

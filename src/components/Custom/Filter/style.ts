@@ -3,12 +3,28 @@ import { device } from 'styles/device';
 import { ReactComponent as Filter } from 'assets/icons/StatistisPage/filter.svg';
 import { ReactComponent as Reset } from 'assets/icons/StatistisPage/reset.svg';
 import { ReactComponent as Tick } from 'assets/icons/tick.svg';
+import { ReactComponent as Close } from 'assets/icons/IconsInfo/close.svg';
 
-export const FilterIcon = styled(Filter)``;
+export const FilterIcon = styled(Filter)`
+  @media (max-width: ${device.mobile}) {
+    width: 16px;
+    height: 16px;
+  }
+`;
 
-export const ResetIcon = styled(Reset)``;
+export const ResetIcon = styled(Reset)`
+  @media (max-width: ${device.mobile}) {
+    width: 20px;
+    height: 16px;
+  }
+`;
 
-export const TickIcon = styled(Tick)``;
+export const TickIcon = styled(Tick)`
+  @media (max-width: ${device.mobile}) {
+    width: 20px;
+    height: 20px;
+  }
+`;
 
 export const Content = styled.div`
   min-width: 400px;
@@ -45,3 +61,53 @@ export const Body = styled.div`
 export const Footer = styled.div`
   margin: 20px 0 20px 20px;
 `;
+
+export const Container = styled.div`
+  width: fit-content;
+`;
+
+export const WrapHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 15px;
+`;
+
+export const WrapTitle = styled.div`
+  font-weight: 500;
+  font-size: 16px;
+  color: #223367;
+`;
+
+export const CloseIcon = styled(Close)`
+  width: 15px;
+  height: 15px;
+`;
+
+export const BoxWrap = styled.div`
+  & > div:nth-child(2n-1) {
+    background-color: #eff0fd;
+  }
+  & > div:nth-child(2n) {
+    background-color: white;
+  }
+`;
+
+export const FooterModel = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 20px;
+`;
+
+export const WrapMain = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  width: 100%;
+  height: 100%;
+`;
+
+export const WrapBody = styled.div``;

@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { ReactComponent as Save } from 'assets/icons/IconsInfo/save.svg';
 import { ReactComponent as Photo } from 'assets/icons/IconsInfo/photo.svg';
 import { ReactComponent as Trash } from 'assets/icons/IconsInfo/trash.svg';
 import { device } from 'styles/device';
@@ -51,10 +50,6 @@ export const Text = styled.div`
   @media (max-width: ${device.mobile}) {
     font-size: 14px;
   }
-`;
-
-export const SaveIcon = styled(Save)`
-  margin-right: 15px;
 `;
 
 export const ImgNo = styled.img`

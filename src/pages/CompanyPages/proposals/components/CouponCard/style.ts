@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import { device } from "styles/device"
 interface IProps {
     isSelected?: boolean,
     stats?: any
@@ -86,6 +87,9 @@ export const Submain = styled.div`
 
 export const Stats = styled.div`
     width: 20%;
+    @media (max-width: ${device.mobile}) {
+        width: 100%;
+    }
     p {
         font-size: 14px;
         line-height: 16.45px;

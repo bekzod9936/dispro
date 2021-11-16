@@ -3,10 +3,12 @@ import DatePicker from 'react-multi-date-picker';
 import { ReactComponent as Down } from 'assets/icons/down.svg';
 import { device } from '../../../styles/device';
 import { ReactComponent as Reset } from 'assets/icons/StatistisPage/reset.svg';
+import { ReactComponent as Date } from 'assets/icons/date.svg';
 
 export const Container = styled.div`
   position: relative;
   width: fit-content;
+
   div.rmdp-container {
     position: absolute;
     top: 100%;
@@ -35,6 +37,13 @@ export const DownIcon = styled(Down)`
   height: 6px !important;
   & > path {
     fill: #c4c4c4;
+  }
+`;
+
+export const DateIcon = styled(Date)`
+  @media (max-width: ${device.mobile}) {
+    width: 16px;
+    height: 16px;
   }
 `;
 

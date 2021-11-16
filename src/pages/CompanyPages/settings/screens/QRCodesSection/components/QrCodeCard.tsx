@@ -12,19 +12,19 @@ import {
   QrContainer,
   OptionDiv,
   QrImg,
+  DownloadDiv,
+  SaveIcon,
+  RightArrIcon,
+  ScrapperIcon,
 } from "./style";
 import { Break } from "../../../styles/index";
 import { OptionsList, OptionsListItem } from "styles/CustomStyles";
 import { useTranslation } from "react-i18next";
 import { COLORS } from "services/Types/enums";
 import Button from "components/Custom/Button";
-import {
-  DownloadIcon,
-  ScrapperIcon,
-  ThreeDotsIcon,
-} from "assets/icons/SettingsIcons/SettingsPageIcon";
-import RippleEffect from "components/Custom/RippleEffect";
+import { ThreeDotsIcon } from "assets/icons/SettingsIcons/SettingsPageIcon";
 import { copyToClipboard } from "services/utils";
+import { IconButton } from "@material-ui/core";
 
 const QrCodeCard = ({
   item,
@@ -60,8 +60,6 @@ const QrCodeCard = ({
     }
   };
 
-  console.log(width, "width");
-
   return (
     <QrCard>
       <QeaderHeaderRow>
@@ -71,9 +69,9 @@ const QrCodeCard = ({
 
         <Popover
           click={
-            <RippleEffect padding={0}>
+            <IconButton>
               <ThreeDotsIcon />
-            </RippleEffect>
+            </IconButton>
           }
           anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
           transformOrigin={{ horizontal: "left", vertical: "top" }}
@@ -136,15 +134,25 @@ const QrCodeCard = ({
         </QrImg>
 
         <QrContainer>
-          <Button
-            buttonStyle={{
-              color: "#fff",
-            }}
-            onClick={() => downloadQrCode()}
-            startIcon={<DownloadIcon />}
-          >
-            {t("downloadPNG")}
-          </Button>
+          <DownloadDiv>
+            <Button
+              buttonStyle={{
+                color: "#fff",
+                fontSize: {
+                  desktop: 14,
+                  laptop: 13,
+                },
+              }}
+              width={{
+                width: "100%",
+              }}
+              onClick={() => downloadQrCode()}
+              startIcon={<SaveIcon />}
+            >
+              {t("downloadPNG")}
+            </Button>
+          </DownloadDiv>
+
           <Break height={15} />
           <Button
             buttonStyle={{
@@ -155,10 +163,14 @@ const QrCodeCard = ({
                 laptop: 13,
               },
             }}
+            width={{
+              width: "90%",
+            }}
+            fullWidth={true}
             onClick={() => {
               copyToClipboard(item?.dynLinkToken);
             }}
-            endIcon={<ScrapperIcon />}
+            endIcon={width < 1000 ? <RightArrIcon /> : <ScrapperIcon />}
           >
             {t("copyLink")}
           </Button>

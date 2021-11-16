@@ -1,10 +1,10 @@
-import { useMemo, useState } from "react";
-import Table from "../../components/Table";
-import useTrafficsHook from "./useTrafficsHook";
-import { useTranslation } from "react-i18next";
-import Spinner from "components/Custom/Spinner";
-import cashier from "assets/icons/StatistisPage/cash.png";
-import DatePcker from "components/Custom/DatePicker";
+import { useMemo, useState } from 'react';
+import Table from '../../components/Table';
+import useTrafficsHook from './useTrafficsHook';
+import { useTranslation } from 'react-i18next';
+import Spinner from 'components/Custom/Spinner';
+import cashier from 'assets/icons/StatistisPage/cash.png';
+import DatePcker from 'components/Custom/DatePicker';
 import {
   Container,
   AppIcon,
@@ -12,13 +12,13 @@ import {
   WrapIcon,
   Img,
   Wrapper,
-} from "./style";
-import { numberWith } from "services/utils";
-import { useAppSelector } from "services/redux/hooks";
+} from './style';
+import { numberWith } from 'services/utils';
+import { useAppSelector } from 'services/redux/hooks';
 
 const Traffics = () => {
   const { t } = useTranslation();
-  const [date, setDate] = useState({ startDate: "", endDate: "" });
+  const [date, setDate] = useState({ startDate: '', endDate: '' });
 
   const data = useAppSelector((state) => state.statistics.traffics);
   const { response } = useTrafficsHook({ filterValues: date });
@@ -29,43 +29,43 @@ const Traffics = () => {
       col2: v?.clientCount,
       col3: v?.clientPayedCount,
       col4: v?.chequeCount,
-      col5: numberWith(v?.receipts.toString(), " "),
+      col5: numberWith(v?.receipts.toString(), ' '),
     };
   });
 
   const columns: any = useMemo(
     () => [
       {
-        Header: t("traffic_provider"),
-        accessor: "col1",
+        Header: t('traffic_provider'),
+        accessor: 'col1',
         Cell: (props: any) => (
           <WrapIcon>
-            {props?.value.toLowerCase() === "app" ? (
+            {props?.value.toLowerCase() === 'app' ? (
               <AppIcon />
-            ) : props?.value.toLowerCase() === "mobile" ? (
+            ) : props?.value.toLowerCase() === 'mobile' ? (
               <MobileIcon />
-            ) : props?.value.toLowerCase() === "cashier" ? (
-              <Img src={cashier} alt="cashier" />
+            ) : props?.value.toLowerCase() === 'cashier' ? (
+              <Img src={cashier} alt='cashier' />
             ) : null}
             {props?.value}
           </WrapIcon>
         ),
       },
       {
-        Header: t("clients"),
-        accessor: "col2",
+        Header: t('clients'),
+        accessor: 'col2',
       },
       {
-        Header: t("uniqueChequeClient"),
-        accessor: "col3",
+        Header: t('uniqueChequeClient'),
+        accessor: 'col3',
       },
       {
-        Header: t("purchuase_amount"),
-        accessor: "col4",
+        Header: t('purchuase_amount'),
+        accessor: 'col4',
       },
       {
-        Header: t("revenueuzs"),
-        accessor: "col5",
+        Header: t('revenueuzs'),
+        accessor: 'col5',
       },
     ],
     []
@@ -76,15 +76,15 @@ const Traffics = () => {
       <DatePcker
         onChange={async (e: any) => {
           await setDate({
-            startDate: e.slice(0, e.indexOf(" ~")),
-            endDate: e.slice(e.indexOf("~ ") + 2),
+            startDate: e.slice(0, e.indexOf(' ~')),
+            endDate: e.slice(e.indexOf('~ ') + 2),
           });
           await response.refetch();
         }}
-        margin="0 0 20px 0"
+        margin='0 0 20px 0'
       />
       <Wrapper>
-        {response.isLoading ? (
+        {response.isLoading || response.isFetching ? (
           <Spinner />
         ) : (
           <Table columns={columns} data={list} />

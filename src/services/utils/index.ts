@@ -63,6 +63,31 @@ export const numberWith = (
     : defVal;
 };
 
+interface WProps {
+  number?: number | string;
+  replaceValue?: string;
+  defaultValue?: string | number;
+}
+
+export const numberWithNew = ({
+  number,
+  replaceValue = ' ',
+  defaultValue = '-',
+}: WProps) => {
+  if (Number.isInteger(number)) {
+    const a = String(number);
+    return number
+      ? a.replace(/(\d)(?=(\d{3})+(?!\d))/g, `$&${replaceValue}`)
+      : defaultValue;
+  } else {
+    return number
+      ? Number(number)
+          .toFixed(2)
+          .replace(/(\d)(?=(\d{3})+(?!\d))/g, `$&${replaceValue}`)
+      : defaultValue;
+  }
+};
+
 export const normalInteger = (str: string, max?: number) => {
   str = str.replace(/\s/g, '');
   str = str?.toString().trim();
@@ -110,3 +135,29 @@ export const ruCount = ({ count, firstWord, secondWord, thirdWord }: Props) => {
     return firstWord;
   }
 };
+
+interface PagProps {
+  count: number;
+  firstWord?: string;
+  secondWord?: string;
+}
+export const countPagination = ({ count, firstWord, secondWord }: PagProps) => {
+  const lastNumber: number = count % 10;
+
+  const group2: number[] = [2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+  if (group2.includes(lastNumber)) {
+    return secondWord;
+  } else if (count === 1) {
+    return firstWord;
+  }
+};
+
+interface RProps {
+  min?: number;
+  max?: number;
+}
+
+export function getRandomNumber({ min, max }: RProps) {
+  return Math.floor(Math.random() * (Number(max) - Number(min))) + Number(min);
+}

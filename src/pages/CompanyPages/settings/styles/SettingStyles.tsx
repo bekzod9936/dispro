@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { device } from "styles/device";
 
 export const LargePanel = styled.div`
   padding: 30px 40px;
@@ -29,12 +30,17 @@ export const SettingsWrapper = styled.div`
   padding: 15px;
   border-radius: 14px;
   background-color: white;
+
+  @media (max-width: ${device.planshet}) {
+    background-color: transparent;
+    padding: 0;
+    height: 100%;
+  }
 `;
 
 export const ReferalScroll = styled.div`
   overflow-y: scroll;
-  max-height: 60vh;
-  padding-bottom: 100px;
+  height: 100%;
   border-right: 1px solid rgba(96, 110, 234, 0.3);
   scroll-behavior: auto;
 

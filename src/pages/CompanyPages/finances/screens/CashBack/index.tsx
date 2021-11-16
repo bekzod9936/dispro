@@ -5,16 +5,16 @@ import Spinner from 'components/Custom/Spinner';
 import Pagination from 'components/Custom/Pagination';
 import Table from '../../components/Table';
 import DatePcker from 'components/Custom/DatePicker';
-import moment from 'moment';
-import { numberWith } from 'services/utils';
+import dayjs from 'dayjs';
+import { countPagination, numberWithNew } from 'services/utils';
 import { useAppSelector } from 'services/redux/hooks';
+import useWindowWidth from 'services/hooks/useWindowWidth';
 import {
   Container,
-  WrapPag,
-  Info,
   CashBackIcon,
   WrapIcon,
   WalletIcon,
+  DiscountIcon,
 } from './style';
 import {
   Label,
@@ -22,7 +22,11 @@ import {
   TotalSum,
   WrapTotal,
   WrapTotalSum,
+  WrapPag,
+  Info,
+  WrapSum,
 } from '../../style';
+import MobileTable from '../../components/MobileTable';
 
 interface intialFilterProps {
   page?: number;
@@ -33,11 +37,10 @@ interface intialFilterProps {
 
 const Payment = () => {
   const { t } = useTranslation();
+  const { width } = useWindowWidth();
 
   const data = useAppSelector((state) => state.finance.cashBackFinance.data);
-  const totalCount = useAppSelector(
-    (state) => state.finance.cashBackFinance.totalCount
-  );
+  const total = useAppSelector((state) => state.finance.cashBackFinance.total);
   const between = useAppSelector(
     (state) => state.finance.cashBackFinance.between
   );
@@ -59,17 +62,82 @@ const Payment = () => {
     filterValues: filterValues,
   });
 
-  const list = data?.map((v: any) => {
-    const date1 = moment(v.date).format('DD.MM.YYYY');
-    const date2 = moment(v.activateDate).format('DD.MM.YYYY');
+  const listdesktop = data?.map((v: any) => {
+    const date1 = dayjs(v.date).format('DD.MM.YYYY');
+    const date2 = dayjs(v.activateDate).format('DD.MM.YYYY');
     return {
       col1: v.operationType,
       col2: v.clientName ? v.clientName : '-',
-      col3: v.amount,
-      col4: Math.round((v.amount / 100) * 100) / 100,
+      col3: numberWithNew({ number: v.amount }),
+      col4: numberWithNew({ number: Math.round((v.amount / 100) * 100) / 100 }),
       col5: date1,
       col6: date2,
       col7: v.status,
+    };
+  });
+
+  const listmobile = data.map((v: any) => {
+    const date1 = dayjs(v.date).format('DD.MM.YYYY');
+    const date2 = dayjs(v.activateDate).format('DD.MM.YYYY');
+    return {
+      title:
+        v.operationType === 'cashback_account_top_up'
+          ? t('depositcashbek')
+          : v.operationType === 'cashback_in'
+          ? t('cashbackaccrual')
+          : '-',
+      value: numberWithNew({ number: v?.amount }),
+      icon: (
+        <WrapIcon>
+          {v.operationType === 'cashback_account_top_up' ? (
+            <WalletIcon />
+          ) : v.operationType === 'cashback_in' ? (
+            <CashBackIcon />
+          ) : null}
+        </WrapIcon>
+      ),
+      body: [
+        {
+          title: t('typeoftransaction'),
+          value:
+            v.operationType === 'cashback_account_top_up'
+              ? t('depositcashbek')
+              : v.operationType === 'cashback_in'
+              ? t('cashbackaccrual')
+              : '-',
+        },
+        {
+          title: t('customer'),
+          value: v.clientName ? v.clientName : '-',
+        },
+        {
+          title: t('cashbackUZS'),
+          value: numberWithNew({ number: v?.amount }),
+        },
+        {
+          title: t('commission/top-upamount'),
+          value: numberWithNew({
+            number: Math.round((v.amount / 100) * 100) / 100,
+          }),
+        },
+        {
+          title: t('purchasedate'),
+          value: date1,
+        },
+        {
+          title: t('dateofaccrual'),
+          value: date2,
+        },
+        {
+          title: t('status'),
+          value:
+            v.status === 'success'
+              ? t('accrued')
+              : v.status === 'pending'
+              ? t('pending')
+              : t('canceled'),
+        },
+      ],
     };
   });
 
@@ -80,12 +148,18 @@ const Payment = () => {
         accessor: 'col1',
         Cell: (props: any) => (
           <WrapIcon>
-            {props?.value === 'cashback_account_top_up' ? <WalletIcon /> : null}
-            {props?.value === 'cashback_in' ? <CashBackIcon /> : null}
+            {props?.value === 'cashback_account_top_up' ? (
+              <WalletIcon />
+            ) : props?.value === 'cashback_in' ? (
+              <CashBackIcon />
+            ) : (
+              '-'
+            )}
             {props?.value === 'cashback_account_top_up'
               ? t('depositcashbek')
-              : null}
-            {props?.value === 'cashback_in' ? t('cashbackaccrual') : null}
+              : props?.value === 'cashback_in'
+              ? t('cashbackaccrual')
+              : '-'}
           </WrapIcon>
         ),
       },
@@ -136,12 +210,14 @@ const Payment = () => {
       <RightHeader>
         <WrapTotal>
           {header.map((v: any) => {
-            let a = +v.value;
             return (
               <WrapTotalSum>
-                <Label>{v.title || ''}</Label>
+                <Label>{v.title}</Label>
                 <TotalSum>
-                  {a.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$& ')}
+                  {numberWithNew({
+                    number: +v.value,
+                    defaultValue: 0,
+                  })}
                 </TotalSum>
               </WrapTotalSum>
             );
@@ -158,31 +234,61 @@ const Payment = () => {
             });
             await response.refetch();
           }}
-          margin='0 0 20px 0'
         />
-
+        {width <= 600 ? (
+          <WrapTotal>
+            <WrapTotalSum>
+              <DiscountIcon />
+              <WrapSum>
+                <Label>{header[0]?.title || t('totalpaidbyUZS')}</Label>
+                <TotalSum>
+                  {numberWithNew({ number: header[0]?.value, defaultValue: 0 })}
+                </TotalSum>
+              </WrapSum>
+            </WrapTotalSum>
+            <WrapTotalSum>
+              <CashBackIcon mobile={true} />
+              <WrapSum>
+                <Label>{header[1]?.title || t('DISCommission')}</Label>
+                <TotalSum>
+                  {numberWithNew({ number: header[1]?.value, defaultValue: 0 })}
+                </TotalSum>
+              </WrapSum>
+            </WrapTotalSum>
+          </WrapTotal>
+        ) : null}
         {response.isLoading || response.isFetching ? (
           <Spinner />
+        ) : width > 600 ? (
+          <Table columns={columns} data={listdesktop} />
         ) : (
-          <>
-            <Table columns={columns} data={list} />
-          </>
+          <MobileTable
+            data={{
+              title: t('amountofpurchase'),
+              info: listmobile,
+            }}
+            headertitle={t('cashbackSum')}
+          />
         )}
-        {list.length > 0 ? (
-          <WrapPag>
-            <Info>
-              {t('shown')}
-              <span>{between}</span>
-              {t('from1')} <span>{totalCount}</span> {t('operations1')}
-            </Info>
-            <Pagination
-              page={filterValues.page}
-              count={totalCount}
-              onChange={handlechangePage}
-              disabled={response.isLoading || response.isFetching}
-            />
-          </WrapPag>
-        ) : null}
+        <WrapPag>
+          <Info>
+            {t('shown')}
+            <span>{between}</span>
+            {t('from1')} <span>{total.pages}</span>
+            {countPagination({
+              count: Number(total.count),
+              firstWord: t('operations1'),
+              secondWord: t('operations23'),
+            })}
+          </Info>
+          <Pagination
+            page={filterValues.page}
+            count={total.count}
+            onChange={handlechangePage}
+            disabled={response.isLoading || response.isFetching}
+            siblingCount={0}
+          />
+        </WrapPag>
       </Container>
     </>
   );

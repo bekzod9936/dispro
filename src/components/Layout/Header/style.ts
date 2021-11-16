@@ -10,6 +10,7 @@ import { ReactComponent as Market } from 'assets/icons/SideBar/ilmarket.svg';
 import { ReactComponent as HeadPhone } from 'assets/icons/SideBar/biheadphones.svg';
 import { ReactComponent as LogWhite } from 'assets/icons/SideBar/logoutwhite.svg';
 import { ReactComponent as Close } from 'assets/icons/SideBar/close.svg';
+import { ReactComponent as Close1 } from 'assets/icons/IconsInfo/close.svg';
 
 interface ImgProps {
   size?: string;
@@ -111,6 +112,24 @@ export const CloseIcon = styled(Close)`
       fill: #606eea;
     }
   }
+`;
+
+export const Close1Icon = styled(Close1)`
+  @media (max-width: ${device.mobile}) {
+    width: 15px;
+    height: 15px;
+  }
+`;
+
+export const WrapClose = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const WrapperIcon = styled.div`
+  align-self: flex-end;
+  padding-right: 15px;
+  padding-top: 5px;
 `;
 
 export const DepositIcon = styled(Deposit)`
@@ -228,6 +247,9 @@ export const Content = styled.div`
   border-radius: 14px;
   user-select: none;
   width: 360px;
+  @media (min-width: ${device.mobile}) {
+    padding: 30px 0;
+  }
   @media (max-width: ${device.mobile}) {
     width: 100%;
   }

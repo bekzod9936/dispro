@@ -7,8 +7,9 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 import Button from 'components/Custom/Button';
 import Spinner from 'components/Custom/Spinner';
 import { ReactComponent as MessageIcon } from 'assets/icons/message.svg';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import notification from 'assets/images/notification.png';
+import notificationDef from 'assets/images/notificationDefault.png';
 import {
   Container,
   Card,
@@ -32,6 +33,10 @@ import {
   WrapInfoBox,
   WrapDefault,
 } from './style';
+import { useHistory } from 'react-router';
+import useWindowWidth from 'services/hooks/useWindowWidth';
+import FullModal from 'components/Custom/FullModal';
+import { countPagination } from 'services/utils';
 
 interface intialFilterProps {
   page?: number;
@@ -54,6 +59,8 @@ interface infoProps {
 
 const Notifications = () => {
   const { t } = useTranslation();
+  const { width } = useWindowWidth();
+  const history = useHistory();
 
   const [open, setOpen] = useState(false);
   const [info, setInfo] = useState<infoProps>({});
@@ -69,6 +76,49 @@ const Notifications = () => {
     await setFilterValues({ ...filterValues, page: e });
     await response.refetch();
   };
+
+  const content = (
+    <>
+      <SideImgWrap>
+        <WrapIcon
+          onClick={() => {
+            setOpen(false);
+            setInfo({});
+            setId(undefined);
+          }}
+        >
+          <CloseIcon />
+        </WrapIcon>
+        <LazyLoadImage
+          alt='image'
+          src={info.image ? info.image : notificationDef}
+          height='100%'
+          width='100%'
+          style={{
+            objectFit: 'scale-down',
+            userSelect: 'none',
+          }}
+        />
+      </SideImgWrap>
+      <WrapScroll>
+        <WrapInfoBox>
+          <WrapTitle>
+            <TitleCard>{info.title}</TitleCard>
+            <Date>{dayjs(info.createdAt).format('DD MMMM YYYY')}</Date>
+          </WrapTitle>
+          <SideText>{info.body} </SideText>
+        </WrapInfoBox>
+        <WrapButton>
+          <Button
+            onClick={() => history.push('/support')}
+            startIcon={<MessageIcon />}
+          >
+            {t('writetous')}
+          </Button>
+        </WrapButton>
+      </WrapScroll>
+    </>
+  );
 
   return (
     <Container>
@@ -93,7 +143,7 @@ const Notifications = () => {
                   <CardImg>
                     <LazyLoadImage
                       alt='image'
-                      src={v.image}
+                      src={v.image ? v.image : notificationDef}
                       height='100%'
                       width='100%'
                       style={{
@@ -106,7 +156,7 @@ const Notifications = () => {
                   <CardBody open={open && v.id === id}>
                     <WrapTitle>
                       <TitleCard>{v.title}</TitleCard>
-                      <Date>{moment(v.createdAt).format('LL')}</Date>
+                      <Date>{dayjs(v.createdAt).format('DD MMMM YYYY')}</Date>
                     </WrapTitle>
                     <Text>{v.body}</Text>
                   </CardBody>
@@ -118,7 +168,12 @@ const Notifications = () => {
             <Info>
               {t('shown')}
               <span>{between}</span>
-              {t('from1')} <span>{totalCount}</span> {t('operations1')}
+              {t('from1')} <span>{totalCount}</span>
+              {countPagination({
+                count: totalCount,
+                firstWord: t('page1'),
+                secondWord: t('page23'),
+              })}
             </Info>
             <Pagination
               page={filterValues.page}
@@ -134,41 +189,11 @@ const Notifications = () => {
           <span>{t('notificationsfromdiscount')}</span>
         </WrapDefault>
       )}
-      <SideDrawer open={open}>
-        <SideImgWrap>
-          <WrapIcon
-            onClick={() => {
-              setOpen(false);
-              setInfo({});
-              setId(undefined);
-            }}
-          >
-            <CloseIcon />
-          </WrapIcon>
-          <LazyLoadImage
-            alt='image'
-            src={info.image}
-            height='100%'
-            width='100%'
-            style={{
-              objectFit: 'scale-down',
-              userSelect: 'none',
-            }}
-          />
-        </SideImgWrap>
-        <WrapScroll>
-          <WrapInfoBox>
-            <WrapTitle>
-              <TitleCard>{info.title}</TitleCard>
-              <Date>{moment(info.createdAt).format('LL')}</Date>
-            </WrapTitle>
-            <SideText>{info.body} </SideText>
-          </WrapInfoBox>
-          <WrapButton>
-            <Button startIcon={<MessageIcon />}>{t('writetous')}</Button>
-          </WrapButton>
-        </WrapScroll>
-      </SideDrawer>
+      {width > 600 ? (
+        <SideDrawer open={open}>{content}</SideDrawer>
+      ) : (
+        <FullModal open={open}>{content}</FullModal>
+      )}
     </Container>
   );
 };

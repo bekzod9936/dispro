@@ -1,8 +1,9 @@
-import { useTranslation } from "react-i18next";
-import { Container, Wrapper, WrapperCon } from "./style";
-import Spinner from "components/Custom/Spinner";
-import useOperationsHook from "./useOperationsHook";
-import Filter from "components/Custom/Filter/index";
+import { useTranslation } from 'react-i18next';
+import { Container, Wrapper, WrapperCon } from './style';
+import Spinner from 'components/Custom/Spinner';
+import useOperationsHook from './useOperationsHook';
+import Filter from 'components/Custom/Filter/index';
+import DatePcker from 'components/Custom/DatePicker';
 import {
   MoneyIcon,
   RatingIcon,
@@ -16,57 +17,56 @@ import {
   Value,
   Title,
   WrapFilter,
-} from "../Clients/style";
-import DatePcker from "components/Custom/DatePicker";
-import { useState } from "react";
-import { numberWith } from "services/utils";
-import Radio from "components/Custom/Radio";
-import { useAppSelector } from "services/redux/hooks";
+} from '../Clients/style';
+import { useState } from 'react';
+import { numberWithNew } from 'services/utils';
+import Radio from 'components/Custom/Radio';
+import { useAppSelector } from 'services/redux/hooks';
 
 const intialState = {
-  startDate: "",
-  endDate: "",
-  genderTypeId: "",
+  startDate: '',
+  endDate: '',
+  genderTypeId: '',
 };
 
 const Operations = () => {
   const { t } = useTranslation();
   const [filterValues, setFilterValues] = useState(intialState);
-  const [date, setDate] = useState({ startDate: "", endDate: "" });
-  const [genderTypeId, setGenderTypeId] = useState("");
+  const [date, setDate] = useState({ startDate: '', endDate: '' });
+  const [genderTypeId, setGenderTypeId] = useState('');
   const data = useAppSelector((state) => state.statistics.operations);
   const { response } = useOperationsHook({ filterValues: filterValues });
 
   const list = [
     {
-      title: t("totalSum"),
+      title: t('totalSum'),
       value: data?.chequeSum,
       Icon: <LaptopIcon />,
     },
     {
-      title: t("paidWithMoney"),
+      title: t('discountSum'),
       value: data?.discountSum,
-      Icon: <MoneyIcon />,
+      Icon: <DiscountIcon />,
     },
     {
-      title: t("paidWithPoint"),
+      title: t('cashbackSum'),
       value: data?.cashbackSum,
-      Icon: <RatingIcon />,
-    },
-    {
-      title: t("chequeAvg"),
-      value: data?.paidWithPoint,
-      Icon: <CheckIcon />,
-    },
-    {
-      title: t("cashbackSum"),
-      value: data?.paidWithMoney,
       Icon: <CashBackIcon />,
     },
     {
-      title: t("discountSum"),
+      title: t('paidWithPoint'),
+      value: data?.paidWithPoint,
+      Icon: <RatingIcon />,
+    },
+    {
+      title: t('paidWithMoney'),
+      value: data?.paidWithMoney,
+      Icon: <MoneyIcon />,
+    },
+    {
+      title: t('chequeAvg'),
       value: data?.chequeAvg,
-      Icon: <DiscountIcon />,
+      Icon: <CheckIcon />,
     },
   ];
 
@@ -86,21 +86,22 @@ const Operations = () => {
 
   const filterList = [
     {
-      title: t("gender"),
+      title: t('gender'),
       content: (
         <Radio
-          flexDirection="row"
+          flexDirection='row'
           list={[
-            { value: "1", label: `${t("male")}` },
-            { value: "2", label: `${t("female")}` },
+            { value: '1', label: `${t('male')}` },
+            { value: '2', label: `${t('female')}` },
           ]}
-          title={t("chose_gender")}
+          title={t('chose_gender')}
           onChange={(v: any) => setGenderTypeId(v)}
           value={genderTypeId}
         />
       ),
     },
   ];
+
   return (
     <Container>
       <WrapFilter>
@@ -113,20 +114,20 @@ const Operations = () => {
           onChange={async (e: any) => {
             await setFilterValues({
               ...filterValues,
-              startDate: e.slice(0, e.indexOf(" ~")),
-              endDate: e.slice(e.indexOf("~ ") + 2),
+              startDate: e.slice(0, e.indexOf(' ~')),
+              endDate: e.slice(e.indexOf('~ ') + 2),
             });
-            setDate({
-              startDate: e.slice(0, e.indexOf(" ~")),
-              endDate: e.slice(e.indexOf("~ ") + 2),
+            await setDate({
+              startDate: e.slice(0, e.indexOf(' ~')),
+              endDate: e.slice(e.indexOf('~ ') + 2),
             });
             await response.refetch();
           }}
-          margin="0 0 0 20px"
+          margin='0 0 0 20px'
         />
       </WrapFilter>
       <WrapperCon>
-        {response.isLoading ? (
+        {response.isLoading || response.isFetching ? (
           <Spinner />
         ) : (
           <Wrapper>
@@ -135,7 +136,7 @@ const Operations = () => {
                 <WrapIcon>{v.Icon}</WrapIcon>
                 <Content>
                   <Title>{v.title}</Title>
-                  <Value>{numberWith(v?.value?.toString(), " ")}</Value>
+                  <Value>{numberWithNew({ number: v?.value })}</Value>
                 </Content>
               </WrapInfo>
             ))}

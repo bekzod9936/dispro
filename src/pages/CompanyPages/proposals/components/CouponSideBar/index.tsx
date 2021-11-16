@@ -47,7 +47,6 @@ export const CouponBar = ({
   canceled,
   refetch,
 }: IProps) => {
-  console.log(currentCoupon);
 
   const isCoupon = currentCoupon.type === 2;
   const history = useHistory();
@@ -184,7 +183,7 @@ export const CouponBar = ({
                 bgcolor: "rgba(96, 110, 234, 0.1)",
               }}
             >
-              Редактировать Купон
+              Редактировать
             </Button>
             <Button
               startIcon={<PublishIcon />}
@@ -205,7 +204,7 @@ export const CouponBar = ({
       </div>
       <Modal open={isDeleteOpen}>
         <DeleteModal>
-          <h5>Вы действительно хотите удалить Купон?</h5>
+          <h5>Вы действительно хотите удалить {isCoupon ? t("coupon") : t("certificate")}?</h5>
           <p>{currentCoupon.title}</p>
           <Button
             buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}

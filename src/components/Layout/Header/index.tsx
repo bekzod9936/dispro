@@ -13,7 +13,10 @@ import Logo from 'assets/icons/SideBar/logo.png';
 import { setCompanyInfo } from 'services/redux/Slices/partnerSlice';
 import useLayout from '../useLayout';
 import { setInfoData, initialState } from 'services/redux/Slices/info/info';
-
+import useSocket from './useSocket';
+import useWindowWidth from 'services/hooks/useWindowWidth';
+import FullModal from 'components/Custom/FullModal';
+import { numberWithNew } from 'services/utils';
 import {
   Container,
   SearchIcon,
@@ -48,12 +51,10 @@ import {
   TitleLogo,
   LogoIcon,
   PName,
+  Close1Icon,
+  WrapClose,
+  WrapperIcon,
 } from './style';
-import useSocket from './useSocket';
-import useWindowWidth from 'services/hooks/useWindowWidth';
-import FullModal from 'pages/CompanyPages/info/components/FullModal';
-import useLimit from './useLimit';
-import { numberWith } from 'services/utils';
 
 const Header = () => {
   const { t } = useTranslation();
@@ -61,8 +62,8 @@ const Header = () => {
   const { width } = useWindowWidth();
   const [modal, setModal] = useState(false);
   const companyId = localStorage.getItem('companyId');
-  useLayout({ id: companyId });
-  const { resLimit } = useLimit();
+  const { resLimit } = useLayout({ id: companyId });
+
   const accountsBalance = useAppSelector((state) => state.info.balance);
   const accountsLimit = useAppSelector((state) => state.info.limit);
 
@@ -161,7 +162,6 @@ const Header = () => {
               }}
               onClick={() => {
                 setOpen(false);
-                setModal(false);
               }}
               startIcon={width > 600 ? <CloseIcon /> : null}
               endIcon={width < 600 ? <CloseIcon /> : null}
@@ -228,14 +228,24 @@ const Header = () => {
           <DepositIcon />
           <Title>
             {t('deposit')}
-            <Text>{numberWith(String(accountsBalance), ' ', '0')} UZS</Text>
+            <Text>
+              {`${numberWithNew({
+                number: accountsBalance,
+                defaultValue: 0,
+              })} UZS`}
+            </Text>
           </Title>
         </Wrap>
         <Wrap onClick={() => history.push('/finances')}>
           <ShieldIcon />
           <Title>
             {t('limit')}
-            <Text>{numberWith(String(accountsLimit), ' ', '0')} UZS</Text>
+            <Text>
+              {`${numberWithNew({
+                number: accountsLimit,
+                defaultValue: 0,
+              })} UZS`}
+            </Text>
           </Title>
         </Wrap>
       </Wrapper>
@@ -309,7 +319,18 @@ const Header = () => {
               </WrapPop>
               <ArrowIcon marginLeft={true} />
             </Button>
-            <FullModal open={modal}>{logocontent}</FullModal>
+            <FullModal open={modal}>
+              {
+                <WrapClose>
+                  <WrapperIcon>
+                    <IconButton onClick={() => setModal(false)}>
+                      <Close1Icon />
+                    </IconButton>
+                  </WrapperIcon>
+                  {logocontent}
+                </WrapClose>
+              }
+            </FullModal>
           </>
         )}
       </Wrapper>

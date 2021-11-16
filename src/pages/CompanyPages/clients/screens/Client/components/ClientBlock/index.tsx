@@ -1,18 +1,17 @@
 import { IconButton } from '@material-ui/core'
 import { BlockIcon, CoinsIcon, CrownIcon, GoBackIcon, MinusCoinsIcon, UnBlockIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
-import Button from 'components/Custom/Button'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router'
-import { IClient } from 'services/redux/Slices/clients/types'
+import { IClient, IPersonalInfo } from 'services/redux/Slices/clients/types'
 import { DefaultImage, DownSide, Icon, UpSide, Wrapper } from './style'
+import clientDefaultImg from "assets/images/staff_default.png"
 interface IProps {
-    client: IClient,
+    client: IClient | any,
     setBlockModal: (e: boolean) => void
 }
 
 export const ClientBlock = ({
-    client: { image, firstName, lastName, addInfo, genderTypeId, personalLoyaltyInfo, isPlBlocked },
+    client: { image, firstName, lastName, addInfo, genderTypeId, personalLoyaltyInfo, isPlBlocked, obtainProgramLoyalty },
     setBlockModal
 }: IProps) => {
     const { t } = useTranslation()
@@ -31,7 +30,10 @@ export const ClientBlock = ({
                 <GoBackIcon onClick={handleClose} style={{ marginRight: "25px", cursor: "pointer" }} />
                 {image ?
                     <div className="imageBlock">
-                        <img src={image} />
+                        <img src={image} onError={(e: any) => {
+                            e.target.onerror = null;
+                            e.target.src = clientDefaultImg
+                        }} />
                         {isPlBlocked && <div className="blocked"><BlockIcon /></div>}
                     </div> :
                     <DefaultImage />}
@@ -51,10 +53,10 @@ export const ClientBlock = ({
                 <h5>{firstName} {lastName}</h5>
                 <p>
                     <span>
-                        {genderTypeId === 1 ? t("male") : t("female")}
+                        {genderTypeId === 1 ? t("man") : t("woman")}
                     </span>
                     <span>
-                        {t("status")}: {addInfo?.status} {personalLoyaltyInfo?.percent}%
+                        {t("status")}: {personalLoyaltyInfo.isActive ? addInfo?.status : obtainProgramLoyalty.levelName} {personalLoyaltyInfo.isActive ? personalLoyaltyInfo?.percent : obtainProgramLoyalty.percent}%
                     </span>
                 </p>
             </DownSide>

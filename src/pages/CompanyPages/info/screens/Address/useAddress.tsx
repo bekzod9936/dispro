@@ -4,6 +4,7 @@ import { useQuery } from "react-query";
 import { fetchAddressInfo } from "services/queries/InfoQuery";
 
 interface Props {
+  value: number | undefined;
   address?: string;
   addressDesc?: string;
   companyId?: number;

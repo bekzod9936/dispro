@@ -8,29 +8,30 @@ import {
   IHistory,
   ISum,
   ICashier,
+  ITotal,
 } from './types';
 
 const initialState: IFinance = {
   suggestionFinance: {
     data: [],
-    totalCount: 0,
+    total: { count: 0, pages: 0 },
     between: '',
   },
   paymentFinance: {
     data: [],
-    totalCount: 0,
+    total: { count: 0, pages: 0 },
     between: '',
     header: [],
   },
   cashBackFinance: {
     data: [],
-    totalCount: 0,
+    total: { count: 0, pages: 0 },
     between: '',
     header: [],
   },
   historyFinance: {
     data: [],
-    totalCount: 0,
+    total: { count: 0, pages: 0 },
     between: '',
     sum: {
       total: 0,
@@ -48,8 +49,8 @@ const financeSlice = createSlice({
     setSuggestionFinanceData: (state, action: PayloadAction<ISuggestion[]>) => {
       state.suggestionFinance.data = action.payload;
     },
-    setSuggestionFinanceTotal: (state, action: PayloadAction<number>) => {
-      state.suggestionFinance.totalCount = action.payload;
+    setSuggestionFinanceTotal: (state, action: PayloadAction<ITotal>) => {
+      state.suggestionFinance.total = action.payload;
     },
     setSuggestionFinanceBetween: (state, action: PayloadAction<string>) => {
       state.suggestionFinance.between = action.payload;
@@ -57,8 +58,8 @@ const financeSlice = createSlice({
     setPaymentFinanceData: (state, action: PayloadAction<IPayment[]>) => {
       state.paymentFinance.data = action.payload;
     },
-    setPaymentFinanceTotal: (state, action: PayloadAction<number>) => {
-      state.paymentFinance.totalCount = action.payload;
+    setPaymentFinanceTotal: (state, action: PayloadAction<ITotal>) => {
+      state.paymentFinance.total = action.payload;
     },
     setPaymentFinanceBetween: (state, action: PayloadAction<string>) => {
       state.paymentFinance.between = action.payload;
@@ -69,8 +70,8 @@ const financeSlice = createSlice({
     setCashBackFinanceData: (state, action: PayloadAction<ICashBack[]>) => {
       state.cashBackFinance.data = action.payload;
     },
-    setCashBackFinanceTotal: (state, action: PayloadAction<number>) => {
-      state.cashBackFinance.totalCount = action.payload;
+    setCashBackFinanceTotal: (state, action: PayloadAction<ITotal>) => {
+      state.cashBackFinance.total = action.payload;
     },
     setCashBackFinanceBetween: (state, action: PayloadAction<string>) => {
       state.cashBackFinance.between = action.payload;
@@ -81,8 +82,8 @@ const financeSlice = createSlice({
     setHistoryFinanceData: (state, action: PayloadAction<IHistory[]>) => {
       state.historyFinance.data = action.payload;
     },
-    setHistoryFinanceTotal: (state, action: PayloadAction<number>) => {
-      state.historyFinance.totalCount = action.payload;
+    setHistoryFinanceTotal: (state, action: PayloadAction<ITotal>) => {
+      state.historyFinance.total = action.payload;
     },
     setHistoryFinanceBetween: (state, action: PayloadAction<string>) => {
       state.historyFinance.between = action.payload;

@@ -6,6 +6,11 @@ import Filter from 'components/Custom/Filter/index';
 import Radio from 'components/Custom/Radio';
 import CheckBox from 'components/Custom/CheckBox';
 import Input from 'components/Custom/Input';
+import DatePcker from 'components/Custom/DatePicker';
+import { numberWithNew } from 'services/utils';
+import { useAppSelector } from 'services/redux/hooks';
+import InputFormat from 'components/Custom/InputFormat';
+import Chart from './Chart';
 import {
   Container,
   AgeIcon,
@@ -37,10 +42,6 @@ import {
   WrapDate,
   WrapInputs,
 } from './style';
-import DatePcker from 'components/Custom/DatePicker';
-import { numberWith } from 'services/utils';
-import { useAppSelector } from 'services/redux/hooks';
-import InputFormat from 'components/Custom/InputFormat';
 
 const intialState = {
   startDate: '',
@@ -68,11 +69,10 @@ const Clients = () => {
   const [regDate, setRegDate] = useState(intialReg);
   const [purchase, setPurchase] = useState(intialPur);
   const [allPurchaseSum, setAllPurchaseSum] = useState('');
-  const { response, isFetching, setIsFetching, resChart } = useClientsHook({
+  const { response, isFetching, setIsFetching } = useClientsHook({
     filterValues,
     traffic,
   });
-  const [errorPurchase, setErrorPurchase] = useState(false);
   const [usedLevel, setUsedLevel] = useState<any[]>([]);
   const [radioValue, setRadioValue] = useState<any>();
 
@@ -243,7 +243,13 @@ const Clients = () => {
             inputStyle={{
               inpadding: '0 10px',
             }}
-            min={9}
+            error={
+              !!purchase.purchaseCountFrom &&
+              !!purchase.purchaseCountTo &&
+              Number(purchase.purchaseCountFrom) >
+                Number(purchase.purchaseCountTo)
+            }
+            maxLength={11}
             onChange={(e: any) => {
               setPurchase({ ...purchase, purchaseCountFrom: e.target.value });
             }}
@@ -255,10 +261,16 @@ const Clients = () => {
             width={{
               maxwidth: 200,
             }}
+            maxLength={11}
+            error={
+              !!purchase.purchaseCountFrom &&
+              !!purchase.purchaseCountTo &&
+              Number(purchase.purchaseCountFrom) >
+                Number(purchase.purchaseCountTo)
+            }
             inputStyle={{
               inpadding: '0 10px',
             }}
-            min={9}
             value={purchase.purchaseCountTo}
             onChange={(e: any) =>
               setPurchase({ ...purchase, purchaseCountTo: e.target.value })
@@ -270,10 +282,9 @@ const Clients = () => {
     {
       title: t('purchuase_cost'),
       content: (
-        <Input
+        <InputFormat
           placeholder={t('notless')}
           onChange={(e: any) => setAllPurchaseSum(e.target.value)}
-          type='number'
           label={t('enter_amount')}
           value={allPurchaseSum}
         />
@@ -378,6 +389,12 @@ const Clients = () => {
               endDate: date.endDate,
             });
           }}
+          error={
+            !!purchase.purchaseCountFrom &&
+            !!purchase.purchaseCountTo &&
+            Number(purchase.purchaseCountFrom) >
+              Number(purchase.purchaseCountTo)
+          }
           onReset={onReset}
           list={filterList}
         />
@@ -394,7 +411,7 @@ const Clients = () => {
               endDate: e.slice(e.indexOf('~ ') + 2),
               usedLevelNumber: '',
             });
-            setDate({
+            await setDate({
               startDate: e.slice(0, e.indexOf(' ~')),
               endDate: e.slice(e.indexOf('~ ') + 2),
             });
@@ -402,18 +419,18 @@ const Clients = () => {
           margin='0 0 0 20px'
         />
       </WrapFilter>
+      <Chart />
       <Container>
-        {response.isLoading || isFetching ? (
+        {response.isLoading || isFetching || response.isFetching ? (
           <Spinner />
         ) : (
           <Wrapper>
             {list.map((v: any) => (
               <WrapInfo key={v.title}>
                 <WrapIcon>{v.Icon}</WrapIcon>
-
                 <Content>
                   <Title>{v.title}</Title>
-                  <Value>{numberWith(v?.value?.toString(), ' ')}</Value>
+                  <Value>{numberWithNew({ number: v?.value })}</Value>
                 </Content>
               </WrapInfo>
             ))}

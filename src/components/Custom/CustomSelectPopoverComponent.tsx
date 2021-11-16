@@ -1,5 +1,4 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core";
 import { OptionsListItem } from "../../styles/CustomStyles";
 import { useTranslation } from "react-i18next";
 
