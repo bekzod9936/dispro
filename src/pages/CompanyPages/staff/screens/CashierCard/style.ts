@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { device } from 'styles/device';
 import { ReactComponent as QRStaff } from 'assets/icons/qr_staff.svg';
+import { ReactComponent as Dots } from 'assets/icons/verticalDots.svg';
 
 export const QRIcon = styled(QRStaff)`
   margin-left: 10px;
@@ -197,4 +198,120 @@ export const Flex = styled.div`
 
 export const ContentTable = styled.div`
   padding-top: 30px;
+`;
+
+export const DotsWrap = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+`;
+
+export const DotsIcon = styled(Dots)`
+  margin: 10px;
+`;
+
+export const SelectWrap = styled.div`
+  min-width: 247px;
+  padding: 15px 0;
+  & > div {
+    font-weight: normal;
+    font-size: 16px;
+    padding: 15px 25px;
+  }
+  & > div:first-child {
+    color: #223367;
+    background-color: #eff0fd;
+  }
+  & > div:last-child {
+    color: #ff5e68;
+  }
+`;
+export const Edit = styled.div``;
+
+export const Delete = styled.div``;
+
+export const ModalContent = styled.div`
+  padding: 30px 40px;
+  overflow-y: auto;
+`;
+
+export const ModalBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
+
+interface IMAction {
+	justifyContent?:
+	  | "space-between"
+	  | "center"
+	  | "flex-end"
+	  | "flex-start"
+	  | "space-around";
+	mTop?: number;
+  }
+
+export const ModalAction = styled.div`
+  display: flex;
+  justify-content: ${({ justifyContent = "flex-end" }: IMAction) =>
+    justifyContent};
+  align-items: center;
+  margin-top: ${({ mTop = 1 }: IMAction) => mTop + "px"};
+`;
+
+export const BarTitle = styled.p`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 26px;
+  color: #223367;
+`;
+
+export const ButtonKeyWord = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #c4c4c4;
+  border-radius: 46px;
+  font-weight: 300;
+  font-size: 14px;
+  color: #223367;
+  padding: 0 5px 0 15px;
+  margin: 10px 10px 0 0;
+  height: 35px;
+  .MuiIconButton-root {
+    padding: 6px !important;
+    margin-left: 5px;
+  }
+  @media (max-width: ${device.mobile}) {
+    height: 25px;
+    font-weight: 300;
+    font-size: 12px;
+    color: #223367;
+  }
+`;
+
+
+interface ButtonProps {
+	mobile?: boolean;
+	color?: string;
+  }
+
+export const DeleteIc = styled(Delete)`
+  & > path {
+    fill: ${({ color }: ButtonProps) => (color ? color : null)};
+  }
+`;
+
+export const BarText = styled.p`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 19px;
+  /* identical to box height */
+
+  color: #223367;
 `;

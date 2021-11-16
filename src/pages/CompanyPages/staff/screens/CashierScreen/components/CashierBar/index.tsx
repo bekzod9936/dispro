@@ -111,12 +111,18 @@ const CashierBar = () => {
 						<Break />
 						<CashierRow justifyContent='center'>
 							<Button
-								buttonStyle={{
-									color: '#606EEA',
-									bgcolor: '#fff',
-								}}
 								onClick={() => {
 									dispatch(setOpenEditCashier(true));
+								}}
+								padding={{
+									desktop: '14px 25px',
+									laptop: '14px 25px',
+								}}
+								buttonStyle={{
+									bgcolor: '#fff',
+									hoverbgcolor: 'rgba(96, 110, 234, 0.1)',
+									radius: `14px`,
+									color: '#606EEA',
 								}}
 								endIcon={<EditIcon />}
 							>
