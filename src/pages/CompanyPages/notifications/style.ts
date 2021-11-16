@@ -39,6 +39,7 @@ export const Card = styled.div`
   flex-direction: column;
   flex: 1;
   width: 100%;
+  margin-right: 25px;
 `;
 
 export const CardImg = styled.div`
@@ -133,12 +134,13 @@ export const WrapperCard = styled.div`
   display: grid;
   grid-template-columns: repeat(3, minmax(30%, 1fr));
   grid-gap: 20px;
+  padding-right: 25px;
   & > :hover {
     box-shadow: 4px 4px 10px grey;
   }
   border-radius: 14px;
   @media (max-width: ${device.mobile}) {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(100%, 1fr);
   }
 `;
 
@@ -146,7 +148,7 @@ export const Wrap = styled.div`
   overflow-y: auto;
   margin-top: 25px;
   overflow-x: hidden;
-  padding-right: 25px;
+
   ::-webkit-scrollbar {
     width: 7px;
   }
@@ -178,7 +180,6 @@ export const SideText = styled.div`
 export const WrapScroll = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
-  padding-right: 25px;
   ::-webkit-scrollbar {
     width: 7px;
   }
