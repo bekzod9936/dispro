@@ -34,7 +34,7 @@ import {
   UploadImage,
 } from "assets/icons/proposals/ProposalsIcons";
 import { SaveIcon } from "assets/icons/news/newsIcons";
-import { days, genders, todayDate,language } from "./constants";
+import { days, genders,todayDate,nextDay } from "./constants";
 import {
   PushBlock,
   PushWrapper,
@@ -68,7 +68,7 @@ interface IOptionFields {
   push: boolean;
 }
 
-
+console.log('nextDay',nextDay)
 
 const CreateNews = () => {
   const { t } = useTranslation();
@@ -82,7 +82,8 @@ const CreateNews = () => {
     push: false,
   });
 
-  console.log('branches',branches)
+  
+ 
 
   const [period, setPeriod] = React.useState<boolean>(false);
   const [file, setFile] = React.useState("");
@@ -142,7 +143,7 @@ const CreateNews = () => {
       description:data.description,
       ageFrom: parseInt(data.ageLimit),
       ageTo: 100,
-      ageUnlimited:false,
+      ageUnlimited:parseInt(data.ageLimit) ? false:true,
       couponIds:[],
       image:image,
       genderType:data.gender?.id,
@@ -208,29 +209,7 @@ const CreateNews = () => {
           </Button>
             </WrapperModal>
         </Modal>
-{/*       
-      <Modal open={submit}>
-        <SubmitModal>
-        {filter?.regDate?.regDateFrom>todayDate ? t('Новость будет добавлена в раздел В ожидании ') :t('Новость будет опубликована сразу')}
-          <p>{filter?.regDate?.regDateFrom>todayDate ? t(`Новость будет опубликована ${filter?.regDate?.regDateFrom} `) :t('Новость будет попадает сразу в разделе актуалные, и будет доступна вашим клиентам')}</p>
-          <Button
-            buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
-            margin={{ laptop: "0 22px 0 0" }}
-            onClick={() => setSubmit(false)}
-            startIcon={<CancelIcon />}
-          >
-            Отмена
-          </Button>
-          <Button
-            type="submit"
-            margin={{ laptop: "0 22px 0 0" }}
-            onClick={submitData}
-            startIcon={<SaveIcon />}
-          >
-            Сохранить
-          </Button>
-        </SubmitModal>
-      </Modal> */}
+
 
       <Form onSubmit={handleSubmit(submitNews)}>
         <UpSide>
@@ -352,7 +331,7 @@ const CreateNews = () => {
                   />
                   <Input
                     type="date"
-                    min={filter?.regDate?.regDateFrom}
+                    min={filter?.regDate?.regDateFrom ? filter?.regDate?.regDateFrom :nextDay}
                     width={{
                       maxwidth: 200,
                     }}
@@ -398,16 +377,13 @@ const CreateNews = () => {
               <Controller
                 name="ageLimit"
                 control={control}
-                rules={{
-                  required: true,
-                }}
+              
                 render={({ field }) => (
                   <InputFormat
                     field={field}
                     defaultValue={''}
                     max="100"
-                    error={!!errors.ageLimit}
-                    message={t("requiredField")}
+                   
                     IconStart={<PlusIcon style={{ marginLeft: "20px" }} />}
                     label="Возрастное ограничение"
                   />
