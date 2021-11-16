@@ -73,7 +73,7 @@ const useNewsRoute=()=>{
         {
             path:'/news/repair',
             text:t(' Восстановить новость'),
-            component:ShowNews
+            component:RepairNews
         },
      
     ]

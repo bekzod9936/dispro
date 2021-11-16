@@ -52,7 +52,7 @@ const Active = () => {
   };
   const companyId = localStorage.getItem('companyId');
   const intialFilter = {
-    companyId: companyId,
+    // companyId: companyId,
     page: 1,
     perPage: 5,
     dateFrom: '',
@@ -77,7 +77,18 @@ const Active = () => {
 
   return (
     <Container>
-     
+      <div style={{height:'60px !important'}}>
+          {/* <DatePcker 
+        onChange={async (e: any) => {
+          await setFilterValues({
+            ...filterValues,
+            dateFrom: e.slice(0, e.indexOf(' ~')),
+            dateTo: e.slice(e.indexOf('~ ') + 2),
+          });
+          await response.refetch();
+        }}
+      /> */}
+     </div>
       <Wrap>
         {response.isLoading || response.isFetching ? (
           <Spinner />

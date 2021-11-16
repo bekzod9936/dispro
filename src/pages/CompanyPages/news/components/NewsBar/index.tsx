@@ -171,7 +171,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
               </Button>
             </div>
           )}
-          {location.pathname === "/news/waiting" && (
+          {/* {location.pathname === "/news/waiting" && (
             <div
               style={{
                 display: "flex",
@@ -192,7 +192,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
                 Опубликовать
               </Button>
             </div>
-          )}
+          )} */}
           <div
             style={{
               display: "flex",
