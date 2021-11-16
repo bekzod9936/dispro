@@ -57,7 +57,6 @@ const Active = () => {
     dispatch(setSelectedNews(""));
   };
   
-
   const newsById = selectedNews?.fullData;
 
   return (
@@ -68,9 +67,7 @@ const Active = () => {
         ) : (
           <>
             {data.length > 0 ? (
-            
                 <Table data={list} />
-             
             ) : (
               <div style={{ paddingRight: "20%", paddingTop: "10%" }}>
                 <NoNews handleOpenSetting={handleOpenSetting} />

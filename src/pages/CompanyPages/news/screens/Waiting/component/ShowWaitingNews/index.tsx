@@ -88,14 +88,14 @@ const ShowWaitingNews = () => {
             style={{
               position: "absolute",
               bottom: "10%",
-              paddingTop: "60px",
-              padding: "10px",
+         
+              padding: "5px",
               backgroundColor: "#606EEA",
               color: "white",
               borderRadius: "20px",
             }}
           >
-            <span style={{ color: "white" }}>Написать нам</span>
+            <span style={{ color: "white" ,fontSize:'12px'}}>Написать нам</span>
           </div>
         </PreviewContent>
         <Content>
