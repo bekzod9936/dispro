@@ -8,6 +8,25 @@ export const Container = styled.div`
   flex-direction: column;
 `;
 
+export const WrapSpinner = styled.div`
+  overflow-y: auto;
+  position: relative;
+  overflow-x: hidden;
+  &::-webkit-scrollbar {
+    appearance: none;
+    display: none;
+  }
+  &::-webkit-scrollbar-thumb {
+    appearance: none;
+    display: none;
+  }
+
+  &::-webkit-scrollbar-track {
+    appearance: none;
+    display: none;
+  }
+`;
+
 export const Wrap = styled.div`
   overflow-y: auto;
   padding-right: 25px;

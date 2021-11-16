@@ -48,7 +48,8 @@ export const fetchCreateNews = async (data: any) => {
 }
 
 export const fetchUpdateNews = async (data: any) => {
-  const response = await partnerApi.put(`core/news/${data.idd}`, data)
+
+  const response = await partnerApi.put(`core/news/${data.newsId}`, data.newsBody)
   return response;
 }
 

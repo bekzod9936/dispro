@@ -80,7 +80,7 @@ const CreateNews = () => {
   const { filters } = useAppSelector((state) => state.clients);
 
   const companyId: any = localStorage.getItem("companyId");
-  const { responseAddress, dataAddress, weeks, inntialWorkTime } = useAddress({
+  const { dataAddress,} = useAddress({
     id: companyId,
   });
 
@@ -115,7 +115,7 @@ const CreateNews = () => {
   // }, [filters]);
 
   const { mutate } = useMutation((data:any)=>fetchUpdateNews(data));
-  console.log("edit news", newsById);
+  console.log("newsById", newsById?.data);
   const {
     control,
     handleSubmit,
@@ -162,8 +162,8 @@ const CreateNews = () => {
   
 
   const submitNews = (data: any) => {
-    let newsData = {
-      idd:newsId,
+    let newsBody = {
+     
       title: data.name,
       startLifeTime: filter?.regDate?.regDateFrom ? filter?.regDate?.regDateFrom:startDate,
       endLifeTime: filter?.regDate?.regDateTo ? filter?.regDate?.regDateTo:endDate,
@@ -177,7 +177,7 @@ const CreateNews = () => {
       pushUp: optionalFields.push,
       settings: {
         weekDays:
-          optionalFields.push && data?.days?.length
+          optionalFields.push && data?.days?.length>0
             ? data.days.map((el: any) => el.id)
             : [0, 1, 2, 3, 4, 5, 6],
         aroundTheClock: checked ? true : false,
@@ -192,8 +192,11 @@ const CreateNews = () => {
       },
       pushUpTitle: data.descriptionPush,
     };
-    
-    mutate(newsData);
+ 
+   
+    let newsInfo={newsBody,newsId}
+
+    mutate(newsInfo);
     setTimeout(() => history.push('/news/waiting'), 1000);
   };
   console.log("filters datse", filter);
@@ -225,6 +228,7 @@ const CreateNews = () => {
           : el == 5
           ? "Пятница"
           : "Суббота",
+          id:el==0 ? 0:el==1 ? 1:el==2? 2:el==3?3 :el==4 ? 4:el==5 ? 5 :el==6? 6:[]
     };
   });
   const mergedBranches=filteredArray?.map((item:any)=>{

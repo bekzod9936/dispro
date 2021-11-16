@@ -139,15 +139,15 @@ export const AgeData = styled.div`
     background: linear-gradient(215.2deg, #8bdd59 -12.1%, #dcf089 101.51%);
     border-radius: 14px;
   }
- 
   h3 {
-    margin-left:20px;
     padding: 10px 20px;
+    margin-left:30px;
     font-size: 14px;
-    background: linear-gradient(215.2deg, #c7eeff -12.1%, #fca9ea 101.51%);
-    border-radius: 14px;
+    background: linear-gradient(215.2deg, #C7EEFF -12.1%, #FCA9EA 101.51%);
+border-radius: 14px;
   }
-`;
+  `
+
 export const TitleData = styled.div`
   display: flex;
   align-items: center;
@@ -175,3 +175,44 @@ export const DefaultImage = styled.div`
   background: linear-gradient(215.2deg, #c7eeff -12.1%, #fca9ea 101.51%);
   margin-right: 15px;
 `;
+
+
+export const ToolTipText = styled("span")({
+
+  visibility: "hidden",
+  width: "400px",
+  backgroundColor: "#fff",
+  color: "#223367",
+  textAlign: "center",
+  borderRadius: "6px",
+  padding: "20px 30px",
+  position: "absolute",
+  zIndex: 1,
+
+
+  left: "100%",
+  marginLeft: "-500px",
+  marginTop: "-50px",
+  ":after": {
+    content: '""',
+    position: "absolute",
+    top: "50%",
+    left: "100%",
+    marginLeft: "-5px",
+    
+    borderWidth: "5px",
+    borderStyle: "solid",
+    borderRadius: '14px',
+    borderColor: "white transparent transparent transparent"
+  }
+
+});
+
+export const ToolTip = styled("div")({
+  position: "relative",
+  display: "inline-block",
+ 
+  ":hover span": {
+    visibility: "visible"
+  }
+});

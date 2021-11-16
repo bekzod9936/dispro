@@ -55,7 +55,24 @@ align-items:center;
   border-radius: 14px;
  }
 `
+export const WrapSpinner = styled.div`
+  overflow-y: auto;
+  position: relative;
+  overflow-x: hidden;
+  &::-webkit-scrollbar {
+    appearance: none;
+    display: none;
+  }
+  &::-webkit-scrollbar-thumb {
+    appearance: none;
+    display: none;
+  }
 
+  &::-webkit-scrollbar-track {
+    appearance: none;
+    display: none;
+  }
+`;
 export const TitleData = styled.div`
   display: flex; 
   align-items: center; 

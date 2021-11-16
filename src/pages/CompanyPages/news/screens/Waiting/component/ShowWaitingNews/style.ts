@@ -52,11 +52,11 @@ export const Header = styled.div`
 `;
 
 export const Content = styled.div`
-  margin: 20px 0;
+  margin: 20px 400px;
   position: absolute;
   /* top: 50%; */
   top: 0%;
-  left: 36%;
+ 
   h5 {
     font-size: 16px;
     color: #c7c7c7;
@@ -127,9 +127,9 @@ export const PreviewContent = styled.div`
     margin-bottom: 10px;
   }
   span {
-    font-weight: 500;
+    font-weight: 300;
     font-size: 14px;
-    color: #223367;
+    /* color: #223367; */
     margin-bottom: 15px;
     
   }

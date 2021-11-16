@@ -8,7 +8,7 @@ import NoNews from "../../components/NoNews";
 import { SideBar } from "../../components/SideBar";
 import { useAppSelector, useAppDispatch } from "services/redux/hooks";
 import { NewsBar } from "../../components/NewsBar";
-import { Container, Wrap, TitleData,AgeData,Info,WrapPag, DefaultImage } from "./style";
+import { Container, Wrap, TitleData,AgeData,Info,WrapPag, DefaultImage ,WrapSpinner} from "./style";
 import useData from "../useData";
 import useWaiting from "./useWaiting";
 import Pagination from 'components/Custom/Pagination';
@@ -57,20 +57,17 @@ const Active = () => {
     dispatch(setSelectedNews(""));
   };
   
-
   const newsById = selectedNews?.fullData;
 
   return (
     <Container>
       <Wrap>
         {response.isLoading || response.isFetching ? (
-          <Spinner />
+         <WrapSpinner> <Spinner /></WrapSpinner>
         ) : (
           <>
             {data.length > 0 ? (
-            
                 <Table data={list} />
-             
             ) : (
               <div style={{ paddingRight: "20%", paddingTop: "10%" }}>
                 <NoNews handleOpenSetting={handleOpenSetting} />
