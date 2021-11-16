@@ -20,6 +20,8 @@ import {
 } from 'services/utils';
 import MobileTable from '../../components/MobileTable';
 import useWindowWidth from 'services/hooks/useWindowWidth';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import financeCashierDef from '../../../../../assets/images/financeCashierDef.png';
 import {
   Container,
   WrapFilter,
@@ -37,8 +39,10 @@ import {
   CartIcon,
   ExcelIcon,
   WrapSelectV,
+  Img,
+  WrapDef,
+  TitleDef,
 } from './style';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
 import {
   WrapPag,
   Info,
@@ -427,108 +431,119 @@ const Payment = () => {
   ) : null;
   return (
     <Container>
-      <WrapFilter>
-        <WrapFilterValues>
-          <Filter
-            onSubmit={() =>
-              handleFilterSubmit({
-                startDate: date.startDate,
-                endDate: date.endDate,
-              })
-            }
-            onReset={onReset}
-            list={filterList}
-          />
-          {width > 600 ? filterselectvalue : null}
-          {width > 600 ? filtercash : null}
-        </WrapFilterValues>
-        <Button
-          onClick={handleClick}
-          startIcon={<ExcelIcon />}
-          buttonStyle={{
-            bgcolor: '#45A13B',
-            height: {
-              mobile: 36,
-            },
-          }}
-          margin={{
-            laptop: '0 0 0 10px',
-          }}
-          disabled={resExcel.isLoading}
-        >
-          {t('exportexcel')}
-        </Button>
-      </WrapFilter>
-      <WrapSelectV>
-        {width > 600 ? null : <>{filterselectvalue}</>}
-        {width > 600 ? null : <>{filtercash}</>}
-      </WrapSelectV>
-      {width <= 600 ? (
-        <>
-          <WrapTotal>
-            <WrapTotalSum>
-              <MoneyIcon />
-              <WrapSum>
-                <Label>{t('totalsum')}</Label>
-                <TotalSum>
-                  {numberWithNew({ number: sum.total, defaultValue: 0 })}
-                </TotalSum>
-              </WrapSum>
-            </WrapTotalSum>
-            <WrapTotalSum>
-              <DiscountIcon />
-              <WrapSum>
-                <Label>{t('sale')}</Label>
-                <TotalSum>
-                  {numberWithNew({ number: sum.paid, defaultValue: 0 })}
-                </TotalSum>
-              </WrapSum>
-            </WrapTotalSum>
-            <WrapTotalSum>
-              <CartIcon />
-              <WrapSum>
-                <Label>{t('paid')}</Label>
-                <TotalSum>
-                  {numberWithNew({ number: sum.minus, defaultValue: 0 })}
-                </TotalSum>
-              </WrapSum>
-            </WrapTotalSum>
-          </WrapTotal>
-        </>
-      ) : null}
-      {response.isLoading || response.isFetching ? (
+      {response.isLoading ? (
         <Spinner />
-      ) : width > 600 ? (
-        <Table header2={header2} columns={columns} data={listdesktop} />
+      ) : data.length === 0 ? (
+        <WrapDef>
+          <Img src={financeCashierDef} alt='finance' />
+          <TitleDef>{t('therewillbeahistoryofcashiers')}</TitleDef>
+        </WrapDef>
       ) : (
-        <MobileTable
-          data={{
-            title: t('totalsum'),
-            info: listmobile,
-          }}
-          headertitle={t('byCashiers')}
-          isAvatar={true}
-        />
+        <>
+          <WrapFilter>
+            <WrapFilterValues>
+              <Filter
+                onSubmit={() =>
+                  handleFilterSubmit({
+                    startDate: date.startDate,
+                    endDate: date.endDate,
+                  })
+                }
+                onReset={onReset}
+                list={filterList}
+              />
+              {width > 600 ? filterselectvalue : null}
+              {width > 600 ? filtercash : null}
+            </WrapFilterValues>
+            <Button
+              onClick={handleClick}
+              startIcon={<ExcelIcon />}
+              buttonStyle={{
+                bgcolor: '#45A13B',
+                height: {
+                  mobile: 36,
+                },
+              }}
+              margin={{
+                laptop: '0 0 0 10px',
+              }}
+              disabled={resExcel.isLoading}
+            >
+              {t('exportexcel')}
+            </Button>
+          </WrapFilter>
+          <WrapSelectV>
+            {width > 600 ? null : <>{filterselectvalue}</>}
+            {width > 600 ? null : <>{filtercash}</>}
+          </WrapSelectV>
+          {width <= 600 ? (
+            <>
+              <WrapTotal>
+                <WrapTotalSum>
+                  <MoneyIcon />
+                  <WrapSum>
+                    <Label>{t('totalsum')}</Label>
+                    <TotalSum>
+                      {numberWithNew({ number: sum.total, defaultValue: 0 })}
+                    </TotalSum>
+                  </WrapSum>
+                </WrapTotalSum>
+                <WrapTotalSum>
+                  <DiscountIcon />
+                  <WrapSum>
+                    <Label>{t('sale')}</Label>
+                    <TotalSum>
+                      {numberWithNew({ number: sum.paid, defaultValue: 0 })}
+                    </TotalSum>
+                  </WrapSum>
+                </WrapTotalSum>
+                <WrapTotalSum>
+                  <CartIcon />
+                  <WrapSum>
+                    <Label>{t('paid')}</Label>
+                    <TotalSum>
+                      {numberWithNew({ number: sum.minus, defaultValue: 0 })}
+                    </TotalSum>
+                  </WrapSum>
+                </WrapTotalSum>
+              </WrapTotal>
+            </>
+          ) : null}
+          {response.isLoading || response.isFetching ? (
+            <Spinner />
+          ) : width > 600 ? (
+            <Table header2={header2} columns={columns} data={listdesktop} />
+          ) : (
+            <MobileTable
+              data={{
+                title: t('totalsum'),
+                info: listmobile,
+              }}
+              headertitle={t('byCashiers')}
+              isAvatar={true}
+            />
+          )}
+          <WrapPag>
+            <Info>
+              {t('shown')}
+              <span>{between}</span>
+              {t('from1')} <span>{total.pages}</span>
+              {countPagination({
+                count: Number(total.count),
+                firstWord: t('operations1'),
+                secondWord: t('operations23'),
+              })}
+            </Info>
+            <Pagination
+              page={filterValues.page}
+              count={total.count}
+              onChange={handlechangePage}
+              disabled={response.isLoading || response.isFetching}
+              siblingCount={0}
+            />
+          </WrapPag>
+        </>
       )}
-      <WrapPag>
-        <Info>
-          {t('shown')}
-          <span>{between}</span>
-          {t('from1')} <span>{total.pages}</span>
-          {countPagination({
-            count: Number(total.count),
-            firstWord: t('operations1'),
-            secondWord: t('operations23'),
-          })}
-        </Info>
-        <Pagination
-          page={filterValues.page}
-          count={total.count}
-          onChange={handlechangePage}
-          disabled={response.isLoading || response.isFetching}
-          siblingCount={0}
-        />
-      </WrapPag>
     </Container>
   );
 };
