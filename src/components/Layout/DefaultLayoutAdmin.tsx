@@ -99,9 +99,9 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
           <LogoIcon src={Logo} alt='logo' />
           <Title>DIS-COUNT</Title>
         </WrapLogo>
-        <IconButton onClick={handleDrawerClose}>
+        <ButtonIcon className='sidebar' onClick={handleDrawerClose}>
           <MenuIcon />
-        </IconButton>
+        </ButtonIcon>
       </>
     );
   };

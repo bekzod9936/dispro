@@ -14,6 +14,7 @@ import { resetFilters, setFilters } from "services/redux/Slices/clients";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 import { getOneDayPlus } from "pages/CompanyPages/clients/utils/getSelectedFilters";
 import InputFormat from "components/Custom/InputFormat";
+import useWindowWidth from "services/hooks/useWindowWidth";
 
 
 const traffics = [
@@ -26,7 +27,7 @@ export const MFilter = () => {
   const dispatch = useAppDispatch()
   const { filters } = useAppSelector(state => state.clients)
   const [filter, setFilter] = useState<any>({})
-
+  const { width } = useWindowWidth()
   useEffect(() => {
     setFilter(filters)
   }, [filters])
@@ -62,6 +63,8 @@ export const MFilter = () => {
               type="date"
               width={{
                 maxwidth: 200,
+                width: width <= 600 ? "47%" : "100%"
+
               }}
               IconStart={<WrapDate>{t("from")}</WrapDate>}
               inputStyle={{
@@ -80,6 +83,7 @@ export const MFilter = () => {
               type="date"
               width={{
                 maxwidth: 200,
+                width: width <= 600 ? "47%" : "100%"
               }}
               min={getOneDayPlus(filter?.regDate?.regDateFrom, "plus")}
               margin={{ laptop: "0 0 0 15px" }}

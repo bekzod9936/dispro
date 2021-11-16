@@ -10,6 +10,7 @@ import DatePcker from 'components/Custom/DatePicker';
 import { numberWithNew } from 'services/utils';
 import { useAppSelector } from 'services/redux/hooks';
 import InputFormat from 'components/Custom/InputFormat';
+import Chart from './Chart';
 import {
   Container,
   AgeIcon,
@@ -68,7 +69,7 @@ const Clients = () => {
   const [regDate, setRegDate] = useState(intialReg);
   const [purchase, setPurchase] = useState(intialPur);
   const [allPurchaseSum, setAllPurchaseSum] = useState('');
-  const { response, isFetching, setIsFetching, resChart } = useClientsHook({
+  const { response, isFetching, setIsFetching } = useClientsHook({
     filterValues,
     traffic,
   });
@@ -418,6 +419,7 @@ const Clients = () => {
           margin='0 0 0 20px'
         />
       </WrapFilter>
+      <Chart />
       <Container>
         {response.isLoading || isFetching || response.isFetching ? (
           <Spinner />

@@ -47,7 +47,7 @@ export const genders = [
       value: "женщин",
     },
     {
-        id: 3,
+        id: 0,
         label: "Для всех",
         value: "всех",
       },
@@ -73,8 +73,9 @@ export const genders = [
 
   let today = new Date();
   let dd = String(today.getDate()).padStart(2, "0");
+  let nextdd = String(today.getDate()+1).padStart(2, "0");
   let mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
   let yyyy = today.getFullYear();
-  
-  export const todayDate= yyyy + "-" + mm + "-" + dd;
+  export const nextDay=yyyy + "-" + mm + "-" + nextdd;
+  export const todayDate=yyyy + "-" + mm + "-" + dd ;
 

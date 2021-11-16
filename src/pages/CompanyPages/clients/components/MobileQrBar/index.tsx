@@ -1,43 +1,54 @@
 import { CloseIcon, CopyLinkIcon, ShareIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
 import Button from 'components/Custom/Button'
 import Input from "components/Custom/Input"
-import { useAppDispatch, useAppSelector } from 'services/redux/hooks'
-import { setOpenSideBar } from 'services/redux/Slices/clients'
-import { Buttons, FakeQrCode, Header, Main, Wrapper } from './style'
+import QrCode from "qrcode.react"
+import { Buttons, Header, Main, Wrapper } from './style'
+import { useState } from "react"
+interface IProps {
+    link: string,
+    code: string,
+    handleClose: () => void
+}
+export const MobileQrBar = ({ handleClose, link, code }: IProps) => {
 
-export const MobileQrBar = () => {
-    const { qrCodeBar } = useAppSelector(state => state.clients)
-    const dispatch = useAppDispatch()
+    const [copied, setCopied] = useState(false)
 
-    const handleClose = () => {
-        dispatch(setOpenSideBar(false))
+    const handleCopy = async () => {
+        if ("clipboard" in navigator) {
+            setCopied(true)
+            return await navigator.clipboard.writeText(link)
+        } else {
+            setCopied(true)
+            return document.execCommand("copy", true, link)
+        }
     }
 
     return (
-        <Wrapper isOpen={qrCodeBar}>
+        <Wrapper>
             <Header>
                 <h6>Код приглашения</h6>
                 <CloseIcon onClick={handleClose} />
             </Header>
             <Main>
-                <FakeQrCode />
-                <p>aslkd9281</p>
+                <QrCode value={link} size={146} />
+                <p>{code}</p>
                 <Input
                     label="Ссылка на присоединение"
                     inputStyle={{ color: "#A5A5A5" }}
-                    value="https/:discount_the_best" />
+                    value={link} />
             </Main>
             <Buttons>
                 <Button
+                    onClick={handleCopy}
                     margin={{ mobile: "0 0 15px 0" }}
                     buttonStyle={{ color: "#606EEA", bgcolor: "rgba(96, 110, 234, 0.1)" }}
                     endIcon={<CopyLinkIcon />}>
-                    Скопировать ссылку
+                    {copied ? "Скопировано" : "Скопировать ссылку"}
                 </Button>
-                <Button
+                {/* <Button
                     endIcon={<ShareIcon />}>
                     Поделиться
-                </Button>
+                </Button> */}
             </Buttons>
         </Wrapper>
     )

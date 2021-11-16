@@ -23,22 +23,10 @@ export const FormRow = styled.div`
   width: 100%;
 `;
 
-export const WrapperModal = styled.div`
-   padding-right:45px;
-   padding-top:10px;
-    position: relative;
-    h3 {
-      font-size: 22px;
-        line-height: 26px;
-        margin-bottom: 10px;
-        color: #223367;
-    }
- 
-`
 
 export const CloseButton = styled.div`
     position: absolute;
-    right: 15px;
+    right: 25px;
     top: 15px;
     cursor: pointer;
 `
@@ -329,4 +317,56 @@ export const LeaveModal = styled.div`
     justify-content: flex-end;
     align-items: center;
   }
+`
+export const SubmitModal = styled.div`
+    padding: 40px 55px 35px 55px;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
+    border-radius: 14px;
+    h5 {
+        font-size: 18px;
+        line-height: 21px;
+        font-weight: 500;
+        color: #223367;
+        margin-bottom: 20px;
+    }
+    p {
+        font-size: 14px;
+        line-height: 16.5px;
+        color: #223367;
+        font-weight: 300;
+        margin-bottom: 30px;
+    }
+    
+`
+export const WrapperModal = styled.div`
+    padding: 20px 45px;
+    width:500px;
+    position: relative;
+    a {
+        text-decoration: none;
+    }
+    h3 {
+        font-size: 22px;
+        line-height: 26px;
+        margin-bottom: 10px;
+        color: #223367;
+
+    }
+    p {
+        font-size: 18px;
+        font-weight: 300;
+        color: #223367;
+        margin-bottom: 25px;
+    }
+    @media (max-width: ${device.mobile}) {
+        h3 {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+        p {
+            display: none;
+        }
+    }
 `

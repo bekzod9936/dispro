@@ -212,6 +212,7 @@ const UpdateCoupon = () => {
     setValue('percent', currentCoupon.value?.toString());
   }, [currentCoupon.value]);
 
+ 
   return (
     <Wrapper>
       {width > 600 && (

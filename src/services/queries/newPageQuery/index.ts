@@ -46,6 +46,20 @@ export const fetchCreateNews = async (data: any) => {
   const response = await partnerApi.post("/core/news", data)
   return response;
 }
+
+export const fetchUpdateNews = async (data: any) => {
+
+  const response = await partnerApi.put(`core/news/${data.newsId}`, data.newsBody)
+  return response;
+}
+
+export const deleteNews = async (id: number) => {
+  await partnerApi.delete("/core/news", {
+      data: {
+          ids: [id]
+      }
+  })
+}
 // export const fetchArchiveQueries = () => {
 // 	const response = partnerApi.get("/core/news/by/company/archives");
 // 	return response;
