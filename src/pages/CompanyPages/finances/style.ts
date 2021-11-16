@@ -5,15 +5,16 @@ export const MainWrapper = styled.div`
   display: flex;
   height: 100%;
   flex-direction: column;
-
   overflow: hidden;
   width: 100%;
   padding: 25px 0 0 25px;
+  flex: 1;
 `;
 
 export const Wrap = styled.div`
   overflow-y: auto;
   position: relative;
+  overflow-x: hidden;
   &::-webkit-scrollbar {
     appearance: none;
     display: none;
@@ -29,7 +30,12 @@ export const Wrap = styled.div`
   }
 `;
 
-export const WrapTotalSum = styled.div``;
+export const WrapTotalSum = styled.div`
+  @media (max-width: ${device.mobile}) {
+    display: flex;
+    align-items: center;
+  }
+`;
 
 export const TotalSum = styled.div`
   background: #ffffff;
@@ -51,6 +57,14 @@ export const TotalSum = styled.div`
     height: 50px;
     font-size: 28px;
   }
+  @media (max-width: ${device.mobile}) {
+    background: transparent;
+    box-shadow: none;
+    margin: 0;
+    padding-left: 0;
+    height: fit-content;
+    font-size: 16px;
+  }
 `;
 
 export const Label = styled.div`
@@ -60,9 +74,19 @@ export const Label = styled.div`
   @media (min-width: ${device.laptop}) {
     font-size: 16px;
   }
+  @media (max-width: ${device.mobile}) {
+    font-weight: 500;
+    font-size: 13px;
+    color: #223367;
+  }
 `;
 
-export const WrapTotal = styled.div``;
+export const WrapTotal = styled.div`
+  @media (max-width: ${device.mobile}) {
+    display: flex;
+    margin-top: 15px;
+  }
+`;
 
 export const WrapHeader = styled.div`
   display: flex;
@@ -74,6 +98,38 @@ export const RightHeader = styled.div`
   position: absolute;
   right: 25px;
   top: 0;
+  @media (max-width: ${device.mobile}) {
+    display: none;
+  }
 `;
 
 export const LeftHeader = styled.div``;
+
+export const WrapPag = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
+  @media (max-width: ${device.mobile}) {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+`;
+
+export const Info = styled.div`
+  color: #223367;
+  font-size: 18px;
+  span {
+    font-weight: 900;
+    margin: 0px 5px;
+    font-size: 18px;
+  }
+  @media (max-width: ${device.mobile}) {
+    margin-bottom: 15px;
+  }
+`;
+
+export const WrapSum = styled.div`
+  margin-left: 10px;
+`;

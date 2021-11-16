@@ -5,7 +5,7 @@ export interface IState {
     archive: any[],
     canceled: any[],
     isLoading: boolean,
-    currentCoupon: IDeferred | any
+    currentCoupon: IDeferred
     currentOnSaleCoupon: IDeferred | any,
     isSaving: boolean,
     isError: boolean
@@ -39,4 +39,11 @@ export interface IDeferred {
     used: number,
     value: number,
     stat?: any
+    settings: {
+        time: {
+            from: string,
+            to: string
+        },
+        weekDays: number[]
+    }
 }

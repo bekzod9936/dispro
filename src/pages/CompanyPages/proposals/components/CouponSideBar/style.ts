@@ -19,6 +19,23 @@ export const DeleteModal = styled.div`
         color: #223367;
         font-weight: 300;
         margin-bottom: 30px;
+        
+    }
+    b {
+        font-size: 14px;
+        line-height: 16.5px;
+        color: #223367;
+        font-weight: 500;
+        margin-bottom: 8px;
+    }
+    @media (max-width: ${device.mobile}) {
+        padding: 20px 15px;
+        h5 {
+            font-size: 16px;
+            line-height: 18px;
+            margin-bottom: 9px;
+
+        }
     }
 `
 export const Wrapper = styled.div`

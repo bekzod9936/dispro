@@ -3,6 +3,7 @@ import {
   DangerIcon,
   DeleteIcon,
   GoBackIcon,
+  MobileCancelIcon,
   PhoneIcon,
   PlusIcon,
   PublishIcon,
@@ -14,7 +15,7 @@ import CustomToggle from "components/Custom/CustomToggleSwitch";
 import Input from "components/Custom/Input";
 import MultiSelect from "components/Custom/MultiSelect";
 import Title from "components/Custom/Title";
-import React from "react";
+import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import {
@@ -27,6 +28,7 @@ import {
   Header,
   ImageBlock,
   LeftSide,
+  MobileHeader,
   RightSide,
   UploadButton,
   UpSide,
@@ -43,12 +45,14 @@ import { days } from "../Coupons/constants";
 import ImageLazyLoad from "components/Custom/ImageLazyLoad/ImageLazyLoad";
 import { useUploadImage } from "../Coupons/hooks/useUploadIMage";
 import { PreviewModal } from "../../components/PreviewModal";
-import { LeaveModal, PreviewMessage } from "../Coupons/style";
+import { Buttons, IconWrapper, LeaveModal, PreviewMessage } from "../Coupons/style";
 import { SetDate } from "../Coupons/components/SetDate";
 import Modal from "components/Custom/Modal";
 import { useFetchCategories } from "./useFetchCategories";
 import { getWeekDays } from "../../utils/getValidDate";
 import InputFormat from "components/Custom/InputFormat";
+import useWindowWidth from "services/hooks/useWindowWidth";
+import FullModal from "components/Layout/Header/FullModal";
 const UpdateCoupon = () => {
   const { currentCoupon } = useAppSelector(
     (state: RootState) => state.proposals
@@ -62,6 +66,7 @@ const UpdateCoupon = () => {
   const dispatch = useAppDispatch();
   const [isCropVisible, setIsCropVisible] = React.useState<boolean>(false);
   const history = useHistory();
+  const { width } = useWindowWidth()
   const [categories, setCategories] = React.useState<any>({
     categories: [],
     defaults: [],
@@ -95,7 +100,11 @@ const UpdateCoupon = () => {
     dispatch(resetCurrentCoupon());
     history.goBack();
   };
-
+  useEffect(() => {
+    if (currentCoupon.title === "") {
+      handleBack()
+    }
+  }, [])
   const _ = useFetchCategories(setCategories, currentCoupon.categoryIds);
 
   const handleOpenBlock = (e: any, payload: string) => {
@@ -201,21 +210,30 @@ const UpdateCoupon = () => {
  
   return (
     <Wrapper>
-      <div style={{ display: "flex", marginBottom: 30, alignItems: "center" }}>
+      {width > 600 && <div style={{ display: "flex", marginBottom: 30, alignItems: "center" }}>
         <GoBackIcon
           onClick={handleBack}
           style={{ marginRight: "25px", cursor: "pointer" }}
         />
         <Title>Редактирование {isCoupon ? "купона" : "сертификата"}</Title>
-      </div>
-      <Modal open={chooseDate}>
-        <SetDate
-          coupon={coupon}
-          handleClose={() => setChooseDate(false)}
-          shouldUpdate
-          handleUpdate={mutate}
-        />
-      </Modal>
+      </div>}
+      {width > 600 ?
+        <Modal open={chooseDate}>
+          <SetDate
+            coupon={coupon}
+            handleClose={() => setChooseDate(false)}
+            shouldUpdate
+            handleUpdate={mutate}
+          />
+        </Modal> :
+        <FullModal open={chooseDate}>
+          <SetDate
+            coupon={coupon}
+            handleClose={() => setChooseDate(false)}
+            shouldUpdate
+            handleUpdate={mutate}
+          />
+        </FullModal>}
       <Modal open={leave}>
         <LeaveModal>
           <p>
@@ -243,6 +261,14 @@ const UpdateCoupon = () => {
         ageFrom={watch("ageLimit")}
       />
       <Form onSubmit={publish ? handleSubmit(onPublish) : handleSubmit(onSave)}>
+        {width <= 600 &&
+          <MobileHeader>
+            <GoBackIcon
+              onClick={handleBack}
+              style={{ cursor: "pointer" }}
+            />
+            <Title>Редактирование {isCoupon ? "купона" : "сертификата"}</Title>
+          </MobileHeader>}
         <UpSide>
           <Container>
             <LeftSide>
@@ -279,6 +305,7 @@ const UpdateCoupon = () => {
               {file && (
                 <CropCustomModal
                   isCoupon={isCoupon}
+                  coupon
                   handleUpload={handleUpload}
                   setFile={setFile}
                   setIsCropVisible={setIsCropVisible}
@@ -512,7 +539,7 @@ const UpdateCoupon = () => {
                       render={({ field }) => (
                         <Input
                           defaultValue={currentCoupon?.settings?.time?.from}
-                          margin={{ laptop: "0 25px 0 0" }}
+                          margin={{ laptop: "0 25px 0 0", mobile: "0 12px 0 0" }}
                           type="time"
                           field={field}
                         />
@@ -533,23 +560,56 @@ const UpdateCoupon = () => {
                   </div>
                 )}
               </AgeWrapper>
-              {valid ? (
-                <Button
-                  onClick={() => setPreviewModal(true)}
-                  buttonStyle={{ bgcolor: "#ffffff", color: "#606EEA" }}
-                  endIcon={<PhoneIcon />}
-                >
-                  Показать превью
-                </Button>
-              ) : (
-                <PreviewMessage>
-                  <DangerIcon />
-                  <p>
-                    Заполните все обязательные поля чтобы посмотреть как купон
-                    будет отображаться в приложениии
-                  </p>
-                </PreviewMessage>
-              )}
+              {width > 600 &&
+                <>
+                  {valid ? (
+                    <Button
+                      onClick={() => setPreviewModal(true)}
+                      buttonStyle={{ bgcolor: "#ffffff", color: "#606EEA" }}
+                      endIcon={<PhoneIcon />}
+                    >
+                      Показать превью
+                    </Button>
+                  ) : (
+                    <PreviewMessage>
+                      <DangerIcon />
+                      <p>
+                        Заполните все обязательные поля чтобы посмотреть как купон
+                        будет отображаться в приложениии
+                      </p>
+                    </PreviewMessage>
+                  )}
+                </>}
+              {width <= 600 &&
+                <Buttons>
+                  <div className="upside">
+                    <Button
+                      onClick={() => setLeave(true)}
+                      endIcon={<MobileCancelIcon />}
+                      buttonStyle={{ bgcolor: "rgba(96, 110, 234, 0.1)", color: "#606EEA" }}
+                      margin={{ mobile: "0 8px 8px 0" }}>
+                      {t("cancel")}
+                    </Button>
+                    <Button
+                      onClick={() => setPublish(true)}
+                      type="submit"
+                      endIcon={
+                        <IconWrapper>
+                          <PublishIcon />
+                        </IconWrapper>}
+                    >
+                      {t("publish")}
+                    </Button>
+                  </div>
+                  <Button
+                    onClick={() => setPublish(false)}
+                    type="submit"
+                    endIcon={<SaveIcon />}
+                    buttonStyle={{ bgcolor: "rgba(96, 110, 234, 0.1)", color: "#606EEA" }}
+                    margin={{ mobile: "8px 0 0 0" }}>
+                    {t("saveToDrafts")}
+                  </Button>
+                </Buttons>}
             </RightSide>
           </Container>
         </UpSide>

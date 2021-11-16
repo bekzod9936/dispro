@@ -6,7 +6,7 @@ import Spinner from "components/Custom/Spinner";
 import Title from "components/Custom/Title";
 import { PageWrapperFlex } from "../../../styles/CustomStyles";
 import useSettingsRoute from "./routes";
-import { SpinnerDiv, Wrapper, WrapperNav, WrapperTitle } from "./styles";
+import { SpinnerDiv, WrapperNav, WrapperTitle } from "./styles";
 
 const SettingsPage = () => {
   const { t } = useTranslation();
@@ -21,23 +21,19 @@ const SettingsPage = () => {
         <NavBar list={menuItems} margin="20px 0" padding="0 10px 10px 0" />
       </WrapperNav>
 
-      <Wrapper>
-        <Switch>
-          <Suspense
-            fallback={
-              <SpinnerDiv>
-                <Spinner />
-              </SpinnerDiv>
-            }
-          >
-            {menuItems.map((item) => {
-              return (
-                <Route exact path={item.path} component={item.component} />
-              );
-            })}
-          </Suspense>
-        </Switch>
-      </Wrapper>
+      <Switch>
+        <Suspense
+          fallback={
+            <SpinnerDiv>
+              <Spinner />
+            </SpinnerDiv>
+          }
+        >
+          {menuItems.map((item) => {
+            return <Route exact path={item.path} component={item.component} />;
+          })}
+        </Suspense>
+      </Switch>
     </PageWrapperFlex>
   );
 };

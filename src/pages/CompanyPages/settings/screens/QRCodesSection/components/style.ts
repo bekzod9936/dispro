@@ -1,5 +1,8 @@
 import styled from "styled-components";
 import { device } from "styles/device";
+import { ReactComponent as SaveIc } from "assets/icons/save_ic.svg";
+import { ReactComponent as RightArrowIc } from "assets/icons/right_arrow_ic.svg";
+import { ReactComponent as ScrapperIc } from "assets/icons/scrapper_ic.svg";
 
 export const QrCard = styled.div`
   display: flex;
@@ -199,5 +202,41 @@ export const ModalCText = styled.p`
     font-weight: 300;
     font-size: 14px;
     line-height: 16px;
+  }
+`;
+
+export const DownloadDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 80%;
+`;
+
+//icons
+export const SaveIcon = styled(SaveIc)`
+  width: 23px;
+  height: 25px;
+  @media (max-width: ${device.planshet}) {
+    width: 15px;
+    height: 18px;
+  }
+`;
+
+export const RightArrIcon = styled(RightArrowIc)`
+  width: 23px;
+  height: 25px;
+  @media (max-width: ${device.planshet}) {
+    width: 15px;
+    height: 18px;
+  }
+`;
+
+export const ScrapperIcon = styled(ScrapperIc)`
+  width: 23px;
+  height: 25px;
+  @media (max-width: ${device.planshet}) {
+    width: 15px;
+    height: 18px;
   }
 `;

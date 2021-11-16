@@ -1,18 +1,16 @@
 import { IconButton } from '@material-ui/core'
 import { BlockIcon, CoinsIcon, CrownIcon, GoBackIcon, MinusCoinsIcon, UnBlockIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
-import Button from 'components/Custom/Button'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router'
-import { IClient } from 'services/redux/Slices/clients/types'
+import { IClient, IPersonalInfo } from 'services/redux/Slices/clients/types'
 import { DefaultImage, DownSide, Icon, UpSide, Wrapper } from './style'
 interface IProps {
-    client: IClient,
+    client: IClient | any,
     setBlockModal: (e: boolean) => void
 }
 
 export const ClientBlock = ({
-    client: { image, firstName, lastName, addInfo, genderTypeId, personalLoyaltyInfo, isPlBlocked },
+    client: { image, firstName, lastName, addInfo, genderTypeId, personalLoyaltyInfo, isPlBlocked, obtainProgramLoyalty },
     setBlockModal
 }: IProps) => {
     const { t } = useTranslation()
@@ -54,7 +52,7 @@ export const ClientBlock = ({
                         {genderTypeId === 1 ? t("male") : t("female")}
                     </span>
                     <span>
-                        {t("status")}: {addInfo?.status} {personalLoyaltyInfo?.percent}%
+                        {t("status")}: {personalLoyaltyInfo.isActive ? addInfo?.status : obtainProgramLoyalty.levelName} {personalLoyaltyInfo.isActive ? personalLoyaltyInfo?.percent : obtainProgramLoyalty.percent}%
                     </span>
                 </p>
             </DownSide>

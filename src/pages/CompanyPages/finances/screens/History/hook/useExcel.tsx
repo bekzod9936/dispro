@@ -1,4 +1,4 @@
-import moment from "moment";
+import dayjs from "dayjs";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
@@ -10,8 +10,8 @@ const useExcel = () => {
   const { t } = useTranslation();
 
   const [date] = useState<any>({
-    startDate: moment().startOf("month").format("YYYY-MM-DD"),
-    endDate: moment().endOf("month").format("YYYY-MM-DD"),
+    startDate: dayjs().startOf("month").format("YYYY-MM-DD"),
+    endDate: dayjs().endOf("month").format("YYYY-MM-DD"),
   });
 
   const fileType =
@@ -36,8 +36,8 @@ const useExcel = () => {
       onSuccess: (data) => {
         const excellist = data.data.data.cashierHistories.histories
           ?.map((v: any) => {
-            const date = moment(v.chequeDate).format("DD.MM.YYYY");
-            const time = moment(v.chequeDate).format("HH:mm:ss");
+            const date = dayjs(v.chequeDate).format("DD.MM.YYYY");
+            const time = dayjs(v.chequeDate).format("HH:mm:ss");
             return {
               [t("cashier")]:
                 v.cashierName === "No cashier name" ? t("p2p") : v.cashierName,

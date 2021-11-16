@@ -3,6 +3,7 @@ import {
   DangerIcon,
   DeleteIcon,
   GoBackIcon,
+  MobileCancelIcon,
   PhoneIcon,
   PlusIcon,
   PublishIcon,
@@ -27,6 +28,7 @@ import {
   Header,
   ImageBlock,
   LeftSide,
+  MobileHeader,
   RightSide,
   UploadButton,
   UpSide,
@@ -43,12 +45,14 @@ import { days } from "../Coupons/constants";
 import ImageLazyLoad from "components/Custom/ImageLazyLoad/ImageLazyLoad";
 import { useUploadImage } from "../Coupons/hooks/useUploadIMage";
 import { PreviewModal } from "../../components/PreviewModal";
-import { LeaveModal, PreviewMessage } from "../Coupons/style";
+import { Buttons, IconWrapper, LeaveModal, PreviewMessage } from "../Coupons/style";
 import { SetDate } from "../Coupons/components/SetDate";
 import Modal from "components/Custom/Modal";
 import { useFetchCategories } from "../UpdateCoupon/useFetchCategories";
 import { getWeekDays } from "../../utils/getValidDate";
 import InputFormat from "components/Custom/InputFormat";
+import useWindowWidth from "services/hooks/useWindowWidth";
+import FullModal from "components/Layout/Header/FullModal";
 
 const RePublish = () => {
   const { currentCoupon } = useAppSelector(
@@ -70,6 +74,7 @@ const RePublish = () => {
   const [leave, setLeave] = React.useState(false);
   const [publish, setPublish] = React.useState<boolean>(false);
   const { handleUpload, deleteImage } = useUploadImage(setImage);
+  const { width } = useWindowWidth()
   const {
     handleSubmit,
     register,
@@ -186,25 +191,40 @@ const RePublish = () => {
     deleteImage(image);
     setImage("");
   };
+
+  React.useEffect(() => {
+    if (currentCoupon.title === "") {
+      handleBack()
+    }
+  }, [])
+
   React.useEffect(() => {
     setValue("categories", categories.defaults);
   }, [categories.defaults]);
   return (
     <Wrapper>
-      <div style={{ display: "flex", marginBottom: 30, alignItems: "center" }}>
-        <GoBackIcon
-          onClick={handleBack}
-          style={{ marginRight: "25px", cursor: "pointer" }}
-        />
-        <Title>Восстановление {isCoupon ? "купона" : "сертификата"}</Title>
-      </div>
-      <Modal open={chooseDate}>
-        <SetDate
-          coupon={coupon}
-          handleClose={() => setChooseDate(false)}
-          handleUpdate={mutate}
-        />
-      </Modal>
+      {width > 600 &&
+        <div style={{ display: "flex", marginBottom: 30, alignItems: "center" }}>
+          <GoBackIcon
+            onClick={handleBack}
+            style={{ marginRight: "25px", cursor: "pointer" }}
+          />
+          <Title>Восстановление {isCoupon ? "купона" : "сертификата"}</Title>
+        </div>}
+      {width > 600 ?
+        <Modal open={chooseDate}>
+          <SetDate
+            coupon={coupon}
+            handleClose={() => setChooseDate(false)}
+            handleUpdate={mutate}
+          />
+        </Modal> :
+        <FullModal open={chooseDate}>
+          <SetDate
+            coupon={coupon}
+            handleClose={() => setChooseDate(false)}
+            handleUpdate={mutate} />
+        </FullModal>}
       <Modal open={leave}>
         <LeaveModal>
           <p>
@@ -232,6 +252,14 @@ const RePublish = () => {
         ageFrom={watch("ageLimit")}
       />
       <Form onSubmit={publish ? handleSubmit(onPublish) : handleSubmit(onSave)}>
+        {width <= 600 &&
+          <MobileHeader>
+            <GoBackIcon
+              onClick={handleBack}
+              style={{ cursor: "pointer" }}
+            />
+            <Title>Восстановление {isCoupon ? "купона" : "сертификата"}</Title>
+          </MobileHeader>}
         <UpSide>
           <Container>
             <LeftSide>
@@ -526,24 +554,56 @@ const RePublish = () => {
                   </div>
                 )}
               </AgeWrapper>
-              {isValid ? (
-                <Button
-                  margin={{ laptop: "40px 0 0 0" }}
-                  onClick={() => setPreviewModal(true)}
-                  buttonStyle={{ bgcolor: "#ffffff", color: "#606EEA" }}
-                  endIcon={<PhoneIcon />}
-                >
-                  Показать превью
-                </Button>
-              ) : (
-                <PreviewMessage>
-                  <DangerIcon />
-                  <p>
-                    Заполните все обязательные поля чтобы посмотреть как купон
-                    будет отображаться в приложениии
-                  </p>
-                </PreviewMessage>
-              )}
+              {width > 600 &&
+                <>
+                  {isValid ? (
+                    <Button
+                      margin={{ laptop: "40px 0 0 0" }}
+                      onClick={() => setPreviewModal(true)}
+                      buttonStyle={{ bgcolor: "#ffffff", color: "#606EEA" }}
+                      endIcon={<PhoneIcon />}
+                    >
+                      Показать превью
+                    </Button>
+                  ) : (
+                    <PreviewMessage>
+                      <DangerIcon />
+                      <p>
+                        Заполните все обязательные поля чтобы посмотреть как купон
+                        будет отображаться в приложениии
+                      </p>
+                    </PreviewMessage>
+                  )}
+                </>}
+              {width <= 600 &&
+                <Buttons>
+                  <div className="upside">
+                    <Button
+                      onClick={() => setLeave(true)}
+                      endIcon={<MobileCancelIcon />}
+                      buttonStyle={{ bgcolor: "rgba(96, 110, 234, 0.1)", color: "#606EEA" }}
+                      margin={{ mobile: "0 8px 8px 0" }}>
+                      {t("cancel")}
+                    </Button>
+                    <Button
+                      onClick={() => setPublish(true)}
+                      type="submit"
+                      endIcon={
+                        <IconWrapper>
+                          <PublishIcon />
+                        </IconWrapper>}>
+                      {t("publish")}
+                    </Button>
+                  </div>
+                  <Button
+                    onClick={() => setPublish(false)}
+                    type="submit"
+                    endIcon={<SaveIcon />}
+                    buttonStyle={{ bgcolor: "rgba(96, 110, 234, 0.1)", color: "#606EEA" }}
+                    margin={{ mobile: "8px 0 0 0" }}>
+                    {t("saveToDrafts")}
+                  </Button>
+                </Buttons>}
             </RightSide>
           </Container>
         </UpSide>

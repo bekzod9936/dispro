@@ -9,7 +9,7 @@ import { setQuery, setSelectedNews } from "services/redux/Slices/news";
 import { SideBar } from "../../components/SideBar";
 import { useAppSelector, useAppDispatch } from "services/redux/hooks";
 import useData from "../useData";
-
+import DatePcker from 'components/Custom/DatePicker';
 import {
   Container,
   Wrap,
@@ -26,6 +26,8 @@ import Pagination from "components/Custom/Pagination";
 interface intialFilterProps {
   page?: number;
   perPage?: number;
+    dateFrom?: string;
+  dateTo?: string;
 }
 
 const Active = () => {
@@ -48,10 +50,13 @@ const Active = () => {
     });
     dispatch(setQuery(""));
   };
-
+  const companyId = localStorage.getItem('companyId');
   const intialFilter = {
+    companyId: companyId,
     page: 1,
     perPage: 5,
+    dateFrom: '',
+    dateTo: '',
   };
 
   const [filterValues, setFilterValues] =
@@ -72,6 +77,7 @@ const Active = () => {
 
   return (
     <Container>
+     
       <Wrap>
         {response.isLoading || response.isFetching ? (
           <Spinner />

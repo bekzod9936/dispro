@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { ReactComponent as Up } from 'assets/icons/up.svg';
+import styled from "styled-components";
+import { ReactComponent as Up } from "assets/icons/up.svg";
 
 interface Props {
   up?: boolean;
@@ -7,7 +7,7 @@ interface Props {
 }
 interface ITRow {
   background?: boolean | number;
-  checked?: boolean
+  checked?: boolean;
 }
 export const Container = styled.div`
   background: #ffffff;
@@ -62,10 +62,10 @@ export const Thead = styled.thead`
   border-radius: 14px 14px 0 0;
   & > tr:last-child {
     border-top: ${({ header2 }: Props) =>
-      header2 ? '1px solid rgba(96, 110, 234, 0.3)' : null};
+      header2 ? "1px solid rgba(96, 110, 234, 0.3)" : null};
     & > th:first-child {
       border-right: ${({ header2 }: Props) =>
-        header2 ? '1px solid rgba(96, 110, 234, 0.3)' : null};
+        header2 ? "1px solid rgba(96, 110, 234, 0.3)" : null};
     }
   }
   & > tr {
@@ -76,18 +76,18 @@ export const Thead = styled.thead`
 export const Tr = styled.tr``;
 
 export const Th = styled.th`
-text-align:left;
+  text-align: left;
   padding: 0 40px;
   font-weight: normal;
   font-size: 16px;
-  color: ${({ active }: Props) => (active ? '#223367' : '#a5a5a5')}!important;
+  color: ${({ active }: Props) => (active ? "#223367" : "#a5a5a5")}!important;
   border-radius: 14px 14px 0 0;
   :hover {
-    color: ${({ active }: Props) => (active ? null : '#3492FF')}!important;
+    color: ${({ active }: Props) => (active ? null : "#3492FF")}!important;
     & > svg {
       & > path {
         fill: ${({ active }: Props) =>
-          active ? '#223367' : '#8f8f8f'}!important;
+          active ? "#223367" : "#8f8f8f"}!important;
       }
     }
   }
@@ -118,29 +118,39 @@ export const Td = styled.td`
 `;
 
 export const UpIcon = styled(Up)`
-  transform: ${({ up }: Props) => (up ? 'rotate(-180deg)' : 'rotate(0)')};
+  transform: ${({ up }: Props) => (up ? "rotate(-180deg)" : "rotate(0)")};
   margin-left: 5px;
   & > path {
-    fill: ${({ active }: Props) => (active ? '#223367' : 'transparent')};
+    fill: ${({ active }: Props) => (active ? "#223367" : "transparent")};
   }
 `;
 
-export const AgeData=styled.div`
-display:flex;
-position: relative;
-align-items:center;
- h4 {
-  position: absolute;
-  margin-left:80%;
-  padding:10px 20px;
-  font-size: 14px;
-  background: linear-gradient(215.2deg, #8BDD59 -12.1%, #DCF089 101.51%);
-  border-radius: 14px;
- }
-`
+export const AgeData = styled.div`
+  display: flex;
+  position: relative;
+  align-items: center;
+
+  p {
+    font-size: 14px;
+  }
+  h4 {
+    padding: 10px 20px;
+    font-size: 14px;
+    background: linear-gradient(215.2deg, #8bdd59 -12.1%, #dcf089 101.51%);
+    border-radius: 14px;
+  }
+ 
+  h3 {
+    margin-left:20px;
+    padding: 10px 20px;
+    font-size: 14px;
+    background: linear-gradient(215.2deg, #c7eeff -12.1%, #fca9ea 101.51%);
+    border-radius: 14px;
+  }
+`;
 export const TitleData = styled.div`
-  display: flex; 
-  align-items: center; 
+  display: flex;
+  align-items: center;
   justify-content: left;
   /* margin-left: 15px; */
   img {
@@ -149,19 +159,19 @@ export const TitleData = styled.div`
     height: 40px;
     margin-right: 15px;
   }
-`
+`;
 
 export const TRow = styled.tr`
-    border: none;
-    transition: 100ms all;
-    cursor: pointer;
-    background-color: ${({ checked }: ITRow) => checked ? "rgba(96, 110, 234, 0.3) !important" : "transparent"};
- 
-`
+  border: none;
+  transition: 100ms all;
+  cursor: pointer;
+  background-color: ${({ checked }: ITRow) =>
+    checked ? "rgba(96, 110, 234, 0.3) !important" : "transparent"};
+`;
 export const DefaultImage = styled.div`
   width: 40px;
   height: 40px;
   border-radius: 14px;
-  background: linear-gradient(215.2deg, #C7EEFF -12.1%, #FCA9EA 101.51%);
+  background: linear-gradient(215.2deg, #c7eeff -12.1%, #fca9ea 101.51%);
   margin-right: 15px;
-`
+`;

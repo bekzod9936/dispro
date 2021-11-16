@@ -46,8 +46,6 @@ const QrBar = ({ qrLink, closeQr }: IProps) => {
           fgColor="#000000"
           level={"H"}
         />
-
-        {/* <QrText>{qrLink}</QrText> */}
       </UpSide>
 
       {/* Down Side  */}

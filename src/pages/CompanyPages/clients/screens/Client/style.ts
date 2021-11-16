@@ -4,7 +4,8 @@ export const Wrapper = styled.div`
     padding: 30px;
     width: 100%;
     height: 100%;
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
     ::-webkit-scrollbar {
     width: 7px;
   }
@@ -22,8 +23,9 @@ export const UpSide = styled.div`
     width: 100%;
     display: flex;
     align-items: center;
-    height: 205px;
+    min-height: 205px;
     margin-bottom: 30px;
+    
 `
 
 export const MiddleSide = styled.div`

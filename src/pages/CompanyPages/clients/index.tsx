@@ -1,12 +1,10 @@
-import Spinner from 'components/Helpers/Spinner'
-import React, { Suspense } from 'react'
-import { Redirect, Route, Switch } from 'react-router'
-import { useClientsRoutes } from './routes'
-import ClientsPage from './screens/ClientsPage/ClientsPage'
+import Spinner from 'components/Helpers/Spinner';
+import { Suspense } from 'react';
+import { Redirect, Route, Switch } from 'react-router';
+import { useClientsRoutes } from './routes';
 
 const ClientPage = () => {
     const { routes } = useClientsRoutes()
-
 
     return (
         <div style={{ height: "100%" }}>

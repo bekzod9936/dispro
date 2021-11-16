@@ -13,7 +13,8 @@ import useStaff from "../../hooks/useStaff";
 
 import CropCustomModal from "components/Custom/CropImageModal/index";
 import { useTranslation } from "react-i18next";
-import moment from "moment";
+
+import dayjs from "dayjs";
 import InputFormat from "components/Custom/InputFormat";
 
 import {
@@ -68,10 +69,10 @@ const CreateNews = () => {
   console.log("selectedNews", selectedNews);
   const newsData = selectedNews?.fullData?.data;
 
-  const startDate = moment(newsData?.startLifeTime).format(
+  const startDate = dayjs(newsData?.startLifeTime).format(
     "DD/MM/YYYY"
   );
-  const endDate = moment(newsData?.endLifeTime).format(
+  const endDate = dayjs(newsData?.endLifeTime).format(
     "DD/MM/YYYY"
   );
   

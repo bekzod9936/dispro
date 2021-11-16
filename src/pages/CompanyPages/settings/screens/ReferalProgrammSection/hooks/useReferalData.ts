@@ -1,6 +1,6 @@
 import { IReferal } from "./../constants";
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import { useForm } from "react-hook-form";
 
 //async functions
@@ -18,6 +18,8 @@ interface FormProps {
 }
 
 const useReferalData = () => {
+  const referalRef = useRef<null | HTMLDivElement>(null);
+
   const { t } = useTranslation();
   const companyId = localStorage.getItem("companyId");
   const [errorRef, setErrorRef] = useState(false);
@@ -42,6 +44,17 @@ const useReferalData = () => {
   const handleSwitch = (checked: boolean) => {
     setCheckedState(checked);
   };
+
+  const handleClick = useCallback(() => {
+    const currentRef = referalRef.current;
+    if (currentRef) {
+      if (currentRef.style.visibility === "visible") {
+        currentRef.style.visibility = "hidden";
+      } else {
+        currentRef.style.visibility = "visible";
+      }
+    }
+  }, []);
 
   //by leve-get data
   const { refetch: refetchLevel } = useQuery(
@@ -104,6 +117,7 @@ const useReferalData = () => {
         refetch();
         refetchLevel();
         setNewState("old");
+        handleClick();
       },
     }
   );
@@ -196,6 +210,8 @@ const useReferalData = () => {
     setErrorRef,
     refetchLevel,
     levelsRef,
+    handleClick,
+    referalRef,
   };
 };
 

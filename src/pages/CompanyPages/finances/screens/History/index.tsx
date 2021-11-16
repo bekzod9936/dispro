@@ -6,7 +6,7 @@ import Pagination from 'components/Custom/Pagination';
 import Table from '../../components/Table';
 import { Tr, Th } from '../../components/Table/style';
 import Filter from 'components/Custom/Filter/index';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import Input from 'components/Custom/Input';
 import MultiSelect from 'components/Custom/MultiSelect';
 import { ReactComponent as ExcelIcon } from 'assets/icons/FinanceIcons/excel.svg';
@@ -14,10 +14,11 @@ import useExcel from './hook/useExcel';
 import Button from 'components/Custom/Button';
 import { useAppSelector } from 'services/redux/hooks';
 import { IconButton } from '@material-ui/core';
+import { countPagination, numberWithNew } from 'services/utils';
+import MobileTable from '../../components/MobileTable';
+import useWindowWidth from 'services/hooks/useWindowWidth';
 import {
   Container,
-  WrapPag,
-  Info,
   WrapFilter,
   WrapInputs,
   Label,
@@ -26,6 +27,7 @@ import {
   DeleteIcon,
   WrapFilterValues,
 } from './style';
+import { WrapPag, Info } from '../../style';
 
 interface intialFilterProps {
   page?: number;
@@ -42,42 +44,31 @@ interface CashProp {
 
 const Payment = () => {
   const { t } = useTranslation();
+  const { width } = useWindowWidth();
 
   const data = useAppSelector((state) => state.finance.historyFinance.data);
-  const totalCount = useAppSelector(
-    (state) => state.finance.historyFinance.totalCount
-  );
+  const total = useAppSelector((state) => state.finance.historyFinance.total);
   const between = useAppSelector(
     (state) => state.finance.historyFinance.between
   );
 
-  const total = useAppSelector(
-    (state) => state.finance.historyFinance.sum.total
-  );
-
-  const minus = useAppSelector(
-    (state) => state.finance.historyFinance.sum.minus
-  );
-
-  const paid = useAppSelector((state) => state.finance.historyFinance.sum.paid);
+  const sum = useAppSelector((state) => state.finance.historyFinance.sum);
 
   const cashier = useAppSelector(
     (state) => state.finance.historyFinance.cashier
   );
 
-  const [dateFilter, setdateFilter] = useState({ startDate: '', endDate: '' });
-
   const intialFilter = {
-    startDate: moment().startOf('month').format('YYYY-MM-DD'),
-    endDate: moment().endOf('month').format('YYYY-MM-DD'),
+    startDate: dayjs().startOf('month').format('YYYY-MM-DD'),
+    endDate: dayjs().endOf('month').format('YYYY-MM-DD'),
     cashierStaffId: 0,
     page: 1,
     perPage: 5,
   };
 
   const intialDate = {
-    startDate: moment().startOf('month').format('YYYY-MM-DD'),
-    endDate: moment().endOf('month').format('YYYY-MM-DD'),
+    startDate: dayjs().startOf('month').format('YYYY-MM-DD'),
+    endDate: dayjs().endOf('month').format('YYYY-MM-DD'),
   };
 
   const [date, setDate] = useState(intialDate);
@@ -92,8 +83,8 @@ const Payment = () => {
 
   const { resExcel } = useExcel();
   const list = data?.map((v: any) => {
-    const date = moment(v.chequeDate).format('DD.MM.YYYY');
-    const time = moment(v.chequeDate).format('HH:mm:ss');
+    const date = dayjs(v.chequeDate).format('DD.MM.YYYY');
+    const time = dayjs(v.chequeDate).format('HH:mm:ss');
     return {
       col1: v.cashierName === 'No cashier name' ? t('p2p') : v.cashierName,
       col2: date,
@@ -168,9 +159,9 @@ const Payment = () => {
       <Th style={{ textAlign: 'center' }} colSpan={3}>
         {t('total')}
       </Th>
-      <Th style={{ textAlign: 'center' }}>{total}</Th>
-      <Th style={{ textAlign: 'center' }}>{minus}</Th>
-      <Th style={{ textAlign: 'center' }}>{paid}</Th>
+      <Th style={{ textAlign: 'center' }}>{sum.total}</Th>
+      <Th style={{ textAlign: 'center' }}>{sum.minus}</Th>
+      <Th style={{ textAlign: 'center' }}>{sum.paid}</Th>
     </Tr>
   );
 
@@ -199,13 +190,13 @@ const Payment = () => {
               value={date.startDate}
               onChange={(e: any) => {
                 const d = new Date(e.target.value);
-                const isafter = moment(d).isAfter(moment(date.endDate));
+                const isafter = dayjs(d).isAfter(dayjs(date.endDate));
                 if (isafter) {
-                  const a: any = moment(e.target.value, 'YYYY-MM-DD').add(
+                  const a: any = dayjs(e.target.value, 'YYYY-MM-DD').add(
                     1,
                     'days'
                   );
-                  let b: any = moment(a._d).format('YYYY-MM-DD');
+                  let b: any = dayjs(a._d).format('YYYY-MM-DD');
                   setDate({
                     endDate: b,
                     startDate: e.target.value,
@@ -231,13 +222,13 @@ const Payment = () => {
               value={date.endDate}
               onChange={(e: any) => {
                 const d = new Date(e.target.value);
-                const isafter = moment(d).isBefore(moment(date.startDate));
+                const isafter = dayjs(d).isBefore(dayjs(date.startDate));
                 if (isafter) {
-                  const a: any = moment(e.target.value, 'YYYY-MM-DD').add(
+                  const a: any = dayjs(e.target.value, 'YYYY-MM-DD').add(
                     -1,
                     'days'
                   );
-                  let b: any = moment(a._d).format('YYYY-MM-DD');
+                  let b: any = dayjs(a._d).format('YYYY-MM-DD');
                   setDate({
                     startDate: b,
                     endDate: e.target.value,
@@ -317,9 +308,9 @@ const Payment = () => {
                 await response.refetch();
               }}
             >
-              {`${moment(dateLimit?.startDate).format('Do MMMM')}-${moment(
+              {`${dayjs(dateLimit?.startDate).format('DD MMMM')}-${dayjs(
                 dateLimit?.endDate
-              ).format('Do MMMM, YYYY')}`}
+              ).format('DD MMMM, YYYY')}`}
               <IconButton>
                 <DeleteIcon />
               </IconButton>
@@ -353,22 +344,97 @@ const Payment = () => {
           {t('exportexcel')}
         </Button>
       </WrapFilter>
-
       {response.isLoading || response.isFetching ? (
         <Spinner />
-      ) : (
+      ) : width > 600 ? (
         <Table header2={header2} columns={columns} data={list} />
+      ) : (
+        <MobileTable
+          data={{
+            title: t('totalsum'),
+            info: data.map((v: any) => {
+              const date = dayjs(v.chequeDate).format('DD.MM.YYYY');
+              const time = dayjs(v.chequeDate).format('HH:mm:ss');
+              return {
+                title:
+                  v.cashierName === 'No cashier name'
+                    ? t('p2p')
+                    : v.cashierName,
+                value: numberWithNew({ number: v.payInfo.amountTotal }),
+                body: [
+                  {
+                    title: t('cashier'),
+                    value:
+                      v.cashierName === 'No cashier name'
+                        ? t('p2p')
+                        : v.cashierName,
+                  },
+                  {
+                    title: t('transactiondate'),
+                    value: date,
+                  },
+                  {
+                    title: t('transactiontime'),
+                    value: time,
+                  },
+                  {
+                    title: t('totalsum'),
+                    value: v.payInfo.amountTotal,
+                  },
+                  {
+                    title: t('discountSum'),
+                    value: v.payInfo.amountMinus,
+                  },
+                  {
+                    title: t('paid'),
+                    value: v.payInfo.amountPayed,
+                  },
+                  { title: t('customer'), value: v.clientName },
+                  {
+                    title: t('loyaltypercentage'),
+                    value:
+                      v.payInfo.isDiscount ||
+                      v.payInfo.isCashback ||
+                      v.payInfo.isPoints
+                        ? v.payInfo.value
+                        : '-',
+                  },
+                  {
+                    title: t('coupon'),
+                    value:
+                      v.payInfo.isCoupon && v.payInfo.valueType === 'percent'
+                        ? v.payInfo.value
+                        : '-',
+                  },
+                  {
+                    title: t('certificate'),
+                    value:
+                      v.payInfo.isCoupon && v.payInfo.valueType === 'amount'
+                        ? v.payInfo.value
+                        : '-',
+                  },
+                ],
+              };
+            }),
+          }}
+          headertitle={t('byCashiers')}
+        />
       )}
       {list.length > 0 ? (
         <WrapPag>
           <Info>
             {t('shown')}
             <span>{between}</span>
-            {t('from1')} <span>{totalCount}</span> {t('operations1')}
+            {t('from1')} <span>{total.pages}</span>
+            {countPagination({
+              count: Number(total.count),
+              firstWord: t('operations1'),
+              secondWord: t('operations23'),
+            })}
           </Info>
           <Pagination
             page={filterValues.page}
-            count={totalCount}
+            count={total.count}
             onChange={handlechangePage}
             disabled={response.isLoading || response.isFetching}
           />

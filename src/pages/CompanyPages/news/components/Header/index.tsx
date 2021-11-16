@@ -10,6 +10,7 @@ import { Flex } from "../../style";
 import { useTranslation } from "react-i18next";
 import { IProps } from "./types";
 import { useAppSelector, useAppDispatch } from "services/redux/hooks";
+import DatePcker from 'components/Custom/DatePicker';
 import {setQuery,setSelectedNews,
 } from "services/redux/Slices/news";
 
@@ -55,6 +56,7 @@ const Header = ({
       >
         {t("Создать новость")}
       </Button>
+  
       <div style={{ width: "20px" }} />
       <Input
         inputStyle={{ border: "none" }}
@@ -64,6 +66,19 @@ const Header = ({
         onChange={(e) => dispatch(setQuery(e.target.value))}
         width={{ maxwidth: 700 }}
       />
+        <div style={{ width: "20px" }} />
+       {/* <div style={{height:'60px !important'}}>
+          <DatePcker 
+        onChange={async (e: any) => {
+          // await setFilterValues({
+          //   ...filterValues,
+          //   dateFrom: e.slice(0, e.indexOf(' ~')),
+          //   dateTo: e.slice(e.indexOf('~ ') + 2),
+          // });
+          // await response.refetch();
+        }}
+      />
+     </div> */}
     </Flex>
   );
 };

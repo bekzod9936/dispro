@@ -7,7 +7,7 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 import Button from 'components/Custom/Button';
 import Spinner from 'components/Custom/Spinner';
 import { ReactComponent as MessageIcon } from 'assets/icons/message.svg';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import notification from 'assets/images/notification.png';
 import notificationDef from 'assets/images/notificationDefault.png';
 import {
@@ -36,6 +36,7 @@ import {
 import { useHistory } from 'react-router';
 import useWindowWidth from 'services/hooks/useWindowWidth';
 import FullModal from 'components/Layout/Header/FullModal';
+import { countPagination } from 'services/utils';
 
 interface intialFilterProps {
   page?: number;
@@ -103,7 +104,7 @@ const Notifications = () => {
         <WrapInfoBox>
           <WrapTitle>
             <TitleCard>{info.title}</TitleCard>
-            <Date>{moment(info.createdAt).format('LL')}</Date>
+            <Date>{dayjs(info.createdAt).format('DD MMMM YYYY')}</Date>
           </WrapTitle>
           <SideText>{info.body} </SideText>
         </WrapInfoBox>
@@ -155,7 +156,7 @@ const Notifications = () => {
                   <CardBody open={open && v.id === id}>
                     <WrapTitle>
                       <TitleCard>{v.title}</TitleCard>
-                      <Date>{moment(v.createdAt).format('LL')}</Date>
+                      <Date>{dayjs(v.createdAt).format('DD MMMM YYYY')}</Date>
                     </WrapTitle>
                     <Text>{v.body}</Text>
                   </CardBody>
@@ -167,7 +168,12 @@ const Notifications = () => {
             <Info>
               {t('shown')}
               <span>{between}</span>
-              {t('from1')} <span>{totalCount}</span> {t('operations1')}
+              {t('from1')} <span>{totalCount}</span>
+              {countPagination({
+                count: totalCount,
+                firstWord: t('page1'),
+                secondWord: t('page23'),
+              })}
             </Info>
             <Pagination
               page={filterValues.page}

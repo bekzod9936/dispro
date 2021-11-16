@@ -13,7 +13,8 @@ import useStaff from "../../hooks/useStaff";
 
 import CropCustomModal from "components/Custom/CropImageModal/index";
 import { useTranslation } from "react-i18next";
-import moment from "moment";
+import dayjs from "dayjs";
+import useAddress from "../../../info/screens/Address/useAddress";
 import InputFormat from "components/Custom/InputFormat";
 
 import {
@@ -68,10 +69,10 @@ const CreateNews = () => {
   console.log("selectedNews", selectedNews);
   const newsData = selectedNews?.fullData?.data;
 
-  const startDate = moment(newsData?.startLifeTime).format(
+  const startDate = dayjs(newsData?.startLifeTime).format(
     "DD/MM/YYYY"
   );
-  const endDate = moment(newsData?.endLifeTime).format(
+  const endDate = dayjs(newsData?.endLifeTime).format(
     "DD/MM/YYYY"
   );
   
@@ -116,7 +117,10 @@ const CreateNews = () => {
     };
   });
 
-
+  const companyId: any = localStorage.getItem("companyId");
+  const { responseAddress, dataAddress, weeks, inntialWorkTime } = useAddress({
+    id: companyId,
+  });
 
   const handleBack = () => {
     history.goBack();
@@ -125,7 +129,7 @@ const CreateNews = () => {
 
   const {
     control,
-
+    setValue,
     formState: { errors, isValid },
   } = useForm({
     mode: "onChange",
@@ -139,6 +143,30 @@ const CreateNews = () => {
       [action]: e.target.checked,
     }));
   };
+
+
+  const allFilials = dataAddress;
+  const filials = newsData?.settings?.stores;
+
+  let filteredArray = allFilials?.filter(function (array_el: any) {
+    return (
+      filials?.filter(function (item: any) {
+        return item == array_el.id;
+      }).length == 1
+    );
+  });
+
+  const mergedBranches=filteredArray?.map((item:any)=>{
+    return {
+        value:item.id,
+        label:item.name
+    }
+  })
+
+  React.useEffect(() => {
+    setValue("filialID", mergedBranches);
+  }, [mergedBranches]);
+
 
   return (
     <Wrapper>
@@ -300,11 +328,15 @@ const CreateNews = () => {
                   <Controller
                     control={control}
                     name="filialID"
+                    
+                    defaultValue={mergedBranches}
                     render={({ field }) => {
                       return (
                         <MultiSelect
                           options={branches}
+                          defaultValue={mergedBranches}
                           isMulti={true}
+                          isDisabled={true}
                           selectStyle={{
                             bgcolor: "#eff0fd",
                             border: "none",

@@ -1,5 +1,5 @@
 import { useAppSelector } from "services/redux/hooks";
-import moment from "moment";
+import dayjs from "dayjs";
 export const months = [
   "Января ",
   "Февраля ",
@@ -18,8 +18,8 @@ export const months = [
 const useData = () => {
   const data = useAppSelector((state) => state.news.NewsInfo.data);
   const list = data?.map((v: any) => {
-    const startDate = moment(v?.startLifeTime).format("YYYY-MM-DD");
-    const endDate = moment(v?.endLifeTime).format("YYYY-MM-DD");
+    const startDate = dayjs(v?.startLifeTime).format("YYYY-MM-DD");
+    const endDate = dayjs(v?.endLifeTime).format("YYYY-MM-DD");
     const startdates = new Date(startDate);
     const enddates = new Date(endDate);
     const startmonthName = months[startdates.getMonth()];

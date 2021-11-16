@@ -1,8 +1,8 @@
-import { CartIcon, CashBackIcon, DiscountIcon, DownIcon, GoBackIcon, HandIcon, MoneyBagIcon, MoneyStatsIcon, PointActionsIcon, RatingIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
-import NavBar, { activeStyle } from 'components/Custom/NavBar'
+import { DownIcon, GoBackIcon, PointActionsIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
+import NavBar from 'components/Custom/NavBar'
 import Spinner from 'components/Helpers/Spinner'
-import React, { Suspense, useState } from 'react'
-import { Route, Switch, useHistory, useRouteMatch } from 'react-router'
+import { Suspense, useState } from 'react'
+import { Route, Switch, useHistory, useParams } from 'react-router'
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks'
 import { useClientRoutes } from '../../routes'
 import { ClientBlock } from './components/ClientBlock'
@@ -14,18 +14,20 @@ import { useWindowSize } from "../../hooks/useWindowSize"
 import { useTranslation } from 'react-i18next'
 import Button from 'components/Custom/Button'
 import { DownModal } from './components/DownModal'
-import { selectAll } from 'services/redux/Slices/clients'
+import { selectAll, setCurrentClient } from 'services/redux/Slices/clients'
 import { Form } from '../../components/Form'
 import { useQuery } from 'react-query'
 import { fetchPersonalInfo } from 'services/queries/clientsQuery'
 import { BlockModal } from '../../components/BlockModal'
 import { VipModal } from '../../components/ClientsBar/components/VipModal'
-import Modal from 'components/Custom/Modal'
-import { Link } from 'components/Custom/NavBar/style'
+import Modal from 'components/Custom/Modal';
+import { getClientStatistics } from '../../utils/getSelectedFilters';
 
 const Client = () => {
-    const { selectedClients, period: { endDate, startDate } } = useAppSelector(state => state.clients)
-    const client = selectedClients[0]
+    const { period: { endDate, startDate }, currentClient } = useAppSelector(state => state.clients)
+    const { id }: any = useParams()
+    const [clientId, clientUserId] = id?.toString()?.split("-")
+    const client = currentClient?.clientInfo
     const history = useHistory()
     const { routes } = useClientRoutes()
     const { width } = useWindowSize()
@@ -42,64 +44,24 @@ const Client = () => {
 
 
     const dispatch = useAppDispatch()
-    const response = useQuery("fetch", () => fetchPersonalInfo({
-        clientUserId: client.userId,
-        clientId: client.id,
+    const response = useQuery(["fetch"], () => fetchPersonalInfo({
+        clientUserId,
+        clientId,
         startDate,
         endDate
     }), {
         retry: 0,
         refetchOnWindowFocus: false,
-    })
+        onSuccess: (data: any) => {
+            dispatch(setCurrentClient(data.data.data));
 
+        }
+    })
 
     const handleClose = () => {
         dispatch(selectAll(false))
         history.push("/clients")
     }
-
-    React.useEffect(() => {
-        if (!client) history.push("/clients");
-    }, [])
-
-    const statistics = [
-        {
-            icon: <MoneyStatsIcon />,
-            heading: "Оплачено в UZS",
-            value: 99999999
-        },
-        {
-            icon: <CartIcon />,
-            heading: "Количество покупок",
-            value: 5670260
-        },
-        {
-            icon: <MoneyBagIcon />,
-            heading: "Сумма всех покупок",
-            value: 99999999
-        },
-        {
-            icon: <HandIcon />,
-            heading: "Остаток баллов",
-            value: 1125000
-        },
-        {
-            icon: <CashBackIcon />,
-            heading: "Получено кешбэк",
-            value: 620750
-        },
-        {
-            icon: <DiscountIcon />,
-            heading: "Оплаченно баллами",
-            value: 320260
-        },
-        {
-            icon: <RatingIcon />,
-            heading: "Оплаченно баллами",
-            value: 250000
-        },
-
-    ]
 
     const handlePointsAction = (action: number) => {
         setForm({
@@ -116,17 +78,29 @@ const Client = () => {
         setIsOpen(true)
     }
 
+    if (response.isFetching) {
+        return (
+            <Spinner />
+        )
+    }
+
+
     if (width > 600) {
         return (
             <Wrapper>
                 <Modal open={vipModal}>
                     <VipModal
+                        clientInfo={{
+                            name: currentClient?.clientInfo.firstName + " " + currentClient?.clientInfo.lastName,
+                            prevPercent: currentClient?.clientInfo?.obtainProgramLoyalty?.percent + "",
+                            prevStatus: currentClient?.clientInfo?.obtainProgramLoyalty?.levelName + "",
+                            status: currentClient?.clientInfo.addInfo.status + "",
+                            value: currentClient?.clientInfo?.personalLoyaltyInfo?.percent + ""
+                        }}
+                        id={client?.id || 0}
+                        refetch={response.refetch}
                         handleClose={() => setVipModal(false)}
-                        name={client?.firstName + " " + client?.lastName}
                         state={vipModalState}
-                        setState={setVipModalState}
-                        status={client?.addInfo?.status}
-                        value={client?.personalLoyaltyInfo?.percent}
                     />
                 </Modal>
                 <UpSide>
@@ -134,13 +108,16 @@ const Client = () => {
                         client={client}
                         setBlockModal={setBlockModal} />
                     <InfoBlock
+                        refetch={response.refetch}
+                        referBy={currentClient?.referBy}
+                        vipModal={vipModal}
                         setVipModalState={setVipModalState}
                         setVipModal={setVipModal}
                         client={client} />
-                    <Recommendation referLevels={response?.data?.data?.data?.childReferalClientsByLevel} />
+                    <Recommendation referLevels={currentClient?.childReferalClientsByLevel} />
                 </UpSide>
                 <MiddleSide>
-                    {statistics.map((el, index) => (
+                    {getClientStatistics(client?.addInfo)?.map((el, index) => (
                         <StatsCard key={index} {...el} />
                     ))}
                 </MiddleSide>
@@ -155,7 +132,9 @@ const Client = () => {
                     </Switch>
                 </DownSide>
                 <BlockModal
-                    isBlocking={!client.isPlBlocked}
+                    clientId={client?.id || 0}
+                    refetch={response.refetch}
+                    isBlocking={!client?.isPlBlocked}
                     handleClose={setBlockModal}
                     isOpen={blockModal} />
             </Wrapper>
@@ -164,6 +143,14 @@ const Client = () => {
         return (
             <MWrapper>
                 <Form
+                    clientInfo={{
+                        status: currentClient?.clientInfo?.addInfo?.status + "",
+                        name: currentClient?.clientInfo?.firstName + " " + currentClient?.clientInfo?.lastName,
+                        percent: currentClient?.clientInfo?.personalLoyaltyInfo?.percent || "",
+                        points: currentClient?.clientInfo?.addInfo?.pointSum + "" || "",
+                        id: currentClient?.clientInfo?.id || 0
+                    }}
+                    refetch={response.refetch}
                     handleClose={setForm}
                     action={form.action}
                     isOpen={form.isOpen} />

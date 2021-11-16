@@ -31,7 +31,7 @@ export const store = configureStore({
     proposals: proposalsSlice,
     staffs: staffs,
     info: info,
-    news:NewsSlice,
+    news: NewsSlice,
     qrSetting: qrSetting,
     finance: financeSlice,
     firebaseSlice: firebaseSlice,

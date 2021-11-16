@@ -50,7 +50,9 @@ const Table = ({ data, header2 }: Props) => {
       <MTable {...getTableProps()}>
         <Thead header2={header2 ? true : false}>
           {headerGroups.map((headerGroup: any) => (
+           
             <Tr {...headerGroup.getHeaderGroupProps()}>
+              
               {headerGroup.headers.map((column: any) => (
                 <Th
                   {...column.getHeaderProps(column.getSortByToggleProps())}
@@ -82,8 +84,8 @@ const Table = ({ data, header2 }: Props) => {
                     let checktitle = cell?.row?.original?.fullData?.data?.title;
                     let title =
                       checktitle?.length > 20
-                        ? checktitle.slice(0, 20) + "..."
-                        : checktitle;
+                        ? <p style={{fontSize:'14px'}}>{checktitle.slice(0, 20) + "..."}</p>
+                        : <p style={{fontSize:'14px'}}>{checktitle}</p>;
                     return (
                       <Td {...cell.getCellProps()}>
                         <TitleData>
@@ -97,8 +99,8 @@ const Table = ({ data, header2 }: Props) => {
                     let checkDescription = cell?.row?.original?.fullData?.data?.description;
                     let description =
                       checkDescription?.length > 20
-                        ? checkDescription.slice(0, 20) + "..."
-                        : checkDescription;
+                        ? <p style={{fontSize:'14px'}}>{checkDescription.slice(0, 20) + "..."}</p>
+                        : <p style={{fontSize:'14px'}}>{checkDescription}</p>;
 
                     return (
                       <Td {...cell.getCellProps()}>
@@ -109,10 +111,10 @@ const Table = ({ data, header2 }: Props) => {
                   } else if (cell.column.Header === "Пол") {
                     let genderType =
                       cell?.row?.original?.fullData?.data?.genderType === 1
-                        ? "Мужчина"
+                        ? <p style={{fontSize:'14px'}}>{"Мужчина"}</p>
                         : cell?.row?.original?.fullData?.data?.genderType === 2
-                        ? "Женщины"
-                        : "Для всех";
+                        ? <p style={{fontSize:'14px'}}>{"Женщины"}</p>
+                        : <p style={{fontSize:'14px'}}>{"Для всех"}</p>;
                     return (
                       <Td {...cell.getCellProps()}>
                         {genderType}
@@ -120,18 +122,32 @@ const Table = ({ data, header2 }: Props) => {
                       </Td>
                     );
                   } else if (cell.column.Header === "Срок публикации") {
-                    let ageFrom = cell?.row?.original?.fullData?.data?.ageFrom;
+               
                     let date = cell?.row?.original?.fullData?.date;
                     return (
                       <Td {...cell.getCellProps()}>
                         <AgeData>
-                          {date}
-                          <h4>{ageFrom + "+"}</h4>
+                          <p>{date}</p>
+                     
                         </AgeData>
                         {cell.render("Cell")}
                       </Td>
                     );
-                  } else
+                  }
+                  else if (cell.column.Header === "Возрастное ограничение") {
+                    let ageFrom = cell?.row?.original?.fullData?.data?.ageFrom;
+                    let PushUp= cell?.row?.original?.fullData?.data?.pushUp;
+         
+                    return (
+                      <Td  {...cell.getCellProps()}>
+                      <AgeData>
+                          <h4>{ageFrom + "+"}</h4>
+                          {PushUp ?<h2><h3>{"Push-up"}</h3></h2>:''}
+                        </AgeData>
+                        {cell.render("Cell")}
+                      </Td>
+                    );
+                  }  else
                     return (
                       <Td {...cell.getCellProps()}>{cell.render("Cell")}</Td>
                     );

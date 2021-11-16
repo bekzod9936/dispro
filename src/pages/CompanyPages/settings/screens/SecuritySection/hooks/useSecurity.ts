@@ -18,7 +18,7 @@ const useSecurity = () => {
   });
 
   //fetching security
-  const { refetch } = useQuery(["safeties"], fetchSafeties, {
+  const { refetch, isLoading } = useQuery(["safeties"], fetchSafeties, {
     retry: 0,
     refetchOnWindowFocus: false,
     onSuccess: async (data: any) => {
@@ -72,6 +72,7 @@ const useSecurity = () => {
     onFormSubmit,
     suspendedClient,
     suspendedSum,
+    isLoading,
   };
 };
 

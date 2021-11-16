@@ -74,27 +74,32 @@ export interface ICashier {
   label?: string;
 }
 
+export interface ITotal {
+  count?: number;
+  pages?: number;
+}
+
 export interface IFinance {
   suggestionFinance: {
     data: ISuggestion[];
-    totalCount: number;
+    total: ITotal;
     between: string;
   };
   paymentFinance: {
     data: IPayment[];
-    totalCount: number;
+    total: ITotal;
     between: string;
     header: IPayHeader[];
   };
   cashBackFinance: {
     data: ICashBack[];
-    totalCount: number;
+    total: ITotal;
     between: string;
     header: IPayHeader[];
   };
   historyFinance: {
     data: IHistory[];
-    totalCount: number;
+    total: ITotal;
     between: string;
     sum: ISum;
     cashier: ICashier[];

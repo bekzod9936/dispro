@@ -1,4 +1,4 @@
-export const operationsHeaders = ["date", "type", "cashier", "points", "UZS"]
+export const operationsHeaders = ["date", "type", "cashier", "points", "sale", "UZS", "cashbackSum"]
 export const operationsColumns = [
     {
         date: "26.04.2021 13:57",
@@ -50,3 +50,5 @@ export const operationsColumns = [
         UZS: "435000"
     },
 ]
+
+export const pointsHeaders = ["date", "type", "referal", "points"];

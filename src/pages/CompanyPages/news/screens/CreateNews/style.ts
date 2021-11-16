@@ -23,22 +23,10 @@ export const FormRow = styled.div`
   width: 100%;
 `;
 
-export const WrapperModal = styled.div`
-   padding-right:45px;
-   padding-top:10px;
-    position: relative;
-    h3 {
-      font-size: 22px;
-        line-height: 26px;
-        margin-bottom: 10px;
-        color: #223367;
-    }
- 
-`
 
 export const CloseButton = styled.div`
     position: absolute;
-    right: 15px;
+    right: 25px;
     top: 15px;
     cursor: pointer;
 `
@@ -348,5 +336,37 @@ export const SubmitModal = styled.div`
         color: #223367;
         font-weight: 300;
         margin-bottom: 30px;
+    }
+    
+`
+export const WrapperModal = styled.div`
+    padding: 20px 45px;
+    width:500px;
+    position: relative;
+    a {
+        text-decoration: none;
+    }
+    h3 {
+        font-size: 22px;
+        line-height: 26px;
+        margin-bottom: 10px;
+        color: #223367;
+
+    }
+    p {
+        font-size: 18px;
+        font-weight: 300;
+        color: #223367;
+        margin-bottom: 25px;
+    }
+    @media (max-width: ${device.mobile}) {
+        h3 {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+        p {
+            display: none;
+        }
     }
 `

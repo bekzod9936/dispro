@@ -18,7 +18,8 @@ import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
 import InputFormat from "components/Custom/InputFormat";
 import Radio from "components/Custom/Radio";
-import moment from "moment";
+
+import dayjs from "dayjs";
 import { fetchUpdateNews } from "services/queries/newPageQuery";
 import useAddress from "../../../info/screens/Address/useAddress";
 import {
@@ -85,8 +86,8 @@ const CreateNews = () => {
 
   const selectedNews = useAppSelector((state) => state.news.selectedNews);
   const newsById = selectedNews?.fullData;
-  const startDate = moment(newsById?.data?.startLifeTime).format("YYYY-MM-DD");
-  const endDate = moment(newsById?.data?.endLifeTime).format("YYYY-MM-DD");
+  const startDate = dayjs(newsById?.data?.startLifeTime).format("YYYY-MM-DD");
+  const endDate = dayjs(newsById?.data?.endLifeTime).format("YYYY-MM-DD");
   const [filter, setFilter] = React.useState<any>({});
   const { branches } = useStaff();
   console.log("filter", filter);

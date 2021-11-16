@@ -442,13 +442,14 @@ export const PageWrapperNoScroll = styled.div`
 `;
 
 export const PageWrapperFlex = styled.div`
-  padding: 20px 0 0px 0;
-  overflow-y: scroll;
-  overflow-x: hidden;
+  padding: 20px 30px 0 30px;
   height: 100%;
   width: 100%;
-  position: relative;
-  flex-grow: 1;
   display: flex;
   flex-direction: column;
+
+  @media (max-width: ${device.planshet}) {
+    padding-left: 0;
+    padding-right: 0;
+  }
 `;

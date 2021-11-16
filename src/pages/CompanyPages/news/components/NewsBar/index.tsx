@@ -18,7 +18,7 @@ import { useHistory } from "react-router";
 import { deleteCoupon, putCoupon } from "services/queries/proposalQuery";
 import { deleteNews } from "services/queries/newPageQuery";
 import { IDeferred } from "services/redux/Slices/news/types";
-import moment from "moment";
+
 //   import { SetDate } from "../../screens/Coupons/components/SetDate";
 
 import {
@@ -119,7 +119,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
           />
         </PreviewDivNews>
         <h5>{currentNews?.data?.title}</h5>
-        <p>{currentNews?.data?.description}</p>
+        <p>{currentNews?.data?.description?.length> 50 ? currentNews?.data?.description?.slice(0,50)+'...':currentNews?.data?.description}</p>
       </LeftRound>
       <ContentSideBar>
         <ContentInfo>

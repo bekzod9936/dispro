@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Switch, Route, useHistory, useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Spinner from "components/Custom/Spinner";
 import Table from "../../components/Table";
@@ -11,17 +11,16 @@ import { NewsBar } from "../../components/NewsBar";
 import { Container, Wrap, TitleData,AgeData,Info,WrapPag, DefaultImage } from "./style";
 import useData from "../useData";
 import useArchive from "./useArchive";
-import Pagination from 'components/Custom/Pagination';
+import Pagination from "components/Custom/Pagination";
 
 interface intialFilterProps {
   page?: number;
   perPage?: number;
- 
 }
 
 const Active = () => {
   const location = useLocation();
-  const dispatch = useAppDispatch();   
+  const dispatch = useAppDispatch();
   const history = useHistory();
   const data = useAppSelector((state) => state.news.NewsInfo.data);
   const selectedNews = useAppSelector((state) => state.news.selectedNews);
@@ -35,16 +34,14 @@ const Active = () => {
       pathname: "/news/create",
       state: { prevPage: location.pathname },
     });
-    dispatch(setQuery(''))
+    dispatch(setQuery(""));
   };
 
   const intialFilter = {
     page: 1,
     perPage: 5,
-    
   };
 
- 
   const [filterValues, setFilterValues] =
     useState<intialFilterProps>(intialFilter);
   
@@ -68,9 +65,7 @@ const Active = () => {
     <Container>
       <Wrap>
         {response.isLoading || response.isFetching ? (
-        
           <Spinner />
- 
         ) : (
           <>
             {data.length > 0 ? (

@@ -183,7 +183,32 @@ const CreateNews = () => {
         />
         <Title>Добавление новости</Title>
       </div>
-      
+      <Modal modalStyle={{ bgcolor: "#fff" }} open={submit}>
+            <WrapperModal>
+                <CloseButton  onClick={() => setSubmit(false)}>
+                    <CloseIcon />
+                </CloseButton>
+                <h3>{filter?.regDate?.regDateFrom>todayDate ? t('Новость будет добавлена в раздел В ожидании ') :t('Новость будет опубликована сразу')}</h3>
+                <p>{filter?.regDate?.regDateFrom>todayDate ? t(`Новость будет опубликована ${filter?.regDate?.regDateFrom} `) :t('Новость будет попадает сразу в разделе актуалные, и будет доступна вашим клиентам')}</p>
+                <Button
+            buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
+            margin={{ laptop: "0 22px 0 0" }}
+            onClick={() => setSubmit(false)}
+            startIcon={<CancelIcon />}
+          >
+            Отмена
+          </Button>
+          <Button
+            type="submit"
+            margin={{ laptop: "0 22px 0 0" }}
+            onClick={submitData}
+            startIcon={<SaveIcon />}
+          >
+            Сохранить
+          </Button>
+            </WrapperModal>
+        </Modal>
+{/*       
       <Modal open={submit}>
         <SubmitModal>
         {filter?.regDate?.regDateFrom>todayDate ? t('Новость будет добавлена в раздел В ожидании ') :t('Новость будет опубликована сразу')}
@@ -205,7 +230,7 @@ const CreateNews = () => {
             Сохранить
           </Button>
         </SubmitModal>
-      </Modal>
+      </Modal> */}
 
       <Form onSubmit={handleSubmit(submitNews)}>
         <UpSide>

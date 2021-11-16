@@ -14,6 +14,10 @@ import { IDeferred } from 'services/redux/Slices/proposals/types'
 import { CouponCard } from '../../components/CouponCard'
 import { EmptyPage } from '../Drafts/components/EmptyPage'
 import { Container } from '../Drafts/style'
+import useWindowWidth from 'services/hooks/useWindowWidth'
+import { CouponList } from '../../components/CouponList'
+import FullModal from 'components/Layout/Header/FullModal'
+import { FullSideBar } from '../../components/FullSideBar'
 const Canceled = () => {
     const dispatch = useAppDispatch()
     const { currentCoupon, canceled } = useAppSelector((state: RootState) => state.proposals)
@@ -21,6 +25,7 @@ const Canceled = () => {
     const [value, setValue] = React.useState<string>("")
     const [debounced] = useDebounce(value, 300)
     const { refetch, isFetching } = useCanceled({ query: debounced, dispatch })
+    const { width } = useWindowWidth()
     const handleReset = () => {
         dispatch(resetCurrentCoupon())
     }
@@ -32,28 +37,11 @@ const Canceled = () => {
     React.useEffect(() => {
         dispatch(resetCurrentCoupon())
     }, [])
-    return (
-        <Wrapper>
-            <SideBar maxWidth="370px" isOpen={open}>
-                <CouponBar
-                    canceled
-                    refetch={refetch}
-                    resetCoupon={handleReset}
-                    currentCoupon={currentCoupon}
-                    onClose={setOpen} />
-            </SideBar>
-            <Input
-                error={canceled.length === 0 && !isFetching && !!value}
-                message={"По запросу ничего не найдено"}
-                value={value}
-                onChange={(e) => setValue(e.target.value)}
-                IconStart={<SearchIcon style={{ marginLeft: "35px" }} />}
-                placeholder="Поиск..."
-                margin={{ laptop: "0 0 20px 0" }}
-                inputStyle={{ border: "none" }}
-                width={{ maxwidth: 500, width: "100%" }} />
-            <Container>
-                {isFetching ? <Spinner /> : canceled.map((el: IDeferred) => (
+
+    const coupons = () => {
+        if (width > 600) {
+            return (
+                canceled.map((el: IDeferred) => (
                     <CouponCard
                         stats={el.stat}
                         isSelected={currentCoupon.id === el.id}
@@ -69,7 +57,42 @@ const Canceled = () => {
                         value={el.value}
                         count={el.count}
                     />
-                ))}
+                ))
+            )
+        } else {
+            return (
+                <CouponList
+                    location="canceled"
+                    onClick={setOpen}
+                    coupons={canceled} />)
+        }
+    }
+    return (
+        <Wrapper>
+            {width > 600 ?
+                <SideBar maxWidth="370px" isOpen={open}>
+                    <CouponBar
+                        canceled
+                        refetch={refetch}
+                        resetCoupon={handleReset}
+                        currentCoupon={currentCoupon}
+                        onClose={setOpen} />
+                </SideBar> :
+                <FullModal open={open}>
+                    <FullSideBar rePublish refetch={refetch} onClose={setOpen} />
+                </FullModal>}
+            <Input
+                error={canceled.length === 0 && !isFetching && !!value}
+                message={"По запросу ничего не найдено"}
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+                IconStart={<SearchIcon style={width > 600 ? { marginLeft: "35px" } : { marginLeft: "15px" }} />}
+                placeholder="Поиск..."
+                margin={{ laptop: "0 0 20px 0" }}
+                inputStyle={{ border: "none" }}
+                width={{ maxwidth: 500, width: "100%" }} />
+            <Container>
+                {isFetching ? <Spinner /> : (canceled.length !== 0 && coupons())}
                 {!canceled.length && <EmptyPage />}
             </Container>
         </Wrapper>

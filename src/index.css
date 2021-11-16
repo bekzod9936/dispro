@@ -9,7 +9,7 @@ html {
 }
 
 :root {
-  --fontFamily: 'Roboto';
+  --fontFamily: "Roboto";
   --labelColor: #bbb;
   --disableColor: #ddd;
   --toggleColor: #2f855a;
@@ -21,11 +21,12 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  font-family: 'Roboto';
+  font-family: "Roboto";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
   background-color: white;
+  min-height: 100vh !important;
   min-height: -webkit-fill-available !important;
 }
 
@@ -57,7 +58,7 @@ input::-webkit-inner-spin-button {
 
 .MuiTypography-body2 {
   font-weight: 700;
-  font-family: 'Roboto';
+  font-family: "Roboto";
   font-size: 16px;
   color: black;
 }
@@ -100,7 +101,7 @@ input::-webkit-inner-spin-button {
   height: 25px;
 }
 
-.toggle-switch input[type='checkbox'] {
+.toggle-switch input[type="checkbox"] {
   display: none;
 }
 
@@ -118,7 +119,7 @@ input::-webkit-inner-spin-button {
 
 .toggle-switch .switch::before {
   position: absolute;
-  content: '';
+  content: "";
   left: 2px;
   top: 2px;
   width: 21px;
@@ -128,12 +129,12 @@ input::-webkit-inner-spin-button {
   transition: transform 0.3s ease;
 }
 
-.toggle-switch input[type='checkbox']:checked + .switch::before {
+.toggle-switch input[type="checkbox"]:checked + .switch::before {
   transform: translateX(25px);
   background-color: #fff;
 }
 
-.toggle-switch input[type='checkbox']:checked + .switch {
+.toggle-switch input[type="checkbox"]:checked + .switch {
   background-color: #3492ff;
 }
 

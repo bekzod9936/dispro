@@ -43,7 +43,8 @@ export const Table = () => {
       name: client.firstName + " " + client.lastName,
       image: client.image,
       discountValue: client.personalLoyaltyInfo.percent,
-      id: client.id
+      id: client.id,
+      userId: client.userId
     }))
   }, [clients])
 
