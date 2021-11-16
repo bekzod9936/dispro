@@ -145,9 +145,9 @@ const Recommendations = () => {
     }
     return (
         <>
-            <div style={{ margin: "0 0 10px 0" }}>
+            {/* <div style={{ margin: "0 0 10px 0" }}>
                 <Filter list={filterList} />
-            </div>
+            </div> */}
             <Table {...getTableProps()}>
                 <THead>
                     {headerGroups.map(headerGroup => (

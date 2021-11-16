@@ -114,12 +114,12 @@ export const useHandleGetFilters = ({ filters, handleRemove }: IProps) => {
       <SelectedFilter>
         {purchaseAmount?.purchaseCountFrom && (
           <p>
-            {t("from")}: {purchaseAmount?.purchaseCountFrom + " сум"}
+            Кол-во покупок: {t("from")}: {purchaseAmount?.purchaseCountFrom}
           </p>
         )}
         {purchaseAmount?.purchaseCountTo && (
           <p>
-            {t("to")}: {purchaseAmount?.purchaseCountTo + " сум"}
+            {!purchaseAmount?.purchaseCountFrom && "Кол-во покупок: "}{t("to")}: {purchaseAmount?.purchaseCountTo}
           </p>
         )}
         <RemoveFilterBtn onClick={() => handleRemove("purchaseAmount")} />
@@ -198,7 +198,7 @@ export const getClientStatistics = (data: any) => {
         return {
           icon: <RatingIcon />,
           heading: "Оплаченно баллами",
-          value: 250000
+          value: data[el]
         }
       }
     })

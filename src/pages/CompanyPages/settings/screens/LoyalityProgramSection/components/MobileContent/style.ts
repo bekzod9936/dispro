@@ -45,3 +45,34 @@ export const EText = styled.p`
   line-height: 16px;
   color: #ff5e68;
 `;
+
+export const Header = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  background-color: #fff;
+`;
+
+export const Body = styled.form`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const Htext = styled.p`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 19px;
+  color: #223367;
+`;
+
+export const Column = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  justify-content: center;
+`;

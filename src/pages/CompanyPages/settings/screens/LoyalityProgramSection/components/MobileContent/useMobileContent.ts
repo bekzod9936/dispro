@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ICheck } from "./type";
+import { ICheck, ISetting } from "./type";
 //hooks
 import useLoyality from "../../hooks/useLoyality";
 

@@ -48,7 +48,7 @@ const Suggestions = () => {
     filterValues: filterValues,
   });
 
-  const list: any = data?.map((v: any) => {
+  const listdesktop: any = data?.map((v: any) => {
     const date = dayjs(v?.payDate).format('DD.MM.YYYY');
     return {
       col1: date,
@@ -63,6 +63,43 @@ const Suggestions = () => {
       col5: numberWithNew({ number: v?.amountPartner }),
       col6: numberWithNew({ number: v?.disCommission }),
       col7: v?.couponName,
+    };
+  });
+
+  const listmobile: any = data.map((v: any) => {
+    const date = dayjs(v?.payDate).format('DD.MM.YYYY');
+    return {
+      title: `${v?.firstName}  ${v?.lastName}`,
+      value: numberWithNew({ number: v?.amount }),
+      body: [
+        { title: t('date'), value: date },
+        {
+          title: t('customer'),
+          value: `${v?.firstName}  ${v?.lastName}`,
+        },
+        {
+          title: t('purchaseamount'),
+          value: numberWithNew({ number: v?.amount }),
+        },
+        {
+          title: t('type'),
+          value:
+            v?.couponType === 1
+              ? t('summoney')
+              : v?.couponType === 2
+              ? t('sale')
+              : '-',
+        },
+        {
+          title: t('profit'),
+          value: numberWithNew({ number: v?.amountPartner }),
+        },
+        {
+          title: t('commission'),
+          value: numberWithNew({ number: v?.disCommission }),
+        },
+        { title: t('title'), value: v?.couponName },
+      ],
     };
   });
 
@@ -117,75 +154,38 @@ const Suggestions = () => {
           await response.refetch();
         }}
       />
-
       {response.isLoading || response.isFetching ? (
         <Spinner />
       ) : width > 600 ? (
-        <Table columns={columns} data={list} />
+        <Table columns={columns} data={listdesktop} />
       ) : (
         <MobileTable
           data={{
             title: t('amountofpurchase'),
-            info: data.map((v: any) => {
-              const date = dayjs(v?.payDate).format('DD.MM.YYYY');
-              return {
-                title: `${v?.firstName}  ${v?.lastName}`,
-                value: numberWithNew({ number: v?.amount }),
-                body: [
-                  { title: t('date'), value: date },
-                  {
-                    title: t('customer'),
-                    value: `${v?.firstName}  ${v?.lastName}`,
-                  },
-                  {
-                    title: t('purchaseamount'),
-                    value: numberWithNew({ number: v?.amount }),
-                  },
-                  {
-                    title: t('type'),
-                    value:
-                      v?.couponType === 1
-                        ? t('summoney')
-                        : v?.couponType === 2
-                        ? t('sale')
-                        : '-',
-                  },
-                  {
-                    title: t('profit'),
-                    value: numberWithNew({ number: v?.amountPartner }),
-                  },
-                  {
-                    title: t('commission'),
-                    value: numberWithNew({ number: v?.disCommission }),
-                  },
-                  { title: t('title'), value: v?.couponName },
-                ],
-              };
-            }),
+            info: listmobile,
           }}
           headertitle={t('proposals')}
         />
       )}
-      {list.length > 0 ? (
-        <WrapPag>
-          <Info>
-            {t('shown')}
-            <span>{between}</span>
-            {t('from1')} <span>{total.pages}</span>
-            {countPagination({
-              count: Number(total?.count),
-              firstWord: t('operations1'),
-              secondWord: t('operations23'),
-            })}
-          </Info>
-          <Pagination
-            page={filterValues.page}
-            count={total.count}
-            onChange={handlechangePage}
-            disabled={response.isLoading || response.isFetching}
-          />
-        </WrapPag>
-      ) : null}
+      <WrapPag>
+        <Info>
+          {t('shown')}
+          <span>{between}</span>
+          {t('from1')} <span>{total.pages}</span>
+          {countPagination({
+            count: Number(total?.count),
+            firstWord: t('operations1'),
+            secondWord: t('operations23'),
+          })}
+        </Info>
+        <Pagination
+          page={filterValues.page}
+          count={total.count}
+          onChange={handlechangePage}
+          disabled={response.isLoading || response.isFetching}
+          siblingCount={0}
+        />
+      </WrapPag>
     </Container>
   );
 };

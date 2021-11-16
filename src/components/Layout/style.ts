@@ -4,6 +4,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItem from '@material-ui/core/ListItem';
 import { SwipeableDrawer } from '@material-ui/core';
 import Drawer from '@material-ui/core/Drawer';
+import IconButton from '@material-ui/core/IconButton';
 import { ReactComponent as Hamburgermenu } from '../../assets/icons/SideBar/hamburgermenu.svg';
 import { ReactComponent as Setting } from '../../assets/icons/SideBar/setting.svg';
 import { ReactComponent as Statistics } from '../../assets/icons/SideBar/statistics.svg';
@@ -31,6 +32,18 @@ const commonMedia = css`
   @media (min-width: ${device.mobile}) and (max-width: ${device.laptop}) {
     width: 24px;
     height: 24px;
+  }
+`;
+
+export const ButtonIcon = styled(IconButton)`
+  @media (max-width: ${device.mobile}) {
+    padding: 0 7px !important;
+    &.sidebar {
+      padding: 10px !important;
+    }
+  }
+  &:hover {
+    background-color: transparent !important;
   }
 `;
 

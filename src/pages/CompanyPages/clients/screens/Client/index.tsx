@@ -94,8 +94,8 @@ const Client = () => {
                             name: currentClient?.clientInfo.firstName + " " + currentClient?.clientInfo.lastName,
                             prevPercent: currentClient?.clientInfo?.obtainProgramLoyalty?.percent + "",
                             prevStatus: currentClient?.clientInfo?.obtainProgramLoyalty?.levelName + "",
-                            status: currentClient?.clientInfo.addInfo.status + "",
-                            value: currentClient?.clientInfo?.personalLoyaltyInfo?.percent + ""
+                            status: currentClient?.clientInfo.personalLoyaltyInfo.percent ? currentClient?.clientInfo.addInfo.status + "" : currentClient?.clientInfo.obtainProgramLoyalty.levelName + "",
+                            value: currentClient?.clientInfo.personalLoyaltyInfo.percent ? currentClient?.clientInfo?.personalLoyaltyInfo?.percent + "" : currentClient?.clientInfo.obtainProgramLoyalty.percent + ""
                         }}
                         id={client?.id || 0}
                         refetch={response.refetch}

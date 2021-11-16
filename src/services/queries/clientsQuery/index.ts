@@ -75,3 +75,11 @@ export const fetchReferChilds = async (data: any) => {
 export const sendNote = async (data: any) => {
   const response = await partnerApi.put(`/core/client/set-notes`, data)
 }
+
+export const fetchQrCode = async () => {
+  const response = await partnerApi.post(`/core/ref`, {
+    source: "Базовый1"
+  })
+  return response
+
+}
