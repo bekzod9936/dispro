@@ -15,6 +15,12 @@ export interface ITableHelperItem {
   status: number,
 }
 
+export interface ITableRecs {
+  date: string,
+  levelNumber: number,
+  name: string
+}
+
 export const getSelected = (obj: any): any => {
   return Object.keys(obj).reduce((object: any, el: any) => {
     if (typeof obj[el] === "string" || typeof obj[el] === "number") {
@@ -301,5 +307,14 @@ export const tablePointsHelper = (arr: IPointHelperItem[]) => {
     type: pointTypes[el.type] || "",
     referal: el.name || "",
     points: el.amount
+  }))
+}
+
+
+export const tableRecommendsHelper = (arr: ITableRecs[]) => {
+  return arr.map(el => ({
+    registration_date: dayjs(el.date).format("DD.MM.YYYY hh:mm"),
+    client: el.name,
+    level: el.levelNumber
   }))
 }
