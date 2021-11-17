@@ -72,6 +72,7 @@ export const Container = styled.div`
 `;
 
 export const MInput = styled(TextField)`
+  background-color: yellow !important;
   box-shadow: ${({ inputStyle }: Props) =>
     inputStyle?.shadow ? inputStyle?.shadow : null};
   .MuiInput-underline:before,
@@ -134,8 +135,10 @@ export const MInput = styled(TextField)`
       inputStyle?.color ? inputStyle?.color : '#223367'} !important;
     padding: ${({ inputStyle }: Props) =>
       inputStyle?.inpadding ? inputStyle?.inpadding : '0 20px'} !important;
-
-    @media (max-width: ${device.mobile}) {
+    background-color: red !important;
+  }
+  @media (max-width: ${device.mobile}) {
+    .MuiInputBase-input {
       font-size: ${({ inputStyle }: Props) =>
         inputStyle?.fontSize?.mobile
           ? `${inputStyle?.fontSize?.mobile}px`
@@ -147,7 +150,9 @@ export const MInput = styled(TextField)`
           ? `${inputStyle?.height?.mobile}px`
           : '45px'} !important;
     }
-    @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    .MuiInputBase-input {
       font-size: ${({ inputStyle }: Props) =>
         inputStyle?.fontSize?.planshet
           ? `${inputStyle?.fontSize?.planshet}px`
@@ -159,7 +164,9 @@ export const MInput = styled(TextField)`
           ? `${inputStyle?.height?.planshet}px`
           : '45px'} !important;
     }
-    @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
+  }
+  @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
+    .MuiInputBase-input {
       font-size: ${({ inputStyle }: Props) =>
         inputStyle?.fontSize?.laptop
           ? `${inputStyle?.fontSize?.laptop}px`
@@ -171,7 +178,9 @@ export const MInput = styled(TextField)`
           ? `${inputStyle?.height?.laptop}px`
           : '50px'} !important;
     }
-    @media (min-width: ${device.laptop}) {
+  }
+  @media (min-width: ${device.laptop}) {
+    .MuiInputBase-input {
       font-size: ${({ inputStyle }: Props) =>
         inputStyle?.fontSize?.desktop
           ? `${inputStyle?.fontSize?.desktop}px`
