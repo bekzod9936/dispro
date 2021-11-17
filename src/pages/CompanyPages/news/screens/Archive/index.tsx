@@ -73,7 +73,7 @@ const Active = () => {
                 <Table data={list}/>
              
             ) : (
-              <div style={{ paddingRight: "20%", paddingTop: "10%" }}>
+              <div style={{ paddingRight: "20%", paddingTop: "5%"}}>
                 <NoNews handleOpenSetting={handleOpenSetting} />
               </div>
             )}

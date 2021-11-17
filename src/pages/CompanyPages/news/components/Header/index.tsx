@@ -64,10 +64,10 @@ const Header = ({
         value={query}
         placeholder="Поиск по новостям"
         onChange={(e) => dispatch(setQuery(e.target.value))}
-        width={{ maxwidth: 700 }}
+        width={{ maxwidth: 500 }}
       />
         <div style={{ width: "20px" }} />
-       {/* <div style={{height:'60px !important'}}>
+       <div style={{height:'60px !important'}}>
           <DatePcker 
         onChange={async (e: any) => {
           // await setFilterValues({
@@ -78,7 +78,7 @@ const Header = ({
           // await response.refetch();
         }}
       />
-     </div> */}
+     </div>
     </Flex>
   );
 };
