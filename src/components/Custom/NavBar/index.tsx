@@ -1,4 +1,5 @@
 import { Container, Link } from './style';
+import { useRef } from 'react';
 
 interface Props {
   list?: { path?: string; text?: string }[];
@@ -14,15 +15,29 @@ export const activeStyle = {
 };
 
 const NavBar = ({ list, margin, padding, vertical }: Props) => {
+  const parentRef = useRef<null | HTMLDivElement>(null)
+
+  const handleClick = (e: any) => {
+    if (parentRef.current) {
+      parentRef.current.scrollTo({
+        left: e.target.getBoundingClientRect().left,
+        top: 0,
+        behavior: "smooth"
+      })
+    }
+  }
+
+
   return (
     <Container
+      ref={parentRef}
       vertical={vertical}
       listlength={list?.length}
       margin={margin}
       padding={padding}
     >
       {list?.map((v) => (
-        <Link to={`${v.path}`} exact activeStyle={activeStyle}>
+        <Link onClick={handleClick} to={`${v.path}`} exact activeStyle={activeStyle}>
           {v.text}
         </Link>
       ))}
