@@ -34,8 +34,8 @@ interface Props {
 
 const Filter = ({
   list,
-  onSubmit = () => {},
-  onReset = () => {},
+  onSubmit = () => { },
+  onReset = () => { },
   error,
   position,
 }: Props) => {

@@ -27,16 +27,16 @@ export const Container = styled.div`
     position: static !important;
     transform: none !important;
   }
-  input[type="date"] {
+  input[type='date'] {
     position: relative;
-}
-input[type="date"]:after {
-  content: url(${dateicon});
-  width: 20px;
-  height: 25px;
-  padding: 0 10px;
-}
-  input[type="date"]::-webkit-calendar-picker-indicator {
+  }
+  input[type='date']:after {
+    content: url(${dateicon});
+    width: 20px;
+    height: 25px;
+    padding: 0 10px;
+  }
+  input[type='date']::-webkit-calendar-picker-indicator {
     position: absolute;
     top: 0;
     left: 0;
@@ -46,8 +46,19 @@ input[type="date"]:after {
     height: auto;
     color: transparent;
     background: transparent;
-}
- 
+  }
+  input[type='time']::-webkit-calendar-picker-indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: auto;
+    height: auto;
+    color: transparent;
+    background: transparent;
+  }
+
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus,
@@ -104,6 +115,8 @@ export const MInput = styled(TextField)`
       inputStyle?.placeholdercolor} !important;
   }
   .MuiInputBase-input {
+    display: flex !important;
+    align-items: center !important;
     border-radius: ${({ inputStyle }: Props) =>
       inputStyle?.radius ? `${inputStyle?.radius}px` : '14px'} !important;
     height: ${({ inputStyle }: Props) =>
@@ -123,8 +136,9 @@ export const MInput = styled(TextField)`
       inputStyle?.color ? inputStyle?.color : '#223367'} !important;
     padding: ${({ inputStyle }: Props) =>
       inputStyle?.inpadding ? inputStyle?.inpadding : '0 20px'} !important;
-
-    @media (max-width: ${device.mobile}) {
+  }
+  @media (max-width: ${device.mobile}) {
+    .MuiInputBase-input {
       font-size: ${({ inputStyle }: Props) =>
         inputStyle?.fontSize?.mobile
           ? `${inputStyle?.fontSize?.mobile}px`
@@ -136,7 +150,9 @@ export const MInput = styled(TextField)`
           ? `${inputStyle?.height?.mobile}px`
           : '45px'} !important;
     }
-    @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    .MuiInputBase-input {
       font-size: ${({ inputStyle }: Props) =>
         inputStyle?.fontSize?.planshet
           ? `${inputStyle?.fontSize?.planshet}px`
@@ -148,7 +164,9 @@ export const MInput = styled(TextField)`
           ? `${inputStyle?.height?.planshet}px`
           : '45px'} !important;
     }
-    @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
+  }
+  @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
+    .MuiInputBase-input {
       font-size: ${({ inputStyle }: Props) =>
         inputStyle?.fontSize?.laptop
           ? `${inputStyle?.fontSize?.laptop}px`
@@ -160,7 +178,9 @@ export const MInput = styled(TextField)`
           ? `${inputStyle?.height?.laptop}px`
           : '50px'} !important;
     }
-    @media (min-width: ${device.laptop}) {
+  }
+  @media (min-width: ${device.laptop}) {
+    .MuiInputBase-input {
       font-size: ${({ inputStyle }: Props) =>
         inputStyle?.fontSize?.desktop
           ? `${inputStyle?.fontSize?.desktop}px`
