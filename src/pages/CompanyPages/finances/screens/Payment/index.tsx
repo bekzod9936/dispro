@@ -202,25 +202,27 @@ const Payment = () => {
             headertitle={t('p2p')}
           />
         )}
-        <WrapPag>
-          <Info>
-            {t('shown')}
-            <span>{between}</span>
-            {t('from1')} <span>{total.pages}</span>
-            {countPagination({
-              count: Number(total.count),
-              firstWord: t('operations1'),
-              secondWord: t('operations23'),
-            })}
-          </Info>
-          <Pagination
-            page={filterValues.page}
-            count={total.count}
-            onChange={handlechangePage}
-            disabled={response.isLoading || response.isFetching}
-            siblingCount={0}
-          />
-        </WrapPag>
+        {data.length === 0 ? null : (
+          <WrapPag>
+            <Info>
+              {t('shown')}
+              <span>{between}</span>
+              {t('from1')} <span>{total.pages}</span>
+              {countPagination({
+                count: Number(total.pages),
+                firstWord: t('operations1'),
+                secondWord: t('operations23'),
+              })}
+            </Info>
+            <Pagination
+              page={filterValues.page}
+              count={total.count}
+              onChange={handlechangePage}
+              disabled={response.isLoading || response.isFetching}
+              siblingCount={0}
+            />
+          </WrapPag>
+        )}
       </Container>
     </>
   );

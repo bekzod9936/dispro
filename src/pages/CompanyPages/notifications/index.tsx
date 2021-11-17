@@ -179,7 +179,7 @@ const Notifications = () => {
               <span>{between}</span>
               {t('from1')} <span>{pages}</span>
               {countPagination({
-                count: totalCount,
+                count: pages,
                 firstWord: t('notification1'),
                 secondWord: t('notification23'),
               })}
