@@ -12,9 +12,11 @@ import { handleClick } from "services/redux/Slices/settingsSlice";
 
 const MobileContent = () => {
   const dispatch = useAppDispatch();
-  const { handleCheck, cashbackCheck, saleCheck, ballCheck } =
-    useMobileContent();
+  const { handleCheck } = useMobileContent();
   const openCashback = useAppSelector((state) => state.settings.openState);
+  const cashbackCheck = useAppSelector((state) => state.settings.cashbackCheck);
+  const saleCheck = useAppSelector((state) => state.settings.saleCheck);
+  const ballCheck = useAppSelector((state) => state.settings.ballCheck);
 
   return (
     <Container>
