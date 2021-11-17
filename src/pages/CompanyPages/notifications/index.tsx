@@ -36,6 +36,7 @@ import {
   WrapInfoBox,
   WrapDefault,
   MessageIcon,
+  Titletext,
 } from './style';
 
 interface intialFilterProps {
@@ -103,7 +104,7 @@ const Notifications = () => {
       <WrapScroll>
         <WrapInfoBox>
           <WrapTitle>
-            <TitleCard>{info.title}</TitleCard>
+            <Titletext>{info.title}</Titletext>
             <Date>{dayjs(info.createdAt).format('DD MMMM YYYY')}</Date>
           </WrapTitle>
           <SideText>{info.body} </SideText>
@@ -164,7 +165,7 @@ const Notifications = () => {
                   </CardImg>
                   <CardBody open={open && v.id === id}>
                     <WrapTitle>
-                      <TitleCard>{v.title}</TitleCard>
+                      <TitleCard> {v.title}</TitleCard>
                       <Date>{dayjs(v.createdAt).format('DD MMMM YYYY')}</Date>
                     </WrapTitle>
                     <Text>{v.body}</Text>
