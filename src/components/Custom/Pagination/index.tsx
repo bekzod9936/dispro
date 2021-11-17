@@ -21,7 +21,7 @@ const Pagination = ({
   disabled,
   hideNextButton,
   hidePrevButton,
-  onChange = () => {},
+  onChange = () => { },
   page,
   showFirstButton,
   showLastButton,

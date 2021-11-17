@@ -5,6 +5,7 @@ interface IsettingsSlice {
   loyalty: string;
   base_loyality?: IBaseLoyality;
   openState: IOpenState;
+  openM: boolean;
 }
 const initialState: IsettingsSlice = {
   loyalty: "loyal",
@@ -12,15 +13,17 @@ const initialState: IsettingsSlice = {
     max_percent: 0,
     give_cashback_after: 0,
     base_percent: 0,
+    base_name: "",
   },
   openState: {
     type: "other",
     open: false,
   },
+  openM: false,
 };
 
 const settingsSlice = createSlice({
-  name: "auth",
+  name: "settingsSlice",
   initialState,
   reducers: {
     setLoyaltyProgramm: (state, action: PayloadAction<string>) => {
@@ -32,9 +35,12 @@ const settingsSlice = createSlice({
     handleClick: (state, action: PayloadAction<IOpenState>) => {
       state.openState = action.payload;
     },
+    addModal: (state, action: PayloadAction<boolean>) => {
+      state.openM = action.payload;
+    },
   },
 });
 
-export const { setLoyaltyProgramm, setBaseLoyality, handleClick } =
+export const { setLoyaltyProgramm, setBaseLoyality, handleClick, addModal } =
   settingsSlice.actions;
 export default settingsSlice.reducer;

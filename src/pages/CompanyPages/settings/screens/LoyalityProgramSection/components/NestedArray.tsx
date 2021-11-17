@@ -1,13 +1,18 @@
-import MultiSelect from "components/Custom/MultiSelect";
 import { Controller, useFieldArray, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { LevelGrid, RequirementsGrid, SelectGrid, SubText } from "../styles";
-import { IconDiv } from "./style";
+import { numberWith } from "services/utils";
+//components
+import MultiSelect from "components/Custom/MultiSelect";
 import RippleEffect from "components/Custom/RippleEffect";
+import InputFormat from "components/Custom/InputFormat";
+// hooks
+import useDetail from "../hooks/useDetail";
+// assets
 import { ReactComponent as Plus } from "assets/icons/plus_mini.svg";
 import { ReactComponent as Remove } from "assets/icons/exit_mini.svg";
-import { numberWith } from "services/utils";
-import InputFormat from "components/Custom/InputFormat";
+//style
+import { LevelGrid, RequirementsGrid, SelectGrid, SubText } from "../styles";
+import { IconDiv } from "./style";
 
 interface IProps {
   index: number;
@@ -19,6 +24,7 @@ interface IProps {
 
 const NestedArray = ({ index, control, getValues, setValue }: IProps) => {
   const { t } = useTranslation();
+  const { labelType, loyalityOptions } = useDetail();
   const levels = useWatch({
     control,
     name: `levels`,
@@ -27,15 +33,6 @@ const NestedArray = ({ index, control, getValues, setValue }: IProps) => {
     control,
     name: `levels.${index}.requirements`,
   });
-
-  const loyalityOptions = [
-    { value: 1, label: t("purchaseSum") },
-    { value: 3, label: t("companyVisits") },
-    {
-      value: 2,
-      label: t("recomendations"),
-    },
-  ];
 
   const typeFullOptions = [
     { value: "and", label: t("and") },
@@ -86,18 +83,6 @@ const NestedArray = ({ index, control, getValues, setValue }: IProps) => {
   const unitIcon = (unit: string | number) => {
     if (unit === "UZS") return <div>{t("uzs")}</div>;
     else if (unit === "шт") return <div>{t("quantity")}</div>;
-  };
-
-  const labelType = (value: string | number) => {
-    if (value === 1) {
-      return t("purchaseSum");
-    } else if (value === 2) {
-      return t("recomendations");
-    } else if (value === 3) {
-      return t("companyVisits");
-    } else {
-      return "";
-    }
   };
 
   return (
