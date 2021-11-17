@@ -128,23 +128,26 @@ export const UpIcon = styled(Up)`
 export const AgeData = styled.div`
   display: flex;
   position: relative;
+  justify-content:space-between;
   align-items: center;
 
   p {
     font-size: 14px;
   }
+  
   h4 {
     padding: 10px 20px;
     font-size: 14px;
     background: linear-gradient(215.2deg, #8bdd59 -12.1%, #dcf089 101.51%);
     border-radius: 14px;
   }
-  h3 {
+  h3 {  
+ 
     padding: 10px 20px;
-    margin-left:30px;
+    /* margin-right:20px; */
     font-size: 14px;
     background: linear-gradient(215.2deg, #C7EEFF -12.1%, #FCA9EA 101.51%);
-border-radius: 14px;
+    border-radius: 14px;
   }
   `
 
