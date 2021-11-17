@@ -627,7 +627,7 @@ const Main = () => {
           </RightSide>
         </Container>
       </UpSide>
-      <DownSide justify={fill}>
+      <DownSide>
         <div>
           {fill ? null : (
             <ExitButton

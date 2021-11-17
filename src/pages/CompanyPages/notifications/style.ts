@@ -128,10 +128,21 @@ export const CardBody = styled.div`
 
 export const WrapTitle = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   width: 100%;
   margin-bottom: 10px;
+  grid-column-gap: 10px;
+`;
+
+export const Titletext = styled.div`
+  width: 80%;
+  font-weight: bold;
+  font-size: 14px;
+  color: #223367;
+  @media (min-width: ${device.laptop}) {
+    font-size: 16px;
+  }
 `;
 
 export const WrapPag = styled.div`
