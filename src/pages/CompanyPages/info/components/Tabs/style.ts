@@ -55,6 +55,7 @@ export const Container = styled.div`
 
   [class*='PrivateTabIndicator-colorSecondary'] {
     height: 0 !important;
+    background-color: transparent !important;
   }
   overflow: hidden;
   width: 100%;

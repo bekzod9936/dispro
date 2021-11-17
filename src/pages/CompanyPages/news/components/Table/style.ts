@@ -180,24 +180,23 @@ export const DefaultImage = styled.div`
 export const ToolTipText = styled("span")({
 
   visibility: "hidden",
-  width: "400px",
+  width: "350px",
   backgroundColor: "#fff",
   color: "#223367",
   textAlign: "center",
   borderRadius: "6px",
-  padding: "20px 30px",
   position: "absolute",
+  paddingTop:"10px",
+  paddingBottom:"5px",
   zIndex: 1,
-
-
-  left: "100%",
-  marginLeft: "-500px",
-  marginTop: "-50px",
+  top:'60px',
+  marginLeft: "-450px",
+  marginTop: "-140px",
   ":after": {
     content: '""',
     position: "absolute",
     top: "50%",
-    left: "100%",
+    // left: "100%",
     marginLeft: "-5px",
     
     borderWidth: "5px",

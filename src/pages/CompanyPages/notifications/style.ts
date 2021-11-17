@@ -1,8 +1,25 @@
 import styled from 'styled-components';
 import { device } from '../../../styles/device';
 import { ReactComponent as Close } from 'assets/icons/IconsInfo/close.svg';
+import { ReactComponent as Message } from 'assets/icons/message.svg';
 
-export const CloseIcon = styled(Close)``;
+export const MessageIcon = styled(Message)`
+  width: 24px;
+  height: 24px;
+  @media (max-width: ${device.mobile}) {
+    width: 18px;
+    height: 18px;
+  }
+`;
+
+export const CloseIcon = styled(Close)`
+  width: 18px;
+  height: 18px;
+  @media (max-width: ${device.mobile}) {
+    width: 15px;
+    height: 15px;
+  }
+`;
 
 export const WrapIcon = styled.div`
   position: absolute;
@@ -19,6 +36,11 @@ export const WrapIcon = styled.div`
   :hover {
     background-color: #ddd;
   }
+  @media (max-width: ${device.mobile}) {
+    width: 33px;
+    height: 33px;
+    top: 10px;
+  }
 `;
 
 export const Container = styled.div`
@@ -27,6 +49,9 @@ export const Container = styled.div`
   height: 100%;
   flex-direction: column;
   position: relative;
+  @media (max-width: ${device.mobile}) {
+    padding: 15px 0 0 15px;
+  }
 `;
 
 export const Card = styled.div`
@@ -34,35 +59,29 @@ export const Card = styled.div`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
   border-radius: 14px;
   height: 300px;
-  /* width: calc(33% - 10px);
-  max-width: calc(33% - 10px);
-  min-width: 290px; */
   cursor: pointer;
   display: flex;
   flex-direction: column;
   flex: 1;
   width: 100%;
-  @media (min-width: ${device.laptop}) {
-    /* width: calc(25% - 10px);
-    max-width: calc(25% - 10px); */
-  }
-  @media (max-width: ${device.mobile}) {
-    /* width: 100%;
-    min-width: 100%; */
-  }
 `;
 
 export const CardImg = styled.div`
   width: 100%;
   height: 200px;
   overflow: hidden;
-  border-radius: 14px;
+  @media (max-width: ${device.mobile}) {
+    height: 180px;
+  }
 `;
 
 export const TitleCard = styled.div`
   font-weight: bold;
   font-size: 14px;
   color: #223367;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   @media (min-width: ${device.laptop}) {
     font-size: 16px;
   }
@@ -88,6 +107,8 @@ export const Date = styled.div`
   font-weight: normal;
   font-size: 11px;
   color: #8f8f8f;
+  white-space: nowrap;
+  margin-left: 10px;
   @media (min-width: ${device.laptop}) {
     font-size: 12px;
   }
@@ -95,14 +116,14 @@ export const Date = styled.div`
 
 export const CardBody = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
   flex-direction: column;
   flex: 1;
-  padding: 0 20px;
+  padding: 10px 20px;
   background-color: ${({ open }: Props) => (open ? '#eff0fd' : 'white')};
-
   border-radius: 0 0 14px 14px;
+  @media (max-width: ${device.mobile}) {
+    padding: 10px;
+  }
 `;
 
 export const WrapTitle = styled.div`
@@ -110,6 +131,7 @@ export const WrapTitle = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  margin-bottom: 10px;
 `;
 
 export const WrapPag = styled.div`
@@ -139,17 +161,17 @@ export const Info = styled.div`
 
 export const WrapperCard = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(30%, 1fr));
   grid-gap: 20px;
+  padding-right: 25px;
   & > :hover {
     box-shadow: 4px 4px 10px grey;
   }
   border-radius: 14px;
   @media (max-width: ${device.mobile}) {
-    grid-template-columns: 1fr;
-  }
-  @media (min-width: ${device.laptop}) {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: minmax(100%, 1fr);
+    padding-right: 15px;
+    grid-gap: 25px;
   }
 `;
 
@@ -157,7 +179,7 @@ export const Wrap = styled.div`
   overflow-y: auto;
   margin-top: 25px;
   overflow-x: hidden;
-  padding-right: 25px;
+
   ::-webkit-scrollbar {
     width: 7px;
   }
@@ -168,6 +190,9 @@ export const Wrap = styled.div`
   &::-webkit-scrollbar-thumb {
     background: #606eea;
     border-radius: 14px 0px 0px 14px;
+  }
+  @media (max-width: ${device.mobile}) {
+    margin-top: 15px;
   }
 `;
 
@@ -189,7 +214,6 @@ export const SideText = styled.div`
 export const WrapScroll = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
-  padding-right: 25px;
   ::-webkit-scrollbar {
     width: 7px;
   }
@@ -204,7 +228,7 @@ export const WrapScroll = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
-  padding: 15px 25px;
+  padding: 15px 25px 0 25px;
   justify-content: space-between;
 `;
 interface Props {
@@ -219,7 +243,7 @@ export const SideDrawer = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
-  max-width: 320px;
+  max-width: 40%;
   width: 100%;
   height: 100%;
   background-color: #ffffff;
@@ -234,6 +258,7 @@ export const WrapButton = styled.div`
   align-items: flex-end;
   justify-content: center;
   width: 100%;
+  margin: 35px 0;
 `;
 
 export const WrapInfoBox = styled.div``;
@@ -247,12 +272,27 @@ export const WrapDefault = styled.div`
   height: 100%;
   width: 100%;
   & > img {
-    width: 30%;
+    width: 25%;
     height: 50%;
+    min-width: 200px;
+    min-height: 200px;
+    max-width: 360px;
+    max-height: 320px;
   }
   & > span {
     margin-top: 30px;
     font-size: 18px;
     color: #223367;
+    text-align: center;
+  }
+  @media (max-width: ${device.mobile}) {
+    & > img {
+      width: 50%;
+      height: 50%;
+    }
+    & > span {
+      margin-top: 40px;
+      font-size: 16px;
+    }
   }
 `;
