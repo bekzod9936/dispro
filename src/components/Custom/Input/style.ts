@@ -72,7 +72,6 @@ export const Container = styled.div`
 `;
 
 export const MInput = styled(TextField)`
-  background-color: yellow !important;
   box-shadow: ${({ inputStyle }: Props) =>
     inputStyle?.shadow ? inputStyle?.shadow : null};
   .MuiInput-underline:before,
@@ -116,6 +115,8 @@ export const MInput = styled(TextField)`
       inputStyle?.placeholdercolor} !important;
   }
   .MuiInputBase-input {
+    display: flex !important;
+    align-items: center !important;
     border-radius: ${({ inputStyle }: Props) =>
       inputStyle?.radius ? `${inputStyle?.radius}px` : '14px'} !important;
     height: ${({ inputStyle }: Props) =>
@@ -135,7 +136,6 @@ export const MInput = styled(TextField)`
       inputStyle?.color ? inputStyle?.color : '#223367'} !important;
     padding: ${({ inputStyle }: Props) =>
       inputStyle?.inpadding ? inputStyle?.inpadding : '0 20px'} !important;
-    background-color: red !important;
   }
   @media (max-width: ${device.mobile}) {
     .MuiInputBase-input {
