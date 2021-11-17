@@ -72,7 +72,7 @@ export const Th = styled.th`
     font-size: 14px;
     padding: 6px;
   }
-  color: '#a5a5a5';
+  color: #A5A5A5;
   border-radius: 14px 14px 0 0;
 `;
 
