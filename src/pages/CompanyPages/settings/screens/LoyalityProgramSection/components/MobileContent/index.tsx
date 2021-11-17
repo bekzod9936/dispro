@@ -1,7 +1,7 @@
-import { Container, Row, Col, Title, Text } from "./style";
+import { Container, Row, Col, Title, Text, EText } from "./style";
 import { Break, SpinnerDiv } from "pages/CompanyPages/settings/styles";
 //actions
-import { handleClick, handleModal } from "services/redux/Slices/settingsSlice";
+import { handleClick } from "services/redux/Slices/settingsSlice";
 //components
 import SettingButton from "pages/CompanyPages/settings/components/SettingButton";
 import CustomToggle from "components/Custom/CustomToggleSwitch";
@@ -13,12 +13,14 @@ import CashbackModel from "./main_model";
 //hooks
 import useMobileContent from "./useMobileContent";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
+import { useTranslation } from "react-i18next";
 
 interface IProps {
   isLoading: boolean;
 }
 
 const MobileContent = ({ isLoading }: IProps) => {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { handleCheck } = useMobileContent();
   const openCashback = useAppSelector((state) => state.settings.openState);
@@ -26,6 +28,9 @@ const MobileContent = ({ isLoading }: IProps) => {
   const saleCheck = useAppSelector((state) => state.settings.saleCheck);
   const ballCheck = useAppSelector((state) => state.settings.ballCheck);
   const openModal = useAppSelector((state) => state.settings.openModal);
+  const emptySale = useAppSelector((state) => state.settings.emptySale);
+  const emptyBall = useAppSelector((state) => state.settings.emptyBall);
+  const emptyCashback = useAppSelector((state) => state.settings.emptyCashback);
 
   if (isLoading) {
     <SpinnerDiv>
@@ -54,10 +59,15 @@ const MobileContent = ({ isLoading }: IProps) => {
         />
       </Row>
       <Break height={10} />
+      {emptySale && saleCheck && <EText>{t("configure_setting_error")}</EText>}
+
+      <Break height={10} />
       {saleCheck && (
         <SettingButton
           text={"Настроить"}
-          onClick={() => dispatch(handleClick({ type: "other", open: true }))}
+          onClick={() =>
+            dispatch(handleClick({ type: "discount", open: true }))
+          }
         />
       )}
       <Break height={25} />
@@ -81,6 +91,10 @@ const MobileContent = ({ isLoading }: IProps) => {
         />
       </Row>
       <Break height={10} />
+      {emptyCashback && cashbackCheck && (
+        <EText>{t("configure_setting_error")}</EText>
+      )}
+      <Break height={10} />
       {cashbackCheck && (
         <SettingButton
           text={"Настроить"}
@@ -103,7 +117,6 @@ const MobileContent = ({ isLoading }: IProps) => {
           disabled={ballCheck}
           checked={ballCheck}
           onChange={(e: any) => {
-            dispatch(handleModal(e.target.checked));
             handleCheck({
               checked: e.target.checked,
               type: "bonuspoint",
@@ -112,10 +125,14 @@ const MobileContent = ({ isLoading }: IProps) => {
         />
       </Row>
       <Break height={10} />
+      {emptyBall && ballCheck && <EText>{t("configure_setting_error")}</EText>}
+      <Break height={10} />
       {ballCheck && (
         <SettingButton
           text={"Настроить"}
-          onClick={() => dispatch(handleClick({ type: "other", open: true }))}
+          onClick={() =>
+            dispatch(handleClick({ type: "bonuspoint", open: true }))
+          }
         />
       )}
 

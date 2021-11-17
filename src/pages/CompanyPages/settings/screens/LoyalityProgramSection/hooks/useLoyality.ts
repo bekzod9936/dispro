@@ -115,10 +115,6 @@ const useLoyality = () => {
     saveUseProgramLoyality(data)
   );
 
-  console.log(emptyDiscount, "empty Discount");
-  console.log(emptyCashback, "empty Cashback");
-  console.log(emptyBonuspoint, "empty bonuspoint");
-
   const loayalityPut = useMutation(
     (data: any) => {
       if (emptyBonuspoint.empty && emptyBonuspoint.type === "bonuspoint") {
@@ -266,9 +262,6 @@ const useLoyality = () => {
   };
 
   const onFormSubmit = async (data: FormProps) => {
-    console.log(data, "data");
-    console.log(activeCheck, "1111 active check main");
-
     if (!checkLevels(data.levels, data.base_name, data.base_percent)) {
       try {
         useProgramSave.mutate({

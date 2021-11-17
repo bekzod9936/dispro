@@ -23,7 +23,7 @@ const initialState: IsettingsSlice = {
     base_name: "",
   },
   openState: {
-    type: "other",
+    type: "discount",
     open: false,
   },
   openM: false,

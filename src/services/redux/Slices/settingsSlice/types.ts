@@ -6,6 +6,6 @@ export interface IBaseLoyality {
 }
 
 export interface IOpenState {
-  type: "cashback" | "other";
+  type: "cashback" | "bonuspoint" | "discount";
   open: boolean;
 }
