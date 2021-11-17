@@ -9,6 +9,10 @@ interface IsettingsSlice {
   ballCheck: boolean;
   cashbackCheck: boolean;
   saleCheck: boolean;
+  openModal: boolean;
+  emptyCashback: boolean;
+  emptyBall: boolean;
+  emptySale: boolean;
 }
 const initialState: IsettingsSlice = {
   loyalty: "loyal",
@@ -28,6 +32,10 @@ const initialState: IsettingsSlice = {
   ballCheck: false,
   cashbackCheck: false,
   saleCheck: false,
+  openModal: false,
+  emptyCashback: true,
+  emptyBall: true,
+  emptySale: true,
 };
 
 const settingsSlice = createSlice({
@@ -55,6 +63,18 @@ const settingsSlice = createSlice({
     setSaleCheck: (state, action: PayloadAction<boolean>) => {
       state.saleCheck = action.payload;
     },
+    handleModal: (state, action: PayloadAction<boolean>) => {
+      state.openModal = action.payload;
+    },
+    setMEmptyCashback: (state, action: PayloadAction<boolean>) => {
+      state.emptyCashback = action.payload;
+    },
+    setMEmptyBall: (state, action: PayloadAction<boolean>) => {
+      state.emptyBall = action.payload;
+    },
+    setMEmptySale: (state, action: PayloadAction<boolean>) => {
+      state.emptySale = action.payload;
+    },
   },
 });
 
@@ -66,5 +86,9 @@ export const {
   setBallCheck,
   setCashbackCheck,
   setSaleCheck,
+  handleModal,
+  setMEmptyCashback,
+  setMEmptyBall,
+  setMEmptySale,
 } = settingsSlice.actions;
 export default settingsSlice.reducer;

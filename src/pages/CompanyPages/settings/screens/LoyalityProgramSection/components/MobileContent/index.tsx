@@ -1,23 +1,37 @@
 import { Container, Row, Col, Title, Text } from "./style";
-import { Break } from "pages/CompanyPages/settings/styles";
+import { Break, SpinnerDiv } from "pages/CompanyPages/settings/styles";
+//actions
+import { handleClick, handleModal } from "services/redux/Slices/settingsSlice";
 //components
 import SettingButton from "pages/CompanyPages/settings/components/SettingButton";
 import CustomToggle from "components/Custom/CustomToggleSwitch";
-//hooks
-import useMobileContent from "./useMobileContent";
+import Spinner from "components/Helpers/Spinner";
+import ChangeLoyality from "./change_loyality";
+import Modal from "components/Custom/Modal";
 import FullModal from "components/Custom/FullModal";
 import CashbackModel from "./main_model";
+//hooks
+import useMobileContent from "./useMobileContent";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
-import { handleClick } from "services/redux/Slices/settingsSlice";
 
-const MobileContent = () => {
+interface IProps {
+  isLoading: boolean;
+}
+
+const MobileContent = ({ isLoading }: IProps) => {
   const dispatch = useAppDispatch();
   const { handleCheck } = useMobileContent();
   const openCashback = useAppSelector((state) => state.settings.openState);
   const cashbackCheck = useAppSelector((state) => state.settings.cashbackCheck);
   const saleCheck = useAppSelector((state) => state.settings.saleCheck);
   const ballCheck = useAppSelector((state) => state.settings.ballCheck);
+  const openModal = useAppSelector((state) => state.settings.openModal);
 
+  if (isLoading) {
+    <SpinnerDiv>
+      <Spinner />
+    </SpinnerDiv>;
+  }
   return (
     <Container>
       <Row>
@@ -89,6 +103,7 @@ const MobileContent = () => {
           disabled={ballCheck}
           checked={ballCheck}
           onChange={(e: any) => {
+            dispatch(handleModal(e.target.checked));
             handleCheck({
               checked: e.target.checked,
               type: "bonuspoint",
@@ -103,9 +118,15 @@ const MobileContent = () => {
           onClick={() => dispatch(handleClick({ type: "other", open: true }))}
         />
       )}
+
+      {/* add requirement modal */}
       <FullModal open={openCashback.open}>
         <CashbackModel />
       </FullModal>
+      {/* change loayality action  */}
+      <Modal open={openModal}>
+        <ChangeLoyality />
+      </Modal>
     </Container>
   );
 };
