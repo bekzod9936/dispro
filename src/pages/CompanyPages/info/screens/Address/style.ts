@@ -37,6 +37,13 @@ export const DeleteIcon = styled(Delete)``;
 
 export const PlusIcon = styled(Plus)`
   margin-right: 15px;
+  width: 22px;
+  height: 22px;
+  @media (max-width: ${device.mobile}) {
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+  }
 `;
 
 export const CloseIcon = styled(Close)`
@@ -51,6 +58,11 @@ export const SearchIcon = styled(Search)`
     width: 28px;
     height: 28px;
     margin-left: 30px;
+  }
+  @media (max-width: ${device.mobile}) {
+    width: 18px;
+    height: 18px;
+    margin-left: 15px;
   }
 `;
 
@@ -219,7 +231,7 @@ export const AddressInfo = styled.div`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
   border-radius: 14px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   padding: 15px;
   margin: 0 0 20px;
@@ -236,24 +248,48 @@ export const Text1 = styled.div`
   font-weight: normal;
   font-size: 16px;
   color: #223367;
+
   @media (max-width: ${device.mobile}) {
     font-size: 16px;
   }
 `;
 
-export const Left = styled.div``;
+export const Left = styled.div`
+  width: 60%;
+  @media (max-width: ${device.mobile}) {
+    width: 100%;
+  }
+`;
 
 export const Right = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  grid-row-gap: 7px;
+  flex: 1;
+  height: 100%;
+  @media (max-width: ${device.mobile}) {
+    flex-direction: row;
+    grid-column-gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
 `;
 
 export const Number = styled.div`
   font-weight: normal;
   font-size: 14px;
   color: #223367;
+  align-self: center;
+  width: 100%;
+  text-align: end;
+  @media (max-width: ${device.mobile}) {
+    width: fit-content;
+    align-self: flex-start;
+  }
 `;
 
 export const AddWrap = styled.div`
@@ -294,7 +330,7 @@ export const AddWrap = styled.div`
 
       ::-webkit-scrollbar-thumb {
         background: transparent;
-        border-radius: 14px;
+        border-radius: 14px 0 0 14px;
       }
     }
   }
@@ -310,6 +346,7 @@ export const ButtonsWrap = styled.div`
     border-top: 1px solid rgba(96, 110, 234, 0.3);
     margin-top: 20px;
     max-height: 65px;
+    display: none;
   }
 `;
 
@@ -356,5 +393,26 @@ export const Message = styled.div`
   @media (min-width: ${device.laptop}) {
     font-size: 16px;
     margin-top: 5px;
+  }
+`;
+
+export const DownSide = styled.div`
+  display: none;
+  @media (max-width: ${device.mobile}) {
+    display: flex;
+    background-color: white;
+    min-height: 65px;
+    border-top: 1px solid rgba(96, 110, 234, 0.3);
+    & > div {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      height: 100%;
+      justify-content: center;
+      grid-gap: 10px;
+      overflow: hidden !important;
+      min-height: 65px;
+      padding: 0 15px;
+    }
   }
 `;
