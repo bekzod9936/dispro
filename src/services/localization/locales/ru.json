@@ -470,5 +470,14 @@
   "sortnewclients": "Прирост новых клиентов",
   "therewillbeahistoryofcashiers": "Тут будет находиться история по кассирам",
   "notification1": " уведомления",
-  "notification23": "уведомлений"
+  "notification23": "уведомлений",
+  "cancellation": "Отмена",
+  "warningBeforeSubstractionPoints": "Клиент будет проинформирован о списании баллов push-уведомлением",
+  "selectedClients": "Выбрано клиентов",
+  "individualStatus": "Индивидуальный статус",
+  "turnOffVipStatus": "Отключить VIP статус",
+  "areYouSureAboutTurnOffIndividualPercent": "Вы действительно хотите отключить индивидуальный статус?",
+  "infoAboutTurnOffingIndividualStatus": "При отключении, индивидуальный статус сменится на стандартный статус, согласно программе лояльности",
+  "currentStatus": "Текущий статус",
+  "standartStatus": "Стандартный статус"
 }
