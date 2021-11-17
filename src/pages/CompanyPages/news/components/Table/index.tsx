@@ -147,15 +147,16 @@ const Table = ({ data, header2 }: Props) => {
                       <AgeData>
                           {ageUnlimeted ?'' :<h4>{ageFrom + "+"}</h4>}
                           {PushUp ?<h3><ToolTip>{'Push-up'}<ToolTipText><p style={{lineHeight:'21px',color:'#223367',fontSize: '18px',fontWeight:300}}>{`Уведомлений получили:${' '+stat?.get?.total+' '}чел.`}</p>
-                          <p style={{lineHeight:'21px',color:'#223367',fontSize: '18px',fontWeight:300,padding:'5px'}}>{`Уведомлений просмотрели:${' '+stat?.view?.total+' '}чел.`}
-                          <br/><span style={{color:'#606EEA',padding:'20px'}}>{`${' '+stat?.view?.male+' '} Муж`}</span>
+                           <p style={{lineHeight:'21px',color:'#223367',fontSize: '18px',fontWeight:300}}>{`Уведомлений просмотрели:${' '+stat?.view?.total+' '}чел.`}
+                          <br/>
+                          <span style={{color:'#606EEA',padding:'5px'}}>{`${' '+stat?.view?.male+' '} Муж`}</span>
                           <span style={{color:'#FF56BB'}}>{`${' '+stat?.view?.female+' '} Жен`}</span>
                           </p>
                           <p style={{lineHeight:'21px',color:'#223367',fontSize: '18px',fontWeight:300}}>{`Произвели оплату:${' '+stat?.paid?.total+' '}чел.`}
                           <br/>
-                          <span style={{color:'#606EEA',padding:'20px'}}>{`${' '+stat?.paid?.male+' '} Муж`}</span>
+                          <span style={{color:'#606EEA',padding:'5px'}}>{`${' '+stat?.paid?.male+' '} Муж`}</span>
                           <span style={{color:'#FF56BB'}}>{`${' '+stat?.paid?.female+' '} Жен`}</span>
-                          </p>
+                          </p> 
                           </ToolTipText></ToolTip></h3>:''}
                         </AgeData>
                         {cell.render("Cell")}

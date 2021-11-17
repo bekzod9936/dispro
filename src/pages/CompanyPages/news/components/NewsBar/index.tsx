@@ -102,7 +102,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
   return (
     <Wrapper>
       <Header>
-        <h6>{currentNews?.data?.title}</h6>
+        <h6>{'Новости'}</h6>
         <CloseIcon onClick={onClose} style={{ cursor: "pointer" }} />
       </Header>
       {/* <Preview> */}
@@ -129,13 +129,14 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
           <p>Возрастное ограничения: {currentNews?.data?.ageFrom}+</p>
         </ContentInfo>
         <ContentButton>
-          {location.pathname !== "/news/archive" &&location.pathname !== "/news" &&(
+          {location.pathname === "/news/waiting"  &&(
             <div
               style={{
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "flex-end",
+                marginBottom:'10px',
               }}
             >
               <Button
@@ -157,13 +158,16 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
                 flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "flex-end",
+                marginBottom:'10px',
+            
               }}
             >
               <Button
                 onClick={() => showNewsDetail()}
                 buttonStyle={{
-                  color: "#606EEA",
-                  bgcolor: " rgba(96,110,234,0.1)",
+                  color: "#fff",
+                  bgcolor: "#606EEA",
+                  
                 }}
                 startIcon={<WatchIcons />}
               >
