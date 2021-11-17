@@ -66,12 +66,9 @@ import Popover from 'components/Custom/Popover';
 import Modal from 'components/Custom/Modal';
 import useCashiers from '../../hooks/useCashiers';
 import { CancelIcon } from 'assets/icons/ClientsPageIcons/ClientIcons';
-import {
-	setOpenEditCashier,
-	setCashierId,
-	setSelectedCashiers,
-} from 'services/redux/Slices/staffs';
 import EditCashier from '../../screens/CashierScreen/components/EditCashier';
+import { setStaffData, setOpenEditCashier } from 'services/redux/Slices/staffs';
+import CustomSelectPopoverComponent from 'components/Custom/CustomSelectPopoverComponent';
 
 const CashierBalls = lazy(() => import('./screens/CashierBalls'));
 const CashierFeedback = lazy(() => import('./screens/CashierFeedback'));
@@ -83,11 +80,11 @@ const CashierCard = () => {
 	const { t } = useTranslation();
 	const { pathname, state }: any = useLocation();
 	const { menuItems } = useStaffRoute();
-	const { isLoading, openQr, setOpenQr } = useCashierCard();
-	const { staffData, cashierId } = useAppSelector((state) => state.staffs);
+	const { isLoading, openQr, setOpenQr, handleOption } = useCashierCard();
+	const { staffData } = useAppSelector((state) => state.staffs);
 	const prevPage: any = state?.prevPage || '/staff';
+	const cashierId: any = state?.id;
 	const [closeFun, setCloseFun] = useState<any>();
-
 	const openEdit = useAppSelector((state) => state.staffs.openEditCashier);
 
 	const { deleteCashier, open, setOpen } = useCashiers({
@@ -95,10 +92,6 @@ const CashierCard = () => {
 		query: '',
 		period: '',
 	});
-
-	const selectedCashiers = useAppSelector(
-		(state) => state.staffs.selectedCashiers
-	);
 
 	const getStoreName = (storeId: any) => {
 		let branch: any = '';
@@ -110,7 +103,6 @@ const CashierCard = () => {
 
 		return branch;
 	};
-
 	const renderData = () => {
 		if (isLoading) {
 			return (
@@ -302,6 +294,7 @@ const CashierCard = () => {
 										<Edit
 											onClick={() => {
 												dispatch(setOpenEditCashier(true));
+												closeFun?.close();
 											}}
 										>
 											{t('edit')}
@@ -309,6 +302,7 @@ const CashierCard = () => {
 										<Delete
 											onClick={() => {
 												setOpen(true);
+												closeFun?.close();
 											}}
 										>
 											{t('delete')}
@@ -352,27 +346,7 @@ const CashierCard = () => {
 					<ModalBody>
 						<BarTitle>Вы уверены что хотите удалить кассира?</BarTitle>
 						<Break height={15} />
-						{selectedCashiers.length > 1
-							? selectedCashiers.map((item: any, index: number) => {
-									return (
-										<ButtonKeyWord key={index}>
-											{item?.firstName}
-											<IconButton
-												onClick={() => {
-													let filteredItem = selectedCashiers?.filter(
-														(it: any) => it.id !== item.id
-													);
-													dispatch(setSelectedCashiers(filteredItem));
-												}}
-											>
-												<DeleteIc color='#C4C4C4' />
-											</IconButton>
-										</ButtonKeyWord>
-									);
-							  })
-							: selectedCashiers.map((item: any) => {
-									return <BarText>{item?.firstName}</BarText>;
-							  })}
+						<BarText>{staffData?.firstName}</BarText>
 					</ModalBody>
 					<Break height={35} />
 					<ModalAction>
@@ -395,9 +369,7 @@ const CashierCard = () => {
 							}}
 							disabled={deleteCashier.isLoading}
 							onClick={() => {
-								deleteCashier.mutate(
-									selectedCashiers.map((item: any) => item.id)
-								);
+								deleteCashier.mutate(cashierId);
 							}}
 							startIcon={<DeleteWhiteIcon />}
 						>

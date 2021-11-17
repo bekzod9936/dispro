@@ -67,7 +67,7 @@ const CreateManager = ({ openManager }: IProps) => {
 			firstName: data.firstName,
 			lastName: data.lastName,
 			storeId: data.storeId?.value,
-			telNumber: data.telNumber,
+			telNumber: `+998${data.telNumber}`,
 			roleId: 2,
 		});
 	};

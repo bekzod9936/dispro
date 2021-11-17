@@ -1,4 +1,3 @@
-import id from "date-fns/locale/id";
 import partnerApi from "services/interceptors/companyInterceptor";
 
 //cashiers tab

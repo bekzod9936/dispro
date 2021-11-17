@@ -4,7 +4,7 @@ import { Container, NoData, NoDataText, WrapPag, Info } from './style';
 // import { headers } from './headers';
 import { ReactComponent as CashierDataPoints } from 'assets/images/cashierDataPoints.svg';
 import { useTranslation } from 'react-i18next';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import Pagination from 'components/Custom/Pagination';
 import { useAppSelector } from 'services/redux/hooks';
 import useBallTable from './useBallTable';
@@ -42,7 +42,7 @@ const BallTable = () => {
 	});
 
 	const list = data.map((item: any, id: number) => {
-		const date = moment(item.date).format('DD.MM.YYYY');
+		const date = dayjs(item.date).format('DD.MM.YYYY');
 		return {
 			col1: id + 1,
 			col2: date,

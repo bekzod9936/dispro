@@ -227,9 +227,12 @@ export const SelectWrap = styled.div`
     color: #ff5e68;
   }
 `;
-export const Edit = styled.div``;
+export const Edit = styled.div`
+cursor: pointer;
+`;
 
-export const Delete = styled.div``;
+export const Delete = styled.div`
+cursor: pointer;`;
 
 export const ModalContent = styled.div`
   padding: 30px 40px;
