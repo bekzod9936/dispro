@@ -11,6 +11,7 @@ export const Row = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  width: 100%;
 `;
 export const Col = styled.div`
   flex: 1;
@@ -73,6 +74,56 @@ export const Column = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: 5px;
   justify-content: center;
+  margin-top: 20px;
+`;
+
+interface IModal {
+  gap?: number;
+}
+
+export const ModalContent = styled.div`
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: ${({ gap = 20 }: IModal) => gap + "px"};
+  padding: 20px 15px;
+`;
+
+interface IContent {
+  jContent?: "flex-start" | "flex-end" | "center";
+  aContent?: "flex-start" | "flex-end" | "center";
+  direction?: "row" | "column";
+}
+
+export const MRow = styled.div`
+  width: 100%;
+  display: flex;
+  gap: 15px;
+  flex-direction: ${({ direction = "row" }: IContent) => direction};
+  justify-content: ${({ jContent }: IContent) => jContent};
+  align-items: ${({ aContent }: IContent) => aContent};
+`;
+
+export const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 100%;
+`;
+
+export const Footer = styled.footer`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const ModalTitle = styled.p`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  color: #223367;
 `;

@@ -70,10 +70,10 @@ const CreateNews = () => {
   const newsData = selectedNews?.fullData?.data;
 
   const startDate = dayjs(newsData?.startLifeTime).format(
-    "DD/MM/YYYY"
+    "YYYY-MM-DD"
   );
   const endDate = dayjs(newsData?.endLifeTime).format(
-    "DD/MM/YYYY"
+    "YYYY-MM-DD"
   );
   
   const { branches } = useStaff();
@@ -207,29 +207,36 @@ const CreateNews = () => {
               />
 
               <WrapInputs>
-                <Label>{t("chose_date")}</Label>
+              <Label>{t("chose_date")}</Label>
                 <div>
                   <Input
+                    type="date"
                     width={{
                       maxwidth: 200,
                     }}
+            
+                   value={startDate}
                     IconStart={<WrapDate>{t("from")}</WrapDate>}
                     inputStyle={{
                       inpadding: "0 10px 0 0",
                     }}
-                    value={startDate}
+                    defaultValue={startDate}
                   />
                   <Input
+                    type="date"
+                    defaultValue={endDate}
+                   
                     width={{
                       maxwidth: 200,
                     }}
-                    required={true}
+              
+                    value={startDate}
                     margin={{ laptop: "0 0 0 15px" }}
                     IconStart={<WrapDate>{t("to")}</WrapDate>}
                     inputStyle={{
                       inpadding: "0 10px 0 0",
                     }}
-                    value={endDate}
+                  
                   />
                 </div>
               </WrapInputs>

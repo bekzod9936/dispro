@@ -88,7 +88,7 @@ const Active = () => {
             {data.length > 0 ? (
               <Table  data={list} />
             ) : (
-              <div style={{ paddingRight: "20%", paddingTop: "10%" }}>
+              <div style={{ paddingRight: "20%", paddingTop: "5%" }}>
                 <NoNews handleOpenSetting={handleOpenSetting} />
               </div>
             )}

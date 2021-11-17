@@ -124,7 +124,7 @@ const Payment = () => {
           : '-',
       col9:
         v.payInfo.isCoupon && v.payInfo.valueType === 'percent'
-          ? numberWithNew({ number: v.payInfo.value })
+          ? `${numberWithNew({ number: v.payInfo.value })}%`
           : '-',
       col10:
         v.payInfo.isCoupon && v.payInfo.valueType === 'amount'
@@ -173,7 +173,7 @@ const Payment = () => {
           title: t('coupon'),
           value:
             v.payInfo.isCoupon && v.payInfo.valueType === 'percent'
-              ? numberWithNew({ number: v.payInfo.value })
+              ? `${numberWithNew({ number: v.payInfo.value })}%`
               : '-',
         },
         {
@@ -390,6 +390,8 @@ const Payment = () => {
     resExcel.refetch();
   };
 
+  console.log(total.count, 'total count');
+
   const filterselectvalue =
     dateLimit?.startDate !== '' && dateLimit?.endDate !== '' ? (
       <ButtonKeyWord
@@ -433,11 +435,6 @@ const Payment = () => {
     <Container>
       {response.isLoading ? (
         <Spinner />
-      ) : data.length === 0 ? (
-        <WrapDef>
-          <Img src={financeCashierDef} alt='finance' />
-          <TitleDef>{t('therewillbeahistoryofcashiers')}</TitleDef>
-        </WrapDef>
       ) : (
         <>
           <WrapFilter>
@@ -511,6 +508,11 @@ const Payment = () => {
           ) : null}
           {response.isLoading || response.isFetching ? (
             <Spinner />
+          ) : data.length === 0 ? (
+            <WrapDef>
+              <Img src={financeCashierDef} alt='finance' />
+              <TitleDef>{t('therewillbeahistoryofcashiers')}</TitleDef>
+            </WrapDef>
           ) : width > 600 ? (
             <Table header2={header2} columns={columns} data={listdesktop} />
           ) : (
@@ -523,25 +525,27 @@ const Payment = () => {
               isAvatar={true}
             />
           )}
-          <WrapPag>
-            <Info>
-              {t('shown')}
-              <span>{between}</span>
-              {t('from1')} <span>{total.pages}</span>
-              {countPagination({
-                count: Number(total.count),
-                firstWord: t('operations1'),
-                secondWord: t('operations23'),
-              })}
-            </Info>
-            <Pagination
-              page={filterValues.page}
-              count={total.count}
-              onChange={handlechangePage}
-              disabled={response.isLoading || response.isFetching}
-              siblingCount={0}
-            />
-          </WrapPag>
+          {data.length === 0 ? null : (
+            <WrapPag>
+              <Info>
+                {t('shown')}
+                <span>{between}</span>
+                {t('from1')} <span>{total.pages}</span>
+                {countPagination({
+                  count: Number(total.pages),
+                  firstWord: t('operations1'),
+                  secondWord: t('operations23'),
+                })}
+              </Info>
+              <Pagination
+                page={filterValues.page}
+                count={total.count}
+                onChange={handlechangePage}
+                disabled={response.isLoading || response.isFetching}
+                siblingCount={0}
+              />
+            </WrapPag>
+          )}
         </>
       )}
     </Container>

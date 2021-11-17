@@ -13,45 +13,59 @@ import { SideBar } from '../../components/SideBar';
 import { useAppSelector } from 'services/redux/hooks';
 import { useWindowSize } from '../../hooks/useWindowSize';
 import { DownBar } from '../../components/DownBar';
-import { Form } from '../../components/Form';
+import { useMutation } from 'react-query';
+import { fetchQrCode } from 'services/queries/clientsQuery';
+import FullModal from 'components/Custom/FullModal';
 import { MobileQrBar } from '../../components/MobileQrBar';
-import { useMutation, useQuery } from 'react-query';
-import { fetchPersonalInfo } from 'services/queries/clientsQuery';
-
-
-
+import { DownBarViewer } from '../../components/DownBarViewer';
+import { MobileForm } from '../../components/Form';
+export interface IMobileForm {
+	open: boolean,
+	action: 1 | 2 | 3
+}
 const ClientsPage = () => {
 	const [query, setQuery] = useState<string>('')
 	const [debouncedQuery] = useDebounce(query, 300)
-	const { totalCount, selectedClients, qrCodeBar } = useAppSelector(state => state.clients)
+	const { totalCount, selectedClients } = useAppSelector(state => state.clients)
+	const client = selectedClients[0]
 	const { width } = useWindowSize()
-	const [form, setForm] = useState({
-		action: 1,
-		isOpen: false
+	const [modals, setModals] = useState({
+		qrModal: false,
+		downBar: false,
 	})
+	const [form, setForm] = useState<IMobileForm>({
+		open: false,
+		action: 1
+	})
+	const [qr, setQr] = useState({
+		link: "",
+		code: ""
+	})
+
 	const { refetch, isFetching } = useFetchClients({ query: debouncedQuery });
 
+	const { mutate } = useMutation(() => fetchQrCode(), {
+		retry: 0,
+		onSuccess: (data) => {
+			setQr({
+				link: data.data.data.dynLinkToken,
+				code: data.data.data.token
+			})
+		}
+	})
+
+	useEffect(() => {
+		mutate()
+	}, [])
 
 	return (
 		<MainWrapper isRelative={width > 600}>
 			{width <= 600 &&
-				<>
-					<Form
-						clientInfo={{
-							name: selectedClients[0]?.firstName + " " + selectedClients[0]?.lastName,
-							percent: selectedClients[0]?.personalLoyaltyInfo.percent,
-							points: selectedClients[0]?.addInfo.pointSum + "",
-							status: selectedClients[0]?.addInfo?.status,
-							id: selectedClients[0]?.id
-						}}
-						refetch={refetch}
-						action={form.action}
-						isOpen={form.isOpen}
-						handleClose={setForm} />
-					<MobileQrBar />
-				</>}
+				<FullModal open={modals.qrModal}>
+					<MobileQrBar link={qr.link} code={qr.code} handleClose={() => setModals((prev: any) => ({ ...prev, qrModal: false }))} />
+				</FullModal>}
 			<Container>
-				<Header setQuery={setQuery} query={query} />
+				<Header setQuery={setQuery} query={query} setModals={setModals} />
 				<Wrap>
 					{isFetching ? (
 						<Spinner />
@@ -62,15 +76,41 @@ const ClientsPage = () => {
 						&& <Footer query={query} />)}
 				</Wrap>
 				{width > 600 ? <>
-					<SideBar isOpen={qrCodeBar}>
-						<QrCodeBar />
+					<SideBar isOpen={modals.qrModal}>
+						<QrCodeBar
+							onClose={() => setModals((prev: any) => ({ ...prev, qrModal: false }))}
+							link={qr.link}
+							code={qr.code} />
 					</SideBar>
 					<SideBar isOpen={!isFetching && !!selectedClients.length}>
 						<ClientsBar
 							refetch={refetch} />
 					</SideBar>
 				</> :
-					<DownBar setForm={setForm} />}
+					<>
+						{!isFetching && <DownBarViewer setModals={setModals} />}
+						{!isFetching &&
+							<DownBar
+								refetch={refetch}
+								setForm={setForm}
+								setModals={setModals}
+								open={modals.downBar} />}
+						{client &&
+							<MobileForm
+								client={{
+									name: client.firstName + " " + client.lastName,
+									points: client.addInfo.pointSum,
+									percent: client.personalLoyaltyInfo.isActive ? client.personalLoyaltyInfo.percent : client.obtainProgramLoyalty.percent,
+									currentStatus: client.personalLoyaltyInfo.isActive ? client.addInfo.status : client.obtainProgramLoyalty.levelName,
+									prevPercent: client.obtainProgramLoyalty.percent,
+									prevStatus: client.obtainProgramLoyalty.levelName,
+									id: client.id
+								}}
+								open={form.open}
+								action={form.action}
+								onClose={() => setForm((prev: any) => ({ ...prev, open: false }))} />}
+
+					</>}
 			</Container>
 		</MainWrapper>
 	);

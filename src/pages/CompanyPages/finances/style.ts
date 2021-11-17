@@ -56,7 +56,6 @@ export const TotalSum = styled.div`
   min-width: 200px;
   padding-left: 20px;
   @media (min-width: ${device.laptop}) {
-    margin: 10px 0;
     height: 50px;
     font-size: 28px;
   }

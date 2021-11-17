@@ -16,7 +16,15 @@ import {
 } from "services/queries/settingsQuery";
 import { parseSimpleString } from "services/utils";
 import { useAppDispatch } from "services/redux/hooks";
-import { setBaseLoyality } from "services/redux/Slices/settingsSlice";
+import {
+  setBallCheck,
+  setBaseLoyality,
+  setCashbackCheck,
+  setMEmptyCashback,
+  setSaleCheck,
+  setMEmptyBall,
+  setMEmptySale,
+} from "services/redux/Slices/settingsSlice";
 import { useTranslation } from "react-i18next";
 import { levelReqs } from "../constants";
 
@@ -106,10 +114,6 @@ const useLoyality = () => {
   const useProgramSave = useMutation((data: any) =>
     saveUseProgramLoyality(data)
   );
-
-  console.log(emptyDiscount, "empty Discount");
-  console.log(emptyCashback, "empty Cashback");
-  console.log(emptyBonuspoint, "empty bonuspoint");
 
   const loayalityPut = useMutation(
     (data: any) => {
@@ -258,9 +262,6 @@ const useLoyality = () => {
   };
 
   const onFormSubmit = async (data: FormProps) => {
-    console.log(data, "data");
-    console.log(activeCheck, "1111 active check main");
-
     if (!checkLevels(data.levels, data.base_name, data.base_percent)) {
       try {
         useProgramSave.mutate({
@@ -414,6 +415,7 @@ const useLoyality = () => {
           );
           reset();
         } else {
+          dispatch(setMEmptySale(false));
           if (data?.data?.data?.isActive) {
             setAvailCheck(true);
             setActive("discount");
@@ -422,8 +424,10 @@ const useLoyality = () => {
                 max_percent: data.data.data.maxAmount,
                 base_percent: data.data.data.percent,
                 give_cashback_after: data.data.data.cashbackReturnedDay,
+                base_name: data.data.data.name,
               })
             );
+            dispatch(setSaleCheck(true));
             setValue("max_percent", data.data.data.maxAmount);
             setValue("give_cashback_after", data.data.data.cashbackReturnedDay);
             setValue("base_name", data.data.data.name);
@@ -437,6 +441,7 @@ const useLoyality = () => {
                   max_percent: data.data.data.maxAmount,
                   base_percent: data.data.data.percent,
                   give_cashback_after: data.data.data.cashbackReturnedDay,
+                  base_name: data.data.data.name,
                 })
               );
               setValue("max_percent", data.data.data.maxAmount);
@@ -471,10 +476,12 @@ const useLoyality = () => {
               max_percent: "",
               base_percent: "",
               give_cashback_after: "",
+              base_name: "",
             })
           );
           reset();
         } else {
+          dispatch(setMEmptyCashback(false));
           if (data?.data?.data?.isActive) {
             setAvailCheck(true);
             setActive("cashback");
@@ -484,8 +491,10 @@ const useLoyality = () => {
                 max_percent: data.data.data.maxAmount,
                 base_percent: data.data.data.percent,
                 give_cashback_after: data.data.data.cashbackReturnedDay,
+                base_name: data.data.data.name,
               })
             );
+            dispatch(setCashbackCheck(true));
             setValue("give_cashback_after", data.data.data.cashbackReturnedDay);
             setValue("base_name", data.data.data.name);
             setValue("base_percent", data.data.data.percent);
@@ -498,6 +507,7 @@ const useLoyality = () => {
                   max_percent: data.data.data.maxAmount,
                   base_percent: data.data.data.percent,
                   give_cashback_after: data.data.data.cashbackReturnedDay,
+                  base_name: data.data.data.name,
                 })
               );
               setValue(
@@ -532,9 +542,11 @@ const useLoyality = () => {
               max_percent: "",
               base_percent: "",
               give_cashback_after: 0,
+              base_name: "",
             })
           );
         } else {
+          dispatch(setMEmptyBall(false));
           if (data?.data?.data?.isActive) {
             setAvailCheck(true);
             setActive("bonuspoint");
@@ -543,8 +555,10 @@ const useLoyality = () => {
                 max_percent: data.data.data.maxAmount,
                 base_percent: data.data.data.percent,
                 give_cashback_after: 0,
+                base_name: data.data.data.name,
               })
             );
+            dispatch(setBallCheck(true));
             setValue("max_percent", data.data.data.maxAmount);
             setValue("base_name", data.data.data.name);
             setValue("base_percent", data.data.data.percent);
@@ -556,6 +570,7 @@ const useLoyality = () => {
                   max_percent: data.data.data.maxAmount,
                   base_percent: data.data.data.percent,
                   give_cashback_after: 0,
+                  base_name: data.data.data.name,
                 })
               );
               setValue("max_percent", data.data.data.maxAmount);

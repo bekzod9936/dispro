@@ -41,6 +41,7 @@ export const Header = styled.div`
     margin-bottom: 15px;
     padding-top:25px;
     h6 {
+        font-weight:700;
         font-size: 18px;
         color: #223367;
         line-height: 21px;
@@ -48,7 +49,7 @@ export const Header = styled.div`
 `
 
 export const ContentInfo = styled.div`
-    margin: 20px 0;
+    margin: 50px 0;
  
     h5 {
         font-size: 16px;
@@ -69,6 +70,7 @@ export const ContentInfo = styled.div`
 `
 export const ContentButton=styled.div``
 export const ContentSideBar=styled.div`
+    flex:1;
     height: 50%;
     width: 100%;
     padding: 5px 5px;

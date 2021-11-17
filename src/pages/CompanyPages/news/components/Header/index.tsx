@@ -45,7 +45,7 @@ const Header = ({
           bgcolor: "#FFFFFF",
           color: "#223367",
           weight: 500,
-          height: { desktop: 60 },
+          height: { desktop: 50 },
         }}
         margin={{
           desktop: "0 25px 0 0",
@@ -59,16 +59,18 @@ const Header = ({
   
       <div style={{ width: "20px" }} />
       <Input
-        inputStyle={{ border: "none" }}
+        inputStyle={{ border: "none", height: { desktop: 50 }, }}
         IconStart={<SearchIcon style={{ marginLeft: 20 }} />}
         value={query}
         placeholder="Поиск по новостям"
         onChange={(e) => dispatch(setQuery(e.target.value))}
-        width={{ maxwidth: 700 }}
+        width={{ maxwidth: 500 }}
+    
       />
         <div style={{ width: "20px" }} />
-       {/* <div style={{height:'60px !important'}}>
+{location.pathname !=='/news/waiting' &&
           <DatePcker 
+        
         onChange={async (e: any) => {
           // await setFilterValues({
           //   ...filterValues,
@@ -78,8 +80,9 @@ const Header = ({
           // await response.refetch();
         }}
       />
-     </div> */}
+      }
     </Flex>
+      
   );
 };
 

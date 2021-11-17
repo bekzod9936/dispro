@@ -1,42 +1,62 @@
-import { useState } from "react";
-import { ICheck, ISetting } from "./type";
+import { ICheck } from "./type";
 //hooks
-import useLoyality from "../../hooks/useLoyality";
+// import useLoyality from "../../hooks/useLoyality";
+import { useAppDispatch, useAppSelector } from "services/redux/hooks";
+import {
+  handleModal,
+  setBallCheck,
+  setCashbackCheck,
+  setSaleCheck,
+} from "services/redux/Slices/settingsSlice";
 
 const useMobileContent = () => {
-  const {} = useLoyality();
+  const dispatch = useAppDispatch();
+  const cashbackCheck = useAppSelector((state) => state.settings.cashbackCheck);
+  const saleCheck = useAppSelector((state) => state.settings.saleCheck);
+  const ballCheck = useAppSelector((state) => state.settings.ballCheck);
 
-  const [ballCheck, setBallCheck] = useState(false);
-  const [cashbackCheck, setCashbackCheck] = useState(false);
-  const [saleCheck, setSaleCheck] = useState(false);
+  const emptyCashbackCheck = useAppSelector(
+    (state) => state.settings.emptyCashback
+  );
+  const emptySaleCheck = useAppSelector((state) => state.settings.emptySale);
+  const emptyBallCheck = useAppSelector((state) => state.settings.emptyBall);
 
   const handleCheck = ({ checked, type }: ICheck) => {
     if (type === "bonuspoint") {
-      setBallCheck(checked);
-      if (checked) {
-        setCashbackCheck(!checked);
-        setSaleCheck(!checked);
+      if (ballCheck || emptyBallCheck) {
+        dispatch(setBallCheck(checked));
+        if (checked) {
+          dispatch(setCashbackCheck(!checked));
+          dispatch(setSaleCheck(!checked));
+        }
+      } else {
+        dispatch(handleModal(checked));
       }
     } else if (type === "cashback") {
-      setCashbackCheck(checked);
-      if (checked) {
-        setBallCheck(!checked);
-        setSaleCheck(!checked);
+      if (cashbackCheck || emptyCashbackCheck) {
+        dispatch(setCashbackCheck(checked));
+        if (checked) {
+          dispatch(setBallCheck(!checked));
+          dispatch(setSaleCheck(!checked));
+        }
+      } else {
+        dispatch(handleModal(checked));
       }
     } else if (type === "discount") {
-      setSaleCheck(checked);
-      if (checked) {
-        setBallCheck(!checked);
-        setCashbackCheck(!checked);
+      if (saleCheck || emptySaleCheck) {
+        dispatch(setSaleCheck(checked));
+        if (checked) {
+          dispatch(setBallCheck(!checked));
+          dispatch(setCashbackCheck(!checked));
+        }
+      } else {
+        dispatch(handleModal(checked));
       }
     }
   };
 
   return {
     // toggle state
-    ballCheck,
-    cashbackCheck,
-    saleCheck,
     handleCheck,
   };
 };

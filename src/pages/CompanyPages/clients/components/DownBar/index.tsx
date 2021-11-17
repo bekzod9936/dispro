@@ -1,146 +1,138 @@
-import { CloseIcon, CoinsIcon, MiniCloseIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
+import { CloseIcon, CoinsIcon, DoneIcon, MiniCloseIcon, RightArrowIcon, VioletCancelIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
 import Button from "components/Custom/Button";
 import CustomToggle from "components/Custom/CustomToggleSwitch";
 import FullModal from 'components/Custom/FullModal';
-import React, { useEffect, useState, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 import { selectAll, setClient } from "services/redux/Slices/clients";
-import { Content, Footer, Header, Main, Wrapper } from "./style";
+import { Content, Footer, Header, Main } from "./style";
+import { useEffect } from "react"
+import { IMobileForm } from '../../screens/ClientsPage/ClientsPage';
+import { useTranslation } from 'react-i18next';
+import { useState } from "react"
+import { ResetModal } from '../ResetModal';
 interface IProps {
-    setForm: any;
+    open: boolean
+    setModals: (arg: any) => void,
+    setForm: (arg: IMobileForm) => void,
+    refetch: () => void
 }
-export const DownBar = ({ setForm }: IProps) => {
+
+export const DownBar = ({ open, setModals, setForm, refetch }: IProps) => {
     const { selectedClients } = useAppSelector(state => state.clients)
+    const [resetModal, setResetModal] = useState(false)
     const client = selectedClients[0]
-    const downbarRef = useRef<HTMLDivElement | null>(null)
-    const [open, setOpen] = useState<"hide" | "show" | "fullShow">("hide")
+    const { t } = useTranslation()
     const dispatch = useAppDispatch()
+
     const checked = selectedClients.length > 1 ? false : client?.personalLoyaltyInfo?.isActive
+
     const handleRemoveClient = (id: number) => {
         dispatch(setClient(id))
     }
-
-    useEffect(() => {
-        let timerId: any;
-        if (selectedClients.length === 0) {
-            setOpen("hide")
-            timerId = setTimeout(() => {
-                if (downbarRef.current) {
-                    downbarRef.current.style.visibility = "hidden"
-                }
-            }, 1000)
-        }
-        else if (open === "hide") {
-            if (downbarRef.current) {
-                downbarRef.current.style.visibility = "visible";
-                setOpen("show");
-            }
-        }
-        return () => clearTimeout(timerId)
-    }, [selectedClients])
-
 
     const handleClick = (e: any) => {
         dispatch(selectAll(e.target.value === "true"));
     };
 
-    const handleChange = (e: any) => {
+    const handleToggleChange = (e: any) => {
         const checked = e.target.checked;
         if (checked) {
             setForm({
-                action: 3,
-                isOpen: checked,
-            });
+                open: true,
+                action: 3
+            })
+        } else {
+            setResetModal(true)
+        }
+    }
 
-        } else setForm({
-            action: 5,
-            isOpen: true
-        })
-    };
+    useEffect(() => {
+        if (selectedClients.length === 0) {
+            setModals((prev: any) => ({ ...prev, downBar: false }))
+        }
+    }, [selectedClients.length])
     return (
-        <>
+        <FullModal
+            direction="down"
+            open={open}>
+            {client &&
+                <ResetModal
+                    refetch={refetch}
+                    client={{
+                        id: client.id,
+                        status: client.addInfo.status,
+                        percent: client.personalLoyaltyInfo.percent,
+                        prevPercent: client.obtainProgramLoyalty.percent,
+                        prevStatus: client.obtainProgramLoyalty.levelName
+                    }}
+                    open={resetModal}
+                    onClose={() => setResetModal(false)} />}
             <Header>
-                {open !== "fullShow" ? (
-                    <>
-                        <p>Выбрано: {selectedClients.length}</p>
-                        <Button
-                            onClick={() => setOpen("fullShow")}
-                            buttonStyle={{
-                                color: "#3492FF",
-                                bgcolor: "rgba(96, 110, 234, 0.1)",
-                            }}
-                        >
-                            Посмотреть
-                        </Button>
-                    </>
-                ) : (
-                    <>
-                        <h5>Выбранно клиентов: {selectedClients.length}</h5>
-                        <CloseIcon onClick={() => setOpen("show")} />
-                    </>
-                )}
+                <h5>Выбранно клиентов: {selectedClients.length}</h5>
+                <CloseIcon onClick={() => setModals((prev: any) => ({ ...prev, downBar: false }))} />
             </Header>
-            <FullModal
-                direction="down"
-                open={open === "fullShow"}>
-                <Main>
-                    <Content>
-                        {selectedClients.map((client) => (
-                            <div
-                                onClick={() => handleRemoveClient(client.id)}
-                                className="client"
-                            >
-                                <p>{client.firstName + " " + client.lastName}</p>
-                                <MiniCloseIcon />
-                            </div>
-                        ))}
-                    </Content>
-                    <Footer>
-                        <div className="vipProcent">
-                            <h6>Индивидуальный статус</h6>
-                            <CustomToggle checked={checked} onChange={handleChange} />
+            <Main>
+                <Content>
+                    {selectedClients.map((client) => (
+                        <div
+                            onClick={() => handleRemoveClient(client.id)}
+                            className="client"
+                        >
+                            <p>{client.firstName + " " + client.lastName}</p>
+                            <MiniCloseIcon />
                         </div>
-                        <Button
-                            onClick={() =>
-                                setForm({
-                                    isOpen: true,
-                                    action: 1,
-                                })
-                            }
-                            endIcon={<CoinsIcon />}
-                            margin={{ mobile: "0 0 20px 0" }}
-                            buttonStyle={{
-                                color: "#606EEA",
-                                bgcolor: "rgba(96, 110, 234, 0.1)",
-                            }}
-                        >
-                            Начислить баллы
-                        </Button>
-                        <Button
-                            onClick={() =>
-                                setForm({
-                                    isOpen: true,
-                                    action: 2,
-                                })
-                            }
-                            endIcon={<CoinsIcon />}
-                            margin={{ mobile: "0 0 20px 0" }}
-                            buttonStyle={{
-                                color: "#606EEA",
-                                bgcolor: "rgba(96, 110, 234, 0.1)",
-                            }}
-                        >
-                            Списать баллы
-                        </Button>
-                        <button value="true" onClick={handleClick} className="customButton">
-                            Выбрать всех клиентов
-                        </button>
-                        <button value="false" onClick={handleClick} className="customButton">
-                            Снять выделение
-                        </button>
-                    </Footer>
-                </Main>
-            </FullModal>
-        </>
+                    ))}
+                </Content>
+                <Footer>
+                    <div className="vipProcent">
+                        <div className="toggler">
+                            <h6>Индивидуальный статус</h6>
+                            <CustomToggle onChange={handleToggleChange} checked={checked} />
+                        </div>
+                        {checked &&
+                            <Button
+                                onClick={() => setForm({ open: true, action: 3 })}
+                                margin={{
+                                    mobile: "10px 0"
+                                }}
+                                buttonStyle={{
+                                    color: "#3492FF",
+                                    bgcolor: "#ffffff",
+                                    weight: 300
+                                }}>
+                                {t("edit") + " %"}
+                            </Button>}
+                    </div>
+                    <Button
+                        onClick={() => setForm({ open: true, action: 1 })}
+                        endIcon={<CoinsIcon />}
+                        margin={{ mobile: "0 0 20px 0" }}
+                        buttonStyle={{
+                            color: "#606EEA",
+                            bgcolor: "rgba(96, 110, 234, 0.1)",
+                        }}
+                    >
+                        Начислить баллы
+                    </Button>
+                    <Button
+                        onClick={() => setForm({ open: true, action: 2 })}
+                        endIcon={<CoinsIcon />}
+                        margin={{ mobile: "0 0 20px 0" }}
+                        buttonStyle={{
+                            color: "#606EEA",
+                            bgcolor: "rgba(96, 110, 234, 0.1)",
+                        }}
+                    >
+                        Списать баллы
+                    </Button>
+                    <button value="true" onClick={handleClick} className="customButton">
+                        Выбрать всех клиентов
+                    </button>
+                    <button value="false" onClick={handleClick} className="customButton">
+                        Снять выделение
+                    </button>
+                </Footer>
+            </Main>
+        </FullModal>
     );
 };

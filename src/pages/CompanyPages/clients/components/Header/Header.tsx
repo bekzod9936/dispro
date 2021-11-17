@@ -1,7 +1,6 @@
 import { ButtonsWrapper, Flex, SubTitle } from "../../style/style";
 import Title from "components/Custom/Title";
 import Input from "components/Custom/Input";
-import { QRButton } from "./components/QRButton";
 import { useTranslation } from "react-i18next";
 import { MFilter } from "./components/Filter";
 import NewDatePicker from "components/Custom/DatePicker";
@@ -11,13 +10,16 @@ import { useHandleGetFilters } from "../../utils/getSelectedFilters";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 import { removeFilter, setPeriod } from "services/redux/Slices/clients";
 import { useWindowSize } from "../../hooks/useWindowSize";
+import Button from "components/Custom/Button";
+import { QRIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 
 interface IProps {
   query: string;
   setQuery: any;
+  setModals: (arg: any) => void
 }
 
-export const Header = ({ query, setQuery }: IProps) => {
+export const Header = ({ query, setQuery, setModals }: IProps) => {
 
   const { t } = useTranslation();
   const { totalCount, filters } = useAppSelector(state => state.clients);
@@ -49,7 +51,21 @@ export const Header = ({ query, setQuery }: IProps) => {
       <ButtonsWrapper marginBottom={20} marginTop={20}>
         <MFilter />
         {width > 600 && <NewDatePicker onChange={(e) => handlePickDate(e)} />}
-        <QRButton />
+        <Button
+          margin={{ laptop: "0 20px", mobile: "0 0 0 8px" }}
+          onClick={() => setModals((prev: any) => ({ ...prev, qrModal: true }))}
+          buttonStyle={{
+            shadow: '0px 4px 4px rgba(0, 0, 0, 0.04)',
+            bgcolor: 'white',
+            color: '#223367',
+            weight: 500,
+            height: {
+              mobile: 36
+            }
+          }}
+          startIcon={<QRIcon style={width <= 600 ? { height: 16, width: 16 } : {}} />}>
+          {t("invite")}
+        </Button>
       </ButtonsWrapper>
       {width > 600 &&
         <SelectedFilters>

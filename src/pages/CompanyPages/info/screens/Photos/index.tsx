@@ -24,6 +24,7 @@ import {
   WrapNoPhoto,
   LabelNoPhoto,
   Wrpaper,
+  DownSide,
 } from './style';
 
 const reorder = (list: any, startIndex: any, endIndex: any) => {
@@ -50,12 +51,23 @@ const Photos = () => {
   });
 
   const handleUpload = (e: any) => {
-    for (let i = 0; i < count; i++) {
-      const formData = new FormData();
-      formData.append('itemId', companyId);
-      formData.append('fileType', 'companyImage');
-      formData.append('file', e.target.files[i]);
-      photoUploading.mutate(formData);
+    console.log(e.target.files.length);
+    if (e.target.files.length < count) {
+      for (let i = 0; i < e.target.files.length; i++) {
+        const formData = new FormData();
+        formData.append('itemId', companyId);
+        formData.append('fileType', 'companyImage');
+        formData.append('file', e.target.files[i]);
+        photoUploading.mutate(formData);
+      }
+    } else if (e.target.files.length >= count) {
+      for (let i = 0; i < count; i++) {
+        const formData = new FormData();
+        formData.append('itemId', companyId);
+        formData.append('fileType', 'companyImage');
+        formData.append('file', e.target.files[i]);
+        photoUploading.mutate(formData);
+      }
     }
   };
 
@@ -184,11 +196,13 @@ const Photos = () => {
                               )}
                             </Draggable>
                           ))}
-                          {images.length < 10 ? (
+                          {images.length < 10 && width > 600 ? (
                             <>
                               <Label htmlFor='photosloading'>
                                 <PhotoIcon />
-                                <span>{t('addMark')}</span>
+                                <span>
+                                  {t('addphoto')} {' +'}
+                                </span>
                               </Label>
                             </>
                           ) : null}
@@ -198,18 +212,39 @@ const Photos = () => {
                   </DragDropContext>
                 </>
               )}
-              <SaveButton
-                onClick={handleSubmit}
-                margin={{
-                  laptop: '20px 0 20px 0',
-                }}
-                disabled={subImg.isLoading}
-                type='button'
-              />
+              {width > 600 ? (
+                <SaveButton
+                  onClick={handleSubmit}
+                  margin={{
+                    laptop: '20px 0 20px 0',
+                  }}
+                  disabled={subImg.isLoading}
+                  type='button'
+                />
+              ) : null}
             </Wrpaper>
           </>
         )}
       </div>
+      {width <= 600 && images.length > 0 ? (
+        <DownSide>
+          <div>
+            <LabelNoPhoto htmlFor='photosloading'>
+              <span>{t('addphoto')}</span>
+              <PhotoIcon />
+            </LabelNoPhoto>
+            <SaveButton
+              onClick={handleSubmit}
+              margin={{
+                laptop: '20px 0 20px 0',
+                mobile: '0',
+              }}
+              disabled={subImg.isLoading}
+              type='button'
+            />
+          </div>
+        </DownSide>
+      ) : null}
     </Container>
   );
 };

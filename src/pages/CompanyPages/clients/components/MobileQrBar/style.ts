@@ -1,17 +1,5 @@
 import styled from "styled-components";
-interface IProps {
-    isOpen: boolean
-}
 export const Wrapper = styled.div`
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    left: 0;
-    top: 0;
-    background-color: white;
-    transition: 200ms all;
-    transform: ${({ isOpen }: IProps) => isOpen ? "translateX(0)" : "translateX(100%)"};
-    z-index: 2002;
     padding: 20px 15px 25px 15px;
 `
 export const Header = styled.div`
@@ -45,6 +33,7 @@ export const Main = styled.div`
         line-height: 25.78px;
         font-weight: 500;
         margin-bottom: 50px;
+        margin-top: 15px;
     }
 `
 

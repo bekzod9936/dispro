@@ -32,7 +32,16 @@ export const Container = styled.div`
     }
   }
   @media (max-width: ${device.mobile}) {
-    padding: 0 15px;
+    flex-direction: column;
+    flex: unset;
+    flex-grow: 1;
+    justify-content: space-between;
+
+    & > div {
+      padding: 0 15px 15px 15px;
+      flex-grow: 1;
+      flex: unset;
+    }
   }
 `;
 
@@ -91,6 +100,9 @@ export const LabelNoPhoto = styled.label`
       width: 17px;
       height: 17px;
     }
+    & > span {
+      white-space: nowrap;
+    }
   }
 `;
 
@@ -119,6 +131,17 @@ export const Label = styled.label`
       fill: #c4c4c4;
     }
   }
+  @media (max-width: ${device.mobile}) {
+    width: 100%;
+    height: 100px;
+    & > svg {
+      width: 20px;
+      height: 20px;
+    }
+    span {
+      font-size: 14px;
+    }
+  }
 `;
 
 export const PhotoIcon = styled(Photo)``;
@@ -129,7 +152,6 @@ export const WrapImage = styled.div`
   height: 160px;
   border-radius: 14px;
   overflow: hidden;
-  margin-bottom: 10px;
   .lazy-load-image-background.blur.lazy-load-image-loaded {
     filter: blur(0);
     transition: filter 0.3s;
@@ -153,13 +175,23 @@ export const WrapImage = styled.div`
       }
     }
   }
-  margin-right: 20px;
+
+  @media (max-width: ${device.mobile}) {
+    width: 100%;
+    height: 100px;
+  }
 `;
 
 export const WrapImages = styled.div`
   display: flex;
   flex-wrap: wrap;
   overflow-y: auto;
+  grid-gap: 20px;
+  @media (max-width: ${device.mobile}) {
+    grid-gap: 10px;
+    display: grid;
+    grid-template-columns: minmax(140px, 1fr) minmax(140px, 1fr);
+  }
 `;
 
 export const TrashIcon = styled(Trash)``;
@@ -194,3 +226,26 @@ export const WrapNoPhoto = styled.div`
 `;
 
 export const Wrpaper = styled.div``;
+
+export const DownSide = styled.div`
+  display: none;
+  background-color: white;
+  flex-shrink: 1;
+  padding: 0 15px !important;
+  overflow: hidden !important;
+  @media (max-width: ${device.mobile}) {
+    & > div {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      height: 100%;
+      justify-content: center;
+      grid-gap: 10px;
+      overflow: hidden !important;
+      min-height: 65px;
+    }
+    position: sticky;
+    bottom: 0;
+    min-height: 65px;
+  }
+`;

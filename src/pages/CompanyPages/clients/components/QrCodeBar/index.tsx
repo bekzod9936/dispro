@@ -1,17 +1,16 @@
 import { CloseIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
-import { useAppDispatch } from 'services/redux/hooks'
-import { setOpenSideBar } from 'services/redux/Slices/clients'
 import { CancelButton, Container, Content, LinkBtn, QrBlock } from './style'
-import { useState, useEffect } from "react"
-import { useMutation } from 'react-query'
-import { fetchQrCode } from 'services/queries/clientsQuery'
+import { useState } from "react"
 import QrCode from "qrcode.react"
+interface IProps {
+    link: string,
+    code: string,
+    onClose: (arg: any) => void
+}
 
-export const QrCodeBar = () => {
-    const dispatch = useAppDispatch()
+export const QrCodeBar = ({ link, code, onClose }: IProps) => {
     const [copied, setCopied] = useState(false)
-    const [code, setCode] = useState<any>(null)
-    const [link, setLink] = useState("")
+
 
     const handleCopy = () => {
         const el = document.createElement("input");
@@ -23,25 +22,10 @@ export const QrCodeBar = () => {
         setCopied(true)
     }
 
-    const { mutate } = useMutation(() => fetchQrCode(), {
-        retry: 0,
-        onSuccess: (data) => {
-            const res = data.data.data;
-            setLink(res.dynLinkToken);
-            setCode(res.token)
-
-        }
-    });
-
-    console.log(link);
-
-    useEffect(() => {
-        mutate()
-    }, [])
 
     return (
         <Container>
-            <CancelButton onClick={(e) => dispatch(setOpenSideBar(false))}>
+            <CancelButton onClick={onClose}>
                 <CloseIcon />
             </CancelButton>
             <Content>

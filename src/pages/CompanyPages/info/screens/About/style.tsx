@@ -228,10 +228,6 @@ export const UpSide = styled.div`
   }
 `;
 
-interface DProps {
-  justify?: boolean;
-}
-
 export const DownSide = styled.div`
   background-color: white;
   width: 100%;
@@ -254,10 +250,9 @@ export const DownSide = styled.div`
       width: 100%;
       border-top: 1px solid rgba(96, 110, 234, 0.3);
       display: flex;
-      justify-content: ${({ justify }: DProps) =>
-        justify ? 'flex-start' : 'center'};
+      justify-content: center;
       align-items: center;
-      padding-left: ${({ justify }: DProps) => (justify ? '15px' : '0')};
+      padding: 0 15px;
     }
   }
 `;

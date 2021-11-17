@@ -128,23 +128,26 @@ export const UpIcon = styled(Up)`
 export const AgeData = styled.div`
   display: flex;
   position: relative;
+  justify-content:space-between;
   align-items: center;
 
   p {
     font-size: 14px;
   }
+  
   h4 {
     padding: 10px 20px;
     font-size: 14px;
     background: linear-gradient(215.2deg, #8bdd59 -12.1%, #dcf089 101.51%);
     border-radius: 14px;
   }
-  h3 {
+  h3 {  
+ 
     padding: 10px 20px;
-    margin-left:30px;
+    /* margin-right:20px; */
     font-size: 14px;
     background: linear-gradient(215.2deg, #C7EEFF -12.1%, #FCA9EA 101.51%);
-border-radius: 14px;
+    border-radius: 14px;
   }
   `
 
@@ -180,24 +183,23 @@ export const DefaultImage = styled.div`
 export const ToolTipText = styled("span")({
 
   visibility: "hidden",
-  width: "400px",
+  width: "350px",
   backgroundColor: "#fff",
   color: "#223367",
   textAlign: "center",
   borderRadius: "6px",
-  padding: "20px 30px",
   position: "absolute",
+  paddingTop:"10px",
+  paddingBottom:"5px",
   zIndex: 1,
-
-
-  left: "100%",
-  marginLeft: "-500px",
-  marginTop: "-50px",
+  top:'60px',
+  marginLeft: "-450px",
+  marginTop: "-140px",
   ":after": {
     content: '""',
     position: "absolute",
     top: "50%",
-    left: "100%",
+    // left: "100%",
     marginLeft: "-5px",
     
     borderWidth: "5px",
