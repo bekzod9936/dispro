@@ -53,12 +53,12 @@ export const Container = styled.div`
     text-transform: capitalize;
   }
 
-  [class*='PrivateTabIndicator-colorSecondary'] {
-    height: 0 !important;
-    background-color: transparent !important;
-  }
   overflow: hidden;
   width: 100%;
+  .MuiTabs-indicator {
+    background-color: transparent !important;
+    height: 0 !important;
+  }
 `;
 
 export const Appbar = styled(AppBar)``;
@@ -67,4 +67,6 @@ export const MMTabs = styled(Tabs)`
   padding-left: ${({ value }) => (value === 1 ? '15px' : '0')};
 `;
 
-export const MTab = styled(Tab)``;
+export const MTab = styled(Tab)`
+  margin: 0 0 10px 0;
+`;

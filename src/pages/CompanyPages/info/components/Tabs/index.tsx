@@ -49,6 +49,8 @@ const MTabs = ({ listTabs, active, content, onActive = () => {} }: Props) => {
           value={active}
           onChange={handleChange}
           aria-label='simple tabs example'
+          variant='scrollable'
+          selectionFollowsFocus={true}
         >
           {listTabs?.map((v) => {
             return (
