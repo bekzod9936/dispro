@@ -65,8 +65,8 @@ const Payment = () => {
       col2: `${v?.firstName}  ${v?.lastName}`,
       col3: v?.cardNumber,
       col4: numberWithNew({ number: v?.amount }),
-      col5: numberWithNew({ number: v?.amountPartner }),
-      col6: numberWithNew({ number: pay }),
+      col5: `${numberWithNew({ number: v?.amountPartner })} (99%)`,
+      col6: `${numberWithNew({ number: pay })} (1%)`,
     };
   });
 
@@ -92,11 +92,11 @@ const Payment = () => {
         },
         {
           title: t('Profit (99%)'),
-          value: numberWithNew({ number: v?.amountPartner }),
+          value: `${numberWithNew({ number: v?.amountPartner })} (99%)`,
         },
         {
           title: t('DIS Commission (1%)'),
-          value: numberWithNew({ number: pay }),
+          value: `${numberWithNew({ number: pay })} (1%)`,
         },
       ],
     };

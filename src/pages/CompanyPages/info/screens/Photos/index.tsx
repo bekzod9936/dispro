@@ -190,7 +190,7 @@ const Photos = () => {
                               <Label htmlFor='photosloading'>
                                 <PhotoIcon />
                                 <span>
-                                  {t('addMark')} {' +'}
+                                  {t('addphoto')} {' +'}
                                 </span>
                               </Label>
                             </>
@@ -219,7 +219,7 @@ const Photos = () => {
         <DownSide>
           <div>
             <LabelNoPhoto htmlFor='photosloading'>
-              <span>{t('addMark')}</span>
+              <span>{t('addphoto')}</span>
               <PhotoIcon />
             </LabelNoPhoto>
             <SaveButton
