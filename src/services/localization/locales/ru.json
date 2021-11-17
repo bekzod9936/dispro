@@ -472,5 +472,14 @@
   "notification1": " уведомления",
   "notification23": "уведомлений",
   "today": "Сегодня",
-  "yesterday": "Вчера"
+  "yesterday": "Вчера",
+  "cancellation": "Отмена",
+  "warningBeforeSubstractionPoints": "Клиент будет проинформирован о списании баллов push-уведомлением",
+  "selectedClients": "Выбрано клиентов",
+  "individualStatus": "Индивидуальный статус",
+  "turnOffVipStatus": "Отключить VIP статус",
+  "areYouSureAboutTurnOffIndividualPercent": "Вы действительно хотите отключить индивидуальный статус?",
+  "infoAboutTurnOffingIndividualStatus": "При отключении, индивидуальный статус сменится на стандартный статус, согласно программе лояльности",
+  "currentStatus": "Текущий статус",
+  "standartStatus": "Стандартный статус"
 }

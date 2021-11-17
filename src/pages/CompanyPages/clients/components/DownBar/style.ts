@@ -1,21 +1,7 @@
 import styled from "styled-components";
 
-interface IStyleProps {
-    isOpen: "hide" | "show" | "fullShow"
-    border?: boolean
-}
-export const Wrapper = styled.div`
-    border-radius: ${({ border }: IStyleProps) => border ? "0" : "12px 12px 0 0"};
-    background-color: #ffffff;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 2000 !important;
-    transition: 500ms all;
-    transform: ${({ isOpen }: IStyleProps) => isOpen === "show" ? "translateY(calc(100vh - 46px))" : isOpen === "fullShow" ? "translateY(0)" : "translateY(100%)"};
-    `
+
+
 export const Header = styled.div`
     padding: 15px;
     height: 46px;
@@ -27,7 +13,7 @@ export const Header = styled.div`
 export const Main = styled.div`
     display: flex;
     flex-direction: column;
-    min-height: 100%;
+    
 `
 
 export const Content = styled.div`
@@ -61,14 +47,20 @@ export const Footer = styled.div`
     flex-direction: column;
     div.vipProcent {
         display: flex;
+        flex-direction: column;
+        justify-content: center;
         align-items: center;
         margin-bottom: 30px;
-        h6 {
-            font-size: 16px;
-            line-height: 18.75px;
-            color: #223367;
-            font-weight: 300;
-            margin-right: 15px;
+        .toggler {
+            display: flex;
+            align-items: center;
+            h6 {
+                font-size: 16px;
+                line-height: 18.75px;
+                color: #223367;
+                font-weight: 300;
+                margin-right: 15px;
+            }
         }
     }
     button.customButton {

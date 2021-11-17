@@ -1,71 +1,69 @@
 import styled from "styled-components";
-interface IWrapper {
-    isOpen: boolean
-    top: boolean
-}
-export const Wrapper = styled.div`
-    transition: 200ms all;
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 100%;
-    z-index: 2001;
-    background-color: #ffffff;
-    transform: ${({ isOpen }: IWrapper) => !isOpen ? "translateX(100%)" : ""};
-    padding: 20px;
+
+export const Wrapper = styled.form`
+    padding: 20px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+
 `
 
 export const Header = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     width: 100%;
-    margin-bottom: 13px;
-    h5 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    h2 {
+        color: #223367;
         font-size: 16px;
         line-height: 18.75px;
-        color: #223367;
-
+        
     }
-`
-export const Subtitle = styled.p`
-    font-size: 14px;
-    line-height: 16px;
-    color: #223367;
-    margin-bottom: 13px;
-    width: 80%;
+
 `
 
-export const Client = styled.div`
-margin-bottom: 15px;
-    h6 {
-        font-size: 14px;
-        line-height: 16px;
-        margin-bottom: 8px;
-        color: #A5A5A5;
-        font-weight: 400;
+export const Inputs = styled.div`
 
-    }
-    p {
+`
+
+export const UpSide = styled.div`
+    p.subtitle {
         font-size: 14px;
         line-height: 16.41px;
         color: #223367;
         font-weight: 300;
-        span {
-            margin-left: 15px;
-        }
+        margin-bottom: 10px;
     }
 `
 
-export const MyForm = styled.form`
-    div.downSide {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        position: absolute;
-        bottom: 20px;
+export const ClientInfo = styled.div`
+    margin-bottom: 25px;
+    p.label {
+        font-size: 14px;
+        line-height: 16.41px;
+        color: #A5A5A5;
+        margin-bottom: 8px;
+    }
+    span {
+        font-size: 14px;
+        line-height: 16.41px;
+        color: #223367;
+        font-weight: 300;
+        margin-right: 15px;
+    }
+    b {
+        font-size: 14px;
+        line-height: 16.41px;
+        color: #223367;
+        font-weight: 300;
     }
 `
 
+
+export const Buttons = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`
