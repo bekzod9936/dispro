@@ -65,8 +65,8 @@ const Payment = () => {
       col2: `${v?.firstName}  ${v?.lastName}`,
       col3: v?.cardNumber,
       col4: numberWithNew({ number: v?.amount }),
-      col5: numberWithNew({ number: v?.amountPartner }),
-      col6: numberWithNew({ number: pay }),
+      col5: `${numberWithNew({ number: v?.amountPartner })} (99%)`,
+      col6: `${numberWithNew({ number: pay })} (1%)`,
     };
   });
 
@@ -92,11 +92,11 @@ const Payment = () => {
         },
         {
           title: t('Profit (99%)'),
-          value: numberWithNew({ number: v?.amountPartner }),
+          value: `${numberWithNew({ number: v?.amountPartner })} (99%)`,
         },
         {
           title: t('DIS Commission (1%)'),
-          value: numberWithNew({ number: pay }),
+          value: `${numberWithNew({ number: pay })} (1%)`,
         },
       ],
     };
@@ -202,25 +202,27 @@ const Payment = () => {
             headertitle={t('p2p')}
           />
         )}
-        <WrapPag>
-          <Info>
-            {t('shown')}
-            <span>{between}</span>
-            {t('from1')} <span>{total.pages}</span>
-            {countPagination({
-              count: Number(total.count),
-              firstWord: t('operations1'),
-              secondWord: t('operations23'),
-            })}
-          </Info>
-          <Pagination
-            page={filterValues.page}
-            count={total.count}
-            onChange={handlechangePage}
-            disabled={response.isLoading || response.isFetching}
-            siblingCount={0}
-          />
-        </WrapPag>
+        {data.length === 0 ? null : (
+          <WrapPag>
+            <Info>
+              {t('shown')}
+              <span>{between}</span>
+              {t('from1')} <span>{total.pages}</span>
+              {countPagination({
+                count: Number(total.pages),
+                firstWord: t('operations1'),
+                secondWord: t('operations23'),
+              })}
+            </Info>
+            <Pagination
+              page={filterValues.page}
+              count={total.count}
+              onChange={handlechangePage}
+              disabled={response.isLoading || response.isFetching}
+              siblingCount={0}
+            />
+          </WrapPag>
+        )}
       </Container>
     </>
   );

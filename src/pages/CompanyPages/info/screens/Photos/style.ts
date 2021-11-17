@@ -239,7 +239,7 @@ export const DownSide = styled.div`
       width: 100%;
       align-items: center;
       height: 100%;
-      justify-content: space-between;
+      justify-content: center;
       grid-gap: 10px;
       overflow: hidden !important;
       min-height: 65px;

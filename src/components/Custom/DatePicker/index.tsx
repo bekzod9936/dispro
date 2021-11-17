@@ -18,6 +18,12 @@ interface Props {
   margin?: string;
   defaultValue?: string[];
   numberofmonths?: number;
+  height?: {
+    mobile?: number;
+    planshet?: number;
+    laptop?: number;
+    desktop?: number;
+  };
 }
 
 const DatePicker = ({
@@ -25,6 +31,7 @@ const DatePicker = ({
   margin,
   defaultValue = [''],
   numberofmonths,
+  height
 }: Props) => {
   const datePickerRef: any = useRef();
   const { t } = useTranslation();
@@ -63,8 +70,9 @@ const DatePicker = ({
             bgcolor: 'white',
             shadow: '0px 4px 4px rgba(0, 0, 0, 0.04)',
             color: '#223367',
-            height: {
+            height: height ? height :   {
               mobile: 36,
+          
             },
           }}
         >
