@@ -140,6 +140,9 @@ export const Titletext = styled.div`
   font-weight: bold;
   font-size: 14px;
   color: #223367;
+  @media (min-width: ${device.laptop}) {
+    font-size: 16px;
+  }
 `;
 
 export const WrapPag = styled.div`
