@@ -72,8 +72,7 @@ const DatePicker = ({
             color: '#223367',
             height: height ? height :   {
               mobile: 36,
-              desktop: 60,
-              laptop: 50
+          
             },
           }}
         >
