@@ -15,10 +15,13 @@ const MenuList = () => {
   const dispatch = useAppDispatch();
   const pathName: string[] = location.pathname.split("/");
 
+  console.log(pathName, "pathname");
   return (
     <WrapList>
       <List>
         {sidebar.map(({ Icon, text, path }) => {
+          console.log(path);
+          let currentpath = path.split("/");
           return (
             <ListI
               button
@@ -27,7 +30,11 @@ const MenuList = () => {
                 history.push(`/${path}`);
                 dispatch(setCurrentPage(path));
               }}
-              selected={pathName[1] === path ? true : false}
+              selected={
+                pathName[1] === currentpath[0] || pathName[1] === path
+                  ? true
+                  : false
+              }
             >
               <ListItemIcon>
                 <Icon />
