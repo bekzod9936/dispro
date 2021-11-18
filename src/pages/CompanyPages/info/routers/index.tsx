@@ -15,7 +15,7 @@ const useInfoRoute = () => {
   const { t } = useTranslation();
   const menuItems: IInfoRow[] = [
     {
-      path: '/info',
+      path: '/info/about',
       text: t('aboutCompany'),
       component: About,
     },

@@ -49,9 +49,9 @@ const Companylist = () => {
       await localStorage.setItem('companyId', data.data.data.companyId);
       await localStorage.setItem('companyToken', data.data.data.accessToken);
       if (regFilled?.filled && regFilled.filledAddress) {
-        await history.push('/statistics');
+        await history.push('/statistics/clients');
       } else {
-        await history.push('/info');
+        await history.push('/info/about');
       }
     },
   });

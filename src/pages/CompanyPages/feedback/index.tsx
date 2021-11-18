@@ -159,14 +159,14 @@ const FeedBack = () => {
   console.log(ratings);
   return (
     <MainWrapper>
-      <Wrapper isPosts={match.url === '/feedback' ? false : true}>
+      <Wrapper isPosts={match.url === '/feedback/reviews' ? false : true}>
         <WrapHeader>
           <LeftHeader>
             <Title>{t('feedbackPage')}</Title>
             <div style={{ display: 'flex' }}>
               <NavBar list={menuItems} margin='10px 0 0' />
             </div>
-            {match.url === '/feedback' ? (
+            {match.url === '/feedback/reviews' ? (
               <FilterWarp>
                 <Input
                   IconStart={<SearchIcon />}
@@ -200,7 +200,7 @@ const FeedBack = () => {
                 />
               </FilterWarp>
             ) : null}
-            {match.url === '/feedback' ? (
+            {match.url === '/feedback/reviews' ? (
               resClients.isLoading || resClients.isFetching ? (
                 <Spinner />
               ) : clients?.length === 0 ? (
@@ -244,7 +244,7 @@ const FeedBack = () => {
             ) : null}
           </LeftHeader>
         </WrapHeader>
-        {match.url === '/feedback' ? (
+        {match.url === '/feedback/reviews' ? (
           <RightSide>
             <div>
               <Grade title={t('overallscore')} rate={rate} />
