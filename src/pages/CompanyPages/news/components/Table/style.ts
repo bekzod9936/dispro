@@ -155,7 +155,19 @@ export const AgeData = styled.div`
     border-radius: 14px;
   }
   `
+export const Text = styled.p`
+font-weight: normal;
+font-size: 14px;
+color: #223367;
+display: -webkit-box;
+-webkit-line-clamp: 3;
+-webkit-box-orient: vertical;
 
+overflow: hidden;
+text-overflow: ellipsis;
+width: 100%;
+
+`;
 export const TitleData = styled.div`
   display: flex;
   align-items: center;
