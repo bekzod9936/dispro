@@ -1,4 +1,4 @@
-import { lazy } from 'react';
+import { lazy, useState } from 'react';
 import NavBar from 'components/Custom/NavBar';
 import IconButton from '@material-ui/core/IconButton';
 import { useAppSelector, useAppDispatch } from 'services/redux/hooks';
@@ -14,6 +14,7 @@ import { ReactComponent as TotalClients } from 'assets/icons/StatistisPage/users
 import { ReactComponent as Discount } from 'assets/icons/CashierData/discount.svg';
 import { ReactComponent as PaidWithPoints } from 'assets/icons/CashierData/paidWthPoints.svg';
 import { ReactComponent as ArrowBack } from 'assets/icons/arrow_back.svg';
+import { ReactComponent as DeleteWhiteIcon } from 'assets/icons/trash_white.svg';
 import {
 	CardContainer,
 	StaticDiv,
@@ -35,6 +36,18 @@ import {
 	ContentTable,
 	Wrapper,
 	QRIcon,
+	DotsWrap,
+	DotsIcon,
+	SelectWrap,
+	Edit,
+	Delete,
+	ModalContent,
+	ModalBody,
+	ModalAction,
+	BarTitle,
+	ButtonKeyWord,
+	DeleteIc,
+	BarText,
 } from './style';
 import useCashierCard from './hooks/useCashierCard';
 import Spinner from 'components/Helpers/Spinner';
@@ -42,15 +55,20 @@ import { numberWith } from 'services/utils';
 import { useTranslation } from 'react-i18next';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { useEffect } from 'react';
-import { setCashierId } from 'services/redux/Slices/staffs';
 import defaultImg from 'assets/images/staff_default.png';
 import useStaff from '../../hooks/useStaff';
 import Button from 'components/Custom/Button';
-import { ThreeDotsIcon } from 'assets/icons/SettingsIcons/SettingsPageIcon';
 import { SideBar } from 'pages/CompanyPages/staff/components/SideBar';
 import QrBar from './components/QrBar';
 import { CashierWrapTitle, TitleText } from '../CashierSettings/style';
 import BallTable from './components/BallTable';
+import Popover from 'components/Custom/Popover';
+import Modal from 'components/Custom/Modal';
+import useCashiers from '../../hooks/useCashiers';
+import { CancelIcon } from 'assets/icons/ClientsPageIcons/ClientIcons';
+import EditCashier from '../../screens/CashierScreen/components/EditCashier';
+import { setStaffData, setOpenEditCashier } from 'services/redux/Slices/staffs';
+import CustomSelectPopoverComponent from 'components/Custom/CustomSelectPopoverComponent';
 
 const CashierBalls = lazy(() => import('./screens/CashierBalls'));
 const CashierFeedback = lazy(() => import('./screens/CashierFeedback'));
@@ -62,18 +80,18 @@ const CashierCard = () => {
 	const { t } = useTranslation();
 	const { pathname, state }: any = useLocation();
 	const { menuItems } = useStaffRoute();
-	const { isLoading, openQr, setOpenQr } = useCashierCard();
-	const staffData = useAppSelector((state) => state.staffs.staffData);
-	const cashierId = useAppSelector((state) => state.staffs.cashierId);
+	const { isLoading, openQr, setOpenQr, handleOption } = useCashierCard();
+	const { staffData } = useAppSelector((state) => state.staffs);
 	const prevPage: any = state?.prevPage || '/staff';
+	const cashierId: any = state?.id;
+	const [closeFun, setCloseFun] = useState<any>();
+	const openEdit = useAppSelector((state) => state.staffs.openEditCashier);
 
-	console.log(staffData, 'staf');
-
-	useEffect(() => {
-		if (cashierId === '') {
-			dispatch(setCashierId(state?.id));
-		}
-	}, [cashierId]);
+	const { deleteCashier, open, setOpen } = useCashiers({
+		page: 1,
+		query: '',
+		period: '',
+	});
 
 	const getStoreName = (storeId: any) => {
 		let branch: any = '';
@@ -85,7 +103,6 @@ const CashierCard = () => {
 
 		return branch;
 	};
-
 	const renderData = () => {
 		if (isLoading) {
 			return (
@@ -192,6 +209,10 @@ const CashierCard = () => {
 		return '';
 	};
 
+	const handleClose = (e: any) => {
+		setCloseFun(e);
+	};
+
 	return (
 		<CardContainer className='dsds'>
 			<CashierWrapTitle>
@@ -254,9 +275,40 @@ const CashierCard = () => {
 								</Button>
 							</StaffCol>
 							<StaffAction>
-								<IconButton>
-									<ThreeDotsIcon />
-								</IconButton>
+								<Popover
+									click={
+										<DotsWrap>
+											<DotsIcon />
+										</DotsWrap>
+									}
+									anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+									transformOrigin={{ horizontal: 'right', vertical: 24 }}
+									openBgColor='rgba(96, 110, 234, 0.1)'
+									radius={14}
+									popoverStyle={{
+										marginTop: '20px',
+									}}
+									onClose={handleClose}
+								>
+									<SelectWrap>
+										<Edit
+											onClick={() => {
+												dispatch(setOpenEditCashier(true));
+												closeFun?.close();
+											}}
+										>
+											{t('edit')}
+										</Edit>
+										<Delete
+											onClick={() => {
+												setOpen(true);
+												closeFun?.close();
+											}}
+										>
+											{t('delete')}
+										</Delete>
+									</SelectWrap>
+								</Popover>
 							</StaffAction>
 						</CashierInfo>
 					)}
@@ -288,6 +340,46 @@ const CashierCard = () => {
 					</SideBar>
 				</div>
 			</Wrapper>
+			{/* delete cashier */}
+			<Modal open={open}>
+				<ModalContent>
+					<ModalBody>
+						<BarTitle>Вы уверены что хотите удалить кассира?</BarTitle>
+						<Break height={15} />
+						<BarText>{staffData?.firstName}</BarText>
+					</ModalBody>
+					<Break height={35} />
+					<ModalAction>
+						<Button
+							buttonStyle={{
+								bgcolor: '#fff',
+								color: '#223367',
+							}}
+							onClick={() => {
+								setOpen(false);
+							}}
+							startIcon={<CancelIcon />}
+						>
+							{t('cancel')}
+						</Button>
+						<Button
+							buttonStyle={{
+								bgcolor: '#FF5E68',
+								color: '#fff',
+							}}
+							disabled={deleteCashier.isLoading}
+							onClick={() => {
+								deleteCashier.mutate(cashierId);
+							}}
+							startIcon={<DeleteWhiteIcon />}
+						>
+							{t('delete')}
+						</Button>
+					</ModalAction>
+				</ModalContent>
+			</Modal>
+			{/* edit cashier */}
+			<EditCashier openEdit={openEdit} />
 		</CardContainer>
 	);
 };

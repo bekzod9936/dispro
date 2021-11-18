@@ -15,7 +15,6 @@ import { useTranslation } from 'react-i18next'
 import Button from 'components/Custom/Button'
 import { DownModal } from './components/DownModal'
 import { selectAll, setCurrentClient } from 'services/redux/Slices/clients'
-import { Form } from '../../components/Form'
 import { useQuery } from 'react-query'
 import { fetchPersonalInfo } from 'services/queries/clientsQuery'
 import { BlockModal } from '../../components/BlockModal'
@@ -142,18 +141,6 @@ const Client = () => {
     } else {
         return (
             <MWrapper>
-                <Form
-                    clientInfo={{
-                        status: currentClient?.clientInfo?.addInfo?.status + "",
-                        name: currentClient?.clientInfo?.firstName + " " + currentClient?.clientInfo?.lastName,
-                        percent: currentClient?.clientInfo?.personalLoyaltyInfo?.percent || "",
-                        points: currentClient?.clientInfo?.addInfo?.pointSum + "" || "",
-                        id: currentClient?.clientInfo?.id || 0
-                    }}
-                    refetch={response.refetch}
-                    handleClose={setForm}
-                    action={form.action}
-                    isOpen={form.isOpen} />
                 {isOpen &&
                     <DownModal
                         onClick={handlePointsAction}

@@ -50,32 +50,57 @@ const Suggestions = () => {
 
   const listdesktop: any = data?.map((v: any) => {
     const date = dayjs(v?.payDate).format('DD.MM.YYYY');
+    const profit = `${numberWithNew({
+      number: v?.amountPartner,
+    })}  (${numberWithNew({
+      number: 100 - v?.disCommission,
+    })}%)`;
+    const commission = `${numberWithNew({
+      number: v?.amount - v?.amountPartner,
+    })} (${numberWithNew({ number: v?.disCommission })}%)`;
+    const type =
+      v?.couponType === 1
+        ? t('summoney')
+        : v?.couponType === 2
+        ? t('sale')
+        : '-';
+    const consumer = `${v?.firstName}  ${v?.lastName}`;
     return {
       col1: date,
-      col2: `${v?.firstName}  ${v?.lastName}`,
+      col2: consumer,
       col3: numberWithNew({ number: v?.amount }),
-      col4:
-        v?.couponType === 1
-          ? t('summoney')
-          : v?.couponType === 2
-          ? t('sale')
-          : '-',
-      col5: numberWithNew({ number: v?.amountPartner }),
-      col6: numberWithNew({ number: v?.disCommission }),
+      col4: type,
+      col5: profit,
+      col6: commission,
       col7: v?.couponName,
     };
   });
 
   const listmobile: any = data.map((v: any) => {
     const date = dayjs(v?.payDate).format('DD.MM.YYYY');
+    const profit = `${numberWithNew({
+      number: v?.amountPartner,
+    })}  (${numberWithNew({
+      number: 100 - v?.disCommission,
+    })}%)`;
+    const commission = `${numberWithNew({
+      number: v?.amount - v?.amountPartner,
+    })} (${numberWithNew({ number: v?.disCommission })}%)`;
+    const type =
+      v?.couponType === 1
+        ? t('summoney')
+        : v?.couponType === 2
+        ? t('sale')
+        : '-';
+    const consumer = `${v?.firstName}  ${v?.lastName}`;
     return {
-      title: `${v?.firstName}  ${v?.lastName}`,
+      title: consumer,
       value: numberWithNew({ number: v?.amount }),
       body: [
         { title: t('date'), value: date },
         {
           title: t('customer'),
-          value: `${v?.firstName}  ${v?.lastName}`,
+          value: consumer,
         },
         {
           title: t('purchaseamount'),
@@ -83,20 +108,15 @@ const Suggestions = () => {
         },
         {
           title: t('type'),
-          value:
-            v?.couponType === 1
-              ? t('summoney')
-              : v?.couponType === 2
-              ? t('sale')
-              : '-',
+          value: type,
         },
         {
           title: t('profit'),
-          value: numberWithNew({ number: v?.amountPartner }),
+          value: profit,
         },
         {
           title: t('commission'),
-          value: numberWithNew({ number: v?.disCommission }),
+          value: commission,
         },
         { title: t('title'), value: v?.couponName },
       ],

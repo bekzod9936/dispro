@@ -1,4 +1,4 @@
-import { Controller, useFieldArray, useForm, useWatch } from "react-hook-form";
+import { Controller, useFieldArray, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 //actions
 import { addModal, handleClick } from "services/redux/Slices/settingsSlice";
@@ -15,7 +15,7 @@ import {
   Footer,
 } from "./style";
 import { FormProps } from "../../hooks/useLoyality";
-import { Break } from "pages/CompanyPages/settings/styles";
+import { Break, SpinnerDiv } from "pages/CompanyPages/settings/styles";
 //hooks
 import { useAppSelector, useAppDispatch } from "services/redux/hooks";
 // import useMobileContent from "./useMobileContent";
@@ -28,10 +28,22 @@ import NestedArray from "./nested_array";
 import Button from "components/Custom/Button";
 import CancelButton from "pages/CompanyPages/settings/components/CancelButton";
 import SaveButton from "pages/CompanyPages/settings/components/SaveButton";
+import useMobileData from "./useMobileData";
+import Spinner from "components/Helpers/Spinner";
 
 const MainModel = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
+  const {
+    control,
+    handleSubmit,
+    errors,
+    setValue,
+    onFormSubmit,
+    saleLoading,
+    cashLoading,
+    isLoading,
+  } = useMobileData();
 
   const base_loyality = useAppSelector((state) => state.settings.base_loyality);
   //using program loyality
@@ -42,16 +54,12 @@ const MainModel = () => {
     (state) => state.loyalitySlice.useProgram
   );
 
-  const {
-    control,
-    formState: { errors },
-    setValue,
-    handleSubmit,
-  } = useForm();
   const { fields, append, remove } = useFieldArray<FormProps>({
     control,
     name: "levels",
   });
+
+  const openCashback = useAppSelector((state) => state.settings.openState);
 
   console.log(errors, "errors");
 
@@ -75,9 +83,13 @@ const MainModel = () => {
     return true;
   };
 
-  const onSubmit = (data: FormProps) => {
-    console.log(data);
-  };
+  if (isLoading || cashLoading || saleLoading) {
+    return (
+      <SpinnerDiv>
+        <Spinner />
+      </SpinnerDiv>
+    );
+  }
 
   return (
     <Container>
@@ -96,7 +108,7 @@ const MainModel = () => {
         </IconButton>
         <Htext>Настройка предостовления скидки</Htext>
       </Header>
-      <Body onSubmit={handleSubmit(onSubmit)}>
+      <Body onSubmit={handleSubmit(onFormSubmit)}>
         <Break height={20} />
         <Htext>Статусы клиентов</Htext>
         <Break height={2} />
@@ -109,6 +121,7 @@ const MainModel = () => {
               required: true,
             }}
             control={control}
+            defaultValue={base_loyality?.base_name}
             render={({ field }) => (
               <Input
                 label={"№ 1 Название статуса"}
@@ -162,6 +175,7 @@ const MainModel = () => {
                   rules={{
                     required: true,
                   }}
+                  defaultValue={item.name}
                   control={control}
                   render={({ field }) => (
                     <Input
@@ -182,6 +196,7 @@ const MainModel = () => {
                     max: 100,
                     min: 0,
                   }}
+                  defaultValue={item.percent}
                   control={control}
                   render={({ field }) => {
                     return (
@@ -252,6 +267,53 @@ const MainModel = () => {
             </Button>
           )}
         </Row>
+        <Break height={15} />
+        <Row>
+          <Controller
+            name="max_percent"
+            control={control}
+            rules={{
+              required: true,
+            }}
+            defaultValue={base_loyality?.max_percent}
+            render={({ field }) => {
+              return (
+                <InputFormat
+                  label={t("max_percent")}
+                  defaultValue={base_loyality?.max_percent}
+                  type="string"
+                  field={field}
+                  message={t("requiredField")}
+                  error={errors.max_percent?.type === "required"}
+                />
+              );
+            }}
+          />
+        </Row>
+        <Break height={15} />
+        {openCashback.type === "cashback" && (
+          <Row>
+            <Controller
+              name="give_cashback_after"
+              control={control}
+              rules={{
+                required: true,
+              }}
+              defaultValue={base_loyality?.give_cashback_after}
+              render={({ field }) => {
+                return (
+                  <InputFormat
+                    field={field}
+                    label={t("give_cashback_after")}
+                    defaultValue={base_loyality?.give_cashback_after}
+                    error={errors.give_cashback_after?.type === "required"}
+                    message={t("requiredField")}
+                  />
+                );
+              }}
+            />
+          </Row>
+        )}
         <Break height={25} />
         <Row>
           <Controller

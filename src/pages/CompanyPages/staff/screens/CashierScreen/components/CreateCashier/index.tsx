@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import Modal from 'components/Custom/Modal';
@@ -18,6 +18,7 @@ import useCashiers from '../../../../hooks/useCashiers';
 import useStaff from '../../../../hooks/useStaff';
 import { setTimeout } from 'timers';
 import { IconButton } from '@material-ui/core';
+import { inputPhoneNumber } from 'utilities/inputFormat';
 
 interface IProps {
 	openCash: boolean;
@@ -38,6 +39,9 @@ const CreateCashier = ({ openCash }: IProps) => {
 		control,
 		handleSubmit,
 		reset,
+		watch,
+		setValue,
+		getValues,
 		formState: { errors, isValid, isSubmitSuccessful },
 	} = useForm<FormProps>({
 		mode: 'onChange',
@@ -52,12 +56,12 @@ const CreateCashier = ({ openCash }: IProps) => {
 			firstName: data.firstName,
 			lastName: data.lastName,
 			storeId: data.storeId?.value,
-			telNumber: data.telNumber,
+			telNumber: `+998${data.telNumber}`,
 			roleId: 3,
 		});
 	};
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (isSubmitSuccessful) {
 			setTimeout(() => {
 				reset({
@@ -70,6 +74,20 @@ const CreateCashier = ({ openCash }: IProps) => {
 			}, 4000);
 		}
 	}, [isSubmitSuccessful, reset]);
+
+	const tel: any = getValues();
+
+	let checkPhone = inputPhoneNumber({
+		value: tel?.telNumber,
+	});
+
+	useEffect(() => {
+		if (getValues('telNumber') === undefined) {
+			setValue('telNumber', '');
+		} else {
+			setValue('telNumber', checkPhone.newString);
+		}
+	}, [checkPhone.check, watch('telNumber')]);
 
 	return (
 		<Modal open={openCash}>
@@ -131,6 +149,7 @@ const CreateCashier = ({ openCash }: IProps) => {
 							<Controller
 								name='telNumber'
 								control={control}
+								defaultValue={''}
 								rules={{
 									required: true,
 								}}
@@ -141,13 +160,14 @@ const CreateCashier = ({ openCash }: IProps) => {
 											error={errors.telNumber ? true : false}
 											message={t('requiredField')}
 											type='string'
-											defaultValue={'+998'}
-											maxLength={13}
 											field={field}
 											fullWidth={true}
 											margin={{
 												laptop: '20px 0 25px',
 											}}
+											inputStyle={{ inpadding: '0 20px 0 0' }}
+											maxLength={9}
+											IconStart={<div className='inputstyle'>+998</div>}
 										/>
 									);
 								}}

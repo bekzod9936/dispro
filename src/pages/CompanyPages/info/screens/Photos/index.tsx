@@ -51,12 +51,23 @@ const Photos = () => {
   });
 
   const handleUpload = (e: any) => {
-    for (let i = 0; i < count; i++) {
-      const formData = new FormData();
-      formData.append('itemId', companyId);
-      formData.append('fileType', 'companyImage');
-      formData.append('file', e.target.files[i]);
-      photoUploading.mutate(formData);
+    console.log(e.target.files.length);
+    if (e.target.files.length < count) {
+      for (let i = 0; i < e.target.files.length; i++) {
+        const formData = new FormData();
+        formData.append('itemId', companyId);
+        formData.append('fileType', 'companyImage');
+        formData.append('file', e.target.files[i]);
+        photoUploading.mutate(formData);
+      }
+    } else if (e.target.files.length >= count) {
+      for (let i = 0; i < count; i++) {
+        const formData = new FormData();
+        formData.append('itemId', companyId);
+        formData.append('fileType', 'companyImage');
+        formData.append('file', e.target.files[i]);
+        photoUploading.mutate(formData);
+      }
     }
   };
 
@@ -190,7 +201,7 @@ const Photos = () => {
                               <Label htmlFor='photosloading'>
                                 <PhotoIcon />
                                 <span>
-                                  {t('addMark')} {' +'}
+                                  {t('addphoto')} {' +'}
                                 </span>
                               </Label>
                             </>
@@ -219,7 +230,7 @@ const Photos = () => {
         <DownSide>
           <div>
             <LabelNoPhoto htmlFor='photosloading'>
-              <span>{t('addMark')}</span>
+              <span>{t('addphoto')}</span>
               <PhotoIcon />
             </LabelNoPhoto>
             <SaveButton

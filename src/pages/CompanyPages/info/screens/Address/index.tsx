@@ -52,6 +52,7 @@ import {
   WrapLocationAddress,
   NoResult,
   Message,
+  DownSide,
 } from './style';
 
 interface FormProps {
@@ -505,8 +506,13 @@ const Address = () => {
                     color: '#223367',
                     weight: 500,
                     shadow: '0px 4px 4px rgba(0, 0, 0, 0.04)',
+                    fontSize: {
+                      mobile: 14,
+                      laptop: 16,
+                      desktop: 18,
+                    },
                     height: {
-                      mobile: 45,
+                      mobile: 36,
                       planshet: 45,
                       laptop: 50,
                       desktop: 60,
@@ -522,7 +528,11 @@ const Address = () => {
                 </Button>
                 <WrapInput>
                   <Input
-                    inputStyle={{ inpadding: '0 10px', border: 'none' }}
+                    inputStyle={{
+                      inpadding: '0 10px',
+                      border: 'none',
+                      height: { mobile: 36 },
+                    }}
                     placeholder={t('searchbarnches')}
                     IconStart={<SearchIcon />}
                     margin={{ laptop: '0 0 0 20px', mobile: '0 20px' }}
@@ -544,7 +554,7 @@ const Address = () => {
                   fillial?.map((v: IAddress) => (
                     <AddressInfo onClick={() => handleChoosFillial(v)}>
                       <Left>
-                        <Title>{t('addresscompany')}</Title>
+                        <Title>{v.name}</Title>
                         <Text1>{v.address}</Text1>
                       </Left>
                       <Right>
@@ -560,7 +570,7 @@ const Address = () => {
                   searchRes?.map((v: IAddress) => (
                     <AddressInfo onClick={() => handleChoosFillial(v)}>
                       <Left>
-                        <Title>{t('addresscompany')}</Title>
+                        <Title>{v.name}</Title>
                         <Text1>{v.address}</Text1>
                       </Left>
                       <Right>
@@ -785,6 +795,7 @@ const Address = () => {
               {workError === false && showWork ? (
                 <Message>{t('requiredField')}</Message>
               ) : null}
+
               <ButtonsWrap>
                 {fill ? null : (
                   <ExitButton
@@ -830,6 +841,51 @@ const Address = () => {
               </ButtonsWrap>
             </div>
           </LeftSide>
+          <DownSide>
+            <div>
+              {fill ? null : (
+                <ExitButton
+                  onClick={() => dispatch(setExitModal(true))}
+                  margin={{
+                    laptop: '20px 10px 0',
+                    mobile: '0',
+                  }}
+                  mobile={true}
+                />
+              )}
+              <SaveButton
+                onClick={() => handleSaveClick()}
+                disabled={
+                  addressPut.isLoading ||
+                  mainPut.isLoading ||
+                  addressPost.isLoading
+                }
+                margin={{
+                  laptop: '20px 0 0',
+                  mobile: '0',
+                }}
+              />
+              {isMain || edit ? null : (
+                <Button
+                  buttonStyle={{
+                    shadow: '0px 4px 9px rgba(255, 94, 104, 0.46)',
+                    weight: '500',
+                    bgcolor: '#FF5E68',
+                    color: '#FFFFFF',
+                  }}
+                  margin={{
+                    laptop: '20px 0 0 20px',
+                    mobile: '0',
+                  }}
+                  disabled={addressDelete.isLoading}
+                  type='button'
+                  onClick={handleDeleteFilial}
+                >
+                  {t('deletefilial')}
+                </Button>
+              )}
+            </div>
+          </DownSide>
         </Form>
       )}
       <Rightside>

@@ -105,7 +105,11 @@ const LoyaltyProgramSection = () => {
 
   const content = () => {
     if (width <= 1000) {
-      return <MobileContent />;
+      return (
+        <MobileContent
+          isLoading={isLoading || cashbackLoading || discountLoading}
+        />
+      );
     } else {
       return (
         <>

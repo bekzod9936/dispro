@@ -124,7 +124,7 @@ const Payment = () => {
           : '-',
       col9:
         v.payInfo.isCoupon && v.payInfo.valueType === 'percent'
-          ? numberWithNew({ number: v.payInfo.value })
+          ? `${numberWithNew({ number: v.payInfo.value })}%`
           : '-',
       col10:
         v.payInfo.isCoupon && v.payInfo.valueType === 'amount'
@@ -173,7 +173,7 @@ const Payment = () => {
           title: t('coupon'),
           value:
             v.payInfo.isCoupon && v.payInfo.valueType === 'percent'
-              ? numberWithNew({ number: v.payInfo.value })
+              ? `${numberWithNew({ number: v.payInfo.value })}%`
               : '-',
         },
         {

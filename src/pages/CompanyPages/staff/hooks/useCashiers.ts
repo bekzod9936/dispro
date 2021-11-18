@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery, useMutation } from "react-query";
-
+import {useHistory} from "react-router-dom";
 import {
   deleteSingleCashier,
   getCashiers,
@@ -16,14 +16,17 @@ import {
   setSelectedCashiers,
   setSelectedManagers,
   setOpenEditCashier,
+  setStaffData,
 } from "services/redux/Slices/staffs";
 import { numberWith } from "services/utils";
+import useCashierCard from "../screens/CashierCard/hooks/useCashierCard";
 
 const useCashiers = ({ page, query, period }: any) => {
+  const history = useHistory();
   const [open, setOpen] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const dispatch = useAppDispatch();
-
+  const {refetch}=useCashierCard()
 
     //edit
 	const editCashier = useMutation((data: any) => editStaff(data), {
@@ -31,6 +34,7 @@ const useCashiers = ({ page, query, period }: any) => {
 		  setOpenEdit(false);
 		  dispatch(setOpenEditCashier(false));
 		  response.refetch();
+		  refetch()
 		},
 	  });
 
@@ -79,6 +83,9 @@ const useCashiers = ({ page, query, period }: any) => {
       setOpen(false);
       dispatch(setSelectedCashiers([]));
       dispatch(setSelectedManagers([]));
+
+	  dispatch(setStaffData([]));
+								history.push('/staff');
 
       response.refetch();
     },

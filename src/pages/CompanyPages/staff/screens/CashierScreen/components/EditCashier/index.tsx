@@ -3,6 +3,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import Button from 'components/Custom/Button';
 import Modal from 'components/Custom/Modal';
+import { useLocation } from 'react-router-dom';
 import {
 	ModalAction,
 	ModalBody,
@@ -23,15 +24,19 @@ import { setOpenEditCashier } from 'services/redux/Slices/staffs';
 import useStaff from 'pages/CompanyPages/staff/hooks/useStaff';
 import useCashiers from 'pages/CompanyPages/staff/hooks/useCashiers';
 import { useEffect } from 'react';
+import { inputPhoneNumber } from 'utilities/inputFormat';
 
 const EditCashier = ({ openEdit }: IProps) => {
 	const dispatch = useAppDispatch();
 	const { t } = useTranslation();
 	const { branches } = useStaff();
-
+	const { pathname, state }: any = useLocation();
 	const selectedCashiers = useAppSelector(
 		(state) => state.staffs.selectedCashiers
 	);
+
+	const cashierId: any = state?.id;
+	const { staffData } = useAppSelector((state) => state.staffs);
 
 	const { editCashier } = useCashiers({
 		page: 1,
@@ -43,6 +48,8 @@ const EditCashier = ({ openEdit }: IProps) => {
 		control,
 		handleSubmit,
 		setValue,
+		watch,
+		getValues,
 		formState: { errors, isValid },
 	} = useForm<FormProps>({
 		mode: 'onChange',
@@ -52,29 +59,64 @@ const EditCashier = ({ openEdit }: IProps) => {
 
 	const onSave = (data: FormProps) => {
 		console.log(data, 'data form');
-		editCashier.mutate({
-			id: selectedCashiers[0].id,
-			storeId: data.storeId?.value,
-			firstName: data.firstName,
-			lastName: data.lastName,
-			comment: data.comment,
-			telNumber: data.telNumber,
-		});
+		if (selectedCashiers?.length) {
+			editCashier.mutate({
+				id: selectedCashiers[0].id,
+				storeId: data.storeId?.value,
+				firstName: data.firstName,
+				lastName: data.lastName,
+				comment: data.comment,
+				telNumber: data.telNumber,
+			});
+		} else {
+			editCashier.mutate({
+				id: cashierId,
+				storeId: data?.storeId,
+				firstName: data?.firstName,
+				lastName: data?.lastName,
+				comment: data?.comment,
+				telNumber: data?.telNumber,
+			});
+		}
 	};
 
 	useEffect(() => {
 		if (selectedCashiers?.length) {
 			let firstname = selectedCashiers[0].firstName.split(' ')[0];
 			let choseBranch: any = branches.find(
-				(item: any) => item.value == selectedCashiers[0].storeId
+				(item: any) => item.value === selectedCashiers[0].storeId
 			);
+
+			const tel: string = String(selectedCashiers[0].telNumber).slice(4);
 			setValue('firstName', firstname);
 			setValue('lastName', selectedCashiers[0].lastName);
 			setValue('comment', selectedCashiers[0].comment);
-			setValue('telNumber', selectedCashiers[0].telNumber);
+			setValue('telNumber', tel);
 			setValue('storeId', choseBranch?.value);
+		} else {
+			let firstname = staffData.firstName;
+			const tel: string = String(staffData.telNumber).slice(4);
+			setValue('firstName', firstname);
+			setValue('lastName', staffData.lastName);
+			setValue('comment', staffData.comment);
+			setValue('telNumber', tel);
+			setValue('storeId', staffData?.storeId);
 		}
-	}, [selectedCashiers]);
+	}, [selectedCashiers, staffData]);
+
+	const tel: any = getValues();
+
+	let checkPhone = inputPhoneNumber({
+		value: tel?.telNumber,
+	});
+
+	useEffect(() => {
+		if (getValues('telNumber') === undefined) {
+			setValue('telNumber', '');
+		} else {
+			setValue('telNumber', checkPhone.newString);
+		}
+	}, [checkPhone.check, watch('telNumber')]);
 
 	return (
 		<Modal open={openEdit}>
@@ -147,12 +189,14 @@ const EditCashier = ({ openEdit }: IProps) => {
 											message={t('requiredField')}
 											type='string'
 											defaultValue={'+998'}
-											maxLength={13}
 											field={field}
 											fullWidth={true}
 											margin={{
 												laptop: '20px 0 25px',
 											}}
+											inputStyle={{ inpadding: '0 20px 0 0' }}
+											maxLength={9}
+											IconStart={<div className='inputstyle'>+998</div>}
 										/>
 									);
 								}}

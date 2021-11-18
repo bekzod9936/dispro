@@ -64,15 +64,15 @@ export const Card = styled.div`
   flex-direction: column;
   flex: 1;
   width: 100%;
+  &:hover {
+    box-shadow: 0px 10px 14px rgba(0, 0, 0, 0.08);
+  }
 `;
 
 export const CardImg = styled.div`
   width: 100%;
   height: 200px;
   overflow: hidden;
-  @media (max-width: ${device.mobile}) {
-    height: 180px;
-  }
 `;
 
 export const TitleCard = styled.div`
@@ -103,7 +103,7 @@ export const Text = styled.p`
   }
 `;
 
-export const Date = styled.div`
+export const Date1 = styled.div`
   font-weight: normal;
   font-size: 11px;
   color: #8f8f8f;
@@ -128,10 +128,21 @@ export const CardBody = styled.div`
 
 export const WrapTitle = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   width: 100%;
   margin-bottom: 10px;
+  grid-column-gap: 10px;
+`;
+
+export const Titletext = styled.div`
+  width: 80%;
+  font-weight: bold;
+  font-size: 14px;
+  color: #223367;
+  @media (min-width: ${device.laptop}) {
+    font-size: 16px;
+  }
 `;
 
 export const WrapPag = styled.div`
@@ -164,9 +175,7 @@ export const WrapperCard = styled.div`
   grid-template-columns: repeat(3, minmax(30%, 1fr));
   grid-gap: 20px;
   padding-right: 25px;
-  & > :hover {
-    box-shadow: 4px 4px 10px grey;
-  }
+
   border-radius: 14px;
   @media (max-width: ${device.mobile}) {
     grid-template-columns: minmax(100%, 1fr);
@@ -198,11 +207,14 @@ export const Wrap = styled.div`
 
 export const SideImgWrap = styled.div`
   width: 100%;
-  height: 200px;
+  height: 250px;
   overflow: hidden;
   position: relative;
   @media (min-width: ${device.laptop}) {
     height: 300px;
+  }
+  @media (max-width: ${device.mobile}) {
+    height: 180px;
   }
 `;
 
@@ -249,6 +261,7 @@ export const SideDrawer = styled.div`
   background-color: #ffffff;
   z-index: 20;
   transition: 500ms all;
+  box-shadow: -5px 2px 20px rgba(0, 0, 0, 0.06);
   transform: ${(props: Props) =>
     props.open ? 'translateX(0)' : 'translateX(100%)'};
 `;

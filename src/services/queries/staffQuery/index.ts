@@ -98,3 +98,16 @@ export const resetPoints = async (data: any) => {
 
   return response;
 };
+
+//point histories
+
+interface Props {
+	url: string;
+	id: number
+  }
+
+export const getPointHistories = async ({id, url}: Props) => {
+  const response = await partnerApi.get(`/core/staffs/cashier/point-histories/${id}?${url}`);
+
+  return response;
+};

@@ -17,28 +17,33 @@ import { useMutation } from 'react-query';
 import { fetchQrCode } from 'services/queries/clientsQuery';
 import FullModal from 'components/Custom/FullModal';
 import { MobileQrBar } from '../../components/MobileQrBar';
-
-
-
-
+import { DownBarViewer } from '../../components/DownBarViewer';
+import { MobileForm } from '../../components/Form';
+export interface IMobileForm {
+	open: boolean,
+	action: 1 | 2 | 3
+}
 const ClientsPage = () => {
 	const [query, setQuery] = useState<string>('')
 	const [debouncedQuery] = useDebounce(query, 300)
 	const { totalCount, selectedClients } = useAppSelector(state => state.clients)
+	const client = selectedClients[0]
 	const { width } = useWindowSize()
 	const [modals, setModals] = useState({
-		qrModal: false
+		qrModal: false,
+		downBar: false,
+	})
+	const [form, setForm] = useState<IMobileForm>({
+		open: false,
+		action: 1
 	})
 	const [qr, setQr] = useState({
 		link: "",
 		code: ""
 	})
-	const [form, setForm] = useState({
-		action: 1,
-		isOpen: false
-	})
 
 	const { refetch, isFetching } = useFetchClients({ query: debouncedQuery });
+
 	const { mutate } = useMutation(() => fetchQrCode(), {
 		retry: 0,
 		onSuccess: (data) => {
@@ -82,7 +87,30 @@ const ClientsPage = () => {
 							refetch={refetch} />
 					</SideBar>
 				</> :
-					<DownBar setForm={setForm} />}
+					<>
+						{!isFetching && <DownBarViewer setModals={setModals} />}
+						{!isFetching &&
+							<DownBar
+								refetch={refetch}
+								setForm={setForm}
+								setModals={setModals}
+								open={modals.downBar} />}
+						{client &&
+							<MobileForm
+								client={{
+									name: client.firstName + " " + client.lastName,
+									points: client.addInfo.pointSum,
+									percent: client.personalLoyaltyInfo.isActive ? client.personalLoyaltyInfo.percent : client.obtainProgramLoyalty.percent,
+									currentStatus: client.personalLoyaltyInfo.isActive ? client.addInfo.status : client.obtainProgramLoyalty.levelName,
+									prevPercent: client.obtainProgramLoyalty.percent,
+									prevStatus: client.obtainProgramLoyalty.levelName,
+									id: client.id
+								}}
+								open={form.open}
+								action={form.action}
+								onClose={() => setForm((prev: any) => ({ ...prev, open: false }))} />}
+
+					</>}
 			</Container>
 		</MainWrapper>
 	);

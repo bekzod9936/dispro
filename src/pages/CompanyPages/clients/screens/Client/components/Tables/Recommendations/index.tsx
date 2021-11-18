@@ -1,13 +1,13 @@
 import Filter from 'components/Custom/Filter'
 import { Label } from 'components/Custom/Input/style'
 import { WrapCheck, WrapDate, WrapInputs, WrapStatus } from 'pages/CompanyPages/clients/components/Header/style'
-import React, { useMemo, useState, useEffect } from 'react'
+import { useRef, useMemo, useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useTable } from 'react-table'
-import { operationsColumns, operationsHeaders } from '../Operations/constants'
+import { operationsColumns, operationsHeaders, recommendsHeaders } from '../Operations/constants'
 import { Footer, Table, Tbody, Td, Th, THead, TRow } from '../Operations/style'
 import Input from "components/Custom/Input"
-import { getOneDayPlus } from 'pages/CompanyPages/clients/utils/getSelectedFilters'
+import { getOneDayPlus, tableRecommendsHelper } from 'pages/CompanyPages/clients/utils/getSelectedFilters'
 import CheckBox from 'components/Custom/CheckBox'
 import { useQuery } from 'react-query'
 import { fetchReferChilds } from 'services/queries/clientsQuery'
@@ -16,19 +16,25 @@ import Spinner from 'components/Helpers/Spinner'
 import { EmptyTable } from '../../EmptyTable'
 import recommendations from "assets/images/recomendations.png"
 import Pagination from 'components/Custom/Pagination'
+import { useWindowSize } from 'pages/CompanyPages/clients/hooks/useWindowSize'
 
 const Recommendations = () => {
     const { t } = useTranslation()
     const [page, setPage] = useState(1)
+    const parentRef = useRef<null | HTMLDivElement>(null);
+    const { height } = useWindowSize()
     const { currentClient, period } = useAppSelector(state => state.clients)
     const [totalCount, setTotalCount] = useState(1)
+    const [position, setPosition] = useState(0)
     const [recomendations, setRecomendations] = useState<any[]>([])
+    
     const [filter, setFilter] = useState<any>({
         status: [{
         }]
     })
+
     const { isFetching } = useQuery(["fetchRecommends", page], () => fetchReferChilds({
-        id: currentClient?.clientInfo.id,
+        id: currentClient?.clientInfo.userId,
         startDate: period.startDate,
         endDate: period.endDate,
         regDateFrom: "",
@@ -39,20 +45,20 @@ const Recommendations = () => {
         retry: 0,
         refetchOnWindowFocus: false,
         onSuccess: (data) => {
-            console.log(data.data.data);
+            setRecomendations(tableRecommendsHelper(data.data.data.clientCardReferChilds))
 
         }
     })
 
 
-    const headers: any = useMemo(() => operationsHeaders.map(header => (
+    const headers: any = useMemo(() => recommendsHeaders.map(header => (
         {
             Header: t(header),
             accessor: header
         }
-    )), [operationsHeaders])
+    )), [recommendsHeaders])
 
-    const columns = useMemo(() => operationsColumns, [operationsColumns])
+    const columns = useMemo(() => recomendations, [recomendations])
     const filterList = [
         {
             title: t("registration_date"),
@@ -131,8 +137,24 @@ const Recommendations = () => {
             )
         }
     ]
-
+    const handleFilterOpen = () => {
+        if (parentRef.current) {
+            parentRef.current.scrollIntoView({
+                block: "center",
+                behavior: "smooth",
+                inline: "center"
+            })
+        }
+    }
     const { getTableBodyProps, getTableProps, prepareRow, rows, headerGroups } = useTable({ columns: headers, data: columns })
+    // useEffect(() => {
+    //     if (parentRef.current) {
+    //         if (parentRef.current.getBoundingClientRect().top > (height / 2)) {
+    //             setPosition(-200)
+
+    //         }
+    //     }
+    // }, [height])
     if (isFetching) {
         return (
             <Spinner />
@@ -145,8 +167,8 @@ const Recommendations = () => {
     }
     return (
         <>
-            {/* <div style={{ margin: "0 0 10px 0" }}>
-                <Filter list={filterList} />
+            {/* <div ref={parentRef} style={{ margin: "0 0 10px 0" }}>
+                <Filter position={position} list={filterList} />
             </div> */}
             <Table {...getTableProps()}>
                 <THead>

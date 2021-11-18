@@ -79,11 +79,15 @@ export const Column = styled.div`
   margin-top: 20px;
 `;
 
+interface IModal {
+  gap?: number;
+}
+
 export const ModalContent = styled.div`
   background-color: #fff;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: ${({ gap = 20 }: IModal) => gap + "px"};
   padding: 20px 15px;
 `;
 
@@ -113,4 +117,13 @@ export const Footer = styled.footer`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+export const ModalTitle = styled.p`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  color: #223367;
 `;

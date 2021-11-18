@@ -1,7 +1,7 @@
 import Title from 'components/Custom/Title';
 import { useTranslation } from 'react-i18next';
 import Pagination from 'components/Custom/Pagination';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import useNotefications from './useNotefications';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import Button from 'components/Custom/Button';
@@ -13,13 +13,15 @@ import { useHistory } from 'react-router';
 import useWindowWidth from 'services/hooks/useWindowWidth';
 import FullModal from 'components/Custom/FullModal';
 import { countPagination } from './utils';
+import isYesterday from 'dayjs/plugin/isYesterday';
+import isToday from 'dayjs/plugin/isToday';
 import {
   Container,
   Card,
   CardImg,
   TitleCard,
   Text,
-  Date,
+  Date1,
   CardBody,
   WrapTitle,
   WrapPag,
@@ -36,6 +38,7 @@ import {
   WrapInfoBox,
   WrapDefault,
   MessageIcon,
+  Titletext,
 } from './style';
 
 interface intialFilterProps {
@@ -61,8 +64,26 @@ const Notifications = () => {
   const { t } = useTranslation();
   const { width } = useWindowWidth();
   const history = useHistory();
-
+  const currentYear: any = new Date().getFullYear();
   const [open, setOpen] = useState(false);
+  const ref: any = useRef(null);
+
+  const handleClickOutside = (event: any) => {
+    if (ref.current && !ref.current.contains(event.target)) {
+      setOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside, true);
+    return () => {
+      document.removeEventListener('click', handleClickOutside, true);
+    };
+  });
+
+  dayjs.extend(isYesterday);
+  dayjs.extend(isToday);
+
   const [info, setInfo] = useState<infoProps>({});
   const [id, setId] = useState<number>();
   const [filterValues, setFilterValues] =
@@ -95,7 +116,7 @@ const Notifications = () => {
           height='100%'
           width='100%'
           style={{
-            objectFit: 'contain',
+            objectFit: 'fill',
             userSelect: 'none',
           }}
         />
@@ -103,8 +124,16 @@ const Notifications = () => {
       <WrapScroll>
         <WrapInfoBox>
           <WrapTitle>
-            <TitleCard>{info.title}</TitleCard>
-            <Date>{dayjs(info.createdAt).format('DD MMMM YYYY')}</Date>
+            <Titletext>{info.title}</Titletext>
+            <Date1>
+              {dayjs(info.createdAt).isYesterday()
+                ? t('yesterday')
+                : dayjs(info.createdAt).isToday()
+                ? t('today')
+                : dayjs(info.createdAt).format('YYYY') == currentYear
+                ? dayjs(info.createdAt).format('DD MMMM')
+                : dayjs(info.createdAt).format('DD MMMM YYYY')}
+            </Date1>
           </WrapTitle>
           <SideText>{info.body} </SideText>
         </WrapInfoBox>
@@ -117,6 +146,7 @@ const Notifications = () => {
               height: {
                 mobile: 38,
               },
+              shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)',
               fontSize: {
                 mobile: 14,
               },
@@ -156,16 +186,25 @@ const Notifications = () => {
                       height='100%'
                       width='100%'
                       style={{
-                        objectFit: 'contain',
+                        objectFit: 'fill',
                         borderRadius: '14px 14px 0 0',
+                        userSelect: 'none',
                       }}
                       effect='blur'
                     />
                   </CardImg>
                   <CardBody open={open && v.id === id}>
                     <WrapTitle>
-                      <TitleCard>{v.title}</TitleCard>
-                      <Date>{dayjs(v.createdAt).format('DD MMMM YYYY')}</Date>
+                      <TitleCard> {v.title}</TitleCard>
+                      <Date1>
+                        {dayjs(v.createdAt).isYesterday()
+                          ? t('yesterday')
+                          : dayjs(v.createdAt).isToday()
+                          ? t('today')
+                          : dayjs(v.createdAt).format('YYYY') == currentYear
+                          ? dayjs(v.createdAt).format('DD MMMM')
+                          : dayjs(v.createdAt).format('DD MMMM YYYY')}
+                      </Date1>
                     </WrapTitle>
                     <Text>{v.body}</Text>
                   </CardBody>
@@ -200,7 +239,9 @@ const Notifications = () => {
         </WrapDefault>
       )}
       {width > 600 ? (
-        <SideDrawer open={open}>{content}</SideDrawer>
+        <SideDrawer ref={ref} open={open}>
+          {content}
+        </SideDrawer>
       ) : (
         <FullModal open={open}>{content}</FullModal>
       )}
