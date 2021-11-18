@@ -15,12 +15,10 @@ const MenuList = () => {
   const dispatch = useAppDispatch();
   const pathName: string[] = location.pathname.split("/");
 
-  console.log(pathName, "pathname");
   return (
     <WrapList>
       <List>
         {sidebar.map(({ Icon, text, path }) => {
-          console.log(path);
           let currentpath = path.split("/");
           return (
             <ListI
