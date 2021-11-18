@@ -19,6 +19,7 @@ const MenuList = () => {
     <WrapList>
       <List>
         {sidebar.map(({ Icon, text, path }) => {
+          let currentpath = path.split("/");
           return (
             <ListI
               button
@@ -27,7 +28,11 @@ const MenuList = () => {
                 history.push(`/${path}`);
                 dispatch(setCurrentPage(path));
               }}
-              selected={pathName[1] === path ? true : false}
+              selected={
+                pathName[1] === currentpath[0] || pathName[1] === path
+                  ? true
+                  : false
+              }
             >
               <ListItemIcon>
                 <Icon />
@@ -42,7 +47,7 @@ const MenuList = () => {
           button
           key="settings"
           onClick={() => {
-            history.push(`/settings`);
+            history.push(`/settings/loyality`);
             dispatch(setCurrentPage("settings"));
           }}
           selected={pathName[1] === "settings" ? true : false}

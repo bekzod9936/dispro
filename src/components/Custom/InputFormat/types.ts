@@ -27,6 +27,7 @@ export interface Props {
   labelStyle?: {
     color?: string;
     weight?: string | number;
+    letterSpacing?: string;
     fontSize?: {
       mobile?: number;
       planshet?: number;

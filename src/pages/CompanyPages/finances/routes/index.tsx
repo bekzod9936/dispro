@@ -16,7 +16,7 @@ const useFinanceRoute = () => {
   const { t } = useTranslation();
   const menuItems: IFinanceRow[] = [
     {
-      path: '/finances',
+      path: '/finances/suggestions',
       text: t('proposals'),
       component: Suggestions,
     },

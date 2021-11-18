@@ -108,11 +108,12 @@ const DayList = ({
     all.forEach((v: any) => {
       if (v.day === e) {
         setValues(v);
+        onChange(v);
       }
     });
   };
 
-  const content = (
+  const Content1 = () => (
     <Content>
       <FormControl style={{ width: '100%' }} component='fieldset'>
         <RadioGroup
@@ -158,6 +159,10 @@ const DayList = ({
               planshet: 5,
             }}
             onChange={(e: any) => {
+              setValues({
+                ...values,
+                wHours: { ...values.wHours, from: e.target.value },
+              });
               const value: any = {
                 day: values.day,
                 wHours: { from: e.target.value },
@@ -193,7 +198,10 @@ const DayList = ({
                 day: values.day,
                 wHours: { to: e.target.value },
               };
-
+              setValues({
+                ...values,
+                wHours: { ...values.wHours, to: e.target.value },
+              });
               onChange(value);
             }}
           />
@@ -249,6 +257,10 @@ const DayList = ({
                   day: values.day,
                   bHours: { from: e.target.value },
                 };
+                setValues({
+                  ...values,
+                  bHours: { ...values.bHours, from: e.target.value },
+                });
                 onChange(value);
               }}
             />
@@ -279,6 +291,10 @@ const DayList = ({
                   day: values.day,
                   bHours: { to: e.target.value },
                 };
+                setValues({
+                  ...values,
+                  bHours: { ...values.bHours, to: e.target.value },
+                });
                 onChange(value);
               }}
             />
@@ -358,9 +374,9 @@ const DayList = ({
               </WrapHeader>
               <Tabs
                 listTabs={weeks}
-                active={values.day}
+                active={values?.day}
                 onActive={handleActive}
-                content={content}
+                Content={Content1}
               />
             </Wrap>
           </FullModal>
@@ -389,7 +405,7 @@ const DayList = ({
             horizontal: 'center',
           }}
         >
-          {content}
+          <Content1 />
         </Popover>
       )}
       {(values.wHours.from !== '' && values.wHours.to !== '') || radio ? (

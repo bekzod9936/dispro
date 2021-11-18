@@ -12,9 +12,9 @@ export interface Props {
   minRows?: number | string;
   multiline?: boolean;
   name?: string;
-  moneyInput?: boolean;
-  variant?: "filled" | "standard" | "outlined" | undefined;
+  variant?: 'filled' | 'standard' | 'outlined' | undefined;
   onChange?: (e: any) => void;
+
   placeholder?: string;
   required?: boolean;
   select?: boolean;
@@ -84,4 +84,7 @@ export interface Props {
   onBlur?: () => void;
   min?: string;
   max?: string;
+  register?: any;
+  onKeyPress?: (e: any) => void;
+  maskPhone?: boolean;
 }

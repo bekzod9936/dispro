@@ -41,11 +41,9 @@ const WorkingHours = ({ workingTime, getTime = () => {} }: Props) => {
   const handleCheck = (e: any) => {
     setCheck(e.target.checked);
     getTime({ aroundTheClock: e.target.checked, work: work });
-    console.log(e);
   };
 
   const handleChangeTime = (e: any) => {
-    console.log(e);
     const newDate = work?.map((v: any) => {
       if (v.day === e.day) {
         return {

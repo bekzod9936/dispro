@@ -27,7 +27,7 @@ const useSettingsRoute = () => {
   const { t } = useTranslation();
   const menuItems: ISettingsRow[] = [
     {
-      path: "/settings",
+      path: "/settings/loyality",
       text: t("loyaltyProgram"),
       component: LoyaltyProgramSection,
     },

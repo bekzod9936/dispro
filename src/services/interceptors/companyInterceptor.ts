@@ -1,7 +1,7 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { URL, VERSION } from '../constants/config';
-import jwtDecode from 'jwt-decode';
-import { IAuthToken } from '../Types/api';
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import { URL, VERSION } from "../constants/config";
+import jwtDecode from "jwt-decode";
+import { IAuthToken } from "../Types/api";
 //import { decode } from "querystring";
 
 const partnerApi = axios.create({
@@ -10,7 +10,7 @@ const partnerApi = axios.create({
 });
 
 partnerApi.interceptors.request.use((config: AxiosRequestConfig) => {
-  let companyToken = localStorage.getItem('companyToken');
+  let companyToken = localStorage.getItem("companyToken");
   config.headers.authorization = `Bearer ${companyToken}`;
   config.headers.langId = 1;
   config.headers.vers = VERSION;
@@ -21,13 +21,13 @@ partnerApi.interceptors.response.use(
   (response: AxiosResponse<any>) => response,
   async (err: any) => {
     const originalRequest = err.config;
-    let companyToken = localStorage.getItem('companyToken');
-    let moderatorToken = localStorage.getItem('partner_access_token');
-    let refreshToken = localStorage.getItem('partner_refresh_token');
+    let companyToken = localStorage.getItem("companyToken");
+    let moderatorToken = localStorage.getItem("partner_access_token");
+    let refreshToken = localStorage.getItem("partner_refresh_token");
 
     if (
-      (err.response.data.error.errId === 8 ||
-        err.response.data.error.errId === 7) &&
+      (err?.response?.data?.error?.errId === 8 ||
+        err?.response?.data?.error?.errId === 7) &&
       companyToken
     ) {
       let decoded: any = jwtDecode(companyToken);
@@ -46,29 +46,29 @@ partnerApi.interceptors.response.use(
         );
         let data: IAuthToken = response1.data;
         if (data.data?.accessToken) {
-          localStorage.setItem('partner_access_token', data.data.accessToken);
+          localStorage.setItem("partner_access_token", data.data.accessToken);
         }
       } catch (error: any) {
         if (
-          error.response.data.error?.errId === 8 ||
-          error.response.data.error?.errId === 7
+          error?.response?.data?.error?.errId === 8 ||
+          error?.response?.data?.error?.errId === 7
         ) {
           localStorage.clear();
-          window.location.pathname = '/';
+          window.location.pathname = "/";
         }
       }
       //return adminInterceptor(originalRequest);
 
       if (decoded) {
         let moderatorUpdatedToken = localStorage.getItem(
-          'partner_access_token'
+          "partner_access_token"
         );
         const response2 = await axios({
-          method: 'PUT',
+          method: "PUT",
           url: `${URL}/auth/update-token`,
           headers: {
             langId: 1,
-            authorization: 'Bearer ' + moderatorToken,
+            authorization: "Bearer " + moderatorToken,
             vers: VERSION,
           },
 
@@ -77,7 +77,7 @@ partnerApi.interceptors.response.use(
             companyType: decoded?.companyType,
           },
         });
-        localStorage.setItem('companyToken', response2.data.data.accessToken);
+        localStorage.setItem("companyToken", response2.data.data.accessToken);
       }
       partnerApi(originalRequest);
     }

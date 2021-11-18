@@ -1,7 +1,10 @@
 import { Container, Row, Col, Title, Text, EText } from "./style";
 import { Break, SpinnerDiv } from "pages/CompanyPages/settings/styles";
 //actions
-import { handleClick } from "services/redux/Slices/settingsSlice";
+import {
+  handleClick,
+  setChangeToggle,
+} from "services/redux/Slices/settingsSlice";
 //components
 import SettingButton from "pages/CompanyPages/settings/components/SettingButton";
 import CustomToggle from "components/Custom/CustomToggleSwitch";
@@ -55,6 +58,7 @@ const MobileContent = ({ isLoading }: IProps) => {
               checked: e.target.checked,
               type: "discount",
             });
+            dispatch(setChangeToggle({ name: "discount" }));
           }}
         />
       </Row>
@@ -87,6 +91,7 @@ const MobileContent = ({ isLoading }: IProps) => {
               checked: e.target.checked,
               type: "cashback",
             });
+            dispatch(setChangeToggle({ name: "cashback" }));
           }}
         />
       </Row>
@@ -121,6 +126,7 @@ const MobileContent = ({ isLoading }: IProps) => {
               checked: e.target.checked,
               type: "bonuspoint",
             });
+            dispatch(setChangeToggle({ name: "bonuspoint" }));
           }}
         />
       </Row>

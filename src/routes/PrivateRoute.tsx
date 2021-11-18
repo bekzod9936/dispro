@@ -1,7 +1,5 @@
-import React from 'react';
-import { Redirect, Route } from 'react-router-dom';
-import { pathToFileURL } from 'url';
-import { IDefaultLayout } from '../components/Layout/DefaultLayoutAdmin';
+import { Redirect, Route } from "react-router-dom";
+import { IDefaultLayout } from "../components/Layout/DefaultLayoutAdmin";
 
 interface IProps {
   Layout: React.FC<IDefaultLayout>;
@@ -16,17 +14,17 @@ const PrivateRoute: React.FC<IProps> = ({ Layout, Component, ...rest }) => {
       {...rest}
       exact
       render={(props) => {
-        let companyToken = localStorage.getItem('companyToken');
-        let moderator = localStorage.getItem('partner_access_token');
-        return (moderator && props.match.path.includes('partner')) ||
-          (companyToken && !props.match.path.includes('partner')) ? (
+        let companyToken = localStorage.getItem("companyToken");
+        let moderator = localStorage.getItem("partner_access_token");
+        return (moderator && props.match.path.includes("partner")) ||
+          (companyToken && !props.match.path.includes("partner")) ? (
           <Layout>
             <Component {...props} />
           </Layout>
-        ) : !companyToken && !props.match.path.includes('company') ? (
-          <Redirect to='/partner/company' />
+        ) : !companyToken && !props.match.path.includes("company") ? (
+          <Redirect to="/partner/company" />
         ) : (
-          <Redirect to='/' />
+          <Redirect to="/" />
         );
       }}
     />

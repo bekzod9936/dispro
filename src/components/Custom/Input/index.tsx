@@ -1,93 +1,21 @@
-import { Container, MInput, Label, Adornment, Message } from "./style";
+import { Props } from './types';
+import MaskedInput from 'react-text-mask';
+import { Container, MInput, Label, Adornment, Message } from './style';
 
-export interface Props {
-  field?: any;
-  autoComplete?: string;
-  autoFocus?: boolean;
-  defaultValue?: any;
-  disabled?: boolean;
-  error?: boolean;
-  fullWidth?: boolean;
-  id?: string;
-  label?: any;
-  maxRows?: number | string;
-  minRows?: number | string;
-  multiline?: boolean;
-  name?: string;
-  variant?: "filled" | "standard" | "outlined" | undefined;
-  onChange?: (e: any) => void;
+function TextMaskCustom(props: any) {
+  const { inputRef, ...other } = props;
 
-  placeholder?: string;
-  required?: boolean;
-  select?: boolean;
-  type?: string;
-  value?: any;
-  InputProps?: any;
-  message?: any;
-  IconStart?: any;
-  IconEnd?: any;
-  labelStyle?: {
-    color?: string;
-    weight?: string | number;
-    fontSize?: {
-      mobile?: number;
-      planshet?: number;
-      laptop?: number;
-      desktop?: number;
-    };
-  };
-  width?: {
-    maxwidth?: number;
-    minwidth?: number;
-    width?: string;
-  };
-
-  lmargin?: {
-    mobile?: number;
-    planshet?: number;
-    laptop?: number;
-    desktop?: number;
-  };
-  inputStyle?: {
-    color?: string;
-    bgcolor?: string;
-    weight?: string | number;
-    inpadding?: string;
-    outpadding?: string;
-    margin?: string;
-    border?: string;
-    shadow?: string;
-    radius?: number;
-    borderbottom?: string;
-    fontSize?: {
-      mobile?: number;
-      planshet?: number;
-      laptop?: number;
-      desktop?: number;
-    };
-    height?: {
-      mobile?: number;
-      planshet?: number;
-      laptop?: number;
-      desktop?: number;
-    };
-    placeholdercolor?: string;
-    fitheight?: boolean;
-  };
-  margin?: {
-    mobile?: string;
-    planshet?: string;
-    laptop?: string;
-    desktop?: string;
-  };
-  maxLength?: number | string;
-  minLength?: number | string;
-  onFocus?: () => void;
-  onBlur?: () => void;
-  min?: string;
-  max?: string;
-  register?: any;
-  onKeyPress?: (e: any) => void;
+  return (
+    <MaskedInput
+      {...other}
+      ref={(ref) => {
+        inputRef(ref ? ref.inputElement : null);
+      }}
+      mask={[/\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/]}
+      keepCharPositions={true}
+      placeholderChar={'\u2000'}
+    />
+  );
 }
 
 const NInput = ({
@@ -138,11 +66,12 @@ const NInput = ({
         variant={props.variant}
         InputProps={{
           startAdornment: props.IconStart ? (
-            <Adornment position="start">{props.IconStart}</Adornment>
+            <Adornment position='start'>{props.IconStart}</Adornment>
           ) : null,
           endAdornment: props.IconEnd ? (
-            <Adornment position="end">{props.IconEnd}</Adornment>
+            <Adornment position='end'>{props.IconEnd}</Adornment>
           ) : null,
+          inputComponent: props.maskPhone ? TextMaskCustom : undefined,
         }}
         inputStyle={props.inputStyle}
         {...props.field}
