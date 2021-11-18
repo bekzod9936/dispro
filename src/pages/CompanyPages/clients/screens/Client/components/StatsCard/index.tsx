@@ -16,7 +16,6 @@ export const StatsCard = ({ icon, value, heading }: IProps | any) => {
                 </h4>
                 <p>
                     {Number(value) ? numberWith(value, " ") : value}
-                    {/* {value} */}
                 </p>
             </Content>
         </Wrapper>

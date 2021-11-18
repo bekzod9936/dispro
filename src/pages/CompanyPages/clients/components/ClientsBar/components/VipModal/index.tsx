@@ -67,9 +67,7 @@ export const VipModal = ({ handleClose, refetch, state, id, clientInfo }: IProps
 
         } else if (percent > 100) setPercent("100")
         else {
-            if (clientInfo.value) {
-                setPercent(clientInfo.value.toString())
-            }
+            setPercent(percent)
         }
 
     }

@@ -105,13 +105,6 @@ export const InfoBlock = ({
                 <h4>
                     {t("info")}
                 </h4>
-                {/* <Button buttonStyle={{
-                    bgcolor: "#ffffff", color: "#3492FF", weight: 300, fontSize: {
-                        desktop: 16
-                    }
-                }}>
-                    {t("addNote")} +
-                </Button> */}
                 <button onClick={() => setNote((prev: any) => ({ ...prev, open: true }))}>
                     {notes ? t("editNote") : t("addNote") + " +"}
                 </button>
@@ -137,11 +130,13 @@ export const InfoBlock = ({
                     <MToggle>
                         <p>Индивидуальный статус</p>
                         <CustomToggle
+                            disabled={isPlBlocked}
                             checked={personalLoyaltyInfo?.isActive || vipModal}
                             onChange={handleChangePercent} />
                     </MToggle>
                     {personalLoyaltyInfo?.isActive &&
                         <Button
+                            disabled={isPlBlocked}
                             onClick={() => {
                                 setVipModalState("updating")
                                 setVipModal(true)

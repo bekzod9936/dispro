@@ -97,17 +97,58 @@ export const MDefaultImage = styled.div`
   background: linear-gradient(215.2deg, #C7EEFF -12.1%, #FCA9EA 101.51%);
   border-radius: 14px;
   margin: 0 15px;
-`
+  position: relative;
+  .block {
+    display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      background-color: #F1F4F6;
+      bottom: -4px;
+      right: -6px;
+      padding: 4px 5px;
+      position: absolute;
+      svg {
+        height: 14px;
+        width: 12px;
 
+      }
+  }
+`
+export const SpinnerWrapper = styled.div`
+  max-width: 410px;
+  width: 100%;
+`
 export const MClientInfo = styled.div`
   display: flex;
   align-items: center;
-  img {
+  .image {
+    width: 40px;
+    height: 40px;
+    margin: 0 15px;
+    position: relative;
+    .block {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      background-color: #F1F4F6;
+      bottom: -4px;
+      right: -6px;
+      padding: 4px 5px;
+      position: absolute;
+      svg {
+        height: 14px;
+        width: 12px;
+
+      }
+    }
+    img {
     border-radius: 14px;
     width: 40px;
     height: 40px;
     display: block;
-    margin: 0 15px;
+  }
   }
   h6 {
     font-size: 16px;

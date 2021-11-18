@@ -43,8 +43,9 @@ export const Table = () => {
     return clients.map(client => ({
       name: client.firstName + " " + client.lastName,
       image: client.image,
-      discountValue: client.personalLoyaltyInfo.percent,
+      discountValue: client.personalLoyaltyInfo.isActive ? client.personalLoyaltyInfo.percent : client.obtainProgramLoyalty.percent,
       id: client.id,
+      discountStatus: client.personalLoyaltyInfo.isActive ? client.addInfo.status : client.obtainProgramLoyalty.levelName,
       userId: client.userId
     }))
   }, [clients])
