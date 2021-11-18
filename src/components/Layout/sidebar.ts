@@ -51,7 +51,7 @@ export const sidebar = [
   {
     Icon: PrizeIcon,
     text: "proposals",
-    path: "proposals",
+    path: "proposals/drafts",
   },
   {
     Icon: CoinIcon,
