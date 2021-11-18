@@ -48,7 +48,7 @@ const Infopage = () => {
   return (
     <Container
       bgcolor={
-        match.path === '/info' || !infoPageSlice || addressAdding
+        match.path === '/info/about' || !infoPageSlice || addressAdding
           ? 'white'
           : 'transparent'
       }

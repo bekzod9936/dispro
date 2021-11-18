@@ -52,7 +52,7 @@ const AddCompany = () => {
       onSuccess: (data) => {
         localStorage.setItem("companyId", data.data.data.companyId);
         localStorage.setItem("companyToken", data.data.data.accessToken);
-        history.push("/info");
+        history.push("/info/about");
         dispatch(setBackAddCompany(false));
         dispatch(
           setRegFilled({
