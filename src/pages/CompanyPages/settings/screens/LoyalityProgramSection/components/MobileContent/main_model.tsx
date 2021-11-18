@@ -146,7 +146,6 @@ const MainModel = () => {
             )}
           />
         </Row>
-        <Break height={10} />
         <Row>
           <Controller
             name="base_percent"
@@ -179,11 +178,12 @@ const MainModel = () => {
             }}
           />
         </Row>
+        <Break height={25} />
         {fields.map((item: any, index: number) => {
           return (
             <Column key={index}>
               <Row aItems="flex-end">
-                <SubText>№ ${index + 2} Название статуса</SubText>
+                <SubText>№ {index + 2} Название статуса</SubText>
                 {fields[fields.length - 1] === fields[index] && (
                   <RippleEffect
                     onClick={() => {
@@ -235,6 +235,9 @@ const MainModel = () => {
                       <InputFormat
                         field={field}
                         label={"Укажите % статуса"}
+                        labelStyle={{
+                          letterSpacing: "0.5",
+                        }}
                         type="string"
                         defaultValue={item.percent}
                         maxLength={3}
@@ -254,7 +257,6 @@ const MainModel = () => {
               </Row>
 
               {/* //level requirements  */}
-              <Break height={5} />
               <NestedArray
                 setValue={setValue}
                 index={index}

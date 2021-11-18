@@ -84,7 +84,13 @@ const NestedArray = ({ index, control, setValue }: IProps) => {
                 <SubText>Условия статуса</SubText>
                 <IconButton
                   onClick={() => {
-                    remove(index);
+                    remove(smallIndex);
+                    setValue(
+                      `levels.${index}.requirements`,
+                      fields.filter(
+                        (item: any, indexV: number) => indexV !== smallIndex
+                      )
+                    );
                   }}
                 >
                   <DeleteIcon />
@@ -147,6 +153,9 @@ const NestedArray = ({ index, control, setValue }: IProps) => {
                       width: "100%",
                     }}
                     label="Больше чем"
+                    labelStyle={{
+                      letterSpacing: "0.5",
+                    }}
                     field={field}
                     defaultValue={item.amount}
                   />
