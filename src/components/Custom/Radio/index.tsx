@@ -26,7 +26,7 @@ interface Props {
 const MRadio = ({
   title,
   list,
-  onChange = () => { },
+  onChange = () => {},
   labelPlacement,
   value,
   flexDirection = "row",

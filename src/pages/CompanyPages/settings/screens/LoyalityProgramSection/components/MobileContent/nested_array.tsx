@@ -84,6 +84,7 @@ const NestedArray = ({ index, control, setValue }: IProps) => {
             <Controller
               name={`levels.${[index]}.requirements.${[smallIndex]}.amount`}
               control={control}
+              defaultValue={item.amount}
               render={({ field }) => {
                 return (
                   <InputFormat

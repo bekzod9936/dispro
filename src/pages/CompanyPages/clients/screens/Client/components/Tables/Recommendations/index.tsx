@@ -27,10 +27,12 @@ const Recommendations = () => {
     const [totalCount, setTotalCount] = useState(1)
     const [position, setPosition] = useState(0)
     const [recomendations, setRecomendations] = useState<any[]>([])
+    
     const [filter, setFilter] = useState<any>({
         status: [{
         }]
     })
+
     const { isFetching } = useQuery(["fetchRecommends", page], () => fetchReferChilds({
         id: currentClient?.clientInfo.userId,
         startDate: period.startDate,

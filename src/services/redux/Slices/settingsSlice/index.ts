@@ -1,4 +1,4 @@
-import { IBaseLoyality, IOpenState } from "./types";
+import { IBaseLoyality, IOpenState, IToggle } from "./types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface IsettingsSlice {
@@ -9,6 +9,11 @@ interface IsettingsSlice {
   ballCheck: boolean;
   cashbackCheck: boolean;
   saleCheck: boolean;
+  openModal: boolean;
+  emptyCashback: boolean;
+  emptyBall: boolean;
+  emptySale: boolean;
+  toggleName: IToggle;
 }
 const initialState: IsettingsSlice = {
   loyalty: "loyal",
@@ -19,7 +24,7 @@ const initialState: IsettingsSlice = {
     base_name: "",
   },
   openState: {
-    type: "other",
+    type: "discount",
     open: false,
   },
   openM: false,
@@ -28,6 +33,13 @@ const initialState: IsettingsSlice = {
   ballCheck: false,
   cashbackCheck: false,
   saleCheck: false,
+  openModal: false,
+  emptyCashback: true,
+  emptyBall: true,
+  emptySale: true,
+  toggleName: {
+    name: "",
+  },
 };
 
 const settingsSlice = createSlice({
@@ -55,6 +67,21 @@ const settingsSlice = createSlice({
     setSaleCheck: (state, action: PayloadAction<boolean>) => {
       state.saleCheck = action.payload;
     },
+    handleModal: (state, action: PayloadAction<boolean>) => {
+      state.openModal = action.payload;
+    },
+    setMEmptyCashback: (state, action: PayloadAction<boolean>) => {
+      state.emptyCashback = action.payload;
+    },
+    setMEmptyBall: (state, action: PayloadAction<boolean>) => {
+      state.emptyBall = action.payload;
+    },
+    setMEmptySale: (state, action: PayloadAction<boolean>) => {
+      state.emptySale = action.payload;
+    },
+    setChangeToggle: (state, action: PayloadAction<IToggle>) => {
+      state.toggleName = action.payload;
+    },
   },
 });
 
@@ -66,5 +93,10 @@ export const {
   setBallCheck,
   setCashbackCheck,
   setSaleCheck,
+  handleModal,
+  setMEmptyCashback,
+  setMEmptyBall,
+  setMEmptySale,
+  setChangeToggle,
 } = settingsSlice.actions;
 export default settingsSlice.reducer;

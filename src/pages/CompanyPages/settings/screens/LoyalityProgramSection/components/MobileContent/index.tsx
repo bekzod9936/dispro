@@ -1,23 +1,45 @@
-import { Container, Row, Col, Title, Text } from "./style";
-import { Break } from "pages/CompanyPages/settings/styles";
+import { Container, Row, Col, Title, Text, EText } from "./style";
+import { Break, SpinnerDiv } from "pages/CompanyPages/settings/styles";
+//actions
+import {
+  handleClick,
+  setChangeToggle,
+} from "services/redux/Slices/settingsSlice";
 //components
 import SettingButton from "pages/CompanyPages/settings/components/SettingButton";
 import CustomToggle from "components/Custom/CustomToggleSwitch";
-//hooks
-import useMobileContent from "./useMobileContent";
+import Spinner from "components/Helpers/Spinner";
+import ChangeLoyality from "./change_loyality";
+import Modal from "components/Custom/Modal";
 import FullModal from "components/Custom/FullModal";
 import CashbackModel from "./main_model";
+//hooks
+import useMobileContent from "./useMobileContent";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
-import { handleClick } from "services/redux/Slices/settingsSlice";
+import { useTranslation } from "react-i18next";
 
-const MobileContent = () => {
+interface IProps {
+  isLoading: boolean;
+}
+
+const MobileContent = ({ isLoading }: IProps) => {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { handleCheck } = useMobileContent();
   const openCashback = useAppSelector((state) => state.settings.openState);
   const cashbackCheck = useAppSelector((state) => state.settings.cashbackCheck);
   const saleCheck = useAppSelector((state) => state.settings.saleCheck);
   const ballCheck = useAppSelector((state) => state.settings.ballCheck);
+  const openModal = useAppSelector((state) => state.settings.openModal);
+  const emptySale = useAppSelector((state) => state.settings.emptySale);
+  const emptyBall = useAppSelector((state) => state.settings.emptyBall);
+  const emptyCashback = useAppSelector((state) => state.settings.emptyCashback);
 
+  if (isLoading) {
+    <SpinnerDiv>
+      <Spinner />
+    </SpinnerDiv>;
+  }
   return (
     <Container>
       <Row>
@@ -36,14 +58,20 @@ const MobileContent = () => {
               checked: e.target.checked,
               type: "discount",
             });
+            dispatch(setChangeToggle({ name: "discount" }));
           }}
         />
       </Row>
       <Break height={10} />
+      {emptySale && saleCheck && <EText>{t("configure_setting_error")}</EText>}
+
+      <Break height={10} />
       {saleCheck && (
         <SettingButton
           text={"Настроить"}
-          onClick={() => dispatch(handleClick({ type: "other", open: true }))}
+          onClick={() =>
+            dispatch(handleClick({ type: "discount", open: true }))
+          }
         />
       )}
       <Break height={25} />
@@ -63,9 +91,14 @@ const MobileContent = () => {
               checked: e.target.checked,
               type: "cashback",
             });
+            dispatch(setChangeToggle({ name: "cashback" }));
           }}
         />
       </Row>
+      <Break height={10} />
+      {emptyCashback && cashbackCheck && (
+        <EText>{t("configure_setting_error")}</EText>
+      )}
       <Break height={10} />
       {cashbackCheck && (
         <SettingButton
@@ -93,19 +126,30 @@ const MobileContent = () => {
               checked: e.target.checked,
               type: "bonuspoint",
             });
+            dispatch(setChangeToggle({ name: "bonuspoint" }));
           }}
         />
       </Row>
       <Break height={10} />
+      {emptyBall && ballCheck && <EText>{t("configure_setting_error")}</EText>}
+      <Break height={10} />
       {ballCheck && (
         <SettingButton
           text={"Настроить"}
-          onClick={() => dispatch(handleClick({ type: "other", open: true }))}
+          onClick={() =>
+            dispatch(handleClick({ type: "bonuspoint", open: true }))
+          }
         />
       )}
+
+      {/* add requirement modal */}
       <FullModal open={openCashback.open}>
         <CashbackModel />
       </FullModal>
+      {/* change loayality action  */}
+      <Modal open={openModal}>
+        <ChangeLoyality />
+      </Modal>
     </Container>
   );
 };
