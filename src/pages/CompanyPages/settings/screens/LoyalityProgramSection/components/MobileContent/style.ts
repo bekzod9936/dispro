@@ -7,10 +7,20 @@ export const Container = styled.div`
   padding: 15px 25px;
 `;
 
+interface IRow {
+  aItems?:
+    | "space-between"
+    | "center"
+    | "space-around"
+    | "flex-start"
+    | "flex-end";
+}
+
 export const Row = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: ${({ aItems }: IRow) => aItems};
   width: 100%;
 `;
 export const Col = styled.div`
@@ -126,4 +136,14 @@ export const ModalTitle = styled.p`
   font-size: 16px;
   line-height: 19px;
   color: #223367;
+`;
+
+export const SubText = styled.p`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0.5px;
+  color: #c7c7c7;
 `;
