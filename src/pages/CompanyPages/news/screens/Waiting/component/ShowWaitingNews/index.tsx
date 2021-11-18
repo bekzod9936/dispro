@@ -11,7 +11,7 @@ import dayjs from "dayjs";
 import {months} from '../../../useData/index';
 import {
   CancelIcon,
-  CloseIcon,
+
 } from "assets/icons/ClientsPageIcons/ClientIcons";
 import {
 
@@ -20,7 +20,7 @@ import {
   } from "assets/icons/news/newsIcons";
 import {
   Wrapper,
-  Header,
+
   DeleteModal,
   Content,
   Preview,
@@ -28,26 +28,15 @@ import {
   PreviewContent,
 } from "./style";
 import {
-  DangerIcon,
+  
   DeleteIcon,
   GoBackIcon,
-  PhoneIcon,
-  PlusIcon,
-  UploadImage,
+ 
 } from "assets/icons/proposals/ProposalsIcons";
 import iphone from "assets/images/iphone.png";
 import { useAppSelector } from "services/redux/hooks";
-import { RootState } from "services/redux/store";
-import { useTranslation } from "react-i18next";
 
-//   interface IProps {
-//     onClose: (arg: boolean) => void;
-//     currentCoupon: IDeferred;
-//     disableUpdate?: boolean;
-//     resetCoupon: any;
-//     canceled?: boolean;
-//     refetch: () => void;
-//   }
+
 
 const ShowWaitingNews = () => {
   const history = useHistory();

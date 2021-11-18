@@ -51,7 +51,7 @@ const Active = () => {
     });
     dispatch(setQuery(""));
   };
-  const companyId = localStorage.getItem('companyId');
+  // const companyId = localStorage.getItem('companyId');
   const intialFilter = {
     page: 1,
     perPage: 5,
@@ -79,6 +79,7 @@ const Active = () => {
 
   return (
     <Container>
+
       <Wrap>
         {response.isLoading || response.isFetching ? (
           <WrapSpinner><Spinner/></WrapSpinner>

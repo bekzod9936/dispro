@@ -11,8 +11,8 @@ import { IProps } from "./types";
 import { useAppSelector, useAppDispatch } from "services/redux/hooks";
 import DatePcker from "components/Custom/DatePicker";
 import { setQuery, setSelectedNews } from "services/redux/Slices/news";
-import useActive from "../../screens/Active/useActive";
-import useArchive from "../../screens/Archive/useArchive";
+import FilterActiveNews from './Components/FilterActivePeriod';
+import FilterArchiveNews from './Components/FilterArchivePeriod';
 
 const Header = ({ handleOpenNews }: IProps) => {
   const location = useLocation();
@@ -25,27 +25,6 @@ const Header = ({ handleOpenNews }: IProps) => {
     }
   }, [dispatch(setSelectedNews([]))]);
   const { t } = useTranslation();
-  
-   interface intialFilterProps {
-    dateFrom?: string;
-    dateTo?: string;
-    page?:number;
-    perPage?:number;
-  }
-  const intialFilter = {
-    page: 1,
-    perPage: 5,
-    dateFrom: '',
-    dateTo: '',
-  };
-
-
-   const [activePeriod,setActivePeriod]=
-   useState<intialFilterProps>(intialFilter);
-   const [archivePeriod,setArchivePeriod]=useState<intialFilterProps>(intialFilter)
-
-  //  const { response:activeResponse } =  useActive({ filterValues: activePeriod });
-  //  const {response:archiveResponse}=useArchive({filterValues:archivePeriod})
 
   return (
     <Flex
@@ -83,32 +62,8 @@ const Header = ({ handleOpenNews }: IProps) => {
         width={{ maxwidth: 500 }}
       />
       <div style={{ width: "20px" }} />
-{/*    
-       {location.pathname === "/news" && (
-        <DatePcker
-          onChange={async (e: any) => {
-            setActivePeriod({
-              ...activePeriod, 
-              dateFrom: e.slice(0, e.indexOf(' ~')),
-              dateTo: e.slice(e.indexOf('~ ') + 2),
-            });
-           await activeResponse.refetch();
-          }}
-        />
-      )} */}
-
-     {/* {location.pathname === "/news" && (
-        <DatePcker
-          onChange={async (e: any) => {
-            setActivePeriod({
-              ...activePeriod, 
-              dateFrom: e.slice(0, e.indexOf(' ~')),
-              dateTo: e.slice(e.indexOf('~ ') + 2),
-            });
-           await activeResponse.refetch();
-          }}
-        />
-      )} */}
+     {location.pathname === "/news" && <FilterActiveNews/> } 
+     {location.pathname==="/news/archive" && <FilterArchiveNews/>}
     </Flex>
   );
 };

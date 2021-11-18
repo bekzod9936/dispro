@@ -5,8 +5,8 @@ import Spinner from 'components/Custom/Spinner';
 import { Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
-import {setQuery,setSelectedNews} from 'services/redux/Slices/news';
+import { useAppDispatch, } from 'services/redux/hooks';
+import {setQuery} from 'services/redux/Slices/news';
 import useNewsRoute from './routes';
 import Header from './components/Header'
 
@@ -17,8 +17,6 @@ import {
   LeftHeader,
   Wrap,
 } from './style';
-
-
 
 const News = () => {
   const { t } = useTranslation();
@@ -52,7 +50,6 @@ const News = () => {
 
       <Header
             handleOpenNews={handleOpenNews}
-
           />
         </div>}
 

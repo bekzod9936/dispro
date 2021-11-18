@@ -86,9 +86,6 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
     onClose(false);
   };
 
-
-
-
   return (
     <Wrapper>
       <Header>

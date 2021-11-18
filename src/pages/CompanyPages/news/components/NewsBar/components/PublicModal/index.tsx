@@ -30,8 +30,7 @@ export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
   const {
     control,
     handleSubmit,
-    register,
-    watch,
+
     formState: { errors, isValid },
   } = useForm({
     mode: "onChange",
