@@ -8,7 +8,7 @@ import {
   PenIcon,
   ReUseIcon,
 } from "assets/icons/proposals/ProposalsIcons";
-import { WatchIcons, PublishIcon,RepairNewsIcon } from "assets/icons/news/newsIcons";
+import { WatchIcons, PublishIcon,WhitePublishIcon,RepairNewsIcon } from "assets/icons/news/newsIcons";
 import Button from "components/Custom/Button";
 import Modal from "components/Custom/Modal";
 import React, { useEffect } from "react";
@@ -18,6 +18,7 @@ import { useHistory } from "react-router";
 import { deleteCoupon, putCoupon } from "services/queries/proposalQuery";
 import { deleteNews } from "services/queries/newPageQuery";
 import { IDeferred } from "services/redux/Slices/news/types";
+import {PublicModal} from "./components/PublicModal";
 
 //   import { SetDate } from "../../screens/Coupons/components/SetDate";
 
@@ -33,6 +34,8 @@ import {
   ContentButton,
   LeftRound,
   PreviewBgNews,
+  WrapperModal,
+  CloseButton,
 } from "./style";
 import iphone from "assets/images/iphone.png";
 import { useAppSelector, useAppDispatch } from "services/redux/hooks";
@@ -47,36 +50,21 @@ interface IProps {
   refetch: any;
 }
 export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
-  console.log("currentNews", currentNews);
+
 
   const history = useHistory();
   const location = useLocation();
-  const dispatch = useDispatch();
+
   const { t } = useTranslation();
   const [isDeleteOpen, setDeleteOpen] = React.useState<boolean>(false);
   const [isPublishOpen, setPublisOpen] = React.useState<boolean>(false);
-  const { logo, name } = useAppSelector(
-    (state: RootState) => state.partner.companyInfo
-  );
-  const [categories, setCategories] = React.useState<any>();
-  const handleClose = () => {
-    onClose(false);
-  };
-  const { mutate } = useMutation(({ id, data }: any) => putCoupon(id, data));
+ 
 
-  const handleRePublish = () => {
-    if (currentNews) {
-      history.push("/proposals/create_republishcoupon");
-    } else {
-      history.push("/proposals/create_republishcertificate");
-    }
-  };
 
   const showNew = () => {
     if (currentNews) {
        history.push("/news/showwaiting");
     
-      // history.push("/news/detail");
     }
   };
   const showNewsDetail = () => {
@@ -97,7 +85,6 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
     setDeleteOpen(false);
     onClose(false);
   };
-
 
   return (
     <Wrapper>
@@ -158,7 +145,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
                 flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "flex-end",
-                marginBottom:'10px',
+                // marginBottom:'10px',
             
               }}
             >
@@ -175,7 +162,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
               </Button>
             </div>
           )}
-          {/* {location.pathname === "/news/waiting" && (
+          {location.pathname === "/news/waiting" && (
             <div
               style={{
                 display: "flex",
@@ -183,10 +170,11 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
                 alignItems: "center",
                 justifyContent: "flex-end",
                 paddingTop: "5%",
+                paddingBottom: "5%",
               }}
             >
               <Button
-                onClick={() => showNew()}
+                onClick={() => setPublisOpen(true)}
                 buttonStyle={{
                   color: "#606EEA",
                   bgcolor: " rgba(96,110,234,0.1)",
@@ -196,14 +184,13 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
                 Опубликовать
               </Button>
             </div>
-          )} */}
+          )}
           <div
             style={{
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "flex-end",
-
               paddingTop: "5%",
             }}
           >
@@ -248,6 +235,18 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
             Удалить
           </Button>
         </DeleteModal>
+      </Modal>
+      <Modal modalStyle={{ bgcolor: "#fff" }}  open={isPublishOpen}>
+        <WrapperModal>
+          <CloseButton onClick={() => setPublisOpen(false)}>
+            <CloseIcon />
+          </CloseButton>
+          <h3>
+           {t('Выберите дату публикации')}
+          </h3>
+          <PublicModal  setPublisOpen={setPublisOpen} />
+      
+        </WrapperModal>
       </Modal>
     </Wrapper>
   );

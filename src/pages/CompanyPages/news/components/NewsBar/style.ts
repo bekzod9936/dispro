@@ -49,7 +49,7 @@ export const Header = styled.div`
 `
 
 export const ContentInfo = styled.div`
-    margin: 50px 0;
+    margin: 20px 0px;
  
     h5 {
         font-size: 16px;
@@ -71,7 +71,7 @@ export const ContentInfo = styled.div`
 export const ContentButton=styled.div``
 export const ContentSideBar=styled.div`
     flex:1;
-    height: 50%;
+    height: 80%;
     width: 100%;
     padding: 5px 5px;
     display: flex;
@@ -215,5 +215,43 @@ export const Img = styled.img`
     }
     @media (max-width: ${device.laptop}) {
         display: block;
+    }
+`
+export const CloseButton = styled.div`
+    position: absolute;
+    right: 25px;
+    top: 15px;
+    cursor: pointer;
+`
+
+export const WrapperModal = styled.div`
+    padding: 20px 45px;
+    min-width:530px;
+    position: relative;
+    a {
+        text-decoration: none;
+    }
+    h3 {
+        font-size: 22px;
+        line-height: 26px;
+        margin-bottom: 10px;
+        color: #223367;
+
+    }
+    p {
+        font-size: 18px;
+        font-weight: 300;
+        color: #223367;
+        margin-bottom: 25px;
+    }
+    @media (max-width: ${device.mobile}) {
+        h3 {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+        p {
+            display: none;
+        }
     }
 `

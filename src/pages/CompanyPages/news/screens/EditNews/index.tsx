@@ -5,19 +5,18 @@ import MultiSelect from "components/Custom/MultiSelect";
 import Title from "components/Custom/Title";
 import CheckBox from "components/Custom/CheckBox";
 import React from "react";
-import { Controller, useForm, useWatch } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
-import Modal from "components/Custom/Modal";
 import Spinner from "components/Helpers/Spinner";
 import ImageLazyLoad from "components/Custom/ImageLazyLoad/ImageLazyLoad";
 import useStaff from "../../hooks/useStaff";
-import { CloseIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
+
 import CropCustomModal from "components/Custom/CropImageModal/index";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
 import InputFormat from "components/Custom/InputFormat";
-import Radio from "components/Custom/Radio";
+
 
 import dayjs from "dayjs";
 import { fetchUpdateNews } from "services/queries/newPageQuery";
@@ -37,7 +36,7 @@ import {
   UploadImage,
 } from "assets/icons/proposals/ProposalsIcons";
 import { SaveIcon } from "assets/icons/news/newsIcons";
-import { days, genders, todayDate, language } from "../CreateNews/constants";
+import { days, genders, todayDate } from "../CreateNews/constants";
 import {
   PushBlock,
   PushWrapper,
@@ -47,18 +46,17 @@ import {
   Form,
   Header,
   ImageBlock,
-  LeaveModal,
+
   LeftSide,
-  PreviewMessage,
+
   RightSide,
   UploadButton,
-  WrapCheck,
+
   WrapArea,
   TextAreaIcon,
   UpSide,
   Wrapper,
-  WrapperModal,
-  CloseButton,
+
   FormRow,
 } from "./style";
 import { useUploadImage } from "../../hooks/useUploadIMage";
@@ -68,16 +66,11 @@ import { ReactComponent as MarketIcon } from "assets/icons/SideBar/ilmarket.svg"
 interface IOptionFields {
   push: boolean;
 }
-interface SelectedBranches{
-    
-}
+
 
 const CreateNews = () => {
   const { t } = useTranslation();
   const history = useHistory();
-  const dispatch = useAppDispatch();
-  const [isCoupon, setIsCoupon] = React.useState<boolean>(false);
-  const { filters } = useAppSelector((state) => state.clients);
 
   const companyId: any = localStorage.getItem("companyId");
   const { dataAddress,} = useAddress({
@@ -95,7 +88,6 @@ const CreateNews = () => {
     push: newsById?.data?.pushUp,
   });
 
-  const [period, setPeriod] = React.useState<boolean>(false);
   const [file, setFile] = React.useState("");
   const [checked, setChecked] = React.useState(
     newsById?.data?.settings?.aroundTheClock
@@ -103,16 +95,11 @@ const CreateNews = () => {
   const [isCropVisible, setIsCropVisible] = React.useState(false);
   const [image, setImage] = React.useState(newsById?.data?.image);
   const [leave, setLeave] = React.useState<boolean>(false);
-  const [publish, setPublish] = React.useState(false);
   const handleBack = () => {
     history.goBack();
   };
   const { handleUpload, deleteImage, setLoading, isLoading } =
     useUploadImage(setImage);
-
-  // React.useEffect(() => {
-  //   setFilter(filters);
-  // }, [filters]);
 
   const { mutate } = useMutation((data:any)=>fetchUpdateNews(data));
   console.log("newsById", newsById?.data);

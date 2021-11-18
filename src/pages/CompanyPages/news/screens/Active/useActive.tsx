@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { fetchActivenews,searchActiveNews } from "services/queries/newPageQuery";
+import { fetchActivenews,searchActiveNews ,setPeriodActiveNews} from "services/queries/newPageQuery";
 import {
   setNewsData,
   setNewsTotal,
@@ -15,12 +15,16 @@ import {
 const useActive = ({filterValues}:PProps) => {
   const dispatch = useAppDispatch();
   const query=useAppSelector((state)=>state.news.query);
+  const startDate=useAppSelector((state)=>state.news.setPeriod.dateFrom);
+  const endDate=useAppSelector((state)=>state.news.setPeriod.dateTo);
   const [debouncedQuery] = useDebounce(query, 300);
+
   const response=useQuery(["fetchNews",filterValues, debouncedQuery],
   () => {
      if(debouncedQuery !==''){
        return searchActiveNews(debouncedQuery)
      }
+
     const url = Object.keys(filterValues)
       .map((v: any) => `${v}=${filterValues[v]}&`)
       .join("");
@@ -36,7 +40,8 @@ const useActive = ({filterValues}:PProps) => {
     refetchOnWindowFocus: false,
     retry: 0,
     onSuccess: (data) => {
-      console.log("data", data.data.data);
+     
+
       dispatch(
         setNewsBetween(
           formatPagination({

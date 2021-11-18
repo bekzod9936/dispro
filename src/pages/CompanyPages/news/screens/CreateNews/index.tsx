@@ -5,7 +5,7 @@ import MultiSelect from "components/Custom/MultiSelect";
 import Title from "components/Custom/Title";
 import CheckBox from "components/Custom/CheckBox";
 import React from "react";
-import { Controller, useForm, useWatch } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import Modal from "components/Custom/Modal";
@@ -15,9 +15,8 @@ import useStaff from "../../hooks/useStaff";
 import { CloseIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import CropCustomModal from "components/Custom/CropImageModal/index";
 import { useTranslation } from "react-i18next";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, } from "react-query";
 import InputFormat from "components/Custom/InputFormat";
-import Radio from "components/Custom/Radio";
 import { fetchCreateNews } from "services/queries/newPageQuery";
 import {
   Label,
@@ -26,10 +25,8 @@ import {
   WrapSelect,
 } from "../../components/Header/style";
 import {
-  DangerIcon,
   DeleteIcon,
   GoBackIcon,
-  PhoneIcon,
   PlusIcon,
   UploadImage,
 } from "assets/icons/proposals/ProposalsIcons";
@@ -44,13 +41,9 @@ import {
   Form,
   Header,
   ImageBlock,
-  LeaveModal,
-  SubmitModal,
   LeftSide,
-  PreviewMessage,
   RightSide,
   UploadButton,
-  WrapCheck,
   WrapArea,
   TextAreaIcon,
   UpSide,
@@ -60,36 +53,30 @@ import {
   FormRow,
 } from "./style";
 import { useUploadImage } from "../../hooks/useUploadIMage";
-import { useAppDispatch, useAppSelector } from "services/redux/hooks";
+
 import { ReactComponent as MarketIcon } from "assets/icons/SideBar/ilmarket.svg";
-import { setCanceled } from "services/redux/Slices/proposals/proposals";
+
 
 interface IOptionFields {
   push: boolean;
 }
 
-console.log("nextDay", nextDay);
+
 
 const CreateNews = () => {
   const { t } = useTranslation();
   const history = useHistory();
-  const dispatch = useAppDispatch();
-  const [isCoupon, setIsCoupon] = React.useState<boolean>(false);
-  const { filters } = useAppSelector((state) => state.clients);
   const [filter, setFilter] = React.useState<any>({});
   const { branches } = useStaff();
   const [optionalFields, setOptionalFields] = React.useState<IOptionFields>({
     push: false,
   });
 
-  const [period, setPeriod] = React.useState<boolean>(false);
   const [file, setFile] = React.useState("");
   const [checked, setChecked] = React.useState(false);
   const [isCropVisible, setIsCropVisible] = React.useState(false);
   const [image, setImage] = React.useState("");
-  const [leave, setLeave] = React.useState<boolean>(false);
   const [submit, setSubmit] = React.useState(false);
-  const [sureSubmit, setSureSubmit] = React.useState(false);
   const [formData, setFormData] = React.useState({});
   const [cancel, setCancel] = React.useState(false);
   const handleBack = () => {
@@ -175,7 +162,8 @@ const CreateNews = () => {
     mutate(formData);
     setTimeout(() => history.goBack(), 1000);
   };
-
+  // console.log(watch("ageLimit"));
+  
   return (
     <Wrapper>
       <div style={{ display: "flex", marginBottom: 30, alignItems: "center" }}>
@@ -415,8 +403,13 @@ const CreateNews = () => {
                 render={({ field }) => (
                   <InputFormat
                     field={field}
-                    defaultValue={""}
+                    defaultValue={''}
                     max="100"
+                    message={
+                      parseInt(watch('ageLimit')) > 100
+                        ? 'ageLimit: 100'
+                        : t('requiredField')
+                    }
                     IconStart={<PlusIcon style={{ marginLeft: "20px" }} />}
                     label="Возрастное ограничение"
                   />

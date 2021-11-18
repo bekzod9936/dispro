@@ -26,36 +26,26 @@ import {
 import {
   GoBackIcon,
   PlusIcon,
-  UploadImage,
 } from "assets/icons/proposals/ProposalsIcons";
 
 import {
   PushBlock,
   PushWrapper,
   Container,
-  DownSide,
-  ErrorMessage,
   Form,
-  Header,
   ImageBlock,
-  LeaveModal,
   LeftSide,
-  PreviewMessage,
   RightSide,
-  UploadButton,
-  WrapCheck,
   WrapArea,
   TextAreaIcon,
   UpSide,
   Wrapper,
-  WrapperModal,
-  CloseButton,
   FormRow,
 } from "../CreateNews/style";
-import { useUploadImage } from "../../hooks/useUploadIMage";
-import { useAppDispatch, useAppSelector } from "services/redux/hooks";
+
+import {  useAppSelector } from "services/redux/hooks";
 import { ReactComponent as MarketIcon } from "assets/icons/SideBar/ilmarket.svg";
-import { isIPad13 } from "react-device-detect";
+
 
 interface IOptionFields {
   push: boolean;
@@ -118,7 +108,7 @@ const CreateNews = () => {
   });
 
   const companyId: any = localStorage.getItem("companyId");
-  const { responseAddress, dataAddress, weeks, inntialWorkTime } = useAddress({
+  const { dataAddress} = useAddress({
     id: companyId,
   });
 

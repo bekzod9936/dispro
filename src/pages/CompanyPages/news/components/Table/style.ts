@@ -130,12 +130,17 @@ export const AgeData = styled.div`
   position: relative;
   justify-content:space-between;
   align-items: center;
-
+  margin-right:10px;
   p {
     font-size: 14px;
+    line-height:'21px';
+    color:'#223367';
+    font-size: '18px';
+    font-weight:300;
   }
   
   h4 {
+
     padding: 10px 20px;
     font-size: 14px;
     background: linear-gradient(215.2deg, #8bdd59 -12.1%, #dcf089 101.51%);
