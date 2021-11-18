@@ -53,7 +53,11 @@ import {
   NoResult,
   Message,
   DownSide,
+  LeftIcon,
+  WrapModalClose,
 } from './style';
+import FullModal from 'components/Custom/FullModal';
+import useWindowWidth from 'services/hooks/useWindowWidth';
 
 interface FormProps {
   address?: string;
@@ -79,6 +83,7 @@ interface WProps {
 
 const Address = () => {
   const { t } = useTranslation();
+  const { width } = useWindowWidth();
   const companyId: any = localStorage.getItem('companyId');
   const { responseAddress, dataAddress, weeks, inntialWorkTime } = useAddress({
     id: companyId,
@@ -105,6 +110,7 @@ const Address = () => {
     aroundTheClock: false,
     work: inntialWorkTime,
   });
+
   const [showWork, setShowWork] = useState(false);
   const [isMain, setIsMain] = useState<boolean>(false);
   const [mapError, setMapError] = useState(false);
@@ -228,8 +234,9 @@ const Address = () => {
 
   const handleChoosFillial = (v: any) => {
     const newNumbers = v.telNumbers.map((v: any) => {
-      return { number: v };
+      return { number: +v.slice(4) };
     });
+
     setPlace([v?.location.lat, v?.location.lng]);
     yandexRef?.setCenter([v?.location.lat, v?.location.lng], 100);
     setOpen(false);
@@ -242,6 +249,7 @@ const Address = () => {
     setValue('addressDesc', v.addressDesc);
     setIsMain(v.isMain);
     dispatch(setAddressAdding(true));
+
     const newData: any = workingTime.work.map((a: any) => {
       const common: any = v?.workingTime?.work?.find(
         (i: any) => i.day === a.day
@@ -297,7 +305,7 @@ const Address = () => {
     setSearchAddress('');
     setValue('addressDesc', '');
     setValue('name', '');
-    setValue('telNumbers', [{ number: '+998' }]);
+    setValue('telNumbers', [{ number: '' }]);
     setEdit(true);
     setValue('regionId', 0);
     setPlace(['']);
@@ -324,7 +332,7 @@ const Address = () => {
         setSearchAddress('');
         setValue('address', '');
         setValue('regionId', 0);
-        setValue('telNumbers', [{ number: '+998' }]);
+        setValue('telNumbers', [{ number: '' }]);
         setValue('addressDesc', '');
         setSendDate({ aroundTheClock: false, work: inntialWorkTime });
         dispatch(setAddressAdding(false));
@@ -429,7 +437,7 @@ const Address = () => {
       address: e.address,
       addressDesc: e.addressDesc,
       regionId: 0,
-      telNumbers: e.telNumbers.map((v: any) => v?.number),
+      telNumbers: e.telNumbers.map((v: any) => `+998${v?.number}`),
       companyId: +companyId,
       location: { lat: place[0], lng: place[1] },
       workingTime: send,
@@ -437,7 +445,10 @@ const Address = () => {
     };
     if (workError && place[0] !== '' && place[1] !== '') {
       if (isMain) {
-        mainPut.mutate({ ...values, telNumber: e.telNumbers[0]?.number });
+        mainPut.mutate({
+          ...values,
+          telNumber: `+998${e.telNumbers[0]?.number}`,
+        });
       } else {
         addressPut.mutate({ ...values, name: e.name });
       }
@@ -449,7 +460,7 @@ const Address = () => {
       address: e.address,
       addressDesc: e.addressDesc,
       regionId: 0,
-      telNumbers: e.telNumbers.map((v: any) => v?.number),
+      telNumbers: e.telNumbers.map((v: any) => `+998${v?.number}`),
       companyId: +companyId,
       location: { lat: place[0], lng: place[1] },
       workingTime: send,
@@ -460,7 +471,10 @@ const Address = () => {
         addressPost.mutate({ ...values, name: e.name });
       } else {
         mainPost
-          .mutateAsync({ ...values, telNumber: e.telNumbers[0]?.number })
+          .mutateAsync({
+            ...values,
+            telNumber: `+998${e.telNumbers[0]?.number}`,
+          })
           .then(() => {
             resHeader.refetch();
             response.refetch();
@@ -483,7 +497,7 @@ const Address = () => {
       setSearchAddress('');
       setValue('addressDesc', '');
       setValue('name', '');
-      setValue('telNumbers', [{ number: '+998' }]);
+      setValue('telNumbers', [{ number: '' }]);
       setEdit(true);
       setValue('regionId', 0);
       setPlace(['']);
@@ -492,6 +506,299 @@ const Address = () => {
       dispatch(setAddressAdding(true));
     }
   }, [fill]);
+
+  const onClose = () => {
+    setOpen(true);
+    yandexRef?.setCenter([41.32847446609404, 69.24298268717716], 10);
+    setPlace([]);
+    setEdit(false);
+    setMapAddress({ name: '' });
+    setValue('id', undefined);
+    setValue('name', '');
+    setSearchAddress('');
+    setValue('address', '');
+    setValue('regionId', 0);
+    setValue('telNumbers', [{ number: '' }]);
+    setValue('addressDesc', '');
+    setSendDate({
+      aroundTheClock: false,
+      work: inntialWorkTime,
+    });
+    setShowWork(false);
+    setMapError(false);
+    dispatch(setAddressAdding(false));
+  };
+
+  console.log(errors);
+
+  const formcontent = (
+    <Form
+      onSubmit={
+        edit ? handleSubmit(handleSubmitPost) : handleSubmit(handleSubmitPut)
+      }
+    >
+      {open ? null : (
+        <WrapClose>
+          <Title>{t('newbranch')}</Title>
+          <IconButton onClick={onClose}>
+            <CloseIcon />
+          </IconButton>
+        </WrapClose>
+      )}
+      <LeftSide>
+        <div>
+          <Title>{t('Address')}</Title>
+          <Text>{t('enterLocationText')}</Text>
+          <WrapAddress>
+            <WrapSearch>
+              <Input
+                label={t('enterLocation')}
+                margin={{
+                  laptop: '20px 0 25px',
+                }}
+                onChange={(e) => {
+                  setValue('address', e.target.value);
+                  if (!e.target.value) setSearchaddressList([]);
+                  setSearchAddress(e.target.value);
+                }}
+                onFocus={() => setIsSearchInputFocus(true)}
+                value={searchAddress}
+                autoComplete='off'
+                type='search'
+              />
+              <Ul
+                visable={searchAddressList.length !== 0 && isSearchInputFocus}
+              >
+                {searchAddressList?.map((v: any) => (
+                  <Li onClick={() => searchSelectedAddress(v)}>
+                    {v?.GeoObject.name}
+                  </Li>
+                ))}
+              </Ul>
+            </WrapSearch>
+            <WrapLocationAddress>
+              <Title>{t('selectedaddress')}</Title>
+              <span>
+                {place[0] !== '' && place[1] !== '' ? mapAddress.name : null}
+                {mapError ? <Message>{t('showinmap')}</Message> : null}
+              </span>
+            </WrapLocationAddress>
+          </WrapAddress>
+          <MobileMap>
+            <YandexContainer bcolor={mapError}>
+              <YandexMap
+                onBoundsChange={onBoundsChange}
+                handleRef={(e: any) => setYandexRef(e)}
+                place={place}
+                onClickPlaceMark={onClickPlace}
+                placeOptions={palceOptions}
+              />
+            </YandexContainer>
+          </MobileMap>
+          <Title>{t('addressClarification')}</Title>
+          <Text>{t('enterOrientationText')}</Text>
+          <Controller
+            name='addressDesc'
+            control={control}
+            rules={{ required: true }}
+            defaultValue=''
+            render={({ field }) => (
+              <Input
+                label={t('enterOrientation')}
+                error={errors.addressDesc ? true : false}
+                message={t('requiredField')}
+                type='text'
+                field={field}
+                margin={{
+                  laptop: '20px 0 25px',
+                }}
+              />
+            )}
+          />
+          {isMain ? null : (
+            <>
+              <Title>{t('filialName')}</Title>
+              <Text>{t('enterTitleText')}</Text>
+              <Controller
+                name='name'
+                control={control}
+                rules={{ required: true }}
+                defaultValue=''
+                render={({ field }) => (
+                  <Input
+                    label={t('enterTitle')}
+                    error={errors.name ? true : false}
+                    message={t('requiredField')}
+                    field={field}
+                    margin={{
+                      laptop: '20px 0 25px',
+                    }}
+                  />
+                )}
+              />
+            </>
+          )}
+
+          <ul style={{ listStyle: 'none' }}>
+            {fields.map((item, index) => {
+              return (
+                <li key={item?.id}>
+                  <Controller
+                    name={`telNumbers.${index}.number`}
+                    rules={{
+                      required: true,
+                      maxLength: 9,
+                      minLength: 9,
+                    }}
+                    control={control}
+                    defaultValue={values.telNumbers?.[index]?.number}
+                    render={({ field }) => (
+                      <Input
+                        label={t('phoneNumber')}
+                        {...field}
+                        onChange={(e: any) => {
+                          field.onChange(e.target.value.match(/\d/g).join(''));
+                        }}
+                        maskPhone={true}
+                        margin={{
+                          laptop: '20px 0 10px',
+                        }}
+                        message={t('requiredField')}
+                        inputStyle={{ inpadding: '0 20px 0 0' }}
+                        error={
+                          errors.telNumbers?.[index]?.number ? true : false
+                        }
+                        IconEnd={
+                          index === 0 ? null : (
+                            <IconButton
+                              style={{ marginRight: '15px' }}
+                              onClick={() => remove(index)}
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          )
+                        }
+                        IconStart={<div className='inputstyle'>+998</div>}
+                        type='text'
+                        minLength={9}
+                      />
+                    )}
+                  />
+                </li>
+              );
+            })}
+          </ul>
+          <Button
+            buttonStyle={{
+              color: '#3492FF',
+              bgcolor: 'transparent',
+            }}
+            onClick={() => {
+              append({ number: '' });
+            }}
+            padding={{ laptop: '0' }}
+            margin={{
+              laptop: '10px 0 0',
+            }}
+          >
+            {t('addPhoneNumber')}
+          </Button>
+          <Title>{t('workingHours')}</Title>
+          <WorkingHours workingTime={workingTime} getTime={getTime} />
+          {workError === false && showWork ? (
+            <Message>{t('requiredField')}</Message>
+          ) : null}
+
+          <ButtonsWrap>
+            {fill ? null : (
+              <ExitButton
+                onClick={() => dispatch(setExitModal(true))}
+                margin={{
+                  laptop: '20px 10px 0',
+                  mobile: '10px 10px 0 0',
+                }}
+                mobile={true}
+              />
+            )}
+            <SaveButton
+              onClick={() => handleSaveClick()}
+              disabled={
+                addressPut.isLoading ||
+                mainPut.isLoading ||
+                addressPost.isLoading
+              }
+              margin={{
+                laptop: '20px 0 0',
+                mobile: '10px 0 0 0',
+              }}
+            />
+            {isMain || edit ? null : (
+              <Button
+                buttonStyle={{
+                  shadow: '0px 4px 9px rgba(255, 94, 104, 0.46)',
+                  weight: '500',
+                  bgcolor: '#FF5E68',
+                  color: '#FFFFFF',
+                }}
+                margin={{
+                  laptop: '20px 0 0 20px',
+                  mobile: '10px 0 0 10px',
+                }}
+                disabled={addressDelete.isLoading}
+                type='button'
+                onClick={handleDeleteFilial}
+              >
+                {t('deletefilial')}
+              </Button>
+            )}
+          </ButtonsWrap>
+        </div>
+      </LeftSide>
+      <DownSide>
+        <div>
+          {fill ? null : (
+            <ExitButton
+              onClick={() => dispatch(setExitModal(true))}
+              margin={{
+                laptop: '20px 10px 0',
+                mobile: '0',
+              }}
+              mobile={true}
+            />
+          )}
+          <SaveButton
+            onClick={() => handleSaveClick()}
+            disabled={
+              addressPut.isLoading || mainPut.isLoading || addressPost.isLoading
+            }
+            margin={{
+              laptop: '20px 0 0',
+              mobile: '0',
+            }}
+          />
+          {isMain || edit ? null : (
+            <Button
+              buttonStyle={{
+                shadow: '0px 4px 9px rgba(255, 94, 104, 0.46)',
+                weight: '500',
+                bgcolor: '#FF5E68',
+                color: '#FFFFFF',
+              }}
+              margin={{
+                laptop: '20px 0 0 20px',
+                mobile: '0',
+              }}
+              disabled={addressDelete.isLoading}
+              type='button'
+              onClick={handleDeleteFilial}
+            >
+              {t('deletefilial')}
+            </Button>
+          )}
+        </div>
+      </DownSide>
+    </Form>
+  );
 
   return (
     <Container>
@@ -596,297 +903,20 @@ const Address = () => {
             </div>
           </AddWrap>
         </>
+      ) : width > 600 ? (
+        formcontent
       ) : (
-        <Form
-          onSubmit={
-            edit
-              ? handleSubmit(handleSubmitPost)
-              : handleSubmit(handleSubmitPut)
-          }
-        >
-          {open ? null : (
-            <WrapClose>
-              <Title>{t('newbranch')}</Title>
-              <IconButton
-                onClick={() => {
-                  setOpen(true);
-                  yandexRef?.setCenter(
-                    [41.32847446609404, 69.24298268717716],
-                    10
-                  );
-                  setPlace([]);
-                  setEdit(false);
-                  setMapAddress({ name: '' });
-                  setValue('id', undefined);
-                  setValue('name', '');
-                  setSearchAddress('');
-                  setValue('address', '');
-                  setValue('regionId', 0);
-                  setValue('telNumbers', [{ number: '+998' }]);
-                  setValue('addressDesc', '');
-                  setSendDate({ aroundTheClock: false, work: inntialWorkTime });
-                  setShowWork(false);
-                  setMapError(false);
-                  dispatch(setAddressAdding(false));
-                }}
-              >
-                <CloseIcon />
+        <FullModal open={!open}>
+          <>
+            <WrapModalClose>
+              <IconButton onClick={onClose} style={{ width: 'fit-content' }}>
+                <LeftIcon />
               </IconButton>
-            </WrapClose>
-          )}
-          <LeftSide>
-            <div>
-              <Title>{t('Address')}</Title>
-              <Text>{t('enterLocationText')}</Text>
-              <WrapAddress>
-                <WrapSearch>
-                  <Input
-                    label={t('enterLocation')}
-                    margin={{
-                      laptop: '20px 0 25px',
-                    }}
-                    onChange={(e) => {
-                      setValue('address', e.target.value);
-                      if (!e.target.value) setSearchaddressList([]);
-                      setSearchAddress(e.target.value);
-                    }}
-                    onFocus={() => setIsSearchInputFocus(true)}
-                    value={searchAddress}
-                    autoComplete='off'
-                    type='search'
-                  />
-                  <Ul
-                    visable={
-                      searchAddressList.length !== 0 && isSearchInputFocus
-                    }
-                  >
-                    {searchAddressList?.map((v: any) => (
-                      <Li onClick={() => searchSelectedAddress(v)}>
-                        {v?.GeoObject.name}
-                      </Li>
-                    ))}
-                  </Ul>
-                </WrapSearch>
-                <WrapLocationAddress>
-                  <Title>{t('selectedaddress')}</Title>
-                  <span>
-                    {place[0] !== '' && place[1] !== ''
-                      ? mapAddress.name
-                      : null}
-                    {mapError ? <Message>{t('showinmap')}</Message> : null}
-                  </span>
-                </WrapLocationAddress>
-              </WrapAddress>
-              <MobileMap>
-                <YandexContainer bcolor={mapError}>
-                  <YandexMap
-                    onBoundsChange={onBoundsChange}
-                    handleRef={(e: any) => setYandexRef(e)}
-                    place={place}
-                    onClickPlaceMark={onClickPlace}
-                    placeOptions={palceOptions}
-                  />
-                </YandexContainer>
-              </MobileMap>
-              <Title>{t('addressClarification')}</Title>
-              <Text>{t('enterOrientationText')}</Text>
-              <Controller
-                name='addressDesc'
-                control={control}
-                rules={{ required: true }}
-                defaultValue=''
-                render={({ field }) => (
-                  <Input
-                    label={t('enterOrientation')}
-                    error={errors.addressDesc ? true : false}
-                    message={t('requiredField')}
-                    type='text'
-                    field={field}
-                    margin={{
-                      laptop: '20px 0 25px',
-                    }}
-                  />
-                )}
-              />
-              {isMain ? null : (
-                <>
-                  <Title>{t('filialName')}</Title>
-                  <Text>{t('enterTitleText')}</Text>
-                  <Controller
-                    name='name'
-                    control={control}
-                    rules={{ required: true }}
-                    defaultValue=''
-                    render={({ field }) => (
-                      <Input
-                        label={t('enterTitle')}
-                        error={errors.name ? true : false}
-                        message={t('requiredField')}
-                        field={field}
-                        margin={{
-                          laptop: '20px 0 25px',
-                        }}
-                      />
-                    )}
-                  />
-                </>
-              )}
-
-              <ul style={{ listStyle: 'none' }}>
-                {fields.map((item, index) => {
-                  return (
-                    <li key={item?.id}>
-                      <Controller
-                        name={`telNumbers.${index}.number`}
-                        rules={{
-                          required: true,
-                          maxLength: 13,
-                          minLength: 13,
-                        }}
-                        control={control}
-                        defaultValue={values.telNumbers?.[index]?.number}
-                        render={({ field }) => (
-                          <Input
-                            label={t('phoneNumber')}
-                            type='text'
-                            field={field}
-                            margin={{
-                              laptop: '20px 0 10px',
-                            }}
-                            message={t('requiredField')}
-                            error={
-                              errors.telNumbers?.[index]?.number ? true : false
-                            }
-                            IconEnd={
-                              index === 0 ? null : (
-                                <IconButton
-                                  style={{ marginRight: '15px' }}
-                                  onClick={() => remove(index)}
-                                >
-                                  <DeleteIcon />
-                                </IconButton>
-                              )
-                            }
-                            maxLength={13}
-                          />
-                        )}
-                      />
-                    </li>
-                  );
-                })}
-              </ul>
-              <Button
-                buttonStyle={{
-                  color: '#3492FF',
-                  bgcolor: 'transparent',
-                }}
-                onClick={() => {
-                  append({ number: '+998' });
-                }}
-                padding={{ laptop: '0' }}
-                margin={{
-                  laptop: '10px 0 0',
-                }}
-              >
-                {t('addPhoneNumber')}
-              </Button>
-              <Title>{t('workingHours')}</Title>
-              <WorkingHours workingTime={workingTime} getTime={getTime} />
-              {workError === false && showWork ? (
-                <Message>{t('requiredField')}</Message>
-              ) : null}
-
-              <ButtonsWrap>
-                {fill ? null : (
-                  <ExitButton
-                    onClick={() => dispatch(setExitModal(true))}
-                    margin={{
-                      laptop: '20px 10px 0',
-                      mobile: '10px 10px 0 0',
-                    }}
-                    mobile={true}
-                  />
-                )}
-                <SaveButton
-                  onClick={() => handleSaveClick()}
-                  disabled={
-                    addressPut.isLoading ||
-                    mainPut.isLoading ||
-                    addressPost.isLoading
-                  }
-                  margin={{
-                    laptop: '20px 0 0',
-                    mobile: '10px 0 0 0',
-                  }}
-                />
-                {isMain || edit ? null : (
-                  <Button
-                    buttonStyle={{
-                      shadow: '0px 4px 9px rgba(255, 94, 104, 0.46)',
-                      weight: '500',
-                      bgcolor: '#FF5E68',
-                      color: '#FFFFFF',
-                    }}
-                    margin={{
-                      laptop: '20px 0 0 20px',
-                      mobile: '10px 0 0 10px',
-                    }}
-                    disabled={addressDelete.isLoading}
-                    type='button'
-                    onClick={handleDeleteFilial}
-                  >
-                    {t('deletefilial')}
-                  </Button>
-                )}
-              </ButtonsWrap>
-            </div>
-          </LeftSide>
-          <DownSide>
-            <div>
-              {fill ? null : (
-                <ExitButton
-                  onClick={() => dispatch(setExitModal(true))}
-                  margin={{
-                    laptop: '20px 10px 0',
-                    mobile: '0',
-                  }}
-                  mobile={true}
-                />
-              )}
-              <SaveButton
-                onClick={() => handleSaveClick()}
-                disabled={
-                  addressPut.isLoading ||
-                  mainPut.isLoading ||
-                  addressPost.isLoading
-                }
-                margin={{
-                  laptop: '20px 0 0',
-                  mobile: '0',
-                }}
-              />
-              {isMain || edit ? null : (
-                <Button
-                  buttonStyle={{
-                    shadow: '0px 4px 9px rgba(255, 94, 104, 0.46)',
-                    weight: '500',
-                    bgcolor: '#FF5E68',
-                    color: '#FFFFFF',
-                  }}
-                  margin={{
-                    laptop: '20px 0 0 20px',
-                    mobile: '0',
-                  }}
-                  disabled={addressDelete.isLoading}
-                  type='button'
-                  onClick={handleDeleteFilial}
-                >
-                  {t('deletefilial')}
-                </Button>
-              )}
-            </div>
-          </DownSide>
-        </Form>
+              <Title>{t('newbranch')}</Title>
+            </WrapModalClose>
+            {formcontent}
+          </>
+        </FullModal>
       )}
       <Rightside>
         <YandexContainer bcolor={mapError}>
