@@ -46,5 +46,6 @@ padding: 15px 15px 20px 15px;
     display: flex;
     align-items: center;
     margin-top: 30px;
+    justify-content: center;
 }
 `

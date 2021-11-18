@@ -28,6 +28,7 @@ export const MFilter = () => {
   const { filters } = useAppSelector(state => state.clients)
   const [filter, setFilter] = useState<any>({})
   const { width } = useWindowWidth()
+
   useEffect(() => {
     setFilter(filters)
   }, [filters])
@@ -108,7 +109,7 @@ export const MFilter = () => {
       content: (
         <>
           <InputFormat
-            label={t("enter_amount")}
+            label={t("enter_number")}
             IconStart={<WrapPlaceHolder>{t("from")}</WrapPlaceHolder>}
             width={{
               maxwidth: 200,
@@ -127,7 +128,7 @@ export const MFilter = () => {
             }))}
           />
           <InputFormat
-            label={t("enter_amount")}
+            label={t("enter_number")}
             margin={{ laptop: "0 0 0 15px" }}
             IconStart={<WrapPlaceHolder>{t("to")}</WrapPlaceHolder>}
             error={(filter?.purchaseAmount?.purchaseCountFrom != "" && filter?.purchaseAmount?.purchaseCountTo != "") && Number(filter?.purchaseAmount?.purchaseCountFrom) > Number(filter?.purchaseAmount?.purchaseCountTo)}

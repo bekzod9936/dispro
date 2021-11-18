@@ -16,6 +16,8 @@ import {
   TitleData,
   DefaultImage,
   ToolTipText,
+  Text,
+  ToolTipDescription,
   ToolTip,
 } from "./style";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
@@ -49,7 +51,7 @@ const Table = ({ data, header2 }: Props) => {
 
   return (
     <Container>
-      <MTable {...getTableProps()}>
+      <MTable  {...getTableProps()}>
         <Thead header2={header2 ? true : false}>
           {headerGroups.map((headerGroup: any) => (
            
@@ -99,14 +101,21 @@ const Table = ({ data, header2 }: Props) => {
                     );
                   } else if (cell.column.Header === "Зазывающий текст") {
                     let checkDescription = cell?.row?.original?.fullData?.data?.description;
+                    let descriptiontoolTip=checkDescription;
                     let description =
-                      checkDescription?.length > 20
-                        ? <p style={{fontSize:'14px'}}>{checkDescription.slice(0, 20) + "..."}</p>
-                        : <p style={{fontSize:'14px'}}>{checkDescription}</p>;
+                      checkDescription?.length > 80
+                        ? checkDescription.slice(0, 80) + "..."
+                        : checkDescription;
 
                     return (
                       <Td {...cell.getCellProps()}>
-                        {description}
+                           <AgeData>
+                             <p style={{ width:'300px',whiteSpace: "pre-wrap"}}>{description}</p>
+                            {/* {checkDescription?.length > 30 ?   <ToolTip>
+                      <p style={{fontSize:'14px'}}>{description}</p>
+                      <ToolTipDescription><span style={{lineHeight:'21px',color:'#223367',fontSize: '14px',fontWeight:300}}>{descriptiontoolTip}</span></ToolTipDescription>
+                      </ToolTip>:<p style={{fontSize:'14px'}}>{description}</p>}  */}
+                      </AgeData>
                         {cell.render("Cell")}
                       </Td>
                     );

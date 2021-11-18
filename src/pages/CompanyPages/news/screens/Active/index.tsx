@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState,useEffect } from "react";
 import { Switch, Route, useHistory, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Spinner from "components/Custom/Spinner";
@@ -23,6 +23,7 @@ import {
 
 import useActive from "./useActive";
 import Pagination from "components/Custom/Pagination";
+
 
 interface intialFilterProps {
   page?: number;
@@ -55,8 +56,8 @@ const Active = () => {
   const intialFilter = {
     page: 1,
     perPage: 5,
-    dateFrom: '',
-    dateTo: '',
+    fromDate: '',
+    toDate: '',
   };
 
   const [filterValues, setFilterValues] =
@@ -68,13 +69,11 @@ const Active = () => {
     await setFilterValues({ ...filterValues, page: e });
     await response.refetch();
   };
-  console.log();
+  
   const onClose = () => {
     dispatch(setSelectedNews(""));
   };
 
-  
-  
   const newsById = selectedNews?.fullData;
 
   return (

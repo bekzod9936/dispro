@@ -76,3 +76,28 @@ export const InfoBlock = styled.div`
 
 export const RecommendationsBlock = styled.div`
 `
+
+export const NoteBlock = styled.div`
+    padding: 15px;
+    background-color: #ffffff;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
+    border-radius: 12px;
+    margin-bottom: 13px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    h4 {
+        font-size: 14px;
+        color: #C7C7C7;
+        margin-bottom: 13px;
+        line-height: 16.41px;
+    }
+    p {
+        font-size: 14px;
+        line-height: 16.41px;
+        color: #223367;
+        font-weight: 300;
+        
+    }
+`
