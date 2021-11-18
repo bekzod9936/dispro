@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { ReactComponent as Delete } from "assets/icons/IconsInfo/deleteword.svg";
 
 export const Container = styled.div`
   height: 100%;
@@ -146,4 +147,33 @@ export const SubText = styled.p`
   line-height: 16px;
   letter-spacing: 0.5px;
   color: #c7c7c7;
+`;
+
+export const LabelLeft = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0;
+`;
+
+export const RightLabel = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+`;
+
+export const DeleteIcon = styled(Delete)`
+  & > path {
+    fill: #ff5e68;
+  }
+`;
+
+export const MainText = styled.p`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 16px;
+  color: #3492ff;
 `;
