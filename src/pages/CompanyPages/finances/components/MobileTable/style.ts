@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 import { ReactComponent as Pink } from 'assets/icons/StatistisPage/app.svg';
-import { ReactComponent as Spark } from 'assets/icons/StatistisPage/mobile.svg';
-import { ReactComponent as Green } from 'assets/icons/StatistisPage/green.svg';
 
 export const Container = styled.div`
   background: #ffffff;
@@ -18,8 +16,6 @@ export const Container = styled.div`
 `;
 
 export const PinkIcon = styled(Pink)``;
-export const SparkIcon = styled(Spark)``;
-export const GreenIcon = styled(Green)``;
 
 export const Data = styled.div`
   padding: 10px 20px;

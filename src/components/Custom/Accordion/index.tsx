@@ -22,26 +22,29 @@ const Accordion = ({
   defaultExpanded,
   disabled,
   expanded,
-  onChange = () => { },
+  onChange = () => {},
   square,
   expandIcon,
   IconButtonProps,
   list,
 }: Props) => {
-  const [isExpanded, setExpanded] = useState<string>("")
+  const [isExpanded, setExpanded] = useState<string>('');
 
   const handleClick = (str: string) => {
-    setExpanded(prev => str === prev ? "" : str)
-  }
+    setExpanded((prev) => (str === prev ? '' : str));
+  };
 
   return (
     <Container>
       {list?.map((v: any) => (
         <MAccordion expanded={isExpanded === v.title} square key={v.title}>
-          <MAccordionSummary onClick={() => handleClick(v.title)} expandIcon={<DownIcon />}>
+          <MAccordionSummary
+            onClick={() => handleClick(v.title)}
+            expandIcon={<DownIcon />}
+          >
             {v.title}
           </MAccordionSummary>
-          <MAccordionDetails >{v.content}</MAccordionDetails>
+          <MAccordionDetails>{v.content}</MAccordionDetails>
         </MAccordion>
       ))}
     </Container>

@@ -13,7 +13,7 @@ import {
   Img,
   Wrapper,
 } from './style';
-import { numberWith } from 'services/utils';
+import { numberWithNew } from 'services/utils';
 import { useAppSelector } from 'services/redux/hooks';
 
 const Traffics = () => {
@@ -26,10 +26,10 @@ const Traffics = () => {
   const list = data?.map((v: any) => {
     return {
       col1: v?.source,
-      col2: v?.clientCount,
-      col3: v?.clientPayedCount,
-      col4: v?.chequeCount,
-      col5: numberWith(v?.receipts.toString(), ' '),
+      col2: numberWithNew({ number: v?.clientCount }),
+      col3: numberWithNew({ number: v?.clientPayedCount }),
+      col4: numberWithNew({ number: v?.chequeCount }),
+      col5: numberWithNew({ number: v?.receipts }),
     };
   });
 
@@ -46,7 +46,9 @@ const Traffics = () => {
               <MobileIcon />
             ) : props?.value.toLowerCase() === 'cashier' ? (
               <Img src={cashier} alt='cashier' />
-            ) : null}
+            ) : (
+              <AppIcon />
+            )}
             {props?.value}
           </WrapIcon>
         ),

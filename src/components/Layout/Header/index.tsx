@@ -96,7 +96,7 @@ const Header = () => {
         width={{
           maxwidth: 280,
         }}
-        onClick={() => history.push('/info')}
+        onClick={() => history.push('/info/about')}
         fullWidth={true}
         padding={{
           laptop: '0',
@@ -224,10 +224,10 @@ const Header = () => {
             IconStart={<SearchIcon />}
           />
         </WrapInput>
-        <Wrap onClick={() => history.push('/finances')}>
+        <Wrap onClick={() => history.push('/finances/suggestions')}>
           <DepositIcon />
           <Title>
-            {t('deposit')}
+            {`${t('deposit')}:`}
             <Text>
               {`${numberWithNew({
                 number: accountsBalance,
@@ -236,10 +236,10 @@ const Header = () => {
             </Text>
           </Title>
         </Wrap>
-        <Wrap onClick={() => history.push('/finances')}>
+        <Wrap onClick={() => history.push('/finances/suggestions')}>
           <ShieldIcon />
           <Title>
-            {t('limit')}
+            {`${t('limit')}:`}
             <Text>
               {`${numberWithNew({
                 number: accountsLimit,

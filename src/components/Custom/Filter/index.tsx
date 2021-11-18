@@ -34,8 +34,8 @@ interface Props {
 
 const Filter = ({
   list,
-  onSubmit = () => { },
-  onReset = () => { },
+  onSubmit = () => {},
+  onReset = () => {},
   error,
   position,
 }: Props) => {
@@ -103,7 +103,7 @@ const Filter = ({
             {t('reset')}
           </Button>
         </Header>
-        <Body>
+        <Body className='Bekzod'>
           <Accordion list={list} />
         </Body>
         <Footer>
