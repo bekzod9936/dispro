@@ -12,6 +12,10 @@ date: string,
       between: string;
       totalCountNews:number;
     };
+    setPeriod:{
+      dateFrom?:string;
+      dateTo?:string;
+    };
     selectedNews?: any;
     query?: string;
   }
