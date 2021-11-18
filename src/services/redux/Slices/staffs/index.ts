@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { staffsState, ICashiers, IManagers } from "./types";
+import { staffsState, ICashiers, IManagers, IPointHistories} from "./types";
 
 const initialState: staffsState = {
   cashiers: [],
@@ -21,6 +21,11 @@ const initialState: staffsState = {
   openEditCashier: false,
   cashierId: "",
   staffData: [],
+  pointHistories: {
+    data: [],
+    totalCount: 0,
+    between: '',
+  },
 };
 
 const staffsSlice = createSlice({
@@ -84,6 +89,17 @@ const staffsSlice = createSlice({
     setStaffData: (state, action: any) => {
       state.staffData = action.payload;
     },
+	setPointHistoriesData: (state, action: PayloadAction<any[]>) => {
+		state.pointHistories.data = action.payload;
+	  },
+	setPointHistoriesTotal: (state, action: PayloadAction<number>) => {
+		state.pointHistories.totalCount = action.payload;
+	  },
+	setPointHistoriesBetween: (state, action: PayloadAction<string>) => {
+		state.pointHistories.between = action.payload;
+	  },
+
+
   },
 });
 
@@ -107,5 +123,8 @@ export const {
   setOpenEditCashier,
   setCashierId,
   setStaffData,
-} = staffsSlice.actions;
+  setPointHistoriesBetween,
+  setPointHistoriesData,
+  setPointHistoriesTotal,
+  } = staffsSlice.actions;
 export default staffsSlice.reducer;

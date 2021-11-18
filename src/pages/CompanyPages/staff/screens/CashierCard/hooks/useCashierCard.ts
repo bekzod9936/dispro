@@ -13,6 +13,7 @@ const useCashierCard = () => {
   const dispatch = useAppDispatch();
   const prevPage: any = state?.prevPage || "/staff";
   const cashId: any = state?.id;
+  const [optionsOpen, setOptionsOpen] = useState<string | number>('');
 
   const resetPoint = useMutation((data: any) => resetPoints(data), {
     onSuccess: () => {
@@ -43,6 +44,15 @@ const useCashierCard = () => {
     }
   );
 
+  const handleOption = (id: any) => {
+	  console.log('optionsOpen', id)
+    if (!optionsOpen) {
+      setOptionsOpen(id);
+    } else {
+      setOptionsOpen("");
+    }
+  };
+
   useEffect(() => {
     if (!cashierId) {
       dispatch(setCashierId(cashId));
@@ -54,6 +64,8 @@ const useCashierCard = () => {
     openQr,
     setOpenQr,
     resetPoint,
+	refetch,
+	handleOption
   };
 };
 

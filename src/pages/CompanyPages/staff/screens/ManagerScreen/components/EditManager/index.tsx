@@ -23,6 +23,7 @@ import { setOpenEditManager } from 'services/redux/Slices/staffs';
 import useStaff from 'pages/CompanyPages/staff/hooks/useStaff';
 import useManagers from 'pages/CompanyPages/staff/hooks/useManagers';
 import { useEffect } from 'react';
+import { inputPhoneNumber } from 'utilities/inputFormat';
 
 const EditManager = ({ openEdit }: IProps) => {
 	const dispatch = useAppDispatch();
@@ -43,6 +44,8 @@ const EditManager = ({ openEdit }: IProps) => {
 		control,
 		handleSubmit,
 		setValue,
+		watch,
+		getValues,
 		formState: { errors, isValid },
 	} = useForm<FormProps>({
 		mode: 'onChange',
@@ -68,13 +71,28 @@ const EditManager = ({ openEdit }: IProps) => {
 			let choseBranch: any = branches.find(
 				(item: any) => item.value == selectedManagers[0].storeId
 			);
+			const tel: string = String(selectedManagers[0].telNumber).slice(4);
 			setValue('firstName', firstname);
 			setValue('lastName', selectedManagers[0].lastName);
 			setValue('comment', selectedManagers[0].comment);
-			setValue('telNumber', selectedManagers[0].telNumber);
+			setValue('telNumber', tel);
 			setValue('storeId', choseBranch?.value);
 		}
 	}, [selectedManagers]);
+
+	const tel: any = getValues();
+
+	let checkPhone = inputPhoneNumber({
+		value: tel?.telNumber,
+	});
+
+	useEffect(() => {
+		if (getValues('telNumber') === undefined) {
+			setValue('telNumber', '');
+		} else {
+			setValue('telNumber', checkPhone.newString);
+		}
+	}, [checkPhone.check, watch('telNumber')]);
 
 	return (
 		<Modal open={openEdit}>
@@ -147,12 +165,14 @@ const EditManager = ({ openEdit }: IProps) => {
 											message={t('requiredField')}
 											type='string'
 											defaultValue={'+998'}
-											maxLength={13}
 											field={field}
 											fullWidth={true}
 											margin={{
 												laptop: '20px 0 25px',
 											}}
+											inputStyle={{ inpadding: '0 20px 0 0' }}
+											maxLength={9}
+											IconStart={<div className='inputstyle'>+998</div>}
 										/>
 									);
 								}}

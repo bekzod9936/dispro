@@ -1,11 +1,15 @@
 import styled from "styled-components";
 
 export const CashierDiv = styled.div`
+display: flex;
+flex-direction: column;
+height: 100%;
+  width: 100%;
   margin-top: 50px;
   padding-right: 40px;
   position: relative !important;
-  overflow-y: scroll;
-  overflow-x: hidden;
+  overflow: hidden;
+  
 `;
 
 export const Text = styled.p`

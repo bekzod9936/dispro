@@ -1,5 +1,5 @@
 import { Container, Link } from "./style";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 interface Props {
   list?: { path?: string; text?: string }[];
   margin?: string;
@@ -15,17 +15,27 @@ export const activeStyle = {
 
 const NavBar = ({ list, margin, padding, vertical }: Props) => {
   const parentRef = useRef<null | HTMLDivElement>(null);
-
-  const handleClick = (e: any) => {
-    if (parentRef.current) {
-      parentRef.current.scrollTo({
-        left: e.target.getBoundingClientRect().left,
-        top: 0,
-        behavior: "smooth",
-      });
-    }
+  const linkRef = useRef<null | Map<number, any>>(null)
+  const handleClick = (e: any, index: number) => {
+    const map = getMap();
+    const node = map.get(index);
+    node?.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "center"
+    })
   };
 
+  const getMap = () => {
+    if (!linkRef.current) {
+      linkRef.current = new Map()
+    }
+    return linkRef.current
+  }
+  useEffect(() => {
+    console.log("mount");
+
+  }, [])
   return (
     <Container
       ref={parentRef}
@@ -34,9 +44,15 @@ const NavBar = ({ list, margin, padding, vertical }: Props) => {
       margin={margin}
       padding={padding}
     >
-      {list?.map((v) => (
+      {list?.map((v, index: number) => (
         <Link
-          onClick={handleClick}
+          ref={(node) => {
+            const map = getMap();
+            if (node) {
+              map.set(index, node)
+            } else map.delete(index)
+          }}
+          onClick={(e: any) => handleClick(e, index)}
           to={`${v.path}`}
           exact
           activeStyle={activeStyle}

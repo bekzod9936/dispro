@@ -153,11 +153,6 @@ const privateCompanyRoutes: IPrivateRoute[] = [
     component: OrdersPage,
   },
   {
-    path: "/proposals",
-    layout: DefaultLayoutAdmin,
-    component: ProposalsPage,
-  },
-  {
     path: "/proposals/:params",
     layout: DefaultLayoutAdmin,
     component: ProposalsPage,
