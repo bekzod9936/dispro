@@ -19,23 +19,6 @@ export const useUploadImage = (handleSet: any) => {
     return new Blob([ia], { type: mimeString });
   };
 
-  // const resizeFile = (file: any) =>
-  //   new Promise((resolve) => {
-  //     Resizer.imageFileResizer(
-  //       file,
-  //       400,
-  //       400,
-  //       'png',
-  //       100,
-  //       0,
-  //       (uri: any) => {
-  //         resolve(uri);
-  //       },
-  //       'base64',
-  //       400,
-  //       400
-  //     );
-  //   });
 
   const { mutate, isLoading } = useMutation(
     (v: any) => uploadPhoto({ body: v }),

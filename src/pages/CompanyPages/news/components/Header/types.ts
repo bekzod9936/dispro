@@ -3,5 +3,6 @@ export interface IProps {
     handleClose?: any;
     closeFun?: any;
     handleOpenSetting?: any;
+    handleOpenNews?:any;
   }
   

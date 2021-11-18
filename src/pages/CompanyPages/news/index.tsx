@@ -23,10 +23,10 @@ import {
 const News = () => {
   const { t } = useTranslation();
   const { menuItems ,newsPath} = useNewsRoute();
-   const dispatch=useAppDispatch()
+  const dispatch=useAppDispatch()
   const location = useLocation();
   const history = useHistory();
-  const handleOpenSetting = () => {
+  const handleOpenNews = () => {
     history.push({
       pathname: '/news/create',
       state: { prevPage: location.pathname },
@@ -51,7 +51,7 @@ const News = () => {
       </WrapHeader>
 
       <Header
-            handleOpenSetting={handleOpenSetting}
+            handleOpenNews={handleOpenNews}
 
           />
         </div>}

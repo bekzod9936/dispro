@@ -27,7 +27,7 @@ import Pagination from "components/Custom/Pagination";
 interface intialFilterProps {
   page?: number;
   perPage?: number;
-    dateFrom?: string;
+  dateFrom?: string;
   dateTo?: string;
 }
 
@@ -53,7 +53,6 @@ const Active = () => {
   };
   const companyId = localStorage.getItem('companyId');
   const intialFilter = {
-    // companyId: companyId,
     page: 1,
     perPage: 5,
     dateFrom: '',
@@ -64,7 +63,7 @@ const Active = () => {
     useState<intialFilterProps>(intialFilter);
 
   const { response } = useActive({ filterValues: filterValues });
- const {list}=useData()
+  const {list}=useData()
   const handlechangePage = async (e: any) => {
     await setFilterValues({ ...filterValues, page: e });
     await response.refetch();
@@ -73,16 +72,17 @@ const Active = () => {
   const onClose = () => {
     dispatch(setSelectedNews(""));
   };
+
+  
   
   const newsById = selectedNews?.fullData;
 
   return (
     <Container>
-    
       <Wrap>
         {response.isLoading || response.isFetching ? (
           <WrapSpinner><Spinner/></WrapSpinner>
-     
+
         ) : (
           <>
             {data.length > 0 ? (
