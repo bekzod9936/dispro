@@ -13,6 +13,8 @@ import {
   Text,
   Column,
   Footer,
+  SubText,
+  EText,
 } from "./style";
 import { FormProps } from "../../hooks/useLoyality";
 import { Break, SpinnerDiv } from "pages/CompanyPages/settings/styles";
@@ -30,6 +32,7 @@ import CancelButton from "pages/CompanyPages/settings/components/CancelButton";
 import SaveButton from "pages/CompanyPages/settings/components/SaveButton";
 import useMobileData from "./useMobileData";
 import Spinner from "components/Helpers/Spinner";
+import RippleEffect from "components/Custom/RippleEffect";
 
 const MainModel = () => {
   const dispatch = useAppDispatch();
@@ -179,6 +182,25 @@ const MainModel = () => {
         {fields.map((item: any, index: number) => {
           return (
             <Column key={index}>
+              <Row aItems="flex-end">
+                <SubText>№ ${index + 2} Название статуса</SubText>
+                {fields[fields.length - 1] === fields[index] && (
+                  <RippleEffect
+                    onClick={() => {
+                      remove(index);
+                      setValue(
+                        "levels",
+                        fields.filter(
+                          (item: any, indexV: number) => indexV !== index
+                        )
+                      );
+                    }}
+                    padding={0}
+                  >
+                    <EText>{t("delete")}</EText>
+                  </RippleEffect>
+                )}
+              </Row>
               <Row>
                 <Controller
                   name={`levels.${index}.name`}
@@ -189,7 +211,7 @@ const MainModel = () => {
                   control={control}
                   render={({ field }) => (
                     <Input
-                      label={`№ ${index + 2} Название статуса`}
+                      label={``}
                       type="string"
                       field={field}
                       defaultValue={item.name}
