@@ -42,7 +42,7 @@ const MenuList = () => {
           button
           key="settings"
           onClick={() => {
-            history.push(`/settings`);
+            history.push(`/settings/loyality`);
             dispatch(setCurrentPage("settings"));
           }}
           selected={pathName[1] === "settings" ? true : false}

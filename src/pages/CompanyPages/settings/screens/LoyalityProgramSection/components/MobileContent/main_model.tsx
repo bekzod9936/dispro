@@ -43,6 +43,9 @@ const MainModel = () => {
     saleLoading,
     cashLoading,
     isLoading,
+    isFetching,
+    cashIsFetch,
+    saleIsFetch,
   } = useMobileData();
 
   const base_loyality = useAppSelector((state) => state.settings.base_loyality);
@@ -83,7 +86,14 @@ const MainModel = () => {
     return true;
   };
 
-  if (isLoading || cashLoading || saleLoading) {
+  if (
+    isLoading ||
+    cashLoading ||
+    saleLoading ||
+    isFetching ||
+    cashIsFetch ||
+    saleIsFetch
+  ) {
     return (
       <SpinnerDiv>
         <Spinner />
@@ -148,7 +158,7 @@ const MainModel = () => {
               return (
                 <InputFormat
                   field={field}
-                  label={""}
+                  label={"Укажите % статуса"}
                   type="string"
                   defaultValue={base_loyality?.base_percent}
                   maxLength={3}
@@ -202,7 +212,7 @@ const MainModel = () => {
                     return (
                       <InputFormat
                         field={field}
-                        label={""}
+                        label={"Укажите % статуса"}
                         type="string"
                         defaultValue={item.percent}
                         maxLength={3}

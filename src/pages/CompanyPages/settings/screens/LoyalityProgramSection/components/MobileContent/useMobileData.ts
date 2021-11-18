@@ -43,53 +43,57 @@ const useMobileData = () => {
   } = useForm();
 
   //fetching data
-  const { isLoading: saleLoading, refetch: refetchdiscount } = useQuery(
-    ["discountM"],
-    fetchDiscount,
-    {
-      retry: 0,
-      refetchOnWindowFocus: false,
-      onSuccess: (data: any) => {
-        if (data?.data?.data?.isActive) {
-          setValue("max_percent", data.data.data.maxAmount);
-          setValue("give_cashback_after", data.data.data.cashbackReturnedDay);
-          setValue("base_name", data.data.data.name);
-          setValue("base_percent", data.data.data.percent);
-          setValue("levels", data.data.data.levels);
-        }
-      },
-    }
-  );
-
-  const { isLoading: cashLoading, refetch: refetchcashback } = useQuery(
-    ["cashbackM"],
-    fetchCashback,
-    {
-      retry: 0,
-      refetchOnWindowFocus: false,
-      onSuccess: (data: any) => {
-        if (data?.data?.data?.isActive) {
-          setValue("give_cashback_after", data.data.data.cashbackReturnedDay);
-          setValue("base_name", data.data.data.name);
-          setValue("base_percent", data.data.data.percent);
-          setValue("levels", data.data.data.levels);
-        }
-      },
-    }
-  );
-
-  const { isLoading, refetch } = useQuery(["BonusM"], fetchBonusPoints, {
+  const {
+    isLoading: saleLoading,
+    isFetching: saleIsFetch,
+    refetch: refetchdiscount,
+  } = useQuery(["discountM"], fetchDiscount, {
     retry: 0,
     refetchOnWindowFocus: false,
     onSuccess: (data: any) => {
       if (data?.data?.data?.isActive) {
         setValue("max_percent", data.data.data.maxAmount);
+        setValue("give_cashback_after", data.data.data.cashbackReturnedDay);
         setValue("base_name", data.data.data.name);
         setValue("base_percent", data.data.data.percent);
         setValue("levels", data.data.data.levels);
       }
     },
   });
+
+  const {
+    isLoading: cashLoading,
+    isFetching: cashIsFetch,
+    refetch: refetchcashback,
+  } = useQuery(["cashbackM"], fetchCashback, {
+    retry: 0,
+    refetchOnWindowFocus: false,
+    onSuccess: (data: any) => {
+      if (data?.data?.data?.isActive) {
+        setValue("give_cashback_after", data.data.data.cashbackReturnedDay);
+        setValue("base_name", data.data.data.name);
+        setValue("base_percent", data.data.data.percent);
+        setValue("levels", data.data.data.levels);
+      }
+    },
+  });
+
+  const { isLoading, isFetching, refetch } = useQuery(
+    ["BonusM"],
+    fetchBonusPoints,
+    {
+      retry: 0,
+      refetchOnWindowFocus: false,
+      onSuccess: (data: any) => {
+        if (data?.data?.data?.isActive) {
+          setValue("max_percent", data.data.data.maxAmount);
+          setValue("base_name", data.data.data.name);
+          setValue("base_percent", data.data.data.percent);
+          setValue("levels", data.data.data.levels);
+        }
+      },
+    }
+  );
 
   //   change loyality and save
   const loayalityPut = useMutation(
@@ -342,6 +346,9 @@ const useMobileData = () => {
     saleLoading,
     cashLoading,
     isLoading,
+    isFetching,
+    cashIsFetch,
+    saleIsFetch,
   };
 };
 
