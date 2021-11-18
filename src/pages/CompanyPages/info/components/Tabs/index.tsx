@@ -11,7 +11,7 @@ function a11yProps(index: any) {
 interface Props {
   listTabs?: any[];
   active?: number | string;
-  content?: any;
+  Content?: any;
   onActive?: (e: any) => void;
 }
 
@@ -37,9 +37,10 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-const MTabs = ({ listTabs, active, content, onActive = () => {} }: Props) => {
+const MTabs = ({ listTabs, active, Content, onActive = () => {} }: Props) => {
   const handleChange = (event: any, newValue: any) => {
     onActive(newValue);
+    console.log(newValue);
   };
 
   return (
@@ -65,7 +66,7 @@ const MTabs = ({ listTabs, active, content, onActive = () => {} }: Props) => {
         </MMTabs>
       </Appbar>
       <TabPanel value={active} index={active}>
-        {content}
+        <Content />
       </TabPanel>
     </Container>
   );

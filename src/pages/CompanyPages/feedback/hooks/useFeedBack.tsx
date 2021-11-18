@@ -76,6 +76,7 @@ const useFeedBack = ({ filterValues }: Props) => {
       dispatch(setRatingsFeedBack(data.data.data.ratingNumbers));
       dispatch(setAverageRatingFeedBack(data.data.data.averageRating));
       dispatch(setTotalRatingFeedBack(data.data.data.totalRating));
+      console.log(data);
     },
   });
 
