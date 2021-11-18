@@ -73,9 +73,6 @@ export const CardImg = styled.div`
   width: 100%;
   height: 200px;
   overflow: hidden;
-  @media (max-width: ${device.mobile}) {
-    height: 180px;
-  }
 `;
 
 export const TitleCard = styled.div`
@@ -215,6 +212,9 @@ export const SideImgWrap = styled.div`
   position: relative;
   @media (min-width: ${device.laptop}) {
     height: 300px;
+  }
+  @media (max-width: ${device.mobile}) {
+    height: 180px;
   }
 `;
 

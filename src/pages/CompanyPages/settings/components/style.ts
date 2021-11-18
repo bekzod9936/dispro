@@ -5,6 +5,7 @@ import { ReactComponent as LogWhite } from "assets/icons/SideBar/logoutwhite.svg
 import { ReactComponent as Cancel } from "assets/icons/SideBar/close.svg";
 import { ReactComponent as DeleteIconWhite } from "assets/icons/delete_ic.svg";
 import { ReactComponent as SettingIcon } from "assets/icons/setting_ic.svg";
+import { ReactComponent as ApplyIc } from "assets/icons/apply_ic.svg";
 
 interface IUsers {
   width?: number;
@@ -45,6 +46,15 @@ interface Props {
 }
 
 export const SaveIcon = styled(Save)`
+  width: 24px;
+  height: 24px;
+  @media (max-width: ${device.planshet}) {
+    width: 18px;
+    height: 18px;
+  }
+`;
+
+export const ApplyIcon = styled(ApplyIc)`
   width: 24px;
   height: 24px;
   @media (max-width: ${device.planshet}) {

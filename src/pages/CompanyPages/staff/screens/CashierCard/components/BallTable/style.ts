@@ -210,3 +210,20 @@ export const NoDataText = styled.div`
 	font-style: normal;
 	margin-top: 35px;
 `;
+
+export const WrapPag = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
+`;
+
+export const Info = styled.div`
+  color: #223367;
+  font-size: 16px;
+  span {
+    font-weight: 900;
+    margin: 0px 5px;
+    font-size: 18px;
+  }
+`;

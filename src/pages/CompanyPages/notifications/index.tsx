@@ -116,7 +116,7 @@ const Notifications = () => {
           height='100%'
           width='100%'
           style={{
-            objectFit: 'cover',
+            objectFit: 'fill',
             userSelect: 'none',
           }}
         />
@@ -186,8 +186,9 @@ const Notifications = () => {
                       height='100%'
                       width='100%'
                       style={{
-                        objectFit: 'cover',
+                        objectFit: 'fill',
                         borderRadius: '14px 14px 0 0',
+                        userSelect: 'none',
                       }}
                       effect='blur'
                     />
