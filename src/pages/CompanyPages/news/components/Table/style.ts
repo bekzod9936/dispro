@@ -218,7 +218,38 @@ export const ToolTipText = styled("span")({
     top: "50%",
     // left: "100%",
     marginLeft: "-5px",
-    
+    borderWidth: "5px",
+    borderStyle: "solid",
+    borderRadius: '14px',
+    borderColor: "white transparent transparent transparent"
+  }
+
+});
+
+
+export const ToolTipDescription = styled("span")({
+
+  visibility: "hidden",
+  width: "350px",
+  backgroundColor: "#fff",
+  color: "#223367",
+  textAlign: "center",
+  whiteSpace: "pre-wrap",
+  borderRadius: "6px",
+  position: "absolute",
+  paddingTop:"10px",
+  paddingBottom:"5px",
+  zIndex: 1,
+  top:'20px',
+  padding:'10px',
+  marginLeft: "-100px",
+  marginTop: "-140px",
+  ":after": {
+    content: '""',
+    position: "absolute",
+    top: "50%",
+    left: "100%",
+     marginLeft: "-5px",
     borderWidth: "5px",
     borderStyle: "solid",
     borderRadius: '14px',
