@@ -97,7 +97,9 @@ const ClientsPage = () => {
 								open={modals.downBar} />}
 						{client &&
 							<MobileForm
+								refetch={refetch}
 								client={{
+									isBlocked: client.isPlBlocked,
 									name: client.firstName + " " + client.lastName,
 									points: client.addInfo.pointSum,
 									percent: client.personalLoyaltyInfo.isActive ? client.personalLoyaltyInfo.percent : client.obtainProgramLoyalty.percent,

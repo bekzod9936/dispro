@@ -42,6 +42,17 @@ export const Td = styled.td`
     font-size: 14px;
     padding: 6px;
   }
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  img {
+    width: 40px;
+    height: 40px;
+    border-radius: 14px;
+    margin-right: 20px;
+  }
 `;
 
 export const Tbody = styled.tbody`

@@ -8,16 +8,16 @@ import useActive from "../../../../screens/Active/useActive";
 const FilterActiveNews = () => {
   
    interface intialFilterProps {
-    dateFrom?: string;
-    dateTo?: string;
+    fromDate?: string;
+    toDate?: string;
     page?:number;
     perPage?:number;
   }
   const intialFilter = {
     page: 1,
     perPage: 5,
-    dateFrom: '',
-    dateTo: '',
+    fromDate: '',
+    toDate: '',
   };
 
    const [filterValues,setFilterValues]=
@@ -26,10 +26,10 @@ const FilterActiveNews = () => {
    return (
         <DatePcker
           onChange={async (e: any) => {
-            setFilterValues({
+            await  setFilterValues({
               ...filterValues, 
-              dateFrom: e.slice(0, e.indexOf(' ~')),
-              dateTo: e.slice(e.indexOf('~ ') + 2),
+              fromDate: e.slice(0, e.indexOf(' ~')),
+              toDate: e.slice(e.indexOf('~ ') + 2),
             });
            await response.refetch();
           }}

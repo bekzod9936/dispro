@@ -4,6 +4,7 @@ import { IFilters } from "services/redux/Slices/clients/types"
 import { RemoveFilterBtn } from "../components/Header/components/RemoveFilterBtn"
 import { SelectedFilter } from "../components/Header/style"
 import dayjs from "dayjs";
+import { numberWith } from 'services/utils'
 
 export interface ITableHelperItem {
   date: string,
@@ -18,7 +19,8 @@ export interface ITableHelperItem {
 export interface ITableRecs {
   date: string,
   levelNumber: number,
-  name: string
+  name: string,
+  image: string
 }
 
 export const getSelected = (obj: any): any => {
@@ -92,11 +94,11 @@ export const useHandleGetFilters = ({ filters, handleRemove }: IProps) => {
       </SelectedFilter>
     );
   }
-  if (notless) {
+  if (notless && notless !== "") {
     result.push(
       <SelectedFilter>
         <p>
-          {t("notless")}: {notless} сум
+          {t("notless")}: {numberWith(notless + "", " ")} сум
         </p>
         <RemoveFilterBtn onClick={() => handleRemove("notless")} />
       </SelectedFilter>
@@ -116,21 +118,23 @@ export const useHandleGetFilters = ({ filters, handleRemove }: IProps) => {
     );
   }
   if (purchaseAmount) {
-    result.push(
-      <SelectedFilter>
-        {purchaseAmount?.purchaseCountFrom && (
-          <p>
-            Кол-во покупок: {t("from")}: {purchaseAmount?.purchaseCountFrom}
-          </p>
-        )}
-        {purchaseAmount?.purchaseCountTo && (
-          <p>
-            {!purchaseAmount?.purchaseCountFrom && "Кол-во покупок: "}{t("to")}: {purchaseAmount?.purchaseCountTo}
-          </p>
-        )}
-        <RemoveFilterBtn onClick={() => handleRemove("purchaseAmount")} />
-      </SelectedFilter>
-    );
+    if (purchaseAmount.purchaseCountTo !== "" || purchaseAmount.purchaseCountTo !== "") {
+      result.push(
+        <SelectedFilter>
+          {purchaseAmount?.purchaseCountFrom && (purchaseAmount?.purchaseCountFrom !== "") && (
+            <p>
+              Кол-во покупок: {t("from")}: {numberWith(purchaseAmount?.purchaseCountFrom + "", " ")}
+            </p>
+          )}
+          {purchaseAmount?.purchaseCountTo && (purchaseAmount?.purchaseCountTo !== "") && (
+            <p>
+              {!purchaseAmount?.purchaseCountFrom && "Кол-во покупок: "}{t("to")}: {numberWith(purchaseAmount?.purchaseCountTo + "", " ")}
+            </p>
+          )}
+          {(purchaseAmount.purchaseCountFrom !== "" || purchaseAmount.purchaseCountTo !== "") && <RemoveFilterBtn onClick={() => handleRemove("purchaseAmount")} />}
+        </SelectedFilter>
+      );
+    }
   }
   if (trafficProvider) {
     result.push(
@@ -210,6 +214,7 @@ export const getClientStatistics = (data: any) => {
     })
     return temp.filter(e => !!e)
   }
+  return []
 };
 
 
@@ -315,6 +320,7 @@ export const tableRecommendsHelper = (arr: ITableRecs[]) => {
   return arr.map(el => ({
     registration_date: dayjs(el.date).format("DD.MM.YYYY hh:mm"),
     client: el.name,
-    level: el.levelNumber
+    level: el.levelNumber,
+    image: el.image
   }))
 }

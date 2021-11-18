@@ -39,7 +39,7 @@ function NumberFormatCustom(props: any) {
   );
 }
 
-const InputFormat = ({ onChange = () => {}, ...props }: Props) => {
+const InputFormat = ({ onChange = () => { }, ...props }: Props) => {
   return (
     <Container width={props.width} margin={props.margin}>
       {props.label ? (

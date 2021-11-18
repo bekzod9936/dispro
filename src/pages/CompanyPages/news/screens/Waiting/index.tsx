@@ -39,8 +39,7 @@ const Active = () => {
   const intialFilter = {
     page: 1,
     perPage: 5,
-    dateFrom: '',
-    dateTo: '',
+
   };
 
   const [filterValues, setFilterValues] =

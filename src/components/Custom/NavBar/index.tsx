@@ -1,5 +1,5 @@
 import { Container, Link } from "./style";
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 interface Props {
   list?: { path?: string; text?: string }[];
   margin?: string;
@@ -32,10 +32,7 @@ const NavBar = ({ list, margin, padding, vertical }: Props) => {
     }
     return linkRef.current
   }
-  useEffect(() => {
-    console.log("mount");
 
-  }, [])
   return (
     <Container
       ref={parentRef}

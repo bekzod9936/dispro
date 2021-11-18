@@ -64,6 +64,7 @@ const Header = ({ handleOpenNews }: IProps) => {
       <div style={{ width: "20px" }} />
      {location.pathname === "/news" && <FilterActiveNews/> } 
      {location.pathname==="/news/archive" && <FilterArchiveNews/>}
+  
     </Flex>
   );
 };

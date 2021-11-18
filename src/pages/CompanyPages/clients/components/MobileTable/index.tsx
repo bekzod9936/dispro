@@ -12,6 +12,7 @@ interface IProps {
         image?: string,
         name: string,
         discountValue: number | string,
+        discountStatus: string,
         id: number,
         userId: number
     }[],
@@ -58,7 +59,7 @@ export const MobileTable = ({ array, onClick }: IProps) => {
                         {client.image ? <img src={client.image} alt="clientImg" /> : <DefaultImg />}
                         <div className="content">
                             <h5>{client.name}</h5>
-                            <p>{t('discount')}: {client.discountValue}%</p>
+                            <p>{client.discountStatus}: {client.discountValue}%</p>
                         </div>
                     </Trow>
                 ))}
