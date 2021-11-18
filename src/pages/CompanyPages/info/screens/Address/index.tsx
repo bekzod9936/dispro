@@ -529,8 +529,6 @@ const Address = () => {
     dispatch(setAddressAdding(false));
   };
 
-  console.log(errors);
-
   const formcontent = (
     <Form
       onSubmit={
