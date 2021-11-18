@@ -156,17 +156,17 @@ const FeedBack = () => {
       ),
     },
   ];
-
+  console.log(ratings);
   return (
     <MainWrapper>
-      <Wrapper isPosts={match.url === '/feedback' ? false : true}>
+      <Wrapper isPosts={match.url === '/feedback/reviews' ? false : true}>
         <WrapHeader>
           <LeftHeader>
             <Title>{t('feedbackPage')}</Title>
             <div style={{ display: 'flex' }}>
               <NavBar list={menuItems} margin='10px 0 0' />
             </div>
-            {match.url === '/feedback' ? (
+            {match.url === '/feedback/reviews' ? (
               <FilterWarp>
                 <Input
                   IconStart={<SearchIcon />}
@@ -200,7 +200,7 @@ const FeedBack = () => {
                 />
               </FilterWarp>
             ) : null}
-            {match.url === '/feedback' ? (
+            {match.url === '/feedback/reviews' ? (
               resClients.isLoading || resClients.isFetching ? (
                 <Spinner />
               ) : clients?.length === 0 ? (
@@ -226,10 +226,10 @@ const FeedBack = () => {
                         <span>{between}</span>
                         {t('from1')} <span>{totalCount}</span>
                         {countPagination({
-              count: totalCount,
-              firstWord: t('page1'),
-              secondWord: t('page23'),
-            })}
+                          count: totalCount,
+                          firstWord: t('page1'),
+                          secondWord: t('page23'),
+                        })}
                       </Info>
                       <Pagination
                         page={filterValues.page}
@@ -244,7 +244,7 @@ const FeedBack = () => {
             ) : null}
           </LeftHeader>
         </WrapHeader>
-        {match.url === '/feedback' ? (
+        {match.url === '/feedback/reviews' ? (
           <RightSide>
             <div>
               <Grade title={t('overallscore')} rate={rate} />
@@ -263,14 +263,10 @@ const FeedBack = () => {
                     <WrapStartT>
                       <RateText>
                         &middot;
-                        {ratings?.length === i + 1
-                          ? `${ratings[i]?.percentage}%`
-                          : '0%'}
+                        {ratings?.length ? `${ratings[i]?.percentage}%` : '0%'}
                       </RateText>
                       <RateText>
-                        {ratings?.length === i + 1
-                          ? `${ratings[i]?.amount} `
-                          : '0 '}
+                        {ratings?.length ? `${ratings[i]?.amount} ` : '0 '}
                       </RateText>
                       <RateText>{t('evaluations')}</RateText>
                     </WrapStartT>

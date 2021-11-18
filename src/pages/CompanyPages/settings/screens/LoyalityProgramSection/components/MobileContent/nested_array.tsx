@@ -6,7 +6,19 @@ import useDetail from "../../hooks/useDetail";
 //actions
 import { addModal } from "services/redux/Slices/settingsSlice";
 //styles
-import { Wrapper, Column, ModalContent, MRow, Title } from "./style";
+import {
+  Wrapper,
+  Column,
+  ModalContent,
+  MRow,
+  Title,
+  Row,
+  LabelLeft,
+  SubText,
+  DeleteIcon,
+  RightLabel,
+  MainText,
+} from "./style";
 //assets
 import { ReactComponent as AddIcon } from "assets/icons/add.svg";
 import { ReactComponent as RefreshIcon } from "assets/icons/refresh_page.svg";
@@ -17,6 +29,8 @@ import CancelButton from "pages/CompanyPages/settings/components/CancelButton";
 import Button from "components/Custom/Button";
 import MultiSelect from "components/Custom/MultiSelect";
 import { Break } from "pages/CompanyPages/settings/styles";
+import { IconButton } from "@material-ui/core";
+import RippleEffect from "components/Custom/RippleEffect";
 
 const NestedArray = ({ index, control, setValue }: IProps) => {
   const { labelType, loyalityOptions } = useDetail();
@@ -30,13 +44,54 @@ const NestedArray = ({ index, control, setValue }: IProps) => {
     control,
     name: `levels.${index}.requirements`,
   });
+
+  const levelReqs = useWatch({
+    control,
+    name: `levels.${index}.requirements`,
+  });
   const openM = useAppSelector((state) => state.settings.openM);
 
+  const changeLevelState = (reqType: any, indexN: any) => {
+    console.log(reqType);
+    if (levelReqs.length) {
+      if (levelReqs[0] === levelReqs[indexN]) {
+        return <SubText>Основное условие</SubText>;
+      }
+      if (reqType?.condition) {
+        return (
+          <RippleEffect>
+            <MainText>Альтернатива</MainText>
+          </RippleEffect>
+        );
+      } else if (reqType?.condition) {
+        return (
+          <RippleEffect>
+            <MainText>Доп. условие</MainText>
+          </RippleEffect>
+        );
+      } else {
+        return <SubText>Основное условие</SubText>;
+      }
+    }
+  };
   return (
     <Wrapper>
       {fields.map((item: any, smallIndex: number) => {
         return (
           <Column key={smallIndex}>
+            <Row>
+              <LabelLeft>
+                <SubText>Условия статуса</SubText>
+                <IconButton
+                  onClick={() => {
+                    remove(index);
+                  }}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </LabelLeft>
+              <RightLabel>{changeLevelState(item, smallIndex)}</RightLabel>
+            </Row>
             <Controller
               name={`levels.${[index]}.requirements.${[smallIndex]}.type`}
               control={control}
@@ -91,6 +146,7 @@ const NestedArray = ({ index, control, setValue }: IProps) => {
                     width={{
                       width: "100%",
                     }}
+                    label="Больше чем"
                     field={field}
                     defaultValue={item.amount}
                   />
