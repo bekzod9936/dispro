@@ -220,3 +220,26 @@ export const MCheckbox = styled.div`
     }
   }
 `;
+
+export const ManagerTd = styled.div`
+  display: flex; 
+  align-items: center; 
+  img {
+    border-radius: 14px;
+    width: 40px;
+    height: 40px;
+    margin-right: 15px;
+  }
+`
+
+export const DefaultLogo = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  background: linear-gradient(215.2deg, #C7EEFF -12.1%, #FCA9EA 101.51%);
+  margin-right: 15px;
+`
+
+export const ManagerLogo = styled.img`
+	object-fit: cover;
+`
