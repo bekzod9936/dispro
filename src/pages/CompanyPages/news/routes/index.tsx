@@ -24,7 +24,7 @@ const useNewsRoute=()=>{
             component:Waiting
           },
           {
-            path:'/news',
+            path:'/news/active',
             text:t('Активные новости'),
             component:Active,
         },
@@ -41,7 +41,7 @@ const useNewsRoute=()=>{
             component:Waiting
           },
         {
-            path:'/news',
+            path:'/news/active',
             text:t('Активные новости'),
             component:Active,
         },

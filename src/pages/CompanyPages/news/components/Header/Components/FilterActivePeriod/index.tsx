@@ -24,15 +24,19 @@ const FilterActiveNews = () => {
    useState<intialFilterProps>(intialFilter);
    const {response } =useActive({ filterValues });
    return (
+     <div>
         <DatePcker
           onChange={async (e: any) => {
-            await  setFilterValues({
+            await response.refetch();
+            await setFilterValues({
               ...filterValues, 
               fromDate: e.slice(0, e.indexOf(' ~')),
               toDate: e.slice(e.indexOf('~ ') + 2),
             });
-           await response.refetch();
+            // await response.refetch();
           }}
         />
+
+          </div>
       )}
 export default FilterActiveNews;
