@@ -79,8 +79,9 @@ export const getSelected = (obj: any): any => {
 interface IProps {
   filters: IFilters;
   handleRemove: (arg: string) => void;
+  referals: any[]
 }
-export const useHandleGetFilters = ({ filters, handleRemove }: IProps) => {
+export const useHandleGetFilters = ({ filters, handleRemove, referals }: IProps) => {
   const { t } = useTranslation();
   let result = [];
   const { gender, notless, regDate, purchaseAmount, trafficProvider } = filters;
@@ -140,7 +141,7 @@ export const useHandleGetFilters = ({ filters, handleRemove }: IProps) => {
     result.push(
       <SelectedFilter>
         <p>
-          {t("trafficProvider")}: {trafficProvider?.label}
+          {t("trafficProvider")}: {referals[trafficProvider].name.slice(0, 1).toUpperCase() + referals[trafficProvider].name.slice(1)}
         </p>
         <RemoveFilterBtn onClick={() => handleRemove("trafficProvider")} />
       </SelectedFilter>
@@ -207,7 +208,7 @@ export const getClientStatistics = (data: any) => {
       } else if (el === "paidWithPoint") {
         return {
           icon: <RatingIcon />,
-          heading: "Оплаченно баллами",
+          heading: "Оплачено баллами",
           value: data[el]
         }
       }
