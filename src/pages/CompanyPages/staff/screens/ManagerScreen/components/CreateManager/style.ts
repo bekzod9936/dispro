@@ -178,7 +178,7 @@ align-items: center;
 width: max-content;
 img {
     border-radius: 14px;
-    width: 250px;
+    width: 100px;
     margin-top: 15px;
 }
 svg {

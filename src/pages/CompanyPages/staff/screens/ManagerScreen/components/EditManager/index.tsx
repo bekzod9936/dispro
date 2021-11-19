@@ -35,7 +35,7 @@ import { useUploadImage } from 'pages/CompanyPages/staff/hooks/useUploadIMage';
 import { UploadImage, DeleteIcon } from 'assets/icons/proposals/ProposalsIcons';
 import Spinner from 'components/Helpers/Spinner';
 import ImageLazyLoad from 'components/Custom/ImageLazyLoad/ImageLazyLoad';
-import CropCustomModal from 'components/Custom/CropImageModal';
+import StaffCropCustomModal from 'components/Custom/StaffCropImageModal';
 
 const EditManager = ({ openEdit }: IProps) => {
 	const dispatch = useAppDispatch();
@@ -190,7 +190,7 @@ const EditManager = ({ openEdit }: IProps) => {
 												</ImageBlock>
 											)}
 											{file && (
-												<CropCustomModal
+												<StaffCropCustomModal
 													setIsLoading={setLoading}
 													handleUpload={handleUpload}
 													setFile={setFile}
