@@ -55,19 +55,19 @@ export const VipModal = ({ handleClose, refetch, state, id, clientInfo }: IProps
     }
 
     function handleChange(e: any) {
-        const percent = e.target.value
-        if (!percent) {
-            setError(true)
+        const currPercent = e.target.value;
+        if (!currPercent) {
+            setError(true);
         }
-        if (percent.toString().startsWith("0")) {
-            setPercent("")
+        if (currPercent.toString().startsWith("0")) {
+            setPercent("");
         }
-        else if (percent <= 100) {
-            setPercent(percent)
+        else if (currPercent <= 100) {
+            setPercent(currPercent.trim());
 
-        } else if (percent > 100) setPercent("100")
+        } else if (currPercent > 100) setPercent("100")
         else {
-            setPercent(percent)
+            setPercent(percent.trim());
         }
 
     }

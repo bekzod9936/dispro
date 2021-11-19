@@ -26,12 +26,13 @@ const FilterArchiveNews = () => {
   return (
         <DatePcker
           onChange={async (e: any) => {
+            await response.refetch();
             await  setFilterValues({
               ...filterValues, 
               fromDate: e.slice(0, e.indexOf(' ~')),
               toDate: e.slice(e.indexOf('~ ') + 2),
             });
-          await  response.refetch();
+           
           }}
         />
       )}

@@ -17,21 +17,26 @@ import InputFormat from "components/Custom/InputFormat";
 import useWindowWidth from "services/hooks/useWindowWidth";
 
 
-const traffics = [
-  { value: "1", label: "App" },
-  { value: "2", label: "Mobile" },
-  { value: "3", label: "Cashier" },
-]
+
 export const MFilter = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch()
-  const { filters } = useAppSelector(state => state.clients)
+  const { filters, referals } = useAppSelector(state => state.clients)
   const [filter, setFilter] = useState<any>({})
   const { width } = useWindowWidth()
 
   useEffect(() => {
     setFilter(filters)
   }, [filters])
+
+  const getReferals = (arr: any) => {
+    return arr?.map((el: any, index: number) => ({
+      realValue: el.refIds,
+      label: el.name,
+      value: index
+    }))
+  }
+
 
   const filterList = [
     {
@@ -194,10 +199,10 @@ export const MFilter = () => {
       content: (
         <Radio
           flexDirection="row"
-          list={traffics}
+          list={getReferals(referals)}
           title={t("chose_trafic_provider")}
-          onChange={(e) => setFilter((prev: any) => ({ ...prev, trafficProvider: traffics.find(el => el.value === e) }))}
-          value={filter?.trafficProvider?.value}
+          onChange={(e) => setFilter((prev: any) => ({ ...prev, trafficProvider: e }))}
+          value={Number(filter?.trafficProvider)}
         />
       ),
     },

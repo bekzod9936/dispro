@@ -68,7 +68,7 @@ interface IOptionFields {
 }
 
 
-const CreateNews = () => {
+const EditNews = () => {
   const { t } = useTranslation();
   const history = useHistory();
 
@@ -413,17 +413,21 @@ const CreateNews = () => {
               <Controller
                 name="ageLimit"
                 control={control}
-                rules={{
-                  required: true,
-                }}
+                // rules={{
+                //   required: true,
+                // }}
                 defaultValue={newsById?.data?.ageFrom}
                 render={({ field }) => (
                   <InputFormat
                     field={field}
                     defaultValue={newsById?.data?.ageFrom}
                     max="100"
+                    message={
+                      parseInt(watch('ageLimit'))
+                       
+                    }
                     error={!!errors.ageLimit}
-                    message={t("requiredField")}
+                    // message={t("requiredField")}
                     IconStart={<PlusIcon style={{ marginLeft: "20px" }} />}
                     label="Возрастное ограничение"
                   />
@@ -590,4 +594,4 @@ const CreateNews = () => {
   );
 };
 
-export default CreateNews;
+export default EditNews;

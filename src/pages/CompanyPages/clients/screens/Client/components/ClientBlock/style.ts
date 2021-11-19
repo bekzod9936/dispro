@@ -37,6 +37,7 @@ export const UpSide = styled.div`
             border-radius: 14px;
             object-fit: cover;
         }
+        
         .blocked {
             position: absolute;
             width: 30px;
@@ -62,6 +63,24 @@ export const DefaultImage = styled.div`
     width: 100px;
     height: 100px;
     border-radius: 14px;
+    position: relative;
+    div.blocked {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            background-color: #F1F4F6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            right: -5px;
+            bottom: -2px;
+            svg {
+                width: 12px;
+                height: 14px;
+            }
+
+        }
 `
 
 export const DownSide = styled.div`

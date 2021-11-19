@@ -142,7 +142,7 @@ const Table = ({ data, header2 }: Props) => {
                       <Td {...cell.getCellProps()}>
                         <AgeData>
                           <p>{date}</p>
-                          {ageUnlimeted ?'' :<h4>{ageFrom + "+"}</h4>}
+                          {ageUnlimeted ? '' :ageFrom>0 ? <h4>{ageFrom+ "+"}</h4>:''}
                           {PushUp ?<h3><ToolTip>{'Push-up'}<ToolTipText><p style={{lineHeight:'21px',color:'#223367',fontSize: '18px',fontWeight:300}}>{`Уведомлений получили:${' '+stat?.get?.total+' '}чел.`}</p>
                            <p style={{lineHeight:'21px',color:'#223367',fontSize: '18px',fontWeight:300}}>{`Уведомлений просмотрели:${' '+stat?.view?.total+' '}чел.`}
                           <br/>
