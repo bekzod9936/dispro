@@ -31,7 +31,7 @@ const FilterActiveNews = () => {
               fromDate: e.slice(0, e.indexOf(' ~')),
               toDate: e.slice(e.indexOf('~ ') + 2),
             });
-           await response.refetch();
+            response.refetch();
           }}
         />
       )}
