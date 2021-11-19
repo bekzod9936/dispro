@@ -35,7 +35,6 @@ export const store = configureStore({
     qrSetting: qrSetting,
     finance: financeSlice,
     firebaseSlice: firebaseSlice,
-
   },
 });
 export type RootState = ReturnType<typeof store.getState>;

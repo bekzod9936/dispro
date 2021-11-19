@@ -113,6 +113,7 @@ export const CardContainer = styled.div`
 
   @media (max-width: ${device.planshet}) {
     grid-template-columns: 1fr;
+    padding: 0 15px;
   }
 `;
 

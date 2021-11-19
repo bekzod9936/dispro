@@ -1,5 +1,6 @@
 import { useState, Suspense, lazy } from "react";
 import { useTranslation } from "react-i18next";
+import { useAppSelector } from "services/redux/hooks";
 
 // assets and styles
 import Input from "components/Custom/Input";
@@ -31,6 +32,7 @@ import QrForBranch from "./components/QrForBranch";
 import Spinner from "components/Helpers/Spinner";
 // import QrCodeCard from "./components/QrCodeCard";
 const QrCodeCard = lazy(() => import("./components/QrCodeCard"));
+const BranchQrCode = lazy(() => import("./components/BranchQrCode"));
 
 const QRCodesSection = () => {
   const { t } = useTranslation();
@@ -59,9 +61,11 @@ const QRCodesSection = () => {
     setCurrentName,
     handleSavePromocode,
   } = useQrCode();
-
   const { closeQr, onSave, qrVisible, openQr } = useBranch();
 
+  const branches = useAppSelector((state) => state.qrSetting.branches);
+
+  console.log(branches, "branches");
   const [closeFun, setCloseFun] = useState<any>();
   const handleClose = (e: any) => {
     setCloseFun(e);
@@ -150,43 +154,68 @@ const QRCodesSection = () => {
       <Break height={height} />
 
       {/* QR Code cards  */}
-      <Suspense
-        fallback={
-          <SpinnerDiv>
-            <Spinner />
-          </SpinnerDiv>
-        }
-      >
-        <Wrapper onScroll={handleScroll}>
-          <CardContainer>
-            {!isLoading &&
-              data?.data &&
-              data?.data?.data
-                ?.filter((value: any) => {
-                  if (searchQR === "") {
-                    return true;
-                  } else {
-                    return value.source.match(searchQR);
-                  }
-                })
-                .map((item: any, index: number) => {
-                  return (
-                    <CardItem key={item?.id}>
-                      <QrCodeCard
-                        item={item}
-                        index={index}
-                        handleOption={() => handleOption(item?.id)}
-                        optionsOpen={optionsOpen}
-                        handleDeleteClick={handleDeleteClick}
-                        handleEditClick={handleEditClick}
-                        setId={setId}
-                      />
-                    </CardItem>
-                  );
-                })}
-          </CardContainer>
-        </Wrapper>
-      </Suspense>
+      {isLoading ? (
+        <SpinnerDiv>
+          <Spinner />
+        </SpinnerDiv>
+      ) : (
+        <Suspense
+          fallback={
+            <SpinnerDiv>
+              <Spinner />
+            </SpinnerDiv>
+          }
+        >
+          <Wrapper onScroll={handleScroll}>
+            <CardContainer>
+              {!isLoading &&
+                data?.data &&
+                data?.data?.data
+                  ?.filter((value: any) => {
+                    if (searchQR === "") {
+                      return true;
+                    } else {
+                      return value.source.match(searchQR);
+                    }
+                  })
+                  .map((item: any, index: number) => {
+                    return (
+                      <CardItem key={item?.id}>
+                        <QrCodeCard
+                          item={item}
+                          index={index}
+                          handleOption={() => handleOption(item?.id)}
+                          optionsOpen={optionsOpen}
+                          handleDeleteClick={handleDeleteClick}
+                          handleEditClick={handleEditClick}
+                          setId={setId}
+                        />
+                      </CardItem>
+                    );
+                  })}
+
+              {/* //branches qr code  */}
+              {branches?.length
+                ? branches?.map((item: any, index: number) => {
+                    return (
+                      <CardItem key={item?.id}>
+                        <BranchQrCode
+                          item={item}
+                          index={index}
+                          handleOption={() => handleOption(item?.id)}
+                          optionsOpen={optionsOpen}
+                          handleDeleteClick={handleDeleteClick}
+                          handleEditClick={handleEditClick}
+                          setId={setId}
+                        />
+                      </CardItem>
+                    );
+                  })
+                : null}
+            </CardContainer>
+          </Wrapper>
+        </Suspense>
+      )}
 
       {/* Modal side  */}
 

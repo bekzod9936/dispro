@@ -8,7 +8,7 @@ import {
   editQrCode,
 } from "services/queries/qrSetttingQuery";
 import { useAppDispatch } from "services/redux/hooks";
-import { setStores } from "services/redux/Slices/qrSetting";
+import { setBranchList, setStores } from "services/redux/Slices/qrSetting";
 
 const useQrCode = () => {
   const dispatch = useAppDispatch();
@@ -122,6 +122,10 @@ const useQrCode = () => {
           })
         )
       );
+      const filteredData = data.data.data.filter(
+        (item: any) => item.dynLink !== ""
+      );
+      dispatch(setBranchList(filteredData));
     },
   });
 
