@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Header } from '../../components/Header/Header';
-import { Container, MainWrapper, Wrap } from '../../style/style';
+import { Container, MainWrapper, SpinnerWrapper, Wrap } from '../../style/style';
 import { Table } from '../../components/Table/Table';
 import Spinner from 'components/Helpers/Spinner';
 import { Footer } from '../../components/Footer/Footer';
@@ -19,7 +19,6 @@ import FullModal from 'components/Custom/FullModal';
 import { MobileQrBar } from '../../components/MobileQrBar';
 import { DownBarViewer } from '../../components/DownBarViewer';
 import { MobileForm } from '../../components/Form';
-import { SpinnerWrapper } from '../Client/style';
 export interface IMobileForm {
 	open: boolean,
 	action: 1 | 2 | 3

@@ -24,6 +24,8 @@ export const Header = ({ query, setQuery, setModals }: IProps) => {
   const { t } = useTranslation();
   const { totalCount, filters, referals } = useAppSelector(state => state.clients);
   const activeFilters = useHandleGetFilters({ filters, handleRemove, referals })
+  console.log(activeFilters);
+
   const dispatch = useAppDispatch()
   const { width } = useWindowSize()
   function handleRemove(key: string) {
