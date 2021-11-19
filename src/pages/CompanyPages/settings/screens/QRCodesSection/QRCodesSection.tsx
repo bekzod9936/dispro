@@ -42,6 +42,7 @@ const QRCodesSection = () => {
     scrollTop: 10,
   });
   const {
+    isFetching,
     isLoading,
     data,
     searchQR,
@@ -58,7 +59,6 @@ const QRCodesSection = () => {
     modalVisible,
     state,
     handleDelete,
-    setCurrentName,
     handleSavePromocode,
   } = useQrCode();
   const { closeQr, onSave, qrVisible, openQr } = useBranch();
@@ -154,7 +154,7 @@ const QRCodesSection = () => {
       <Break height={height} />
 
       {/* QR Code cards  */}
-      {isLoading ? (
+      {isLoading || isFetching ? (
         <SpinnerDiv>
           <Spinner />
         </SpinnerDiv>
@@ -196,21 +196,29 @@ const QRCodesSection = () => {
 
               {/* //branches qr code  */}
               {branches?.length
-                ? branches?.map((item: any, index: number) => {
-                    return (
-                      <CardItem key={item?.id}>
-                        <BranchQrCode
-                          item={item}
-                          index={index}
-                          handleOption={() => handleOption(item?.id)}
-                          optionsOpen={optionsOpen}
-                          handleDeleteClick={handleDeleteClick}
-                          handleEditClick={handleEditClick}
-                          setId={setId}
-                        />
-                      </CardItem>
-                    );
-                  })
+                ? branches
+                    ?.filter((value: any) => {
+                      if (searchQR === "") {
+                        return true;
+                      } else {
+                        return value.name.match(searchQR);
+                      }
+                    })
+                    ?.map((item: any, index: number) => {
+                      return (
+                        <CardItem key={item?.id}>
+                          <BranchQrCode
+                            item={item}
+                            index={index}
+                            handleOption={() => handleOption(item?.id)}
+                            optionsOpen={optionsOpen}
+                            handleDeleteClick={handleDeleteClick}
+                            handleEditClick={handleEditClick}
+                            setId={setId}
+                          />
+                        </CardItem>
+                      );
+                    })
                 : null}
             </CardContainer>
           </Wrapper>
@@ -223,7 +231,6 @@ const QRCodesSection = () => {
         modalVisible={modalVisible}
         state={state}
         setModalVisible={setModalVisible}
-        setCurrentName={setCurrentName}
         handleDelete={handleDelete}
         handleSavePromocode={handleSavePromocode}
       />
