@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { device } from "styles/device";
 
 export const Wrapper = styled.div`
     padding: 30px 40px 25px 40px;
@@ -20,5 +21,24 @@ export const Wrapper = styled.div`
         width: 100%;
         display: flex;
         justify-content: flex-end;
+    }
+    @media (max-width: ${device.mobile}) {
+        padding: 20px 15px;
+        max-width: none;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+        .header {
+            margin-bottom: 13px;
+            h3 {
+                font-size: 16px;
+                line-height: 18.75px;
+            }
+        }
+        .buttons {
+            justify-content: center;
+        }
     }
 `

@@ -19,6 +19,7 @@ import FullModal from 'components/Custom/FullModal';
 import { MobileQrBar } from '../../components/MobileQrBar';
 import { DownBarViewer } from '../../components/DownBarViewer';
 import { MobileForm } from '../../components/Form';
+import { SpinnerWrapper } from '../Client/style';
 export interface IMobileForm {
 	open: boolean,
 	action: 1 | 2 | 3
@@ -68,7 +69,9 @@ const ClientsPage = () => {
 				<Header setQuery={setQuery} query={query} setModals={setModals} />
 				<Wrap>
 					{isFetching ? (
-						<Spinner />
+						<SpinnerWrapper>
+							<Spinner />
+						</SpinnerWrapper>
 					) : totalCount === 0 ? <EmptyPage /> : (
 						<Table />
 					)}
