@@ -2,9 +2,11 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface IsettingsSlice {
   stores: any;
+  branches: any;
 }
 const initialState: IsettingsSlice = {
   stores: [],
+  branches: [],
 };
 
 const qrSettingsSlice = createSlice({
@@ -14,8 +16,11 @@ const qrSettingsSlice = createSlice({
     setStores: (state, action: PayloadAction<string>) => {
       state.stores = action.payload;
     },
+    setBranchList: (state, action: PayloadAction<any>) => {
+      state.branches = action.payload;
+    },
   },
 });
 
-export const { setStores } = qrSettingsSlice.actions;
+export const { setStores, setBranchList } = qrSettingsSlice.actions;
 export default qrSettingsSlice.reducer;

@@ -8,7 +8,7 @@ import {
   PenIcon,
   ReUseIcon,
 } from "assets/icons/proposals/ProposalsIcons";
-import { WatchIcons, PublishIcon,WhitePublishIcon,RepairNewsIcon } from "assets/icons/news/newsIcons";
+import { WatchIcons,WatchIconsWhite, PublishIcon,WhitePublishIcon,RepairNewsIcon } from "assets/icons/news/newsIcons";
 import Button from "components/Custom/Button";
 import Modal from "components/Custom/Modal";
 import React, { useEffect } from "react";
@@ -116,7 +116,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
           <p>Возрастное ограничения: {currentNews?.data?.ageFrom}+</p>
         </ContentInfo>
         <ContentButton>
-          {location.pathname === "/news/waiting"  &&(
+          {location.pathname === "/news/waiting" &&(
             <div
               style={{
                 display: "flex",
@@ -138,7 +138,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
               </Button>
             </div>
           )}
-             {location.pathname !== "/news/archive" && location.pathname !== "/news/waiting" && (
+             {location.pathname === "/news/active" && (
             <div
               style={{
                 display: "flex",
@@ -150,13 +150,13 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
               }}
             >
               <Button
-                onClick={() => showNewsDetail()}
+                onClick={() => showNew()}
                 buttonStyle={{
                   color: "#fff",
                   bgcolor: "#606EEA",
                   
                 }}
-                startIcon={<WatchIcons />}
+                startIcon={<WatchIconsWhite />}
               >
                 Смотреть полностью
               </Button>
@@ -218,7 +218,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
       <Modal open={isDeleteOpen}>
         <DeleteModal>
           <h5>Вы действительно хотите удалить Новость?</h5>
-          <p>{currentNews?.data?.title}</p>
+          <p>{'После удаления новости , данные будет утеряны'}</p>
           <Button
             buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
             margin={{ laptop: "0 22px 0 0" }}
