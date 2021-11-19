@@ -12,7 +12,8 @@ export interface IState {
     filters: IFilters,
     qrCodeBar: boolean,
     note: string,
-    referals: any
+    referals: any,
+    headers: any[]
 }
 
 export interface IPersonalInfo {

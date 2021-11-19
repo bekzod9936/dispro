@@ -17,7 +17,6 @@ import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
 import InputFormat from "components/Custom/InputFormat";
 
-
 import dayjs from "dayjs";
 import { fetchUpdateNews } from "services/queries/newPageQuery";
 import useAddress from "../../../info/screens/Address/useAddress";
@@ -227,7 +226,8 @@ const EditNews = () => {
 
   React.useEffect(() => {
     setValue("filialID", mergedBranches);
-  }, [mergedBranches]);
+    
+  }, [mergedBranches,newsById?.data?.pushUp]);
 
 
   return (
@@ -441,6 +441,7 @@ const EditNews = () => {
                     {t("Использовать новость в формате Push-уведомления")}
                   </h6>
                   <CustomToggle
+                  defaultChecked={newsById?.data?.pushUp}
                     onChange={(e: any) => handleOpenBlock(e, "push")}
                   />
                 </PushBlock>

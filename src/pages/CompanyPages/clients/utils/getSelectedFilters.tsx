@@ -236,7 +236,7 @@ export const getFiltersForQuery = (filters: any, referals: any) => {
         if (filters[el]) {
           obj = {
             ...obj,
-            reflds: referals[filters[el]].refIds,
+            refIds: referals[filters[el]].refIds,
           };
         }
       }
@@ -275,12 +275,12 @@ export const getFiltersForQuery = (filters: any, referals: any) => {
   return Object.keys(res)
     .map((el, index) => {
       if (index > 0) {
-        if (el === "reflds") {
+        if (el === "refIds") {
           return `&${el}=[${res[el]}]`
         }
         return `&${el}=${res[el]}`;
       } else {
-        if (el === "reflds") {
+        if (el === "refIds") {
           return `${el}=[${res[el]}]`;
         }
         return `${el}=${res[el]}`;
@@ -339,4 +339,41 @@ export const tableRecommendsHelper = (arr: ITableRecs[]) => {
     level: el.levelNumber,
     image: el.image
   }))
+}
+
+
+export const getOperationsForMobileTable = (arr: ITableHelperItem[]) => {
+  return arr.reduce((acc: any, curr: any) => {
+    let day = dayjs(curr.date).format("DD.MM.YYYY")
+    acc[day] = acc[day] ? [...acc[day], {
+      time: dayjs(curr.date).format("hh:mm"),
+      action: "Оплата",
+      value: `${curr.amount ? numberWith(curr.amount + "", " ") + " UZS " : ""}${curr.cashback ? numberWith(curr.cashback + "", " ") + " Кешбэк " : ""}${curr.discount ? numberWith(curr.discount + "", " ") + " Скидка " : ""}${curr.point ? numberWith(curr.point + "", " ") + " Б." : ""}`
+
+    }] : [{
+      time: dayjs(curr.date).format("hh:mm"),
+      action: "Оплата",
+      value: `${curr.amount ? numberWith(curr.amount + "", " ") + " UZS " : ""}${curr.cashback ? numberWith(curr.cashback + "", " ") + " Кешбэк " : ""}${curr.discount ? numberWith(curr.discount + "", " ") + " Скидка " : ""}${curr.point ? numberWith(curr.point + "", " ") + " Б." : ""}`
+    }]
+
+    return acc
+  }, {})
+
+}
+
+
+export const getPointsForMobile = (arr: IPointHelperItem[]) => {
+  return arr.reduce((acc: any, curr: any) => {
+    let day = dayjs(curr.date).format("DD.MM.YYYY");
+    acc[day] = acc[day] ? [...acc[day], {
+      time: dayjs(curr.date).format("hh:mm"),
+      action: pointTypes[curr.type],
+      amount: numberWith(curr.amount + "", " ")
+    }] : [{
+      time: dayjs(curr.date).format("hh:mm"),
+      action: pointTypes[curr.type],
+      amount: numberWith(curr.amount + "", " ")
+    }]
+    return acc
+  }, {})
 }
