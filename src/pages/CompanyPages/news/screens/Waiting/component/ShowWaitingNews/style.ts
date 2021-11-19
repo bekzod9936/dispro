@@ -146,13 +146,13 @@ export const PreviewContent = styled.div`
     color: #223367;
     display: flex;
     align-items: center;
-    justify-content:left;
-    text-align:left;
+    justify-content:flex-start;
+   
     margin-right: 50px;
     span {
       font-size: 14px !important;
       font-weight: 700;  
-      margin-right: 80px;
+      margin-left: 10px;
       margin-bottom: 0;
     }
   }

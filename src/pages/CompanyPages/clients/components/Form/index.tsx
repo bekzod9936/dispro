@@ -127,7 +127,6 @@ export const MobileForm = ({ open, action, onClose, client, refetch }: IProps) =
 
     }
 
-
     return (
         <FullModal open={open}>
             <ResetModal

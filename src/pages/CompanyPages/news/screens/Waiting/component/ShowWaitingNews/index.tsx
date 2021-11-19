@@ -100,8 +100,7 @@ const ShowWaitingNews = () => {
             style={{
               position: "absolute",
               bottom: "10%",
-         
-              padding: "5px",
+              padding: "8px 30px",
               backgroundColor: "#606EEA",
               color: "white",
               borderRadius: "20px",
