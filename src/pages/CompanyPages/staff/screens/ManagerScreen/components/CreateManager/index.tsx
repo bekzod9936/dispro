@@ -40,7 +40,7 @@ import { useUploadImage } from 'pages/CompanyPages/staff/hooks/useUploadIMage';
 import Title from 'components/Custom/Title';
 import { UploadImage, DeleteIcon } from 'assets/icons/proposals/ProposalsIcons';
 import ImageLazyLoad from 'components/Custom/ImageLazyLoad/ImageLazyLoad';
-import CropCustomModal from 'components/Custom/CropImageModal';
+import StaffCropCustomModal from 'components/Custom/StaffCropImageModal';
 import Spinner from 'components/Helpers/Spinner';
 
 const CreateManager = ({ openManager }: IProps) => {
@@ -200,7 +200,7 @@ const CreateManager = ({ openManager }: IProps) => {
 													</ImageBlock>
 												)}
 												{file && (
-													<CropCustomModal
+													<StaffCropCustomModal
 														setIsLoading={setLoading}
 														handleUpload={handleUpload}
 														setFile={setFile}

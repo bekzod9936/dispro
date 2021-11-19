@@ -187,7 +187,7 @@ const CreateNews = () => {
                 multiline={true}
                 value={newsData?.description}
                 inputStyle={{
-                  height: { desktop: 120, laptop: 90, mobile: 60 },
+                  height: { desktop: 150, laptop: 90, mobile: 60 },
                 }}
                 IconEnd={
                   <WrapArea>

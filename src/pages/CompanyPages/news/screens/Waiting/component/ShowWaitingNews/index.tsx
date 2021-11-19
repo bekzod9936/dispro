@@ -163,7 +163,7 @@ const ShowWaitingNews = () => {
       <Modal open={isDeleteOpen}>
         <DeleteModal>
           <h5>Вы действительно хотите удалить Новость?</h5>
-          <p>{newsById?.data?.title}</p>
+          <p>{'После удаления новости , данные будет утеряны'}</p>
           <Button
             buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
             margin={{ laptop: "0 22px 0 0" }}
