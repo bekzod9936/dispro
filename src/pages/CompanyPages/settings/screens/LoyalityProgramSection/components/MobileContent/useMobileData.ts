@@ -206,16 +206,6 @@ const useMobileData = () => {
               )
           ) {
             errorCheck = true;
-
-            console.log(
-              levelReqs.find((item: any) => {
-                console.log(levels[i].requirements![reqi].type, "reqi type");
-                console.log(item, "item searching");
-
-                return levels[i].requirements![reqi].type == item.id;
-              }),
-              "name 111"
-            );
             setCheckL(true);
             setAlertName(
               `${t("count")} "${
@@ -349,6 +339,9 @@ const useMobileData = () => {
     isFetching,
     cashIsFetch,
     saleIsFetch,
+    alertName,
+    checkL,
+    setCheckL,
   };
 };
 
