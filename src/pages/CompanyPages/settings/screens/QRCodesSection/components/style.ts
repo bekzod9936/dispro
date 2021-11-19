@@ -174,7 +174,7 @@ export const Break = styled.div`
   }
 `;
 
-export const MContent = styled.div`
+export const MContent = styled.form`
   display: flex;
   flex-direction: column;
   padding: 30px 40px 25px 40px;
