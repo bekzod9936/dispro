@@ -218,7 +218,7 @@ export const getClientStatistics = (data: any) => {
 };
 
 
-export const getFiltersForQuery = (filters: any) => {
+export const getFiltersForQuery = (filters: any, referals: any) => {
   let res: any = Object.keys(filters).reduce((obj, el) => {
     if (typeof filters[el] === "string" || typeof filters[el] === "number") {
       if (el === "gender") {
@@ -231,6 +231,13 @@ export const getFiltersForQuery = (filters: any) => {
           ...obj,
           allPurchaseSum: filters[el],
         };
+      } else if (el === "trafficProvider") {
+        if (filters[el]) {
+          obj = {
+            ...obj,
+            reflds: referals[filters[el]].refIds,
+          };
+        }
       }
     } else {
       if (el === "regDate") {
@@ -256,7 +263,7 @@ export const getFiltersForQuery = (filters: any) => {
         if (filters[el]) {
           obj = {
             ...obj,
-            usedLevelNumber: filters[el].value,
+            refIds: referals[filters[el]].refIds,
           };
         }
       }
@@ -267,8 +274,16 @@ export const getFiltersForQuery = (filters: any) => {
   return Object.keys(res)
     .map((el, index) => {
       if (index > 0) {
+        if (el === "reflds") {
+          return `&${el}=[${res[el]}]`
+        }
         return `&${el}=${res[el]}`;
-      } else return `${el}=${res[el]}`;
+      } else {
+        if (el === "reflds") {
+          return `${el}=[${res[el]}]`;
+        }
+        return `${el}=${res[el]}`;
+      }
     })
     .join("");
 };
