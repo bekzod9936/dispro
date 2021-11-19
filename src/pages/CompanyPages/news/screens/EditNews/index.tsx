@@ -17,7 +17,6 @@ import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
 import InputFormat from "components/Custom/InputFormat";
 
-
 import dayjs from "dayjs";
 import { fetchUpdateNews } from "services/queries/newPageQuery";
 import useAddress from "../../../info/screens/Address/useAddress";
