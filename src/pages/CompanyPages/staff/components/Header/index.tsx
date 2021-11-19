@@ -88,7 +88,7 @@ const Header = ({
 			{/* Settings side  */}
 			<Button
 				onClick={
-					location.pathname !== '/staff/manager'
+					location.pathname !== '/staff/manager/setting'
 						? handleOpenSetting
 						: () => {
 								console.log('Manager');

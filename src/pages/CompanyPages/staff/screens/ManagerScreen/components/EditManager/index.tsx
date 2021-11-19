@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { IProps, FormProps } from './types';
 import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -9,7 +10,13 @@ import {
 	ModalContent,
 	ModalHead,
 	ModalTitle,
-} from '../../../CashierScreen/style';
+	ImageBlock,
+	Container,
+	Text,
+	Header,
+	UploadButton,
+	ErrorMessage,
+} from './style';
 import { IconButton } from '@material-ui/core';
 import MultiSelect from 'components/Custom/MultiSelect';
 import Input from 'components/Custom/Input';
@@ -24,12 +31,19 @@ import useStaff from 'pages/CompanyPages/staff/hooks/useStaff';
 import useManagers from 'pages/CompanyPages/staff/hooks/useManagers';
 import { useEffect } from 'react';
 import { inputPhoneNumber } from 'utilities/inputFormat';
+import { useUploadImage } from 'pages/CompanyPages/staff/hooks/useUploadIMage';
+import { UploadImage, DeleteIcon } from 'assets/icons/proposals/ProposalsIcons';
+import Spinner from 'components/Helpers/Spinner';
+import ImageLazyLoad from 'components/Custom/ImageLazyLoad/ImageLazyLoad';
+import CropCustomModal from 'components/Custom/CropImageModal';
 
 const EditManager = ({ openEdit }: IProps) => {
 	const dispatch = useAppDispatch();
 	const { t } = useTranslation();
 	const { branches } = useStaff();
-
+	const [logo, setLogo] = useState('');
+	const [file, setFile] = useState('');
+	const [isCropVisible, setIsCropVisible] = useState(false);
 	const selectedManagers = useAppSelector(
 		(state) => state.staffs.selectedManagers
 	);
@@ -46,6 +60,7 @@ const EditManager = ({ openEdit }: IProps) => {
 		setValue,
 		watch,
 		getValues,
+		register,
 		formState: { errors, isValid },
 	} = useForm<FormProps>({
 		mode: 'onChange',
@@ -56,6 +71,7 @@ const EditManager = ({ openEdit }: IProps) => {
 	const onSave = (data: FormProps) => {
 		console.log(data, 'data form');
 		editManager.mutate({
+			logo: logo,
 			id: selectedManagers[0].id,
 			storeId: data.storeId?.value,
 			firstName: data.firstName,
@@ -72,11 +88,12 @@ const EditManager = ({ openEdit }: IProps) => {
 				(item: any) => item.value == selectedManagers[0].storeId
 			);
 			const tel: string = String(selectedManagers[0].telNumber).slice(4);
+			setValue('logo', selectedManagers?.logo);
 			setValue('firstName', firstname);
 			setValue('lastName', selectedManagers[0].lastName);
 			setValue('comment', selectedManagers[0].comment);
 			setValue('telNumber', tel);
-			setValue('storeId', choseBranch?.value);
+			setValue('storeId', selectedManagers[0].storeId);
 		}
 	}, [selectedManagers]);
 
@@ -94,6 +111,20 @@ const EditManager = ({ openEdit }: IProps) => {
 		}
 	}, [checkPhone.check, watch('telNumber')]);
 
+	const { handleUpload, deleteImage, setLoading, isLoading } =
+		useUploadImage(setLogo);
+
+	const handleDelete = () => {
+		setFile('');
+		setLogo('');
+		deleteImage(logo);
+	};
+	const handleUploadImg = (data: any) => {
+		setFile(data.target.files[0]);
+		setIsCropVisible(true);
+	};
+	console.log('file1', file);
+
 	return (
 		<Modal open={openEdit}>
 			<Form onSubmit={handleSubmit(onSave)}>
@@ -109,6 +140,70 @@ const EditManager = ({ openEdit }: IProps) => {
 						</IconButton>
 					</ModalHead>
 					<ModalBody>
+						<FormRow>
+							<FormCol>
+								<Controller
+									control={control}
+									name='logo'
+									rules={{ required: false }}
+									render={({ field }) => (
+										<Container>
+											<Text>Фотографии</Text>
+											{!isLoading && !logo && (
+												<div>
+													<Header>
+														<p>
+															{t(
+																' Можно загрузить фотографию JPG или PNG, минимальное разрешение 400*400рх, размер не более 3Мбайт.'
+															)}
+														</p>
+													</Header>
+													<UploadButton>
+														<label htmlFor='uploadImg'>Загрузить фото</label>
+														<input
+															{...register('logo', { required: true })}
+															onChange={handleUploadImg}
+															type='file'
+															id='uploadImg'
+														/>
+														<UploadImage />
+													</UploadButton>
+													{errors.logo && (
+														<ErrorMessage>{t('requiredField')}</ErrorMessage>
+													)}
+												</div>
+											)}
+
+											{isLoading && (
+												<div style={{ width: '100%', height: 140 }}>
+													<Spinner size={30} />
+												</div>
+											)}
+											{logo && (
+												<ImageBlock>
+													<ImageLazyLoad
+														objectFit='contain'
+														src={logo}
+														alt='logo'
+													/>
+													<DeleteIcon onClick={handleDelete} />
+												</ImageBlock>
+											)}
+											{file && (
+												<CropCustomModal
+													setIsLoading={setLoading}
+													handleUpload={handleUpload}
+													setFile={setFile}
+													setIsCropVisible={setIsCropVisible}
+													open={isCropVisible}
+													src={file}
+												/>
+											)}
+										</Container>
+									)}
+								/>
+							</FormCol>
+						</FormRow>
 						<FormRow>
 							<FormCol>
 								<Controller

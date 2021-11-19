@@ -3,6 +3,7 @@ export interface IProps {
 }
 
 export interface FormProps {
+  logo: string;
   firstName: string;
   lastName: string;
   comment?: string;
