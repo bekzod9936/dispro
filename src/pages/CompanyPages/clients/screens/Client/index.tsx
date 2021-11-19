@@ -15,15 +15,14 @@ import { useTranslation } from 'react-i18next'
 import Button from 'components/Custom/Button'
 import { DownModal } from './components/DownModal'
 import { selectAll, setCurrentClient } from 'services/redux/Slices/clients'
-import { useMutation, useQuery } from 'react-query'
-import { fetchPersonalInfo, sendNote } from 'services/queries/clientsQuery'
+import { useQuery } from 'react-query'
+import { fetchPersonalInfo } from 'services/queries/clientsQuery'
 import { BlockModal } from '../../components/BlockModal'
 import { VipModal } from '../../components/ClientsBar/components/VipModal'
 import Modal from 'components/Custom/Modal';
 import { getClientStatistics } from '../../utils/getSelectedFilters';
 import { MobileForm } from '../../components/Form'
-import FullModal from 'components/Custom/FullModal'
-import { NoteModal } from './components/NoteModal'
+
 interface IForm {
     open: boolean,
     action: 1 | 2 | 3 | 4

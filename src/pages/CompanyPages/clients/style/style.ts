@@ -31,13 +31,21 @@ export const MainWrapper = styled.div`
   flex-direction: column;
   position: ${({ isRelative }: IProps) => isRelative ? "relative" : "static"};
   flex-grow: 1;
-  
+  @media (max-width: ${device.mobile}) {
+    padding: 15px 0 15px 15px;
+  }
 `;
+export const SpinnerWrapper = styled.div`
+  min-height: 100px;
+`
 export const Wrap = styled.div`
   padding-right: 25px;
   overflow-y: auto;
   @media (max-width: ${device.laptop}) {
     overflow: visible;
+  }
+  @media (max-width: ${device.mobile}) {
+    padding-right: 15px;
   }
   &::-webkit-scrollbar {
     width: 7px;

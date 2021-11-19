@@ -60,6 +60,7 @@ export const Trow = styled.div`
         width: 40px;
         height: 40px;
         display: block;
+        object-fit: cover;
     }
     div.content {
       h5 {
@@ -70,6 +71,18 @@ export const Trow = styled.div`
         margin-bottom: 3px;
       }
       p {
+        font-weight: 300;
+        line-height: 16.4px;
+        color: #223367;
+        font-size: 14px;
+      }
+      span {
+        font-weight: 300;
+        line-height: 16.4px;
+        color: #FF5E68;
+        font-size: 14px;
+      }
+      b {
         font-weight: 300;
         line-height: 16.4px;
         color: #223367;
