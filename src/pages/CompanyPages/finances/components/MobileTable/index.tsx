@@ -1,6 +1,5 @@
 import { ReactComponent as LeftBack } from 'assets/icons/FinanceIcons/leftback.svg';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import { getRandomNumber } from 'services/utils';
 import FullModal from 'components/Custom/FullModal';
 import { useState } from 'react';
 import { IconButton } from '@material-ui/core';
@@ -20,8 +19,6 @@ import {
   WrapMain,
   WrapIcon,
   PinkIcon,
-  SparkIcon,
-  GreenIcon,
   WrapAvatar,
 } from './style';
 
@@ -43,23 +40,9 @@ const MobileTable = ({ data, headertitle, isAvatar }: Props) => {
   const [open, setOpen] = useState(false);
   const [id, setId] = useState<any>(null);
 
-  const avatarrandom: any = () => {
-    const random = getRandomNumber({ min: 1, max: 3 });
-    return random === 1 ? (
-      <PinkIcon />
-    ) : random === 2 ? (
-      <SparkIcon />
-    ) : random === 3 ? (
-      <GreenIcon />
-    ) : (
-      <PinkIcon />
-    );
-  };
-
   return (
     <Container>
       {data?.info?.map((a: any, i: number) => {
-        const random = getRandomNumber({ min: 1, max: 3 });
         return (
           <>
             <Data
@@ -80,12 +63,6 @@ const MobileTable = ({ data, headertitle, isAvatar }: Props) => {
                       style={{ objectFit: 'cover', borderRadius: '14px' }}
                     />
                   </WrapIcon>
-                ) : random === 1 ? (
-                  <PinkIcon />
-                ) : random === 2 ? (
-                  <SparkIcon />
-                ) : random === 3 ? (
-                  <GreenIcon />
                 ) : (
                   <PinkIcon />
                 )
@@ -131,15 +108,7 @@ const MobileTable = ({ data, headertitle, isAvatar }: Props) => {
                           </>
                         ) : (
                           <>
-                            {random === 1 ? (
-                              <PinkIcon />
-                            ) : random === 2 ? (
-                              <SparkIcon />
-                            ) : random === 3 ? (
-                              <GreenIcon />
-                            ) : (
-                              <PinkIcon />
-                            )}
+                            <PinkIcon />
                             <span>{a?.title}</span>
                           </>
                         )

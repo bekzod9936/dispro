@@ -5,8 +5,6 @@ import { ReactComponent as Money } from 'assets/icons/StatistisPage/money.svg';
 import { ReactComponent as Cart } from 'assets/icons/StatistisPage/cart.svg';
 import { ReactComponent as Discount } from 'assets/icons/StatistisPage/discount.svg';
 import { ReactComponent as Pink } from 'assets/icons/StatistisPage/app.svg';
-import { ReactComponent as Spark } from 'assets/icons/StatistisPage/mobile.svg';
-import { ReactComponent as Green } from 'assets/icons/StatistisPage/green.svg';
 import { ReactComponent as Excel } from 'assets/icons/FinanceIcons/excel.svg';
 
 export const Container = styled.div`
@@ -43,8 +41,11 @@ export const WrapFilter = styled.div`
 export const WrapInputs = styled.div`
   display: flex;
   flex-direction: column;
+  flex: 1;
+  width: 100%;
   & > div {
     display: flex;
+    grid-gap: 10px;
   }
 `;
 
@@ -110,8 +111,6 @@ export const DiscountIcon = styled(Discount)`
 `;
 
 export const PinkIcon = styled(Pink)``;
-export const SparkIcon = styled(Spark)``;
-export const GreenIcon = styled(Green)``;
 
 export const WrapSelectV = styled.div`
   display: flex;

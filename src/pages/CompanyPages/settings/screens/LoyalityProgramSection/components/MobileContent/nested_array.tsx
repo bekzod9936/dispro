@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 //hooks
 import useDetail from "../../hooks/useDetail";
 //actions
-import { addModal } from "services/redux/Slices/settingsSlice";
+import { addModal, handleClick } from "services/redux/Slices/settingsSlice";
 //styles
 import {
   Wrapper,
@@ -52,18 +52,17 @@ const NestedArray = ({ index, control, setValue }: IProps) => {
   const openM = useAppSelector((state) => state.settings.openM);
 
   const changeLevelState = (reqType: any, indexN: any) => {
-    console.log(reqType);
     if (levelReqs.length) {
       if (levelReqs[0] === levelReqs[indexN]) {
         return <SubText>Основное условие</SubText>;
       }
-      if (reqType?.condition) {
+      if (reqType?.condition === "or") {
         return (
           <RippleEffect>
             <MainText>Альтернатива</MainText>
           </RippleEffect>
         );
-      } else if (reqType?.condition) {
+      } else if (reqType?.condition === "and") {
         return (
           <RippleEffect>
             <MainText>Доп. условие</MainText>

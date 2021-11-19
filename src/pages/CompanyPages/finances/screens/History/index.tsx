@@ -13,11 +13,7 @@ import useExcel from './hook/useExcel';
 import Button from 'components/Custom/Button';
 import { useAppSelector } from 'services/redux/hooks';
 import { IconButton } from '@material-ui/core';
-import {
-  countPagination,
-  getRandomNumber,
-  numberWithNew,
-} from 'services/utils';
+import { countPagination, numberWithNew } from 'services/utils';
 import MobileTable from '../../components/MobileTable';
 import useWindowWidth from 'services/hooks/useWindowWidth';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
@@ -34,8 +30,6 @@ import {
   MoneyIcon,
   DiscountIcon,
   PinkIcon,
-  SparkIcon,
-  GreenIcon,
   CartIcon,
   ExcelIcon,
   WrapSelectV,
@@ -193,7 +187,6 @@ const Payment = () => {
         Header: '',
         accessor: 'col0',
         Cell: (props: any) => {
-          const random = getRandomNumber({ min: 1, max: 3 });
           return props.value ? (
             <LazyLoadImage
               alt='avatar'
@@ -203,12 +196,6 @@ const Payment = () => {
               effect='blur'
               style={{ objectFit: 'cover', borderRadius: '14px' }}
             />
-          ) : random === 1 ? (
-            <PinkIcon />
-          ) : random === 2 ? (
-            <SparkIcon />
-          ) : random === 3 ? (
-            <GreenIcon />
           ) : (
             <PinkIcon />
           );
@@ -289,13 +276,13 @@ const Payment = () => {
           <div>
             <Input
               type='date'
-              width={{
-                maxwidth: 200,
-              }}
               max={dateLimit.endDate}
               IconStart={<WrapDate>{t('from')}</WrapDate>}
               inputStyle={{
                 inpadding: '0 10px 0 0',
+              }}
+              width={{
+                width: '50%',
               }}
               value={date.startDate}
               onChange={(e: any) => {
@@ -320,13 +307,13 @@ const Payment = () => {
             />
             <Input
               type='date'
-              width={{
-                maxwidth: 200,
-              }}
-              margin={{ laptop: '0 0 0 15px' }}
+              margin={{ laptop: '0 0  0 0' }}
               IconStart={<WrapDate>{t('to')}</WrapDate>}
               inputStyle={{
                 inpadding: '0 10px 0 0',
+              }}
+              width={{
+                width: '50%',
               }}
               min={dateLimit.startDate}
               value={date.endDate}
@@ -389,8 +376,6 @@ const Payment = () => {
   const handleClick = () => {
     resExcel.refetch();
   };
-
-  console.log(total.count, 'total count');
 
   const filterselectvalue =
     dateLimit?.startDate !== '' && dateLimit?.endDate !== '' ? (
@@ -474,37 +459,35 @@ const Payment = () => {
             {width > 600 ? null : <>{filtercash}</>}
           </WrapSelectV>
           {width <= 600 ? (
-            <>
-              <WrapTotal>
-                <WrapTotalSum>
-                  <MoneyIcon />
-                  <WrapSum>
-                    <Label>{t('totalsum')}</Label>
-                    <TotalSum>
-                      {numberWithNew({ number: sum.total, defaultValue: 0 })}
-                    </TotalSum>
-                  </WrapSum>
-                </WrapTotalSum>
-                <WrapTotalSum>
-                  <DiscountIcon />
-                  <WrapSum>
-                    <Label>{t('sale')}</Label>
-                    <TotalSum>
-                      {numberWithNew({ number: sum.paid, defaultValue: 0 })}
-                    </TotalSum>
-                  </WrapSum>
-                </WrapTotalSum>
-                <WrapTotalSum>
-                  <CartIcon />
-                  <WrapSum>
-                    <Label>{t('paid')}</Label>
-                    <TotalSum>
-                      {numberWithNew({ number: sum.minus, defaultValue: 0 })}
-                    </TotalSum>
-                  </WrapSum>
-                </WrapTotalSum>
-              </WrapTotal>
-            </>
+            <WrapTotal>
+              <WrapTotalSum>
+                <MoneyIcon />
+                <WrapSum>
+                  <Label>{t('totalsum')}</Label>
+                  <TotalSum>
+                    {numberWithNew({ number: sum.total, defaultValue: 0 })}
+                  </TotalSum>
+                </WrapSum>
+              </WrapTotalSum>
+              <WrapTotalSum>
+                <DiscountIcon />
+                <WrapSum>
+                  <Label>{t('sale')}</Label>
+                  <TotalSum>
+                    {numberWithNew({ number: sum.paid, defaultValue: 0 })}
+                  </TotalSum>
+                </WrapSum>
+              </WrapTotalSum>
+              <WrapTotalSum>
+                <CartIcon />
+                <WrapSum>
+                  <Label>{t('paid')}</Label>
+                  <TotalSum>
+                    {numberWithNew({ number: sum.minus, defaultValue: 0 })}
+                  </TotalSum>
+                </WrapSum>
+              </WrapTotalSum>
+            </WrapTotal>
           ) : null}
           {response.isLoading || response.isFetching ? (
             <Spinner />

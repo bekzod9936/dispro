@@ -12,6 +12,7 @@ export const DownIcon = styled(Down)`
 `;
 
 export const Container = styled.div`
+  overflow: hidden;
   .MuiAccordion-root.Mui-expanded {
     margin: 0 !important;
   }
@@ -32,8 +33,8 @@ export const Container = styled.div`
   }
   @media (max-width: ${device.mobile}) {
     .MuiAccordionDetails-root {
-    padding: 0 10px 10px 10px !important;
-  }
+      padding: 0 10px 10px 10px !important;
+    }
   }
   .MuiAccordionSummary-root.Mui-expanded {
     min-height: 48px;
@@ -46,18 +47,7 @@ export const Container = styled.div`
     font-size: 16px;
     color: #223367;
   }
-  overflow-y: auto;
-  ::-webkit-scrollbar {
-    width: 7px;
-  }
-  ::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
 
-  &::-webkit-scrollbar-thumb {
-    background: #606eea;
-    border-radius: 14px 0px 0px 14px;
-  }
   @media (max-width: ${device.mobile}) {
     .MuiAccordionSummary-content {
       font-size: 14px;

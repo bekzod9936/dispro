@@ -21,9 +21,8 @@ interface Props {
 
 interface LProps {
   id?: any;
-  state?: any;
 }
-const useLayout = ({ id, state }: LProps) => {
+const useLayout = ({ id }: LProps) => {
   const dispatch = useAppDispatch();
   const companyId = localStorage.getItem('companyId');
 
