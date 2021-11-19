@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import  { useMemo } from "react";
 import { useTable, useSortBy } from "react-table";
 import { headers } from "./headers";
 import { useTranslation } from "react-i18next";
@@ -16,6 +16,8 @@ import {
   TitleData,
   DefaultImage,
   ToolTipText,
+  Text,
+  ToolTipDescription,
   ToolTip,
 } from "./style";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
@@ -49,7 +51,7 @@ const Table = ({ data, header2 }: Props) => {
 
   return (
     <Container>
-      <MTable {...getTableProps()}>
+      <MTable  {...getTableProps()}>
         <Thead header2={header2 ? true : false}>
           {headerGroups.map((headerGroup: any) => (
            
@@ -99,14 +101,21 @@ const Table = ({ data, header2 }: Props) => {
                     );
                   } else if (cell.column.Header === "Зазывающий текст") {
                     let checkDescription = cell?.row?.original?.fullData?.data?.description;
+                    let descriptiontoolTip=checkDescription;
                     let description =
-                      checkDescription?.length > 20
-                        ? <p style={{fontSize:'14px'}}>{checkDescription.slice(0, 20) + "..."}</p>
-                        : <p style={{fontSize:'14px'}}>{checkDescription}</p>;
+                      checkDescription?.length > 80
+                        ? checkDescription.slice(0, 80) + "..."
+                        : checkDescription;
 
                     return (
                       <Td {...cell.getCellProps()}>
-                        {description}
+                           <AgeData>
+                             <p style={{ width:'300px',whiteSpace: "pre-wrap"}}>{description}</p>
+                            {/* {checkDescription?.length > 30 ?   <ToolTip>
+                      <p style={{fontSize:'14px'}}>{description}</p>
+                      <ToolTipDescription><span style={{lineHeight:'21px',color:'#223367',fontSize: '14px',fontWeight:300}}>{descriptiontoolTip}</span></ToolTipDescription>
+                      </ToolTip>:<p style={{fontSize:'14px'}}>{description}</p>}  */}
+                      </AgeData>
                         {cell.render("Cell")}
                       </Td>
                     );
@@ -151,32 +160,6 @@ const Table = ({ data, header2 }: Props) => {
                       </Td>
                     );
                   
-                  // else if (cell.column.Header === "Возрастное ограничение") {
-                  //   let ageFrom = cell?.row?.original?.fullData?.data?.ageFrom;
-                  //   let PushUp= cell?.row?.original?.fullData?.data?.pushUp;
-                  //   let ageUnlimeted=cell?.row?.original?.fullData?.data?.ageUnlimited;
-                  //   let stat=cell?.row?.original?.fullData?.data?.stat;
-                  //   console.log("stat",stat);
-                  //   return (
-                  //     <Td  {...cell.getCellProps()}>
-                  //     <AgeData>
-                  //         {ageUnlimeted ?'' :<h4>{ageFrom + "+"}</h4>}
-                  //         {PushUp ?<h3><ToolTip>{'Push-up'}<ToolTipText><p style={{lineHeight:'21px',color:'#223367',fontSize: '18px',fontWeight:300}}>{`Уведомлений получили:${' '+stat?.get?.total+' '}чел.`}</p>
-                  //          <p style={{lineHeight:'21px',color:'#223367',fontSize: '18px',fontWeight:300}}>{`Уведомлений просмотрели:${' '+stat?.view?.total+' '}чел.`}
-                  //         <br/>
-                  //         <span style={{color:'#606EEA',padding:'5px'}}>{`${' '+stat?.view?.male+' '} Муж`}</span>
-                  //         <span style={{color:'#FF56BB'}}>{`${' '+stat?.view?.female+' '} Жен`}</span>
-                  //         </p>
-                  //         <p style={{lineHeight:'21px',color:'#223367',fontSize: '18px',fontWeight:300}}>{`Произвели оплату:${' '+stat?.paid?.total+' '}чел.`}
-                  //         <br/>
-                  //         <span style={{color:'#606EEA',padding:'5px'}}>{`${' '+stat?.paid?.male+' '} Муж`}</span>
-                  //         <span style={{color:'#FF56BB'}}>{`${' '+stat?.paid?.female+' '} Жен`}</span>
-                  //         </p> 
-                  //         </ToolTipText></ToolTip></h3>:''}
-                  //       </AgeData>
-                  //       {cell.render("Cell")}
-                  //     </Td>
-                  //   );
                   }  else
                     return (
                       <Td {...cell.getCellProps()}>{cell.render("Cell")}</Td>

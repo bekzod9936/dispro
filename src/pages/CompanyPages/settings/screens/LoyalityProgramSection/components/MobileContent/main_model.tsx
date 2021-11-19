@@ -13,6 +13,8 @@ import {
   Text,
   Column,
   Footer,
+  SubText,
+  EText,
 } from "./style";
 import { FormProps } from "../../hooks/useLoyality";
 import { Break, SpinnerDiv } from "pages/CompanyPages/settings/styles";
@@ -30,6 +32,8 @@ import CancelButton from "pages/CompanyPages/settings/components/CancelButton";
 import SaveButton from "pages/CompanyPages/settings/components/SaveButton";
 import useMobileData from "./useMobileData";
 import Spinner from "components/Helpers/Spinner";
+import RippleEffect from "components/Custom/RippleEffect";
+import SnackBar from "components/Custom/NewSnack";
 
 const MainModel = () => {
   const dispatch = useAppDispatch();
@@ -43,6 +47,12 @@ const MainModel = () => {
     saleLoading,
     cashLoading,
     isLoading,
+    isFetching,
+    cashIsFetch,
+    saleIsFetch,
+    alertName,
+    checkL,
+    setCheckL,
   } = useMobileData();
 
   const base_loyality = useAppSelector((state) => state.settings.base_loyality);
@@ -83,13 +93,22 @@ const MainModel = () => {
     return true;
   };
 
-  if (isLoading || cashLoading || saleLoading) {
+  if (
+    isLoading ||
+    cashLoading ||
+    saleLoading ||
+    isFetching ||
+    cashIsFetch ||
+    saleIsFetch
+  ) {
     return (
       <SpinnerDiv>
         <Spinner />
       </SpinnerDiv>
     );
   }
+
+  console.log(alertName, "alert name");
 
   return (
     <Container>
@@ -133,7 +152,6 @@ const MainModel = () => {
             )}
           />
         </Row>
-        <Break height={10} />
         <Row>
           <Controller
             name="base_percent"
@@ -148,7 +166,7 @@ const MainModel = () => {
               return (
                 <InputFormat
                   field={field}
-                  label={""}
+                  label={"Укажите % статуса"}
                   type="string"
                   defaultValue={base_loyality?.base_percent}
                   maxLength={3}
@@ -166,9 +184,29 @@ const MainModel = () => {
             }}
           />
         </Row>
+        <Break height={25} />
         {fields.map((item: any, index: number) => {
           return (
             <Column key={index}>
+              <Row aItems="flex-end">
+                <SubText>№ {index + 2} Название статуса</SubText>
+                {fields[fields.length - 1] === fields[index] && (
+                  <RippleEffect
+                    onClick={() => {
+                      remove(index);
+                      setValue(
+                        "levels",
+                        fields.filter(
+                          (item: any, indexV: number) => indexV !== index
+                        )
+                      );
+                    }}
+                    padding={0}
+                  >
+                    <EText>{t("delete")}</EText>
+                  </RippleEffect>
+                )}
+              </Row>
               <Row>
                 <Controller
                   name={`levels.${index}.name`}
@@ -179,7 +217,7 @@ const MainModel = () => {
                   control={control}
                   render={({ field }) => (
                     <Input
-                      label={`№ ${index + 2} Название статуса`}
+                      label={``}
                       type="string"
                       field={field}
                       defaultValue={item.name}
@@ -202,7 +240,10 @@ const MainModel = () => {
                     return (
                       <InputFormat
                         field={field}
-                        label={""}
+                        label={"Укажите % статуса"}
+                        labelStyle={{
+                          letterSpacing: "0.5",
+                        }}
                         type="string"
                         defaultValue={item.percent}
                         maxLength={3}
@@ -222,7 +263,6 @@ const MainModel = () => {
               </Row>
 
               {/* //level requirements  */}
-              <Break height={5} />
               <NestedArray
                 setValue={setValue}
                 index={index}
@@ -359,6 +399,15 @@ const MainModel = () => {
           <SaveButton type="submit" text={t("save")} />
         </Footer>
       </Body>
+
+      <SnackBar
+        message={alertName}
+        status="error"
+        open={checkL}
+        autoHideDuration={5000}
+        onClose={(e: any) => setCheckL(e)}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      />
     </Container>
   );
 };

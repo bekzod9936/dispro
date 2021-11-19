@@ -4,10 +4,26 @@ import { ReactComponent as Plus } from 'assets/icons/IconsInfo/plus.svg';
 import { ReactComponent as Search } from 'assets/icons/SideBar/search.svg';
 import { ReactComponent as Close } from 'assets/icons/IconsInfo/close.svg';
 import { ReactComponent as Delete } from 'assets/icons/IconsInfo/deleteword.svg';
+import { ReactComponent as LeftBack } from 'assets/icons/FinanceIcons/leftback.svg';
 
 interface Props {
   visable?: boolean;
 }
+
+export const LeftIcon = styled(LeftBack)``;
+
+export const WrapModalClose = styled.div`
+  display: none;
+  @media (max-width: ${device.mobile}) {
+    display: flex;
+    align-items: center;
+    margin: 5px 0 5px 5px;
+    & > div {
+      margin: 0 0 0 10px !important;
+      align-self: center;
+    }
+  }
+`;
 
 export const Ul = styled.ul`
   background-color: white;

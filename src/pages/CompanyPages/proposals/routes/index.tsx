@@ -13,7 +13,7 @@ const useProposalsRoute = () => {
     const { t } = useTranslation()
     const routes = [
         {
-            path: "/proposals",
+            path: "/proposals/drafts",
             component: Drafts,
             text: t("drafts")
         },

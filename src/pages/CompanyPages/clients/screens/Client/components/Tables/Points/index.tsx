@@ -17,7 +17,7 @@ const Points = () => {
     const { currentClient, period } = useAppSelector(state => state.clients)
     const [totalCount, setTotalCount] = useState(1)
     const [points, setPoints] = useState<any[]>([])
-    const { isFetching } = useQuery(["fetchPoints", page], () => fetchClientTableData("points", {
+    const { isLoading, isFetching } = useQuery(["fetchPoints", page], () => fetchClientTableData("points", {
         id: currentClient?.clientInfo.id,
         startDate: period.startDate,
         endDate: period.endDate,

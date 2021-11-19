@@ -1,5 +1,4 @@
-
-import React,{useEffect} from 'react';
+import React, {useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { AddIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
 
@@ -10,22 +9,21 @@ import { Flex } from "../../style";
 import { useTranslation } from "react-i18next";
 import { IProps } from "./types";
 import { useAppSelector, useAppDispatch } from "services/redux/hooks";
-import DatePcker from 'components/Custom/DatePicker';
-import {setQuery,setSelectedNews,
-} from "services/redux/Slices/news";
+import DatePcker from "components/Custom/DatePicker";
+import { setQuery, setSelectedNews } from "services/redux/Slices/news";
+import FilterActiveNews from './Components/FilterActivePeriod';
+import FilterArchiveNews from './Components/FilterArchivePeriod';
 
-const Header = ({
-
-  handleOpenSetting,
-}: IProps) => {
+const Header = ({ handleOpenNews }: IProps) => {
   const location = useLocation();
   const dispatch = useAppDispatch();
   const query = useAppSelector((state) => state.news.query);
-  useEffect(()=>{
-    if(location.pathname !=='/news'){
-     dispatch(setSelectedNews([]))
+
+  useEffect(() => {
+    if (location.pathname !== "/news") {
+      dispatch(setSelectedNews([]));
     }
-   },[ dispatch(setSelectedNews([]))])
+  }, [dispatch(setSelectedNews([]))]);
   const { t } = useTranslation();
 
   return (
@@ -37,10 +35,7 @@ const Header = ({
     >
       {/* Settings side  */}
       <Button
-        onClick={
-          handleOpenSetting
-          
-        }
+        onClick={handleOpenNews}
         buttonStyle={{
           bgcolor: "#FFFFFF",
           color: "#223367",
@@ -56,33 +51,21 @@ const Header = ({
       >
         {t("Создать новость")}
       </Button>
-  
+
       <div style={{ width: "20px" }} />
       <Input
-        inputStyle={{ border: "none", height: { desktop: 50 }, }}
+        inputStyle={{ border: "none", height: { desktop: 50 } }}
         IconStart={<SearchIcon style={{ marginLeft: 20 }} />}
         value={query}
         placeholder="Поиск по новостям"
         onChange={(e) => dispatch(setQuery(e.target.value))}
         width={{ maxwidth: 500 }}
-    
       />
-        <div style={{ width: "20px" }} />
-{location.pathname !=='/news/waiting' &&
-          <DatePcker 
-        
-        onChange={async (e: any) => {
-          // await setFilterValues({
-          //   ...filterValues,
-          //   dateFrom: e.slice(0, e.indexOf(' ~')),
-          //   dateTo: e.slice(e.indexOf('~ ') + 2),
-          // });
-          // await response.refetch();
-        }}
-      />
-      }
+      <div style={{ width: "20px" }} />
+     {location.pathname === "/news" && <FilterActiveNews/> } 
+     {location.pathname==="/news/archive" && <FilterArchiveNews/>}
+  
     </Flex>
-      
   );
 };
 

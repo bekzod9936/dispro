@@ -4,7 +4,6 @@ import Modal from "components/Custom/Modal"
 import { useTranslation } from "react-i18next"
 import { useMutation } from "react-query"
 import { changeVipPercent } from "services/queries/clientsQuery"
-import { useAppSelector } from "services/redux/hooks"
 import { ResetModalWrapper } from "./style"
 
 interface IProps {

@@ -153,6 +153,8 @@ export const Label = styled(InputLabel)`
   width: fit-content;
   user-select: none;
 
+  letter-spacing: ${({ labelStyle }: Props) =>
+    labelStyle?.letterSpacing + "px"} !important;
   color: ${({ labelStyle }: Props) =>
     labelStyle?.color ? labelStyle?.color : "#C7C7C7"} !important;
   font-weight: ${({ labelStyle }: Props) =>

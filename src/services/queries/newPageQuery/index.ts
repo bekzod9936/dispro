@@ -31,6 +31,10 @@ export const searchActiveNews=(search:string|undefined)=>{
   const response = partnerApi.get(`/core/news/by/company/actives/new?key=${search}`);
   return response;
 }
+export const setPeriodActiveNews=(data:any)=>{
+  const response = partnerApi.get(`/core/news/by/company/actives/new?startDate=${data?.startDate}&endDate=${data.endDate}`);
+  return response;
+}
 
 export const searchPendingNews=(search:string|undefined)=>{
   const response = partnerApi.get(`/core/news/by/company/pending/new?key=${search}`);

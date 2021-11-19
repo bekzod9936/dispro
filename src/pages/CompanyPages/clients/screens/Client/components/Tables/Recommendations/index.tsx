@@ -27,10 +27,12 @@ const Recommendations = () => {
     const [totalCount, setTotalCount] = useState(1)
     const [position, setPosition] = useState(0)
     const [recomendations, setRecomendations] = useState<any[]>([])
+
     const [filter, setFilter] = useState<any>({
         status: [{
         }]
     })
+
     const { isFetching } = useQuery(["fetchRecommends", page], () => fetchReferChilds({
         id: currentClient?.clientInfo.userId,
         startDate: period.startDate,
@@ -181,11 +183,21 @@ const Recommendations = () => {
                     ))}
                 </THead>
                 <Tbody {...getTableBodyProps()}>
-                    {rows.map(row => {
+                    {rows.map((row) => {
                         prepareRow(row)
                         return (
                             <TRow {...row.getRowProps()}>
-                                {row.cells.map(cell => {
+                                {row.cells.map((cell, index) => {
+                                    if (index === 0) {
+                                        return (
+                                            <Td {...cell.getCellProps()}>
+                                                <div>
+                                                    <img src={cell.row?.original?.image} alt="someImage" />
+                                                    {cell.render('Cell')}
+                                                </div>
+                                            </Td>
+                                        )
+                                    }
                                     return (
                                         <Td {...cell.getCellProps()}>
                                             {cell.render('Cell')}

@@ -276,8 +276,8 @@
   "wrongsmscode": "Код подтверждения введен неверно",
   "choose-company": "Выберите компанию",
   "park": "Парк",
-  "deposit": "Депозит:",
-  "limit": "Лимит:",
+  "deposit": "Депозит",
+  "limit": "Лимит",
   "logout": "Выход",
   "myCompany": "Моя компания",
   "supportcall": "Служба поддержки",
@@ -482,5 +482,10 @@
   "infoAboutTurnOffingIndividualStatus": "При отключении, индивидуальный статус сменится на стандартный статус, согласно программе лояльности",
   "currentStatus": "Текущий статус",
   "standartStatus": "Стандартный статус",
-  "configure_setting_error": "Настройте программу лояльности"
+  "configure_setting_error": "Настройте программу лояльности",
+  "alertBeforeBlockingClient": "Клиент не сможет использовать систему лояльности вашей компании",
+  "unBlock": "Разблокировка",
+  "blocked": "Заблокирован",
+  "unBlocking": "Разблокировать",
+  "noteAboutClient": "Заметка о клиенте"
 }

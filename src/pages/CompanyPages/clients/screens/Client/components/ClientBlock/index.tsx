@@ -5,14 +5,18 @@ import { useHistory } from 'react-router'
 import { IClient, IPersonalInfo } from 'services/redux/Slices/clients/types'
 import { DefaultImage, DownSide, Icon, UpSide, Wrapper } from './style'
 import clientDefaultImg from "assets/images/staff_default.png"
+import { blockClient } from "services/queries/clientsQuery"
+import { useMutation } from "react-query"
 interface IProps {
     client: IClient | any,
-    setBlockModal: (e: boolean) => void
+    setBlockModal: (e: boolean) => void,
+    refetch: () => void
 }
 
 export const ClientBlock = ({
-    client: { image, firstName, lastName, addInfo, genderTypeId, personalLoyaltyInfo, isPlBlocked, obtainProgramLoyalty },
-    setBlockModal
+    client: { image, firstName, lastName, addInfo, genderTypeId, personalLoyaltyInfo, isPlBlocked, obtainProgramLoyalty, id },
+    setBlockModal,
+    refetch
 }: IProps) => {
     const { t } = useTranslation()
     const history = useHistory()
@@ -21,8 +25,19 @@ export const ClientBlock = ({
         history.push("/clients")
     }
 
+    const { mutate } = useMutation((data: any) => blockClient(data))
     const handleBlock = () => {
-        setBlockModal(true)
+        if (!isPlBlocked) {
+            setBlockModal(true)
+        }
+        else {
+            mutate({
+                isPlBlocked: false,
+                clientId: id,
+                reason: ""
+            })
+            refetch()
+        }
     }
     return (
         <Wrapper>

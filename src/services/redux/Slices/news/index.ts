@@ -12,6 +12,10 @@ const initialState: INews = {
     between: '',
     totalCountNews:0
   },
+  setPeriod: {
+    dateFrom:'',
+    dateTo:'',
+  },
   query:'',
   selectedNews:[]
 };
@@ -36,11 +40,15 @@ const newsSlice = createSlice({
     setQuery: (state, action: PayloadAction<string>) => {
       state.query = action.payload;
     },
+    setStartPeriod:(state,action:PayloadAction<string>)=>{
+      state.setPeriod.dateFrom=action.payload;
+    },
+    setEndPeriod:(state,action:PayloadAction<string>)=>{
+      state.setPeriod.dateTo=action.payload;
+    },
     setSelectedNews: (state, action: any) => {
       state.selectedNews = action.payload;
     },
-    
-    
   },
 });
 
@@ -49,6 +57,8 @@ export const {
     setNewsTotal,
     setNewsBetween,
     setQuery,
+    setStartPeriod,
+    setEndPeriod,
     setNewsTotalCount,
     setSelectedNews,
 } = newsSlice.actions;

@@ -1,10 +1,10 @@
-import { useQuery } from "react-query";
-import { useAppDispatch } from "services/redux/hooks";
+import { useQuery } from 'react-query';
+import { useAppDispatch } from 'services/redux/hooks';
 import {
   fetchFeedBackClients,
   fetchFeedBackCashiers,
   fetchClientsRatings,
-} from "services/queries/feedbackQuery";
+} from 'services/queries/feedbackQuery';
 import {
   setAverageRatingFeedBack,
   setCashiersFeedBack,
@@ -12,9 +12,9 @@ import {
   setRatingsFeedBack,
   setTotalCountFeedBack,
   setTotalRatingFeedBack,
-} from "services/redux/Slices/feedback";
-import { useState } from "react";
-import { formatPagination } from "services/utils/formatPagination";
+} from 'services/redux/Slices/feedback';
+import { useState } from 'react';
+import { formatPagination } from 'services/utils/formatPagination';
 
 interface Props {
   filterValues?: any;
@@ -22,10 +22,10 @@ interface Props {
 
 const useFeedBack = ({ filterValues }: Props) => {
   const dispatch = useAppDispatch();
-  const [between, setBetween] = useState<string>("");
+  const [between, setBetween] = useState<string>('');
   const [totalCount, setTotalCount] = useState<number>(0);
 
-  const resCashiers = useQuery("feedBackCashiers", fetchFeedBackCashiers, {
+  const resCashiers = useQuery('feedBackCashiers', fetchFeedBackCashiers, {
     keepPreviousData: true,
     refetchOnWindowFocus: false,
     retry: 0,
@@ -35,7 +35,7 @@ const useFeedBack = ({ filterValues }: Props) => {
   });
 
   const resClients = useQuery(
-    "feedBackClientsInfo",
+    'feedBackClientsInfo',
     () =>
       fetchFeedBackClients({
         url: `/rating-review/${filterValues.cashierStaffId}?perPage=${filterValues.perPage}&page=${filterValues?.page}`,
@@ -48,7 +48,7 @@ const useFeedBack = ({ filterValues }: Props) => {
         dispatch(setTotalCountFeedBack(data.data.data.totalCount));
         dispatch(
           setClientsFeedBack(
-            filterValues?.cashierStaffId !== ""
+            filterValues?.cashierStaffId !== ''
               ? data.data.data
               : data.data.data.ratingAndReviews
           )
@@ -68,14 +68,15 @@ const useFeedBack = ({ filterValues }: Props) => {
     }
   );
 
-  const resRatings = useQuery("feedBackClientsRatings", fetchClientsRatings, {
+  const resRatings = useQuery('feedBackClientsRatings', fetchClientsRatings, {
     keepPreviousData: true,
     refetchOnWindowFocus: false,
     retry: 0,
     onSuccess: (data) => {
-      dispatch(setRatingsFeedBack(data.data.data.ratings));
+      dispatch(setRatingsFeedBack(data.data.data.ratingNumbers));
       dispatch(setAverageRatingFeedBack(data.data.data.averageRating));
       dispatch(setTotalRatingFeedBack(data.data.data.totalRating));
+      console.log(data);
     },
   });
 

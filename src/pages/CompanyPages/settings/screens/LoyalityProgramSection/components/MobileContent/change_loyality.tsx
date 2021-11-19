@@ -9,13 +9,85 @@ import Radio from "components/Custom/Radio";
 import CancelButton from "pages/CompanyPages/settings/components/CancelButton";
 import ApplyButton from "pages/CompanyPages/settings/components/ApplyButton";
 //hooks
-import { useAppDispatch } from "services/redux/hooks";
+import { useAppDispatch, useAppSelector } from "services/redux/hooks";
+import useChangeLoyalty from "./useChangeLoyalty";
 
 const ChangeLoyality = () => {
-  const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const handleChange = () => {};
+  const dispatch = useAppDispatch();
+  const { changeLoyal } = useChangeLoyalty();
   const [modified, setModified] = useState("0");
+  const toggleName = useAppSelector((state) => state.settings.toggleName);
+  const handleChange = async () => {
+    if (toggleName.name === "discount") {
+      changeLoyal.mutateAsync({
+        bonusType: toggleName.name,
+        data: {
+          isMoved: modified === "1" ? true : false,
+          isActive: true,
+        },
+      });
+      changeLoyal.mutateAsync({
+        bonusType: "bonuspoint",
+        data: {
+          isMoved: modified === "1" ? true : false,
+          isActive: false,
+        },
+      });
+      changeLoyal.mutateAsync({
+        bonusType: "cashback",
+        data: {
+          isMoved: modified === "1" ? true : false,
+          isActive: false,
+        },
+      });
+    } else if (toggleName.name === "cashback") {
+      changeLoyal.mutateAsync({
+        bonusType: toggleName.name,
+        data: {
+          isMoved: modified === "1" ? true : false,
+          isActive: true,
+        },
+      });
+      changeLoyal.mutateAsync({
+        bonusType: "bonuspoint",
+        data: {
+          isMoved: modified === "1" ? true : false,
+          isActive: false,
+        },
+      });
+      changeLoyal.mutateAsync({
+        bonusType: "discount",
+        data: {
+          isMoved: modified === "1" ? true : false,
+          isActive: false,
+        },
+      });
+    } else if (toggleName.name === "bonuspoint") {
+      changeLoyal.mutateAsync({
+        bonusType: toggleName.name,
+        data: {
+          isMoved: modified === "1" ? true : false,
+          isActive: true,
+        },
+      });
+      changeLoyal.mutateAsync({
+        bonusType: "discount",
+        data: {
+          isMoved: modified === "1" ? true : false,
+          isActive: false,
+        },
+      });
+      changeLoyal.mutateAsync({
+        bonusType: "cashback",
+        data: {
+          isMoved: modified === "1" ? true : false,
+          isActive: false,
+        },
+      });
+    }
+  };
+
   return (
     <ModalContent gap={25}>
       <Row>
@@ -54,7 +126,7 @@ const ChangeLoyality = () => {
           text={t("cancel")}
         />
         <ApplyButton
-          disabled={modified === "0"}
+          disabled={modified === "0" || changeLoyal.isLoading}
           onClick={handleChange}
           text={t("apply")}
         />

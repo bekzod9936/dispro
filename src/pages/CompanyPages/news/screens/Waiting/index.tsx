@@ -8,7 +8,7 @@ import NoNews from "../../components/NoNews";
 import { SideBar } from "../../components/SideBar";
 import { useAppSelector, useAppDispatch } from "services/redux/hooks";
 import { NewsBar } from "../../components/NewsBar";
-import { Container, Wrap, TitleData,AgeData,Info,WrapPag, DefaultImage ,WrapSpinner} from "./style";
+import { Container, Wrap, Info,WrapPag, WrapSpinner} from "./style";
 import useData from "../useData";
 import useWaiting from "./useWaiting";
 import Pagination from 'components/Custom/Pagination';
@@ -39,6 +39,7 @@ const Active = () => {
   const intialFilter = {
     page: 1,
     perPage: 5,
+
   };
 
   const [filterValues, setFilterValues] =

@@ -20,4 +20,7 @@ export const Modal = styled.div`
             margin-bottom: 24px;
         }
     }
+    p.disabled {
+        color: #C4C4C4;
+    }
 `

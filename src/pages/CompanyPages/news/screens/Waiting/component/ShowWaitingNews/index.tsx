@@ -7,9 +7,11 @@ import { deleteNews } from "services/queries/newPageQuery";
 import { useHistory } from "react-router-dom";
 import Button from "components/Custom/Button";
 import Modal from "components/Custom/Modal";
+import dayjs from "dayjs";
+import {months} from '../../../useData/index';
 import {
   CancelIcon,
-  CloseIcon,
+
 } from "assets/icons/ClientsPageIcons/ClientIcons";
 import {
 
@@ -18,7 +20,7 @@ import {
   } from "assets/icons/news/newsIcons";
 import {
   Wrapper,
-  Header,
+
   DeleteModal,
   Content,
   Preview,
@@ -26,26 +28,15 @@ import {
   PreviewContent,
 } from "./style";
 import {
-  DangerIcon,
+  
   DeleteIcon,
   GoBackIcon,
-  PhoneIcon,
-  PlusIcon,
-  UploadImage,
+ 
 } from "assets/icons/proposals/ProposalsIcons";
 import iphone from "assets/images/iphone.png";
 import { useAppSelector } from "services/redux/hooks";
-import { RootState } from "services/redux/store";
-import { useTranslation } from "react-i18next";
 
-//   interface IProps {
-//     onClose: (arg: boolean) => void;
-//     currentCoupon: IDeferred;
-//     disableUpdate?: boolean;
-//     resetCoupon: any;
-//     canceled?: boolean;
-//     refetch: () => void;
-//   }
+
 
 const ShowWaitingNews = () => {
   const history = useHistory();
@@ -65,7 +56,28 @@ const ShowWaitingNews = () => {
     history.goBack();
   };
 
+  const startDate = dayjs(newsById?.data?.startLifeTime).format("YYYY-MM-DD");
+    const endDate = dayjs(newsById?.data?.endLifeTime).format("YYYY-MM-DD");
+    const startdates = new Date(startDate);
+    const enddates = new Date(endDate);
+    const startmonthName = months[startdates.getMonth()];
+    const endmonthName = months[enddates.getMonth()];
+    const startDays = startdates.getDate();
+    const endDays = enddates.getDate();
+    const years = enddates.getFullYear();
 
+    const date =
+      startDays +
+      " " +
+      startmonthName +
+      " - " +
+      endDays +
+      " " +
+      endmonthName +
+      "" +
+      years;
+
+  {console.log('information',newsById?.data)}
   return (
     <MainWrapper>
       <div style={{ display: "flex", marginBottom: 30, alignItems: "center" }}>
@@ -97,12 +109,13 @@ const ShowWaitingNews = () => {
           >
             <span style={{ color: "white" ,fontSize:'12px'}}>Написать нам</span>
           </div>
+
         </PreviewContent>
         <Content>
         <h5>Информация</h5>
-        <p>Только для мужчин</p>
-        <p>Срок публикции: 31 Мая - 15 Июня 2021</p>
-        <p>Возрастное ограничение: 18+</p>
+        <p>{newsById?.data?.genderType===1 ? 'Только для мужчин':newsById?.data?.genderType===2 ? 'Только для женщины':'для всех'}</p>
+        <p>Срок публикции: {date}</p>
+        <p>Возрастное ограничение: {newsById?.data?.ageFrom+'+'}</p>
         <div
               style={{
                 display: "flex",

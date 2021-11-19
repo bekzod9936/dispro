@@ -13,7 +13,7 @@ const useFeedBackRoute = () => {
   const { t } = useTranslation();
   const menuItems: IFeedbackRow[] = [
     {
-      path: '/feedback',
+      path: '/feedback/reviews',
       text: t('feedbacks'),
       component: null,
     },

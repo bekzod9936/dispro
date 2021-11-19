@@ -24,7 +24,6 @@
     "i18next-xhr-backend": "^3.2.2",
     "jwt-decode": "3.1.2",
     "material-ui-popup-state": "^1.9.3",
-    "postcss-viewport-height-correction": "^1.1.1",
     "qrcode.react": "^1.0.1",
     "react": "17.0.2",
     "react-beautiful-dnd": "^13.1.0",
@@ -100,6 +99,7 @@
     "@types/redux": "^3.6.0",
     "@types/socket.io-client": "^3.0.0",
     "@types/styled-components": "^5.1.15",
+    "source-map-explorer": "^2.5.2",
     "typescript": "^4.4.4"
   }
 }

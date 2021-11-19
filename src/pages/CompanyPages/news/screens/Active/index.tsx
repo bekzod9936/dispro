@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState,useEffect } from "react";
 import { Switch, Route, useHistory, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Spinner from "components/Custom/Spinner";
@@ -24,10 +24,11 @@ import {
 import useActive from "./useActive";
 import Pagination from "components/Custom/Pagination";
 
+
 interface intialFilterProps {
   page?: number;
   perPage?: number;
-    dateFrom?: string;
+  dateFrom?: string;
   dateTo?: string;
 }
 
@@ -51,38 +52,37 @@ const Active = () => {
     });
     dispatch(setQuery(""));
   };
-  const companyId = localStorage.getItem('companyId');
+  // const companyId = localStorage.getItem('companyId');
   const intialFilter = {
-    // companyId: companyId,
     page: 1,
     perPage: 5,
-    dateFrom: '',
-    dateTo: '',
+    fromDate: '',
+    toDate: '',
   };
 
   const [filterValues, setFilterValues] =
     useState<intialFilterProps>(intialFilter);
 
   const { response } = useActive({ filterValues: filterValues });
- const {list}=useData()
+  const {list}=useData()
   const handlechangePage = async (e: any) => {
     await setFilterValues({ ...filterValues, page: e });
     await response.refetch();
   };
-  console.log();
+  
   const onClose = () => {
     dispatch(setSelectedNews(""));
   };
-  
+
   const newsById = selectedNews?.fullData;
 
   return (
     <Container>
-    
+
       <Wrap>
         {response.isLoading || response.isFetching ? (
           <WrapSpinner><Spinner/></WrapSpinner>
-     
+
         ) : (
           <>
             {data.length > 0 ? (

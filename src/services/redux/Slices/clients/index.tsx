@@ -1,5 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IClient, IFetchData, IFilters, IPeriod, IPersonalInfo, IState, IVisibleClient } from "./types";
+import dayjs from "dayjs";
+import { numberWith } from "services/utils";
+import { IClient, IFetchData, IFilters, IState } from "./types";
 
 const initialState: IState = {
     loading: false,
@@ -17,6 +19,7 @@ const initialState: IState = {
     filters: {},
     currentClient: null,
     qrCodeBar: false,
+    note: ""
 };
 
 const clientsSlice = createSlice({
@@ -29,16 +32,17 @@ const clientsSlice = createSlice({
                     id: el.id,
                     image: el.image,
                     fullName: `${el.firstName} ${el.lastName}`,
-                    discountSum: el.addInfo.discountSum || "-",
-                    pointSum: el.addInfo.pointSum || "-",
-                    cashbackSum: el.addInfo.cashbackSum || "-",
+                    discountSum: numberWith(el.addInfo.discountSum + "", " ") || "-",
+                    pointSum: numberWith(el.addInfo.pointSum + "", " ") || "-",
+                    cashbackSum: numberWith(el.addInfo.cashbackSum + "", " ") || "-",
                     gender: el.addInfo.genderStr,
                     age: new Date().getFullYear() - new Date(el.dateOfBirth).getFullYear(),
-                    amountOperation: el.addInfo.amountOperation || "-",
+                    amountOperation: numberWith(el.addInfo.amountOperation + "", " ") || "-",
                     countRefer: el.addInfo.countRefer || "-",
                     sourceBy: el.addInfo.sourceBy,
+                    purchaseCount: numberWith(el.addInfo.countOperation + "", " "),
                     status: el.addInfo.status,
-                    lastPurchase: el.addInfo.lastPurchaseAmount || "-",
+                    lastPurchase: el.addInfo.lastPurchaseDate ? dayjs(el.addInfo.lastPurchaseDate).format("DD.MM.YYYY") : "-",
                 };
             });
             state.clients = [...payload.clients]
@@ -90,6 +94,9 @@ const clientsSlice = createSlice({
         },
         setCurrentClient: (state: IState, { payload }: PayloadAction<any>) => {
             state.currentClient = payload
+        },
+        setNote: (state: IState, { payload }: any) => {
+            state.note = payload
         }
     }
 })
@@ -104,5 +111,6 @@ export const {
     setFilters,
     resetFilters,
     setPeriod,
-    setCurrentClient } = clientsSlice.actions
+    setCurrentClient,
+    setNote } = clientsSlice.actions
 export default clientsSlice.reducer

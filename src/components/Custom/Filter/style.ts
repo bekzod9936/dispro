@@ -44,7 +44,8 @@ export const Header = styled.div`
 `;
 
 export const Body = styled.div`
-  overflow-y: auto;
+  /* overflow-y: auto;
+  overflow-x: hidden;
   ::-webkit-scrollbar {
     width: 7px;
   }
@@ -55,7 +56,7 @@ export const Body = styled.div`
   &::-webkit-scrollbar-thumb {
     background: #606eea;
     border-radius: 14px 0px 0px 14px;
-  }
+  } */
 `;
 
 export const Footer = styled.div`
