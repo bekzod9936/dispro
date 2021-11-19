@@ -236,7 +236,7 @@ export const getFiltersForQuery = (filters: any, referals: any) => {
         if (filters[el]) {
           obj = {
             ...obj,
-            reflds: referals[filters[el]].refIds,
+            refIds: referals[filters[el]].refIds,
           };
         }
       }
@@ -275,12 +275,12 @@ export const getFiltersForQuery = (filters: any, referals: any) => {
   return Object.keys(res)
     .map((el, index) => {
       if (index > 0) {
-        if (el === "reflds") {
+        if (el === "refIds") {
           return `&${el}=[${res[el]}]`
         }
         return `&${el}=${res[el]}`;
       } else {
-        if (el === "reflds") {
+        if (el === "refIds") {
           return `${el}=[${res[el]}]`;
         }
         return `${el}=${res[el]}`;
