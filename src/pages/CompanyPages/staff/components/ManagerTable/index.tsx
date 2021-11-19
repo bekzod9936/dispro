@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useSortBy, useTable } from 'react-table';
 import Checkbox from '@material-ui/core/Checkbox';
 import { HeadersType, IProps } from './types';
@@ -56,6 +56,12 @@ const ManagerTable = ({ managers }: IProps) => {
 
 	const { getTableBodyProps, headerGroups, getTableProps, rows, prepareRow } =
 		useTable({ data: managers, columns: columns }, useSortBy);
+
+	useEffect(() => {
+		return () => {
+			dispatch(setSelectedManagers([]));
+		};
+	}, []);
 
 	return (
 		<div>
