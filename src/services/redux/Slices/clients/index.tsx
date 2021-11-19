@@ -19,7 +19,8 @@ const initialState: IState = {
     filters: {},
     currentClient: null,
     qrCodeBar: false,
-    note: ""
+    note: "",
+    referals: []
 };
 
 const clientsSlice = createSlice({
@@ -97,6 +98,9 @@ const clientsSlice = createSlice({
         },
         setNote: (state: IState, { payload }: any) => {
             state.note = payload
+        },
+        setReferals: (state: IState, { payload }: any) => {
+            state.referals = [...payload]
         }
     }
 })
@@ -104,6 +108,7 @@ const clientsSlice = createSlice({
 export const {
     removeFilter,
     setOpenSideBar,
+    setReferals,
     setClients,
     setPage,
     setClient,

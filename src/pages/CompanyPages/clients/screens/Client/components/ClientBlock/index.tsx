@@ -51,7 +51,10 @@ export const ClientBlock = ({
                         }} />
                         {isPlBlocked && <div className="blocked"><BlockIcon /></div>}
                     </div> :
-                    <DefaultImage />}
+                    <DefaultImage>
+                        {isPlBlocked && <div className="blocked"><BlockIcon /></div>}
+                    </DefaultImage>
+                }
                 <IconButton>
                     <CoinsIcon style={{ width: 35, height: 30 }} />
                 </IconButton>
