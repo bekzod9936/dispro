@@ -285,7 +285,14 @@ const MainModel = () => {
               append({
                 name: "new_row",
                 percent: 15,
-                requirements: [],
+                requirements: [
+                  {
+                    amount: 100,
+                    condition: "",
+                    type: 1,
+                    unit: "UZS",
+                  },
+                ],
               });
             }}
           >
