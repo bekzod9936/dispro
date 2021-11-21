@@ -27,7 +27,7 @@ const YandexMap = ({
       query={{
         ns: 'use-load-option',
         apikey: '6f33a62b-bf0f-4218-9613-374e77d830ab',
-        load: 'Map,control.GeolocationControl',
+        load: 'Map,control.GeolocationControl,control.FullscreenControl',
       }}
     >
       <Map
