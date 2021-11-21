@@ -5,7 +5,11 @@ import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 //hooks
 import useDetail from "../../hooks/useDetail";
 //actions
-import { addModal, handleClick } from "services/redux/Slices/settingsSlice";
+import {
+  addModal,
+  handleClick,
+  setSmallI,
+} from "services/redux/Slices/settingsSlice";
 //styles
 import {
   Wrapper,
@@ -33,9 +37,8 @@ import { Break } from "pages/CompanyPages/settings/styles";
 import { IconButton } from "@material-ui/core";
 import RippleEffect from "components/Custom/RippleEffect";
 
-const NestedArray = ({ index, control, setValue }: IProps) => {
+const NestedArray = ({ index, control, setValue, getValues }: IProps) => {
   const [editLevel, setEditLevel] = useState(false);
-  const [smallI, setSmallI] = useState("");
   const { labelType, loyalityOptions, oneFullOptions } = useDetail();
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
@@ -53,11 +56,15 @@ const NestedArray = ({ index, control, setValue }: IProps) => {
     name: `levels.${index}.requirements`,
   });
   const openM = useAppSelector((state) => state.settings.openM);
+  const smallI = useAppSelector((state) => state.settings.smallI);
 
   const handleEdit = (indexMain: any) => {
+    console.log(indexMain, "index main NN ==");
     setEditLevel(true);
     dispatch(addModal(true));
-    setSmallI(indexMain);
+    dispatch(setSmallI(indexMain));
+    const getItem = getValues();
+    console.log(getItem, "get Item");
   };
 
   const changeLevelState = (reqType: any, indexN: any) => {
@@ -66,7 +73,7 @@ const NestedArray = ({ index, control, setValue }: IProps) => {
       if (levelReqs[0] === levelReqs[indexN]) {
         return <SubText>Основное условие</SubText>;
       }
-      if (reqType?.condition === "or") {
+      if (levelReqs[indexN]?.condition === "or") {
         return (
           <RippleEffect
             onClick={() => handleEdit(indexN)}
@@ -75,7 +82,7 @@ const NestedArray = ({ index, control, setValue }: IProps) => {
             <MainText disabled={thirdLevel}>Альтернатива</MainText>
           </RippleEffect>
         );
-      } else if (reqType?.condition === "and") {
+      } else if (levelReqs[indexN]?.condition === "and") {
         return (
           <RippleEffect
             onClick={() => handleEdit(indexN)}
@@ -204,7 +211,7 @@ const NestedArray = ({ index, control, setValue }: IProps) => {
                     //   unit: "шт",
                     // });
                     setValue(
-                      `levels.${[index]}.requirements.${[smallI]}.condition`,
+                      `levels.${index}.requirements.${smallI}.condition`,
                       "or"
                     );
                     console.log(levelReqs, "condition");
@@ -231,7 +238,7 @@ const NestedArray = ({ index, control, setValue }: IProps) => {
                     // });
                     console.log(levelReqs, "condition");
                     setValue(
-                      `levels.${[index]}.requirements.${[smallI]}.condition`,
+                      `levels.${index}.requirements.${smallI}.condition`,
                       "and"
                     );
                     dispatch(addModal(false));
@@ -318,4 +325,5 @@ interface IProps {
   index: any;
   control: any;
   setValue: Function;
+  getValues: Function;
 }

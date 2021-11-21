@@ -53,6 +53,7 @@ const MainModel = () => {
     alertName,
     checkL,
     setCheckL,
+    getValues,
   } = useMobileData();
 
   const base_loyality = useAppSelector((state) => state.settings.base_loyality);
@@ -267,6 +268,7 @@ const MainModel = () => {
                 setValue={setValue}
                 index={index}
                 control={control}
+                getValues={getValues}
               />
             </Column>
           );
