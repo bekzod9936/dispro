@@ -26,18 +26,18 @@ const useSecurity = () => {
       setValue("second", 0);
 
       const safeties = await data?.data?.data?.safeties;
+      const suspendedItem = await data?.data?.data;
+      setValue("suspendedClient", suspendedItem?.isEnabledPurchaseLimit);
+      setValue("suspendedSum", suspendedItem?.isEnabledPaySumLimit);
 
-      console.log(data.data.data);
       if (safeties?.daily_purchase_limit) {
         setValue("first", safeties?.daily_purchase_limit);
-        setValue("suspendedClient", data?.data?.data?.isEnabledPurchaseLimit);
       } else {
         setValue("first", 0);
       }
 
       if (safeties?.pay_sum_limit) {
         setValue("second", safeties?.pay_sum_limit);
-        setValue("suspendedSum", data?.data?.data?.isEnabledPaySumLimit);
       } else {
         setValue("second", 0);
       }
