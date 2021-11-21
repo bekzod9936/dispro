@@ -62,7 +62,7 @@ const Header = ({ handleOpenNews }: IProps) => {
         width={{ maxwidth: 500 }}
       />
       <div style={{ width: "20px" }} />
-     {location.pathname === "/news" && <FilterActiveNews/> } 
+     {location.pathname === "/news/active" && <FilterActiveNews/> } 
      {location.pathname==="/news/archive" && <FilterArchiveNews/>}
   
     </Flex>

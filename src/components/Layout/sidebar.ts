@@ -41,7 +41,7 @@ export const sidebar = [
   {
     Icon: NewsIcon,
     text: 'News',
-    path: 'news',
+    path: 'news/active',
   },
   {
     Icon: WorkersIcon,

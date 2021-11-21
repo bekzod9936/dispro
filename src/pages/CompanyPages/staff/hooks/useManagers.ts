@@ -76,6 +76,7 @@ const useManagers = ({ page, query, period }: any) => {
             data?.data?.data?.map((manager: any) => {
               return {
                 ...manager,
+				logo: manager?.logo,
                 firstName: manager?.firstName + " " + manager?.lastName,
                 score: numberWith(manager?.addInfo?.avgRating, " "),
                 avgCheque: numberWith(manager?.addInfo?.avgCheque, " "),

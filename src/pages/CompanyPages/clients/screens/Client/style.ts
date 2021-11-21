@@ -46,6 +46,7 @@ export const DownSide = styled.div`
 export const MWrapper = styled.div`
   width: 100%;
   height: 100%;
+  padding-bottom: 100px;
   overflow-x: hidden;
   overflow-y: auto;
   ::-webkit-scrollbar {

@@ -117,11 +117,11 @@ const privateCompanyRoutes: IPrivateRoute[] = [
     layout: DefaultLayoutAdmin,
     component: NotificationsPage,
   },
-  {
-    path: '/news',
-    layout: DefaultLayoutAdmin,
-    component: NewsPage,
-  },
+  // {
+  //   path: '/news',
+  //   layout: DefaultLayoutAdmin,
+  //   component: NewsPage,
+  // },
   {
     path: '/news/:params',
     layout: DefaultLayoutAdmin,

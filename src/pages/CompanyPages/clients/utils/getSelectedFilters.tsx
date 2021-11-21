@@ -79,8 +79,9 @@ export const getSelected = (obj: any): any => {
 interface IProps {
   filters: IFilters;
   handleRemove: (arg: string) => void;
+  referals: any[]
 }
-export const useHandleGetFilters = ({ filters, handleRemove }: IProps) => {
+export const useHandleGetFilters = ({ filters, handleRemove, referals }: IProps) => {
   const { t } = useTranslation();
   let result = [];
   const { gender, notless, regDate, purchaseAmount, trafficProvider } = filters;
@@ -118,20 +119,20 @@ export const useHandleGetFilters = ({ filters, handleRemove }: IProps) => {
     );
   }
   if (purchaseAmount) {
-    if (purchaseAmount.purchaseCountTo !== "" || purchaseAmount.purchaseCountTo !== "") {
+    if (!!purchaseAmount.purchaseCountFrom || !!purchaseAmount.purchaseCountTo) {
       result.push(
         <SelectedFilter>
-          {purchaseAmount?.purchaseCountFrom && (purchaseAmount?.purchaseCountFrom !== "") && (
+          {!!purchaseAmount.purchaseCountFrom && (purchaseAmount.purchaseCountFrom !== "") && (
             <p>
-              Кол-во покупок: {t("from")}: {numberWith(purchaseAmount?.purchaseCountFrom + "", " ")}
+              Кол-во покупок: {t("from")}: {numberWith(purchaseAmount.purchaseCountFrom + "", " ")}
             </p>
           )}
-          {purchaseAmount?.purchaseCountTo && (purchaseAmount?.purchaseCountTo !== "") && (
+          {!!purchaseAmount.purchaseCountTo && (purchaseAmount.purchaseCountTo !== "") && (
             <p>
-              {!purchaseAmount?.purchaseCountFrom && "Кол-во покупок: "}{t("to")}: {numberWith(purchaseAmount?.purchaseCountTo + "", " ")}
+              {!purchaseAmount.purchaseCountFrom && "Кол-во покупок: "}{t("to")}: {numberWith(purchaseAmount.purchaseCountTo + "", " ")}
             </p>
           )}
-          {(purchaseAmount.purchaseCountFrom !== "" || purchaseAmount.purchaseCountTo !== "") && <RemoveFilterBtn onClick={() => handleRemove("purchaseAmount")} />}
+          {(!!purchaseAmount.purchaseCountFrom || !!purchaseAmount.purchaseCountTo) && <RemoveFilterBtn onClick={() => handleRemove("purchaseAmount")} />}
         </SelectedFilter>
       );
     }
@@ -140,7 +141,7 @@ export const useHandleGetFilters = ({ filters, handleRemove }: IProps) => {
     result.push(
       <SelectedFilter>
         <p>
-          {t("trafficProvider")}: {trafficProvider?.label}
+          {t("trafficProvider")}: {referals[trafficProvider].name.slice(0, 1).toUpperCase() + referals[trafficProvider].name.slice(1)}
         </p>
         <RemoveFilterBtn onClick={() => handleRemove("trafficProvider")} />
       </SelectedFilter>
@@ -207,7 +208,7 @@ export const getClientStatistics = (data: any) => {
       } else if (el === "paidWithPoint") {
         return {
           icon: <RatingIcon />,
-          heading: "Оплаченно баллами",
+          heading: "Оплачено баллами",
           value: data[el]
         }
       }
@@ -218,7 +219,7 @@ export const getClientStatistics = (data: any) => {
 };
 
 
-export const getFiltersForQuery = (filters: any) => {
+export const getFiltersForQuery = (filters: any, referals: any) => {
   let res: any = Object.keys(filters).reduce((obj, el) => {
     if (typeof filters[el] === "string" || typeof filters[el] === "number") {
       if (el === "gender") {
@@ -231,6 +232,13 @@ export const getFiltersForQuery = (filters: any) => {
           ...obj,
           allPurchaseSum: filters[el],
         };
+      } else if (el === "trafficProvider") {
+        if (filters[el]) {
+          obj = {
+            ...obj,
+            refIds: referals[filters[el]].refIds,
+          };
+        }
       }
     } else {
       if (el === "regDate") {
@@ -256,7 +264,7 @@ export const getFiltersForQuery = (filters: any) => {
         if (filters[el]) {
           obj = {
             ...obj,
-            usedLevelNumber: filters[el].value,
+            refIds: referals[filters[el]].refIds,
           };
         }
       }
@@ -267,8 +275,16 @@ export const getFiltersForQuery = (filters: any) => {
   return Object.keys(res)
     .map((el, index) => {
       if (index > 0) {
+        if (el === "refIds") {
+          return `&${el}=[${res[el]}]`
+        }
         return `&${el}=${res[el]}`;
-      } else return `${el}=${res[el]}`;
+      } else {
+        if (el === "refIds") {
+          return `${el}=[${res[el]}]`;
+        }
+        return `${el}=${res[el]}`;
+      }
     })
     .join("");
 };
@@ -323,4 +339,41 @@ export const tableRecommendsHelper = (arr: ITableRecs[]) => {
     level: el.levelNumber,
     image: el.image
   }))
+}
+
+
+export const getOperationsForMobileTable = (arr: ITableHelperItem[]) => {
+  return arr.reduce((acc: any, curr: any) => {
+    let day = dayjs(curr.date).format("DD.MM.YYYY")
+    acc[day] = acc[day] ? [...acc[day], {
+      time: dayjs(curr.date).format("hh:mm"),
+      action: "Оплата",
+      value: `${curr.amount ? numberWith(curr.amount + "", " ") + " UZS " : ""}${curr.cashback ? numberWith(curr.cashback + "", " ") + " Кешбэк " : ""}${curr.discount ? numberWith(curr.discount + "", " ") + " Скидка " : ""}${curr.point ? numberWith(curr.point + "", " ") + " Б." : ""}`
+
+    }] : [{
+      time: dayjs(curr.date).format("hh:mm"),
+      action: "Оплата",
+      value: `${curr.amount ? numberWith(curr.amount + "", " ") + " UZS " : ""}${curr.cashback ? numberWith(curr.cashback + "", " ") + " Кешбэк " : ""}${curr.discount ? numberWith(curr.discount + "", " ") + " Скидка " : ""}${curr.point ? numberWith(curr.point + "", " ") + " Б." : ""}`
+    }]
+
+    return acc
+  }, {})
+
+}
+
+
+export const getPointsForMobile = (arr: IPointHelperItem[]) => {
+  return arr.reduce((acc: any, curr: any) => {
+    let day = dayjs(curr.date).format("DD.MM.YYYY");
+    acc[day] = acc[day] ? [...acc[day], {
+      time: dayjs(curr.date).format("hh:mm"),
+      action: pointTypes[curr.type],
+      amount: numberWith(curr.amount + "", " ")
+    }] : [{
+      time: dayjs(curr.date).format("hh:mm"),
+      action: pointTypes[curr.type],
+      amount: numberWith(curr.amount + "", " ")
+    }]
+    return acc
+  }, {})
 }

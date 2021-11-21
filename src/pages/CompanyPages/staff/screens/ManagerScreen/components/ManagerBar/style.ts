@@ -69,14 +69,15 @@ export const ManagerCol = styled.div`
   align-items: flex-start;
 `;
 
-export const ImgDiv = styled.div`
-  height: 40px;
-  width: 40px;
-  overflow: hidden;
-`;
+
 
 export const Img = styled(LazyLoadImage)`
-  object-fit: contain;
+	object-fit: cover;
+	width: 62px;
+	height: 62px;
+	border-radius: 14px;
+	margin-right: 20px;
+	overflow: hidden;
 `;
 
 export const BarTitle = styled.p`

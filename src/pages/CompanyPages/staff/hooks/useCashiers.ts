@@ -19,14 +19,12 @@ import {
   setStaffData,
 } from "services/redux/Slices/staffs";
 import { numberWith } from "services/utils";
-import useCashierCard from "../screens/CashierCard/hooks/useCashierCard";
 
 const useCashiers = ({ page, query, period }: any) => {
   const history = useHistory();
   const [open, setOpen] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const dispatch = useAppDispatch();
-  const {refetch}=useCashierCard()
 
     //edit
 	const editCashier = useMutation((data: any) => editStaff(data), {
@@ -34,7 +32,6 @@ const useCashiers = ({ page, query, period }: any) => {
 		  setOpenEdit(false);
 		  dispatch(setOpenEditCashier(false));
 		  response.refetch();
-		  refetch()
 		},
 	  });
 

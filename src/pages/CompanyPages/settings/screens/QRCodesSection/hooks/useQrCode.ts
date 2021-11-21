@@ -8,7 +8,7 @@ import {
   editQrCode,
 } from "services/queries/qrSetttingQuery";
 import { useAppDispatch } from "services/redux/hooks";
-import { setStores } from "services/redux/Slices/qrSetting";
+import { setBranchList, setStores } from "services/redux/Slices/qrSetting";
 
 const useQrCode = () => {
   const dispatch = useAppDispatch();
@@ -17,25 +17,32 @@ const useQrCode = () => {
   const [optionsOpen, setOptionsOpen] = useState<string | number>("");
   const [optionsListOpen, setOptionsListOpen] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const [currentName, setCurrentName] = useState<string>("");
   const [state, setState] = useState("");
   const [id, setId] = useState<number | string>();
 
-  const { refetch, isLoading, data } = useQuery(["qrcodes"], fetchQRCodes, {
-    retry: 0,
-    refetchOnWindowFocus: false,
-  });
+  const { refetch, isLoading, isFetching, data } = useQuery(
+    ["qrcodes"],
+    fetchQRCodes,
+    {
+      retry: 0,
+      refetchOnWindowFocus: false,
+    }
+  );
 
   const createQr = useMutation((data: any) => createQrCode(data), {
     onSuccess: () => {
       refetch();
       setId("");
+      setModalVisible(false);
     },
   });
+
   const editQr = useMutation((data: any) => editQrCode(data), {
     onSuccess: () => {
       refetch();
       setId("");
+      setModalVisible(false);
+      setOptionsOpen("");
     },
   });
   const deleteQr = useMutation((data: any) => deleteQrCode(data), {
@@ -62,7 +69,7 @@ const useQrCode = () => {
     setModalVisible(true);
   };
 
-  const handleSavePromocode = async () => {
+  const handleSavePromocode = async (currentName: string) => {
     if (!currentName) {
       return;
     } else if (!id) {
@@ -70,16 +77,11 @@ const useQrCode = () => {
         id: "",
         source: currentName,
       });
-      setCurrentName("");
-      setModalVisible(false);
     } else if (id) {
       await editQr.mutate({
         id: id,
         source: currentName,
       });
-      setCurrentName("");
-      setModalVisible(false);
-      setOptionsOpen("");
     }
   };
 
@@ -122,11 +124,16 @@ const useQrCode = () => {
           })
         )
       );
+      const filteredData = data.data.data.filter(
+        (item: any) => item.dynLink !== ""
+      );
+      dispatch(setBranchList(filteredData));
     },
   });
 
   return {
     isLoading,
+    isFetching,
     data,
     state,
     searchQR,
@@ -142,7 +149,6 @@ const useQrCode = () => {
     handleSavePromocode,
     setModalVisible,
     setOptionsListOpen,
-    setCurrentName,
     setId,
     refetch,
   };

@@ -32,6 +32,7 @@ import CustomToggle from "components/Custom/CustomToggleSwitch";
 import { BlockModal } from '../BlockModal'
 import Modal from 'components/Custom/Modal'
 import clientDefaultImage from "assets/images/staff_default.png"
+import { numberWith } from "services/utils";
 interface IProps {
     refetch: any;
 }
@@ -183,11 +184,11 @@ export const ClientsBar = ({ refetch }: IProps) => {
                             <AddInfo>
                                 <div>
                                     <p>Общая сумма покупок</p>
-                                    <span>{client.addInfo.amountOperation}</span>
+                                    <span>{numberWith(client.addInfo.amountOperation + "", " ")}</span>
                                 </div>
                                 <div>
                                     <p>Количество посещений</p>
-                                    <span>{client.addInfo.countOperation}</span>
+                                    <span>{numberWith(client.addInfo.countOperation + "", " ")}</span>
                                 </div>
                             </AddInfo>
                         </SubContent>

@@ -100,8 +100,7 @@ const ShowWaitingNews = () => {
             style={{
               position: "absolute",
               bottom: "10%",
-         
-              padding: "5px",
+              padding: "8px 30px",
               backgroundColor: "#606EEA",
               color: "white",
               borderRadius: "20px",
@@ -163,7 +162,7 @@ const ShowWaitingNews = () => {
       <Modal open={isDeleteOpen}>
         <DeleteModal>
           <h5>Вы действительно хотите удалить Новость?</h5>
-          <p>{newsById?.data?.title}</p>
+          <p>{'После удаления новости , данные будет утеряны'}</p>
           <Button
             buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
             margin={{ laptop: "0 22px 0 0" }}

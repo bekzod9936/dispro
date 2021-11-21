@@ -1,21 +1,21 @@
 import { Checkbox } from '@material-ui/core';
 import { PuzzleIcon } from 'assets/icons/ClientsPageIcons/ClientIcons';
 import React, { SyntheticEvent } from 'react';
+import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
+import { setHeaders } from 'services/redux/Slices/clients';
 import { headers } from '../../headers';
 import { AddButton, MCheckbox } from '../../style';
 import { HeadersType } from '../../Table';
 import { Header, Popup, PopupContent, Wrapper } from './style';
 
-interface IProps {
-	addedHeaders: HeadersType[],
-	setAddedHeaders: any
-}
 
 
-export const AddColumnButton = ({ addedHeaders, setAddedHeaders }: IProps) => {
+
+export const AddColumnButton = () => {
 	const popupRef = React.useRef<HTMLDivElement | null>(null);
+	const { headers: addedHeaders } = useAppSelector(state => state.clients)
 	const [isOpen, setOpen] = React.useState<boolean>(false);
-
+	const dispatch = useAppDispatch()
 	const handlePopUp = (e: PointerEvent | MouseEvent | any) => {
 
 		e.stopPropagation();
@@ -27,12 +27,7 @@ export const AddColumnButton = ({ addedHeaders, setAddedHeaders }: IProps) => {
 	};
 
 	const handleAddHeader = (e: React.KeyboardEvent<SyntheticEvent> | any, el: HeadersType) => {
-		const value = addedHeaders.some(header => header.value === el.value)
-		if (value) {
-			setAddedHeaders((prev: any) => prev.filter((header: any) => header.value !== el.value))
-		} else {
-			setAddedHeaders((prev: any) => [...prev, el])
-		}
+		dispatch(setHeaders(el))
 	};
 
 	React.useEffect(() => {

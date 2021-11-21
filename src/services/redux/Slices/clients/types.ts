@@ -11,7 +11,9 @@ export interface IState {
     totalPages: number | string,
     filters: IFilters,
     qrCodeBar: boolean,
-    note: string
+    note: string,
+    referals: any,
+    headers: any[]
 }
 
 export interface IPersonalInfo {

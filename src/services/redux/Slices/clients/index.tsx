@@ -19,7 +19,16 @@ const initialState: IState = {
     filters: {},
     currentClient: null,
     qrCodeBar: false,
-    note: ""
+    note: "",
+    referals: [],
+    headers: [
+        { value: "Клиент", label: "fullName" },
+        { value: "Сумма скидки", label: "discountSum" },
+        { value: "Сумма баллов", label: "pointSum" },
+        { value: "Сумма кешбека", label: "cashbackSum" },
+        { value: "Пол", label: "gender" },
+        { value: "Возраст", label: "age" },
+    ]
 };
 
 const clientsSlice = createSlice({
@@ -97,13 +106,26 @@ const clientsSlice = createSlice({
         },
         setNote: (state: IState, { payload }: any) => {
             state.note = payload
+        },
+        setReferals: (state: IState, { payload }: any) => {
+            state.referals = [...payload]
+        },
+        setHeaders: (state: IState, { payload }) => {
+            const isAdded = state.headers.some(header => header.value === payload.value);
+            if (isAdded) {
+                state.headers = state.headers.filter(header => header.value !== payload.value);
+            } else {
+                state.headers = [...state.headers, payload]
+            }
         }
+
     }
 })
 
 export const {
     removeFilter,
     setOpenSideBar,
+    setReferals,
     setClients,
     setPage,
     setClient,
@@ -112,5 +134,6 @@ export const {
     resetFilters,
     setPeriod,
     setCurrentClient,
-    setNote } = clientsSlice.actions
+    setNote,
+    setHeaders } = clientsSlice.actions
 export default clientsSlice.reducer

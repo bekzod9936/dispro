@@ -14,6 +14,15 @@ export const MainWrapper = styled.div`
   flex-direction: column;
   position: relative;
 `;
+
+export const SpinnerDiv = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+`;
 export const Wrap = styled.div`
   overflow-y: auto;
   position: relative;

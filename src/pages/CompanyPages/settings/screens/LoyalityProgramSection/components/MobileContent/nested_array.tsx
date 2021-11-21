@@ -52,7 +52,6 @@ const NestedArray = ({ index, control, setValue }: IProps) => {
   const openM = useAppSelector((state) => state.settings.openM);
 
   const changeLevelState = (reqType: any, indexN: any) => {
-    console.log(reqType);
     if (levelReqs.length) {
       if (levelReqs[0] === levelReqs[indexN]) {
         return <SubText>Основное условие</SubText>;

@@ -35,8 +35,8 @@ export type HeadersType = {
 
 export const Table = () => {
   const { t } = useTranslation()
-  const [headers, setHeaders] = React.useState<HeadersType[]>(addedHeaders);
-  const { visibleClients, selectedClients, clients } = useAppSelector((state: RootState) => state.clients)
+  // const [headers, setHeaders] = React.useState<HeadersType[]>(addedHeaders);
+  const { visibleClients, selectedClients, clients, headers } = useAppSelector((state: RootState) => state.clients)
   const dispatch = useAppDispatch()
 
   const clientsList = useMemo(() => {
@@ -46,7 +46,8 @@ export const Table = () => {
       discountValue: client.personalLoyaltyInfo.isActive ? client.personalLoyaltyInfo.percent : client.obtainProgramLoyalty.percent,
       id: client.id,
       discountStatus: client.personalLoyaltyInfo.isActive ? client.addInfo.status : client.obtainProgramLoyalty.levelName,
-      userId: client.userId
+      userId: client.userId,
+      isBlocked: client.isPlBlocked
     }))
   }, [clients])
 
@@ -74,7 +75,7 @@ export const Table = () => {
       {width > 600 ? <>
         <TableHeader>
           <Title>{t("clients")}</Title>
-          <AddColumnButton addedHeaders={headers} setAddedHeaders={setHeaders} />
+          <AddColumnButton />
         </TableHeader>
         <Container>
           <MTable {...getTableProps()}>

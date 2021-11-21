@@ -2,7 +2,7 @@ import { useQuery } from "react-query";
 import { useState, useEffect } from "react"
 import { fetchClients, searchClients } from "services/queries/clientsQuery";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
-import { setClients } from "services/redux/Slices/clients";
+import { setClients, setReferals } from "services/redux/Slices/clients";
 import { RootState } from "services/redux/store";
 import { getFiltersForQuery } from "../utils/getSelectedFilters";
 interface IArgs {
@@ -11,7 +11,7 @@ interface IArgs {
 
 export const useFetchClients = ({ query }: IArgs) => {
   const dispatch = useAppDispatch();
-  const { page, filters, period } = useAppSelector(
+  const { page, filters, period, referals } = useAppSelector(
     (state: RootState) => state.clients
   );
 
@@ -24,7 +24,7 @@ export const useFetchClients = ({ query }: IArgs) => {
       let url = Object.keys(period)
         .map((e: string) => `${e}=${period[e]}&`)
         .join("");
-      let filter = getFiltersForQuery(filters);
+      let filter = getFiltersForQuery(filters, referals);
       url = url + filter
       return fetchClients(page, url);
     },
@@ -32,12 +32,15 @@ export const useFetchClients = ({ query }: IArgs) => {
       retry: 0,
       refetchOnWindowFocus: false,
       onSuccess: (data) => {
-        dispatch(
-          setClients({
-            clients: data.data.data.clients,
-            totalCount: data.data.data.totalCount,
-          })
-        );
+        dispatch(setClients({
+          clients: data.data.data.clients,
+          totalCount: data.data.data.totalCount,
+        }));
+        const refs = data.data.data.filter.referal.reduce((acc: any, cur: any, index: number) => {
+          acc[index] = cur
+          return acc
+        }, {})
+        dispatch(setReferals(data.data.data.filter.referal));
       },
     }
   );
@@ -45,19 +48,3 @@ export const useFetchClients = ({ query }: IArgs) => {
 };
 
 
-export const useGetPositionForFilter = (node: any, setPosition: any) => {
-  // const [position, setPosition] = useState(0)
-  const windowHeight = window.innerHeight
-  const [result, setResult] = useState(0)
-  function handleScroll() {
-    let res = node.getBoundingClientRect().bottom() - 45
-    setPosition(res)
-
-  }
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll)
-    // return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
-  return result
-}

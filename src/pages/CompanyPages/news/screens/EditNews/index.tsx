@@ -17,7 +17,6 @@ import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
 import InputFormat from "components/Custom/InputFormat";
 
-
 import dayjs from "dayjs";
 import { fetchUpdateNews } from "services/queries/newPageQuery";
 import useAddress from "../../../info/screens/Address/useAddress";
@@ -68,7 +67,7 @@ interface IOptionFields {
 }
 
 
-const CreateNews = () => {
+const EditNews = () => {
   const { t } = useTranslation();
   const history = useHistory();
 
@@ -227,7 +226,8 @@ const CreateNews = () => {
 
   React.useEffect(() => {
     setValue("filialID", mergedBranches);
-  }, [mergedBranches]);
+    
+  }, [mergedBranches,newsById?.data?.pushUp]);
 
 
   return (
@@ -413,17 +413,21 @@ const CreateNews = () => {
               <Controller
                 name="ageLimit"
                 control={control}
-                rules={{
-                  required: true,
-                }}
+                // rules={{
+                //   required: true,
+                // }}
                 defaultValue={newsById?.data?.ageFrom}
                 render={({ field }) => (
                   <InputFormat
                     field={field}
                     defaultValue={newsById?.data?.ageFrom}
                     max="100"
+                    message={
+                      parseInt(watch('ageLimit'))
+                       
+                    }
                     error={!!errors.ageLimit}
-                    message={t("requiredField")}
+                    // message={t("requiredField")}
                     IconStart={<PlusIcon style={{ marginLeft: "20px" }} />}
                     label="Возрастное ограничение"
                   />
@@ -437,6 +441,7 @@ const CreateNews = () => {
                     {t("Использовать новость в формате Push-уведомления")}
                   </h6>
                   <CustomToggle
+                  defaultChecked={newsById?.data?.pushUp}
                     onChange={(e: any) => handleOpenBlock(e, "push")}
                   />
                 </PushBlock>
@@ -590,4 +595,4 @@ const CreateNews = () => {
   );
 };
 
-export default CreateNews;
+export default EditNews;

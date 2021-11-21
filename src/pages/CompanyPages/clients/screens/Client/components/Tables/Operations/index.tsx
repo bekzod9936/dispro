@@ -1,7 +1,7 @@
 import Pagination from 'components/Custom/Pagination'
 import Spinner from 'components/Helpers/Spinner'
 import operationsImage from "assets/images/operations.png"
-import { tableDataHelper } from 'pages/CompanyPages/clients/utils/getSelectedFilters'
+import { getOperationsForMobileTable, tableDataHelper } from 'pages/CompanyPages/clients/utils/getSelectedFilters'
 import { useMemo, useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
@@ -10,7 +10,8 @@ import { fetchClientTableData } from 'services/queries/clientsQuery'
 import { useAppSelector } from 'services/redux/hooks'
 import { EmptyTable } from '../../EmptyTable'
 import { operationsHeaders } from './constants'
-import { Footer, Table, Tbody, Td, Th, THead, TRow } from './style'
+import { Footer, MobileTable, MTRow, Table, Tbody, Td, Th, THead, TRow } from './style'
+import useWindowWidth from 'services/hooks/useWindowWidth'
 interface IOperation {
     cashier: string,
     points: number,
@@ -26,8 +27,9 @@ const Operations = () => {
     const [page, setPage] = useState(1);
     const [totalCount, setTotalCount] = useState(0)
     const [operations, setOperations] = useState<IOperation[]>([])
+    const [mobileOperations, setMobileOperations] = useState<any>(null)
     const { currentClient, period } = useAppSelector(state => state.clients);
-
+    const { width } = useWindowWidth()
     const { isFetching } = useQuery(["fetchOperations", page], () => fetchClientTableData("operations", {
         id: currentClient?.clientInfo.id,
         startDate: period.startDate || "",
@@ -37,6 +39,7 @@ const Operations = () => {
         retry: 0,
         refetchOnWindowFocus: false,
         onSuccess: (data) => {
+            setMobileOperations(getOperationsForMobileTable(data.data.data.clientCardOperations))
             setOperations(tableDataHelper(data.data.data.clientCardOperations));
             let res = Math.ceil(data.data.data.totalCount / 10)
             setTotalCount(res)
@@ -66,38 +69,57 @@ const Operations = () => {
             <EmptyTable image={operationsImage} text={"Тут будут отображаться все операции клиента"} />
         )
     }
+    console.log(mobileOperations);
+
     return (
         <>
-            <Table {...getTableProps()}>
-                <THead>
-                    {headerGroups.map(headerGroup => (
-                        <tr style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.04)" }} {...headerGroup.getHeaderGroupProps}>
-                            {headerGroup.headers.map(column => (
-                                <Th {...column.getHeaderProps()}>
-                                    {column.render("Header")}
-                                </Th>
-                            ))}
-                        </tr>
-                    ))}
-                </THead>
-                <Tbody {...getTableBodyProps()}>
-                    {rows.map(row => {
-                        prepareRow(row)
-                        return (
-                            <TRow {...row.getRowProps()}>
-                                {row.cells.map(cell => {
-                                    return (
-                                        <Td {...cell.getCellProps()}>
-                                            {cell.render('Cell')}
-                                        </Td>
-                                    )
-                                })}
-                            </TRow>
-                        )
-                    })}
+            {width > 600 ?
+                <Table {...getTableProps()}>
+                    <THead>
+                        {headerGroups.map(headerGroup => (
+                            <tr style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.04)" }} {...headerGroup.getHeaderGroupProps}>
+                                {headerGroup.headers.map(column => (
+                                    <Th {...column.getHeaderProps()}>
+                                        {column.render("Header")}
+                                    </Th>
+                                ))}
+                            </tr>
+                        ))}
+                    </THead>
+                    <Tbody {...getTableBodyProps()}>
+                        {rows.map(row => {
+                            prepareRow(row)
+                            return (
+                                <TRow {...row.getRowProps()}>
+                                    {row.cells.map(cell => {
+                                        return (
+                                            <Td {...cell.getCellProps()}>
+                                                {cell.render('Cell')}
+                                            </Td>
+                                        )
+                                    })}
+                                </TRow>
+                            )
+                        })}
 
-                </Tbody>
-            </Table>
+                    </Tbody>
+                </Table> :
+                <MobileTable>
+                    {Object.keys(mobileOperations).map((date: any, index: any) => (
+                        <MTRow isEven={!!((index + 1) % 2)}>
+                            <div className="date">{date}</div>
+                            {mobileOperations[date].map((el: any) => (
+                                <div className="content">
+                                    <div className="left">
+                                        <p className="type">{el.action}</p>
+                                        <p className="value">{el.value}</p>
+                                    </div>
+                                    <span className="time">{el.time}</span>
+                                </div>
+                            ))}
+                        </MTRow>
+                    ))}
+                </MobileTable>}
             <Footer>
                 <Pagination
                     defaultPage={page}

@@ -14,7 +14,8 @@ interface IProps {
         discountValue: number | string,
         discountStatus: string,
         id: number,
-        userId: number
+        userId: number,
+        isBlocked: boolean
     }[],
     onClick: (e: any, id: number) => void
 }
@@ -59,7 +60,7 @@ export const MobileTable = ({ array, onClick }: IProps) => {
                         {client.image ? <img src={client.image} alt="clientImg" /> : <DefaultImg />}
                         <div className="content">
                             <h5>{client.name}</h5>
-                            <p>{client.discountStatus}: {client.discountValue}%</p>
+                            <p>{t("status")}: {client.isBlocked ? <span>{t("blocked")}</span> : <b>{client.discountStatus} {client.discountValue}%</b>}</p>
                         </div>
                     </Trow>
                 ))}

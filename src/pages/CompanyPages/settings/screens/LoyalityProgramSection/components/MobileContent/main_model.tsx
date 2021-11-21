@@ -33,6 +33,7 @@ import SaveButton from "pages/CompanyPages/settings/components/SaveButton";
 import useMobileData from "./useMobileData";
 import Spinner from "components/Helpers/Spinner";
 import RippleEffect from "components/Custom/RippleEffect";
+import SnackBar from "components/Custom/NewSnack";
 
 const MainModel = () => {
   const dispatch = useAppDispatch();
@@ -49,6 +50,9 @@ const MainModel = () => {
     isFetching,
     cashIsFetch,
     saleIsFetch,
+    alertName,
+    checkL,
+    setCheckL,
   } = useMobileData();
 
   const base_loyality = useAppSelector((state) => state.settings.base_loyality);
@@ -103,6 +107,8 @@ const MainModel = () => {
       </SpinnerDiv>
     );
   }
+
+  console.log(alertName, "alert name");
 
   return (
     <Container>
@@ -393,6 +399,15 @@ const MainModel = () => {
           <SaveButton type="submit" text={t("save")} />
         </Footer>
       </Body>
+
+      <SnackBar
+        message={alertName}
+        status="error"
+        open={checkL}
+        autoHideDuration={5000}
+        onClose={(e: any) => setCheckL(e)}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      />
     </Container>
   );
 };
