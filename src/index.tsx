@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
+import { RecoilRoot } from "recoil";
 import App from "./App";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { store } from "./services/redux/store";
@@ -35,19 +36,21 @@ if ("serviceWorker" in navigator) {
 
 ReactDOM.render(
   <React.StrictMode>
-    <I18nextProvider i18n={i18n}>
-      <MuiThemeProvider theme={theme}>
-        <StylesProvider injectFirst>
-          <Provider store={store}>
-            <QueryClientProvider client={queryClient}>
-              <BrowserRouter>
-                <App />
-              </BrowserRouter>
-            </QueryClientProvider>
-          </Provider>
-        </StylesProvider>
-      </MuiThemeProvider>
-    </I18nextProvider>
+    <RecoilRoot>
+      <I18nextProvider i18n={i18n}>
+        <MuiThemeProvider theme={theme}>
+          <StylesProvider injectFirst>
+            <Provider store={store}>
+              <QueryClientProvider client={queryClient}>
+                <BrowserRouter>
+                  <App />
+                </BrowserRouter>
+              </QueryClientProvider>
+            </Provider>
+          </StylesProvider>
+        </MuiThemeProvider>
+      </I18nextProvider>
+    </RecoilRoot>
   </React.StrictMode>,
   document.getElementById("root")
 );
