@@ -8,11 +8,16 @@ export interface IRow {
 }
 
 export const MainWrapper = styled.div`
-  padding: 25px 0 0 25px;
   display: flex;
   height: 100%;
   flex-direction: column;
-  position: relative;
+  overflow: hidden;
+  width: 100%;
+  flex: 1;
+  padding: 25px 0 0 25px;
+  @media (max-width: ${device.mobile}) {
+    padding: 0px 0 0 0px;
+  }
 `;
 
 export const SpinnerDiv = styled.div`
@@ -41,6 +46,7 @@ export const Wrap = styled.div`
     display: none;
   }
 `;
+
 
 export const Label = styled.div`
   font-weight: bold;
@@ -111,6 +117,9 @@ export const WrapHeader = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+  @media (max-width: ${device.mobile}) {
+    padding: 5px 0 0 10px;
+  }
 `;
 
 export const RightHeader = styled.div`
@@ -118,4 +127,5 @@ export const RightHeader = styled.div`
   right: 30px;
   top: 25px;
 `;
-export const LeftHeader = styled.div``;
+export const LeftHeader = styled.div`
+overflow: hidden;`;

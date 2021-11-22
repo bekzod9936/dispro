@@ -182,6 +182,11 @@ export const WrapperCard = styled.div`
     padding-right: 15px;
     grid-gap: 25px;
   }
+  @media (min-width: ${device.laptop}) {
+    grid-template-columns: repeat(4, minmax(20%, 1fr));
+    padding-right: 25px;
+    grid-gap: 25px;
+  }
 `;
 
 export const Wrap = styled.div`

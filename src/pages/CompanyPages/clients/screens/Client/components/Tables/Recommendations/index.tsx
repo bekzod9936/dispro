@@ -5,7 +5,7 @@ import { useRef, useMemo, useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useTable } from 'react-table'
 import { operationsColumns, operationsHeaders, recommendsHeaders } from '../Operations/constants'
-import { Footer, Table, Tbody, Td, Th, THead, TRow } from '../Operations/style'
+import { Footer, MobileTable, MTRow, Table, Tbody, Td, Th, THead, TRow } from '../Operations/style'
 import Input from "components/Custom/Input"
 import { getOneDayPlus, tableRecommendsHelper } from 'pages/CompanyPages/clients/utils/getSelectedFilters'
 import CheckBox from 'components/Custom/CheckBox'
@@ -17,6 +17,8 @@ import { EmptyTable } from '../../EmptyTable'
 import recommendations from "assets/images/recomendations.png"
 import Pagination from 'components/Custom/Pagination'
 import { useWindowSize } from 'pages/CompanyPages/clients/hooks/useWindowSize'
+import useWindowWidth from 'services/hooks/useWindowWidth'
+import { DefaultImg } from 'pages/CompanyPages/clients/components/MobileTable/style'
 
 const Recommendations = () => {
     const { t } = useTranslation()
@@ -27,7 +29,7 @@ const Recommendations = () => {
     const [totalCount, setTotalCount] = useState(1)
     const [position, setPosition] = useState(0)
     const [recomendations, setRecomendations] = useState<any[]>([])
-
+    const { width } = useWindowWidth()
     const [filter, setFilter] = useState<any>({
         status: [{
         }]
@@ -147,14 +149,10 @@ const Recommendations = () => {
         }
     }
     const { getTableBodyProps, getTableProps, prepareRow, rows, headerGroups } = useTable({ columns: headers, data: columns })
-    // useEffect(() => {
-    //     if (parentRef.current) {
-    //         if (parentRef.current.getBoundingClientRect().top > (height / 2)) {
-    //             setPosition(-200)
 
-    //         }
-    //     }
-    // }, [height])
+    console.log(recomendations);
+
+
     if (isFetching) {
         return (
             <Spinner />
@@ -170,46 +168,60 @@ const Recommendations = () => {
             {/* <div ref={parentRef} style={{ margin: "0 0 10px 0" }}>
                 <Filter position={position} list={filterList} />
             </div> */}
-            <Table {...getTableProps()}>
-                <THead>
-                    {headerGroups.map(headerGroup => (
-                        <tr style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.04)" }} {...headerGroup.getHeaderGroupProps}>
-                            {headerGroup.headers.map(column => (
-                                <Th {...column.getHeaderProps()}>
-                                    {column.render("Header")}
-                                </Th>
-                            ))}
-                        </tr>
-                    ))}
-                </THead>
-                <Tbody {...getTableBodyProps()}>
-                    {rows.map((row) => {
-                        prepareRow(row)
-                        return (
-                            <TRow {...row.getRowProps()}>
-                                {row.cells.map((cell, index) => {
-                                    if (index === 0) {
+            {width > 600 ?
+                <Table {...getTableProps()}>
+                    <THead>
+                        {headerGroups.map(headerGroup => (
+                            <tr style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.04)" }} {...headerGroup.getHeaderGroupProps}>
+                                {headerGroup.headers.map(column => (
+                                    <Th {...column.getHeaderProps()}>
+                                        {column.render("Header")}
+                                    </Th>
+                                ))}
+                            </tr>
+                        ))}
+                    </THead>
+                    <Tbody {...getTableBodyProps()}>
+                        {rows.map((row) => {
+                            prepareRow(row)
+                            return (
+                                <TRow {...row.getRowProps()}>
+                                    {row.cells.map((cell, index) => {
+                                        if (index === 0) {
+                                            return (
+                                                <Td {...cell.getCellProps()}>
+                                                    <div>
+                                                        <img src={cell.row?.original?.image} alt="someImage" />
+                                                        {cell.render('Cell')}
+                                                    </div>
+                                                </Td>
+                                            )
+                                        }
                                         return (
                                             <Td {...cell.getCellProps()}>
-                                                <div>
-                                                    <img src={cell.row?.original?.image} alt="someImage" />
-                                                    {cell.render('Cell')}
-                                                </div>
+                                                {cell.render('Cell')}
                                             </Td>
                                         )
-                                    }
-                                    return (
-                                        <Td {...cell.getCellProps()}>
-                                            {cell.render('Cell')}
-                                        </Td>
-                                    )
-                                })}
-                            </TRow>
-                        )
-                    })}
+                                    })}
+                                </TRow>
+                            )
+                        })}
 
-                </Tbody>
-            </Table>
+                    </Tbody>
+                </Table> :
+                <MobileTable>
+                    {recomendations.map((el: any, index: number) => (
+                        <MTRow isEven={!!((index + 1) % 2)}>
+                            <div className="recRow">
+                                {el.image ? <img src={el.image} alt="image" /> : <DefaultImg />}
+                                <div className="right">
+                                    <h3>{el.client}</h3>
+                                    <p>{t("level")}: <span>{el.level}</span></p>
+                                </div>
+                            </div>
+                        </MTRow>
+                    ))}
+                </MobileTable>}
             <Footer>
                 <Pagination
                     defaultPage={1}

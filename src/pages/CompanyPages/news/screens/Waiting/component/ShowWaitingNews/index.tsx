@@ -85,7 +85,7 @@ const ShowWaitingNews = () => {
           onClick={handleBack}
           style={{ marginRight: "25px", cursor: "pointer" }}
         />
-        <Title>{newsById?.data?.title}</Title>
+        <Title>{newsById?.data?.title?.length>30 ? newsById?.data?.title?.slice(0,30)+'...':newsById?.data?.title}</Title>
       </div>
       <Wrapper>
       <Preview>
@@ -93,15 +93,14 @@ const ShowWaitingNews = () => {
         <img className="iphoneImg" width="300" src={iphone} />
         <PreviewContent>
           <h5 >
-            <span >{newsById?.data?.title} </span>
+            <span >{newsById?.data?.title?.length>50 ? newsById?.data?.title?.slice(0,50)+'...':newsById?.data?.title} </span>
           </h5>
-          <p style={{ paddingTop: "10px" }}>{newsById?.data?.description}</p>
+          <p style={{ paddingTop: "10px" }}>{newsById?.data?.description.length>500 ? newsById?.data?.description?.slice(0,500)+'...':newsById?.data?.description}</p>
           <div
             style={{
               position: "absolute",
               bottom: "10%",
-         
-              padding: "5px",
+              padding: "8px 30px",
               backgroundColor: "#606EEA",
               color: "white",
               borderRadius: "20px",
@@ -113,8 +112,8 @@ const ShowWaitingNews = () => {
         </PreviewContent>
         <Content>
         <h5>Информация</h5>
-        <p>{newsById?.data?.genderType===1 ? 'Только для мужчин':newsById?.data?.genderType===2 ? 'Только для женщины':'для всех'}</p>
-        <p>Срок публикции: {date}</p>
+        <p>{newsById?.data?.genderType===1 ? 'Только для мужчин':newsById?.data?.genderType===2 ? 'Только для женщины':'Для всех'}</p>
+        <p>Срок публикации: {date}</p>
         <p>Возрастное ограничение: {newsById?.data?.ageFrom+'+'}</p>
         <div
               style={{

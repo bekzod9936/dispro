@@ -53,6 +53,7 @@ const MainModel = () => {
     alertName,
     checkL,
     setCheckL,
+    getValues,
   } = useMobileData();
 
   const base_loyality = useAppSelector((state) => state.settings.base_loyality);
@@ -267,6 +268,7 @@ const MainModel = () => {
                 setValue={setValue}
                 index={index}
                 control={control}
+                getValues={getValues}
               />
             </Column>
           );
@@ -285,7 +287,14 @@ const MainModel = () => {
               append({
                 name: "new_row",
                 percent: 15,
-                requirements: [],
+                requirements: [
+                  {
+                    amount: 100,
+                    condition: "",
+                    type: 1,
+                    unit: "UZS",
+                  },
+                ],
               });
             }}
           >

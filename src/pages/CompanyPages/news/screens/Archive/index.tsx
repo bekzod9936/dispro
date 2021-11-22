@@ -12,13 +12,15 @@ import { Container, Wrap,Info,WrapPag,WrapSpinner } from "./style";
 import useData from "../useData";
 import useArchive from "./useArchive";
 import Pagination from "components/Custom/Pagination";
+import MobileTable from "../../components/MobileTable";
+import useWindowWidth from 'services/hooks/useWindowWidth';
 
 interface intialFilterProps {
   page?: number;
   perPage?: number;
 }
 
-const Active = () => {
+const Archive = () => {
   const location = useLocation();
   const dispatch = useAppDispatch();
   const history = useHistory();
@@ -51,7 +53,7 @@ const Active = () => {
   
   const { response } = useArchive({filterValues: filterValues});
   const {list}=useData();
-  
+  const { width } = useWindowWidth();
 
   const handlechangePage = async (e: any) => {
     await setFilterValues({ ...filterValues, page: e });
@@ -65,43 +67,81 @@ const Active = () => {
   const newsById = selectedNews?.fullData;
   return (
     <Container>
+      {width>600 ? 
       <Wrap>
         {response.isLoading || response.isFetching ? (
-           <WrapSpinner><Spinner/></WrapSpinner>
+          <WrapSpinner><Spinner/></WrapSpinner>
+
         ) : (
           <>
             {data.length > 0 ? (
-            
-                <Table data={list}/>
-             
+              <Table  data={list} />
             ) : (
-              <div style={{ paddingRight: "20%", paddingTop: "5%"}}>
+              <div style={{ paddingRight: "20%", paddingTop: "5%" }}>
                 <NoNews handleOpenSetting={handleOpenSetting} />
               </div>
             )}
-                 <SideBar isOpen={newsById} maxWidth={"370px"}>
+            <SideBar isOpen={newsById} maxWidth={"370px"}>
               {newsById && <NewsBar refetch={response} currentNews={newsById} onClose={onClose} />}
             </SideBar>
-              {data.length > 0 ? (
-        <WrapPag>
-          <Info>
-            {t('shown')}
-            <span>{between}</span>
-            {t('from1')} <span>{totalNewsCount}</span> {t('news')}
-          </Info>
-          <Pagination
-            page={filterValues.page}
-            count={totalCount}
-            onChange={handlechangePage}
-            disabled={response.isLoading || response.isFetching}
-          />
-        </WrapPag>
-      ) : null}
+            {list.length > 0 ? (
+              <WrapPag>
+                <Info>
+                  {t("shown")}
+                  <span>{between}</span>
+                  {t("from1")} <span>{totalNewsCount}</span> {t("новостей")}
+                </Info>
+                <Pagination
+                  page={filterValues.page}
+                  count={totalCount}
+                  onChange={handlechangePage}
+                  disabled={response.isLoading || response.isFetching}
+                />
+              </WrapPag>
+            ) : null}
           </>
         )}
-      </Wrap>
+      </Wrap>:
+      <Wrap>
+          {response.isLoading || response.isFetching ? (
+          <WrapSpinner><Spinner/></WrapSpinner>
+
+        )
+         : 
+         (
+          <>
+            {data.length > 0 ? (
+              <MobileTable  refetch={response}  data={list} />
+            ) : (
+              <div style={{ paddingRight: "20%", paddingTop: "5%" }}>
+                <NoNews handleOpenSetting={handleOpenSetting} />
+              </div>
+            )}
+            <SideBar isOpen={newsById} maxWidth={"370px"}>
+              {newsById && <NewsBar refetch={response} currentNews={newsById} onClose={onClose} />}
+            </SideBar>
+            {list.length > 0 ? (
+              <WrapPag>
+                <Info>
+                  {t("shown")}
+                  <span>{between}</span>
+                  {t("from1")} <span>{totalNewsCount}</span> {t("новостей")}
+                </Info>
+                <Pagination
+                  page={filterValues.page}
+                  count={totalCount}
+                  onChange={handlechangePage}
+                  disabled={response.isLoading || response.isFetching}
+                  siblingCount={width<=600 ? 0 : 4}
+                />
+              </WrapPag>
+            ) : null}
+          </>
+        )
+        }
+        </Wrap>}
     </Container>
   );
 };
 
-export default Active;
+export default Archive;

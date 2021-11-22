@@ -1,10 +1,15 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useFieldArray, Controller, useWatch } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 //hooks
 import useDetail from "../../hooks/useDetail";
 //actions
-import { addModal, handleClick } from "services/redux/Slices/settingsSlice";
+import {
+  addModal,
+  handleClick,
+  setSmallI,
+} from "services/redux/Slices/settingsSlice";
 //styles
 import {
   Wrapper,
@@ -32,8 +37,9 @@ import { Break } from "pages/CompanyPages/settings/styles";
 import { IconButton } from "@material-ui/core";
 import RippleEffect from "components/Custom/RippleEffect";
 
-const NestedArray = ({ index, control, setValue }: IProps) => {
-  const { labelType, loyalityOptions } = useDetail();
+const NestedArray = ({ index, control, setValue, getValues }: IProps) => {
+  const [editLevel, setEditLevel] = useState(false);
+  const { labelType, loyalityOptions, oneFullOptions } = useDetail();
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const levels = useWatch({
@@ -50,22 +56,40 @@ const NestedArray = ({ index, control, setValue }: IProps) => {
     name: `levels.${index}.requirements`,
   });
   const openM = useAppSelector((state) => state.settings.openM);
+  const smallI = useAppSelector((state) => state.settings.smallI);
+
+  const handleEdit = (indexMain: any) => {
+    console.log(indexMain, "index main NN ==");
+    setEditLevel(true);
+    dispatch(addModal(true));
+    dispatch(setSmallI(indexMain));
+    const getItem = getValues();
+    console.log(getItem, "get Item");
+  };
 
   const changeLevelState = (reqType: any, indexN: any) => {
     if (levelReqs.length) {
+      let thirdLevel =
+        levelReqs[2] === levelReqs[indexN] || levelReqs[indexN].type === 2;
       if (levelReqs[0] === levelReqs[indexN]) {
         return <SubText>Основное условие</SubText>;
       }
-      if (reqType?.condition === "or") {
+      if (levelReqs[indexN]?.condition === "or") {
         return (
-          <RippleEffect>
-            <MainText>Альтернатива</MainText>
+          <RippleEffect
+            onClick={() => handleEdit(indexN)}
+            disabled={thirdLevel}
+          >
+            <MainText disabled={thirdLevel}>Альтернатива</MainText>
           </RippleEffect>
         );
-      } else if (reqType?.condition === "and") {
+      } else if (levelReqs[indexN]?.condition === "and") {
         return (
-          <RippleEffect>
-            <MainText>Доп. условие</MainText>
+          <RippleEffect
+            onClick={() => handleEdit(indexN)}
+            disabled={thirdLevel}
+          >
+            <MainText disabled={thirdLevel}>Доп. условие</MainText>
           </RippleEffect>
         );
       } else {
@@ -73,6 +97,7 @@ const NestedArray = ({ index, control, setValue }: IProps) => {
       }
     }
   };
+
   return (
     <Wrapper>
       {fields.map((item: any, smallIndex: number) => {
@@ -166,57 +191,129 @@ const NestedArray = ({ index, control, setValue }: IProps) => {
       })}
       <Modal open={openM}>
         <ModalContent>
-          <MRow jContent="flex-start" aContent="center">
-            <Title>Выберите параметры условия статуса</Title>
-          </MRow>
-          <MRow direction="column" aContent="center">
-            <Button
-              buttonStyle={{
-                color: "#606EEA",
-                bgcolor: "#eff0fd",
-                weight: "500",
-              }}
-              endIcon={<RefreshIcon />}
-              onClick={() => {
-                append({
-                  type: 1,
-                  amount: 10,
-                  condition: "or",
-                  unit: "шт",
-                });
-                dispatch(addModal(false));
-              }}
-            >
-              Альтернативное условие
-            </Button>
-            <Button
-              buttonStyle={{
-                color: "#606EEA",
-                bgcolor: "#eff0fd",
-                weight: "500",
-              }}
-              endIcon={<AddIcon />}
-              onClick={() => {
-                append({
-                  type: 1,
-                  amount: 10,
-                  condition: "and",
-                  unit: "шт",
-                });
-                dispatch(addModal(false));
-              }}
-            >
-              Дополнительное условие
-            </Button>
-          </MRow>
-          <MRow jContent="center" aContent="center">
-            <CancelButton
-              onClick={() => {
-                dispatch(addModal(false));
-              }}
-              text={t("cancel")}
-            />
-          </MRow>
+          {editLevel ? (
+            <>
+              <MRow jContent="flex-start" aContent="center">
+                <Title>Выберите параметры условия статуса</Title>
+              </MRow>
+              <MRow direction="column" aContent="center">
+                <Button
+                  buttonStyle={{
+                    color: "#606EEA",
+                    bgcolor: "#eff0fd",
+                    weight: "500",
+                  }}
+                  endIcon={<RefreshIcon />}
+                  onClick={() => {
+                    // append({
+                    //   type: 1,
+                    //   amount: 10,
+                    //   condition: "or",
+                    //   unit: "шт",
+                    // });
+                    setValue(
+                      `levels.${index}.requirements.${smallI}.condition`,
+                      "or"
+                    );
+                    console.log(levelReqs, "condition");
+
+                    dispatch(addModal(false));
+                    setEditLevel(false);
+                  }}
+                >
+                  Альтернативное условие
+                </Button>
+                <Button
+                  buttonStyle={{
+                    color: "#606EEA",
+                    bgcolor: "#eff0fd",
+                    weight: "500",
+                  }}
+                  endIcon={<AddIcon />}
+                  onClick={() => {
+                    // append({
+                    //   type: 1,
+                    //   amount: 10,
+                    //   condition: "and",
+                    //   unit: "шт",
+                    // });
+                    console.log(levelReqs, "condition");
+                    setValue(
+                      `levels.${index}.requirements.${smallI}.condition`,
+                      "and"
+                    );
+                    dispatch(addModal(false));
+                    setEditLevel(false);
+                  }}
+                >
+                  Дополнительное условие
+                </Button>
+              </MRow>
+              <MRow jContent="center" aContent="center">
+                <CancelButton
+                  onClick={() => {
+                    dispatch(addModal(false));
+                    setEditLevel(false);
+                  }}
+                  text={t("cancel")}
+                />
+              </MRow>
+            </>
+          ) : (
+            <>
+              <MRow jContent="flex-start" aContent="center">
+                <Title>Выберите параметры условия статуса</Title>
+              </MRow>
+              <MRow direction="column" aContent="center">
+                <Button
+                  buttonStyle={{
+                    color: "#606EEA",
+                    bgcolor: "#eff0fd",
+                    weight: "500",
+                  }}
+                  endIcon={<RefreshIcon />}
+                  onClick={() => {
+                    append({
+                      type: 1,
+                      amount: 10,
+                      condition: "or",
+                      unit: "шт",
+                    });
+                    dispatch(addModal(false));
+                  }}
+                >
+                  Альтернативное условие
+                </Button>
+                <Button
+                  buttonStyle={{
+                    color: "#606EEA",
+                    bgcolor: "#eff0fd",
+                    weight: "500",
+                  }}
+                  endIcon={<AddIcon />}
+                  onClick={() => {
+                    append({
+                      type: 1,
+                      amount: 10,
+                      condition: "and",
+                      unit: "шт",
+                    });
+                    dispatch(addModal(false));
+                  }}
+                >
+                  Дополнительное условие
+                </Button>
+              </MRow>
+              <MRow jContent="center" aContent="center">
+                <CancelButton
+                  onClick={() => {
+                    dispatch(addModal(false));
+                  }}
+                  text={t("cancel")}
+                />
+              </MRow>
+            </>
+          )}
         </ModalContent>
       </Modal>
     </Wrapper>
@@ -229,4 +326,5 @@ interface IProps {
   index: any;
   control: any;
   setValue: Function;
+  getValues: Function;
 }

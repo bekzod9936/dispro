@@ -26,7 +26,7 @@ date: string,
     fullData?: any;
     data:any;
     date:string;
-    genderType?: number;
+    genderType?: any;
     ageFrom: number,
     ageUnlimited: boolean,
     categoryIds: number[],

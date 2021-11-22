@@ -7,6 +7,7 @@ interface IProps {
   marginRight?: number;
   marginLeft?: number;
   padding?: number;
+  disabled?: boolean;
 }
 
 const RippleEffect = ({ children, ...props }: IProps) => {

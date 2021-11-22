@@ -119,20 +119,20 @@ export const useHandleGetFilters = ({ filters, handleRemove, referals }: IProps)
     );
   }
   if (purchaseAmount) {
-    if (purchaseAmount.purchaseCountTo !== "" || purchaseAmount.purchaseCountTo !== "") {
+    if (!!purchaseAmount.purchaseCountFrom || !!purchaseAmount.purchaseCountTo) {
       result.push(
         <SelectedFilter>
-          {purchaseAmount?.purchaseCountFrom && (purchaseAmount?.purchaseCountFrom !== "") && (
+          {!!purchaseAmount.purchaseCountFrom && (purchaseAmount.purchaseCountFrom !== "") && (
             <p>
-              Кол-во покупок: {t("from")}: {numberWith(purchaseAmount?.purchaseCountFrom + "", " ")}
+              Кол-во покупок: {t("from")}: {numberWith(purchaseAmount.purchaseCountFrom + "", " ")}
             </p>
           )}
-          {purchaseAmount?.purchaseCountTo && (purchaseAmount?.purchaseCountTo !== "") && (
+          {!!purchaseAmount.purchaseCountTo && (purchaseAmount.purchaseCountTo !== "") && (
             <p>
-              {!purchaseAmount?.purchaseCountFrom && "Кол-во покупок: "}{t("to")}: {numberWith(purchaseAmount?.purchaseCountTo + "", " ")}
+              {!purchaseAmount.purchaseCountFrom && "Кол-во покупок: "}{t("to")}: {numberWith(purchaseAmount.purchaseCountTo + "", " ")}
             </p>
           )}
-          {(purchaseAmount.purchaseCountFrom !== "" || purchaseAmount.purchaseCountTo !== "") && <RemoveFilterBtn onClick={() => handleRemove("purchaseAmount")} />}
+          {(!!purchaseAmount.purchaseCountFrom || !!purchaseAmount.purchaseCountTo) && <RemoveFilterBtn onClick={() => handleRemove("purchaseAmount")} />}
         </SelectedFilter>
       );
     }
@@ -339,4 +339,41 @@ export const tableRecommendsHelper = (arr: ITableRecs[]) => {
     level: el.levelNumber,
     image: el.image
   }))
+}
+
+
+export const getOperationsForMobileTable = (arr: ITableHelperItem[]) => {
+  return arr.reduce((acc: any, curr: any) => {
+    let day = dayjs(curr.date).format("DD.MM.YYYY")
+    acc[day] = acc[day] ? [...acc[day], {
+      time: dayjs(curr.date).format("hh:mm"),
+      action: "Оплата",
+      value: `${curr.amount ? numberWith(curr.amount + "", " ") + " UZS " : ""}${curr.cashback ? numberWith(curr.cashback + "", " ") + " Кешбэк " : ""}${curr.discount ? numberWith(curr.discount + "", " ") + " Скидка " : ""}${curr.point ? numberWith(curr.point + "", " ") + " Б." : ""}`
+
+    }] : [{
+      time: dayjs(curr.date).format("hh:mm"),
+      action: "Оплата",
+      value: `${curr.amount ? numberWith(curr.amount + "", " ") + " UZS " : ""}${curr.cashback ? numberWith(curr.cashback + "", " ") + " Кешбэк " : ""}${curr.discount ? numberWith(curr.discount + "", " ") + " Скидка " : ""}${curr.point ? numberWith(curr.point + "", " ") + " Б." : ""}`
+    }]
+
+    return acc
+  }, {})
+
+}
+
+
+export const getPointsForMobile = (arr: IPointHelperItem[]) => {
+  return arr.reduce((acc: any, curr: any) => {
+    let day = dayjs(curr.date).format("DD.MM.YYYY");
+    acc[day] = acc[day] ? [...acc[day], {
+      time: dayjs(curr.date).format("hh:mm"),
+      action: pointTypes[curr.type],
+      amount: numberWith(curr.amount + "", " ")
+    }] : [{
+      time: dayjs(curr.date).format("hh:mm"),
+      action: pointTypes[curr.type],
+      amount: numberWith(curr.amount + "", " ")
+    }]
+    return acc
+  }, {})
 }

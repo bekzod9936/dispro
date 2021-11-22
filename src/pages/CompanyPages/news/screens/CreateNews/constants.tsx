@@ -38,12 +38,12 @@ export const days = [
 export const genders = [
     {
       id: 1,
-      label: "Для мужчин",
+      label: "для мужчин",
       value: "мужчин",
     },
     {
       id: 2,
-      label: "Для женщин",
+      label: "для женщин",
       value: "женщин",
     },
     {

@@ -1,16 +1,18 @@
-import { useState } from 'react';
-import { useQuery } from 'react-query';
-import { fetchLimitFinance } from 'services/queries/InfoQuery';
-import { fetchInfo } from 'services/queries/partnerQuery';
-import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
-import { setStaffId } from 'services/redux/Slices/authSlice';
+import { useState } from "react";
+import { useQuery } from "react-query";
+import { useSetRecoilState } from "recoil";
+import { setLimitAccounts } from "services/atoms/info/selector";
+import { fetchLimitFinance } from "services/queries/InfoQuery";
+import { fetchInfo } from "services/queries/partnerQuery";
+import { useAppDispatch, useAppSelector } from "services/redux/hooks";
+import { setStaffId } from "services/redux/Slices/authSlice";
 import {
   setAccounts,
   setBalanceAccounts,
   setInfoData,
-  setLimitAccounts,
-} from 'services/redux/Slices/info/info';
-import { setCompanyInfo } from '../../services/redux/Slices/partnerSlice';
+  // setLimitAccounts,
+} from "services/redux/Slices/info/info";
+import { setCompanyInfo } from "../../services/redux/Slices/partnerSlice";
 
 interface Props {
   name?: string;
@@ -24,14 +26,16 @@ interface LProps {
 }
 const useLayout = ({ id }: LProps) => {
   const dispatch = useAppDispatch();
-  const companyId = localStorage.getItem('companyId');
+  const companyId = localStorage.getItem("companyId");
+
+  const setLimit = useSetRecoilState(setLimitAccounts);
 
   const [headerData, setData] = useState<Props>({
     filled: false,
     filledAddress: false,
   });
 
-  const resHeader = useQuery('logoANDname', () => fetchInfo(id), {
+  const resHeader = useQuery("logoANDname", () => fetchInfo(id), {
     onSuccess: (data) => {
       dispatch(setCompanyInfo(data?.data.data));
       dispatch(setInfoData(data?.data.data));
@@ -47,12 +51,13 @@ const useLayout = ({ id }: LProps) => {
   const currency = useAppSelector((state) => state.info.data?.currencyId);
 
   const resLimit = useQuery(
-    'fetchLimitFinance',
+    "fetchLimitFinance",
     () => fetchLimitFinance({ companyId, currency }),
     {
       onSuccess: (data) => {
         dispatch(setAccounts(data?.data?.data?.accounts));
-        dispatch(setLimitAccounts(data?.data?.data?.accounts[0]?.limit));
+        // dispatch(setLimitAccounts(data?.data?.data?.accounts[0]?.limit));
+        setLimit({ limit: data?.data?.data?.accounts[0]?.limit });
         dispatch(setBalanceAccounts(data?.data?.data?.accounts[0]?.balance));
       },
       keepPreviousData: true,

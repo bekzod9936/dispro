@@ -1,5 +1,4 @@
 import styled, { css } from 'styled-components';
-
 import { ReactComponent as Age } from 'assets/icons/StatistisPage/age.svg';
 import { ReactComponent as Cart } from 'assets/icons/StatistisPage/cart.svg';
 import { ReactComponent as CashBack } from 'assets/icons/StatistisPage/cashback.svg';

@@ -7,7 +7,26 @@ export const WrapInputs = styled.div`
   & > div {
     display: flex;
   }
+ 
 `;
+export const Container = styled.div`
+    width: 100%;
+    height: 100%;
+`;
+export const MobileFlex=styled.div`
+  width: 100%;
+  height: 100%;
+  padding:0px 10px;
+  font-size:14px;
+`
+export const TopMobile=styled.div`
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding-bottom:10px;
+
+
+`
 export const WrapSelect=styled.div`
 margin-top:25px;`;
 
@@ -42,6 +61,16 @@ export const WrapDate = styled.div`
   font-size: 18px;
   color: #223367;
   padding-left: 15px;
+  @media (max-width: ${device.mobile}) {
+    font-size: 14px;
+    padding-left: 8px;
+  }
+  @media (max-width: 360px) {
+     display:none;
+    /* font-size: 14px;
+    padding-left: 8px; */
+    
+  }
 `;
 
 

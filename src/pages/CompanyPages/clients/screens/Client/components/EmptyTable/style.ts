@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { device } from "styles/device";
 
 export const Wrapper = styled.div`
     width: 100%;
@@ -12,5 +13,13 @@ export const Wrapper = styled.div`
         line-height: 21px;
         color: #223367;
         margin-top: 15px;
-}
+    }
+    @media(max-width: ${device.mobile}) {
+        p {
+            text-align: center;
+            font-size: 14px;
+            line-height: 16.41px;
+            
+        }
+    }
 `

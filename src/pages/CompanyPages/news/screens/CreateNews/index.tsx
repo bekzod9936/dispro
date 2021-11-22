@@ -15,9 +15,11 @@ import useStaff from "../../hooks/useStaff";
 import { CloseIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import CropCustomModal from "components/Custom/CropImageModal/index";
 import { useTranslation } from "react-i18next";
-import { useMutation, } from "react-query";
+import { useMutation } from "react-query";
 import InputFormat from "components/Custom/InputFormat";
+import dayjs from "dayjs";
 import { fetchCreateNews } from "services/queries/newPageQuery";
+import { MobileCancelIcon } from "assets/icons/proposals/ProposalsIcons";
 import {
   Label,
   WrapDate,
@@ -32,6 +34,7 @@ import {
 } from "assets/icons/proposals/ProposalsIcons";
 import { SaveIcon } from "assets/icons/news/newsIcons";
 import { days, genders, todayDate, nextDay } from "./constants";
+import useWindowWidth from "services/hooks/useWindowWidth";
 import {
   PushBlock,
   PushWrapper,
@@ -51,22 +54,22 @@ import {
   WrapperModal,
   CloseButton,
   FormRow,
+  Buttons,
+  MobileHeader,
 } from "./style";
 import { useUploadImage } from "../../hooks/useUploadIMage";
 
 import { ReactComponent as MarketIcon } from "assets/icons/SideBar/ilmarket.svg";
 
-
 interface IOptionFields {
   push: boolean;
 }
-
-
 
 const CreateNews = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const [filter, setFilter] = React.useState<any>({});
+  const { width } = useWindowWidth();
   const { branches } = useStaff();
   const [optionalFields, setOptionalFields] = React.useState<IOptionFields>({
     push: false,
@@ -163,21 +166,27 @@ const CreateNews = () => {
     setTimeout(() => history.goBack(), 1000);
   };
   // console.log(watch("ageLimit"));
-  
+
   return (
     <Wrapper>
-      <div style={{ display: "flex", marginBottom: 30, alignItems: "center" }}>
-        <GoBackIcon
-          onClick={handleBack}
-          style={{ marginRight: "25px", cursor: "pointer" }}
-        />
-        <Title>Добавление новости</Title>
-      </div>
+      {width > 600 && (
+        <div
+          style={{ display: "flex", marginBottom: 30, alignItems: "center" }}
+        >
+          <GoBackIcon
+            onClick={handleBack}
+            style={{ marginRight: "25px", cursor: "pointer" }}
+          />
+          <Title>Добавление новости</Title>
+        </div>
+      )}
+
       <Modal modalStyle={{ bgcolor: "#fff" }} open={submit}>
         <WrapperModal>
-          <CloseButton onClick={() => setSubmit(false)}>
+          {width > 600 &&   <CloseButton onClick={() => setSubmit(false)}>
             <CloseIcon />
-          </CloseButton>
+          </CloseButton>}
+        
           <h3>
             {filter?.regDate?.regDateFrom > todayDate
               ? t("Новость будет добавлена в раздел В ожидании ")
@@ -185,27 +194,59 @@ const CreateNews = () => {
           </h3>
           <p>
             {filter?.regDate?.regDateFrom > todayDate
-              ? t(`Новость будет опубликована ${filter?.regDate?.regDateFrom} `)
+              ? t(`Новость будет опубликована ${dayjs(filter?.regDate?.regDateFrom).format("DD.MM.YYYY")} `)
               : t(
-                  "Новость будет попадает сразу в разделе актуалные, и будет доступна вашим клиентам"
+                  "Новость перейдет в раздел Активные и будет доступна вашим клиентам в приложении"
                 )}
           </p>
-          <Button
-            buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
-            margin={{ laptop: "0 22px 0 0" }}
-            onClick={() => setSubmit(false)}
-            startIcon={<CancelIcon />}
-          >
-            Отмена
-          </Button>
-          <Button
-            type="submit"
-            margin={{ laptop: "0 22px 0 0" }}
-            onClick={submitData}
-            startIcon={<SaveIcon />}
-          >
-            Сохранить
-          </Button>
+          {width > 600 ? (
+            <>
+              <Button
+                buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
+                margin={{ laptop: "0 22px 0 0" }}
+                onClick={() => setSubmit(false)}
+                startIcon={<CancelIcon />}
+              >
+                Отмена
+              </Button>
+              <Button
+                type="submit"
+                margin={{ laptop: "0 22px 0 0" }}
+                onClick={submitData}
+                startIcon={<SaveIcon />}
+              >
+                Сохранить
+              </Button>
+            </>
+          ) : (
+            <Buttons>
+              <div className="upside">
+                <Button
+                  onClick={() => setSubmit(false)}
+                  endIcon={<MobileCancelIcon />}
+                  buttonStyle={{
+                    bgcolor: "rgba(96, 110, 234, 0.1)",
+                    color: "#606EEA",
+                  }}
+                  margin={{ mobile: "0 8px 8px 0" }}
+                >
+                  {t("cancel")}
+                </Button>
+              </div>
+              <Button
+                onClick={submitData}
+                type="submit"
+                endIcon={<SaveIcon />}
+                buttonStyle={{
+                  bgcolor: "#606EEA",
+                  color: "#fff",
+                }}
+                margin={{ mobile: "0px 8px  8px  0" }}
+              >
+                {"Сохранить"}
+              </Button>
+            </Buttons>
+          )}
         </WrapperModal>
       </Modal>
 
@@ -214,25 +255,63 @@ const CreateNews = () => {
           <p style={{ color: "black" }}>
             {t("Вы действительно хотите отменить создание новости")}
           </p>
-          <Button
-            buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
-            margin={{ laptop: "0 22px 0 0" }}
-            onClick={() => setCancel(false)}
-          >
-            Нет
-          </Button>
-          <Button
-            type="submit"
-            margin={{ laptop: "0 22px 0 0" }}
-            onClick={cancelNews}
-          >
-            Да
-          </Button>
+          {width > 600 ? (
+            <>
+              <Button
+                buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
+                margin={{ laptop: "0 22px 0 0" }}
+                onClick={() => setCancel(false)}
+              >
+                Нет
+              </Button>
+              <Button
+                type="submit"
+                margin={{ laptop: "0 22px 0 0" }}
+                onClick={cancelNews}
+              >
+                Да
+              </Button>
+            </>
+          ) : (
+            <Buttons>
+              <div className="upside">
+                <Button
+                  onClick={() => setCancel(false)}
+                  endIcon={<MobileCancelIcon />}
+                  buttonStyle={{
+                    bgcolor: "rgba(96, 110, 234, 0.1)",
+                    color: "#606EEA",
+                  }}
+                  margin={{ mobile: "0 8px 8px 0" }}
+                >
+                  {" Нет"}
+                </Button>
+              </div>
+              <Button
+                onClick={cancelNews}
+                type="submit"
+                endIcon={<SaveIcon />}
+                buttonStyle={{
+                  bgcolor: "#606EEA",
+                  color: "#fff",
+                }}
+                margin={{ mobile: "0px 8px  8px  0" }}
+              >
+                {"  Да"}
+              </Button>
+            </Buttons>
+          )}
         </WrapperModal>
       </Modal>
 
       <Form onSubmit={handleSubmit(submitNews)}>
         <UpSide>
+          {width <= 600 && (
+            <MobileHeader>
+              <GoBackIcon onClick={handleBack} style={{ cursor: "pointer" }} />
+              <Title> Добавление новости</Title>
+            </MobileHeader>
+          )}
           <Container>
             <LeftSide>
               <Title>Фотографии</Title>
@@ -292,6 +371,7 @@ const CreateNews = () => {
                     error={!!errors.name}
                     message={t("requiredField")}
                     field={field}
+                    multiline={true}
                     label="Название"
                   />
                 )}
@@ -313,7 +393,7 @@ const CreateNews = () => {
                     error={!!errors.description}
                     multiline={true}
                     inputStyle={{
-                      height: { desktop: 120, laptop: 90, mobile: 60 },
+                      height: { desktop: 120, laptop: 90, mobile: 150 },
                     }}
                     IconEnd={
                       <WrapArea>
@@ -323,60 +403,121 @@ const CreateNews = () => {
                   />
                 )}
               />
-              <WrapInputs>
-                <Label>{t("chose_date")}</Label>
-                <div>
-                  <Input
-                    type="date"
-                    width={{
-                      maxwidth: 200,
-                    }}
-                    min={todayDate}
-                    required={true}
-                    IconStart={<WrapDate>{t("from")}</WrapDate>}
-                    inputStyle={{
-                      inpadding: "0 10px 0 0",
-                    }}
-                    value={filter?.regDate?.regDateFrom}
-                    onChange={(e) =>
-                      setFilter((prev: any) => ({
-                        ...prev,
-                        regDate: {
-                          ...prev["regDate"],
-                          regDateFrom: e.target.value,
-                        },
-                      }))
-                    }
-                  />
-                  <Input
-                    type="date"
-                    min={
-                      filter?.regDate?.regDateFrom
-                        ? filter?.regDate?.regDateFrom
-                        : nextDay
-                    }
-                    width={{
-                      maxwidth: 200,
-                    }}
-                    required={true}
-                    margin={{ laptop: "0 0 0 15px" }}
-                    IconStart={<WrapDate>{t("to")}</WrapDate>}
-                    inputStyle={{
-                      inpadding: "0 10px 0 0",
-                    }}
-                    value={filter?.regDate?.regDateTo}
-                    onChange={(e) =>
-                      setFilter((prev: any) => ({
-                        ...prev,
-                        regDate: {
-                          ...prev["regDate"],
-                          regDateTo: e.target.value,
-                        },
-                      }))
-                    }
-                  />
-                </div>
-              </WrapInputs>
+              {width > 600 ? (
+                <WrapInputs>
+                  <Label>{t("chose_date")}</Label>
+                  <div>
+                    <Input
+                      type="date"
+                      width={{
+                        maxwidth: 200,
+                      }}
+                      min={todayDate}
+                      required={true}
+                      IconStart={<WrapDate>{t("from")}</WrapDate>}
+                      inputStyle={{
+                        inpadding: "0 10px 0 0",
+                      }}
+                      value={filter?.regDate?.regDateFrom}
+                      onChange={(e) =>
+                        setFilter((prev: any) => ({
+                          ...prev,
+                          regDate: {
+                            ...prev["regDate"],
+                            regDateFrom: e.target.value,
+                          },
+                        }))
+                      }
+                    />
+                    <Input
+                      type="date"
+                      min={
+                        filter?.regDate?.regDateFrom
+                          ? filter?.regDate?.regDateFrom
+                          : nextDay
+                      }
+                      width={{
+                        maxwidth: 200,
+                      }}
+                      required={true}
+                      margin={{ laptop: "0 0 0 15px" }}
+                      IconStart={<WrapDate>{t("to")}</WrapDate>}
+                      inputStyle={{
+                        inpadding: "0 10px 0 0",
+                      }}
+                      value={filter?.regDate?.regDateTo}
+                      onChange={(e) =>
+                        setFilter((prev: any) => ({
+                          ...prev,
+                          regDate: {
+                            ...prev["regDate"],
+                            regDateTo: e.target.value,
+                          },
+                        }))
+                      }
+                    />
+                  </div>
+                </WrapInputs>
+              ) : (
+                <WrapInputs>
+                  <Label>{t("chose_date")}</Label>
+                  <div>
+                    <Input
+                      type="date"
+                      width={{
+                        maxwidth: 180,
+                        minwidth:130
+                      }}
+                      min={todayDate}
+                      required={true}
+                      
+                      IconStart={<WrapDate>{t("from")}</WrapDate>}
+                      inputStyle={{
+                        inpadding: "0 10px 0 0",
+                      }}
+                      value={filter?.regDate?.regDateFrom}
+                      onChange={(e) =>
+                        setFilter((prev: any) => ({
+                          ...prev,
+                          regDate: {
+                            ...prev["regDate"],
+                            regDateFrom: e.target.value,
+                          },
+                        }))
+                      }
+                    />
+                    <Input
+                      type="date"
+                      min={
+                        filter?.regDate?.regDateFrom
+                          ? filter?.regDate?.regDateFrom
+                          : nextDay
+                      }
+                      width={{
+                        maxwidth: 180,
+                        minwidth:130
+                      }}
+                      required={true}
+                      margin={{ laptop: "0 0 0 15px" }}
+                      IconStart={<WrapDate>{t("to")}</WrapDate>}
+                      inputStyle={{
+                        inpadding: "0 10px 0 0",
+                      }}
+                      value={filter?.regDate?.regDateTo}
+                      onChange={(e) =>
+                        setFilter((prev: any) => ({
+                          ...prev,
+                          regDate: {
+                            ...prev["regDate"],
+                            regDateTo: e.target.value,
+                          },
+                        }))
+                      }
+                    />
+                  </div>
+                </WrapInputs>
+              )}
+
               <WrapSelect>
                 <Controller
                   name="gender"
@@ -403,12 +544,12 @@ const CreateNews = () => {
                 render={({ field }) => (
                   <InputFormat
                     field={field}
-                    defaultValue={''}
+                    defaultValue={""}
                     max="100"
                     message={
-                      parseInt(watch('ageLimit')) > 100
-                        ? 'ageLimit: 100'
-                        : t('requiredField')
+                      parseInt(watch("ageLimit")) > 100
+                        ? "ageLimit: 100"
+                        : t("requiredField")
                     }
                     IconStart={<PlusIcon style={{ marginLeft: "20px" }} />}
                     label="Возрастное ограничение"
@@ -422,7 +563,7 @@ const CreateNews = () => {
                   <h6 style={{ width: "80%" }}>
                     {t("Использовать новость в формате Push-уведомления")}
                   </h6>
-                  <CustomToggle
+                  <CustomToggle 
                     onChange={(e: any) => handleOpenBlock(e, "push")}
                   />
                 </PushBlock>
@@ -438,12 +579,12 @@ const CreateNews = () => {
                         type="textarea"
                         multiline={true}
                         inputStyle={{
-                          height: { desktop: 120, laptop: 90, mobile: 60 },
+                          height: { desktop: 120, laptop: 90, mobile: 120 },
                         }}
-                        IconEnd={
+                        IconEnd={width>600 ? 
                           <WrapArea>
                             <TextAreaIcon />
-                          </WrapArea>
+                          </WrapArea>:''
                         }
                       />
                     )}
@@ -539,26 +680,56 @@ const CreateNews = () => {
                   />
                 </FormRow>
               )}
+              {width <= 600 && (
+                <Buttons>
+                  <div className="upside">
+                    <Button
+                      onClick={() => setCancel(true)}
+                      endIcon={<MobileCancelIcon />}
+                      buttonStyle={{
+                        bgcolor: "rgba(96, 110, 234, 0.1)",
+                        color: "#606EEA",
+                      }}
+                      margin={{ mobile: "0 8px 8px 0" }}
+                    >
+                      {t("cancel")}
+                    </Button>
+                  </div>
+                  <Button
+                    type="submit"
+                    endIcon={<SaveIcon />}
+                    buttonStyle={{
+                      bgcolor: "#606EEA",
+                      color: "#fff",
+                    }}
+                    margin={{ mobile: "0px 8px  8px  0" }}
+                  >
+                    {"Сохранить"}
+                  </Button>
+                </Buttons>
+              )}
             </RightSide>
           </Container>
         </UpSide>
-        <DownSide>
-          <Button
-            onClick={() => setCancel(true)}
-            startIcon={<CancelIcon />}
-            buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
-          >
-            Отменить
-          </Button>
-          <Button
-            // onClick={() => setSubmit(true)}
-            type="submit"
-            margin={{ laptop: "0 25px" }}
-            startIcon={<SaveIcon />}
-          >
-            Сохранить
-          </Button>
-        </DownSide>
+        {width > 600 && (
+          <DownSide>
+            <Button
+              onClick={() => setCancel(true)}
+              startIcon={<CancelIcon />}
+              buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
+            >
+              Отменить
+            </Button>
+            <Button
+              // onClick={() => setSubmit(true)}
+              type="submit"
+              margin={{ laptop: "0 25px" }}
+              startIcon={<SaveIcon />}
+            >
+              Сохранить
+            </Button>
+          </DownSide>
+        )}
       </Form>
     </Wrapper>
   );

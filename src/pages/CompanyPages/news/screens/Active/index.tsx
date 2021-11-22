@@ -3,13 +3,15 @@ import { Switch, Route, useHistory, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Spinner from "components/Custom/Spinner";
 import Table from "../../components/Table";
+import MobileTable from "../../components/MobileTable";
 import NoNews from "../../components/NoNews";
 import { NewsBar } from "../../components/NewsBar";
 import { setQuery, setSelectedNews } from "services/redux/Slices/news";
 import { SideBar } from "../../components/SideBar";
 import { useAppSelector, useAppDispatch } from "services/redux/hooks";
 import useData from "../useData";
-import DatePcker from 'components/Custom/DatePicker';
+import useWindowWidth from 'services/hooks/useWindowWidth';
+
 import {
   Container,
   Wrap,
@@ -59,7 +61,7 @@ const Active = () => {
     fromDate: '',
     toDate: '',
   };
-
+  const { width } = useWindowWidth();
   const [filterValues, setFilterValues] =
     useState<intialFilterProps>(intialFilter);
 
@@ -74,11 +76,12 @@ const Active = () => {
     dispatch(setSelectedNews(""));
   };
 
+  console.log('list',list)
   const newsById = selectedNews?.fullData;
 
   return (
     <Container>
-
+      {width>600 ? 
       <Wrap>
         {response.isLoading || response.isFetching ? (
           <WrapSpinner><Spinner/></WrapSpinner>
@@ -100,7 +103,7 @@ const Active = () => {
                 <Info>
                   {t("shown")}
                   <span>{between}</span>
-                  {t("from1")} <span>{totalNewsCount}</span> {t("news")}
+                  {t("from1")} <span>{totalNewsCount}</span> {t("новостей")}
                 </Info>
                 <Pagination
                   page={filterValues.page}
@@ -112,7 +115,45 @@ const Active = () => {
             ) : null}
           </>
         )}
-      </Wrap>
+      </Wrap>:
+      <Wrap>
+          {response.isLoading || response.isFetching ? (
+          <WrapSpinner><Spinner/></WrapSpinner>
+
+        )
+         : 
+         (
+          <>
+            {data.length > 0 ? (
+              <MobileTable refetch={response}  data={list} />
+            ) : (
+              <div style={{ paddingRight: "20%", paddingTop: "5%" }}>
+                <NoNews handleOpenSetting={handleOpenSetting} />
+              </div>
+            )}
+            <SideBar isOpen={newsById} maxWidth={"370px"}>
+              {newsById && <NewsBar refetch={response} currentNews={newsById} onClose={onClose} />}
+            </SideBar>
+            {list.length > 0 ? (
+              <WrapPag>
+                <Info>
+                  {t("shown")}
+                  <span>{between}</span>
+                  {t("from1")} <span>{totalNewsCount}</span> {t("новостей")}
+                </Info>
+                <Pagination
+                  page={filterValues.page}
+                  count={totalCount}
+                  onChange={handlechangePage}
+                  disabled={response.isLoading || response.isFetching}
+                  siblingCount={width<=600 ? 0 : 4}
+                />
+              </WrapPag>
+            ) : null}
+          </>
+        )
+        }
+        </Wrap>}
     </Container>
   );
 };

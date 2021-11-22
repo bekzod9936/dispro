@@ -14,6 +14,7 @@ interface IsettingsSlice {
   emptyBall: boolean;
   emptySale: boolean;
   toggleName: IToggle;
+  smallI: any;
 }
 const initialState: IsettingsSlice = {
   loyalty: "loyal",
@@ -40,6 +41,7 @@ const initialState: IsettingsSlice = {
   toggleName: {
     name: "",
   },
+  smallI: "",
 };
 
 const settingsSlice = createSlice({
@@ -82,6 +84,9 @@ const settingsSlice = createSlice({
     setChangeToggle: (state, action: PayloadAction<IToggle>) => {
       state.toggleName = action.payload;
     },
+    setSmallI: (state, action: PayloadAction<any>) => {
+      state.smallI = action.payload;
+    },
   },
 });
 
@@ -98,5 +103,6 @@ export const {
   setMEmptyBall,
   setMEmptySale,
   setChangeToggle,
+  setSmallI,
 } = settingsSlice.actions;
 export default settingsSlice.reducer;

@@ -30,28 +30,30 @@ export const THead = styled.thead`
   }
 `
 export const Td = styled.td`
-  padding: 15px;
-  text-align: center;
+  padding: 15px 0 15px 20px;
+  text-align: left;
   text-transform: capitalize;
   font-weight: normal;
   font-size: 16px;
   color: #223367;
   border-collapse: collapse;
   cursor: pointer;
-  @media (max-width: ${device.planshet}) {
+
+  /* @media (max-width: ${device.planshet}) {
     font-size: 14px;
     padding: 6px;
-  }
+  } */
   div {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
   }
   img {
     width: 40px;
     height: 40px;
     border-radius: 14px;
     margin-right: 20px;
+    object-fit: cover;
   }
 `;
 
@@ -71,23 +73,105 @@ export const Tbody = styled.tbody`
 
 export const TRow = styled.tr`
     border: none;
-    background-color: "transparent";
+    background-color: transparent;
 `
 
 export const Th = styled.th`
-  padding: 0 10px;
+  padding: 10px 0 10px 20px;
   border-collapse: collapse;
   font-weight: normal;
   font-size: 16px;
-  @media (max-width: ${device.planshet}) {
+  width: max-content;
+  text-align: left;
+  /* @media (max-width: ${device.planshet}) {
     font-size: 14px;
     padding: 6px;
-  }
+  } */
   color: #A5A5A5;
   border-radius: 14px 14px 0 0;
 `;
 
 export const Footer = styled.div`
   margin-top: 20px;
+  @media (max-width: ${device.mobile}) {
+    margin-left: 15px;
+  }
+`
+
+export const MobileTable = styled.div`
+  padding: 6px 0;
+  background: #FFFFFF;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
+  border-radius: 12px;
+  margin: 15px;
+`
+interface IMRow {
+  isEven: boolean
+}
+export const MTRow = styled.div`
+  padding: 10px 10px 7px 15px;
+  background-color: ${({ isEven }: IMRow) => isEven ? "rgba(96, 110, 234, 0.1)" : '#ffffff'};
+  width: 100%;
+  .recRow {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    img {
+      object-fit: cover;
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+    }
+    .right {
+      margin-left: 15px;
+      h3 {
+        font-size: 16px;
+        line-height: 18.75px;
+        color: #223367;
+        font-weight: 400;
+        margin-bottom: 3px;
+      }
+      p {
+        font-size: 14px;
+        line-height: 16.41px;
+        color: #787878;
+        font-weight: 300;
+        span {
+          color: #223367;
+        }
+      }
+    }
+  }
+  .date {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    font-size: 14px;
+    line-height: 16.41px;
+    color: #787878;
+    margin-bottom: 5px;
+    font-weight: 300;
+  }
+  .content {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    .left {
+      .type {
+        color: #223367;
+        font-weight: 300;
+        font-size: 14px;
+        line-height: 16.41px;
+        margin-bottom: 7px;
+      }
+      .value {
+        font-size: 16px;
+        font-weight: 700;
+        color: #223367;
+      }
+    }
+  }
 
 `

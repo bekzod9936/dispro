@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Header } from '../../components/Header/Header';
-import { Container, MainWrapper, Wrap } from '../../style/style';
+import { Container, MainWrapper, SpinnerWrapper, Wrap } from '../../style/style';
 import { Table } from '../../components/Table/Table';
 import Spinner from 'components/Helpers/Spinner';
 import { Footer } from '../../components/Footer/Footer';
@@ -68,7 +68,9 @@ const ClientsPage = () => {
 				<Header setQuery={setQuery} query={query} setModals={setModals} />
 				<Wrap>
 					{isFetching ? (
-						<Spinner />
+						<SpinnerWrapper>
+							<Spinner />
+						</SpinnerWrapper>
 					) : totalCount === 0 ? <EmptyPage /> : (
 						<Table />
 					)}

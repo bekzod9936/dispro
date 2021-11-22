@@ -1,12 +1,12 @@
-import NavBar from 'components/Custom/NavBar';
-import Title from 'components/Custom/Title';
-import Spinner from 'components/Custom/Spinner';
-import { Suspense } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Route, Switch } from 'react-router';
-import useFinanceRoute from './routes';
-import useLayout from 'components/Layout/useLayout';
-import { useAppSelector } from 'services/redux/hooks';
+import NavBar from "components/Custom/NavBar";
+import Title from "components/Custom/Title";
+import Spinner from "components/Custom/Spinner";
+import { Suspense } from "react";
+import { useTranslation } from "react-i18next";
+import { Route, Switch } from "react-router";
+import useFinanceRoute from "./routes";
+import useLayout from "components/Layout/useLayout";
+import { useAppSelector } from "services/redux/hooks";
 import {
   MainWrapper,
   WrapHeader,
@@ -18,15 +18,18 @@ import {
   TextLimit,
   WrapLimit,
   MainLimit,
-} from './style';
-import { numberWithNew } from 'services/utils';
+} from "./style";
+import { numberWithNew } from "services/utils";
+import { useRecoilState } from "recoil";
+import { mainLimit } from "services/atoms/info";
 
 const Finance = () => {
   const { t } = useTranslation();
   const { menuItems } = useFinanceRoute();
-  const companyId = localStorage.getItem('companyId');
+  const companyId = localStorage.getItem("companyId");
   const accountsBalance = useAppSelector((state) => state.info.balance);
-  const accountsLimit = useAppSelector((state) => state.info.limit);
+  // const accountsLimit = useAppSelector((state) => state.info.limit);
+  const accountsLimit = useRecoilState(mainLimit);
 
   const { resLimit } = useLayout({ id: companyId });
 
@@ -35,12 +38,12 @@ const Finance = () => {
       <Wrap>
         <WrapHeader>
           <LeftHeader>
-            <Title>{t('finances')}</Title>
+            <Title>{t("finances")}</Title>
             <MainLimit>
               <WrapLimit>
                 <DepositIcon />
                 <TitleLimit>
-                  {t('deposit')}
+                  {t("deposit")}
                   <TextLimit>
                     {`${numberWithNew({
                       number: accountsBalance,
@@ -52,10 +55,10 @@ const Finance = () => {
               <WrapLimit>
                 <ShieldIcon />
                 <TitleLimit>
-                  {t('limit')}
+                  {t("limit")}
                   <TextLimit>
                     {`${numberWithNew({
-                      number: accountsLimit,
+                      number: accountsLimit[0].limit,
                       defaultValue: 0,
                     })} UZS`}
                   </TextLimit>
@@ -63,7 +66,7 @@ const Finance = () => {
               </WrapLimit>
             </MainLimit>
 
-            <NavBar list={menuItems} padding='0 15px 0 0' margin='10px 0' />
+            <NavBar list={menuItems} padding="0 15px 0 0" margin="10px 0" />
           </LeftHeader>
         </WrapHeader>
         <Switch>
