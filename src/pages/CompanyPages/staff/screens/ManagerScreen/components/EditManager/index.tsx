@@ -73,7 +73,7 @@ const EditManager = ({ openEdit }: IProps) => {
 		editManager.mutate({
 			logo: logo,
 			id: selectedManagers[0].id,
-			storeId: data.storeId?.value,
+			storeName: data.storeName,
 			firstName: data.firstName,
 			lastName: data.lastName,
 			comment: data.comment,
@@ -88,14 +88,16 @@ const EditManager = ({ openEdit }: IProps) => {
 				(item: any) => item.value == selectedManagers[0].storeId
 			);
 			const tel: string = String(selectedManagers[0].telNumber).slice(4);
-			setValue('logo', selectedManagers?.logo);
+			// setValue('logo', selectedManagers[0]?.logo);
 			setValue('firstName', firstname);
 			setValue('lastName', selectedManagers[0].lastName);
 			setValue('comment', selectedManagers[0].comment);
 			setValue('telNumber', tel);
-			setValue('storeId', selectedManagers[0].storeId);
+			// setValue('storeName', selectedManagers[0].store.name);
 		}
 	}, [selectedManagers]);
+
+	// console.log(selectedManagers[0].store.name);
 
 	const tel: any = getValues();
 
@@ -123,7 +125,6 @@ const EditManager = ({ openEdit }: IProps) => {
 		setFile(data.target.files[0]);
 		setIsCropVisible(true);
 	};
-	console.log('file1', file);
 
 	return (
 		<Modal open={openEdit}>
@@ -276,13 +277,14 @@ const EditManager = ({ openEdit }: IProps) => {
 						<FormRow>
 							<Controller
 								control={control}
-								name='storeId'
+								name='storeName'
 								rules={{
 									required: true,
 								}}
 								render={({ field }) => {
 									return (
 										<MultiSelect
+											defaultValue={'storeName'}
 											icon={<Market />}
 											selectStyle={{
 												bgcolor: '#eff0fd',
@@ -301,7 +303,7 @@ const EditManager = ({ openEdit }: IProps) => {
 												laptop: '20px 0 25px',
 											}}
 											message={t('requiredField')}
-											error={errors.storeId ? true : false}
+											error={errors.storeName ? true : false}
 											field={field}
 											isClearable={false}
 										/>

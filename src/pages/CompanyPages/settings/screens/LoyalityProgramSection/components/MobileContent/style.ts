@@ -176,7 +176,7 @@ interface IText {
 export const MainText = styled.p`
   font-family: Roboto;
   font-style: normal;
-  font-weight: 300;
+  font-weight: ${({ disabled }: IText) => (disabled ? "bold" : 300)};
   font-size: 14px;
   line-height: 16px;
   color: ${({ disabled = false }: IText) => (disabled ? "#c7c7c7" : "#3492ff")};

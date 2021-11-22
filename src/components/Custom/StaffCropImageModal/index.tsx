@@ -1,6 +1,5 @@
 import React from 'react';
 import Modal from 'components/Custom/Modal';
-import iphone from 'assets/images/iphone.png';
 import ReactCrop from 'react-image-crop';
 import Button from 'components/Custom/Button';
 import {
@@ -9,18 +8,7 @@ import {
 } from 'assets/icons/ClientsPageIcons/ClientIcons';
 import { SaveIcon } from 'assets/icons/InfoPageIcons/InfoPageIcons';
 import 'react-image-crop/dist/ReactCrop.css';
-import {
-	Header,
-	Left,
-	PreviewBgNews,
-	PreviewBg,
-	PreviewContent,
-	PreviewDiv,
-	PreviewDivNews,
-	LeftRound,
-	Center,
-	Wrapper,
-} from './style';
+import { Header, Center, Wrapper } from './style';
 import { useAppSelector } from 'services/redux/hooks';
 import { RootState } from 'services/redux/store';
 import { useTranslation } from 'react-i18next';
@@ -42,9 +30,7 @@ const StaffCropCustomModal = ({
 	setIsCropVisible,
 	setFile,
 	handleUpload,
-	isCoupon,
 	setIsLoading,
-	coupon,
 }: IProps) => {
 	const { logo, name } = useAppSelector(
 		(state: RootState) => state.partner.companyInfo
@@ -57,7 +43,7 @@ const StaffCropCustomModal = ({
 	const [crop, setCrop] = React.useState<any>({
 		unit: '%',
 		width: 20,
-		aspect: 1 / 1,
+		aspect: 2 / 2,
 	});
 
 	React.useEffect(() => {
@@ -75,7 +61,6 @@ const StaffCropCustomModal = ({
 				setIsLoading(true);
 			}
 			setIsCropVisible(false);
-			console.log(imageUrl);
 
 			await handleUpload(imageUrl);
 			if (setIsLoading) {

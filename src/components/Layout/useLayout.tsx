@@ -1,20 +1,21 @@
 import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { useSetRecoilState } from 'recoil';
-import { setLimitAccounts } from 'services/atoms/info/selector';
-import { setBadgeData } from 'services/atoms/info/badge';
-
-import { fetchBadge, fetchLimitFinance } from 'services/queries/InfoQuery';
-import { fetchInfo } from 'services/queries/partnerQuery';
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import { setStaffId } from 'services/redux/Slices/authSlice';
-import {
-  setAccounts,
-  setBalanceAccounts,
-  setInfoData,
-  // setLimitAccounts,
-} from 'services/redux/Slices/info/info';
+import { setAccounts, setInfoData } from 'services/redux/Slices/info/info';
 import { setCompanyInfo } from '../../services/redux/Slices/partnerSlice';
+
+//queries
+import { fetchBadge, fetchLimitFinance } from 'services/queries/InfoQuery';
+import { fetchInfo } from 'services/queries/partnerQuery';
+
+//selectors
+import {
+  setLimitAccounts,
+  setBalanceAccounts,
+} from 'services/atoms/info/selector';
+import { setBadgeData } from 'services/atoms/info/badge';
 
 interface Props {
   name?: string;
@@ -31,8 +32,8 @@ const useLayout = ({ id }: LProps) => {
   const companyId = localStorage.getItem('companyId');
 
   const setLimit = useSetRecoilState(setLimitAccounts);
+  const setBalance = useSetRecoilState(setBalanceAccounts);
   const setBadge = useSetRecoilState(setBadgeData);
-
   const [headerData, setData] = useState<Props>({
     filled: false,
     filledAddress: false,
@@ -61,7 +62,7 @@ const useLayout = ({ id }: LProps) => {
         dispatch(setAccounts(data?.data?.data?.accounts));
         // dispatch(setLimitAccounts(data?.data?.data?.accounts[0]?.limit));
         setLimit({ limit: data?.data?.data?.accounts[0]?.limit });
-        dispatch(setBalanceAccounts(data?.data?.data?.accounts[0]?.balance));
+        setBalance({ balance: data?.data?.data?.accounts[0]?.balance });
       },
       keepPreviousData: true,
       refetchOnWindowFocus: false,

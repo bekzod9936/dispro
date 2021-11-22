@@ -7,6 +7,6 @@ export interface FormProps {
   firstName: string;
   lastName: string;
   comment?: string;
-  storeId: any;
+  storeName: any;
   telNumber: string;
 }
