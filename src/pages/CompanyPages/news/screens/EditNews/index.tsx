@@ -72,8 +72,11 @@ const EditNews = () => {
   const history = useHistory();
 
   const companyId: any = localStorage.getItem("companyId");
-  const { dataAddress,} = useAddress({
-    id: companyId,
+  // const { dataAddress,} = useAddress({
+  //   id: companyId,
+  // });
+    const { dataAddress,} = useAddress({
+   id: companyId,
   });
 
   const selectedNews = useAppSelector((state) => state.news.selectedNews);
@@ -206,9 +209,9 @@ const EditNews = () => {
         el == 0
           ? "Воскресенье"
           : el == 1
-          ? "Вторник"
+          ? "Понедельник"
           : el == 2
-          ? "tuesday"
+          ? "Вторник"
           : el == 3
           ? "Среда"
           : el == 4

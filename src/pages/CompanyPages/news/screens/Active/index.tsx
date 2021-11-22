@@ -103,7 +103,7 @@ const Active = () => {
                 <Info>
                   {t("shown")}
                   <span>{between}</span>
-                  {t("from1")} <span>{totalNewsCount}</span> {t("news")}
+                  {t("from1")} <span>{totalNewsCount}</span> {t("новостей")}
                 </Info>
                 <Pagination
                   page={filterValues.page}
@@ -139,7 +139,7 @@ const Active = () => {
                 <Info>
                   {t("shown")}
                   <span>{between}</span>
-                  {t("from1")} <span>{totalNewsCount}</span> {t("news")}
+                  {t("from1")} <span>{totalNewsCount}</span> {t("новостей")}
                 </Info>
                 <Pagination
                   page={filterValues.page}

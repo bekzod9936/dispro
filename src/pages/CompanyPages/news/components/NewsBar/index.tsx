@@ -85,7 +85,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
     setDeleteOpen(false);
     onClose(false);
   };
-
+console.log('gender',currentNews?.genderType )
   return (
     <Wrapper>
       <Header>
@@ -106,12 +106,12 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
           />
         </PreviewDivNews>
         <h5>{currentNews?.data?.title?.length>50 ? currentNews?.data?.title?.slice(0,30)+'...':currentNews?.data?.title}</h5>
-        <p>{currentNews?.data?.description?.length> 50 ? currentNews?.data?.description?.slice(0,50)+'...':currentNews?.data?.description}</p>
+        <p>{currentNews?.data?.description?.length> 150 ? currentNews?.data?.description?.slice(0,150)+'...':currentNews?.data?.description}</p>
       </LeftRound>
       <ContentSideBar>
         <ContentInfo>
           <h5>Информация</h5>
-          <p>Только для {currentNews?.genderType}</p>
+          <p>{currentNews?.genderType ==='Для всех' ?  ''+ currentNews?.genderType :`Толка для ${currentNews?.genderType}` }</p>
           <p>Срок публикации: {currentNews?.date}</p>
           <p>Возрастное ограничения: {currentNews?.data?.ageFrom}+</p>
         </ContentInfo>
@@ -217,7 +217,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
       </ContentSideBar>
       <Modal open={isDeleteOpen}>
         <DeleteModal>
-          <h5>Вы действительно хотите удалить Новость?</h5>
+          <h5>Вы действительно хотите удалить новость?</h5>
           <p>{'После удаления новости , данные будет утеряны'}</p>
           <Button
             buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}

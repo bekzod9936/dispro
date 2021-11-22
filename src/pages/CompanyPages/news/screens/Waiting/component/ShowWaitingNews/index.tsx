@@ -112,8 +112,8 @@ const ShowWaitingNews = () => {
         </PreviewContent>
         <Content>
         <h5>Информация</h5>
-        <p>{newsById?.data?.genderType===1 ? 'Только для мужчин':newsById?.data?.genderType===2 ? 'Только для женщины':'для всех'}</p>
-        <p>Срок публикции: {date}</p>
+        <p>{newsById?.data?.genderType===1 ? 'Только для мужчин':newsById?.data?.genderType===2 ? 'Только для женщины':'Для всех'}</p>
+        <p>Срок публикации: {date}</p>
         <p>Возрастное ограничение: {newsById?.data?.ageFrom+'+'}</p>
         <div
               style={{
