@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IInfo, IAccounts } from './types';
+import { IInfo, IAccounts, RProps } from './types';
 
 interface Props {
   data?: IInfo;
@@ -8,6 +8,7 @@ interface Props {
   accounts?: IAccounts[];
   balance?: number;
   limit?: number;
+  regions?: RProps[];
 }
 
 export const initialState: Props = {
@@ -48,6 +49,7 @@ export const initialState: Props = {
   accounts: [],
   balance: 0,
   limit: 0,
+  regions: [],
 };
 
 const info = createSlice({
@@ -72,6 +74,10 @@ const info = createSlice({
     setAccounts: (state, action: PayloadAction<IAccounts[]>) => {
       state.accounts = action.payload;
     },
+    setRegions1: (state, action: PayloadAction<RProps[]>) => {
+      console.log(action.payload, 'act');
+      state.regions = action.payload;
+    },
   },
 });
 
@@ -82,5 +88,6 @@ export const {
   setAccounts,
   setLimitAccounts,
   setBalanceAccounts,
+  setRegions1,
 } = info.actions;
 export default info.reducer;

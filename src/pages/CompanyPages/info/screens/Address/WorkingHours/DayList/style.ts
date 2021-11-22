@@ -114,6 +114,7 @@ export const Wrapper = styled.div`
   align-items: center;
   justify-content: space-between;
 `;
+
 export const WrapperTimes = styled.div`
   display: flex;
   flex-direction: column;

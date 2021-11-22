@@ -10,6 +10,7 @@ import useWindowWidth from 'services/hooks/useWindowWidth';
 import FullModal from 'components/Custom/FullModal';
 import { IconButton } from '@material-ui/core';
 import Tabs from '../../../../components/Tabs';
+import SaveButton from '../../../../components/Buttons/SaveButton';
 import {
   Container,
   Content,
@@ -309,6 +310,14 @@ const DayList = ({
           />
           <Label htmlFor='applyallday'>{t('copydate')}</Label>
         </WrapCheck>
+        {width > 600 ? null : (
+          <SaveButton
+            margin={{
+              laptop: '20px 0 0',
+              mobile: '0',
+            }}
+          />
+        )}
       </FormControl>
     </Content>
   );

@@ -169,11 +169,15 @@ export const DeleteIcon = styled(Delete)`
   }
 `;
 
+interface IText {
+  disabled?: boolean;
+}
+
 export const MainText = styled.p`
   font-family: Roboto;
   font-style: normal;
   font-weight: 300;
   font-size: 14px;
   line-height: 16px;
-  color: #3492ff;
+  color: ${({ disabled = false }: IText) => (disabled ? "#c7c7c7" : "#3492ff")};
 `;

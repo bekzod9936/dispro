@@ -229,10 +229,12 @@ const Photos = () => {
       {width <= 600 && images.length > 0 ? (
         <DownSide>
           <div>
-            <LabelNoPhoto htmlFor='photosloading'>
-              <span>{t('addphoto')}</span>
-              <PhotoIcon />
-            </LabelNoPhoto>
+            {images.length === 10 ? null : (
+              <LabelNoPhoto htmlFor='photosloading'>
+                <span>{t('addphoto')}</span>
+                <PhotoIcon />
+              </LabelNoPhoto>
+            )}
             <SaveButton
               onClick={handleSubmit}
               margin={{

@@ -65,3 +65,5 @@ export interface IInfo {
   type?: number;
   workingTime?: IWorkTime | null;
 }
+
+export interface  RProps { label?: string; value?: string | number }

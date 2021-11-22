@@ -40,7 +40,6 @@ function TabPanel(props: TabPanelProps) {
 const MTabs = ({ listTabs, active, Content, onActive = () => {} }: Props) => {
   const handleChange = (event: any, newValue: any) => {
     onActive(newValue);
-    console.log(newValue);
   };
 
   return (

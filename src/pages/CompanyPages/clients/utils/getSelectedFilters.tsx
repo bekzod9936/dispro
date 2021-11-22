@@ -119,20 +119,20 @@ export const useHandleGetFilters = ({ filters, handleRemove, referals }: IProps)
     );
   }
   if (purchaseAmount) {
-    if (purchaseAmount.purchaseCountTo !== "" || purchaseAmount.purchaseCountTo !== "") {
+    if (!!purchaseAmount.purchaseCountFrom || !!purchaseAmount.purchaseCountTo) {
       result.push(
         <SelectedFilter>
-          {purchaseAmount?.purchaseCountFrom && (purchaseAmount?.purchaseCountFrom !== "") && (
+          {!!purchaseAmount.purchaseCountFrom && (purchaseAmount.purchaseCountFrom !== "") && (
             <p>
-              Кол-во покупок: {t("from")}: {numberWith(purchaseAmount?.purchaseCountFrom + "", " ")}
+              Кол-во покупок: {t("from")}: {numberWith(purchaseAmount.purchaseCountFrom + "", " ")}
             </p>
           )}
-          {purchaseAmount?.purchaseCountTo && (purchaseAmount?.purchaseCountTo !== "") && (
+          {!!purchaseAmount.purchaseCountTo && (purchaseAmount.purchaseCountTo !== "") && (
             <p>
-              {!purchaseAmount?.purchaseCountFrom && "Кол-во покупок: "}{t("to")}: {numberWith(purchaseAmount?.purchaseCountTo + "", " ")}
+              {!purchaseAmount.purchaseCountFrom && "Кол-во покупок: "}{t("to")}: {numberWith(purchaseAmount.purchaseCountTo + "", " ")}
             </p>
           )}
-          {(purchaseAmount.purchaseCountFrom !== "" || purchaseAmount.purchaseCountTo !== "") && <RemoveFilterBtn onClick={() => handleRemove("purchaseAmount")} />}
+          {(!!purchaseAmount.purchaseCountFrom || !!purchaseAmount.purchaseCountTo) && <RemoveFilterBtn onClick={() => handleRemove("purchaseAmount")} />}
         </SelectedFilter>
       );
     }

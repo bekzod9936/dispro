@@ -58,6 +58,7 @@ import {
 } from './style';
 import FullModal from 'components/Custom/FullModal';
 import useWindowWidth from 'services/hooks/useWindowWidth';
+import MultiSelect from 'components/Custom/MultiSelect';
 
 interface FormProps {
   address?: string;
@@ -65,7 +66,7 @@ interface FormProps {
   name?: string;
   aroundTheClock?: boolean;
   telNumbers?: any;
-  regionId?: number;
+  regionId?: { value?: number; title?: string };
   id?: number;
   isMain?: boolean;
 }
@@ -85,7 +86,14 @@ const Address = () => {
   const { t } = useTranslation();
   const { width } = useWindowWidth();
   const companyId: any = localStorage.getItem('companyId');
-  const { responseAddress, dataAddress, weeks, inntialWorkTime } = useAddress({
+  const {
+    responseAddress,
+    dataAddress,
+    weeks,
+    inntialWorkTime,
+    responseRegions,
+    regions,
+  } = useAddress({
     id: companyId,
   });
   const dispatch = useAppDispatch();
@@ -105,6 +113,7 @@ const Address = () => {
   const [palceOptions, setPalceOptions] = useState<any[]>([]);
   const [place, setPlace] = useState<any[]>([]);
   const [edit, setEdit] = useState<boolean>(false);
+  const [add, setAdd] = useState<boolean>(false);
   const [mapAddress, setMapAddress] = useState({ name: '' });
   const [send, setSendDate] = useState<any>({
     aroundTheClock: false,
@@ -133,12 +142,11 @@ const Address = () => {
   });
 
   const infoData = useAppSelector((state) => state.info.data);
+
   const regFilled = useAppSelector((state) => {
     return state.auth.regFilled;
   });
-  const fill =
-    (infoData?.filled && infoData?.filledAddress) ||
-    (regFilled?.filled && regFilled?.filledAddress);
+  const fill = infoData?.filledAddress || regFilled?.filledAddress;
 
   const {
     control,
@@ -233,18 +241,24 @@ const Address = () => {
   };
 
   const handleChoosFillial = (v: any) => {
+    const region = regions.filter((a: any) => {
+      if (a.value === v.regionId) {
+        return a;
+      }
+    });
+
     const newNumbers = v.telNumbers.map((v: any) => {
       return { number: +v.slice(4) };
     });
-
+    setAdd(true);
     setPlace([v?.location.lat, v?.location.lng]);
-    yandexRef?.setCenter([v?.location.lat, v?.location.lng], 100);
+    yandexRef?.setCenter([v?.location.lat, v?.location.lng], 18);
     setOpen(false);
     setValue('id', v.id);
     setValue('name', v.name);
     setSearchAddress(v.address);
     setValue('address', v.address);
-    setValue('regionId', v.regionId);
+    setValue('regionId', region[0]);
     setValue('telNumbers', newNumbers);
     setValue('addressDesc', v.addressDesc);
     setIsMain(v.isMain);
@@ -299,6 +313,8 @@ const Address = () => {
 
   const handlePluseClick = () => {
     setOpen(false);
+    setAdd(false);
+
     setMapAddress({ name: '' });
     setValue('address', '');
     yandexRef?.setCenter([41.32847446609404, 69.24298268717716], 10);
@@ -307,7 +323,7 @@ const Address = () => {
     setValue('name', '');
     setValue('telNumbers', [{ number: '' }]);
     setEdit(true);
-    setValue('regionId', 0);
+    setValue('regionId', undefined);
     setPlace(['']);
     setworkingTime({ aroundTheClock: false, work: defaultTime });
     setIsMain(!data.filledAddress);
@@ -331,7 +347,7 @@ const Address = () => {
         setValue('name', '');
         setSearchAddress('');
         setValue('address', '');
-        setValue('regionId', 0);
+        setValue('regionId', undefined);
         setValue('telNumbers', [{ number: '' }]);
         setValue('addressDesc', '');
         setSendDate({ aroundTheClock: false, work: inntialWorkTime });
@@ -436,7 +452,7 @@ const Address = () => {
       isMain: e.isMain,
       address: e.address,
       addressDesc: e.addressDesc,
-      regionId: 0,
+      regionId: e?.regionId?.value,
       telNumbers: e.telNumbers.map((v: any) => `+998${v?.number}`),
       companyId: +companyId,
       location: { lat: place[0], lng: place[1] },
@@ -459,7 +475,7 @@ const Address = () => {
     const values = {
       address: e.address,
       addressDesc: e.addressDesc,
-      regionId: 0,
+      regionId: e?.regionId?.value,
       telNumbers: e.telNumbers.map((v: any) => `+998${v?.number}`),
       companyId: +companyId,
       location: { lat: place[0], lng: place[1] },
@@ -483,6 +499,7 @@ const Address = () => {
             yandexRef?.setCenter([41.32847446609404, 69.24298268717716], 10);
             setPlace([]);
             setNewComp(true);
+            dispatch(setAddressAdding(false));
           });
       }
     }
@@ -499,7 +516,7 @@ const Address = () => {
       setValue('name', '');
       setValue('telNumbers', [{ number: '' }]);
       setEdit(true);
-      setValue('regionId', 0);
+      setValue('regionId', undefined);
       setPlace(['']);
       setworkingTime({ aroundTheClock: false, work: defaultTime });
       setIsMain(!data.filledAddress);
@@ -517,7 +534,7 @@ const Address = () => {
     setValue('name', '');
     setSearchAddress('');
     setValue('address', '');
-    setValue('regionId', 0);
+    setValue('regionId', undefined);
     setValue('telNumbers', [{ number: '' }]);
     setValue('addressDesc', '');
     setSendDate({
@@ -537,10 +554,26 @@ const Address = () => {
     >
       {open ? null : (
         <WrapClose>
-          <Title>{t('newbranch')}</Title>
-          <IconButton onClick={onClose}>
-            <CloseIcon />
-          </IconButton>
+          {fill ? (
+            <>
+              {edit ? (
+                <Title>{t('newbranch')}</Title>
+              ) : add ? (
+                isMain ? (
+                  <Title>{t('mainaddress')}</Title>
+                ) : (
+                  <Title>{t('fillialcompany')}</Title>
+                )
+              ) : null}
+            </>
+          ) : (
+            <Title>{t('mainaddress')}</Title>
+          )}
+          {fill ? (
+            <IconButton onClick={onClose}>
+              <CloseIcon />
+            </IconButton>
+          ) : null}
         </WrapClose>
       )}
       <LeftSide>
@@ -593,6 +626,25 @@ const Address = () => {
               />
             </YandexContainer>
           </MobileMap>
+          <Controller
+            name='regionId'
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <MultiSelect
+                isLoading={responseRegions.isLoading}
+                options={regions}
+                label={t('chooseregion')}
+                margin={{
+                  laptop: '20px 0 25px',
+                }}
+                message={t('requiredField')}
+                error={errors.regionId ? true : false}
+                field={field}
+                isClearable={false}
+              />
+            )}
+          />
           <Title>{t('addressClarification')}</Title>
           <Text>{t('enterOrientationText')}</Text>
           <Controller
@@ -718,6 +770,7 @@ const Address = () => {
                 mobile={true}
               />
             )}
+
             <SaveButton
               onClick={() => handleSaveClick()}
               disabled={
@@ -771,7 +824,7 @@ const Address = () => {
             }
             margin={{
               laptop: '20px 0 0',
-              mobile: '0',
+              mobile: '10px 0 0 0',
             }}
           />
           {isMain || edit ? null : (
@@ -901,7 +954,7 @@ const Address = () => {
             </div>
           </AddWrap>
         </>
-      ) : width > 600 ? (
+      ) : width > 600 || !fill ? (
         formcontent
       ) : (
         <FullModal open={!open}>
@@ -910,22 +963,30 @@ const Address = () => {
               <IconButton onClick={onClose} style={{ width: 'fit-content' }}>
                 <LeftIcon />
               </IconButton>
-              <Title>{t('newbranch')}</Title>
+              {isMain ? (
+                <Title>{t('mainaddress')}</Title>
+              ) : edit ? (
+                <Title>{t('newbranch')}</Title>
+              ) : add ? (
+                <Title>{t('fillialcompany')}</Title>
+              ) : null}
             </WrapModalClose>
             {formcontent}
           </>
         </FullModal>
       )}
       <Rightside>
-        <YandexContainer bcolor={mapError}>
-          <YandexMap
-            onBoundsChange={onBoundsChange}
-            handleRef={(e: any) => setYandexRef(e)}
-            place={place}
-            onClickPlaceMark={onClickPlace}
-            placeOptions={palceOptions}
-          />
-        </YandexContainer>
+        {width > 600 ? (
+          <YandexContainer bcolor={mapError}>
+            <YandexMap
+              onBoundsChange={onBoundsChange}
+              handleRef={(e: any) => setYandexRef(e)}
+              place={place}
+              onClickPlaceMark={onClickPlace}
+              placeOptions={palceOptions}
+            />
+          </YandexContainer>
+        ) : null}
       </Rightside>
       {newComp ? <NewCompanyNotification /> : null}
     </Container>

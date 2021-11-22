@@ -1,16 +1,25 @@
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 const useDetail = () => {
   const { t } = useTranslation();
 
-  const loyalityOptions = [
-    { value: 1, label: t("purchaseSum") },
-    { value: 3, label: t("companyVisits") },
-    {
-      value: 2,
-      label: t("recomendations"),
-    },
-  ];
+  const loyalityOptions = useMemo(
+    () => [
+      { value: 1, label: t("purchaseSum") },
+      { value: 3, label: t("companyVisits") },
+      {
+        value: 2,
+        label: t("recomendations"),
+      },
+    ],
+    [t]
+  );
+
+  const oneFullOptions = useMemo(
+    () => [{ value: "and", label: t("and") }],
+    [t]
+  );
 
   const labelType = (value: string | number) => {
     if (value === 1) {
@@ -26,6 +35,7 @@ const useDetail = () => {
   return {
     labelType,
     loyalityOptions,
+    oneFullOptions,
   };
 };
 
