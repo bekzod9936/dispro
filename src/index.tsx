@@ -42,7 +42,7 @@ ReactDOM.render(
           <StylesProvider injectFirst>
             <Provider store={store}>
               <QueryClientProvider client={queryClient}>
-                <BrowserRouter basename="/index.html">
+                <BrowserRouter basename="/">
                   <App />
                 </BrowserRouter>
               </QueryClientProvider>
