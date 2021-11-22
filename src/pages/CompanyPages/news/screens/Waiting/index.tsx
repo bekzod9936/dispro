@@ -129,6 +129,7 @@ const Active = () => {
                   count={totalCount}
                   onChange={handlechangePage}
                   disabled={response.isLoading || response.isFetching}
+                  siblingCount={width<=600 ? 0 : 4}
                 />
               </WrapPag>
             ) : null}
