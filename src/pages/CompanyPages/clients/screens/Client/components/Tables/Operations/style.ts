@@ -30,22 +30,23 @@ export const THead = styled.thead`
   }
 `
 export const Td = styled.td`
-  padding: 15px;
-  text-align: center;
+  padding: 15px 0 15px 20px;
+  text-align: left;
   text-transform: capitalize;
   font-weight: normal;
   font-size: 16px;
   color: #223367;
   border-collapse: collapse;
   cursor: pointer;
-  @media (max-width: ${device.planshet}) {
+
+  /* @media (max-width: ${device.planshet}) {
     font-size: 14px;
     padding: 6px;
-  }
+  } */
   div {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
   }
   img {
     width: 40px;
@@ -72,18 +73,20 @@ export const Tbody = styled.tbody`
 
 export const TRow = styled.tr`
     border: none;
-    background-color: "transparent";
+    background-color: transparent;
 `
 
 export const Th = styled.th`
-  padding: 0 10px;
+  padding: 10px 0 10px 20px;
   border-collapse: collapse;
   font-weight: normal;
   font-size: 16px;
-  @media (max-width: ${device.planshet}) {
+  width: max-content;
+  text-align: left;
+  /* @media (max-width: ${device.planshet}) {
     font-size: 14px;
     padding: 6px;
-  }
+  } */
   color: #A5A5A5;
   border-radius: 14px 14px 0 0;
 `;
