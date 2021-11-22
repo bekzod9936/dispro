@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { ReactComponent as Close } from 'assets/icons/IconsInfo/close.svg';
 import { ReactComponent as Tick } from 'assets/icons/tick.svg';
 import { ReactComponent as Across } from 'assets/icons/SideBar/close.svg';
-
 import { device } from 'styles/device';
 
 export const Container = styled.div`
@@ -28,6 +27,9 @@ export const Container = styled.div`
     font-weight: 300;
     font-size: 14px;
     cursor: pointer;
+  }
+  @media (max-width: ${device.mobile}) {
+    display: none;
   }
 `;
 
