@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-
+import { device } from "styles/device"
 export const Container = styled.div`
   overflow: hidden;
   height: 100%;
@@ -40,6 +40,9 @@ export const Wrap = styled.div`
     background: #606eea;
     border-radius: 14px 0px 0px 14px;
   }
+  @media (max-width: ${device.mobile}) {
+    padding:0px 15px;
+  }
 `;
 
 export const WrapPag = styled.div`
@@ -47,6 +50,12 @@ export const WrapPag = styled.div`
   justify-content: space-between;
   align-items: center;
   margin: 20px 0;
+  @media (max-width: ${device.mobile}) {
+  
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
 `;
 
 export const Info = styled.div`
@@ -56,6 +65,13 @@ export const Info = styled.div`
     font-weight: 900;
     margin: 0px 5px;
     font-size: 18px;
+  }
+  @media (max-width: ${device.mobile}) {
+    margin-bottom: 15px;
+    font-size: 16px;
+    span {
+      font-size: 16px;
+    }
   }
 `;
 

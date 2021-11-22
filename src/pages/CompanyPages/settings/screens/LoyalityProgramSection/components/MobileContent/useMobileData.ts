@@ -40,6 +40,7 @@ const useMobileData = () => {
     formState: { errors },
     setValue,
     handleSubmit,
+    getValues,
   } = useForm();
 
   //fetching data
@@ -342,6 +343,7 @@ const useMobileData = () => {
     alertName,
     checkL,
     setCheckL,
+    getValues,
   };
 };
 

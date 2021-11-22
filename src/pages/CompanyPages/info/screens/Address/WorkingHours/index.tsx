@@ -1,7 +1,9 @@
 import { Checkbox } from '@material-ui/core';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import useWindowWidth from 'services/hooks/useWindowWidth';
 import DayList from './DayList';
+import MobileDaylist from './MobileDayList';
 import { Container, Label } from './style';
 
 interface Props {
@@ -28,6 +30,7 @@ interface WProps {
 
 const WorkingHours = ({ workingTime, getTime = () => {} }: Props) => {
   const { t } = useTranslation();
+  const { width } = useWindowWidth();
   const [check, setCheck] = useState<boolean>(false);
 
   const [work, setWork] = useState<WProps[]>();
@@ -43,9 +46,27 @@ const WorkingHours = ({ workingTime, getTime = () => {} }: Props) => {
     getTime({ aroundTheClock: e.target.checked, work: work });
   };
 
-  const handleChangeTime = (e: any) => {
-    const newDate = work?.map((v: any) => {
-      if (v.day === e.day) {
+  const handleCopy = (id: any) => {
+    if (id) {
+      const newDate = work?.map((v: any) => {
+        const sort = work?.filter((i: any) => i.day === id);
+        return {
+          day: v.day,
+          dayOff: sort[0].dayOff,
+          wHours: sort[0].wHours,
+          bHours: sort[0].bHours,
+          weekday: v.weekday,
+        };
+      });
+      setWork(newDate);
+      console.log(newDate);
+      getTime({ aroundTheClock: check, work: newDate });
+    }
+  };
+
+  const handleChangeTime = async (e: any) => {
+    if (e?.copy) {
+      const newDate = await work?.map((v: any) => {
         return {
           day: v.day,
           dayOff: e?.dayOff === undefined ? v.dayOff : e?.dayOff,
@@ -63,25 +84,32 @@ const WorkingHours = ({ workingTime, getTime = () => {} }: Props) => {
             : v?.bHours,
           weekday: v?.weekday,
         };
-      } else {
-        return v;
-      }
-    });
-    setWork(newDate);
-    getTime({ aroundTheClock: check, work: newDate });
-  };
-
-  const handleCopy = (id: any) => {
-    if (id) {
-      const newDate = work?.map((v: any) => {
-        const sort = work?.filter((i: any) => i.day === id);
-        return {
-          day: v.day,
-          dayOff: sort[0].dayOff,
-          wHours: sort[0].wHours,
-          bHours: sort[0].bHours,
-          weekday: v.weekday,
-        };
+      });
+      setWork(newDate);
+      getTime({ aroundTheClock: check, work: newDate });
+    } else {
+      const newDate = await work?.map((v: any) => {
+        if (v.day === e.day) {
+          return {
+            day: v.day,
+            dayOff: e?.dayOff === undefined ? v.dayOff : e?.dayOff,
+            wHours: e?.wHours
+              ? {
+                  from: e?.wHours?.from ? e?.wHours?.from : v?.wHours?.from,
+                  to: e?.wHours?.to ? e?.wHours?.to : v?.wHours?.to,
+                }
+              : v?.wHours,
+            bHours: e?.bHours
+              ? {
+                  from: e?.bHours?.from ? e?.bHours?.from : v?.bHours?.from,
+                  to: e?.bHours?.to ? e?.bHours?.to : v?.bHours?.to,
+                }
+              : v?.bHours,
+            weekday: v?.weekday,
+          };
+        } else {
+          return v;
+        }
       });
       setWork(newDate);
       getTime({ aroundTheClock: check, work: newDate });
@@ -97,7 +125,7 @@ const WorkingHours = ({ workingTime, getTime = () => {} }: Props) => {
         onChange={handleCheck}
       />
       <Label htmlFor='aroundTheClock'>{t('24/7')}</Label>
-      {check ? null : (
+      {check ? null : width > 600 ? (
         <Container>
           {work?.map((v: any) => (
             <DayList
@@ -107,6 +135,10 @@ const WorkingHours = ({ workingTime, getTime = () => {} }: Props) => {
               onChange={handleChangeTime}
             />
           ))}
+        </Container>
+      ) : (
+        <Container>
+          <MobileDaylist list={work} onChange={handleChangeTime} />
         </Container>
       )}
     </>

@@ -3,18 +3,21 @@ import { useMutation, useQuery } from "react-query";
 import { useHistory } from "react-router-dom";
 
 import Button from "components/Custom/Button";
-import { Form, WrapInputs, Label, WrapDate, Container } from "./style";
+import { Form, WrapInputs, Label, WrapDate, Container,PeriodWrapper } from "./style";
 import { useState } from "react";
 import Input from "components/Custom/Input";
 import { useTranslation } from "react-i18next";
 import { todayDate, nextDay } from "./constants";
 import { useAppSelector } from "services/redux/hooks";
 import { fetchUpdateNews } from "services/queries/newPageQuery";
+import dayjs from "dayjs";
+import useWindowWidth from "services/hooks/useWindowWidth";
 import {
   CancelIcon,
   CloseIcon,
 } from "assets/icons/ClientsPageIcons/ClientIcons";
 import { WhitePublishIcon } from "assets/icons/news/newsIcons";
+import { MobileCancelIcon, PublishIcon } from "assets/icons/proposals/ProposalsIcons";
 interface PublicClick {
   setPublisOpen?: any;
 }
@@ -22,15 +25,17 @@ interface PublicClick {
 export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
   const selectedNews = useAppSelector((state) => state.news.selectedNews);
   const updatedNews = selectedNews?.fullData?.data;
+  
   const newsId = selectedNews?.fullData?.data?.id;
   const { mutate } = useMutation((data: any) => fetchUpdateNews(data));
   const [filter, setFilter] = useState<any>({});
   const history = useHistory();
+  const {width}=useWindowWidth();
   const { t } = useTranslation();
   const {
     control,
     handleSubmit,
-
+    watch,
     formState: { errors, isValid },
   } = useForm({
     mode: "onChange",
@@ -38,11 +43,12 @@ export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
     reValidateMode: "onChange",
   });
 
+
   const upDateWaitingNews = (data: any) => {
     let newsBody = {
       title: updatedNews?.title,
-      startLifeTime: filter?.regDate?.regDateFrom,
-      endLifeTime: filter?.regDate?.regDateTo,
+      startLifeTime: data.startDate,
+      endLifeTime: data.endDate,
       description: updatedNews?.description,
       ageFrom: parseInt(updatedNews?.ageFrom),
       ageUnlimited: false,
@@ -77,65 +83,115 @@ export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
     let newsInfo = { newsBody, newsId };
 
     mutate(newsInfo);
-    setTimeout(() => history.push("/news"), 500);
+    setTimeout(() => history.push("/news/active"), 500);
   };
 
+  
   return (
     <Container>
-      <Form onSubmit={handleSubmit(upDateWaitingNews)}>
-        <WrapInputs>
-          <Label>{t("chose_date")}</Label>
-          <div>
-            <Input
-              type="date"
-              width={{
-                maxwidth: 200,
+         {width<=600 &&
+         <form onSubmit={handleSubmit(upDateWaitingNews)}>
+        <PeriodWrapper >
+        <div>
+          <h5>Выберите дату публикации</h5>
+          <p>Выберите дату публикации</p>
+          <div className="startAndEndDate">
+            <Controller
+              name="startDate"
+              rules={{
+                required: true,
               }}
-              min={todayDate}
-              required={true}
-              IconStart={<WrapDate>{t("from")}</WrapDate>}
-              inputStyle={{
-                inpadding: "0 10px 0 0",
-              }}
-              value={filter?.regDate?.regDateFrom}
-              onChange={(e) =>
-                setFilter((prev: any) => ({
-                  ...prev,
-                  regDate: {
-                    ...prev["regDate"],
-                    regDateFrom: e.target.value,
-                  },
-                }))
-              }
+              control={control}
+              render={({ field }) => (
+                <Input
+                  label={width <= 430 && t("From")}
+                  field={field}
+                  type="date"
+                  error={!!errors.startDate}
+                  min={dayjs(Date.now()).format("YYYY-MM-DD")}
+                   message={t("requiredField")}
+               
+                  margin={{ laptop: "0 20px 20px 0" }}
+                />
+              )}
             />
-            <Input
-              type="date"
-              min={
-                filter?.regDate?.regDateFrom
-                  ? filter?.regDate?.regDateFrom
-                  : nextDay
-              }
-              width={{
-                maxwidth: 200,
+            <Controller
+              rules={{
+                required: true,
               }}
-              required={true}
-              margin={{ laptop: "0 0 0 15px" }}
-              IconStart={<WrapDate>{t("to")}</WrapDate>}
-              inputStyle={{
-                inpadding: "0 10px 0 0",
-              }}
-              value={filter?.regDate?.regDateTo}
-              onChange={(e) =>
-                setFilter((prev: any) => ({
-                  ...prev,
-                  regDate: {
-                    ...prev["regDate"],
-                    regDateTo: e.target.value,
-                  },
-                }))
-              }
+              control={control}
+              name="endDate"
+              render={({ field }) => (
+                <Input
+                  field={field}
+                  error={!!errors.endDate}
+                  label={width <= 430 && t("To")}
+                  min={watch("startDate")}
+                  message={t("requiredField")}
+                  type="date"
+          
+                />
+              )}
             />
           </div>
+        </div>
+        <div className="buttonsWrapper">
+          <Button
+            buttonStyle={width > 600 ? { color: "#223367", bgcolor: "#ffffff" } : { color: "#606EEA", bgcolor: "rgba(96, 110, 234, 0.1)" }}
+            margin={{ laptop: "0 20px 0 0", mobile: "0 8px 0 0" }}
+            startIcon={width > 600 ? <CancelIcon /> : <MobileCancelIcon />}
+            onClick={() => setPublisOpen(false)}
+          >
+            Отменить
+          </Button>
+          <Button startIcon={width > 335 && <PublishIcon />} type="submit">
+            Опубликовать
+          </Button>
+        </div>
+      </PeriodWrapper>
+      </form>
+        }
+        {width> 600 &&  <Form onSubmit={handleSubmit(upDateWaitingNews)}>
+        <WrapInputs>
+          <Label>{t("chose_date")}</Label>
+          <div className="startAndEndDate">
+            <Controller
+              name="startDate"
+              rules={{
+                required: true,
+              }}
+              control={control}
+              render={({ field }) => (
+                <Input
+                  label={width <= 430 && t("From")}
+                  field={field}
+                  type="date"
+                  error={!!errors.startDate}
+                  min={dayjs(Date.now()).format("YYYY-MM-DD")}
+                  margin={{ laptop: "0 20px 20px 0" }}
+                />
+              )}
+            />
+            <Controller
+              rules={{
+                required: true,
+              }}
+              control={control}
+              name="endDate"
+              render={({ field }) => (
+                <Input
+                  field={field}
+                  error={!!errors.endDate}
+                  label={width <= 430 && t("To")}
+                  min={watch("startDate")}
+                  // message={t("requiredField")}
+                  type="date"
+          
+                />
+              )}
+            />
+          </div>
+      
         </WrapInputs>
 
         <div
@@ -161,7 +217,8 @@ export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
             Опубликовать
           </Button>
         </div>
-      </Form>
+      </Form>}
+     
     </Container>
   );
 };

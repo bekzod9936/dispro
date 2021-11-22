@@ -67,6 +67,7 @@ const SecuritySection = () => {
                 <Controller
                   name="suspendedClient"
                   control={control}
+                  defaultValue={suspendedClient}
                   render={({ field }) => {
                     return <CustomToggle checked={field.value} {...field} />;
                   }}
@@ -130,6 +131,7 @@ const SecuritySection = () => {
                 <Controller
                   name="suspendedSum"
                   control={control}
+                  defaultValue={suspendedSum}
                   render={({ field }) => {
                     return <CustomToggle checked={field.value} {...field} />;
                   }}

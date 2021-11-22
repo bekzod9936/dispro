@@ -17,7 +17,7 @@ import CropCustomModal from "components/Custom/CropImageModal/index";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
 import InputFormat from "components/Custom/InputFormat";
-
+import useWindowWidth from "services/hooks/useWindowWidth";
 
 import dayjs from "dayjs";
 import { fetchCreateNews } from "services/queries/newPageQuery";
@@ -96,6 +96,7 @@ const RepairNews = () => {
   const [isCropVisible, setIsCropVisible] = React.useState(false);
   const [image, setImage] = React.useState(newsById?.data?.image);
   const [leave, setLeave] = React.useState<boolean>(false);
+  const { width } = useWindowWidth();
   const handleBack = () => {
     history.goBack();
   };
@@ -233,6 +234,7 @@ const RepairNews = () => {
 
   return (
     <Wrapper>
+             {width > 600 && (
       <div style={{ display: "flex", marginBottom: 30, alignItems: "center" }}>
         <GoBackIcon
           onClick={handleBack}
@@ -240,9 +242,18 @@ const RepairNews = () => {
         />
         <Title>Восстановить новости</Title>
       </div>
-
+             )}
       <Form onSubmit={handleSubmit(submitNews)}>
         <UpSide>
+        {width <= 600 && (
+      <div style={{ display: "flex", marginBottom: 30, alignItems: "center" }}>
+        <GoBackIcon
+          onClick={handleBack}
+          style={{ marginRight: "25px", cursor: "pointer" }}
+        />
+        <Title>Восстановить новости</Title>
+      </div>
+             )}
           <Container>
             <LeftSide>
               <Title>Фотографии</Title>
@@ -303,6 +314,7 @@ const RepairNews = () => {
                     error={!!errors.name}
                     message={t("requiredField")}
                     field={field}
+                    multiline={true}
                     label="Название"
                     defaultValue={newsById?.data?.title}
                   />
@@ -327,7 +339,7 @@ const RepairNews = () => {
                     defaultValue={newsById?.data?.description}
                     multiline={true}
                     inputStyle={{
-                      height: { desktop: 120, laptop: 90, mobile: 60 },
+                      height: { desktop: 120, laptop: 90, mobile: 150 },
                     }}
                     IconEnd={
                       <WrapArea>
@@ -339,55 +351,108 @@ const RepairNews = () => {
               />
               <WrapInputs>
                 <Label>{t("chose_date")}</Label>
-                <div>
-                  <Input
-                    type="date"
-                    width={{
-                      maxwidth: 200,
-                    }}
-                    min={todayDate}
-                    required={true}
-                    IconStart={<WrapDate>{t("from")}</WrapDate>}
-                    inputStyle={{
-                      inpadding: "0 10px 0 0",
-                    }}
-                   
-                    value={filter?.regDate?.regDateFrom}
-                    onChange={(e) =>
-                      setFilter((prev: any) => ({
-                        ...prev,
-                        regDate: {
-                          ...prev["regDate"],
-                          regDateFrom: e.target.value,
-                        },
-                      }))
-                    }
-                  />
-                  <Input
-                    type="date"
-                   
-                    min={filter?.regDate?.regDateFrom}
-                    width={{
-                      maxwidth: 200,
-                    }}
-                    required={true}
-                    margin={{ laptop: "0 0 0 15px" }}
-                    IconStart={<WrapDate>{t("to")}</WrapDate>}
-                    inputStyle={{
-                      inpadding: "0 10px 0 0",
-                    }}
-                    value={filter?.regDate?.regDateTo}
-                    onChange={(e) =>
-                      setFilter((prev: any) => ({
-                        ...prev,
-                        regDate: {
-                          ...prev["regDate"],
-                          regDateTo: e.target.value,
-                        },
-                      }))
-                    }
-                  />
-                </div>
+                {width> 600 ? 
+                   <div>
+                   <Input
+                     type="date"
+                     width={{
+                       maxwidth: 200,
+                     }}
+                     min={todayDate}
+                     required={true}
+                     IconStart={<WrapDate>{t("from")}</WrapDate>}
+                     inputStyle={{
+                       inpadding: "0 10px 0 0",
+                     }}
+                    
+                     value={filter?.regDate?.regDateFrom}
+                     onChange={(e) =>
+                       setFilter((prev: any) => ({
+                         ...prev,
+                         regDate: {
+                           ...prev["regDate"],
+                           regDateFrom: e.target.value,
+                         },
+                       }))
+                     }
+                   />
+                   <Input
+                     type="date"
+                    
+                     min={filter?.regDate?.regDateFrom}
+                     width={{
+                       maxwidth: 200,
+                     }}
+                     required={true}
+                     margin={{ laptop: "0 0 0 15px" }}
+                     IconStart={<WrapDate>{t("to")}</WrapDate>}
+                     inputStyle={{
+                       inpadding: "0 10px 0 0",
+                     }}
+                     value={filter?.regDate?.regDateTo}
+                     onChange={(e) =>
+                       setFilter((prev: any) => ({
+                         ...prev,
+                         regDate: {
+                           ...prev["regDate"],
+                           regDateTo: e.target.value,
+                         },
+                       }))
+                     }
+                   />
+                 </div>:
+                     <div>
+                     <Input
+                       type="date"
+                       width={{
+                        maxwidth: 180,
+                        minwidth:130,
+                       }}
+                       min={todayDate}
+                       required={true}
+                       IconStart={<WrapDate>{t("from")}</WrapDate>}
+                       inputStyle={{
+                         inpadding: "0 10px 0 0",
+                       }}
+                      
+                       value={filter?.regDate?.regDateFrom}
+                       onChange={(e) =>
+                         setFilter((prev: any) => ({
+                           ...prev,
+                           regDate: {
+                             ...prev["regDate"],
+                             regDateFrom: e.target.value,
+                           },
+                         }))
+                       }
+                     />
+                     <Input
+                       type="date"
+                      
+                       min={filter?.regDate?.regDateFrom}
+                       width={{
+                         maxwidth: 180,
+                         minwidth:130,
+                       }}
+                       required={true}
+                       margin={{ laptop: "0 0 0 15px" }}
+                       IconStart={<WrapDate>{t("to")}</WrapDate>}
+                       inputStyle={{
+                         inpadding: "0 10px 0 0",
+                       }}
+                       value={filter?.regDate?.regDateTo}
+                       onChange={(e) =>
+                         setFilter((prev: any) => ({
+                           ...prev,
+                           regDate: {
+                             ...prev["regDate"],
+                             regDateTo: e.target.value,
+                           },
+                         }))
+                       }
+                     />
+                   </div> }
+             
               </WrapInputs>
               <WrapSelect>
                 <Controller
@@ -442,6 +507,7 @@ const RepairNews = () => {
                     {t("Использовать новость в формате Push-уведомления")}
                   </h6>
                   <CustomToggle
+                      defaultChecked={newsById?.data?.pushUp}
                     onChange={(e: any) => handleOpenBlock(e, "push")}
                   />
                 </PushBlock>
@@ -459,9 +525,9 @@ const RepairNews = () => {
                         multiline={true}
                         defaultValue={newsById?.data?.pushUpTitle}
                         inputStyle={{
-                          height: { desktop: 120, laptop: 90, mobile: 60 },
+                          height: { desktop: 120, laptop: 90, mobile: 120 },
                         }}
-                        IconEnd={
+                        IconEnd={width>600 &&
                           <WrapArea>
                             <TextAreaIcon />
                           </WrapArea>
@@ -576,7 +642,7 @@ const RepairNews = () => {
         </UpSide>
         <DownSide>
           <Button
-            onClick={() => setLeave(true)}
+           onClick={handleBack}
             startIcon={<CancelIcon />}
             buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
           >
