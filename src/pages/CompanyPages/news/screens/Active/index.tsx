@@ -125,7 +125,7 @@ const Active = () => {
          (
           <>
             {data.length > 0 ? (
-              <MobileTable  data={list} />
+              <MobileTable refetch={response}  data={list} />
             ) : (
               <div style={{ paddingRight: "20%", paddingTop: "5%" }}>
                 <NoNews handleOpenSetting={handleOpenSetting} />

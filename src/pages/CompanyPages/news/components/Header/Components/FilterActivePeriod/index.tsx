@@ -36,7 +36,6 @@ const FilterActiveNews = () => {
             // await response.refetch();
           }}
         />
-
           </div>
       )}
 export default FilterActiveNews;

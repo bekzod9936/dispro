@@ -62,7 +62,6 @@ const Finance = () => {
                 </TitleLimit>
               </WrapLimit>
             </MainLimit>
-
             <NavBar list={menuItems} padding='0 15px 0 0' margin='10px 0' />
           </LeftHeader>
         </WrapHeader>

@@ -37,7 +37,7 @@ export const WrapArea = styled.div`
   align-items: flex-end;
   margin: 65px 10px 0 0;
   @media (max-width: ${device.mobile}) {
-    margin: 55px 5px 0 0;
+    margin: 130px 5px 0 0;
   }
   @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
     margin: 30px 10px 0 0;
@@ -46,6 +46,14 @@ export const WrapArea = styled.div`
     margin: 90px 10px 0 0;
   }
 `;
+export const MobileHeader = styled.div`
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  padding: 15px 0 0 15px;
+`
 
 export const PushBlock = styled.div`
     display: flex;
@@ -58,11 +66,25 @@ export const PushBlock = styled.div`
         color: #223367;
         font-weight: 500;
     }
+    @media (max-width: ${device.mobile}) {
+      width: 100%;
+      margin-top: 25px;
+      h6{
+        font-size:14px;
+        font-weight:500;
+        color:#C4C4C4;
+
+        
+      }
+    }
 `
 export const LeftSide = styled.div`
     width: 45%;
     @media (max-width: 1250px) {
       width: 48%;
+    }
+    @media (max-width: ${device.mobile}) {
+      width: 100%;
     }
    
 `
@@ -70,6 +92,9 @@ export const RightSide = styled.div`
     width: 40%;
     @media (max-width: 1250px) {
       width: 48%;
+    }
+    @media (max-width: ${device.mobile}) {
+      width: 100%;
     }
 `
 export const Container = styled.div`
@@ -79,6 +104,11 @@ export const Container = styled.div`
     padding: 20px 60px 20px 0;
     @media (max-width: ${device.laptop}) {
       padding-right: 20px;
+    }
+    @media (max-width: ${device.mobile}) {
+      flex-direction: column;
+      justify-content: initial;
+      padding: 15px;
     }
     
 `
@@ -105,6 +135,26 @@ export const UpSide = styled.div`
         background: #606eea;
         border-radius: 14px 0px 0px 14px;
     }
+    @media (max-width: ${device.mobile}) {
+      height: 100%;
+      width: 100%;
+    }
+    
+`
+export const Buttons = styled.div`
+  margin-top: 20px;
+  display: flex;
+  justify-content:center;
+
+  align-items: center;
+  .upside {
+    @media (max-width: 347px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+  }
+  }
 `
 
 
@@ -173,6 +223,15 @@ export const Form = styled.form`
     @media (max-width: 1150px) {
       padding-right: 0;
     }
+    @media (max-width: ${device.mobile}) {
+      width: 100%;
+      padding: 0;
+      justify-content: initial;
+      align-items: center;
+      min-height: none;
+      height: 100%;
+      border-radius: 0;
+    }
     overflow: hidden;
     min-height: 500px;
     display: flex;
@@ -201,6 +260,15 @@ export const UploadButton = styled.div`
         color: #606EEA;
 
     }
+    @media (max-width: ${device.mobile}) {
+      padding: 10px 15px;
+ 
+      label {
+        font-size: 14px;
+        line-height: 16px;
+        
+      }
+  }
 
 `
 
@@ -360,13 +428,18 @@ export const WrapperModal = styled.div`
         margin-bottom: 25px;
     }
     @media (max-width: ${device.mobile}) {
+      max-width:320px;
+      padding: 20px 15px;
         h3 {
             font-size: 16px;
             font-weight: 500;
             margin-bottom: 15px;
+            color: #223367;
         }
         p {
-            display: none;
+          font-size: 14px;
+          color: #223367;
+          font-weight: 300;
         }
     }
 `

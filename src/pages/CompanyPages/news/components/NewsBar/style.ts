@@ -245,6 +245,15 @@ export const WrapperModal = styled.div`
         margin-bottom: 25px;
     }
     @media (max-width: ${device.mobile}) {
+        width: 100%;
+        position: relative;
+      padding: 0;
+      justify-content: initial;
+      align-items: center;
+      min-height: none;
+      height: 100%;
+      border-radius: 0;
+    
         h3 {
             font-size: 16px;
             font-weight: 500;

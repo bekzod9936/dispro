@@ -105,7 +105,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
             alt=""
           />
         </PreviewDivNews>
-        <h5>{currentNews?.data?.title}</h5>
+        <h5>{currentNews?.data?.title?.length>50 ? currentNews?.data?.title?.slice(0,30)+'...':currentNews?.data?.title}</h5>
         <p>{currentNews?.data?.description?.length> 50 ? currentNews?.data?.description?.slice(0,50)+'...':currentNews?.data?.description}</p>
       </LeftRound>
       <ContentSideBar>

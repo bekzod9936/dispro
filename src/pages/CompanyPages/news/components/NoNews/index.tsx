@@ -10,10 +10,13 @@ import { useAppSelector, useAppDispatch } from "services/redux/hooks";
 import Button from "components/Custom/Button";
 import { AddIconNews } from "assets/icons/InfoPageIcons/InfoPageIcons";
 import { IProps } from "../Header/types";
+import useWindowWidth from "services/hooks/useWindowWidth";
+
 const NoNews: React.FC<IProps> = ({handleOpenSetting}) => {
   const location = useLocation();
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
+  const {width}=useWindowWidth();
   return (
     <>
       <Flex
@@ -23,10 +26,15 @@ const NoNews: React.FC<IProps> = ({handleOpenSetting}) => {
         alignItems='center'
       >
         <Flex alignItems='center' >
+        {width>600 ?
           <div className='imagePart'>
             <img   src={noPending} />
           </div>
-          <Flex
+         : <div style={{paddingRight: '4%',
+          paddingTop: '15%'}} >
+         <img   src={noPending} />
+       </div>}
+        {width>600 &&  <Flex
             margin='0px 0px 0px 15px'
             flexDirection='column'
             alignItems='flex-start'
@@ -59,16 +67,9 @@ const NoNews: React.FC<IProps> = ({handleOpenSetting}) => {
       >
         {t("Создать новость")}
       </Button>
-              {/* <CustomButton
-                onClick={() => {
-                  createNews("createNews")
-                }}
-              >
-                <CreateNewsIcon />
-                <Text color='white'>{t('createNews')}</Text>
-              </CustomButton> */}
+            
             </div>
-          </Flex>
+          </Flex>}
         </Flex>
       </Flex>
     </>

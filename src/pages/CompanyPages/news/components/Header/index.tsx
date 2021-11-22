@@ -6,6 +6,7 @@ import { SearchIcon } from "components/Layout/Header/style";
 import Button from "components/Custom/Button";
 import Input from "components/Custom/Input";
 import { Flex } from "../../style";
+import {Container,MobileFlex,TopMobile} from './style';
 import { useTranslation } from "react-i18next";
 import { IProps } from "./types";
 import { useAppSelector, useAppDispatch } from "services/redux/hooks";
@@ -13,7 +14,7 @@ import DatePcker from "components/Custom/DatePicker";
 import { setQuery, setSelectedNews } from "services/redux/Slices/news";
 import FilterActiveNews from './Components/FilterActivePeriod';
 import FilterArchiveNews from './Components/FilterArchivePeriod';
-
+import useWindowWidth from "services/hooks/useWindowWidth";
 const Header = ({ handleOpenNews }: IProps) => {
   const location = useLocation();
   const dispatch = useAppDispatch();
@@ -25,9 +26,10 @@ const Header = ({ handleOpenNews }: IProps) => {
     }
   }, [dispatch(setSelectedNews([]))]);
   const { t } = useTranslation();
-
+  const { width } = useWindowWidth();
   return (
-    <Flex
+    <Container>
+      {width >600 ? <Flex
       width="95%"
       justifyContent="flex-start"
       alignItems="center"
@@ -65,7 +67,52 @@ const Header = ({ handleOpenNews }: IProps) => {
      {location.pathname === "/news/active" && <FilterActiveNews/> } 
      {location.pathname==="/news/archive" && <FilterArchiveNews/>}
   
-    </Flex>
+    </Flex>:
+     <MobileFlex
+   
+   >
+     <TopMobile>
+     {/* <div style={{ width: "20px" }} /> */}
+     <Input
+       inputStyle={{ border: "none",  height: { desktop: 50,mobile:36 } }}
+       IconStart={<SearchIcon style={{ marginLeft: 20 }} />}
+       value={query}
+       placeholder="Поиск по новостям"
+       onChange={(e) => dispatch(setQuery(e.target.value))}
+       width={{ maxwidth: 500,minwidth:160 }}
+     />
+       <div style={{ width: "20px" }} />
+     <Button
+       onClick={handleOpenNews}
+       padding={ {mobile :'0px 10px'}}
+       buttonStyle={{
+          
+         bgcolor: "#FFFFFF",
+         color: "#223367",
+         weight: 500,
+         height: { desktop: 50 ,mobile:36},
+       }}
+       margin={{
+         desktop: "0 25px 0 0",
+         laptop: "0 25px 0 0",
+         planshet: "0 0 20px 0",
+         mobile:"0px 5px 0px 5px"
+       }}
+       startIcon={<AddIcon />}
+     >
+       {t("Создать")}
+     </Button>
+ 
+    </TopMobile>
+    
+   
+    {location.pathname === "/news/active" && <FilterActiveNews/> } 
+    {location.pathname==="/news/archive" && <FilterArchiveNews/>}
+
+ 
+   </MobileFlex>}
+    
+    </Container>
   );
 };
 
