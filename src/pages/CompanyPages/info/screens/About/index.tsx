@@ -610,7 +610,9 @@ const Main = () => {
                 <WrapWebLink key={v.address}>
                   <WebLink>{v?.name}</WebLink>
                   <WebValue>
-                    <a href={v?.address}>({v?.address})</a>
+                    <a href={v?.address} target='_blank'>
+                      ({v?.address})
+                    </a>
                     <IconButton onClick={() => handleWebDelete(v)}>
                       <DeleteIcon />
                     </IconButton>
