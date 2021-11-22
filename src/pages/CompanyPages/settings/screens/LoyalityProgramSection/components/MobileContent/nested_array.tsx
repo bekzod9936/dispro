@@ -69,7 +69,8 @@ const NestedArray = ({ index, control, setValue, getValues }: IProps) => {
 
   const changeLevelState = (reqType: any, indexN: any) => {
     if (levelReqs.length) {
-      let thirdLevel = levelReqs[2] === levelReqs[indexN];
+      let thirdLevel =
+        levelReqs[2] === levelReqs[indexN] || levelReqs[indexN].type === 2;
       if (levelReqs[0] === levelReqs[indexN]) {
         return <SubText>Основное условие</SubText>;
       }
