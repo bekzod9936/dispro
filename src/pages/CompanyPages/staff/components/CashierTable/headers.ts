@@ -1,5 +1,6 @@
 export const cashierHeaders = [
   { value: "Кассир", label: "firstName" },
+  { value: "Филиал", label: "storeName" },
   { value: "Оценка", label: "score" },
   { value: "Средний чек", label: "avgCheque" },
   { value: "Клиенты", label: "clients" },
