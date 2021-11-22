@@ -135,6 +135,10 @@ export const NewSelect = styled(Select)`
     padding: ${({ selectStyle }: Props) =>
       selectStyle?.inpadding ? selectStyle?.inpadding : '2px 20px'}!important;
   }
+  [class$='-control'] > div:first-child {
+    padding: ${({ selectStyle }: Props) =>
+      selectStyle?.inpadding ? selectStyle?.inpadding : '2px 20px'}!important;
+  }
   .css-xb97g8 {
     & > svg {
       & > path {

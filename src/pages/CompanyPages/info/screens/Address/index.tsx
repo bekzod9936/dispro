@@ -387,6 +387,7 @@ const Address = () => {
         setPlace([]);
         setSendDate({ aroundTheClock: false, work: inntialWorkTime });
         dispatch(setAddressAdding(false));
+        setEdit(false);
       },
     }
   );
@@ -403,6 +404,7 @@ const Address = () => {
         yandexRef?.setCenter([41.32847446609404, 69.24298268717716], 10);
         setPlace([]);
         dispatch(setAddressAdding(false));
+        setEdit(false);
       },
     }
   );
@@ -420,6 +422,7 @@ const Address = () => {
         yandexRef?.setCenter([41.32847446609404, 69.24298268717716], 10);
         setPlace([]);
         dispatch(setAddressAdding(false));
+        setEdit(false);
       },
     }
   );
@@ -500,6 +503,7 @@ const Address = () => {
             setPlace([]);
             setNewComp(true);
             dispatch(setAddressAdding(false));
+            setEdit(false);
           });
       }
     }
@@ -824,7 +828,7 @@ const Address = () => {
             }
             margin={{
               laptop: '20px 0 0',
-              mobile: '10px 0 0 0',
+              mobile: '0 0 0 0',
             }}
           />
           {isMain || edit ? null : (
