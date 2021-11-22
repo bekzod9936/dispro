@@ -7,7 +7,6 @@ import { useTranslation } from 'react-i18next';
 import { Route, Switch, useRouteMatch } from 'react-router';
 import useFeedBackRoute from './routes';
 import Filter from 'components/Custom/Filter/index';
-import Grade from './components/Grade';
 import feedDef from 'assets/images/feedback.png';
 import User from './components/User';
 import MultiSelect from 'components/Custom/MultiSelect';
@@ -15,6 +14,7 @@ import CheckBox from 'components/Custom/CheckBox';
 import { useAppSelector } from 'services/redux/hooks';
 import useFeedBack from './hooks/useFeedBack';
 import Pagination from 'components/Custom/Pagination';
+import { countPagination } from 'services/utils';
 import {
   MainWrapper,
   WrapHeader,
@@ -22,25 +22,19 @@ import {
   SearchIcon,
   FilterWarp,
   Wrapper,
-  RightSide,
-  Rate,
-  RateText,
   StarIcon,
-  WrapStars,
   Content,
   Img,
   WrapDef,
   WrapChecks,
   WrapCheck,
   Label,
-  WrapIconStart,
-  WrapStartT,
   WrapDefPhoto,
   NoResult,
   Info,
   WrapPag,
 } from './style';
-import { countPagination } from 'services/utils';
+import Stars from './components/Stars';
 
 interface CProps {
   value?: any;
@@ -74,10 +68,6 @@ const FeedBack = () => {
 
   const cashiers = useAppSelector((state) => state.feedbackPost.cashiers);
   const clients: any = useAppSelector((state) => state.feedbackPost.clients);
-
-  const rate = useAppSelector((state) => state.feedbackPost.averageRating);
-  const total = useAppSelector((state) => state.feedbackPost.totalRating);
-  const ratings = useAppSelector((state) => state.feedbackPost.ratings);
 
   const handleFilterSubmit = async () => {
     await setFilterValues(cashierStaffId?.value);
@@ -156,7 +146,7 @@ const FeedBack = () => {
       ),
     },
   ];
-  console.log(ratings);
+
   return (
     <MainWrapper>
       <Wrapper isPosts={match.url === '/feedback/reviews' ? false : true}>
@@ -244,38 +234,7 @@ const FeedBack = () => {
             ) : null}
           </LeftHeader>
         </WrapHeader>
-        {match.url === '/feedback/reviews' ? (
-          <RightSide>
-            <div>
-              <Grade title={t('overallscore')} rate={rate} />
-              <Grade title={t('totalratings')} total={total} />
-              <Rate>{t('rate')}</Rate>
-              {[5, 4, 3, 2, 1].map((v: any, i: number) => {
-                return (
-                  <WrapStars>
-                    <WrapIconStart>
-                      {Array(v)
-                        .fill(1)
-                        .map(() => (
-                          <StarIcon />
-                        ))}
-                    </WrapIconStart>
-                    <WrapStartT>
-                      <RateText>
-                        &middot;
-                        {ratings?.length ? `${ratings[i]?.percentage}%` : '0%'}
-                      </RateText>
-                      <RateText>
-                        {ratings?.length ? `${ratings[i]?.amount} ` : '0 '}
-                      </RateText>
-                      <RateText>{t('evaluations')}</RateText>
-                    </WrapStartT>
-                  </WrapStars>
-                );
-              })}
-            </div>
-          </RightSide>
-        ) : null}
+        {match.url === '/feedback/reviews' ? <Stars /> : null}
       </Wrapper>
       <Switch>
         <Suspense fallback={<Spinner />}>

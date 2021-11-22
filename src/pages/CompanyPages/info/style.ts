@@ -3,10 +3,6 @@ import { device } from '../../../styles/device';
 import { ReactComponent as LogWhite } from '../../../assets/icons/SideBar/logoutwhite.svg';
 import { ReactComponent as Close } from '../../../assets/icons/SideBar/close.svg';
 
-interface Props {
-  color?: string;
-}
-
 interface ButtonProps {
   mobile?: boolean;
 }

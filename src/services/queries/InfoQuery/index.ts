@@ -76,3 +76,7 @@ export const fetchLimitFinance = ({ companyId, currency }: ILimit) => {
 export const fetchRegions = () => {
   return partnerApi.get(`/directory/region?parentId=1`);
 };
+
+export const fetchBadge = () => {
+  return partnerApi.get(`/core/chat/unread`);
+};

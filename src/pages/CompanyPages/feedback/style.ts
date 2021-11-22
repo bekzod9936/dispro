@@ -24,28 +24,6 @@ export const StarIcon = styled(Star)`
   }
 `;
 
-export const WrapStars = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  width: 100%;
-  @media (max-width: ${device.laptop}) {
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 5px;
-  }
-`;
-
-export const WrapStartT = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  flex: 1;
-  @media (max-width: ${device.laptop}) {
-    justify-content: flex-start;
-  }
-`;
-
 export const MainWrapper = styled.div`
   padding: 25px 0 0 25px;
   display: flex;
@@ -136,48 +114,6 @@ export const Wrapper = styled.div`
   &::-webkit-scrollbar-thumb {
     background: #606eea;
     border-radius: 14px 0px 0px 14px;
-  }
-`;
-
-export const RightSide = styled.div`
-  margin-bottom: 20px;
-  width: 25%;
-  top: 0;
-  right: 0;
-  position: sticky;
-  height: inherit;
-  & > div {
-    width: 90%;
-    height: inherit;
-  }
-`;
-
-export const Rate = styled.div`
-  font-weight: 500;
-  font-size: 16px;
-  color: #223367;
-  width: 100%;
-  text-align: center;
-  margin-bottom: 15px;
-  @media (min-width: ${device.laptop}) {
-    font-size: 18px;
-  }
-`;
-
-export const RateText = styled.div`
-  color: #c4c4c4;
-  font-weight: normal;
-  font-size: 16px;
-  margin-left: 5px;
-  @media (min-width: ${device.laptop}) {
-    margin-left: 10px;
-    font-size: 18px;
-    display: flex;
-    justify-content: center;
-    flex: 1;
-  }
-  @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
-    font-size: 15px;
   }
 `;
 
@@ -281,15 +217,6 @@ export const Avatar = styled.div`
     height: 100%;
     object-fit: fill;
   }
-`;
-
-export const WrapIconStart = styled.div`
-  display: flex;
-  align-self: flex-start;
-  align-items: center;
-  flex: 1;
-  height: 100%;
-  justify-content: flex-end;
 `;
 
 export const Info = styled.div`

@@ -7,6 +7,7 @@ export interface IMessage {
   lastMsg?: string;
   lastName?: string;
   genderTypeId?: number;
+  obtainProgramLoyalty?: { levelName?: string; percent?: number };
 }
 
 export interface ICashiers {
