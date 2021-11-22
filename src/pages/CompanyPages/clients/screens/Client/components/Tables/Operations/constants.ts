@@ -54,4 +54,4 @@ export const operationsColumns = [
 export const pointsHeaders = ["date", "type", "referal", "points"];
 
 
-export const recommendsHeaders = ["client", "registration_date", "level"]
+export const recommendsHeaders = ["client", "registration_date", "level"];
