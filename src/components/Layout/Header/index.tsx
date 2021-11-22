@@ -56,7 +56,7 @@ import {
   WrapperIcon,
 } from "./style";
 import { useRecoilState } from "recoil";
-import { mainLimit } from "services/atoms/info";
+import { mainLimit, mainBalance } from "services/atoms/info";
 
 const Header = () => {
   const { t } = useTranslation();
@@ -66,11 +66,8 @@ const Header = () => {
   const companyId = localStorage.getItem("companyId");
   const { resLimit } = useLayout({ id: companyId });
 
-  const accountsBalance = useAppSelector((state) => state.info.balance);
-  // const accountsLimit = useAppSelector((state) => state.info.limit);
   const accountsLimit = useRecoilState(mainLimit);
-
-  console.log(accountsLimit, "limit");
+  const accountsBalance = useRecoilState(mainBalance);
 
   const history = useHistory();
   const [open, setOpen] = useState(false);
@@ -235,7 +232,7 @@ const Header = () => {
             {`${t("deposit")}:`}
             <Text>
               {`${numberWithNew({
-                number: accountsBalance,
+                number: accountsBalance[0].balance,
                 defaultValue: 0,
               })} UZS`}
             </Text>
