@@ -15,6 +15,7 @@ import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 import { getOneDayPlus } from "pages/CompanyPages/clients/utils/getSelectedFilters";
 import InputFormat from "components/Custom/InputFormat";
 import useWindowWidth from "services/hooks/useWindowWidth";
+import CustomDatePicker from "components/Custom/CustomDatePicker";
 
 
 
@@ -65,7 +66,7 @@ export const MFilter = () => {
         <WrapInputs>
           <Label>{t("chose_date")}</Label>
           <div>
-            <Input
+            {/* <Input
               type="date"
               width={{
                 maxwidth: 200,
@@ -84,14 +85,44 @@ export const MFilter = () => {
                   regDateFrom: e.target.value
                 }
               }))}
-            />
-            <Input
+            /> */}
+            <CustomDatePicker
+              margin="0 15px 0 0"
+              isFilter
+              text={t("from")}
+              maxDate={filter?.regDate?.regDateTo}
+              onChange={(e) => {
+                let date = "" + e.year + "-" + e.month.number + "-" + e.day;
+                setFilter((prev: any) => ({
+                  ...prev, regDate: {
+                    ...prev["regDate"],
+                    regDateFrom: date
+                  }
+                }))
+              }}
+              value={filter?.regDate?.regDateFrom} />
+            <CustomDatePicker
+              isFilter
+              text={t("to")}
+              minDate={filter?.regDate?.regDateFrom}
+              onChange={(e) => {
+                let date = "" + e.year + "-" + e.month.number + "-" + e.day;
+                setFilter((prev: any) => ({
+                  ...prev, regDate: {
+                    ...prev["regDate"],
+                    regDateTo: date
+                  }
+                }))
+              }}
+              value={filter?.regDate?.regDateTo} />
+
+            {/* <Input
               type="date"
               width={{
                 maxwidth: 200,
                 width: width <= 600 ? "47%" : "100%"
               }}
-              min={getOneDayPlus(filter?.regDate?.regDateFrom, "plus")}
+              // min={getOneDayPlus(filter?.regDate?.regDateFrom, "plus")}
               margin={{ laptop: "0 0 0 15px" }}
               IconStart={<WrapDate>{t("to")}</WrapDate>}
               inputStyle={{
@@ -104,7 +135,7 @@ export const MFilter = () => {
                   regDateTo: e.target.value
                 }
               }))}
-            />
+            /> */}
           </div>
         </WrapInputs>
       ),

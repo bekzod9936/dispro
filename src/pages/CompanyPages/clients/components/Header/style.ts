@@ -63,11 +63,20 @@ export const SelectedFilter = styled.div`
       margin-right: 5px;
     }
   }
+  @media (max-width: ${device.mobile}) {
+    padding: 6px 10px;
+    margin-right: 8px;
+    padding-right: 15px;
+    p {
+      font-size: 12px;
+    
+    }
+  }
 
 `
 
 export const SelectedFilters = styled.div`
-  max-width: 500px;
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;

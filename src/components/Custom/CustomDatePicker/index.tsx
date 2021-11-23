@@ -1,0 +1,76 @@
+import { useRef, useState } from 'react';
+import {
+    Container,
+    RDatePicker,
+    WrapText,
+    WrapButton,
+    DateIcon,
+    DisabledDateIcon,
+} from './style';
+import { useTranslation } from 'react-i18next';
+
+interface Props {
+    onChange?: (e: any) => void;
+    margin?: string;
+    disabled?: boolean
+    value?: any,
+    isFilter?: boolean
+    text?: string
+    minDate?: Date | string,
+    maxDate?: Date | string,
+    error?: boolean
+    height?: {
+        mobile?: number;
+        planshet?: number;
+        laptop?: number;
+        desktop?: number;
+    };
+}
+
+const CustomDatePicker = ({
+    onChange = () => { },
+    margin,
+    height,
+    text,
+    value,
+    minDate,
+    maxDate,
+    error,
+    disabled,
+    isFilter
+}: Props) => {
+    const datePickerRef: any = useRef();
+    const date = isFilter ? value : value ? "" + value?.day + "-" + value?.month?.number + "-" + value?.year : null
+
+    const handleClick = () => {
+        // if (disabled) return
+        datePickerRef.current.openCalendar()
+    }
+
+    return (
+        <Container disabled={disabled} margin={margin} error={error}>
+            <WrapButton disabled={disabled} onClick={handleClick}>
+                <WrapText disabled={disabled}>
+                    {(!date && text) && <span>{text}</span>}
+                    {date && <span>{date}</span>}
+                </WrapText>
+                {disabled ? <DisabledDateIcon /> : <DateIcon />}
+            </WrapButton>
+            <RDatePicker
+                inputClass='custom-input'
+                ref={datePickerRef}
+                minDate={minDate}
+                onChange={onChange}
+                maxDate={maxDate}
+                value={value}
+                disabled={disabled}
+                format='YYYY-MM-DD'
+                portal={true}
+                zIndex={100000}
+            />
+        </Container>
+    );
+};
+
+export default CustomDatePicker;
+
