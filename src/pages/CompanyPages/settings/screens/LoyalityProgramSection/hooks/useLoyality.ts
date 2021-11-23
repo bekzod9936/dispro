@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { useMutation, useQuery } from "react-query";
 import { useForm, useFieldArray } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
 //types
-import { IEmpty, FormProps } from "./types";
+import { FormProps } from "./types";
 
 //queries
 import {
@@ -36,12 +36,39 @@ import {
 import { levelReqs } from "../constants";
 //selectors
 import { setBaseLoyal, setUseLoyal } from "services/atoms/settings/loyality";
+import {
+  activeM,
+  activeCheckM,
+  setActiveM,
+  setActiveCheckM,
+  eCashback,
+  eBonuspoint,
+  eDiscount,
+  setEBonuspoint,
+  setEDiscount,
+  setECashback,
+} from "services/atoms/settings";
 
 const useLoyality = () => {
+  let companyId: any = localStorage.getItem("companyId");
   const { t } = useTranslation();
+  //atoms
+  const active = useRecoilValue(activeM);
+  const activeCheck = useRecoilValue(activeCheckM);
+
+  const emptyCashback = useRecoilValue(eCashback);
+  const emptyDiscount = useRecoilValue(eDiscount);
+  const emptyBonuspoint = useRecoilValue(eBonuspoint);
   //recoil selectors
   const setBaseLoyality = useSetRecoilState(setBaseLoyal);
   const setLoyaltyUse = useSetRecoilState(setUseLoyal);
+  const setActive = useSetRecoilState(setActiveM);
+  const setActiveCheck = useSetRecoilState(setActiveCheckM);
+
+  const setEmptyCashback = useSetRecoilState(setECashback);
+  const setEmptyDiscount = useSetRecoilState(setEDiscount);
+  const setEmptyBonuspoint = useSetRecoilState(setEBonuspoint);
+
   //hook form
   const {
     control,
@@ -78,33 +105,10 @@ const useLoyality = () => {
   //program loyality
   const [onSuccesSave, setOnSuccessSave] = useState(false);
   const [onErrorSave, setOnErrorSave] = useState(false);
-  let companyId: any = localStorage.getItem("companyId");
   const [availCheck, setAvailCheck] = useState(false);
   const [refetchCashback, setRefetchCashback] = useState(0);
   const [refetchDiscount, setRefetchDiscount] = useState(0);
   const [refetchBonusPoints, setRefetchBonusPoints] = useState(0);
-  const [active, setActive] = useState<
-    "discount" | "cashback" | "bonuspoint" | ""
-  >("");
-
-  const [activeCheck, setActiveCheck] = useState<
-    "discount" | "cashback" | "bonuspoint" | ""
-  >("");
-
-  const [emptyCashback, setEmptyCashback] = useState<IEmpty>({
-    empty: false,
-    type: "cashback",
-  });
-
-  const [emptyDiscount, setEmptyDiscount] = useState<IEmpty>({
-    empty: false,
-    type: "discount",
-  });
-
-  const [emptyBonuspoint, setEmptyBonuspoint] = useState<IEmpty>({
-    empty: false,
-    type: "bonuspoint",
-  });
 
   //Save and change loyality
   const useProgramSave = useMutation((data: any) =>
@@ -116,20 +120,23 @@ const useLoyality = () => {
       if (emptyBonuspoint.empty && emptyBonuspoint.type === "bonuspoint") {
         return loyalityNewSaveChange(
           data,
-          active === "" ? activeCheck : active
+          active.active === "" ? activeCheck : active
         );
       } else if (emptyDiscount.empty && emptyDiscount.type === "discount") {
         return loyalityNewSaveChange(
           data,
-          active === "" ? activeCheck : active
+          active.active === "" ? activeCheck : active
         );
       } else if (emptyCashback.empty && emptyCashback.type === "cashback") {
         return loyalityNewSaveChange(
           data,
-          active === "" ? activeCheck : active
+          active.active === "" ? activeCheck : active
         );
       } else {
-        return loyalitySaveChange(data, active === "" ? activeCheck : active);
+        return loyalitySaveChange(
+          data,
+          active.active === "" ? activeCheck : active
+        );
       }
     },
     {
@@ -414,7 +421,7 @@ const useLoyality = () => {
           dispatch(setMEmptySale(false));
           if (data?.data?.data?.isActive) {
             setAvailCheck(true);
-            setActive("discount");
+            setActive({ active: "discount" });
 
             setBaseLoyality({
               max_percent: data.data.data.maxAmount,
@@ -480,7 +487,7 @@ const useLoyality = () => {
           dispatch(setMEmptyCashback(false));
           if (data?.data?.data?.isActive) {
             setAvailCheck(true);
-            setActive("cashback");
+            setActive({ active: "cashback" });
             setValue("max_percent", data.data.data.maxAmount);
 
             setBaseLoyality({
@@ -544,7 +551,7 @@ const useLoyality = () => {
           dispatch(setMEmptyBall(false));
           if (data?.data?.data?.isActive) {
             setAvailCheck(true);
-            setActive("bonuspoint");
+            setActive({ active: "bonuspoint" });
 
             setBaseLoyality({
               max_percent: data.data.data.maxAmount,
@@ -595,12 +602,11 @@ const useLoyality = () => {
   const handleSwitchChange = (checked: boolean, key: any) => {
     // bonus/cashbacks/active-status
     let modifyLoyal = modified === "1" ? false : true;
-    console.log(key, "modify screen");
     if (checked) {
       if (availCheck) {
         setActive(key);
       } else {
-        setActive("");
+        setActive({ active: "" });
         setActiveCheck(key);
       }
       if (key === "discount") {
@@ -628,7 +634,7 @@ const useLoyality = () => {
 
         setEmptyDiscount({
           empty: false,
-          type: "bonuspoint",
+          type: "discount",
         });
       } else if (key === "cashback") {
         loayalityChange.mutate({
@@ -726,18 +732,17 @@ const useLoyality = () => {
   });
 
   useEffect(() => {
-    if (active === "cashback" || activeCheck === "cashback") {
+    if (active.active === "cashback" || activeCheck === "cashback") {
       setRefetchCashback(refetchCashback + 1);
-    } else if (active === "discount" || activeCheck === "discount") {
+    } else if (active.active === "discount" || activeCheck === "discount") {
       setRefetchDiscount(refetchDiscount + 1);
-    } else if (active === "bonuspoint" || activeCheck === "bonuspoint") {
+    } else if (active.active === "bonuspoint" || activeCheck === "bonuspoint") {
       setRefetchBonusPoints(refetchBonusPoints + 1);
     }
-  }, [active, activeCheck]);
+  }, [active.active, activeCheck]);
 
   return {
     control,
-    active,
     refetchBonusPoints,
     refetchCashback,
     refetchDiscount,
@@ -747,7 +752,6 @@ const useLoyality = () => {
     setRefetchBonusPoints,
     handleSwitchChange,
     handleSubmit,
-    setActive,
     dynamicFields,
     append,
     prepend,
@@ -773,14 +777,9 @@ const useLoyality = () => {
     setCheckL,
     modified,
     setModified,
-    activeCheck,
-    setActiveCheck,
     availCheck,
     setAssertModalVisible,
     assertModalVisible,
-    emptyCashback,
-    emptyDiscount,
-    emptyBonuspoint,
   };
 };
 

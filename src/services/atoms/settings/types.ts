@@ -9,3 +9,22 @@ export interface ILoyality {
   useProgram: boolean;
   usePoint: boolean;
 }
+
+export interface IActive {
+  active: "discount" | "cashback" | "bonuspoint" | "";
+}
+
+export interface IECashback {
+  type: "cashback" | any;
+  empty: boolean;
+}
+
+export interface IEDiscount {
+  type: "discount";
+  empty: boolean;
+}
+
+export interface IEBonuspoint {
+  type: "bonuspoint";
+  empty: boolean;
+}

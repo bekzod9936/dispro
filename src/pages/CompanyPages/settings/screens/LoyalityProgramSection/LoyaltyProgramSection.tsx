@@ -27,6 +27,8 @@ import {
   BtnContainer,
   MainContainer,
   EText,
+  RightGrid,
+  BottomSide,
 } from "./styles";
 
 //icons
@@ -60,14 +62,24 @@ import MobileContent from "./components/MobileContent";
 import NestedArray from "./components/NestedArray";
 //recoil states
 import { useLoyal, baseLoyalty } from "services/atoms/settings/loyality";
-import { switchKeyT, setSwitchKeyT } from "services/atoms/settings";
+import {
+  switchKeyT,
+  setSwitchKeyT,
+  setActiveCheckM,
+} from "services/atoms/settings";
+import {
+  activeM,
+  eCashback,
+  eBonuspoint,
+  eDiscount,
+  activeCheckM,
+} from "services/atoms/settings";
 
 const LoyaltyProgramSection = () => {
   const { t } = useTranslation();
   const { width } = useWindowWidth();
   const {
     control,
-    active,
     setValue,
     handleSwitchChange,
     handleSubmit,
@@ -91,21 +103,34 @@ const LoyaltyProgramSection = () => {
     setCheckL,
     modified,
     setModified,
-    activeCheck,
-    setActiveCheck,
     assertModalVisible,
     setAssertModalVisible,
-    emptyCashback,
-    emptyDiscount,
-    emptyBonuspoint,
   } = useLoyality();
 
   //selectors
   const setSwitchKey = useSetRecoilState(setSwitchKeyT);
+  const setActiveCheck = useSetRecoilState(setActiveCheckM);
   //atoms
   const base_loyality = useRecoilValue(baseLoyalty);
   const useLoyalMain = useRecoilValue(useLoyal);
   const switchKey = useRecoilValue(switchKeyT);
+  const active = useRecoilValue(activeM);
+  const activeCheck = useRecoilValue(activeCheckM);
+
+  const emptyCashback = useRecoilValue(eCashback);
+  const emptyDiscount = useRecoilValue(eDiscount);
+  const emptyBonuspoint = useRecoilValue(eBonuspoint);
+
+  const loading =
+    !isLoading &&
+    !cashbackLoading &&
+    !discountLoading &&
+    !loayalityChange.isLoading;
+  const cashbackActive =
+    active.active === "cashback" ||
+    activeCheck === "cashback" ||
+    (emptyCashback.empty && emptyCashback.type === activeCheck);
+  const activeEmpty = active.active === "" && activeCheck === "";
 
   //save loyalitys
 
@@ -158,8 +183,8 @@ const LoyaltyProgramSection = () => {
                       margin="0"
                     >
                       <CustomToggle
-                        checked={item.key === active}
-                        disabled={item.key === active}
+                        checked={item.key === active.active}
+                        disabled={item.key === active.active}
                         onChange={(checked: any) => handleChecked(item.key)}
                       />
                     </Flex>
@@ -186,7 +211,7 @@ const LoyaltyProgramSection = () => {
             </Flex>
           </LeftGrid>
 
-          {active === "" && activeCheck === "" ? (
+          {activeEmpty ? (
             <Grid
               justifyContent="center"
               alignItems="center"
@@ -199,11 +224,8 @@ const LoyaltyProgramSection = () => {
               <EText>{t("empty_setting_text")}</EText>
             </Grid>
           ) : (
-            <Grid item xs={12} sm={7}>
-              {!isLoading &&
-              !cashbackLoading &&
-              !discountLoading &&
-              !loayalityChange.isLoading ? (
+            <RightGrid item xs={12} sm={7}>
+              {loading ? (
                 <LargePanel id="largePanel">
                   <Form onSubmit={handleSubmit(onFormSubmit, onError)}>
                     <Grid
@@ -211,7 +233,7 @@ const LoyaltyProgramSection = () => {
                       direction="row"
                       alignItems="center"
                       justifyContent="space-between"
-                      spacing={3}
+                      spacing={2}
                       xs={12}
                     >
                       <HeaderGrid item xs={6}>
@@ -457,15 +479,8 @@ const LoyaltyProgramSection = () => {
                         );
                       })}
                     <div style={{ height: "25px" }} />
-                    <Grid
-                      container
-                      direction="column"
-                      alignItems="flex-start"
-                      justifyContent="space-between"
-                      spacing={3}
-                      xs={12}
-                    >
-                      <HeaderGrid item xs={6}>
+                    <BottomSide>
+                      <HeaderGrid item xs={12}>
                         <Controller
                           name="max_percent"
                           control={control}
@@ -487,11 +502,8 @@ const LoyaltyProgramSection = () => {
                           }}
                         />
                       </HeaderGrid>
-                      {(active === "cashback" ||
-                        activeCheck === "cashback" ||
-                        (emptyCashback.empty &&
-                          emptyCashback.type === activeCheck)) && (
-                        <HeaderGrid item xs={6}>
+                      {cashbackActive && (
+                        <HeaderGrid item xs={12}>
                           <div>
                             <div>
                               <Controller
@@ -559,13 +571,12 @@ const LoyaltyProgramSection = () => {
                           </div>
                         </div>
                       </HeaderGrid>
-                      <HeaderGrid item xs={6}>
+                      <HeaderGrid item xs={12}>
                         <div style={{ marginTop: "20px" }}>
                           <Button
                             type="submit"
                             startIcon={<SaveIcon />}
                             disabled={loayalityPut.isLoading}
-                            //  onClick={handleSaveClick}
                           >
                             <Text marginLeft="10px" color="white">
                               {t("save")}
@@ -573,13 +584,13 @@ const LoyaltyProgramSection = () => {
                           </Button>
                         </div>
                       </HeaderGrid>
-                    </Grid>
+                    </BottomSide>
                   </Form>
                 </LargePanel>
               ) : (
                 <Spinner />
               )}
-            </Grid>
+            </RightGrid>
           )}
 
           {/* other settings tools  */}
