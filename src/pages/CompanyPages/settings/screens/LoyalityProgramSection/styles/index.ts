@@ -6,7 +6,7 @@ interface IProps {
 }
 
 export const MainContainer = styled(Grid)`
-  overflow-y: auto;
+  overflow-y: hidden;
   overflow-x: hidden;
   height: 100%;
   ::-webkit-scrollbar {
@@ -23,6 +23,24 @@ export const MainContainer = styled(Grid)`
 
 export const LeftGrid = styled(Grid)`
   border-right: 3px solid rgba(96, 110, 234, 0.3);
+`;
+
+export const RightGrid = styled(Grid)`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+
+  ::-webkit-scrollbar {
+    width: 7px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #606eea;
+    border-radius: 14px 0px 0px 14px;
+  }
 `;
 
 //levels row
@@ -148,4 +166,10 @@ export const EText = styled.p`
   color: #223367;
   margin-top: 40px;
   text-align: center;
+`;
+
+export const BottomSide = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 `;

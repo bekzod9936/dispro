@@ -5,13 +5,16 @@ import Button from "components/Custom/Button";
 import { useHistory } from "react-router";
 import { ICoupon } from "..";
 import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
-import { MobileCancelIcon, PublishIcon } from "assets/icons/proposals/ProposalsIcons";
+import { MobileCancelIcon, MobileGoBackIcon, PublishIcon } from "assets/icons/proposals/ProposalsIcons";
 import { useMutation } from "react-query";
 import { postCoupon, putCoupon } from "services/queries/proposalQuery";
 import dayjs from "dayjs";
 import Input from "components/Custom/Input";
 import { useTranslation } from "react-i18next";
 import useWindowWidth from "services/hooks/useWindowWidth";
+import DatePicker from "react-multi-date-picker";
+import CustomDatePicker from "components/Custom/CustomDatePicker";
+import { IconButton } from "@material-ui/core";
 
 interface IProps {
   handleClose: any;
@@ -57,19 +60,22 @@ export const SetDate = ({
   const history = useHistory();
 
   const onPublish = async (data: any) => {
+    let startDate = getValidDate(data.startDate);
+    let endDate = getValidDate(data.endDate);
+    let publishDate = getValidDate(data.publishDate)
     setValidDate({
-      startDate: data.startDate,
-      endDate: data.endDate,
-      publishDate: data.publishDate,
+      startDate,
+      endDate,
+      publishDate
     });
 
     if (shouldPublish) {
       handlePost({
         id: coupon.id,
         data: {
-          startDate: data.startDate,
-          endDate: data.endDate,
-          publishDate: data.publishDate,
+          startDate,
+          endDate,
+          publishDate,
         },
       });
     } else if (shouldUpdate) {
@@ -80,9 +86,9 @@ export const SetDate = ({
         },
       });
       putCoupon(coupon.id, {
-        startDate: data.startDate,
-        endDate: data.endDate,
-        publishDate: data.publishDate,
+        startDate,
+        endDate,
+        publishDate,
       });
     } else {
       mutate(coupon);
@@ -91,21 +97,26 @@ export const SetDate = ({
     setTimeout(() => history.goBack(), 1000);
   };
 
-  const handleFn = (str: string) => {
-    const res = new Date(
-      new Date(str?.split("-")?.join(","))?.getTime() + 2592000000
-    );
-    let day = res.getDate() < 10 ? `0${res.getDate()}` : res.getDate();
-    let month =
-      res.getMonth() + 1 < 10 ? `0${res.getMonth() + 1}` : res.getMonth() + 1;
-    return [res.getFullYear(), month, day].join("-");
+  const handleFn = (obj: any) => {
+    const result = new Date(obj).getTime() + 2592000000;
+    return new Date(result)
   };
+
+  function getValidDate(obj: any) {
+    return "" + obj.year + "-" + obj.month.number + "-" + obj.day
+  }
+
 
   return (
     <form onSubmit={handleSubmit(onPublish)}>
       <PeriodWrapper>
         <div>
-          <h5>Выберите дату публикации</h5>
+          <div className="header">{width <= 600 &&
+            <IconButton onClick={handleClose}>
+              <MobileGoBackIcon />
+            </IconButton>}
+            <h5>Выберите дату публикации</h5>
+          </div>
           <p>Выберите дату публикации</p>
           <Controller
             control={control}
@@ -114,15 +125,13 @@ export const SetDate = ({
               required: true,
             }}
             render={({ field }) => (
-              <Input
-                field={field}
-                error={!!errors.publishDate}
-                message={t("requiredField")}
-                min={dayjs(Date.now()).format("YYYY-MM-DD")}
-                type="date"
-                max={new Date().getFullYear() + 2 + "-01-01"}
-                margin={{ laptop: "0 0 30px 0" }}
-              />
+              <CustomDatePicker
+                margin="0 0 30px 0"
+                error={errors.publishDate}
+                minDate={new Date()}
+                maxDate={new Date().getFullYear() + 2 + "-01-01"}
+                onChange={field.onChange}
+                value={field.value} />
             )}
           />
           <p>Выберите период действия купона</p>
@@ -134,16 +143,15 @@ export const SetDate = ({
               }}
               control={control}
               render={({ field }) => (
-                <Input
-                  label={width <= 430 && t("From")}
-                  field={field}
-                  type="date"
-                  error={!!errors.startDate}
-                  min={watch("publishDate")}
-                  // message={t("requiredField")}
-                  max={handleFn(watch("publishDate"))}
-                  margin={{ laptop: "0 20px 20px 0" }}
-                />
+                <CustomDatePicker
+                  disabled={!Boolean(watch("publishDate"))}
+                  text={t("from")}
+                  margin={width > 430 ? "0 10px 0 0" : "0 0 12px 0"}
+                  error={errors.startDate}
+                  minDate={watch("publishDate")}
+                  maxDate={handleFn(watch("publishDate"))}
+                  onChange={field.onChange}
+                  value={field.value} />
               )}
             />
             <Controller
@@ -153,14 +161,14 @@ export const SetDate = ({
               control={control}
               name="endDate"
               render={({ field }) => (
-                <Input
-                  field={field}
-                  error={!!errors.endDate}
-                  label={width <= 430 && t("To")}
-                  min={watch("startDate")}
-                  type="date"
-                  max={handleFn(watch("publishDate"))}
-                />
+                <CustomDatePicker
+                  text={t("to")}
+                  disabled={!Boolean(watch("startDate"))}
+                  error={errors.endDate}
+                  minDate={watch("startDate")}
+                  maxDate={handleFn(watch("publishDate"))}
+                  onChange={field.onChange}
+                  value={field.value} />
               )}
             />
           </div>

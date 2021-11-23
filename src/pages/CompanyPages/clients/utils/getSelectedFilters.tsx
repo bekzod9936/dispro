@@ -108,12 +108,14 @@ export const useHandleGetFilters = ({ filters, handleRemove, referals }: IProps)
   if (regDate) {
     result.push(
       <SelectedFilter>
-        <p>
-          {t("from")}: {regDate?.regDateFrom}
-        </p>
-        <p>
-          {t("to")}: {regDate?.regDateTo}
-        </p>
+        {regDate?.regDateFrom &&
+          <p>
+            {t("from")}: {regDate?.regDateFrom}
+          </p>}
+        {regDate?.regDateTo &&
+          <p>
+            {t("to")}: {regDate?.regDateTo}
+          </p>}
         <RemoveFilterBtn onClick={() => handleRemove("regDate")} />
       </SelectedFilter>
     );
@@ -242,11 +244,18 @@ export const getFiltersForQuery = (filters: any, referals: any) => {
       }
     } else {
       if (el === "regDate") {
-        obj = {
-          ...obj,
-          regDateFrom: filters[el].regDateFrom,
-          regDateTo: filters[el].regDateTo,
-        };
+        if (filters[el].regDateFrom) {
+          obj = {
+            ...obj,
+            regDateFrom: filters[el].regDateFrom
+          }
+        }
+        if (filters[el].regDateTo) {
+          obj = {
+            ...obj,
+            regDateTo: filters[el].regDateTo,
+          };
+        }
       } else if (el === "purchaseAmount") {
         if (filters[el].purchaseCountFrom) {
           obj = {

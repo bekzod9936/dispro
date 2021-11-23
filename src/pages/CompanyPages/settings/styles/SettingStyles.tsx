@@ -10,6 +10,7 @@ export const LargePanel = styled.div`
   background-color: white;
   display: flex;
   flex-direction: column;
+
   //width: max-content;
 `;
 export const SmallPanel = styled.div`

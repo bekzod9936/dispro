@@ -281,13 +281,25 @@ export const PeriodWrapper = styled.div`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
   border-radius: 14px;
   width: max-content;
-  height: 400px;
+  height: max-content;
   overflow: auto;
+  .header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+    @media (max-width: ${device.mobile}) {
+      margin-bottom: 25px;
+    }
+  }
   h5 {
     font-size: 22px;
     color: #223367;
     line-height: 26px;
-    margin-bottom: 30px;
+    @media (max-width: ${device.mobile}) {
+      font-size: 16px;
+      margin-left: 5px;
+      line-height: 18.75px;
+    }
   }p {
     color: #C7C7C7;
     font-size: 16px;
@@ -297,6 +309,8 @@ export const PeriodWrapper = styled.div`
   .startAndEndDate {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
   }
   .buttonsWrapper {
     display: flex;
