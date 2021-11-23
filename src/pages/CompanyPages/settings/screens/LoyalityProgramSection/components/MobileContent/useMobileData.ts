@@ -19,7 +19,7 @@ import { parseSimpleString } from "services/utils";
 import { levelReqs } from "../../constants";
 
 //hooks
-import { FormProps } from "../../hooks/useLoyality";
+import { FormProps } from "../../hooks/types";
 import { handleClick } from "services/redux/Slices/settingsSlice";
 
 const useMobileData = () => {
