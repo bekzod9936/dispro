@@ -35,6 +35,7 @@ import {
   WrapPag,
 } from './style';
 import Stars from './components/Stars';
+import { formatPagination } from './utils';
 
 interface CProps {
   value?: any;
@@ -215,15 +216,15 @@ const FeedBack = () => {
                         {t('shown')}
                         <span>{between}</span>
                         {t('from1')} <span>{totalCount}</span>
-                        {countPagination({
+                        {formatPagination({
                           count: totalCount,
-                          firstWord: t('page1'),
-                          secondWord: t('page23'),
+                          firstWord: t('review1'),
+                          secondWord: t('review23'),
                         })}
                       </Info>
                       <Pagination
                         page={filterValues.page}
-                        count={totalCount}
+                        count={totalCount / intialFilter.perPage}
                         onChange={handlechangePage}
                         disabled={resClients.isLoading || resClients.isFetching}
                       />

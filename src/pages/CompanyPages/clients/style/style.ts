@@ -6,7 +6,8 @@ interface IProps {
 }
 export const Container = styled.div`
   @media (max-width: ${device.laptop}) {
-    overflow: auto; 
+    overflow-y: auto;
+    overflow-x: hidden; 
   }
   height: 100%;
   width: 100%;
@@ -82,8 +83,7 @@ export const ButtonsWrapper = styled.div`
   margin-bottom: ${(props: IButtonWrapper) => props.marginBottom + "px" || "0"};
   margin-top: ${(props: IButtonWrapper) => props.marginTop + "px" || "0"};
   @media(max-width: ${device.mobile}) {
-    margin-top: 0;
-    margin-bottom: 0;
+    margin: 13px 0;
   }
 `
 

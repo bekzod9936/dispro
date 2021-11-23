@@ -1,15 +1,15 @@
-import Modal from "components/Custom/Modal";
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { IconButton } from "@material-ui/core";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import Button from "components/Custom/Button";
-import { Avatar } from "../../style";
+import Modal from 'components/Custom/Modal';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { IconButton } from '@material-ui/core';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import Button from 'components/Custom/Button';
+import { Avatar } from '../../style';
 
-import dayjs from "dayjs";
-import { useHistory, useLocation } from "react-router";
-import { useAppDispatch } from "services/redux/hooks";
-import { setChosenClientChat } from "services/redux/Slices/feedback";
+import dayjs from 'dayjs';
+import { useHistory, useLocation } from 'react-router';
+import { useAppDispatch } from 'services/redux/hooks';
+import { setChosenClientChat } from 'services/redux/Slices/feedback';
 import {
   Container,
   Header,
@@ -35,10 +35,10 @@ import {
   WrapFillial,
   MoneyIcon,
   WrapMoney,
-} from "./style";
-import { setCashierId } from "services/redux/Slices/staffs";
-import defuserman from "assets/icons/defuserman.png";
-import defuserwoman from "assets/icons/defuserwoman.png";
+} from './style';
+import { setCashierId } from 'services/redux/Slices/staffs';
+import defuserman from 'assets/icons/defuserman.png';
+import defuserwoman from 'assets/icons/defuserwoman.png';
 interface Props {
   value?: any;
 }
@@ -52,14 +52,14 @@ const User = ({ value }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
 
   const image = {
-    alt: "image",
+    alt: 'image',
     src: value.clientImage
       ? value.clientImage
       : value.clientGenderTypeId === 1
       ? defuserman
       : defuserwoman,
-    height: "40px",
-    width: "40px",
+    height: '40px',
+    width: '40px',
   };
 
   return (
@@ -73,19 +73,19 @@ const User = ({ value }: Props) => {
                 height={image.height}
                 src={image.src}
                 width={image.width}
-                effect="blur"
-                style={{ objectFit: "cover" }}
+                effect='blur'
+                style={{ objectFit: 'cover' }}
               />
             </Avatar>
             <WrapText>
               <UserName>
                 {value.clientFirstName} {value.clientLastName}
               </UserName>
-              <Status>{t("status")}: Base 5%</Status>
+              <Status>{t('status')}: Base 5%</Status>
             </WrapText>
           </LeftHeader>
-          <Date margin="5px 0 0 20px">
-            {dayjs(value.createdAt).format("DD.MM.YYYY HH:MM")}
+          <Date margin='5px 0 0 20px'>
+            {dayjs(value.createdAt).format('DD.MM.YYYY HH:mm')}
           </Date>
         </Header>
         <WrapStars>
@@ -96,17 +96,17 @@ const User = ({ value }: Props) => {
         <Context>
           {value.review ? (
             <>
-              <Title>{t("review")}:</Title>
-              <Content>{value.review}</Content>{" "}
+              <Title>{t('review')}:</Title>
+              <Content>{value.review}</Content>
             </>
           ) : null}
           {value.firstName || value.lastName ? (
             <>
-              <Title>{t("cashier")}:</Title>
+              <Title>{t('cashier')}:</Title>
               <Casher
                 onClick={() => {
                   history.push({
-                    pathname: "/staff/cashier/statistic",
+                    pathname: '/staff/cashier/statistic',
                     state: {
                       prevPage: location.pathname,
                       id: value?.cashierId,
@@ -121,7 +121,7 @@ const User = ({ value }: Props) => {
           ) : null}
         </Context>
       </Container>
-      <Modal onClose={(v: boolean) => setOpen(v)} open={open}>
+      <Modal scroll='body' onClose={(v: boolean) => setOpen(v)} open={open}>
         <ModelContent>
           <ModalWrap>
             <Header>
@@ -132,20 +132,20 @@ const User = ({ value }: Props) => {
                     height={image.height}
                     src={image.src}
                     width={image.width}
-                    effect="blur"
-                    style={{ objectFit: "cover" }}
+                    effect='blur'
+                    style={{ objectFit: 'cover' }}
                   />
                 </Avatar>
                 <WrapText>
                   <UserName>
                     {value.clientFirstName} {value.clientLastName}
                   </UserName>
-                  <Status>{t("status")}: Base 5%</Status>
+                  <Status>{t('status')}: Base 5%</Status>
                 </WrapText>
               </LeftHeader>
               <WrapClose>
-                <Date margin="10px 10px 0 20px">
-                  {dayjs(value.createdAt).format("DD.MM.YYYY HH:MM")}
+                <Date margin='10px 10px 0 20px'>
+                  {dayjs(value.createdAt).format('DD.MM.YYYY HH:mm')}
                 </Date>
                 <IconButton onClick={() => setOpen(false)}>
                   <CloseIcon />
@@ -160,7 +160,7 @@ const User = ({ value }: Props) => {
             <Context>
               {value.review ? (
                 <>
-                  <Title>{t("review")}:</Title>
+                  <Title>{t('review')}:</Title>
                   <ModalContext>{value.review}</ModalContext>
                 </>
               ) : null}
@@ -168,7 +168,7 @@ const User = ({ value }: Props) => {
                 <Wrapper>
                   {value.firstName || value.lastName ? (
                     <>
-                      <Title>{t("cashier")}:</Title>
+                      <Title>{t('cashier')}:</Title>
                       <ModalText>
                         {value.firstName} {value.lastName}
                       </ModalText>
@@ -176,7 +176,7 @@ const User = ({ value }: Props) => {
                   ) : null}
                 </Wrapper>
                 <Wrapper>
-                  <Title>{t("filial")}:</Title>
+                  <Title>{t('filial')}:</Title>
                   <ModalText>
                     Rademakerstraat 14, 3769 BD Soesterberg, Ниде
                   </ModalText>
@@ -186,22 +186,22 @@ const User = ({ value }: Props) => {
                 <MoneyIcon />
                 <Wrapper>
                   <ModalText>Операция от 11.06.2021</ModalText>
-                  <ModalText>{t("totalsum")}: 350 000 сум</ModalText>
+                  <ModalText>{t('totalsum')}: 350 000 сум</ModalText>
                   <WrapMoney>
-                    <ModalText>{t("sale")}: 35 000 сум</ModalText>
-                    <ModalText>{t("paidwithpoints")}: 35 000</ModalText>
+                    <ModalText>{t('sale')}: 35 000 сум</ModalText>
+                    <ModalText>{t('paidwithpoints')}: 35 000</ModalText>
                   </WrapMoney>
                 </Wrapper>
               </WrapMoney>
               <Button
-                margin={{ laptop: "20px 0 0 0" }}
+                margin={{ laptop: '20px 0 0 0' }}
                 startIcon={<MessageIcon />}
                 onClick={() => {
                   dispatch(setChosenClientChat({ data: value, choose: true }));
-                  history.push("/feedback/posts");
+                  history.push('/feedback/posts');
                 }}
               >
-                {t("writemessage")}
+                {t('writemessage')}
               </Button>
             </Context>
           </ModalWrap>

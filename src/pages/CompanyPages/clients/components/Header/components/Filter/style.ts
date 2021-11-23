@@ -6,4 +6,7 @@ export const Wrapper = styled.div`
   @media (max-width: ${device.planshet}) {
     margin: 20px 0;
   }
+  @media (max-width: ${device.mobile}) {
+    margin: 0
+  }
 `;

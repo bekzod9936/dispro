@@ -118,8 +118,10 @@ export const Wrapper = styled.div`
 `;
 
 export const Content = styled.div`
-  height: 100%;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 `;
 
 export const Img = styled.img`
@@ -133,15 +135,13 @@ export const Img = styled.img`
 `;
 
 export const WrapDef = styled.div`
-  display: flex;
-  flex-wrap: wrap;
   color: #223367;
   font-weight: normal;
   font-size: 18px;
   text-align: center;
   grid-gap: 20px;
-  align-content: start;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 `;
 
 export const NoResult = styled.div`
@@ -235,4 +235,5 @@ export const WrapPag = styled.div`
   align-items: center;
   margin: 25px 0 0;
   padding-bottom: 25px;
+  width: 100%;
 `;
