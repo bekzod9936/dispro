@@ -1,26 +1,16 @@
-import { Grid, IconButton } from "@material-ui/core";
-import { switchItems } from "./constants";
-import Input from "components/Custom/Input";
-import { useState } from "react";
+import { Controller } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+
+//hooks
+import useLoyality from "./hooks/useLoyality";
+import useWindowWidth from "services/hooks/useWindowWidth";
+
+//styles
 import { Flex } from "styles/BuildingBlocks";
 import { LargePanel } from "../../styles/SettingStyles";
 import { CustomButton, ModalComponent, Text } from "styles/CustomStyles";
-import { useTranslation } from "react-i18next";
-import { Controller } from "react-hook-form";
-import { SaveIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
-import { AddIconSettings } from "assets/icons/SettingsIcons/SettingsPageIcon";
-import { ReactComponent as RemoveIconSettings } from "assets/icons/delete_level.svg";
-import { ReactComponent as PercentIcon } from "assets/icons/percent_icon.svg";
-import { ReactComponent as Close } from "assets/icons/IconsInfo/close.svg";
-import { ReactComponent as EmptySetting } from "assets/images/empty_setting.svg";
 import { FONT_SIZE, FONT_WEIGHT } from "services/Types/enums";
-import { SyncIcon } from "assets/icons/FeedBackIcons.tsx/FeedbackIcons";
-import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
-import CustomToggle from "components/Custom/CustomToggleSwitch";
-import useLoyality from "./hooks/useLoyality";
-import { RippleDiv } from "components/Custom/RippleEffect/style";
-import NestedArray from "./components/NestedArray";
-import Checkbox from "components/Custom/CheckBox";
 import {
   AddIconDiv,
   LeftGrid,
@@ -38,17 +28,39 @@ import {
   MainContainer,
   EText,
 } from "./styles";
+
+//icons
+import { ReactComponent as RemoveIconSettings } from "assets/icons/delete_level.svg";
+import { ReactComponent as PercentIcon } from "assets/icons/percent_icon.svg";
+import { ReactComponent as Close } from "assets/icons/IconsInfo/close.svg";
+import { ReactComponent as EmptySetting } from "assets/images/empty_setting.svg";
+import { SyncIcon } from "assets/icons/FeedBackIcons.tsx/FeedbackIcons";
+import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
+import { SaveIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
+import { AddIconSettings } from "assets/icons/SettingsIcons/SettingsPageIcon";
+//constants
+import { switchItems } from "./constants";
+import { numberWith } from "services/utils";
+//components
+import Input from "components/Custom/Input";
+import { Grid, IconButton } from "@material-ui/core";
+import CustomToggle from "components/Custom/CustomToggleSwitch";
 import Spinner from "components/Helpers/Spinner";
 import Button from "components/Custom/Button";
 import RippleEffect from "components/Custom/RippleEffect";
 import NotifySnack from "components/Custom/Snackbar";
-import { useAppSelector } from "services/redux/hooks";
-import { numberWith } from "services/utils";
 import Modal from "components/Custom/Modal";
 import Radio from "components/Custom/Radio";
 import InputFormat from "components/Custom/InputFormat";
-import useWindowWidth from "services/hooks/useWindowWidth";
+import { RippleDiv } from "components/Custom/RippleEffect/style";
+import Checkbox from "components/Custom/CheckBox";
+//mobile
 import MobileContent from "./components/MobileContent";
+//requirement fields
+import NestedArray from "./components/NestedArray";
+//recoil states
+import { useLoyal, baseLoyalty } from "services/atoms/settings/loyality";
+import { switchKeyT, setSwitchKeyT } from "services/atoms/settings";
 
 const LoyaltyProgramSection = () => {
   const { t } = useTranslation();
@@ -87,21 +99,31 @@ const LoyaltyProgramSection = () => {
     emptyDiscount,
     emptyBonuspoint,
   } = useLoyality();
-  console.log("active main", active);
 
-  const base_loyality = useAppSelector((state) => state.settings.base_loyality);
-  const usePoint: boolean = useAppSelector(
-    (state) => state.loyalitySlice.usePoint
-  );
-  const useProgram: boolean = useAppSelector(
-    (state) => state.loyalitySlice.useProgram
-  );
-
-  const [switchKey, setSwitchKey] = useState("discount");
+  //selectors
+  const setSwitchKey = useSetRecoilState(setSwitchKeyT);
+  //atoms
+  const base_loyality = useRecoilValue(baseLoyalty);
+  const useLoyalMain = useRecoilValue(useLoyal);
+  const switchKey = useRecoilValue(switchKeyT);
 
   //save loyalitys
 
   const onError = (errors: any, e: any) => console.log(errors, e);
+
+  const handleChecked = (key: any) => {
+    setSwitchKey(key);
+    setActiveCheck(key);
+    if (emptyCashback.empty && emptyCashback.type === key) {
+      setAssertModalVisible(false);
+    } else if (emptyDiscount.empty && emptyDiscount.type === key) {
+      setAssertModalVisible(false);
+    } else if (emptyBonuspoint.empty && emptyBonuspoint.type === key) {
+      setAssertModalVisible(false);
+    } else {
+      setAssertModalVisible(true);
+    }
+  };
 
   const content = () => {
     if (width <= 1000) {
@@ -138,29 +160,7 @@ const LoyaltyProgramSection = () => {
                       <CustomToggle
                         checked={item.key === active}
                         disabled={item.key === active}
-                        onChange={(checked: any) => {
-                          console.log(item.key, "item check");
-                          setSwitchKey(item.key);
-                          setActiveCheck(item?.key);
-                          if (
-                            emptyCashback.empty &&
-                            emptyCashback.type === item.key
-                          ) {
-                            setAssertModalVisible(false);
-                          } else if (
-                            emptyDiscount.empty &&
-                            emptyDiscount.type === item.key
-                          ) {
-                            setAssertModalVisible(false);
-                          } else if (
-                            emptyBonuspoint.empty &&
-                            emptyBonuspoint.type === item.key
-                          ) {
-                            setAssertModalVisible(false);
-                          } else {
-                            setAssertModalVisible(true);
-                          }
-                        }}
+                        onChange={(checked: any) => handleChecked(item.key)}
                       />
                     </Flex>
 
@@ -533,11 +533,11 @@ const LoyaltyProgramSection = () => {
                             <Controller
                               name="useProgram"
                               control={control}
-                              defaultValue={useProgram}
+                              defaultValue={useLoyalMain.useProgram}
                               render={({ field }) => (
                                 <Checkbox
                                   {...field}
-                                  checked={useProgram}
+                                  checked={useLoyalMain.useProgram}
                                   label={t("useLoyaltyProgram")}
                                 />
                               )}
@@ -547,11 +547,11 @@ const LoyaltyProgramSection = () => {
                             <Controller
                               name="usePoint"
                               control={control}
-                              defaultValue={usePoint}
+                              defaultValue={useLoyalMain.usePoint}
                               render={({ field }) => (
                                 <Checkbox
                                   {...field}
-                                  checked={usePoint}
+                                  checked={useLoyalMain.usePoint}
                                   label={t("substractingPoints")}
                                 />
                               )}
@@ -643,7 +643,6 @@ const LoyaltyProgramSection = () => {
 
                 <Button
                   onClick={() => {
-                    console.log("clicked", switchKey);
                     handleSwitchChange(true, switchKey);
                     setAssertModalVisible(false);
                   }}

@@ -1,12 +1,18 @@
 import { useState, useEffect } from "react";
+import { useSetRecoilState } from "recoil";
 import { useMutation, useQuery } from "react-query";
+import { useForm, useFieldArray } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+
+//types
+import { IEmpty, FormProps } from "./types";
+
+//queries
 import {
   fetchBonusPoints,
   fetchCashback,
   fetchDiscount,
 } from "services/queries/partnerQuery";
-import { setLoyaltyUse } from "services/redux/Slices/loyalitySlice";
-import { useForm, useFieldArray } from "react-hook-form";
 import {
   changeProgramLoyality,
   fetchProgramSettings,
@@ -14,39 +20,29 @@ import {
   loyalityNewSaveChange,
   saveUseProgramLoyality,
 } from "services/queries/settingsQuery";
+
+//utils
 import { parseSimpleString } from "services/utils";
 import { useAppDispatch } from "services/redux/hooks";
+//slices
 import {
   setBallCheck,
-  setBaseLoyality,
   setCashbackCheck,
   setMEmptyCashback,
   setSaleCheck,
   setMEmptyBall,
   setMEmptySale,
 } from "services/redux/Slices/settingsSlice";
-import { useTranslation } from "react-i18next";
 import { levelReqs } from "../constants";
-
-export interface FormProps {
-  levels?: any;
-  requirements?: any;
-  max_percent?: string | number;
-  give_cashback_after?: string | number;
-  base_level?: any;
-  base_name?: any;
-  base_percent?: any;
-  useProgram?: any;
-  usePoint?: any;
-}
-
-interface IEmpty {
-  empty?: boolean;
-  type?: string;
-}
+//selectors
+import { setBaseLoyal, setUseLoyal } from "services/atoms/settings/loyality";
 
 const useLoyality = () => {
   const { t } = useTranslation();
+  //recoil selectors
+  const setBaseLoyality = useSetRecoilState(setBaseLoyal);
+  const setLoyaltyUse = useSetRecoilState(setUseLoyal);
+  //hook form
   const {
     control,
     handleSubmit,
@@ -406,27 +402,27 @@ const useLoyality = () => {
             empty: true,
             type: "discount",
           });
-          dispatch(
-            setBaseLoyality({
-              max_percent: "",
-              base_percent: "",
-              give_cashback_after: "",
-            })
-          );
+
+          setBaseLoyality({
+            max_percent: "",
+            base_percent: "",
+            give_cashback_after: "",
+          });
+
           reset();
         } else {
           dispatch(setMEmptySale(false));
           if (data?.data?.data?.isActive) {
             setAvailCheck(true);
             setActive("discount");
-            dispatch(
-              setBaseLoyality({
-                max_percent: data.data.data.maxAmount,
-                base_percent: data.data.data.percent,
-                give_cashback_after: data.data.data.cashbackReturnedDay,
-                base_name: data.data.data.name,
-              })
-            );
+
+            setBaseLoyality({
+              max_percent: data.data.data.maxAmount,
+              base_percent: data.data.data.percent,
+              give_cashback_after: data.data.data.cashbackReturnedDay,
+              base_name: data.data.data.name,
+            });
+
             dispatch(setSaleCheck(true));
             setValue("max_percent", data.data.data.maxAmount);
             setValue("give_cashback_after", data.data.data.cashbackReturnedDay);
@@ -436,14 +432,14 @@ const useLoyality = () => {
           } else {
             if (refetchDiscount > 0) {
               console.log("logged discount");
-              dispatch(
-                setBaseLoyality({
-                  max_percent: data.data.data.maxAmount,
-                  base_percent: data.data.data.percent,
-                  give_cashback_after: data.data.data.cashbackReturnedDay,
-                  base_name: data.data.data.name,
-                })
-              );
+
+              setBaseLoyality({
+                max_percent: data.data.data.maxAmount,
+                base_percent: data.data.data.percent,
+                give_cashback_after: data.data.data.cashbackReturnedDay,
+                base_name: data.data.data.name,
+              });
+
               setValue("max_percent", data.data.data.maxAmount);
               setValue(
                 "give_cashback_after",
@@ -471,14 +467,14 @@ const useLoyality = () => {
             empty: true,
             type: "cashback",
           });
-          dispatch(
-            setBaseLoyality({
-              max_percent: "",
-              base_percent: "",
-              give_cashback_after: "",
-              base_name: "",
-            })
-          );
+
+          setBaseLoyality({
+            max_percent: "",
+            base_percent: "",
+            give_cashback_after: "",
+            base_name: "",
+          });
+
           reset();
         } else {
           dispatch(setMEmptyCashback(false));
@@ -486,14 +482,14 @@ const useLoyality = () => {
             setAvailCheck(true);
             setActive("cashback");
             setValue("max_percent", data.data.data.maxAmount);
-            dispatch(
-              setBaseLoyality({
-                max_percent: data.data.data.maxAmount,
-                base_percent: data.data.data.percent,
-                give_cashback_after: data.data.data.cashbackReturnedDay,
-                base_name: data.data.data.name,
-              })
-            );
+
+            setBaseLoyality({
+              max_percent: data.data.data.maxAmount,
+              base_percent: data.data.data.percent,
+              give_cashback_after: data.data.data.cashbackReturnedDay,
+              base_name: data.data.data.name,
+            });
+
             dispatch(setCashbackCheck(true));
             setValue("give_cashback_after", data.data.data.cashbackReturnedDay);
             setValue("base_name", data.data.data.name);
@@ -502,14 +498,14 @@ const useLoyality = () => {
           } else {
             if (refetchCashback > 0) {
               setValue("max_percent", data.data.data.maxAmount);
-              dispatch(
-                setBaseLoyality({
-                  max_percent: data.data.data.maxAmount,
-                  base_percent: data.data.data.percent,
-                  give_cashback_after: data.data.data.cashbackReturnedDay,
-                  base_name: data.data.data.name,
-                })
-              );
+
+              setBaseLoyality({
+                max_percent: data.data.data.maxAmount,
+                base_percent: data.data.data.percent,
+                give_cashback_after: data.data.data.cashbackReturnedDay,
+                base_name: data.data.data.name,
+              });
+
               setValue(
                 "give_cashback_after",
                 data.data.data.cashbackReturnedDay
@@ -537,27 +533,26 @@ const useLoyality = () => {
             type: "bonuspoint",
           });
           reset();
-          dispatch(
-            setBaseLoyality({
-              max_percent: "",
-              base_percent: "",
-              give_cashback_after: 0,
-              base_name: "",
-            })
-          );
+
+          setBaseLoyality({
+            max_percent: "",
+            base_percent: "",
+            give_cashback_after: 0,
+            base_name: "",
+          });
         } else {
           dispatch(setMEmptyBall(false));
           if (data?.data?.data?.isActive) {
             setAvailCheck(true);
             setActive("bonuspoint");
-            dispatch(
-              setBaseLoyality({
-                max_percent: data.data.data.maxAmount,
-                base_percent: data.data.data.percent,
-                give_cashback_after: 0,
-                base_name: data.data.data.name,
-              })
-            );
+
+            setBaseLoyality({
+              max_percent: data.data.data.maxAmount,
+              base_percent: data.data.data.percent,
+              give_cashback_after: 0,
+              base_name: data.data.data.name,
+            });
+
             dispatch(setBallCheck(true));
             setValue("max_percent", data.data.data.maxAmount);
             setValue("base_name", data.data.data.name);
@@ -565,14 +560,13 @@ const useLoyality = () => {
             setValue("levels", data.data.data.levels);
           } else {
             if (refetchBonusPoints > 0) {
-              dispatch(
-                setBaseLoyality({
-                  max_percent: data.data.data.maxAmount,
-                  base_percent: data.data.data.percent,
-                  give_cashback_after: 0,
-                  base_name: data.data.data.name,
-                })
-              );
+              setBaseLoyality({
+                max_percent: data.data.data.maxAmount,
+                base_percent: data.data.data.percent,
+                give_cashback_after: 0,
+                base_name: data.data.data.name,
+              });
+
               setValue("max_percent", data.data.data.maxAmount);
               setValue("base_name", data.data.data.name);
               setValue("base_percent", data.data.data.percent);
@@ -724,12 +718,10 @@ const useLoyality = () => {
       console.log(data.data.data, "data");
       setValue("useProgram", data.data.data.useProgram);
       setValue("usePoint", data.data.data.usePoint);
-      dispatch(
-        setLoyaltyUse({
-          useProgram: data.data.data.useProgram,
-          usePoint: data.data.data.usePoint,
-        })
-      );
+      setLoyaltyUse({
+        useProgram: data.data.data.useProgram,
+        usePoint: data.data.data.usePoint,
+      });
     },
   });
 

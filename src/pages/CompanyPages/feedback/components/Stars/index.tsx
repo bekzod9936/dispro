@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'services/redux/hooks';
+import Grade from '../Grade';
 import {
   Container,
   Rate,
@@ -9,7 +10,6 @@ import {
   WrapStartT,
   RateText,
 } from './style';
-import Grade from '../Grade';
 
 const Stars = () => {
   const { t } = useTranslation();
@@ -20,7 +20,7 @@ const Stars = () => {
   return (
     <Container>
       <div>
-        <Grade title={t('overallscore')} rate={rate} />
+        <Grade title={t('overallscore')} rate={rate?.avg} />
         <Grade title={t('totalratings')} total={total} />
         <Rate>{t('rate')}</Rate>
         {[5, 4, 3, 2, 1].map((v: any, i: number) => {
