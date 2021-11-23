@@ -4,6 +4,7 @@ import { device } from "styles/device";
 export const WrapInputs = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
   @media (max-width: ${device.mobile}) {
     width: 100%;
     overflow: hidden;

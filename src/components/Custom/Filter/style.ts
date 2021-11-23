@@ -28,6 +28,8 @@ export const TickIcon = styled(Tick)`
 
 export const Content = styled.div`
   min-width: 400px;
+  max-width: 500px;
+  width: 100%;
 `;
 
 export const Header = styled.div`

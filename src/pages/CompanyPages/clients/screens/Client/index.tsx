@@ -22,6 +22,7 @@ import { VipModal } from '../../components/ClientsBar/components/VipModal'
 import Modal from 'components/Custom/Modal';
 import { getClientStatistics } from '../../utils/getSelectedFilters';
 import { MobileForm } from '../../components/Form'
+import { IconButton } from '@material-ui/core'
 
 interface IForm {
     open: boolean,
@@ -130,7 +131,7 @@ const Client = () => {
                         setVipModalState={setVipModalState}
                         setVipModal={setVipModal}
                         client={client} />
-                    <Recommendation referLevels={currentClient?.childReferalClientsByLevel} />
+                    <Recommendation referLevels={currentClient?.childReferalClientsByLevel || []} />
                 </UpSide>
                 <MiddleSide>
                     {getClientStatistics(client?.addInfo)?.map((el, index) => (
@@ -185,7 +186,9 @@ const Client = () => {
                         handleClose={() => setIsOpen(false)} />}
                 <MUpside>
                     <MNav>
-                        <GoBackIcon onClick={handleClose} style={{ width: 10, height: 15, cursor: "pointer" }} />
+                        <IconButton onClick={handleClose}>
+                            <GoBackIcon style={{ width: 10, height: 15, cursor: "pointer" }} />
+                        </IconButton>
                         <MClientInfo>
                             {client?.image ?
                                 <div className="image">
@@ -219,7 +222,7 @@ const Client = () => {
                         </Button>
                         <Button
                             onClick={(e) => handleDownModal(e, "other")}
-                            buttonStyle={{ bgcolor: "#F0F0F0", color: "#606EEA", weight: "500" }}
+                            buttonStyle={{ bgcolor: "#fff", color: "#606EEA", weight: "500" }}
                             endIcon={<DownIcon />}>
                             Ещё
                         </Button>

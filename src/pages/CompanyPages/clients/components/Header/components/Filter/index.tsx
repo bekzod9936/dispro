@@ -65,7 +65,7 @@ export const MFilter = () => {
       content: (
         <WrapInputs>
           <Label>{t("chose_date")}</Label>
-          <div>
+          <div style={{ width: "100%" }}>
             {/* <Input
               type="date"
               width={{
@@ -154,7 +154,7 @@ export const MFilter = () => {
             inputStyle={{
               inpadding: "0 10px",
             }}
-            maxLength="4"
+            maxLength="5"
             value={filter?.purchaseAmount?.purchaseCountFrom}
             onChange={(e) => setFilter((prev: any) => ({
               ...prev, purchaseAmount: {
@@ -174,7 +174,7 @@ export const MFilter = () => {
             inputStyle={{
               inpadding: "0 10px",
             }}
-            maxLength="4"
+            maxLength="5"
             value={filter?.purchaseAmount?.purchaseCountTo}
             onChange={(e) => setFilter((prev: any) => ({
               ...prev, purchaseAmount: {

@@ -21,6 +21,7 @@ export const Header = styled.div`
             height: 50px;
             border-radius: 14px;
             margin: 0 15px;
+            object-fit: cover;
         }
         .subContent {
             h4 {
@@ -48,13 +49,14 @@ export const Main = styled.div`
         margin-bottom: 15px;
     }
     p.description {
+        height: 200px;
+        overflow-y: auto;
+        overflow-x: hidden;
         font-size: 14px;
         line-height: 16px;
         color: #223367;
         margin-bottom: 25px;
-        max-width: 280px;
         width: 100%;
-        overflow: hidden;
     }
     ul {
         li {

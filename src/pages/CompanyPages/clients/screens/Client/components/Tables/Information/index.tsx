@@ -83,7 +83,7 @@ const Information = () => {
           </NoteBlock>}
         <Recommendation
           maxWidth="none"
-          referLevels={currentClient?.childReferalClientsByLevel} />
+          referLevels={currentClient?.childReferalClientsByLevel || []} />
       </AddInfo>
     </Container>
   )

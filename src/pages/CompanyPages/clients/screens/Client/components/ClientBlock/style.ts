@@ -1,3 +1,4 @@
+import { Tooltip } from "@material-ui/core";
 import styled from "styled-components";
 import { device } from "styles/device";
 
@@ -102,4 +103,8 @@ export const DownSide = styled.div`
             }
         }
     }
+`
+
+export const StyledToolTip = styled(Tooltip)`
+    background-color: white !important;
 `
