@@ -9,6 +9,7 @@ import dayjs from 'dayjs';
 import { countPagination, numberWithNew } from 'services/utils';
 import { useAppSelector } from 'services/redux/hooks';
 import useWindowWidth from 'services/hooks/useWindowWidth';
+import MobileTable from '../../components/MobileTable';
 import {
   Container,
   CashBackIcon,
@@ -26,7 +27,6 @@ import {
   Info,
   WrapSum,
 } from '../../style';
-import MobileTable from '../../components/MobileTable';
 
 interface intialFilterProps {
   page?: number;
@@ -79,6 +79,75 @@ const Payment = () => {
   const listmobile = data.map((v: any) => {
     const date1 = dayjs(v.date).format('DD.MM.YYYY');
     const date2 = dayjs(v.activateDate).format('DD.MM.YYYY');
+
+    const bodydata =
+      v.operationType === 'cashback_account_top_up'
+        ? [
+            {
+              title: t('typeoftransaction'),
+              value:
+                v.operationType === 'cashback_account_top_up'
+                  ? t('depositcashbek')
+                  : v.operationType === 'cashback_in'
+                  ? t('cashbackaccrual')
+                  : '-',
+            },
+            {
+              title: t('dateofaccrual'),
+              value: date2,
+            },
+            {
+              title: t('status'),
+              value:
+                v.status === 'success'
+                  ? t('accrued')
+                  : v.status === 'pending'
+                  ? t('pending')
+                  : t('canceled'),
+            },
+          ]
+        : [
+            {
+              title: t('typeoftransaction'),
+              value:
+                v.operationType === 'cashback_account_top_up'
+                  ? t('depositcashbek')
+                  : v.operationType === 'cashback_in'
+                  ? t('cashbackaccrual')
+                  : '-',
+            },
+            {
+              title: t('customer'),
+              value: v.clientName ? v.clientName : '-',
+            },
+            {
+              title: t('cashbackUZS'),
+              value: numberWithNew({ number: v?.amount }),
+            },
+            {
+              title: t('commission/top-upamount'),
+              value: numberWithNew({
+                number: Math.round((v.amount / 100) * 100) / 100,
+              }),
+            },
+            {
+              title: t('purchasedate'),
+              value: date1,
+            },
+            {
+              title: t('dateofaccrual'),
+              value: date2,
+            },
+            {
+              title: t('status'),
+              value:
+                v.status === 'success'
+                  ? t('accrued')
+                  : v.status === 'pending'
+                  ? t('pending')
+                  : t('canceled'),
+            },
+          ];
     return {
       title:
         v.operationType === 'cashback_account_top_up'
@@ -96,48 +165,7 @@ const Payment = () => {
           ) : null}
         </WrapIcon>
       ),
-      body: [
-        {
-          title: t('typeoftransaction'),
-          value:
-            v.operationType === 'cashback_account_top_up'
-              ? t('depositcashbek')
-              : v.operationType === 'cashback_in'
-              ? t('cashbackaccrual')
-              : '-',
-        },
-        {
-          title: t('customer'),
-          value: v.clientName ? v.clientName : '-',
-        },
-        {
-          title: t('cashbackUZS'),
-          value: numberWithNew({ number: v?.amount }),
-        },
-        {
-          title: t('commission/top-upamount'),
-          value: numberWithNew({
-            number: Math.round((v.amount / 100) * 100) / 100,
-          }),
-        },
-        {
-          title: t('purchasedate'),
-          value: date1,
-        },
-        {
-          title: t('dateofaccrual'),
-          value: date2,
-        },
-        {
-          title: t('status'),
-          value:
-            v.status === 'success'
-              ? t('accrued')
-              : v.status === 'pending'
-              ? t('pending')
-              : t('canceled'),
-        },
-      ],
+      body: bodydata,
     };
   });
 
