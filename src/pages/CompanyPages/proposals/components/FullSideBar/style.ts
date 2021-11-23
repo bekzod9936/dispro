@@ -49,7 +49,8 @@ export const Main = styled.div`
         margin-bottom: 15px;
     }
     p.description {
-        height: 200px;
+        max-height: 200px;
+        height: 100%;
         overflow-y: auto;
         overflow-x: hidden;
         font-size: 14px;
