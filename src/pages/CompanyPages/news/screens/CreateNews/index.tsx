@@ -463,7 +463,7 @@ const CreateNews = () => {
                     multiline={true}
                     maxLength={800}
                     inputStyle={{
-                      height: { desktop: 120, laptop: 90, mobile: 150 },
+                      height: { desktop: 150, laptop: 90, mobile: 150 },
                     }}
                
                   />
