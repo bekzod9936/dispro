@@ -178,8 +178,6 @@ export const ClientTd = styled.div`
     margin-left: 15px;
   }
   color: ${({ isBlocked }: IProps) => isBlocked ? "#A5A5A5" : "#223367"};
-  /* justify-content: center; */
-  /* margin-left: 15px; */
   img {
     border-radius: 14px;
     width: 40px;
