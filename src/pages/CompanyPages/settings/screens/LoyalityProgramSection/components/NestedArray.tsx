@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { Controller, useFieldArray, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { numberWith } from "services/utils";
@@ -5,6 +6,7 @@ import { numberWith } from "services/utils";
 import MultiSelect from "components/Custom/MultiSelect";
 import RippleEffect from "components/Custom/RippleEffect";
 import InputFormat from "components/Custom/InputFormat";
+import StatusCard from "./StatusCard";
 // hooks
 import useDetail from "../hooks/useDetail";
 // assets
@@ -12,7 +14,8 @@ import { ReactComponent as Plus } from "assets/icons/plus_mini.svg";
 import { ReactComponent as Remove } from "assets/icons/exit_mini.svg";
 //style
 import { LevelGrid, RequirementsGrid, SelectGrid, SubText } from "../styles";
-import { IconDiv } from "./style";
+import { IconDiv, StatusContainer } from "./style";
+import { Break } from "pages/CompanyPages/settings/styles";
 
 interface IProps {
   index: number;
@@ -85,10 +88,28 @@ const NestedArray = ({ index, control, getValues, setValue }: IProps) => {
     else if (unit === "шт") return <div>{t("quantity")}</div>;
   };
 
+  const checkLevels = levels?.length > 0 && fields?.length > 0;
+
+  const groupStatus = () => {
+    let arr1: any = {
+      first: [],
+      second: [],
+    };
+    fields.reduce((itemN: any, key: any) => {
+      if (key.condition === "" || key.condition === "and") {
+        arr1["first"] = [...arr1["first"], key];
+      } else if (key.condition === "or" || key.condition === "and") {
+        arr1["second"] = [...arr1["second"], key];
+      }
+
+      return Object.assign({ ...itemN, [key.condition]: key });
+    }, {});
+    return arr1;
+  };
+
   return (
     <div>
-      {levels?.length > 0 &&
-        fields?.length > 0 &&
+      {checkLevels &&
         fields?.map((value: any, smallIndex: number) => {
           // console.log(
           //   levels[index]?.requirements[smallIndex]?.type,
@@ -282,6 +303,13 @@ const NestedArray = ({ index, control, getValues, setValue }: IProps) => {
             </RequirementsGrid>
           );
         })}
+      <Break height={30} />
+      <StatusContainer>
+        {checkLevels &&
+          Object.keys(groupStatus())?.map((val: any, sIndex: number) => {
+            return <StatusCard val={groupStatus()[val]} index={sIndex} />;
+          })}
+      </StatusContainer>
     </div>
   );
 };

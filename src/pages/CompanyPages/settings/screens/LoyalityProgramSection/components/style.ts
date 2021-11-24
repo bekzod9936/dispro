@@ -11,3 +11,10 @@ export const IconDiv = styled.div`
   background-color: rgba(96, 110, 234, 0.1);
   margin-bottom: 3px;
 `;
+
+export const StatusContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 25px;
+`;
