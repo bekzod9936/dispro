@@ -2,7 +2,7 @@ import { CancelIcon, CloseIcon, DoneIcon, RightArrowIcon } from 'assets/icons/Cl
 import Button from 'components/Custom/Button'
 import Input from "components/Custom/Input"
 import { useTranslation } from 'react-i18next'
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { useMutation } from 'react-query'
 import { changeVipPercent } from 'services/queries/clientsQuery'
 import { useAppSelector } from 'services/redux/hooks'
@@ -25,6 +25,7 @@ export const VipModal = ({ handleClose, refetch, state, id, clientInfo }: IProps
     const [percent, setPercent] = useState("")
     const [error, setError] = useState(false)
     const { selectedClients } = useAppSelector(state => state.clients)
+
     const mutation = useMutation((data: any) => changeVipPercent(data), {
         onSuccess: () => {
             handleClose()
@@ -36,18 +37,17 @@ export const VipModal = ({ handleClose, refetch, state, id, clientInfo }: IProps
         e.preventDefault()
         if (Number(percent) < 1 && state !== 'removing') return
         if (selectedClients.length > 1) {
-            selectedClients.forEach(el => {
-                mutation.mutate({
-                    percent: percent,
-                    clientId: el.id,
-                    isActive: true
-                })
+            let ids = selectedClients.map(el => el.id)
+            mutation.mutate({
+                percent: percent,
+                clientIds: ids,
+                isActive: true
             })
 
         } else {
             mutation.mutate({
                 percent: state !== "removing" ? percent : 0,
-                clientId: id,
+                clientIds: [id],
                 isActive: state !== "removing"
             })
         }
