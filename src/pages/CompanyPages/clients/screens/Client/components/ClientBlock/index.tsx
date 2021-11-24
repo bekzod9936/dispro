@@ -3,7 +3,7 @@ import { BlockIcon, CoinsIcon, CrownIcon, GoBackIcon, MinusCoinsIcon, UnBlockIco
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router'
 import { IClient, IPersonalInfo } from 'services/redux/Slices/clients/types'
-import { DefaultImage, DownSide, Icon, StyledToolTip, UpSide, Wrapper } from './style'
+import { DefaultImage, DownSide, Icon, MIconButton, StyledToolTip, UpSide, Wrapper } from './style'
 import clientDefaultImg from "assets/images/staff_default.png"
 import { blockClient } from "services/queries/clientsQuery"
 import { useMutation } from "react-query"
@@ -71,21 +71,21 @@ export const ClientBlock = ({
                     </DefaultImage>
                 }
                 <LightToolTip arrow placement="top" title={"Начислить баллы"}>
-                    <IconButton>
+                    <MIconButton>
                         <CoinsIcon style={{ width: 35, height: 30 }} />
-                    </IconButton>
+                    </MIconButton>
                 </LightToolTip>
                 <LightToolTip arrow placement="top" title={"Списать баллы"}>
-                    <IconButton>
+                    <MIconButton>
                         <MinusCoinsIcon style={{ width: 35, height: 30 }} />
-                    </IconButton>
+                    </MIconButton>
                 </LightToolTip>
                 <LightToolTip arrow placement="top" title={isPlBlocked ? "Разблокировать" : "Заблокировать"}>
-                    <IconButton onClick={handleBlock} style={{ width: 50, height: 50 }}>
+                    <MIconButton onClick={handleBlock} style={{ width: 50, height: 50 }}>
                         {!isPlBlocked ?
                             <BlockIcon style={{ width: 35, height: 30 }} /> :
                             <UnBlockIcon style={{ width: 35, height: 30 }} />}
-                    </IconButton>
+                    </MIconButton>
                 </LightToolTip>
             </UpSide>
             <DownSide>

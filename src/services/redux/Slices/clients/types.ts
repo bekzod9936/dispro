@@ -13,9 +13,16 @@ export interface IState {
     qrCodeBar: boolean,
     note: string,
     referals: any,
-    headers: any[]
+    headers: any[],
+    allClients: any[],
+    selectedAllClients: ISimpleClient[]
 }
 
+interface ISimpleClient {
+    id: number,
+    firstName: string,
+    lastName: string
+}
 export interface IPersonalInfo {
     clientInfo: IClient,
     childReferalClientsByLevel: IRefChild[],
