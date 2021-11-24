@@ -20,6 +20,7 @@ export const Main = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
   flex: 100%;
+  -webkit-overflow-scrolling: touch;
   ::-webkit-scrollbar {
     width: 7px;
   }
