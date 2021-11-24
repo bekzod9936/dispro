@@ -219,7 +219,7 @@ console.log('filteredArray',filteredArray)
     },
   ];
 
-  const weekDays = newsById?.data?.settings?.weekDays.map((el: any) => {
+  const weekDays = newsById?.data?.settings?.weekDays?.map((el: any) => {
     return {
       label:
         el == 0
@@ -386,11 +386,11 @@ console.log('filteredArray',filteredArray)
                     inputStyle={{
                       height: { desktop: 120, laptop: 90, mobile:150 },
                     }}
-                    IconEnd={
-                      <WrapArea>
-                        <TextAreaIcon />
-                      </WrapArea>
-                    }
+                    // IconEnd={
+                    //   <WrapArea>
+                    //     <TextAreaIcon />
+                    //   </WrapArea>
+                    // }
                   />
                 )}
               />

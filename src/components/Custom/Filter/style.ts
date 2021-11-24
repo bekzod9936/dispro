@@ -74,12 +74,19 @@ export const WrapHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 5px 15px;
+  @media (max-width: ${device.planshet}) {
+    padding: 25px 30px;
+  }
 `;
 
 export const WrapTitle = styled.div`
   font-weight: 500;
   font-size: 16px;
   color: #223367;
+  @media (max-width: ${device.planshet}) {
+    font-size: 18px;
+    line-height: 21.09px;
+  }
 `;
 
 export const CloseIcon = styled(Close)`
@@ -102,6 +109,9 @@ export const FooterModel = styled.div`
   align-items: center;
   justify-content: center;
   padding-bottom: 20px;
+  @media (max-width: ${device.planshet}) {
+    margin-top: 20px;
+  }
 `;
 
 export const WrapMain = styled.div`

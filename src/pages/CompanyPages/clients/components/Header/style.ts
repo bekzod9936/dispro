@@ -13,6 +13,20 @@ export const WrapInputs = styled.div`
     display: flex;
   }
 `;
+
+
+export const PlanshetHeader = styled.div`
+  @media (max-width: ${device.planshet}) {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  @media(max-width: ${device.mobile}) {
+    flex-direction: column;
+    margin-bottom: 0;
+  }
+`
+
 export const Wrapper = styled.div`
   padding: 0 15px 0 0;
 `

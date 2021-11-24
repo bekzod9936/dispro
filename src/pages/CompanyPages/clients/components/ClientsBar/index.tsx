@@ -11,7 +11,7 @@ import {
     UnBlockIconBlue,
 } from "assets/icons/ClientsPageIcons/ClientIcons";
 import { CancelButton } from "../QrCodeBar/style";
-import { selectAll, setAllClients } from 'services/redux/Slices/clients'
+import { selectAll, setAllClients, setClient } from 'services/redux/Slices/clients'
 import { MModal } from "../Modal";
 import { useState } from "react";
 import { useHistory } from "react-router";
@@ -37,7 +37,6 @@ import clientDefaultImage from "assets/images/staff_default.png"
 import { numberWith } from "services/utils";
 import FullModal from "components/Custom/FullModal";
 import { ViewAll } from "../ViewAll";
-import { RemoveFilterBtn } from "../Header/components/RemoveFilterBtn";
 import { useTranslation } from "react-i18next";
 interface IProps {
     refetch: any;
@@ -62,7 +61,7 @@ const modalInfo: any = {
 export const ClientsBar = ({ refetch }: IProps) => {
     const dispatch = useAppDispatch()
     const { t } = useTranslation()
-    const { selectedClients, selectedAllClients } = useAppSelector(state => state.clients)
+    const { selectedClients } = useAppSelector(state => state.clients)
     const client = selectedClients[0]
     const [vipModal, setVipModal] = useState(false)
     const history = useHistory()
@@ -206,12 +205,12 @@ export const ClientsBar = ({ refetch }: IProps) => {
                     </Button>
                 </WrapperContent> : selectedClients.length > 1 ?
                     <div>
-                        <Text>Выбрано: {selectedAllClients.length}</Text>
+                        <Text>Выбрано: {selectedClients.length}</Text>
                         <SelectedClients>
-                            {selectedAllClients.map(client => (
+                            {selectedClients.map(client => (
                                 <div className="client">
                                     <span>{client.firstName + " " + client.lastName}</span>
-                                    <MiniCloseIcon />
+                                    <MiniCloseIcon onClick={() => dispatch(setClient(client.id))} />
                                 </div>
                             ))}
                         </SelectedClients>

@@ -5,6 +5,7 @@ import Accordion from 'components/Custom/Accordion';
 import { useState } from 'react';
 import useWindowWidth from 'services/hooks/useWindowWidth';
 import FullModal from 'components/Custom/FullModal';
+import Modal from 'components/Custom/Modal';
 import { IconButton } from '@material-ui/core';
 import {
   FilterIcon,
@@ -34,8 +35,8 @@ interface Props {
 
 const Filter = ({
   list,
-  onSubmit = () => {},
-  onReset = () => {},
+  onSubmit = () => { },
+  onReset = () => { },
   error,
   position,
 }: Props) => {
@@ -49,7 +50,7 @@ const Filter = ({
     setCloseFun(e);
   };
 
-  return width > 600 ? (
+  return width > 1000 ? (
     <Popover
       click={
         <Button
@@ -132,6 +133,95 @@ const Filter = ({
         </Footer>
       </Content>
     </Popover>
+  ) : width <= 1000 && width > 600 ? (
+    <Container>
+      <Button
+        buttonStyle={{
+          shadow: '0px 4px 4px rgba(0, 0, 0, 0.04)',
+          bgcolor: 'white',
+          color: '#223367',
+          weight: 500,
+          fontSize: {
+            mobile: 14,
+            desktop: 18,
+            laptop: 16,
+          },
+          height: {
+            mobile: 36,
+          },
+        }}
+        startIcon={<FilterIcon />}
+        onClick={() => setOpen(true)}
+      >
+        {t('filters')}
+      </Button>
+      <Modal open={open}>
+        <WrapMain>
+          <WrapBody>
+            <WrapHeader>
+              <WrapTitle>{t('filters')}</WrapTitle>
+              <IconButton
+                style={{ marginRight: '-12px' }}
+                onClick={() => setOpen(false)}
+              >
+                <CloseIcon />
+              </IconButton>
+            </WrapHeader>
+            <BoxWrap>
+              <Accordion list={list} />
+            </BoxWrap>
+          </WrapBody>
+
+          <FooterModel>
+            <Button
+              buttonStyle={{
+                bgcolor: '#F0F1FD',
+                color: '#606EEA',
+                weight: 500,
+                fontSize: {
+                  mobile: 14,
+                  desktop: 18,
+                  laptop: 16,
+                },
+                height: {
+                  mobile: 36,
+                },
+              }}
+              endIcon={<ResetIcon />}
+              onClick={() => {
+                setOpen(false);
+                onReset();
+              }}
+            >
+              {t('reset')}
+            </Button>
+            <Button
+              buttonStyle={{
+                weight: 500,
+                shadow: ' 0px 4px 9px rgba(96, 110, 234, 0.46)',
+                fontSize: {
+                  mobile: 14,
+                  desktop: 18,
+                  laptop: 16,
+                },
+                height: {
+                  mobile: 36,
+                },
+              }}
+              margin={{ planshet: '0 0 0 20px', }}
+              startIcon={<TickIcon />}
+              disabled={error}
+              onClick={() => {
+                setOpen(false);
+                onSubmit();
+              }}
+            >
+              {t('apply')}
+            </Button>
+          </FooterModel>
+        </WrapMain>
+      </Modal>
+    </Container>
   ) : (
     <Container>
       <Button
