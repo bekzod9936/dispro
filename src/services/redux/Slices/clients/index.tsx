@@ -2,7 +2,47 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import dayjs from "dayjs";
 import { numberWith } from "services/utils";
 import { IClient, IFetchData, IFilters, IState } from "./types";
-
+const initialClient: IClient = {
+    id: 0,
+    addInfo: {
+        amountOperation: 0,
+        cashbackSum: 0,
+        countOperation: 0,
+        countRefer: 0,
+        dateOfBirth: "",
+        discountSum: 0,
+        genderStr: "",
+        lastPurchaseAmount: 0,
+        lastPurchaseDate: "",
+        pointSum: 0,
+        referLevel: 1,
+        sourceBy: "",
+        status: ""
+    },
+    blockedReason: "",
+    createdAt: "",
+    dateOfBirth: "",
+    firstName: "",
+    genderTypeId: 1,
+    image: "",
+    isPlBlocked: false,
+    lastName: "",
+    notes: "",
+    obtainProgramLoyalty: {
+        levelName: "",
+        percent: 0
+    },
+    personalLoyaltyInfo: {
+        isActive: false,
+        percent: 0
+    },
+    profileStatus: "",
+    qrCode: "",
+    regionCode: "",
+    regionId: 1,
+    telNumber: "",
+    userId: 0
+}
 const initialState: IState = {
     loading: false,
     isFiltersVisible: false,
@@ -29,59 +69,8 @@ const initialState: IState = {
         { value: "Пол", label: "gender" },
         { value: "Возраст", label: "age" },
     ],
-    allClients: [
-        {
-            id: 1,
-            firstName: "John",
-            lastName: "Jackson"
-        },
-        {
-            id: 2,
-            firstName: "Mike",
-            lastName: "Dune"
-        },
-        {
-            id: 4,
-            firstName: "Lionel",
-            lastName: "Messi"
-        },
-        {
-            id: 5,
-            firstName: "James",
-            lastName: "Bond"
-        },
-        {
-            id: 6,
-            firstName: "Tom",
-            lastName: "Jerry"
-        },
-        {
-            id: 7,
-            firstName: "Rick",
-            lastName: "Morty"
-        },
-        {
-            id: 8,
-            firstName: "Spider",
-            lastName: "Man"
-        },
-        {
-            id: 9,
-            firstName: "Batman",
-            lastName: "Joker"
-        },
-        {
-            id: 10,
-            firstName: "Align",
-            lastName: "Items"
-        },
-        {
-            id: 11,
-            firstName: "React",
-            lastName: "Reconciliation"
-        },
-
-    ],
+    client: initialClient,
+    allClients: [],
     selectedAllClients: []
 };
 
@@ -112,6 +101,7 @@ const clientsSlice = createSlice({
             state.visibleClients = [...visibleClients]
             state.totalCount = payload.totalCount
             state.selectedClients = []
+            state.client = initialClient
             state.selectedAllClients = []
             state.totalPages = Math.ceil(payload.totalCount / 5)
         },
@@ -123,22 +113,15 @@ const clientsSlice = createSlice({
             const isAdded = state.selectedClients.find(el => el.id === payload)
             if (isAdded) {
                 state.selectedClients = state.selectedClients.filter(el => el.id !== payload)
-                state.selectedAllClients = state.selectedAllClients.filter(el => el.id !== payload)
             }
             else {
                 if (client) {
                     state.selectedClients = [...state.selectedClients, client]
-                    state.selectedAllClients = [...state.selectedAllClients, {
-                        id: client.id,
-                        firstName: client.firstName,
-                        lastName: client.lastName
-                    }]
                 }
             }
         },
         selectAll: (state: IState, { payload }: PayloadAction<boolean>) => {
             state.selectedClients = payload ? [...state.clients] : []
-            state.selectedAllClients = payload ? [...state.clients] : []
         },
         setFilters: (state: IState, { payload }: PayloadAction<IFilters>) => {
             state.filters = { ...payload }
@@ -183,8 +166,10 @@ const clientsSlice = createSlice({
             }
         },
         setAllClients: (state: IState, { payload }: PayloadAction<boolean>) => {
-            state.selectedAllClients = payload ? [...state.allClients] : []
-            state.selectedClients = payload ? [...state.clients] : []
+            state.selectedClients = payload ? [...state.allClients] : []
+        },
+        setAllClientsData: (state: IState, { payload }: PayloadAction<IClient[]>) => {
+            state.allClients = [...payload]
         }
 
     }
@@ -204,5 +189,6 @@ export const {
     setCurrentClient,
     setNote,
     setHeaders,
-    setAllClients } = clientsSlice.actions
+    setAllClients,
+    setAllClientsData } = clientsSlice.actions
 export default clientsSlice.reducer

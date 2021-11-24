@@ -10,15 +10,16 @@ import { EmptyPage } from '../../components/EmptyPage';
 import { QrCodeBar } from '../../components/QrCodeBar';
 import { ClientsBar } from '../../components/ClientsBar';
 import { SideBar } from '../../components/SideBar';
-import { useAppSelector } from 'services/redux/hooks';
+import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import { useWindowSize } from '../../hooks/useWindowSize';
 import { DownBar } from '../../components/DownBar';
-import { useMutation } from 'react-query';
-import { fetchQrCode } from 'services/queries/clientsQuery';
+import { useMutation, useQuery } from 'react-query';
+import { fetchAllClients, fetchQrCode } from 'services/queries/clientsQuery';
 import FullModal from 'components/Custom/FullModal';
 import { MobileQrBar } from '../../components/MobileQrBar';
 import { DownBarViewer } from '../../components/DownBarViewer';
 import { MobileForm } from '../../components/Form';
+import { setAllClientsData } from 'services/redux/Slices/clients';
 export interface IMobileForm {
 	open: boolean,
 	action: 1 | 2 | 3
@@ -28,6 +29,7 @@ const ClientsPage = () => {
 	const [debouncedQuery] = useDebounce(query, 300)
 	const { totalCount, selectedClients } = useAppSelector(state => state.clients)
 	const client = selectedClients[0]
+	const dispatch = useAppDispatch()
 	const { width } = useWindowSize()
 	const [modals, setModals] = useState({
 		qrModal: false,
@@ -43,6 +45,16 @@ const ClientsPage = () => {
 	})
 
 	const { refetch, isFetching } = useFetchClients({ query: debouncedQuery });
+	const _ = useQuery("fetchAllClients", () => fetchAllClients(), {
+		refetchOnWindowFocus: false,
+		retry: 0,
+		refetchOnMount: false,
+		onSuccess: (data) => {
+			dispatch(setAllClientsData(data.data.clients));
+		}
+	})
+
+
 
 	const { mutate } = useMutation(() => fetchQrCode(), {
 		retry: 0,

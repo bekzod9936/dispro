@@ -15,7 +15,8 @@ export interface IState {
     referals: any,
     headers: any[],
     allClients: any[],
-    selectedAllClients: ISimpleClient[]
+    selectedAllClients: IClient[],
+    client: IClient
 }
 
 interface ISimpleClient {
