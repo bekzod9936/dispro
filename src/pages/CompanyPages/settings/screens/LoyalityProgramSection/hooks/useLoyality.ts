@@ -1,12 +1,18 @@
 import { useState, useEffect } from "react";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { useMutation, useQuery } from "react-query";
+import { useForm, useFieldArray } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+
+//types
+import { FormProps } from "./types";
+
+//queries
 import {
   fetchBonusPoints,
   fetchCashback,
   fetchDiscount,
 } from "services/queries/partnerQuery";
-import { setLoyaltyUse } from "services/redux/Slices/loyalitySlice";
-import { useForm, useFieldArray } from "react-hook-form";
 import {
   changeProgramLoyality,
   fetchProgramSettings,
@@ -14,39 +20,56 @@ import {
   loyalityNewSaveChange,
   saveUseProgramLoyality,
 } from "services/queries/settingsQuery";
+
+//utils
 import { parseSimpleString } from "services/utils";
 import { useAppDispatch } from "services/redux/hooks";
+//slices
 import {
   setBallCheck,
-  setBaseLoyality,
   setCashbackCheck,
   setMEmptyCashback,
   setSaleCheck,
   setMEmptyBall,
   setMEmptySale,
 } from "services/redux/Slices/settingsSlice";
-import { useTranslation } from "react-i18next";
 import { levelReqs } from "../constants";
-
-export interface FormProps {
-  levels?: any;
-  requirements?: any;
-  max_percent?: string | number;
-  give_cashback_after?: string | number;
-  base_level?: any;
-  base_name?: any;
-  base_percent?: any;
-  useProgram?: any;
-  usePoint?: any;
-}
-
-interface IEmpty {
-  empty?: boolean;
-  type?: string;
-}
+//selectors
+import { setBaseLoyal, setUseLoyal } from "services/atoms/settings/loyality";
+import {
+  activeM,
+  activeCheckM,
+  setActiveM,
+  setActiveCheckM,
+  eCashback,
+  eBonuspoint,
+  eDiscount,
+  setEBonuspoint,
+  setEDiscount,
+  setECashback,
+} from "services/atoms/settings";
 
 const useLoyality = () => {
+  let companyId: any = localStorage.getItem("companyId");
   const { t } = useTranslation();
+  //atoms
+  const active = useRecoilValue(activeM);
+  const activeCheck = useRecoilValue(activeCheckM);
+
+  const emptyCashback = useRecoilValue(eCashback);
+  const emptyDiscount = useRecoilValue(eDiscount);
+  const emptyBonuspoint = useRecoilValue(eBonuspoint);
+  //recoil selectors
+  const setBaseLoyality = useSetRecoilState(setBaseLoyal);
+  const setLoyaltyUse = useSetRecoilState(setUseLoyal);
+  const setActive = useSetRecoilState(setActiveM);
+  const setActiveCheck = useSetRecoilState(setActiveCheckM);
+
+  const setEmptyCashback = useSetRecoilState(setECashback);
+  const setEmptyDiscount = useSetRecoilState(setEDiscount);
+  const setEmptyBonuspoint = useSetRecoilState(setEBonuspoint);
+
+  //hook form
   const {
     control,
     handleSubmit,
@@ -82,33 +105,10 @@ const useLoyality = () => {
   //program loyality
   const [onSuccesSave, setOnSuccessSave] = useState(false);
   const [onErrorSave, setOnErrorSave] = useState(false);
-  let companyId: any = localStorage.getItem("companyId");
   const [availCheck, setAvailCheck] = useState(false);
   const [refetchCashback, setRefetchCashback] = useState(0);
   const [refetchDiscount, setRefetchDiscount] = useState(0);
   const [refetchBonusPoints, setRefetchBonusPoints] = useState(0);
-  const [active, setActive] = useState<
-    "discount" | "cashback" | "bonuspoint" | ""
-  >("");
-
-  const [activeCheck, setActiveCheck] = useState<
-    "discount" | "cashback" | "bonuspoint" | ""
-  >("");
-
-  const [emptyCashback, setEmptyCashback] = useState<IEmpty>({
-    empty: false,
-    type: "cashback",
-  });
-
-  const [emptyDiscount, setEmptyDiscount] = useState<IEmpty>({
-    empty: false,
-    type: "discount",
-  });
-
-  const [emptyBonuspoint, setEmptyBonuspoint] = useState<IEmpty>({
-    empty: false,
-    type: "bonuspoint",
-  });
 
   //Save and change loyality
   const useProgramSave = useMutation((data: any) =>
@@ -120,20 +120,23 @@ const useLoyality = () => {
       if (emptyBonuspoint.empty && emptyBonuspoint.type === "bonuspoint") {
         return loyalityNewSaveChange(
           data,
-          active === "" ? activeCheck : active
+          active.active === "" ? activeCheck : active.active
         );
       } else if (emptyDiscount.empty && emptyDiscount.type === "discount") {
         return loyalityNewSaveChange(
           data,
-          active === "" ? activeCheck : active
+          active.active === "" ? activeCheck : active.active
         );
       } else if (emptyCashback.empty && emptyCashback.type === "cashback") {
         return loyalityNewSaveChange(
           data,
-          active === "" ? activeCheck : active
+          active.active === "" ? activeCheck : active.active
         );
       } else {
-        return loyalitySaveChange(data, active === "" ? activeCheck : active);
+        return loyalitySaveChange(
+          data,
+          active.active === "" ? activeCheck : active.active
+        );
       }
     },
     {
@@ -406,27 +409,27 @@ const useLoyality = () => {
             empty: true,
             type: "discount",
           });
-          dispatch(
-            setBaseLoyality({
-              max_percent: "",
-              base_percent: "",
-              give_cashback_after: "",
-            })
-          );
+
+          setBaseLoyality({
+            max_percent: "",
+            base_percent: "",
+            give_cashback_after: "",
+          });
+
           reset();
         } else {
           dispatch(setMEmptySale(false));
           if (data?.data?.data?.isActive) {
             setAvailCheck(true);
-            setActive("discount");
-            dispatch(
-              setBaseLoyality({
-                max_percent: data.data.data.maxAmount,
-                base_percent: data.data.data.percent,
-                give_cashback_after: data.data.data.cashbackReturnedDay,
-                base_name: data.data.data.name,
-              })
-            );
+            setActive({ active: "discount" });
+
+            setBaseLoyality({
+              max_percent: data.data.data.maxAmount,
+              base_percent: data.data.data.percent,
+              give_cashback_after: data.data.data.cashbackReturnedDay,
+              base_name: data.data.data.name,
+            });
+
             dispatch(setSaleCheck(true));
             setValue("max_percent", data.data.data.maxAmount);
             setValue("give_cashback_after", data.data.data.cashbackReturnedDay);
@@ -436,14 +439,14 @@ const useLoyality = () => {
           } else {
             if (refetchDiscount > 0) {
               console.log("logged discount");
-              dispatch(
-                setBaseLoyality({
-                  max_percent: data.data.data.maxAmount,
-                  base_percent: data.data.data.percent,
-                  give_cashback_after: data.data.data.cashbackReturnedDay,
-                  base_name: data.data.data.name,
-                })
-              );
+
+              setBaseLoyality({
+                max_percent: data.data.data.maxAmount,
+                base_percent: data.data.data.percent,
+                give_cashback_after: data.data.data.cashbackReturnedDay,
+                base_name: data.data.data.name,
+              });
+
               setValue("max_percent", data.data.data.maxAmount);
               setValue(
                 "give_cashback_after",
@@ -471,29 +474,29 @@ const useLoyality = () => {
             empty: true,
             type: "cashback",
           });
-          dispatch(
-            setBaseLoyality({
-              max_percent: "",
-              base_percent: "",
-              give_cashback_after: "",
-              base_name: "",
-            })
-          );
+
+          setBaseLoyality({
+            max_percent: "",
+            base_percent: "",
+            give_cashback_after: "",
+            base_name: "",
+          });
+
           reset();
         } else {
           dispatch(setMEmptyCashback(false));
           if (data?.data?.data?.isActive) {
             setAvailCheck(true);
-            setActive("cashback");
+            setActive({ active: "cashback" });
             setValue("max_percent", data.data.data.maxAmount);
-            dispatch(
-              setBaseLoyality({
-                max_percent: data.data.data.maxAmount,
-                base_percent: data.data.data.percent,
-                give_cashback_after: data.data.data.cashbackReturnedDay,
-                base_name: data.data.data.name,
-              })
-            );
+
+            setBaseLoyality({
+              max_percent: data.data.data.maxAmount,
+              base_percent: data.data.data.percent,
+              give_cashback_after: data.data.data.cashbackReturnedDay,
+              base_name: data.data.data.name,
+            });
+
             dispatch(setCashbackCheck(true));
             setValue("give_cashback_after", data.data.data.cashbackReturnedDay);
             setValue("base_name", data.data.data.name);
@@ -502,14 +505,14 @@ const useLoyality = () => {
           } else {
             if (refetchCashback > 0) {
               setValue("max_percent", data.data.data.maxAmount);
-              dispatch(
-                setBaseLoyality({
-                  max_percent: data.data.data.maxAmount,
-                  base_percent: data.data.data.percent,
-                  give_cashback_after: data.data.data.cashbackReturnedDay,
-                  base_name: data.data.data.name,
-                })
-              );
+
+              setBaseLoyality({
+                max_percent: data.data.data.maxAmount,
+                base_percent: data.data.data.percent,
+                give_cashback_after: data.data.data.cashbackReturnedDay,
+                base_name: data.data.data.name,
+              });
+
               setValue(
                 "give_cashback_after",
                 data.data.data.cashbackReturnedDay
@@ -537,27 +540,26 @@ const useLoyality = () => {
             type: "bonuspoint",
           });
           reset();
-          dispatch(
-            setBaseLoyality({
-              max_percent: "",
-              base_percent: "",
-              give_cashback_after: 0,
-              base_name: "",
-            })
-          );
+
+          setBaseLoyality({
+            max_percent: "",
+            base_percent: "",
+            give_cashback_after: 0,
+            base_name: "",
+          });
         } else {
           dispatch(setMEmptyBall(false));
           if (data?.data?.data?.isActive) {
             setAvailCheck(true);
-            setActive("bonuspoint");
-            dispatch(
-              setBaseLoyality({
-                max_percent: data.data.data.maxAmount,
-                base_percent: data.data.data.percent,
-                give_cashback_after: 0,
-                base_name: data.data.data.name,
-              })
-            );
+            setActive({ active: "bonuspoint" });
+
+            setBaseLoyality({
+              max_percent: data.data.data.maxAmount,
+              base_percent: data.data.data.percent,
+              give_cashback_after: 0,
+              base_name: data.data.data.name,
+            });
+
             dispatch(setBallCheck(true));
             setValue("max_percent", data.data.data.maxAmount);
             setValue("base_name", data.data.data.name);
@@ -565,14 +567,13 @@ const useLoyality = () => {
             setValue("levels", data.data.data.levels);
           } else {
             if (refetchBonusPoints > 0) {
-              dispatch(
-                setBaseLoyality({
-                  max_percent: data.data.data.maxAmount,
-                  base_percent: data.data.data.percent,
-                  give_cashback_after: 0,
-                  base_name: data.data.data.name,
-                })
-              );
+              setBaseLoyality({
+                max_percent: data.data.data.maxAmount,
+                base_percent: data.data.data.percent,
+                give_cashback_after: 0,
+                base_name: data.data.data.name,
+              });
+
               setValue("max_percent", data.data.data.maxAmount);
               setValue("base_name", data.data.data.name);
               setValue("base_percent", data.data.data.percent);
@@ -601,12 +602,11 @@ const useLoyality = () => {
   const handleSwitchChange = (checked: boolean, key: any) => {
     // bonus/cashbacks/active-status
     let modifyLoyal = modified === "1" ? false : true;
-    console.log(key, "modify screen");
     if (checked) {
       if (availCheck) {
-        setActive(key);
+        setActive({ active: key });
       } else {
-        setActive("");
+        setActive({ active: "" });
         setActiveCheck(key);
       }
       if (key === "discount") {
@@ -634,7 +634,7 @@ const useLoyality = () => {
 
         setEmptyDiscount({
           empty: false,
-          type: "bonuspoint",
+          type: "discount",
         });
       } else if (key === "cashback") {
         loayalityChange.mutate({
@@ -724,28 +724,28 @@ const useLoyality = () => {
       console.log(data.data.data, "data");
       setValue("useProgram", data.data.data.useProgram);
       setValue("usePoint", data.data.data.usePoint);
-      dispatch(
-        setLoyaltyUse({
-          useProgram: data.data.data.useProgram,
-          usePoint: data.data.data.usePoint,
-        })
-      );
+      setLoyaltyUse({
+        useProgram: data.data.data.useProgram,
+        usePoint: data.data.data.usePoint,
+      });
     },
   });
 
+  console.log(activeCheck, "active check");
+  console.log(active.active, "active");
+
   useEffect(() => {
-    if (active === "cashback" || activeCheck === "cashback") {
+    if (active.active === "cashback" || activeCheck === "cashback") {
       setRefetchCashback(refetchCashback + 1);
-    } else if (active === "discount" || activeCheck === "discount") {
+    } else if (active.active === "discount" || activeCheck === "discount") {
       setRefetchDiscount(refetchDiscount + 1);
-    } else if (active === "bonuspoint" || activeCheck === "bonuspoint") {
+    } else if (active.active === "bonuspoint" || activeCheck === "bonuspoint") {
       setRefetchBonusPoints(refetchBonusPoints + 1);
     }
-  }, [active, activeCheck]);
+  }, [active.active, activeCheck]);
 
   return {
     control,
-    active,
     refetchBonusPoints,
     refetchCashback,
     refetchDiscount,
@@ -755,7 +755,6 @@ const useLoyality = () => {
     setRefetchBonusPoints,
     handleSwitchChange,
     handleSubmit,
-    setActive,
     dynamicFields,
     append,
     prepend,
@@ -781,14 +780,9 @@ const useLoyality = () => {
     setCheckL,
     modified,
     setModified,
-    activeCheck,
-    setActiveCheck,
     availCheck,
     setAssertModalVisible,
     assertModalVisible,
-    emptyCashback,
-    emptyDiscount,
-    emptyBonuspoint,
   };
 };
 

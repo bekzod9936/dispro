@@ -1,21 +1,21 @@
-import { useEffect, useRef, useState } from "react";
-import ChatUser from "../../components/ChatUser";
-import Input from "components/Custom/Input";
-import Button from "components/Custom/Button";
-import { useTranslation } from "react-i18next";
-import { Avatar } from "../../style";
-import useChatClients from "../../hooks/useChatClients";
-import { useAppSelector, useAppDispatch } from "services/redux/hooks";
-import defaultChat from "assets/images/choosechat.png";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import useWindowWidth from "services/hooks/useWindowWidth";
-import { SOCKET_EVENT } from "services/constants/chat";
-import dayjs from "dayjs";
-import Popover from "components/Custom/Popover";
-import { ruCount } from "../../hooks/format";
-import { Picker } from "emoji-mart";
-import { IconButton } from "@material-ui/core";
-import { useForm, Controller } from "react-hook-form";
+import { useEffect, useRef, useState } from 'react';
+import ChatUser from '../../components/ChatUser';
+import Input from 'components/Custom/Input';
+import Button from 'components/Custom/Button';
+import { useTranslation } from 'react-i18next';
+import { Avatar } from '../../style';
+import useChatClients from '../../hooks/useChatClients';
+import { useAppSelector, useAppDispatch } from 'services/redux/hooks';
+import defaultChat from 'assets/images/choosechat.png';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import useWindowWidth from 'services/hooks/useWindowWidth';
+import { SOCKET_EVENT } from 'services/constants/chat';
+import dayjs from 'dayjs';
+import Popover from 'components/Custom/Popover';
+import { ruCount } from '../../hooks/format';
+import { Picker } from 'emoji-mart';
+import { IconButton } from '@material-ui/core';
+import { useForm, Controller } from 'react-hook-form';
 import {
   Container,
   LeftSide,
@@ -58,10 +58,10 @@ import {
   WrapScript,
   WrapDownIcon,
   NoResult,
-} from "./style";
-import { setMessagesFeedBack } from "services/redux/Slices/feedback";
-import defuserman from "assets/icons/defuserman.png";
-import defuserwoman from "assets/icons/defuserwoman.png";
+} from './style';
+import { setMessagesFeedBack } from 'services/redux/Slices/feedback';
+import defuserman from 'assets/icons/defuserman.png';
+import defuserwoman from 'assets/icons/defuserwoman.png';
 interface ChProps {
   date?: string;
   firstName?: string;
@@ -71,6 +71,7 @@ interface ChProps {
   lastMsg?: string;
   lastName?: string;
   genderTypeId?: number;
+  obtainProgramLoyalty?: { levelName?: string; percent?: number };
 }
 
 interface FormProps {
@@ -80,11 +81,11 @@ interface FormProps {
 const Posts = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const companyId: any = localStorage.getItem("companyId");
+  const companyId: any = localStorage.getItem('companyId');
   const words = 400;
   const { control, handleSubmit, setValue, getValues, watch } =
     useForm<FormProps>({
-      mode: "onBlur",
+      mode: 'onBlur',
       shouldFocusError: true,
     });
 
@@ -100,10 +101,12 @@ const Posts = () => {
   const [isChoose, setIsChoose] = useState<boolean>(false);
   const [showEmoji, setShowEmoji] = useState<boolean>(false);
   const [scrollHeight, setScrollHeight] = useState(0);
-  const [inpuSearch, setInpuSearch] = useState<string>("");
+  const [inpuSearch, setInpuSearch] = useState<string>('');
   const [searchRes, setSearchRes] = useState<any[]>([]);
   const [searchFocus, setSearchFocus] = useState<boolean>(false);
-  const { resChatClients, resChatClientHistory } = useChatClients({ chosen });
+  const { resChatClients, resChatClientHistory, deleteRes } = useChatClients({
+    chosen,
+  });
   const messages = useAppSelector((state) => state.feedbackPost.messages);
   const histories = useAppSelector((state) => state.feedbackPost.histories);
   const socket = useAppSelector((state) => state.feedbackPost.socket);
@@ -113,7 +116,7 @@ const Posts = () => {
   );
 
   const [users, setUsers] = useState<any>([]);
-
+  console.log(chosenClient);
   const [limit, setLimit] = useState(words);
 
   useEffect(() => {
@@ -129,12 +132,12 @@ const Posts = () => {
       if (a === undefined) {
         setUsers([
           {
-            date: "",
+            date: '',
             firstName: chosenClient?.data?.clientFirstName,
             id: chosenClient?.data?.clientId,
             image: chosenClient?.data?.clientImage,
             isDeleted: false,
-            lastMsg: "",
+            lastMsg: '',
             lastName: chosenClient?.data?.clientLastName,
             genderTypeId: chosenClient?.data?.clientGenderTypeId,
           },
@@ -150,12 +153,12 @@ const Posts = () => {
   useEffect(() => {
     if (chosenClient?.choose) {
       handleChoose({
-        date: "",
+        date: '',
         firstName: chosenClient?.data?.clientFirstName,
         id: chosenClient?.data?.clientId,
         image: chosenClient?.data?.clientImage,
         isDeleted: false,
-        lastMsg: "",
+        lastMsg: '',
         lastName: chosenClient?.data?.clientLastName,
         genderTypeId: chosenClient?.data?.clientGenderTypeId,
       });
@@ -172,12 +175,12 @@ const Posts = () => {
       if (a === undefined) {
         setUsers([
           {
-            date: "",
+            date: '',
             firstName: chosenClient?.data?.clientFirstName,
             id: chosenClient?.data?.clientId,
             image: chosenClient?.data?.clientImage,
             isDeleted: false,
-            lastMsg: "",
+            lastMsg: '',
             lastName: chosenClient?.data?.clientLastName,
             genderTypeId: chosenClient?.data?.clientGenderTypeId,
           },
@@ -192,15 +195,15 @@ const Posts = () => {
 
   const scrollToBottom = () => {
     messagesEndRef?.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "end",
+      behavior: 'smooth',
+      block: 'end',
     });
   };
 
   const scrollToTop = () => {
     messagesStartRef?.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "end",
+      behavior: 'smooth',
+      block: 'end',
     });
   };
 
@@ -242,13 +245,13 @@ const Posts = () => {
     if (values?.message !== undefined) {
       setLimit(words - values?.message?.length);
     }
-  }, [watch("message")]);
+  }, [watch('message')]);
 
   const onSubmit = (e: any) => {
     setLoading(true);
     if (e.message.length > 0) {
       socket.emit(
-        "chat_to_server",
+        'chat_to_server',
         {
           langId: 1,
           chatType: 2,
@@ -263,10 +266,9 @@ const Posts = () => {
           if (res.success) {
             resChatClientHistory.refetch();
             resChatClients.refetch();
-            setValue("message", "");
+            setValue('message', '');
             setLoading(false);
           } else {
-            console.log(res);
             setLoading(false);
           }
         }
@@ -287,6 +289,21 @@ const Posts = () => {
     setSearchRes(searchResult);
   };
 
+  const handleDelete = () => {
+    const data: any = {
+      withUserType: 1,
+      withId: chosen.id,
+    };
+    deleteRes.mutate(data, {
+      onSuccess: () => {
+        closeFun.close();
+        setChosen({});
+        setIsChoose(false);
+        resChatClients.refetch();
+      },
+    });
+  };
+  console.log(chosen);
   return (
     <Container>
       <LeftSide>
@@ -294,16 +311,16 @@ const Posts = () => {
           <Input
             fullWidth={true}
             inputStyle={{
-              border: "none",
-              inpadding: "0  5px 0 20px",
+              border: 'none',
+              inpadding: '0  5px 0 20px',
               height: { desktop: 50, laptop: 45, planshet: 45, mobile: 40 },
             }}
-            placeholder={t("searchthere")}
+            placeholder={t('searchthere')}
             IconEnd={<SearchIcon />}
-            type="search"
+            type='search'
             onChange={handleSearch}
             onFocus={() => setSearchFocus(true)}
-            onBlur={() => (inpuSearch === "" ? setSearchFocus(false) : null)}
+            onBlur={() => (inpuSearch === '' ? setSearchFocus(false) : null)}
             value={inpuSearch}
           />
           {resChatClients.isFetching && !resChatClients.isLoading ? (
@@ -312,12 +329,12 @@ const Posts = () => {
         </Header>
 
         {resChatClients.isLoading ? (
-          <Loading style={{ display: "flex", justifyContent: "center" }}>
+          <Loading style={{ display: 'flex', justifyContent: 'center' }}>
             Loading....
           </Loading>
         ) : (
           <WrapChatUsers>
-            {!searchFocus || inpuSearch === "" ? (
+            {!searchFocus || inpuSearch === '' ? (
               users?.map((v: any) => {
                 return (
                   <ChatUser
@@ -365,8 +382,8 @@ const Posts = () => {
               <WrapUserInfo>
                 <Avatar big={true}>
                   <LazyLoadImage
-                    alt="image"
-                    height="100%"
+                    alt='image'
+                    height='100%'
                     src={
                       chosen.image
                         ? chosen.image
@@ -374,18 +391,18 @@ const Posts = () => {
                         ? defuserman
                         : chosen?.genderTypeId === 2
                         ? defuserwoman
-                        : ""
+                        : ''
                     }
-                    width="100%"
-                    effect="blur"
-                    style={{ objectFit: "cover" }}
+                    width='100%'
+                    effect='blur'
+                    style={{ objectFit: 'cover' }}
                   />
                 </Avatar>
                 <WrapInfo>
                   <UserName>
                     {chosen.firstName} {chosen.lastName}
                   </UserName>
-                  <Status>Base 5%</Status>
+                  <Status>{`${chosen.obtainProgramLoyalty?.levelName} ${chosen.obtainProgramLoyalty?.percent}%`}</Status>
                 </WrapInfo>
               </WrapUserInfo>
               <Popover
@@ -394,16 +411,16 @@ const Posts = () => {
                     <DotsIcon />
                   </DotsWrap>
                 }
-                anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
-                transformOrigin={{ horizontal: "left", vertical: "top" }}
-                openBgColor="rgba(96, 110, 234, 0.1)"
+                anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+                transformOrigin={{ horizontal: 'left', vertical: 'top' }}
+                openBgColor='rgba(96, 110, 234, 0.1)'
                 radius={14}
-                popoverStyle={{ marginTop: "20px" }}
+                popoverStyle={{ marginTop: '20px' }}
                 onClose={handleClose}
               >
                 <SelectWrap>
-                  <Link>{t("sharelink")}</Link>
-                  <Delete>{t("deletechat")}</Delete>
+                  <Link>{t('sharelink')}</Link>
+                  <Delete onClick={handleDelete}>{t('deletechat')}</Delete>
                 </SelectWrap>
               </Popover>
             </Header>
@@ -427,29 +444,29 @@ const Posts = () => {
                               v.chatType === 1
                                 ? chosen?.image
                                   ? chosen?.image
-                                  : ""
+                                  : ''
                                 : companyInfo.logo
                             }
-                            alt="user"
+                            alt='user'
                             style={{
-                              objectFit: "cover",
+                              objectFit: 'cover',
                             }}
-                            height="100%"
-                            width="100%"
+                            height='100%'
+                            width='100%'
                           />
                         </Avatar>
                         <Message
-                          bgcolor={v.chatType === 1 ? "#E5E9FF" : "#606eea"}
+                          bgcolor={v.chatType === 1 ? '#E5E9FF' : '#606eea'}
                         >
                           <MessageDate
-                            bgcolor={v.chatType === 1 ? "#A5A5A5" : "#fff"}
+                            bgcolor={v.chatType === 1 ? '#A5A5A5' : '#fff'}
                           >
                             {dayjs(v.createdAt)
-                              .subtract(2, "minute")
-                              .format("hh:mm")}
+                              .subtract(2, 'minute')
+                              .format('hh:mm')}
                           </MessageDate>
                           <MessageText
-                            bgcolor={v.chatType === 1 ? "#223367" : "#fff"}
+                            bgcolor={v.chatType === 1 ? '#223367' : '#fff'}
                           >
                             {v.msg}
                           </MessageText>
@@ -462,21 +479,21 @@ const Posts = () => {
               </ChatPlace>
               <Form onSubmit={handleSubmit(onSubmit)}>
                 <Controller
-                  name="message"
+                  name='message'
                   control={control}
                   rules={{
                     required: true,
                     maxLength: 400,
                   }}
-                  defaultValue=""
+                  defaultValue=''
                   render={({ field }) => (
                     <Input
                       fullWidth={true}
                       multiline={true}
-                      placeholder={t("writeyoutmessage")}
+                      placeholder={t('writeyoutmessage')}
                       inputStyle={{
-                        border: "none",
-                        inpadding: width > 1500 ? "10px 20px" : "",
+                        border: 'none',
+                        inpadding: width > 1500 ? '10px 20px' : '',
                       }}
                       field={field}
                       maxLength={400}
@@ -488,9 +505,9 @@ const Posts = () => {
                     Вы можете написать еще
                     {` ${limit} ${ruCount({
                       count: limit,
-                      firstWord: "символ",
-                      secondWord: "символа",
-                      thirdWord: "символов",
+                      firstWord: 'символ',
+                      secondWord: 'символа',
+                      thirdWord: 'символов',
                     })}`}
                   </InputWarn>
                   <WrapIcons>
@@ -503,11 +520,11 @@ const Posts = () => {
                       </IconButton>
                     </WrapScript>
                     <Button
-                      type="submit"
+                      type='submit'
                       disabled={loading}
                       startIcon={<SendIcon />}
                     >
-                      {t("send")}
+                      {t('send')}
                     </Button>
                   </WrapIcons>
                 </InputDown>
@@ -516,25 +533,25 @@ const Posts = () => {
             {showEmoji ? (
               <EPicker onBlur={() => setShowEmoji(false)}>
                 <Picker
-                  set="google"
+                  set='google'
                   onSelect={(e: any) => {
-                    const m = getValues("message") + e.native;
-                    setValue("message", m);
+                    const m = getValues('message') + e.native;
+                    setValue('message', m);
                   }}
                   sheetSize={20}
                   showPreview={false}
                   emojiTooltip={true}
                   showSkinTones={false}
                   useButton={true}
-                  color="#606eea"
+                  color='#606eea'
                 />
               </EPicker>
             ) : null}
           </Wrapper>
         ) : (
           <WrapImg>
-            <Img src={defaultChat} alt="defphoto" />
-            <WrapChoose>{t("choseChat")}</WrapChoose>
+            <Img src={defaultChat} alt='defphoto' />
+            <WrapChoose>{t('choseChat')}</WrapChoose>
           </WrapImg>
         )}
       </RightSide>

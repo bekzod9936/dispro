@@ -1,16 +1,16 @@
-import { atom } from "recoil";
+import { atom } from 'recoil';
 
-import { IProps } from "./types";
+import { IProps } from './types';
 
 export const mainBalance = atom<IProps>({
-  key: "mainBalance",
+  key: 'mainBalance',
   default: {
     balance: 0,
   },
 });
 
 export const mainLimit = atom<IProps>({
-  key: "mainLimit",
+  key: 'mainLimit',
   default: {
     limit: 0,
   },

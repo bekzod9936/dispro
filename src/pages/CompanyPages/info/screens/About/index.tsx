@@ -322,7 +322,36 @@ const Main = () => {
         value: a ? value : v?.value,
       };
     });
+    const newSocial = social?.map((v: any) => {
+      if (v.name !== name) {
+        return v;
+      } else {
+        return { ...v, value: value };
+      }
+    });
     setLinks(newLinks);
+    setSocial(newSocial);
+    setValue('socialLinks', newLinks);
+  };
+
+  const handleSocialDelete = (name: any) => {
+    const newLinks = links?.map((v: any) => {
+      if (v.name !== name) {
+        return v;
+      } else {
+        return { ...v, value: '' };
+      }
+    });
+    console.log(newLinks);
+    const newSocial = social?.map((v: any) => {
+      if (v.name !== name) {
+        return v;
+      } else {
+        return { ...v, value: '' };
+      }
+    });
+    setLinks(newLinks);
+    setSocial(newSocial);
     setValue('socialLinks', newLinks);
   };
 
@@ -623,7 +652,12 @@ const Main = () => {
             <Title>{t('socialLinks')}</Title>
             <div style={{ display: 'block' }}>
               {social?.map((v: any) => (
-                <Links key={v.name} {...v} onChange={handleSocialChange} />
+                <Links
+                  key={v.name}
+                  {...v}
+                  onChange={handleSocialChange}
+                  onDelete={handleSocialDelete}
+                />
               ))}
             </div>
           </RightSide>

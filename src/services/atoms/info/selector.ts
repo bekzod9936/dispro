@@ -1,11 +1,11 @@
-import { IProps } from "./types";
-import { selector } from "recoil";
+import { IProps } from './types';
+import { selector } from 'recoil';
 
 //atoms
-import { mainBalance, mainLimit } from "./index";
+import { mainBalance, mainLimit } from './index';
 
 export const setBalanceAccounts = selector<IProps>({
-  key: "setBalanceAccounts",
+  key: 'setBalanceAccounts',
   get: ({ get }) => {
     let res = get(mainBalance);
     return res;
@@ -16,7 +16,7 @@ export const setBalanceAccounts = selector<IProps>({
 });
 
 export const setLimitAccounts = selector<IProps>({
-  key: "setLimitAccounts",
+  key: 'setLimitAccounts',
   get: ({ get }) => {
     let res = get(mainLimit);
     return res;

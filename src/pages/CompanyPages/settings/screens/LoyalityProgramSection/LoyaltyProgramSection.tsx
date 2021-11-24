@@ -1,26 +1,16 @@
-import { Grid, IconButton } from "@material-ui/core";
-import { switchItems } from "./constants";
-import Input from "components/Custom/Input";
-import { useState } from "react";
+import { Controller } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+
+//hooks
+import useLoyality from "./hooks/useLoyality";
+import useWindowWidth from "services/hooks/useWindowWidth";
+
+//styles
 import { Flex } from "styles/BuildingBlocks";
 import { LargePanel } from "../../styles/SettingStyles";
 import { CustomButton, ModalComponent, Text } from "styles/CustomStyles";
-import { useTranslation } from "react-i18next";
-import { Controller } from "react-hook-form";
-import { SaveIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
-import { AddIconSettings } from "assets/icons/SettingsIcons/SettingsPageIcon";
-import { ReactComponent as RemoveIconSettings } from "assets/icons/delete_level.svg";
-import { ReactComponent as PercentIcon } from "assets/icons/percent_icon.svg";
-import { ReactComponent as Close } from "assets/icons/IconsInfo/close.svg";
-import { ReactComponent as EmptySetting } from "assets/images/empty_setting.svg";
 import { FONT_SIZE, FONT_WEIGHT } from "services/Types/enums";
-import { SyncIcon } from "assets/icons/FeedBackIcons.tsx/FeedbackIcons";
-import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
-import CustomToggle from "components/Custom/CustomToggleSwitch";
-import useLoyality from "./hooks/useLoyality";
-import { RippleDiv } from "components/Custom/RippleEffect/style";
-import NestedArray from "./components/NestedArray";
-import Checkbox from "components/Custom/CheckBox";
 import {
   AddIconDiv,
   LeftGrid,
@@ -37,25 +27,61 @@ import {
   BtnContainer,
   MainContainer,
   EText,
+  RightGrid,
+  BottomSide,
 } from "./styles";
+import { Break } from "../../styles";
+
+//icons
+import { ReactComponent as RemoveIconSettings } from "assets/icons/delete_level.svg";
+import { ReactComponent as PercentIcon } from "assets/icons/percent_icon.svg";
+import { ReactComponent as Close } from "assets/icons/IconsInfo/close.svg";
+import { ReactComponent as EmptySetting } from "assets/images/empty_setting.svg";
+import { SyncIcon } from "assets/icons/FeedBackIcons.tsx/FeedbackIcons";
+import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
+import { SaveIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
+import { AddIconSettings } from "assets/icons/SettingsIcons/SettingsPageIcon";
+//constants
+import { switchItems } from "./constants";
+import { numberWith } from "services/utils";
+//components
+import Input from "components/Custom/Input";
+import { Grid, IconButton } from "@material-ui/core";
+import CustomToggle from "components/Custom/CustomToggleSwitch";
 import Spinner from "components/Helpers/Spinner";
 import Button from "components/Custom/Button";
 import RippleEffect from "components/Custom/RippleEffect";
 import NotifySnack from "components/Custom/Snackbar";
-import { useAppSelector } from "services/redux/hooks";
-import { numberWith } from "services/utils";
 import Modal from "components/Custom/Modal";
 import Radio from "components/Custom/Radio";
 import InputFormat from "components/Custom/InputFormat";
-import useWindowWidth from "services/hooks/useWindowWidth";
+import { RippleDiv } from "components/Custom/RippleEffect/style";
+import Checkbox from "components/Custom/CheckBox";
+//mobile
 import MobileContent from "./components/MobileContent";
+//requirement fields
+import NestedArray from "./components/NestedArray";
+//recoil states
+import { useLoyal, baseLoyalty } from "services/atoms/settings/loyality";
+import {
+  switchKeyT,
+  setSwitchKeyT,
+  setActiveCheckM,
+  setActiveM,
+} from "services/atoms/settings";
+import {
+  activeM,
+  eCashback,
+  eBonuspoint,
+  eDiscount,
+  activeCheckM,
+} from "services/atoms/settings";
 
 const LoyaltyProgramSection = () => {
   const { t } = useTranslation();
   const { width } = useWindowWidth();
   const {
     control,
-    active,
     setValue,
     handleSwitchChange,
     handleSubmit,
@@ -79,29 +105,59 @@ const LoyaltyProgramSection = () => {
     setCheckL,
     modified,
     setModified,
-    activeCheck,
-    setActiveCheck,
     assertModalVisible,
     setAssertModalVisible,
-    emptyCashback,
-    emptyDiscount,
-    emptyBonuspoint,
   } = useLoyality();
-  console.log("active main", active);
 
-  const base_loyality = useAppSelector((state) => state.settings.base_loyality);
-  const usePoint: boolean = useAppSelector(
-    (state) => state.loyalitySlice.usePoint
-  );
-  const useProgram: boolean = useAppSelector(
-    (state) => state.loyalitySlice.useProgram
-  );
+  //selectors
+  const setSwitchKey = useSetRecoilState(setSwitchKeyT);
+  const setActiveCheck = useSetRecoilState(setActiveCheckM);
+  const setActive = useSetRecoilState(setActiveM);
+  //atoms
+  const base_loyality = useRecoilValue(baseLoyalty);
+  const useLoyalMain = useRecoilValue(useLoyal);
+  const switchKey = useRecoilValue(switchKeyT);
+  const active = useRecoilValue(activeM);
+  const activeCheck = useRecoilValue(activeCheckM);
 
-  const [switchKey, setSwitchKey] = useState("discount");
+  const emptyCashback = useRecoilValue(eCashback);
+  const emptyDiscount = useRecoilValue(eDiscount);
+  const emptyBonuspoint = useRecoilValue(eBonuspoint);
+
+  const loading =
+    !isLoading &&
+    !cashbackLoading &&
+    !discountLoading &&
+    !loayalityChange.isLoading;
+  const cashbackActive =
+    active.active === "cashback" ||
+    activeCheck === "cashback" ||
+    (emptyCashback.empty && emptyCashback.type === activeCheck);
+  const activeEmpty = active.active === "" && activeCheck === "";
 
   //save loyalitys
 
   const onError = (errors: any, e: any) => console.log(errors, e);
+
+  const handleChecked = (key: any) => {
+    console.log(key, "key that i want");
+    setSwitchKey(key);
+    if (emptyCashback.empty && emptyCashback.type === key) {
+      setActiveCheck(key);
+      setAssertModalVisible(false);
+      setActive({ active: key });
+    } else if (emptyDiscount.empty && emptyDiscount.type === key) {
+      setActiveCheck(key);
+      setAssertModalVisible(false);
+      setActive({ active: key });
+    } else if (emptyBonuspoint.empty && emptyBonuspoint.type === key) {
+      setActiveCheck(key);
+      setAssertModalVisible(false);
+      setActive({ active: key });
+    } else {
+      setAssertModalVisible(true);
+    }
+  };
 
   const content = () => {
     if (width <= 1000) {
@@ -136,31 +192,9 @@ const LoyaltyProgramSection = () => {
                       margin="0"
                     >
                       <CustomToggle
-                        checked={item.key === active}
-                        disabled={item.key === active}
-                        onChange={(checked: any) => {
-                          console.log(item.key, "item check");
-                          setSwitchKey(item.key);
-                          setActiveCheck(item?.key);
-                          if (
-                            emptyCashback.empty &&
-                            emptyCashback.type === item.key
-                          ) {
-                            setAssertModalVisible(false);
-                          } else if (
-                            emptyDiscount.empty &&
-                            emptyDiscount.type === item.key
-                          ) {
-                            setAssertModalVisible(false);
-                          } else if (
-                            emptyBonuspoint.empty &&
-                            emptyBonuspoint.type === item.key
-                          ) {
-                            setAssertModalVisible(false);
-                          } else {
-                            setAssertModalVisible(true);
-                          }
-                        }}
+                        checked={item.key === active.active}
+                        disabled={item.key === active.active}
+                        onChange={(checked: any) => handleChecked(item.key)}
                       />
                     </Flex>
 
@@ -186,7 +220,7 @@ const LoyaltyProgramSection = () => {
             </Flex>
           </LeftGrid>
 
-          {active === "" && activeCheck === "" ? (
+          {activeEmpty ? (
             <Grid
               justifyContent="center"
               alignItems="center"
@@ -199,11 +233,8 @@ const LoyaltyProgramSection = () => {
               <EText>{t("empty_setting_text")}</EText>
             </Grid>
           ) : (
-            <Grid item xs={12} sm={7}>
-              {!isLoading &&
-              !cashbackLoading &&
-              !discountLoading &&
-              !loayalityChange.isLoading ? (
+            <RightGrid item xs={12} sm={7}>
+              {loading ? (
                 <LargePanel id="largePanel">
                   <Form onSubmit={handleSubmit(onFormSubmit, onError)}>
                     <Grid
@@ -211,7 +242,7 @@ const LoyaltyProgramSection = () => {
                       direction="row"
                       alignItems="center"
                       justifyContent="space-between"
-                      spacing={3}
+                      spacing={2}
                       xs={12}
                     >
                       <HeaderGrid item xs={6}>
@@ -275,10 +306,6 @@ const LoyaltyProgramSection = () => {
                           <AddIconDiv>
                             <RippleDiv
                               onClick={() => {
-                                console.log(
-                                  ...getValues().levels,
-                                  "levels get"
-                                );
                                 append({
                                   name: "new_row",
                                   percent: 15,
@@ -457,14 +484,7 @@ const LoyaltyProgramSection = () => {
                         );
                       })}
                     <div style={{ height: "25px" }} />
-                    <Grid
-                      container
-                      direction="column"
-                      alignItems="flex-start"
-                      justifyContent="space-between"
-                      spacing={3}
-                      xs={12}
-                    >
+                    <BottomSide>
                       <HeaderGrid item xs={6}>
                         <Controller
                           name="max_percent"
@@ -487,40 +507,34 @@ const LoyaltyProgramSection = () => {
                           }}
                         />
                       </HeaderGrid>
-                      {(active === "cashback" ||
-                        activeCheck === "cashback" ||
-                        (emptyCashback.empty &&
-                          emptyCashback.type === activeCheck)) && (
+                      <Break height={15} />
+                      {cashbackActive && (
                         <HeaderGrid item xs={6}>
-                          <div>
-                            <div>
-                              <Controller
-                                name="give_cashback_after"
-                                control={control}
-                                rules={{
-                                  required: true,
-                                }}
-                                defaultValue={
-                                  base_loyality?.give_cashback_after
-                                }
-                                render={({ field }) => {
-                                  return (
-                                    <InputFormat
-                                      field={field}
-                                      label={t("give_cashback_after")}
-                                      defaultValue={
-                                        base_loyality?.give_cashback_after
-                                      }
-                                      error={
-                                        errors.give_cashback_after?.type ===
-                                        "required"
-                                      }
-                                      message={t("requiredField")}
-                                    />
-                                  );
-                                }}
-                              />
-                            </div>
+                          <div style={{ marginTop: "15px" }}>
+                            <Controller
+                              name="give_cashback_after"
+                              control={control}
+                              rules={{
+                                required: true,
+                              }}
+                              defaultValue={base_loyality?.give_cashback_after}
+                              render={({ field }) => {
+                                return (
+                                  <InputFormat
+                                    field={field}
+                                    label={t("give_cashback_after")}
+                                    defaultValue={
+                                      base_loyality?.give_cashback_after
+                                    }
+                                    error={
+                                      errors.give_cashback_after?.type ===
+                                      "required"
+                                    }
+                                    message={t("requiredField")}
+                                  />
+                                );
+                              }}
+                            />
                           </div>
                         </HeaderGrid>
                       )}
@@ -533,25 +547,26 @@ const LoyaltyProgramSection = () => {
                             <Controller
                               name="useProgram"
                               control={control}
-                              defaultValue={useProgram}
+                              defaultValue={useLoyalMain.useProgram}
                               render={({ field }) => (
                                 <Checkbox
                                   {...field}
-                                  checked={useProgram}
+                                  checked={useLoyalMain.useProgram}
                                   label={t("useLoyaltyProgram")}
                                 />
                               )}
                             />{" "}
                           </div>
+
                           <div>
                             <Controller
                               name="usePoint"
                               control={control}
-                              defaultValue={usePoint}
+                              defaultValue={useLoyalMain.usePoint}
                               render={({ field }) => (
                                 <Checkbox
                                   {...field}
-                                  checked={usePoint}
+                                  checked={useLoyalMain.usePoint}
                                   label={t("substractingPoints")}
                                 />
                               )}
@@ -559,13 +574,13 @@ const LoyaltyProgramSection = () => {
                           </div>
                         </div>
                       </HeaderGrid>
-                      <HeaderGrid item xs={6}>
+                      <Break height={15} />
+                      <HeaderGrid item xs={12}>
                         <div style={{ marginTop: "20px" }}>
                           <Button
                             type="submit"
                             startIcon={<SaveIcon />}
                             disabled={loayalityPut.isLoading}
-                            //  onClick={handleSaveClick}
                           >
                             <Text marginLeft="10px" color="white">
                               {t("save")}
@@ -573,13 +588,13 @@ const LoyaltyProgramSection = () => {
                           </Button>
                         </div>
                       </HeaderGrid>
-                    </Grid>
+                    </BottomSide>
                   </Form>
                 </LargePanel>
               ) : (
                 <Spinner />
               )}
-            </Grid>
+            </RightGrid>
           )}
 
           {/* other settings tools  */}
@@ -643,7 +658,6 @@ const LoyaltyProgramSection = () => {
 
                 <Button
                   onClick={() => {
-                    console.log("clicked", switchKey);
                     handleSwitchChange(true, switchKey);
                     setAssertModalVisible(false);
                   }}

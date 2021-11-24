@@ -33,3 +33,12 @@ export const fetchChatSupportHistory = ({ url }: Props) => {
   const response = partnerApi.get(`/core/chat/history?${url}`);
   return response;
 };
+
+interface DProps {
+  data?: any;
+}
+
+export const deleteChat = ({ data }: DProps) => {
+  const response = partnerApi.delete(`/core/chat/history`, { data: data });
+  return response;
+};

@@ -51,6 +51,7 @@ const MobileTable = ({ data, headertitle, isAvatar }: Props) => {
                 setId(i);
               }}
             >
+              {a.icon ? a.icon : null}
               {isAvatar ? (
                 a.avatar ? (
                   <WrapIcon>

@@ -57,7 +57,7 @@ export const MModal = ({
 
   React.useEffect(() => {
     if (client) {
-      setPercent(client.personalLoyaltyInfo.percent);
+      setPercent(client?.personalLoyaltyInfo?.percent);
     }
   }, [client]);
 

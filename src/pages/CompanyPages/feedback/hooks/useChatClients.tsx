@@ -1,15 +1,16 @@
-import { useQuery } from "react-query";
-import { USER_TYPES } from "services/constants/chat";
+import { useMutation, useQuery } from 'react-query';
+import { USER_TYPES } from 'services/constants/chat';
 import {
   fetchChatClients,
   fetchChatClientHistory,
-} from "services/queries/feedbackQuery";
-import { useAppDispatch } from "services/redux/hooks";
+  deleteChat,
+} from 'services/queries/feedbackQuery';
+import { useAppDispatch } from 'services/redux/hooks';
 import {
   setChatClientHistory,
   setMessagesFeedBack,
   setTotalHistory,
-} from "services/redux/Slices/feedback";
+} from 'services/redux/Slices/feedback';
 
 interface Props {
   chosen?: any;
@@ -18,17 +19,18 @@ interface Props {
 const useChatClients = ({ chosen }: Props) => {
   const dispatch = useAppDispatch();
 
-  const resChatClients = useQuery("getClientsChat", fetchChatClients, {
+  const resChatClients = useQuery('getClientsChat', fetchChatClients, {
     keepPreviousData: true,
     refetchOnWindowFocus: false,
     retry: 0,
     onSuccess: (data) => {
       dispatch(setMessagesFeedBack(data.data.data));
+      console.log(data.data.data);
     },
   });
 
   const resChatClientHistory = useQuery(
-    "getClientChatHistory",
+    'getClientChatHistory',
     () => {
       return fetchChatClientHistory({
         url: `withUserType=${USER_TYPES.CUSTOMER}&withId=${chosen?.id}&page=1&perPage=22`,
@@ -46,7 +48,11 @@ const useChatClients = ({ chosen }: Props) => {
     }
   );
 
-  return { resChatClients, resChatClientHistory };
+  const deleteRes = useMutation((data) => {
+    return deleteChat({ data });
+  });
+
+  return { resChatClients, resChatClientHistory, deleteRes };
 };
 
 export default useChatClients;

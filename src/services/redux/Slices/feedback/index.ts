@@ -7,6 +7,7 @@ import {
   IRatings,
   IHistory,
   IChose,
+  IRating,
 } from './types';
 
 const initialState: IFeedBack = {
@@ -19,7 +20,7 @@ const initialState: IFeedBack = {
   totalHistory: 0,
   totalSupportHistory: 0,
   totalCount: 0,
-  averageRating: 0,
+  averageRating: { avg: 0, count: 0, downVal: 0, upVal: 0 },
   totalRating: 0,
   socket: {},
   chosenClient: { data: {}, choose: false },
@@ -57,7 +58,7 @@ const feedbackPostSlice = createSlice({
     setTotalSupportHistory: (state, action: PayloadAction<number>) => {
       state.totalSupportHistory = action.payload;
     },
-    setAverageRatingFeedBack: (state, action: PayloadAction<number>) => {
+    setAverageRatingFeedBack: (state, action: PayloadAction<IRating>) => {
       state.averageRating = action.payload;
     },
     setTotalRatingFeedBack: (state, action: PayloadAction<number>) => {

@@ -1,12 +1,11 @@
-import NavBar from "components/Custom/NavBar";
-import Title from "components/Custom/Title";
-import Spinner from "components/Custom/Spinner";
+import { useRecoilState } from "recoil";
 import { Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { Route, Switch } from "react-router";
+//routes
 import useFinanceRoute from "./routes";
 import useLayout from "components/Layout/useLayout";
-import { useAppSelector } from "services/redux/hooks";
+//styles
 import {
   MainWrapper,
   WrapHeader,
@@ -20,15 +19,19 @@ import {
   MainLimit,
 } from "./style";
 import { numberWithNew } from "services/utils";
-import { useRecoilState } from "recoil";
-import { mainLimit } from "services/atoms/info";
+//components
+import NavBar from "components/Custom/NavBar";
+import Title from "components/Custom/Title";
+import Spinner from "components/Custom/Spinner";
+//atoms
+import { mainLimit, mainBalance } from "services/atoms/info";
 
 const Finance = () => {
   const { t } = useTranslation();
   const { menuItems } = useFinanceRoute();
   const companyId = localStorage.getItem("companyId");
-  const accountsBalance = useAppSelector((state) => state.info.balance);
-  // const accountsLimit = useAppSelector((state) => state.info.limit);
+
+  const accountsBalance = useRecoilState(mainBalance);
   const accountsLimit = useRecoilState(mainLimit);
 
   const { resLimit } = useLayout({ id: companyId });
@@ -46,7 +49,7 @@ const Finance = () => {
                   {t("deposit")}
                   <TextLimit>
                     {`${numberWithNew({
-                      number: accountsBalance,
+                      number: accountsBalance[0].balance,
                       defaultValue: 0,
                     })} UZS`}
                   </TextLimit>

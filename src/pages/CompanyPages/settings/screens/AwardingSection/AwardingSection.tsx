@@ -1,13 +1,17 @@
 import { Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-//assets and styles
+
+//components
+import Spinner from "components/Helpers/Spinner";
 import Grid from "@material-ui/core/Grid";
-import CustomToggle from "components/Custom/CustomToggleSwitch";
-import Input from "components/Custom/Input";
-import { Text } from "styles/CustomStyles";
 import SaveButton from "pages/CompanyPages/settings/components/SaveButton";
-import { Break, SpinnerDiv } from "../../styles";
 import InputFormat from "components/Custom/InputFormat";
+import Input from "components/Custom/Input";
+import CustomToggle from "components/Custom/CustomToggleSwitch";
+
+//assets and styles
+import { Text } from "styles/CustomStyles";
+import { Break, SpinnerDiv } from "../../styles";
 import {
   AwardContainer,
   BottomAwardBtnContainer,
@@ -26,7 +30,7 @@ import {
 //hooks
 import useAwards from "./hooks/useAwards";
 import useScroll from "services/hooks/useScroll";
-import Spinner from "components/Helpers/Spinner";
+import useWindowWidth from "services/hooks/useWindowWidth";
 
 const AwardingSection = () => {
   const { t } = useTranslation();
@@ -35,6 +39,9 @@ const AwardingSection = () => {
     nextHeight: 0,
     scrollTop: 10,
   });
+  const { width } = useWindowWidth();
+  const bgInput = width < 1000 ? "transparent" : "#fff";
+
   const {
     control,
     handleSubmit,
@@ -122,6 +129,9 @@ const AwardingSection = () => {
                             width={{ width: "100%" }}
                             label={t("awardSize")}
                             maxLength={11}
+                            inputStyle={{
+                              bgcolor: bgInput,
+                            }}
                           />
                         );
                       }}
@@ -181,6 +191,9 @@ const AwardingSection = () => {
                               label={t("awardSize")}
                               width={{ width: "100%" }}
                               maxLength={11}
+                              inputStyle={{
+                                bgcolor: bgInput,
+                              }}
                             />
                           );
                         }}
@@ -197,6 +210,9 @@ const AwardingSection = () => {
                               label={t("awardLimit")}
                               width={{ width: "100%" }}
                               maxLength={11}
+                              inputStyle={{
+                                bgcolor: bgInput,
+                              }}
                             />
                           );
                         }}
@@ -264,6 +280,9 @@ const AwardingSection = () => {
                                 field={field}
                                 label={t("awardSize")}
                                 maxLength={11}
+                                inputStyle={{
+                                  bgcolor: bgInput,
+                                }}
                               />
                             );
                           }}
@@ -280,6 +299,9 @@ const AwardingSection = () => {
                                 field={field}
                                 label={t("payfor")}
                                 maxLength={11}
+                                inputStyle={{
+                                  bgcolor: bgInput,
+                                }}
                                 // aboveLabel="dayTillBirthday"
                               />
                             );
@@ -303,6 +325,7 @@ const AwardingSection = () => {
                                   laptop: 140,
                                   desktop: 190,
                                 },
+                                bgcolor: bgInput,
                               }}
                               field={field}
                               label={t("description")}
@@ -366,6 +389,9 @@ const AwardingSection = () => {
                               width={{ width: "100%" }}
                               label={t("awardSize")}
                               maxLength={11}
+                              inputStyle={{
+                                bgcolor: bgInput,
+                              }}
                             />
                           );
                         }}
@@ -382,6 +408,9 @@ const AwardingSection = () => {
                               width={{ width: "100%" }}
                               label={t("ifMoreThan")}
                               maxLength={11}
+                              inputStyle={{
+                                bgcolor: bgInput,
+                              }}
                             />
                           );
                         }}

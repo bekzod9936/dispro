@@ -66,7 +66,7 @@ export const FullSideBar = ({ onClose, edit, rePublish, refetch }: IProps) => {
                 <DeleteModal>
                     <h5>Вы действительно хотите удалить {isCoupon ? t("coupon") : t("certificate")}?</h5>
                     <b>{currentCoupon.title}</b>
-                    <p>При удалении купона, все купленные купоны остануться у клиентов</p>
+                    <p>При удалении купона, все купленные купоны останутся у клиентов</p>
                     <Button
                         buttonStyle={{ color: "#223367", bgcolor: "rgba(96, 110, 234, 0.1)" }}
                         margin={{ laptop: "0 22px 0 0" }}
@@ -175,6 +175,7 @@ export const FullSideBar = ({ onClose, edit, rePublish, refetch }: IProps) => {
                         </Button>
                     </> :
                     <Button
+                        onClick={() => setDeleteModal(true)}
                         margin={{ mobile: "0 8px 0 0" }}
                         endIcon={width > 325 && <DeleteIcon style={{ height: 15, width: 13.5 }} />}
                         buttonStyle={{ color: "#ffffff", bgcolor: "#FF5E68" }}

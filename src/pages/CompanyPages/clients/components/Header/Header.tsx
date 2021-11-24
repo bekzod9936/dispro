@@ -24,7 +24,6 @@ export const Header = ({ query, setQuery, setModals }: IProps) => {
   const { t } = useTranslation();
   const { totalCount, filters, referals } = useAppSelector(state => state.clients);
   const activeFilters = useHandleGetFilters({ filters, handleRemove, referals })
-  console.log(activeFilters);
 
   const dispatch = useAppDispatch()
   const { width } = useWindowSize()
@@ -35,6 +34,7 @@ export const Header = ({ query, setQuery, setModals }: IProps) => {
   const handlePickDate = (date: string) => {
     dispatch(setPeriod(date))
   };
+
 
   return (
     <Wrapper>
@@ -69,7 +69,7 @@ export const Header = ({ query, setQuery, setModals }: IProps) => {
           {t("invite")}
         </Button>
       </ButtonsWrapper>
-      {width > 600 &&
+      {Boolean(activeFilters.length) &&
         <SelectedFilters>
           {activeFilters}
         </SelectedFilters>}

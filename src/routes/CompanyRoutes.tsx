@@ -1,93 +1,93 @@
-import React, { lazy, Suspense } from 'react';
-import { Redirect } from 'react-router';
-import FallbackOnLazyLoad from '../pages/Fallbacks/FallbackOnLazyLoad';
-import PrivateRoute from './PrivateRoute';
+import React, { lazy, Suspense } from "react";
+import { Redirect } from "react-router";
+import FallbackOnLazyLoad from "../pages/Fallbacks/FallbackOnLazyLoad";
+import PrivateRoute from "./PrivateRoute";
 
-import { IPrivateRoute } from './Protection';
+import { IPrivateRoute } from "./Protection";
 
-const StatisticsPage = lazy(() => import('pages/CompanyPages/statistics'));
-const StaffPage = lazy(() => import('../pages/CompanyPages/staff/StaffPage'));
+const StatisticsPage = lazy(() => import("pages/CompanyPages/statistics"));
+const StaffPage = lazy(() => import("../pages/CompanyPages/staff/StaffPage"));
 const NotificationsPage = lazy(
-  () => import('../pages/CompanyPages/notifications')
+  () => import("../pages/CompanyPages/notifications")
 );
-const NewsPage = lazy(() => import('../pages/CompanyPages/news'));
-const FinancePage = lazy(() => import('../pages/CompanyPages/finances'));
-const InfoPage = lazy(() => import('../pages/CompanyPages/info'));
+const NewsPage = lazy(() => import("../pages/CompanyPages/news"));
+const FinancePage = lazy(() => import("../pages/CompanyPages/finances"));
+const InfoPage = lazy(() => import("../pages/CompanyPages/info"));
 const OrdersPage = lazy(
-  () => import('../pages/CompanyPages/orders/OrdersPage')
+  () => import("../pages/CompanyPages/orders/OrdersPage")
 );
-const ProposalsPage = lazy(() => import('../pages/CompanyPages/proposals'));
+const ProposalsPage = lazy(() => import("../pages/CompanyPages/proposals"));
 const SettingsPage = lazy(
-  () => import('../pages/CompanyPages/settings/SettingsPage')
+  () => import("../pages/CompanyPages/settings/SettingsPage")
 );
 const ServicesPage = lazy(
-  () => import('../pages/CompanyPages/services/ServicesPage')
+  () => import("../pages/CompanyPages/services/ServicesPage")
 );
-const ClientsPage = lazy(() => import('../pages/CompanyPages/clients'));
+const ClientsPage = lazy(() => import("../pages/CompanyPages/clients"));
 const DefaultLayoutAdmin = lazy(
-  () => import('../components/Layout/DefaultLayoutAdmin')
+  () => import("../components/Layout/DefaultLayoutAdmin")
 );
 
 const privateCompanyRoutes: IPrivateRoute[] = [
   {
-    path: '/statistics',
+    path: "/statistics",
     layout: DefaultLayoutAdmin,
     component: StatisticsPage,
   },
   {
-    path: '/staff',
+    path: "/staff",
     layout: DefaultLayoutAdmin,
     component: StaffPage,
   },
   {
-    path: '/notifications',
+    path: "/notifications",
     layout: DefaultLayoutAdmin,
     component: NotificationsPage,
   },
   {
-    path: '/news',
+    path: "/news",
     layout: DefaultLayoutAdmin,
     component: NewsPage,
   },
   {
-    path: '/info',
+    path: "/info",
     layout: DefaultLayoutAdmin,
     component: InfoPage,
   },
   {
-    path: '/services',
+    path: "/services",
     layout: DefaultLayoutAdmin,
     component: ServicesPage,
   },
   {
-    path: '/orders',
+    path: "/orders",
     layout: DefaultLayoutAdmin,
     component: OrdersPage,
   },
   {
-    path: '/proposals',
+    path: "/proposals",
     layout: DefaultLayoutAdmin,
     component: ProposalsPage,
   },
   {
-    path: '/settings',
+    path: "/settings",
     layout: DefaultLayoutAdmin,
     component: SettingsPage,
   },
   {
-    path: '/finances',
+    path: "/finances",
     layout: DefaultLayoutAdmin,
     component: FinancePage,
   },
   {
-    path: '/clients',
+    path: "/clients",
     layout: DefaultLayoutAdmin,
     component: ClientsPage,
   },
 ];
 
 export const renderCompanyPages = () => {
-  let companyToken = localStorage.getItem('company_token');
+  let companyToken = localStorage.getItem("company_token");
   return privateCompanyRoutes.map((item: IPrivateRoute) => {
     if (companyToken) {
       return (
@@ -100,7 +100,7 @@ export const renderCompanyPages = () => {
         </Suspense>
       );
     } else {
-      return <Redirect to='/' />;
+      return <Redirect from="*" to="/" />;
     }
   });
 };

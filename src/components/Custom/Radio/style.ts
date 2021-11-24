@@ -23,7 +23,7 @@ export const Container = styled.div`
   .MuiFormControl-root {
     display: flex !important ;
     flex-direction: ${({ flexDirection = "row" }: RProps) =>
-      flexDirection} !important;
+    flexDirection} !important;
   }
   @media (min-width: ${device.laptop}) {
     legend.MuiFormLabel-root {

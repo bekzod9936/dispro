@@ -22,9 +22,9 @@ const PrivateRoute: React.FC<IProps> = ({ Layout, Component, ...rest }) => {
             <Component {...props} />
           </Layout>
         ) : !companyToken && !props.match.path.includes("company") ? (
-          <Redirect to="/partner/company" />
+          <Redirect from="*" to="/partner/company" />
         ) : (
-          <Redirect to="/" />
+          <Redirect from="*" to="/" />
         );
       }}
     />

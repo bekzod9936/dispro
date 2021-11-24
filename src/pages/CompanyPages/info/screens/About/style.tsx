@@ -205,14 +205,15 @@ export const Form = styled.form`
 `;
 
 export const UpSide = styled.div`
-  overflow-y: auto;
-  overflow-x: hidden;
+
   height: 80%;
   width: 100%;
   flex-grow: 1;
   @media (max-width: ${device.mobile}) {
     padding: 0 15px 0 15px;
   }
+  overflow-y: auto;
+  overflow-x: hidden;
   scroll-behavior: auto;
 
   ::-webkit-scrollbar {

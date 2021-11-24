@@ -27,11 +27,12 @@ export interface Props {
     desktop?: string;
   };
   disableBackdropClick?: boolean;
-  zIndex?: number
+  zIndex?: number;
+  scroll?: 'body' | 'paper';
 }
 
 const Modal = ({
-  onClose = () => { },
+  onClose = () => {},
   open = false,
   children,
   ...props
@@ -52,6 +53,7 @@ const Modal = ({
       fullScreen={props.fullScreen}
       fullWidth={props.fullWidth}
       zIndex={props.zIndex}
+      scroll={props.scroll}
     >
       {children}
     </MDialog>
