@@ -1,6 +1,6 @@
 import { atom, selector } from "recoil";
 import { IActive, IEDiscount, IEBonuspoint, IECashback } from "./types";
-export const switchKeyT = atom<string>({
+export const switchKeyT = atom<string | any>({
   key: "switchKey",
   default: "discount",
 });

@@ -98,7 +98,8 @@ const NestedArray = ({ index, control, getValues, setValue }: IProps) => {
     fields.reduce((itemN: any, key: any) => {
       if (key.condition === "" || key.condition === "and") {
         arr1["first"] = [...arr1["first"], key];
-      } else if (key.condition === "or" || key.condition === "and") {
+      }
+      if (key.condition === "or" || key.condition === "and") {
         arr1["second"] = [...arr1["second"], key];
       }
 
