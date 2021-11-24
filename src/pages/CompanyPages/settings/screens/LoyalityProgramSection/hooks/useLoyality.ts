@@ -47,6 +47,7 @@ import {
   setEBonuspoint,
   setEDiscount,
   setECashback,
+  switchKeyT,
 } from "services/atoms/settings";
 
 const useLoyality = () => {
@@ -59,6 +60,8 @@ const useLoyality = () => {
   const emptyCashback = useRecoilValue(eCashback);
   const emptyDiscount = useRecoilValue(eDiscount);
   const emptyBonuspoint = useRecoilValue(eBonuspoint);
+  const switchKey = useRecoilValue(switchKeyT);
+
   //recoil selectors
   const setBaseLoyality = useSetRecoilState(setBaseLoyal);
   const setLoyaltyUse = useSetRecoilState(setUseLoyal);
@@ -265,6 +268,7 @@ const useLoyality = () => {
   };
 
   const onFormSubmit = async (data: FormProps) => {
+    setActiveCheck(switchKey);
     if (!checkLevels(data.levels, data.base_name, data.base_percent)) {
       try {
         useProgramSave.mutate({
