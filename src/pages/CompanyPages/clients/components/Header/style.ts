@@ -23,6 +23,7 @@ export const PlanshetHeader = styled.div`
   }
   @media(max-width: ${device.mobile}) {
     flex-direction: column;
+    margin-bottom: 0;
   }
 `
 
