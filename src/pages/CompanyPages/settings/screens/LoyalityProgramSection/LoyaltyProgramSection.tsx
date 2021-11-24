@@ -142,14 +142,16 @@ const LoyaltyProgramSection = () => {
   const handleChecked = (key: any) => {
     console.log(key, "key that i want");
     setSwitchKey(key);
-    setActiveCheck(key);
     if (emptyCashback.empty && emptyCashback.type === key) {
+      setActiveCheck(key);
       setAssertModalVisible(false);
       setActive({ active: key });
     } else if (emptyDiscount.empty && emptyDiscount.type === key) {
+      setActiveCheck(key);
       setAssertModalVisible(false);
       setActive({ active: key });
     } else if (emptyBonuspoint.empty && emptyBonuspoint.type === key) {
+      setActiveCheck(key);
       setAssertModalVisible(false);
       setActive({ active: key });
     } else {
