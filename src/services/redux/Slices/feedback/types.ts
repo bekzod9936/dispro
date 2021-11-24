@@ -28,6 +28,7 @@ export interface IratingAndReviews {
   rating?: number;
   review?: string;
   clientGenderTypeId?: number;
+  obtainProgramLoyalty?: { levelName?: string; percent?: number };
 }
 
 export interface IHistory {

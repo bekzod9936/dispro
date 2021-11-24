@@ -9,7 +9,7 @@ interface Props {
 
 export const Container = styled.div`
   margin-bottom: 20px;
-  width: 25%;
+  width: 24%;
   top: 0;
   right: 0;
   position: sticky;
@@ -75,7 +75,7 @@ export const WrapStartT = styled.div`
   width: 100%;
   flex: 1;
   @media (max-width: ${device.laptop}) {
-    justify-content: flex-start;
+    justify-content: flex-end;
   }
 `;
 

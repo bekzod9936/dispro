@@ -16,7 +16,7 @@ const Stars = () => {
   const ratings = useAppSelector((state) => state.feedbackPost.ratings);
   const rate = useAppSelector((state) => state.feedbackPost.averageRating);
   const total = useAppSelector((state) => state.feedbackPost.totalRating);
-
+  console.log(ratings);
   return (
     <Container>
       <div>
@@ -36,10 +36,18 @@ const Stars = () => {
               <WrapStartT>
                 <RateText>
                   &middot;
-                  {ratings?.length ? `${ratings[i]?.percentage}%` : '0%'}
+                  {ratings?.length
+                    ? ratings[i]?.percentage
+                      ? `${ratings[i]?.percentage}%`
+                      : '0%'
+                    : null}
                 </RateText>
                 <RateText>
-                  {ratings?.length ? `${ratings[i]?.amount} ` : '0 '}
+                  {ratings?.length
+                    ? ratings[i]?.amount
+                      ? `${ratings[i]?.amount} `
+                      : '0 '
+                    : null}
                 </RateText>
                 <RateText>{t('evaluations')}</RateText>
               </WrapStartT>

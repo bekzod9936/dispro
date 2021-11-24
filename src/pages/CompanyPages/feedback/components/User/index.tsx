@@ -81,10 +81,13 @@ const User = ({ value }: Props) => {
               <UserName>
                 {value.clientFirstName} {value.clientLastName}
               </UserName>
-              <Status>{t('status')}: Base 5%</Status>
+              <Status>
+                {t('status')}:
+                {` ${value?.obtainProgramLoyalty?.levelName} ${value?.obtainProgramLoyalty?.percent}%`}
+              </Status>
             </WrapText>
           </LeftHeader>
-          <Date margin='5px 0 0 20px'>
+          <Date margin='0 0 0 20px'>
             {dayjs(value.createdAt).format('DD.MM.YYYY HH:mm')}
           </Date>
         </Header>
@@ -140,14 +143,20 @@ const User = ({ value }: Props) => {
                   <UserName>
                     {value.clientFirstName} {value.clientLastName}
                   </UserName>
-                  <Status>{t('status')}: Base 5%</Status>
+                  <Status>
+                    {t('status')}:
+                    {` ${value?.obtainProgramLoyalty?.levelName} ${value?.obtainProgramLoyalty?.percent}%`}
+                  </Status>
                 </WrapText>
               </LeftHeader>
               <WrapClose>
-                <Date margin='10px 10px 0 20px'>
+                <Date margin='0 10px 0 20px'>
                   {dayjs(value.createdAt).format('DD.MM.YYYY HH:mm')}
                 </Date>
-                <IconButton onClick={() => setOpen(false)}>
+                <IconButton
+                  style={{ marginTop: '-12px' }}
+                  onClick={() => setOpen(false)}
+                >
                   <CloseIcon />
                 </IconButton>
               </WrapClose>

@@ -50,6 +50,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: fit-content;
+  flex: 1;
 `;
 
 export const Header = styled.div`
