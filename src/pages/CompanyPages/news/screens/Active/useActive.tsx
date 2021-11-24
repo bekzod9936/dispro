@@ -5,35 +5,42 @@ import {
   setNewsTotal,
   setNewsBetween,
   setNewsTotalCount,
+  setErrorMessage,
 } from "services/redux/Slices/news";
   import { formatPagination } from "services/utils/formatPagination";
   import { useAppDispatch,useAppSelector } from "services/redux/hooks";
   import { useDebounce } from "use-debounce/lib";
-  interface PProps {
-    filterValues: any;
-  }
-const useActive = ({filterValues}:PProps) => {
+
+interface Props {
+  filterValues:any
+}
+
+const useActive = ({filterValues}:Props) => {
   const dispatch = useAppDispatch();
   const query=useAppSelector((state)=>state.news.query);
-  const startDate=useAppSelector((state)=>state.news.setPeriod.dateFrom);
-  const endDate=useAppSelector((state)=>state.news.setPeriod.dateTo);
+  const page=useAppSelector((state)=>state.news.setPeriod.page)
+  const perPage=useAppSelector((state)=>state.news.setPeriod.perPage)
+  const toDate=useAppSelector((state)=>state.news.setPeriod.toDate)
+  const fromDate=useAppSelector((state)=>state.news.setPeriod.fromDate)
+
+  
+  // const startDate=useAppSelector((state)=>state.news.setPeriod.toDate);
+  // const endDate=useAppSelector((state)=>state.news.setPeriod.dateTo);
   const [debouncedQuery] = useDebounce(query, 300);
 
-  const response=useQuery(["fetchNews",filterValues, debouncedQuery],
+  const response=useQuery(["fetchNews", filterValues,debouncedQuery],
   () => {
      if(debouncedQuery !==''){
        return searchActiveNews(debouncedQuery)
      }
 
     const url = Object.keys(filterValues)
-      .map((v: any) => `${v}=${filterValues[v]}&`)
+      .map((v) => `${v}=${filterValues[v]}&`)
       .join("");
       return fetchActivenews({
         url: url,
       });
-    // return fetchActiveQueries({
-    //   url: url+`key=${debouncedQuery}`,
-    // });
+
   },
   {
     keepPreviousData: true,
@@ -45,16 +52,16 @@ const useActive = ({filterValues}:PProps) => {
       dispatch(
         setNewsBetween(
           formatPagination({
-            page: filterValues?.page,
-            perPage: filterValues?.perPage,
-            total: data.data.data.totalCount,
+            page: page,
+            perPage: perPage,
+            total: data?.data?.data?.totalCount,
           })
         )
       );
-      dispatch(setNewsTotal(Math.ceil(data.data.data.totalCount/ filterValues?.perPage)))
-      dispatch(setNewsTotalCount(data.data.data.totalCount))
-      dispatch(setNewsData(data.data.data.news))
-  
+      dispatch(setNewsTotal(Math.ceil(data?.data.data.totalCount/ perPage)))
+      dispatch(setNewsTotalCount(data?.data.data.totalCount))
+      dispatch(setNewsData(data?.data.data.news))
+      dispatch(setErrorMessage(data?.data?.data?.totalCount ? 'noterror':'error'))
     },
   });
   return { response};

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { device } from '../../../styles/device';
 export interface ITextAreaProps {
     width?: string,
     border?: string,
@@ -10,7 +11,9 @@ export interface ITextAreaProps {
     maxWidth?: string,
     height?: string,
     minHeight?: string,
+    maxHeight?:string,
     resize?: string,
+    required?:boolean,
     outline?: string,
     focus?: {
         border?: string,
@@ -46,18 +49,21 @@ export const Label = styled.label`
 
 export const MTextArea = styled.textarea`
     border: ${({ border }: ITextAreaProps) => border || "1px solid #C2C2C2;"};
+    
     color: ${({ color }: ITextAreaProps) => color || "#223367"};
     resize: ${({resize}: ITextAreaProps) => resize || "none"};
+    
     box-sizing: border-box;
     border-radius: ${({borderRadius}: ITextAreaProps) => borderRadius || "14px"};
     margin: ${({margin}: ITextAreaProps) => margin || "0"};
     padding: ${({padding}: ITextAreaProps) => padding || "15px"};
     font-family: "Roboto", sans-serif;
     font-size: ${({fontSize}: ITextAreaProps) => fontSize || "16px"};
-    max-width: ${({maxWidth}: ITextAreaProps) => maxWidth || "440px"};
+    max-width: ${({maxWidth}: ITextAreaProps) => maxWidth || "570px"};
     width: ${({width}: ITextAreaProps) => width || "100%"};
     height: ${({height}: ITextAreaProps) => height || "100%"};
     min-height: ${({minHeight}: ITextAreaProps) => minHeight || "none"};
+    max-height: ${({maxHeight}: ITextAreaProps) => maxHeight || "none"};
     outline: ${({outline}: ITextAreaProps) => outline || "none"};
     /* position: relative;
     max-height: 500px; */
@@ -88,3 +94,15 @@ export const Wrapper = styled.div`
     width: ${({width}: IContainerProps) => width || "100%"};
     max-width: ${({maxWidth}: IContainerProps) => maxWidth || "440px"};
 `
+
+export const Message = styled.div`
+  position: absolute;
+  top: 100%;
+  font-weight: 300;
+  color: #ff5e68;
+  overflow-wrap: normal;
+  display: flex;
+  margin-top: 5px;
+
+  
+`;

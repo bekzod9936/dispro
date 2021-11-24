@@ -21,7 +21,7 @@ const useNewsRoute=()=>{
     const newsPath:INewsRow[]=[
         {
             path:'/news/waiting',
-            text:t('В ожидание'),
+            text:t('В ожидании'),
             component:Waiting
           },
           {
@@ -38,7 +38,7 @@ const useNewsRoute=()=>{
     const menuItems:INewsRow[]=[
         {
             path:'/news/waiting',
-            text:t('В ожидание'),
+            text:t('В ожидании'),
             component:Waiting
           },
         {

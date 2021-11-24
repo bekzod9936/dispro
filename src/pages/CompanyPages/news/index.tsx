@@ -4,7 +4,7 @@ import Spinner from "components/Custom/Spinner";
 import { Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { Switch, Route, useHistory, useLocation } from "react-router-dom";
-import { useAppDispatch } from "services/redux/hooks";
+import { useAppDispatch,useAppSelector } from "services/redux/hooks";
 import { setQuery } from "services/redux/Slices/news";
 import useNewsRoute from "./routes";
 import Header from "./components/Header";
@@ -16,6 +16,7 @@ const News = () => {
   const { menuItems, newsPath } = useNewsRoute();
   const dispatch = useAppDispatch();
   const location = useLocation();
+  const errorMessage=useAppSelector((state)=>state.news.errorMessage);
   const { width } = useWindowWidth();
   const history = useHistory();
   const handleOpenNews = () => {
@@ -26,10 +27,12 @@ const News = () => {
     dispatch(setQuery(""));
   };
 
+  {console.log('errorMessage',errorMessage)}
+
   return (
     <MainWrapper id="drawer-container">
       <Wrap>
-        {location.pathname !== "/news/create" &&
+        { location.pathname !== "/news/create" &&
           location.pathname !== "/news/detail" &&
           location.pathname !== "/news/repair" &&
           location.pathname !== "/news/showwaiting" &&
@@ -57,7 +60,7 @@ const News = () => {
                       </>
                     </LeftHeader>
                   </WrapHeader>
-                  <Header handleOpenNews={handleOpenNews} />
+                  {/* <Header handleOpenNews={handleOpenNews} /> */}
                 </div>
               ) : (
                 <div>
