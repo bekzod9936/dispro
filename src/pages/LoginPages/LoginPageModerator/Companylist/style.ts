@@ -107,19 +107,20 @@ export const Text = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 15px;
-
   div {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    width: 100%;
+    word-break: break-word;
   }
-
   @media (max-width: ${device.mobile}) {
     font-size: 16px;
   }
   @media (min-width: ${device.mobile}) and (max-width: ${device.laptop}) {
     font-size: 20px;
+    /* div {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      width: 100%;
+    } */
   }
 `;
 
