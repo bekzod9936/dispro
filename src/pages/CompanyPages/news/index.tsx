@@ -1,10 +1,12 @@
+import {useEffect} from "react"
+import { setSelectedNews } from "services/redux/Slices/news";
 import NavBar from "components/Custom/NavBar";
 import Title from "components/Custom/Title";
 import Spinner from "components/Custom/Spinner";
 import { Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { Switch, Route, useHistory, useLocation } from "react-router-dom";
-import { useAppDispatch,useAppSelector } from "services/redux/hooks";
+import { useAppDispatch } from "services/redux/hooks";
 import { setQuery } from "services/redux/Slices/news";
 import useNewsRoute from "./routes";
 import Header from "./components/Header";
@@ -16,7 +18,7 @@ const News = () => {
   const { menuItems, newsPath } = useNewsRoute();
   const dispatch = useAppDispatch();
   const location = useLocation();
-  const errorMessage=useAppSelector((state)=>state.news.errorMessage);
+
   const { width } = useWindowWidth();
   const history = useHistory();
   const handleOpenNews = () => {
@@ -27,7 +29,7 @@ const News = () => {
     dispatch(setQuery(""));
   };
 
-  {console.log('errorMessage',errorMessage)}
+
 
   return (
     <MainWrapper id="drawer-container">
@@ -60,7 +62,7 @@ const News = () => {
                       </>
                     </LeftHeader>
                   </WrapHeader>
-                  {/* <Header handleOpenNews={handleOpenNews} /> */}
+                  <Header handleOpenNews={handleOpenNews} />
                 </div>
               ) : (
                 <div>

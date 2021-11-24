@@ -1,7 +1,6 @@
 import Button from "components/Custom/Button";
 import CustomToggle from "components/Custom/CustomToggleSwitch";
 import Input from "components/Custom/Input";
-import { TextField } from "@material-ui/core";
 import  {TextArea } from "components/Custom/TextArea";
 import MultiSelect from "components/Custom/MultiSelect";
 import Title from "components/Custom/Title";
@@ -64,7 +63,7 @@ import {
 import { useUploadImage } from "../../hooks/useUploadIMage";
 
 import { ReactComponent as MarketIcon } from "assets/icons/SideBar/ilmarket.svg";
-import { errorSelector } from "recoil";
+
 import { useDispatch } from "react-redux";
 
 interface IOptionFields {
@@ -91,7 +90,7 @@ const CreateNews = () => {
   const [formData, setFormData] = React.useState({});
   const [cancel, setCancel] = React.useState(false);
   const [startDate,setStartDate]=React.useState<any>();
-
+ const [description,setDescription]=React.useState<any>();
   const [errorFileType,setErrorFileType]=React.useState<any>(false);
   const handleBack = () => {
     history.goBack();
@@ -105,12 +104,12 @@ const CreateNews = () => {
   // const { mutate } = useMutation((data: any) => fetchCreateNews(data));
   const { mutate } = useMutation(fetchCreateNews, {
     onSuccess: response => {
-      console.log('datacreateNews');
+      console.log('datacreateNews',response);
 
     },
     onError: (error) => {
       console.log('datacreateNewsEdit',error);
-      setErrorMessage(dispatch(true))
+        dispatch(setErrorMessage(true))
     },
    
   });
@@ -164,6 +163,10 @@ const CreateNews = () => {
     setCancel(false);
     history.goBack();
   };
+
+  const handleDescription=(e:any)=>{
+    setDescription(e.target.value)
+  }
 
   const submitNews = (data: any) => {
     let newsData = {
@@ -454,7 +457,6 @@ const CreateNews = () => {
                 render={({ field }) => (
                   <Input
                     field={field}
-                
                     margin={{ laptop: "35px 0" }}
                     label="Описание"
                     type="textarea"
@@ -463,13 +465,21 @@ const CreateNews = () => {
                     multiline={true}
                     maxLength={800}
                     inputStyle={{
-                      height: { desktop: 120, laptop: 90, mobile: 150 },
+                      height: { desktop: 150, laptop: 90, mobile: 150 },
                     }}
                
                   />
                 )}
               />
 
+{/* <TextArea 
+  maxLength={80}
+  
+  min-height={80}
+  {...register("description",  { required: true })}
+
+  title={'Описание'}
+/> */}
               {width > 600 ? (
 
                 <WrapInputs>
@@ -643,11 +653,11 @@ const CreateNews = () => {
                         inputStyle={{
                           height: { desktop: 120, laptop: 90, mobile: 120 },
                         }}
-                        IconEnd={width>600 ? 
-                          <WrapArea>
-                            <TextAreaIcon />
-                          </WrapArea>:''
-                        }
+                        // IconEnd={width>600 ? 
+                        //   <WrapArea>
+                        //     <TextAreaIcon />
+                        //   </WrapArea>:''
+                        // }
                       />
                     )}
                   />

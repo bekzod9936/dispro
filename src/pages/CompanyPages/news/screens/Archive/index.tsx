@@ -1,9 +1,10 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState,useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Spinner from "components/Custom/Spinner";
 import Table from "../../components/Table";
 import NoNews from "../../components/NoNews";
+
 import { setQuery, setSelectedNews } from "services/redux/Slices/news";
 import { useAppSelector, useAppDispatch } from "services/redux/hooks";
 import { SideBar } from "../../components/SideBar";
@@ -55,8 +56,6 @@ const Archive = () => {
 
   const [filterValues, setFilterValues] =
     useState<intialFilterProps>(intialFilter);
-  
- 
   
   const { response } = useArchive({filterValues: filterValues});
   const {list}=useData();
