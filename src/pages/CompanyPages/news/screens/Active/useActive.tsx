@@ -18,10 +18,7 @@ interface Props {
 const useActive = ({filterValues}:Props) => {
   const dispatch = useAppDispatch();
   const query=useAppSelector((state)=>state.news.query);
-  const page=useAppSelector((state)=>state.news.setPeriod.page)
-  const perPage=useAppSelector((state)=>state.news.setPeriod.perPage)
-  const toDate=useAppSelector((state)=>state.news.setPeriod.toDate)
-  const fromDate=useAppSelector((state)=>state.news.setPeriod.fromDate)
+
 
   
   // const startDate=useAppSelector((state)=>state.news.setPeriod.toDate);
@@ -52,15 +49,15 @@ const useActive = ({filterValues}:Props) => {
       dispatch(
         setNewsBetween(
           formatPagination({
-            page: page,
-            perPage: perPage,
-            total: data?.data?.data?.totalCount,
+            page: filterValues?.page,
+            perPage: filterValues?.perPage,
+            total: data.data.data.totalCount,
           })
         )
       );
-      dispatch(setNewsTotal(Math.ceil(data?.data.data.totalCount/ perPage)))
-      dispatch(setNewsTotalCount(data?.data.data.totalCount))
-      dispatch(setNewsData(data?.data.data.news))
+      dispatch(setNewsTotal(Math.ceil(data.data.data.totalCount/ filterValues?.perPage)))
+      dispatch(setNewsTotalCount(data.data.data.totalCount))
+      dispatch(setNewsData(data.data.data.news))
     
     },
   });

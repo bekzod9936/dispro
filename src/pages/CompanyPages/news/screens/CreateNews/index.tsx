@@ -1,7 +1,6 @@
 import Button from "components/Custom/Button";
 import CustomToggle from "components/Custom/CustomToggleSwitch";
 import Input from "components/Custom/Input";
-import { TextField } from "@material-ui/core";
 import  {TextArea } from "components/Custom/TextArea";
 import MultiSelect from "components/Custom/MultiSelect";
 import Title from "components/Custom/Title";
@@ -91,7 +90,7 @@ const CreateNews = () => {
   const [formData, setFormData] = React.useState({});
   const [cancel, setCancel] = React.useState(false);
   const [startDate,setStartDate]=React.useState<any>();
-
+ const [description,setDescription]=React.useState<any>();
   const [errorFileType,setErrorFileType]=React.useState<any>(false);
   const handleBack = () => {
     history.goBack();
@@ -164,6 +163,10 @@ const CreateNews = () => {
     setCancel(false);
     history.goBack();
   };
+
+  const handleDescription=(e:any)=>{
+    setDescription(e.target.value)
+  }
 
   const submitNews = (data: any) => {
     let newsData = {
@@ -454,7 +457,6 @@ const CreateNews = () => {
                 render={({ field }) => (
                   <Input
                     field={field}
-                
                     margin={{ laptop: "35px 0" }}
                     label="Описание"
                     type="textarea"
@@ -470,6 +472,14 @@ const CreateNews = () => {
                 )}
               />
 
+{/* <TextArea 
+  maxLength={80}
+  
+  min-height={80}
+  {...register("description",  { required: true })}
+
+  title={'Описание'}
+/> */}
               {width > 600 ? (
 
                 <WrapInputs>
