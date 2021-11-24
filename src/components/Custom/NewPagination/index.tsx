@@ -10,7 +10,9 @@ interface IProps {
 export const NewPagination: React.FC<IProps> = ({ totalCount, currentPage, onChange }) => {
     const { t } = useTranslation()
     const [localPage, setLocalPage] = useState<number | string>(currentPage);
+
     let timeoutId: any = useRef<any | null>(null)
+
     const handleChange = (e: any) => {
         let value = e.target.value
         if (value)

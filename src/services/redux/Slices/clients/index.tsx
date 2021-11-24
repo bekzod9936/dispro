@@ -28,7 +28,61 @@ const initialState: IState = {
         { value: "Сумма кешбека", label: "cashbackSum" },
         { value: "Пол", label: "gender" },
         { value: "Возраст", label: "age" },
-    ]
+    ],
+    allClients: [
+        {
+            id: 1,
+            firstName: "John",
+            lastName: "Jackson"
+        },
+        {
+            id: 2,
+            firstName: "Mike",
+            lastName: "Dune"
+        },
+        {
+            id: 4,
+            firstName: "Lionel",
+            lastName: "Messi"
+        },
+        {
+            id: 5,
+            firstName: "James",
+            lastName: "Bond"
+        },
+        {
+            id: 6,
+            firstName: "Tom",
+            lastName: "Jerry"
+        },
+        {
+            id: 7,
+            firstName: "Rick",
+            lastName: "Morty"
+        },
+        {
+            id: 8,
+            firstName: "Spider",
+            lastName: "Man"
+        },
+        {
+            id: 9,
+            firstName: "Batman",
+            lastName: "Joker"
+        },
+        {
+            id: 10,
+            firstName: "Align",
+            lastName: "Items"
+        },
+        {
+            id: 11,
+            firstName: "React",
+            lastName: "Reconciliation"
+        },
+
+    ],
+    selectedAllClients: []
 };
 
 const clientsSlice = createSlice({
@@ -58,6 +112,7 @@ const clientsSlice = createSlice({
             state.visibleClients = [...visibleClients]
             state.totalCount = payload.totalCount
             state.selectedClients = []
+            state.selectedAllClients = []
             state.totalPages = Math.ceil(payload.totalCount / 5)
         },
         setPage: (state: IState, { payload }: PayloadAction<number>) => {
@@ -68,13 +123,22 @@ const clientsSlice = createSlice({
             const isAdded = state.selectedClients.find(el => el.id === payload)
             if (isAdded) {
                 state.selectedClients = state.selectedClients.filter(el => el.id !== payload)
+                state.selectedAllClients = state.selectedAllClients.filter(el => el.id !== payload)
             }
             else {
-                if (client) state.selectedClients = [...state.selectedClients, client]
+                if (client) {
+                    state.selectedClients = [...state.selectedClients, client]
+                    state.selectedAllClients = [...state.selectedAllClients, {
+                        id: client.id,
+                        firstName: client.firstName,
+                        lastName: client.lastName
+                    }]
+                }
             }
         },
         selectAll: (state: IState, { payload }: PayloadAction<boolean>) => {
             state.selectedClients = payload ? [...state.clients] : []
+            state.selectedAllClients = payload ? [...state.clients] : []
         },
         setFilters: (state: IState, { payload }: PayloadAction<IFilters>) => {
             state.filters = { ...payload }
@@ -117,6 +181,10 @@ const clientsSlice = createSlice({
             } else {
                 state.headers = [...state.headers, payload]
             }
+        },
+        setAllClients: (state: IState, { payload }: PayloadAction<boolean>) => {
+            state.selectedAllClients = payload ? [...state.allClients] : []
+            state.selectedClients = payload ? [...state.clients] : []
         }
 
     }
@@ -135,5 +203,6 @@ export const {
     setPeriod,
     setCurrentClient,
     setNote,
-    setHeaders } = clientsSlice.actions
+    setHeaders,
+    setAllClients } = clientsSlice.actions
 export default clientsSlice.reducer

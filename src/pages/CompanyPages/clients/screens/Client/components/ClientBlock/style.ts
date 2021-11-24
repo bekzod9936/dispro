@@ -1,4 +1,4 @@
-import { Tooltip } from "@material-ui/core";
+import { IconButton, Tooltip } from "@material-ui/core";
 import styled from "styled-components";
 import { device } from "styles/device";
 
@@ -107,4 +107,9 @@ export const DownSide = styled.div`
 
 export const StyledToolTip = styled(Tooltip)`
     background-color: white !important;
+`
+
+
+export const MIconButton = styled(IconButton)`
+  border-radius: 8px;
 `

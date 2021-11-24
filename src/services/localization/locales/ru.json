@@ -509,5 +509,6 @@
   "review1": "отзыва",
   "review23": "отзывов",
   "page": "Страница",
-  "requirementLevl": "Условия статуса №{{level}}"
+  "requirementLevl": "Условия статуса №{{level}}",
+  "checkSelected": "Просмотр выбранных"
 }
