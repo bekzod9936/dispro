@@ -1,6 +1,6 @@
-import axios from 'axios';
-import { STORAGE_URL } from '../../constants/config';
-import partnerApi from '../../interceptors/companyInterceptor';
+import axios from "axios";
+import { STORAGE_URL } from "../../constants/config";
+import partnerApi from "../../interceptors/companyInterceptor";
 
 interface deleteProps {
   body: any;
@@ -19,7 +19,7 @@ interface ILimit {
   currency?: any;
 }
 
-const token = localStorage.getItem('companyToken');
+const token = localStorage.getItem("companyToken");
 
 export const deletePhoto = ({ body }: deleteProps) => {
   return axios.delete(`${STORAGE_URL}/company`, {
@@ -34,29 +34,29 @@ export const deletePhoto = ({ body }: deleteProps) => {
 };
 
 export const uploadPhoto = async ({ body }: upLoadProps) => {
-  const res = await axios({
-    method: 'POST',
-    url: `${STORAGE_URL}/company/upload`,
-    data: body,
+  // const res = await axios({
+  //   method: 'POST',
+  //   url: `${STORAGE_URL}/company/upload`,
+  //   data: body,
+  //   headers: {
+  //     'Content-Type': 'multipart/form-data',
+  //     langId: 1,
+  //     Authorization: `Bearer ${token}`,
+  //   },
+  // });
+
+  // return res;
+  return axios.post(`${STORAGE_URL}/company/upload`, body, {
     headers: {
-      'Content-Type': 'multipart/form-data',
-      langId: 1,
+      "Content-Type": "multipart/form-data",
       Authorization: `Bearer ${token}`,
+      langId: 1,
     },
   });
-
-  return res;
-  // return axios.post(`${STORAGE_URL}/company/upload`, body, {
-  // headers: {
-  //   "Content-Type": "multipart/form-data",
-  //   Authorization: `Bearer ${token}`,
-  //   langId: 1,
-  // },
-  // });
 };
 
 export const fetchCategories = () => {
-  return partnerApi.get('/directory/category');
+  return partnerApi.get("/directory/category");
 };
 
 export const fetchAddressInfo = ({ companyId }: iProps) => {
