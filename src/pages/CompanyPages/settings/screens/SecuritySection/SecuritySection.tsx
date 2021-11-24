@@ -1,14 +1,18 @@
 import { Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+//styles
 import { Text } from "../../../../../styles/CustomStyles";
-import useSecurity from "./hooks/useSecurity";
-import CustomToggle from "components/Custom/CustomToggleSwitch";
 import { Break, SpinnerDiv } from "../../styles";
-import { Grid } from "@material-ui/core";
 import { Form, UpSide, DownSide, UpRow, UpWrapper, Wrapper } from "./styles";
+//components
+import Grid from "@material-ui/core/Grid/index";
 import InputFormat from "components/Custom/InputFormat";
 import SaveButton from "pages/CompanyPages/settings/components/SaveButton";
 import Spinner from "components/Helpers/Spinner";
+import CustomToggle from "components/Custom/CustomToggleSwitch";
+//hooks
+import useWindowWidth from "services/hooks/useWindowWidth";
+import useSecurity from "./hooks/useSecurity";
 
 const SecuritySection = () => {
   const { t } = useTranslation();
@@ -20,6 +24,8 @@ const SecuritySection = () => {
     onFormSubmit,
     isLoading,
   } = useSecurity();
+  const { width } = useWindowWidth();
+  const bgInput = width < 1000 ? "transparent" : "#fff";
 
   if (isLoading) {
     return (
@@ -86,6 +92,9 @@ const SecuritySection = () => {
                         field={field}
                         label={t("operations_per_day")}
                         maxLength={11}
+                        inputStyle={{
+                          bgcolor: bgInput,
+                        }}
                       />
                     );
                   }}
@@ -153,6 +162,9 @@ const SecuritySection = () => {
                         field={field}
                         label={t("enterSum")}
                         maxLength={11}
+                        inputStyle={{
+                          bgcolor: bgInput,
+                        }}
                       />
                     );
                   }}
