@@ -30,6 +30,7 @@ import {
   RightGrid,
   BottomSide,
 } from "./styles";
+import { Break } from "../../styles";
 
 //icons
 import { ReactComponent as RemoveIconSettings } from "assets/icons/delete_level.svg";
@@ -66,6 +67,7 @@ import {
   switchKeyT,
   setSwitchKeyT,
   setActiveCheckM,
+  setActiveM,
 } from "services/atoms/settings";
 import {
   activeM,
@@ -110,6 +112,7 @@ const LoyaltyProgramSection = () => {
   //selectors
   const setSwitchKey = useSetRecoilState(setSwitchKeyT);
   const setActiveCheck = useSetRecoilState(setActiveCheckM);
+  const setActive = useSetRecoilState(setActiveM);
   //atoms
   const base_loyality = useRecoilValue(baseLoyalty);
   const useLoyalMain = useRecoilValue(useLoyal);
@@ -137,14 +140,18 @@ const LoyaltyProgramSection = () => {
   const onError = (errors: any, e: any) => console.log(errors, e);
 
   const handleChecked = (key: any) => {
+    console.log(key, "key that i want");
     setSwitchKey(key);
     setActiveCheck(key);
     if (emptyCashback.empty && emptyCashback.type === key) {
       setAssertModalVisible(false);
+      setActive({ active: key });
     } else if (emptyDiscount.empty && emptyDiscount.type === key) {
       setAssertModalVisible(false);
+      setActive({ active: key });
     } else if (emptyBonuspoint.empty && emptyBonuspoint.type === key) {
       setAssertModalVisible(false);
+      setActive({ active: key });
     } else {
       setAssertModalVisible(true);
     }
@@ -297,10 +304,6 @@ const LoyaltyProgramSection = () => {
                           <AddIconDiv>
                             <RippleDiv
                               onClick={() => {
-                                console.log(
-                                  ...getValues().levels,
-                                  "levels get"
-                                );
                                 append({
                                   name: "new_row",
                                   percent: 15,
@@ -480,7 +483,7 @@ const LoyaltyProgramSection = () => {
                       })}
                     <div style={{ height: "25px" }} />
                     <BottomSide>
-                      <HeaderGrid item xs={12}>
+                      <HeaderGrid item xs={6}>
                         <Controller
                           name="max_percent"
                           control={control}
@@ -502,37 +505,34 @@ const LoyaltyProgramSection = () => {
                           }}
                         />
                       </HeaderGrid>
+                      <Break height={15} />
                       {cashbackActive && (
-                        <HeaderGrid item xs={12}>
-                          <div>
-                            <div>
-                              <Controller
-                                name="give_cashback_after"
-                                control={control}
-                                rules={{
-                                  required: true,
-                                }}
-                                defaultValue={
-                                  base_loyality?.give_cashback_after
-                                }
-                                render={({ field }) => {
-                                  return (
-                                    <InputFormat
-                                      field={field}
-                                      label={t("give_cashback_after")}
-                                      defaultValue={
-                                        base_loyality?.give_cashback_after
-                                      }
-                                      error={
-                                        errors.give_cashback_after?.type ===
-                                        "required"
-                                      }
-                                      message={t("requiredField")}
-                                    />
-                                  );
-                                }}
-                              />
-                            </div>
+                        <HeaderGrid item xs={6}>
+                          <div style={{ marginTop: "15px" }}>
+                            <Controller
+                              name="give_cashback_after"
+                              control={control}
+                              rules={{
+                                required: true,
+                              }}
+                              defaultValue={base_loyality?.give_cashback_after}
+                              render={({ field }) => {
+                                return (
+                                  <InputFormat
+                                    field={field}
+                                    label={t("give_cashback_after")}
+                                    defaultValue={
+                                      base_loyality?.give_cashback_after
+                                    }
+                                    error={
+                                      errors.give_cashback_after?.type ===
+                                      "required"
+                                    }
+                                    message={t("requiredField")}
+                                  />
+                                );
+                              }}
+                            />
                           </div>
                         </HeaderGrid>
                       )}
@@ -555,6 +555,7 @@ const LoyaltyProgramSection = () => {
                               )}
                             />{" "}
                           </div>
+
                           <div>
                             <Controller
                               name="usePoint"
@@ -571,6 +572,7 @@ const LoyaltyProgramSection = () => {
                           </div>
                         </div>
                       </HeaderGrid>
+                      <Break height={15} />
                       <HeaderGrid item xs={12}>
                         <div style={{ marginTop: "20px" }}>
                           <Button

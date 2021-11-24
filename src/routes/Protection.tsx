@@ -1,13 +1,13 @@
-import React, { Suspense } from 'react';
-import { lazy } from 'react';
-import { Redirect } from 'react-router-dom';
-import FallbackOnLazyLoad from '../pages/Fallbacks/FallbackOnLazyLoad';
+import React, { Suspense } from "react";
+import { lazy } from "react";
+import { Redirect } from "react-router-dom";
+import FallbackOnLazyLoad from "../pages/Fallbacks/FallbackOnLazyLoad";
 import DefaultLayoutAdmin, {
   IDefaultLayout,
-} from '../components/Layout/DefaultLayoutAdmin';
-import PrivateRoute from './PrivateRoute';
-import PublicRoute from './PublicRoute';
-import CompanyList from '../pages/LoginPages/LoginPageModerator/Companylist/index';
+} from "../components/Layout/DefaultLayoutAdmin";
+import PrivateRoute from "./PrivateRoute";
+import PublicRoute from "./PublicRoute";
+import CompanyList from "../pages/LoginPages/LoginPageModerator/Companylist/index";
 
 //tokens
 // const adminAuthentificationToken = localStorage.getItem("admin_access_token");
@@ -19,53 +19,53 @@ import CompanyList from '../pages/LoginPages/LoginPageModerator/Companylist/inde
 
 //const DefaultLayoutAdmin = lazy(() => import("../components/Layout/DefaultLayoutAdmin"))
 const Companies = lazy(
-  () => import('../pages/AdminDashBoard/AdminCompanies/AdminCompanies')
+  () => import("../pages/AdminDashBoard/AdminCompanies/AdminCompanies")
 );
 const Categories = lazy(
-  () => import('../pages/AdminDashBoard/AdminCategories/AdminCategories')
+  () => import("../pages/AdminDashBoard/AdminCategories/AdminCategories")
 );
 
 //Partner
 const LoginPageAdmin = lazy(
-  () => import('../pages/LoginPages/LoginPageAdmin/LoginPageAdmin')
+  () => import("../pages/LoginPages/LoginPageAdmin/LoginPageAdmin")
 );
 
-const StatisticsPage = lazy(() => import('../pages/CompanyPages/statistics'));
+const StatisticsPage = lazy(() => import("../pages/CompanyPages/statistics"));
 const SupportPage = lazy(
-  () => import('../pages/CompanyPages/feedback/screens/Support')
+  () => import("../pages/CompanyPages/feedback/screens/Support")
 );
-const StaffPage = lazy(() => import('../pages/CompanyPages/staff/StaffPage'));
+const StaffPage = lazy(() => import("../pages/CompanyPages/staff/StaffPage"));
 const CashierCard = lazy(
-  () => import('pages/CompanyPages/staff/screens/CashierCard/index')
+  () => import("pages/CompanyPages/staff/screens/CashierCard/index")
 );
 const NotificationsPage = lazy(
-  () => import('../pages/CompanyPages/notifications')
+  () => import("../pages/CompanyPages/notifications")
 );
-const NewsPage = lazy(() => import('../pages/CompanyPages/news'));
+const NewsPage = lazy(() => import("../pages/CompanyPages/news"));
 
-const FinancePage = lazy(() => import('../pages/CompanyPages/finances'));
-const InfoPage = lazy(() => import('../pages/CompanyPages/info'));
+const FinancePage = lazy(() => import("../pages/CompanyPages/finances"));
+const InfoPage = lazy(() => import("../pages/CompanyPages/info"));
 const OrdersPage = lazy(
-  () => import('../pages/CompanyPages/orders/OrdersPage')
+  () => import("../pages/CompanyPages/orders/OrdersPage")
 );
-const ProposalsPage = lazy(() => import('../pages/CompanyPages/proposals'));
+const ProposalsPage = lazy(() => import("../pages/CompanyPages/proposals"));
 const SettingsPage = lazy(
-  () => import('../pages/CompanyPages/settings/SettingsPage')
+  () => import("../pages/CompanyPages/settings/SettingsPage")
 );
 const ServicesPage = lazy(
-  () => import('../pages/CompanyPages/services/ServicesPage')
+  () => import("../pages/CompanyPages/services/ServicesPage")
 );
-const ClientsPage = lazy(() => import('../pages/CompanyPages/clients'));
-const FeedbackPage = lazy(() => import('../pages/CompanyPages/feedback'));
+const ClientsPage = lazy(() => import("../pages/CompanyPages/clients"));
+const FeedbackPage = lazy(() => import("../pages/CompanyPages/feedback"));
 const TestLoginPage = lazy(
-  () => import('../pages/LoginPages/LoginPageModerator/TestLoginpage/index')
+  () => import("../pages/LoginPages/LoginPageModerator/TestLoginpage/index")
 );
 
 // const CompanyList = lazy(
 //   () => import('../pages/LoginPages/LoginPageModerator/CompanyList')
 // );
 const RegistrationPanel = lazy(
-  () => import('../pages/LoginPages/LoginPageModerator/Registrationpanel/index')
+  () => import("../pages/LoginPages/LoginPageModerator/Registrationpanel/index")
 );
 
 // const LoginPageModerator = lazy(()=>import("../pages/LoginPages/LoginPageModerator/LoginPageModerator"));
@@ -82,38 +82,38 @@ interface IPublicRoute {
 
 const publicRoutes: IPublicRoute[] = [
   {
-    path: '/',
+    path: "/",
     component: TestLoginPage,
   },
   {
-    path: '/partner',
+    path: "/partner",
     component: LoginPageAdmin,
   },
 ];
 
 const privateCompanyRoutes: IPrivateRoute[] = [
   {
-    path: '/statistics/:params',
+    path: "/statistics/:params",
     layout: DefaultLayoutAdmin,
     component: StatisticsPage,
   },
   {
-    path: '/staff',
+    path: "/staff",
     layout: DefaultLayoutAdmin,
     component: StaffPage,
   },
   {
-    path: '/staff/:params',
+    path: "/staff/:params",
     layout: DefaultLayoutAdmin,
     component: StaffPage,
   },
   {
-    path: '/staff/:params/:params',
+    path: "/staff/:params/:params",
     layout: DefaultLayoutAdmin,
     component: CashierCard,
   },
   {
-    path: '/notifications',
+    path: "/notifications",
     layout: DefaultLayoutAdmin,
     component: NotificationsPage,
   },
@@ -123,67 +123,67 @@ const privateCompanyRoutes: IPrivateRoute[] = [
   //   component: NewsPage,
   // },
   {
-    path: '/news/:params',
+    path: "/news/:params",
     layout: DefaultLayoutAdmin,
     component: NewsPage,
   },
   {
-    path: '/info/:params',
+    path: "/info/:params",
     layout: DefaultLayoutAdmin,
     component: InfoPage,
   },
   {
-    path: '/services',
+    path: "/services",
     layout: DefaultLayoutAdmin,
     component: ServicesPage,
   },
   {
-    path: '/orders',
+    path: "/orders",
     layout: DefaultLayoutAdmin,
     component: OrdersPage,
   },
   {
-    path: '/proposals/:params',
+    path: "/proposals/:params",
     layout: DefaultLayoutAdmin,
     component: ProposalsPage,
   },
   {
-    path: '/settings/:params',
+    path: "/settings/:params",
     layout: DefaultLayoutAdmin,
     component: SettingsPage,
   },
   {
-    path: '/finances',
+    path: "/finances",
     layout: DefaultLayoutAdmin,
     component: FinancePage,
   },
   {
-    path: '/finances/:params',
+    path: "/finances/:params",
     layout: DefaultLayoutAdmin,
     component: FinancePage,
   },
   {
-    path: '/clients',
+    path: "/clients",
     layout: DefaultLayoutAdmin,
     component: ClientsPage,
   },
   {
-    path: '/clients/:params',
+    path: "/clients/:params",
     layout: DefaultLayoutAdmin,
     component: ClientsPage,
   },
   {
-    path: '/clients/:params/:params',
+    path: "/clients/:params/:params",
     layout: DefaultLayoutAdmin,
     component: ClientsPage,
   },
   {
-    path: '/feedback/:params',
+    path: "/feedback/:params",
     layout: DefaultLayoutAdmin,
     component: FeedbackPage,
   },
   {
-    path: '/support',
+    path: "/support",
     layout: DefaultLayoutAdmin,
     component: SupportPage,
   },
@@ -191,22 +191,22 @@ const privateCompanyRoutes: IPrivateRoute[] = [
 
 const privateRoutes: IPrivateRoute[] = [
   {
-    path: '/admin/companies',
+    path: "/admin/companies",
     layout: DefaultLayoutAdmin,
     component: Companies,
   },
   {
-    path: '/admin/categories',
+    path: "/admin/categories",
     layout: DefaultLayoutAdmin,
     component: Categories,
   },
   {
-    path: '/partner/company',
+    path: "/partner/company",
     layout: TestLoginPage,
     component: CompanyList,
   },
   {
-    path: '/partner/registration',
+    path: "/partner/registration",
     layout: TestLoginPage,
     component: RegistrationPanel,
   },
@@ -214,16 +214,16 @@ const privateRoutes: IPrivateRoute[] = [
 
 const RenderPublicRoutes = () => {
   const moderatorAutehntificationToken = localStorage.getItem(
-    'partner_access_token'
+    "partner_access_token"
   );
-  const moderatorRefreshToken = localStorage.getItem('partner_refresh_token');
+  const moderatorRefreshToken = localStorage.getItem("partner_refresh_token");
   return publicRoutes.map((item: IPublicRoute) => {
     if (
       moderatorAutehntificationToken &&
       moderatorRefreshToken &&
-      window.location.pathname === '/'
+      window.location.pathname === "/"
     ) {
-      return <Redirect to='/partner/company' />;
+      return <Redirect to="/partner/company" />;
     }
     return (
       <Suspense fallback={<FallbackOnLazyLoad />}>
@@ -234,12 +234,12 @@ const RenderPublicRoutes = () => {
 };
 
 const RenderRoutes = () => {
-  const adminAuthentificationToken = localStorage.getItem('admin_access_token');
+  const adminAuthentificationToken = localStorage.getItem("admin_access_token");
   const moderatorAutehntificationToken = localStorage.getItem(
-    'partner_access_token'
+    "partner_access_token"
   );
-  const moderatorRefreshToken = localStorage.getItem('partner_refresh_token');
-  let companyToken = localStorage.getItem('companyToken');
+  const moderatorRefreshToken = localStorage.getItem("partner_refresh_token");
+  let companyToken = localStorage.getItem("companyToken");
   return privateRoutes
     .map((item: IPrivateRoute) => {
       if (moderatorAutehntificationToken && moderatorRefreshToken) {
@@ -252,10 +252,10 @@ const RenderRoutes = () => {
             />
           </Suspense>
         );
-      } else if (window.location.pathname !== '/partner') {
-        return <Redirect to='/' />;
+      } else if (window.location.pathname !== "/partner") {
+        return <Redirect from="*" to="/" />;
       }
-      return <Redirect to='/' />;
+      return <Redirect from="*" to="/" />;
     })
     .concat(
       privateCompanyRoutes.map((item: IPrivateRoute) => {

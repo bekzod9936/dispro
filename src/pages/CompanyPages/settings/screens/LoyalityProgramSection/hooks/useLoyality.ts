@@ -120,22 +120,22 @@ const useLoyality = () => {
       if (emptyBonuspoint.empty && emptyBonuspoint.type === "bonuspoint") {
         return loyalityNewSaveChange(
           data,
-          active.active === "" ? activeCheck : active
+          active.active === "" ? activeCheck : active.active
         );
       } else if (emptyDiscount.empty && emptyDiscount.type === "discount") {
         return loyalityNewSaveChange(
           data,
-          active.active === "" ? activeCheck : active
+          active.active === "" ? activeCheck : active.active
         );
       } else if (emptyCashback.empty && emptyCashback.type === "cashback") {
         return loyalityNewSaveChange(
           data,
-          active.active === "" ? activeCheck : active
+          active.active === "" ? activeCheck : active.active
         );
       } else {
         return loyalitySaveChange(
           data,
-          active.active === "" ? activeCheck : active
+          active.active === "" ? activeCheck : active.active
         );
       }
     },
@@ -604,7 +604,7 @@ const useLoyality = () => {
     let modifyLoyal = modified === "1" ? false : true;
     if (checked) {
       if (availCheck) {
-        setActive(key);
+        setActive({ active: key });
       } else {
         setActive({ active: "" });
         setActiveCheck(key);
@@ -730,6 +730,9 @@ const useLoyality = () => {
       });
     },
   });
+
+  console.log(activeCheck, "active check");
+  console.log(active.active, "active");
 
   useEffect(() => {
     if (active.active === "cashback" || activeCheck === "cashback") {

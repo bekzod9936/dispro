@@ -1,16 +1,21 @@
+import { Switch, Route, Redirect } from "react-router-dom";
 import { useEffect } from "react";
 import { useQueryErrorResetBoundary } from "react-query";
-// import { ErrorBoundary } from 'react-error-boundary';
 import { useTranslation } from "react-i18next";
-import { Switch, Route } from "react-router-dom";
-import { RenderAllRoutes } from "./routes/Protection";
+// import { ErrorBoundary } from 'react-error-boundary';
+//actions
+import { setNotifyOpen } from "services/redux/Slices/firebase";
+//components
+import SnackBar from "components/Custom/NewSnack";
+//screens
 import Condition from "pages/LoginPages/LoginPageModerator/Condition";
 import Policy from "pages/LoginPages/LoginPageModerator/Policy";
+//routes
+import { RenderAllRoutes } from "./routes/Protection";
+//hooks
+import { useAppSelector, useAppDispatch } from "services/redux/hooks";
 import useLocationPathName from "services/hooks/useLocationPathName";
 import useGetNotification from "services/hooks/useGetNotification";
-import SnackBar from "components/Custom/NewSnack";
-import { useAppSelector, useAppDispatch } from "services/redux/hooks";
-import { setNotifyOpen } from "services/redux/Slices/firebase";
 
 function App() {
   useGetNotification();
