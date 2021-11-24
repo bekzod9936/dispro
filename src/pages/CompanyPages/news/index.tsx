@@ -1,3 +1,5 @@
+import {useEffect} from "react"
+import { setSelectedNews } from "services/redux/Slices/news";
 import NavBar from "components/Custom/NavBar";
 import Title from "components/Custom/Title";
 import Spinner from "components/Custom/Spinner";
@@ -60,7 +62,7 @@ const News = () => {
                       </>
                     </LeftHeader>
                   </WrapHeader>
-                  {/* <Header handleOpenNews={handleOpenNews} /> */}
+                  <Header handleOpenNews={handleOpenNews} />
                 </div>
               ) : (
                 <div>

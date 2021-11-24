@@ -82,8 +82,8 @@ const Active = () => {
     fromDate: '',
     toDate: '',
   };
- 
- 
+
+
   const { width } = useWindowWidth();
   const [filterValues, setFilterValues] =
     useState<intialFilterProps>(intialFilter);
@@ -91,10 +91,9 @@ const Active = () => {
   const { response } = useActive({filterValues:filterValues});
   const {list}=useData()
   const handlechangePage = async (e: any) => {
-    await dispatch(setPage(e));
+    await setFilterValues({ ...filterValues, page: e });
     await response.refetch();
   };
-  
   const onClose = () => {
     dispatch(setSelectedNews(""));
   };
@@ -120,6 +119,8 @@ const Active = () => {
 
     dispatch(setErrorMessage(false));
   }
+
+  
   return (
     <Container>
       <Modal modalStyle={{ bgcolor: "#fff" }} open={errormessage}>
@@ -259,7 +260,7 @@ const Active = () => {
                   {t("from1")} <span>{totalNewsCount}</span> {t("новостей")}
                 </Info>
                 <Pagination
-                  page={page}
+                  page={filterValues.page}
                   count={totalCount}
                   onChange={handlechangePage}
                   disabled={response.isLoading || response.isFetching}
@@ -295,12 +296,13 @@ const Active = () => {
                   {t("from1")} <span>{totalNewsCount}</span> {t("новостей")}
                 </Info>
                 <Pagination
-                  page={page}
+                  page={filterValues.page}
                   count={totalCount}
                   onChange={handlechangePage}
                   disabled={response.isLoading || response.isFetching}
                   siblingCount={width<=600 ? 0 : 4}
                 />
+              
               </WrapPag>
             ) : null}
           </>
