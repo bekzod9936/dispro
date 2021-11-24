@@ -51,6 +51,7 @@ interface IProps {
 }
 export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
 
+  console.log("currentNews",currentNews)
 
   const history = useHistory();
   const location = useLocation();
@@ -106,14 +107,14 @@ console.log('gender',currentNews?.genderType )
           />
         </PreviewDivNews>
         <h5>{currentNews?.data?.title?.length>50 ? currentNews?.data?.title?.slice(0,30)+'...':currentNews?.data?.title}</h5>
-        <p>{currentNews?.data?.description?.length> 150 ? currentNews?.data?.description?.slice(0,150)+'...':currentNews?.data?.description}</p>
+        <p>{currentNews?.data?.description?.length> 120 ? currentNews?.data?.description?.slice(0,120)+'...':currentNews?.data?.description}</p>
       </LeftRound>
       <ContentSideBar>
         <ContentInfo>
           <h5>Информация</h5>
           <p>{currentNews?.genderType ==='Для всех' ?  ''+ currentNews?.genderType :`Толка для ${currentNews?.genderType}` }</p>
           <p>Срок публикации: {currentNews?.date}</p>
-          <p>Возрастное ограничения: {currentNews?.data?.ageFrom}+</p>
+          <p>Возрастное ограничение: {currentNews?.data?.ageFrom}+</p>
         </ContentInfo>
         <ContentButton>
           {location.pathname === "/news/waiting" &&(

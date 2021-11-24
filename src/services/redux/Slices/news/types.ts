@@ -13,11 +13,15 @@ date: string,
       totalCountNews:number;
     };
     setPeriod:{
-      dateFrom?:string;
-      dateTo?:string;
+      page:any
+    perPage: any,
+    fromDate?: any,
+    toDate?: any,
+
     };
     selectedNews?: any;
     query?: string;
+    errorMessage?:boolean;
   }
   
   export interface IDeferred {

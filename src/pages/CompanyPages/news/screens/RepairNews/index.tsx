@@ -1,4 +1,3 @@
-
 import Button from "components/Custom/Button";
 import CustomToggle from "components/Custom/CustomToggleSwitch";
 import Input from "components/Custom/Input";
@@ -47,17 +46,13 @@ import {
   Form,
   Header,
   ImageBlock,
-
   LeftSide,
-
   RightSide,
   UploadButton,
-
   WrapArea,
   TextAreaIcon,
   UpSide,
   Wrapper,
-
   FormRow,
 } from "./style";
 import { useUploadImage } from "../../hooks/useUploadIMage";
@@ -68,13 +63,12 @@ interface IOptionFields {
   push: boolean;
 }
 
-
 const RepairNews = () => {
   const { t } = useTranslation();
   const history = useHistory();
 
   const companyId: any = localStorage.getItem("companyId");
-  const { dataAddress,} = useAddress({
+  const { dataAddress } = useAddress({
     id: companyId,
   });
 
@@ -103,7 +97,7 @@ const RepairNews = () => {
   const { handleUpload, deleteImage, setLoading, isLoading } =
     useUploadImage(setImage);
 
-  const { mutate } = useMutation((data:any)=>fetchCreateNews(data));
+  const { mutate } = useMutation((data: any) => fetchCreateNews(data));
   console.log("newsById", newsById?.data);
   const {
     control,
@@ -136,8 +130,8 @@ const RepairNews = () => {
     setImage("");
     deleteImage(image);
   };
-  
-  const newsId=newsById?.data?.id
+
+  const newsId = newsById?.data?.id;
   const allFilials = dataAddress;
   const filials = newsById?.data?.settings?.stores;
 
@@ -148,14 +142,16 @@ const RepairNews = () => {
       }).length == 1
     );
   });
-  
 
   const submitNews = (data: any) => {
     let newsBody = {
-     
       title: data.name,
-      startLifeTime: filter?.regDate?.regDateFrom ? filter?.regDate?.regDateFrom:startDate,
-      endLifeTime: filter?.regDate?.regDateTo ? filter?.regDate?.regDateTo:endDate,
+      startLifeTime: filter?.regDate?.regDateFrom
+        ? filter?.regDate?.regDateFrom
+        : startDate,
+      endLifeTime: filter?.regDate?.regDateTo
+        ? filter?.regDate?.regDateTo
+        : endDate,
       description: data.description,
       ageFrom: parseInt(data.ageLimit),
       ageTo: 100,
@@ -166,7 +162,7 @@ const RepairNews = () => {
       pushUp: optionalFields.push,
       settings: {
         weekDays:
-          optionalFields.push && data?.days?.length>0
+          optionalFields.push && data?.days?.length > 0
             ? data.days.map((el: any) => el.id)
             : [0, 1, 2, 3, 4, 5, 6],
         aroundTheClock: checked ? true : false,
@@ -181,12 +177,11 @@ const RepairNews = () => {
       },
       pushUpTitle: data.descriptionPush,
     };
- 
-   
+
     // let newsInfo={newsBody,newsId}
 
     mutate(newsBody);
-    setTimeout(() => history.push('/news/active'), 1000);
+    setTimeout(() => history.push("/news/active"), 1000);
   };
   console.log("filters datse", filter);
 
@@ -197,7 +192,9 @@ const RepairNews = () => {
           ? "Для мужчин"
           : newsById?.data?.genderType === 2
           ? "Для женщин"
-          :newsById?.data?.genderType === 0 ?"Для всех":'',
+          : newsById?.data?.genderType === 0
+          ? "Для всех"
+          : "",
     },
   ];
 
@@ -217,43 +214,65 @@ const RepairNews = () => {
           : el == 5
           ? "Пятница"
           : "Суббота",
-          id:el==0 ? 0:el==1 ? 1:el==2? 2:el==3?3 :el==4 ? 4:el==5 ? 5 :el==6? 6:[]
+      id:
+        el == 0
+          ? 0
+          : el == 1
+          ? 1
+          : el == 2
+          ? 2
+          : el == 3
+          ? 3
+          : el == 4
+          ? 4
+          : el == 5
+          ? 5
+          : el == 6
+          ? 6
+          : [],
     };
   });
-  const mergedBranches=filteredArray?.map((item:any)=>{
+  const mergedBranches = filteredArray?.map((item: any) => {
     return {
-        value:item.id,
-        label:item.name
-    }
-  })
+      value: item.id,
+      label: item.name,
+    };
+  });
 
   React.useEffect(() => {
     setValue("filialID", mergedBranches);
   }, [mergedBranches]);
 
-
   return (
     <Wrapper>
-             {width > 600 && (
-      <div style={{ display: "flex", marginBottom: 30, alignItems: "center" }}>
-        <GoBackIcon
-          onClick={handleBack}
-          style={{ marginRight: "25px", cursor: "pointer" }}
-        />
-        <Title>Восстановить новости</Title>
-      </div>
-             )}
+      {width > 600 && (
+        <div
+          style={{ display: "flex", marginBottom: 30, alignItems: "center" }}
+        >
+          <GoBackIcon
+            onClick={handleBack}
+            style={{ marginRight: "25px", cursor: "pointer" }}
+          />
+          <Title>Восстановить новости</Title>
+        </div>
+      )}
       <Form onSubmit={handleSubmit(submitNews)}>
         <UpSide>
-        {width <= 600 && (
-      <div style={{ display: "flex", marginBottom: 30, alignItems: "center" }}>
-        <GoBackIcon
-          onClick={handleBack}
-          style={{ marginRight: "25px", cursor: "pointer" }}
-        />
-        <Title>Восстановить новости</Title>
-      </div>
-             )}
+          {width <= 600 && (
+            <div
+              style={{
+                display: "flex",
+                marginBottom: 30,
+                alignItems: "center",
+              }}
+            >
+              <GoBackIcon
+                onClick={handleBack}
+                style={{ marginRight: "25px", cursor: "pointer" }}
+              />
+              <Title>Восстановить новости</Title>
+            </div>
+          )}
           <Container>
             <LeftSide>
               <Title>Фотографии</Title>
@@ -349,111 +368,115 @@ const RepairNews = () => {
                   />
                 )}
               />
-              <WrapInputs>
-                <Label>{t("chose_date")}</Label>
-                {width> 600 ? 
-                   <div>
-                   <Input
-                     type="date"
-                     width={{
-                       maxwidth: 200,
-                     }}
-                     min={todayDate}
-                     required={true}
-                     IconStart={<WrapDate>{t("from")}</WrapDate>}
-                     inputStyle={{
-                       inpadding: "0 10px 0 0",
-                     }}
-                    
-                     value={filter?.regDate?.regDateFrom}
-                     onChange={(e) =>
-                       setFilter((prev: any) => ({
-                         ...prev,
-                         regDate: {
-                           ...prev["regDate"],
-                           regDateFrom: e.target.value,
-                         },
-                       }))
-                     }
-                   />
-                   <Input
-                     type="date"
-                    
-                     min={filter?.regDate?.regDateFrom}
-                     width={{
-                       maxwidth: 200,
-                     }}
-                     required={true}
-                     margin={{ laptop: "0 0 0 15px" }}
-                     IconStart={<WrapDate>{t("to")}</WrapDate>}
-                     inputStyle={{
-                       inpadding: "0 10px 0 0",
-                     }}
-                     value={filter?.regDate?.regDateTo}
-                     onChange={(e) =>
-                       setFilter((prev: any) => ({
-                         ...prev,
-                         regDate: {
-                           ...prev["regDate"],
-                           regDateTo: e.target.value,
-                         },
-                       }))
-                     }
-                   />
-                 </div>:
-                     <div>
-                     <Input
-                       type="date"
-                       width={{
-                        maxwidth: 180,
-                        minwidth:130,
-                       }}
-                       min={todayDate}
-                       required={true}
-                       IconStart={<WrapDate>{t("from")}</WrapDate>}
-                       inputStyle={{
-                         inpadding: "0 10px 0 0",
-                       }}
-                      
-                       value={filter?.regDate?.regDateFrom}
-                       onChange={(e) =>
-                         setFilter((prev: any) => ({
-                           ...prev,
-                           regDate: {
-                             ...prev["regDate"],
-                             regDateFrom: e.target.value,
-                           },
-                         }))
-                       }
-                     />
-                     <Input
-                       type="date"
-                      
-                       min={filter?.regDate?.regDateFrom}
-                       width={{
-                         maxwidth: 180,
-                         minwidth:130,
-                       }}
-                       required={true}
-                       margin={{ laptop: "0 0 0 15px" }}
-                       IconStart={<WrapDate>{t("to")}</WrapDate>}
-                       inputStyle={{
-                         inpadding: "0 10px 0 0",
-                       }}
-                       value={filter?.regDate?.regDateTo}
-                       onChange={(e) =>
-                         setFilter((prev: any) => ({
-                           ...prev,
-                           regDate: {
-                             ...prev["regDate"],
-                             regDateTo: e.target.value,
-                           },
-                         }))
-                       }
-                     />
-                   </div> }
-             
-              </WrapInputs>
+              {width > 600 ? (
+                <WrapInputs>
+                  <Label>{t("chose_date")}</Label>
+                  <div>
+                    <Controller
+                      name="startDate"
+                      control={control}
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field }) => (
+                        <Input
+                          field={field}
+                          type="date"
+                          min={todayDate}
+                          error={!!errors.startDate}
+                          message={t("requiredField")}
+                          IconStart={<WrapDate>{t("from")}</WrapDate>}
+                          inputStyle={{
+                            inpadding: "0 10px 0 0",
+                          }}
+                        />
+                      )}
+                    />
+                   
+                    <Controller
+                      name="endDate"
+                      control={control}
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field }) => (
+                        <Input
+                          type="date"
+                          field={field}
+                          error={!!errors.endDate}
+                          message={t("requiredField")}
+                          min={watch("startDate")}
+                          // required={true}
+                          margin={{ laptop: "0 0 0 15px" }}
+                          IconStart={<WrapDate>{t("to")}</WrapDate>}
+                          inputStyle={{
+                            inpadding: "0 10px 0 0",
+                          }}
+                        />
+                      )}
+                    />
+                  </div>
+                  
+                </WrapInputs>
+                
+              ) : (
+                <WrapInputs>
+                  <Label>{t("chose_date")}</Label>
+                  <div>
+                    <Controller
+                      name="startDate"
+                      control={control}
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field }) => (
+                        <Input
+                          field={field}
+                          type="date"
+                          width={{
+                            maxwidth: 180,
+                            minwidth: 130,
+                          }}
+                          min={todayDate}
+                          error={!!errors.name}
+                          // message={t("requiredField")}
+                          IconStart={<WrapDate>{t("from")}</WrapDate>}
+                          inputStyle={{
+                            inpadding: "0 10px 0 0",
+                          }}
+                        />
+                      )}
+                    />
+                    <Controller
+                      name="endDate"
+                      control={control}
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field }) => (
+                        <Input
+                          type="date"
+                          field={field}
+                          error={!!errors.name}
+                          // message={t("requiredField")}
+                          min={watch("startDate")}
+                          width={{
+                            maxwidth: 180,
+                            minwidth: 130,
+                          }}
+                          // required={true}
+                          margin={{ laptop: "0 0 0 15px" }}
+                          IconStart={<WrapDate>{t("to")}</WrapDate>}
+                          inputStyle={{
+                            inpadding: "0 10px 0 0",
+                          }}
+                        />
+                      )}
+                    />
+                  </div>
+                </WrapInputs>
+              )}
+              <br/>
               <WrapSelect>
                 <Controller
                   name="gender"
@@ -488,10 +511,7 @@ const RepairNews = () => {
                     field={field}
                     defaultValue={newsById?.data?.ageFrom}
                     max="100"
-                    message={
-                      parseInt(watch('ageLimit'))
-                       
-                    }
+                    message={parseInt(watch("ageLimit"))}
                     error={!!errors.ageLimit}
                     // message={t("requiredField")}
                     IconStart={<PlusIcon style={{ marginLeft: "20px" }} />}
@@ -507,7 +527,7 @@ const RepairNews = () => {
                     {t("Использовать новость в формате Push-уведомления")}
                   </h6>
                   <CustomToggle
-                      defaultChecked={newsById?.data?.pushUp}
+                    defaultChecked={newsById?.data?.pushUp}
                     onChange={(e: any) => handleOpenBlock(e, "push")}
                   />
                 </PushBlock>
@@ -527,10 +547,12 @@ const RepairNews = () => {
                         inputStyle={{
                           height: { desktop: 120, laptop: 90, mobile: 120 },
                         }}
-                        IconEnd={width>600 &&
-                          <WrapArea>
-                            <TextAreaIcon />
-                          </WrapArea>
+                        IconEnd={
+                          width > 600 && (
+                            <WrapArea>
+                              <TextAreaIcon />
+                            </WrapArea>
+                          )
                         }
                       />
                     )}
@@ -608,13 +630,12 @@ const RepairNews = () => {
                   <Controller
                     control={control}
                     name="filialID"
-                    defaultValue={mergedBranches? mergedBranches:''}
+                    defaultValue={mergedBranches ? mergedBranches : ""}
                     render={({ field }) => {
                       return (
                         <MultiSelect
                           options={branches}
                           isMulti={true}
-              
                           selectStyle={{
                             bgcolor: "#eff0fd",
                             border: "none",
@@ -642,7 +663,7 @@ const RepairNews = () => {
         </UpSide>
         <DownSide>
           <Button
-           onClick={handleBack}
+            onClick={handleBack}
             startIcon={<CancelIcon />}
             buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
           >

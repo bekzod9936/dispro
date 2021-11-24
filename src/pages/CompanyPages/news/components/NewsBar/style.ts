@@ -132,23 +132,20 @@ export const LeftRound = styled.div`
   h5 {
     font-size: 16px;
     width:280px;
-    padding:8px 0px 4px 15px;
+    padding:8px 0px 4px 1px;
     line-height: 16px;
     color: #223367;
   }
   p {
     font-size: 14px;
-    padding:2px 15px;
+    padding:2px 1px;
+    
     width:280px;
     line-height: 16px;
     color: #223367;
   }
- 
-
   background: #ffffff;
-
-  box-shadow: 0 8px 6px -6px rgba(0, 0, 0, 0.2);
-
+  box-shadow: -5px 2px 20px rgba(0, 0, 0, 0.06)
 `;
 export const PreviewBgNews = styled.img`
   position: absolute;

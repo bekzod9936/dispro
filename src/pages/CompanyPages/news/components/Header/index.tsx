@@ -11,15 +11,32 @@ import { useTranslation } from "react-i18next";
 import { IProps } from "./types";
 import { useAppSelector, useAppDispatch } from "services/redux/hooks";
 import DatePcker from "components/Custom/DatePicker";
-import { setQuery, setSelectedNews } from "services/redux/Slices/news";
-import FilterActiveNews from './Components/FilterActivePeriod';
-import FilterArchiveNews from './Components/FilterArchivePeriod';
+import { setQuery, setSelectedNews,setToDate,setFromDate } from "services/redux/Slices/news";
+// import FilterActiveNews from './Components/FilterActivePeriod';
+// import FilterArchiveNews from './Components/FilterArchivePeriod';
 import useWindowWidth from "services/hooks/useWindowWidth";
+import useActive from "../../screens/Active/useActive";
+import useArchive from "../../screens/Archive/useArchive";
 const Header = ({ handleOpenNews }: IProps) => {
   const location = useLocation();
   const dispatch = useAppDispatch();
   const query = useAppSelector((state) => state.news.query);
+  interface intialFilterProps {
+    page?: number;
+    perPage?: number;
+    fromDate: any,
+    toDate: any,
+  }
+  const intialFilter = {
+    page: 1,
+    perPage: 5,
+    fromDate: '',
+    toDate: '',
+  };
 
+const [filterValues, setFilterValues] =
+useState<intialFilterProps>(intialFilter);
+//  const {response}=useArchive({filterValues:filterValues});
   useEffect(() => {
     if (location.pathname !== "/news") {
       dispatch(setSelectedNews([]));
@@ -64,9 +81,8 @@ const Header = ({ handleOpenNews }: IProps) => {
         width={{ maxwidth: 500 }}
       />
       <div style={{ width: "20px" }} />
-     {location.pathname === "/news/active" && <FilterActiveNews/> } 
-     {location.pathname==="/news/archive" && <FilterArchiveNews/>}
-  
+
+      
     </Flex>:
      <MobileFlex
    
@@ -106,8 +122,8 @@ const Header = ({ handleOpenNews }: IProps) => {
     </TopMobile>
     
    
-    {location.pathname === "/news/active" && <FilterActiveNews/> } 
-    {location.pathname==="/news/archive" && <FilterArchiveNews/>}
+    {/* {location.pathname === "/news/active" && <FilterActiveNews/> } 
+    {location.pathname==="/news/archive" && <FilterArchiveNews/>} */}
 
  
    </MobileFlex>}

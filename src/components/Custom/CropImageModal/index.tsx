@@ -56,9 +56,10 @@ const CropCustomModal = ({
   const { width } = useWindowWidth()
   const [crop, setCrop] = React.useState<any>({
     unit: "%",
-    width: 30,
+    width: 40,
     aspect: 16 / 9,
   });
+
 
   React.useEffect(() => {
     setSrcUrl(URL.createObjectURL(src));
@@ -67,6 +68,8 @@ const CropCustomModal = ({
   const handleClose = () => {
     setIsCropVisible(false);
     setFile(null);
+    setImage(null);
+    setSrcUrl(null)
   };
 
   const handleSave = async () => {
@@ -166,9 +169,10 @@ const CropCustomModal = ({
                   {imageUrl?.length > 6 && (
                     <PreviewBgNews src={imageUrl} alt="" />
                   )}
+                   {/* : <PreviewBgNews src={srcUrl} alt="" /> */}
                   <img
                     style={{ zIndex: 20, position: "relative" }}
-                    width="285"
+                    width="320"
                     height="180"
                     alt=""
                   />
