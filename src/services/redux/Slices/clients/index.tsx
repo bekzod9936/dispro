@@ -95,6 +95,7 @@ const clientsSlice = createSlice({
                     purchaseCount: numberWith(el.addInfo.countOperation + "", " "),
                     status: el.addInfo.status,
                     lastPurchase: el.addInfo.lastPurchaseDate ? dayjs(el.addInfo.lastPurchaseDate).format("DD.MM.YYYY") : "-",
+                    isBlocked: el.isPlBlocked
                 };
             });
             state.clients = [...payload.clients]

@@ -19,6 +19,7 @@ export const PlanshetHeader = styled.div`
   @media (max-width: ${device.planshet}) {
     display: flex;
     align-items: center;
+    margin-bottom: 20px;
   }
   @media(max-width: ${device.mobile}) {
     flex-direction: column;

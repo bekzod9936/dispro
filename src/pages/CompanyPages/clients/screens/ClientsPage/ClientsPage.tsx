@@ -20,6 +20,7 @@ import { MobileQrBar } from '../../components/MobileQrBar';
 import { DownBarViewer } from '../../components/DownBarViewer';
 import { MobileForm } from '../../components/Form';
 import { setAllClientsData } from 'services/redux/Slices/clients';
+import Modal from 'components/Custom/Modal';
 export interface IMobileForm {
 	open: boolean,
 	action: 1 | 2 | 3
@@ -45,16 +46,6 @@ const ClientsPage = () => {
 	})
 
 	const { refetch, isFetching } = useFetchClients({ query: debouncedQuery });
-	const _ = useQuery("fetchAllClients", () => fetchAllClients(), {
-		refetchOnWindowFocus: false,
-		retry: 0,
-		refetchOnMount: false,
-		onSuccess: (data) => {
-			dispatch(setAllClientsData(data.data.clients));
-		}
-	})
-
-
 
 	const { mutate } = useMutation(() => fetchQrCode(), {
 		retry: 0,
@@ -90,12 +81,19 @@ const ClientsPage = () => {
 						&& <Footer query={query} />)}
 				</Wrap>
 				{width > 600 ? <>
-					<SideBar isOpen={modals.qrModal}>
-						<QrCodeBar
-							onClose={() => setModals((prev: any) => ({ ...prev, qrModal: false }))}
-							link={qr.link}
-							code={qr.code} />
-					</SideBar>
+					{width > 1000 ?
+						<SideBar isOpen={modals.qrModal}>
+							<QrCodeBar
+								onClose={() => setModals((prev: any) => ({ ...prev, qrModal: false }))}
+								link={qr.link}
+								code={qr.code} />
+						</SideBar> :
+						<Modal open={modals.qrModal}>
+							<QrCodeBar
+								onClose={() => setModals((prev: any) => ({ ...prev, qrModal: false }))}
+								link={qr.link}
+								code={qr.code} />
+						</Modal>}
 					<SideBar isOpen={!isFetching && !!selectedClients.length}>
 						<ClientsBar
 							refetch={refetch} />
@@ -125,7 +123,6 @@ const ClientsPage = () => {
 								open={form.open}
 								action={form.action}
 								onClose={() => setForm((prev: any) => ({ ...prev, open: false }))} />}
-
 					</>}
 			</Container>
 		</MainWrapper>

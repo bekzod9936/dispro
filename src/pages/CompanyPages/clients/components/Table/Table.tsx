@@ -26,6 +26,7 @@ import {
   ClientTd,
   DefaultImage,
 } from "./style";
+import { GreyBlockedIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 export type HeadersType = {
   value: string;
   label: string;
@@ -124,9 +125,10 @@ export const Table = () => {
                     {row.cells.map((cell: any) => {
                       if (cell.column.Header === "Клиент") {
                         let src = cell?.row?.original?.image
+                        let blocked = cell.row.original.isBlocked
                         return (
                           <Td {...cell.getCellProps()}>
-                            <ClientTd>
+                            <ClientTd isBlocked={blocked}>
                               {src ?
                                 <img src={src} onError={(e: any) => {
                                   e.target.onerror = null;
@@ -134,6 +136,7 @@ export const Table = () => {
                                 }} /> :
                                 <DefaultImage />}
                               {cell.render("Cell")}
+                              {blocked && <GreyBlockedIcon />}
                             </ClientTd>
                           </Td>
                         )

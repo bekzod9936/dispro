@@ -91,6 +91,9 @@ export const ButtonsWrapper = styled.div`
   @media(max-width: ${device.mobile}) {
     margin: 13px 0;
   }
+  @media (max-width: ${device.planshet}) {
+    margin: 0;
+  }
 `
 
 

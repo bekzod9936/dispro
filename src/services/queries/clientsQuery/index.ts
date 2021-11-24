@@ -85,7 +85,7 @@ export const fetchQrCode = async () => {
 }
 
 
-export const fetchAllClients = async () => {
-  const response = await partnerApi(`/core/client/by/company`);
+export const fetchAllClients = async (url: string) => {
+  const response = await partnerApi(`/core/client/by/company?${url}`);
   return response.data
 }

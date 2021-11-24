@@ -168,10 +168,16 @@ export const THead = styled.thead`
 //     border: none;
 //     font-size: 16px;
 // `
-
+interface IProps {
+  isBlocked?: boolean
+}
 export const ClientTd = styled.div`
   display: flex; 
   align-items: center; 
+  svg {
+    margin-left: 15px;
+  }
+  color: ${({ isBlocked }: IProps) => isBlocked ? "#A5A5A5" : "#223367"};
   /* justify-content: center; */
   /* margin-left: 15px; */
   img {
