@@ -64,7 +64,7 @@ import {
 import { useUploadImage } from "../../hooks/useUploadIMage";
 
 import { ReactComponent as MarketIcon } from "assets/icons/SideBar/ilmarket.svg";
-import { errorSelector } from "recoil";
+
 import { useDispatch } from "react-redux";
 
 interface IOptionFields {
@@ -105,12 +105,12 @@ const CreateNews = () => {
   // const { mutate } = useMutation((data: any) => fetchCreateNews(data));
   const { mutate } = useMutation(fetchCreateNews, {
     onSuccess: response => {
-      console.log('datacreateNews');
+      console.log('datacreateNews',response);
 
     },
     onError: (error) => {
       console.log('datacreateNewsEdit',error);
-      setErrorMessage(dispatch(true))
+        dispatch(setErrorMessage(true))
     },
    
   });
@@ -643,11 +643,11 @@ const CreateNews = () => {
                         inputStyle={{
                           height: { desktop: 120, laptop: 90, mobile: 120 },
                         }}
-                        IconEnd={width>600 ? 
-                          <WrapArea>
-                            <TextAreaIcon />
-                          </WrapArea>:''
-                        }
+                        // IconEnd={width>600 ? 
+                        //   <WrapArea>
+                        //     <TextAreaIcon />
+                        //   </WrapArea>:''
+                        // }
                       />
                     )}
                   />

@@ -61,7 +61,7 @@ const useActive = ({filterValues}:Props) => {
       dispatch(setNewsTotal(Math.ceil(data?.data.data.totalCount/ perPage)))
       dispatch(setNewsTotalCount(data?.data.data.totalCount))
       dispatch(setNewsData(data?.data.data.news))
-      dispatch(setErrorMessage(data?.data?.data?.totalCount ? 'noterror':'error'))
+    
     },
   });
   return { response};

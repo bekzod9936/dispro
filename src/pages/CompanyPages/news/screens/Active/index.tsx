@@ -13,7 +13,7 @@ import {setPage,setPerPage, setFromDate,
   setToDate,} from "services/redux/Slices/news";
 import Input from "components/Custom/Input";
 import DatePcker from "components/Custom/DatePicker";
-import { setQuery, setSelectedNews } from "services/redux/Slices/news";
+import { setQuery, setSelectedNews,setErrorMessage } from "services/redux/Slices/news";
 import { SideBar } from "../../components/SideBar";
 import { useAppSelector, useAppDispatch } from "services/redux/hooks";
 import useData from "../useData";
@@ -24,7 +24,7 @@ import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import { CloseIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import { SaveIcon } from "assets/icons/news/newsIcons";
 import { MobileCancelIcon } from "assets/icons/proposals/ProposalsIcons";
-import { setErrorMessage } from "services/redux/Slices/news";
+
 import {
   Container,
   Wrap,
@@ -61,7 +61,7 @@ const Active = () => {
   const query = useAppSelector((state) => state.news.query);
   const errormessage=useAppSelector((state)=>state.news.errorMessage)
   const page=useAppSelector((state)=>state.news.setPeriod.page);
-  // const [errorMessage,setErrorMessage]=useState<any>(false);
+  // const [error,setError]=useState<any>(errormessage);
   const totalNewsCount = useAppSelector(
     (state) => state.news.NewsInfo.totalCountNews
   );
@@ -109,15 +109,15 @@ const Active = () => {
     });
     dispatch(setQuery(""));
   };
+  console.log('errormessage',errormessage)
 
   const LinkComment=()=>{
-    setErrorMessage(false)
-    dispatch(setErrorMessage(false));
+    dispatch(setErrorMessage(false))
     history.push('/support')
-   
+  
   }
   const CancelError=()=>{
-    setErrorMessage(false)
+
     dispatch(setErrorMessage(false));
   }
   return (
@@ -125,7 +125,7 @@ const Active = () => {
       <Modal modalStyle={{ bgcolor: "#fff" }} open={errormessage}>
         <WrapperModal>
           {width > 600 &&  
-        <CloseButton onClick={() => setErrorMessage(false)}>
+        <CloseButton onClick={() => dispatch(setErrorMessage(false))}>
         <CloseIcon />
       </CloseButton>}
     
