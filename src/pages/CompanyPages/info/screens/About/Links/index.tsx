@@ -22,9 +22,16 @@ interface Props {
   name?: string;
   value?: any;
   onChange?: (e: any) => void;
+  onDelete?: (e: any) => void;
 }
 
-const Links = ({ Icon, name, value, onChange = () => {} }: Props) => {
+const Links = ({
+  Icon,
+  name,
+  value,
+  onChange = () => {},
+  onDelete = () => {},
+}: Props) => {
   const { t } = useTranslation();
 
   const [open, setOpen] = useState(false);
@@ -44,22 +51,28 @@ const Links = ({ Icon, name, value, onChange = () => {} }: Props) => {
           </WrapLinkIcon>
           <div>{name}</div>
         </WrapLink>
-        <Button
-          buttonStyle={{
-            color: value ? '#223367' : '#3492FF',
-            bgcolor: 'transparent',
-          }}
-          onClick={() => setOpen(true)}
-        >
-          {inputValue ? (
-            <>
-              {<ValueStyle>{inputValue}</ValueStyle>}
-              <DeleteIcon />
-            </>
-          ) : (
-            t('connect')
-          )}
-        </Button>
+        {inputValue ? (
+          <Button
+            buttonStyle={{
+              color: value ? '#223367' : '#3492FF',
+              bgcolor: 'transparent',
+            }}
+            onClick={() => onDelete(name)}
+          >
+            <ValueStyle>{inputValue}</ValueStyle>
+            <DeleteIcon />
+          </Button>
+        ) : (
+          <Button
+            buttonStyle={{
+              color: value ? '#223367' : '#3492FF',
+              bgcolor: 'transparent',
+            }}
+            onClick={() => setOpen(true)}
+          >
+            {t('connect')}
+          </Button>
+        )}
       </WrapSocial>
       <Modal onClose={(e: boolean) => setOpen(e)} open={open}>
         <ModelContent>
