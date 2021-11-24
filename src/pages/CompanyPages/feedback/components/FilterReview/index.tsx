@@ -6,6 +6,7 @@ import { useAppSelector } from 'services/redux/hooks';
 import useFeedBack from '../../hooks/useFeedBack';
 import CheckBox from 'components/Custom/CheckBox';
 import { WrapCheck, Label, WrapChecks, StarIcon } from './style';
+import { IconButton } from '@material-ui/core';
 
 interface CProps {
   value?: any;
@@ -19,7 +20,7 @@ interface Props {
 
 const FilterReview = ({ setFilterValues, filterValues }: Props) => {
   const { t } = useTranslation();
-  const [checked, setChecked] = useState(false);
+  const [rating, setRating] = useState<any>();
   const cashiers = useAppSelector((state) => state.feedbackPost.cashiers);
 
   const [cashierStaffId, setCashierStaffId] = useState<CProps>();
@@ -38,14 +39,24 @@ const FilterReview = ({ setFilterValues, filterValues }: Props) => {
   });
 
   const handleFilterSubmit = async () => {
-    await setFilterValues(cashierStaffId?.value);
+    console.log(cashierStaffId?.value);
+    await setFilterValues({
+      ...filterValues,
+      cashierStaffId: cashierStaffId?.value,
+      rating: rating,
+    });
     await await resClients.refetch();
   };
 
   const onReset = async () => {
-    await setFilterValues({ ...filterValues, cashierStaffId: '' });
+    await setFilterValues({ ...filterValues, cashierStaffId: '', rating: '' });
     await setCashierStaffId({});
+    await setRating(null);
     await resClients.refetch();
+  };
+
+  const handleStarCheck = (v: any) => {
+    setRating(v);
   };
 
   const filterList: any = [
@@ -69,14 +80,17 @@ const FilterReview = ({ setFilterValues, filterValues }: Props) => {
           <Label>{t('chose_status')}</Label>
           <WrapChecks>
             {[1, 2, 3, 4, 5]?.map((v: any) => (
-              <CheckBox
-                checkedIcon={<StarIcon checked={checked} margin='0 10px' />}
-                icon={<StarIcon checked={checked} margin='0 10px' />}
-                key={v}
-                checked={checked}
-                name={v}
-                onChange={(e: any) => setChecked(e)}
-              />
+              <IconButton
+                onClick={() => {
+                  if (v === rating) {
+                    handleStarCheck(null);
+                  } else {
+                    handleStarCheck(v);
+                  }
+                }}
+              >
+                <StarIcon bgcolor={rating >= v} />
+              </IconButton>
             ))}
           </WrapChecks>
         </WrapCheck>

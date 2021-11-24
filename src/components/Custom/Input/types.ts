@@ -80,6 +80,7 @@ export interface Props {
   };
   maxLength?: number | string;
   minLength?: number | string;
+  resize?:string;
   onFocus?: () => void;
   onBlur?: () => void;
   min?: string;

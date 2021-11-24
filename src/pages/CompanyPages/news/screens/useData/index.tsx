@@ -41,9 +41,9 @@ const useData = () => {
 
     const genderType =
       v?.genderType === 1
-        ? "Мужчина"
+        ? "мужчин"
         : v?.genderType === 2
-        ? "Женщины"
+        ? "женщин"
         : "Для всех";
     return {
       fullData: {

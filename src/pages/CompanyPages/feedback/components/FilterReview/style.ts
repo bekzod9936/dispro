@@ -3,8 +3,7 @@ import { device } from 'styles/device';
 import { ReactComponent as Star } from 'assets/icons/FeedBack/star.svg';
 
 interface Props {
-  checked?: boolean;
-  margin?: string;
+  bgcolor?: boolean;
 }
 
 export const WrapCheck = styled.div`
@@ -40,22 +39,12 @@ export const WrapChecks = styled.div`
   justify-content: center;
   width: 100%;
   flex: 1;
-  margin-left: 15px;
   margin-top: 15px;
+  grid-column-gap: 20px;
 `;
 
 export const StarIcon = styled(Star)`
-  margin-right: 8px;
-  margin: ${({ margin }: Props) => margin}!important;
-  & > path {
-    fill: ${({ checked }: Props) =>
-      checked ? '#FFC107' : checked !== undefined ? '#C7C7C7' : '#FFC107'};
-  }
-
-  @media (max-width: ${device.laptop}) {
-    margin-right: 3px;
-    margin: ${({ margin }: Props) => margin}!important;
-    width: 18px;
-    height: 18px;
+  & path {
+    fill: ${({ bgcolor }: Props) => (bgcolor ? '#FFC107' : '#C7C7C7')};
   }
 `;

@@ -38,7 +38,7 @@ const useFeedBack = ({ filterValues }: Props) => {
     'feedBackClientsInfo',
     () =>
       fetchFeedBackClients({
-        url: `/rating-review/${filterValues.cashierStaffId}?perPage=${filterValues.perPage}&page=${filterValues?.page}`,
+        url: `/rating-review/${filterValues.cashierStaffId}?perPage=${filterValues.perPage}&page=${filterValues?.page}&rating=${filterValues.rating}`,
       }),
     {
       keepPreviousData: true,

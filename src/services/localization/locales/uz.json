@@ -319,5 +319,6 @@
   "count": "Soni",
   "change_access": "Kirish sozlamalari",
   "common": {},
-  "configure_setting_error": "Sodiqlik dasturini sozlang"
+  "configure_setting_error": "Sodiqlik dasturini sozlang",
+  "requirementLevl": "№{{level}} holat sharti"
 }

@@ -27,6 +27,7 @@ interface intialFilterProps {
   page?: number;
   cashierStaffId?: number | string;
   perPage?: number;
+  rating?: number | string;
 }
 
 const Reviews = () => {
@@ -36,6 +37,7 @@ const Reviews = () => {
     page: 1,
     cashierStaffId: '',
     perPage: 6,
+    rating: '',
   };
 
   const [filterValues, setFilterValues] =

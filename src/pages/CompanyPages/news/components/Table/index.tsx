@@ -99,7 +99,7 @@ const Table = ({ data, header2 }: Props) => {
                         {cell.render("Cell")}
                       </Td>
                     );
-                  } else if (cell.column.Header === "Зазывающий текст") {
+                  } else if (cell.column.Header === "Описание") {
                     let checkDescription = cell?.row?.original?.fullData?.data?.description;
                     let descriptiontoolTip=checkDescription;
                     let description =
@@ -122,9 +122,9 @@ const Table = ({ data, header2 }: Props) => {
                   } else if (cell.column.Header === "Пол") {
                     let genderType =
                       cell?.row?.original?.fullData?.data?.genderType === 1
-                        ? <p style={{fontSize:'14px'}}>{"Мужчина"}</p>
+                        ? <p style={{fontSize:'14px'}}>{"Для мужчин"}</p>
                         : cell?.row?.original?.fullData?.data?.genderType === 2
-                        ? <p style={{fontSize:'14px'}}>{"Женщины"}</p>
+                        ? <p style={{fontSize:'14px'}}>{"для женщины"}</p>
                         : <p style={{fontSize:'14px'}}>{"Для всех"}</p>;
                     return (
                       <Td {...cell.getCellProps()}>
