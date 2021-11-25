@@ -1,4 +1,4 @@
-import { BlockIcon, DownIcon, GoBackIcon, PointActionsIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
+import { BlockIcon, CoinsIcon, CrownIcon, DownIcon, GoBackIcon, MinusCoinsIcon, PointActionsIcon, UnBlockIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
 import NavBar from 'components/Custom/NavBar'
 import Spinner from 'components/Helpers/Spinner'
 import { Suspense, useState, useEffect } from 'react'
@@ -9,7 +9,7 @@ import { ClientBlock } from './components/ClientBlock'
 import { InfoBlock } from './components/InfoBlock'
 import { Recommendation } from './components/Recommendations'
 import { StatsCard } from './components/StatsCard'
-import { DownSide, MAddInfo, MButtons, MClientInfo, MDefaultImage, MiddleSide, MNav, MUpside, MWrapper, SpinnerWrapper, UpSide, Wrapper } from "./style"
+import { DownSide, Flex, MAddInfo, MButtons, MClientInfo, MDefaultImage, MiddleSide, MNav, MUpside, MWrapper, SpinnerWrapper, UpSide, Wrapper } from "./style"
 import { useWindowSize } from "../../hooks/useWindowSize"
 import { useTranslation } from 'react-i18next'
 import Button from 'components/Custom/Button'
@@ -22,6 +22,7 @@ import { VipModal } from '../../components/ClientsBar/components/VipModal'
 import Modal from 'components/Custom/Modal';
 import { getClientStatistics } from '../../utils/getSelectedFilters';
 import { MobileForm } from '../../components/Form'
+import { IconButton } from '@material-ui/core'
 
 interface IForm {
     open: boolean,
@@ -100,7 +101,7 @@ const Client = () => {
 
 
 
-    if (width > 600) {
+    if (width > 1000) {
         return (
             <Wrapper>
                 <Modal open={vipModal}>
@@ -130,7 +131,7 @@ const Client = () => {
                         setVipModalState={setVipModalState}
                         setVipModal={setVipModal}
                         client={client} />
-                    <Recommendation referLevels={currentClient?.childReferalClientsByLevel} />
+                    <Recommendation referLevels={currentClient?.childReferalClientsByLevel || []} />
                 </UpSide>
                 <MiddleSide>
                     {getClientStatistics(client?.addInfo)?.map((el, index) => (
@@ -185,45 +186,110 @@ const Client = () => {
                         handleClose={() => setIsOpen(false)} />}
                 <MUpside>
                     <MNav>
-                        <GoBackIcon onClick={handleClose} style={{ width: 10, height: 15, cursor: "pointer" }} />
+                        <IconButton onClick={handleClose}>
+                            <GoBackIcon style={{ width: 10, height: 15, cursor: "pointer" }} />
+                        </IconButton>
                         <MClientInfo>
-                            {client?.image ?
-                                <div className="image">
-                                    <img
-                                        src={client.image}
-                                        alt="imgAvatart" />
-                                    {client.isPlBlocked &&
-                                        <div className="block">{<BlockIcon />}</div>}
-                                </div> :
-                                <MDefaultImage>
-                                    {client?.isPlBlocked && <div className="block">{<BlockIcon />}</div>}
-                                </MDefaultImage>}
-                            <h6>{client?.firstName + " " + client?.lastName}</h6>
+                            <div className="planshetHeader">
+                                {client?.image ?
+                                    <div className="image">
+                                        <img
+                                            src={client.image}
+                                            alt="imgAvatart" />
+                                        {client.isPlBlocked &&
+                                            <div className="block">{<BlockIcon />}</div>}
+                                    </div> :
+                                    <MDefaultImage>
+                                        {client?.isPlBlocked && <div className="block">{<BlockIcon />}</div>}
+                                    </MDefaultImage>}
+                                <div>
+                                    <h6>{client?.firstName + " " + client?.lastName}</h6>
+                                    {width <= 1000 && width > 600 && <span className="clientInfo">{t(client?.genderTypeId === 1 ? "man" : "woman")}<b>{" "}</b>{t("status")}: {client?.isPlBlocked ? t("blocked") : status + " " + percent + " %"}</span>}
+                                </div>
+
+                            </div>
                         </MClientInfo>
+                        {width <= 1000 && width > 600 &&
+                            <>
+                                {client?.isPlBlocked ?
+                                    <Button
+                                        endIcon={<UnBlockIcon />}
+                                        buttonStyle={{
+                                            bgcolor: "rgba(15, 207, 11, 0.1)",
+                                            color: "#0FCF0B",
+                                            weight: 500
+                                        }}>
+                                        {t("unBlock")}
+                                    </Button> :
+                                    <Button
+                                        endIcon={<BlockIcon />}
+                                        buttonStyle={{
+                                            bgcolor: "rgba(255, 94, 104, 0.1)",
+                                            color: "#FF5E68",
+                                            weight: 500
+                                        }}>
+                                        {t("block")}
+                                    </Button>}
+                            </>}
                     </MNav>
-                    <MAddInfo>
-                        <p className="gender">
-                            {t(client?.genderTypeId === 1 ? "man" : "woman")}
-                        </p>
-                        <p>
-                            {t("status")}: {client?.isPlBlocked ? t("blocked") : status + " " + percent + " %"}
-                        </p>
-                    </MAddInfo>
-                    <MButtons>
-                        <Button
-                            onClick={(e) => handleDownModal(e, "points")}
-                            margin={{ mobile: "0 8px 0 0" }}
-                            endIcon={<PointActionsIcon />}
-                            buttonStyle={{ weight: "500", bgcolor: "rgba(96, 110, 234, 0.1)", color: "#606EEA" }}>
-                            Действия с баллами
-                        </Button>
-                        <Button
-                            onClick={(e) => handleDownModal(e, "other")}
-                            buttonStyle={{ bgcolor: "#F0F0F0", color: "#606EEA", weight: "500" }}
-                            endIcon={<DownIcon />}>
-                            Ещё
-                        </Button>
-                    </MButtons>
+                    {!(width <= 1000 && width > 600) ?
+                        <MAddInfo>
+                            <p className="gender">
+                                {t(client?.genderTypeId === 1 ? "man" : "woman")}
+                            </p>
+                            <p>
+                                {t("status")}: {client?.isPlBlocked ? t("blocked") : status + " " + percent + " %"}
+                            </p>
+                        </MAddInfo> :
+                        <Flex>
+                            <Button
+                                endIcon={<CoinsIcon />}
+                                buttonStyle={{
+                                    bgcolor: "rgba(96, 110, 234, 0.1)",
+                                    color: "#606EEA",
+                                    weight: 500
+                                }}>
+                                {t("accurePoints")}
+                            </Button>
+                            <Button
+                                margin={{
+                                    planshet: "0 15px"
+                                }}
+                                endIcon={<MinusCoinsIcon />}
+                                buttonStyle={{
+                                    bgcolor: "rgba(96, 110, 234, 0.1)",
+                                    color: "#606EEA",
+                                    weight: 500
+                                }}>
+                                {t("substractPoints")}
+
+                            </Button>
+                            <Button
+                                endIcon={<CrownIcon />}
+                                buttonStyle={{
+                                    bgcolor: "rgba(96, 110, 234, 0.1)",
+                                    color: "#606EEA",
+                                    weight: 500
+                                }}>
+                                {t("changeStatus")}
+                            </Button>
+                        </Flex>}
+                    {width <= 600 &&
+                        <MButtons>
+                            <Button
+                                onClick={(e) => handleDownModal(e, "points")}
+                                margin={{ mobile: "0 8px 0 0" }}
+                                endIcon={<PointActionsIcon />}
+                                buttonStyle={{ weight: "500", bgcolor: "rgba(96, 110, 234, 0.1)", color: "#606EEA" }}>
+                                Действия с баллами
+                            </Button>
+                            <Button
+                                onClick={(e) => handleDownModal(e, "other")}
+                                buttonStyle={{ bgcolor: "#fff", color: "#606EEA", weight: "500" }}
+                                endIcon={<DownIcon />}>
+                                Ещё
+                            </Button>
+                        </MButtons>}
                     <NavBar list={routes} />
                 </MUpside>
                 <Switch>

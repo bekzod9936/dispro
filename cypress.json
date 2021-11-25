@@ -1,0 +1,14 @@
+{
+  "video": true,
+  "baseUrl": "http://localhost:3000/",
+  "defaultCommandTimeout": 10000,
+  "viewportWidth": 1920,
+  "viewportHeight": 920,
+  "env": {
+    "api_server": "https://api.vades.uz/v1",
+    "api_storage": "https://storage.vades.uz",
+    "api_public": "https://api.vades.uz/v1/public",
+    "api_socket": "https://ws.vades.uz"
+  },
+  "projectId": "h75xss"
+}

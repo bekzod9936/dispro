@@ -50,7 +50,7 @@ export const useClientRoutes = () => {
             component: Recommendations
         }
     ]
-    if (!(width > 600)) return {
+    if (!(width > 1000)) return {
         routes: [{
             path: `/clients/${params.id}/information`,
             text: t("information"),

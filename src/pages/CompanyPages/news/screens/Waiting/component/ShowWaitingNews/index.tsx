@@ -34,6 +34,7 @@ import {
  
 } from "assets/icons/proposals/ProposalsIcons";
 import iphone from "assets/images/iphone.png";
+import newsphone from "assets/images/newsphone.png"
 import { useAppSelector } from "services/redux/hooks";
 
 
@@ -91,7 +92,7 @@ const ShowWaitingNews = () => {
       <Preview>
         <img className="couponImg" src={newsById?.data?.image} alt="" />
         <img className="iphoneImg" width="300" src={iphone} />
-        <PreviewContent>
+        <PreviewContent> 
           <h5 >
             <span >{newsById?.data?.title?.length>50 ? newsById?.data?.title?.slice(0,50)+'...':newsById?.data?.title} </span>
           </h5>
@@ -107,9 +108,8 @@ const ShowWaitingNews = () => {
             }}
           >
             <span style={{ color: "white" ,fontSize:'12px'}}>Написать нам</span>
-          </div>
-
-        </PreviewContent>
+          </div> 
+        </PreviewContent> 
         <Content>
         <h5>Информация</h5>
         <p>{newsById?.data?.genderType===1 ? 'Только для мужчин':newsById?.data?.genderType===2 ? 'Только для женщины':'Для всех'}</p>
@@ -122,7 +122,7 @@ const ShowWaitingNews = () => {
                 alignItems: "center",
                 justifyContent: "flex-end",
                 paddingTop: "5%",
-                paddingRight: "25%",
+                paddingRight: "30%",
               }}
             >
               <Button
@@ -144,7 +144,7 @@ const ShowWaitingNews = () => {
                 alignItems: "center",
                 justifyContent: "flex-end",
                 paddingTop: "5%",
-                paddingRight: "45%",
+                paddingRight: "50%",
               }}
             >
          <Button

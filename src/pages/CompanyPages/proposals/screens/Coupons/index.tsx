@@ -281,12 +281,12 @@ const Coupons = () => {
       )}
       <Form onSubmit={publish ? handleSubmit(onPublish) : handleSubmit(onSave)}>
         <UpSide>
-        {width <= 600 && (
-          <MobileHeader>
-            <GoBackIcon onClick={handleBack} style={{ cursor: 'pointer' }} />
-            <Title>Создание {isCoupon ? 'купона' : 'сертификата'}</Title>
-          </MobileHeader>
-        )}
+          {width <= 600 && (
+            <MobileHeader>
+              <GoBackIcon onClick={handleBack} style={{ cursor: 'pointer' }} />
+              <Title>Создание {isCoupon ? 'купона' : 'сертификата'}</Title>
+            </MobileHeader>
+          )}
           <Container>
             <LeftSide>
               <Title>Фотографии</Title>
@@ -419,10 +419,12 @@ const Coupons = () => {
                 control={control}
                 rules={{
                   required: true,
+
                 }}
                 render={({ field }) => (
                   <Input
                     field={field}
+                    // maxLength={250}
                     margin={{ laptop: '35px 0' }}
                     label='Описание'
                     type='textarea'

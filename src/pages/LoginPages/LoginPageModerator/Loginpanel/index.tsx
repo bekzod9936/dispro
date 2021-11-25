@@ -35,6 +35,7 @@ import {
   LogInContentWrap,
   LogInWrap,
 } from "./style";
+import { USERTYPE } from "./types";
 
 interface FormProps {
   role: { value?: string; label?: string };
@@ -364,6 +365,7 @@ export const LoginPanel = () => {
                         },
                       }}
                       type="submit"
+                      data-cy="login"
                       disabled={smsRes.isLoading}
                       fullWidth={true}
                     >
@@ -394,13 +396,16 @@ export const LoginPanel = () => {
                   <Controller
                     name="role"
                     control={control}
+                    defaultValue={{ value: USERTYPE.ADMIN, label: t("admin") }}
                     rules={{ required: true }}
                     render={({ field }) => (
                       <MultiSelect
                         label={t("staffRole")}
+                        dataCy="staffRole"
+                        defaultValue={USERTYPE.ADMIN}
                         options={[
-                          { value: "2", label: t("admin") },
-                          { value: "5", label: t("manager") },
+                          { value: USERTYPE.ADMIN, label: t("admin") },
+                          { value: USERTYPE.MANAGER, label: t("manager") },
                         ]}
                         field={field}
                         error={errors.role ? true : false}
@@ -425,6 +430,7 @@ export const LoginPanel = () => {
                             <div>{t("tryagain")}</div>
                           </Message>
                         }
+                        data-cy="phoneNumber"
                         type="tel"
                         field={field}
                         margin={{
@@ -457,6 +463,7 @@ export const LoginPanel = () => {
                     },
                   }}
                   type="submit"
+                  data-cy="sign-up"
                   disabled={disable || logRes.isLoading}
                   width={{ width: "100%" }}
                 >

@@ -21,12 +21,15 @@ const useSecurity = () => {
   const { refetch, isLoading } = useQuery(["safeties"], fetchSafeties, {
     retry: 0,
     refetchOnWindowFocus: false,
-    onSuccess: async (data: any) => {
+    onSuccess: (data: any) => {
       setValue("suspendedSum", false);
       setValue("second", 0);
 
-      const safeties = await data?.data?.data?.safeties;
-      const suspendedItem = await data?.data?.data;
+      const safeties = data?.data?.data?.safeties;
+      const suspendedItem = data?.data?.data;
+
+      console.log(suspendedItem?.isEnabledPurchaseLimit, "purchase limit");
+      console.log(suspendedItem?.isEnabledPaySumLimit, "pay sum");
       setValue("suspendedClient", suspendedItem?.isEnabledPurchaseLimit);
       setValue("suspendedSum", suspendedItem?.isEnabledPaySumLimit);
 

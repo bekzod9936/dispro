@@ -97,6 +97,10 @@ export const RightAwardGrid = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+
+  @media (max-width: ${device.planshet}) {
+    margin-top: 20px;
+  }
 `;
 
 export const ControlGrid = styled(Grid)``;
@@ -116,9 +120,14 @@ export const RecomendationRow = styled.div`
 export const TextAreaGrid = styled(Grid)`
   padding-left: 20px;
 
-  @media (max-width: ${device.laptop}) {
+  @media (max-width: ${device.planshet}) {
     padding-left: 0;
+    margin-top: 15px;
   }
 `;
 
-export const PayForGrid = styled(Grid)``;
+export const PayForGrid = styled(Grid)`
+  @media (max-width: ${device.planshet}) {
+    margin-top: 15px;
+  }
+`;

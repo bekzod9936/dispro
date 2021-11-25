@@ -76,18 +76,16 @@ export const Wrap = styled.div`
   overflow-y: auto;
   position: relative;
   overflow-x: hidden;
-  &::-webkit-scrollbar {
-    appearance: none;
-    display: none;
+  ::-webkit-scrollbar {
+    width: 7px;
   }
-  &::-webkit-scrollbar-thumb {
-    appearance: none;
-    display: none;
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
   }
 
-  &::-webkit-scrollbar-track {
-    appearance: none;
-    display: none;
+  ::-webkit-scrollbar-thumb {
+    background: #606eea;
+    border-radius: 14px 0px 0px 14px;
   }
 `;
 

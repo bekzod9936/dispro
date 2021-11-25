@@ -22,18 +22,8 @@ const FilterArchiveNews = () => {
 
    const [filterValues,setFilterValues]=
    useState<intialFilterProps>(intialFilter);
-   const {response } =useArchive({ filterValues });
+  //  const {response } =useArchive({ filterValues });
   return (
-        <DatePcker
-          onChange={async (e: any) => {
-            await response.refetch();
-            await  setFilterValues({
-              ...filterValues, 
-              fromDate: e.slice(0, e.indexOf(' ~')),
-              toDate: e.slice(e.indexOf('~ ') + 2),
-            });
-           
-          }}
-        />
+      <div>hi</div>
       )}
 export default FilterArchiveNews;

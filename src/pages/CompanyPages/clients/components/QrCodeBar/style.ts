@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { device } from "styles/device";
 interface IProps {
     isOpen: boolean
 }
@@ -23,6 +24,11 @@ export const Container: any = styled.div`
     width: 100%;
     height: 100%;
     box-shadow: -5px 2px 20px rgba(0, 0, 0, 0.06);
+    @media (max-width: ${device.planshet}) {
+        padding: 25px 30px;
+        width: 412px;
+        
+    }
 `
 
 
@@ -34,6 +40,10 @@ export const CancelButton = styled.div`
     transition: 200ms all;
     &:hover {
         transform: scale(1.1, 1.1)
+    }
+    @media (max-width: ${device.planshet}) {
+        top: 25px;
+        right: 30px;
     }
 `
 
@@ -48,25 +58,37 @@ export const Content = styled.div`
         font-size: 16px;
         margin-bottom: 35px;
     }
+    @media (max-width: ${device.planshet}) {
+        h4 {
+            margin-bottom: 0;
+        }
+    }
 `
 
 export const QrBlock = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    @media (max-width: ${device.planshet}) {
+        margin-top: 40px;
+    }
     p {
         margin-bottom: 80px;
         font-size: 22px;
         color: #223367;
         font-weight: 500;
+        @media (max-width: ${device.planshet}) {
+            margin-top: 15px;
+            margin-bottom: 25px;
+        }
     }
-    span {
+    span.span {
         font-size: 16px;
         font-weight: 700;
         color: #C7C7C7;
         margin-bottom: 15px;
     }
-    button {
+    button.button {
         outline: 0;
         border: 0;
         font-size: 18px;
@@ -89,6 +111,12 @@ export const LinkBtn = styled.div`
     font-weight: 500;
     cursor: pointer;
     margin-bottom: 42px;
+    @media (max-width: ${device.planshet}) {
+        font-size: 16px;
+        line-height: 18px;
+        padding: 15px 20px;
+        margin-bottom: 25px;
+    }
 
 `
 export const QrCode = styled.div`

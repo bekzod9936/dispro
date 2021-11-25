@@ -2,10 +2,11 @@ import styled from 'styled-components';
 import { device } from "styles/device"
 export const Container = styled.div`
   overflow: hidden;
-  height: 100%;
+  /* height: 100%; */
   width: 100%;
   display: flex;
   flex-direction: column;
+ 
 `;
 
 export const WrapSpinner = styled.div`

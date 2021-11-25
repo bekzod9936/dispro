@@ -38,7 +38,7 @@ const useFeedBack = ({ filterValues }: Props) => {
     'feedBackClientsInfo',
     () =>
       fetchFeedBackClients({
-        url: `/rating-review/${filterValues.cashierStaffId}?perPage=${filterValues.perPage}&page=${filterValues?.page}`,
+        url: `/rating-review/${filterValues.cashierStaffId}?perPage=${filterValues.perPage}&page=${filterValues?.page}&rating=${filterValues.rating}`,
       }),
     {
       keepPreviousData: true,
@@ -53,9 +53,7 @@ const useFeedBack = ({ filterValues }: Props) => {
               : data.data.data.ratingAndReviews
           )
         );
-        setTotalCount(
-          Math.ceil(data.data.data.totalCount / filterValues?.perPage)
-        );
+        setTotalCount(data.data.data.totalCount);
 
         setBetween(
           formatPagination({
@@ -74,9 +72,8 @@ const useFeedBack = ({ filterValues }: Props) => {
     retry: 0,
     onSuccess: (data) => {
       dispatch(setRatingsFeedBack(data.data.data.ratingNumbers));
-      dispatch(setAverageRatingFeedBack(data.data.data.averageRating));
+      dispatch(setAverageRatingFeedBack(data.data.data.rating));
       dispatch(setTotalRatingFeedBack(data.data.data.totalRating));
-      console.log(data);
     },
   });
 

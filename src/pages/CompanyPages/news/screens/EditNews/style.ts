@@ -493,6 +493,8 @@ export const Buttons = styled.div`
 export const ImageBlock = styled.div`
 position: relative;
 display: flex;
+
+
 justify-content: center;
 align-items: center;
 width: max-content;
@@ -501,7 +503,9 @@ img {
     border-radius: 14px;
     width: 250px;
     margin-top: 15px;
+    
 }
+
 svg {
     position: absolute;
     cursor: pointer;

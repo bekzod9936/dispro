@@ -1,3 +1,5 @@
+import {useEffect} from "react"
+import { setSelectedNews } from "services/redux/Slices/news";
 import NavBar from "components/Custom/NavBar";
 import Title from "components/Custom/Title";
 import Spinner from "components/Custom/Spinner";
@@ -16,6 +18,7 @@ const News = () => {
   const { menuItems, newsPath } = useNewsRoute();
   const dispatch = useAppDispatch();
   const location = useLocation();
+
   const { width } = useWindowWidth();
   const history = useHistory();
   const handleOpenNews = () => {
@@ -26,10 +29,12 @@ const News = () => {
     dispatch(setQuery(""));
   };
 
+
+
   return (
     <MainWrapper id="drawer-container">
       <Wrap>
-        {location.pathname !== "/news/create" &&
+        { location.pathname !== "/news/create" &&
           location.pathname !== "/news/detail" &&
           location.pathname !== "/news/repair" &&
           location.pathname !== "/news/showwaiting" &&

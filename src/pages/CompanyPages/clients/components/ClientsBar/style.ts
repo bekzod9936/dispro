@@ -109,6 +109,9 @@ export const SubContent = styled.div`
 
 export const Buttons = styled.div`
     margin-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     .blockedContent {
         display: flex;
         flex-direction: column;
@@ -154,5 +157,52 @@ export const MToggle = styled.div`
         line-height: 21px;
         color: #223367;
         font-weight: 300;
+    }
+`
+
+export const SelectedClients = styled.div`
+    max-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    border-bottom: 1px solid rgba(96, 110, 234, 0.3);
+    &:hover {
+    ::-webkit-scrollbar-thumb {
+      background: #606eea;
+        }
+    }
+    ::-webkit-scrollbar {
+        width: 7px;
+    }
+    ::-webkit-scrollbar-track {
+        background-color: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: transparent;
+        border-radius: 14px 0 0 14px;
+    }
+    .client {
+        border: 1px solid #C4C4C4;
+        box-sizing: border-box;
+        border-radius: 46px;
+        margin-right: 9px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        padding: 9px 10px;
+        span {
+            font-size: 14px;
+            color: #223367;
+            margin-right: 8px;
+            font-weight: 300;
+            line-height: 16.41px;
+        }
+        svg {
+            cursor: pointer;
+            transform: translateY(-1px);
+        }
     }
 `

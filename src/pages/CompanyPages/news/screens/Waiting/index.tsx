@@ -14,10 +14,16 @@ import useWaiting from "./useWaiting";
 import Pagination from 'components/Custom/Pagination';
 import useWindowWidth from 'services/hooks/useWindowWidth';
 import { setQuery, setSelectedNews } from "services/redux/Slices/news";
-
+import { Flex } from "../../style";
+import Input from "components/Custom/Input";
+import Button from "components/Custom/Button";
+import { AddIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
+import { SearchIcon } from "components/Layout/Header/style";
 interface intialFilterProps {
   page?: number;
   perPage?: number;
+  fromDate?: string;
+  toDate?: string;
 }
 
 const Active = () => {
@@ -29,6 +35,7 @@ const Active = () => {
   const between=useAppSelector((state)=>state.news.NewsInfo.between);
   const totalNewsCount=useAppSelector((state)=>state.news.NewsInfo.totalCountNews)
   const selectedNews = useAppSelector((state) => state.news.selectedNews);
+  const query = useAppSelector((state) => state.news.query);
   const { t } = useTranslation();
   const handleOpenSetting = () => {
     history.push({
@@ -38,12 +45,14 @@ const Active = () => {
     dispatch(setQuery(""));
   };
 
+  
   const intialFilter = {
-    page: 1,
+    page:1,
     perPage: 5,
-
+    fromDate: '',
+    toDate: '',
   };
-
+ 
   const [filterValues, setFilterValues] =
     useState<intialFilterProps>(intialFilter);
 
@@ -55,7 +64,13 @@ const Active = () => {
     await setFilterValues({ ...filterValues, page: e });
     await response.refetch();
   };
-  
+  const handleOpenNews = () => {
+    history.push({
+      pathname: "/news/create",
+      state: { prevPage: location.pathname },
+    });
+    dispatch(setQuery(""));
+  };
   const onClose = () => {
     dispatch(setSelectedNews(""));
   };
@@ -64,6 +79,44 @@ const Active = () => {
 
   return (
     <Container>
+      <Flex
+      width="95%"
+      justifyContent="flex-start"
+      alignItems="center"
+      margin="0"
+    >
+      {/* Settings side  */}
+      <Button
+        onClick={handleOpenNews}
+        buttonStyle={{
+          bgcolor: "#FFFFFF",
+          color: "#223367",
+          weight: 500,
+          height: { desktop: 50 },
+        }}
+        margin={{
+          desktop: "0 25px 0 0",
+          laptop: "0 25px 0 0",
+          planshet: "0 0 20px 0",
+        }}
+        startIcon={<AddIcon />}
+      >
+        {t("Создать новость")}
+      </Button>
+
+      <div style={{ width: "20px" }} />
+      <Input
+        inputStyle={{ border: "none", height: { desktop: 50 } }}
+        IconStart={<SearchIcon style={{ marginLeft: 20 }} />}
+        value={query}
+        placeholder="Поиск по новостям"
+        onChange={(e) => dispatch(setQuery(e.target.value))}
+        width={{ maxwidth: 500 }}
+      />
+      <div style={{ width: "20px" }} />
+ 
+      
+    </Flex>
       {width>600 ? 
       <Wrap>
         {response.isLoading || response.isFetching ? (

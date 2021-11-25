@@ -2,6 +2,7 @@ import { lazy } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const Posts = lazy(() => import('../screens/Posts'));
+const Reviews = lazy(() => import('../screens/Reviews'));
 
 interface IFeedbackRow {
   path: string;
@@ -15,7 +16,7 @@ const useFeedBackRoute = () => {
     {
       path: '/feedback/reviews',
       text: t('feedbacks'),
-      component: null,
+      component: Reviews,
     },
     {
       path: '/feedback/posts',

@@ -45,6 +45,7 @@ export const Right = styled.div`
     justify-content: center;
     align-items: center;
   }
+
   @media (max-width: ${device.mobile}) {
     width: 100%;
     margin: 0;
@@ -144,7 +145,7 @@ export const PreviewBgNews = styled.img`
   left: 0px;
   right: 0px;
   bottom: 0px;
-  width: 285px;
+  width: 320px;
   height: 180px !important;
   border-radius: 5px solid black;
   border: 5px;

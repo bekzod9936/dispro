@@ -76,6 +76,14 @@ export const setRoleManager = async (data: any) => {
   return response;
 };
 
+export const getPermission = async (userId: any) => {
+  const response = await partnerApi.get(
+    `/core/staffs/permissions/new/${userId}`
+  );
+
+  return response;
+};
+
 export const editStaff = async (data: any) => {
   const response = await partnerApi.put(`/core/staffs/${data.id}`, {
     ...data,
@@ -102,12 +110,14 @@ export const resetPoints = async (data: any) => {
 //point histories
 
 interface Props {
-	url: string;
-	id: number
-  }
+  url: string;
+  id: number;
+}
 
-export const getPointHistories = async ({id, url}: Props) => {
-  const response = await partnerApi.get(`/core/staffs/cashier/point-histories/${id}?${url}`);
+export const getPointHistories = async ({ id, url }: Props) => {
+  const response = await partnerApi.get(
+    `/core/staffs/cashier/point-histories/${id}?${url}`
+  );
 
   return response;
 };

@@ -20,6 +20,7 @@ export const Main = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
   flex: 100%;
+  -webkit-overflow-scrolling: touch;
   ::-webkit-scrollbar {
     width: 7px;
   }
@@ -107,14 +108,17 @@ export const Text = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 15px;
-
   div {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    width: 100%;
-  }
+    word-break: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    text-align: center;
+  }
   @media (max-width: ${device.mobile}) {
     font-size: 16px;
   }

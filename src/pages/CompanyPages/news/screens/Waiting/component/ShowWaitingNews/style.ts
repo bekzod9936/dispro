@@ -35,8 +35,10 @@ export const Wrapper = styled.div`
   height: 100%;
   background-color:#fff;
   border-radius: 15px;
-padding-top:70px;
+padding-top:77px;
+padding-bottom:50px;
 padding-left:100px;
+
 `;
 export const Header = styled.div`
   width: 100%;
@@ -78,7 +80,7 @@ export const Preview = styled.div`
   position: relative;
   z-index: 12;
   height: 100%;
-
+  width:100%;
   overflow: hidden;
   /* @media (max-height: 900px) {
         display: none;
@@ -96,7 +98,7 @@ export const Preview = styled.div`
   img.iphoneImg {
     max-width: 290px;
     width: 100%;
-    height: 75%;
+    height: 100%;
     position: relative;
     /* z-index: 12; */
   }
@@ -104,14 +106,14 @@ export const Preview = styled.div`
 
 export const PreviewContent = styled.div`
   position: absolute;
-  bottom: 0;
+  
   background-color: #eef0f2;
-  height: 53%;
+  height: 70%;
   width: 285px;
+
   left: 2px;
-  /* left: 30%; */
   right: 10px;
-  bottom: 25%;
+  bottom: 0%;
   border-radius: 30px;
   padding: 15px 0;
 

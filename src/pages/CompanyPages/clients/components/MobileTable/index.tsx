@@ -60,7 +60,7 @@ export const MobileTable = ({ array, onClick }: IProps) => {
                         {client.image ? <img src={client.image} alt="clientImg" /> : <DefaultImg />}
                         <div className="content">
                             <h5>{client.name}</h5>
-                            <p>{t("status")}: {client.isBlocked ? <span>{t("blocked")}</span> : <b>{client.discountStatus} {client.discountValue}%</b>}</p>
+                            <p>{client.isBlocked ? <span>{t("blocked")}</span> : <b>{client.discountStatus} {client.discountValue}%</b>}</p>
                         </div>
                     </Trow>
                 ))}

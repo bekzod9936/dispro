@@ -2,7 +2,6 @@ import styled, { css } from 'styled-components';
 import { device } from 'styles/device';
 import { ReactComponent as Search } from 'assets/icons/SideBar/search.svg';
 import { ReactComponent as Arrow } from 'assets/icons/SideBar/arrow.svg';
-import { ReactComponent as Bell } from 'assets/icons/SideBar/bell.svg';
 import { ReactComponent as Deposit } from 'assets/icons/SideBar/deposit.svg';
 import { ReactComponent as Shield } from 'assets/icons/SideBar/shield.svg';
 import { ReactComponent as LogOut } from 'assets/icons/SideBar/logout.svg';
@@ -177,31 +176,6 @@ export const ArrowIcon = styled(Arrow)`
   @media (max-width: ${device.mobile}) {
     display: ${({ marginLeft }: ArrowProps) => marginLeft && 'none'};
   }
-`;
-
-export const Badge = styled.div`
-  position: relative;
-`;
-
-export const BellIcon = styled(Bell)``;
-
-export const BadgeContent = styled.div`
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #3492ff;
-  border: 3px solid #ffffff;
-  border-radius: 14px;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 14px;
-  color: #ffffff;
-  width: 26px;
-  height: 26px;
-  top: -15px;
-  left: 10px;
-  user-select: none;
 `;
 
 export const Wrap = styled.div`

@@ -358,6 +358,7 @@ export const SelectWrap = styled.div`
     font-weight: normal;
     font-size: 16px;
     padding: 15px 25px;
+    cursor: pointer;
   }
   & > div:first-child {
     color: #223367;

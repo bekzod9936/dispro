@@ -3,7 +3,6 @@ import clsx from 'clsx';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import IconButton from '@material-ui/core/IconButton';
 import Logo from 'assets/icons/SideBar/logo.png';
 import { device } from 'styles/device';
 import Header from './Header';

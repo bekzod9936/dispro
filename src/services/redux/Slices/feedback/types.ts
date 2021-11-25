@@ -7,6 +7,7 @@ export interface IMessage {
   lastMsg?: string;
   lastName?: string;
   genderTypeId?: number;
+  obtainProgramLoyalty?: { levelName?: string; percent?: number };
 }
 
 export interface ICashiers {
@@ -27,6 +28,7 @@ export interface IratingAndReviews {
   rating?: number;
   review?: string;
   clientGenderTypeId?: number;
+  obtainProgramLoyalty?: { levelName?: string; percent?: number };
 }
 
 export interface IHistory {
@@ -50,6 +52,13 @@ export interface IChose {
   choose?: boolean;
 }
 
+export interface IRating {
+  avg?: number;
+  count?: number;
+  downVal?: number;
+  upVal?: number;
+}
+
 export interface IFeedBack {
   messages?: IMessage[];
   cashiers?: ICashiers[];
@@ -60,7 +69,7 @@ export interface IFeedBack {
   totalHistory?: number;
   totalSupportHistory?: number;
   totalCount?: number;
-  averageRating?: number;
+  averageRating?: IRating;
   totalRating?: number;
   socket?: any;
   chosenClient?: IChose;

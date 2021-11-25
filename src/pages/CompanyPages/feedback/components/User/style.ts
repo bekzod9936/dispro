@@ -48,9 +48,9 @@ export const Container = styled.div`
   padding: 20px;
   cursor: pointer;
   display: flex;
-  flex-grow: 1;
   flex-direction: column;
   height: fit-content;
+  flex: 1;
 `;
 
 export const Header = styled.div`
@@ -133,7 +133,7 @@ export const Content = styled.div`
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-
+  word-break: break-all;
   overflow: hidden;
   text-overflow: ellipsis;
   width: 100%;
@@ -142,14 +142,13 @@ export const Content = styled.div`
   font-size: 13px;
   color: #223367;
   margin-bottom: 10px;
+  max-width: 320px;
   @media (min-width: ${device.laptop}) {
     font-size: 14px;
   }
 `;
 
 export const ModelContent = styled.div`
-  max-width: 600px;
-  max-height: 450px;
   overflow: hidden;
   display: flex;
   flex: 1;
@@ -157,6 +156,7 @@ export const ModelContent = styled.div`
 export const ModalWrap = styled.div`
   overflow-y: auto;
   display: flex;
+  overflow-x: hidden;
   flex: 1;
   flex-direction: column;
   padding: 20px;
@@ -173,7 +173,10 @@ export const ModalWrap = styled.div`
   }
 `;
 
-export const ModalContext = styled.div``;
+export const ModalContext = styled.div`
+  max-width: 350px;
+  word-break: break-word;
+`;
 
 export const WrapClose = styled.div`
   display: flex;

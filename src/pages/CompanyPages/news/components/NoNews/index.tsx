@@ -39,7 +39,7 @@ const NoNews: React.FC<IProps> = ({handleOpenSetting}) => {
             flexDirection='column'
             alignItems='flex-start'
           >
-            <div style={{ maxWidth: '470px' }}>
+            <div style={{ maxWidth: '485px' }}>
               <Text fontSize={FONT_SIZE.mediumPlus} fontWeight={400}>
                 {t('noPendingNews')}
               </Text>
@@ -63,7 +63,7 @@ const NoNews: React.FC<IProps> = ({handleOpenSetting}) => {
           laptop: "0 25px 0 0",
           planshet: "0 0 20px 0",
         }}
-        startIcon={<AddIconNews /> }
+        startIcon={<CreateNewsIcon /> }
       >
         {t("Создать новость")}
       </Button>

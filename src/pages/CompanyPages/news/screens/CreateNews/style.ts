@@ -443,3 +443,8 @@ export const WrapperModal = styled.div`
         }
     }
 `
+export const TextAreaa=styled.div`
+    background-color: white !important;
+    border-radius: 14px !important;
+    border: 1px solid #C2C2C2 !important; 
+   `

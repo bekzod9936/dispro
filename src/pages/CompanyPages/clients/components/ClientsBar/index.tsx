@@ -5,12 +5,13 @@ import dayjs from "dayjs";
 import {
     CloseIcon,
     CoinsIcon,
+    MiniCloseIcon,
     MinusCoinsIcon,
     ProfileIcon,
     UnBlockIconBlue,
 } from "assets/icons/ClientsPageIcons/ClientIcons";
 import { CancelButton } from "../QrCodeBar/style";
-import { selectAll } from 'services/redux/Slices/clients'
+import { selectAll, setAllClients, setClient } from 'services/redux/Slices/clients'
 import { MModal } from "../Modal";
 import { useState } from "react";
 import { useHistory } from "react-router";
@@ -23,6 +24,7 @@ import {
     DefaultImage,
     MToggle,
     SelectButtons,
+    SelectedClients,
     SubContent,
     Text,
     Wrapper,
@@ -33,6 +35,9 @@ import { BlockModal } from '../BlockModal'
 import Modal from 'components/Custom/Modal'
 import clientDefaultImage from "assets/images/staff_default.png"
 import { numberWith } from "services/utils";
+import FullModal from "components/Custom/FullModal";
+import { ViewAll } from "../ViewAll";
+import { useTranslation } from "react-i18next";
 interface IProps {
     refetch: any;
 }
@@ -55,10 +60,12 @@ const modalInfo: any = {
 
 export const ClientsBar = ({ refetch }: IProps) => {
     const dispatch = useAppDispatch()
+    const { t } = useTranslation()
     const { selectedClients } = useAppSelector(state => state.clients)
     const client = selectedClients[0]
     const [vipModal, setVipModal] = useState(false)
     const history = useHistory()
+    const [checkAll, setCheckAll] = useState(false)
     const [blockModal, setBlockModal] = useState(false)
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [modalContent, setModalContent] = useState<any>({})
@@ -71,7 +78,7 @@ export const ClientsBar = ({ refetch }: IProps) => {
     };
 
     const handleAddAll = (action: boolean) => {
-        dispatch(selectAll(action));
+        dispatch(setAllClients(action));
     };
 
     const handleClose = () => {
@@ -112,8 +119,8 @@ export const ClientsBar = ({ refetch }: IProps) => {
                         name: client?.firstName + " " + client?.lastName,
                         prevStatus: client?.obtainProgramLoyalty?.levelName,
                         prevPercent: client?.obtainProgramLoyalty?.percent,
-                        value: client?.personalLoyaltyInfo?.percent || client?.obtainProgramLoyalty.percent,
-                        status: client?.personalLoyaltyInfo?.percent ? client?.addInfo?.status : client?.obtainProgramLoyalty.levelName
+                        value: client?.personalLoyaltyInfo?.percent || client?.obtainProgramLoyalty?.percent,
+                        status: client?.personalLoyaltyInfo?.percent ? client?.addInfo?.status : client?.obtainProgramLoyalty?.levelName
                     }}
                     id={client?.id}
                     state={vipModalState}
@@ -199,6 +206,29 @@ export const ClientsBar = ({ refetch }: IProps) => {
                 </WrapperContent> : selectedClients.length > 1 ?
                     <div>
                         <Text>Выбрано: {selectedClients.length}</Text>
+                        <SelectedClients>
+                            {selectedClients.map(client => (
+                                <div className="client">
+                                    <span>{client.firstName + " " + client.lastName}</span>
+                                    <MiniCloseIcon onClick={() => dispatch(setClient(client.id))} />
+                                </div>
+                            ))}
+                        </SelectedClients>
+                        <div style={{ display: "flex", justifyContent: "center" }}>
+                            <Button
+                                onClick={() => setCheckAll(true)}
+                                margin={{
+                                    laptop: "5px auto"
+                                }}
+
+                                buttonStyle={{
+                                    color: "#3492FF",
+                                    bgcolor: "#fff"
+
+                                }}>
+                                {t("checkSelected")}
+                            </Button>
+                        </div>
                         <Buttons>
                             <MButton onClick={() => handleOpen("addCoins")}>
                                 Начислить баллы
@@ -230,6 +260,11 @@ export const ClientsBar = ({ refetch }: IProps) => {
                 modalContent={modalContent}
                 handleOpen={setIsModalOpen}
                 open={isModalOpen} />
+            <FullModal open={checkAll}>
+                <ViewAll
+                    onClose={() => setCheckAll(false)}
+                    totalCount={selectedClients.length} />
+            </FullModal>
         </Wrapper>
     )
 }

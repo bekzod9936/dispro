@@ -2,7 +2,47 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import dayjs from "dayjs";
 import { numberWith } from "services/utils";
 import { IClient, IFetchData, IFilters, IState } from "./types";
-
+const initialClient: IClient = {
+    id: 0,
+    addInfo: {
+        amountOperation: 0,
+        cashbackSum: 0,
+        countOperation: 0,
+        countRefer: 0,
+        dateOfBirth: "",
+        discountSum: 0,
+        genderStr: "",
+        lastPurchaseAmount: 0,
+        lastPurchaseDate: "",
+        pointSum: 0,
+        referLevel: 1,
+        sourceBy: "",
+        status: ""
+    },
+    blockedReason: "",
+    createdAt: "",
+    dateOfBirth: "",
+    firstName: "",
+    genderTypeId: 1,
+    image: "",
+    isPlBlocked: false,
+    lastName: "",
+    notes: "",
+    obtainProgramLoyalty: {
+        levelName: "",
+        percent: 0
+    },
+    personalLoyaltyInfo: {
+        isActive: false,
+        percent: 0
+    },
+    profileStatus: "",
+    qrCode: "",
+    regionCode: "",
+    regionId: 1,
+    telNumber: "",
+    userId: 0
+}
 const initialState: IState = {
     loading: false,
     isFiltersVisible: false,
@@ -28,7 +68,10 @@ const initialState: IState = {
         { value: "Сумма кешбека", label: "cashbackSum" },
         { value: "Пол", label: "gender" },
         { value: "Возраст", label: "age" },
-    ]
+    ],
+    client: initialClient,
+    allClients: [],
+    selectedAllClients: []
 };
 
 const clientsSlice = createSlice({
@@ -52,12 +95,15 @@ const clientsSlice = createSlice({
                     purchaseCount: numberWith(el.addInfo.countOperation + "", " "),
                     status: el.addInfo.status,
                     lastPurchase: el.addInfo.lastPurchaseDate ? dayjs(el.addInfo.lastPurchaseDate).format("DD.MM.YYYY") : "-",
+                    isBlocked: el.isPlBlocked
                 };
             });
             state.clients = [...payload.clients]
             state.visibleClients = [...visibleClients]
             state.totalCount = payload.totalCount
             state.selectedClients = []
+            state.client = initialClient
+            state.selectedAllClients = []
             state.totalPages = Math.ceil(payload.totalCount / 5)
         },
         setPage: (state: IState, { payload }: PayloadAction<number>) => {
@@ -70,7 +116,9 @@ const clientsSlice = createSlice({
                 state.selectedClients = state.selectedClients.filter(el => el.id !== payload)
             }
             else {
-                if (client) state.selectedClients = [...state.selectedClients, client]
+                if (client) {
+                    state.selectedClients = [...state.selectedClients, client]
+                }
             }
         },
         selectAll: (state: IState, { payload }: PayloadAction<boolean>) => {
@@ -117,6 +165,12 @@ const clientsSlice = createSlice({
             } else {
                 state.headers = [...state.headers, payload]
             }
+        },
+        setAllClients: (state: IState, { payload }: PayloadAction<boolean>) => {
+            state.selectedClients = payload ? [...state.allClients] : []
+        },
+        setAllClientsData: (state: IState, { payload }: PayloadAction<IClient[]>) => {
+            state.allClients = [...payload]
         }
 
     }
@@ -135,5 +189,7 @@ export const {
     setPeriod,
     setCurrentClient,
     setNote,
-    setHeaders } = clientsSlice.actions
+    setHeaders,
+    setAllClients,
+    setAllClientsData } = clientsSlice.actions
 export default clientsSlice.reducer

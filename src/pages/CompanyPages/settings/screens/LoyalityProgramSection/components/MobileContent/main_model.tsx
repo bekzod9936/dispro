@@ -1,5 +1,6 @@
 import { Controller, useFieldArray, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { useRecoilValue } from "recoil";
 //actions
 import { addModal, handleClick } from "services/redux/Slices/settingsSlice";
 //assets and style
@@ -16,7 +17,7 @@ import {
   SubText,
   EText,
 } from "./style";
-import { FormProps } from "../../hooks/useLoyality";
+import { FormProps } from "../../hooks/types";
 import { Break, SpinnerDiv } from "pages/CompanyPages/settings/styles";
 //hooks
 import { useAppSelector, useAppDispatch } from "services/redux/hooks";
@@ -34,6 +35,8 @@ import useMobileData from "./useMobileData";
 import Spinner from "components/Helpers/Spinner";
 import RippleEffect from "components/Custom/RippleEffect";
 import SnackBar from "components/Custom/NewSnack";
+//atoms
+import { baseLoyalty, useLoyal } from "services/atoms/settings/loyality";
 
 const MainModel = () => {
   const dispatch = useAppDispatch();
@@ -56,14 +59,9 @@ const MainModel = () => {
     getValues,
   } = useMobileData();
 
-  const base_loyality = useAppSelector((state) => state.settings.base_loyality);
-  //using program loyality
-  const usePoint: boolean = useAppSelector(
-    (state) => state.loyalitySlice.usePoint
-  );
-  const useProgram: boolean = useAppSelector(
-    (state) => state.loyalitySlice.useProgram
-  );
+  //atoms
+  const base_loyality = useRecoilValue(baseLoyalty);
+  const useLoyalMain = useRecoilValue(useLoyal);
 
   const { fields, append, remove } = useFieldArray<FormProps>({
     control,
@@ -368,11 +366,11 @@ const MainModel = () => {
           <Controller
             name="useProgram"
             control={control}
-            defaultValue={useProgram}
+            defaultValue={useLoyalMain.useProgram}
             render={({ field }) => (
               <Checkbox
                 {...field}
-                checked={useProgram}
+                checked={useLoyalMain.useProgram}
                 label={t("useLoyaltyProgram")}
               />
             )}
@@ -382,11 +380,11 @@ const MainModel = () => {
           <Controller
             name="usePoint"
             control={control}
-            defaultValue={usePoint}
+            defaultValue={useLoyalMain.usePoint}
             render={({ field }) => (
               <Checkbox
                 {...field}
-                checked={usePoint}
+                checked={useLoyalMain.usePoint}
                 label={t("substractingPoints")}
               />
             )}
