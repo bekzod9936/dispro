@@ -5,7 +5,6 @@ import { IconButton } from '@material-ui/core';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import Button from 'components/Custom/Button';
 import { Avatar } from '../../style';
-
 import dayjs from 'dayjs';
 import { useHistory, useLocation } from 'react-router';
 import { useAppDispatch } from 'services/redux/hooks';
@@ -17,7 +16,7 @@ import {
   WrapText,
   UserName,
   Status,
-  Date,
+  Date1,
   Title,
   StarIcon,
   WrapStars,
@@ -87,9 +86,9 @@ const User = ({ value }: Props) => {
               </Status>
             </WrapText>
           </LeftHeader>
-          <Date margin='0 0 0 20px'>
+          <Date1 margin='3px 0 0 20px'>
             {dayjs(value.createdAt).format('DD.MM.YYYY HH:mm')}
-          </Date>
+          </Date1>
         </Header>
         <WrapStars>
           {[1, 2, 3, 4, 5].map((v: any) => (
@@ -150,9 +149,9 @@ const User = ({ value }: Props) => {
                 </WrapText>
               </LeftHeader>
               <WrapClose>
-                <Date margin='0 10px 0 20px'>
+                <Date1 margin='3px 10px 0 20px'>
                   {dayjs(value.createdAt).format('DD.MM.YYYY HH:mm')}
-                </Date>
+                </Date1>
                 <IconButton
                   style={{ marginTop: '-12px' }}
                   onClick={() => setOpen(false)}
@@ -174,31 +173,35 @@ const User = ({ value }: Props) => {
                 </>
               ) : null}
               <WrapFillial>
-                <Wrapper>
-                  {value.firstName || value.lastName ? (
-                    <>
-                      <Title>{t('cashier')}:</Title>
-                      <ModalText>
-                        {value.firstName} {value.lastName}
-                      </ModalText>
-                    </>
-                  ) : null}
-                </Wrapper>
+                {value.firstName || value.lastName ? (
+                  <Wrapper>
+                    <Title>{t('cashier')}:</Title>
+                    <ModalText>
+                      {value.firstName} {value.lastName}
+                    </ModalText>
+                  </Wrapper>
+                ) : null}
                 <Wrapper>
                   <Title>{t('filial')}:</Title>
-                  <ModalText>
-                    Rademakerstraat 14, 3769 BD Soesterberg, Ниде
-                  </ModalText>
+                  <ModalText>{value.storeName}</ModalText>
                 </Wrapper>
               </WrapFillial>
               <WrapMoney>
                 <MoneyIcon />
                 <Wrapper>
-                  <ModalText>Операция от 11.06.2021</ModalText>
-                  <ModalText>{t('totalsum')}: 350 000 сум</ModalText>
+                  <ModalText>
+                    Операция от {dayjs(value.payDate).format('DD.MM.YYYY')}
+                  </ModalText>
+                  <ModalText>
+                    {t('totalsum')}: {`${value.totalAmount} сум`}
+                  </ModalText>
                   <WrapMoney>
-                    <ModalText>{t('sale')}: 35 000 сум</ModalText>
-                    <ModalText>{t('paidwithpoints')}: 35 000</ModalText>
+                    <ModalText>
+                      {t('sale')}: {`${value.amountReturned} сум`}
+                    </ModalText>
+                    <ModalText>
+                      {t('paidwithpoints')}: {value.usedPointAmount}
+                    </ModalText>
                   </WrapMoney>
                 </Wrapper>
               </WrapMoney>

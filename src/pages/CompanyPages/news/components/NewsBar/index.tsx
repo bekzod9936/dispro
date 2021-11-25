@@ -2,13 +2,8 @@ import {
   CancelIcon,
   CloseIcon,
 } from "assets/icons/ClientsPageIcons/ClientIcons";
-import {
-  DeleteIcon,
-  EyeIcon,
-  PenIcon,
-  ReUseIcon,
-} from "assets/icons/proposals/ProposalsIcons";
-import { WatchIcons,WatchIconsWhite, PublishIcon,WhitePublishIcon,RepairNewsIcon } from "assets/icons/news/newsIcons";
+
+import { WatchIcons,WatchIconsWhite, DeleteIcon,PublishIcon,WhitePublishIcon,RepairNewsIcon } from "assets/icons/news/newsIcons";
 import Button from "components/Custom/Button";
 import Modal from "components/Custom/Modal";
 import React, { useEffect } from "react";
@@ -107,7 +102,7 @@ console.log('gender',currentNews?.genderType )
           />
         </PreviewDivNews>
         <h5>{currentNews?.data?.title?.length>50 ? currentNews?.data?.title?.slice(0,30)+'...':currentNews?.data?.title}</h5>
-        <p>{currentNews?.data?.description?.length> 120 ? currentNews?.data?.description?.slice(0,120)+'...':currentNews?.data?.description}</p>
+        <p>{currentNews?.data?.description?.length> 75 ? currentNews?.data?.description?.slice(0,75)+'...':currentNews?.data?.description}</p>
       </LeftRound>
       <ContentSideBar>
         <ContentInfo>
@@ -146,7 +141,7 @@ console.log('gender',currentNews?.genderType )
                 flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "flex-end",
-                // marginBottom:'10px',
+                marginBottom:'10px',
             
               }}
             >
@@ -170,8 +165,8 @@ console.log('gender',currentNews?.genderType )
                 flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "flex-end",
-                paddingTop: "5%",
-                paddingBottom: "5%",
+                marginTop: "25px",
+                marginBottom:'10px',
               }}
             >
               <Button
@@ -219,7 +214,7 @@ console.log('gender',currentNews?.genderType )
       <Modal open={isDeleteOpen}>
         <DeleteModal>
           <h5>Вы действительно хотите удалить новость?</h5>
-          <p>{'После удаления новости , данные будет утеряны'}</p>
+          <p>{'После удаления новости  данные будет утеряны'}</p>
           <Button
             buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
             margin={{ laptop: "0 22px 0 0" }}

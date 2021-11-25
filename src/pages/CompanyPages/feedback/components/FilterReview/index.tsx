@@ -20,7 +20,7 @@ interface Props {
 
 const FilterReview = ({ setFilterValues, filterValues }: Props) => {
   const { t } = useTranslation();
-  const [rating, setRating] = useState<any>();
+  const [rating, setRating] = useState<any>('');
   const cashiers = useAppSelector((state) => state.feedbackPost.cashiers);
 
   const [cashierStaffId, setCashierStaffId] = useState<CProps>();
@@ -39,19 +39,18 @@ const FilterReview = ({ setFilterValues, filterValues }: Props) => {
   });
 
   const handleFilterSubmit = async () => {
-    console.log(cashierStaffId?.value);
     await setFilterValues({
       ...filterValues,
       cashierStaffId: cashierStaffId?.value,
       rating: rating,
     });
-    await await resClients.refetch();
+    await resClients.refetch();
   };
 
   const onReset = async () => {
     await setFilterValues({ ...filterValues, cashierStaffId: '', rating: '' });
     await setCashierStaffId({});
-    await setRating(null);
+    await setRating('');
     await resClients.refetch();
   };
 
@@ -83,7 +82,7 @@ const FilterReview = ({ setFilterValues, filterValues }: Props) => {
               <IconButton
                 onClick={() => {
                   if (v === rating) {
-                    handleStarCheck(null);
+                    handleStarCheck('');
                   } else {
                     handleStarCheck(v);
                   }
