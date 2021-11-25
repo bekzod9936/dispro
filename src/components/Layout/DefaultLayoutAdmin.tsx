@@ -81,14 +81,16 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
   }, []);
 
   const toggleDrawer = (open: boolean) => (event: any) => {
-    if (
-      event &&
-      event.type === 'keydown' &&
-      (event.key === 'Tab' || event.key === 'Shift')
-    ) {
-      return;
+    if (fill) {
+      if (
+        event &&
+        event.type === 'keydown' &&
+        (event.key === 'Tab' || event.key === 'Shift')
+      ) {
+        return;
+      }
+      setMobileOpen(open);
     }
-    setMobileOpen(open);
   };
 
   const HeaderList = () => {
