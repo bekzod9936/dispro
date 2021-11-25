@@ -134,10 +134,11 @@ export const ClientsBar = ({ refetch }: IProps) => {
                 <WrapperContent>
                     <div>
                         <Content>
-                            {client.image ? <img src={client.image} onError={(e: any) => {
-                                e.target.onerror = null;
-                                e.target.src = clientDefaultImage;
-                            }} alt="clientAvatar" /> : <DefaultImage />}
+                            {client.image ?
+                                <img src={client.image} onError={(e: any) => {
+                                    e.target.onerror = null;
+                                    e.target.src = clientDefaultImage;
+                                }} alt="clientAvatar" /> : <DefaultImage />}
                             <ContentInfo>
                                 <p>{client.firstName} {client.lastName}</p>
                                 <span>Статус: {client.personalLoyaltyInfo.isActive ? client.addInfo.status : client.obtainProgramLoyalty.levelName} {client.personalLoyaltyInfo.isActive ? client.personalLoyaltyInfo.percent : client.obtainProgramLoyalty.percent}%</span>
@@ -262,8 +263,7 @@ export const ClientsBar = ({ refetch }: IProps) => {
                 open={isModalOpen} />
             <FullModal open={checkAll}>
                 <ViewAll
-                    onClose={() => setCheckAll(false)}
-                    totalCount={selectedClients.length} />
+                    onClose={() => setCheckAll(false)} />
             </FullModal>
         </Wrapper>
     )

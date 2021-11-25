@@ -511,5 +511,6 @@
   "page": "Страница",
   "requirementLevl": "Условия статуса №{{level}}",
   "checkSelected": "Просмотр выбранных",
-  "changeStatus": "Изменить статус"
+  "changeStatus": "Изменить статус",
+  "checkAll": "Смотреть всех"
 }

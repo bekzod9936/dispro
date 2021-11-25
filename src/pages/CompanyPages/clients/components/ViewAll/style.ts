@@ -5,6 +5,22 @@ export const Wrapper = styled.div`
     width: 100%;
     overflow-y: auto;
     overflow-x: hidden;
+    &:hover {
+    ::-webkit-scrollbar-thumb {
+      background: #606eea;
+    }
+  }
+  ::-webkit-scrollbar {
+    width: 7px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 14px 0 0 14px;
+  }
     div.main {
         padding: 20px 40px;
         div.header {
@@ -58,6 +74,43 @@ export const Wrapper = styled.div`
                 svg {
                     cursor: pointer;
                     transform: translateY(-1px);
+                }
+            }
+        }
+    }
+    @media (max-width: ${device.mobile}) {
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        div.main {
+            padding: 20px 15px;
+            div.header {
+                flex-direction: column;
+                justify-content: flex-start !important;
+                align-items: flex-start !important;
+                margin-bottom: 13px;
+                .left {
+                    margin-bottom: 13px;
+                    h3 {
+                        font-size: 16px;
+                        line-height: 18.75px;
+                    }
+                    svg {
+                        width: 10px;
+                        height: 15px;
+                    }
+                }
+                h4 {
+                    font-size: 14px;
+                    line-height: 16.41px;
+               }
+            }
+            div.content {
+                .client {
+                    padding: 6px 10px;
+                    span {
+                        font-size: 12px;
+                    }
                 }
             }
         }

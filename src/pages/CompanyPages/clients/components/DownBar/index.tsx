@@ -3,13 +3,14 @@ import Button from "components/Custom/Button";
 import CustomToggle from "components/Custom/CustomToggleSwitch";
 import FullModal from 'components/Custom/FullModal';
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
-import { selectAll, setClient } from "services/redux/Slices/clients";
+import { selectAll, setAllClients, setClient } from "services/redux/Slices/clients";
 import { Content, Footer, Header, Main } from "./style";
 import { useEffect } from "react"
 import { IMobileForm } from '../../screens/ClientsPage/ClientsPage';
 import { useTranslation } from 'react-i18next';
 import { useState } from "react"
 import { ResetModal } from '../ResetModal';
+import { ViewAll } from '../ViewAll';
 interface IProps {
     open: boolean
     setModals: (arg: any) => void,
@@ -23,7 +24,7 @@ export const DownBar = ({ open, setModals, setForm, refetch }: IProps) => {
     const client = selectedClients[0]
     const { t } = useTranslation()
     const dispatch = useAppDispatch()
-
+    const [checkAll, setCheckAll] = useState(false)
     const checked = selectedClients.length > 1 ? false : client?.personalLoyaltyInfo?.isActive
 
     const handleRemoveClient = (id: number) => {
@@ -31,7 +32,7 @@ export const DownBar = ({ open, setModals, setForm, refetch }: IProps) => {
     }
 
     const handleClick = (e: any) => {
-        dispatch(selectAll(e.target.value === "true"));
+        dispatch(setAllClients(e.target.value === "true"));
     };
 
     const handleToggleChange = (e: any) => {
@@ -73,7 +74,7 @@ export const DownBar = ({ open, setModals, setForm, refetch }: IProps) => {
             </Header>
             <Main>
                 <Content>
-                    {selectedClients.map((client) => (
+                    {(selectedClients.length > 7 ? selectedClients.slice(0, 7) : selectedClients).map((client) => (
                         <div
                             onClick={() => handleRemoveClient(client.id)}
                             className="client"
@@ -83,6 +84,16 @@ export const DownBar = ({ open, setModals, setForm, refetch }: IProps) => {
                         </div>
                     ))}
                 </Content>
+                {selectedClients.length > 7 &&
+                    <Button
+                        onClick={() => setCheckAll(true)}
+                        buttonStyle={{
+                            weight: 300,
+                            bgcolor: "#fff",
+                            color: "#3492FF"
+                        }}>
+                        {t("checkAll")}
+                    </Button>}
                 <Footer>
                     <div className="vipProcent">
                         <div className="toggler">
@@ -133,6 +144,9 @@ export const DownBar = ({ open, setModals, setForm, refetch }: IProps) => {
                     </button>
                 </Footer>
             </Main>
+            <FullModal open={checkAll}>
+                <ViewAll onClose={() => setCheckAll(false)} />
+            </FullModal>
         </FullModal>
     );
 };
