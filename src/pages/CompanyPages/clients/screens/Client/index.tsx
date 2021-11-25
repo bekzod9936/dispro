@@ -104,6 +104,7 @@ const Client = () => {
             <Spinner />
         )
     }
+    console.log(isLoading);
 
     if (currentClient?.clientInfo.id != clientId && currentClient?.clientInfo.userId != clientUserId) {
         return (

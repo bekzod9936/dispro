@@ -16,7 +16,8 @@ export interface IState {
     headers: any[],
     allClients: any[],
     selectedAllClients: IClient[],
-    client: IClient
+    client: IClient,
+    clientLevels: any[]
 }
 
 interface ISimpleClient {

@@ -38,9 +38,10 @@ export const AddInfo = styled.div`
     align-items: center;
     padding: 15px;
     width: 100%;
-    height: max-content;
+    height: 180px;
     @media (max-width: ${device.mobile}) {
         flex-direction: column;
+        height: max-content;
     }
 `
 export const Container = styled.div`
@@ -49,6 +50,7 @@ export const Container = styled.div`
 export const InfoBlock = styled.div`
     width: 100%;
     background: #FFFFFF;
+    height: 100%;
     margin-right: 25px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
     border-radius: 12px;
@@ -82,6 +84,7 @@ export const InfoBlock = styled.div`
 export const InfoWrapper = styled.div`
     width: 100%;
     margin-right: 25px;
+    height: 100%;
     @media (max-width: ${device.mobile}) {
         margin-right: 0;
     }
@@ -100,7 +103,7 @@ export const NoteBlock = styled.div`
     align-items: center;
     width: calc(100vw - 30px);
     margin: auto auto 13px auto;
-
+    overflow: hidden;
     h4 {
         font-size: 14px;
         color: #C7C7C7;
