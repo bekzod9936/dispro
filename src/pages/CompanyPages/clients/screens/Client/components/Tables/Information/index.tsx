@@ -5,6 +5,7 @@ import {
   Container,
   InfoBlock,
   InfoItem,
+  InfoWrapper,
   NoteBlock,
   Wrapper,
 } from "./style";
@@ -21,6 +22,7 @@ import { NoteModal } from "../../NoteModal"
 import { setNote } from "services/redux/Slices/clients";
 import { useMutation } from "react-query";
 import { sendNote } from "services/queries/clientsQuery";
+import Modal from "components/Custom/Modal";
 const Information = () => {
   const { t } = useTranslation()
   const { currentClient } = useAppSelector(state => state.clients)
@@ -51,6 +53,10 @@ const Information = () => {
         <FullModal open={noteState.open}>
           <NoteModal config={{ setNote: setNoteState, refetch, note: noteState, handleSendNote }} />
         </FullModal>}
+      {(width <= 1000 && width > 600) &&
+        <Modal open={noteState.open}>
+          <NoteModal config={{ setNote: setNoteState, refetch, note: noteState, handleSendNote }} />
+        </Modal>}
       <Wrapper>
         {statistics.map((el, index) => (
           <InfoItem>
@@ -63,28 +69,35 @@ const Information = () => {
         ))}
       </Wrapper>
       <AddInfo>
-        <InfoBlock>
-          <h4>{t("info")}</h4>
-          <div>
-            <p>{t("byRecommendation")}: <span>Ни Натальи</span> ({t("client")})</p>
-            <p>{t('lastPurchase')}: {client?.addInfo?.lastPurchaseDate ? dayjs(client?.addInfo?.lastPurchaseDate).format("DD.MM.YYYY") : "-"}</p>
-          </div>
-          {<Button
-            onClick={() => setNoteState((prev: any) => ({ ...prev, open: true }))}
-            margin={{ mobile: "7px 0 0 0" }}
-            buttonStyle={{ bgcolor: "rgba(96, 110, 234, 0.1);", color: "#3492FF" }}>
-            {client?.notes ? t("editNote") : t("addNote") + " +"}
-          </Button>}
-        </InfoBlock>
-        {client?.notes &&
-          <NoteBlock>
-            <h4>{t("noteAboutClient")}</h4>
-            <p>{client?.notes}</p>
-          </NoteBlock>}
+        <InfoWrapper>
+          <InfoBlock>
+            <h4>{t("info")}</h4>
+            <div>
+              <p>{t("byRecommendation")}: <span>Ни Натальи</span> ({t("client")})</p>
+              <p>{t('lastPurchase')}: {client?.addInfo?.lastPurchaseDate ? dayjs(client?.addInfo?.lastPurchaseDate).format("DD.MM.YYYY") : "-"}</p>
+            </div>
+            {<Button
+              onClick={() => setNoteState((prev: any) => ({ ...prev, open: true }))}
+              margin={{ mobile: "7px 0 0 0" }}
+              buttonStyle={{ bgcolor: "rgba(96, 110, 234, 0.1);", color: "#3492FF" }}>
+              {client?.notes ? t("editNote") : t("addNote") + " +"}
+            </Button>}
+          </InfoBlock>
+          {client?.notes && width <= 600 &&
+            <NoteBlock>
+              <h4>{t("noteAboutClient")}</h4>
+              <p>{client?.notes}</p>
+            </NoteBlock>}
+        </InfoWrapper>
         <Recommendation
           maxWidth="none"
           referLevels={currentClient?.childReferalClientsByLevel || []} />
       </AddInfo>
+      {client?.notes && (width <= 1000 && width > 600) &&
+        <NoteBlock>
+          <h4>{t("noteAboutClient")}</h4>
+          <p>{client?.notes}</p>
+        </NoteBlock>}
     </Container>
   )
 }

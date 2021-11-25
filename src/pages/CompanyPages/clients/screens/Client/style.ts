@@ -1,3 +1,4 @@
+import { CoinsIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import styled from "styled-components";
 import { device } from "styles/device";
 
@@ -105,8 +106,8 @@ export const MButtons = styled.div`
   margin-bottom: 20px;
 `
 export const MDefaultImage = styled.div`
-  width: 40px;
-  height: 40px;
+  width: 55px;
+  height: 55px;
   background: linear-gradient(215.2deg, #C7EEFF -12.1%, #FCA9EA 101.51%);
   border-radius: 14px;
   margin: 0 15px;
@@ -126,6 +127,10 @@ export const MDefaultImage = styled.div`
         width: 12px;
 
       }
+  }
+  @media (max-width: ${device.mobile}) {
+    width: 40px;
+    height: 40px;
   }
 `
 export const SpinnerWrapper = styled.div`
@@ -220,3 +225,4 @@ export const IconWrapper = styled.div`
     height: 20px;
   }
 `
+

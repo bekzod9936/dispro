@@ -14,6 +14,7 @@ export const useFetchClients = ({ query }: IArgs) => {
   const { page, filters, period, referals } = useAppSelector(
     (state: RootState) => state.clients
   );
+
   const _ = useQuery(["fetchAllClients", filters, query], () => {
     if (query !== "") {
       return searchClients(query);
@@ -28,9 +29,10 @@ export const useFetchClients = ({ query }: IArgs) => {
     refetchOnWindowFocus: false,
     retry: 0,
     onSuccess: (data) => {
-      dispatch(setAllClientsData(data.data.clients));
+      dispatch(setAllClientsData(data.data.data.clients));
     }
   })
+
   const response = useQuery(
     ["clients", page, query, period, filters],
     () => {

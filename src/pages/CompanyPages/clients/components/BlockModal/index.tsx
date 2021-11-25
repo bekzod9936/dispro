@@ -2,10 +2,11 @@ import Modal from 'components/Custom/Modal'
 import { useState } from 'react'
 import Input from "components/Custom/Input"
 import Button from 'components/Custom/Button'
-import { BlockWhiteIcon, CancelIcon, CloseIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
+import { BlockWhiteIcon, CancelIcon, CloseIcon, VioletCancelIcon } from 'assets/icons/ClientsPageIcons/ClientIcons'
 import { Wrapper } from "./style"
 import { useMutation } from 'react-query'
 import { blockClient } from 'services/queries/clientsQuery'
+import useWindowWidth from 'services/hooks/useWindowWidth'
 
 interface IProps {
     isOpen: boolean,
@@ -18,7 +19,7 @@ interface IProps {
 export const BlockModal = ({ isOpen, handleClose, isBlocking, refetch, clientId }: IProps) => {
     const [reason, setReason] = useState("")
     const mutation = useMutation((data: any) => blockClient(data))
-
+    const { width } = useWindowWidth()
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         mutation.mutate({
@@ -49,7 +50,7 @@ export const BlockModal = ({ isOpen, handleClose, isBlocking, refetch, clientId 
                             laptop: "0 0 35px 0"
                         }}
                         inputStyle={{
-                            height: { laptop: 125, desktop: 125 }
+                            height: { laptop: 125, desktop: 125, planshet: 125 }
                         }}
                         type="textarea"
                         multiline />}
@@ -57,11 +58,15 @@ export const BlockModal = ({ isOpen, handleClose, isBlocking, refetch, clientId 
                     <Button
                         onClick={() => handleClose(false)}
                         margin={{ laptop: "0 25px 0 0" }}
-                        buttonStyle={{ bgcolor: "#ffffff", color: "#223367" }}
-                        startIcon={<CancelIcon />}>
+                        buttonStyle={width > 1000 ? { bgcolor: "#ffffff", color: "#223367" } : { bgcolor: "rgba(96, 110, 234, 0.1)", color: "#606EEA" }}
+                        startIcon={width > 1000 ? <CancelIcon /> : <VioletCancelIcon />}>
                         Отменить
                     </Button>
                     <Button
+                        buttonStyle={{
+                            color: "#fff",
+                            bgcolor: "#FF5E68"
+                        }}
                         type="submit"
                         startIcon={<BlockWhiteIcon />}>
                         {isBlocking ? "Заблокировать" : "Разблокировать"}
