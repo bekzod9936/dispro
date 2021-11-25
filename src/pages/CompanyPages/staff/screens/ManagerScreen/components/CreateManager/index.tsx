@@ -49,6 +49,7 @@ const CreateManager = ({ openManager }: IProps) => {
 	const { roles } = useRoles();
 	const { branches } = useStaff();
 	const [logo, setLogo] = useState('');
+	const [imgError, setImgError] = useState(false);
 	const [file, setFile] = useState('');
 	const [isCropVisible, setIsCropVisible] = useState(false);
 	const { saveRoleManager, modified, setModified, createManager } = useManagers(
@@ -118,8 +119,10 @@ const CreateManager = ({ openManager }: IProps) => {
 		}
 	}, [checkPhone.check, watch('telNumber')]);
 
-	const { handleUpload, deleteImage, setLoading, isLoading } =
-		useUploadImage(setLogo);
+	const { handleUpload, deleteImage, setLoading, isLoading } = useUploadImage(
+		setLogo,
+		setImgError
+	);
 
 	const handleDelete = () => {
 		setFile('');
@@ -191,10 +194,12 @@ const CreateManager = ({ openManager }: IProps) => {
 												)}
 												{logo && (
 													<ImageBlock>
-														<ImageLazyLoad
-															objectFit='contain'
+														<img
 															src={logo}
 															alt='logo'
+															onError={() => {
+																setImgError(true);
+															}}
 														/>
 														<DeleteIcon onClick={handleDelete} />
 													</ImageBlock>

@@ -33,8 +33,6 @@ const CashierTable = ({ cashiers }: IProps) => {
 	const [checked, setChecked] = useState(false);
 	const [headers, setHeaders] = useState<HeadersType[]>(cashierHeaders);
 
-	// console.log(selectedCashiers, "all cashier");
-
 	useEffect(() => {
 		return () => {
 			dispatch(setSelectedCashiers([]));
@@ -94,7 +92,6 @@ const CashierTable = ({ cashiers }: IProps) => {
 			dispatch(setSelectedCashiers(filteredItem));
 		}
 	};
-
 	return (
 		<div>
 			<TableHeader>

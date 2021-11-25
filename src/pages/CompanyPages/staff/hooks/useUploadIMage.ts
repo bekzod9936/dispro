@@ -2,7 +2,7 @@ import React from "react";
 import { useMutation } from "react-query";
 import { deletePhoto, uploadPhoto } from "services/queries/InfoQuery";
 
-export const useUploadImage = (handleSet: any) => {
+export const useUploadImage = (handleSet: any, setImageError?: any) => {
   const [loading, setLoading] = React.useState<boolean>(false);
   const dataURIToBlob = (dataURI: any) => {
     const splitDataURI = dataURI.split(",");
@@ -60,6 +60,7 @@ export const useUploadImage = (handleSet: any) => {
     await mutate(formData, {
       onSuccess: async (data) => {
         await handleSet(data?.data?.data?.link);
+		setImageError(false)
         setLoading(false);
       },
       onError: (error) => console.log(error),
