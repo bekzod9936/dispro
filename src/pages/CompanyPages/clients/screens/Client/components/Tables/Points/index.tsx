@@ -95,7 +95,7 @@ const Points = () => {
                     </Tbody>
                 </Table> :
                 <MobileTable>
-                    {Object.keys(mobilePoints).map((date: any, index: any) => (
+                    {/* {Object.keys(mobilePoints).map((date: any, index: any) => (
                         <MTRow isEven={!!((index + 1) % 2)}>
                             <div className="date">{date}</div>
                             {mobilePoints[date].map((el: any) =>
@@ -107,6 +107,18 @@ const Points = () => {
                                     <span className="time">{el.time}</span>
                                 </div>
                             )}
+                        </MTRow>
+                    ))} */}
+                    {points.map((el, index: number) => (
+                        <MTRow isEven={!!((index + 1) % 2)}>
+                            <div className="date">{el.mobDate}</div>
+                            <div className="content">
+                                <div className="left">
+                                    <p className="type">{el.type}</p>
+                                    <p className="value">{el.points} Б.</p>
+                                </div>
+                                <span className="time">{el.time}</span>
+                            </div>
                         </MTRow>
                     ))}
                 </MobileTable>}

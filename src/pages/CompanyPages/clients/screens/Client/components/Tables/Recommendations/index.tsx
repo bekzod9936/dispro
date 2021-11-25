@@ -192,7 +192,11 @@ const Recommendations = () => {
                                             return (
                                                 <Td {...cell.getCellProps()}>
                                                     <div>
-                                                        <img src={cell.row?.original?.image} alt="someImage" />
+                                                        <img src={cell.row?.original?.image}
+                                                            onError={(e: any) => {
+                                                                e.target.onerror = null;
+                                                                e.target.src = clientDefault
+                                                            }} alt="someImage" />
                                                         {cell.render('Cell')}
                                                     </div>
                                                 </Td>
