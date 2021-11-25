@@ -1,8 +1,12 @@
-import styled from "styled-components";
-import { device } from "../../../styles/device";
-import { RProps } from "./types";
+import styled from 'styled-components';
+import { device } from '../../../styles/device';
+import { RProps, Props } from './types';
 
 export const Container = styled.div`
+  label.MuiFormControlLabel-root {
+    margin: ${({ marginlabel }: Props) =>
+      marginlabel ? `${marginlabel}!important` : null};
+  }
   span.MuiRadio-colorSecondary.Mui-checked {
     color: #3492ff !important ;
   }
@@ -22,8 +26,8 @@ export const Container = styled.div`
   }
   .MuiFormControl-root {
     display: flex !important ;
-    flex-direction: ${({ flexDirection = "row" }: RProps) =>
-    flexDirection} !important;
+    flex-direction: ${({ flexDirection = 'row' }: RProps) =>
+      flexDirection} !important;
   }
   @media (min-width: ${device.laptop}) {
     legend.MuiFormLabel-root {

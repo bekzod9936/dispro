@@ -45,7 +45,6 @@ const CashierScreen = () => {
 			dispatch(setOpenFilter(false));
 		};
 	}, []);
-
 	return (
 		<CashierDiv>
 			{response.isLoading ? (
@@ -57,6 +56,7 @@ const CashierScreen = () => {
 					cashiers={cashiers.map((cashier: any) => {
 						return {
 							...cashier,
+							storeName: cashier?.store?.name,
 							firstName: cashier?.firstName + ' ' + cashier?.lastName,
 							score: numberWith(cashier?.addInfo?.avgRating, ' '),
 							avgCheque: numberWith(cashier?.addInfo?.avgCheque, ' '),

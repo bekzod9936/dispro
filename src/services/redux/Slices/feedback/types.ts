@@ -29,6 +29,11 @@ export interface IratingAndReviews {
   review?: string;
   clientGenderTypeId?: number;
   obtainProgramLoyalty?: { levelName?: string; percent?: number };
+  amountReturned?: number;
+  payDate?: string;
+  storeName?: string;
+  totalAmount?: number;
+  usedPointAmount?: number;
 }
 
 export interface IHistory {
@@ -70,7 +75,6 @@ export interface IFeedBack {
   totalSupportHistory?: number;
   totalCount?: number;
   averageRating?: IRating;
-  totalRating?: number;
   socket?: any;
   chosenClient?: IChose;
 }

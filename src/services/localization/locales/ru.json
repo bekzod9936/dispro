@@ -509,6 +509,8 @@
   "review1": "отзыва",
   "review23": "отзывов",
   "page": "Страница",
+  "checkSelected": "Просмотр выбранных",
+  "notfinduser": "По вашему запросу ничего не найдено",
   "requirementLevl": "Условия статуса №{{level}}",
-  "checkSelected": "Просмотр выбранных"
+  "changeStatus": "Изменить статус"
 }

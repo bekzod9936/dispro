@@ -23,6 +23,7 @@ interface IProps {
 	setIsLoading?: (arg: boolean) => void;
 	isCoupon?: boolean;
 	coupon?: boolean;
+	setErrorImg?: (bool: boolean) => void;
 }
 const StaffCropCustomModal = ({
 	open,
@@ -31,6 +32,7 @@ const StaffCropCustomModal = ({
 	setFile,
 	handleUpload,
 	setIsLoading,
+	setErrorImg,
 }: IProps) => {
 	const { logo, name } = useAppSelector(
 		(state: RootState) => state.partner.companyInfo
@@ -63,6 +65,7 @@ const StaffCropCustomModal = ({
 			setIsCropVisible(false);
 
 			await handleUpload(imageUrl);
+			setErrorImg && setErrorImg(false);
 			if (setIsLoading) {
 				setIsLoading(false);
 			}

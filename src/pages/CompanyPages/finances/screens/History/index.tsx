@@ -50,7 +50,7 @@ import {
 interface intialFilterProps {
   page?: number;
   perPage?: number;
-  cashierStaffId?: number;
+  cashierStaffId?: number | string;
   endDate?: string;
   startDate?: string;
 }
@@ -104,7 +104,7 @@ const Payment = () => {
     const date = dayjs(v.chequeDate).format('DD.MM.YYYY');
     const time = dayjs(v.chequeDate).format('HH:mm:ss');
     return {
-      col0: v.clientLogo,
+      col0: v.cashierLogo,
       col1: v.cashierName === 'No cashier name' ? t('p2p') : v.cashierName,
       col2: date,
       col3: time,
@@ -133,7 +133,7 @@ const Payment = () => {
     return {
       title: v.cashierName === 'No cashier name' ? t('p2p') : v.cashierName,
       value: numberWithNew({ number: v.payInfo.amountTotal }),
-      avatar: v.clientLogo,
+      avatar: v.cashierLogo,
       body: [
         {
           title: t('transactiondate'),
@@ -357,7 +357,7 @@ const Payment = () => {
   const handleFilterSubmit = async ({ startDate = '', endDate = '' }) => {
     await setFilterValues({
       ...filterValues,
-      cashierStaffId: cashierStaffId?.value,
+      cashierStaffId: cashierStaffId?.value ? cashierStaffId?.value : '',
       startDate: startDate,
       endDate: endDate,
     });

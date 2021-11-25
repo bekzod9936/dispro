@@ -14,7 +14,7 @@ import {
 interface Props {
   title?: string;
   rate?: { avg?: number; count?: number; downVal?: number; upVal?: number };
-  total?: number | string;
+  total?: boolean;
 }
 
 const Grade = ({ title, rate, total }: Props) => {
@@ -27,19 +27,22 @@ const Grade = ({ title, rate, total }: Props) => {
         {rate?.avg !== 0 ||
         rate?.count !== 0 ||
         rate?.downVal !== 0 ||
-        rate?.upVal ||
-        total ? (
+        rate?.upVal !== 0 ? (
           <>
-            <PercentWrap>
-              {rate || total ? (
-                <PercentNum>{rate?.avg || total}</PercentNum>
+            <PercentWrap total={total}>
+              {rate ? (
+                <PercentNum>{!total ? rate?.avg : rate?.count}</PercentNum>
               ) : null}
-              {rate ? <PercentDef>/5</PercentDef> : null}
+              {rate && !total ? <PercentDef>/5</PercentDef> : null}
             </PercentWrap>
-            <PercentInfo>
-              <LineIcon />
-              {rate?.downVal === 0 ? `+${rate?.upVal}%` : `-${rate?.downVal}%`}
-            </PercentInfo>
+            {total ? null : (
+              <PercentInfo>
+                <LineIcon />
+                {rate?.downVal === 0
+                  ? `+${rate?.upVal}%`
+                  : `-${rate?.downVal}%`}
+              </PercentInfo>
+            )}
           </>
         ) : (
           <Text>{t('nobodydidnotevaluate')}</Text>

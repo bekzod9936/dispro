@@ -55,6 +55,7 @@ export interface IHistory {
   chequeDate: string;
   chequeStatus: number;
   clientName: string;
+  cashierLogo: string;
   payInfo: IPayInfo;
 }
 

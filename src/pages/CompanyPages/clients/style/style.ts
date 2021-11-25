@@ -88,6 +88,9 @@ export const ButtonsWrapper = styled.div`
   align-items: center;
   margin-bottom: ${(props: IButtonWrapper) => props.marginBottom + "px" || "0"};
   margin-top: ${(props: IButtonWrapper) => props.marginTop + "px" || "0"};
+  @media (max-width: ${device.planshet}) {
+    margin: 0;
+  }
   @media(max-width: ${device.mobile}) {
     margin: 13px 0;
   }

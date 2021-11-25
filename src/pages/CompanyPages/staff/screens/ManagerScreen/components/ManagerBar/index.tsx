@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import dayjs from 'dayjs';
 import useManagers from 'pages/CompanyPages/staff/hooks/useManagers';
 import { useTranslation } from 'react-i18next';
@@ -21,7 +22,7 @@ import {
 	DeleteIc,
 } from './style';
 import { IconButton } from '@material-ui/core';
-
+import { useUploadImage } from 'pages/CompanyPages/staff/hooks/useUploadIMage';
 //components
 import { ReactComponent as Logo } from 'assets/icons/cashier_logo_placeholder.svg';
 import { ReactComponent as EditIcon } from 'assets/icons/edit_cashier.svg';
@@ -29,6 +30,7 @@ import { ReactComponent as DeleteIcon } from 'assets/icons/delete_setting.svg';
 import { ReactComponent as DeleteWhiteIcon } from 'assets/icons/trash_white.svg';
 import { ReactComponent as ExitIcon } from 'assets/icons/exit.svg';
 import { ReactComponent as RoleIcon } from 'assets/icons/role_icon.svg';
+import NoPhoto from 'assets/images/NoPhotos.png';
 
 import { CancelIcon } from 'assets/icons/ClientsPageIcons/ClientIcons';
 import Button from 'components/Custom/Button';
@@ -47,10 +49,10 @@ import {
 	ModalContent,
 } from '../../../CashierScreen/style';
 
-const ManagerBar = () => {
+const ManagerBar: React.FC<any> = ({}) => {
 	const dispatch = useAppDispatch();
 	const { t } = useTranslation();
-
+	const [imgError, setImgError] = useState(false);
 	const { roleManager, deleteManager, open, setOpen } = useManagers({
 		page: 1,
 		query: '',
@@ -61,25 +63,22 @@ const ManagerBar = () => {
 		(state) => state.staffs.selectedManagers
 	);
 
-	console.log(selectedManagers, 'selected manager');
-
 	//   Комментарий
 	const staffsDiv = () => {
-		if (selectedManagers?.length === 1) {
+		if (selectedManagers?.length) {
 			return (
 				<ManagerCard>
 					<UpSide>
 						<ManagerRow justifyContent='center'>
 							<ManagerCol>
-								{selectedManagers[0].logo !== '' ? (
-									<>
-										<Img
-											src={selectedManagers[0].logo}
-											effect='blur'
-											height='100%'
-											width='100%'
-										/>
-									</>
+								{selectedManagers[0].logo.startsWith('https://') ? (
+									<Img
+										src={selectedManagers[0].logo}
+										effect='blur'
+										height='100%'
+										width='100%'
+										// onError={(e: any) => (e?.target?.src = `${NoPhoto}`)}
+									/>
 								) : (
 									<Logo />
 								)}
@@ -265,7 +264,11 @@ const ManagerBar = () => {
 			<Modal open={open}>
 				<ModalContent>
 					<ModalBody>
-						<BarTitle>Вы уверены что хотите удалить кассира?</BarTitle>
+						<BarTitle>
+							{selectedManagers.length === 1
+								? `Вы уверены что хотите удалить менеджера?`
+								: `Вы уверены что хотите удалить менеджеров?`}
+						</BarTitle>
 						<Break height={15} />
 						<ManagerCollection>
 							{selectedManagers.length > 1

@@ -69,6 +69,7 @@ export const WrapNotification = styled.div`
   display: flex;
   padding: 20px 25px;
   border-bottom: 1px solid #f5f5f5;
+  cursor: pointer;
 `;
 
 export const LastMessage = styled.div`
@@ -78,6 +79,9 @@ export const LastMessage = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  @media (max-width: ${device.mobile}) {
+    font-size: 14px;
+  }
 `;
 
 export const Name = styled.div`
@@ -91,13 +95,19 @@ export const Name = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  @media (max-width: ${device.mobile}) {
+    font-size: 14px;
+  }
 `;
 
-export const Date = styled.div`
+export const Date1 = styled.div`
   font-weight: normal;
   font-size: 16px;
   color: #a5a5a5;
   margin-top: 10px;
+  @media (max-width: ${device.mobile}) {
+    font-size: 12px;
+  }
 `;
 
 export const Wrapper = styled.div`
@@ -129,14 +139,60 @@ export const Wrap = styled.div`
   height: 360px;
 
   @media (min-width: ${device.laptop}) {
-    min-width: 450px;
-    min-height: 450px;
+    min-width: 400px;
+    min-height: 360px;
+    max-height: 360px;
   }
   & > div {
     height: 100%;
     width: 100%;
     overflow-y: auto;
     overflow-x: hidden;
+    scroll-behavior: auto;
+
+    ::-webkit-scrollbar {
+      width: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #606eea;
+      border-radius: 14px 0px 0px 14px;
+    }
+  }
+`;
+
+export const Header = styled.div`
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: 16px;
+  color: #223367;
+  & > span {
+    margin-left: 10px;
+  }
+  padding-left: 5px;
+`;
+
+export const ModalWrap = styled.div`
+  padding: 15px 0;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  & > div:last-child {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 0 15px;
     scroll-behavior: auto;
 
     ::-webkit-scrollbar {

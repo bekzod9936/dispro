@@ -1,87 +1,8 @@
-import { Container, NewSelect, DownIcon, Label, Message } from './style';
-import { components } from 'react-select';
+import { Container, NewSelect, DownIcon, Label, Message } from "./style";
+import { components } from "react-select";
 
-export interface Props {
-  defaultValue?: any;
-  isDisabled?: boolean;
-  isLoading?: boolean;
-  isClearable?: boolean;
-  isSearchable?: boolean;
-  name?: string;
-  options?: { value?: any; label?: any; name?: any }[];
-  isMulti?: boolean;
-  error?: boolean;
-  autoFocus?: boolean;
-  className?: any;
-  onChange?: (e: any) => void;
-  placeholder?: string;
-  nooptionsmessage?: any;
-  value?: any;
-  label?: any;
-  labelStyle?: {
-    color?: string;
-    weight?: string | number;
-    fontSize?: {
-      mobile?: number;
-      planshet?: number;
-      laptop?: number;
-      desktop?: number;
-    };
-  };
-  lmargin?: {
-    mobile?: number;
-    planshet?: number;
-    laptop?: number;
-    desktop?: number;
-  };
-  selectStyle?: {
-    color?: string;
-    bgcolor?: string;
-    weight?: string | number;
-    margin?: string;
-    border?: string;
-    borderbottom?: string;
-    shadow?: string;
-    radius?: number;
-    deleteColor?: string;
-    deleteBgColor?: string;
-    inpadding?: string;
-    fontSize?: {
-      mobile?: number;
-      planshet?: number;
-      laptop?: number;
-      desktop?: number;
-    };
-    valuebgcolor?: string;
-    height?: {
-      mobile?: number;
-      planshet?: number;
-      laptop?: number;
-      desktop?: number;
-    };
-    placeholdercolor?: string;
-    placewieght?: string;
-  };
-  IconDown?: any;
-  width?: {
-    maxwidth?: number;
-    minwidth?: number;
-    width?: string;
-  };
-  margin?: {
-    mobile?: string;
-    planshet?: string;
-    laptop?: string;
-    desktop?: string;
-  };
-  message?: any;
-  field?: any;
-  iconmargin?: string;
-  icon?: any;
-  iconleft?: string;
-  iconright?: string;
-  icondowncolor?: string;
-}
+//types
+import { Props } from "./type";
 
 const MultiSelect = ({
   iconmargin,
@@ -94,7 +15,7 @@ const MultiSelect = ({
 }: Props) => {
   const DropdownIndicator = (props: any) => {
     return (
-      <components.DropdownIndicator {...props}>
+      <components.DropdownIndicator data-cy={props.dataCy} {...props}>
         {props.IconDown ? (
           props.IconDown
         ) : (
@@ -106,8 +27,8 @@ const MultiSelect = ({
 
   const NoOptionsMessage = (props: any) => {
     return (
-      <components.NoOptionsMessage {...props}>
-        <span className='custom-css-class'>{nooptionsmessage}</span>
+      <components.NoOptionsMessage data-cy={props.dataCy} {...props}>
+        <span className="custom-css-class">{nooptionsmessage}</span>
       </components.NoOptionsMessage>
     );
   };
@@ -115,10 +36,10 @@ const MultiSelect = ({
   const ValueContainer = (props: any) => {
     return (
       components.ValueContainer && (
-        <components.ValueContainer {...props}>
+        <components.ValueContainer data-cy={props.dataCy} {...props}>
           {icon && (
             <div
-              style={{ position: 'absolute', left: iconleft, right: iconright }}
+              style={{ position: "absolute", left: iconleft, right: iconright }}
             >
               {icon}
             </div>
@@ -134,39 +55,41 @@ const MultiSelect = ({
     control: (base: any, state: any) => ({
       ...base,
       border: props.error
-        ? '1px solid #FF5E68'
+        ? "1px solid #FF5E68"
         : props.selectStyle?.border
         ? props.selectStyle?.border
-        : '1px solid #C2C2C2',
+        : "1px solid #C2C2C2",
 
-      boxShadow: 'none',
-      '&:hover': {
-        border: 'inherite',
+      boxShadow: "none",
+      "&:hover": {
+        border: "inherite",
       },
       borderBottom: props.selectStyle?.borderbottom
         ? props.selectStyle?.borderbottom
         : null,
       backgroundColor: props.selectStyle?.bgcolor
         ? props.selectStyle?.bgcolor
-        : 'white',
+        : "white",
       borderRadius:
         props.selectStyle?.radius === 0
           ? 0
           : props.selectStyle?.radius
           ? `${props.selectStyle?.radius}px`
-          : '14px',
+          : "14px",
     }),
     option: (base: any, state: any) => {
       return {
         ...base,
-        color: props.selectStyle?.color ? props.selectStyle?.color : '#223367',
+        color: props.selectStyle?.color ? props.selectStyle?.color : "#223367",
         fontWeight: props.selectStyle?.weight
           ? props.selectStyle?.weight
-          : '500',
-        backgroundColor: state.isSelected ? '#E8F0FE' : 'white',
+          : "500",
+        backgroundColor: state.isSelected ? "#E8F0FE" : "white",
       };
     },
   };
+
+  console.log(props, "data cy ");
 
   return (
     <Container width={props.width} margin={props.margin}>
@@ -189,9 +112,10 @@ const MultiSelect = ({
         selectStyle={props.selectStyle}
         defaultValue={props.defaultValue}
         value={props.defaultValue}
+        data-cy={props.dataCy}
         {...props}
         {...props.field}
-        placeholder={props.placeholder ? props.placeholder : ''}
+        placeholder={props.placeholder ? props.placeholder : ""}
         menuPortalTarget={document.body}
       />
       {props.error ? (

@@ -11,7 +11,6 @@ import {
   setClientsFeedBack,
   setRatingsFeedBack,
   setTotalCountFeedBack,
-  setTotalRatingFeedBack,
 } from 'services/redux/Slices/feedback';
 import { useState } from 'react';
 import { formatPagination } from 'services/utils/formatPagination';
@@ -38,7 +37,7 @@ const useFeedBack = ({ filterValues }: Props) => {
     'feedBackClientsInfo',
     () =>
       fetchFeedBackClients({
-        url: `/rating-review/${filterValues.cashierStaffId}?perPage=${filterValues.perPage}&page=${filterValues?.page}&rating=${filterValues.rating}`,
+        url: `/rating-review?perPage=${filterValues.perPage}&page=${filterValues?.page}&rating=${filterValues.rating}&=cashierId=${filterValues.cashierStaffId}`,
       }),
     {
       keepPreviousData: true,
@@ -46,13 +45,7 @@ const useFeedBack = ({ filterValues }: Props) => {
       retry: 0,
       onSuccess: (data) => {
         dispatch(setTotalCountFeedBack(data.data.data.totalCount));
-        dispatch(
-          setClientsFeedBack(
-            filterValues?.cashierStaffId !== ''
-              ? data.data.data
-              : data.data.data.ratingAndReviews
-          )
-        );
+        dispatch(setClientsFeedBack(data.data.data.ratingAndReviews));
         setTotalCount(data.data.data.totalCount);
 
         setBetween(
@@ -73,7 +66,6 @@ const useFeedBack = ({ filterValues }: Props) => {
     onSuccess: (data) => {
       dispatch(setRatingsFeedBack(data.data.data.ratingNumbers));
       dispatch(setAverageRatingFeedBack(data.data.data.rating));
-      dispatch(setTotalRatingFeedBack(data.data.data.totalRating));
     },
   });
 

@@ -21,7 +21,6 @@ const initialState: IFeedBack = {
   totalSupportHistory: 0,
   totalCount: 0,
   averageRating: { avg: 0, count: 0, downVal: 0, upVal: 0 },
-  totalRating: 0,
   socket: {},
   chosenClient: { data: {}, choose: false },
 };
@@ -61,9 +60,7 @@ const feedbackPostSlice = createSlice({
     setAverageRatingFeedBack: (state, action: PayloadAction<IRating>) => {
       state.averageRating = action.payload;
     },
-    setTotalRatingFeedBack: (state, action: PayloadAction<number>) => {
-      state.totalRating = action.payload;
-    },
+
     setSocket: (state, action: PayloadAction<any>) => {
       state.socket = action.payload;
     },
@@ -80,7 +77,6 @@ export const {
   setTotalCountFeedBack,
   setRatingsFeedBack,
   setAverageRatingFeedBack,
-  setTotalRatingFeedBack,
   setSocket,
   setChatClientHistory,
   setTotalHistory,

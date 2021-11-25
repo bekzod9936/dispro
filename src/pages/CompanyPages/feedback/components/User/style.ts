@@ -89,7 +89,7 @@ export const Status = styled.div`
   }
 `;
 
-export const Date = styled.div`
+export const Date1 = styled.div`
   font-weight: normal;
   font-size: 13px;
   color: #8f8f8f;
@@ -142,7 +142,7 @@ export const Content = styled.div`
   font-size: 13px;
   color: #223367;
   margin-bottom: 10px;
-  max-width: 320px;
+  width: 100%;
   @media (min-width: ${device.laptop}) {
     font-size: 14px;
   }

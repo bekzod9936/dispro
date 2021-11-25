@@ -3,10 +3,10 @@ export interface IProps {
 }
 
 export interface FormProps {
-  logo: string;
+  logo: any;
   firstName: string;
   lastName: string;
   comment?: string;
-  storeName: any;
+  storeId: any;
   telNumber: string;
 }

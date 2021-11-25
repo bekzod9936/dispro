@@ -1,9 +1,18 @@
 import styled from 'styled-components';
 import { device } from 'styles/device';
+import { ReactComponent as OneCheck } from 'assets/icons/FeedBack/onecheck.svg';
+import { ReactComponent as DoubleCheck } from 'assets/icons/FeedBack/doublecheck.svg';
+import { ReactComponent as Unread } from 'assets/icons/FeedBack/unread.svg';
 
 interface Props {
   bgcolor?: string;
 }
+
+export const OneCheckIcon = styled(OneCheck)``;
+
+export const DoubleCheckIcoon=styled(DoubleCheck)``
+
+export const UnreadIcon=styled(Unread)``;
 
 export const Container = styled.div`
   display: flex;
