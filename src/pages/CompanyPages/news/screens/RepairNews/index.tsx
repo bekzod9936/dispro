@@ -3,6 +3,7 @@ import CustomToggle from "components/Custom/CustomToggleSwitch";
 import Input from "components/Custom/Input";
 import MultiSelect from "components/Custom/MultiSelect";
 import Title from "components/Custom/Title";
+import { TextArea } from "components/Custom/TextArea";
 import CheckBox from "components/Custom/CheckBox";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -340,7 +341,9 @@ const RepairNews = () => {
                 )}
               />
 
-              <Controller
+         
+
+<Controller
                 name="description"
                 control={control}
                 rules={{
@@ -348,23 +351,16 @@ const RepairNews = () => {
                 }}
                 defaultValue={newsById?.data?.description}
                 render={({ field }) => (
-                  <Input
-                    field={field}
-                    margin={{ laptop: "35px 0" }}
-                    label="Описание"
-                    type="textarea"
+                  <TextArea
+                    maxLength={800}
+                    {...field}
+                    defaultValue={newsById?.data?.description}
                     message={t("requiredField")}
                     error={!!errors.description}
-                    defaultValue={newsById?.data?.description}
-                    multiline={true}
-                    inputStyle={{
-                      height: { desktop: 120, laptop: 90, mobile: 150 },
-                    }}
-                    IconEnd={
-                      <WrapArea>
-                        <TextAreaIcon />
-                      </WrapArea>
-                    }
+                    minHeight={'150px'}
+                    maxHeight={'300px'}
+                    resize={'vertical'}
+                    title={"Описание"}
                   />
                 )}
               />

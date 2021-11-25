@@ -1,6 +1,7 @@
 import Button from "components/Custom/Button";
 import CustomToggle from "components/Custom/CustomToggleSwitch";
 import Input from "components/Custom/Input";
+import { TextArea } from "components/Custom/TextArea";
 import MultiSelect from "components/Custom/MultiSelect";
 import Title from "components/Custom/Title";
 import CheckBox from "components/Custom/CheckBox";
@@ -366,7 +367,7 @@ console.log('filteredArray',filteredArray)
                 )}
               />
 
-              <Controller
+              {/* <Controller
                 name="description"
                 control={control}
                 rules={{
@@ -386,11 +387,28 @@ console.log('filteredArray',filteredArray)
                     inputStyle={{
                       height: { desktop: 120, laptop: 90, mobile:150 },
                     }}
-                    // IconEnd={
-                    //   <WrapArea>
-                    //     <TextAreaIcon />
-                    //   </WrapArea>
-                    // }
+                  />
+                )}
+              /> */}
+
+          <Controller
+                name="description"
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                defaultValue={newsById?.data?.description}
+                render={({ field }) => (
+                  <TextArea
+                    maxLength={800}
+                    {...field}
+                    defaultValue={newsById?.data?.description}
+                    message={t("requiredField")}
+                    error={!!errors.description}
+                    minHeight={'150px'}
+                    maxHeight={'300px'}
+                    resize={'vertical'}
+                    title={"Описание"}
                   />
                 )}
               />
