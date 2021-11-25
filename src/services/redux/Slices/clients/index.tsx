@@ -61,6 +61,7 @@ const initialState: IState = {
     qrCodeBar: false,
     note: "",
     referals: [],
+    clientLevels: [],
     headers: [
         { value: "Клиент", label: "fullName" },
         { value: "Сумма скидки", label: "discountSum" },
@@ -171,6 +172,9 @@ const clientsSlice = createSlice({
         },
         setAllClientsData: (state: IState, { payload }: PayloadAction<IClient[]>) => {
             state.allClients = [...payload]
+        },
+        setClientLevels: (state: IState, { payload }: any) => {
+            state.clientLevels = [...payload]
         }
 
     }
@@ -191,5 +195,6 @@ export const {
     setNote,
     setHeaders,
     setAllClients,
-    setAllClientsData } = clientsSlice.actions
+    setAllClientsData,
+    setClientLevels } = clientsSlice.actions
 export default clientsSlice.reducer

@@ -512,7 +512,8 @@
   "review23": "отзывов",
   "page": "Страница",
   "checkSelected": "Просмотр выбранных",
+  "changeStatus": "Изменить статус",
+  "checkAll": "Смотреть всех",
   "notfinduser": "По вашему запросу ничего не найдено",
-  "requirementLevl": "Условия статуса №{{level}}",
-  "changeStatus": "Изменить статус"
+  "requirementLevl": "Условия статуса №{{level}}"
 }

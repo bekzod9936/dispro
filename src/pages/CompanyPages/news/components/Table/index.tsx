@@ -54,13 +54,12 @@ const Table = ({ data, header2 }: Props) => {
       <MTable  {...getTableProps()}>
         <Thead header2={header2 ? true : false}>
           {headerGroups.map((headerGroup: any) => (
-           
             <Tr {...headerGroup.getHeaderGroupProps()}>
-              
               {headerGroup.headers.map((column: any) => (
                 <Th
                   {...column.getHeaderProps(column.getSortByToggleProps())}
                   active={column.isSorted}
+                   
                 >
                   {column.render("Header")}
                   <UpIcon up={column.isSortedDesc} active={column.isSorted} />
@@ -93,6 +92,7 @@ const Table = ({ data, header2 }: Props) => {
                     return (
                       <Td {...cell.getCellProps()}>
                         <TitleData>
+                          
                           {src ? <img src={src} /> : <DefaultImage />}
                           {title ? title : ""}
                         </TitleData>
@@ -101,20 +101,17 @@ const Table = ({ data, header2 }: Props) => {
                     );
                   } else if (cell.column.Header === "Описание") {
                     let checkDescription = cell?.row?.original?.fullData?.data?.description;
-                    let descriptiontoolTip=checkDescription;
+             
                     let description =
-                      checkDescription?.length > 80
-                        ? checkDescription.slice(0, 80) + "..."
+                      checkDescription?.length > 78
+                        ? checkDescription.slice(0, 78) + "..."
                         : checkDescription;
 
                     return (
                       <Td {...cell.getCellProps()}>
                            <AgeData>
                              <p style={{ width:'300px',whiteSpace: "pre-wrap"}}>{description}</p>
-                            {/* {checkDescription?.length > 30 ?   <ToolTip>
-                      <p style={{fontSize:'14px'}}>{description}</p>
-                      <ToolTipDescription><span style={{lineHeight:'21px',color:'#223367',fontSize: '14px',fontWeight:300}}>{descriptiontoolTip}</span></ToolTipDescription>
-                      </ToolTip>:<p style={{fontSize:'14px'}}>{description}</p>}  */}
+                       
                       </AgeData>
                         {cell.render("Cell")}
                       </Td>
@@ -138,6 +135,9 @@ const Table = ({ data, header2 }: Props) => {
                     let ageUnlimeted=cell?.row?.original?.fullData?.data?.ageUnlimited;
                     let stat=cell?.row?.original?.fullData?.data?.stat;
                     let date = cell?.row?.original?.fullData?.date;
+                   
+                    // const sortedActivities = date2.sort((a:any, b:any) => b - a)
+                    // console.log('newData',sortedActivities)
                     return (
                       <Td {...cell.getCellProps()}>
                         <AgeData>

@@ -15,8 +15,8 @@ import { useTranslation } from 'react-i18next'
 import Button from 'components/Custom/Button'
 import { DownModal } from './components/DownModal'
 import { selectAll, setCurrentClient } from 'services/redux/Slices/clients'
-import { useQuery } from 'react-query'
-import { fetchPersonalInfo } from 'services/queries/clientsQuery'
+import { useMutation, useQuery } from 'react-query'
+import { blockClient, fetchPersonalInfo } from 'services/queries/clientsQuery'
 import { BlockModal } from '../../components/BlockModal'
 import { VipModal } from '../../components/ClientsBar/components/VipModal'
 import Modal from 'components/Custom/Modal';
@@ -64,7 +64,7 @@ const Client = () => {
         }
     })
 
-
+    const { mutate } = useMutation((data: any) => blockClient(data))
 
     const handleClose = () => {
         dispatch(selectAll(false))
@@ -79,7 +79,19 @@ const Client = () => {
         setIsOpen(false)
     }
 
-
+    const handleBlock = () => {
+        if (client?.isPlBlocked) {
+            mutate({
+                isPlBlocked: false,
+                reason: "",
+                clientId: client.id
+            })
+            refetch()
+        }
+        else {
+            setBlockModal(true)
+        }
+    }
 
     const handleDownModal = (e: any, action: "other" | "points") => {
         e.stopPropagation()
@@ -92,6 +104,7 @@ const Client = () => {
             <Spinner />
         )
     }
+    console.log(isLoading);
 
     if (currentClient?.clientInfo.id != clientId && currentClient?.clientInfo.userId != clientUserId) {
         return (
@@ -211,8 +224,29 @@ const Client = () => {
                         </MClientInfo>
                         {width <= 1000 && width > 600 &&
                             <>
+                                <Modal open={vipModal}>
+                                    <VipModal
+                                        clientInfo={{
+                                            name: client?.firstName + " " + client?.lastName,
+                                            prevPercent: client?.obtainProgramLoyalty?.percent + "",
+                                            prevStatus: client?.obtainProgramLoyalty?.levelName + "",
+                                            status: client?.addInfo?.status + "",
+                                            value: client?.personalLoyaltyInfo.percent + ""
+                                        }}
+                                        state={vipModalState}
+                                        handleClose={() => setVipModal(false)}
+                                        refetch={refetch}
+                                        id={client?.id || 0} />
+                                </Modal>
+                                <BlockModal
+                                    isOpen={blockModal}
+                                    refetch={refetch}
+                                    clientId={client?.id || 0}
+                                    isBlocking={true}
+                                    handleClose={setBlockModal} />
                                 {client?.isPlBlocked ?
                                     <Button
+                                        onClick={() => handleBlock()}
                                         endIcon={<UnBlockIcon />}
                                         buttonStyle={{
                                             bgcolor: "rgba(15, 207, 11, 0.1)",
@@ -222,6 +256,7 @@ const Client = () => {
                                         {t("unBlock")}
                                     </Button> :
                                     <Button
+                                        onClick={() => handleBlock()}
                                         endIcon={<BlockIcon />}
                                         buttonStyle={{
                                             bgcolor: "rgba(255, 94, 104, 0.1)",
@@ -262,9 +297,13 @@ const Client = () => {
                                     weight: 500
                                 }}>
                                 {t("substractPoints")}
-
                             </Button>
                             <Button
+                                onClick={() => {
+                                    let res: "updating" | "selecting" = client?.personalLoyaltyInfo.isActive ? "updating" : "selecting"
+                                    setVipModalState(res)
+                                    setVipModal(true)
+                                }}
                                 endIcon={<CrownIcon />}
                                 buttonStyle={{
                                     bgcolor: "rgba(96, 110, 234, 0.1)",

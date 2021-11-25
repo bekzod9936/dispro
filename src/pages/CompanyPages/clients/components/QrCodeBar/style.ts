@@ -41,10 +41,10 @@ export const CancelButton = styled.div`
     &:hover {
         transform: scale(1.1, 1.1)
     }
-    @media (max-width: ${device.planshet}) {
+    /* @media (max-width: ${device.planshet}) {
         top: 25px;
         right: 30px;
-    }
+    } */
 `
 
 export const Content = styled.div`

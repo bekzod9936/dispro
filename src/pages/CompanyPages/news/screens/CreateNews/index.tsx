@@ -1,7 +1,8 @@
 import Button from "components/Custom/Button";
 import CustomToggle from "components/Custom/CustomToggleSwitch";
 import Input from "components/Custom/Input";
-import  {TextArea } from "components/Custom/TextArea";
+import { TextArea } from "components/Custom/TextArea";
+
 import MultiSelect from "components/Custom/MultiSelect";
 import Title from "components/Custom/Title";
 import CheckBox from "components/Custom/CheckBox";
@@ -68,12 +69,11 @@ import { useDispatch } from "react-redux";
 
 interface IOptionFields {
   push: boolean;
-  
 }
 
 const CreateNews = () => {
   const { t } = useTranslation();
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
   const history = useHistory();
   const [filter, setFilter] = React.useState<any>({});
   const { width } = useWindowWidth();
@@ -89,29 +89,27 @@ const CreateNews = () => {
   const [submit, setSubmit] = React.useState(false);
   const [formData, setFormData] = React.useState({});
   const [cancel, setCancel] = React.useState(false);
-  const [startDate,setStartDate]=React.useState<any>();
- const [description,setDescription]=React.useState<any>();
-  const [errorFileType,setErrorFileType]=React.useState<any>(false);
+  const [startDate, setStartDate] = React.useState<any>();
+  const [description, setDescription] = React.useState<any>();
+  const [errorFileType, setErrorFileType] = React.useState<any>(false);
   const handleBack = () => {
     history.goBack();
   };
   const { handleUpload, deleteImage, setLoading, isLoading } =
     useUploadImage(setImage);
- const fetchCreateNews = async (data: any) => {
-      const response = await partnerApi.post("/core/news", data)
-      return response;
-    }
+  const fetchCreateNews = async (data: any) => {
+    const response = await partnerApi.post("/core/news", data);
+    return response;
+  };
   // const { mutate } = useMutation((data: any) => fetchCreateNews(data));
   const { mutate } = useMutation(fetchCreateNews, {
-    onSuccess: response => {
-      console.log('datacreateNews',response);
-
+    onSuccess: (response) => {
+      console.log("datacreateNews", response);
     },
     onError: (error) => {
-      console.log('datacreateNewsEdit',error);
-        dispatch(setErrorMessage(true))
+      console.log("datacreateNewsEdit", error);
+      dispatch(setErrorMessage(true));
     },
-   
   });
 
   const {
@@ -127,25 +125,19 @@ const CreateNews = () => {
   });
 
   const handleUploadImg = (data: any) => {
-
-    if (data.target.files[0].type =="image/jpeg") {
+    if (data.target.files[0].type == "image/jpeg") {
       setFile(data.target.files[0]);
       setIsCropVisible(true);
-      setErrorFileType(false)
-   }
-   else if (data.target.files[0].type =="image/png"){
-    setFile(data.target.files[0]);
-    setIsCropVisible(true);
-    setErrorFileType(false)
-   }
-   else {
-    setErrorFileType(true)
-    setIsCropVisible(false);
-   }
-     
+      setErrorFileType(false);
+    } else if (data.target.files[0].type == "image/png") {
+      setFile(data.target.files[0]);
+      setIsCropVisible(true);
+      setErrorFileType(false);
+    } else {
+      setErrorFileType(true);
+      setIsCropVisible(false);
+    }
   };
-
-
 
   const handleOpenBlock = (e: any, action: "push") => {
     setOptionalFields((prev: IOptionFields) => ({
@@ -164,9 +156,9 @@ const CreateNews = () => {
     history.goBack();
   };
 
-  const handleDescription=(e:any)=>{
-    setDescription(e.target.value)
-  }
+  const handleDescription = (e: any) => {
+    setDescription(e.target.value);
+  };
 
   const submitNews = (data: any) => {
     let newsData = {
@@ -198,7 +190,7 @@ const CreateNews = () => {
       },
       pushUpTitle: data.descriptionPush,
     };
-    setStartDate(data.startDate)
+    setStartDate(data.startDate);
     setSubmit(true);
     setFormData(newsData);
   };
@@ -207,12 +199,10 @@ const CreateNews = () => {
     console.log(formData);
     mutate(formData);
 
-      setTimeout(() => history.goBack(), 1000);
-    
- 
+    setTimeout(() => history.goBack(), 1000);
   };
-  console.log(watch("image"));
-  console.log('image',image)
+  console.log(watch("description"));
+  console.log("errors", errors);
 
   return (
     <Wrapper>
@@ -227,8 +217,8 @@ const CreateNews = () => {
           <Title>Добавление новости</Title>
         </div>
       )}
-    
-<Modal modalStyle={{ bgcolor: "#fff" }} open={errorFileType}>
+
+      <Modal modalStyle={{ bgcolor: "#fff" }} open={errorFileType}>
         <WrapperModal>
           <p style={{ color: "black" }}>
             {t("Можно загрузить изображение формата jpeg или png")}
@@ -236,40 +226,41 @@ const CreateNews = () => {
           {width > 600 && (
             <>
               <UploadButton>
-                    <label htmlFor="uploadImg">Загрузить фото</label>
-                    <input
-                    
-                      onChange={handleUploadImg}
-                      type="file"
-                      id="uploadImg"
-                    />
-                    <UploadImage />
-                  </UploadButton>
-              </>
-              )}
+                <label htmlFor="uploadImg">Загрузить фото</label>
+                <input onChange={handleUploadImg} type="file" id="uploadImg" />
+                <UploadImage />
+              </UploadButton>
+            </>
+          )}
         </WrapperModal>
       </Modal>
 
       <Modal modalStyle={{ bgcolor: "#fff" }} open={submit}>
         <WrapperModal>
-          {width > 600 &&   <CloseButton onClick={() => setSubmit(false)}>
-            <CloseIcon />
-          </CloseButton>}
-        
-          <h3 style={{marginRight:'20px'}}>
-            {startDate > todayDate 
+          {width > 600 && (
+            <CloseButton onClick={() => setSubmit(false)}>
+              <CloseIcon />
+            </CloseButton>
+          )}
+
+          <h3 style={{ marginRight: "20px" }}>
+            {startDate > todayDate
               ? t(`Новость будет добавлена в раздел "В ожидании" `)
               : t("Новость будет опубликована сразу")}
           </h3>
           <p>
             {startDate > todayDate
-              ? t(`Новость будет опубликована ${dayjs(startDate).format("DD.MM.YYYY")} `)
+              ? t(
+                  `Новость будет опубликована ${dayjs(startDate).format(
+                    "DD.MM.YYYY"
+                  )} `
+                )
               : t(
                   "Новость перейдет в раздел Активные и будет доступна вашим клиентам в приложении"
                 )}
           </p>
           {width > 600 ? (
-            <>
+            <div style={{ display: "flex", justifyContent: "flex-end" }}>
               <Button
                 buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
                 margin={{ laptop: "0 22px 0 0" }}
@@ -286,7 +277,7 @@ const CreateNews = () => {
               >
                 Сохранить
               </Button>
-            </>
+            </div>
           ) : (
             <Buttons>
               <div className="upside">
@@ -396,11 +387,10 @@ const CreateNews = () => {
                   <UploadButton>
                     <label htmlFor="uploadImg">Загрузить фото</label>
                     <input
-                      {...register("image",  { required: true })}
+                      {...register("image", { required: true })}
                       value={image}
                       onChange={handleUploadImg}
                       type="file"
-                     
                       id="uploadImg"
                     />
                     <UploadImage />
@@ -455,138 +445,122 @@ const CreateNews = () => {
                   required: true,
                 }}
                 render={({ field }) => (
-                  <Input
-                    field={field}
-                    margin={{ laptop: "35px 0" }}
-                    label="Описание"
-                    type="textarea"
+                  <TextArea
+                    maxLength={800}
+                    {...field}
                     message={t("requiredField")}
                     error={!!errors.description}
-                    multiline={true}
-                    maxLength={800}
-                    inputStyle={{
-                      height: { desktop: 150, laptop: 90, mobile: 150 },
-                    }}
-               
+                    minHeight={'150px'}
+                    maxHeight={'300px'}
+                    resize={'vertical'}
+                    title={"Описание"}
                   />
                 )}
               />
-
-{/* <TextArea 
-  maxLength={80}
-  
-  min-height={80}
-  {...register("description",  { required: true })}
-
-  title={'Описание'}
-/> */}
               {width > 600 ? (
-
                 <WrapInputs>
                   <Label>{t("chose_date")}</Label>
                   <div>
-                  <Controller
-                name="startDate"
-                control={control}
-                rules={{
-                  required: true,
-                }}
-                render={({ field }) => (
-                    <Input
-                    field={field}
-                      type="date"
-                    
-                      min={todayDate}
-                      error={!!errors.startDate}
-                      // message={t("requiredField")}
-                      IconStart={<WrapDate>{t("from")}</WrapDate>}
-                      inputStyle={{
-                        inpadding: "0 10px 0 0",
+                    <Controller
+                      name="startDate"
+                      control={control}
+                      rules={{
+                        required: true,
                       }}
+                      render={({ field }) => (
+                        <Input
+                          field={field}
+                          type="date"
+                          min={todayDate}
+                          error={!!errors.startDate}
+                          // message={t("requiredField")}
+                          IconStart={<WrapDate>{t("from")}</WrapDate>}
+                          inputStyle={{
+                            inpadding: "0 10px 0 0",
+                          }}
+                        />
+                      )}
                     />
-                )} />
-   <Controller
-                  name="endDate"
-                control={control}
-                rules={{
-                  required: true,
-                }}
-                render={({ field }) => (
-                    <Input
-                      type="date"
-                      field={field}
-                      error={!!errors.endDate}
-                      // message={t("requiredField")}
-                      min={watch("startDate")}
-                   
-                      // required={true}
-                      margin={{ laptop: "0 0 0 15px" }}
-                      IconStart={<WrapDate>{t("to")}</WrapDate>}
-                      inputStyle={{
-                        inpadding: "0 10px 0 0",
+                    <Controller
+                      name="endDate"
+                      control={control}
+                      rules={{
+                        required: true,
                       }}
-                   
+                      render={({ field }) => (
+                        <Input
+                          type="date"
+                          field={field}
+                          error={!!errors.endDate}
+                          // message={t("requiredField")}
+                          min={watch("startDate")}
+                          // required={true}
+                          margin={{ laptop: "0 0 0 15px" }}
+                          IconStart={<WrapDate>{t("to")}</WrapDate>}
+                          inputStyle={{
+                            inpadding: "0 10px 0 0",
+                          }}
+                        />
+                      )}
                     />
-                )}
-                />
                   </div>
                 </WrapInputs>
               ) : (
                 <WrapInputs>
-                <Label>{t("chose_date")}</Label>
-                <div>
-                <Controller
-              name="startDate"
-              control={control}
-              rules={{
-                required: true,
-              }}
-              render={({ field }) => (
-                  <Input
-                  field={field}
-                    type="date"
-                    width={{
-                      maxwidth: 180,
-                      minwidth:130,
-                    }}
-                    min={todayDate}
-                    error={!!errors.name}
-                    // message={t("requiredField")}
-                    IconStart={<WrapDate>{t("from")}</WrapDate>}
-                    inputStyle={{
-                      inpadding: "0 10px 0 0",
-                    }}
-                  />
-              )} />
- <Controller
-                name="endDate"
-              control={control}
-              rules={{
-                required: true,
-              }}
-              render={({ field }) => (
-                  <Input
-                    type="date"
-                    field={field}
-                    error={!!errors.name}
-                    // message={t("requiredField")}
-                    min={watch("startDate")}
-                    width={{
-                      maxwidth: 180,
-                      minwidth:130,
-                    }}
-                    // required={true}
-                    margin={{ laptop: "0 0 0 15px" }}
-                    IconStart={<WrapDate>{t("to")}</WrapDate>}
-                    inputStyle={{
-                      inpadding: "0 10px 0 0",
-                    }}
-                 
-                  />
-              )}
-              />
-                </div>
-              </WrapInputs>
+                  <Label>{t("chose_date")}</Label>
+                  <div>
+                    <Controller
+                      name="startDate"
+                      control={control}
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field }) => (
+                        <Input
+                          field={field}
+                          type="date"
+                          width={{
+                            maxwidth: 180,
+                            minwidth: 130,
+                          }}
+                          min={todayDate}
+                          error={!!errors.name}
+                          // message={t("requiredField")}
+                          IconStart={<WrapDate>{t("from")}</WrapDate>}
+                          inputStyle={{
+                            inpadding: "0 10px 0 0",
+                          }}
+                        />
+                      )}
+                    />
+                    <Controller
+                      name="endDate"
+                      control={control}
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field }) => (
+                        <Input
+                          type="date"
+                          field={field}
+                          error={!!errors.name}
+                          // message={t("requiredField")}
+                          min={watch("startDate")}
+                          width={{
+                            maxwidth: 180,
+                            minwidth: 130,
+                          }}
+                          // required={true}
+                          margin={{ laptop: "0 0 0 15px" }}
+                          IconStart={<WrapDate>{t("to")}</WrapDate>}
+                          inputStyle={{
+                            inpadding: "0 10px 0 0",
+                          }}
+                        />
+                      )}
+                    />
+                  </div>
+                </WrapInputs>
               )}
 
               <WrapSelect>
@@ -634,7 +608,7 @@ const CreateNews = () => {
                   <h6 style={{ width: "80%" }}>
                     {t("Использовать новость в формате Push-уведомления")}
                   </h6>
-                  <CustomToggle 
+                  <CustomToggle
                     onChange={(e: any) => handleOpenBlock(e, "push")}
                   />
                 </PushBlock>
@@ -648,12 +622,12 @@ const CreateNews = () => {
                         margin={{ laptop: "35px 0" }}
                         label="Текст Push-уведомления"
                         type="textarea"
-                        required={optionalFields.push ? true:false}
+                        required={optionalFields.push ? true : false}
                         multiline={true}
                         inputStyle={{
                           height: { desktop: 120, laptop: 90, mobile: 120 },
                         }}
-                        // IconEnd={width>600 ? 
+                        // IconEnd={width>600 ?
                         //   <WrapArea>
                         //     <TextAreaIcon />
                         //   </WrapArea>:''
@@ -671,7 +645,6 @@ const CreateNews = () => {
                     render={({ field }) => (
                       <MultiSelect
                         field={field}
-                      
                         isMulti={true}
                         options={days}
                         label="Укажите дни"
@@ -738,7 +711,7 @@ const CreateNews = () => {
                             inpadding: "2px 10px 2px 60px",
                             placewieght: "500",
                           }}
-                          placeholder={t("choose_branch")}
+                          placeholder={t("Выберите филиалы")}
                           margin={{
                             laptop: "20px 0 25px",
                           }}

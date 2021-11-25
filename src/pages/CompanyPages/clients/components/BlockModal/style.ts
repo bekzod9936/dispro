@@ -33,4 +33,7 @@ export const Wrapper = styled.form`
         align-items: center;
         justify-content: flex-end;
     }
+    .clientInfo {
+        
+    }
 `
