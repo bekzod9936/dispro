@@ -120,6 +120,7 @@ console.log('gender',currentNews?.genderType )
                 alignItems: "center",
                 justifyContent: "flex-end",
                 marginBottom:'10px',
+              
               }}
             >
               <Button
@@ -142,7 +143,7 @@ console.log('gender',currentNews?.genderType )
                 alignItems: "center",
                 justifyContent: "flex-end",
                 marginBottom:'10px',
-            
+        
               }}
             >
               <Button
@@ -150,6 +151,7 @@ console.log('gender',currentNews?.genderType )
                 buttonStyle={{
                   color: "#fff",
                   bgcolor: "#606EEA",
+                  shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)'
                   
                 }}
                 startIcon={<WatchIconsWhite />}
@@ -167,6 +169,7 @@ console.log('gender',currentNews?.genderType )
                 justifyContent: "flex-end",
                 marginTop: "25px",
                 marginBottom:'10px',
+           
               }}
             >
               <Button
@@ -188,12 +191,14 @@ console.log('gender',currentNews?.genderType )
               alignItems: "center",
               justifyContent: "flex-end",
               paddingTop: "5%",
+              
+         
             }}
           >
             {location.pathname !== "/news/archive" && (
               <Button
                 onClick={() => setDeleteOpen(true)}
-                buttonStyle={{ color: "#ffffff", bgcolor: "#FF5E68" }}
+                buttonStyle={{ color: "#ffffff", bgcolor: "#FF5E68" ,shadow: '0px 4px 9px rgba(255, 94, 104, 0.46)'}}
                 startIcon={<DeleteIcon />}
               >
                 Удалить
@@ -202,7 +207,7 @@ console.log('gender',currentNews?.genderType )
             {location.pathname === "/news/archive" && (
               <Button
                 onClick={() => restoreNews()}
-                buttonStyle={{ color: "#ffffff", bgcolor: "#606EEA" }}
+                buttonStyle={{ color: "#ffffff", bgcolor: "#606EEA",shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)' }}
                 startIcon={<RepairNewsIcon />}
               >
                 Восстановить новость
@@ -224,7 +229,7 @@ console.log('gender',currentNews?.genderType )
             Отмена
           </Button>
           <Button
-            buttonStyle={{ bgcolor: "#FF5E68 " }}
+            buttonStyle={{ bgcolor: "#FF5E68 " ,shadow: '0px 4px 9px rgba(255, 94, 104, 0.46)'}}
             onClick={onDelete}
             startIcon={<DeleteIcon />}
           >

@@ -28,7 +28,7 @@ export const ResetModal = ({ open, client, onClose, refetch }: IProps) => {
 
     const handleRemoveStatus = async () => {
         await mutate({
-            clientId: client.id,
+            clientIds: [client.id],
             isActive: false,
             percent: 0
         })

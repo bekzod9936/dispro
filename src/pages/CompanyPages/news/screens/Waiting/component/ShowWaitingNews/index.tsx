@@ -130,6 +130,7 @@ const ShowWaitingNews = () => {
                 buttonStyle={{
                   color: "white",
                   bgcolor: "#606EEA",
+                  shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)'
                 }}
                 startIcon={<PenIcon />}
               >
@@ -149,7 +150,7 @@ const ShowWaitingNews = () => {
             >
          <Button
                 onClick={() => setDeleteOpen(true)}
-                buttonStyle={{ color: "#ffffff", bgcolor: "#FF5E68" }}
+                buttonStyle={{ color: "#ffffff", bgcolor: "#FF5E68",   shadow: '0px 4px 9px rgba(255, 94, 104, 0.46)'}}
                 startIcon={<DeleteIcon />}
               >
                 Удалить
@@ -172,7 +173,7 @@ const ShowWaitingNews = () => {
             Отмена
           </Button>
           <Button
-            buttonStyle={{ bgcolor: "#FF5E68 " }}
+            buttonStyle={{ bgcolor: "#FF5E68 ",shadow: '0px 4px 9px rgba(255, 94, 104, 0.46)' }}
             onClick={()=>onDelete(newsById?.data?.id)}
             startIcon={<DeleteIcon />}
           >
