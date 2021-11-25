@@ -38,6 +38,8 @@ import { numberWith } from "services/utils";
 import FullModal from "components/Custom/FullModal";
 import { ViewAll } from "../ViewAll";
 import { useTranslation } from "react-i18next";
+import { useMutation } from "react-query";
+import { blockClient } from "services/queries/clientsQuery";
 interface IProps {
     refetch: any;
 }
@@ -101,8 +103,15 @@ export const ClientsBar = ({ refetch }: IProps) => {
     };
 
 
-    const handleUnBlock = () => {
-        setBlockModal(true)
+    const { mutate } = useMutation((data: any) => blockClient(data))
+
+    const handleUnblock = () => {
+        mutate({
+            clientId: client.id,
+            isPlBlocked: false,
+            reason: ""
+        })
+        refetch()
     }
 
     return (
@@ -152,7 +161,7 @@ export const ClientsBar = ({ refetch }: IProps) => {
                                         <p>Клиент заблокирован</p>
                                         {client.blockedReason && <span>{client.blockedReason}</span>}
                                         <Button
-                                            onClick={handleUnBlock}
+                                            onClick={handleUnblock}
                                             margin={{ laptop: "20px 0" }}
                                             buttonStyle={{
                                                 color: "#606EEA",
