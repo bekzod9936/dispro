@@ -58,11 +58,7 @@ const Table = ({ data, header2 }: Props) => {
               {headerGroup.headers.map((column: any) => (
                 <Th
                   {...column.getHeaderProps(column.getSortByToggleProps())}
-                  active={column.isSorted
-                    ? column.isSortedAsc
-                      ? " (ASC)"
-                      : " (DESC)"
-                    : "()"}
+                  active={column.isSorted}
                    
                 >
                   {column.render("Header")}
@@ -96,6 +92,7 @@ const Table = ({ data, header2 }: Props) => {
                     return (
                       <Td {...cell.getCellProps()}>
                         <TitleData>
+                          
                           {src ? <img src={src} /> : <DefaultImage />}
                           {title ? title : ""}
                         </TitleData>
@@ -104,7 +101,7 @@ const Table = ({ data, header2 }: Props) => {
                     );
                   } else if (cell.column.Header === "Описание") {
                     let checkDescription = cell?.row?.original?.fullData?.data?.description;
-                    let descriptiontoolTip=checkDescription;
+             
                     let description =
                       checkDescription?.length > 80
                         ? checkDescription.slice(0, 80) + "..."
@@ -114,10 +111,7 @@ const Table = ({ data, header2 }: Props) => {
                       <Td {...cell.getCellProps()}>
                            <AgeData>
                              <p style={{ width:'300px',whiteSpace: "pre-wrap"}}>{description}</p>
-                            {/* {checkDescription?.length > 30 ?   <ToolTip>
-                      <p style={{fontSize:'14px'}}>{description}</p>
-                      <ToolTipDescription><span style={{lineHeight:'21px',color:'#223367',fontSize: '14px',fontWeight:300}}>{descriptiontoolTip}</span></ToolTipDescription>
-                      </ToolTip>:<p style={{fontSize:'14px'}}>{description}</p>}  */}
+                       
                       </AgeData>
                         {cell.render("Cell")}
                       </Td>
