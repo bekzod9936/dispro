@@ -54,13 +54,16 @@ const Table = ({ data, header2 }: Props) => {
       <MTable  {...getTableProps()}>
         <Thead header2={header2 ? true : false}>
           {headerGroups.map((headerGroup: any) => (
-           
             <Tr {...headerGroup.getHeaderGroupProps()}>
-              
               {headerGroup.headers.map((column: any) => (
                 <Th
                   {...column.getHeaderProps(column.getSortByToggleProps())}
-                  active={column.isSorted}
+                  active={column.isSorted
+                    ? column.isSortedAsc
+                      ? " (ASC)"
+                      : " (DESC)"
+                    : "()"}
+                   
                 >
                   {column.render("Header")}
                   <UpIcon up={column.isSortedDesc} active={column.isSorted} />

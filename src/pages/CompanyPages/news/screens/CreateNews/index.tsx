@@ -269,7 +269,8 @@ const CreateNews = () => {
                 )}
           </p>
           {width > 600 ? (
-            <>
+            <div style={{display:'flex',justifyContent:'flex-end'}}>
+          
               <Button
                 buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
                 margin={{ laptop: "0 22px 0 0" }}
@@ -286,7 +287,8 @@ const CreateNews = () => {
               >
                 Сохранить
               </Button>
-            </>
+              </div>
+            
           ) : (
             <Buttons>
               <div className="upside">
@@ -738,7 +740,7 @@ const CreateNews = () => {
                             inpadding: "2px 10px 2px 60px",
                             placewieght: "500",
                           }}
-                          placeholder={t("choose_branch")}
+                          placeholder={t("Выберите филиалы")}
                           margin={{
                             laptop: "20px 0 25px",
                           }}
