@@ -201,3 +201,7 @@ export const UploadButton = styled.div`
     margin-top: 5px;
   }
 `;
+
+export const EditLogo = styled.img`
+	object-fit: cover;
+`;

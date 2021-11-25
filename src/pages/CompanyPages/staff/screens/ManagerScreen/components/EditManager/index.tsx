@@ -16,6 +16,7 @@ import {
 	Header,
 	UploadButton,
 	ErrorMessage,
+	EditLogo,
 } from './style';
 import { IconButton } from '@material-ui/core';
 import MultiSelect from 'components/Custom/MultiSelect';
@@ -198,7 +199,7 @@ const EditManager = ({ openEdit }: IProps) => {
 											)}
 											{!imgError && (
 												<ImageBlock>
-													<img
+													<EditLogo
 														src={logo}
 														alt='logo'
 														onError={() => {

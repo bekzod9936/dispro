@@ -264,7 +264,11 @@ const ManagerBar: React.FC<any> = ({}) => {
 			<Modal open={open}>
 				<ModalContent>
 					<ModalBody>
-						<BarTitle>Вы уверены что хотите удалить кассира?</BarTitle>
+						<BarTitle>
+							{selectedManagers.length === 1
+								? `Вы уверены что хотите удалить менеджера?`
+								: `Вы уверены что хотите удалить менеджеров?`}
+						</BarTitle>
 						<Break height={15} />
 						<ManagerCollection>
 							{selectedManagers.length > 1
