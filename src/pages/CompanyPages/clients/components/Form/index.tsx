@@ -81,17 +81,16 @@ export const MobileForm = ({ open, action, onClose, client, refetch }: IProps) =
     const handleSubmit = (e: any) => {
         e.preventDefault();
         if (action === 3) {
+            let ids = selectedClients.map(el => el.id)
             if (selectedClients.length > 1) {
-                selectedClients.forEach(el => {
-                    mutate({
-                        clientId: el.id,
-                        isActive: true,
-                        percent: percent
-                    })
+                mutate({
+                    clientIds: [ids],
+                    isActive: true,
+                    percent: percent
                 })
             } else {
                 mutate({
-                    clientId: client.id,
+                    clientIds: [client.id],
                     isActive: true,
                     percent: percent,
                 })

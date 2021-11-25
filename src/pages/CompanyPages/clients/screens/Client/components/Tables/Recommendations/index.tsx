@@ -19,6 +19,7 @@ import Pagination from 'components/Custom/Pagination'
 import { useWindowSize } from 'pages/CompanyPages/clients/hooks/useWindowSize'
 import useWindowWidth from 'services/hooks/useWindowWidth'
 import { DefaultImg } from 'pages/CompanyPages/clients/components/MobileTable/style'
+import clientDefault from "assets/images/staff_default.png"
 
 const Recommendations = () => {
     const { t } = useTranslation()
@@ -191,7 +192,11 @@ const Recommendations = () => {
                                             return (
                                                 <Td {...cell.getCellProps()}>
                                                     <div>
-                                                        <img src={cell.row?.original?.image} alt="someImage" />
+                                                        <img src={cell.row?.original?.image}
+                                                            onError={(e: any) => {
+                                                                e.target.onerror = null;
+                                                                e.target.src = clientDefault
+                                                            }} alt="someImage" />
                                                         {cell.render('Cell')}
                                                     </div>
                                                 </Td>
@@ -213,7 +218,10 @@ const Recommendations = () => {
                     {recomendations.map((el: any, index: number) => (
                         <MTRow isEven={!!((index + 1) % 2)}>
                             <div className="recRow">
-                                {el.image ? <img src={el.image} alt="image" /> : <DefaultImg />}
+                                {el.image ? <img src={el.image} onError={(e: any) => {
+                                    e.target.onerror = null;
+                                    e.target.src = clientDefault
+                                }} alt="image" /> : <DefaultImg />}
                                 <div className="right">
                                     <h3>{el.client}</h3>
                                     <p>{t("level")}: <span>{el.level}</span></p>

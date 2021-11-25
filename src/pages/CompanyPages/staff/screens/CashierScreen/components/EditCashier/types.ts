@@ -1,5 +1,6 @@
 export interface IProps {
   openEdit: boolean;
+  refetch?: () => void
 }
 
 export interface FormProps {

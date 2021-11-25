@@ -18,6 +18,7 @@ const ManagerScreen = () => {
 	const openManager = useAppSelector((state) => state.staffs.openManager);
 	const query = useAppSelector((state) => state.staffs.query);
 	const managers = useAppSelector((state) => state.staffs.managers);
+	const [isImg, setImg] = useState(false);
 
 	console.log('managers', managers);
 

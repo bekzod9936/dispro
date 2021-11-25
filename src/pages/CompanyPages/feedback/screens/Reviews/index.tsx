@@ -136,7 +136,7 @@ const Reviews = () => {
               <NewPagination
                 onChange={handleChangePage}
                 currentPage={Number(filterValues.page)}
-                totalCount={Number(totalCount)}
+                totalCount={Math.ceil(totalCount / intialFilter?.perPage)}
               />
             </WrapPag>
           ) : null}

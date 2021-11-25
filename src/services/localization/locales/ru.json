@@ -113,6 +113,8 @@
   "assertCode": "Код подтверждения",
   "enterAssertCode": "Введите код подтверждения",
   "back": "Назад",
+  "ago": "назад",
+  "day": "дня",
   "addCompany": "Добавить компанию",
   "registration": "Регистрация",
   "fillAllPlease": "Пожалуйста заполните все поля",
@@ -509,7 +511,9 @@
   "review1": "отзыва",
   "review23": "отзывов",
   "page": "Страница",
-  "requirementLevl": "Условия статуса №{{level}}",
   "checkSelected": "Просмотр выбранных",
-  "changeStatus": "Изменить статус"
+  "changeStatus": "Изменить статус",
+  "checkAll": "Смотреть всех",
+  "notfinduser": "По вашему запросу ничего не найдено",
+  "requirementLevl": "Условия статуса №{{level}}"
 }

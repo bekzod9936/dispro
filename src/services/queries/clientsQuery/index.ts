@@ -30,7 +30,7 @@ export const fetchClients = async (page: number, url: string) => {
 
 export const searchClients = async (queryString: string) => {
   const response = await partnerApi(
-    `/core/client/by/company?perPage=3&key=${queryString}`
+    `/core/client/by/company?perPage=5&key=${queryString}`
   );
   return response;
 };
@@ -87,5 +87,5 @@ export const fetchQrCode = async () => {
 
 export const fetchAllClients = async (url: string) => {
   const response = await partnerApi(`/core/client/by/company?${url}`);
-  return response.data
+  return response
 }

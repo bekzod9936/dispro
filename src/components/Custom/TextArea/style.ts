@@ -1,5 +1,8 @@
 import styled from "styled-components";
+import { InputAdornment } from '@material-ui/core';
 import { device } from '../../../styles/device';
+import { ReactComponent as TextArea } from 'assets/icons/IconsInfo/textarea.svg';
+import Textt from 'assets/icons/IconsInfo/textarea.svg';
 export interface ITextAreaProps {
     width?: string,
     border?: string,
@@ -15,6 +18,7 @@ export interface ITextAreaProps {
     resize?: string,
     required?:boolean,
     outline?: string,
+    error?: boolean
     focus?: {
         border?: string,
 
@@ -48,11 +52,10 @@ export const Label = styled.label`
 
 
 export const MTextArea = styled.textarea`
-    border: ${({ border }: ITextAreaProps) => border || "1px solid #C2C2C2;"};
-    
+    z-index:14;
+    border: ${({ error }: ITextAreaProps) => error ? "1px solid red" : "1px solid #C2C2C2;"};
     color: ${({ color }: ITextAreaProps) => color || "#223367"};
     resize: ${({resize}: ITextAreaProps) => resize || "none"};
-    
     box-sizing: border-box;
     border-radius: ${({borderRadius}: ITextAreaProps) => borderRadius || "14px"};
     margin: ${({margin}: ITextAreaProps) => margin || "0"};
@@ -65,35 +68,33 @@ export const MTextArea = styled.textarea`
     min-height: ${({minHeight}: ITextAreaProps) => minHeight || "none"};
     max-height: ${({maxHeight}: ITextAreaProps) => maxHeight || "none"};
     outline: ${({outline}: ITextAreaProps) => outline || "none"};
-    /* position: relative;
-    max-height: 500px; */
-    /* &::after {
-        content: '';
-        background: #C2C2C2;
-        width: 23px;
-        height: 2px;
-        z-index: 100;
-        position: absolute;
-        right: 20px;
-        bottom: 20px;
-    } */
+   
     &::-webkit-resizer {
-        appearance: none;
-        display: none;
+        background-image: url(${Textt});
+        height:20px;
+        width:20px;
+     
     }
-    &:focus {
+    &::-webkit-scrollbar {
+  width:20px;
+}
+    /* &:focus {
         border: ${({focus}: ITextAreaProps) => focus?.border || "1px solid #C2C2C2;"};
-    }
+    } */
 
 `
 
 export const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
+    position: relative;
     margin: ${({margin}: IContainerProps) => margin || "25px 0"};
     width: ${({width}: IContainerProps) => width || "100%"};
-    max-width: ${({maxWidth}: IContainerProps) => maxWidth || "440px"};
+    max-width: ${({maxWidth}: IContainerProps) => maxWidth || "100%"};
+    resize: ${({resize}: ITextAreaProps) => resize || "none"};
 `
+
+
 
 export const Message = styled.div`
   position: absolute;
@@ -103,6 +104,56 @@ export const Message = styled.div`
   overflow-wrap: normal;
   display: flex;
   margin-top: 5px;
+  font-size:16px;
 
-  
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    font-size:14px;
+  }  
+`;
+
+
+export const Icons = styled.div`
+   color: #606eea !important;
+
+    width: 100%;
+    position: absolute;
+    padding-left: 10px;
+    bottom:10%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 1;
+    font-size: '16px' !important;
+    font-weight: '500' !important;
+    color: '#223367' !important;
+    @media (max-width: ${device.mobile}) {
+      font-size: '14px'!important;
+    }
+    @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+      font-size: 14px !important;
+    }
+
+
+`;
+
+export const WrapArea = styled.div`
+  display: flex;
+  flex: 1;
+  align-items: flex-end;
+  margin: 65px 10px 0 0;
+  @media (max-width: ${device.mobile}) {
+    margin: 130px 5px 0 0;
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    margin: 30px 10px 0 0;
+  }
+  @media (min-width: ${device.laptop}) {
+    margin: 90px 10px 0 0;
+  }
+`;
+export const TextAreaIcon = styled(TextArea)`
+display:'flex';
+flex-direction:column;
+position: relative;
+
 `;

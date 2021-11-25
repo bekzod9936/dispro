@@ -16,6 +16,7 @@ import {
 	Header,
 	UploadButton,
 	ErrorMessage,
+	EditLogo,
 } from './style';
 import { IconButton } from '@material-ui/core';
 import MultiSelect from 'components/Custom/MultiSelect';
@@ -41,19 +42,24 @@ const EditManager = ({ openEdit }: IProps) => {
 	const dispatch = useAppDispatch();
 	const { t } = useTranslation();
 	const { branches } = useStaff();
-	const [logo, setLogo] = useState('');
-	const [file, setFile] = useState('');
-	const [isCropVisible, setIsCropVisible] = useState(false);
 	const selectedManagers = useAppSelector(
 		(state) => state.staffs.selectedManagers
 	);
+	const mLogo = selectedManagers ? selectedManagers[0]?.logo : null;
+	const [imgError, setImgError] = useState(false);
+	const [logo, setLogo] = useState(mLogo);
+	const [file, setFile] = useState('');
+	const [isCropVisible, setIsCropVisible] = useState(false);
+
+	useEffect(() => {
+		setLogo(mLogo);
+	}, [mLogo]);
 
 	const { editManager } = useManagers({
 		page: 1,
 		query: '',
 		period: '',
 	});
-
 	const {
 		control,
 		handleSubmit,
@@ -68,12 +74,17 @@ const EditManager = ({ openEdit }: IProps) => {
 		reValidateMode: 'onChange',
 	});
 
+	const storeName = [
+		{
+			label: selectedManagers?.length ? selectedManagers[0].store.name : null,
+		},
+	];
+
 	const onSave = (data: FormProps) => {
-		console.log(data, 'data form');
 		editManager.mutate({
 			logo: logo,
 			id: selectedManagers[0].id,
-			storeName: data.storeName,
+			storeId: data.storeId.value,
 			firstName: data.firstName,
 			lastName: data.lastName,
 			comment: data.comment,
@@ -84,20 +95,14 @@ const EditManager = ({ openEdit }: IProps) => {
 	useEffect(() => {
 		if (selectedManagers?.length) {
 			let firstname = selectedManagers[0].firstName.split(' ')[0];
-			let choseBranch: any = branches.find(
-				(item: any) => item.value == selectedManagers[0].storeId
-			);
 			const tel: string = String(selectedManagers[0].telNumber).slice(4);
-			// setValue('logo', selectedManagers[0]?.logo);
 			setValue('firstName', firstname);
 			setValue('lastName', selectedManagers[0].lastName);
 			setValue('comment', selectedManagers[0].comment);
 			setValue('telNumber', tel);
-			// setValue('storeName', selectedManagers[0].store.name);
+			setValue('storeId', storeName);
 		}
 	}, [selectedManagers]);
-
-	// console.log(selectedManagers[0].store.name);
 
 	const tel: any = getValues();
 
@@ -113,8 +118,10 @@ const EditManager = ({ openEdit }: IProps) => {
 		}
 	}, [checkPhone.check, watch('telNumber')]);
 
-	const { handleUpload, deleteImage, setLoading, isLoading } =
-		useUploadImage(setLogo);
+	const { handleUpload, deleteImage, setLoading, isLoading } = useUploadImage(
+		setLogo,
+		setImgError
+	);
 
 	const handleDelete = () => {
 		setFile('');
@@ -150,7 +157,7 @@ const EditManager = ({ openEdit }: IProps) => {
 									render={({ field }) => (
 										<Container>
 											<Text>Фотографии</Text>
-											{!isLoading && !logo && (
+											{imgError && !isLoading && (
 												<div>
 													<Header>
 														<p>
@@ -162,7 +169,7 @@ const EditManager = ({ openEdit }: IProps) => {
 													<UploadButton>
 														<label htmlFor='uploadImg'>Загрузить фото</label>
 														<input
-															{...register('logo', { required: true })}
+															{...register('logo', { required: false })}
 															onChange={handleUploadImg}
 															type='file'
 															id='uploadImg'
@@ -174,22 +181,12 @@ const EditManager = ({ openEdit }: IProps) => {
 													)}
 												</div>
 											)}
-
 											{isLoading && (
 												<div style={{ width: '100%', height: 140 }}>
 													<Spinner size={30} />
 												</div>
 											)}
-											{logo && (
-												<ImageBlock>
-													<ImageLazyLoad
-														objectFit='contain'
-														src={logo}
-														alt='logo'
-													/>
-													<DeleteIcon onClick={handleDelete} />
-												</ImageBlock>
-											)}
+
 											{file && (
 												<StaffCropCustomModal
 													setIsLoading={setLoading}
@@ -199,6 +196,18 @@ const EditManager = ({ openEdit }: IProps) => {
 													open={isCropVisible}
 													src={file}
 												/>
+											)}
+											{!imgError && (
+												<ImageBlock>
+													<EditLogo
+														src={logo}
+														alt='logo'
+														onError={() => {
+															setImgError(true);
+														}}
+													/>
+													<DeleteIcon onClick={handleDelete} />
+												</ImageBlock>
 											)}
 										</Container>
 									)}
@@ -277,14 +286,15 @@ const EditManager = ({ openEdit }: IProps) => {
 						<FormRow>
 							<Controller
 								control={control}
-								name='storeName'
+								name='storeId'
 								rules={{
 									required: true,
 								}}
+								defaultValue={storeName}
 								render={({ field }) => {
 									return (
 										<MultiSelect
-											defaultValue={'storeName'}
+											defaultValue={storeName}
 											icon={<Market />}
 											selectStyle={{
 												bgcolor: '#eff0fd',
@@ -303,7 +313,7 @@ const EditManager = ({ openEdit }: IProps) => {
 												laptop: '20px 0 25px',
 											}}
 											message={t('requiredField')}
-											error={errors.storeName ? true : false}
+											error={errors.storeId ? true : false}
 											field={field}
 											isClearable={false}
 										/>

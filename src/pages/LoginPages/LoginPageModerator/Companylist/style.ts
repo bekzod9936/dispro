@@ -19,6 +19,7 @@ export const Main = styled.div`
   padding-bottom: 25px;
   overflow-y: auto;
   overflow-x: hidden;
+  border-radius: inherit;
   flex: 100%;
   -webkit-overflow-scrolling: touch;
   ::-webkit-scrollbar {

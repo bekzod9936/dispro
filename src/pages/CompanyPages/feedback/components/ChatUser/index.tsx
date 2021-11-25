@@ -1,9 +1,18 @@
-import { Container, Name, Text, Wrapper } from './style';
-import { Avatar } from '../../style';
 import ImageLazyLoad from 'components/Custom/ImageLazyLoad/ImageLazyLoad';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import defuserman from 'assets/icons/defuserman.png';
 import defuserwoman from 'assets/icons/defuserwoman.png';
+import {
+  Container,
+  Name,
+  Text,
+  Wrapper,
+  OneCheckIcon,
+  DoubleCheckIcoon,
+  UnreadIcon,
+} from './style';
+import { Avatar } from '../../style';
+
 interface Props {
   date?: string;
   firstName?: string;
@@ -57,7 +66,8 @@ const ChatUser = ({
       </Avatar>
       <Wrapper>
         <Name>
-          {firstName} {lastName}
+          {firstName} {lastName} <OneCheckIcon /> <DoubleCheckIcoon />
+          <UnreadIcon />
         </Name>
         <Text>{lastMsg}</Text>
       </Wrapper>

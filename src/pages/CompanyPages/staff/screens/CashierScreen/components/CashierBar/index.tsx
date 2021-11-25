@@ -255,7 +255,11 @@ const CashierBar = () => {
 			<Modal open={open}>
 				<ModalContent>
 					<ModalBody>
-						<BarTitle>Вы уверены что хотите удалить кассира?</BarTitle>
+						<BarTitle>
+							{selectedCashiers.length === 1
+								? `Вы уверены что хотите удалить кассира?`
+								: `Вы уверены что хотите удалить кассиров?`}
+						</BarTitle>
 						<Break height={15} />
 						{selectedCashiers.length > 1
 							? selectedCashiers.map((item: any, index: number) => {

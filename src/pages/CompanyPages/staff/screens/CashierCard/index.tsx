@@ -74,13 +74,14 @@ const CashierBalls = lazy(() => import('./screens/CashierBalls'));
 const CashierFeedback = lazy(() => import('./screens/CashierFeedback'));
 
 const CashierCard = () => {
-	const history = useHistory();
+	const history: any = useHistory();
 	const { branches } = useStaff();
 	const dispatch = useAppDispatch();
 	const { t } = useTranslation();
 	const { pathname, state }: any = useLocation();
 	const { menuItems } = useStaffRoute();
-	const { isLoading, openQr, setOpenQr, handleOption } = useCashierCard();
+	const { isLoading, openQr, setOpenQr, handleOption, refetch } =
+		useCashierCard();
 	const { staffData } = useAppSelector((state) => state.staffs);
 	const prevPage: any = state?.prevPage || '/staff';
 	const cashierId: any = state?.id;
@@ -92,6 +93,10 @@ const CashierCard = () => {
 		query: '',
 		period: '',
 	});
+
+	useEffect(() => {
+		let id: any = history?.location?.state?.id;
+	}, []);
 
 	const getStoreName = (storeId: any) => {
 		let branch: any = '';
@@ -379,7 +384,7 @@ const CashierCard = () => {
 				</ModalContent>
 			</Modal>
 			{/* edit cashier */}
-			<EditCashier openEdit={openEdit} />
+			<EditCashier openEdit={openEdit} refetch={refetch} />
 		</CardContainer>
 	);
 };
