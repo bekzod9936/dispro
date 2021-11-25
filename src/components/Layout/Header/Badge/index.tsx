@@ -33,10 +33,10 @@ import FullModal from 'components/Custom/FullModal';
 import { useState } from 'react';
 
 const Badge = () => {
+  const { t } = useTranslation();
   const { width } = useWindowWidth();
   const [open, setOpen] = useState<boolean>(false);
 
-  const { t } = useTranslation();
   dayjs.extend(isYesterday);
   dayjs.extend(isToday);
 
@@ -46,20 +46,62 @@ const Badge = () => {
   useLayout({ id: companyId });
   const badgeInfo = useRecoilState(badgeData);
 
-  const date = 'Wed Nov 23 2021 14:11:49 GMT+0500 (Uzbekistan Standard Time)';
+  const date = 'Wed Nov 25 2020 11:11:49 GMT+0500 (Uzbekistan Standard Time)';
+  const dd = new Date();
 
-  const a =
-    dayjs(Date.now()).diff(date, 'minute') < 60
-      ? `${dayjs(Date.now()).diff(date, 'minute')}Minut ago`
-      : dayjs(Date.now()).diff(date, 'hour') < 24
-      ? `${dayjs(Date.now()).diff(date, 'hour')}hours ago`
-      : dayjs(Date.now()).diff(date, 'month') === 0
-      ? `${dayjs(Date.now()).diff(date, 'day')} day ago`
-      : dayjs(Date.now()).diff(date, 'year') === 0
-      ? dayjs('').format('DD MMMM HH:mm')
-      : dayjs('').format('DD MMMM YYYY');
+  console.log(badgeInfo, 'ssss');
 
-  console.log(a, 'ssss');
+  const getTime = (date: any) => {
+    const time =
+      dayjs(Date.now()).diff(date, 'minute') < 60
+        ? `${dayjs(Date.now()).diff(date, 'minute')}M ${t('ago')}`
+        : dayjs(Date.now()).diff(date, 'hour') < 24
+        ? `${dayjs(Date.now()).diff(date, 'hour')}hours ${t('ago')}`
+        : dayjs(Date.now()).diff(date, 'month') === 0
+        ? `${dayjs(Date.now()).diff(date, 'day')} ${t('day')} ${t(
+            'ago'
+          )} ${dayjs(date).format('HH:mm')}`
+        : dayjs(Date.now()).diff(date, 'year') === 0
+        ? dayjs(date).format('DD MMMM HH:mm')
+        : dayjs(date).format('DD MMMM YYYY');
+    return time;
+  };
+
+  const content = (
+    <div>
+      {badgeInfo[0]?.histories?.map((v: any) => {
+        return (
+          <WrapNotification>
+            <Avatar>
+              {v.chatType === 6 ? (
+                <DisIcon />
+              ) : (
+                <LazyLoadImage
+                  src={v.image}
+                  alt='user'
+                  style={{
+                    objectFit: 'cover',
+                  }}
+                  height='100%'
+                  width='100%'
+                />
+              )}
+            </Avatar>
+            <WrapData>
+              <LastMessage>{v.lastMsg}</LastMessage>
+              <Name>
+                <span>{t('from')}</span>
+                {v.chatType === 6
+                  ? `Dis-count`
+                  : `${v.lastName} ${v.firstName}`}
+              </Name>
+              <Date1>{getTime(v.date)}</Date1>
+            </WrapData>
+          </WrapNotification>
+        );
+      })}
+    </div>
+  );
 
   return (
     <Container>
@@ -68,7 +110,9 @@ const Badge = () => {
           click={
             <IconButton style={{ margin: '0 10px' }}>
               <BadgeWrap>
-                <BadgeContent>{badgeInfo[0].totalCount}</BadgeContent>
+                <BadgeContent>
+                  {badgeInfo[0].totalCount ? badgeInfo[0].totalCount : 0}
+                </BadgeContent>
                 <BellIcon />
               </BadgeWrap>
             </IconButton>
@@ -77,36 +121,7 @@ const Badge = () => {
         >
           <Wrapper>
             <Title>{t('notification')}</Title>
-            <Wrap>
-              <div>
-                <WrapNotification>
-                  <Avatar>
-                    <DisIcon />
-                    {
-                      // <LazyLoadImage
-                      //   src={''}
-                      //   alt='user'
-                      //   style={{
-                      //     objectFit: 'cover',
-                      //   }}
-                      //   height='100%'
-                      //   width='100%'
-                      // />
-                    }
-                  </Avatar>
-                  <WrapData>
-                    <LastMessage>
-                      sssssssssssssssssssssssssssssssssssssssssssssssss
-                    </LastMessage>
-                    <Name>
-                      <span>{t('from')}</span>
-                      sssssssssssssssssssssssssssssssssssssssssssssssssss
-                    </Name>
-                    <Date1>12kds sdcsd</Date1>
-                  </WrapData>
-                </WrapNotification>
-              </div>
-            </Wrap>
+            <Wrap>{content}</Wrap>
           </Wrapper>
         </Popover>
       ) : (
@@ -132,23 +147,7 @@ const Badge = () => {
                 </IconButton>
                 <span>{t('notifications')}</span>
               </Header>
-              <div>
-                <WrapNotification>
-                  <Avatar>
-                    <DisIcon />
-                  </Avatar>
-                  <WrapData>
-                    <LastMessage>
-                      sssssssssssssssssssssssssssssssssssssssssssssssss
-                    </LastMessage>
-                    <Name>
-                      <span>{t('from')}</span>
-                      sssssssssssssssssssssssssssssssssssssssssssssssssss
-                    </Name>
-                    <Date1>12kds sdcsd</Date1>
-                  </WrapData>
-                </WrapNotification>
-              </div>
+              {content}
             </ModalWrap>
           </FullModal>
         </>

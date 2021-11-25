@@ -3,7 +3,18 @@ import { device } from 'styles/device';
 import { ReactComponent as Bell } from 'assets/icons/SideBar/bell.svg';
 import { ReactComponent as Dis } from 'assets/icons/disicon.svg';
 
-export const BellIcon = styled(Bell)``;
+export const BellIcon = styled(Bell)`
+  width: 30px;
+  height: 30px;
+  @media (min-width: ${device.mobile}) and (max-width: ${device.laptop}) {
+    width: 25px;
+    height: 25px;
+  }
+  @media (max-width: ${device.mobile}) {
+    width: 20px;
+    height: 20px;
+  }
+`;
 
 export const Container = styled.div``;
 
@@ -23,11 +34,22 @@ export const BadgeContent = styled.div`
   font-weight: 600;
   font-size: 14px;
   color: #ffffff;
-  width: 26px;
-  height: 26px;
   top: -15px;
   left: 10px;
   user-select: none;
+  padding: 3px 6px;
+  @media (max-width: ${device.mobile}) {
+    font-size: 10px;
+    top: -8px;
+    left: 10px;
+    padding: 2px 5px;
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.laptop}) {
+    font-size: 12px;
+    top: -12px;
+    left: 10px;
+    padding: 1px 4px;
+  }
 `;
 
 export const Avatar = styled.div`

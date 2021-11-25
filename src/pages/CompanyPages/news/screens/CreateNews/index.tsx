@@ -273,6 +273,7 @@ const CreateNews = () => {
                 type="submit"
                 margin={{ laptop: "0 22px 0 0" }}
                 onClick={submitData}
+                buttonStyle={{shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)' }}
                 startIcon={<SaveIcon />}
               >
                 Сохранить
@@ -300,6 +301,7 @@ const CreateNews = () => {
                 buttonStyle={{
                   bgcolor: "#606EEA",
                   color: "#fff",
+                  shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)'
                 }}
                 margin={{ mobile: "0px 8px  8px  0" }}
               >
@@ -328,6 +330,7 @@ const CreateNews = () => {
                 type="submit"
                 margin={{ laptop: "0 22px 0 0" }}
                 onClick={cancelNews}
+                buttonStyle={{shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)' }}
               >
                 Да
               </Button>
@@ -354,6 +357,7 @@ const CreateNews = () => {
                 buttonStyle={{
                   bgcolor: "#606EEA",
                   color: "#fff",
+                  shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)' 
                 }}
                 margin={{ mobile: "0px 8px  8px  0" }}
               >
@@ -747,6 +751,7 @@ const CreateNews = () => {
                     buttonStyle={{
                       bgcolor: "#606EEA",
                       color: "#fff",
+                      shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)' 
                     }}
                     margin={{ mobile: "0px 8px  8px  0" }}
                   >
@@ -771,6 +776,10 @@ const CreateNews = () => {
               type="submit"
               margin={{ laptop: "0 25px" }}
               startIcon={<SaveIcon />}
+              buttonStyle={{
+                
+                shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)' 
+              }}
             >
               Сохранить
             </Button>

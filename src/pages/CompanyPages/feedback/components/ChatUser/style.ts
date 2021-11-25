@@ -10,9 +10,9 @@ interface Props {
 
 export const OneCheckIcon = styled(OneCheck)``;
 
-export const DoubleCheckIcoon=styled(DoubleCheck)``
+export const DoubleCheckIcoon = styled(DoubleCheck)``;
 
-export const UnreadIcon=styled(Unread)``;
+export const UnreadIcon = styled(Unread)``;
 
 export const Container = styled.div`
   display: flex;
@@ -41,6 +41,7 @@ export const Text = styled.div`
   color: #ffffff;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 
   @media (min-width: ${device.laptop}) {
     font-size: 14px;

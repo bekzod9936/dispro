@@ -50,7 +50,7 @@ export const WrapDate = styled.div`
   font-weight: 500;
   font-size: 18px;
   color: #223367;
-  padding-left: 15px;
+  padding-left: 5px;
 `;
 
 

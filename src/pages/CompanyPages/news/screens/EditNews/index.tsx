@@ -713,6 +713,8 @@ console.log('filteredArray',filteredArray)
             type="submit"
             margin={{ laptop: "0 25px" }}
             startIcon={<SaveIcon />}
+            buttonStyle={{shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)' }}
+            
           >
             Сохранить
           </Button>
