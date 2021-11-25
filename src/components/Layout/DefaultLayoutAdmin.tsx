@@ -122,7 +122,8 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
           onOpen={toggleDrawer(true)}
           style={{
             pointerEvents: fill ? 'auto' : 'none',
-            opacity: fill ? 1 : 0.4,
+            opacity: fill ? 1 : width < 600 ? 0 : 0.4,
+            zIndex: fill ? 1300 : width < 600 ? -1300 : 1300,
           }}
         >
           <div
