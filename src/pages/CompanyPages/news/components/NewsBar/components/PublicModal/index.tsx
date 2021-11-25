@@ -144,7 +144,9 @@ export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
           >
             Отменить
           </Button>
-          <Button startIcon={width > 335 && <PublishIcon />} type="submit">
+          <Button buttonStyle={{
+                shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)' 
+              }} startIcon={width > 335 && <PublishIcon />} type="submit">
             Опубликовать
           </Button>
         </div>
@@ -167,6 +169,7 @@ export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
                   field={field}
                   type="date"
                   error={!!errors.startDate}
+                  
                   min={dayjs(Date.now()).format("YYYY-MM-DD")}
                   margin={{ laptop: "0 20px 20px 0" }}
                 />
@@ -191,9 +194,7 @@ export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
               )}
             />
           </div>
-      
         </WrapInputs>
-
         <div
           style={{
             display: "flex",
@@ -210,6 +211,10 @@ export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
             Отмена
           </Button>
           <Button
+          buttonStyle={{
+                
+            shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)' 
+          }}
             type="submit"
             margin={{ laptop: "0 0px 0 0" }}
             startIcon={<WhitePublishIcon />}
