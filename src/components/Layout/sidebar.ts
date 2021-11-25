@@ -1,7 +1,9 @@
+import { useMemo } from "react";
+import { useRecoilValue } from "recoil";
+import { permissionList } from "services/atoms/permissions";
 import {
   StatisticsIcon,
   ClientIcon,
-  OrderIcon,
   ConversationIcon,
   BasketIcon,
   NewsIcon,
@@ -10,62 +12,97 @@ import {
   CoinIcon,
   NotificationIcon,
   InformationIcon,
-} from './style';
+} from "./style";
 
-export const sidebar = [
+const sidebar: any = [
   {
     Icon: StatisticsIcon,
-    text: 'statistics',
-    path: 'statistics/clients',
+    text: "statistics",
+    path: "statistics/clients",
+    permission: [],
   },
   {
     Icon: ClientIcon,
-    text: 'clients',
-    path: 'clients',
-  },
-  {
-    Icon: OrderIcon,
-    text: 'orders',
-    path: 'orders',
+    text: "clients",
+    path: "clients",
+    permission: [],
   },
   {
     Icon: ConversationIcon,
-    text: 'feedbackPage',
-    path: 'feedback/reviews',
+    text: "feedbackPage",
+    path: "feedback/reviews",
+    permission: [],
   },
   {
     Icon: BasketIcon,
-    text: 'services',
-    path: 'services',
+    text: "services",
+    path: "services",
+    permission: [],
   },
   {
     Icon: NewsIcon,
-    text: 'News',
-    path: 'news/active',
+    text: "News",
+    path: "news/active",
+    permission: [],
   },
   {
     Icon: WorkersIcon,
-    text: 'staff',
-    path: 'staff',
+    text: "staff",
+    path: "staff",
+    permission: [],
   },
   {
     Icon: PrizeIcon,
-    text: 'proposals',
-    path: 'proposals/drafts',
+    text: "proposals",
+    path: "proposals/drafts",
+    permission: [],
   },
   {
     Icon: CoinIcon,
-    text: 'finances',
-    path: 'finances/suggestions',
+    text: "finances",
+    path: "finances/suggestions",
+    permission: [],
   },
   {
     Icon: NotificationIcon,
-    text: 'notifications',
-    path: 'notifications',
+    text: "notifications",
+    path: "notifications",
+    permission: [],
   },
   {
     Icon: InformationIcon,
-    text: 'info',
-    path: 'info/about',
+    text: "info",
+    path: "info/about",
+    permission: [],
   },
 ];
+
+export const useSideBar = () => {
+  const { permissions } = useRecoilValue(permissionList);
+
+  const handlePermision = () => {
+    for (let i in permissions) {
+      for (let j of sidebar) {
+        if (i === j.text) {
+          j.permission = permissions[i];
+        }
+      }
+    }
+
+    return sidebar;
+  };
+
+  console.log(handlePermision());
+  const sideList = useMemo(() => handlePermision(), [sidebar]);
+
+  return {
+    sideList,
+  };
+};
+
+//orders
+// {
+//   Icon: OrderIcon,
+//   text: 'orders',
+//   path: 'orders',
+// },

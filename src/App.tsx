@@ -1,8 +1,10 @@
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import { useEffect } from "react";
 import { useQueryErrorResetBoundary } from "react-query";
 import { useTranslation } from "react-i18next";
+
 // import { ErrorBoundary } from 'react-error-boundary';
+
 //actions
 import { setNotifyOpen } from "services/redux/Slices/firebase";
 //components
@@ -16,8 +18,10 @@ import { RenderAllRoutes } from "./routes/Protection";
 import { useAppSelector, useAppDispatch } from "services/redux/hooks";
 import useLocationPathName from "services/hooks/useLocationPathName";
 import useGetNotification from "services/hooks/useGetNotification";
+import usePermimssions from "services/hooks/usePermimssions";
 
 function App() {
+  usePermimssions();
   useGetNotification();
   useLocationPathName(window.location.pathname);
   const dispatch = useAppDispatch();
