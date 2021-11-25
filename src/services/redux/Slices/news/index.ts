@@ -13,11 +13,14 @@ const initialState: INews = {
     totalCountNews:0
   },
   setPeriod: {
-    dateFrom:'',
-    dateTo:'',
+    page:1,
+    perPage: 5,
+    fromDate: '',
+    toDate: '',
   },
   query:'',
-  selectedNews:[]
+  selectedNews:[],
+  errorMessage:false
 };
 
 const newsSlice = createSlice({
@@ -40,15 +43,24 @@ const newsSlice = createSlice({
     setQuery: (state, action: PayloadAction<string>) => {
       state.query = action.payload;
     },
-    setStartPeriod:(state,action:PayloadAction<string>)=>{
-      state.setPeriod.dateFrom=action.payload;
+    setPage:(state,action:PayloadAction<number>)=>{
+      state.setPeriod.page=action.payload;
     },
-    setEndPeriod:(state,action:PayloadAction<string>)=>{
-      state.setPeriod.dateTo=action.payload;
+    setPerPage:(state,action:PayloadAction<number>)=>{
+      state.setPeriod.perPage=action.payload;
+    },
+    setFromDate:(state,action:PayloadAction<number|string>)=>{
+      state.setPeriod.fromDate=action.payload;
+    },
+    setToDate:(state,action:PayloadAction<number|string>)=>{
+      state.setPeriod.toDate=action.payload;
     },
     setSelectedNews: (state, action: any) => {
       state.selectedNews = action.payload;
     },
+    setErrorMessage:(state,action:any)=>{
+      state.errorMessage=action.payload;
+    }
   },
 });
 
@@ -57,9 +69,12 @@ export const {
     setNewsTotal,
     setNewsBetween,
     setQuery,
-    setStartPeriod,
-    setEndPeriod,
+    setPage,
+    setPerPage,
+    setFromDate,
+    setToDate,
     setNewsTotalCount,
     setSelectedNews,
+    setErrorMessage,
 } = newsSlice.actions;
 export default newsSlice.reducer;

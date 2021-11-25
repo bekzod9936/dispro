@@ -1,7 +1,7 @@
 {
   "name": "dis-new",
   "version": "0.1.0",
-  "homepage": "https://newpartner.vades.uz",
+  "homepage": ".",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.12.3",
@@ -60,6 +60,7 @@
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "winBuild": "set \"GENERATE_SOURCEMAP=false\" && react-scripts build",
     "test": "cypress open",
+    "record": "cypress run --record --key 7bd2f0c4-8d6a-407a-94e7-2303cf9904f3",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

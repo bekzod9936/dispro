@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { device } from "styles/device";
 
 export const Wrapper = styled.div`
     width: 100%;
@@ -19,6 +20,12 @@ export const Wrapper = styled.div`
                     font-size: 22px;
                     color: #223367;
                     margin-left: 20px;
+                }
+                svg {
+                    @media (max-width: ${device.planshet}) {
+                        width: 13px;
+                        height: 20px;
+                    }
                 }
             }
             h4 {

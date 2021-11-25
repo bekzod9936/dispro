@@ -11,7 +11,7 @@ import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import Spinner from "components/Helpers/Spinner";
 import ImageLazyLoad from "components/Custom/ImageLazyLoad/ImageLazyLoad";
 import useStaff from "../../hooks/useStaff";
-
+import Modal from "components/Custom/Modal";
 import CropCustomModal from "components/Custom/CropImageModal/index";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
@@ -50,7 +50,7 @@ import {
 
   RightSide,
   UploadButton,
-
+  WrapperModal,
   WrapArea,
   TextAreaIcon,
   UpSide,
@@ -98,6 +98,7 @@ const EditNews = () => {
   );
   const [isCropVisible, setIsCropVisible] = React.useState(false);
   const [image, setImage] = React.useState(newsById?.data?.image);
+  const [errorFileType,setErrorFileType]=React.useState<any>(false);
   const [leave, setLeave] = React.useState<boolean>(false);
   const handleBack = () => {
     history.goBack();
@@ -120,11 +121,25 @@ const EditNews = () => {
     reValidateMode: "onChange",
   });
 
+ 
   const handleUploadImg = (data: any) => {
+
+    if (data.target.files[0].type =="image/jpeg") {
+      setFile(data.target.files[0]);
+      setIsCropVisible(true);
+      setErrorFileType(false)
+   }
+   else if (data.target.files[0].type =="image/png"){
     setFile(data.target.files[0]);
     setIsCropVisible(true);
+    setErrorFileType(false)
+   }
+   else {
+    setErrorFileType(true)
+    setIsCropVisible(false);
+   }
+     
   };
-  console.log("file", file);
 
   const handleOpenBlock = (e: any, action: "push") => {
     setOptionalFields((prev: IOptionFields) => ({
@@ -151,8 +166,9 @@ const EditNews = () => {
     );
   });
   
-
+console.log('filteredArray',filteredArray)
   const submitNews = (data: any) => {
+ 
     let newsBody = {
      
       title: data.name,
@@ -188,7 +204,7 @@ const EditNews = () => {
     let newsInfo={newsBody,newsId}
 
     mutate(newsInfo);
-    setTimeout(() => history.push('/news/waiting'), 1000);
+    setTimeout(() => history.push('/news/active'), 1000);
   };
   console.log("filters datse", filter);
 
@@ -203,7 +219,7 @@ const EditNews = () => {
     },
   ];
 
-  const weekDays = newsById?.data?.settings?.weekDays.map((el: any) => {
+  const weekDays = newsById?.data?.settings?.weekDays?.map((el: any) => {
     return {
       label:
         el == 0
@@ -234,7 +250,7 @@ const EditNews = () => {
     
   }, [mergedBranches,newsById?.data?.pushUp]);
 
-
+  console.log('mergedBranches',mergedBranches)
   return (
     <Wrapper>
         {width > 600 && (
@@ -246,10 +262,31 @@ const EditNews = () => {
             style={{ marginRight: "25px", cursor: "pointer" }}
           />
           <Title>
-Редактирование новости</Title>
+              Редактирование новости</Title>
         </div>
       )}
   
+  <Modal modalStyle={{ bgcolor: "#fff" }} open={errorFileType}>
+        <WrapperModal>
+          <p style={{ color: "black" }}>
+            {t("Можно загрузить изображение формата jpeg или png")}
+          </p>
+          {width > 600 && (
+            <>
+              <UploadButton>
+                    <label htmlFor="uploadImg">Загрузить фото</label>
+                    <input
+                    
+                      onChange={handleUploadImg}
+                      type="file"
+                      id="uploadImg"
+                    />
+                    <UploadImage />
+                  </UploadButton>
+              </>
+              )}
+        </WrapperModal>
+      </Modal>
 
       <Form onSubmit={handleSubmit(submitNews)}>
         <UpSide>
@@ -276,6 +313,7 @@ const EditNews = () => {
                     <input
                       {...register("image", { required: true })}
                       onChange={handleUploadImg}
+                       value={image}
                       type="file"
                       id="uploadImg"
                     />
@@ -292,7 +330,7 @@ const EditNews = () => {
                 </div>
               )}
               {image && (
-                <ImageBlock>
+                <ImageBlock >
                   <ImageLazyLoad objectFit="contain" src={image} alt="logo" />
                   <DeleteIcon onClick={handleDelete} />
                 </ImageBlock>
@@ -348,23 +386,20 @@ const EditNews = () => {
                     inputStyle={{
                       height: { desktop: 120, laptop: 90, mobile:150 },
                     }}
-                    IconEnd={
-                      <WrapArea>
-                        <TextAreaIcon />
-                      </WrapArea>
-                    }
+                    // IconEnd={
+                    //   <WrapArea>
+                    //     <TextAreaIcon />
+                    //   </WrapArea>
+                    // }
                   />
                 )}
               />
-              <WrapInputs>
+              {width > 600 ? <WrapInputs>
                 <Label>{t("chose_date")}</Label>
                 <div>
                   <Input
                     type="date"
-                    width={{
-                      maxwidth: 180,
-                      minwidth:130,
-                    }}
+                  
                     min={todayDate}
                     required={true}
                     IconStart={<WrapDate>{t("from")}</WrapDate>}
@@ -387,10 +422,7 @@ const EditNews = () => {
                     type="date"
                     defaultValue={endDate}
                     min={filter?.regDate?.regDateFrom}
-                    width={{
-                      maxwidth: 180,
-                      minwidth:130,
-                    }}
+                   
                     required={true}
                     margin={{ laptop: "0 0 0 15px" }}
                     IconStart={<WrapDate>{t("to")}</WrapDate>}
@@ -409,7 +441,62 @@ const EditNews = () => {
                     }
                   />
                 </div>
-              </WrapInputs>
+              </WrapInputs>:
+              <WrapInputs>
+              <Label>{t("chose_date")}</Label>
+              <div>
+                <Input
+                  type="date"
+                  width={{
+                    maxwidth: 180,
+                    minwidth:130,
+                  }}
+                  min={todayDate}
+                  required={true}
+                  IconStart={<WrapDate>{t("from")}</WrapDate>}
+                  inputStyle={{
+                    inpadding: "0 10px 0 0",
+                  }}
+                  defaultValue={startDate}
+                  value={filter?.regDate?.regDateFrom}
+                  onChange={(e) =>
+                    setFilter((prev: any) => ({
+                      ...prev,
+                      regDate: {
+                        ...prev["regDate"],
+                        regDateFrom: e.target.value,
+                      },
+                    }))
+                  }
+                />
+                <Input
+                  type="date"
+                  defaultValue={endDate}
+                  min={filter?.regDate?.regDateFrom}
+                  width={{
+                    maxwidth: 180,
+                    minwidth:130,
+                  }}
+                  required={true}
+                  margin={{ laptop: "0 0 0 15px" }}
+                  IconStart={<WrapDate>{t("to")}</WrapDate>}
+                  inputStyle={{
+                    inpadding: "0 10px 0 0",
+                  }}
+                  value={filter?.regDate?.regDateTo}
+                  onChange={(e) =>
+                    setFilter((prev: any) => ({
+                      ...prev,
+                      regDate: {
+                        ...prev["regDate"],
+                        regDateTo: e.target.value,
+                      },
+                    }))
+                  }
+                />
+              </div>
+            </WrapInputs>}
+              
               <WrapSelect>
                 <Controller
                   name="gender"

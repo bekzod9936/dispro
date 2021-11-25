@@ -8,5 +8,7 @@ export interface IProps {
 export const LazyImage = styled(LazyLoadImage)`
   width: 100%;
   height: 100%;
+ 
   object-fit: ${({ objectFit = "contain" }: IProps) => objectFit} !important;
+
 `;

@@ -168,6 +168,22 @@ export const SelectedClients = styled.div`
     align-items: center;
     flex-wrap: wrap;
     border-bottom: 1px solid rgba(96, 110, 234, 0.3);
+    &:hover {
+    ::-webkit-scrollbar-thumb {
+      background: #606eea;
+        }
+    }
+    ::-webkit-scrollbar {
+        width: 7px;
+    }
+    ::-webkit-scrollbar-track {
+        background-color: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: transparent;
+        border-radius: 14px 0 0 14px;
+    }
     .client {
         border: 1px solid #C4C4C4;
         box-sizing: border-box;

@@ -11,7 +11,7 @@ interface IProps {
 }
 export const ViewAll: React.FC<IProps> = ({ totalCount, onClose }) => {
     const { t } = useTranslation()
-    const { selectedAllClients } = useAppSelector(state => state.clients)
+    const { selectedClients } = useAppSelector(state => state.clients)
     const dispatch = useAppDispatch()
 
     const handleRemove = (id: number) => {
@@ -31,7 +31,7 @@ export const ViewAll: React.FC<IProps> = ({ totalCount, onClose }) => {
                     <h4>{t("selectedClients")}: {totalCount}</h4>
                 </div>
                 <div className="content">
-                    {selectedAllClients.map(client => (
+                    {selectedClients.map(client => (
                         <div className="client" key={client.id}>
                             <span>{client.firstName + " " + client.lastName}</span>
                             <MiniCloseIcon onClick={() => handleRemove(client.id)} />

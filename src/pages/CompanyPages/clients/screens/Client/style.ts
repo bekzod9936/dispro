@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { device } from "styles/device";
 
 export const Wrapper = styled.div`
     padding: 30px;
@@ -72,7 +73,18 @@ export const MUpside = styled.div`
 export const MNav = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  svg {
+    width: 13px !important;
+    height: 20px !important;
+  }
+  @media (max-width: ${device.mobile}) {
+    margin-bottom: 10px;
+    svg {
+      width: 10px !important;
+      height: 15px !important;
+    }
+  }
 `
 export const MAddInfo = styled.div`
   margin-left: 25px;
@@ -124,9 +136,9 @@ export const MClientInfo = styled.div`
   display: flex;
   align-items: center;
   .image {
-    width: 40px;
-    height: 40px;
-    margin: 0 15px;
+    width: 55px;
+    height: 55px;
+    margin: 0 20px;
     position: relative;
     .block {
       display: flex;
@@ -146,16 +158,65 @@ export const MClientInfo = styled.div`
     }
     img {
     border-radius: 14px;
-    width: 40px;
-    height: 40px;
+    width: 55px;
+    height: 55px;
     display: block;
   }
   }
-  h6 {
-    font-size: 16px;
+ 
+  .planshetHeader {
+    h6 {
+    font-size: 18px;
     font-weight: 500;
     line-height: 18.75px;
     color: #223367;
+      margin-bottom: 5px;
+  }
+    span.clientInfo {
+      font-size: 15px;
+      color: #223367;
+      font-weight: 300;
+      b {
+        margin-right: 5px;
+      }
+    }
+    @media (max-width: ${device.planshet}) {
+      display: flex;
+      align-items: center;
+      margin-right: 55px;
+    }
+    @media (max-width: ${device.mobile}) {
+      margin-right: 0;
+      width: 100%;
+      justify-content: center;
+      h6 {
+        font-size: 16px;
+        margin-bottom: 0;
+      }
+    }
+  }
+  @media (max-width: ${device.mobile}) {
+      .image {
+        width: 40px;
+        height: 40px;
+        margin: 0 15px;
 
+        img {
+          width: 40px;
+          height: 40px;
+        }
+      }
+    }
+`
+export const Flex = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+`
+
+export const IconWrapper = styled.div`
+  svg {
+    width: 20px;
+    height: 20px;
   }
 `

@@ -26,7 +26,7 @@ import useCashiers from 'pages/CompanyPages/staff/hooks/useCashiers';
 import { useEffect } from 'react';
 import { inputPhoneNumber } from 'utilities/inputFormat';
 
-const EditCashier = ({ openEdit }: IProps) => {
+const EditCashier = ({ openEdit, refetch }: IProps) => {
 	const dispatch = useAppDispatch();
 	const { t } = useTranslation();
 	const { branches } = useStaff();
@@ -36,6 +36,7 @@ const EditCashier = ({ openEdit }: IProps) => {
 	);
 
 	const cashierId: any = state?.id;
+
 	const { staffData } = useAppSelector((state) => state.staffs);
 
 	const { editCashier } = useCashiers({
@@ -57,42 +58,49 @@ const EditCashier = ({ openEdit }: IProps) => {
 		reValidateMode: 'onChange',
 	});
 
-	const onSave = (data: FormProps) => {
-		console.log(data, 'data form');
+	const storeName = [
+		{
+			id: selectedCashiers?.length ? selectedCashiers[0].store.id : null,
+		},
+	];
+
+	const onSave = async (data: FormProps) => {
+		console.log('data', data);
 		if (selectedCashiers?.length) {
-			editCashier.mutate({
+			await editCashier.mutate({
 				id: selectedCashiers[0].id,
-				storeId: data.storeId?.value,
+				storeId: data.storeId.value,
 				firstName: data.firstName,
 				lastName: data.lastName,
 				comment: data.comment,
 				telNumber: data.telNumber,
 			});
 		} else {
-			editCashier.mutate({
+			await editCashier.mutate({
 				id: cashierId,
-				storeId: data?.storeId,
+				storeId: data.storeId.value,
 				firstName: data?.firstName,
 				lastName: data?.lastName,
 				comment: data?.comment,
 				telNumber: data?.telNumber,
 			});
 		}
+		refetch &&
+			setTimeout(() => {
+				refetch();
+			}, 1500);
 	};
 
 	useEffect(() => {
 		if (selectedCashiers?.length) {
 			let firstname = selectedCashiers[0].firstName.split(' ')[0];
-			let choseBranch: any = branches.find(
-				(item: any) => item.value === selectedCashiers[0].storeId
-			);
 
 			const tel: string = String(selectedCashiers[0].telNumber).slice(4);
 			setValue('firstName', firstname);
 			setValue('lastName', selectedCashiers[0].lastName);
 			setValue('comment', selectedCashiers[0].comment);
 			setValue('telNumber', tel);
-			setValue('storeId', choseBranch?.value);
+			setValue('storeId', getStoreName(storeName[0]?.id));
 		} else {
 			let firstname = staffData.firstName;
 			const tel: string = String(staffData.telNumber).slice(4);
@@ -100,7 +108,7 @@ const EditCashier = ({ openEdit }: IProps) => {
 			setValue('lastName', staffData.lastName);
 			setValue('comment', staffData.comment);
 			setValue('telNumber', tel);
-			setValue('storeId', staffData?.storeId);
+			setValue('storeId', getStoreName(staffData?.storeId));
 		}
 	}, [selectedCashiers, staffData]);
 
@@ -117,6 +125,19 @@ const EditCashier = ({ openEdit }: IProps) => {
 			setValue('telNumber', checkPhone.newString);
 		}
 	}, [checkPhone.check, watch('telNumber')]);
+
+	const getStoreName = (storeId: any) => {
+		let branch: any;
+
+		if (branches?.length) {
+			branch = [
+				{ label: branches.find((item: any) => item.value === storeId)?.label },
+			];
+		} else {
+			branch = '';
+		}
+		return branch;
+	};
 
 	return (
 		<Modal open={openEdit}>
@@ -206,12 +227,14 @@ const EditCashier = ({ openEdit }: IProps) => {
 							<Controller
 								control={control}
 								name='storeId'
+								defaultValue={getStoreName(storeName[0]?.id)}
 								rules={{
 									required: true,
 								}}
 								render={({ field }) => {
 									return (
 										<MultiSelect
+											defaultValue={getStoreName(storeName[0]?.id)}
 											icon={<Market />}
 											selectStyle={{
 												bgcolor: '#eff0fd',

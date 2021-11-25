@@ -81,6 +81,7 @@ width: max-content;
 img {
     border-radius: 14px;
     width: 100px;
+	height: 100px;
     margin-top: 15px;
 }
 svg {
@@ -199,4 +200,8 @@ export const UploadButton = styled.div`
       : '16px'} !important;
     margin-top: 5px;
   }
+`;
+
+export const EditLogo = styled.img`
+	object-fit: cover;
 `;
