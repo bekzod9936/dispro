@@ -135,6 +135,9 @@ const Table = ({ data, header2 }: Props) => {
                     let ageUnlimeted=cell?.row?.original?.fullData?.data?.ageUnlimited;
                     let stat=cell?.row?.original?.fullData?.data?.stat;
                     let date = cell?.row?.original?.fullData?.date;
+                    let date2 = cell?.row?.original?.fullData?.date;
+                    // const sortedActivities = date2.sort((a:any, b:any) => b - a)
+                    // console.log('newData',sortedActivities)
                     return (
                       <Td {...cell.getCellProps()}>
                         <AgeData>
