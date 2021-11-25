@@ -59,9 +59,9 @@ import {
   WrapDownIcon,
   NoResult,
 } from './style';
-import { setMessagesFeedBack } from 'services/redux/Slices/feedback';
 import defuserman from 'assets/icons/defuserman.png';
 import defuserwoman from 'assets/icons/defuserwoman.png';
+
 interface ChProps {
   date?: string;
   firstName?: string;
@@ -80,7 +80,6 @@ interface FormProps {
 
 const Posts = () => {
   const { t } = useTranslation();
-  const dispatch = useAppDispatch();
   const companyId: any = localStorage.getItem('companyId');
   const words = 400;
   const { control, handleSubmit, setValue, getValues, watch } =
@@ -94,114 +93,41 @@ const Posts = () => {
   const staffId = useAppSelector((state) => state.auth.staffId);
 
   const { width } = useWindowWidth();
-  const [chosen, setChosen] = useState<ChProps>({});
-  const [loading, setLoading] = useState(false);
+  const [users, setUsers] = useState<any>([]);
+  const [limit, setLimit] = useState(words);
 
+  const [loading, setLoading] = useState(false);
   const [closeFun, setCloseFun] = useState<any>();
-  const [isChoose, setIsChoose] = useState<boolean>(false);
+
   const [showEmoji, setShowEmoji] = useState<boolean>(false);
   const [scrollHeight, setScrollHeight] = useState(0);
   const [inpuSearch, setInpuSearch] = useState<string>('');
   const [searchRes, setSearchRes] = useState<any[]>([]);
   const [searchFocus, setSearchFocus] = useState<boolean>(false);
-  const { resChatClients, resChatClientHistory, deleteRes } = useChatClients({
+  const {
+    resChatClients,
+    resChatClientHistory,
+    deleteRes,
+    isChoose,
+    setIsChoose,
     chosen,
-  });
+    setChosen,
+    scrollToTop,
+    messagesStartRef,
+  } = useChatClients();
   const messages = useAppSelector((state) => state.feedbackPost.messages);
   const histories = useAppSelector((state) => state.feedbackPost.histories);
   const socket = useAppSelector((state) => state.feedbackPost.socket);
   const companyInfo = useAppSelector((state) => state.partner.companyInfo);
-  const chosenClient = useAppSelector(
-    (state) => state.feedbackPost.chosenClient
-  );
-
-  const [users, setUsers] = useState<any>([]);
-  console.log(chosenClient);
-  const [limit, setLimit] = useState(words);
 
   useEffect(() => {
-    if (chosenClient?.choose) {
-      const newUser: any = messages;
-      const a: any = newUser.find((v: any) => {
-        if (v.id === chosenClient?.data?.clientId) {
-          return v;
-        } else {
-          return null;
-        }
-      });
-      if (a === undefined) {
-        setUsers([
-          {
-            date: '',
-            firstName: chosenClient?.data?.clientFirstName,
-            id: chosenClient?.data?.clientId,
-            image: chosenClient?.data?.clientImage,
-            isDeleted: false,
-            lastMsg: '',
-            lastName: chosenClient?.data?.clientLastName,
-            genderTypeId: chosenClient?.data?.clientGenderTypeId,
-          },
-          ...newUser,
-        ]);
-      }
-      scrollToTop();
-    } else {
-      setUsers(messages);
-    }
+    setUsers(messages);
   }, [messages]);
 
-  useEffect(() => {
-    if (chosenClient?.choose) {
-      handleChoose({
-        date: '',
-        firstName: chosenClient?.data?.clientFirstName,
-        id: chosenClient?.data?.clientId,
-        image: chosenClient?.data?.clientImage,
-        isDeleted: false,
-        lastMsg: '',
-        lastName: chosenClient?.data?.clientLastName,
-        genderTypeId: chosenClient?.data?.clientGenderTypeId,
-      });
-      setIsChoose(chosenClient?.choose);
-      const newUser: any = messages;
-      const a: any = newUser.find((v: any) => {
-        if (v.id === chosenClient?.data?.clientId) {
-          return v;
-        } else {
-          return null;
-        }
-      });
-      scrollToTop();
-      if (a === undefined) {
-        setUsers([
-          {
-            date: '',
-            firstName: chosenClient?.data?.clientFirstName,
-            id: chosenClient?.data?.clientId,
-            image: chosenClient?.data?.clientImage,
-            isDeleted: false,
-            lastMsg: '',
-            lastName: chosenClient?.data?.clientLastName,
-            genderTypeId: chosenClient?.data?.clientGenderTypeId,
-          },
-          ...newUser,
-        ]);
-      }
-    }
-  }, [chosenClient]);
-
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const messagesStartRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
     messagesEndRef?.current?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'end',
-    });
-  };
-
-  const scrollToTop = () => {
-    messagesStartRef?.current?.scrollIntoView({
       behavior: 'smooth',
       block: 'end',
     });
@@ -303,7 +229,7 @@ const Posts = () => {
       },
     });
   };
-  console.log(chosen);
+
   return (
     <Container>
       <LeftSide>
@@ -353,7 +279,7 @@ const Posts = () => {
                 );
               })
             ) : searchRes?.length === 0 ? (
-              <NoResult>not find user</NoResult>
+              <NoResult>{t('notfinduser')}</NoResult>
             ) : (
               searchRes?.map((v: any) => {
                 return (

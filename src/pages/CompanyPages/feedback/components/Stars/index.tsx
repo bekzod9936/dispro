@@ -15,13 +15,12 @@ const Stars = () => {
   const { t } = useTranslation();
   const ratings = useAppSelector((state) => state.feedbackPost.ratings);
   const rate = useAppSelector((state) => state.feedbackPost.averageRating);
-  const total = useAppSelector((state) => state.feedbackPost.totalRating);
-  console.log(ratings);
+
   return (
     <Container>
       <div>
         <Grade title={t('overallscore')} rate={rate} />
-        <Grade title={t('totalratings')} total={total} />
+        <Grade title={t('totalratings')} rate={rate} total={true} />
         <Rate>{t('rate')}</Rate>
         {[5, 4, 3, 2, 1].map((v: any, i: number) => {
           return (

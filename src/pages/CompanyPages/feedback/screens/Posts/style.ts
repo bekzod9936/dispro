@@ -405,4 +405,7 @@ export const NoResult = styled.div`
   font-weight: normal;
   font-size: 16px;
   color: #223367;
+  word-break: break-word;
+  width: 100%;
+  text-align: center;
 `;

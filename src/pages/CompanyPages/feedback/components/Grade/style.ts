@@ -72,6 +72,7 @@ export const PercentNum = styled.div`
   line-height: 47px;
   color: #606eea;
 `;
+
 export const PercentDef = styled.div`
   font-weight: bold;
   font-size: 18px;
@@ -79,8 +80,13 @@ export const PercentDef = styled.div`
   margin-left: 10px;
 `;
 
+interface Props {
+  total?: boolean;
+}
+
 export const PercentWrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  width: ${({ total }: Props) => (total ? '100%' : 'fit-content')};
 `;
