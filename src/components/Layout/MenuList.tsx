@@ -15,6 +15,7 @@ import { setCurrentPage } from "../../services/redux/Slices/partnerSlice";
 import { useSideBar } from "./sidebar";
 
 const MenuList = () => {
+  const userType = localStorage.getItem("userType");
   const { t } = useTranslation();
   const history = useHistory();
   const location = useLocation();
@@ -31,7 +32,11 @@ const MenuList = () => {
         {sidebar.map(({ Icon, text, path, permission }: any) => {
           let currentpath = path.split("/");
           console.log(permission, "permission");
-          if (permission?.includes(2) || permission.includes(1)) {
+          if (
+            permission?.includes(2) ||
+            permission.includes(1) ||
+            userType === "2"
+          ) {
             return (
               <ListI
                 button
