@@ -23,6 +23,13 @@ import { setNote } from "services/redux/Slices/clients";
 import { useMutation } from "react-query";
 import { sendNote } from "services/queries/clientsQuery";
 import Modal from "components/Custom/Modal";
+const referTypes: any = {
+  1: "client",
+  2: "partner_admin",
+  3: "cashier",
+  4: "manager",
+  5: "worker"
+}
 const Information = () => {
   const { t } = useTranslation()
   const { currentClient } = useAppSelector(state => state.clients)
@@ -73,7 +80,8 @@ const Information = () => {
           <InfoBlock>
             <h4>{t("info")}</h4>
             <div>
-              <p>{t("byRecommendation")}: <span>Ни Натальи</span> ({t("client")})</p>
+              {currentClient?.referBy &&
+                <p>{t("byRecommendation")}: <span>{currentClient?.referBy.name}</span>({t(referTypes[currentClient?.referBy.type])})</p>}
               <p>{t('lastPurchase')}: {client?.addInfo?.lastPurchaseDate ? dayjs(client?.addInfo?.lastPurchaseDate).format("DD.MM.YYYY") : "-"}</p>
             </div>
             {<Button

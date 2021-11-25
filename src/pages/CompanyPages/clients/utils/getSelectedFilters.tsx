@@ -5,6 +5,7 @@ import { RemoveFilterBtn } from "../components/Header/components/RemoveFilterBtn
 import { SelectedFilter } from "../components/Header/style"
 import dayjs from "dayjs";
 import { numberWith } from 'services/utils'
+import { useAppSelector } from 'services/redux/hooks'
 
 export interface ITableHelperItem {
   date: string,
@@ -83,8 +84,9 @@ interface IProps {
 }
 export const useHandleGetFilters = ({ filters, handleRemove, referals }: IProps) => {
   const { t } = useTranslation();
+  const { clientLevels } = useAppSelector(state => state.clients)
   let result = [];
-  const { gender, notless, regDate, purchaseAmount, trafficProvider } = filters;
+  const { gender, notless, regDate, purchaseAmount, trafficProvider, status } = filters;
   if (gender) {
     result.push(
       <SelectedFilter>
@@ -146,6 +148,16 @@ export const useHandleGetFilters = ({ filters, handleRemove, referals }: IProps)
           {t("trafficProvider")}: {referals[trafficProvider].name.slice(0, 1).toUpperCase() + referals[trafficProvider].name.slice(1)}
         </p>
         <RemoveFilterBtn onClick={() => handleRemove("trafficProvider")} />
+      </SelectedFilter>
+    );
+  }
+  if (status) {
+    result.push(
+      <SelectedFilter>
+        <p>
+          {t("status")}: {clientLevels.find(el => el.number == status).name}
+        </p>
+        <RemoveFilterBtn onClick={() => handleRemove("status")} />
       </SelectedFilter>
     );
   }
@@ -234,6 +246,11 @@ export const getFiltersForQuery = (filters: any, referals: any) => {
           ...obj,
           allPurchaseSum: filters[el],
         };
+      } else if (el === "status") {
+        obj = {
+          ...obj,
+          usedLevelNumber: Number(filters[el])
+        }
       } else if (el === "trafficProvider") {
         if (filters[el]) {
           obj = {
