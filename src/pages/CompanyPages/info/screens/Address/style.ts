@@ -423,6 +423,7 @@ export const DownSide = styled.div`
     position: fixed;
     bottom: 0;
     left: 0;
+    width: 100%;
     & > div {
       display: flex;
       width: 100%;
