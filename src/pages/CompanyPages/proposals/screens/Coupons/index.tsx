@@ -493,8 +493,8 @@ const Coupons = () => {
                     render={({ field }) => (
                       <InputFormat
                         field={field}
-                        defaultValue={0}
                         max='100'
+                        maxLength="2"
                         IconStart={<PlusIcon style={{ marginLeft: '20px' }} />}
                         label='Возрастное ограничение'
                       />
