@@ -15,7 +15,7 @@ export const months = [
   "Декабря ",
 ];
 
-const useData = () => {
+const useData2 = () => {
   const data = useAppSelector((state) => state.news.NewsInfo.data);
   const list = data?.map((v: any) => {
     const startDate = dayjs(v?.startLifeTime).format("YYYY-MM-DD");
@@ -41,20 +41,22 @@ const useData = () => {
 
     const genderType =
       v?.genderType === 1
-        ? "мужчин"
+        ? "Для мужчин"
         : v?.genderType === 2
-        ? "женщин"
+        ? "Для женщины"
         : "Для всех";
-    return {
-      newData:v,
-      fullData: {
-        data: v,
-        genderType: genderType,
-        date: date,
-      },
-    };
+        return {
+            col1:v?.title,
+            col2:v?.description,
+            col3:genderType,
+            col4:date,
+            fullData: {
+                data: v,
+                date:date
+              },
+          }
   });
 
   return { list };
 };
-export default useData;
+export default useData2;

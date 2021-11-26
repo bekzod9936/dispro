@@ -3,7 +3,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { AddIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
 import Spinner from "components/Custom/Spinner";
-import Table from "../../components/Table2";
+import Table from "../../components/Table";
 import { Flex } from "../../style";
 import { SearchIcon } from "components/Layout/Header/style";
 import MobileTable from "../../components/MobileTable";
@@ -15,7 +15,7 @@ import DatePcker from "components/Custom/DatePicker";
 import { setQuery, setSelectedNews,setErrorMessage } from "services/redux/Slices/news";
 import { SideBar } from "../../components/SideBar";
 import { useAppSelector, useAppDispatch } from "services/redux/hooks";
-import useData2 from "../useData2";
+import useData from "../useData";
 import useWindowWidth from 'services/hooks/useWindowWidth';
 import Button from "components/Custom/Button";
 import Modal from "components/Custom/Modal";
@@ -87,8 +87,8 @@ const Active = () => {
     useState<intialFilterProps>(intialFilter);
 
   const { response } = useActive({filterValues:filterValues});
-  // const {list}=useData()
-  const {list}=useData2()
+
+  const {list}=useData()
   const handlechangePage = async (e: any) => {
     await setFilterValues({ ...filterValues, page: e });
     await response.refetch();

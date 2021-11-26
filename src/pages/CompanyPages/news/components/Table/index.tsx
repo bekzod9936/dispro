@@ -17,6 +17,7 @@ import {
   AgeData,
   TitleData,
   DefaultImage,
+  TimeData,
   ToolTipText,
   Text,
   ToolTipDescription,
@@ -34,7 +35,7 @@ const Table = ({ data, header2 }: Props) => {
   const dispatch = useAppDispatch();
   const selectedNews = useAppSelector((state) => state.news.selectedNews);
   const { t } = useTranslation();
-
+  let convertedData=data;
   const handleAddNewsByClick = (e: any, row: any) => {
     e.stopPropagation();
     dispatch(setSelectedNews(row.original));
@@ -49,19 +50,20 @@ const Table = ({ data, header2 }: Props) => {
     }));
   }, []);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns: columns, data }, useSortBy);
-
-
+    useTable({ columns: columns, data:convertedData }, useSortBy);
+  
+     
+   
     const LightToolTip = withStyles(() => ({
+        
       tooltip: {
           backgroundColor: "#fff",
           color: "#223367",
           boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.12)",
           fontSize: 18,
           padding: 15,
-
           borderRadius: 14,
-
+    
       },
       arrow: {
           color: "#fff"
@@ -75,14 +77,17 @@ const Table = ({ data, header2 }: Props) => {
           {headerGroups.map((headerGroup: any) => (
             <Tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column: any) => (
+            
                 <Th
                   {...column.getHeaderProps(column.getSortByToggleProps())}
-                  active={column.isSorted}
-                   
+                  active={column.isSorted ? column.isSortedDesc:column.isSortedDesc}
+
                 >
                   {column.render("Header")}
+                  {console.log('column',column)}
                   <UpIcon up={column.isSortedDesc} active={column.isSorted} />
                 </Th>
+                
               ))}
             </Tr>
           ))}
@@ -91,11 +96,12 @@ const Table = ({ data, header2 }: Props) => {
         <Tbody {...getTableBodyProps()}>
           {rows.map((row: any) => {
             prepareRow(row);
+
             return (
               <TRow
                 checked={
                   selectedNews?.fullData?.data?.id ==
-                  row.original.fullData.data?.id
+                  row.index
                 }
                 onClick={(e) => handleAddNewsByClick(e, row)}
                 {...row.getRowProps()}
@@ -115,10 +121,10 @@ const Table = ({ data, header2 }: Props) => {
                           {src ? <img src={src} /> : <DefaultImage />}
                           {title ? title : ""}
                         </TitleData>
-                        {cell.render("Cell")}
+          
                       </Td>
                     );
-                  } else if (cell.column.Header === "Описание") {
+                  }  else if (cell.column.Header === "Описание") {
                     let checkDescription = cell?.row?.original?.fullData?.data?.description;
              
                     let description =
@@ -132,66 +138,53 @@ const Table = ({ data, header2 }: Props) => {
                              <p style={{ width:'300px',whiteSpace: "pre-wrap"}}>{description}</p>
                        
                       </AgeData>
-                        {cell.render("Cell")}
+                      
                       </Td>
                     );
-                  } else if (cell.column.Header === "Пол") {
+                  }
+                  else if (cell.column.Header === "Пол") {
                     let genderType =
                       cell?.row?.original?.fullData?.data?.genderType === 1
-                        ? <p style={{fontSize:'14px'}}>{"Для мужчин"}</p>
+                        ? <p style={{lineHeight:'21px',color:'#223367',fontSize: '14px',fontWeight:300}}>{"Для мужчин"}</p>
                         : cell?.row?.original?.fullData?.data?.genderType === 2
-                        ? <p style={{fontSize:'14px'}}>{"Для женщины"}</p>
-                        : <p style={{fontSize:'14px'}}>{"Для всех"}</p>;
+                        ? <p style={{lineHeight:'21px',color:'#223367',fontSize: '14px',fontWeight:300}}>{"Для женщины"}</p>
+                        : <p style={{lineHeight:'21px',color:'#223367',fontSize: '14px',fontWeight:300}}>{"Для всех"}</p>;
                     return (
                       <Td {...cell.getCellProps()}>
                         {genderType}
-                        {cell.render("Cell")}
+                  
                       </Td>
                     );
-                  } else if (cell.column.Header === "Срок публикации") {
+                  } 
+                  else if (cell.column.Header === "Срок публикации") {
                     let ageFrom = cell?.row?.original?.fullData?.data?.ageFrom;
                     let PushUp= cell?.row?.original?.fullData?.data?.pushUp;
                     let ageUnlimeted=cell?.row?.original?.fullData?.data?.ageUnlimited;
                     let stat=cell?.row?.original?.fullData?.data?.stat;
                     let date = cell?.row?.original?.fullData?.date;
-                    console.log('cell?.row?.original?',cell?.row?.original)
+               
                     return (
                       <Td {...cell.getCellProps()}>
-                        <AgeData>
-                          
+                        <TimeData>
                           <p>{date}</p>
                           {ageUnlimeted ? '' :ageFrom>0 ? <h4>{ageFrom+ "+"}</h4>:''}
                           {     PushUp ? <LightToolTip arrow placement="left" title={<> 
-                            <p style={{padding:'10px 0px',lineHeight:'21px',color:'#223367',fontSize: '18px',fontWeight:300}}>{`Уведомлений получили:${' '+stat?.get?.total+' '}чел.`}</p>
-                            
-                          <p style={{lineHeight:'21px',color:'#223367',fontSize: '18px',fontWeight:300}}>{`Уведомлений просмотрели:${' '+stat?.view?.total+' '}чел.`}
-                          <br/>
-                          <span style={{color:'#606EEA',padding:'5px'}}>{`${' '+stat?.view?.male+' '} Муж`}</span>
-                          <span style={{color:'#FF56BB'}}>{`${' '+stat?.view?.female+' '} Жен`}</span>
-                          </p>
-                          <p style={{lineHeight:'21px',color:'#223367',fontSize: '18px',fontWeight:300}}>{`Произвели оплату:${' '+stat?.paid?.total+' '}чел.`}
-                          <br/>
-                          <span style={{color:'#606EEA',padding:'5px'}}>{`${' '+stat?.paid?.male+' '} Муж`}</span>
-                          <span style={{color:'#FF56BB'}}>{`${' '+stat?.paid?.female+' '} Жен`}</span>
-                          </p> </>}>
+                          <p style={{padding:'10px 0px',lineHeight:'21px',color:'#223367',fontSize: '18px',fontWeight:300}}>{`Уведомлений получили:${' '+stat?.get?.total+' '}чел.`}</p>  
+                          <p style={{lineHeight:'21px',color:'#223367',fontSize: '18px',fontWeight:300}}>{`Уведомлений просмотрели:${' '+stat?.view?.total+' '}чел.`}  </p>
+                         
+                          <span style={{color:'#606EEA',fontWeight:300,}}>{`${' '+stat?.view?.male+' '} Муж`}</span>
+                          <span style={{color:'#FF56BB',fontWeight:300,}}>{`${' '+stat?.view?.female+' '} Жен`}</span>
+                       
+                          <p style={{lineHeight:'21px',color:'#223367',fontSize: '18px',fontWeight:300}}>{`Произвели оплату:${' '+stat?.paid?.total+' '}чел.`} </p>
+                          
+                          <span style={{color:'#606EEA',fontWeight:300}}>{`${' '+stat?.paid?.male+' '} Муж`}</span>
+                          <span style={{color:'#FF56BB',fontWeight:300}}>{`${' '+stat?.paid?.female+' '} Жен`}</span>
+                       
+                          </>}>
                     <h3> Push-up</h3>
                 </LightToolTip>:''}
-                          
-                          {/* {ageUnlimeted ? '' :ageFrom>0 ? <h4>{ageFrom+ "+"}</h4>:''}
-                          {PushUp ?<h3><ToolTip>{'Push-up'}<ToolTipText><p style={{lineHeight:'21px',color:'#223367',fontSize: '18px',fontWeight:300}}>{`Уведомлений получили:${' '+stat?.get?.total+' '}чел.`}</p>
-                           <p style={{lineHeight:'21px',color:'#223367',fontSize: '18px',fontWeight:300}}>{`Уведомлений просмотрели:${' '+stat?.view?.total+' '}чел.`}
-                          <br/>
-                          <span style={{color:'#606EEA',padding:'5px'}}>{`${' '+stat?.view?.male+' '} Муж`}</span>
-                          <span style={{color:'#FF56BB'}}>{`${' '+stat?.view?.female+' '} Жен`}</span>
-                          </p>
-                          <p style={{lineHeight:'21px',color:'#223367',fontSize: '18px',fontWeight:300}}>{`Произвели оплату:${' '+stat?.paid?.total+' '}чел.`}
-                          <br/>
-                          <span style={{color:'#606EEA',padding:'5px'}}>{`${' '+stat?.paid?.male+' '} Муж`}</span>
-                          <span style={{color:'#FF56BB'}}>{`${' '+stat?.paid?.female+' '} Жен`}</span>
-                          </p> 
-                          </ToolTipText></ToolTip></h3>:''} */}
-                        </AgeData>
-                        {cell.render("Cell")}
+                        </TimeData>
+                 
                       </Td>
                     );
                   
