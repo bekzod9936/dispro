@@ -82,6 +82,7 @@ export const useSideBar = () => {
 
   const handlePermision = () => {
     for (let i in permissions) {
+      console.log(i, "setting");
       for (let j of sidebar) {
         if (i === j.text) {
           j.permission = permissions[i];
@@ -92,7 +93,7 @@ export const useSideBar = () => {
     return sidebar;
   };
 
-  console.log(handlePermision());
+  // console.log(handlePermision(), "permit");
   const sideList = useMemo(() => handlePermision(), [sidebar]);
 
   return {
