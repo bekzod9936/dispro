@@ -41,7 +41,7 @@ import {
 	setOpenManager,
 	setSelectedManagers,
 	setStepManager,
-	setUserId,
+	setManagerId,
 } from 'services/redux/Slices/staffs';
 import {
 	ModalAction,
@@ -53,6 +53,7 @@ const ManagerBar: React.FC<any> = ({}) => {
 	const dispatch = useAppDispatch();
 	const { t } = useTranslation();
 	const [imgError, setImgError] = useState(false);
+
 	const { roleManager, deleteManager, open, setOpen } = useManagers({
 		page: 1,
 		query: '',
@@ -126,10 +127,10 @@ const ManagerBar: React.FC<any> = ({}) => {
 									bgcolor: '#fff',
 								}}
 								onClick={() => {
+									roleManager.mutate(selectedManagers[0].id);
 									dispatch(setOpenManager(true));
 									dispatch(setStepManager(2));
-									roleManager.mutate(selectedManagers[0].userId);
-									dispatch(setUserId(selectedManagers[0].userId));
+									dispatch(setManagerId(selectedManagers[0].id));
 								}}
 								endIcon={<RoleIcon />}
 							>
