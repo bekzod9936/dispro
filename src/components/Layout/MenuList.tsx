@@ -1,21 +1,27 @@
-import { useHistory } from "react-router-dom";
-import List from "@material-ui/core/List";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import { sidebar } from "./sidebar";
-import { setCurrentScreen } from "services/atoms/partner/selector";
-import { setCurrentPage } from "../../services/redux/Slices/partnerSlice";
-import { useAppDispatch } from "../../services/redux/hooks";
-import { useLocation } from "react-router-dom";
-import { SettingIcon, WrapList, ListText, ListI } from "./style";
+import { useHistory, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useSetRecoilState } from "recoil";
+import { useAppDispatch } from "../../services/redux/hooks";
+//components
+import List from "@material-ui/core/List";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+//constants
+import { SettingIcon, WrapList, ListText, ListI } from "./style";
+//selector
+import { setCurrentScreen } from "services/atoms/partner/selector";
+//slices
+import { setCurrentPage } from "../../services/redux/Slices/partnerSlice";
+//hooks
+import { useSideBar } from "./sidebar";
 
 const MenuList = () => {
+  const userType = localStorage.getItem("userType");
   const { t } = useTranslation();
   const history = useHistory();
   const location = useLocation();
   const dispatch = useAppDispatch();
   const pathName: string[] = location.pathname.split("/");
+  const { sideList: sidebar } = useSideBar();
 
   //recoil
   const setCurrentP = useSetRecoilState(setCurrentScreen);
@@ -23,29 +29,38 @@ const MenuList = () => {
   return (
     <WrapList>
       <List>
-        {sidebar.map(({ Icon, text, path }) => {
+        {sidebar.map(({ Icon, text, path, permission }: any) => {
           let currentpath = path.split("/");
-          return (
-            <ListI
-              button
-              key={text}
-              onClick={() => {
-                history.push(`/${path}`);
-                dispatch(setCurrentPage(path));
-                setCurrentP({ currentPage: path });
-              }}
-              selected={
-                pathName[1] === currentpath[0] || pathName[1] === path
-                  ? true
-                  : false
-              }
-            >
-              <ListItemIcon>
-                <Icon />
-              </ListItemIcon>
-              <ListText primary={t(text)} />
-            </ListI>
-          );
+          console.log(permission, "permission");
+          if (
+            permission?.includes(2) ||
+            permission.includes(1) ||
+            userType === "2"
+          ) {
+            return (
+              <ListI
+                button
+                key={text}
+                onClick={() => {
+                  history.push(`/${path}`);
+                  dispatch(setCurrentPage(path));
+                  setCurrentP({ currentPage: path });
+                }}
+                selected={
+                  pathName[1] === currentpath[0] || pathName[1] === path
+                    ? true
+                    : false
+                }
+              >
+                <ListItemIcon>
+                  <Icon />
+                </ListItemIcon>
+                <ListText primary={t(text)} />
+              </ListI>
+            );
+          } else {
+            return null;
+          }
         })}
       </List>
       <List>

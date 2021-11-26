@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
 import { useHistory } from "react-router";
 import { Tooltip } from "@material-ui/core";
+import { useSetRecoilState } from "recoil";
 //styles
 import {
   Container,
@@ -33,6 +34,8 @@ import {
 //components
 import Spinner from "components/Helpers/Spinner";
 import AddCompany from "../AddCompany";
+import { setPermissions } from "services/atoms/permissions";
+// import { handleClick } from "services/redux/Slices/settingsSlice";
 
 const Companylist = () => {
   useFirebase();
@@ -40,20 +43,25 @@ const Companylist = () => {
   const dispatch = useAppDispatch();
   const [id, setId] = useState(null);
   const history = useHistory();
+  const userType = localStorage.getItem("userType");
 
   const { data, isLoading, refetch, isFetching } = useList();
+  const companyList = data?.data.data;
+  const setPermission = useSetRecoilState(setPermissions);
 
+  //reducers
   const backAddCompany = useAppSelector((state) => {
     return state.auth.backAddCompany;
   });
-
   const regFilled = useAppSelector((state) => {
     return state.auth.regFilled;
   });
+
   const permissions = useMutation((data: any) => getPermission(data), {
     onSuccess: (data) => {
-      const permitData = data.data.data;
+      const permitData = data.data.data.permissions;
 
+      setPermission({ permissions: permitData });
       console.log(permitData, "permit data");
     },
     onError: (e) => {
@@ -61,11 +69,15 @@ const Companylist = () => {
     },
   });
 
+  console.log(userType, "user Type");
+
   const company = useMutation((values: any) => enterCompany(values), {
     onSuccess: async (data) => {
       const refData = data.data.data;
-      console.log(refData, "updated ref data");
-      await permissions.mutate(refData.staffId);
+      if (userType === "4") {
+        await permissions.mutate(refData.staffId);
+        await localStorage.setItem("staffId", refData.staffId);
+      }
       await localStorage.setItem("companyId", refData.companyId);
       await localStorage.setItem("companyToken", refData.accessToken);
       if (regFilled?.filled && regFilled.filledAddress) {
@@ -86,45 +98,48 @@ const Companylist = () => {
     await company.mutate(values);
   };
 
-  return backAddCompany ? (
-    <AddCompany />
-  ) : (
-    <Main>
-      <ChooseText>{t("choose-company")}</ChooseText>
-      {isLoading || isFetching ? (
-        <Spinner />
-      ) : data?.data.data.length === 0 ? (
+  const handleTap = async (v: any) => {
+    await setId(v.company.id);
+    await dispatch(
+      setRegFilled({
+        filled: v.company.filled,
+        filledAddress: v.company.filledAddress,
+      })
+    );
+    await handleEnterCompany({
+      companyId: v.company.id,
+      companyType: v.company.type,
+    });
+  };
+
+  const addCompany = () => {
+    if (isLoading || isFetching) {
+      return <Spinner />;
+    } else if (companyList.length === 0) {
+      return (
         <Box onClick={handleAddCompany}>
           <Wrap border="1.5px dashed #606eea">
             <PlusIcon />
           </Wrap>
           <Text color="#606EEA">{t("addCompany")}</Text>
         </Box>
-      ) : (
+      );
+    } else {
+      return (
         <Container>
-          <Box onClick={handleAddCompany}>
-            <Wrap border="1.5px dashed #606eea">
-              <PlusIcon />
-            </Wrap>
-            <Text color="#606EEA">{t("addCompany")}</Text>
-          </Box>
-          {data?.data.data.map((v: any) => (
+          {userType !== "4" && (
+            <Box onClick={handleAddCompany}>
+              <Wrap border="1.5px dashed #606eea">
+                <PlusIcon />
+              </Wrap>
+              <Text color="#606EEA">{t("addCompany")}</Text>
+            </Box>
+          )}
+          {companyList.map((v: any) => (
             <Tooltip title={v.company.name} arrow>
               <Box
                 key={v.company.id}
-                onClick={async () => {
-                  await setId(v.company.id);
-                  await dispatch(
-                    setRegFilled({
-                      filled: v.company.filled,
-                      filledAddress: v.company.filledAddress,
-                    })
-                  );
-                  await handleEnterCompany({
-                    companyId: v.company.id,
-                    companyType: v.company.type,
-                  });
-                }}
+                onClick={() => handleTap(v)}
                 style={{
                   pointerEvents: company.isLoading ? "none" : "all",
                 }}
@@ -146,7 +161,17 @@ const Companylist = () => {
             </Tooltip>
           ))}
         </Container>
-      )}
+      );
+    }
+  };
+
+  if (backAddCompany) {
+    return <AddCompany />;
+  }
+  return (
+    <Main>
+      <ChooseText>{t("choose-company")}</ChooseText>
+      {addCompany()}
     </Main>
   );
 };
