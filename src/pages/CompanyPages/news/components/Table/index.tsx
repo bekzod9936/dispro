@@ -83,8 +83,7 @@ const Table = ({ data, header2 }: Props) => {
                   active={column.isSorted ? column.isSortedDesc:column.isSortedDesc}
 
                 >
-                  {column.render("Header")}
-                  {console.log('column',column)}
+                  
                   <UpIcon up={column.isSortedDesc} active={column.isSorted} />
                 </Th>
                 
