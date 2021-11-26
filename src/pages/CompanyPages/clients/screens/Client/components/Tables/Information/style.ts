@@ -13,6 +13,10 @@ export const Wrapper = styled.div`
     height: max-content;
     background-color: #ffffff;
     padding: 0 15px 15px 15px;
+    div.statistics {
+        display: flex;
+        flex-wrap: wrap;
+    }
 
 `
 
@@ -35,10 +39,10 @@ export const InfoItem = styled.div`
 
 export const AddInfo = styled.div`
     display: flex;
-    align-items: center;
+    align-items: stretch;
     padding: 15px;
     width: 100%;
-    height: 180px;
+    height: 100%;
     @media (max-width: ${device.mobile}) {
         flex-direction: column;
         height: max-content;
@@ -84,7 +88,7 @@ export const InfoBlock = styled.div`
 export const InfoWrapper = styled.div`
     width: 100%;
     margin-right: 25px;
-    height: 100%;
+    /* height: 100%; */
     @media (max-width: ${device.mobile}) {
         margin-right: 0;
     }
