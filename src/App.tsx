@@ -8,8 +8,8 @@ import { setNotifyOpen } from 'services/redux/Slices/firebase';
 import SnackBar from 'components/Custom/NewSnack';
 import RestrictModal from 'components/Helpers/RestrictModal';
 //screens
-import Condition from 'pages/LoginPages/LoginPageModerator/Condition';
-import Policy from 'pages/LoginPages/LoginPageModerator/Policy';
+import Condition from 'pages/LoginPages/LoginPage/Condition';
+import Policy from 'pages/LoginPages/LoginPage/Policy';
 //routes
 import { RenderAllRoutes } from './routes/Protection';
 //hooks
