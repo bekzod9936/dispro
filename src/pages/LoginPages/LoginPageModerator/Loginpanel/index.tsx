@@ -1,21 +1,25 @@
 import { useEffect, useState } from "react";
-import DisIcon from "assets/icons/DisIcon";
 import { useTranslation } from "react-i18next";
-import Button from "components/Custom/Button";
-import { useForm, Controller } from "react-hook-form";
-import { logIn, signIn } from "services/queries/loginQuery";
 import { useHistory } from "react-router";
 import { useMutation } from "react-query";
+import { useForm, Controller } from "react-hook-form";
+//utilities
+import { inputPhoneNumber, inputSms } from "utilities/inputFormat";
+//types
+import { USERTYPE, FormProps, PropLog, PropSign } from "./types";
+//queries
+import { logIn, signIn } from "services/queries/loginQuery";
+//hooks
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
+//actions
 import {
   setCompanyState,
   setLogIn,
   setProceedAuth,
 } from "services/redux/Slices/authSlice";
-import { inputPhoneNumber, inputSms } from "utilities/inputFormat";
-import Input from "components/Custom/Input";
-import MultiSelect from "components/Custom/MultiSelect";
-import SnackBar from "components/Custom/NewSnack";
+//assets
+import DisIcon from "assets/icons/DisIcon";
+//styles
 import {
   Container,
   MainWrap,
@@ -35,24 +39,11 @@ import {
   LogInContentWrap,
   LogInWrap,
 } from "./style";
-import { USERTYPE } from "./types";
-
-interface FormProps {
-  role: { value?: string; label?: string };
-  phoneNumber: string;
-  smsCode: string;
-}
-
-interface PropLog {
-  role: { value?: string; label?: string };
-  phoneNumber: string;
-  smsCode: string;
-}
-
-interface PropSign {
-  role: { value?: string; label?: string };
-  phoneNumber: string;
-}
+//components
+import Input from "components/Custom/Input";
+import MultiSelect from "components/Custom/MultiSelect";
+import SnackBar from "components/Custom/NewSnack";
+import Button from "components/Custom/Button";
 
 export const LoginPanel = () => {
   const { t } = useTranslation();
@@ -192,20 +183,16 @@ export const LoginPanel = () => {
   const onSubmitSms = (values: any) => {
     smsRes.mutate(values, {
       onSuccess: (data) => {
+        const res = data.data.data;
         setTime(0);
-        localStorage.setItem(
-          "partner_access_token",
-          data.data.data.accessToken
-        );
-        localStorage.setItem(
-          "partner_refresh_token",
-          data.data.data.refreshToken
-        );
-        dispatch(setLogIn(data.data.data));
+        localStorage.setItem("partner_access_token", res.accessToken);
+        localStorage.setItem("partner_refresh_token", res.refreshToken);
+        localStorage.setItem("userType", res.userType);
+        dispatch(setLogIn(res));
         refetchList();
-        dispatch(setCompanyState(data.data.data.status));
+        dispatch(setCompanyState(res.status));
 
-        if (data.data.data.status === "old") {
+        if (res.status === "old") {
           history.push("/partner/company");
         } else {
           history.push("/partner/registration");

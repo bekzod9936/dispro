@@ -95,31 +95,19 @@ const Points = () => {
                     </Tbody>
                 </Table> :
                 <MobileTable>
-                    {/* {Object.keys(mobilePoints).map((date: any, index: any) => (
-                        <MTRow isEven={!!((index + 1) % 2)}>
-                            <div className="date">{date}</div>
-                            {mobilePoints[date].map((el: any) =>
-                                <div className="content">
-                                    <div className="left">
-                                        <p className="type">{el.action}</p>
-                                        <p className="value">{el.amount} Б.</p>
+                    {Object.keys(mobilePoints).map((date: any, index: any) => (
+                            <>{mobilePoints[date].map((el: any, index: number) =>
+                                <MTRow>
+                                    {index === 0 && <div className="date">{date}</div>}
+                                    <div className="content">
+                                        <div className="left">
+                                            <p className="type">{el.action}</p>
+                                            <p className="value">{el.amount} Б.</p>
+                                        </div>
+                                        <span className="time">{el.time}</span>
                                     </div>
-                                    <span className="time">{el.time}</span>
-                                </div>
-                            )}
-                        </MTRow>
-                    ))} */}
-                    {points.map((el, index: number) => (
-                        <MTRow isEven={!!((index + 1) % 2)}>
-                            <div className="date">{el.mobDate}</div>
-                            <div className="content">
-                                <div className="left">
-                                    <p className="type">{el.type}</p>
-                                    <p className="value">{el.points} Б.</p>
-                                </div>
-                                <span className="time">{el.time}</span>
-                            </div>
-                        </MTRow>
+                                </MTRow>
+                            )}</>
                     ))}
                 </MobileTable>}
             <Footer>

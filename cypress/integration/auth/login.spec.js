@@ -12,8 +12,11 @@ const selector = {
 
 context("Login test", () => {
   //login for administrator
-  it("login succes for admin", () => {
+  beforeEach(() => {
     cy.visit("/");
+  });
+
+  it("login succes for admin", () => {
     cy.intercept(`POST`, "**/auth/signup").as("login");
     // cy.get(selector.button.login).click();
     cy.get(".css-319lph-ValueContainer")
@@ -34,7 +37,6 @@ context("Login test", () => {
   });
 
   it("login success for manager", () => {
-    cy.visit("/");
     cy.intercept(`POST`, "**/auth/signup").as("login");
     // cy.get(selector.button.login).click();
     cy.get(".css-319lph-ValueContainer")
