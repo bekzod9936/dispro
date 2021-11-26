@@ -47,6 +47,7 @@ const Table = ({ data, header2 }: Props) => {
     return headers.map((header) => ({
       Header: t(header.value),
       accessor: t(header.label),
+      
     }));
   }, []);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
@@ -83,7 +84,7 @@ const Table = ({ data, header2 }: Props) => {
                   active={column.isSorted ? column.isSortedDesc:column.isSortedDesc}
 
                 >
-                  
+                  {column.render("Header")}
                   <UpIcon up={column.isSortedDesc} active={column.isSorted} />
                 </Th>
                 
@@ -106,7 +107,9 @@ const Table = ({ data, header2 }: Props) => {
                 {...row.getRowProps()}
               >
                 {row.cells.map((cell: any) => {
+                      console.log('cellcellcellcell',cell)
                   if (cell.column.Header === "Заголовок") {
+                
                     let src = cell?.row?.original?.fullData?.data?.image;
                     let checktitle = cell?.row?.original?.fullData?.data?.title;
                     let title =
@@ -170,12 +173,9 @@ const Table = ({ data, header2 }: Props) => {
                           {     PushUp ? <LightToolTip arrow placement="left" title={<> 
                           <p style={{padding:'10px 0px',lineHeight:'21px',color:'#223367',fontSize: '18px',fontWeight:300}}>{`Уведомлений получили:${' '+stat?.get?.total+' '}чел.`}</p>  
                           <p style={{lineHeight:'21px',color:'#223367',fontSize: '18px',fontWeight:300}}>{`Уведомлений просмотрели:${' '+stat?.view?.total+' '}чел.`}  </p>
-                         
                           <span style={{color:'#606EEA',fontWeight:300,}}>{`${' '+stat?.view?.male+' '} Муж`}</span>
                           <span style={{color:'#FF56BB',fontWeight:300,}}>{`${' '+stat?.view?.female+' '} Жен`}</span>
-                       
                           <p style={{lineHeight:'21px',color:'#223367',fontSize: '18px',fontWeight:300}}>{`Произвели оплату:${' '+stat?.paid?.total+' '}чел.`} </p>
-                          
                           <span style={{color:'#606EEA',fontWeight:300}}>{`${' '+stat?.paid?.male+' '} Муж`}</span>
                           <span style={{color:'#FF56BB',fontWeight:300}}>{`${' '+stat?.paid?.female+' '} Жен`}</span>
                        
