@@ -5,17 +5,16 @@ import {
   fetchCompanies,
   fetchCompanyStatus,
 } from "../../../services/queries/adminQueries";
-import axios from "axios";
-import { URL, VERSION } from "../../../services/constants/config";
+import { URL } from "../../../services/constants/config";
 
-const authInterceptor = axios.create({
-  baseURL: URL,
-  headers: {
-    Authorization: "Bearer " + localStorage.getItem("moderator_access_token"),
-    langId: 1,
-    vers: VERSION,
-  },
-});
+// const authInterceptor = axios.create({
+//   baseURL: URL,
+//   headers: {
+//     Authorization: "Bearer " + localStorage.getItem("moderator_access_token"),
+//     langId: 1,
+//     vers: VERSION,
+//   },
+// });
 
 export const AdminCompanies = () => {
   const type = "2";
