@@ -104,7 +104,6 @@ const Client = () => {
             <Spinner />
         )
     }
-    console.log(isLoading);
 
     if (currentClient?.clientInfo.id != clientId && currentClient?.clientInfo.userId != clientUserId) {
         return (
@@ -253,7 +252,7 @@ const Client = () => {
                                             color: "#0FCF0B",
                                             weight: 500
                                         }}>
-                                        {t("unBlock")}
+                                        {t("unBlocking")}
                                     </Button> :
                                     <Button
                                         onClick={() => handleBlock()}

@@ -320,11 +320,11 @@ export const tableDataHelper = (arr: ITableHelperItem[]) => {
   return arr.map(el => ({
     cashier: el.name,
     date: dayjs(el.date).format("DD.MM.YYYY hh:mm"),
-    points: el.point,
+    points: numberWith(el.point + "", " "),
     type: "Оплата",
-    UZS: el.amount,
-    cashbackSum: el.cashback,
-    sale: el.discount,
+    UZS: numberWith(el.amount + "", " "),
+    cashbackSum: numberWith(el.cashback + "", " "),
+    sale: numberWith(el.discount + "", " "),
   }))
 }
 
@@ -354,7 +354,7 @@ export const tablePointsHelper = (arr: IPointHelperItem[]) => {
     date: dayjs(el.date).format("DD.MM.YYYY hh:mm"),
     type: pointTypes[el.type] || "",
     referal: el.name || "",
-    points: el.amount,
+    points: numberWith(el.amount + "", " "),
     mobDate: dayjs(el.date).format("DD.MM.YYYY"),
     time: dayjs(el.date).format("hh:mm"),
   }))
