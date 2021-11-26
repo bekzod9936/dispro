@@ -35,3 +35,20 @@ export const setPermissions = selector<IPermissions>({
     set(permissionList, newVal);
   },
 });
+
+//sidebar permission
+export const localPermission = atom<any>({
+  key: "localPermission",
+  default: [],
+});
+
+export const setLocalPermission = selector<any>({
+  key: "setLocalPermission",
+  get: ({ get }) => {
+    const res = get(localPermission);
+    return res;
+  },
+  set: ({ set }, newVal) => {
+    set(localPermission, newVal);
+  },
+});
