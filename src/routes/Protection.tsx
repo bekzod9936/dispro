@@ -7,7 +7,7 @@ import DefaultLayoutAdmin, {
 } from "../components/Layout/DefaultLayoutAdmin";
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
-import CompanyList from "../pages/LoginPages/LoginPageModerator/Companylist/index";
+import CompanyList from "../pages/LoginPages/LoginPage/Companylist/index";
 
 //tokens
 // const adminAuthentificationToken = localStorage.getItem("admin_access_token");
@@ -58,14 +58,14 @@ const ServicesPage = lazy(
 const ClientsPage = lazy(() => import("../pages/CompanyPages/clients"));
 const FeedbackPage = lazy(() => import("../pages/CompanyPages/feedback"));
 const TestLoginPage = lazy(
-  () => import("../pages/LoginPages/LoginPageModerator/TestLoginpage/index")
+  () => import("../pages/LoginPages/LoginPage/TestLoginpage/index")
 );
 
 // const CompanyList = lazy(
 //   () => import('../pages/LoginPages/LoginPageModerator/CompanyList')
 // );
 const RegistrationPanel = lazy(
-  () => import("../pages/LoginPages/LoginPageModerator/Registrationpanel/index")
+  () => import("../pages/LoginPages/LoginPage/Registrationpanel/index")
 );
 
 // const LoginPageModerator = lazy(()=>import("../pages/LoginPages/LoginPageModerator/LoginPageModerator"));
@@ -86,7 +86,7 @@ const publicRoutes: IPublicRoute[] = [
     component: TestLoginPage,
   },
   {
-    path: "/partner",
+    path: "/admin",
     component: LoginPageAdmin,
   },
 ];
@@ -234,12 +234,11 @@ const RenderPublicRoutes = () => {
 };
 
 const RenderRoutes = () => {
-  const adminAuthentificationToken = localStorage.getItem("admin_access_token");
   const moderatorAutehntificationToken = localStorage.getItem(
     "partner_access_token"
   );
   const moderatorRefreshToken = localStorage.getItem("partner_refresh_token");
-  let companyToken = localStorage.getItem("companyToken");
+
   return privateRoutes
     .map((item: IPrivateRoute) => {
       if (moderatorAutehntificationToken && moderatorRefreshToken) {
