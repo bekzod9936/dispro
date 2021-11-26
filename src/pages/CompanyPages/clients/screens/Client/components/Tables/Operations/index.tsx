@@ -10,15 +10,16 @@ import { fetchClientTableData } from 'services/queries/clientsQuery'
 import { useAppSelector } from 'services/redux/hooks'
 import { EmptyTable } from '../../EmptyTable'
 import { operationsHeaders } from './constants'
-import { Footer, MobileTable, MTRow, Table, Tbody, Td, Th, THead, TRow } from './style'
+import { Footer, MobileTable, MTRow, Table, Tbody, Td, Th, THead, TRow, Wrapper } from './style'
 import useWindowWidth from 'services/hooks/useWindowWidth'
+import { NewPagination } from 'components/Custom/NewPagination'
 interface IOperation {
     cashier: string,
-    points: number,
+    points: string,
     date: string,
-    UZS: number,
-    cashbackSum: number,
-    sale: number,
+    UZS: string,
+    cashbackSum: string,
+    sale: string,
     type: string,
 
 }
@@ -69,63 +70,69 @@ const Operations = () => {
             <EmptyTable image={operationsImage} text={"Тут будут отображаться все операции клиента"} />
         )
     }
-    console.log(mobileOperations);
 
     return (
         <>
             {width > 600 ?
-                <Table {...getTableProps()}>
-                    <THead>
-                        {headerGroups.map(headerGroup => (
-                            <tr style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.04)" }} {...headerGroup.getHeaderGroupProps}>
-                                {headerGroup.headers.map(column => (
-                                    <Th {...column.getHeaderProps()}>
-                                        {column.render("Header")}
-                                    </Th>
-                                ))}
-                            </tr>
-                        ))}
-                    </THead>
-                    <Tbody {...getTableBodyProps()}>
-                        {rows.map(row => {
-                            prepareRow(row)
-                            return (
-                                <TRow {...row.getRowProps()}>
-                                    {row.cells.map(cell => {
-                                        return (
-                                            <Td {...cell.getCellProps()}>
-                                                {cell.render('Cell')}
-                                            </Td>
-                                        )
-                                    })}
-                                </TRow>
-                            )
-                        })}
+                <Wrapper>
+                    <Table {...getTableProps()}>
+                        <THead>
+                            {headerGroups.map(headerGroup => (
+                                <tr style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.04)" }} {...headerGroup.getHeaderGroupProps}>
+                                    {headerGroup.headers.map(column => (
+                                        <Th {...column.getHeaderProps()}>
+                                            {column.render("Header")}
+                                        </Th>
+                                    ))}
+                                </tr>
+                            ))}
+                        </THead>
+                        <Tbody {...getTableBodyProps()}>
+                            {rows.map(row => {
+                                prepareRow(row)
+                                return (
+                                    <TRow {...row.getRowProps()}>
+                                        {row.cells.map(cell => {
+                                            return (
+                                                <Td {...cell.getCellProps()}>
+                                                    {cell.render('Cell')}
+                                                </Td>
+                                            )
+                                        })}
+                                    </TRow>
+                                )
+                            })}
 
-                    </Tbody>
-                </Table> :
+                        </Tbody>
+                    </Table>
+                </Wrapper> :
                 <MobileTable>
                     {Object.keys(mobileOperations).map((date: any) => (
-                            <>{mobileOperations[date].map((el: any, index: number) => (
-                                <MTRow>
-                                    {index === 0 && <div className="date">{date}</div>}
-                                        <div className="content">
-                                            <div className="left">
-                                                <p className="type">{el.action}</p>
-                                                <p className="value">{el.value}</p>
-                                            </div>
-                                            <span className="time">{el.time}</span>
-                                        </div>
-                                </MTRow>
-                            ))}</>
+                        <>{mobileOperations[date].map((el: any, index: number) => (
+                            <MTRow>
+                                {index === 0 && <div className="date">{date}</div>}
+                                <div className="content">
+                                    <div className="left">
+                                        <p className="type">{el.action}</p>
+                                        <p className="value">{el.value}</p>
+                                    </div>
+                                    <span className="time">{el.time}</span>
+                                </div>
+                            </MTRow>
+                        ))}</>
                     ))}
                 </MobileTable>}
             <Footer>
-                <Pagination
+                <NewPagination
+                    currentPage={page}
+                    onChange={(e) => setPage(e)}
+                    totalCount={totalCount}
+                />
+                {/* <Pagination
                     defaultPage={page}
                     onChange={(e: any) => setPage(e)}
                     count={totalCount}
-                />
+                /> */}
             </Footer>
         </>
     )

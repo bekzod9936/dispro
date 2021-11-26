@@ -23,6 +23,7 @@ import { setNote } from "services/redux/Slices/clients";
 import { useMutation } from "react-query";
 import { sendNote } from "services/queries/clientsQuery";
 import Modal from "components/Custom/Modal";
+import { StatsCard } from "../../StatsCard";
 const referTypes: any = {
   1: "client",
   2: "partner_admin",
@@ -65,15 +66,21 @@ const Information = () => {
           <NoteModal config={{ setNote: setNoteState, refetch, note: noteState, handleSendNote }} />
         </Modal>}
       <Wrapper>
-        {statistics.map((el, index) => (
-          <InfoItem>
-            <span>{el?.heading}</span>
-            <p>
-              {numberWith(el?.value?.toString(), " ")}
-            </p>
-            {index !== statistics.length - 1 && <BreakLine />}
-          </InfoItem>
-        ))}
+        {width <= 1000 && width > 600 ?
+          <div className="statistics">
+            {getClientStatistics(client?.addInfo)?.map((el, index) => (
+              <StatsCard key={index} {...el} />
+            ))}
+          </div>
+          : <>{statistics.map((el, index) => (
+            <InfoItem>
+              <span>{el?.heading}</span>
+              <p>
+                {numberWith(el?.value?.toString(), " ")}
+              </p>
+              {index !== statistics.length - 1 && <BreakLine />}
+            </InfoItem>
+          ))}</>}
       </Wrapper>
       <AddInfo>
         <InfoWrapper>

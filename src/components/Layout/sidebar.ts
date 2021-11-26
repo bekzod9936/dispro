@@ -42,7 +42,7 @@ const sidebar: any = [
   {
     Icon: NewsIcon,
     text: "News",
-    path: "news/active",
+    path: "news/waiting",
     permission: [],
   },
   {

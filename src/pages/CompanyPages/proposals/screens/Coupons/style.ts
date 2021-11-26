@@ -320,7 +320,7 @@ export const PeriodWrapper = styled.div`
   @media (max-width: ${device.mobile}) {
     box-shadow: none;
     padding: 15px;
-    height: 100vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;

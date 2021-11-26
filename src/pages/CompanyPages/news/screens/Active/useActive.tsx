@@ -19,10 +19,6 @@ const useActive = ({filterValues}:Props) => {
   const dispatch = useAppDispatch();
   const query=useAppSelector((state)=>state.news.query);
 
-
-  
-  // const startDate=useAppSelector((state)=>state.news.setPeriod.toDate);
-  // const endDate=useAppSelector((state)=>state.news.setPeriod.dateTo);
   const [debouncedQuery] = useDebounce(query, 300);
 
   const response=useQuery(["fetchNews", filterValues,debouncedQuery],
@@ -44,8 +40,6 @@ const useActive = ({filterValues}:Props) => {
     refetchOnWindowFocus: false,
     retry: 0,
     onSuccess: (data) => {
-     
-
       dispatch(
         setNewsBetween(
           formatPagination({

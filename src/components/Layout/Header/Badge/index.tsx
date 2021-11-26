@@ -7,7 +7,12 @@ import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
 import isYesterday from 'dayjs/plugin/isYesterday';
 import isToday from 'dayjs/plugin/isToday';
-
+import utc from 'dayjs/plugin/utc';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import useWindowWidth from 'services/hooks/useWindowWidth';
+import FullModal from 'components/Custom/FullModal';
+import { useState } from 'react';
+import { useHistory } from 'react-router';
 import { ReactComponent as LeftBack } from 'assets/icons/FinanceIcons/leftback.svg';
 import {
   Container,
@@ -27,16 +32,15 @@ import {
   Wrap,
   ModalWrap,
 } from './style';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
-import useWindowWidth from 'services/hooks/useWindowWidth';
-import FullModal from 'components/Custom/FullModal';
-import { useState } from 'react';
+import defuserman from 'assets/icons/defuserman.png';
+import defuserwoman from 'assets/icons/defuserwoman.png';
 
 const Badge = () => {
   const { t } = useTranslation();
   const { width } = useWindowWidth();
   const [open, setOpen] = useState<boolean>(false);
-
+  const history = useHistory();
+  dayjs.extend(utc);
   dayjs.extend(isYesterday);
   dayjs.extend(isToday);
 
@@ -45,33 +49,48 @@ const Badge = () => {
   const companyId = localStorage.getItem('companyId');
   useLayout({ id: companyId });
   const badgeInfo = useRecoilState(badgeData);
+  const dd = new Date().getTimezoneOffset();
 
   const date = 'Wed Nov 25 2020 11:11:49 GMT+0500 (Uzbekistan Standard Time)';
-  const dd = new Date();
 
   console.log(badgeInfo, 'ssss');
+  // date: "Fri Nov 26 2021 10:21:22 GMT+0500 (Uzbekistan Standard Time)"
 
   const getTime = (date: any) => {
+    const di = dayjs().utcOffset() / 60;
+    const timedef = dayjs().add(di, 'm').format();
     const time =
       dayjs(Date.now()).diff(date, 'minute') < 60
-        ? `${dayjs(Date.now()).diff(date, 'minute')}M ${t('ago')}`
+        ? `${dayjs(timedef).diff(date, 'minute')}M ${t('ago')}`
         : dayjs(Date.now()).diff(date, 'hour') < 24
-        ? `${dayjs(Date.now()).diff(date, 'hour')}hours ${t('ago')}`
+        ? `${dayjs(Date.now()).diff(date, 'hour')} ${t('hour')} ${t('ago')}`
         : dayjs(Date.now()).diff(date, 'month') === 0
-        ? `${dayjs(Date.now()).diff(date, 'day')} ${t('day')} ${t(
-            'ago'
+        ? `${dayjs(Date.now()).diff(date, 'day')} ${t('day')} ${t('ago')} ${t(
+            'atfortime'
           )} ${dayjs(date).format('HH:mm')}`
         : dayjs(Date.now()).diff(date, 'year') === 0
-        ? dayjs(date).format('DD MMMM HH:mm')
-        : dayjs(date).format('DD MMMM YYYY');
+        ? `${dayjs(date).format('DD MMMM')} ${t('atfortime')} ${dayjs(
+            date
+          ).format('HH:mm')}`
+        : `${dayjs(date).format('DD MMMM YYYY')} ${t('atfortime')} ${dayjs(
+            date
+          ).format('HH:mm')}`;
     return time;
+  };
+
+  const handleClickNotification = (v: any) => {
+    if (v.chatType === 6) {
+      history.push('/support');
+    } else {
+      history.push('/feedback/posts');
+    }
   };
 
   const content = (
     <div>
       {badgeInfo[0]?.histories?.map((v: any) => {
         return (
-          <WrapNotification>
+          <WrapNotification onClick={() => handleClickNotification(v)}>
             <Avatar>
               {v.chatType === 6 ? (
                 <DisIcon />
@@ -84,6 +103,10 @@ const Badge = () => {
                   }}
                   height='100%'
                   width='100%'
+                  onError={(e: any) => {
+                    e.target.onerror = null;
+                    e.target.src = defuserman;
+                  }}
                 />
               )}
             </Avatar>
