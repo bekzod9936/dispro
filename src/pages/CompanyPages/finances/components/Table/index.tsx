@@ -11,6 +11,8 @@ interface Props {
 const Table = ({ columns, data, header2 }: Props) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data }, useSortBy);
+
+
   return (
     <Container>
       <MTable {...getTableProps()}>

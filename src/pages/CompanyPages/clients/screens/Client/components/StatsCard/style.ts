@@ -1,10 +1,15 @@
 import styled from "styled-components";
+import { device } from "styles/device";
 
 export const Wrapper = styled.div`
     margin-right: 100px;
     margin-bottom: 35px;
     display: flex;
     align-items: center;
+    @media (max-width: ${device.planshet}) {
+        margin-right: 48px;
+        margin-bottom: 30px;
+    }
 `
 
 export const Content = styled.div`
@@ -20,5 +25,18 @@ export const Content = styled.div`
         line-height: 32.81px;
         color: #606EEA;
         font-weight: 700;
+    }
+    @media (max-width: ${device.planshet}) {
+        margin-left: 10px;
+        h4 {
+            font-size: 16px;
+            line-height: 18.75px;
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+        p {
+            font-size: 19px;
+            line-height: 22.27px;
+        }
     }
 `

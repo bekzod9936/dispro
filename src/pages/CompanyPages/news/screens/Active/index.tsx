@@ -1,5 +1,5 @@
-import { useMemo, useState,useEffect } from "react";
-import { Switch, Route, useHistory, useLocation } from "react-router-dom";
+import { useState } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { AddIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
 import Spinner from "components/Custom/Spinner";
@@ -9,8 +9,7 @@ import { SearchIcon } from "components/Layout/Header/style";
 import MobileTable from "../../components/MobileTable";
 import NoNews from "../../components/NoNews";
 import { NewsBar } from "../../components/NewsBar";
-import {setPage,setPerPage, setFromDate,
-  setToDate,} from "services/redux/Slices/news";
+
 import Input from "components/Custom/Input";
 import DatePcker from "components/Custom/DatePicker";
 import { setQuery, setSelectedNews,setErrorMessage } from "services/redux/Slices/news";
@@ -28,11 +27,10 @@ import { MobileCancelIcon } from "assets/icons/proposals/ProposalsIcons";
 import {
   Container,
   Wrap,
-  TitleData,
-  AgeData,
+  
   Info,
   WrapPag,
-  DefaultImage,
+  
   WrapSpinner,
   WrapperModal,
   CloseButton,
@@ -60,8 +58,8 @@ const Active = () => {
   const between = useAppSelector((state) => state.news.NewsInfo.between);
   const query = useAppSelector((state) => state.news.query);
   const errormessage=useAppSelector((state)=>state.news.errorMessage)
-  const page=useAppSelector((state)=>state.news.setPeriod.page);
-  // const [error,setError]=useState<any>(errormessage);
+ 
+  
   const totalNewsCount = useAppSelector(
     (state) => state.news.NewsInfo.totalCountNews
   );
@@ -89,6 +87,7 @@ const Active = () => {
     useState<intialFilterProps>(intialFilter);
 
   const { response } = useActive({filterValues:filterValues});
+
   const {list}=useData()
   const handlechangePage = async (e: any) => {
     await setFilterValues({ ...filterValues, page: e });
@@ -98,7 +97,6 @@ const Active = () => {
     dispatch(setSelectedNews(""));
   };
 
-  console.log('list',list)
   const newsById = selectedNews?.fullData;
 
   const handleOpenNews = () => {
@@ -108,7 +106,7 @@ const Active = () => {
     });
     dispatch(setQuery(""));
   };
-  console.log('errormessage',errormessage)
+ 
 
   const LinkComment=()=>{
     dispatch(setErrorMessage(false))
@@ -264,7 +262,7 @@ const Active = () => {
                   count={totalCount}
                   onChange={handlechangePage}
                   disabled={response.isLoading || response.isFetching}
-                  siblingCount={width<=600 ? 0 : 4}
+                  siblingCount={0}
                 />
               </WrapPag>
             ) : null}

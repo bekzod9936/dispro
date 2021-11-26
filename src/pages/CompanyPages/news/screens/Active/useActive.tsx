@@ -15,14 +15,15 @@ interface Props {
   filterValues:any
 }
 
+
+function handleSort(arr:any){
+  return [...arr].sort((a,b)=> new Date(a.startLifeTime).getTime()-new Date(b.startLifeTime).getTime())
+ }  
+ 
 const useActive = ({filterValues}:Props) => {
   const dispatch = useAppDispatch();
-  const query=useAppSelector((state)=>state.news.query);
+  const query = useAppSelector((state)=>state.news.query);
 
-
-  
-  // const startDate=useAppSelector((state)=>state.news.setPeriod.toDate);
-  // const endDate=useAppSelector((state)=>state.news.setPeriod.dateTo);
   const [debouncedQuery] = useDebounce(query, 300);
 
   const response=useQuery(["fetchNews", filterValues,debouncedQuery],
@@ -44,8 +45,6 @@ const useActive = ({filterValues}:Props) => {
     refetchOnWindowFocus: false,
     retry: 0,
     onSuccess: (data) => {
-     
-
       dispatch(
         setNewsBetween(
           formatPagination({
@@ -57,7 +56,9 @@ const useActive = ({filterValues}:Props) => {
       );
       dispatch(setNewsTotal(Math.ceil(data.data.data.totalCount/ filterValues?.perPage)))
       dispatch(setNewsTotalCount(data.data.data.totalCount))
-      dispatch(setNewsData(data.data.data.news))
+      // dispatch(setNewsData(data.data.data.news))
+      let res=handleSort(data.data.data.news)
+      dispatch(setNewsData(res))
     
     },
   });
@@ -65,3 +66,6 @@ const useActive = ({filterValues}:Props) => {
 };
 
 export default useActive;
+
+
+

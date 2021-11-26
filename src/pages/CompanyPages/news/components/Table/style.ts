@@ -155,6 +155,43 @@ export const AgeData = styled.div`
     border-radius: 14px;
   }
   `
+
+export const TimeData = styled.div`
+display: flex;
+position: relative;
+justify-content:space-between;
+align-items: center;
+margin-right:10px;
+p {
+  font-size: 14px;
+  line-height:'21px';
+  color:'#223367';
+  font-size: '18px';
+  font-weight:300;
+}
+
+h4 {
+
+  padding: 10px 20px;
+  font-size: 14px;
+  background: linear-gradient(215.2deg, #8bdd59 -12.1%, #dcf089 101.51%);
+  border-radius: 14px;
+}
+h3 {  
+
+  padding: 10px 20px;
+  /* margin-right:20px; */
+  font-size: 14px;
+  background: linear-gradient(215.2deg, #C7EEFF -12.1%, #FCA9EA 101.51%);
+  border-radius: 14px;
+}
+ .div span {
+
+    font-weight:300;
+}
+`
+
+
 export const Text = styled.p`
 font-weight: normal;
 font-size: 14px;
