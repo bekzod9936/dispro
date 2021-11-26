@@ -61,6 +61,7 @@ import {
 } from './style';
 import defuserman from 'assets/icons/defuserman.png';
 import defuserwoman from 'assets/icons/defuserwoman.png';
+import App from 'assets/icons/StatistisPage/app.svg';
 
 interface ChProps {
   date?: string;

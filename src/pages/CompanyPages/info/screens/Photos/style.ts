@@ -36,7 +36,8 @@ export const Container = styled.div`
     flex: unset;
     flex-grow: 1;
     justify-content: space-between;
-
+    position: relative;
+    padding-bottom: 65px;
     & > div {
       padding: 0 15px 15px 15px;
       flex-grow: 1;
@@ -244,8 +245,10 @@ export const DownSide = styled.div`
       overflow: hidden !important;
       min-height: 65px;
     }
-    position: sticky;
+    position: fixed;
     bottom: 0;
+    left: 0;
+    width: 100%;
     min-height: 65px;
   }
 `;

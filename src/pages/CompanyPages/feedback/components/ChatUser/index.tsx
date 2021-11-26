@@ -62,7 +62,6 @@ const ChatUser = ({
           effect='blur'
           style={{ objectFit: 'cover' }}
         />
-        <ImageLazyLoad objectFit='contain' src={image} alt='image' />
       </Avatar>
       <Wrapper>
         <Name>
