@@ -15,7 +15,7 @@ export const months = [
   "Декабря ",
 ];
 
-const useData2 = () => {
+const useData = () => {
   const data = useAppSelector((state) => state.news.NewsInfo.data);
   const list = data?.map((v: any) => {
     const startDate = dayjs(v?.startLifeTime).format("YYYY-MM-DD");
@@ -59,4 +59,4 @@ const useData2 = () => {
 
   return { list };
 };
-export default useData2;
+export default useData;

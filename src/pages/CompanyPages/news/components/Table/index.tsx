@@ -35,7 +35,7 @@ const Table = ({ data, header2 }: Props) => {
   const dispatch = useAppDispatch();
   const selectedNews = useAppSelector((state) => state.news.selectedNews);
   const { t } = useTranslation();
-  let convertedData=data;
+
   const handleAddNewsByClick = (e: any, row: any) => {
     e.stopPropagation();
     dispatch(setSelectedNews(row.original));
@@ -51,10 +51,8 @@ const Table = ({ data, header2 }: Props) => {
     }));
   }, []);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns: columns, data:convertedData }, useSortBy);
+    useTable({ columns: columns, data, }, useSortBy);
   
-     
-   
     const LightToolTip = withStyles(() => ({
         
       tooltip: {
@@ -81,10 +79,11 @@ const Table = ({ data, header2 }: Props) => {
             
                 <Th
                   {...column.getHeaderProps(column.getSortByToggleProps())}
-                  active={column.isSorted ? column.isSortedDesc:column.isSortedDesc}
+                  active={column.isSorted}
 
                 >
                   {column.render("Header")}
+                  
                   <UpIcon up={column.isSortedDesc} active={column.isSorted} />
                 </Th>
                 
@@ -107,7 +106,6 @@ const Table = ({ data, header2 }: Props) => {
                 {...row.getRowProps()}
               >
                 {row.cells.map((cell: any) => {
-                      console.log('cellcellcellcell',cell)
                   if (cell.column.Header === "Заголовок") {
                 
                     let src = cell?.row?.original?.fullData?.data?.image;

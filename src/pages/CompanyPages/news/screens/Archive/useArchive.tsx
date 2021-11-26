@@ -12,6 +12,11 @@ import {
   interface PProps {
     filterValues: any;
   }
+
+function handleSort(arr:any){
+ return [...arr].sort((a,b)=> new Date(a.startLifeTime).getTime()-new Date(b.startLifeTime).getTime())
+}  
+
 const useArchive = ({filterValues}:PProps) => {
   const dispatch = useAppDispatch();
   const query=useAppSelector((state)=>state.news.query);
@@ -48,7 +53,8 @@ const useArchive = ({filterValues}:PProps) => {
       );
       dispatch(setNewsTotal(Math.ceil(data.data.data.totalCount/ filterValues?.perPage)))
       dispatch(setNewsTotalCount(data.data.data.totalCount))
-      dispatch(setNewsData(data.data.data.news))
+      let res=handleSort(data.data.data.news)
+      dispatch(setNewsData(res))
   
     },
   });
