@@ -216,7 +216,7 @@ const Recommendations = () => {
                 </Table> :
                 <MobileTable>
                     {recomendations.map((el: any, index: number) => (
-                        <MTRow isEven={!!((index + 1) % 2)}>
+                        <MTRow>
                             <div className="recRow">
                                 {el.image ? <img src={el.image} onError={(e: any) => {
                                     e.target.onerror = null;
