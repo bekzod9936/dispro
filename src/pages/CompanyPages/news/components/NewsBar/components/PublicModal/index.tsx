@@ -189,7 +189,6 @@ export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
                   min={watch("startDate")}
                   // message={t("requiredField")}
                   type="date"
-          
                 />
               )}
             />

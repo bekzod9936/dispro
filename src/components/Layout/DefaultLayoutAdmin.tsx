@@ -1,4 +1,5 @@
 import { memo, Suspense, useEffect, useState } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import clsx from 'clsx';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -28,6 +29,8 @@ import {
   WranningIcon,
   ButtonIcon,
 } from './style';
+//atoms
+import { openMenu, setOpenMenu } from 'services/atoms/permissions';
 
 export interface IDefaultLayout {
   children: any;
@@ -42,8 +45,11 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
 
   const [width, setWidth] = useState(window.innerWidth);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [open, setOpen] = useState(width <= 1000 ? false : true);
+  // const [open, setOpen] = useState(width <= 1000 ? false : true);
+  const open = useRecoilValue(openMenu);
+  const setOpen = useSetRecoilState(setOpenMenu);
 
+  console.log(open, 'open');
   const regFilled = useAppSelector((state) => {
     return state.auth.regFilled;
   });
@@ -122,7 +128,8 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
           onOpen={toggleDrawer(true)}
           style={{
             pointerEvents: fill ? 'auto' : 'none',
-            opacity: fill ? 1 : 0.4,
+            opacity: fill ? 1 : width < 600 ? 0 : 0.4,
+            zIndex: fill ? 1300 : width < 600 ? -1300 : 1300,
           }}
         >
           <div

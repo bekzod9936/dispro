@@ -68,7 +68,7 @@ const MenuList = () => {
           }
         })}
       </List>
-      {permissions && (
+      {(permissions || userType === "2") && (
         <List>
           <ListI
             button
