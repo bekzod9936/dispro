@@ -345,6 +345,7 @@ const Coupons = () => {
                 }}
                 render={({ field }) => (
                   <Input
+                    maxLength="100"
                     error={!!errors.name}
                     message={t('requiredField')}
                     field={field}
