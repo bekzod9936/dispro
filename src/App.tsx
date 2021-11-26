@@ -2,13 +2,11 @@ import { Switch, Route } from "react-router-dom";
 import { useEffect } from "react";
 import { useQueryErrorResetBoundary } from "react-query";
 import { useTranslation } from "react-i18next";
-
-// import { ErrorBoundary } from 'react-error-boundary';
-
 //actions
 import { setNotifyOpen } from "services/redux/Slices/firebase";
 //components
 import SnackBar from "components/Custom/NewSnack";
+import RestrictModal from "components/Helpers/RestrictModal";
 //screens
 import Condition from "pages/LoginPages/LoginPageModerator/Condition";
 import Policy from "pages/LoginPages/LoginPageModerator/Policy";
@@ -52,6 +50,7 @@ function App() {
         onClose={(e: any) => dispatch(setNotifyOpen(e))}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
       />
+      <RestrictModal />
     </>
   );
 }

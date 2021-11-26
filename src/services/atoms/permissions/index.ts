@@ -50,5 +50,46 @@ export const setLocalPermission = selector<any>({
   },
   set: ({ set }, newVal) => {
     set(localPermission, newVal);
+    console.log(newVal, newVal);
+    if (!newVal) {
+      set(openModal, true);
+    }
+  },
+});
+
+//menu list
+const width = window.innerWidth;
+export const openMenu = atom<boolean>({
+  key: "openMenu",
+  default: width <= 1000 ? false : true,
+});
+
+export const setOpenMenu = selector<boolean>({
+  key: "setOpenMenu",
+  get: ({ get }) => {
+    const res = get(openMenu);
+
+    return res;
+  },
+  set: ({ set }, newVal) => {
+    set(openMenu, newVal);
+  },
+});
+
+//permission modal
+export const openModal = atom<boolean>({
+  key: "openModalRestrict",
+  default: false,
+});
+
+export const setOpenModal = selector<boolean>({
+  key: "setOpenModalRestrict",
+  get: ({ get }) => {
+    const res = get(openModal);
+
+    return res;
+  },
+  set: ({ set }, newVal) => {
+    set(openModal, newVal);
   },
 });

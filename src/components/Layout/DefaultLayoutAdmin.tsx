@@ -1,17 +1,18 @@
-import { memo, Suspense, useEffect, useState } from 'react';
-import clsx from 'clsx';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Logo from 'assets/icons/SideBar/logo.png';
-import { device } from 'styles/device';
-import Header from './Header';
-import Spinner from '../Custom/Spinner';
-import { useSideBarStyle } from './styles/SideBarStyle';
-import MenuList from './MenuList';
-import useLayout from './useLayout';
-import { useAppSelector } from 'services/redux/hooks';
-import { useTranslation } from 'react-i18next';
+import { memo, Suspense, useEffect, useState } from "react";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import clsx from "clsx";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Logo from "assets/icons/SideBar/logo.png";
+import { device } from "styles/device";
+import Header from "./Header";
+import Spinner from "../Custom/Spinner";
+import { useSideBarStyle } from "./styles/SideBarStyle";
+import MenuList from "./MenuList";
+import useLayout from "./useLayout";
+import { useAppSelector } from "services/redux/hooks";
+import { useTranslation } from "react-i18next";
 import {
   Container,
   MenuIcon,
@@ -27,7 +28,9 @@ import {
   Wrarning,
   WranningIcon,
   ButtonIcon,
-} from './style';
+} from "./style";
+//atoms
+import { openMenu, setOpenMenu } from "services/atoms/permissions";
 
 export interface IDefaultLayout {
   children: any;
@@ -36,14 +39,17 @@ export interface IDefaultLayout {
 const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
   const { t } = useTranslation();
   const classes = useSideBarStyle();
-  const companyId = localStorage.getItem('companyId');
+  const companyId = localStorage.getItem("companyId");
   const { resHeader } = useLayout({ id: companyId });
   const infoData = useAppSelector((state) => state.info.data);
 
   const [width, setWidth] = useState(window.innerWidth);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [open, setOpen] = useState(width <= 1000 ? false : true);
+  // const [open, setOpen] = useState(width <= 1000 ? false : true);
+  const open = useRecoilValue(openMenu);
+  const setOpen = useSetRecoilState(setOpenMenu);
 
+  console.log(open, "open");
   const regFilled = useAppSelector((state) => {
     return state.auth.regFilled;
   });
@@ -76,16 +82,16 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
       }
     }
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const toggleDrawer = (open: boolean) => (event: any) => {
     if (fill) {
       if (
         event &&
-        event.type === 'keydown' &&
-        (event.key === 'Tab' || event.key === 'Shift')
+        event.type === "keydown" &&
+        (event.key === "Tab" || event.key === "Shift")
       ) {
         return;
       }
@@ -97,10 +103,10 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
     return (
       <>
         <WrapLogo>
-          <LogoIcon src={Logo} alt='logo' />
+          <LogoIcon src={Logo} alt="logo" />
           <Title>DIS-COUNT</Title>
         </WrapLogo>
-        <ButtonIcon className='sidebar' onClick={handleDrawerClose}>
+        <ButtonIcon className="sidebar" onClick={handleDrawerClose}>
           <MenuIcon />
         </ButtonIcon>
       </>
@@ -108,7 +114,7 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
   };
 
   if (resHeader.isLoading) {
-    return <Spinner height='100vh' />;
+    return <Spinner height="100vh" />;
   }
 
   return (
@@ -116,17 +122,17 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
       <div className={classes.root}>
         <CssBaseline />
         <MobileDrawer
-          anchor='left'
+          anchor="left"
           open={mobileOpen}
           onClose={toggleDrawer(false)}
           onOpen={toggleDrawer(true)}
           style={{
-            pointerEvents: fill ? 'auto' : 'none',
+            pointerEvents: fill ? "auto" : "none",
             opacity: fill ? 1 : 0.4,
           }}
         >
           <div
-            role='presentation'
+            role="presentation"
             onClick={toggleDrawer(false)}
             onKeyDown={toggleDrawer(false)}
           >
@@ -138,9 +144,9 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
         </MobileDrawer>
         <AppBar
           style={{
-            padding: width > 1000 && !fill ? '0 15px' : '0',
+            padding: width > 1000 && !fill ? "0 15px" : "0",
           }}
-          position='fixed'
+          position="fixed"
           className={clsx(classes.appBar, {
             [classes.appBarShift]: open,
           })}
@@ -148,17 +154,17 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
           {!fill && width < 1000 ? (
             <Wrarning>
               <WranningIcon />
-              {t('newcompanywarning')}
+              {t("newcompanywarning")}
             </Wrarning>
           ) : (
             <Toolbar>
               {!fill && width > 1000 ? null : (
                 <WrapMenu>
                   <ButtonIcon
-                    color='inherit'
-                    aria-label='open drawer'
+                    color="inherit"
+                    aria-label="open drawer"
                     onClick={handleDrawerOpen}
-                    edge='start'
+                    edge="start"
                     className={clsx(classes.menuButton, {
                       [classes.hide]: open,
                     })}
@@ -172,14 +178,14 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
               ) : (
                 <Wrarning>
                   <WranningIcon />
-                  {t('newcompanywarning')}
+                  {t("newcompanywarning")}
                 </Wrarning>
               )}
             </Toolbar>
           )}
         </AppBar>
         <DesktopDrawer
-          variant='permanent'
+          variant="permanent"
           className={clsx(classes.drawer, {
             [classes.drawerOpen]: open,
             [classes.drawerClose]: !open,
@@ -191,7 +197,7 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
             }),
           }}
           style={{
-            pointerEvents: fill ? 'auto' : 'none',
+            pointerEvents: fill ? "auto" : "none",
             opacity: fill ? 1 : 0.4,
           }}
         >
