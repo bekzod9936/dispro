@@ -496,9 +496,9 @@ const CreateNews = () => {
                           type="date"
                           field={field}
                           error={!!errors.endDate}
-                          // message={t("requiredField")}
+                      
                           min={watch("startDate")}
-                          // required={true}
+                       
                           margin={{ laptop: "0 0 0 15px" }}
                           IconStart={<WrapDate>{t("to")}</WrapDate>}
                           inputStyle={{

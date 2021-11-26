@@ -77,9 +77,9 @@ const RepairNews = () => {
   const newsById = selectedNews?.fullData;
   const startDate = dayjs(newsById?.data?.startLifeTime).format("YYYY-MM-DD");
   const endDate = dayjs(newsById?.data?.endLifeTime).format("YYYY-MM-DD");
-  const [filter, setFilter] = React.useState<any>({});
+ 
   const { branches } = useStaff();
-  console.log("filter", filter);
+ 
   const [optionalFields, setOptionalFields] = React.useState<IOptionFields>({
     push: newsById?.data?.pushUp,
   });
@@ -147,12 +147,8 @@ const RepairNews = () => {
   const submitNews = (data: any) => {
     let newsBody = {
       title: data.name,
-      startLifeTime: filter?.regDate?.regDateFrom
-        ? filter?.regDate?.regDateFrom
-        : startDate,
-      endLifeTime: filter?.regDate?.regDateTo
-        ? filter?.regDate?.regDateTo
-        : endDate,
+      startLifeTime: data.startDate,
+      endLifeTime: data.endDate,
       description: data.description,
       ageFrom: parseInt(data.ageLimit),
       ageTo: 100,
@@ -184,7 +180,7 @@ const RepairNews = () => {
     mutate(newsBody);
     setTimeout(() => history.push("/news/active"), 1000);
   };
-  console.log("filters datse", filter);
+ 
 
   const genderType = [
     {
