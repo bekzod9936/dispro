@@ -1,6 +1,6 @@
-import { Props } from './types';
-import MaskedInput from 'react-text-mask';
-import { Container, MInput, Label, Adornment, Message } from './style';
+import { Props } from "./types";
+import MaskedInput from "react-text-mask";
+import { Container, MInput, Label, Adornment, Message } from "./style";
 
 function TextMaskCustom(props: any) {
   const { inputRef, ...other } = props;
@@ -13,7 +13,7 @@ function TextMaskCustom(props: any) {
       }}
       mask={[/\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/]}
       keepCharPositions={true}
-      placeholderChar={'\u2000'}
+      placeholderChar={"\u2000"}
     />
   );
 }
@@ -66,10 +66,10 @@ const NInput = ({
         variant={props.variant}
         InputProps={{
           startAdornment: props.IconStart ? (
-            <Adornment position='start'>{props.IconStart}</Adornment>
+            <Adornment position="start">{props.IconStart}</Adornment>
           ) : null,
           endAdornment: props.IconEnd ? (
-            <Adornment position='end'>{props.IconEnd}</Adornment>
+            <Adornment position="end">{props.IconEnd}</Adornment>
           ) : null,
           inputComponent: props.maskPhone ? TextMaskCustom : undefined,
         }}

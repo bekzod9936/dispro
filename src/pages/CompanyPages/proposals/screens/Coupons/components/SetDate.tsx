@@ -108,7 +108,7 @@ export const SetDate = ({
 
 
   return (
-    <form onSubmit={handleSubmit(onPublish)}>
+    <form style={{ height: "100%" }} onSubmit={handleSubmit(onPublish)}>
       <PeriodWrapper>
         <div>
           <div className="header">{width <= 600 &&

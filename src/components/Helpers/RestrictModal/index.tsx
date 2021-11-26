@@ -44,13 +44,13 @@ const RestrictModal = () => {
     setOpenM(false);
     localStorage.removeItem("companyId");
     localStorage.removeItem("companyToken");
-
     // localStorage.removeItem('userType');
     history.push("/partner/company");
     dispatch(setCompanyInfo({}));
     socket.disconnect();
     dispatch(setInfoData({ ...initialState?.data }));
   };
+
   return (
     <Modal open={open}>
       <ModalContent>
