@@ -46,7 +46,7 @@ import Spinner from 'components/Helpers/Spinner';
 const CreateManager = ({ openManager }: IProps) => {
 	const stepManager = useAppSelector((state) => state.staffs.stepManager);
 	const selectedRole = useAppSelector((state) => state.staffs.selectedRole);
-	const { roles } = useRoles();
+	const { permissionsRole } = useRoles();
 	const { branches } = useStaff();
 	const [logo, setLogo] = useState('');
 	const [imgError, setImgError] = useState(false);
@@ -76,7 +76,6 @@ const CreateManager = ({ openManager }: IProps) => {
 		shouldFocusError: true,
 		reValidateMode: 'onChange',
 	});
-
 	const onSave = (data: FormProps) => {
 		console.log(data, 'data');
 		createManager.mutate({
@@ -133,7 +132,6 @@ const CreateManager = ({ openManager }: IProps) => {
 		setFile(data.target.files[0]);
 		setIsCropVisible(true);
 	};
-	console.log('file', file);
 
 	return (
 		<Modal open={openManager}>
@@ -174,7 +172,7 @@ const CreateManager = ({ openManager }: IProps) => {
 														<UploadButton>
 															<label htmlFor='uploadImg'>Загрузить фото</label>
 															<input
-																{...register('logo', { required: true })}
+																{...register('logo', { required: false })}
 																onChange={handleUploadImg}
 																type='file'
 																id='uploadImg'
@@ -369,15 +367,17 @@ const CreateManager = ({ openManager }: IProps) => {
 								{t('next')}
 							</Button>
 						</ModalAction>
+						;
 					</ModalContent>
 				</Form>
 			)}
 
 			{/* second step */}
 			{stepManager === 2 && (
-				<ModalMain>
+				<ModalMain style={{ width: '663px' }}>
 					<ModalHead>
 						<ModalTitle>Настройки доступа</ModalTitle>
+
 						<IconButton
 							onClick={() => {
 								dispatch(setOpenManager(false));
@@ -391,38 +391,6 @@ const CreateManager = ({ openManager }: IProps) => {
 						{/* tables  */}
 						<RoleTable />
 					</ModalBody>
-					<ModalAction justifyContent='center' mTop={25}>
-						<Button
-							buttonStyle={{
-								bgcolor: 'white',
-								color: '#223367',
-							}}
-							onClick={() => {
-								dispatch(setOpenManager(false));
-								dispatch(setStepManager(1));
-							}}
-							startIcon={<CancelIcon />}
-						>
-							{t('cancel')}
-						</Button>
-
-						<Button
-							onClick={() => {
-								dispatch(setOpenManager(false));
-								dispatch(setStepManager(1));
-								if (selectedRole.length > 0) {
-									saveRoleManager.mutate(
-										selectedRole.map((item: any) => item?.value)
-									);
-								} else {
-									saveRoleManager.mutate(roles.map((item: any) => item?.value));
-								}
-							}}
-							startIcon={<SaveIcon />}
-						>
-							{t('save')}
-						</Button>
-					</ModalAction>
 				</ModalMain>
 			)}
 		</Modal>
