@@ -13,6 +13,7 @@ export const Content = styled.div`
     padding: 10px 15px;
     display: flex;
     align-items: center;
+    overflow: hidden;
     &:nth-child(odd) {
         background-color: rgba(96, 110, 234, 0.1);
     }

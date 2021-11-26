@@ -3,6 +3,7 @@ import CustomToggle from "components/Custom/CustomToggleSwitch";
 import Input from "components/Custom/Input";
 import MultiSelect from "components/Custom/MultiSelect";
 import Title from "components/Custom/Title";
+import { TextArea } from "components/Custom/TextArea";
 import CheckBox from "components/Custom/CheckBox";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -76,9 +77,9 @@ const RepairNews = () => {
   const newsById = selectedNews?.fullData;
   const startDate = dayjs(newsById?.data?.startLifeTime).format("YYYY-MM-DD");
   const endDate = dayjs(newsById?.data?.endLifeTime).format("YYYY-MM-DD");
-  const [filter, setFilter] = React.useState<any>({});
+ 
   const { branches } = useStaff();
-  console.log("filter", filter);
+ 
   const [optionalFields, setOptionalFields] = React.useState<IOptionFields>({
     push: newsById?.data?.pushUp,
   });
@@ -146,12 +147,8 @@ const RepairNews = () => {
   const submitNews = (data: any) => {
     let newsBody = {
       title: data.name,
-      startLifeTime: filter?.regDate?.regDateFrom
-        ? filter?.regDate?.regDateFrom
-        : startDate,
-      endLifeTime: filter?.regDate?.regDateTo
-        ? filter?.regDate?.regDateTo
-        : endDate,
+      startLifeTime: data.startDate,
+      endLifeTime: data.endDate,
       description: data.description,
       ageFrom: parseInt(data.ageLimit),
       ageTo: 100,
@@ -183,7 +180,7 @@ const RepairNews = () => {
     mutate(newsBody);
     setTimeout(() => history.push("/news/active"), 1000);
   };
-  console.log("filters datse", filter);
+ 
 
   const genderType = [
     {
@@ -340,7 +337,9 @@ const RepairNews = () => {
                 )}
               />
 
-              <Controller
+         
+
+<Controller
                 name="description"
                 control={control}
                 rules={{
@@ -348,23 +347,16 @@ const RepairNews = () => {
                 }}
                 defaultValue={newsById?.data?.description}
                 render={({ field }) => (
-                  <Input
-                    field={field}
-                    margin={{ laptop: "35px 0" }}
-                    label="Описание"
-                    type="textarea"
+                  <TextArea
+                    maxLength={800}
+                    {...field}
+                    defaultValue={newsById?.data?.description}
                     message={t("requiredField")}
                     error={!!errors.description}
-                    defaultValue={newsById?.data?.description}
-                    multiline={true}
-                    inputStyle={{
-                      height: { desktop: 120, laptop: 90, mobile: 150 },
-                    }}
-                    IconEnd={
-                      <WrapArea>
-                        <TextAreaIcon />
-                      </WrapArea>
-                    }
+                    minHeight={'150px'}
+                    maxHeight={'300px'}
+                    resize={'vertical'}
+                    title={"Описание"}
                   />
                 )}
               />
@@ -673,6 +665,7 @@ const RepairNews = () => {
             type="submit"
             margin={{ laptop: "0 25px" }}
             startIcon={<SaveIcon />}
+                    buttonStyle={{ shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)'}}
           >
             Сохранить
           </Button>

@@ -22,6 +22,9 @@ export const Wrapper = styled.div`
         display: flex;
         justify-content: flex-end;
     }
+    @media (max-width: ${device.planshet}) {
+        padding: 20px 25px;
+    }
     @media (max-width: ${device.mobile}) {
         padding: 20px 15px;
         max-width: none;

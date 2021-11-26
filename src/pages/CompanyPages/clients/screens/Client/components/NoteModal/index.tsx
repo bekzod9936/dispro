@@ -48,7 +48,8 @@ export const NoteModal = ({ config, edit }: IProps) => {
                         height: {
                             desktop: 124,
                             laptop: 124,
-                            mobile: 153
+                            mobile: 153,
+                            planshet: 153
                         }
                     }} />
             </div>

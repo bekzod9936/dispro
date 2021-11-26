@@ -125,7 +125,7 @@ export const TableHeader = styled.div`
     border-radius: 14px 14px 0 0;
     border-bottom: 1px solid rgba(96, 110, 234, 0.1);
     @media (max-width: ${device.planshet}) {
-      padding: 10px;
+      padding: 7px 20px;
     }
 `
 
@@ -134,6 +134,10 @@ export const Title = styled.h2`
     font-weight: 500;
     font-size: 18px;
     line-height: 21px;
+    @media (max-width: ${device.planshet}) {
+      font-size: 14px;
+      line-height: 16.41px;
+    }
 `
 
 export const AddButton = styled.button`
@@ -149,6 +153,11 @@ export const AddButton = styled.button`
     margin-right: 10px;
     @media (max-width: ${device.mobile}) {
       display: none;
+    }
+    @media (max-width: ${device.planshet}) {
+      font-size: 14px;
+      line-height: 16.41px;
+
     }
 `
 

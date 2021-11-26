@@ -7,6 +7,7 @@ export const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    overflow-x: hidden;
 `
 
 export const Header = styled.div`

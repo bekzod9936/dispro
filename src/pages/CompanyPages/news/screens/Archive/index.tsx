@@ -158,6 +158,7 @@ const Archive = () => {
                   count={totalCount}
                   onChange={handlechangePage}
                   disabled={response.isLoading || response.isFetching}
+                  siblingCount={0}
                 />
               </WrapPag>
             ) : null}

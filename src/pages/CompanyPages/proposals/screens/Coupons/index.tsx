@@ -345,6 +345,7 @@ const Coupons = () => {
                 }}
                 render={({ field }) => (
                   <Input
+                    maxLength="100"
                     error={!!errors.name}
                     message={t('requiredField')}
                     field={field}
@@ -493,8 +494,8 @@ const Coupons = () => {
                     render={({ field }) => (
                       <InputFormat
                         field={field}
-                        defaultValue={0}
                         max='100'
+                        maxLength="2"
                         IconStart={<PlusIcon style={{ marginLeft: '20px' }} />}
                         label='Возрастное ограничение'
                       />

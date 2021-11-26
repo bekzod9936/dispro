@@ -5,7 +5,7 @@ import { useRef, useMemo, useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useTable } from 'react-table'
 import { operationsColumns, operationsHeaders, recommendsHeaders } from '../Operations/constants'
-import { Footer, MobileTable, MTRow, Table, Tbody, Td, Th, THead, TRow } from '../Operations/style'
+import { Footer, MobileTable, MTRow, Table, Tbody, Td, Th, THead, TRow, Wrapper } from '../Operations/style'
 import Input from "components/Custom/Input"
 import { getOneDayPlus, tableRecommendsHelper } from 'pages/CompanyPages/clients/utils/getSelectedFilters'
 import CheckBox from 'components/Custom/CheckBox'
@@ -19,6 +19,8 @@ import Pagination from 'components/Custom/Pagination'
 import { useWindowSize } from 'pages/CompanyPages/clients/hooks/useWindowSize'
 import useWindowWidth from 'services/hooks/useWindowWidth'
 import { DefaultImg } from 'pages/CompanyPages/clients/components/MobileTable/style'
+import clientDefault from "assets/images/staff_default.png"
+import { NewPagination } from 'components/Custom/NewPagination'
 
 const Recommendations = () => {
     const { t } = useTranslation()
@@ -169,51 +171,59 @@ const Recommendations = () => {
                 <Filter position={position} list={filterList} />
             </div> */}
             {width > 600 ?
-                <Table {...getTableProps()}>
-                    <THead>
-                        {headerGroups.map(headerGroup => (
-                            <tr style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.04)" }} {...headerGroup.getHeaderGroupProps}>
-                                {headerGroup.headers.map(column => (
-                                    <Th {...column.getHeaderProps()}>
-                                        {column.render("Header")}
-                                    </Th>
-                                ))}
-                            </tr>
-                        ))}
-                    </THead>
-                    <Tbody {...getTableBodyProps()}>
-                        {rows.map((row) => {
-                            prepareRow(row)
-                            return (
-                                <TRow {...row.getRowProps()}>
-                                    {row.cells.map((cell, index) => {
-                                        if (index === 0) {
+                <Wrapper>
+                    <Table {...getTableProps()}>
+                        <THead>
+                            {headerGroups.map(headerGroup => (
+                                <tr style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.04)" }} {...headerGroup.getHeaderGroupProps}>
+                                    {headerGroup.headers.map(column => (
+                                        <Th {...column.getHeaderProps()}>
+                                            {column.render("Header")}
+                                        </Th>
+                                    ))}
+                                </tr>
+                            ))}
+                        </THead>
+                        <Tbody {...getTableBodyProps()}>
+                            {rows.map((row) => {
+                                prepareRow(row)
+                                return (
+                                    <TRow {...row.getRowProps()}>
+                                        {row.cells.map((cell, index) => {
+                                            if (index === 0) {
+                                                return (
+                                                    <Td {...cell.getCellProps()}>
+                                                        <div>
+                                                            <img src={cell.row?.original?.image}
+                                                                onError={(e: any) => {
+                                                                    e.target.onerror = null;
+                                                                    e.target.src = clientDefault
+                                                                }} alt="someImage" />
+                                                            {cell.render('Cell')}
+                                                        </div>
+                                                    </Td>
+                                                )
+                                            }
                                             return (
                                                 <Td {...cell.getCellProps()}>
-                                                    <div>
-                                                        <img src={cell.row?.original?.image} alt="someImage" />
-                                                        {cell.render('Cell')}
-                                                    </div>
+                                                    {cell.render('Cell')}
                                                 </Td>
                                             )
-                                        }
-                                        return (
-                                            <Td {...cell.getCellProps()}>
-                                                {cell.render('Cell')}
-                                            </Td>
-                                        )
-                                    })}
-                                </TRow>
-                            )
-                        })}
-
-                    </Tbody>
-                </Table> :
+                                        })}
+                                    </TRow>
+                                )
+                            })}
+                        </Tbody>
+                    </Table>
+                </Wrapper> :
                 <MobileTable>
                     {recomendations.map((el: any, index: number) => (
-                        <MTRow isEven={!!((index + 1) % 2)}>
+                        <MTRow>
                             <div className="recRow">
-                                {el.image ? <img src={el.image} alt="image" /> : <DefaultImg />}
+                                {el.image ? <img src={el.image} onError={(e: any) => {
+                                    e.target.onerror = null;
+                                    e.target.src = clientDefault
+                                }} alt="image" /> : <DefaultImg />}
                                 <div className="right">
                                     <h3>{el.client}</h3>
                                     <p>{t("level")}: <span>{el.level}</span></p>
@@ -223,10 +233,10 @@ const Recommendations = () => {
                     ))}
                 </MobileTable>}
             <Footer>
-                <Pagination
-                    defaultPage={1}
+                <NewPagination
+                    currentPage={page}
                     onChange={(e: number) => setPage(e)}
-                    count={totalCount}
+                    totalCount={totalCount}
                 />
             </Footer>
         </>

@@ -5,9 +5,11 @@ import Radio from "components/Custom/Radio";
 import Input from "components/Custom/Input";
 import {
   Label,
+  WrapCheck,
   WrapDate,
   WrapInputs,
   WrapPlaceHolder,
+  WrapStatus,
 } from "../../style";
 import { Wrapper } from "./style";
 import { resetFilters, setFilters } from "services/redux/Slices/clients";
@@ -16,13 +18,14 @@ import { getOneDayPlus } from "pages/CompanyPages/clients/utils/getSelectedFilte
 import InputFormat from "components/Custom/InputFormat";
 import useWindowWidth from "services/hooks/useWindowWidth";
 import CustomDatePicker from "components/Custom/CustomDatePicker";
+import CheckBox from "components/Custom/CheckBox";
 
 
 
 export const MFilter = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch()
-  const { filters, referals } = useAppSelector(state => state.clients)
+  const { filters, referals, clientLevels } = useAppSelector(state => state.clients)
   const [filter, setFilter] = useState<any>({})
   const { width } = useWindowWidth()
 
@@ -37,7 +40,12 @@ export const MFilter = () => {
       value: index
     }))
   }
-
+  const getLevels = (arr: any) => {
+    return arr?.map((el: any) => ({
+      label: el.name,
+      value: el.number
+    }))
+  }
 
   const filterList = [
     {
@@ -198,33 +206,17 @@ export const MFilter = () => {
         />
       ),
     },
-    // {
-    //     title: t('status'),
-    //     content: (
-    //       <WrapStatus>
-    //         <Label>{t('chose_status')}</Label>
-    //         <WrapCheck>
-    //           {filters.status.map((v: any) => (
-    //             <CheckBox
-    //               key={v.label}
-    //               label={v.label}
-    //               checked={v.status}
-    //               onChange={(e: any) => {
-    //                 const arr = filters.status.map((i: any) => {
-    //                   if (i.name === e.target.name) {
-    //                     return { ...i, [e.target.name]: e.target.checked };
-    //                   } else {
-    //                     return i;
-    //                   }
-    //                 });
-    //                 setFilter((prev: any) => ({...prev, status: arr}));
-    //               }}
-    //             />
-    //           ))}
-    //         </WrapCheck>
-    //       </WrapStatus>
-    //     )
-    // },
+    {
+      title: t('status'),
+      content: (
+        <Radio
+          title={t("chose_status")}
+          list={getLevels(clientLevels)}
+          value={Number(filter?.status)}
+          onChange={(e) => setFilter((prev: any) => ({ ...prev, status: e }))}
+          flexDirection="row" />
+      )
+    },
     {
       title: t("traffic_provider"),
       content: (

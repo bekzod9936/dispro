@@ -80,6 +80,7 @@ export const setRoleManager = async ({id, permissions}: any) => {
 export const getPermission = async (id: any) => {
   const response = await partnerApi.get(
     `/core/staffs/permissions/new/${id}`
+
   );
 
   return response;

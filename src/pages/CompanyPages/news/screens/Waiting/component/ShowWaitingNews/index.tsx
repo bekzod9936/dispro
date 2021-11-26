@@ -16,7 +16,7 @@ import {
 import {
 
     PenIcon,
-
+    DeleteIcon,
   } from "assets/icons/news/newsIcons";
 import {
   Wrapper,
@@ -29,7 +29,7 @@ import {
 } from "./style";
 import {
   
-  DeleteIcon,
+  
   GoBackIcon,
  
 } from "assets/icons/proposals/ProposalsIcons";
@@ -130,6 +130,7 @@ const ShowWaitingNews = () => {
                 buttonStyle={{
                   color: "white",
                   bgcolor: "#606EEA",
+                  shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)'
                 }}
                 startIcon={<PenIcon />}
               >
@@ -149,7 +150,7 @@ const ShowWaitingNews = () => {
             >
          <Button
                 onClick={() => setDeleteOpen(true)}
-                buttonStyle={{ color: "#ffffff", bgcolor: "#FF5E68" }}
+                buttonStyle={{ color: "#ffffff", bgcolor: "#FF5E68",   shadow: '0px 4px 9px rgba(255, 94, 104, 0.46)'}}
                 startIcon={<DeleteIcon />}
               >
                 Удалить
@@ -161,8 +162,8 @@ const ShowWaitingNews = () => {
       </Preview>
       <Modal open={isDeleteOpen}>
         <DeleteModal>
-          <h5>Вы действительно хотите удалить Новость?</h5>
-          <p>{'После удаления новости , данные будет утеряны'}</p>
+          <h5>Вы действительно хотите удалить новость?</h5>
+          <p>{'После удаления новости  данные будет утеряны'}</p>
           <Button
             buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
             margin={{ laptop: "0 22px 0 0" }}
@@ -172,7 +173,7 @@ const ShowWaitingNews = () => {
             Отмена
           </Button>
           <Button
-            buttonStyle={{ bgcolor: "#FF5E68 " }}
+            buttonStyle={{ bgcolor: "#FF5E68 ",shadow: '0px 4px 9px rgba(255, 94, 104, 0.46)' }}
             onClick={()=>onDelete(newsById?.data?.id)}
             startIcon={<DeleteIcon />}
           >

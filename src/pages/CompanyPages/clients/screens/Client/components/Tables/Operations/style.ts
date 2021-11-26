@@ -10,7 +10,12 @@ export const Table = styled.table`
     border-collapse: collapse;
 `
 
-
+export const Wrapper = styled.div`
+    width: 100%;
+  @media (max-width: ${device.planshet}) {
+    padding: 20px;
+  }
+`
 
 export const THead = styled.thead`
     width: 100%;
@@ -28,6 +33,11 @@ export const THead = styled.thead`
   & > tr {
     height: 65px;
   }
+  @media (max-width: ${device.planshet}) {
+    & > tr {
+    height: 50px;
+  }
+  }
 `
 export const Td = styled.td`
   padding: 15px 0 15px 20px;
@@ -39,10 +49,12 @@ export const Td = styled.td`
   border-collapse: collapse;
   cursor: pointer;
 
-  /* @media (max-width: ${device.planshet}) {
+  @media (max-width: ${device.planshet}) {
     font-size: 14px;
-    padding: 6px;
-  } */
+    padding: 9px 10px 9px 20px;
+    line-height: 16.41px;
+
+  }
   div {
     display: flex;
     align-items: center;
@@ -69,6 +81,11 @@ export const Tbody = styled.tbody`
   & > tr {
     height: 60px;
   }
+  @media (max-width: ${device.planshet}) {
+    & > tr {
+    height: 50px;
+  }
+  }
 `;
 
 export const TRow = styled.tr`
@@ -83,16 +100,20 @@ export const Th = styled.th`
   font-size: 16px;
   width: max-content;
   text-align: left;
-  /* @media (max-width: ${device.planshet}) {
+  @media (max-width: ${device.planshet}) {
     font-size: 14px;
-    padding: 6px;
-  } */
+    padding: 17px 10px 17px 20px;
+    line-height: 16.41px;
+  }
   color: #A5A5A5;
   border-radius: 14px 14px 0 0;
 `;
 
 export const Footer = styled.div`
   margin-top: 20px;
+  @media (max-width: ${device.planshet}) {
+    margin-left: 20px;
+  }
   @media (max-width: ${device.mobile}) {
     margin-left: 15px;
   }
@@ -104,14 +125,17 @@ export const MobileTable = styled.div`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
   border-radius: 12px;
   margin: 15px;
+
 `
 interface IMRow {
   isEven: boolean
 }
 export const MTRow = styled.div`
-  padding: 10px 10px 7px 15px;
-  background-color: ${({ isEven }: IMRow) => isEven ? "rgba(96, 110, 234, 0.1)" : '#ffffff'};
+  padding: 10px 10px 10px 15px;
   width: 100%;
+  &:nth-child(odd) {
+    background-color: rgba(96, 110, 234, 0.1);
+  }
   .recRow {
     display: flex;
     width: 100%;
@@ -157,10 +181,15 @@ export const MTRow = styled.div`
     width: 100%;
     justify-content: space-between;
     align-items: center;
-    margin-top: 15px;
+    span.time {
+      font-size: 14px;
+      line-height: 16.41px;
+      color: #787878;
+      font-weight: 300;
+    }
     .left {
       .type {
-        color: #223367;
+        color: #787878;
         font-weight: 300;
         font-size: 14px;
         line-height: 16.41px;

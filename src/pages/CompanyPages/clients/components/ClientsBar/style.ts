@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import { device } from "styles/device"
 
 export const Text = styled.p`
     font-size: 18px;
@@ -63,12 +64,21 @@ export const Content = styled.div`
     display: flex;
     align-items: center;
     margin-bottom: 20px;
+    justify-content: flex-start;
+    width: 100%;
     img {
         width: 62px;
         height: 62px;
         border-radius: 14px;
         margin-right: 30px;
         
+    }
+    @media (max-width: ${device.planshet}) {
+        img {
+            width: 55px;
+            height: 55px;
+            margin-right: 15px;
+        }
     }
 `
 export const DefaultImage = styled.div`
@@ -78,6 +88,12 @@ export const DefaultImage = styled.div`
     border-radius: 14px;
     margin-right: 30px;
     display: block;
+    @media (max-width: ${device.planshet}) {
+        width: 55px;
+        height: 55px;
+        margin-right: 15px;
+
+    }
 `
 
 export const ContentInfo = styled.div`
@@ -94,6 +110,11 @@ export const ContentInfo = styled.div`
         font-weight: 300;
         line-height: 18px;
 
+    }
+    @media (max-width: ${device.planshet}) {
+        p {
+            margin-bottom: 5px;
+        }
     }
 `
 export const SubContent = styled.div`

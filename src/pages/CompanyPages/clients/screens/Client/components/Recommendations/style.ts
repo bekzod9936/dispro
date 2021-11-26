@@ -1,3 +1,4 @@
+import { device } from './../../../../../../../styles/device';
 import styled from "styled-components";
 interface IProps {
     maxWidth?: string
@@ -13,6 +14,10 @@ export const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: 100%;
+    @media (max-width: ${device.planshet}) {
+        padding: 20px 30px;
+    }
 `
 
 export const UpSide = styled.div`
@@ -24,6 +29,12 @@ export const UpSide = styled.div`
         color: #223367;
         margin-left: 15px;
         line-height: 21.09px;
+    }
+    @media (max-width: ${device.planshet}) {
+        h5 {
+            font-size: 16px;
+            line-height: 18.75px;
+        }
     }
 `
 
@@ -49,4 +60,7 @@ export const DownSide = styled.div`
     margin-top: 30px;
     display: flex;
     flex-wrap: wrap;
+    @media (max-width: ${device.planshet}) {
+        margin-top: 25px;
+    }
 `

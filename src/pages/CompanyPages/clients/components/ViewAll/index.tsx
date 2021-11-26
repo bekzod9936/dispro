@@ -6,10 +6,9 @@ import { useAppDispatch, useAppSelector } from 'services/redux/hooks'
 import { setClient } from 'services/redux/Slices/clients'
 import { Wrapper } from "./style"
 interface IProps {
-    totalCount: number,
     onClose: () => void
 }
-export const ViewAll: React.FC<IProps> = ({ totalCount, onClose }) => {
+export const ViewAll: React.FC<IProps> = ({ onClose }) => {
     const { t } = useTranslation()
     const { selectedClients } = useAppSelector(state => state.clients)
     const dispatch = useAppDispatch()
@@ -28,7 +27,7 @@ export const ViewAll: React.FC<IProps> = ({ totalCount, onClose }) => {
                         </IconButton>
                         <h3>{t("checkSelected")}</h3>
                     </div>
-                    <h4>{t("selectedClients")}: {totalCount}</h4>
+                    <h4>{t("selectedClients")}: {selectedClients.length}</h4>
                 </div>
                 <div className="content">
                     {selectedClients.map(client => (

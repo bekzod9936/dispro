@@ -327,6 +327,7 @@ const RePublish = () => {
                     error={!!errors.name}
                     message={t('requiredField')}
                     field={field}
+                    maxLength="100"
                     defaultValue={currentCoupon.title}
                     label='Название'
                   />
@@ -479,12 +480,12 @@ const RePublish = () => {
                   <Controller
                     name='ageLimit'
                     control={control}
-                    defaultValue={currentCoupon.ageFrom}
+                    defaultValue={currentCoupon.ageFrom || ""}
                     render={({ field }) => (
                       <InputFormat
                         field={field}
-                        defaultValue={0}
                         max='100'
+                        maxLength="2"
                         IconStart={<PlusIcon style={{ marginLeft: '20px' }} />}
                         label='Возрастное ограничение'
                       />

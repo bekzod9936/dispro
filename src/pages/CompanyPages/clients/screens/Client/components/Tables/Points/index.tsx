@@ -7,11 +7,12 @@ import { fetchClientTableData } from 'services/queries/clientsQuery'
 import { useAppSelector } from 'services/redux/hooks'
 import { EmptyTable } from '../../EmptyTable'
 import { pointsHeaders } from '../Operations/constants'
-import { Footer, MobileTable, MTRow, Table, Tbody, Td, Th, THead, TRow } from '../Operations/style'
+import { Footer, MobileTable, MTRow, Table, Tbody, Td, Th, THead, TRow, Wrapper } from '../Operations/style'
 import pointsImage from "assets/images/coinsImage.png"
 import { getPointsForMobile, tablePointsHelper } from 'pages/CompanyPages/clients/utils/getSelectedFilters'
 import Pagination from 'components/Custom/Pagination'
 import useWindowWidth from 'services/hooks/useWindowWidth'
+import { NewPagination } from 'components/Custom/NewPagination'
 const Points = () => {
     const { t } = useTranslation()
     const [page, setPage] = useState(1)
@@ -64,41 +65,43 @@ const Points = () => {
     return (
         <>
             {width > 600 ?
-                <Table {...getTableProps()}>
-                    <THead>
-                        {headerGroups.map(headerGroup => (
-                            <tr style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.04)" }} {...headerGroup.getHeaderGroupProps}>
-                                {headerGroup.headers.map(column => (
-                                    <Th {...column.getHeaderProps()}>
-                                        {column.render("Header")}
-                                    </Th>
-                                ))}
-                            </tr>
-                        ))}
-                    </THead>
-                    <Tbody {...getTableBodyProps()}>
-                        {rows.map(row => {
-                            prepareRow(row)
-                            return (
-                                <TRow {...row.getRowProps()}>
-                                    {row.cells.map(cell => {
-                                        return (
-                                            <Td {...cell.getCellProps()}>
-                                                {cell.render('Cell')}
-                                            </Td>
-                                        )
-                                    })}
-                                </TRow>
-                            )
-                        })}
+                <Wrapper>
+                    <Table {...getTableProps()}>
+                        <THead>
+                            {headerGroups.map(headerGroup => (
+                                <tr style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.04)" }} {...headerGroup.getHeaderGroupProps}>
+                                    {headerGroup.headers.map(column => (
+                                        <Th {...column.getHeaderProps()}>
+                                            {column.render("Header")}
+                                        </Th>
+                                    ))}
+                                </tr>
+                            ))}
+                        </THead>
+                        <Tbody {...getTableBodyProps()}>
+                            {rows.map(row => {
+                                prepareRow(row)
+                                return (
+                                    <TRow {...row.getRowProps()}>
+                                        {row.cells.map(cell => {
+                                            return (
+                                                <Td {...cell.getCellProps()}>
+                                                    {cell.render('Cell')}
+                                                </Td>
+                                            )
+                                        })}
+                                    </TRow>
+                                )
+                            })}
 
-                    </Tbody>
-                </Table> :
+                        </Tbody>
+                    </Table>
+                </Wrapper> :
                 <MobileTable>
                     {Object.keys(mobilePoints).map((date: any, index: any) => (
-                        <MTRow isEven={!!((index + 1) % 2)}>
-                            <div className="date">{date}</div>
-                            {mobilePoints[date].map((el: any) =>
+                        <>{mobilePoints[date].map((el: any, index: number) =>
+                            <MTRow>
+                                {index === 0 && <div className="date">{date}</div>}
                                 <div className="content">
                                     <div className="left">
                                         <p className="type">{el.action}</p>
@@ -106,16 +109,15 @@ const Points = () => {
                                     </div>
                                     <span className="time">{el.time}</span>
                                 </div>
-                            )}
-                        </MTRow>
+                            </MTRow>
+                        )}</>
                     ))}
                 </MobileTable>}
             <Footer>
-                <Pagination
-                    defaultPage={page}
-                    onChange={(e: any) => setPage(e)}
-                    count={totalCount}
-                />
+                <NewPagination
+                    totalCount={totalCount}
+                    onChange={(e) => setPage(e)}
+                    currentPage={page} />
             </Footer>
         </>
     )
