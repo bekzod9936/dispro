@@ -104,14 +104,17 @@ export const MobileTable = styled.div`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
   border-radius: 12px;
   margin: 15px;
+
 `
 interface IMRow {
   isEven: boolean
 }
 export const MTRow = styled.div`
   padding: 10px 10px 7px 15px;
-  background-color: ${({ isEven }: IMRow) => isEven ? "rgba(96, 110, 234, 0.1)" : '#ffffff'};
   width: 100%;
+  &:nth-child(odd) {
+    background-color: rgba(96, 110, 234, 0.1);
+  }
   .recRow {
     display: flex;
     width: 100%;

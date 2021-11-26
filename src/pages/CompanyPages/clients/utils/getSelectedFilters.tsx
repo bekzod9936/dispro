@@ -345,7 +345,8 @@ const pointTypes: any = {
   7: "Баллы за покупки",
   8: "Баллы вместо кешбэка",
   9: "Баллы за приглашенного клиента",
-  10: "Использовано при покупки"
+  10: "Использовано при покупки",
+  11: "Баллы списанные за покупку"
 }
 
 export const tablePointsHelper = (arr: IPointHelperItem[]) => {
@@ -353,7 +354,9 @@ export const tablePointsHelper = (arr: IPointHelperItem[]) => {
     date: dayjs(el.date).format("DD.MM.YYYY hh:mm"),
     type: pointTypes[el.type] || "",
     referal: el.name || "",
-    points: el.amount
+    points: el.amount,
+    mobDate: dayjs(el.date).format("DD.MM.YYYY"),
+    time: dayjs(el.date).format("hh:mm"),
   }))
 }
 

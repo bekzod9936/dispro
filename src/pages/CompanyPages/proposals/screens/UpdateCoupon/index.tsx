@@ -335,6 +335,7 @@ const UpdateCoupon = () => {
                     error={!!errors.name}
                     message={t('requiredField')}
                     field={field}
+                    maxLength="100"
                     defaultValue={currentCoupon.title}
                     label='Название'
                   />
@@ -489,12 +490,12 @@ const UpdateCoupon = () => {
                   <Controller
                     name='ageLimit'
                     control={control}
-                    defaultValue={currentCoupon.ageFrom}
+                    defaultValue={currentCoupon.ageFrom || ""}
                     render={({ field }) => (
                       <InputFormat
                         field={field}
                         max='100'
-                        defaultValue={0}
+                        maxLength="2"
                         IconStart={<PlusIcon style={{ marginLeft: '20px' }} />}
                         label='Возрастное ограничение'
                       />
