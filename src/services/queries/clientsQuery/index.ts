@@ -78,7 +78,7 @@ export const sendNote = async (data: any) => {
 
 export const fetchQrCode = async () => {
   const response = await partnerApi.post(`/core/ref`, {
-    source: "Базовый18"
+    source: "Partner"
   })
   return response
 
