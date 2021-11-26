@@ -105,19 +105,19 @@ const Operations = () => {
                     </Tbody>
                 </Table> :
                 <MobileTable>
-                    {Object.keys(mobileOperations).map((date: any, index: any) => (
-                        <MTRow isEven={!!((index + 1) % 2)}>
-                            <div className="date">{date}</div>
-                            {mobileOperations[date].map((el: any) => (
-                                <div className="content">
-                                    <div className="left">
-                                        <p className="type">{el.action}</p>
-                                        <p className="value">{el.value}</p>
-                                    </div>
-                                    <span className="time">{el.time}</span>
-                                </div>
-                            ))}
-                        </MTRow>
+                    {Object.keys(mobileOperations).map((date: any) => (
+                            <>{mobileOperations[date].map((el: any, index: number) => (
+                                <MTRow>
+                                    {index === 0 && <div className="date">{date}</div>}
+                                        <div className="content">
+                                            <div className="left">
+                                                <p className="type">{el.action}</p>
+                                                <p className="value">{el.value}</p>
+                                            </div>
+                                            <span className="time">{el.time}</span>
+                                        </div>
+                                </MTRow>
+                            ))}</>
                     ))}
                 </MobileTable>}
             <Footer>
