@@ -51,6 +51,9 @@ export const HTitle = styled.div`
   font-weight: 500;
   font-size: 18px;
   color: #223367;
+  @media (max-width: ${device.mobile}) {
+    font-size: 16px;
+  }
 `;
 
 export const Wrapper = styled.div`
@@ -78,6 +81,10 @@ export const Form = styled.form`
   border: 2px solid #c2c2c2;
   border-radius: 14px;
   width: 100%;
+  @media (max-width: ${device.mobile}) {
+    border: none;
+    border-radius: 0;
+  }
 `;
 
 export const Link = styled.a`
@@ -86,6 +93,9 @@ export const Link = styled.a`
   color: #3492ff;
   text-decoration: none;
   margin-right: 20px;
+  @media (max-width: ${device.mobile}) {
+    font-size: 14px;
+  }
 `;
 
 export const WorkingTime = styled.div`
@@ -176,10 +186,10 @@ export const MessageText = styled.div`
   color: ${({ bgcolor }: MProps) => bgcolor};
   margin-top: 5px;
 
-  white-space: pre-wrap; /* Since CSS 2.1 */
-  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-  white-space: -pre-wrap; /* Opera 4-6 */
-  white-space: -o-pre-wrap; /* Opera 7 */
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
   word-wrap: break-word;
 `;
 
@@ -237,4 +247,19 @@ export const WrapDownIcon = styled.div`
   right: 20px;
   bottom: 0;
   z-index: 3;
+`;
+
+export const WrapModal = styled.div``;
+
+export const HeaderModal = styled.div`
+  display: flex;
+  padding: 10px 15px;
+  align-items: center;
+`;
+export const BodyModal = styled.div``;
+export const FooterModal = styled.div``;
+export const WrapPhone = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;

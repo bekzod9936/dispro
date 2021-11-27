@@ -101,8 +101,9 @@ export const Form = styled.form`
   flex-direction: column;
   @media (max-width: ${device.mobile}) {
     width: 100%;
-    padding: 0;
+    padding: 0 0 65px 0;
     border-radius: 0;
+    position: relative;
   }
 `;
 
@@ -419,6 +420,10 @@ export const DownSide = styled.div`
     background-color: white;
     min-height: 65px;
     border-top: 1px solid rgba(96, 110, 234, 0.3);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
     & > div {
       display: flex;
       width: 100%;

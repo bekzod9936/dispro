@@ -1,20 +1,24 @@
-import { useEffect, useRef, useState } from "react";
-import Title from "components/Custom/Title";
-import { useTranslation } from "react-i18next";
-import { useForm, Controller } from "react-hook-form";
-import useWindowWidth from "services/hooks/useWindowWidth";
-import { useAppSelector } from "services/redux/hooks";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import Button from "components/Custom/Button";
-import Input from "components/Custom/Input";
-import { Avatar } from "../../style";
-import { IconButton } from "@material-ui/core";
-import { Picker } from "emoji-mart";
-import useSupportChat from "../../hooks/useSupportChat";
-import dayjs from "dayjs";
-import { CHAT_TYPES } from "services/constants/chat";
-import disicon from "assets/icons/disicon.png";
-import { ruCount } from "../../hooks/format";
+import { useEffect, useRef, useState } from 'react';
+import Title from 'components/Custom/Title';
+import { useTranslation } from 'react-i18next';
+import { useForm, Controller } from 'react-hook-form';
+import useWindowWidth from 'services/hooks/useWindowWidth';
+import { useAppSelector } from 'services/redux/hooks';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import Button from 'components/Custom/Button';
+import Input from 'components/Custom/Input';
+import { Avatar } from '../../style';
+import { IconButton } from '@material-ui/core';
+import { Picker } from 'emoji-mart';
+import useSupportChat from '../../hooks/useSupportChat';
+import dayjs from 'dayjs';
+import { CHAT_TYPES } from 'services/constants/chat';
+import disicon from 'assets/icons/disicon.png';
+import { ruCount } from '../../hooks/format';
+import FullModal from 'components/Custom/FullModal';
+import { ReactComponent as LeftBack } from 'assets/icons/FinanceIcons/leftback.svg';
+import { useHistory } from 'react-router';
+import App from 'assets/icons/StatistisPage/app.svg';
 import {
   InputDown,
   ScriptIcon,
@@ -24,7 +28,7 @@ import {
   WrapIcons,
   EPicker,
   WrapScript,
-} from "../Posts/style";
+} from '../Posts/style';
 import {
   Container,
   MessageContainer,
@@ -49,18 +53,26 @@ import {
   DownIcon,
   WrapDownIcon,
   DisIcon,
-} from "./style";
+  WrapModal,
+  HeaderModal,
+  BodyModal,
+  FooterModal,
+  WrapPhone,
+} from './style';
+
 interface FormProps {
   message?: string;
 }
 
 const Support = () => {
   const { t } = useTranslation();
-  const companyId: any = localStorage.getItem("companyId");
+  const { width } = useWindowWidth();
+  const history = useHistory();
+  const companyId: any = localStorage.getItem('companyId');
   const words = 400;
   const { control, handleSubmit, setValue, getValues, watch } =
     useForm<FormProps>({
-      mode: "onBlur",
+      mode: 'onBlur',
       shouldFocusError: true,
     });
   const [loading, setLoading] = useState(false);
@@ -72,8 +84,6 @@ const Support = () => {
   const histories = useAppSelector(
     (state) => state.feedbackPost.supporthistories
   );
-
-  const { width } = useWindowWidth();
 
   const [showEmoji, setShowEmoji] = useState<boolean>(false);
   const [scrollHeight, setScrollHeight] = useState(0);
@@ -89,15 +99,15 @@ const Support = () => {
 
   const scrollToBottom = () => {
     messagesEndRef?.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "end",
+      behavior: 'smooth',
+      block: 'end',
     });
   };
 
   const scrollToTop = () => {
     messagesStartRef?.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "end",
+      behavior: 'smooth',
+      block: 'end',
     });
   };
 
@@ -117,7 +127,7 @@ const Support = () => {
     if (values?.message !== undefined) {
       setLimit(words - values?.message?.length);
     }
-  }, [watch("message")]);
+  }, [watch('message')]);
 
   const handleShowEmoji = () => {
     setShowEmoji(!showEmoji);
@@ -127,7 +137,7 @@ const Support = () => {
     setLoading(true);
     if (e.message.length > 0) {
       socket.emit(
-        "chat_to_server",
+        'chat_to_server',
         {
           langId: 1,
           chatType: CHAT_TYPES.PARTNER_TO_MODERATOR,
@@ -141,11 +151,11 @@ const Support = () => {
         (res: any) => {
           if (res.success) {
             console.log(res);
-            setValue("message", "");
+            setValue('message', '');
             resChatSupportHistory.refetch();
             setLoading(false);
           } else {
-            console.log("thereis errror");
+            console.log('thereis errror');
             setLoading(false);
           }
         }
@@ -153,21 +163,29 @@ const Support = () => {
     }
   };
 
-  return (
+  const title = <HTitle>{t('supportcall')}</HTitle>;
+
+  const avatar = (
+    <Avatar big={true}>
+      <DisIcon />
+    </Avatar>
+  );
+
+  const tel = <Link href='tel:+998998586446'> +99871 200 20 15</Link>;
+
+  return width > 600 ? (
     <Container>
-      <Title>{t("supportcall")}</Title>
+      <Title>{t('supportcall')}</Title>
       <MessageContainer>
         <Wrapper>
           <Header>
             <WrapImg>
-              <Avatar big={true}>
-                <DisIcon />
-              </Avatar>
+              {avatar}
               <WrapTitile>
-                <HTitle>{t("supportcall")}</HTitle>
+                {title}
                 <LinkWrap>
-                  <Link href="tel:+998998586446"> +99871 200 20 15</Link>
-                  <Link href="mailto:support@dis-count.app">
+                  {tel}
+                  <Link href='mailto:support@dis-count.app'>
                     support@dis-count.app
                   </Link>
                 </LinkWrap>
@@ -193,27 +211,31 @@ const Support = () => {
                         ) : (
                           <LazyLoadImage
                             src={companyInfo.logo}
-                            alt="user"
+                            alt='user'
                             style={{
-                              objectFit: "cover",
+                              objectFit: 'cover',
                             }}
-                            height="100%"
-                            width="100%"
+                            height='100%'
+                            width='100%'
+                            onError={(e: any) => {
+                              e.target.onerror = null;
+                              e.target.src = App;
+                            }}
                           />
                         )}
                       </Avatar>
                       <Message
-                        bgcolor={v.chatType === 6 ? "#E5E9FF" : "#606eea"}
+                        bgcolor={v.chatType === 6 ? '#E5E9FF' : '#606eea'}
                       >
                         <MessageDate
-                          bgcolor={v.chatType === 6 ? "#A5A5A5" : "#fff"}
+                          bgcolor={v.chatType === 6 ? '#A5A5A5' : '#fff'}
                         >
                           {dayjs(v.createdAt)
-                            .subtract(2, "minute")
-                            .format("hh:mm")}
+                            .subtract(2, 'minute')
+                            .format('hh:mm')}
                         </MessageDate>
                         <MessageText
-                          bgcolor={v.chatType === 6 ? "#223367" : "#fff"}
+                          bgcolor={v.chatType === 6 ? '#223367' : '#fff'}
                         >
                           {v.msg}
                         </MessageText>
@@ -233,20 +255,20 @@ const Support = () => {
             </ChatPlace>
             <Form onSubmit={handleSubmit(onSubmit)}>
               <Controller
-                name="message"
+                name='message'
                 control={control}
                 rules={{
                   required: true,
                 }}
-                defaultValue=""
+                defaultValue=''
                 render={({ field }) => (
                   <Input
                     fullWidth={true}
                     multiline={true}
-                    placeholder={t("writeyoutmessage")}
+                    placeholder={t('writeyoutmessage')}
                     inputStyle={{
-                      border: "none",
-                      inpadding: width > 1500 ? "10px 20px" : "",
+                      border: 'none',
+                      inpadding: width > 1500 ? '10px 20px' : '',
                     }}
                     field={field}
                     maxLength={400}
@@ -258,9 +280,9 @@ const Support = () => {
                   Вы можете написать еще
                   {` ${limit} ${ruCount({
                     count: limit,
-                    firstWord: "символ",
-                    secondWord: "символа",
-                    thirdWord: "символов",
+                    firstWord: 'символ',
+                    secondWord: 'символа',
+                    thirdWord: 'символов',
                   })}`}
                 </InputWarn>
                 <WrapIcons>
@@ -273,11 +295,11 @@ const Support = () => {
                     </IconButton>
                   </WrapScript>
                   <Button
-                    type="submit"
+                    type='submit'
                     disabled={loading}
                     startIcon={<SendIcon />}
                   >
-                    {t("send")}
+                    {t('send')}
                   </Button>
                 </WrapIcons>
               </InputDown>
@@ -286,23 +308,70 @@ const Support = () => {
           {showEmoji ? (
             <EPicker onBlur={() => setShowEmoji(false)}>
               <Picker
-                set="google"
+                set='google'
                 onSelect={(e: any) => {
-                  const m = getValues("message") + e.native;
-                  setValue("message", m);
+                  const m = getValues('message') + e.native;
+                  setValue('message', m);
                 }}
                 sheetSize={20}
                 showPreview={false}
                 emojiTooltip={true}
                 showSkinTones={false}
                 useButton={true}
-                color="#606eea"
+                color='#606eea'
               />
             </EPicker>
           ) : null}
         </Wrapper>
       </MessageContainer>
     </Container>
+  ) : (
+    <FullModal open={true}>
+      <WrapModal>
+        <HeaderModal>
+          <IconButton
+            onClick={() => {
+              history.goBack();
+            }}
+            style={{ margin: '0 5px 0 -12px' }}
+          >
+            <LeftBack />
+          </IconButton>
+          {avatar}
+          <WrapPhone>
+            {title}
+            {tel}
+          </WrapPhone>
+        </HeaderModal>
+        <BodyModal>body</BodyModal>
+        <FooterModal>
+          <Form onSubmit={handleSubmit(onSubmit)}>
+            <Controller
+              name='message'
+              control={control}
+              rules={{
+                required: true,
+              }}
+              defaultValue=''
+              render={({ field }) => (
+                <Input
+                  fullWidth={true}
+                  multiline={true}
+                  placeholder={t('writeyoutmessage')}
+                  inputStyle={{
+                    border: '1px solid red',
+                    inpadding: width > 1500 ? '10px 20px' : '',
+                    height: { mobile: 50 },
+                  }}
+                  field={field}
+                  maxLength={400}
+                />
+              )}
+            />
+          </Form>
+        </FooterModal>
+      </WrapModal>
+    </FullModal>
   );
 };
 
