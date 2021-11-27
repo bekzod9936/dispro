@@ -107,7 +107,8 @@ console.log('gender',currentNews?.genderType )
       <ContentSideBar>
         <ContentInfo>
           <h5>Информация</h5>
-          <p>{currentNews?.genderType ==='Для всех' ?  ''+ currentNews?.genderType :`Толка для ${currentNews?.genderType}` }</p>
+          {console.log('Для всех',currentNews)}
+          <p>{currentNews?.data?.genderType ===0 ?  'Для всех' : currentNews?.data?.genderType ===1 ? 'Толка для мужчин':`Толка для женщин  ` }</p>
           <p>Срок публикации: {currentNews?.date}</p>
           <p>Возрастное ограничение: {currentNews?.data?.ageFrom}+</p>
         </ContentInfo>

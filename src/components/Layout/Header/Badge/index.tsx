@@ -34,6 +34,7 @@ import {
 } from './style';
 import defuserman from 'assets/icons/defuserman.png';
 import defuserwoman from 'assets/icons/defuserwoman.png';
+import App from 'assets/icons/StatistisPage/app.svg';
 
 const Badge = () => {
   const { t } = useTranslation();
@@ -105,7 +106,7 @@ const Badge = () => {
                   width='100%'
                   onError={(e: any) => {
                     e.target.onerror = null;
-                    e.target.src = defuserman;
+                    e.target.src = App;
                   }}
                 />
               )}

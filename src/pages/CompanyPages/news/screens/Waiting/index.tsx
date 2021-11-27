@@ -8,17 +8,22 @@ import MobileTable from "../../components/MobileTable";
 import { SideBar } from "../../components/SideBar";
 import { useAppSelector, useAppDispatch } from "services/redux/hooks";
 import { NewsBar } from "../../components/NewsBar";
-import { Container, Wrap, Info,WrapPag, WrapSpinner} from "./style";
+import { Container, Wrap, Info,WrapPag, WrapSpinner,WrapperModal,CloseButton,Buttons} from "./style";
 import useData from "../useData";
 import useWaiting from "./useWaiting";
 import Pagination from 'components/Custom/Pagination';
 import useWindowWidth from 'services/hooks/useWindowWidth';
-import { setQuery, setSelectedNews } from "services/redux/Slices/news";
+import { setQuery, setSelectedNews,setErrorMessage } from "services/redux/Slices/news";
 import { Flex } from "../../style";
 import Input from "components/Custom/Input";
 import Button from "components/Custom/Button";
 import { AddIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
 import { SearchIcon } from "components/Layout/Header/style";
+import Modal from "components/Custom/Modal";
+import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
+import { CloseIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
+import { SaveIcon } from "assets/icons/news/newsIcons";
+import { MobileCancelIcon } from "assets/icons/proposals/ProposalsIcons";
 interface intialFilterProps {
   page?: number;
   perPage?: number;
@@ -35,6 +40,7 @@ const Active = () => {
   const between=useAppSelector((state)=>state.news.NewsInfo.between);
   const totalNewsCount=useAppSelector((state)=>state.news.NewsInfo.totalCountNews)
   const selectedNews = useAppSelector((state) => state.news.selectedNews);
+  const errormessage=useAppSelector((state)=>state.news.errorMessage)
   const query = useAppSelector((state) => state.news.query);
   const { t } = useTranslation();
   const handleOpenSetting = () => {
@@ -77,8 +83,79 @@ const Active = () => {
   
   const newsById = selectedNews?.fullData;
 
+  const LinkComment=()=>{
+    dispatch(setErrorMessage(false))
+    history.push('/support')
+  
+  }
+  const CancelError=()=>{
+    dispatch(setErrorMessage(false));
+  }
+
   return (
     <Container>
+       <Modal modalStyle={{ bgcolor: "#fff" }} open={errormessage}>
+        <WrapperModal>
+          {width > 600 &&  
+        <CloseButton onClick={() => dispatch(setErrorMessage(false))}>
+        <CloseIcon />
+      </CloseButton>}
+    
+      <h3 >
+      Лимит новостей исчерпан
+      </h3>
+          <p>
+           Для более подробной информации, просим обратиться к Модератору
+          </p>
+          {width > 600 ? (
+            <>
+              <Button
+                buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
+                margin={{ laptop: "0 22px 0 0" }}
+                onClick={LinkComment}
+                startIcon={<CancelIcon />}
+              >
+                Написать
+              </Button>
+              <Button
+              
+                margin={{ laptop: "0 22px 0 0" }}
+                onClick={CancelError}
+                startIcon={<SaveIcon />}
+              >
+                Ok
+              </Button>
+            </>
+          ) : (
+            <Buttons>
+              <div className="upside">
+                <Button
+                        onClick={LinkComment}
+                  endIcon={<MobileCancelIcon />}
+                  buttonStyle={{
+                    bgcolor: "rgba(96, 110, 234, 0.1)",
+                    color: "#606EEA",
+                  }}
+                  margin={{ mobile: "0 8px 8px 0" }}
+                >
+                  {t("Написать")}
+                </Button>
+              </div>
+              <Button
+                onClick={CancelError}
+                endIcon={<SaveIcon />}
+                buttonStyle={{
+                  bgcolor: "#606EEA",
+                  color: "#fff",
+                }}
+                margin={{ mobile: "0px 8px  8px  0" }}
+              >
+                {"Ok"}
+              </Button>
+            </Buttons>
+          )}
+        </WrapperModal>
+      </Modal>
       <Flex
       width="95%"
       justifyContent="flex-start"

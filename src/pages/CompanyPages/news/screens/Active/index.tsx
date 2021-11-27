@@ -114,7 +114,6 @@ const Active = () => {
   
   }
   const CancelError=()=>{
-
     dispatch(setErrorMessage(false));
   }
 
@@ -235,7 +234,7 @@ const Active = () => {
     </Flex>
       {width>600 ? 
       <Wrap>
-        {response.isLoading || response.isFetching ? (
+        { response.isFetching ? (
           <WrapSpinner><Spinner/></WrapSpinner>
 
         ) : (

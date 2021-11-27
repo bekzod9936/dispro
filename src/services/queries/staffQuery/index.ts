@@ -59,26 +59,28 @@ export const changeLoyal = async (data: any) => {
 
 //role manager
 
-export const getRoleManager = async (id: string | number) => {
-  const response = await partnerApi.get(`/core/staffs/permissions/${id}`);
+// export const getRoleManager = async (id: string | number) => {
+//   const response = await partnerApi.get(`/core/staffs/permissions/${id}`);
 
-  return response;
-};
+//   return response;
+// };
 
-export const setRoleManager = async (data: any) => {
+//set role manager
+export const setRoleManager = async ({id, permissions}: any) => {
   const response = await partnerApi.put(
-    `/core/staffs/permissions/${data.userId}`,
+    `/core/staffs/permissions/new/set?staffIds=${id}`,
     {
-      permissions: data.permissions,
+      permissions,
     }
   );
 
   return response;
 };
 
-export const getPermission = async (staffId: any) => {
+export const getPermission = async (id: any) => {
   const response = await partnerApi.get(
-    `/core/staffs/permissions/new/${staffId}`
+    `/core/staffs/permissions/new/${id}`
+
   );
 
   return response;

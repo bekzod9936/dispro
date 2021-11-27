@@ -15,9 +15,14 @@ interface Props {
   filterValues:any
 }
 
+
+function handleSort(arr:any){
+  return [...arr].sort((a,b)=> new Date(b.startLifeTime).getTime()-new Date(a.startLifeTime).getTime())
+ }  
+ 
 const useActive = ({filterValues}:Props) => {
   const dispatch = useAppDispatch();
-  const query=useAppSelector((state)=>state.news.query);
+  const query = useAppSelector((state)=>state.news.query);
 
   const [debouncedQuery] = useDebounce(query, 300);
 
@@ -51,7 +56,9 @@ const useActive = ({filterValues}:Props) => {
       );
       dispatch(setNewsTotal(Math.ceil(data.data.data.totalCount/ filterValues?.perPage)))
       dispatch(setNewsTotalCount(data.data.data.totalCount))
-      dispatch(setNewsData(data.data.data.news))
+      // dispatch(setNewsData(data.data.data.news))
+      let res=handleSort(data.data.data.news)
+      dispatch(setNewsData(res))
     
     },
   });
@@ -59,3 +66,6 @@ const useActive = ({filterValues}:Props) => {
 };
 
 export default useActive;
+
+
+

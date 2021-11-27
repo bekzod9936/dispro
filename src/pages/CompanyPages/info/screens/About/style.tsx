@@ -195,8 +195,9 @@ export const Form = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  position: relative;
   @media (max-width: ${device.mobile}) {
-    padding: 0;
+    padding: 0 0 65px 0;
     border-radius: 0;
   }
   @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
@@ -205,7 +206,6 @@ export const Form = styled.form`
 `;
 
 export const UpSide = styled.div`
-
   height: 80%;
   width: 100%;
   flex-grow: 1;
@@ -237,6 +237,7 @@ export const DownSide = styled.div`
   justify-content: center;
   height: 20%;
   max-height: 65px;
+
   & > div {
     width: 87%;
     border-top: 1px solid rgba(96, 110, 234, 0.3);
@@ -244,9 +245,9 @@ export const DownSide = styled.div`
     align-items: center;
   }
   @media (max-width: ${device.mobile}) {
-    position: sticky;
+    position: fixed;
     bottom: 0;
-
+    left: 0;
     & > div {
       width: 100%;
       border-top: 1px solid rgba(96, 110, 234, 0.3);

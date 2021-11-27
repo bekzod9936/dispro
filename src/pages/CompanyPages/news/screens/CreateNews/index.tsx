@@ -90,24 +90,15 @@ const CreateNews = () => {
   const [formData, setFormData] = React.useState({});
   const [cancel, setCancel] = React.useState(false);
   const [startDate, setStartDate] = React.useState<any>();
-  const [description, setDescription] = React.useState<any>();
+ 
   const [errorFileType, setErrorFileType] = React.useState<any>(false);
   const handleBack = () => {
     history.goBack();
   };
   const { handleUpload, deleteImage, setLoading, isLoading } =
     useUploadImage(setImage);
-  const fetchCreateNews = async (data: any) => {
-    const response = await partnerApi.post("/core/news", data);
-    return response;
-  };
-  // const { mutate } = useMutation((data: any) => fetchCreateNews(data));
   const { mutate } = useMutation(fetchCreateNews, {
-    onSuccess: (response) => {
-      console.log("datacreateNews", response);
-    },
-    onError: (error) => {
-      console.log("datacreateNewsEdit", error);
+    onError: () => {
       dispatch(setErrorMessage(true));
     },
   });
@@ -156,10 +147,7 @@ const CreateNews = () => {
     history.goBack();
   };
 
-  const handleDescription = (e: any) => {
-    setDescription(e.target.value);
-  };
-
+ 
   const submitNews = (data: any) => {
     let newsData = {
       title: data.name,
@@ -188,7 +176,7 @@ const CreateNews = () => {
             ? data.filialID.map((el: any) => el.value)
             : [],
       },
-      pushUpTitle: data.descriptionPush,
+      pushUpTitle:optionalFields.push&& data.descriptionPush,
     };
     setStartDate(data.startDate);
     setSubmit(true);

@@ -3,11 +3,12 @@ import { useQuery, useMutation } from "react-query";
 import {
   createCashier,
   getManagers,
-  getRoleManager,
+//   getRoleManager,
   searchManagers,
   setRoleManager,
   deleteSingleCashier,
   editStaff,
+  getPermission,
 } from "services/queries/staffQuery";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 import {
@@ -17,7 +18,7 @@ import {
   setPermissions,
   setSelectedRole,
   setStepManager,
-  setUserId,
+  setManagerId,
   setSelectedManagers,
   setOpenEditManager,
 } from "services/redux/Slices/staffs";
@@ -25,7 +26,7 @@ import { numberWith } from "services/utils";
 
 const useManagers = ({ page, query, period }: any) => {
   const dispatch = useAppDispatch();
-  const userId = useAppSelector((state) => state.staffs.userId);
+  const managerId = useAppSelector((state) => state.staffs.managerId);
 
   const [open, setOpen] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
@@ -50,7 +51,7 @@ const useManagers = ({ page, query, period }: any) => {
 
   //set role manager
   const saveRoleManager = useMutation((data: any) =>
-    setRoleManager({ userId, permissions: data })
+    setRoleManager({ id: data.id,  permissions: data.state })
   );
 
   const response = useQuery(
@@ -101,10 +102,11 @@ const useManagers = ({ page, query, period }: any) => {
         response.refetch();
       } else {
         response.refetch();
+        // roleManager.mutate(data?.data?.data?.id);
+        dispatch(setManagerId(data?.data?.data?.id));
         dispatch(setStepManager(2));
-        roleManager.mutate(data?.data?.data?.userId);
-        dispatch(setUserId(data?.data?.data?.userId));
-      }
+
+	}
 
       dispatch(setOpenCash(false));
     },
@@ -113,21 +115,21 @@ const useManagers = ({ page, query, period }: any) => {
   //get role manager id
   const roleManager = useMutation(
     (id: any) => {
-      return getRoleManager(id);
+      return getPermission(id);
     },
     {
       onSuccess: (data) => {
         console.log(data.data.data, "data backend");
-        dispatch(setPermissions(data.data.data.permissions));
-        dispatch(
-          setSelectedRole(
-            data.data.data?.permissions?.map((item: any) => {
-              return {
-                value: item,
-              };
-            })
-          )
-        );
+        // dispatch(setPermissions(data.data.data.permissions));
+        // dispatch(
+        //   setSelectedRole(
+        //     data.data.data?.permissions?.map((item: any) => {
+        //       return {
+        //         value: item,
+        //       };
+        //     })
+        //   )
+        // );
       },
     }
   );

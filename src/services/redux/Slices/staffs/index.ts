@@ -20,6 +20,7 @@ const initialState: staffsState = {
   openEditManager: false,
   openEditCashier: false,
   cashierId: "",
+  managerId: "",
   staffData: [],
   pointHistories: {
     data: [],
@@ -71,6 +72,9 @@ const staffsSlice = createSlice({
     setPermissions: (state, action: any) => {
       state.permissions = action.payload;
     },
+    setManagerId: (state, action: any) => {
+      state.managerId = action.payload;
+    },
     setUserId: (state, action: any) => {
       state.userId = action.payload;
     },
@@ -118,6 +122,7 @@ export const {
   setStepManager,
   setPermissions,
   setUserId,
+  setManagerId,
   setSelectedRole,
   setOpenEditManager,
   setOpenEditCashier,

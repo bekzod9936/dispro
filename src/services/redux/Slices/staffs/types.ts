@@ -17,6 +17,7 @@ export interface staffsState {
   userId: any;
   selectedRole?: any;
   cashierId?: any;
+  managerId?: any;
   staffData: any;
   pointHistories: any;
 }
