@@ -6,6 +6,7 @@ import { Route, Switch, useHistory, useParams } from 'react-router'
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks'
 import { useClientRoutes } from '../../routes'
 import { ClientBlock } from './components/ClientBlock'
+import clientDefault from "assets/images/staff_default.png"
 import { InfoBlock } from './components/InfoBlock'
 import { Recommendation } from './components/Recommendations'
 import { StatsCard } from './components/StatsCard'
@@ -207,6 +208,10 @@ const Client = () => {
                                     <div className="image">
                                         <img
                                             src={client.image}
+                                            onError={(e:any) => {
+                                                e.target.onerror = null;
+                                                e.target.src = clientDefault;
+                                            }}
                                             alt="imgAvatart" />
                                         {client.isPlBlocked &&
                                             <div className="block">{<BlockIcon />}</div>}

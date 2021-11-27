@@ -6,7 +6,7 @@ import { DefaultImg, MCheckbox, Table, Tbody, Thead, Trow } from './style';
 import { useHistory } from 'react-router';
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import { selectAll } from 'services/redux/Slices/clients';
-
+import clientDefault from "assets/images/staff_default.png"
 interface IProps {
     array: {
         image?: string,
@@ -57,7 +57,11 @@ export const MobileTable = ({ array, onClick }: IProps) => {
                             <MCheckbox>
                                 <Checkbox checked={selectedClients.some(el => client.id === el.id)} />
                             </MCheckbox>}
-                        {client.image ? <img src={client.image} alt="clientImg" /> : <DefaultImg />}
+                        {client.image ? 
+                            <img src={client.image} onError={(e: any) => {
+                                e.target.onerror = null;
+                                e.target.src = clientDefault;
+                            }} alt="clientImg" /> : <DefaultImg />}
                         <div className="content">
                             <h5>{client.name}</h5>
                             <p>{client.isBlocked ? <span>{t("blocked")}</span> : <b>{client.discountStatus} {client.discountValue}%</b>}</p>
