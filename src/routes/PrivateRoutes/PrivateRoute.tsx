@@ -1,5 +1,5 @@
 import { Redirect, Route } from "react-router-dom";
-import { IDefaultLayout } from "../components/Layout/DefaultLayoutAdmin";
+import { IDefaultLayout } from "components/Layout/DefaultLayoutAdmin";
 
 interface IProps {
   Layout: React.FC<IDefaultLayout>;
