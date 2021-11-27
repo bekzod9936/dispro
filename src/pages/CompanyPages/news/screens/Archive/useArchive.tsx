@@ -14,7 +14,7 @@ import {
   }
 
 function handleSort(arr:any){
- return [...arr].sort((a,b)=> new Date(a.startLifeTime).getTime()-new Date(b.startLifeTime).getTime())
+ return [...arr].sort((a,b)=> new Date(b.startLifeTime).getTime()-new Date(a.startLifeTime).getTime())
 }  
 
 const useArchive = ({filterValues}:PProps) => {
