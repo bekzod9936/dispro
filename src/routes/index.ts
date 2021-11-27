@@ -1,20 +1,19 @@
 import { lazy } from "react";
 //layout
 import DefaultLayoutAdmin from "components/Layout/DefaultLayoutAdmin";
+import ModeratorLayout from "components/ModeratorLayout";
 //types
 import { IPrivateRoute, IPublicRoute } from "./types";
 //screens
 import CompanyList from "../pages/LoginPages/LoginPage/Companylist/index";
 
-const Companies = lazy(
-  () => import("../pages/AdminDashBoard/AdminCompanies/AdminCompanies")
-);
+const Companies = lazy(() => import("../pages/AdminDashBoard/AdminCompanies"));
 const Categories = lazy(
   () => import("../pages/AdminDashBoard/AdminCategories/AdminCategories")
 );
 
 //Partner
-const LoginPageAdmin = lazy(() => import("../pages/LoginPages/ModeratorLogin"));
+const ModeratorLogin = lazy(() => import("../pages/LoginPages/ModeratorLogin"));
 
 const StatisticsPage = lazy(() => import("../pages/CompanyPages/statistics"));
 const SupportPage = lazy(
@@ -56,7 +55,7 @@ export const authRoutes: IPublicRoute[] = [
   },
   {
     path: "/admin",
-    component: LoginPageAdmin,
+    component: ModeratorLogin,
   },
 ];
 
@@ -156,12 +155,12 @@ export const privateCompanyRoutes: IPrivateRoute[] = [
 export const privateRoutes: IPrivateRoute[] = [
   {
     path: "/admin/companies",
-    layout: DefaultLayoutAdmin,
+    layout: ModeratorLayout,
     component: Companies,
   },
   {
     path: "/admin/categories",
-    layout: DefaultLayoutAdmin,
+    layout: ModeratorLayout,
     component: Categories,
   },
   {

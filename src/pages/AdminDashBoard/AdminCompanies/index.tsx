@@ -6,7 +6,9 @@ import {
   fetchCompanyStatus,
 } from "services/queries/adminQueries";
 import { URL } from "services/constants/config";
-
+import useData from "./hooks/useData";
+import { SpinnerDiv } from "pages/CompanyPages/news/style";
+import Spinner from "components/Helpers/Spinner";
 // const authInterceptor = axios.create({
 //   baseURL: URL,
 //   headers: {
@@ -17,6 +19,7 @@ import { URL } from "services/constants/config";
 // });
 
 export const AdminCompanies = () => {
+  const { isLoading } = useData();
   const type = "2";
   const handleCompanyClick = async () => {
     const response = await adminInterceptor.put(
@@ -46,6 +49,15 @@ export const AdminCompanies = () => {
     enabled: !!proceed,
     onSuccess: (data) => {},
   });
+
+  if (isLoading) {
+    return (
+      <SpinnerDiv>
+        <Spinner />
+      </SpinnerDiv>
+    );
+  }
+
   return (
     <div>
       Admin Companies Render

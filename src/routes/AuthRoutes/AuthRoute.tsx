@@ -23,7 +23,7 @@ const AuthRoute: React.FC<IProps> = ({ Layout, Component, ...rest }) => {
         }
         return <Component {...props} />;
       }}
-    ></Route>
+    />
   );
 };
 

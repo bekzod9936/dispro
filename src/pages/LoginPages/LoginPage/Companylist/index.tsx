@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useMutation, useQuery } from "react-query";
+import { useMutation } from "react-query";
 import { useHistory } from "react-router";
 import { Tooltip } from "@material-ui/core";
 import { useSetRecoilState } from "recoil";

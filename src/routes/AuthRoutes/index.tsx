@@ -12,12 +12,13 @@ const AuthRoutes = () => {
   const refreshToken = localStorage.getItem(PARTNER.REFRESH_TOKEN);
   const checkToken =
     accessToken && refreshToken && window.location.pathname === "/";
+
   return authRoutes.map((item: IPublicRoute) => {
     if (checkToken) {
       return <Redirect to="/partner/company" />;
     }
     return (
-      <Suspense fallback={<FallbackOnLazyLoad />}>
+      <Suspense fallback={<div></div>}>
         <AuthRoute Component={item.component} path={item.path} />
       </Suspense>
     );

@@ -19,6 +19,14 @@ const PrivateRoute: React.FC<IProps> = ({ Layout, Component, ...rest }) => {
         let accessToken = localStorage.getItem(PARTNER.ACCESS_TOKEN);
         const path = props.match.path;
 
+        if (path.includes("admin")) {
+          return (
+            <Layout>
+              <Component {...props} />
+            </Layout>
+          );
+        }
+
         return (accessToken && path.includes("partner")) ||
           (companyToken && !path.includes("partner")) ? (
           <Layout>
