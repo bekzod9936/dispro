@@ -1,5 +1,6 @@
 import { Redirect, Route } from "react-router-dom";
 import { IDefaultLayout } from "components/Layout/DefaultLayoutAdmin";
+import { PARTNER } from "services/interceptors/partner_interceptor/types";
 
 interface IProps {
   Layout: React.FC<IDefaultLayout>;
@@ -14,14 +15,16 @@ const PrivateRoute: React.FC<IProps> = ({ Layout, Component, ...rest }) => {
       {...rest}
       exact
       render={(props) => {
-        let companyToken = localStorage.getItem("companyToken");
-        let moderator = localStorage.getItem("partner_access_token");
-        return (moderator && props.match.path.includes("partner")) ||
-          (companyToken && !props.match.path.includes("partner")) ? (
+        let companyToken = localStorage.getItem(PARTNER.COMPANY_TOKEN);
+        let accessToken = localStorage.getItem(PARTNER.ACCESS_TOKEN);
+        const path = props.match.path;
+
+        return (accessToken && path.includes("partner")) ||
+          (companyToken && !path.includes("partner")) ? (
           <Layout>
             <Component {...props} />
           </Layout>
-        ) : !companyToken && !props.match.path.includes("company") ? (
+        ) : !companyToken && !path.includes("company") ? (
           <Redirect from="*" to="/partner/company" />
         ) : (
           <Redirect from="*" to="/" />

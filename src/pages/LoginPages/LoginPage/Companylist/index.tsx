@@ -69,8 +69,6 @@ const Companylist = () => {
     },
   });
 
-  console.log(userType, "user Type");
-
   const company = useMutation((values: any) => enterCompany(values), {
     onSuccess: async (data) => {
       const refData = data.data.data;
@@ -115,7 +113,7 @@ const Companylist = () => {
   const addCompany = () => {
     if (isLoading || isFetching) {
       return <Spinner />;
-    } else if (companyList.length === 0) {
+    } else if (companyList?.length === 0) {
       return (
         <Box onClick={handleAddCompany}>
           <Wrap border="1.5px dashed #606eea">
@@ -135,7 +133,7 @@ const Companylist = () => {
               <Text color="#606EEA">{t("addCompany")}</Text>
             </Box>
           )}
-          {companyList.map((v: any) => (
+          {companyList?.map((v: any) => (
             <Tooltip title={v.company.name} arrow>
               <Box
                 key={v.company.id}

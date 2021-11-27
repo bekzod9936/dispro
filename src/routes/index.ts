@@ -14,9 +14,7 @@ const Categories = lazy(
 );
 
 //Partner
-const LoginPageAdmin = lazy(
-  () => import("../pages/LoginPages/LoginPageAdmin/LoginPageAdmin")
-);
+const LoginPageAdmin = lazy(() => import("../pages/LoginPages/ModeratorLogin"));
 
 const StatisticsPage = lazy(() => import("../pages/CompanyPages/statistics"));
 const SupportPage = lazy(

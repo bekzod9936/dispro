@@ -5,16 +5,13 @@ import FallbackOnLazyLoad from "pages/Fallbacks/FallbackOnLazyLoad";
 import { authRoutes } from "routes";
 import { IPublicRoute } from "routes/types";
 import AuthRoute from "./AuthRoute";
+import { PARTNER } from "services/interceptors/partner_interceptor/types";
 
 const AuthRoutes = () => {
-  const moderatorAutehntificationToken = localStorage.getItem(
-    "partner_access_token"
-  );
-  const moderatorRefreshToken = localStorage.getItem("partner_refresh_token");
+  const accessToken = localStorage.getItem(PARTNER.ACCESS_TOKEN);
+  const refreshToken = localStorage.getItem(PARTNER.REFRESH_TOKEN);
   const checkToken =
-    moderatorAutehntificationToken &&
-    moderatorRefreshToken &&
-    window.location.pathname === "/";
+    accessToken && refreshToken && window.location.pathname === "/";
   return authRoutes.map((item: IPublicRoute) => {
     if (checkToken) {
       return <Redirect to="/partner/company" />;
