@@ -1,5 +1,4 @@
 import React from "react";
-
 //app_routes
 import AuthRoutes from "./AuthRoutes";
 import PrivateRoutes from "./PrivateRoutes";

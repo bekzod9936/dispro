@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useQuery } from "react-query";
-import adminInterceptor from "../../../services/interceptors/adminInterceptor";
+import adminInterceptor from "services/interceptors/moderator_interceptor";
 import {
   fetchCompanies,
   fetchCompanyStatus,
-} from "../../../services/queries/adminQueries";
-import { URL } from "../../../services/constants/config";
+} from "services/queries/adminQueries";
+import { URL } from "services/constants/config";
 
 // const authInterceptor = axios.create({
 //   baseURL: URL,

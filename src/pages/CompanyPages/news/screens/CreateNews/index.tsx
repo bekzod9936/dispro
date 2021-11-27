@@ -23,7 +23,7 @@ import dayjs from "dayjs";
 import { fetchCreateNews } from "services/queries/newPageQuery";
 import { setErrorMessage } from "services/redux/Slices/news";
 import { MobileCancelIcon } from "assets/icons/proposals/ProposalsIcons";
-import partnerApi from "../../../../../services/interceptors/companyInterceptor";
+import partnerApi from "../../../../../services/interceptors/partner_interceptor";
 import {
   Label,
   WrapDate,
@@ -90,7 +90,7 @@ const CreateNews = () => {
   const [formData, setFormData] = React.useState({});
   const [cancel, setCancel] = React.useState(false);
   const [startDate, setStartDate] = React.useState<any>();
- 
+
   const [errorFileType, setErrorFileType] = React.useState<any>(false);
   const handleBack = () => {
     history.goBack();
@@ -147,7 +147,6 @@ const CreateNews = () => {
     history.goBack();
   };
 
- 
   const submitNews = (data: any) => {
     let newsData = {
       title: data.name,
@@ -176,7 +175,7 @@ const CreateNews = () => {
             ? data.filialID.map((el: any) => el.value)
             : [],
       },
-      pushUpTitle:optionalFields.push&& data.descriptionPush,
+      pushUpTitle: optionalFields.push && data.descriptionPush,
     };
     setStartDate(data.startDate);
     setSubmit(true);
@@ -261,7 +260,7 @@ const CreateNews = () => {
                 type="submit"
                 margin={{ laptop: "0 22px 0 0" }}
                 onClick={submitData}
-                buttonStyle={{shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)' }}
+                buttonStyle={{ shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)" }}
                 startIcon={<SaveIcon />}
               >
                 Сохранить
@@ -289,7 +288,7 @@ const CreateNews = () => {
                 buttonStyle={{
                   bgcolor: "#606EEA",
                   color: "#fff",
-                  shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)'
+                  shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
                 }}
                 margin={{ mobile: "0px 8px  8px  0" }}
               >
@@ -318,7 +317,7 @@ const CreateNews = () => {
                 type="submit"
                 margin={{ laptop: "0 22px 0 0" }}
                 onClick={cancelNews}
-                buttonStyle={{shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)' }}
+                buttonStyle={{ shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)" }}
               >
                 Да
               </Button>
@@ -345,7 +344,7 @@ const CreateNews = () => {
                 buttonStyle={{
                   bgcolor: "#606EEA",
                   color: "#fff",
-                  shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)' 
+                  shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
                 }}
                 margin={{ mobile: "0px 8px  8px  0" }}
               >
@@ -442,9 +441,9 @@ const CreateNews = () => {
                     {...field}
                     message={t("requiredField")}
                     error={!!errors.description}
-                    minHeight={'150px'}
-                    maxHeight={'300px'}
-                    resize={'vertical'}
+                    minHeight={"150px"}
+                    maxHeight={"300px"}
+                    resize={"vertical"}
                     title={"Описание"}
                   />
                 )}
@@ -484,9 +483,7 @@ const CreateNews = () => {
                           type="date"
                           field={field}
                           error={!!errors.endDate}
-                      
                           min={watch("startDate")}
-                       
                           margin={{ laptop: "0 0 0 15px" }}
                           IconStart={<WrapDate>{t("to")}</WrapDate>}
                           inputStyle={{
@@ -739,7 +736,7 @@ const CreateNews = () => {
                     buttonStyle={{
                       bgcolor: "#606EEA",
                       color: "#fff",
-                      shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)' 
+                      shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
                     }}
                     margin={{ mobile: "0px 8px  8px  0" }}
                   >
@@ -765,8 +762,7 @@ const CreateNews = () => {
               margin={{ laptop: "0 25px" }}
               startIcon={<SaveIcon />}
               buttonStyle={{
-                
-                shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)' 
+                shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
               }}
             >
               Сохранить

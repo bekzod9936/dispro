@@ -5,7 +5,7 @@ import PrivateRoute from "./PrivateRoute";
 //types
 import { IPrivateRoute } from "routes/types";
 //routes
-import { privateCompanyRoutes, privateRoutes } from "routes/routes";
+import { privateCompanyRoutes, privateRoutes } from "routes";
 
 const PrivateRoutes = () => {
   const moderatorAutehntificationToken = localStorage.getItem(

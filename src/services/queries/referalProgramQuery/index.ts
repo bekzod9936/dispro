@@ -1,4 +1,4 @@
-import partnerApi from "services/interceptors/companyInterceptor";
+import partnerApi from "services/interceptors/partner_interceptor";
 
 export const setNewReferal = async ({ companyId, referals, isActive }: any) => {
   const response = await partnerApi.post("/bonus/bonusreferals", {

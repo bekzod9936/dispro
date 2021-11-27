@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
-import adminInterceptor from "services/interceptors/adminInterceptor";
-import partnerApi from "services/interceptors/companyInterceptor";
+import adminInterceptor from "services/interceptors/moderator_interceptor";
+import partnerApi from "services/interceptors/partner_interceptor";
 import { URL } from "services/constants/config";
 
 export const fetchClientStatistics = async (

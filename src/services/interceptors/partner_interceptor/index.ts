@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-import { URL, VERSION } from "../constants/config";
+import { URL, VERSION } from "../../constants/config";
 import jwtDecode from "jwt-decode";
-import { IAuthToken } from "../Types/api";
+import { IAuthToken } from "../../Types/api";
 //import { decode } from "querystring";
 
 const partnerApi = axios.create({
