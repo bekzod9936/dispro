@@ -163,7 +163,7 @@ const EditNews = () => {
   const newsId=newsById?.data?.id
   const allFilials = dataAddress;
   const filials = newsById?.data?.settings?.stores;
-
+  console.log('newsId id',newsId)
   let filteredArray = allFilials?.filter(function (array_el: any) {
     return (
       filials?.filter(function (item: any) {
@@ -256,6 +256,12 @@ console.log('filteredArray',filteredArray)
     
   }, [mergedBranches,newsById?.data?.pushUp]);
 
+  React.useEffect(()=>{
+ if(newsId ===undefined){
+  handleBack();
+ }
+  },[])
+ 
   console.log('mergedBranches',mergedBranches)
   return (
     <Wrapper>
@@ -321,7 +327,9 @@ console.log('filteredArray',filteredArray)
               )}
               {image && (
                 <ImageBlock >
-                  <ImageLazyLoad objectFit="contain" src={image} alt="logo" />
+              <div style={{filter: 'brightness(50%)'}}>
+                  <ImageLazyLoad   objectFit="contain" src={image} alt="logo" />
+                  </div>
                   <DeleteIcon onClick={handleDelete} />
                 </ImageBlock>
               )}

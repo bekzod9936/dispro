@@ -503,6 +503,7 @@ img {
     border-radius: 14px;
     width: 250px;
     margin-top: 15px;
+  
     
 }
 
@@ -529,6 +530,7 @@ svg {
     width: 100%;
     height: 100%;
     background-color: #ffffff;
+ 
     opacity: 0;
     transition: 200ms all;
 }

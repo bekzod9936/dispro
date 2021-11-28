@@ -256,6 +256,11 @@ const RepairNews = () => {
   React.useEffect(() => {
     setValue("filialID", mergedBranches);
   }, [mergedBranches]);
+  React.useEffect(()=>{
+    if(newsId ===undefined){
+     handleBack();
+    }
+     },[])
 
   return (
     <Wrapper>
@@ -297,7 +302,7 @@ const RepairNews = () => {
           <Container>
             <LeftSide>
               <Title>Фотографии</Title>
-              {!isLoading && !image && (
+              {!isLoading && !image &&(
                 <div style={{ marginBottom: 30 }}>
                   <Header>
                     <p>
@@ -328,7 +333,9 @@ const RepairNews = () => {
               )}
               {image && (
                 <ImageBlock>
+                          <div style={{filter: 'brightness(50%)'}}>
                   <ImageLazyLoad objectFit="contain" src={image} alt="logo" />
+                  </div>
                   <DeleteIcon onClick={handleDelete} />
                 </ImageBlock>
               )}
@@ -360,9 +367,6 @@ const RepairNews = () => {
                   />
                 )}
               />
-
-         
-
 <Controller
                 name="description"
                 control={control}

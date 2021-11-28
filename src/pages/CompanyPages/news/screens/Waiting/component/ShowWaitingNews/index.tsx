@@ -52,6 +52,11 @@ const ShowWaitingNews = () => {
     history.push('/news/edit');
   }
 
+  React.useEffect(()=>{
+    if(newsById ===undefined){
+     handleBack();
+    }
+     },[])
   const onDelete = async (id:number) => {
     await deleteNews(id);  
     history.goBack();
