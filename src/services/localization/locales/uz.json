@@ -320,5 +320,6 @@
   "change_access": "Kirish sozlamalari",
   "common": {},
   "configure_setting_error": "Sodiqlik dasturini sozlang",
-  "requirementLevl": "№{{level}} holat sharti"
+  "requirementLevl": "№{{level}} holat sharti",
+  "companies": "Kompaniyalar"
 }

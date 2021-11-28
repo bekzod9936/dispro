@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
-import { useHistory, useLocation } from "react-router";
+import { useHistory, useLocation } from "react-router-dom";
 //constants
 import { WrapList, ListText, ListI } from "./style";
 import List from "@material-ui/core/List";
@@ -18,6 +18,7 @@ const MenuList = () => {
     <WrapList>
       <List>
         {sidebar.map(({ Icon, text, path }: any) => {
+          const pathLocation = path.split("/");
           return (
             <ListI
               button
@@ -25,7 +26,7 @@ const MenuList = () => {
               onClick={() => {
                 history.push(`/${path}`);
               }}
-              selected={pathName[1] === path ? true : false}
+              selected={pathName[2] === pathLocation[1] ? true : false}
             >
               <ListItemIcon>
                 <Icon />

@@ -7,10 +7,8 @@ import { IPrivateRoute, IPublicRoute } from "./types";
 //screens
 import CompanyList from "../pages/LoginPages/LoginPage/Companylist/index";
 
-const Companies = lazy(() => import("../pages/AdminDashBoard/AdminCompanies"));
-const Categories = lazy(
-  () => import("../pages/AdminDashBoard/AdminCategories/AdminCategories")
-);
+const Companies = lazy(() => import("../pages/AdminDashBoard/companies"));
+const Categories = lazy(() => import("../pages/AdminDashBoard/categories"));
 
 //Partner
 const ModeratorLogin = lazy(() => import("../pages/LoginPages/ModeratorLogin"));

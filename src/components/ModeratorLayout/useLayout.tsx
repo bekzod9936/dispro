@@ -5,8 +5,8 @@ const useLayout = () => {
   const sidebar = useMemo(
     () => [
       {
-        path: "/admin/companies",
-        label: "companies",
+        path: "admin/companies",
+        text: "companies",
         Icon: StatisticsIcon,
       },
     ],
