@@ -25,7 +25,9 @@ const usePermimssions = () => {
   });
 
   useEffect(() => {
-    permissions.mutate(staffId);
+    if (staffId) {
+      permissions.mutate(staffId);
+    }
   }, []);
   return {};
 };

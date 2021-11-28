@@ -14,7 +14,15 @@ const partnerApi = axios.create({
 partnerApi.interceptors.request.use((config: AxiosRequestConfig) => {
   const accessToken = localStorage.getItem(PARTNER.ACCESS_TOKEN);
   const companyToken = localStorage.getItem(PARTNER.COMPANY_TOKEN);
-  config.headers.authorization = `Bearer ${companyToken || accessToken}`;
+  console.log(config.url, "main url");
+  if (
+    config.url?.includes("core/staff-companies") ||
+    config.url?.includes("auth/update-token")
+  ) {
+    config.headers.authorization = `Bearer ${accessToken}`;
+  } else {
+    config.headers.authorization = `Bearer ${companyToken}`;
+  }
   config.headers.langId = 1;
   config.headers.vers = VERSION;
   return config;
