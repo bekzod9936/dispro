@@ -61,6 +61,8 @@ export const MTable = styled.table`
   overflow-x: scroll;
   ::-webkit-scrollbar {
     width: 7px;
+    max-height: 50%;
+    height: 50%;
   }
   ::-webkit-scrollbar-track {
     background-color: transparent;

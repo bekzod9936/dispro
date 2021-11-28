@@ -45,7 +45,7 @@ const QrForBranch = ({ qrVisible, onSave, closeQr }: IProps) => {
       <Form onSubmit={handleSubmit(onSave)}>
         <ModalContent>
           <ModalRow jContent="space-between">
-            <ModalTitle>QR для подписки на компанию</ModalTitle>
+            <ModalTitle>QR для оплаты на местах</ModalTitle>
             {width <= 1000 ? null : (
               <IconButton
                 style={{

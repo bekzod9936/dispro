@@ -50,7 +50,7 @@ const QrActionModal = ({
       <MContent onSubmit={handleSubmit(onSave)}>
         {state === "edit" || state === "create" ? (
           <>
-            <ModalTitle>QR для оплаты на местах</ModalTitle>
+            <ModalTitle>QR для подписки на компанию</ModalTitle>
             <Break mHeight={10} />
             <ActMaxDiv>
               <ModalCText>

@@ -24,7 +24,6 @@ const CompaniesTable = () => {
       if (header.label === "logo") {
         return {
           width: 150,
-          maxWidth: 150,
           Header: header.value,
           accessor: header.label,
           Cell: (props: any) => {
@@ -50,7 +49,6 @@ const CompaniesTable = () => {
         Header: header.value,
         accessor: header.label,
         width: 150,
-        maxWidth: 150,
       };
     });
   }, [headers]);
