@@ -1,6 +1,6 @@
 import axios from "axios";
 import { STORAGE_URL } from "../../constants/config";
-import partnerApi from "../../interceptors/companyInterceptor";
+import partnerApi from "../../interceptors/partner_interceptor";
 
 interface deleteProps {
   body: any;

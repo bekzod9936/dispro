@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-import { URL, VERSION } from "../constants/config";
-import { IAuthToken } from "../Types/api";
+import { URL, VERSION } from "../../constants/config";
+import { IAuthToken } from "../../Types/api";
+import { MODERATOR } from "./types";
 
 const adminInterceptor = axios.create({
   baseURL: `${URL}/web`,
@@ -11,11 +12,10 @@ const adminInterceptor = axios.create({
 });
 
 adminInterceptor.interceptors.request.use((value: AxiosRequestConfig) => {
-  const accessToken = localStorage.getItem("partner_access_token");
-  //const refreshToken = localStorage.getItem("partner_refresh_token");
+  const accessToken = localStorage.getItem(MODERATOR.ACCESS_TOKEN);
   value.headers.authorization = "Bearer " + accessToken;
   value.headers.vers = VERSION;
-  //  value.headers.langId = 1;
+  value.headers.langId = 1;
   return value;
 });
 
@@ -23,9 +23,10 @@ adminInterceptor.interceptors.response.use(
   (value: AxiosResponse<any>) => value,
   async (error: any) => {
     const originalRequest = error.config;
-    const refreshToken = localStorage.getItem("partner_refresh_token");
+    const refreshToken = localStorage.getItem(MODERATOR.REFRESH_TOKEN);
+    const errId = error?.response?.data?.error?.errId;
 
-    if (error.response.data.error?.errId === 8) {
+    if (errId === 8) {
       try {
         const response = await axios.post(
           `${URL}/auth/token`,
@@ -40,13 +41,10 @@ adminInterceptor.interceptors.response.use(
         );
         let data: IAuthToken = response.data;
         if (data.data?.accessToken) {
-          localStorage.setItem("partner_access_token", data.data.accessToken);
+          localStorage.setItem(MODERATOR.ACCESS_TOKEN, data.data.accessToken);
         }
       } catch (error: any) {
-        if (
-          error.response.data.error?.errId === 8 ||
-          error.response.data.error?.errId === 7
-        ) {
+        if (errId === 8 || errId === 7) {
           localStorage.clear();
           window.location.pathname = "/";
         }

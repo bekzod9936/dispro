@@ -1,18 +1,14 @@
 import { memo, Suspense, useEffect, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Logo from "assets/icons/SideBar/logo.png";
 import { device } from "styles/device";
-import Header from "./Header";
+import Header from "../Layout/Header";
 import Spinner from "../Custom/Spinner";
-import { useSideBarStyle } from "./styles/SideBarStyle";
-import MenuList from "./MenuList";
-import useLayout from "./useLayout";
-import { useAppSelector } from "services/redux/hooks";
-import { useTranslation } from "react-i18next";
 import {
   Container,
   MenuIcon,
@@ -31,17 +27,16 @@ import {
 } from "./style";
 //atoms
 import { openMenu, setOpenMenu } from "services/atoms/permissions";
+import { useSideBarStyle } from "components/Layout/styles/SideBarStyle";
+import MenuList from "./MenuList";
 
 export interface IDefaultLayout {
   children: any;
 }
 
-const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
+const ModeratorLayout: React.FC<IDefaultLayout> = ({ children }) => {
   const { t } = useTranslation();
   const classes = useSideBarStyle();
-  const companyId = localStorage.getItem("companyId");
-  const { resHeader } = useLayout({ id: companyId });
-  const infoData = useAppSelector((state) => state.info.data);
 
   const [width, setWidth] = useState(window.innerWidth);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -49,13 +44,7 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
   const open = useRecoilValue(openMenu);
   const setOpen = useSetRecoilState(setOpenMenu);
 
-  const regFilled = useAppSelector((state) => {
-    return state.auth.regFilled;
-  });
-
-  const fill =
-    (infoData?.filled && infoData?.filledAddress) ||
-    (regFilled?.filled && regFilled?.filledAddress);
+  const fill = true;
 
   const handleDrawerOpen = () => {
     if (width <= parseInt(device.mobile, 10)) {
@@ -112,10 +101,6 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
     );
   };
 
-  if (resHeader.isLoading) {
-    return <Spinner height="100vh" />;
-  }
-
   return (
     <Container>
       <div className={classes.root}>
@@ -151,14 +136,14 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
             [classes.appBarShift]: open,
           })}
         >
-          {!fill && width < 1000 ? (
+          {width < 1000 ? (
             <Wrarning>
               <WranningIcon />
               {t("newcompanywarning")}
             </Wrarning>
           ) : (
             <Toolbar>
-              {!fill && width > 1000 ? null : (
+              {width > 1000 ? null : (
                 <WrapMenu>
                   <ButtonIcon
                     color="inherit"
@@ -173,14 +158,8 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
                   </ButtonIcon>
                 </WrapMenu>
               )}
-              {fill ? (
-                <Header />
-              ) : (
-                <Wrarning>
-                  <WranningIcon />
-                  {t("newcompanywarning")}
-                </Wrarning>
-              )}
+
+              <Header />
             </Toolbar>
           )}
         </AppBar>
@@ -217,4 +196,4 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
   );
 };
 
-export default memo(DefaultLayoutAdmin);
+export default memo(ModeratorLayout);

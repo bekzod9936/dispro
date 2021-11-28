@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Resizer from "react-image-file-resizer";
 import { useMutation, useQuery } from "react-query";
-import partnerApi from "services/interceptors/companyInterceptor";
+import partnerApi from "services/interceptors/partner_interceptor";
 import {
   deletePhoto,
   fetchCategories,

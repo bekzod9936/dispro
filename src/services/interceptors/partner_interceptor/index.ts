@@ -1,34 +1,35 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-import { URL, VERSION } from "../constants/config";
 import jwtDecode from "jwt-decode";
-import { IAuthToken } from "../Types/api";
+//constants
+import { URL, VERSION } from "../../constants/config";
+//types
+import { IAuthToken } from "../../Types/api";
+import { PARTNER } from "./types";
 
-const authApi = axios.create({
-  baseURL: URL,
+const partnerApi = axios.create({
+  baseURL: `${URL}/web`,
   headers: {},
 });
 
-authApi.interceptors.request.use((config: AxiosRequestConfig) => {
-  let companyToken = localStorage.getItem("companyToken");
-  config.headers.authorization = `Bearer ${companyToken}`;
+partnerApi.interceptors.request.use((config: AxiosRequestConfig) => {
+  const accessToken = localStorage.getItem(PARTNER.ACCESS_TOKEN);
+  const companyToken = localStorage.getItem(PARTNER.COMPANY_TOKEN);
+  config.headers.authorization = `Bearer ${companyToken || accessToken}`;
   config.headers.langId = 1;
   config.headers.vers = VERSION;
   return config;
 });
 
-authApi.interceptors.response.use(
+partnerApi.interceptors.response.use(
   (response: AxiosResponse<any>) => response,
   async (err: any) => {
     const originalRequest = err.config;
-    let companyToken = localStorage.getItem("companyToken");
-    let moderatorToken = localStorage.getItem("partner_access_token");
-    let refreshToken = localStorage.getItem("partner_refresh_token");
+    let companyToken = localStorage.getItem(PARTNER.COMPANY_TOKEN);
+    let moderatorToken = localStorage.getItem(PARTNER.ACCESS_TOKEN);
+    let refreshToken = localStorage.getItem(PARTNER.REFRESH_TOKEN);
+    const errId = err?.response?.data?.error?.errId;
 
-    if (
-      (err.response.data.error.errId === 8 ||
-        err.response.data.error.errId === 7) &&
-      companyToken
-    ) {
+    if ((errId === 8 || errId === 7) && companyToken) {
       let decoded: any = jwtDecode(companyToken);
 
       try {
@@ -45,17 +46,15 @@ authApi.interceptors.response.use(
         );
         let data: IAuthToken = response1.data;
         if (data.data?.accessToken) {
-          localStorage.setItem("partner_access_token", data.data.accessToken);
+          localStorage.setItem(PARTNER.ACCESS_TOKEN, data.data.accessToken);
         }
       } catch (error: any) {
-        if (
-          error.response.data.error?.errId === 8 ||
-          error.response.data.error?.errId === 7
-        ) {
+        if (errId === 8 || errId === 7) {
           localStorage.clear();
           window.location.pathname = "/";
         }
       }
+      //return adminInterceptor(originalRequest);
 
       if (decoded) {
         const response2 = await axios({
@@ -72,11 +71,14 @@ authApi.interceptors.response.use(
             companyType: decoded?.companyType,
           },
         });
-        localStorage.setItem("companyToken", response2.data.data.accessToken);
+        localStorage.setItem(
+          PARTNER.COMPANY_TOKEN,
+          response2.data.data.accessToken
+        );
       }
-      authApi(originalRequest);
+      partnerApi(originalRequest);
     }
     return Promise.reject(err);
   }
 );
-export default authApi;
+export default partnerApi;

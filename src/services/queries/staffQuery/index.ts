@@ -1,4 +1,4 @@
-import partnerApi from "services/interceptors/companyInterceptor";
+import partnerApi from "services/interceptors/partner_interceptor";
 
 //cashiers tab
 export const getCashiers = async (page: number, url: string) => {
@@ -66,7 +66,7 @@ export const changeLoyal = async (data: any) => {
 // };
 
 //set role manager
-export const setRoleManager = async ({id, permissions}: any) => {
+export const setRoleManager = async ({ id, permissions }: any) => {
   const response = await partnerApi.put(
     `/core/staffs/permissions/new/set?staffIds=${id}`,
     {
@@ -78,10 +78,7 @@ export const setRoleManager = async ({id, permissions}: any) => {
 };
 
 export const getPermission = async (id: any) => {
-  const response = await partnerApi.get(
-    `/core/staffs/permissions/new/${id}`
-
-  );
+  const response = await partnerApi.get(`/core/staffs/permissions/new/${id}`);
 
   return response;
 };

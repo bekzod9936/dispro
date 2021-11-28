@@ -1,5 +1,5 @@
-import React from 'react';
-import { Route } from 'react-router-dom';
+import React from "react";
+import { Route } from "react-router-dom";
 
 interface IProps {
   Layout?: React.LazyExoticComponent<React.ComponentType<any>>;
@@ -8,7 +8,7 @@ interface IProps {
   path: string;
 }
 
-const PublicRoute: React.FC<IProps> = ({ Layout, Component, ...rest }) => {
+const AuthRoute: React.FC<IProps> = ({ Layout, Component, ...rest }) => {
   return (
     <Route
       {...rest}
@@ -23,8 +23,8 @@ const PublicRoute: React.FC<IProps> = ({ Layout, Component, ...rest }) => {
         }
         return <Component {...props} />;
       }}
-    ></Route>
+    />
   );
 };
 
-export default PublicRoute;
+export default AuthRoute;
