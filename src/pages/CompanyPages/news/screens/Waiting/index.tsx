@@ -8,7 +8,7 @@ import MobileTable from "../../components/MobileTable";
 import { SideBar } from "../../components/SideBar";
 import { useAppSelector, useAppDispatch } from "services/redux/hooks";
 import { NewsBar } from "../../components/NewsBar";
-import { Container, Wrap, Info,WrapPag, WrapSpinner,WrapperModal,CloseButton,Buttons} from "./style";
+import { Container, Wrap, Info,WrapPag, WrapSpinner} from "./style";
 import useData from "../useData";
 import useWaiting from "./useWaiting";
 import Pagination from 'components/Custom/Pagination';
@@ -19,11 +19,8 @@ import Input from "components/Custom/Input";
 import Button from "components/Custom/Button";
 import { AddIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
 import { SearchIcon } from "components/Layout/Header/style";
-import Modal from "components/Custom/Modal";
-import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
-import { CloseIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
-import { SaveIcon } from "assets/icons/news/newsIcons";
-import { MobileCancelIcon } from "assets/icons/proposals/ProposalsIcons";
+import { LimitNews  } from "../../components/LimitNews";
+import { FilterNews } from "../../components/FilterNews";
 interface intialFilterProps {
   page?: number;
   perPage?: number;
@@ -31,7 +28,7 @@ interface intialFilterProps {
   toDate?: string;
 }
 
-const Active = () => {
+const Waiting = () => {
   const location = useLocation();
   const dispatch = useAppDispatch();
   const history = useHistory();
@@ -40,7 +37,6 @@ const Active = () => {
   const between=useAppSelector((state)=>state.news.NewsInfo.between);
   const totalNewsCount=useAppSelector((state)=>state.news.NewsInfo.totalCountNews)
   const selectedNews = useAppSelector((state) => state.news.selectedNews);
-  const errormessage=useAppSelector((state)=>state.news.errorMessage)
   const query = useAppSelector((state) => state.news.query);
   const { t } = useTranslation();
   const handleOpenSetting = () => {
@@ -65,6 +61,9 @@ const Active = () => {
   const { response } = useWaiting({filterValues: filterValues});
   const {list}=useData();
   const { width } = useWindowWidth();
+  const errormessage=useAppSelector((state)=>state.news.errorMessage)
+  const newsById = selectedNews?.fullData;
+
 
   const handlechangePage = async (e: any) => {
     await setFilterValues({ ...filterValues, page: e });
@@ -81,119 +80,35 @@ const Active = () => {
     dispatch(setSelectedNews(""));
   };
   
-  const newsById = selectedNews?.fullData;
 
   const LinkComment=()=>{
     dispatch(setErrorMessage(false))
     history.push('/support')
   
   }
-  const CancelError=()=>{
+  const ResetError=()=>{
     dispatch(setErrorMessage(false));
+  }
+
+ 
+  const searchNews=(e:any)=>{
+    dispatch(setQuery(e.target.value));
+  }
+
+  const filterByDate=async (e:any)=>{
+    await setFilterValues({
+      ...filterValues,
+      fromDate: e.slice(0, e.indexOf(' ~')),
+      toDate: e.slice(e.indexOf('~ ') + 2),
+    });
+  await response.refetch();
   }
 
   return (
     <Container>
-       <Modal modalStyle={{ bgcolor: "#fff" }} open={errormessage}>
-        <WrapperModal>
-          {width > 600 &&  
-        <CloseButton onClick={() => dispatch(setErrorMessage(false))}>
-        <CloseIcon />
-      </CloseButton>}
-    
-      <h3 >
-      Лимит новостей исчерпан
-      </h3>
-          <p>
-           Для более подробной информации, просим обратиться к Модератору
-          </p>
-          {width > 600 ? (
-            <>
-              <Button
-                buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
-                margin={{ laptop: "0 22px 0 0" }}
-                onClick={LinkComment}
-                startIcon={<CancelIcon />}
-              >
-                Написать
-              </Button>
-              <Button
-              
-                margin={{ laptop: "0 22px 0 0" }}
-                onClick={CancelError}
-                startIcon={<SaveIcon />}
-              >
-                Ok
-              </Button>
-            </>
-          ) : (
-            <Buttons>
-              <div className="upside">
-                <Button
-                        onClick={LinkComment}
-                  endIcon={<MobileCancelIcon />}
-                  buttonStyle={{
-                    bgcolor: "rgba(96, 110, 234, 0.1)",
-                    color: "#606EEA",
-                  }}
-                  margin={{ mobile: "0 8px 8px 0" }}
-                >
-                  {t("Написать")}
-                </Button>
-              </div>
-              <Button
-                onClick={CancelError}
-                endIcon={<SaveIcon />}
-                buttonStyle={{
-                  bgcolor: "#606EEA",
-                  color: "#fff",
-                }}
-                margin={{ mobile: "0px 8px  8px  0" }}
-              >
-                {"Ok"}
-              </Button>
-            </Buttons>
-          )}
-        </WrapperModal>
-      </Modal>
-      <Flex
-      width="95%"
-      justifyContent="flex-start"
-      alignItems="center"
-      margin="0"
-    >
-      {/* Settings side  */}
-      <Button
-        onClick={handleOpenNews}
-        buttonStyle={{
-          bgcolor: "#FFFFFF",
-          color: "#223367",
-          weight: 500,
-          height: { desktop: 50 },
-        }}
-        margin={{
-          desktop: "0 25px 0 0",
-          laptop: "0 25px 0 0",
-          planshet: "0 0 20px 0",
-        }}
-        startIcon={<AddIcon />}
-      >
-        {t("Создать новость")}
-      </Button>
-
-      <div style={{ width: "20px" }} />
-      <Input
-        inputStyle={{ border: "none", height: { desktop: 50 } }}
-        IconStart={<SearchIcon style={{ marginLeft: 20 }} />}
-        value={query}
-        placeholder="Поиск по новостям"
-        onChange={(e) => dispatch(setQuery(e.target.value))}
-        width={{ maxwidth: 500 }}
-      />
-      <div style={{ width: "20px" }} />
- 
-      
-    </Flex>
+      <LimitNews errormessage={errormessage}  linkToComment={LinkComment} CancelError={ResetError} />
+      <FilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} />
+     
       {width>600 ? 
       <Wrap>
         {response.isLoading || response.isFetching ? (
@@ -272,4 +187,4 @@ const Active = () => {
   );
 };
 
-export default Active;
+export default Waiting;

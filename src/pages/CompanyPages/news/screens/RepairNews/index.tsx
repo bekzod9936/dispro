@@ -59,7 +59,7 @@ import {
 import { useUploadImage } from "../../hooks/useUploadIMage";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 import { ReactComponent as MarketIcon } from "assets/icons/SideBar/ilmarket.svg";
-
+import { UploadModal } from "../CreateNews/components/UploadModal";
 interface IOptionFields {
   push: boolean;
 }
@@ -90,7 +90,7 @@ const RepairNews = () => {
   );
   const [isCropVisible, setIsCropVisible] = React.useState(false);
   const [image, setImage] = React.useState(newsById?.data?.image);
-  const [leave, setLeave] = React.useState<boolean>(false);
+  const [errorFileType,setErrorFileType]=React.useState<any>(false);
   const { width } = useWindowWidth();
   const handleBack = () => {
     history.goBack();
@@ -114,10 +114,27 @@ const RepairNews = () => {
   });
 
   const handleUploadImg = (data: any) => {
+
+    if (data.target.files[0].type =="image/jpeg") {
+      setFile(data.target.files[0]);
+      setIsCropVisible(true);
+      setErrorFileType(false)
+   }
+   else if (data.target.files[0].type =="image/png"){
     setFile(data.target.files[0]);
     setIsCropVisible(true);
+    setErrorFileType(false)
+   }
+   else {
+    setErrorFileType(true)
+    setIsCropVisible(false);
+   }
+     
   };
-  console.log("file", file);
+
+  const cancelFormat=()=>{
+    setErrorFileType(false)
+  }
 
   const handleOpenBlock = (e: any, action: "push") => {
     setOptionalFields((prev: IOptionFields) => ({
@@ -253,6 +270,13 @@ const RepairNews = () => {
           <Title>Восстановить новости</Title>
         </div>
       )}
+
+      
+  <UploadModal
+        errorFileType={errorFileType}
+        handleUploadImg={handleUploadImg}
+        cancelFormat={cancelFormat}
+      />
       <Form onSubmit={handleSubmit(submitNews)}>
         <UpSide>
           {width <= 600 && (
