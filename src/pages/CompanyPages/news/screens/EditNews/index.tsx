@@ -632,7 +632,7 @@ console.log('filteredArray',filteredArray)
                 <CheckBox
                   checked={checked}
                   name={"checked"}
-                  label={"Круглосуточна"}
+                  label={"Круглосуточно"}
                   onChange={(e: any) => setChecked(e)}
                 />
               )}

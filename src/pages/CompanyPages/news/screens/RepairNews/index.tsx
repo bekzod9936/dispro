@@ -637,7 +637,7 @@ const RepairNews = () => {
                 <CheckBox
                   checked={checked}
                   name={"checked"}
-                  label={"Круглосуточна"}
+                  label={"Круглосуточно"}
                   onChange={(e: any) => setChecked(e)}
                 />
               )}

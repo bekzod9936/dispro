@@ -343,7 +343,6 @@ const CreateNews = () => {
                           type="date"
                           min={todayDate}
                           error={!!errors.startDate}
-                          // message={t("requiredField")}
                           IconStart={<WrapDate>{t("from")}</WrapDate>}
                           inputStyle={{
                             inpadding: "0 10px 0 0",
@@ -515,6 +514,10 @@ const CreateNews = () => {
                         field={field}
                         isMulti={true}
                         options={days}
+                        selectStyle={{
+                          weight:300,
+                          fontSize:{desktop:14},
+                        }}
                         label="Укажите дни"
                       />
                     )}
@@ -575,12 +578,11 @@ const CreateNews = () => {
                           selectStyle={{
                             bgcolor: "#eff0fd",
                             border: "none",
-                            color:"#223367",
                             placeholdercolor: "#223367",
                             inpadding: "2px 10px 2px 60px",
                             placewieght: "500",
-                            weight:300,
-                           fontSize:{desktop:14}
+                          
+                           
                           }}
                           placeholder={t("Выберите филиалы")}
                           margin={{
