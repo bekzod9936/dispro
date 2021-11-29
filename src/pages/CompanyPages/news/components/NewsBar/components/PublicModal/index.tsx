@@ -93,8 +93,8 @@ export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
          <form onSubmit={handleSubmit(upDateWaitingNews)}>
         <PeriodWrapper >
         <div>
-          <h5>Выберите дату публикации</h5>
-          <p>Выберите дату публикации</p>
+          <h5>Выберите период</h5>
+          <p>Выберите период</p>
           <div className="startAndEndDate">
             <Controller
               name="startDate"
@@ -155,7 +155,7 @@ export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
         }
         {width> 600 &&  <Form onSubmit={handleSubmit(upDateWaitingNews)}>
         <WrapInputs>
-          <Label>{t("chose_date")}</Label>
+          <Label>{t("Выберите период")}</Label>
           <div className="startAndEndDate">
             <Controller
               name="startDate"
