@@ -87,6 +87,8 @@ const UpdateCoupon = () => {
     formState: { errors, isValid },
     control,
     setValue,
+    clearErrors,
+    setError
   } = useForm({
     mode: 'onChange',
     shouldFocusError: true,
@@ -191,13 +193,22 @@ const UpdateCoupon = () => {
   };
 
   const handleUploadImg = (data: any) => {
-    setFile(data.target.files[0]);
-    setIsCropVisible(true);
+    if (data.target.files[0].type == 'image/jpeg' || data.target.files[0].type == 'image/png') {
+      setFile(data.target.files[0]);
+      setIsCropVisible(true);
+    }
+    else {
+      setError("image", {
+        message: "Можно загрузить фотографию в формате JPG или PNG"
+      })
+    }
+    setValue('image', null)
   };
 
   const handleDelete = () => {
     deleteImage(image);
     setImage('');
+    clearErrors('image')
   };
   React.useEffect(() => {
     let res = Object.keys(errors)?.length;
@@ -212,7 +223,7 @@ const UpdateCoupon = () => {
     setValue('percent', currentCoupon.value?.toString());
   }, [currentCoupon.value]);
 
- 
+
   return (
     <Wrapper>
       {width > 600 && (
@@ -301,7 +312,7 @@ const UpdateCoupon = () => {
                     <UploadImage />
                   </UploadButton>
                   {errors.image && (
-                    <ErrorMessage>{t('requiredField')}</ErrorMessage>
+                    <ErrorMessage>{errors.image?.message || t('requiredField')}</ErrorMessage>
                   )}
                 </div>
               )}

@@ -265,6 +265,15 @@ export const ClientsBar = ({ refetch }: IProps) => {
                                     defaultChecked={selectedClients.every(client => client.personalLoyaltyInfo.isActive)}
                                     onChange={handleChangeStatus} />
                             </MToggle>
+                            {selectedClients.every(el => el.personalLoyaltyInfo.isActive) &&
+                                <button
+                                    onClick={() => {
+                                        setVipModalState("updating")
+                                        setVipModal(true)
+                                    }}
+                                    className="updatePercent">
+                                    Настроить индивидуальный статус
+                                </button>}
                         </Buttons>
                         <SelectButtons>
                             <button

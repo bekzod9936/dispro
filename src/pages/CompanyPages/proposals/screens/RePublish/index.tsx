@@ -85,8 +85,10 @@ const RePublish = () => {
     register,
     setValue,
     watch,
+    setError,
     formState: { errors, isValid },
     control,
+    clearErrors
   } = useForm({
     mode: 'onChange',
     shouldFocusError: true,
@@ -188,13 +190,22 @@ const RePublish = () => {
   };
 
   const handleUploadImg = (data: any) => {
-    setFile(data.target.files[0]);
-    setIsCropVisible(true);
+    if (data.target.files[0].type == 'image/jpeg' || data.target.files[0].type == 'image/png') {
+      setFile(data.target.files[0]);
+      setIsCropVisible(true);
+    }
+    else {
+      setError("image", {
+        message: "Можно загрузить фотографию в формате JPG или PNG"
+      })
+    }
+    setValue('image', null)
   };
 
   const handleDelete = () => {
     deleteImage(image);
     setImage('');
+    clearErrors('image')
   };
 
   React.useEffect(() => {
@@ -206,6 +217,7 @@ const RePublish = () => {
   React.useEffect(() => {
     setValue('categories', categories.defaults);
   }, [categories.defaults]);
+
   return (
     <Wrapper>
       {width > 600 && (
@@ -294,7 +306,7 @@ const RePublish = () => {
                     <UploadImage />
                   </UploadButton>
                   {errors.image && (
-                    <ErrorMessage>{t('requiredField')}</ErrorMessage>
+                    <ErrorMessage>{errors.image?.message || t('requiredField')}</ErrorMessage>
                   )}
                 </div>
               )}
@@ -312,6 +324,7 @@ const RePublish = () => {
                   setIsCropVisible={setIsCropVisible}
                   open={isCropVisible}
                   src={file}
+                  coupon
                 />
               )}
 
