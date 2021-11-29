@@ -49,7 +49,6 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
   const open = useRecoilValue(openMenu);
   const setOpen = useSetRecoilState(setOpenMenu);
 
-  console.log(open, 'open');
   const regFilled = useAppSelector((state) => {
     return state.auth.regFilled;
   });

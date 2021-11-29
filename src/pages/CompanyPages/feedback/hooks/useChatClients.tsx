@@ -25,14 +25,19 @@ interface ChProps {
   obtainProgramLoyalty?: { levelName?: string; percent?: number };
 }
 
+const inntialState = { page: 1, perPage: 5 };
+
 const useChatClients = () => {
   const dispatch = useAppDispatch();
   const messagesStartRef = useRef<HTMLDivElement>(null);
-
+  const histories = useAppSelector((state) => state.feedbackPost.histories);
   const [chosen, setChosen] = useState<ChProps>({});
   const [isChoose, setIsChoose] = useState<boolean>(false);
+  const [inntialHistory, setInntialHistory] = useState(inntialState);
 
   const scrollToTop = () => {
+    console.log('top');
+
     messagesStartRef?.current?.scrollIntoView({
       behavior: 'smooth',
       block: 'end',
@@ -109,8 +114,9 @@ const useChatClients = () => {
   const resChatClientHistory = useQuery(
     'getClientChatHistory',
     () => {
+      const withId = chosen?.id ? `&withId=${chosen?.id}` : '';
       return fetchChatClientHistory({
-        url: `withUserType=${USER_TYPES.CUSTOMER}&withId=${chosen?.id}&page=1&perPage=22`,
+        url: `withUserType=${USER_TYPES.CUSTOMER}${withId}&page=${inntialHistory?.page}&perPage=${inntialHistory?.perPage}`,
       });
     },
     {
@@ -119,11 +125,21 @@ const useChatClients = () => {
       retry: 0,
       enabled: false,
       onSuccess: (data) => {
-        dispatch(setChatClientHistory(data.data.data.histories));
+        const his: any = histories;
+        dispatch(setChatClientHistory([...his, ...data.data.data.histories]));
         dispatch(setTotalHistory(data.data.data.totalCount));
+        console.log(histories, data.data.data.histories);
       },
     }
   );
+
+  const fetchHisFetchData = async () => {
+    await setInntialHistory((prev) => {
+      return { page: 2, perPage: inntialHistory.perPage };
+    });
+
+    await resChatClientHistory.refetch();
+  };
 
   const deleteRes = useMutation((data) => {
     return deleteChat({ data });
@@ -140,6 +156,9 @@ const useChatClients = () => {
     setIsChoose,
     scrollToTop,
     messagesStartRef,
+    setInntialHistory,
+    inntialHistory,
+    fetchHisFetchData
   };
 };
 

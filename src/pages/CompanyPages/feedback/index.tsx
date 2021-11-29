@@ -7,10 +7,12 @@ import { Route, Switch, useRouteMatch } from 'react-router';
 import useFeedBackRoute from './routes';
 import Stars from './components/Stars';
 import { MainWrapper, Wrapper, WrapReview } from './style';
+import useWindowWidth from 'services/hooks/useWindowWidth';
 
 const FeedBack = () => {
   const { t } = useTranslation();
   const { menuItems } = useFeedBackRoute();
+  const { width } = useWindowWidth();
 
   let match = useRouteMatch();
 
@@ -32,7 +34,7 @@ const FeedBack = () => {
               </Suspense>
             </Switch>
           </Wrapper>
-          {match.url === '/feedback/reviews' ? <Stars /> : null}
+          {match.url === '/feedback/reviews' && width > 600 ? <Stars /> : null}
         </div>
       ) : (
         <>
