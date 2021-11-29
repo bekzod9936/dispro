@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import Spinner from "components/Custom/Spinner";
 import Table from "../../components/Table";
 import NoNews from "../../components/NoNews";
-
+import NoNewsMobile from "../../components/NoNewsMobile";
 import { setQuery, setSelectedNews } from "services/redux/Slices/news";
 import { useAppSelector, useAppDispatch } from "services/redux/hooks";
 import { SideBar } from "../../components/SideBar";
@@ -92,7 +92,7 @@ const Archive = () => {
 
   return (
     <Container>
-          <FilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} filterByDate={filterByDate}/>
+         {width>600 && <FilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} filterByDate={filterByDate}/>}
       {width>600 ? 
       <Wrap>
         {response.isLoading || response.isFetching ? (
@@ -140,9 +140,9 @@ const Archive = () => {
             {data.length > 0 ? (
               <MobileTable  refetch={response}  data={list} />
             ) : (
-              <div style={{ paddingRight: "20%", paddingTop: "5%" }}>
-                <NoNews handleOpenSetting={handleOpenSetting} />
-              </div>
+              <div style={{ paddingTop: "15%" }}>
+              <NoNewsMobile handleOpenSetting={handleOpenSetting} />
+            </div>
             )}
             <SideBar isOpen={newsById} maxWidth={"370px"}>
               {newsById && <NewsBar refetch={response} currentNews={newsById} onClose={onClose} />}

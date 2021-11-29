@@ -12,7 +12,8 @@ import useNewsRoute from "./routes";
 import Header from "./components/Header";
 import useWindowWidth from "services/hooks/useWindowWidth";
 import { MainWrapper, Flex, WrapHeader, LeftHeader, Wrap } from "./style";
-
+import {MobileFilterNews} from "./components/MobileFilterNews";
+import {WaitingFilterNews} from "./components/WaitingFilterNews";
 const News = () => {
   const { t } = useTranslation();
   const { menuItems, newsPath } = useNewsRoute();
@@ -30,6 +31,18 @@ const News = () => {
   };
 
 
+  const searchNews=(e:any)=>{
+    dispatch(setQuery(e.target.value));
+  }
+
+  const filterByDate=async (e:any)=>{
+  //   await setFilterValues({
+  //     ...filterValues,
+  //     fromDate: e.slice(0, e.indexOf(' ~')),
+  //     toDate: e.slice(e.indexOf('~ ') + 2),
+  //   });
+  // await response.refetch();
+  }
 
   return (
     <MainWrapper id="drawer-container">
@@ -69,6 +82,7 @@ const News = () => {
                   <Title padding={{ mobile: "13px 15px 13px 15px" }}>
                     {t("News")}
                   </Title>
+                  { location.pathname === "/news/waiting" ? <WaitingFilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} />: <MobileFilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} filterByDate={filterByDate}/>}
 
                   <Header handleOpenNews={handleOpenNews} />
                   <WrapHeader>

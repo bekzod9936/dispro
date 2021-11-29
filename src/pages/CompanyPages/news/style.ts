@@ -79,13 +79,14 @@ export const Flex = styled.div<IFlex>`
   flex-wrap: ${(props: IFlex) => props.flexWrap || 'nowrap'};
 
   @media (max-width: ${device.mobile}) {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: flex;
+    align-items: center;
+    justify-content:center;
   }
 
   @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: flex;
+    align-items: center;
   }
 
   &::-webkit-scrollbar {

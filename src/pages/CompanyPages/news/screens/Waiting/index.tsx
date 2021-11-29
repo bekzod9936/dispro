@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import Spinner from "components/Custom/Spinner";
 import Table from "../../components/Table";
 import NoNews from "../../components/NoNews";
+import NoNewsMobile from "../../components/NoNewsMobile";
 import MobileTable from "../../components/MobileTable";
 import { SideBar } from "../../components/SideBar";
 import { useAppSelector, useAppDispatch } from "services/redux/hooks";
@@ -21,6 +22,7 @@ import { AddIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
 import { SearchIcon } from "components/Layout/Header/style";
 import { LimitNews  } from "../../components/LimitNews";
 import { FilterNews } from "../../components/FilterNews";
+import {MobileFilterNews} from "../../components/MobileFilterNews";
 interface intialFilterProps {
   page?: number;
   perPage?: number;
@@ -95,19 +97,12 @@ const Waiting = () => {
     dispatch(setQuery(e.target.value));
   }
 
-  const filterByDate=async (e:any)=>{
-    await setFilterValues({
-      ...filterValues,
-      fromDate: e.slice(0, e.indexOf(' ~')),
-      toDate: e.slice(e.indexOf('~ ') + 2),
-    });
-  await response.refetch();
-  }
+
 
   return (
     <Container>
       <LimitNews errormessage={errormessage}  linkToComment={LinkComment} CancelError={ResetError} />
-      <FilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} />
+     {width>600 && <FilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} />}
      
       {width>600 ? 
       <Wrap>
@@ -156,8 +151,8 @@ const Waiting = () => {
             {data.length > 0 ? (
               <MobileTable  refetch={response}  data={list} />
             ) : (
-              <div style={{ paddingRight: "20%", paddingTop: "5%" }}>
-                <NoNews handleOpenSetting={handleOpenSetting} />
+              <div style={{ paddingTop: "15%" }}>
+                <NoNewsMobile handleOpenSetting={handleOpenSetting} />
               </div>
             )}
             <SideBar isOpen={newsById} maxWidth={"370px"}>

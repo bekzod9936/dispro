@@ -56,9 +56,9 @@ const useActive = ({filterValues}:Props) => {
       );
       dispatch(setNewsTotal(Math.ceil(data.data.data.totalCount/ filterValues?.perPage)))
       dispatch(setNewsTotalCount(data.data.data.totalCount))
-      // dispatch(setNewsData(data.data.data.news))
-      let res=handleSort(data.data.data.news)
-      dispatch(setNewsData(res))
+      dispatch(setNewsData(data.data.data.news))
+      // let res=handleSort(data.data.data.news)
+      // dispatch(setNewsData(res))
     
     },
   });
