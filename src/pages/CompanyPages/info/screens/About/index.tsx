@@ -46,6 +46,7 @@ import {
   WrapPhoto,
 } from './style';
 import { setExitModal } from 'services/redux/Slices/info/info';
+import { TextArea } from 'components/Custom/TextArea';
 
 interface FormProps {
   telNumber?: string;
@@ -463,24 +464,14 @@ const Main = () => {
               control={control}
               rules={{ required: true }}
               render={({ field }) => (
-                <Input
-                  label={t('description')}
-                  error={errors.description ? true : false}
+                <TextArea
+                  {...field}
                   message={t('requiredField')}
-                  type='textarea'
-                  field={field}
-                  margin={{
-                    laptop: '20px 0 25px',
-                  }}
-                  multiline={true}
-                  inputStyle={{
-                    height: { mobile: 70, laptop: 90, desktop: 120 },
-                  }}
-                  IconEnd={
-                    <WrapArea>
-                      <TextAreaIcon />
-                    </WrapArea>
-                  }
+                  error={errors.description ? true : false}
+                  minHeight={'150px'}
+                  maxHeight={'300px'}
+                  resize={'vertical'}
+                  title={t('description')}
                 />
               )}
             />
