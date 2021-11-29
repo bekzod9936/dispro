@@ -585,6 +585,7 @@ const RepairNews = () => {
                     render={({ field }) => (
                       <MultiSelect
                         field={field}
+                        isClearable={false}
                         isMulti={true}
                         options={days}
                         label="Укажите дни"
@@ -637,7 +638,7 @@ const RepairNews = () => {
                 <CheckBox
                   checked={checked}
                   name={"checked"}
-                  label={"Круглосуточна"}
+                  label={"Круглосуточно"}
                   onChange={(e: any) => setChecked(e)}
                 />
               )}

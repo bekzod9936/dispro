@@ -343,7 +343,6 @@ const CreateNews = () => {
                           type="date"
                           min={todayDate}
                           error={!!errors.startDate}
-                          // message={t("requiredField")}
                           IconStart={<WrapDate>{t("from")}</WrapDate>}
                           inputStyle={{
                             inpadding: "0 10px 0 0",
@@ -512,9 +511,14 @@ const CreateNews = () => {
                     control={control}
                     render={({ field }) => (
                       <MultiSelect
+                        isClearable={false}
                         field={field}
                         isMulti={true}
                         options={days}
+                        selectStyle={{
+                          weight:300,
+                          fontSize:{desktop:14},
+                        }}
                         label="Укажите дни"
                       />
                     )}
@@ -578,6 +582,8 @@ const CreateNews = () => {
                             placeholdercolor: "#223367",
                             inpadding: "2px 10px 2px 60px",
                             placewieght: "500",
+                          
+                           
                           }}
                           placeholder={t("Выберите филиалы")}
                           margin={{
