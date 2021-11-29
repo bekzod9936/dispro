@@ -19,6 +19,13 @@ export const Wrapper = styled.div`
     height: 100%;
     width: 100%;
     padding: 25px;
+    div.loadingText {
+        font-size: 18px;
+        line-height: 21.09px;
+        color: #223367;
+        margin-bottom: 10px;
+        font-weight: 500;
+    }
 
 `
 export const SelectButtons = styled.div`
@@ -227,3 +234,4 @@ export const SelectedClients = styled.div`
         }
     }
 `
+

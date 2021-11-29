@@ -3,7 +3,7 @@ import Button from 'components/Custom/Button'
 import Input from "components/Custom/Input"
 import { useTranslation } from 'react-i18next'
 import { useState } from "react"
-import { useMutation } from 'react-query'
+import { useMutation, useQueryClient } from 'react-query'
 import { changeVipPercent } from 'services/queries/clientsQuery'
 import { useAppSelector } from 'services/redux/hooks'
 import { Status, Wrapper } from './style'
@@ -24,10 +24,15 @@ export const VipModal = ({ handleClose, refetch, state, id, clientInfo }: IProps
     const { t } = useTranslation()
     const [percent, setPercent] = useState("")
     const [error, setError] = useState(false)
-    const { selectedClients } = useAppSelector(state => state.clients)
+    const { selectedClients, allClients } = useAppSelector(state => state.clients)
+    const queryClient = useQueryClient()
+
 
     const mutation = useMutation((data: any) => changeVipPercent(data), {
         onSuccess: () => {
+            if (selectedClients.length === allClients.length) {
+                queryClient.invalidateQueries("fetchAllClients")
+            }
             handleClose()
             refetch()
         }
@@ -36,7 +41,15 @@ export const VipModal = ({ handleClose, refetch, state, id, clientInfo }: IProps
     const onSubmit = (e: any) => {
         e.preventDefault()
         if (Number(percent) < 1 && state !== 'removing') return
-        if (selectedClients.length > 1) {
+        if (state === "removing" && selectedClients.length > 1) {
+            let ids = selectedClients.map(el => el.id)
+            mutation.mutate({
+                percent: 0,
+                isActive: false,
+                clientIds: ids
+            })
+        }
+        else if (selectedClients.length > 1) {
             let ids = selectedClients.map(el => el.id)
             mutation.mutate({
                 percent: percent,
