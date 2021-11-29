@@ -70,7 +70,7 @@
   "substractProceed": "Баллы будут списаны в течение нескольких минут",
   "continue": "Продолжить",
   "wrongPassword": "Неверный пароль",
-  "enterVip": "Введите индивидуальный %",
+  "enterVip": "Введите специальный %",
   "ready": "Готово",
   "chosen": "Выбрано",
   "choseAllClients": "Выбрать всех клиентов",
@@ -480,10 +480,10 @@
   "cancellation": "Отмена",
   "warningBeforeSubstractionPoints": "Клиент будет проинформирован о списании баллов push-уведомлением",
   "selectedClients": "Выбрано клиентов",
-  "individualStatus": "Индивидуальный статус",
-  "turnOffVipStatus": "Отключить VIP статус",
-  "areYouSureAboutTurnOffIndividualPercent": "Вы действительно хотите отключить индивидуальный статус?",
-  "infoAboutTurnOffingIndividualStatus": "При отключении, индивидуальный статус сменится на стандартный статус, согласно программе лояльности",
+  "individualStatus": "Специальный статус",
+  "turnOffVipStatus": "Отключить Спец статус",
+  "areYouSureAboutTurnOffIndividualPercent": "Вы действительно хотите отключить специальный статус?",
+  "infoAboutTurnOffingIndividualStatus": "При отключении, специальный статус сменится на стандартный статус, согласно программе лояльности",
   "currentStatus": "Текущий статус",
   "standartStatus": "Стандартный статус",
   "configure_setting_error": "Настройте программу лояльности",
@@ -520,6 +520,6 @@
   "requirementLevl": "Условия статуса №{{level}}",
   "companies": "Компании",
   "limitfeedback": "Вы можете написать еще {{limit1}}",
-  "exitpageaddress":" На странице есть несохраненные элементы.",
-  "areyousureleave":"Все равно выйти?"
+  "exitpageaddress": " На странице есть несохраненные элементы.",
+  "areyousureleave": "Все равно выйти?"
 }

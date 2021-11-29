@@ -221,7 +221,7 @@ const Client = () => {
                                     </MDefaultImage>}
                                 <div>
                                     <h6>{client?.firstName + " " + client?.lastName}</h6>
-                                    {width <= 1000 && width > 600 && <span className="clientInfo">{t(client?.genderTypeId === 1 ? "man" : "woman")}<b>{" "}</b>{t("status")}: {client?.isPlBlocked ? t("blocked") : status + " " + percent + " %"}</span>}
+                                    {width <= 1000 && width > 600 && <span className="clientInfo">{t(client?.genderTypeId === 1 ? "man" : "woman")}<b>{" "}</b>{t("status")}: {client?.isPlBlocked ? t("blocked") : (client?.personalLoyaltyInfo.isActive ? "Спец" : status) + " " + percent + " %"}</span>}
                                 </div>
 
                             </div>
@@ -277,12 +277,12 @@ const Client = () => {
                                 {t(client?.genderTypeId === 1 ? "man" : "woman")}
                             </p>
                             <p>
-                                {t("status")}: {client?.isPlBlocked ? t("blocked") : status + " " + percent + " %"}
+                                {t("status")}: {client?.isPlBlocked ? t("blocked") : (client?.personalLoyaltyInfo.isActive ? "Спец" : status) + " " + percent + " %"}
                             </p>
                         </MAddInfo> :
                         <Flex>
                             <Button
-                                endIcon={<CoinsIcon />}
+                                endIcon={<CoinsIcon style={{ width: 20, height: 20 }} />}
                                 buttonStyle={{
                                     bgcolor: "rgba(96, 110, 234, 0.1)",
                                     color: "#606EEA",
@@ -294,11 +294,11 @@ const Client = () => {
                                 margin={{
                                     planshet: "0 15px"
                                 }}
-                                endIcon={<MinusCoinsIcon style={{}} />}
+                                endIcon={<MinusCoinsIcon style={{ width: 20, height: 20 }} />}
                                 buttonStyle={{
                                     bgcolor: "rgba(96, 110, 234, 0.1)",
                                     color: "#606EEA",
-                                    weight: 500
+                                    weight: 500,
                                 }}>
                                 {t("substractPoints")}
                             </Button>
@@ -308,7 +308,7 @@ const Client = () => {
                                     setVipModalState(res)
                                     setVipModal(true)
                                 }}
-                                endIcon={<CrownIcon />}
+                                endIcon={width > 604 ? <CrownIcon style={{ width: 20, height: 20 }} /> : undefined}
                                 buttonStyle={{
                                     bgcolor: "rgba(96, 110, 234, 0.1)",
                                     color: "#606EEA",

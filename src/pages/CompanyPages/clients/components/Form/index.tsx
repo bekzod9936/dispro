@@ -164,7 +164,7 @@ export const MobileForm = ({ open, action, onClose, client, refetch }: IProps) =
                             <>
                                 <p className="label">{t("client")}</p>
                                 <span>{client.name}</span>
-                                {client.isBlocked ? <b>{t("blocked")}</b> : <b>{action <= 2 ? t("points") + ": " + client.points : t('status') + ": " + client.currentStatus + " " + client.percent + "%"}</b>}
+                                {client.isBlocked ? <b>{t("blocked")}</b> : <b>{action <= 2 ? t("points") + ": " + client.points : t('status') + ": " + (client.currentStatus === client.prevStatus ? client.currentStatus : "Спец") + " " + client.percent + "%"}</b>}
                             </>
                         }
                     </ClientInfo>

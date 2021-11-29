@@ -64,10 +64,10 @@ export const ResetModal = ({ open, client, onClose, refetch }: IProps) => {
                 </div>
                 <div className="main">
                     <p>{t("currentStatus")}</p>
-                    <span>{client.status}{" "}{client.percent}%</span>
+                    <span>{selectedClients.length > 1 ? "Специальный" : "Спец"}{" "}{!(selectedClients.length > 1) && client.percent + "%"}</span>
                     <RightArrowIcon />
                     <p>{t("standartStatus")}</p>
-                    <span>{client.prevStatus}{" "}{client.prevPercent}%</span>
+                    <span>{selectedClients.length > 1 ? "Стандартный" : client.prevStatus}{" "}{!(selectedClients.length > 1) && client.prevPercent + "%"}</span>
                 </div>
                 <div className="footer">
                     <Button
