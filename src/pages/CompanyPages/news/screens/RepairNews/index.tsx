@@ -12,7 +12,7 @@ import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import Spinner from "components/Helpers/Spinner";
 import ImageLazyLoad from "components/Custom/ImageLazyLoad/ImageLazyLoad";
 import useStaff from "../../hooks/useStaff";
-
+import { WatchIcons,WatchIconsWhite,PublishIcon,WhitePublishIcon,RepairNewsIcon } from "assets/icons/news/newsIcons";
 import CropCustomModal from "components/Custom/CropImageModal/index";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
@@ -361,7 +361,7 @@ const RepairNews = () => {
                     error={!!errors.name}
                     message={t("requiredField")}
                     field={field}
-                    multiline={true}
+                    maxLength={80}
                     label="Название"
                     defaultValue={newsById?.data?.title}
                   />
@@ -401,10 +401,10 @@ const RepairNews = () => {
                       render={({ field }) => (
                         <Input
                           field={field}
+                        
                           type="date"
                           min={todayDate}
                           error={!!errors.startDate}
-                          message={t("requiredField")}
                           IconStart={<WrapDate>{t("from")}</WrapDate>}
                           inputStyle={{
                             inpadding: "0 10px 0 0",
@@ -423,10 +423,9 @@ const RepairNews = () => {
                         <Input
                           type="date"
                           field={field}
+                        
                           error={!!errors.endDate}
-                          message={t("requiredField")}
                           min={watch("startDate")}
-                          // required={true}
                           margin={{ laptop: "0 0 0 15px" }}
                           IconStart={<WrapDate>{t("to")}</WrapDate>}
                           inputStyle={{
@@ -458,8 +457,7 @@ const RepairNews = () => {
                             minwidth: 130,
                           }}
                           min={todayDate}
-                          error={!!errors.name}
-                          // message={t("requiredField")}
+                          error={!!errors.startDate}
                           IconStart={<WrapDate>{t("from")}</WrapDate>}
                           inputStyle={{
                             inpadding: "0 10px 0 0",
@@ -477,8 +475,7 @@ const RepairNews = () => {
                         <Input
                           type="date"
                           field={field}
-                          error={!!errors.name}
-                          // message={t("requiredField")}
+                          error={!!errors.endDate}
                           min={watch("startDate")}
                           width={{
                             maxwidth: 180,
@@ -691,11 +688,11 @@ const RepairNews = () => {
           </Button>
           <Button
             type="submit"
-            margin={{ laptop: "0 25px" }}
-            startIcon={<SaveIcon />}
+            margin={{ laptop: "0 25px",mobile:"0 10px"}}
+            endIcon={<RepairNewsIcon />}
                     buttonStyle={{ shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)'}}
           >
-            Сохранить
+            Восстановить
           </Button>
         </DownSide>
       </Form>

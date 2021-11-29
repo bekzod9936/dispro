@@ -9,7 +9,7 @@ import { SearchIcon } from "components/Layout/Header/style";
 import MobileTable from "../../components/MobileTable";
 import NoNews from "../../components/NoNews";
 import { NewsBar } from "../../components/NewsBar";
-
+import NoNewsMobile from "../../components/NoNewsMobile";
 import Input from "components/Custom/Input";
 import DatePcker from "components/Custom/DatePicker";
 import { setQuery, setSelectedNews,setErrorMessage } from "services/redux/Slices/news";
@@ -125,7 +125,7 @@ const Active = () => {
   return (
     <Container>
       <LimitNews errormessage={errormessage}  linkToComment={LinkComment} CancelError={ResetError} />
-      <FilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} filterByDate={filterByDate}/>
+      {width>600 && <FilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} filterByDate={filterByDate}/>}
       {width>600 ? 
       <Wrap>
         { response.isFetching ? (
@@ -163,6 +163,7 @@ const Active = () => {
         )}
       </Wrap>:
       <Wrap>
+        
           {response.isLoading || response.isFetching ? (
           <WrapSpinner><Spinner/></WrapSpinner>
 
@@ -173,8 +174,8 @@ const Active = () => {
             {data?.length > 0 ? (
               <MobileTable refetch={response}  data={list} />
             ) : (
-              <div style={{ paddingRight: "20%", paddingTop: "5%" }}>
-                <NoNews handleOpenSetting={handleOpenSetting} />
+              <div style={{ paddingTop: "15%" }}>
+                <NoNewsMobile handleOpenSetting={handleOpenSetting} />
               </div>
             )}
             <SideBar isOpen={newsById} maxWidth={"370px"}>

@@ -25,7 +25,7 @@ export const Data = styled.div`
 `;
 
 export const FullName = styled.div`
-  font-weight: normal;
+  font-weight: 500;
   font-size: 16px;
   color: #223367;
 `;

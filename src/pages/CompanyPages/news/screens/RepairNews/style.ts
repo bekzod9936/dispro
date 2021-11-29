@@ -873,6 +873,14 @@ export const DownSide = styled.div`
     @media (max-width: 1150px) {
       padding-right: 20px;
     }
+    @media (max-width: ${device.mobile}) {
+      padding: 25px 20px;
+      height: 15%;
+    }
+    @media (max-width: 320px) {
+      padding: 15px 0px;
+      height: 15%;
+    }
 `
 export const Form = styled.form`
     background-color: #FFFFFF;
