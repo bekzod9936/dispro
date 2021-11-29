@@ -79,7 +79,7 @@ const ShowWaitingNews = () => {
       </div>
       <Wrapper>
         <Preview>
-          <img className="couponImg" src={newsById?.data?.image} alt="" />
+          <img style={{objectFit:'fill'}} className="couponImg" src={newsById?.data?.image} alt="" />
           <img className="iphoneImg" width="300" src={iphone} />
           <PreviewContent>
             <h5>
