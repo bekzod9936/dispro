@@ -126,19 +126,17 @@ const Table = ({ data, header2 }: Props) => {
                     );
                   }  else if (cell.column.Header === "Описание") {
                     let checkDescription = cell?.row?.original?.fullData?.data?.description;
-             
-                    let description =
-                      checkDescription?.length > 78
-                        ? checkDescription.slice(0, 78) + "..."
+                       
+                    let descriptionn =
+                      checkDescription?.length >70
+                        ? checkDescription.slice(0, 70) + "..."
                         : checkDescription;
-
+                        console.log('checkDescription',descriptionn)
                     return (
                       <Td {...cell.getCellProps()}>
                            <AgeData>
-                             <p style={{ width:'300px',whiteSpace: "pre-wrap"}}>{description}</p>
-                       
+                             <p style={{ maxWidth:'300px',whiteSpace: "pre-wrap",wordBreak: 'break-all'}}>{descriptionn}</p>
                       </AgeData>
-                      
                       </Td>
                     );
                   }

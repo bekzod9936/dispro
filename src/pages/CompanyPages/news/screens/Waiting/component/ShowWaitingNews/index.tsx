@@ -83,13 +83,13 @@ const ShowWaitingNews = () => {
           <img className="iphoneImg" width="300" src={iphone} />
           <PreviewContent>
             <h5>
-              <span>
+              <span style={{wordBreak: 'break-all' }}>
                 {newsById?.data?.title?.length > 50
                   ? newsById?.data?.title?.slice(0, 50) + "..."
                   : newsById?.data?.title}{" "}
               </span>
             </h5>
-            <p style={{ paddingTop: "10px" }}>
+            <p style={{ paddingTop: "10px",wordBreak: 'break-all' }}>
               {newsById?.data?.description.length > 500
                 ? newsById?.data?.description?.slice(0, 500) + "..."
                 : newsById?.data?.description}

@@ -102,7 +102,7 @@ console.log('gender',currentNews?.genderType )
           />
         </PreviewDivNews>
         <h5>{currentNews?.data?.title?.length>50 ? currentNews?.data?.title?.slice(0,30)+'...':currentNews?.data?.title}</h5>
-        <p>{currentNews?.data?.description?.length> 75 ? currentNews?.data?.description?.slice(0,75)+'...':currentNews?.data?.description}</p>
+        <p style={{wordBreak: 'break-all'}}>{currentNews?.data?.description?.length> 66 ? currentNews?.data?.description?.slice(0,66)+'...':currentNews?.data?.description}</p>
       </LeftRound>
       <ContentSideBar>
         <ContentInfo>
