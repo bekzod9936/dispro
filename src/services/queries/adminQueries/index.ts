@@ -11,3 +11,10 @@ export const fetchCompanyStatus = () => {
   const response = adminInterceptor.get(`directory/company/counts/by-status`);
   return response;
 };
+
+export const enterMCompany = async ({ id, type }: any) => {
+  const response = await adminInterceptor.get(
+    `auth/admin/company/token?companyId=${id}&companyType=${type}`
+  );
+  return response;
+};

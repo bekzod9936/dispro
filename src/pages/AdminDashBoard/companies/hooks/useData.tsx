@@ -10,6 +10,8 @@ import { getCompanies } from "services/queries/moderatorCompanies";
 const useData = () => {
   const setCompanies = useSetRecoilState(setCompaniesM);
   const { isLoading } = useQuery("adminCompanies", getCompanies, {
+    refetchOnWindowFocus: false,
+    retry: false,
     onSuccess: (data) => {
       console.log(data.data, "data companies");
       setCompanies(data.data.data);

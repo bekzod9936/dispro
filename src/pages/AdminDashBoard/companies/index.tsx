@@ -6,11 +6,16 @@ import { useTranslation } from "react-i18next";
 import { SpinnerDiv } from "pages/CompanyPages/news/style";
 import Spinner from "components/Helpers/Spinner";
 import { Container, Title } from "./style";
+import CompanyModal from "./components/CompanyModal";
+import { useRecoilValue } from "recoil";
+import { selectedCompany } from "services/atoms/admin_companies";
 const CompaniesTable = lazy(() => import("./components/CompaniesTable"));
 
 export const AdminCompanies = () => {
   const { isLoading } = useData();
   const { t } = useTranslation();
+  const sCompany = useRecoilValue(selectedCompany);
+  const open = sCompany?.id ? true : false;
 
   if (isLoading) {
     return (
@@ -31,6 +36,7 @@ export const AdminCompanies = () => {
         }
       >
         <CompaniesTable />
+        {open ? <CompanyModal /> : null}
       </Suspense>
     </Container>
   );

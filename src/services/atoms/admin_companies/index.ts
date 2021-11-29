@@ -17,3 +17,20 @@ export const setCompaniesM = selector<ICompany[]>({
     set(companiesM, newVal);
   },
 });
+
+//select company
+export const selectedCompany = atom<ICompany>({
+  key: "selectedCompany",
+  default: {},
+});
+
+export const setSelectCompany = selector<ICompany>({
+  key: "setSelectCompany",
+  get: ({ get }) => {
+    const res = get(selectedCompany);
+    return res;
+  },
+  set: ({ set }, newVal) => {
+    set(selectedCompany, newVal);
+  },
+});
