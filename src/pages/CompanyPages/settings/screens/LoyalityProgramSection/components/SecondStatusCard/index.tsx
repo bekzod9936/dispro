@@ -30,7 +30,7 @@ const SecondStatusCard = ({ val }: IProps) => {
     }
   };
 
-  const findedItem = val.some((item: any) => item.condition === "or");
+  const findedItem = val?.some((item: any) => item.condition === "or");
 
   if (!findedItem) {
     return null;
