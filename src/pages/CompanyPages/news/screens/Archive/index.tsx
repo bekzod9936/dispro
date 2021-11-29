@@ -16,12 +16,8 @@ import Pagination from "components/Custom/Pagination";
 import MobileTable from "../../components/MobileTable";
 import useWindowWidth from 'services/hooks/useWindowWidth';
 import { FilterNews } from "../../components/FilterNews";
-import { Flex } from "../../style";
-import { AddIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
-import { SearchIcon } from "components/Layout/Header/style";
-import DatePcker from "components/Custom/DatePicker";
-import Input from "components/Custom/Input";
-import Button from "components/Custom/Button";
+import { countPagination } from '../../components/utils';
+
 interface intialFilterProps {
   page?: number;
   perPage?: number;
@@ -115,7 +111,12 @@ const Archive = () => {
                 <Info>
                   {t("shown")}
                   <span>{between}</span>
-                  {t("from1")} <span>{totalNewsCount}</span> {t("новостей")}
+                  {t("from1")} <span>{totalNewsCount}</span>
+                  {countPagination({
+                count: totalNewsCount,
+                firstWord: t('новости '),
+                secondWord: t('новостей'),
+              })}
                 </Info>
                 <Pagination
                   page={filterValues.page}
@@ -152,7 +153,12 @@ const Archive = () => {
                 <Info>
                   {t("shown")}
                   <span>{between}</span>
-                  {t("from1")} <span>{totalNewsCount}</span> {t("новостей")}
+                  {t("from1")} <span>{totalNewsCount}</span>
+                  {countPagination({
+                count: totalNewsCount,
+                firstWord: t('новости '),
+                secondWord: t('новостей'),
+              })}
                 </Info>
                 <Pagination
                   page={filterValues.page}

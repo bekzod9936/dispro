@@ -51,15 +51,15 @@ const useWaiting = ({filterValues}:PProps) => {
       dispatch(setNewsTotal(Math.ceil(data.data.data.totalCount/ filterValues?.perPage)))
       dispatch(setNewsTotalCount(data.data.data.totalCount))
 
-      // let res=handleSort(data.data.data.news)      
-      dispatch(setNewsData(data.data.data.news))
+      let res=handleSort(data.data.data.news)      
+      dispatch(setNewsData(res))
     },
   });
   return { response };
 };
 
 function handleSort(arr:any){
-  return [...arr].sort((a,b)=> new Date(a.startLifeTime).getTime() - new Date(b.startLifeTime).getTime())
+  return [...arr].sort((a,b)=> new Date(b.startLifeTime).getTime() - new Date(a.startLifeTime).getTime())
  }  
  
 export default useWaiting;
