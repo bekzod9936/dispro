@@ -24,12 +24,12 @@ interface IProps {
 
 export const ResetModal = ({ open, client, onClose, refetch }: IProps) => {
     const { t } = useTranslation()
-    const { selectedClients, allClients } = useAppSelector(state => state.clients)
+    const { selectedClients } = useAppSelector(state => state.clients)
     const queryClient = useQueryClient()
 
     const { mutate } = useMutation((data: any) => changeVipPercent(data), {
         onSuccess: () => {
-            if (selectedClients.length === allClients.length) {
+            if (selectedClients.length > 5) {
                 queryClient.invalidateQueries("fetchAllClients")
             }
         }

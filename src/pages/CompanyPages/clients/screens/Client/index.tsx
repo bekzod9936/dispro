@@ -208,7 +208,7 @@ const Client = () => {
                                     <div className="image">
                                         <img
                                             src={client.image}
-                                            onError={(e:any) => {
+                                            onError={(e: any) => {
                                                 e.target.onerror = null;
                                                 e.target.src = clientDefault;
                                             }}
@@ -294,7 +294,7 @@ const Client = () => {
                                 margin={{
                                     planshet: "0 15px"
                                 }}
-                                endIcon={<MinusCoinsIcon />}
+                                endIcon={<MinusCoinsIcon style={{}} />}
                                 buttonStyle={{
                                     bgcolor: "rgba(96, 110, 234, 0.1)",
                                     color: "#606EEA",

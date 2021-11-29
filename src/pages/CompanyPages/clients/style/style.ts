@@ -84,7 +84,7 @@ export const ButtonsWrapper = styled.div`
   max-width: 750px;
   width: 100%;
   display: flex;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   align-items: center;
   margin-bottom: ${(props: IButtonWrapper) => props.marginBottom + "px" || "0"};
   margin-top: ${(props: IButtonWrapper) => props.marginTop + "px" || "0"};
