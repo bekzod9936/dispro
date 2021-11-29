@@ -1,16 +1,16 @@
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useMutation } from 'react-query';
-import { useAppSelector } from 'services/redux/hooks';
-import { uploadPhoto } from 'services/queries/InfoQuery';
-import NoPhoto from 'assets/images/NoPhotos.png';
-import ImageLazyLoad from 'components/Custom/ImageLazyLoad/ImageLazyLoad';
-import partnerApi from 'services/interceptors/companyInterceptor';
-import Spinner from 'components/Custom/Spinner';
-import { ruCount } from 'services/utils/index';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import useWindowWidth from 'services/hooks/useWindowWidth';
-import SaveButton from '../../components/Buttons/SaveButton';
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useMutation } from "react-query";
+import { useAppSelector } from "services/redux/hooks";
+import { uploadPhoto } from "services/queries/InfoQuery";
+import NoPhoto from "assets/images/NoPhotos.png";
+import ImageLazyLoad from "components/Custom/ImageLazyLoad/ImageLazyLoad";
+import partnerApi from "services/interceptors/partner_interceptor";
+import Spinner from "components/Custom/Spinner";
+import { ruCount } from "services/utils/index";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import useWindowWidth from "services/hooks/useWindowWidth";
+import SaveButton from "../../components/Buttons/SaveButton";
 import {
   Container,
   Text,
@@ -25,7 +25,7 @@ import {
   LabelNoPhoto,
   Wrpaper,
   DownSide,
-} from './style';
+} from "./style";
 
 const reorder = (list: any, startIndex: any, endIndex: any) => {
   const result = Array.from(list);
@@ -39,7 +39,7 @@ const Photos = () => {
   const { t } = useTranslation();
   const { width } = useWindowWidth();
 
-  const companyId: any = localStorage.getItem('companyId');
+  const companyId: any = localStorage.getItem("companyId");
   const companyInfo = useAppSelector((state) => state.partner.companyInfo);
   const [images, setImages] = useState(companyInfo.images);
   const count = 10 - images.length;
@@ -55,17 +55,17 @@ const Photos = () => {
     if (e.target.files.length < count) {
       for (let i = 0; i < e.target.files.length; i++) {
         const formData = new FormData();
-        formData.append('itemId', companyId);
-        formData.append('fileType', 'companyImage');
-        formData.append('file', e.target.files[i]);
+        formData.append("itemId", companyId);
+        formData.append("fileType", "companyImage");
+        formData.append("file", e.target.files[i]);
         photoUploading.mutate(formData);
       }
     } else if (e.target.files.length >= count) {
       for (let i = 0; i < count; i++) {
         const formData = new FormData();
-        formData.append('itemId', companyId);
-        formData.append('fileType', 'companyImage');
-        formData.append('file', e.target.files[i]);
+        formData.append("itemId", companyId);
+        formData.append("fileType", "companyImage");
+        formData.append("file", e.target.files[i]);
         photoUploading.mutate(formData);
       }
     }
@@ -77,7 +77,7 @@ const Photos = () => {
   };
 
   const subImg = useMutation((v: any) => {
-    return partnerApi.put('/directory/company/images', {
+    return partnerApi.put("/directory/company/images", {
       images: v,
     });
   });
@@ -107,32 +107,32 @@ const Photos = () => {
     <Container>
       <div>
         <input
-          accept='image/*'
-          style={{ display: 'none' }}
-          id='photosloading'
-          type='file'
+          accept="image/*"
+          style={{ display: "none" }}
+          id="photosloading"
+          type="file"
           multiple
           onChange={handleUpload}
         />
         {images.length === 0 ? (
           <WrapNoPhoto>
-            <ImgNo src={NoPhoto} alt='nophoto' />
-            <Text maxwidth='500px' align='center'>
-              {t('infouploadphotos1')}
+            <ImgNo src={NoPhoto} alt="nophoto" />
+            <Text maxwidth="500px" align="center">
+              {t("infouploadphotos1")}
 
               <span>
                 <span> {count} </span>
                 {ruCount({
                   count: count,
-                  firstWord: 'фотографию',
-                  secondWord: 'фотографии',
-                  thirdWord: 'фотографий',
+                  firstWord: "фотографию",
+                  secondWord: "фотографии",
+                  thirdWord: "фотографий",
                 })}
               </span>
-              {t('infouploadphotos2')}
+              {t("infouploadphotos2")}
             </Text>
-            <LabelNoPhoto htmlFor='photosloading'>
-              <span>{t('upload_photo')}</span>
+            <LabelNoPhoto htmlFor="photosloading">
+              <span>{t("upload_photo")}</span>
               <PhotoIcon />
             </LabelNoPhoto>
           </WrapNoPhoto>
@@ -140,22 +140,22 @@ const Photos = () => {
           <>
             {images.length < 10 ? (
               <>
-                <Text maxwidth='800px'>
-                  {t('infouploadphotos1')}
+                <Text maxwidth="800px">
+                  {t("infouploadphotos1")}
                   <span>
                     <span> {count} </span>
                     {ruCount({
                       count: count,
-                      firstWord: 'фотографию',
-                      secondWord: 'фотографии',
-                      thirdWord: 'фотографий',
+                      firstWord: "фотографию",
+                      secondWord: "фотографии",
+                      thirdWord: "фотографий",
                     })}
                   </span>
-                  {t('infouploadphotos2')}
+                  {t("infouploadphotos2")}
                 </Text>
               </>
             ) : null}
-            <Text maxwidth='800px'>{t('dragdropphoto')}</Text>
+            <Text maxwidth="800px">{t("dragdropphoto")}</Text>
             <Wrpaper>
               {photoUploading.isLoading ? (
                 <Spinner />
@@ -163,15 +163,15 @@ const Photos = () => {
                 <>
                   <DragDropContext onDragEnd={onDragEnd}>
                     <Droppable
-                      droppableId='droppable'
-                      direction={width > 600 ? 'horizontal' : 'vertical'}
+                      droppableId="droppable"
+                      direction={width > 600 ? "horizontal" : "vertical"}
                     >
                       {(provided) => (
                         <WrapImages
                           ref={provided.innerRef}
                           {...provided.droppableProps}
                           style={{
-                            overflow: 'hidden',
+                            overflow: "hidden",
                           }}
                         >
                           {images.map((v, index: number) => (
@@ -185,9 +185,9 @@ const Photos = () => {
                                   {...provided.dragHandleProps}
                                 >
                                   <ImageLazyLoad
-                                    objectFit='cover'
+                                    objectFit="cover"
                                     src={v}
-                                    alt='image'
+                                    alt="image"
                                   />
                                   <WrapTrash>
                                     <TrashIcon />
@@ -198,10 +198,10 @@ const Photos = () => {
                           ))}
                           {images.length < 10 && width > 600 ? (
                             <>
-                              <Label htmlFor='photosloading'>
+                              <Label htmlFor="photosloading">
                                 <PhotoIcon />
                                 <span>
-                                  {t('addphoto')} {' +'}
+                                  {t("addphoto")} {" +"}
                                 </span>
                               </Label>
                             </>
@@ -216,10 +216,10 @@ const Photos = () => {
                 <SaveButton
                   onClick={handleSubmit}
                   margin={{
-                    laptop: '20px 0 20px 0',
+                    laptop: "20px 0 20px 0",
                   }}
                   disabled={subImg.isLoading}
-                  type='button'
+                  type="button"
                 />
               ) : null}
             </Wrpaper>
@@ -230,19 +230,19 @@ const Photos = () => {
         <DownSide>
           <div>
             {images.length === 10 ? null : (
-              <LabelNoPhoto htmlFor='photosloading'>
-                <span>{t('addphoto')}</span>
+              <LabelNoPhoto htmlFor="photosloading">
+                <span>{t("addphoto")}</span>
                 <PhotoIcon />
               </LabelNoPhoto>
             )}
             <SaveButton
               onClick={handleSubmit}
               margin={{
-                laptop: '20px 0 20px 0',
-                mobile: '0',
+                laptop: "20px 0 20px 0",
+                mobile: "0",
               }}
               disabled={subImg.isLoading}
-              type='button'
+              type="button"
             />
           </div>
         </DownSide>

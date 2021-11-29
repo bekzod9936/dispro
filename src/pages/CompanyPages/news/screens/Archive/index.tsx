@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import Spinner from "components/Custom/Spinner";
 import Table from "../../components/Table";
 import NoNews from "../../components/NoNews";
-
+import NoNewsMobile from "../../components/NoNewsMobile";
 import { setQuery, setSelectedNews } from "services/redux/Slices/news";
 import { useAppSelector, useAppDispatch } from "services/redux/hooks";
 import { SideBar } from "../../components/SideBar";
@@ -15,6 +15,7 @@ import useArchive from "./useArchive";
 import Pagination from "components/Custom/Pagination";
 import MobileTable from "../../components/MobileTable";
 import useWindowWidth from 'services/hooks/useWindowWidth';
+import { FilterNews } from "../../components/FilterNews";
 import { Flex } from "../../style";
 import { AddIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
 import { SearchIcon } from "components/Layout/Header/style";
@@ -60,7 +61,7 @@ const Archive = () => {
   const { response } = useArchive({filterValues: filterValues});
   const {list}=useData();
   const { width } = useWindowWidth();
-
+  const newsById = selectedNews?.fullData;
   const handlechangePage = async (e: any) => {
     await setFilterValues({ ...filterValues, page: e });
     await response.refetch();
@@ -76,59 +77,22 @@ const Archive = () => {
     });
     dispatch(setQuery(""));
   };
+  const searchNews=(e:any)=>{
+    dispatch(setQuery(e.target.value));
+  }
+  const filterByDate=async (e:any)=>{
+    await setFilterValues({
+      ...filterValues,
+      fromDate: e.slice(0, e.indexOf(' ~')),
+      toDate: e.slice(e.indexOf('~ ') + 2),
+    });
+  await response.refetch();
+  }
 
-  const newsById = selectedNews?.fullData;
+
   return (
     <Container>
-      <Flex
-      width="95%"
-      justifyContent="flex-start"
-      alignItems="center"
-      margin="0"
-    >
-      {/* Settings side  */}
-      <Button
-        onClick={handleOpenNews}
-        buttonStyle={{
-          bgcolor: "#FFFFFF",
-          color: "#223367",
-          weight: 500,
-          height: { desktop: 50 },
-        }}
-        margin={{
-          desktop: "0 25px 0 0",
-          laptop: "0 25px 0 0",
-          planshet: "0 0 20px 0",
-        }}
-        startIcon={<AddIcon />}
-      >
-        {t("Создать новость")}
-      </Button>
-
-      <div style={{ width: "20px" }} />
-      <Input
-        inputStyle={{ border: "none", height: { desktop: 50 } }}
-        IconStart={<SearchIcon style={{ marginLeft: 20 }} />}
-        value={query}
-        placeholder="Поиск по новостям"
-        onChange={(e) => dispatch(setQuery(e.target.value))}
-        width={{ maxwidth: 500 }}
-      />
-      <div style={{ width: "20px" }} />
-    <DatePcker
-          onChange={async (e: any) => {
-           
-            await setFilterValues({
-              ...filterValues,
-              fromDate: e.slice(0, e.indexOf(' ~')),
-              toDate: e.slice(e.indexOf('~ ') + 2),
-            });
-          await response.refetch();
-         
-          }}
-        />
-      
-    </Flex>
+         {width>600 && <FilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} filterByDate={filterByDate}/>}
       {width>600 ? 
       <Wrap>
         {response.isLoading || response.isFetching ? (
@@ -176,9 +140,9 @@ const Archive = () => {
             {data.length > 0 ? (
               <MobileTable  refetch={response}  data={list} />
             ) : (
-              <div style={{ paddingRight: "20%", paddingTop: "5%" }}>
-                <NoNews handleOpenSetting={handleOpenSetting} />
-              </div>
+              <div style={{ paddingTop: "15%" }}>
+              <NoNewsMobile handleOpenSetting={handleOpenSetting} />
+            </div>
             )}
             <SideBar isOpen={newsById} maxWidth={"370px"}>
               {newsById && <NewsBar refetch={response} currentNews={newsById} onClose={onClose} />}

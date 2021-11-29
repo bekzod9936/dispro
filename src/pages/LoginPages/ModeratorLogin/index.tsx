@@ -10,8 +10,11 @@ import MultiSelect from "components/Custom/MultiSelect";
 import IconButton from "@material-ui/core/IconButton";
 //types
 import { IForm, ROLES } from "./types";
+//hooks
+import useSignIn from "./useSignIn";
 
 const LoginPageAdmin = () => {
+  const { logIn } = useSignIn();
   const [type, setType] = useState<boolean>(false);
   const { t } = useTranslation();
 
@@ -26,6 +29,7 @@ const LoginPageAdmin = () => {
 
   const onLoginFormSubmit = (data: IForm) => {
     console.log(data, "data for login");
+    logIn.mutate(data);
   };
 
   return (
@@ -97,7 +101,11 @@ const LoginPageAdmin = () => {
             }}
           />
 
-          <Button type="submit" width={{ width: "100%" }}>
+          <Button
+            disabled={logIn.isLoading}
+            type="submit"
+            width={{ width: "100%" }}
+          >
             {t("enter")}
           </Button>
         </Form>

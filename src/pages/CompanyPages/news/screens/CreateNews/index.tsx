@@ -23,7 +23,9 @@ import dayjs from "dayjs";
 import { fetchCreateNews } from "services/queries/newPageQuery";
 import { setErrorMessage } from "services/redux/Slices/news";
 import { MobileCancelIcon } from "assets/icons/proposals/ProposalsIcons";
-import partnerApi from "../../../../../services/interceptors/companyInterceptor";
+import { UploadModal } from "./components/UploadModal";
+import { ConfirmModal } from "./components/ConfirmModal";
+import { CancelNewsModal } from "./components/CancelNewsModal";
 import {
   Label,
   WrapDate,
@@ -90,7 +92,7 @@ const CreateNews = () => {
   const [formData, setFormData] = React.useState({});
   const [cancel, setCancel] = React.useState(false);
   const [startDate, setStartDate] = React.useState<any>();
- 
+
   const [errorFileType, setErrorFileType] = React.useState<any>(false);
   const handleBack = () => {
     history.goBack();
@@ -130,6 +132,10 @@ const CreateNews = () => {
     }
   };
 
+  const cancelFormat=()=>{
+    setErrorFileType(false);
+  }
+
   const handleOpenBlock = (e: any, action: "push") => {
     setOptionalFields((prev: IOptionFields) => ({
       ...prev,
@@ -147,7 +153,6 @@ const CreateNews = () => {
     history.goBack();
   };
 
- 
   const submitNews = (data: any) => {
     let newsData = {
       title: data.name,
@@ -176,13 +181,19 @@ const CreateNews = () => {
             ? data.filialID.map((el: any) => el.value)
             : [],
       },
-      pushUpTitle:optionalFields.push&& data.descriptionPush,
+      pushUpTitle: optionalFields.push && data.descriptionPush,
     };
     setStartDate(data.startDate);
     setSubmit(true);
     setFormData(newsData);
   };
 
+  const cancelSubmit = () => {
+    setSubmit(false);
+  };
+  const notCancel = () => {
+    setCancel(false);
+  };
   const submitData = () => {
     console.log(formData);
     mutate(formData);
@@ -205,156 +216,23 @@ const CreateNews = () => {
           <Title>Добавление новости</Title>
         </div>
       )}
-
-      <Modal modalStyle={{ bgcolor: "#fff" }} open={errorFileType}>
-        <WrapperModal>
-          <p style={{ color: "black" }}>
-            {t("Можно загрузить изображение формата jpeg или png")}
-          </p>
-          {width > 600 && (
-            <>
-              <UploadButton>
-                <label htmlFor="uploadImg">Загрузить фото</label>
-                <input onChange={handleUploadImg} type="file" id="uploadImg" />
-                <UploadImage />
-              </UploadButton>
-            </>
-          )}
-        </WrapperModal>
-      </Modal>
-
-      <Modal modalStyle={{ bgcolor: "#fff" }} open={submit}>
-        <WrapperModal>
-          {width > 600 && (
-            <CloseButton onClick={() => setSubmit(false)}>
-              <CloseIcon />
-            </CloseButton>
-          )}
-
-          <h3 style={{ marginRight: "20px" }}>
-            {startDate > todayDate
-              ? t(`Новость будет добавлена в раздел "В ожидании" `)
-              : t("Новость будет опубликована сразу")}
-          </h3>
-          <p>
-            {startDate > todayDate
-              ? t(
-                  `Новость будет опубликована ${dayjs(startDate).format(
-                    "DD.MM.YYYY"
-                  )} `
-                )
-              : t(
-                  "Новость перейдет в раздел Активные и будет доступна вашим клиентам в приложении"
-                )}
-          </p>
-          {width > 600 ? (
-            <div style={{ display: "flex", justifyContent: "flex-end" }}>
-              <Button
-                buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
-                margin={{ laptop: "0 22px 0 0" }}
-                onClick={() => setSubmit(false)}
-                startIcon={<CancelIcon />}
-              >
-                Отмена
-              </Button>
-              <Button
-                type="submit"
-                margin={{ laptop: "0 22px 0 0" }}
-                onClick={submitData}
-                buttonStyle={{shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)' }}
-                startIcon={<SaveIcon />}
-              >
-                Сохранить
-              </Button>
-            </div>
-          ) : (
-            <Buttons>
-              <div className="upside">
-                <Button
-                  onClick={() => setSubmit(false)}
-                  endIcon={<MobileCancelIcon />}
-                  buttonStyle={{
-                    bgcolor: "rgba(96, 110, 234, 0.1)",
-                    color: "#606EEA",
-                  }}
-                  margin={{ mobile: "0 8px 8px 0" }}
-                >
-                  {t("cancel")}
-                </Button>
-              </div>
-              <Button
-                onClick={submitData}
-                type="submit"
-                endIcon={<SaveIcon />}
-                buttonStyle={{
-                  bgcolor: "#606EEA",
-                  color: "#fff",
-                  shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)'
-                }}
-                margin={{ mobile: "0px 8px  8px  0" }}
-              >
-                {"Сохранить"}
-              </Button>
-            </Buttons>
-          )}
-        </WrapperModal>
-      </Modal>
-
-      <Modal modalStyle={{ bgcolor: "#fff" }} open={cancel}>
-        <WrapperModal>
-          <p style={{ color: "black" }}>
-            {t("Вы действительно хотите отменить создание новости")}
-          </p>
-          {width > 600 ? (
-            <>
-              <Button
-                buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
-                margin={{ laptop: "0 22px 0 0" }}
-                onClick={() => setCancel(false)}
-              >
-                Нет
-              </Button>
-              <Button
-                type="submit"
-                margin={{ laptop: "0 22px 0 0" }}
-                onClick={cancelNews}
-                buttonStyle={{shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)' }}
-              >
-                Да
-              </Button>
-            </>
-          ) : (
-            <Buttons>
-              <div className="upside">
-                <Button
-                  onClick={() => setCancel(false)}
-                  endIcon={<MobileCancelIcon />}
-                  buttonStyle={{
-                    bgcolor: "rgba(96, 110, 234, 0.1)",
-                    color: "#606EEA",
-                  }}
-                  margin={{ mobile: "0 8px 8px 0" }}
-                >
-                  {" Нет"}
-                </Button>
-              </div>
-              <Button
-                onClick={cancelNews}
-                type="submit"
-                endIcon={<SaveIcon />}
-                buttonStyle={{
-                  bgcolor: "#606EEA",
-                  color: "#fff",
-                  shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)' 
-                }}
-                margin={{ mobile: "0px 8px  8px  0" }}
-              >
-                {"  Да"}
-              </Button>
-            </Buttons>
-          )}
-        </WrapperModal>
-      </Modal>
+      <UploadModal
+        errorFileType={errorFileType}
+        handleUploadImg={handleUploadImg}
+        cancelFormat={cancelFormat}
+      />
+      <ConfirmModal
+        startDate={startDate}
+        todayDate={todayDate}
+        submit={submit}
+        cancelSubmit={cancelSubmit}
+        submitData={submitData}
+      />
+      <CancelNewsModal
+        cancel={cancel}
+        cancelNews={cancelNews}
+        notCancel={notCancel}
+      />
 
       <Form onSubmit={handleSubmit(submitNews)}>
         <UpSide>
@@ -442,9 +320,9 @@ const CreateNews = () => {
                     {...field}
                     message={t("requiredField")}
                     error={!!errors.description}
-                    minHeight={'150px'}
-                    maxHeight={'300px'}
-                    resize={'vertical'}
+                    minHeight={"150px"}
+                    maxHeight={"300px"}
+                    resize={"vertical"}
                     title={"Описание"}
                   />
                 )}
@@ -484,9 +362,7 @@ const CreateNews = () => {
                           type="date"
                           field={field}
                           error={!!errors.endDate}
-                      
                           min={watch("startDate")}
-                       
                           margin={{ laptop: "0 0 0 15px" }}
                           IconStart={<WrapDate>{t("to")}</WrapDate>}
                           inputStyle={{
@@ -739,7 +615,7 @@ const CreateNews = () => {
                     buttonStyle={{
                       bgcolor: "#606EEA",
                       color: "#fff",
-                      shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)' 
+                      shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
                     }}
                     margin={{ mobile: "0px 8px  8px  0" }}
                   >
@@ -765,8 +641,7 @@ const CreateNews = () => {
               margin={{ laptop: "0 25px" }}
               startIcon={<SaveIcon />}
               buttonStyle={{
-                
-                shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)' 
+                shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
               }}
             >
               Сохранить

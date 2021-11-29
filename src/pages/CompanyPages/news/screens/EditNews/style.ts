@@ -503,6 +503,7 @@ img {
     border-radius: 14px;
     width: 250px;
     margin-top: 15px;
+  
     
 }
 
@@ -529,6 +530,7 @@ svg {
     width: 100%;
     height: 100%;
     background-color: #ffffff;
+ 
     opacity: 0;
     transition: 200ms all;
 }
@@ -544,6 +546,14 @@ export const DownSide = styled.div`
     height: 25%;
     @media (max-width: 1150px) {
       padding-right: 20px;
+    }
+    @media (max-width: ${device.mobile}) {
+      padding: 25px 20px;
+      height: 15%;
+    }
+    @media (max-width: 320px) {
+      padding: 15px 0px;
+      height: 15%;
     }
 `
 export const Form = styled.form`

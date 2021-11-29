@@ -12,7 +12,7 @@ import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import Spinner from "components/Helpers/Spinner";
 import ImageLazyLoad from "components/Custom/ImageLazyLoad/ImageLazyLoad";
 import useStaff from "../../hooks/useStaff";
-
+import { WatchIcons,WatchIconsWhite,PublishIcon,WhitePublishIcon,RepairNewsIcon } from "assets/icons/news/newsIcons";
 import CropCustomModal from "components/Custom/CropImageModal/index";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
@@ -59,7 +59,7 @@ import {
 import { useUploadImage } from "../../hooks/useUploadIMage";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 import { ReactComponent as MarketIcon } from "assets/icons/SideBar/ilmarket.svg";
-
+import { UploadModal } from "../CreateNews/components/UploadModal";
 interface IOptionFields {
   push: boolean;
 }
@@ -90,7 +90,7 @@ const RepairNews = () => {
   );
   const [isCropVisible, setIsCropVisible] = React.useState(false);
   const [image, setImage] = React.useState(newsById?.data?.image);
-  const [leave, setLeave] = React.useState<boolean>(false);
+  const [errorFileType,setErrorFileType]=React.useState<any>(false);
   const { width } = useWindowWidth();
   const handleBack = () => {
     history.goBack();
@@ -114,10 +114,27 @@ const RepairNews = () => {
   });
 
   const handleUploadImg = (data: any) => {
+
+    if (data.target.files[0].type =="image/jpeg") {
+      setFile(data.target.files[0]);
+      setIsCropVisible(true);
+      setErrorFileType(false)
+   }
+   else if (data.target.files[0].type =="image/png"){
     setFile(data.target.files[0]);
     setIsCropVisible(true);
+    setErrorFileType(false)
+   }
+   else {
+    setErrorFileType(true)
+    setIsCropVisible(false);
+   }
+     
   };
-  console.log("file", file);
+
+  const cancelFormat=()=>{
+    setErrorFileType(false)
+  }
 
   const handleOpenBlock = (e: any, action: "push") => {
     setOptionalFields((prev: IOptionFields) => ({
@@ -239,6 +256,11 @@ const RepairNews = () => {
   React.useEffect(() => {
     setValue("filialID", mergedBranches);
   }, [mergedBranches]);
+  React.useEffect(()=>{
+    if(newsId ===undefined){
+     handleBack();
+    }
+     },[])
 
   return (
     <Wrapper>
@@ -253,6 +275,13 @@ const RepairNews = () => {
           <Title>Восстановить новости</Title>
         </div>
       )}
+
+      
+  <UploadModal
+        errorFileType={errorFileType}
+        handleUploadImg={handleUploadImg}
+        cancelFormat={cancelFormat}
+      />
       <Form onSubmit={handleSubmit(submitNews)}>
         <UpSide>
           {width <= 600 && (
@@ -273,7 +302,7 @@ const RepairNews = () => {
           <Container>
             <LeftSide>
               <Title>Фотографии</Title>
-              {!isLoading && !image && (
+              {!isLoading && !image &&(
                 <div style={{ marginBottom: 30 }}>
                   <Header>
                     <p>
@@ -304,7 +333,9 @@ const RepairNews = () => {
               )}
               {image && (
                 <ImageBlock>
+                          <div style={{filter: 'brightness(50%)'}}>
                   <ImageLazyLoad objectFit="contain" src={image} alt="logo" />
+                  </div>
                   <DeleteIcon onClick={handleDelete} />
                 </ImageBlock>
               )}
@@ -330,15 +361,12 @@ const RepairNews = () => {
                     error={!!errors.name}
                     message={t("requiredField")}
                     field={field}
-                    multiline={true}
+                    maxLength={80}
                     label="Название"
                     defaultValue={newsById?.data?.title}
                   />
                 )}
               />
-
-         
-
 <Controller
                 name="description"
                 control={control}
@@ -373,10 +401,10 @@ const RepairNews = () => {
                       render={({ field }) => (
                         <Input
                           field={field}
+                        
                           type="date"
                           min={todayDate}
                           error={!!errors.startDate}
-                          message={t("requiredField")}
                           IconStart={<WrapDate>{t("from")}</WrapDate>}
                           inputStyle={{
                             inpadding: "0 10px 0 0",
@@ -395,10 +423,9 @@ const RepairNews = () => {
                         <Input
                           type="date"
                           field={field}
+                        
                           error={!!errors.endDate}
-                          message={t("requiredField")}
                           min={watch("startDate")}
-                          // required={true}
                           margin={{ laptop: "0 0 0 15px" }}
                           IconStart={<WrapDate>{t("to")}</WrapDate>}
                           inputStyle={{
@@ -430,8 +457,7 @@ const RepairNews = () => {
                             minwidth: 130,
                           }}
                           min={todayDate}
-                          error={!!errors.name}
-                          // message={t("requiredField")}
+                          error={!!errors.startDate}
                           IconStart={<WrapDate>{t("from")}</WrapDate>}
                           inputStyle={{
                             inpadding: "0 10px 0 0",
@@ -449,8 +475,7 @@ const RepairNews = () => {
                         <Input
                           type="date"
                           field={field}
-                          error={!!errors.name}
-                          // message={t("requiredField")}
+                          error={!!errors.endDate}
                           min={watch("startDate")}
                           width={{
                             maxwidth: 180,
@@ -663,11 +688,11 @@ const RepairNews = () => {
           </Button>
           <Button
             type="submit"
-            margin={{ laptop: "0 25px" }}
-            startIcon={<SaveIcon />}
+            margin={{ laptop: "0 25px",mobile:"0 10px"}}
+            endIcon={<RepairNewsIcon />}
                     buttonStyle={{ shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)'}}
           >
-            Сохранить
+            Восстановить
           </Button>
         </DownSide>
       </Form>

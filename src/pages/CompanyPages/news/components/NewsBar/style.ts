@@ -132,7 +132,7 @@ export const LeftRound = styled.div`
   h5 {
     font-size: 16px;
     width:280px;
-    text-transform: capitalize;
+
     padding:8px 0px 4px 1px;
     line-height: 16px;
     color: #223367;
@@ -140,7 +140,7 @@ export const LeftRound = styled.div`
   p {
     font-size: 14px;
     padding:2px 1px;
-    text-transform: capitalize;
+   
     width:280px;
     line-height: 16px;
     color: #223367;

@@ -1,4 +1,4 @@
-import partnerApi from "services/interceptors/companyInterceptor";
+import partnerApi from "services/interceptors/partner_interceptor";
 
 export const createQrCode = async (data: any) => {
   const response = await partnerApi.post("/core/ref", data);

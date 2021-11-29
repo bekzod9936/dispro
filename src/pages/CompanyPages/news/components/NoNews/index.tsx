@@ -26,15 +26,13 @@ const NoNews: React.FC<IProps> = ({handleOpenSetting}) => {
         alignItems='center'
       >
         <Flex alignItems='center' >
-        {width>600 ?
+     
           <div className='imagePart'>
             <img   src={noPending} />
           </div>
-         : <div style={{paddingRight: '4%',
-          paddingTop: '15%'}} >
-         <img   src={noPending} />
-       </div>}
-        {width>600 &&  <Flex
+      
+       
+       <Flex
             margin='0px 0px 0px 15px'
             flexDirection='column'
             alignItems='flex-start'
@@ -69,7 +67,7 @@ const NoNews: React.FC<IProps> = ({handleOpenSetting}) => {
       </Button>
             
             </div>
-          </Flex>}
+          </Flex>
         </Flex>
       </Flex>
     </>

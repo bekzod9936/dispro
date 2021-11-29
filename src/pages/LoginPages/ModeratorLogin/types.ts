@@ -1,6 +1,6 @@
 export interface IForm {
   password: string;
-  roleId: { value?: number; label?: string };
+  roleId: { value: number; label?: string };
   telNumber: string;
 }
 

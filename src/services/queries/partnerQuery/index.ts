@@ -1,6 +1,5 @@
 import dayjs from "dayjs";
-import adminInterceptor from "services/interceptors/adminInterceptor";
-import partnerApi from "services/interceptors/companyInterceptor";
+import partnerApi from "services/interceptors/partner_interceptor";
 import { URL } from "services/constants/config";
 
 export const fetchClientStatistics = async (
@@ -95,12 +94,12 @@ export const fetchSingleChatItem = (id: number) => {
 };
 
 export const fetchPartnerCompanies = () => {
-  const response = adminInterceptor.get(`core/staff-companies`);
+  const response = partnerApi.get(`core/staff-companies`);
   return response;
 };
 
 export const fetchAddCompanList = (v: any) => {
-  const response = adminInterceptor.post(`/directory/company`, v);
+  const response = partnerApi.post(`/directory/company`, v);
   return response;
 };
 
@@ -113,7 +112,7 @@ export const enterCompany = async ({
   companyId,
   companyType,
 }: companyProps) => {
-  const response = await adminInterceptor.put(
+  const response = await partnerApi.put(
     "/auth/update-token",
     {
       companyId: companyId,
@@ -143,7 +142,7 @@ export const createCompany = async ({
   firstName,
   lastName,
 }: PropsCompany) => {
-  const response = await adminInterceptor.post(`/core/staffs/admin`, {
+  const response = await partnerApi.post(`/core/staffs/admin`, {
     companyId: companyId,
     companyName: companyName,
     companyType: companyType,
@@ -169,7 +168,7 @@ export const fetchConditions = ({ type, language }: ConProps) => {
   // const publicUrl: string = "https://api.uat.dis-count.app/v1/public";
   const publicUrl = process.env.REACT_APP_PUBLIC_URL;
 
-  const response = adminInterceptor.get(
+  const response = partnerApi.get(
     `/web/documents/by/type/2/receiver/${2}/langId/${language}`,
     {
       baseURL: publicUrl,
@@ -182,7 +181,7 @@ export const fetchPolicy = ({ type, language }: ConProps) => {
   // const publicUrl: string = "https://api.uat.dis-count.app/v1/public";
   const publicUrl = process.env.REACT_APP_PUBLIC_URL;
 
-  const response = adminInterceptor.get(
+  const response = partnerApi.get(
     `/web/documents/by/type/1/receiver/${2}/langId/${language}`,
     {
       baseURL: publicUrl,
