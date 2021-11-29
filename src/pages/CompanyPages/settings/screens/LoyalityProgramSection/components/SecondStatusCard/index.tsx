@@ -14,7 +14,7 @@ import {
 //types
 import { IProps } from "./types";
 
-const StatusCard = ({ val }: IProps) => {
+const SecondStatusCard = ({ val }: IProps) => {
   console.log(val, "val status card");
   const { t } = useTranslation();
 
@@ -30,12 +30,18 @@ const StatusCard = ({ val }: IProps) => {
     }
   };
 
+  const findedItem = val.some((item: any) => item.condition === "or");
+
+  if (!findedItem) {
+    return null;
+  }
+
   return (
     <Container>
       <Row>
         <SubTitle>
           {t("requirementLevl", {
-            level: 1,
+            level: 2,
           })}
         </SubTitle>
       </Row>
@@ -43,7 +49,7 @@ const StatusCard = ({ val }: IProps) => {
       <LevelDiv>
         {val?.length &&
           val?.map((item: any, index: number) => {
-            if (item?.condition !== "or") {
+            if (item?.condition !== "") {
               return (
                 <LRow key={index}>
                   <LText>
@@ -61,4 +67,4 @@ const StatusCard = ({ val }: IProps) => {
   );
 };
 
-export default memo(StatusCard);
+export default memo(SecondStatusCard);

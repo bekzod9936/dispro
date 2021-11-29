@@ -54,7 +54,7 @@ export const LevelsRow = styled(Grid)`
 `;
 
 export const ThirdContainer = styled.div`
-  padding-bottom: 10px;
+  padding-bottom: 0;
   padding-left: 10px;
 `;
 
