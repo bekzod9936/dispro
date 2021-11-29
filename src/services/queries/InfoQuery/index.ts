@@ -1,4 +1,5 @@
 import axios from "axios";
+import { PARTNER } from "services/interceptors/partner_interceptor/types";
 import { STORAGE_URL } from "../../constants/config";
 import partnerApi from "../../interceptors/partner_interceptor";
 
@@ -19,9 +20,9 @@ interface ILimit {
   currency?: any;
 }
 
-const token = localStorage.getItem("companyToken");
-
 export const deletePhoto = ({ body }: deleteProps) => {
+  const token = localStorage.getItem(PARTNER.COMPANY_TOKEN);
+
   return axios.delete(`${STORAGE_URL}/company`, {
     data: {
       links: [body],
@@ -34,6 +35,8 @@ export const deletePhoto = ({ body }: deleteProps) => {
 };
 
 export const uploadPhoto = async ({ body }: upLoadProps) => {
+  const token = localStorage.getItem(PARTNER.COMPANY_TOKEN);
+
   // const res = await axios({
   //   method: 'POST',
   //   url: `${STORAGE_URL}/company/upload`,
