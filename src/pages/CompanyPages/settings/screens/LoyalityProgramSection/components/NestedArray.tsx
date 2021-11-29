@@ -307,8 +307,8 @@ const NestedArray = ({ index, control, setValue }: IProps) => {
         })}
       <Break height={30} />
       <StatusContainer>
-        <StatusCard val={levelReqs} />
-        <SecondStatusCard val={levelReqs} />
+        {checkLevels ? <StatusCard val={levelReqs} /> : null}
+        {checkLevels ? <SecondStatusCard val={levelReqs} /> : null}
       </StatusContainer>
     </div>
   );
