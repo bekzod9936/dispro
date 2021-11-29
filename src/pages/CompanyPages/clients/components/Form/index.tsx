@@ -7,7 +7,7 @@ import Input from "components/Custom/Input"
 import { useAppSelector, } from 'services/redux/hooks'
 import { useState } from "react"
 import Button from 'components/Custom/Button'
-import { useMutation } from 'react-query'
+import { useMutation, useQueryClient } from 'react-query'
 import { blockClient, changeVipPercent } from 'services/queries/clientsQuery'
 import { ResetModal } from '../ResetModal'
 interface IProps {
@@ -67,15 +67,23 @@ const formContents = {
 
 }
 export const MobileForm = ({ open, action, onClose, client, refetch }: IProps) => {
-    const { selectedClients } = useAppSelector(state => state.clients)
+    const { selectedClients, allClients } = useAppSelector(state => state.clients)
     const defaultPercent = selectedClients.length > 1 ? "" : client.percent
     const [percent, setPercent] = useState("");
     const [textAreaValue, setTextAreaValue] = useState("")
     const [resetModal, setResetModal] = useState(false)
     const { t } = useTranslation()
     const content = formContents[action]
+    const queryClient = useQueryClient()
 
-    const { mutate, isLoading } = useMutation((data: any) => changeVipPercent(data))
+    const { mutate, isLoading } = useMutation((data: any) => changeVipPercent(data), {
+        onSuccess: () => {
+            if (selectedClients.length === allClients.length) {
+                queryClient.invalidateQueries("fetchAllClients")
+            }
+        }
+    })
+
     const { mutate: blockMutate } = useMutation((data: any) => blockClient(data))
 
     const handleSubmit = (e: any) => {
@@ -84,7 +92,7 @@ export const MobileForm = ({ open, action, onClose, client, refetch }: IProps) =
             let ids = selectedClients.map(el => el.id)
             if (selectedClients.length > 1) {
                 mutate({
-                    clientIds: [ids],
+                    clientIds: ids,
                     isActive: true,
                     percent: percent
                 })
