@@ -519,5 +519,7 @@
   "notfinduser": "По вашему запросу ничего не найдено",
   "requirementLevl": "Условия статуса №{{level}}",
   "companies": "Компании",
-  "limitfeedback": "Вы можете написать еще {{limit1}}"
+  "limitfeedback": "Вы можете написать еще {{limit1}}",
+  "exitpageaddress":" На странице есть несохраненные элементы.",
+  "areyousureleave":"Все равно выйти?"
 }

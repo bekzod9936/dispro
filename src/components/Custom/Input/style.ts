@@ -67,6 +67,8 @@ export const Container = styled.div`
   input:-webkit-autofill:focus,
   input:-webkit-autofill:active {
     -webkit-box-shadow: 0 0 0 30px white inset !important;
+    box-shadow: 0 0 0 30px white inset !important;
+    background-color: white;
   }
   input:-webkit-autofill {
     -webkit-text-fill-color: ${({ inputStyle }: Props) =>
