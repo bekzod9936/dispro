@@ -51,8 +51,8 @@ const useWaiting = ({filterValues}:PProps) => {
       dispatch(setNewsTotal(Math.ceil(data.data.data.totalCount/ filterValues?.perPage)))
       dispatch(setNewsTotalCount(data.data.data.totalCount))
 
-      let res=handleSort(data.data.data.news)      
-      dispatch(setNewsData(res))
+      // let res=handleSort(data.data.data.news)      
+      dispatch(setNewsData(data.data.data.news))
     },
   });
   return { response };
