@@ -76,7 +76,7 @@ const QRCodesSection = () => {
       key: "forDownload",
       content: "forDownload",
       handler: () => {
-        openQr();
+        setModalVisible(true);
         setOptionsListOpen(false);
         closeFun.close();
       },
@@ -86,7 +86,7 @@ const QRCodesSection = () => {
       key: "forP2p",
       content: "forP2p",
       handler: () => {
-        setModalVisible(true);
+        openQr();
         setOptionsListOpen(false);
         closeFun.close();
       },

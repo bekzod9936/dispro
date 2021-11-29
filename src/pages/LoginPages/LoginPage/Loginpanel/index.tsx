@@ -44,6 +44,7 @@ import Input from "components/Custom/Input";
 import MultiSelect from "components/Custom/MultiSelect";
 import SnackBar from "components/Custom/NewSnack";
 import Button from "components/Custom/Button";
+import { PARTNER } from "services/interceptors/partner_interceptor/types";
 
 export const LoginPanel = () => {
   const { t } = useTranslation();
@@ -185,9 +186,9 @@ export const LoginPanel = () => {
       onSuccess: (data) => {
         const res = data.data.data;
         setTime(0);
-        localStorage.setItem("partner_access_token", res.accessToken);
-        localStorage.setItem("partner_refresh_token", res.refreshToken);
-        localStorage.setItem("userType", res.userType);
+        localStorage.setItem(PARTNER.ACCESS_TOKEN, res.accessToken);
+        localStorage.setItem(PARTNER.REFRESH_TOKEN, res.refreshToken);
+        localStorage.setItem(PARTNER.USER_TYPE, res.userType);
         dispatch(setLogIn(res));
         refetchList();
         dispatch(setCompanyState(res.status));
@@ -223,8 +224,8 @@ export const LoginPanel = () => {
       type: "required",
     });
     reset();
-    localStorage.removeItem("partner_access_token");
-    localStorage.removeItem("partner_refresh_token");
+    localStorage.removeItem(PARTNER.ACCESS_TOKEN);
+    localStorage.removeItem(PARTNER.REFRESH_TOKEN);
   };
 
   const handleReSend = () => {

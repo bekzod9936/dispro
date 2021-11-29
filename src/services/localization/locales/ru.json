@@ -518,5 +518,6 @@
   "checkAll": "Смотреть всех",
   "notfinduser": "По вашему запросу ничего не найдено",
   "requirementLevl": "Условия статуса №{{level}}",
+  "companies": "Компании",
   "limitfeedback": "Вы можете написать еще {{limit1}}"
 }

@@ -29,10 +29,11 @@ import logo from "assets/icons/logo_mobile.svg";
 import Button from "components/Custom/Button";
 import LangSelect from "components/LangSelect";
 import Grid from "components/Custom/Grid";
+import { PARTNER } from "services/interceptors/partner_interceptor/types";
 
 const TestLoginpage = ({ children }: any) => {
   const { t } = useTranslation();
-  const accessToken = localStorage.getItem("partner_access_token");
+  const accessToken = localStorage.getItem(PARTNER.ACCESS_TOKEN);
   const match = useRouteMatch();
   const history = useHistory();
   const proceedAuth = useAppSelector((state) => state.auth.proceedAuth);
@@ -42,22 +43,24 @@ const TestLoginpage = ({ children }: any) => {
   const dispatch = useAppDispatch();
   const [display, setDisplay] = useState(false);
 
+  const handleLogout = () => {
+    localStorage.removeItem(PARTNER.ACCESS_TOKEN);
+    localStorage.removeItem(PARTNER.REFRESH_TOKEN);
+    history.push("/");
+  };
+
   const handleBack = () => {
     if (backAddCompany) {
       dispatch(setBackAddCompany(false));
     } else {
       if (match.path.includes("/partner/company")) {
-        localStorage.removeItem("partner_access_token");
-        localStorage.removeItem("partner_refresh_token");
-        history.push("/");
+        handleLogout();
       }
       if (proceedAuth) {
         dispatch(setProceedAuth(false));
       }
       if (match.path.includes("/partner/registration")) {
-        localStorage.removeItem("partner_access_token");
-        localStorage.removeItem("partner_refresh_token");
-        history.push("/");
+        handleLogout();
       }
     }
   };

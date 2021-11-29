@@ -1,4 +1,4 @@
-import partnerApi from "services/interceptors/companyInterceptor";
+import partnerApi from "services/interceptors/partner_interceptor";
 
 // Using program loyality and customer point
 

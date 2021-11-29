@@ -38,6 +38,7 @@ const Header = ({ handleOpenNews }: IProps) => {
   useEffect(() => {
     if (location.pathname !== "/news") {
       dispatch(setSelectedNews([]));
+
     }
   }, [dispatch(setSelectedNews([]))]);
   const { t } = useTranslation();

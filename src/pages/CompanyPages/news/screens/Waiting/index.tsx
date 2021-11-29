@@ -13,12 +13,14 @@ import useData from "../useData";
 import useWaiting from "./useWaiting";
 import Pagination from 'components/Custom/Pagination';
 import useWindowWidth from 'services/hooks/useWindowWidth';
-import { setQuery, setSelectedNews } from "services/redux/Slices/news";
+import { setQuery, setSelectedNews,setErrorMessage } from "services/redux/Slices/news";
 import { Flex } from "../../style";
 import Input from "components/Custom/Input";
 import Button from "components/Custom/Button";
 import { AddIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
 import { SearchIcon } from "components/Layout/Header/style";
+import { LimitNews  } from "../../components/LimitNews";
+import { FilterNews } from "../../components/FilterNews";
 interface intialFilterProps {
   page?: number;
   perPage?: number;
@@ -26,7 +28,7 @@ interface intialFilterProps {
   toDate?: string;
 }
 
-const Active = () => {
+const Waiting = () => {
   const location = useLocation();
   const dispatch = useAppDispatch();
   const history = useHistory();
@@ -59,6 +61,9 @@ const Active = () => {
   const { response } = useWaiting({filterValues: filterValues});
   const {list}=useData();
   const { width } = useWindowWidth();
+  const errormessage=useAppSelector((state)=>state.news.errorMessage)
+  const newsById = selectedNews?.fullData;
+
 
   const handlechangePage = async (e: any) => {
     await setFilterValues({ ...filterValues, page: e });
@@ -75,48 +80,35 @@ const Active = () => {
     dispatch(setSelectedNews(""));
   };
   
-  const newsById = selectedNews?.fullData;
+
+  const LinkComment=()=>{
+    dispatch(setErrorMessage(false))
+    history.push('/support')
+  
+  }
+  const ResetError=()=>{
+    dispatch(setErrorMessage(false));
+  }
+
+ 
+  const searchNews=(e:any)=>{
+    dispatch(setQuery(e.target.value));
+  }
+
+  const filterByDate=async (e:any)=>{
+    await setFilterValues({
+      ...filterValues,
+      fromDate: e.slice(0, e.indexOf(' ~')),
+      toDate: e.slice(e.indexOf('~ ') + 2),
+    });
+  await response.refetch();
+  }
 
   return (
     <Container>
-      <Flex
-      width="95%"
-      justifyContent="flex-start"
-      alignItems="center"
-      margin="0"
-    >
-      {/* Settings side  */}
-      <Button
-        onClick={handleOpenNews}
-        buttonStyle={{
-          bgcolor: "#FFFFFF",
-          color: "#223367",
-          weight: 500,
-          height: { desktop: 50 },
-        }}
-        margin={{
-          desktop: "0 25px 0 0",
-          laptop: "0 25px 0 0",
-          planshet: "0 0 20px 0",
-        }}
-        startIcon={<AddIcon />}
-      >
-        {t("Создать новость")}
-      </Button>
-
-      <div style={{ width: "20px" }} />
-      <Input
-        inputStyle={{ border: "none", height: { desktop: 50 } }}
-        IconStart={<SearchIcon style={{ marginLeft: 20 }} />}
-        value={query}
-        placeholder="Поиск по новостям"
-        onChange={(e) => dispatch(setQuery(e.target.value))}
-        width={{ maxwidth: 500 }}
-      />
-      <div style={{ width: "20px" }} />
- 
-      
-    </Flex>
+      <LimitNews errormessage={errormessage}  linkToComment={LinkComment} CancelError={ResetError} />
+      <FilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} />
+     
       {width>600 ? 
       <Wrap>
         {response.isLoading || response.isFetching ? (
@@ -195,4 +187,4 @@ const Active = () => {
   );
 };
 
-export default Active;
+export default Waiting;

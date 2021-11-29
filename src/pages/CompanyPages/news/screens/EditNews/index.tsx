@@ -20,6 +20,7 @@ import InputFormat from "components/Custom/InputFormat";
 import useWindowWidth from "services/hooks/useWindowWidth";
 import dayjs from "dayjs";
 import { fetchUpdateNews } from "services/queries/newPageQuery";
+import { UploadModal } from "../CreateNews/components/UploadModal";
 import useAddress from "../../../info/screens/Address/useAddress";
 import {
   Label,
@@ -142,6 +143,10 @@ const EditNews = () => {
      
   };
 
+  const cancelFormat=()=>{
+    setErrorFileType(false)
+  }
+
   const handleOpenBlock = (e: any, action: "push") => {
     setOptionalFields((prev: IOptionFields) => ({
       ...prev,
@@ -158,7 +163,7 @@ const EditNews = () => {
   const newsId=newsById?.data?.id
   const allFilials = dataAddress;
   const filials = newsById?.data?.settings?.stores;
-
+  console.log('newsId id',newsId)
   let filteredArray = allFilials?.filter(function (array_el: any) {
     return (
       filials?.filter(function (item: any) {
@@ -251,6 +256,12 @@ console.log('filteredArray',filteredArray)
     
   }, [mergedBranches,newsById?.data?.pushUp]);
 
+  React.useEffect(()=>{
+ if(newsId ===undefined){
+  handleBack();
+ }
+  },[])
+ 
   console.log('mergedBranches',mergedBranches)
   return (
     <Wrapper>
@@ -267,27 +278,11 @@ console.log('filteredArray',filteredArray)
         </div>
       )}
   
-  <Modal modalStyle={{ bgcolor: "#fff" }} open={errorFileType}>
-        <WrapperModal>
-          <p style={{ color: "black" }}>
-            {t("Можно загрузить изображение формата jpeg или png")}
-          </p>
-          {width > 600 && (
-            <>
-              <UploadButton>
-                    <label htmlFor="uploadImg">Загрузить фото</label>
-                    <input
-                    
-                      onChange={handleUploadImg}
-                      type="file"
-                      id="uploadImg"
-                    />
-                    <UploadImage />
-                  </UploadButton>
-              </>
-              )}
-        </WrapperModal>
-      </Modal>
+  <UploadModal
+        errorFileType={errorFileType}
+        handleUploadImg={handleUploadImg}
+        cancelFormat={cancelFormat}
+      />
 
       <Form onSubmit={handleSubmit(submitNews)}>
         <UpSide>
@@ -332,7 +327,9 @@ console.log('filteredArray',filteredArray)
               )}
               {image && (
                 <ImageBlock >
-                  <ImageLazyLoad objectFit="contain" src={image} alt="logo" />
+              <div style={{filter: 'brightness(50%)'}}>
+                  <ImageLazyLoad   objectFit="contain" src={image} alt="logo" />
+                  </div>
                   <DeleteIcon onClick={handleDelete} />
                 </ImageBlock>
               )}
@@ -366,30 +363,6 @@ console.log('filteredArray',filteredArray)
                   />
                 )}
               />
-
-              {/* <Controller
-                name="description"
-                control={control}
-                rules={{
-                  required: true,
-                }}
-                defaultValue={newsById?.data?.description}
-                render={({ field }) => (
-                  <Input
-                    field={field}
-                    margin={{ laptop: "35px 0" }}
-                    label="Описание"
-                    type="textarea"
-                    message={t("requiredField")}
-                    error={!!errors.description}
-                    defaultValue={newsById?.data?.description}
-                    multiline={true}
-                    inputStyle={{
-                      height: { desktop: 120, laptop: 90, mobile:150 },
-                    }}
-                  />
-                )}
-              /> */}
 
           <Controller
                 name="description"

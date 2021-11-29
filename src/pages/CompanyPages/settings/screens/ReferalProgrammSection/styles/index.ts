@@ -27,19 +27,30 @@ export const LeftGrid = styled.div`
 `;
 
 export const RightGrid = styled.div`
-  padding-left: 20%;
-  padding-top: 110px !important;
+  padding-left: 0;
+  padding-top: 10px !important;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  overflow-y: hidden;
+  overflow-y: auto !important;
+
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #606eea;
+    border-radius: 14px 0px 0px 14px;
+  }
 
   @media (max-width: ${device.planshet}) {
     padding-top: 0 !important;
     padding-left: 15px !important;
     padding-right: 15px;
     width: 100%;
-    overflow-y: scroll !important;
     margin-top: 15px;
   }
 `;

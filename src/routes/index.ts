@@ -1,34 +1,17 @@
-import React, { Suspense } from "react";
 import { lazy } from "react";
-import { Redirect } from "react-router-dom";
-import FallbackOnLazyLoad from "../pages/Fallbacks/FallbackOnLazyLoad";
-import DefaultLayoutAdmin, {
-  IDefaultLayout,
-} from "../components/Layout/DefaultLayoutAdmin";
-import PrivateRoute from "./PrivateRoute";
-import PublicRoute from "./PublicRoute";
+//layout
+import DefaultLayoutAdmin from "components/Layout/DefaultLayoutAdmin";
+import ModeratorLayout from "components/ModeratorLayout";
+//types
+import { IPrivateRoute, IPublicRoute } from "./types";
+//screens
 import CompanyList from "../pages/LoginPages/LoginPage/Companylist/index";
 
-//tokens
-// const adminAuthentificationToken = localStorage.getItem("admin_access_token");
-// const moderatorAutehntificationToken = localStorage.getItem("partner_access_token");
-// const moderatorRefreshToken = localStorage.getIte m("partner_refresh_token");
-
-//Lazy loaded components
-//Admin
-
-//const DefaultLayoutAdmin = lazy(() => import("../components/Layout/DefaultLayoutAdmin"))
-const Companies = lazy(
-  () => import("../pages/AdminDashBoard/AdminCompanies/AdminCompanies")
-);
-const Categories = lazy(
-  () => import("../pages/AdminDashBoard/AdminCategories/AdminCategories")
-);
+const Companies = lazy(() => import("../pages/AdminDashBoard/companies"));
+const Categories = lazy(() => import("../pages/AdminDashBoard/categories"));
 
 //Partner
-const LoginPageAdmin = lazy(
-  () => import("../pages/LoginPages/LoginPageAdmin/LoginPageAdmin")
-);
+const ModeratorLogin = lazy(() => import("../pages/LoginPages/ModeratorLogin"));
 
 const StatisticsPage = lazy(() => import("../pages/CompanyPages/statistics"));
 const SupportPage = lazy(
@@ -42,7 +25,6 @@ const NotificationsPage = lazy(
   () => import("../pages/CompanyPages/notifications")
 );
 const NewsPage = lazy(() => import("../pages/CompanyPages/news"));
-
 const FinancePage = lazy(() => import("../pages/CompanyPages/finances"));
 const InfoPage = lazy(() => import("../pages/CompanyPages/info"));
 const OrdersPage = lazy(
@@ -60,38 +42,22 @@ const FeedbackPage = lazy(() => import("../pages/CompanyPages/feedback"));
 const TestLoginPage = lazy(
   () => import("../pages/LoginPages/LoginPage/TestLoginpage/index")
 );
-
-// const CompanyList = lazy(
-//   () => import('../pages/LoginPages/LoginPageModerator/CompanyList')
-// );
 const RegistrationPanel = lazy(
   () => import("../pages/LoginPages/LoginPage/Registrationpanel/index")
 );
 
-// const LoginPageModerator = lazy(()=>import("../pages/LoginPages/LoginPageModerator/LoginPageModerator"));
-
-export interface IPrivateRoute {
-  path: string;
-  layout: React.FC<IDefaultLayout>;
-  component: any;
-}
-interface IPublicRoute {
-  path: string;
-  component: React.LazyExoticComponent<React.ComponentType<any>>;
-}
-
-const publicRoutes: IPublicRoute[] = [
+export const authRoutes: IPublicRoute[] = [
   {
     path: "/",
     component: TestLoginPage,
   },
   {
     path: "/admin",
-    component: LoginPageAdmin,
+    component: ModeratorLogin,
   },
 ];
 
-const privateCompanyRoutes: IPrivateRoute[] = [
+export const privateCompanyRoutes: IPrivateRoute[] = [
   {
     path: "/statistics/:params",
     layout: DefaultLayoutAdmin,
@@ -117,11 +83,6 @@ const privateCompanyRoutes: IPrivateRoute[] = [
     layout: DefaultLayoutAdmin,
     component: NotificationsPage,
   },
-  // {
-  //   path: '/news',
-  //   layout: DefaultLayoutAdmin,
-  //   component: NewsPage,
-  // },
   {
     path: "/news/:params",
     layout: DefaultLayoutAdmin,
@@ -189,15 +150,15 @@ const privateCompanyRoutes: IPrivateRoute[] = [
   },
 ];
 
-const privateRoutes: IPrivateRoute[] = [
+export const privateRoutes: IPrivateRoute[] = [
   {
     path: "/admin/companies",
-    layout: DefaultLayoutAdmin,
+    layout: ModeratorLayout,
     component: Companies,
   },
   {
     path: "/admin/categories",
-    layout: DefaultLayoutAdmin,
+    layout: ModeratorLayout,
     component: Categories,
   },
   {
@@ -211,71 +172,3 @@ const privateRoutes: IPrivateRoute[] = [
     component: RegistrationPanel,
   },
 ];
-
-const RenderPublicRoutes = () => {
-  const moderatorAutehntificationToken = localStorage.getItem(
-    "partner_access_token"
-  );
-  const moderatorRefreshToken = localStorage.getItem("partner_refresh_token");
-  return publicRoutes.map((item: IPublicRoute) => {
-    if (
-      moderatorAutehntificationToken &&
-      moderatorRefreshToken &&
-      window.location.pathname === "/"
-    ) {
-      return <Redirect to="/partner/company" />;
-    }
-    return (
-      <Suspense fallback={<FallbackOnLazyLoad />}>
-        <PublicRoute Component={item.component} path={item.path} />
-      </Suspense>
-    );
-  });
-};
-
-const RenderRoutes = () => {
-  const moderatorAutehntificationToken = localStorage.getItem(
-    "partner_access_token"
-  );
-  const moderatorRefreshToken = localStorage.getItem("partner_refresh_token");
-
-  return privateRoutes
-    .map((item: IPrivateRoute) => {
-      if (moderatorAutehntificationToken && moderatorRefreshToken) {
-        return (
-          <Suspense fallback={<FallbackOnLazyLoad />}>
-            <PrivateRoute
-              path={item.path}
-              Layout={item.layout}
-              Component={item.component}
-            />
-          </Suspense>
-        );
-      } else if (window.location.pathname !== "/partner") {
-        return <Redirect from="*" to="/" />;
-      }
-      return <Redirect from="*" to="/" />;
-    })
-    .concat(
-      privateCompanyRoutes.map((item: IPrivateRoute) => {
-        return (
-          <>
-            <PrivateRoute
-              path={item.path}
-              Layout={item.layout}
-              Component={item.component}
-            />
-          </>
-        );
-      })
-    );
-};
-
-export const RenderAllRoutes: React.FC = () => {
-  return (
-    <>
-      {RenderPublicRoutes()}
-      {RenderRoutes()}
-    </>
-  );
-};

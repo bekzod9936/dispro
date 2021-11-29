@@ -1,4 +1,4 @@
-import adminInterceptor from "../../interceptors/adminInterceptor";
+import adminInterceptor from "../../interceptors/moderator_interceptor";
 
 export const fetchCompanies = (type: string) => {
   const response = adminInterceptor.get(
