@@ -1,43 +1,38 @@
-import ImageLazyLoad from 'components/Custom/ImageLazyLoad/ImageLazyLoad';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import defuserman from 'assets/icons/defuserman.png';
 import defuserwoman from 'assets/icons/defuserwoman.png';
+import useWindowWidth from 'services/hooks/useWindowWidth';
 import {
-  Container,
-  Name,
-  Text,
-  Wrapper,
+  Avatar,
   OneCheckIcon,
   DoubleCheckIcoon,
   UnreadIcon,
-} from './style';
-import { Avatar } from '../../style';
+} from '../../style';
+import { Container, Name, Text, Wrapper } from './style';
 
 interface Props {
-  date?: string;
-  firstName?: string;
-  id?: number;
-  image?: string;
-  isDeleted?: boolean;
-  lastMsg?: string;
-  lastName?: string;
-  onClick?: (v: any) => void;
-  isActive?: boolean;
-  clientGenderTypeId?: number;
+  value: {
+    firstName?: string;
+    image?: string;
+    lastMsg?: string;
+    lastName?: string;
+    onClick?: (v: any) => void;
+    isActive?: boolean;
+    clientGenderTypeId?: number;
+  };
 }
 
-const ChatUser = ({
-  date,
-  firstName,
-  id,
-  image = '',
-  isDeleted,
-  lastMsg,
-  lastName,
-  onClick,
-  isActive,
-  clientGenderTypeId,
-}: Props) => {
+const ChatUser = ({ value }: Props) => {
+  const {
+    firstName,
+    image = '',
+    lastMsg,
+    lastName,
+    onClick,
+    isActive,
+    clientGenderTypeId,
+  } = value;
+  const { width } = useWindowWidth();
   const img = {
     alt: 'image',
     src: image
@@ -47,8 +42,8 @@ const ChatUser = ({
       : clientGenderTypeId === 2
       ? defuserwoman
       : '',
-    height: '40px',
-    width: '40px',
+    height: width > 600 ? '40px' : '50px',
+    width: width > 600 ? '40px' : '50px',
   };
 
   return (

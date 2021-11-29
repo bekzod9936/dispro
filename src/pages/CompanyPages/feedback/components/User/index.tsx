@@ -9,6 +9,11 @@ import dayjs from 'dayjs';
 import { useHistory, useLocation } from 'react-router';
 import { useAppDispatch } from 'services/redux/hooks';
 import { setChosenClientChat } from 'services/redux/Slices/feedback';
+import { setCashierId } from 'services/redux/Slices/staffs';
+import defuserman from 'assets/icons/defuserman.png';
+import defuserwoman from 'assets/icons/defuserwoman.png';
+import useWindowWidth from 'services/hooks/useWindowWidth';
+import FullModal from 'components/Custom/FullModal';
 import {
   Container,
   Header,
@@ -34,10 +39,10 @@ import {
   WrapFillial,
   MoneyIcon,
   WrapMoney,
+  WrapButton,
+  WrapMContent,
 } from './style';
-import { setCashierId } from 'services/redux/Slices/staffs';
-import defuserman from 'assets/icons/defuserman.png';
-import defuserwoman from 'assets/icons/defuserwoman.png';
+
 interface Props {
   value?: any;
 }
@@ -47,6 +52,7 @@ const User = ({ value }: Props) => {
   const history = useHistory();
   const dispatch = useAppDispatch();
   const location = useLocation();
+  const { width } = useWindowWidth();
 
   const [open, setOpen] = useState<boolean>(false);
 
@@ -57,9 +63,113 @@ const User = ({ value }: Props) => {
       : value.clientGenderTypeId === 1
       ? defuserman
       : defuserwoman,
-    height: '40px',
-    width: '40px',
+    height: width > 600 ? '40px' : '50px',
+    width: width > 600 ? '40px' : '50px',
   };
+
+  const modalcontent = (
+    <ModelContent>
+      <ModalWrap>
+        <Header>
+          <LeftHeader>
+            <Avatar>
+              <LazyLoadImage
+                alt={image.alt}
+                height={image.height}
+                src={image.src}
+                width={image.width}
+                effect='blur'
+                style={{ objectFit: 'cover' }}
+              />
+            </Avatar>
+            <WrapText>
+              <UserName>
+                {value.clientFirstName} {value.clientLastName}
+              </UserName>
+              <Status>
+                {t('status')}:
+                {` ${value?.obtainProgramLoyalty?.levelName} ${value?.obtainProgramLoyalty?.percent}%`}
+              </Status>
+            </WrapText>
+          </LeftHeader>
+          <WrapClose>
+            {width > 600 ? (
+              <Date1 margin='3px 10px 0 20px'>
+                {dayjs(value.createdAt).format('DD.MM.YYYY HH:mm')}
+              </Date1>
+            ) : null}
+            <IconButton
+              style={{ marginTop: '-12px' }}
+              onClick={() => setOpen(false)}
+            >
+              <CloseIcon />
+            </IconButton>
+          </WrapClose>
+        </Header>
+        <WrapStars>
+          {[1, 2, 3, 4, 5].map((v: any) => (
+            <StarIcon bgcolor={value.rating >= v} />
+          ))}
+        </WrapStars>
+        <Context>
+          <WrapMContent>
+            {value.review ? (
+              <>
+                <Title>{t('review')}:</Title>
+                <ModalContext>{value.review}</ModalContext>
+              </>
+            ) : null}
+            <WrapFillial>
+              {value.firstName || value.lastName ? (
+                <Wrapper>
+                  <Title>{t('cashier')}:</Title>
+                  <ModalText>
+                    {value.firstName} {value.lastName}
+                  </ModalText>
+                </Wrapper>
+              ) : null}
+              <Wrapper>
+                <Title>{t('filial')}:</Title>
+                <ModalText>{value.storeName}</ModalText>
+              </Wrapper>
+            </WrapFillial>
+            <WrapMoney>
+              <MoneyIcon />
+              <Wrapper>
+                <ModalText>
+                  Операция от {dayjs(value.payDate).format('DD.MM.YYYY')}
+                </ModalText>
+                <ModalText>
+                  {t('totalsum')}: {`${value.totalAmount} сум`}
+                </ModalText>
+                <WrapMoney>
+                  <ModalText>
+                    {t('sale')}: {`${value.amountReturned} сум`}
+                  </ModalText>
+                  <ModalText>
+                    {t('paidwithpoints')}: {value.usedPointAmount}
+                  </ModalText>
+                </WrapMoney>
+              </Wrapper>
+            </WrapMoney>
+          </WrapMContent>
+          <WrapButton>
+            <Button
+              margin={{ laptop: '20px 0 0 0' }}
+              startIcon={<MessageIcon />}
+              onClick={() => {
+                dispatch(setChosenClientChat({ data: value, choose: true }));
+                history.push('/feedback/posts');
+              }}
+              buttonStyle={{ shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)' }}
+            >
+              {t('writemessage')}
+            </Button>
+          </WrapButton>
+        </Context>
+      </ModalWrap>
+    </ModelContent>
+  );
 
   return (
     <>
@@ -87,7 +197,15 @@ const User = ({ value }: Props) => {
             </WrapText>
           </LeftHeader>
           <Date1 margin='3px 0 0 20px'>
-            {dayjs(value.createdAt).format('DD.MM.YYYY HH:mm')}
+            <div className='laptop'>
+              {dayjs(value.createdAt).format('DD.MM.YYYY HH:mm')}
+            </div>
+            <div className='mobile'>
+              {dayjs(value.createdAt).format('DD.MM.YYYY')}
+            </div>
+            <div className='mobile'>
+              {dayjs(value.createdAt).format('HH:mm')}
+            </div>
           </Date1>
         </Header>
         <WrapStars>
@@ -123,102 +241,13 @@ const User = ({ value }: Props) => {
           ) : null}
         </Context>
       </Container>
-      <Modal scroll='body' onClose={(v: boolean) => setOpen(v)} open={open}>
-        <ModelContent>
-          <ModalWrap>
-            <Header>
-              <LeftHeader>
-                <Avatar>
-                  <LazyLoadImage
-                    alt={image.alt}
-                    height={image.height}
-                    src={image.src}
-                    width={image.width}
-                    effect='blur'
-                    style={{ objectFit: 'cover' }}
-                  />
-                </Avatar>
-                <WrapText>
-                  <UserName>
-                    {value.clientFirstName} {value.clientLastName}
-                  </UserName>
-                  <Status>
-                    {t('status')}:
-                    {` ${value?.obtainProgramLoyalty?.levelName} ${value?.obtainProgramLoyalty?.percent}%`}
-                  </Status>
-                </WrapText>
-              </LeftHeader>
-              <WrapClose>
-                <Date1 margin='3px 10px 0 20px'>
-                  {dayjs(value.createdAt).format('DD.MM.YYYY HH:mm')}
-                </Date1>
-                <IconButton
-                  style={{ marginTop: '-12px' }}
-                  onClick={() => setOpen(false)}
-                >
-                  <CloseIcon />
-                </IconButton>
-              </WrapClose>
-            </Header>
-            <WrapStars>
-              {[1, 2, 3, 4, 5].map((v: any) => (
-                <StarIcon bgcolor={value.rating >= v} />
-              ))}
-            </WrapStars>
-            <Context>
-              {value.review ? (
-                <>
-                  <Title>{t('review')}:</Title>
-                  <ModalContext>{value.review}</ModalContext>
-                </>
-              ) : null}
-              <WrapFillial>
-                {value.firstName || value.lastName ? (
-                  <Wrapper>
-                    <Title>{t('cashier')}:</Title>
-                    <ModalText>
-                      {value.firstName} {value.lastName}
-                    </ModalText>
-                  </Wrapper>
-                ) : null}
-                <Wrapper>
-                  <Title>{t('filial')}:</Title>
-                  <ModalText>{value.storeName}</ModalText>
-                </Wrapper>
-              </WrapFillial>
-              <WrapMoney>
-                <MoneyIcon />
-                <Wrapper>
-                  <ModalText>
-                    Операция от {dayjs(value.payDate).format('DD.MM.YYYY')}
-                  </ModalText>
-                  <ModalText>
-                    {t('totalsum')}: {`${value.totalAmount} сум`}
-                  </ModalText>
-                  <WrapMoney>
-                    <ModalText>
-                      {t('sale')}: {`${value.amountReturned} сум`}
-                    </ModalText>
-                    <ModalText>
-                      {t('paidwithpoints')}: {value.usedPointAmount}
-                    </ModalText>
-                  </WrapMoney>
-                </Wrapper>
-              </WrapMoney>
-              <Button
-                margin={{ laptop: '20px 0 0 0' }}
-                startIcon={<MessageIcon />}
-                onClick={() => {
-                  dispatch(setChosenClientChat({ data: value, choose: true }));
-                  history.push('/feedback/posts');
-                }}
-              >
-                {t('writemessage')}
-              </Button>
-            </Context>
-          </ModalWrap>
-        </ModelContent>
-      </Modal>
+      {width > 600 ? (
+        <Modal scroll='body' onClose={(v: boolean) => setOpen(v)} open={open}>
+          {modalcontent}
+        </Modal>
+      ) : (
+        <FullModal open={open}>{modalcontent}</FullModal>
+      )}
     </>
   );
 };

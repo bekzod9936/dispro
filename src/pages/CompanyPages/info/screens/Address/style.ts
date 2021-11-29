@@ -437,3 +437,35 @@ export const DownSide = styled.div`
     }
   }
 `;
+
+export const ModelContent = styled.div`
+  background: #ffffff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
+  border-radius: 14px;
+  width: 419px;
+  height: 183px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  @media (max-width: ${device.mobile}) {
+    width: 290px;
+  }
+`;
+
+export const ModelTitle = styled.div`
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  text-align: center;
+  color: #223367;
+
+  @media (max-width: ${device.mobile}) {
+    font-size: 14px;
+  }
+`;
+
+export const ModalWrap = styled.div`
+  display: flex;
+  margin-top: 30px;
+`;

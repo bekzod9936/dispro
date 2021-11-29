@@ -118,3 +118,12 @@ export const DisabledWrap = styled.span`
     height: 34px;
 	margin-bottom: 33px;
 `
+
+export const SelectedUser = styled.h3`
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: 300;
+	font-size: 14px;
+	line-height: 16px;
+	margin-bottom: 20px;
+`
