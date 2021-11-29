@@ -511,6 +511,7 @@ const CreateNews = () => {
                     control={control}
                     render={({ field }) => (
                       <MultiSelect
+                        isClearable={false}
                         field={field}
                         isMulti={true}
                         options={days}

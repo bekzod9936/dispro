@@ -585,6 +585,7 @@ const RepairNews = () => {
                     render={({ field }) => (
                       <MultiSelect
                         field={field}
+                        isClearable={false}
                         isMulti={true}
                         options={days}
                         label="Укажите дни"
