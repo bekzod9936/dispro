@@ -95,14 +95,14 @@ console.log('gender',currentNews?.genderType )
             <PreviewBgNews src={currentNews?.data?.image} alt="" />
           )}
           <img
-            style={{ zIndex: 20, position: "relative" }}
+            style={{ zIndex: 20, position: "relative",objectFit:'fill' }}
             width="320"
             height="180"
             alt=""
           />
         </PreviewDivNews>
         <h5>{currentNews?.data?.title?.length>50 ? currentNews?.data?.title?.slice(0,30)+'...':currentNews?.data?.title}</h5>
-        <p>{currentNews?.data?.description?.length> 75 ? currentNews?.data?.description?.slice(0,75)+'...':currentNews?.data?.description}</p>
+        <p style={{wordBreak: 'break-all'}}>{currentNews?.data?.description?.length> 66 ? currentNews?.data?.description?.slice(0,66)+'...':currentNews?.data?.description}</p>
       </LeftRound>
       <ContentSideBar>
         <ContentInfo>
@@ -244,7 +244,7 @@ console.log('gender',currentNews?.genderType )
             <CloseIcon />
           </CloseButton>
           <h3>
-           {t('Выберите дату публикации')}
+           {t('Выберите период')}
           </h3>
           <PublicModal  setPublisOpen={setPublisOpen} />
       

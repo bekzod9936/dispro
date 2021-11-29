@@ -34,3 +34,19 @@ export const setSelectCompany = selector<ICompany>({
     set(selectedCompany, newVal);
   },
 });
+
+export const successLoginModerator = atom<boolean>({
+  key: "successLoginModerator",
+  default: false,
+});
+
+export const setSuccessLogin = selector<boolean>({
+  key: "setSuccessLogin",
+  get: ({ get }) => {
+    const res = get(successLoginModerator);
+    return res;
+  },
+  set: ({ set }, newVal) => {
+    set(successLoginModerator, newVal);
+  },
+});

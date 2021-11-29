@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { ReactComponent as Up } from "assets/icons/up.svg";
-
+import { device } from "styles/device"
 interface Props {
   up?: boolean;
   active?: boolean;
@@ -193,29 +193,47 @@ h3 {
 
 
 export const Text = styled.p`
-font-weight: normal;
+
 font-size: 14px;
 color: #223367;
-display: -webkit-box;
--webkit-line-clamp: 3;
--webkit-box-orient: vertical;
-
-overflow: hidden;
-text-overflow: ellipsis;
-width: 100%;
+max-width: 300px;
+display: inline;
+  -webkit-line-clamp: 3;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
 
 `;
+
+export const TitleCard = styled.div`
+  font-weight: bold;
+  font-size: 14px;
+  color: #223367;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  @media (min-width: ${device.laptop}) {
+    font-size: 16px;
+  }
+`;
+
+
 export const TitleData = styled.div`
   display: flex;
   align-items: center;
   justify-content: left;
+  
   /* margin-left: 15px; */
   img {
     border-radius: 14px;
     width: 40px;
     height: 40px;
     margin-right: 15px;
+    object-fit:fill;
   }
+  
 `;
 
 export const TRow = styled.tr`
@@ -303,3 +321,4 @@ export const ToolTip = styled("div")({
     visibility: "visible"
   }
 });
+

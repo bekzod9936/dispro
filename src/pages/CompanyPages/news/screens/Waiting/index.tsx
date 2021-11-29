@@ -13,16 +13,13 @@ import { Container, Wrap, Info,WrapPag, WrapSpinner} from "./style";
 import useData from "../useData";
 import useWaiting from "./useWaiting";
 import Pagination from 'components/Custom/Pagination';
+import { countPagination } from '../../components/utils';
 import useWindowWidth from 'services/hooks/useWindowWidth';
 import { setQuery, setSelectedNews,setErrorMessage } from "services/redux/Slices/news";
-import { Flex } from "../../style";
-import Input from "components/Custom/Input";
-import Button from "components/Custom/Button";
-import { AddIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
-import { SearchIcon } from "components/Layout/Header/style";
+
 import { LimitNews  } from "../../components/LimitNews";
 import { FilterNews } from "../../components/FilterNews";
-import {MobileFilterNews} from "../../components/MobileFilterNews";
+
 interface intialFilterProps {
   page?: number;
   perPage?: number;
@@ -126,7 +123,12 @@ const Waiting = () => {
                 <Info>
                   {t("shown")}
                   <span>{between}</span>
-                  {t("from1")} <span>{totalNewsCount}</span> {t("новостей")}
+                  {t("from1")} <span>{totalNewsCount}</span>
+                  {countPagination({
+                count: totalNewsCount,
+                firstWord: t('новости '),
+                secondWord: t('новостей'),
+              })}
                 </Info>
                 <Pagination
                   page={filterValues.page}
@@ -163,7 +165,12 @@ const Waiting = () => {
                 <Info>
                   {t("shown")}
                   <span>{between}</span>
-                  {t("from1")} <span>{totalNewsCount}</span> {t("новостей")}
+                  {t("from1")} <span>{totalNewsCount}</span> 
+                  {countPagination({
+                count: totalNewsCount,
+                firstWord: t('новости '),
+                secondWord: t('новостей'),
+              })}
                 </Info>
                 <Pagination
                   page={filterValues.page}

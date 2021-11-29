@@ -3,6 +3,7 @@ import { InputAdornment } from '@material-ui/core';
 import { device } from '../../../styles/device';
 import { ReactComponent as TextArea } from 'assets/icons/IconsInfo/textarea.svg';
 import Textt from 'assets/icons/IconsInfo/textarea.svg';
+import defaultImage from "assets/images/textarea.jpg";
 export interface ITextAreaProps {
     width?: string,
     border?: string,
@@ -62,7 +63,7 @@ export const MTextArea = styled.textarea`
     padding: ${({padding}: ITextAreaProps) => padding || "15px"};
     font-family: "Roboto", sans-serif;
     font-size: ${({fontSize}: ITextAreaProps) => fontSize || "16px"};
-    max-width: ${({maxWidth}: ITextAreaProps) => maxWidth || "570px"};
+    max-width: ${({maxWidth}: ITextAreaProps) => maxWidth || "100%"};
     width: ${({width}: ITextAreaProps) => width || "100%"};
     height: ${({height}: ITextAreaProps) => height || "100%"};
     min-height: ${({minHeight}: ITextAreaProps) => minHeight || "none"};
@@ -70,9 +71,13 @@ export const MTextArea = styled.textarea`
     outline: ${({outline}: ITextAreaProps) => outline || "none"};
    
     &::-webkit-resizer {
-        background-image: url(${Textt});
+     
+      background-image: url(${defaultImage});
+         /* background-image: url(${Textt}); */
         height:20px;
-        width:20px;
+   
+        width:20px; 
+        background-color:'red';
      
     }
     &::-webkit-scrollbar {

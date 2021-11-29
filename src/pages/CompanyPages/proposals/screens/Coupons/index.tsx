@@ -124,7 +124,10 @@ const Coupons = () => {
     handleSubmit,
     register,
     watch,
-    formState: { errors, isValid },
+    setValue,
+    setError,
+    clearErrors,
+    formState: { errors, isValid, },
   } = useForm({
     mode: 'onChange',
     shouldFocusError: true,
@@ -146,9 +149,17 @@ const Coupons = () => {
 
   const _ = useFetchCategories(setCategories);
 
-  const handleUploadImg = async (data: any) => {
-    setFile(data.target.files[0]);
-    setIsCropVisible(true);
+  const handleUploadImg = (data: any) => {
+    if (data.target.files[0].type == 'image/jpeg' || data.target.files[0].type == 'image/png') {
+      setFile(data.target.files[0]);
+      setIsCropVisible(true);
+    }
+    else {
+      setError("image", {
+        message: "Можно загрузить фотографию в формате JPG или PNG"
+      })
+    }
+    setValue('image', null)
   };
 
   const onPublish = (data: any) => {
@@ -185,6 +196,7 @@ const Coupons = () => {
     setFile('');
     setImage('');
     deleteImage(image);
+    clearErrors("image")
   };
 
   const handleBack = () => {
@@ -309,7 +321,7 @@ const Coupons = () => {
                     <UploadImage />
                   </UploadButton>
                   {errors.image && (
-                    <ErrorMessage>{t('requiredField')}</ErrorMessage>
+                    <ErrorMessage>{errors.image?.message || t('requiredField')}</ErrorMessage>
                   )}
                 </div>
               )}

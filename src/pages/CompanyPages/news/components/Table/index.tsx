@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/styles'
 import { useTable, useSortBy } from "react-table";
 import { headers } from "./headers";
 import { useTranslation } from "react-i18next";
+import defaultImage from "assets/images/staff_default.png";
 import {
   Container,
   MTable,
@@ -107,7 +108,6 @@ const Table = ({ data, header2 }: Props) => {
               >
                 {row.cells.map((cell: any) => {
                   if (cell.column.Header === "Заголовок") {
-                
                     let src = cell?.row?.original?.fullData?.data?.image;
                     let checktitle = cell?.row?.original?.fullData?.data?.title;
                     let title =
@@ -117,28 +117,26 @@ const Table = ({ data, header2 }: Props) => {
                     return (
                       <Td {...cell.getCellProps()}>
                         <TitleData>
-                          
-                          {src ? <img src={src} /> : <DefaultImage />}
+                          {src ? <img onError={(e:any)=>{
+                            e.target.src=defaultImage
+                            e.target.onerror=null
+                          }} src={src} /> : <DefaultImage />}
                           {title ? title : ""}
                         </TitleData>
-          
                       </Td>
                     );
                   }  else if (cell.column.Header === "Описание") {
                     let checkDescription = cell?.row?.original?.fullData?.data?.description;
-             
-                    let description =
-                      checkDescription?.length > 78
-                        ? checkDescription.slice(0, 78) + "..."
+                    let descriptionn =
+                      checkDescription?.length >70
+                        ? checkDescription.slice(0, 70) + "..."
                         : checkDescription;
-
+                        console.log('checkDescription',descriptionn)
                     return (
                       <Td {...cell.getCellProps()}>
                            <AgeData>
-                             <p style={{ width:'300px',whiteSpace: "pre-wrap"}}>{description}</p>
-                       
+                             <p style={{ maxWidth:'300px',whiteSpace: "pre-wrap",wordBreak: 'break-all'}}>{descriptionn}</p>
                       </AgeData>
-                      
                       </Td>
                     );
                   }

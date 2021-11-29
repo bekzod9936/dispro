@@ -17,6 +17,7 @@ import { SideBar } from "../../components/SideBar";
 import { useAppSelector, useAppDispatch } from "services/redux/hooks";
 import useData from "../useData";
 import useWindowWidth from 'services/hooks/useWindowWidth';
+import { countPagination } from '../../components/utils';
 import Button from "components/Custom/Button";
 import { LimitNews  } from "../../components/LimitNews";
 import { FilterNews } from "../../components/FilterNews";
@@ -148,7 +149,12 @@ const Active = () => {
                 <Info>
                   {t("shown")}
                   <span>{between}</span>
-                  {t("from1")} <span>{totalNewsCount}</span> {t("новостей")}
+                  {t("from1")} <span>{totalNewsCount}</span> 
+                  {countPagination({
+                count: totalNewsCount,
+                firstWord: t('новости '),
+                secondWord: t('новостей'),
+              })}
                 </Info>
                 <Pagination
                   page={filterValues.page}
@@ -186,7 +192,12 @@ const Active = () => {
                 <Info>
                   {t("shown")}
                   <span>{between}</span>
-                  {t("from1")} <span>{totalNewsCount}</span> {t("новостей")}
+                  {t("from1")} <span>{totalNewsCount}</span>
+                  {countPagination({
+                count: totalNewsCount,
+                firstWord: t('новости '),
+                secondWord: t('новостей'),
+              })}
                 </Info>
                 <Pagination
                   page={filterValues.page}
