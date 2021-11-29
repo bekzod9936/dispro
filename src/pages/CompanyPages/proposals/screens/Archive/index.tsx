@@ -21,6 +21,7 @@ import useWindowWidth from 'services/hooks/useWindowWidth';
 import { CouponList } from '../../components/CouponList';
 import FullModal from 'components/Custom/FullModal';
 import { FullSideBar } from '../../components/FullSideBar';
+import { TabletCard } from '../../components/TabletCard';
 const Archive = () => {
   const [open, setOpen] = React.useState(false);
   const [query, setQuery] = React.useState('');
@@ -40,7 +41,25 @@ const Archive = () => {
     dispatch(resetCurrentCoupon());
   }, []);
   const coupons = () => {
-    if (width > 600) {
+    if (width <= 1000 && width > 600) {
+      return archive.map(el => (
+        <TabletCard
+          stats={el.stat}
+          isSelected={currentCoupon.id === el.id}
+          onClick={() => handleOpen(el.id)}
+          key={el.id}
+          image={el.image}
+          title={el.title}
+          ageFrom={el.ageFrom}
+          type={el.type}
+          categoryIds={el.categoryIds}
+          description={el.description}
+          price={el.price}
+          value={el.value}
+          count={el.count} />
+      ))
+    }
+    else if (width > 600) {
       return archive.map((el: IDeferred) => (
         <CouponCard
           stats={el.stat}

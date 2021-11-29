@@ -41,8 +41,19 @@ export const Container = styled.div`
     overflow: auto;
     padding-bottom: 100px;
     padding-right: 10px;
+    width: 100%;
+
+    @media (max-width: ${device.planshet}) {
+        padding-bottom: 150px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: auto;
+        gap: 20px;
+    }
     @media (max-width: ${device.mobile}) {
-        padding-right: 8px;
+        padding-right: 8px !important;
+        display: block;
+        margin-right: 10px;
     }
     ::-webkit-scrollbar {
     width: 7px;
