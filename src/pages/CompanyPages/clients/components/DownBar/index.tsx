@@ -19,20 +19,25 @@ interface IProps {
 }
 
 export const DownBar = ({ open, setModals, setForm, refetch }: IProps) => {
-    const { selectedClients } = useAppSelector(state => state.clients)
+    const { selectedClients, allClients } = useAppSelector(state => state.clients)
     const [resetModal, setResetModal] = useState(false)
     const client = selectedClients[0]
     const { t } = useTranslation()
     const dispatch = useAppDispatch()
     const [checkAll, setCheckAll] = useState(false)
-    const checked = selectedClients.length > 1 ? false : client?.personalLoyaltyInfo?.isActive
+    const [fetchingAllClients, setFetchingAllClients] = useState("")
+    const checked = selectedClients.length > 1 ? selectedClients.every(el => el.personalLoyaltyInfo.isActive) : client?.personalLoyaltyInfo?.isActive;
 
     const handleRemoveClient = (id: number) => {
         dispatch(setClient(id))
     }
 
     const handleClick = (e: any) => {
-        dispatch(setAllClients(e.target.value === "true"));
+        if (allClients.length === 0) {
+            setFetchingAllClients("Подождите, идет загрузка...")
+        } else {
+            dispatch(setAllClients(e.target.value === "true"));
+        }
     };
 
     const handleToggleChange = (e: any) => {
@@ -52,6 +57,13 @@ export const DownBar = ({ open, setModals, setForm, refetch }: IProps) => {
             setModals((prev: any) => ({ ...prev, downBar: false }))
         }
     }, [selectedClients.length])
+
+    useEffect(() => {
+        if (allClients.length > 0) {
+            setFetchingAllClients("")
+        }
+    }, [allClients.length])
+
     return (
         <FullModal
             direction="down"
@@ -73,17 +85,20 @@ export const DownBar = ({ open, setModals, setForm, refetch }: IProps) => {
                 <CloseIcon onClick={() => setModals((prev: any) => ({ ...prev, downBar: false }))} />
             </Header>
             <Main>
-                <Content>
-                    {(selectedClients.length > 7 ? selectedClients.slice(0, 7) : selectedClients).map((client) => (
-                        <div
-                            onClick={() => handleRemoveClient(client.id)}
-                            className="client"
-                        >
-                            <p>{client.firstName + " " + client.lastName}</p>
-                            <MiniCloseIcon />
-                        </div>
-                    ))}
-                </Content>
+                {Boolean(fetchingAllClients) ?
+                    <div>{fetchingAllClients}</div>
+                    :
+                    <Content>
+                        {(selectedClients.length > 7 ? selectedClients.slice(0, 7) : selectedClients).map((client) => (
+                            <div
+                                onClick={() => handleRemoveClient(client.id)}
+                                className="client"
+                            >
+                                <p>{client.firstName + " " + client.lastName}</p>
+                                <MiniCloseIcon />
+                            </div>
+                        ))}
+                    </Content>}
                 {selectedClients.length > 7 &&
                     <Button
                         onClick={() => setCheckAll(true)}
