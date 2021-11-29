@@ -59,11 +59,16 @@ export const Container = styled.div`
     background: transparent;
   }
 
+  .MuiInputBase-multiline {
+    padding: 0 !important;
+  }
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus,
   input:-webkit-autofill:active {
     -webkit-box-shadow: 0 0 0 30px white inset !important;
+    box-shadow: 0 0 0 30px white inset !important;
+    background-color: white;
   }
   input:-webkit-autofill {
     -webkit-text-fill-color: ${({ inputStyle }: Props) =>
@@ -114,11 +119,16 @@ export const MInput = styled(TextField)`
     color: ${({ inputStyle }: Props) =>
       inputStyle?.placeholdercolor} !important;
   }
+
   .MuiInputBase-input {
     display: flex !important;
     align-items: center !important;
     border-radius: ${({ inputStyle }: Props) =>
-      inputStyle?.radius ? `${inputStyle?.radius}px` : '14px'} !important;
+      inputStyle?.radius === 0
+        ? 0
+        : inputStyle?.radius
+        ? `${inputStyle?.radius}px`
+        : '14px'} !important;
     height: ${({ inputStyle }: Props) =>
       inputStyle?.fitheight
         ? 'fit-content'

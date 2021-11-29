@@ -11,14 +11,62 @@ interface Props {
   right?: boolean;
 }
 
+interface JProps {
+  type?: any;
+}
+
+const getType = ({ type }: JProps) => {
+  switch (type) {
+    case 2:
+      return {
+        justify: 'flex-end',
+        bg: '#606eea',
+        date: '#fff',
+        color: '#fff',
+        right: '-15px',
+        radius: '16px 16px 0 16px',
+      };
+    case 1:
+      return {
+        justify: 'flex-start',
+        bg: '#E5E9FF',
+        date: '#A5A5A5',
+        color: '#223367',
+        left: '-15px',
+        radius: '16px 16px 16px 0',
+      };
+    default:
+      return {
+        justify: 'flex-start',
+        bg: '#E5E9FF',
+        date: '#fff',
+        color: '#223367',
+        left: '-15px',
+        radius: '16px 16px 0 16px',
+      };
+  }
+};
+
 export const SearchIcon = styled(Search)`
   margin-right: 10px;
   width: 20px;
   height: 20px;
+  @media (max-width: ${device.mobile}) {
+    width: 16px;
+    height: 16px;
+    margin-right: 0;
+    & path {
+      fill: #606eea;
+    }
+  }
 `;
 
 export const DotsIcon = styled(Dots)`
   margin: 10px;
+
+  @media (max-width: ${device.mobile}) {
+    transform: rotate(90deg);
+  }
 `;
 
 export const DotsWrap = styled.div`
@@ -37,7 +85,12 @@ export const DownIcon = styled(Down)`
   }
 `;
 
-export const ScriptIcon = styled(Script)``;
+export const ScriptIcon = styled(Script)`
+  @media (max-width: ${device.mobile}) {
+    width: 20px;
+    height: 20px;
+  }
+`;
 
 export const WrapScript = styled.div`
   margin: 0 30px;
@@ -45,7 +98,15 @@ export const WrapScript = styled.div`
 
 export const SmileIcon = styled(Smile)``;
 
-export const SendIcon = styled(Send)``;
+export const SendIcon = styled(Send)`
+  @media (max-width: ${device.mobile}) {
+    width: 20px;
+    height: 20px;
+    & path {
+      fill: #606eea;
+    }
+  }
+`;
 
 export const WrapDown = styled.div`
   background: rgba(96, 110, 234, 0.45);
@@ -163,6 +224,10 @@ export const WrapChatUsers = styled.div`
 
 export const WrapUserInfo = styled.div`
   display: flex;
+  @media (max-width: ${device.mobile}) {
+    flex: 1;
+    justify-content: space-between;
+  }
 `;
 
 export const UserName = styled.div`
@@ -173,14 +238,6 @@ export const UserName = styled.div`
     font-size: 18px;
   }
 `;
-export const Status = styled.div`
-  font-weight: normal;
-  font-size: 15px;
-  color: #8f8f8f;
-  @media (min-width: ${device.laptop}) {
-    font-size: 16px;
-  }
-`;
 
 export const WrapInfo = styled.div``;
 
@@ -189,6 +246,13 @@ export const Form = styled.form`
   border: 2px solid #c2c2c2;
   border-radius: 14px;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  @media (max-width: ${device.mobile}) {
+    border: none;
+    border-radius: 0;
+  }
 `;
 
 export const Body = styled.div`
@@ -238,6 +302,10 @@ export const ChatPlace = styled.div`
   overflow: hidden;
   margin-bottom: 15px;
   position: relative;
+
+  @media (max-width: ${device.mobile}) {
+    margin-bottom: 0;
+  }
 `;
 
 export const Messages = styled.div`
@@ -258,6 +326,10 @@ export const Messages = styled.div`
   &::-webkit-scrollbar-track {
     appearance: none;
     display: none;
+  }
+  @media (max-width: ${device.mobile}) {
+    grid-row-gap: 15px;
+    padding: 10px 20px 0 10px;
   }
 `;
 
@@ -302,7 +374,10 @@ interface MProps {
 }
 
 export const Message = styled.div`
-  background: ${({ bgcolor }: MProps) => bgcolor};
+  background: ${({ type }: JProps) => {
+    const ss: any = getType({ type });
+    return ss?.bg;
+  }};
   border-radius: 16px 16px 16px 0;
   margin-left: 10px;
   position: relative;
@@ -316,29 +391,57 @@ export const Message = styled.div`
     height: 0;
     border-left: 15px solid transparent;
     border-right: 15px solid transparent;
-    border-bottom: ${({ bgcolor }: MProps) => `20px solid ${bgcolor}`};
+    border-bottom: ${({ type }: JProps) => {
+      const ss: any = getType({ type });
+      return `20px solid ${ss?.bg}`;
+    }};
     left: -15px;
     bottom: 0;
+    border-radius: 7px;
+  }
+  @media (max-width: ${device.mobile}) {
+    max-width: 250px;
+    border-radius: ${({ type }: JProps) => {
+      const ss: any = getType({ type });
+      return ss?.radius;
+    }};
+    padding: 13px;
+    &::before {
+      right: ${({ type }: JProps) => {
+        const ss: any = getType({ type });
+        return ss?.right ? ss?.right : 'unset';
+      }};
+      left: ${({ type }: JProps) => {
+        const ss: any = getType({ type });
+        return ss?.left ? ss?.left : 'unset';
+      }};
+    }
   }
 `;
 
 export const MessageText = styled.pre`
   font-weight: normal;
   font-size: 14px;
-  color: ${({ bgcolor }: MProps) => bgcolor};
+  color: ${({ type }: JProps) => {
+    const ss: any = getType({ type });
+    return ss?.color;
+  }};
   margin-top: 5px;
 
-  white-space: pre-wrap; /* Since CSS 2.1 */
-  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-  white-space: -pre-wrap; /* Opera 4-6 */
-  white-space: -o-pre-wrap; /* Opera 7 */
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
   word-wrap: break-word;
 `;
 
 export const MessageDate = styled.div`
   font-weight: normal;
   font-size: 12px;
-  color: ${({ bgcolor }: MProps) => bgcolor};
+  color: ${({ type }: JProps) => {
+    const ss: any = getType({ type });
+    return ss?.date;
+  }};
 `;
 
 export const MessageWrap = styled.div`
@@ -346,11 +449,23 @@ export const MessageWrap = styled.div`
   margin: 20px 0 0 20px;
   align-items: flex-end;
   width: 100%;
+  @media (max-width: ${device.mobile}) {
+    justify-content: ${({ type }: JProps) => {
+      const ss: any = getType({ type });
+      return ss?.justify;
+    }};
+    margin: 0;
+  }
 `;
 
-export const Delete = styled.div``;
+export const Delete = styled.div`
+  color: #ff5e68;
+`;
 
-export const Link = styled.div``;
+export const Link = styled.div`
+  color: #223367;
+  background-color: #eff0fd;
+`;
 
 export const SelectWrap = styled.div`
   padding: 15px 0;
@@ -360,12 +475,11 @@ export const SelectWrap = styled.div`
     padding: 15px 25px;
     cursor: pointer;
   }
-  & > div:first-child {
-    color: #223367;
-    background-color: #eff0fd;
-  }
-  & > div:last-child {
-    color: #ff5e68;
+  @media (max-width: ${device.mobile}) {
+    padding: 10px 0;
+    & > div {
+      font-size: 14px;
+    }
   }
 `;
 
@@ -374,6 +488,11 @@ export const Loading = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  @media (max-width: ${device.mobile}) {
+    color: #223367;
+    font-weight: 500;
+    margin-top: 15px;
+  }
 `;
 
 export const EPicker = styled.div`
@@ -408,4 +527,89 @@ export const NoResult = styled.div`
   word-break: break-word;
   width: 100%;
   text-align: center;
+  @media (max-width: ${device.mobile}) {
+    margin-top: 10px;
+  }
+`;
+
+export const MobileMessages = styled.div`
+  background-color: white;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
+  border-radius: 12px;
+  margin-top: 13px;
+`;
+
+export const MobileContainer = styled.div``;
+
+export const WrapModal = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+`;
+
+export const HeaderModal = styled.div`
+  display: flex;
+  padding: 10px 15px;
+  align-items: center;
+`;
+export const BodyModal = styled.div`
+  flex-grow: 1;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+`;
+export const FooterModal = styled.div`
+  border-top: 1px solid #c2c2c2;
+  height: fit-content;
+`;
+
+export const Wranning = styled.div`
+  background: #f5f5f5;
+  height: 40px;
+  min-height: 40px;
+  max-height: 40px;
+  font-size: 14px;
+  color: #8f8f8f;
+  display: flex;
+  align-items: center;
+  padding-left: 15px;
+`;
+
+export const WrapTextArea = styled.div`
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 15px 0;
+  position: relative;
+  & > textarea::-webkit-resizer {
+    display: none;
+  }
+  & > textarea::placeholder {
+    font-size: 14px;
+    color: #c2c2c2;
+    font-family: var(--fontFamily);
+  }
+  & > textarea {
+    resize: none;
+    overflow: hidden !important;
+    border: none !important;
+    padding: 0 90px 0 15px !important;
+    align-self: center;
+    font-family: var(--fontFamily);
+  }
+  & > textarea:focus {
+    outline: 0;
+  }
+`;
+
+export const WrapButtons = styled.div`
+  position: absolute;
+  bottom: 0;
+  right: 0;
 `;

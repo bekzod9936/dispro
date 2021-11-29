@@ -19,6 +19,7 @@ import FullModal from 'components/Custom/FullModal';
 import { ReactComponent as LeftBack } from 'assets/icons/FinanceIcons/leftback.svg';
 import { useHistory } from 'react-router';
 import App from 'assets/icons/StatistisPage/app.svg';
+import { TextareaAutosize } from '@material-ui/core';
 import {
   InputDown,
   ScriptIcon,
@@ -58,6 +59,9 @@ import {
   BodyModal,
   FooterModal,
   WrapPhone,
+  Wranning,
+  WrapTextArea,
+  WrapButtons,
 } from './style';
 
 interface FormProps {
@@ -171,7 +175,20 @@ const Support = () => {
     </Avatar>
   );
 
-  const tel = <Link href='tel:+998998586446'> +99871 200 20 15</Link>;
+  const tel = <Link href='tel:+998712002015'> +99871 200 20 15</Link>;
+
+  const limitwords = (
+    <>
+      {t('limitfeedback')}
+
+      {` ${limit} ${ruCount({
+        count: limit,
+        firstWord: 'символ',
+        secondWord: 'символа',
+        thirdWord: 'символов',
+      })}`}
+    </>
+  );
 
   return width > 600 ? (
     <Container>
@@ -204,7 +221,7 @@ const Support = () => {
                 <div ref={messagesStartRef} />
                 {histories?.map((v: any) => {
                   return (
-                    <MessageWrap>
+                    <MessageWrap type={v.chatType}>
                       <Avatar>
                         {v.chatType === 6 ? (
                           <DisIcon />
@@ -224,21 +241,13 @@ const Support = () => {
                           />
                         )}
                       </Avatar>
-                      <Message
-                        bgcolor={v.chatType === 6 ? '#E5E9FF' : '#606eea'}
-                      >
-                        <MessageDate
-                          bgcolor={v.chatType === 6 ? '#A5A5A5' : '#fff'}
-                        >
+                      <Message type={v.chatType}>
+                        <MessageDate type={v.chatType}>
                           {dayjs(v.createdAt)
                             .subtract(2, 'minute')
                             .format('hh:mm')}
                         </MessageDate>
-                        <MessageText
-                          bgcolor={v.chatType === 6 ? '#223367' : '#fff'}
-                        >
-                          {v.msg}
-                        </MessageText>
+                        <MessageText type={v.chatType}>{v.msg}</MessageText>
                       </Message>
                     </MessageWrap>
                   );
@@ -276,15 +285,7 @@ const Support = () => {
                 )}
               />
               <InputDown>
-                <InputWarn>
-                  Вы можете написать еще
-                  {` ${limit} ${ruCount({
-                    count: limit,
-                    firstWord: 'символ',
-                    secondWord: 'символа',
-                    thirdWord: 'символов',
-                  })}`}
-                </InputWarn>
+                <InputWarn>{limitwords}</InputWarn>
                 <WrapIcons>
                   <IconButton onClick={handleShowEmoji}>
                     <SmileIcon />
@@ -343,31 +344,64 @@ const Support = () => {
             {tel}
           </WrapPhone>
         </HeaderModal>
-        <BodyModal>body</BodyModal>
+        <BodyModal>
+          <ChatPlace>
+            <Messages onScroll={findScrollHeight}>
+              <div ref={messagesStartRef} />
+              {histories?.map((v: any) => {
+                return (
+                  <MessageWrap type={v.chatType}>
+                    <Message type={v.chatType}>
+                      <MessageDate type={v.chatType}>
+                        {dayjs(v.createdAt)
+                          .subtract(2, 'minute')
+                          .format('hh:mm')}
+                      </MessageDate>
+                      <MessageText type={v.chatType}>{v.msg}</MessageText>
+                    </Message>
+                  </MessageWrap>
+                );
+              })}
+              <div ref={messagesEndRef} />
+            </Messages>
+          </ChatPlace>
+        </BodyModal>
         <FooterModal>
           <Form onSubmit={handleSubmit(onSubmit)}>
-            <Controller
-              name='message'
-              control={control}
-              rules={{
-                required: true,
-              }}
-              defaultValue=''
-              render={({ field }) => (
-                <Input
-                  fullWidth={true}
-                  multiline={true}
-                  placeholder={t('writeyoutmessage')}
-                  inputStyle={{
-                    border: '1px solid red',
-                    inpadding: width > 1500 ? '10px 20px' : '',
-                    height: { mobile: 50 },
-                  }}
-                  field={field}
-                  maxLength={400}
-                />
-              )}
-            />
+            <WrapTextArea>
+              <Controller
+                name='message'
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                defaultValue=''
+                render={({ field }) => (
+                  <TextareaAutosize
+                    minRows={1}
+                    maxRows={6}
+                    placeholder={t('writeyoutmessage')}
+                    onChange={(e) => field.onChange(e)}
+                    value={field.value}
+                    style={{
+                      maxWidth: '100%',
+                      minWidth: '100%',
+                      maxHeight: '102px',
+                    }}
+                    maxLength={400}
+                  />
+                )}
+              />
+              <WrapButtons>
+                <IconButton>
+                  <ScriptIcon />
+                </IconButton>
+                <IconButton type='submit' disabled={loading}>
+                  <SendIcon />
+                </IconButton>
+              </WrapButtons>
+            </WrapTextArea>
+            <Wranning>{limitwords}</Wranning>
           </Form>
         </FooterModal>
       </WrapModal>

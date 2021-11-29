@@ -15,12 +15,19 @@ export const SearchIcon = styled(Search)`
     width: 20px;
     height: 20px;
   }
+  @media (max-width: ${device.mobile}) {
+    width: 16px;
+    height: 16px;
+  }
 `;
 
 export const FilterWarp = styled.div`
   display: flex;
   flex-direction: row;
   margin: 0 0 20px 0;
+  @media (max-width: ${device.mobile}) {
+    margin: 0 0 10px 0;
+  }
 `;
 
 export const WrapTotal = styled.div``;
@@ -96,6 +103,10 @@ export const WrapDef = styled.div`
   display: flex;
   flex-wrap: wrap;
   flex: 1;
+  @media (max-width: ${device.mobile}) {
+    margin-top: 10px;
+    grid-gap: 15px;
+  }
 `;
 
 export const NoResult = styled.div`
@@ -121,6 +132,13 @@ export const Info = styled.div`
     margin: 0px 5px;
     font-size: 18px;
   }
+  @media (max-width: ${device.mobile}) {
+    margin-bottom: 15px;
+    font-size: 16px;
+    span {
+      font-size: 16px;
+    }
+  }
 `;
 
 export const WrapPag = styled.div`
@@ -130,4 +148,9 @@ export const WrapPag = styled.div`
   margin: 25px 0 0;
   padding-bottom: 25px;
   width: 100%;
+  @media (max-width: ${device.mobile}) {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
 `;

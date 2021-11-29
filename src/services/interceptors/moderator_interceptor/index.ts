@@ -13,6 +13,9 @@ const adminInterceptor = axios.create({
 
 adminInterceptor.interceptors.request.use((value: AxiosRequestConfig) => {
   const accessToken = localStorage.getItem(MODERATOR.ACCESS_TOKEN);
+  if (value.url?.includes("company/token")) {
+    value.baseURL = URL;
+  }
   value.headers.authorization = "Bearer " + accessToken;
   value.headers.vers = VERSION;
   value.headers.langId = 1;

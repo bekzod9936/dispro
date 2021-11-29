@@ -1,7 +1,11 @@
 import { useMemo } from "react";
 import { useSortBy, useTable } from "react-table";
-import { useRecoilValue } from "recoil";
-import { companiesM } from "services/atoms/admin_companies";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  companiesM,
+  selectedCompany,
+  setSelectCompany,
+} from "services/atoms/admin_companies";
 import { headers } from "./constants";
 import {
   Container,
@@ -16,9 +20,12 @@ import {
   Img,
 } from "./style";
 import LogoDef from "assets/icons/SideBar/logodefault.png";
+import { ICompany } from "services/atoms/admin_companies/types";
 
 const CompaniesTable = () => {
   const companies = useRecoilValue(companiesM);
+  const sCompany = useRecoilValue(selectedCompany);
+  const setSelected = useSetRecoilState(setSelectCompany);
   const columns: any = useMemo(() => {
     return headers.map((header) => {
       if (header.label === "logo") {
@@ -78,7 +85,17 @@ const CompaniesTable = () => {
           {rows.map((row: any) => {
             prepareRow(row);
             return (
-              <Tr {...row.getRowProps()}>
+              <Tr
+                checked={sCompany.id === row.original.id}
+                onClick={() => {
+                  if (row.original.id === sCompany.id) {
+                    setSelected({});
+                  } else {
+                    setSelected(row.original);
+                  }
+                }}
+                {...row.getRowProps()}
+              >
                 {row.cells.map((cell: any) => {
                   return (
                     <Td {...cell.getCellProps()}>{cell.render("Cell")}</Td>
