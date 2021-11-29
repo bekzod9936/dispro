@@ -52,7 +52,8 @@ const useData = () => {
             col4:date,
             fullData: {
                 data: v,
-                date:date
+                date:date,
+                genderType:genderType
               },
           }
   });
