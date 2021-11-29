@@ -3,6 +3,11 @@
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/logo.ico" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta
+      http-equiv="cache-control"
+      content="no-cache, no-store, must-revalidate"
+    />
     <meta
       name="viewport"
       content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width, user-scalable=no"
@@ -72,6 +77,12 @@
         "resize",
         setViewportProperty(document.documentElement)
       );
+      window.addEventListener("error", (e) => {
+        // prompt user to confirm refresh
+        if (/Loading chunk [\d]+ failed/.test(e.message)) {
+          window.location.reload();
+        }
+      });
     </script>
   </body>
 </html>

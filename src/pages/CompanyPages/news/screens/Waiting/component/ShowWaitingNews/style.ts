@@ -94,12 +94,14 @@ export const Preview = styled.div`
     width: 100%;
     top: 10px;
     min-height: 185px;
+    object-fit:'cover';
   }
   img.iphoneImg {
     max-width: 290px;
     width: 100%;
     height: 100%;
     position: relative;
+    object-fit:'cover';
     /* z-index: 12; */
   }
 `;

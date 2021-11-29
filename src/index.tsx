@@ -1,17 +1,19 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import { RecoilRoot } from 'recoil';
-import App from './App';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { store } from './services/redux/store';
-import { Provider } from 'react-redux';
-import { StylesProvider } from '@material-ui/core';
-import { I18nextProvider } from 'react-i18next';
-import i18n from './services/localization/i18n';
-import { BrowserRouter } from 'react-router-dom';
-import { createTheme, MuiThemeProvider } from '@material-ui/core/styles';
-import 'emoji-mart/css/emoji-mart.css';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import { RecoilRoot } from "recoil";
+import App from "./App";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { store } from "./services/redux/store";
+import { Provider } from "react-redux";
+import { StylesProvider } from "@material-ui/core";
+import { I18nextProvider } from "react-i18next";
+import i18n from "./services/localization/i18n";
+import { BrowserRouter } from "react-router-dom";
+import { createTheme, MuiThemeProvider } from "@material-ui/core/styles";
+import "emoji-mart/css/emoji-mart.css";
+import { ErrorBoundary } from "react-error-boundary";
+import { ErrorFallback } from "pages/Fallbacks/ErrorFallback";
 
 const queryClient = new QueryClient();
 
@@ -27,9 +29,9 @@ const theme = createTheme({
   },
 });
 
-if ('serviceWorker' in navigator) {
+if ("serviceWorker" in navigator) {
   navigator.serviceWorker
-    .register('./firebase-messaging-sw.js')
+    .register("./firebase-messaging-sw.js")
     .then(function (registration) {})
     .catch(function (err) {});
 }
@@ -43,7 +45,9 @@ ReactDOM.render(
             <Provider store={store}>
               <QueryClientProvider client={queryClient}>
                 <BrowserRouter>
-                  <App />
+                  <ErrorBoundary FallbackComponent={ErrorFallback}>
+                    <App />
+                  </ErrorBoundary>
                 </BrowserRouter>
               </QueryClientProvider>
             </Provider>
@@ -52,5 +56,5 @@ ReactDOM.render(
       </I18nextProvider>
     </RecoilRoot>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );

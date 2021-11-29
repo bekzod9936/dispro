@@ -95,7 +95,7 @@ console.log('gender',currentNews?.genderType )
             <PreviewBgNews src={currentNews?.data?.image} alt="" />
           )}
           <img
-            style={{ zIndex: 20, position: "relative" }}
+            style={{ zIndex: 20, position: "relative",objectFit:'fill' }}
             width="320"
             height="180"
             alt=""
@@ -244,7 +244,7 @@ console.log('gender',currentNews?.genderType )
             <CloseIcon />
           </CloseButton>
           <h3>
-           {t('Выберите дату публикации')}
+           {t('Выберите период')}
           </h3>
           <PublicModal  setPublisOpen={setPublisOpen} />
       
