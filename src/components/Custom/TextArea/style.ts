@@ -72,7 +72,7 @@ export const MTextArea = styled.textarea`
    
     &::-webkit-resizer {
      
-      /* background-image: url(${defaultImage}); */
+
       background-image: url(${Textt});
       height:20px;
       width:20px; 
