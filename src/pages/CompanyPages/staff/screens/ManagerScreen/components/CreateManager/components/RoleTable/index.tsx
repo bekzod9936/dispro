@@ -11,6 +11,7 @@ import {
 	ModalAction,
 	DisabledText,
 	DisabledWrap,
+	SelectedUser,
 } from './style';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector, useAppDispatch } from 'services/redux/hooks';
@@ -64,6 +65,7 @@ const RoleTable = ({}: IProps) => {
 	// 		},
 	// 	}
 	// );
+	const userName = managers?.find((item: any) => item.id == managerId);
 
 	const { isFetching } = useQuery(
 		'permission',
@@ -95,6 +97,10 @@ const RoleTable = ({}: IProps) => {
 	}
 	return (
 		<>
+			<SelectedUser>
+				{userName?.firstName + ' ' + userName?.lastName}
+			</SelectedUser>
+
 			{Object.keys(state).every((el) => state[el].join('') === '') ? (
 				<DisabledWrap>
 					<DisableBtn />
