@@ -560,6 +560,8 @@ const RepairNews = () => {
                         label="Текст Push-уведомления"
                         type="textarea"
                         multiline={true}
+                        
+                        maxLength={100}
                         defaultValue={newsById?.data?.pushUpTitle}
                         inputStyle={{
                           height: { desktop: 120, laptop: 90, mobile: 120 },
@@ -585,6 +587,7 @@ const RepairNews = () => {
                     render={({ field }) => (
                       <MultiSelect
                         field={field}
+                        isClearable={false}
                         isMulti={true}
                         options={days}
                         label="Укажите дни"
@@ -637,7 +640,7 @@ const RepairNews = () => {
                 <CheckBox
                   checked={checked}
                   name={"checked"}
-                  label={"Круглосуточна"}
+                  label={"Круглосуточно"}
                   onChange={(e: any) => setChecked(e)}
                 />
               )}

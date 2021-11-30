@@ -7,6 +7,7 @@ import MultiSelect from "components/Custom/MultiSelect";
 import Title from "components/Custom/Title";
 import CheckBox from "components/Custom/CheckBox";
 import React from "react";
+import CustomDatePicker from "components/Custom/CustomDatePicker";
 import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
@@ -131,6 +132,7 @@ const CreateNews = () => {
       setIsCropVisible(false);
     }
   };
+
 
   const cancelFormat=()=>{
     setErrorFileType(false);
@@ -343,7 +345,6 @@ const CreateNews = () => {
                           type="date"
                           min={todayDate}
                           error={!!errors.startDate}
-                          // message={t("requiredField")}
                           IconStart={<WrapDate>{t("from")}</WrapDate>}
                           inputStyle={{
                             inpadding: "0 10px 0 0",
@@ -376,6 +377,37 @@ const CreateNews = () => {
               ) : (
                 <WrapInputs>
                   <Label>{t("chose_date")}</Label>
+                  {/* <CustomDatePicker
+              margin="0 15px 0 0"
+              isFilter
+              text={t("from")}
+              minDate={todayDate}
+              maxDate={filter?.regDate?.regDateTo}
+              onChange={(e) => {
+                let date = "" + e.year + "-" + e.month.number + "-" + e.day;
+                setFilter((prev: any) => ({
+                  ...prev, regDate: {
+                    ...prev["regDate"],
+                    regDateFrom: date
+                  }
+                }))
+              }}
+              value={filter?.regDate?.regDateFrom} />
+            <CustomDatePicker
+              isFilter
+              text={t("to")}
+              minDate={todayDate}
+              onChange={(e) => {
+                let date = "" + e.year + "-" + e.month.number + "-" + e.day;
+                setFilter((prev: any) => ({
+                  ...prev, regDate: {
+                    ...prev["regDate"],
+                    regDateTo: date
+                  }
+                }))
+              }}
+              value={filter?.regDate?.regDateTo} /> */}
+
                   <div>
                     <Controller
                       name="startDate"
@@ -430,6 +462,7 @@ const CreateNews = () => {
                   </div>
                 </WrapInputs>
               )}
+
 
               <WrapSelect>
                 <Controller
@@ -492,6 +525,7 @@ const CreateNews = () => {
                         type="textarea"
                         required={optionalFields.push ? true : false}
                         multiline={true}
+                        maxLength={100}
                         inputStyle={{
                           height: { desktop: 120, laptop: 90, mobile: 120 },
                         }}
@@ -512,9 +546,14 @@ const CreateNews = () => {
                     control={control}
                     render={({ field }) => (
                       <MultiSelect
+                        isClearable={false}
                         field={field}
                         isMulti={true}
                         options={days}
+                        selectStyle={{
+                          weight:300,
+                          fontSize:{desktop:14},
+                        }}
                         label="Укажите дни"
                       />
                     )}
@@ -578,6 +617,8 @@ const CreateNews = () => {
                             placeholdercolor: "#223367",
                             inpadding: "2px 10px 2px 60px",
                             placewieght: "500",
+                          
+                           
                           }}
                           placeholder={t("Выберите филиалы")}
                           margin={{

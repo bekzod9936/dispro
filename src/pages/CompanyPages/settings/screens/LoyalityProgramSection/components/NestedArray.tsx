@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { memo, useMemo, useState, useEffect, useCallback } from "react";
 import { Controller, useFieldArray, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { numberWith } from "services/utils";
@@ -16,6 +16,7 @@ import { ReactComponent as Remove } from "assets/icons/exit_mini.svg";
 import { LevelGrid, RequirementsGrid, SelectGrid, SubText } from "../styles";
 import { IconDiv, StatusContainer } from "./style";
 import { Break } from "pages/CompanyPages/settings/styles";
+import SecondStatusCard from "./SecondStatusCard";
 
 interface IProps {
   index: number;
@@ -25,7 +26,10 @@ interface IProps {
   setValue?: any;
 }
 
-const NestedArray = ({ index, control, getValues, setValue }: IProps) => {
+let render = 0;
+
+const NestedArray = ({ index, control, setValue }: IProps) => {
+  console.log(++render, "rendering");
   const { t } = useTranslation();
   const { labelType, loyalityOptions } = useDetail();
   const levels = useWatch({
@@ -36,13 +40,23 @@ const NestedArray = ({ index, control, getValues, setValue }: IProps) => {
     control,
     name: `levels.${index}.requirements`,
   });
+  const levelReqs = useWatch({
+    control,
+    name: `levels.${index}.requirements`,
+  });
 
-  const typeFullOptions = [
-    { value: "and", label: t("and") },
-    { value: "or", label: t("or") },
-  ];
+  const typeFullOptions = useMemo(
+    () => [
+      { value: "and", label: t("and") },
+      { value: "or", label: t("or") },
+    ],
+    [t]
+  );
 
-  const oneFullOptions = [{ value: "and", label: t("and") }];
+  const oneFullOptions = useMemo(
+    () => [{ value: "and", label: t("and") }],
+    [t]
+  );
 
   const removeIcon = (smallIndex: number) => {
     if (smallIndex !== 0) {
@@ -69,7 +83,6 @@ const NestedArray = ({ index, control, getValues, setValue }: IProps) => {
               condition: "or",
               unit: "шт",
             });
-            console.log(getValues("levels"), "values get!!!");
           }}
           padding={0}
         >
@@ -90,24 +103,7 @@ const NestedArray = ({ index, control, getValues, setValue }: IProps) => {
 
   const checkLevels = levels?.length > 0 && fields?.length > 0;
 
-  const groupStatus = () => {
-    let arr1: any = {
-      first: [],
-      second: [],
-    };
-    fields.reduce((itemN: any, key: any) => {
-      if (key.condition === "" || key.condition === "and") {
-        arr1["first"] = [...arr1["first"], key];
-      }
-      if (key.condition === "or" || key.condition === "and") {
-        arr1["second"] = [...arr1["second"], key];
-      }
-
-      return Object.assign({ ...itemN, [key.condition]: key });
-    }, {});
-    return arr1;
-  };
-
+  // console.log(arr1, "arr1");
   return (
     <div>
       {checkLevels &&
@@ -220,17 +216,21 @@ const NestedArray = ({ index, control, getValues, setValue }: IProps) => {
                           {...field}
                           name={field.name}
                           placeholder={labelType(value?.type)}
-                          options={loyalityOptions?.filter(
-                            (item: any) =>
-                              !levels[index].requirements?.find(
-                                (newItem: any) => newItem?.type == item?.value
-                              )
-                          )}
+                          options={loyalityOptions}
+                          // ?.filter(
+                          //   (item: any) =>
+                          //     !levels[index].requirements?.find(
+                          //       (newItem: any) => newItem?.type == item?.value
+                          //     )
+                          // )
                           value={loyalityOptions?.find(
                             (c) =>
                               c.value ==
                               levels[index]?.requirements[smallIndex]?.type
                           )}
+                          isOptionDisabled={(option: any) =>
+                            option.isDisabled && option.value === value.type
+                          }
                           onChange={(e) => {
                             field.onChange(e.value);
                             if (e.value == 2) {
@@ -282,6 +282,7 @@ const NestedArray = ({ index, control, getValues, setValue }: IProps) => {
                       defaultValue={numberWith(value?.amount, " ")}
                       variant="standard"
                       IconEnd={unitIcon(value.unit)}
+                      maxLength={11}
                       width={{
                         minwidth: 100,
                       }}
@@ -306,13 +307,11 @@ const NestedArray = ({ index, control, getValues, setValue }: IProps) => {
         })}
       <Break height={30} />
       <StatusContainer>
-        {checkLevels &&
-          Object.keys(groupStatus())?.map((val: any, sIndex: number) => {
-            return <StatusCard val={groupStatus()[val]} index={sIndex} />;
-          })}
+        {checkLevels ? <StatusCard val={levelReqs} /> : null}
+        {checkLevels ? <SecondStatusCard val={levelReqs} /> : null}
       </StatusContainer>
     </div>
   );
 };
 
-export default NestedArray;
+export default memo(NestedArray);

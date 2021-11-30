@@ -201,8 +201,8 @@ const MobileTable = ({refetch, data }: Props) => {
                         <Box>
                           <BoxInfo>
                             {info?.description?.length > 150
-                              ? info?.description?.slice(0, 150) + "..."
-                              : info?.description}
+                              ? <p style={{whiteSpace: "pre-wrap",wordBreak: 'break-all'}}>{info?.description?.slice(0, 150) + "..."}</p>
+                              : <p style={{whiteSpace: "pre-wrap",wordBreak: 'break-all'}}>{info?.description}</p>}
                           </BoxInfo>
                         </Box>
                       </WrapBox>
