@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Container, Row, Col, Title, Text, EText } from "./style";
 import { Break, SpinnerDiv } from "pages/CompanyPages/settings/styles";
 //actions
@@ -22,7 +23,10 @@ interface IProps {
   isLoading: boolean;
 }
 
+let render = 0;
+
 const MobileContent = ({ isLoading }: IProps) => {
+  console.log(++render, "mobile rennder");
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { handleCheck } = useMobileContent();
@@ -154,4 +158,4 @@ const MobileContent = ({ isLoading }: IProps) => {
   );
 };
 
-export default MobileContent;
+export default memo(MobileContent);

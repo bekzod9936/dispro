@@ -2,6 +2,7 @@
 import { Flex } from "../../style";
 import Button from "components/Custom/Button";
 import { AddIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
+import {AddMobileIcon} from "assets/icons/news/newsIcons";
 import Input from "components/Custom/Input";
 import DatePcker from "components/Custom/DatePicker";
 import { SearchIcon } from "components/Layout/Header/style";
@@ -35,14 +36,14 @@ export const MobileFilterNews=({handleOpenNews,searchNews,filterByDate}:FilterNe
             bgcolor: "#FFFFFF",
             color: "#223367",
             weight: 500,
-            height: { desktop: 50,mobile:40 },
+            height: { desktop: 50,mobile:36 },
           }}
           margin={{
             desktop: "0 25px 0 0",
             laptop: "0 25px 0 0",
             planshet: "0 0 20px 0",
           }}
-          startIcon={<AddIcon />}
+          startIcon={<AddMobileIcon />}
         >
           {t("Создать ")}
         </Button>
@@ -57,7 +58,11 @@ export const MobileFilterNews=({handleOpenNews,searchNews,filterByDate}:FilterNe
         alignItems="center" margin="13px 0px 0px 0px"> 
             
          <Input
-          inputStyle={{ border: "none", height: { desktop: 50 ,mobile:40} }}
+          inputStyle={{ border: "none", height: { desktop: 50 ,mobile:36} }}
+          margin={{
+            mobile: "0 10px 0 10px",
+            
+          }}
           IconStart={<SearchIcon style={{ marginLeft: 20 }} />}
           value={query}
           placeholder="Поиск "

@@ -6,11 +6,12 @@ const useDetail = () => {
 
   const loyalityOptions = useMemo(
     () => [
-      { value: 1, label: t("purchaseSum") },
-      { value: 3, label: t("companyVisits") },
+      { value: 1, label: t("purchaseSum"), isDisabled: true },
+      { value: 3, label: t("companyVisits"), isDisabled: true },
       {
         value: 2,
         label: t("recomendations"),
+        isDisabled: true,
       },
     ],
     [t]

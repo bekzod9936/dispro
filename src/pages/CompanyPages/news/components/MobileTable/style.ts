@@ -86,6 +86,7 @@ export const BoxInfo = styled.div`
   font-size: 14px;
   padding-right:20px;
   color: #223367;
+  
 `;
 export const Buttons = styled.div`
 	display: flex;

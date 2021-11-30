@@ -54,6 +54,7 @@ import {
   Close1Icon,
   WrapClose,
   WrapperIcon,
+  Box1,
 } from './style';
 
 const Header = () => {
@@ -249,7 +250,7 @@ const Header = () => {
           </Title>
         </Wrap>
       </Wrapper>
-      <Wrapper>
+      <Box1>
         <IconButton>
           <SearchIcon mobile={true} />
         </IconButton>
@@ -281,7 +282,9 @@ const Header = () => {
                 <ArrowIcon marginLeft={true} />
               </Button>
             }
-            openBgColor='rgba(96, 110, 234, 0.1)'
+            openBgColor={
+              width > 1000 ? 'rgba(96, 110, 234, 0.1)' : 'transparent'
+            }
             radius={14}
             popoverStyle={{ marginTop: '20px' }}
             anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
@@ -327,7 +330,7 @@ const Header = () => {
             </FullModal>
           </>
         )}
-      </Wrapper>
+      </Box1>
     </Container>
   );
 };

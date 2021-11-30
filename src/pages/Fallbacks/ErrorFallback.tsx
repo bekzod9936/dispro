@@ -1,4 +1,6 @@
+import Spinner from "components/Helpers/Spinner";
 import { useEffect } from "react";
+import { SpinnerDiv } from "./style";
 
 export const ErrorFallback = ({ error }: any) => {
   // Handle failed lazy loading of a JS/CSS chunk.
@@ -10,9 +12,8 @@ export const ErrorFallback = ({ error }: any) => {
   }, [error]);
 
   return (
-    <div>
-      <p>Something went wrong.</p>
-      <pre>{error?.message}</pre>
-    </div>
+    <SpinnerDiv>
+      <Spinner />
+    </SpinnerDiv>
   );
 };

@@ -3,28 +3,15 @@ import { useQuery } from 'react-query';
 import { fetchCilentsData } from 'services/queries/statisticsQuery';
 import { useAppDispatch } from 'services/redux/hooks';
 import { setOffers } from 'services/redux/Slices/statistics/statistics';
-interface Props {
-  filterValues?: any;
-}
 
-const useOffersHook = ({ filterValues }: Props) => {
+const useOffersHook = () => {
   const dispatch = useAppDispatch();
-  const [data, setData] = useState([
-    {
-      activeCount: '',
-      expireCount: '',
-      payedCount: '',
-      type: '',
-      usedCount: '',
-    },
-  ]);
+  const [date, setDate] = useState({ startDate: '', endDate: '' });
 
   const response = useQuery(
     'fetchOffersInfo',
     () => {
-      const url = Object.keys(filterValues)
-        .map((v: any) => `${v}=${filterValues[v]}&`)
-        .join('');
+      const url = `&startDate=${date.startDate}&endDate=${date.endDate}`;
       return fetchCilentsData({ section: `coupons/new?${url}` });
     },
     {
@@ -32,13 +19,12 @@ const useOffersHook = ({ filterValues }: Props) => {
       refetchOnWindowFocus: false,
       retry: 0,
       onSuccess: (data: any) => {
-        setData(data.data.data);
         dispatch(setOffers(data.data.data));
       },
     }
   );
 
-  return { response, data };
+  return { response, date, setDate };
 };
 
 export default useOffersHook;

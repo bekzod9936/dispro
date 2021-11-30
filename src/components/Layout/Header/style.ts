@@ -31,7 +31,7 @@ interface LangProps {
 export const WrapLang = styled.div`
   display: ${({ mobile }: LangProps) => (mobile ? 'none' : 'block')};
 
-  @media (max-width: ${device.mobile}) {
+  @media (max-width: ${device.planshet}) {
     display: ${({ mobile }: LangProps) => (mobile ? 'block' : 'none')};
     margin: ${({ mobile }: LangProps) => (mobile ? '0 0 20px 0' : null)};
     width: ${({ mobile }: LangProps) => (mobile ? 'fit-content' : null)};
@@ -46,6 +46,9 @@ export const TitleLogo = styled.div`
   display: flex;
   align-items: center;
   white-space: nowrap;
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    font-size: 15px;
+  }
 `;
 
 export const LogoIcon = styled.img`
@@ -60,7 +63,7 @@ export const LogoIcon = styled.img`
 export const WrapLogo = styled.div`
   display: none;
 
-  @media (max-width: ${device.mobile}) {
+  @media (max-width: ${device.planshet}) {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -75,8 +78,23 @@ export const Wrapper = styled.div`
   @media (max-width: ${device.laptop}) {
     justify-content: space-between;
   }
-  @media (max-width: ${device.mobile}) {
-    justify-content: space-evenly;
+  @media (max-width: ${device.planshet}) {
+    justify-content: end;
+    grid-gap: 20px;
+  }
+`;
+
+export const Box1 = styled.div`
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  @media (max-width: ${device.laptop}) {
+    justify-content: space-between;
+  }
+  @media (max-width: ${device.planshet}) {
+    justify-content: end;
+    grid-gap: 10px;
   }
 `;
 
@@ -143,10 +161,10 @@ export const SearchIcon = styled(Search)`
     width: 17px;
     height: 17px;
   }
-  @media (min-width: ${device.mobile}) {
+  @media (min-width: ${device.planshet}) {
     display: ${({ mobile }: NProps) => mobile && 'none'};
   }
-  @media (max-width: ${device.mobile}) {
+  @media (max-width: ${device.planshet}) {
     width: 20px;
     height: 20px;
     & > path {
@@ -157,7 +175,7 @@ export const SearchIcon = styled(Search)`
 
 export const WrapInput = styled.div`
   width: fit-content;
-  @media (max-width: ${device.mobile}) {
+  @media (max-width: ${device.planshet}) {
     display: none;
   }
 `;
@@ -173,7 +191,7 @@ export const ArrowIcon = styled(Arrow)`
   height: 8px;
   margin-right: ${({ marginLeft }: ArrowProps) => (marginLeft ? null : '20px')};
   margin-left: ${({ marginLeft }: ArrowProps) => marginLeft && '20px'};
-  @media (max-width: ${device.mobile}) {
+  @media (max-width: ${device.planshet}) {
     display: ${({ marginLeft }: ArrowProps) => marginLeft && 'none'};
   }
 `;
@@ -296,7 +314,7 @@ export const WrapPop = styled.div`
   align-items: flex-start;
   justify-content: center;
   margin-left: 20px;
-  @media (max-width: ${device.mobile}) {
+  @media (max-width: ${device.planshet}) {
     display: none !important;
   }
 `;

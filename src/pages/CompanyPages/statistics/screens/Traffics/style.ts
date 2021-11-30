@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import { device } from 'styles/device';
 import { ReactComponent as App } from 'assets/icons/StatistisPage/app.svg';
 import { ReactComponent as Mobile } from 'assets/icons/StatistisPage/mobile.svg';
 
@@ -12,6 +13,9 @@ export const Container = styled.div`
 
 const iconstyle = css`
   margin-right: 20px;
+  @media (max-width: ${device.mobile}) {
+    margin-right: 0;
+  }
 `;
 
 export const AppIcon = styled(App)`
@@ -34,7 +38,8 @@ export const Img = styled.img`
 `;
 
 export const Wrapper = styled.div`
-  overflow-y: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
   ::-webkit-scrollbar {
     width: 7px;
   }
@@ -48,4 +53,8 @@ export const Wrapper = styled.div`
   }
   padding-right: 25px;
   padding-bottom: 30px;
+  @media (max-width: ${device.mobile}) {
+    padding-right: 15px;
+    padding-bottom: 15px;
+  }
 `;

@@ -107,6 +107,9 @@ const LoyaltyProgramSection = () => {
     setModified,
     assertModalVisible,
     setAssertModalVisible,
+    isFetching,
+    cashbackFetching,
+    discountFetching,
   } = useLoyality();
 
   //selectors
@@ -128,16 +131,15 @@ const LoyaltyProgramSection = () => {
     !isLoading &&
     !cashbackLoading &&
     !discountLoading &&
-    !loayalityChange.isLoading;
+    !loayalityChange.isLoading &&
+    !isFetching &&
+    !cashbackFetching &&
+    !discountFetching;
   const cashbackActive =
     active.active === "cashback" ||
     activeCheck === "cashback" ||
     (emptyCashback.empty && emptyCashback.type === activeCheck);
   const activeEmpty = active.active === "" && activeCheck === "";
-
-  //save loyalitys
-
-  const onError = (errors: any, e: any) => console.log(errors, e);
 
   const handleChecked = (key: any) => {
     console.log(key, "key that i want");
@@ -236,7 +238,7 @@ const LoyaltyProgramSection = () => {
             <RightGrid item xs={12} sm={7}>
               {loading ? (
                 <LargePanel id="largePanel">
-                  <Form onSubmit={handleSubmit(onFormSubmit, onError)}>
+                  <Form onSubmit={handleSubmit(onFormSubmit)}>
                     <Grid
                       container
                       direction="row"

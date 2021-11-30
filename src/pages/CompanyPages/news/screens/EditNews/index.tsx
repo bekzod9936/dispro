@@ -356,7 +356,7 @@ console.log('filteredArray',filteredArray)
                     error={!!errors.name}
                     message={t("requiredField")}
                     field={field}
-                    multiline={true}
+                    maxLength={80}
                     label="Название"
                     defaultValue={newsById?.data?.title}
                  
@@ -557,6 +557,8 @@ console.log('filteredArray',filteredArray)
                         label="Текст Push-уведомления"
                         type="textarea"
                         multiline={true}
+                        maxLength={100}
+                        
                         defaultValue={newsById?.data?.pushUpTitle}
                         inputStyle={{
                           height: { desktop: 120, laptop: 90, mobile:120 },
@@ -570,6 +572,7 @@ console.log('filteredArray',filteredArray)
                     )}
                   />
                 )}
+             
               </PushWrapper>
               <PushWrapper>
                 {optionalFields.push && (
@@ -580,6 +583,7 @@ console.log('filteredArray',filteredArray)
                     render={({ field }) => (
                       <MultiSelect
                         field={field}
+                        isClearable={false}
                         isMulti={true}
                         options={days}
                         label="Укажите дни"
@@ -632,7 +636,7 @@ console.log('filteredArray',filteredArray)
                 <CheckBox
                   checked={checked}
                   name={"checked"}
-                  label={"Круглосуточна"}
+                  label={"Круглосуточно"}
                   onChange={(e: any) => setChecked(e)}
                 />
               )}
