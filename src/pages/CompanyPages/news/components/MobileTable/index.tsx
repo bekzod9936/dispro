@@ -114,7 +114,7 @@ const MobileTable = ({refetch, data }: Props) => {
                       src={info.image}
                       width="40px"
                       effect="blur"
-                      style={{ objectFit: "cover", borderRadius: "14px" }}
+                      style={{ objectFit: "fill", borderRadius: "14px" }}
                     />
                   </WrapIcon>
                 ) : (
@@ -161,7 +161,7 @@ const MobileTable = ({refetch, data }: Props) => {
                               width="50px"
                               effect="blur"
                               style={{
-                                objectFit: "cover",
+                                objectFit: "fill",
                                 borderRadius: "14px",
                               }}
                             />

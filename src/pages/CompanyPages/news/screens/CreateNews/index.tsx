@@ -197,10 +197,10 @@ const CreateNews = () => {
     setCancel(false);
   };
   const submitData = () => {
-    console.log(formData);
-    // mutate(formData);
 
-    // setTimeout(() => history.goBack(), 1000);
+    mutate(formData);
+
+    setTimeout(() => history.goBack(), 1000);
   };
   console.log(watch("description"));
   console.log("errors", errors);
