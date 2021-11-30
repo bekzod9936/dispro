@@ -58,6 +58,7 @@ import { getWeekDays } from '../../utils/getValidDate';
 import InputFormat from 'components/Custom/InputFormat';
 import useWindowWidth from 'services/hooks/useWindowWidth';
 import FullModal from 'components/Custom/FullModal';
+import Spinner from 'components/Helpers/Spinner';
 const UpdateCoupon = () => {
   const { currentCoupon } = useAppSelector(
     (state: RootState) => state.proposals
@@ -79,7 +80,7 @@ const UpdateCoupon = () => {
   const [leave, setLeave] = React.useState(false);
   const [valid, setValid] = React.useState<boolean>(true);
   const [publish, setPublish] = React.useState<boolean>(false);
-  const { handleUpload, deleteImage } = useUploadImage(setImage);
+  const { handleUpload, deleteImage, isLoading } = useUploadImage(setImage);
   const {
     handleSubmit,
     register,
@@ -226,7 +227,7 @@ const UpdateCoupon = () => {
 
   return (
     <Wrapper>
-      {width > 600 && (
+      {width > 1000 && (
         <div
           style={{ display: 'flex', marginBottom: 30, alignItems: 'center' }}
         >
@@ -283,7 +284,7 @@ const UpdateCoupon = () => {
         ageFrom={watch('ageLimit')}
       />
       <Form onSubmit={publish ? handleSubmit(onPublish) : handleSubmit(onSave)}>
-        {width <= 600 && (
+        {width <= 1000 && (
           <MobileHeader>
             <GoBackIcon onClick={handleBack} style={{ cursor: 'pointer' }} />
             <Title>Редактирование {isCoupon ? 'купона' : 'сертификата'}</Title>
@@ -293,7 +294,7 @@ const UpdateCoupon = () => {
           <Container>
             <LeftSide>
               <Title>Фотографии</Title>
-              {!image && (
+              {!isLoading && !image && (
                 <div style={{ marginBottom: 30 }}>
                   <Header>
                     <p>
@@ -314,6 +315,11 @@ const UpdateCoupon = () => {
                   {errors.image && (
                     <ErrorMessage>{errors.image?.message || t('requiredField')}</ErrorMessage>
                   )}
+                </div>
+              )}
+              {isLoading && (
+                <div style={{ width: '100%', height: 140 }}>
+                  <Spinner size={30} />
                 </div>
               )}
               {image && (
@@ -564,6 +570,7 @@ const UpdateCoupon = () => {
                             laptop: '0 25px 0 0',
                             mobile: '0 12px 0 0',
                           }}
+                          max={watch("timeTo")}
                           type='time'
                           field={field}
                         />
@@ -575,6 +582,7 @@ const UpdateCoupon = () => {
                       defaultValue={currentCoupon?.settings?.time?.to}
                       render={({ field }) => (
                         <Input
+                          min={watch("timeFrom")}
                           defaultValue={currentCoupon?.settings?.time?.to}
                           type='time'
                           field={field}
@@ -584,7 +592,7 @@ const UpdateCoupon = () => {
                   </div>
                 )}
               </AgeWrapper>
-              {width > 600 && (
+              {width > 1000 && (
                 <>
                   {valid ? (
                     <Button

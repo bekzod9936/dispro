@@ -112,7 +112,7 @@ export const DownBar = ({ open, setModals, setForm, refetch }: IProps) => {
                 <Footer>
                     <div className="vipProcent">
                         <div className="toggler">
-                            <h6>Индивидуальный статус</h6>
+                            <h6>Специальный статус</h6>
                             <CustomToggle onChange={handleToggleChange} checked={checked} />
                         </div>
                         {checked &&

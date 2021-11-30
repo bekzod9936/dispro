@@ -16,11 +16,12 @@ import Spinner from 'components/Helpers/Spinner';
 import { IDeferred } from 'services/redux/Slices/proposals/types';
 import { CouponCard } from '../../components/CouponCard';
 import { EmptyPage } from '../Drafts/components/EmptyPage';
-import { Container } from '../Drafts/style';
+import { Container, SearchIconWrapper } from '../Drafts/style';
 import useWindowWidth from 'services/hooks/useWindowWidth';
 import { CouponList } from '../../components/CouponList';
 import FullModal from 'components/Custom/FullModal';
 import { FullSideBar } from '../../components/FullSideBar';
+import { TabletCard } from '../../components/TabletCard';
 const Canceled = () => {
   const dispatch = useAppDispatch();
   const { currentCoupon, canceled } = useAppSelector(
@@ -44,7 +45,25 @@ const Canceled = () => {
   }, []);
 
   const coupons = () => {
-    if (width > 600) {
+    if (width <= 1000 && width > 600) {
+      return canceled.map((el: IDeferred) => (
+        <TabletCard
+          stats={el.stat}
+          isSelected={currentCoupon.id === el.id}
+          onClick={() => handleOpen(el.id)}
+          key={el.id}
+          image={el.image}
+          title={el.title}
+          ageFrom={el.ageFrom}
+          type={el.type}
+          categoryIds={el.categoryIds}
+          description={el.description}
+          price={el.price}
+          value={el.value}
+          count={el.count} />
+      ))
+    }
+    else if (width > 600) {
       return canceled.map((el: IDeferred) => (
         <CouponCard
           stats={el.stat}
@@ -91,20 +110,17 @@ const Canceled = () => {
         value={value}
         onChange={(e) => setValue(e.target.value)}
         IconStart={
-          <SearchIcon
-            style={
-              width > 600 ? { marginLeft: '35px' } : { marginLeft: '15px' }
-            }
-          />
+          <SearchIconWrapper>
+            <SearchIcon />
+          </SearchIconWrapper>
         }
         placeholder='Поиск...'
         margin={{ laptop: '0 0 20px 0' }}
         inputStyle={{ border: 'none' }}
         width={{ maxwidth: 500, width: '100%' }}
       />
-      <Container>
-        {isFetching ? <Spinner /> : canceled.length !== 0 && coupons()}
-        {!canceled.length && <EmptyPage />}
+      <Container isFullScreen={canceled.length === 0 || isFetching}>
+        {isFetching ? <Spinner /> : canceled.length === 0 ? <EmptyPage /> : coupons()}
       </Container>
     </Wrapper>
   );

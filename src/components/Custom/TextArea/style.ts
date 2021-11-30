@@ -53,7 +53,6 @@ export const Label = styled.label`
 `;
 
 export const MTextArea = styled.textarea`
-  z-index: 14;
   border: ${({ error }: ITextAreaProps) =>
     error ? '1px solid red' : '1px solid #C2C2C2;'};
   color: ${({ color }: ITextAreaProps) => color || '#223367'};

@@ -99,6 +99,7 @@ export const Preview = styled.div`
         width: 100%;
         top: 10px;
         min-height: 185px;
+        object-fit: cover;
     }
     img.iphoneImg {
         max-width: 300px;

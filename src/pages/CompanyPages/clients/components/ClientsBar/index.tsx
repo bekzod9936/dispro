@@ -158,7 +158,7 @@ export const ClientsBar = ({ refetch }: IProps) => {
                                 }} alt="clientAvatar" /> : <DefaultImage />}
                             <ContentInfo>
                                 <p>{client.firstName} {client.lastName}</p>
-                                <span>Статус: {client.personalLoyaltyInfo.isActive ? client.addInfo.status : client.obtainProgramLoyalty.levelName} {client.personalLoyaltyInfo.isActive ? client.personalLoyaltyInfo.percent : client.obtainProgramLoyalty.percent}%</span>
+                                <span>Статус: {client.personalLoyaltyInfo.isActive ? "Спец" : client.obtainProgramLoyalty.levelName} {client.personalLoyaltyInfo.isActive ? client.personalLoyaltyInfo.percent : client.obtainProgramLoyalty.percent}%</span>
                             </ContentInfo>
                         </Content>
                         <SubContent>
@@ -189,7 +189,7 @@ export const ClientsBar = ({ refetch }: IProps) => {
                                             <MinusCoinsIcon style={{ marginLeft: 10 }} />
                                         </MButton>
                                         <MToggle>
-                                            <p>Индивидуальный статус</p>
+                                            <p>Специальный статус</p>
                                             <CustomToggle
                                                 checked={client?.personalLoyaltyInfo?.isActive || vipModal}
                                                 defaultChecked={client?.personalLoyaltyInfo?.isActive}
@@ -202,7 +202,7 @@ export const ClientsBar = ({ refetch }: IProps) => {
                                                     setVipModal(true)
                                                 }}
                                                 className="updatePercent">
-                                                Настроить индивидуальный статус
+                                                Настроить специальный статус
                                             </button>}
                                     </>}
                             </Buttons>
@@ -259,7 +259,7 @@ export const ClientsBar = ({ refetch }: IProps) => {
                                 <MinusCoinsIcon style={{ marginLeft: 10 }} />
                             </MButton>
                             <MToggle>
-                                <p>Индивидуальный статус</p>
+                                <p>Специальный статус</p>
                                 <CustomToggle
                                     checked={selectedClients.every(client => client.personalLoyaltyInfo.isActive) || vipModal}
                                     defaultChecked={selectedClients.every(client => client.personalLoyaltyInfo.isActive)}
@@ -272,7 +272,7 @@ export const ClientsBar = ({ refetch }: IProps) => {
                                         setVipModal(true)
                                     }}
                                     className="updatePercent">
-                                    Настроить индивидуальный статус
+                                    Настроить специальный статус
                                 </button>}
                         </Buttons>
                         <SelectButtons>

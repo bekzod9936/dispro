@@ -16,11 +16,27 @@ interface RProps {
   reviews?: boolean;
 }
 
-export const OneCheckIcon = styled(OneCheck)``;
+export const OneCheckIcon = styled(OneCheck)`
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  min-height: 20px;
+  max-width: 20px;
+  max-height: 20px;
+`;
 
-export const DoubleCheckIcoon = styled(DoubleCheck)``;
+export const DoubleCheckIcoon = styled(DoubleCheck)`
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  min-height: 20px;
+  max-width: 20px;
+  max-height: 20px;
+`;
 
-export const UnreadIcon = styled(Unread)``;
+export const UnreadIcon = styled(Unread)`
+  margin-left: 15px;
+`;
 
 export const Avatar = styled.div`
   border-radius: 14px;
@@ -28,7 +44,7 @@ export const Avatar = styled.div`
   height: ${({ big }: Props) => (big ? '45px' : '40px')};
   min-width: ${({ big }: Props) => (big ? '45px' : '40px')};
   min-height: ${({ big }: Props) => (big ? '45px' : '40px')};
-  background-color: lightgray;
+  background-color: transparent;
   margin-right: 15px;
   overflow: hidden;
   display: flex;

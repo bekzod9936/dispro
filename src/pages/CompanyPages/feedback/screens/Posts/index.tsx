@@ -72,6 +72,7 @@ import {
   Wranning,
   WrapTextArea,
   WrapButtons,
+  WrapDateMessage,
 } from './style';
 
 interface ChProps {
@@ -282,6 +283,10 @@ const Posts = () => {
         width='100%'
         effect='blur'
         style={{ objectFit: 'cover' }}
+        onError={(e: any) => {
+          e.target.onerror = null;
+          e.target.src = App;
+        }}
       />
     </Avatar>
   );
@@ -356,6 +361,8 @@ const Posts = () => {
                       lastName: v.lastName,
                       lastMsg: v.lastMsg,
                       clientGenderTypeId: v.genderTypeId,
+                      chatType: v.chatType,
+                      status: v.status,
                     }}
                   />
                 );
@@ -377,6 +384,8 @@ const Posts = () => {
                       lastName: v.lastName,
                       lastMsg: v.lastMsg,
                       clientGenderTypeId: v.genderTypeId,
+                      chatType: v.chatType,
+                      status: v.status,
                     }}
                   />
                 );
@@ -534,6 +543,8 @@ const Posts = () => {
                       lastName: v.lastName,
                       lastMsg: v.lastMsg,
                       clientGenderTypeId: v.genderTypeId,
+                      chatType: v.chatType,
+                      status: v.status,
                     }}
                   />
                 );
@@ -553,6 +564,8 @@ const Posts = () => {
                       lastName: v.lastName,
                       lastMsg: v.lastMsg,
                       clientGenderTypeId: v.genderTypeId,
+                      chatType: v.chatType,
+                      status: v.status,
                     }}
                   />
                 );
@@ -622,12 +635,18 @@ const Posts = () => {
                             }}
                             height='100%'
                             width='100%'
+                            onError={(e: any) => {
+                              e.target.onerror = null;
+                              e.target.src = App;
+                            }}
                           />
                         </Avatar>
                         <Message type={v.chatType}>
-                          <MessageDate type={v.chatType}>
-                            {dayjs(v.createdAt).format('hh:mm')}
-                          </MessageDate>
+                          <WrapDateMessage>
+                            <MessageDate type={v.chatType}>
+                              {dayjs(v.createdAt).format('hh:mm')}
+                            </MessageDate>
+                          </WrapDateMessage>
                           <MessageText type={v.chatType}>{v.msg}</MessageText>
                         </Message>
                       </MessageWrap>

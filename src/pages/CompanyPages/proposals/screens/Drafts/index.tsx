@@ -26,6 +26,7 @@ import useWindowWidth from 'services/hooks/useWindowWidth';
 import { CouponList } from '../../components/CouponList';
 import FullModal from 'components/Custom/FullModal';
 import { FullSideBar } from '../../components/FullSideBar';
+import { TabletCard } from '../../components/TabletCard';
 
 const Drafts = () => {
   const { t } = useTranslation();
@@ -57,7 +58,24 @@ const Drafts = () => {
   };
 
   const coupons = () => {
-    if (width > 600) {
+    if (width <= 1000 && width > 600) {
+      return drafts.map((el: IDeferred) => (
+        <TabletCard
+          onClick={() => handleSideBarOpen(el.id)}
+          key={el.id}
+          image={el.image}
+          title={el.title}
+          ageFrom={el.ageFrom}
+          type={el.type}
+          categoryIds={el.categoryIds}
+          description={el.description}
+          price={el.price}
+          value={el.value}
+          count={el.count}
+          isSelected={currentCoupon.id === el.id} />
+      ))
+    }
+    else if (width > 600) {
       return drafts.map((el: IDeferred) => (
         <CouponCard
           isSelected={currentCoupon.id === el.id}
@@ -112,7 +130,7 @@ const Drafts = () => {
           margin={{
             desktop: '0 25px 0 0',
             laptop: '0 25px 0 0',
-            planshet: '0 0 20px 0',
+            planshet: '0 20px 0 0',
             mobile: '0 8px 0 0',
           }}
           startIcon={<AddIcon />}
@@ -137,9 +155,8 @@ const Drafts = () => {
           }
         />
       </SearchBar>
-      <Container>
-        {isFetching ? <Spinner /> : drafts.length !== 0 && coupons()}
-        {!drafts.length && <EmptyPage />}
+      <Container isFullScreen={isFetching || drafts.length === 0}>
+        {isFetching ? <Spinner /> : drafts.length === 0 ? <EmptyPage /> : coupons()}
       </Container>
       <MModal setOpen={setOpen} open={isOpen} />
     </Wrapper>

@@ -67,7 +67,7 @@ const formContents = {
 
 }
 export const MobileForm = ({ open, action, onClose, client, refetch }: IProps) => {
-    const { selectedClients, allClients } = useAppSelector(state => state.clients)
+    const { selectedClients } = useAppSelector(state => state.clients)
     const defaultPercent = selectedClients.length > 1 ? "" : client.percent
     const [percent, setPercent] = useState("");
     const [textAreaValue, setTextAreaValue] = useState("")
@@ -78,7 +78,7 @@ export const MobileForm = ({ open, action, onClose, client, refetch }: IProps) =
 
     const { mutate, isLoading } = useMutation((data: any) => changeVipPercent(data), {
         onSuccess: () => {
-            if (selectedClients.length === allClients.length) {
+            if (selectedClients.length > 5) {
                 queryClient.invalidateQueries("fetchAllClients")
             }
         }
@@ -164,7 +164,7 @@ export const MobileForm = ({ open, action, onClose, client, refetch }: IProps) =
                             <>
                                 <p className="label">{t("client")}</p>
                                 <span>{client.name}</span>
-                                {client.isBlocked ? <b>{t("blocked")}</b> : <b>{action <= 2 ? t("points") + ": " + client.points : t('status') + ": " + client.currentStatus + " " + client.percent + "%"}</b>}
+                                {client.isBlocked ? <b>{t("blocked")}</b> : <b>{action <= 2 ? t("points") + ": " + client.points : t('status') + ": " + (client.currentStatus === client.prevStatus ? client.currentStatus : "Спец") + " " + client.percent + "%"}</b>}
                             </>
                         }
                     </ClientInfo>

@@ -24,12 +24,12 @@ interface IProps {
 
 export const ResetModal = ({ open, client, onClose, refetch }: IProps) => {
     const { t } = useTranslation()
-    const { selectedClients, allClients } = useAppSelector(state => state.clients)
+    const { selectedClients } = useAppSelector(state => state.clients)
     const queryClient = useQueryClient()
 
     const { mutate } = useMutation((data: any) => changeVipPercent(data), {
         onSuccess: () => {
-            if (selectedClients.length === allClients.length) {
+            if (selectedClients.length > 5) {
                 queryClient.invalidateQueries("fetchAllClients")
             }
         }
@@ -64,10 +64,10 @@ export const ResetModal = ({ open, client, onClose, refetch }: IProps) => {
                 </div>
                 <div className="main">
                     <p>{t("currentStatus")}</p>
-                    <span>{client.status}{" "}{client.percent}%</span>
+                    <span>{selectedClients.length > 1 ? "Специальный" : "Спец"}{" "}{!(selectedClients.length > 1) && client.percent + "%"}</span>
                     <RightArrowIcon />
                     <p>{t("standartStatus")}</p>
-                    <span>{client.prevStatus}{" "}{client.prevPercent}%</span>
+                    <span>{selectedClients.length > 1 ? "Стандартный" : client.prevStatus}{" "}{!(selectedClients.length > 1) && client.prevPercent + "%"}</span>
                 </div>
                 <div className="footer">
                     <Button

@@ -11,6 +11,7 @@ export const Container = styled.div`
   padding: 15px;
   cursor: pointer;
   direction: ltr;
+  width: 100%;
   :hover {
     background-color: #8590eb;
   }
@@ -33,6 +34,15 @@ export const Name = styled.div`
   font-weight: 500;
   font-size: 16px;
   color: #ffffff;
+  display: flex;
+  align-items: center;
+  div {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 80%;
+  }
+
   @media (min-width: ${device.laptop}) {
     font-size: 18px;
   }
@@ -61,7 +71,18 @@ export const Text = styled.div`
 
 export const Wrapper = styled.div`
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: center;
   @media (max-width: ${device.mobile}) {
     padding-left: 10px;
   }
+`;
+
+export const WrapName = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
 `;
