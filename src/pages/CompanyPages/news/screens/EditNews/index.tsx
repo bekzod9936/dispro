@@ -356,7 +356,7 @@ console.log('filteredArray',filteredArray)
                     error={!!errors.name}
                     message={t("requiredField")}
                     field={field}
-                    multiline={true}
+                    maxLength={80}
                     label="Название"
                     defaultValue={newsById?.data?.title}
                  
@@ -557,6 +557,8 @@ console.log('filteredArray',filteredArray)
                         label="Текст Push-уведомления"
                         type="textarea"
                         multiline={true}
+                        maxLength={100}
+                        
                         defaultValue={newsById?.data?.pushUpTitle}
                         inputStyle={{
                           height: { desktop: 120, laptop: 90, mobile:120 },
@@ -570,6 +572,7 @@ console.log('filteredArray',filteredArray)
                     )}
                   />
                 )}
+             
               </PushWrapper>
               <PushWrapper>
                 {optionalFields.push && (

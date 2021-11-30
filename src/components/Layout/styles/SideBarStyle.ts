@@ -39,7 +39,7 @@ export const useSideBarStyle = makeStyles((theme: Theme) =>
     },
     menuButton: {
       margin: '0 15px',
-      [theme.breakpoints.down('xs')]: {
+      [theme.breakpoints.down('sm')]: {
         margin: '0',
       },
     },
@@ -65,10 +65,10 @@ export const useSideBarStyle = makeStyles((theme: Theme) =>
       }),
       overflowX: 'hidden',
       width: theme.spacing(7) + 1,
-      [theme.breakpoints.up('md')]: {
+      [theme.breakpoints.up('sm')]: {
         width: '99px',
       },
-      [theme.breakpoints.down('md')]: {
+      [theme.breakpoints.down('sm')]: {
         width: '0',
       },
     },

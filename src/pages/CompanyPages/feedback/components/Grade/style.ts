@@ -71,6 +71,7 @@ export const PercentInfo = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 0 5px;
 `;
 
 export const LineIcon = styled(Line)`

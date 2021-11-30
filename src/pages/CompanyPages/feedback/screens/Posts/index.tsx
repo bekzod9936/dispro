@@ -282,6 +282,10 @@ const Posts = () => {
         width='100%'
         effect='blur'
         style={{ objectFit: 'cover' }}
+        onError={(e: any) => {
+          e.target.onerror = null;
+          e.target.src = App;
+        }}
       />
     </Avatar>
   );
@@ -622,6 +626,10 @@ const Posts = () => {
                             }}
                             height='100%'
                             width='100%'
+                            onError={(e: any) => {
+                              e.target.onerror = null;
+                              e.target.src = App;
+                            }}
                           />
                         </Avatar>
                         <Message type={v.chatType}>

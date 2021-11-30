@@ -16,11 +16,12 @@ import {
 import { SideBar } from 'pages/CompanyPages/clients/components/SideBar';
 import { CouponBar } from '../../components/CouponSideBar';
 import { EmptyPage } from '../Drafts/components/EmptyPage';
-import { Container } from '../Drafts/style';
+import { Container, SearchIconWrapper } from '../Drafts/style';
 import { CouponList } from '../../components/CouponList';
 import useWindowWidth from 'services/hooks/useWindowWidth';
 import FullModal from 'components/Custom/FullModal';
 import { FullSideBar } from '../../components/FullSideBar';
+import { TabletCard } from '../../components/TabletCard';
 
 const Deferred = () => {
   const dispatch = useAppDispatch();
@@ -48,7 +49,27 @@ const Deferred = () => {
     dispatch(resetCurrentCoupon());
   }, []);
   const coupons = () => {
-    if (width > 600) {
+    if (width <= 1000 && width > 600) {
+      return deferred.map((el: IDeferred) => (
+        <TabletCard
+          startDate={el.startDate}
+          endDate={el.endDate}
+          isSelected={currentCoupon.id === el.id}
+          onClick={() => handleOpen(el.id)}
+          key={el.id}
+          image={el.image}
+          title={el.title}
+          ageFrom={el.ageFrom}
+          type={el.type}
+          categoryIds={el.categoryIds}
+          description={el.description}
+          price={el.price}
+          value={el.value}
+          count={el.count}
+        />
+      ));
+    }
+    else if (width > 600) {
       return deferred.map((el: IDeferred) => (
         <CouponCard
           startDate={el.startDate}
@@ -95,20 +116,17 @@ const Deferred = () => {
         message={'По запросу ничего не найдено'}
         onChange={(e) => setValue(e.target.value)}
         IconStart={
-          <SearchIcon
-            style={
-              width > 600 ? { marginLeft: '35px' } : { marginLeft: '15px' }
-            }
-          />
+          <SearchIconWrapper>
+            <SearchIcon />
+          </SearchIconWrapper>
         }
         placeholder='Поиск...'
         margin={{ laptop: '0 0 20px 0' }}
         inputStyle={{ border: 'none' }}
         width={{ maxwidth: 500, width: '100%' }}
       />
-      <Container>
-        {isFetching ? <Spinner /> : deferred.length !== 0 && coupons()}
-        {!deferred.length && <EmptyPage />}
+      <Container isFullScreen={isFetching || deferred.length === 0}>
+        {isFetching ? <Spinner /> : deferred.length === 0 ? <EmptyPage /> : coupons()}
       </Container>
     </Wrapper>
   );

@@ -560,6 +560,8 @@ const RepairNews = () => {
                         label="Текст Push-уведомления"
                         type="textarea"
                         multiline={true}
+                        
+                        maxLength={100}
                         defaultValue={newsById?.data?.pushUpTitle}
                         inputStyle={{
                           height: { desktop: 120, laptop: 90, mobile: 120 },

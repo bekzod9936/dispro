@@ -15,6 +15,7 @@ import { useFetchCategories } from '../../screens/UpdateCoupon/useFetchCategorie
 import { Stats } from '../CouponCard/style';
 import { DeleteModal } from '../CouponSideBar/style';
 import { Footer, Header, Main, Wrapper } from './style'
+import defaultImage from "assets/images/staff_default.png"
 interface IProps {
     onClose: (bool: boolean) => void
     edit?: boolean,
@@ -95,7 +96,10 @@ export const FullSideBar = ({ onClose, edit, rePublish, refetch }: IProps) => {
                         <MobileGoBackIcon />
                     </IconButton>
                     <div className="content">
-                        <img src={currentCoupon.image} alt="image" />
+                        <img src={currentCoupon.image} onError={(e: any) => {
+                            e.target.onerror = null;
+                            e.target.src = defaultImage;
+                        }} alt="image" />
                         <div className="subContent">
                             <h4>{currentCoupon.title}</h4>
                             <h5>{currentCoupon.type === 1 ? t("certificate") : t("coupon")}</h5>

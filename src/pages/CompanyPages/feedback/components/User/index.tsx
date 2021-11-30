@@ -14,6 +14,7 @@ import defuserman from 'assets/icons/defuserman.png';
 import defuserwoman from 'assets/icons/defuserwoman.png';
 import useWindowWidth from 'services/hooks/useWindowWidth';
 import FullModal from 'components/Custom/FullModal';
+import App from 'assets/icons/StatistisPage/app.svg';
 import {
   Container,
   Header,
@@ -80,6 +81,10 @@ const User = ({ value }: Props) => {
                 width={image.width}
                 effect='blur'
                 style={{ objectFit: 'cover' }}
+                onError={(e: any) => {
+                  e.target.onerror = null;
+                  e.target.src = App;
+                }}
               />
             </Avatar>
             <WrapText>
@@ -184,6 +189,10 @@ const User = ({ value }: Props) => {
                 width={image.width}
                 effect='blur'
                 style={{ objectFit: 'cover' }}
+                onError={(e: any) => {
+                  e.target.onerror = null;
+                  e.target.src = App;
+                }}
               />
             </Avatar>
             <WrapText>

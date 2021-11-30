@@ -13,11 +13,12 @@ export const Container = styled.div`
   top: 0;
   right: 0;
   position: sticky;
-  height: inherit;
+  height: fit-content;
   & > div {
     width: 90%;
     height: inherit;
   }
+
   @media (max-width: ${device.mobile}) {
     position: static;
     width: 100%;
@@ -62,7 +63,7 @@ export const WrapIconStart = styled.div`
   height: 100%;
   justify-content: flex-end;
   @media (max-width: ${device.mobile}) {
-    grid-gap: 5px;
+    grid-gap: 10px;
   }
 `;
 

@@ -40,6 +40,20 @@ export const WrapDefPhoto = styled.div`
   flex: 1;
   height: 100%;
   width: 100%;
+  padding-top: 5%;
+  & > span {
+    font-weight: normal;
+    font-size: 14px;
+    text-align: center;
+    color: #223367;
+    width: 70%;
+  }
+  @media (max-width: ${device.mobile}) {
+    padding-top: 15%;
+    & > span {
+      font-size: 18px;
+    }
+  }
 `;
 
 interface Props {
@@ -91,6 +105,10 @@ export const Img = styled.img`
   @media (min-width: ${device.laptop}) {
     width: 30%;
     height: 40%;
+  }
+  @media (max-width: ${device.mobile}) {
+    width: 60%;
+    height: 50%;
   }
 `;
 
