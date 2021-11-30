@@ -5,6 +5,7 @@ import { useFetchCategories } from "../../screens/UpdateCoupon/useFetchCategorie
 import { useState } from "react";
 import { useAppSelector } from "services/redux/hooks";
 import { Stats } from "../CouponCard/style";
+import ImageLazyLoad from "components/Custom/ImageLazyLoad/ImageLazyLoad";
 interface TabletCardProps {
     image: string,
     type: number;
@@ -45,7 +46,8 @@ export const TabletCard: React.FC<TabletCardProps> = ({ onClick, isSelected, ima
                         e.target.onerror = null;
                         e.target.src = defaultImage
                     }} />
-                <span>{isCoupon ? t("coupon") : t("certificate")}</span>
+                {/* <ImageLazyLoad src={image} alt="imageOfCoupon" objectFit="cover" /> */}
+                <span className="imageText">{isCoupon ? t("coupon") : t("certificate")}</span>
             </div>
             <div className="content">
                 <h5>{title}</h5>

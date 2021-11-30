@@ -58,6 +58,7 @@ import { getWeekDays } from '../../utils/getValidDate';
 import InputFormat from 'components/Custom/InputFormat';
 import useWindowWidth from 'services/hooks/useWindowWidth';
 import FullModal from 'components/Custom/FullModal';
+import Spinner from 'components/Helpers/Spinner';
 
 const RePublish = () => {
   const { currentCoupon } = useAppSelector(
@@ -78,7 +79,7 @@ const RePublish = () => {
   });
   const [leave, setLeave] = React.useState(false);
   const [publish, setPublish] = React.useState<boolean>(false);
-  const { handleUpload, deleteImage } = useUploadImage(setImage);
+  const { handleUpload, deleteImage, isLoading } = useUploadImage(setImage);
   const { width } = useWindowWidth();
   const {
     handleSubmit,
@@ -220,7 +221,7 @@ const RePublish = () => {
 
   return (
     <Wrapper>
-      {width > 600 && (
+      {width > 1000 && (
         <div
           style={{ display: 'flex', marginBottom: 30, alignItems: 'center' }}
         >
@@ -275,7 +276,7 @@ const RePublish = () => {
         ageFrom={watch('ageLimit')}
       />
       <Form onSubmit={publish ? handleSubmit(onPublish) : handleSubmit(onSave)}>
-        {width <= 600 &&
+        {width <= 1000 &&
           <MobileHeader>
             <GoBackIcon
               onClick={handleBack}
@@ -287,7 +288,7 @@ const RePublish = () => {
           <Container>
             <LeftSide>
               <Title>Фотографии</Title>
-              {!image && (
+              {!isLoading && !image && (
                 <div style={{ marginBottom: 30 }}>
                   <Header>
                     <p>
@@ -308,6 +309,11 @@ const RePublish = () => {
                   {errors.image && (
                     <ErrorMessage>{errors.image?.message || t('requiredField')}</ErrorMessage>
                   )}
+                </div>
+              )}
+              {isLoading && (
+                <div style={{ width: '100%', height: 140 }}>
+                  <Spinner size={30} />
                 </div>
               )}
               {image && (
@@ -431,7 +437,7 @@ const RePublish = () => {
                     multiline={true}
                     defaultValue={currentCoupon.description}
                     inputStyle={{
-                      height: { desktop: 120, laptop: 90, mobile: 60 },
+                      height: { desktop: 120, laptop: 90, mobile: 60, planshet: 120 },
                     }}
                   />
                 )}
@@ -557,6 +563,7 @@ const RePublish = () => {
                           message={t('requiredField')}
                           margin={{ laptop: '0 25px 0 0' }}
                           type='time'
+                          max={watch("timeTo")}
                           defaultValue={currentCoupon?.settings?.time?.from}
                           field={field}
                         />
@@ -573,13 +580,14 @@ const RePublish = () => {
                           defaultValue={currentCoupon?.settings?.time?.to}
                           type='time'
                           field={field}
+                          min={watch("timeFrom")}
                         />
                       )}
                     />
                   </div>
                 )}
               </AgeWrapper>
-              {width > 600 && (
+              {width > 1000 && (
                 <>
                   {isValid ? (
                     <Button
@@ -647,8 +655,8 @@ const RePublish = () => {
         <DownSide>
           <Button
             onClick={() => setLeave(true)}
-            startIcon={<CancelIcon />}
-            buttonStyle={{ color: '#223367', bgcolor: '#ffffff' }}
+            startIcon={width > 1000 ? <CancelIcon /> : <MobileCancelIcon />}
+            buttonStyle={width > 1000 ? { color: '#223367', bgcolor: '#ffffff' } : { color: "#606EEA", bgcolor: "rgba(96, 110, 234, 0.1)" }}
           >
             Отменить
           </Button>

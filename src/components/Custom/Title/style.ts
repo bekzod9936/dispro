@@ -26,7 +26,8 @@ export const Container = styled.div`
   }
   @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
     padding: ${({ padding }: Props) =>
-      padding?.planshet ? padding?.planshet : '0 0  0 20px'} !important;
+    padding?.planshet ? padding?.planshet : '0 0  0 20px'} !important;
+      font-size: 18px;
   }
   @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
     padding: ${({ padding }: Props) => padding?.laptop} !important;

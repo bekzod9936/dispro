@@ -8,6 +8,7 @@ export const Wrapper = styled.div`
     border-radius: 14px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
     cursor: pointer;
+    height: max-content;
     h1.statsTitle {
         font-size: 16px;
         line-height: 18.75px;
@@ -18,12 +19,11 @@ export const Wrapper = styled.div`
         position: relative;
         margin-bottom: 15px;
         img {
-            max-width: 314px;
             width: 100%;
             border-radius: 14px;
             object-fit: cover;
         }
-        span {
+        span.imageText {
             position: absolute;
             top: 8px;
             left: 10px;

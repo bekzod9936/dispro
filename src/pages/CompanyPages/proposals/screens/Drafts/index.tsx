@@ -155,9 +155,8 @@ const Drafts = () => {
           }
         />
       </SearchBar>
-      <Container>
-        {isFetching ? <Spinner /> : drafts.length !== 0 && coupons()}
-        {!drafts.length && <EmptyPage />}
+      <Container isFullScreen={isFetching || drafts.length === 0}>
+        {isFetching ? <Spinner /> : drafts.length === 0 ? <EmptyPage /> : coupons()}
       </Container>
       <MModal setOpen={setOpen} open={isOpen} />
     </Wrapper>

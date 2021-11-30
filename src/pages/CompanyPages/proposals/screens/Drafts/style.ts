@@ -35,6 +35,9 @@ export const Wrapper = styled.div`
         border-radius: 14px 0px 0px 14px;
     } */
 `
+interface IProps {
+    isFullScreen?: boolean;
+}
 
 export const Container = styled.div`
     height: 100%;
@@ -45,7 +48,7 @@ export const Container = styled.div`
 
     @media (max-width: ${device.planshet}) {
         padding-bottom: 150px;
-        display: grid;
+        display: ${({ isFullScreen }: IProps) => isFullScreen ? "block" : "grid"};
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows: auto;
         gap: 20px;
@@ -69,18 +72,26 @@ export const Container = styled.div`
 
 export const SearchIconWrapper = styled.div`
     margin: 0 15px 0 30px;
-    @media (max-width: ${device.mobile}) {
-        margin-left: 15px;
-        margin-right: 0;
-        height: 16px;
-        width: 16px;
+    @media (max-width: ${device.planshet}) {
+        margin-left: 23px;
+        height: 23px;
+        width: 23px;
         display: flex;
+        margin-right: 10px;
         align-items: center;
         justify-content: center;
         svg {
             height: 100%;
             width: 100%;
         }
+    }
+    @media (max-width: ${device.mobile}) {
+        margin-left: 15px;
+        margin-right: 0;
+        height: 16px;
+        width: 16px;
+        
+       
     }
 `
 

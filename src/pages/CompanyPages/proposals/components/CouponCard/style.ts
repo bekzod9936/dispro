@@ -87,8 +87,12 @@ export const Submain = styled.div`
 
 export const Stats = styled.div`
     width: 20%;
+    @media (max-width: 1340px) {
+        display: none;
+    }
     @media (max-width: ${device.planshet}) {
         width: 100%;
+        display: block;
     }
     @media (max-width: ${device.mobile}) {
         width: 100%;
