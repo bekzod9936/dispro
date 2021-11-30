@@ -8,6 +8,8 @@ export interface IMessage {
   lastName?: string;
   genderTypeId?: number;
   obtainProgramLoyalty?: { levelName?: string; percent?: number };
+  chatType?: number;
+  status?: number;
 }
 
 export interface ICashiers {
