@@ -17,7 +17,8 @@ partnerApi.interceptors.request.use((config: AxiosRequestConfig) => {
   if (
     config.url?.includes("core/staff-companies") ||
     config.url?.includes("auth/update-token") ||
-    (config.url === "/directory/company" && config.method === "post")
+    (config.url === "/directory/company" && config.method === "post") ||
+    config.url?.includes("core/staffs/admin")
   ) {
     config.headers.authorization = `Bearer ${accessToken}`;
   } else {

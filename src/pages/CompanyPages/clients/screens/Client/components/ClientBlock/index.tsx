@@ -95,7 +95,7 @@ export const ClientBlock = ({
                         {genderTypeId === 1 ? t("man") : t("woman")}
                     </span>
                     <span>
-                        {t("status")}: {personalLoyaltyInfo.isActive ? addInfo?.status : obtainProgramLoyalty.levelName} {personalLoyaltyInfo.isActive ? personalLoyaltyInfo?.percent : obtainProgramLoyalty.percent}%
+                        {t("status")}: {personalLoyaltyInfo.isActive ? "Спец " : obtainProgramLoyalty.levelName} {personalLoyaltyInfo.isActive ? personalLoyaltyInfo?.percent : obtainProgramLoyalty.percent}%
                     </span>
                 </p>
             </DownSide>

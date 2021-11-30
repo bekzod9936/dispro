@@ -128,7 +128,7 @@ export const InfoBlock = ({
                     </b>}
                 <div className="changeStatus">
                     <MToggle>
-                        <p>Индивидуальный статус</p>
+                        <p>Специальный статус</p>
                         <CustomToggle
                             disabled={isPlBlocked}
                             checked={personalLoyaltyInfo?.isActive || vipModal}

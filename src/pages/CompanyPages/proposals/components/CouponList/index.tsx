@@ -1,4 +1,4 @@
-import React from 'react'
+import defaultImage from 'assets/images/staff_default.png'
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch } from 'services/redux/hooks'
 import { setCurrentCoupon } from 'services/redux/Slices/proposals/proposals'
@@ -25,7 +25,10 @@ export const CouponList = ({ coupons, onClick, location }: IProps) => {
                     onClick={() => handleClick(coupon.id)}
                     key={coupon.id}>
                     <LeftSide>
-                        <img src={coupon.image} alt="image" />
+                        <img onError={(e: any) => {
+                            e.target.onerror = null;
+                            e.target.src = defaultImage
+                        }} src={coupon.image} alt="image" />
                     </LeftSide>
                     <RightSide>
                         <h5>{coupon.title}</h5>

@@ -243,6 +243,15 @@ export const PersonsIcon = () => {
     )
 }
 
+export const ResizeIcon = () => {
+    return (
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect y="16.5088" width="23.3463" height="1.79587" transform="rotate(-45 0 16.5088)" fill="#C2C2C2" />
+            <rect x="7.61914" y="16.5088" width="12.5711" height="1.79587" transform="rotate(-45 7.61914 16.5088)" fill="#C2C2C2" />
+        </svg>
+
+    )
+}
 export const CartIcon = () => {
     return (
         <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">

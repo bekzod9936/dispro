@@ -24,13 +24,13 @@ export const VipModal = ({ handleClose, refetch, state, id, clientInfo }: IProps
     const { t } = useTranslation()
     const [percent, setPercent] = useState("")
     const [error, setError] = useState(false)
-    const { selectedClients, allClients } = useAppSelector(state => state.clients)
+    const { selectedClients } = useAppSelector(state => state.clients)
     const queryClient = useQueryClient()
 
 
     const mutation = useMutation((data: any) => changeVipPercent(data), {
         onSuccess: () => {
-            if (selectedClients.length === allClients.length) {
+            if (selectedClients.length > 5) {
                 queryClient.invalidateQueries("fetchAllClients")
             }
             handleClose()
@@ -136,11 +136,11 @@ export const VipModal = ({ handleClose, refetch, state, id, clientInfo }: IProps
         return (
             <Wrapper onSubmit={onSubmit}>
                 <div className="header">
-                    <h3>Настройка индивидуального %</h3>
+                    <h3>Настройка специального %</h3>
                     <CloseIcon onClick={handleClose} />
                 </div>
                 <div className="content">
-                    <p className="client">{clientInfo.name}<b>•</b><span>Статус: {clientInfo.status + " " + clientInfo.value}%</span></p>
+                    {selectedClients.length > 1 ? <p className="client">{"Выбрано клиентов: " + selectedClients.length}</p> : <p className="client">{clientInfo.name}<b>•</b><span>Статус: {"Спец" + " " + clientInfo.value}%</span></p>}
                 </div>
                 <Input
                     message={Number(percent) < 1 ? t("requiredField") : "Минимальный процент: 1"}
@@ -170,23 +170,24 @@ export const VipModal = ({ handleClose, refetch, state, id, clientInfo }: IProps
         return (
             <Wrapper onSubmit={onSubmit}>
                 <div className="header">
-                    <h3>Вы действительно хотите отключить индивидуальный статус?</h3>
+                    <h3>Вы действительно хотите отключить специальный статус?</h3>
                     <CloseIcon onClick={handleClose} />
                 </div>
                 <div className="content">
+                    {selectedClients.length > 1 && <p className="info amount">Выбрано клиентов: {selectedClients.length}</p>}
                     <p className="info">
-                        При отключении индивидуальный статус сменится на стандартный статус согласно программе лояльности
+                        При отключении специальный статус сменится на стандартный статус согласно программе лояльности
                     </p>
                 </div>
                 <Status>
                     <div className="old child">
                         <p>Текущий статус</p>
-                        <b>{clientInfo.status} {clientInfo.value}%</b>
+                        <b>{selectedClients.length > 1 ? "Специальный" : "Спец"} {!(selectedClients.length > 1) && clientInfo.value + "%"}</b>
                     </div>
                     <RightArrowIcon />
                     <div className="new child">
                         <p>Стандартный статус</p>
-                        <b>{clientInfo.prevStatus} {clientInfo.prevPercent}%</b>
+                        <b>{selectedClients.length > 1 ? "Стандартный" : clientInfo.prevStatus} {!(selectedClients.length > 1) && clientInfo.prevPercent + "%"}</b>
                     </div>
                 </Status>
                 <div className="buttons">
