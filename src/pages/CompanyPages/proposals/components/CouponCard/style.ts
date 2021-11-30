@@ -10,19 +10,35 @@ export const Container = styled.div`
     background: ${({ isSelected }: IProps) => isSelected ? "rgba(96, 110, 234, 0.1);" : "#ffffff"};
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
     border-radius: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    max-width: ${({ stats }: IProps) => stats ? "1035px" : "860px"};
-    width: 100%;
+    /* display: flex;
+    align-items: center; */
+    display: grid;
+    grid-template-columns: ${({ stats }: IProps) => stats ? "repeat(4, 1fr)" : "repeat(3, 1fr)"};
+    grid-template-rows: 1fr;
+    /* justify-content: space-between; */
+    /* max-width: ${({ stats }: IProps) => stats ? "1035px" : "860px"}; */
+    /* width: 100%; */
     margin-bottom: 15px;
     cursor: pointer;
+    @media (max-width: 1340px) {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    @media(max-width: ${device.laptop}) {
+        max-width: none !important;
+        
+    }
 
 `
 
 export const ImageBlock = styled.div`
-    width: ${({ stats }: IProps) => stats ? "25%" : "32%"};
-    
+    /* width: ${({ stats }: IProps) => stats ? "25%" : "32%"}; */
+    margin-right: 35px;
+    @media (max-width: ${device.laptop}) {
+        margin-right: 15px;
+    }
+    @media (max-width: 1340px) {
+        margin-right: 25px;
+    }
     img {
         border-radius: 14px;
         width: 200px;
@@ -32,11 +48,14 @@ export const ImageBlock = styled.div`
 `
 
 export const Main = styled.div`
-    /* margin-right: 60pxf; */
-    width: ${({ stats }: IProps) => stats ? "25%" : "32%"};
+    margin-right: 40px;
+    /* width: ${({ stats }: IProps) => stats ? "25%" : "32%"}; */
     overflow-x: hidden;
-    @media (max-width: 1210px) {
-        width: 49%;
+    @media (max-width: ${device.laptop}) {
+        margin-right: 15px;
+    }
+    @media (max-width: 1340px) {
+        margin-right: 25px;
     }
     div {
         display: flex;
@@ -46,6 +65,7 @@ export const Main = styled.div`
             font-size : 14px;
             font-weight: 400;
             color: #223367;
+            
         }
         p {
             color: #8F8F8F;
@@ -70,7 +90,13 @@ export const Main = styled.div`
 `
 
 export const Submain = styled.div`
-    width: ${({ stats }: IProps) => stats ? "25%" : "32%"};
+    margin-right: 45px;
+    @media (max-width: ${device.laptop}) {
+        margin-right: 15px;
+    }
+    @media (max-width: 1340px) {
+        margin-right: 0;
+    }
     @media (max-width: 1210px) {
         display: none;
     }
@@ -86,7 +112,7 @@ export const Submain = styled.div`
 `
 
 export const Stats = styled.div`
-    width: 20%;
+    /* width: 20%; */
     @media (max-width: 1340px) {
         display: none;
     }
