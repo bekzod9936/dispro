@@ -14,13 +14,13 @@ const useSignIn = () => {
         telNumber: "+998" + data.telNumber,
       }),
     {
-      onSuccess: (data) => {
+      onSuccess: async (data) => {
         console.log(data.data, "data moderator");
         const mData = data.data.data;
-        history.push("/admin/companies");
 
-        localStorage.setItem(MODERATOR.ACCESS_TOKEN, mData.accessToken);
-        localStorage.setItem(MODERATOR.REFRESH_TOKEN, mData.refreshToken);
+        await localStorage.setItem(MODERATOR.ACCESS_TOKEN, mData.accessToken);
+        await localStorage.setItem(MODERATOR.REFRESH_TOKEN, mData.refreshToken);
+        await history.push("/admin/companies");
       },
     }
   );
