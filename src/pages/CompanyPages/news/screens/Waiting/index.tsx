@@ -16,10 +16,8 @@ import Pagination from 'components/Custom/Pagination';
 import { countPagination } from '../../components/utils';
 import useWindowWidth from 'services/hooks/useWindowWidth';
 import { setQuery, setSelectedNews,setErrorMessage } from "services/redux/Slices/news";
-
 import { LimitNews  } from "../../components/LimitNews";
 import { FilterNews } from "../../components/FilterNews";
-
 interface intialFilterProps {
   page?: number;
   perPage?: number;

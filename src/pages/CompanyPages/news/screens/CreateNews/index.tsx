@@ -93,7 +93,7 @@ const CreateNews = () => {
   const [formData, setFormData] = React.useState({});
   const [cancel, setCancel] = React.useState(false);
   const [startDate, setStartDate] = React.useState<any>();
-
+  const [validation,setValidation]=React.useState<any>(false);
   const [errorFileType, setErrorFileType] = React.useState<any>(false);
   const handleBack = () => {
     history.goBack();
@@ -158,8 +158,8 @@ const CreateNews = () => {
   const submitNews = (data: any) => {
     let newsData = {
       title: data.name,
-      startLifeTime: data.startDate,
-      endLifeTime: data.endDate,
+      startLifeTime: width>600 ? data.startDate:filter?.regDate?.regDateFrom,
+      endLifeTime: width>600 ?  data.endDate:filter?.regDate?.regDateTo,
       description: data.description,
       ageFrom: parseInt(data.ageLimit),
       ageTo: 100,
@@ -185,7 +185,7 @@ const CreateNews = () => {
       },
       pushUpTitle: optionalFields.push && data.descriptionPush,
     };
-    setStartDate(data.startDate);
+    setStartDate(width>600 ? data.startDate:filter?.regDate?.regDateFrom);
     setSubmit(true);
     setFormData(newsData);
   };
@@ -198,13 +198,13 @@ const CreateNews = () => {
   };
   const submitData = () => {
     console.log(formData);
-    mutate(formData);
+    // mutate(formData);
 
-    setTimeout(() => history.goBack(), 1000);
+    // setTimeout(() => history.goBack(), 1000);
   };
   console.log(watch("description"));
   console.log("errors", errors);
-
+console.log('submit',submit)
   return (
     <Wrapper>
       {width > 600 && (
@@ -377,10 +377,12 @@ const CreateNews = () => {
               ) : (
                 <WrapInputs>
                   <Label>{t("chose_date")}</Label>
-                  {/* <CustomDatePicker
+                  <div >
+                  <CustomDatePicker
               margin="0 15px 0 0"
               isFilter
               text={t("from")}
+              error={validation && !filter?.regDate?.regDateFrom ? true:false}
               minDate={todayDate}
               maxDate={filter?.regDate?.regDateTo}
               onChange={(e) => {
@@ -395,6 +397,7 @@ const CreateNews = () => {
               value={filter?.regDate?.regDateFrom} />
             <CustomDatePicker
               isFilter
+              error={validation && !filter?.regDate?.regDateTo ? true:false}
               text={t("to")}
               minDate={todayDate}
               onChange={(e) => {
@@ -406,60 +409,8 @@ const CreateNews = () => {
                   }
                 }))
               }}
-              value={filter?.regDate?.regDateTo} /> */}
-
-                  <div>
-                    <Controller
-                      name="startDate"
-                      control={control}
-                      rules={{
-                        required: true,
-                      }}
-                      render={({ field }) => (
-                        <Input
-                          field={field}
-                          type="date"
-                          width={{
-                            maxwidth: 180,
-                            minwidth: 130,
-                          }}
-                          min={todayDate}
-                          error={!!errors.name}
-                          // message={t("requiredField")}
-                          IconStart={<WrapDate>{t("from")}</WrapDate>}
-                          inputStyle={{
-                            inpadding: "0 10px 0 0",
-                          }}
-                        />
-                      )}
-                    />
-                    <Controller
-                      name="endDate"
-                      control={control}
-                      rules={{
-                        required: true,
-                      }}
-                      render={({ field }) => (
-                        <Input
-                          type="date"
-                          field={field}
-                          error={!!errors.name}
-                          // message={t("requiredField")}
-                          min={watch("startDate")}
-                          width={{
-                            maxwidth: 180,
-                            minwidth: 130,
-                          }}
-                          // required={true}
-                          margin={{ laptop: "0 0 0 15px" }}
-                          IconStart={<WrapDate>{t("to")}</WrapDate>}
-                          inputStyle={{
-                            inpadding: "0 10px 0 0",
-                          }}
-                        />
-                      )}
-                    />
-                  </div>
+              value={filter?.regDate?.regDateTo} />
+              </div>
                 </WrapInputs>
               )}
 
@@ -651,6 +602,7 @@ const CreateNews = () => {
                     </Button>
                   </div>
                   <Button
+                    onClick={() => setValidation(true)}
                     type="submit"
                     endIcon={<SaveIcon />}
                     buttonStyle={{
@@ -677,7 +629,7 @@ const CreateNews = () => {
               Отменить
             </Button>
             <Button
-              // onClick={() => setSubmit(true)}
+              // onClick={() => setValidation(true)}
               type="submit"
               margin={{ laptop: "0 25px" }}
               startIcon={<SaveIcon />}

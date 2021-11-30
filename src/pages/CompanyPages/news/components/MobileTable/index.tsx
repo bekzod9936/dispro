@@ -7,6 +7,7 @@ import { PenIcon } from "assets/icons/news/newsIcons";
 import { CancelIcon } from "assets/icons/news/newsIcons";
 import { WatchIcons,WatchIconsWhite, PublishIcon,WhitePublishIcon,BluePenIcon,RepairNewsIcon } from "assets/icons/news/newsIcons";
 import { IconButton } from "@material-ui/core";
+import { MobileCancelIcon } from "assets/icons/proposals/ProposalsIcons";
 import { useAppDispatch, } from 'services/redux/hooks';
 import { deleteNews } from "services/queries/newPageQuery";
 import {  setSelectedNews } from "services/redux/Slices/news";
@@ -294,7 +295,6 @@ const MobileTable = ({refetch, data }: Props) => {
                         </Button>
                       </Buttons>
                       }
-
                       {location.pathname === "/news/waiting" &&<>
                       <Buttons>
                        <Button
@@ -303,7 +303,6 @@ const MobileTable = ({refetch, data }: Props) => {
                          buttonStyle={{
                            bgcolor: "rgba(96, 110, 234, 0.1)",
                            color: "#606EEA",
-                           
                            weight: "500",
                          }}
                          endIcon={
@@ -344,9 +343,10 @@ const MobileTable = ({refetch, data }: Props) => {
                            color: "#fff",
                            weight: "500",
                          }}
+                        //  endIcon={<MobileCancelIcon />}
                          endIcon={
                            width > 325 && (
-                             <WhitePublishIcon style={{ height: 15, width: 13.5 ,}} />
+                             <WhitePublishIcon />
                            )
                          }
                        >
