@@ -202,9 +202,7 @@ const CreateNews = () => {
 
     setTimeout(() => history.goBack(), 1000);
   };
-  console.log(watch("description"));
-  console.log("errors", errors);
-console.log('submit',submit)
+
   return (
     <Wrapper>
       {width > 600 && (

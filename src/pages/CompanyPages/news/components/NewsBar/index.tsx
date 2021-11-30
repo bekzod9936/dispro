@@ -108,7 +108,7 @@ console.log('gender',currentNews?.genderType )
         <ContentInfo>
           <h5>Информация</h5>
           {console.log('Для всех',currentNews)}
-          <p>{currentNews?.data?.genderType ===0 ?  'Для всех' : currentNews?.data?.genderType ===1 ? 'Толка для мужчин':`Толка для женщин  ` }</p>
+          <p>{currentNews?.data?.genderType ===0 ?  'Для всех' : currentNews?.data?.genderType ===1 ? 'Только для мужчин':`Только для женщин` }</p>
           <p>Срок публикации: {currentNews?.date}</p>
           <p>Возрастное ограничение: {currentNews?.data?.ageFrom}+</p>
         </ContentInfo>
