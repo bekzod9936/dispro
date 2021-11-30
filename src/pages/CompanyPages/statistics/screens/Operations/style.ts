@@ -27,13 +27,13 @@ export const Wrapper = styled.div`
     background: #606eea;
     border-radius: 14px 0px 0px 14px;
   }
+  height: fit-content;
   @media (max-width: ${device.mobile}) {
     grid-template-columns: repeat(2, 1fr);
+    width: 100%;
+    grid-auto-rows: minmax(60px, 80px);
+    padding-bottom: 15px;
   }
-`;
-
-export const WrapFilter = styled.div`
-  padding-bottom: 20px;
 `;
 
 export const WrapperCon = styled.div`

@@ -100,6 +100,7 @@ const Payment = () => {
   });
 
   const { resExcel } = useExcel();
+  
   const listdesktop = data?.map((v: any) => {
     const date = dayjs(v.chequeDate).format('DD.MM.YYYY');
     const time = dayjs(v.chequeDate).format('HH:mm:ss');
@@ -399,6 +400,7 @@ const Payment = () => {
         </IconButton>
       </ButtonKeyWord>
     ) : null;
+
   const filtercash = cashierStaffId?.label ? (
     <ButtonKeyWord
       onClick={async () => {
@@ -416,6 +418,7 @@ const Payment = () => {
       </IconButton>
     </ButtonKeyWord>
   ) : null;
+
   return (
     <Container>
       {response.isLoading ? (

@@ -1,10 +1,14 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useEffect } from 'react';
 import Table from '../../components/Table';
 import useTrafficsHook from './useTrafficsHook';
 import { useTranslation } from 'react-i18next';
 import Spinner from 'components/Custom/Spinner';
 import cashier from 'assets/icons/StatistisPage/cash.png';
 import DatePcker from 'components/Custom/DatePicker';
+import { numberWithNew } from 'services/utils';
+import { useAppSelector } from 'services/redux/hooks';
+import MobileTable from '../../components/MobileTable';
+import useWindowWidth from 'services/hooks/useWindowWidth';
 import {
   Container,
   AppIcon,
@@ -13,23 +17,60 @@ import {
   Img,
   Wrapper,
 } from './style';
-import { numberWithNew } from 'services/utils';
-import { useAppSelector } from 'services/redux/hooks';
 
 const Traffics = () => {
   const { t } = useTranslation();
-  const [date, setDate] = useState({ startDate: '', endDate: '' });
+  const { width } = useWindowWidth();
 
   const data = useAppSelector((state) => state.statistics.traffics);
-  const { response } = useTrafficsHook({ filterValues: date });
+  const { response, setDate, date } = useTrafficsHook();
 
-  const list = data?.map((v: any) => {
+  useEffect(() => {
+    response.refetch();
+  }, [date]);
+
+  const listdesktop = data?.map((v: any) => {
     return {
       col1: v?.source,
       col2: numberWithNew({ number: v?.clientCount }),
       col3: numberWithNew({ number: v?.clientPayedCount }),
       col4: numberWithNew({ number: v?.chequeCount }),
       col5: numberWithNew({ number: v?.receipts }),
+    };
+  });
+
+  const listmobile = data?.map((v: any) => {
+    return {
+      title: v?.source,
+      value: numberWithNew({ number: v?.receipts }),
+      avatar:
+        v?.source.toLowerCase() === 'app' ? (
+          <AppIcon />
+        ) : v?.source.toLowerCase() === 'mobile' ? (
+          <MobileIcon />
+        ) : v?.source.toLowerCase() === 'cashier' ? (
+          <Img src={cashier} alt='cashier' />
+        ) : (
+          <AppIcon />
+        ),
+      body: [
+        {
+          title: t('clients'),
+          value: numberWithNew({ number: v?.clientCount }),
+        },
+        {
+          title: t('uniqueChequeClient'),
+          value: numberWithNew({ number: v?.clientPayedCount }),
+        },
+        {
+          title: t('purchuase_amount'),
+          value: numberWithNew({ number: v?.chequeCount }),
+        },
+        {
+          title: t('revenueuzs'),
+          value: numberWithNew({ number: v?.receipts }),
+        },
+      ],
     };
   });
 
@@ -76,20 +117,28 @@ const Traffics = () => {
   return (
     <Container>
       <DatePcker
-        onChange={async (e: any) => {
-          await setDate({
+        onChange={(e: any) => {
+          setDate({
             startDate: e.slice(0, e.indexOf(' ~')),
             endDate: e.slice(e.indexOf('~ ') + 2),
           });
-          await response.refetch();
         }}
         margin='0 0 20px 0'
       />
       <Wrapper>
         {response.isLoading || response.isFetching ? (
           <Spinner />
+        ) : width > 600 ? (
+          <Table columns={columns} data={listdesktop} />
         ) : (
-          <Table columns={columns} data={list} />
+          <MobileTable
+            data={{
+              title: t('revenue'),
+              info: listmobile,
+            }}
+            headertitle={t('traffic_providers')}
+            isAvatar={true}
+          />
         )}
       </Wrapper>
     </Container>

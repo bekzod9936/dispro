@@ -236,6 +236,7 @@ export const WrapMContent = styled.div``;
 export const ModalContext = styled.div`
   width: 100%;
   word-break: break-word;
+  max-width: 500px;
 `;
 
 export const WrapClose = styled.div`
