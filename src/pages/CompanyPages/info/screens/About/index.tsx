@@ -16,6 +16,7 @@ import { inputPhoneNumber } from 'utilities/inputFormat';
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import SaveButton from '../../components/Buttons/SaveButton';
 import ExitButton from '../../components/Buttons/ExitButton';
+import LogoDef from 'assets/icons/SideBar/logodefault.png';
 import {
   Container,
   UpSide,
@@ -25,8 +26,6 @@ import {
   WrapCurrency,
   ArrowIcon,
   WrapArrow,
-  TextAreaIcon,
-  WrapArea,
   PhotoLoadingIcon,
   TrashIcon,
   WrapLoading,
@@ -407,6 +406,10 @@ const Main = () => {
                             borderRadius: '14px',
                           }}
                           effect='blur'
+                          onError={(e: any) => {
+                            e.target.onerror = null;
+                            e.target.src = LogoDef;
+                          }}
                         />
                         <WrapTrash>
                           <TrashIcon />
@@ -468,7 +471,7 @@ const Main = () => {
                   {...field}
                   message={t('requiredField')}
                   error={errors.description ? true : false}
-                  minHeight={'150px'}
+                  minHeight={'120px'}
                   maxHeight={'300px'}
                   resize={'vertical'}
                   title={t('description')}
