@@ -1,67 +1,154 @@
-
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useQuery } from 'react-query';
-import {
-  
-  fetchCilentsData,
-} from 'services/queries/statisticsQuery';
-import { useAppDispatch } from 'services/redux/hooks';
+import useWindowWidth from 'services/hooks/useWindowWidth';
+import { fetchCilentsData } from 'services/queries/statisticsQuery';
+import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import { setClientStats } from 'services/redux/Slices/statistics/statistics';
-
+import {
+  AgeIcon,
+  CartIcon,
+  CashBackIcon,
+  CheckIcon,
+  CouponIcon,
+  DiscountIcon,
+  ManIcon,
+  WomanIcon,
+  MoneyIcon,
+  RatingIcon,
+  ScoreIcon,
+  SertificateIcon,
+  UsersIcon,
+  CalendarIcon,
+  AgeMobIcon,
+} from '../../style';
 interface Props {
   filterValues?: any;
   traffic?: any;
 }
 
-interface Props {
-  ageAvg?: number;
-  allClientParkCards?: number;
-  cashbackSum?: number;
-  chequeAvg?: number;
-  chequeCount?: number;
-  clientCount?: number;
-  couponAmountSum?: number;
-  couponDiscountSum?: number;
-  discountSum?: number;
-  femaleCount?: number;
-  filter?: {
-    gender?: { id?: number; name?: string }[];
-    levels?: { name?: string; number?: number }[];
-    referal?: { name?: string; refIds: number[] }[];
-  };
-  maleCount?: number;
-  paidWithMoney?: number;
-  paidWithPoint?: number;
-  pointSum?: number;
-  uniqueChequeClient?: number;
-}
-
 const useClientsHook = ({ filterValues, traffic }: Props) => {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const [data, setData] = useState<Props>({});
-  const [isFetching, setIsFetching] = useState(false);
-
+  const { width } = useWindowWidth();
+  const data = useAppSelector((state) => state.statistics.clientStats);
+  const [status, setStatus] = useState<any[]>([]);
+  const [usedLevel, setUsedLevel] = useState<any[]>([]);
+  console.log(filterValues);
   const response = useQuery(
     'fetchClientsInfo',
     () => {
       const url = Object.keys(filterValues)
-        .map((v: any) => `${v}=${filterValues[v]}&`)
+        .map((v: any) => {
+          if (filterValues[v] !== '') {
+            return `${v}=${filterValues[v]}&`;
+          } else {
+            return '';
+          }
+        })
         .join('');
-      return fetchCilentsData({ section: `clients?${url}&${traffic}` });
+      return fetchCilentsData({ section: `clients?${url}${traffic}` });
     },
     {
       keepPreviousData: true,
       refetchOnWindowFocus: false,
       retry: 0,
       onSuccess: (data) => {
-        setData(data.data.data);
         dispatch(setClientStats(data.data.data));
-        setIsFetching(false);
+        const level = data.data.data?.filter?.levels?.map((v: any) => {
+          const check = usedLevel?.find((i: any) => {
+            if (i?.name === v?.name) {
+              return true;
+            } else {
+              return false;
+            }
+          });
+          return {
+            number: v.number,
+            [v.name]: check?.[check?.name] ? check?.[check?.name] : false,
+            label: v.name,
+            name: v.name,
+          };
+        });
+        setStatus(level);
       },
     }
   );
 
-  return { response, data, isFetching, setIsFetching };
+  const list = [
+    {
+      title: t('totalClients'),
+      value: data?.clientCount,
+      Icon: <UsersIcon />,
+    },
+    {
+      title: t('maleCount'),
+      value: data?.maleCount,
+      Icon: <ManIcon />,
+    },
+    {
+      title: t('femaleCount'),
+      value: data?.femaleCount,
+      Icon: <WomanIcon />,
+    },
+    {
+      title: t('ageAvg'),
+      value: data?.ageAvg,
+      Icon: width > 600 ? <AgeIcon /> : <AgeMobIcon />,
+    },
+    {
+      title: t('uniqueChequeClient'),
+      value: data?.uniqueChequeClient,
+      Icon: <CalendarIcon />,
+    },
+    {
+      title: t('chequeCount'),
+      value: data?.chequeCount,
+      Icon: <CartIcon />,
+    },
+    {
+      title: t('paidWithMoney'),
+      value: data?.paidWithMoney,
+      Icon: <MoneyIcon />,
+    },
+    {
+      title: t('paidWithPoint'),
+      value: data?.paidWithPoint,
+      Icon: <RatingIcon />,
+    },
+    {
+      title: t('pointSum'),
+      value: data?.pointSum,
+      Icon: <ScoreIcon />,
+    },
+    {
+      title: t('chequeAvg'),
+      value: data?.chequeAvg,
+      Icon: <CheckIcon />,
+    },
+    {
+      title: t('cashbackSum'),
+      value: data?.cashbackSum,
+      Icon: <CashBackIcon />,
+    },
+    {
+      title: t('discountSum'),
+      value: data?.discountSum,
+      Icon: <DiscountIcon />,
+    },
+    {
+      title: t('couponAmountSum'),
+      value: data?.couponAmountSum,
+      Icon: <SertificateIcon />,
+    },
+    {
+      title: t('couponDiscountSum'),
+      value: data?.couponDiscountSum,
+      Icon: <CouponIcon />,
+    },
+  ];
+
+  return { response, list, status, setStatus, setUsedLevel };
 };
 
 export default useClientsHook;
