@@ -14,7 +14,6 @@ const partnerApi = axios.create({
 partnerApi.interceptors.request.use((config: AxiosRequestConfig) => {
   const accessToken = localStorage.getItem(PARTNER.ACCESS_TOKEN);
   const companyToken = localStorage.getItem(PARTNER.COMPANY_TOKEN);
-  console.log(config.url, config.method, "main url");
   if (
     config.url?.includes("core/staff-companies") ||
     config.url?.includes("auth/update-token") ||

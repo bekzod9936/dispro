@@ -1,19 +1,19 @@
-import { IconButton } from '@material-ui/core';
-import useLayout from 'components/Layout/useLayout';
-import { useRecoilState } from 'recoil';
-import { badgeData } from 'services/atoms/info/badge';
-import Popover from 'components/Custom/Popover';
-import { useTranslation } from 'react-i18next';
-import dayjs from 'dayjs';
-import isYesterday from 'dayjs/plugin/isYesterday';
-import isToday from 'dayjs/plugin/isToday';
-import utc from 'dayjs/plugin/utc';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
-import useWindowWidth from 'services/hooks/useWindowWidth';
-import FullModal from 'components/Custom/FullModal';
-import { useState } from 'react';
-import { useHistory } from 'react-router';
-import { ReactComponent as LeftBack } from 'assets/icons/FinanceIcons/leftback.svg';
+import { IconButton } from "@material-ui/core";
+import useLayout from "components/Layout/useLayout";
+import { useRecoilState } from "recoil";
+import { badgeData } from "services/atoms/info/badge";
+import Popover from "components/Custom/Popover";
+import { useTranslation } from "react-i18next";
+import dayjs from "dayjs";
+import isYesterday from "dayjs/plugin/isYesterday";
+import isToday from "dayjs/plugin/isToday";
+import utc from "dayjs/plugin/utc";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import useWindowWidth from "services/hooks/useWindowWidth";
+import FullModal from "components/Custom/FullModal";
+import { useState } from "react";
+import { useHistory } from "react-router";
+import { ReactComponent as LeftBack } from "assets/icons/FinanceIcons/leftback.svg";
 import {
   Container,
   BadgeWrap,
@@ -31,10 +31,10 @@ import {
   Header,
   Wrap,
   ModalWrap,
-} from './style';
-import defuserman from 'assets/icons/defuserman.png';
-import defuserwoman from 'assets/icons/defuserwoman.png';
-import App from 'assets/icons/StatistisPage/app.svg';
+} from "./style";
+import defuserman from "assets/icons/defuserman.png";
+import defuserwoman from "assets/icons/defuserwoman.png";
+import App from "assets/icons/StatistisPage/app.svg";
 
 const Badge = () => {
   const { t } = useTranslation();
@@ -47,43 +47,42 @@ const Badge = () => {
 
   dayjs().isYesterday();
 
-  const companyId = localStorage.getItem('companyId');
+  const companyId = localStorage.getItem("companyId");
   useLayout({ id: companyId });
   const badgeInfo = useRecoilState(badgeData);
   const dd = new Date().getTimezoneOffset();
 
-  const date = 'Wed Nov 25 2020 11:11:49 GMT+0500 (Uzbekistan Standard Time)';
+  const date = "Wed Nov 25 2020 11:11:49 GMT+0500 (Uzbekistan Standard Time)";
 
-  console.log(badgeInfo, 'ssss');
   // date: "Fri Nov 26 2021 10:21:22 GMT+0500 (Uzbekistan Standard Time)"
 
   const getTime = (date: any) => {
     const di = dayjs().utcOffset() / 60;
-    const timedef = dayjs().add(di, 'm').format();
+    const timedef = dayjs().add(di, "m").format();
     const time =
-      dayjs(Date.now()).diff(date, 'minute') < 60
-        ? `${dayjs(timedef).diff(date, 'minute')}M ${t('ago')}`
-        : dayjs(Date.now()).diff(date, 'hour') < 24
-        ? `${dayjs(Date.now()).diff(date, 'hour')} ${t('hour')} ${t('ago')}`
-        : dayjs(Date.now()).diff(date, 'month') === 0
-        ? `${dayjs(Date.now()).diff(date, 'day')} ${t('day')} ${t('ago')} ${t(
-            'atfortime'
-          )} ${dayjs(date).format('HH:mm')}`
-        : dayjs(Date.now()).diff(date, 'year') === 0
-        ? `${dayjs(date).format('DD MMMM')} ${t('atfortime')} ${dayjs(
+      dayjs(Date.now()).diff(date, "minute") < 60
+        ? `${dayjs(timedef).diff(date, "minute")}M ${t("ago")}`
+        : dayjs(Date.now()).diff(date, "hour") < 24
+        ? `${dayjs(Date.now()).diff(date, "hour")} ${t("hour")} ${t("ago")}`
+        : dayjs(Date.now()).diff(date, "month") === 0
+        ? `${dayjs(Date.now()).diff(date, "day")} ${t("day")} ${t("ago")} ${t(
+            "atfortime"
+          )} ${dayjs(date).format("HH:mm")}`
+        : dayjs(Date.now()).diff(date, "year") === 0
+        ? `${dayjs(date).format("DD MMMM")} ${t("atfortime")} ${dayjs(
             date
-          ).format('HH:mm')}`
-        : `${dayjs(date).format('DD MMMM YYYY')} ${t('atfortime')} ${dayjs(
+          ).format("HH:mm")}`
+        : `${dayjs(date).format("DD MMMM YYYY")} ${t("atfortime")} ${dayjs(
             date
-          ).format('HH:mm')}`;
+          ).format("HH:mm")}`;
     return time;
   };
 
   const handleClickNotification = (v: any) => {
     if (v.chatType === 6) {
-      history.push('/support');
+      history.push("/support");
     } else {
-      history.push('/feedback/posts');
+      history.push("/feedback/posts");
     }
   };
 
@@ -98,12 +97,12 @@ const Badge = () => {
               ) : (
                 <LazyLoadImage
                   src={v.image}
-                  alt='user'
+                  alt="user"
                   style={{
-                    objectFit: 'cover',
+                    objectFit: "cover",
                   }}
-                  height='100%'
-                  width='100%'
+                  height="100%"
+                  width="100%"
                   onError={(e: any) => {
                     e.target.onerror = null;
                     e.target.src = App;
@@ -114,7 +113,7 @@ const Badge = () => {
             <WrapData>
               <LastMessage>{v.lastMsg}</LastMessage>
               <Name>
-                <span>{t('from')}</span>
+                <span>{t("from")}</span>
                 {v.chatType === 6
                   ? `Dis-count`
                   : `${v.lastName} ${v.firstName}`}
@@ -132,7 +131,7 @@ const Badge = () => {
       {width > 600 ? (
         <Popover
           click={
-            <IconButton style={{ margin: '0 10px' }}>
+            <IconButton style={{ margin: "0 10px" }}>
               <BadgeWrap>
                 <BadgeContent>
                   {badgeInfo[0].totalCount ? badgeInfo[0].totalCount : 0}
@@ -141,10 +140,10 @@ const Badge = () => {
               </BadgeWrap>
             </IconButton>
           }
-          anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
+          anchorOrigin={{ horizontal: "center", vertical: "bottom" }}
         >
           <Wrapper>
-            <Title>{t('notification')}</Title>
+            <Title>{t("notification")}</Title>
             <Wrap>{content}</Wrap>
           </Wrapper>
         </Popover>
@@ -152,7 +151,7 @@ const Badge = () => {
         <>
           <IconButton
             onClick={() => setOpen(true)}
-            style={{ margin: '0 10px' }}
+            style={{ margin: "0 10px" }}
           >
             <BadgeWrap>
               <BadgeContent>{badgeInfo[0].totalCount}</BadgeContent>
@@ -169,7 +168,7 @@ const Badge = () => {
                 >
                   <LeftBack />
                 </IconButton>
-                <span>{t('notifications')}</span>
+                <span>{t("notifications")}</span>
               </Header>
               {content}
             </ModalWrap>

@@ -53,9 +53,6 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
     return state.auth.regFilled;
   });
 
-  console.log(infoData, "info data");
-  console.log(regFilled, "reg filled data");
-
   const fill =
     (infoData?.filled && infoData?.filledAddress) ||
     (regFilled?.filled && regFilled?.filledAddress);

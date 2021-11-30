@@ -79,4 +79,5 @@ export interface Props {
   iconleft?: string;
   iconright?: string;
   icondowncolor?: string;
+  isOptionDisabled?: any;
 }

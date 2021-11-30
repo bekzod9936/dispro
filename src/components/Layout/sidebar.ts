@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useCallback, useRef, useEffect } from "react";
 import { useRecoilValue } from "recoil";
 import { permissionList } from "services/atoms/permissions";
 import {
@@ -79,10 +79,9 @@ const sidebar: any = [
 
 export const useSideBar = () => {
   const { permissions } = useRecoilValue(permissionList);
-
-  const handlePermision = () => {
+  const sideList: any = useRef(sidebar);
+  const sideMe: any = useCallback(() => {
     for (let i in permissions) {
-      console.log(i, "setting");
       for (let j of sidebar) {
         if (i === j.text) {
           j.permission = permissions[i];
@@ -90,11 +89,16 @@ export const useSideBar = () => {
       }
     }
 
+    sideList.current = sidebar;
     return sidebar;
-  };
+  }, [permissions]);
 
-  // console.log(handlePermision(), "permit");
-  const sideList = useMemo(() => handlePermision(), [sidebar]);
+  useEffect(() => {
+    sideMe();
+  }, [sideMe]);
+
+  // // console.log(handlePermision(), "permit");
+  // const sideList = useMemo(() => handlePermision(), [handlePermision]);
 
   return {
     sideList,

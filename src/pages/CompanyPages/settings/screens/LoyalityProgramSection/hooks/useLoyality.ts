@@ -400,32 +400,50 @@ const useLoyality = () => {
 
   //Fetching TO Program  loyality
 
-  const { isLoading: discountLoading, refetch: refetchdiscount } = useQuery(
-    ["discount", refetchDiscount],
-    fetchDiscount,
-    {
-      retry: 0,
-      refetchOnWindowFocus: false,
-      onSuccess: (data: any) => {
-        // setEmptyLoyal
-        if (data?.data?.data === null) {
-          setEmptyDiscount({
-            empty: true,
-            type: "discount",
-          });
+  const {
+    isLoading: discountLoading,
+    refetch: refetchdiscount,
+    isFetching: discountFetching,
+  } = useQuery(["discount", refetchDiscount], fetchDiscount, {
+    retry: 0,
+    refetchOnWindowFocus: false,
+    onSuccess: (data: any) => {
+      // setEmptyLoyal
+      if (data?.data?.data === null) {
+        setEmptyDiscount({
+          empty: true,
+          type: "discount",
+        });
+
+        setBaseLoyality({
+          max_percent: "",
+          base_percent: "",
+          give_cashback_after: "",
+        });
+
+        reset();
+      } else {
+        dispatch(setMEmptySale(false));
+        if (data?.data?.data?.isActive) {
+          setAvailCheck(true);
+          setActive({ active: "discount" });
 
           setBaseLoyality({
-            max_percent: "",
-            base_percent: "",
-            give_cashback_after: "",
+            max_percent: data.data.data.maxAmount,
+            base_percent: data.data.data.percent,
+            give_cashback_after: data.data.data.cashbackReturnedDay,
+            base_name: data.data.data.name,
           });
 
-          reset();
+          dispatch(setSaleCheck(true));
+          setValue("max_percent", data.data.data.maxAmount);
+          setValue("give_cashback_after", data.data.data.cashbackReturnedDay);
+          setValue("base_name", data.data.data.name);
+          setValue("base_percent", data.data.data.percent);
+          setValue("levels", data.data.data.levels);
         } else {
-          dispatch(setMEmptySale(false));
-          if (data?.data?.data?.isActive) {
-            setAvailCheck(true);
-            setActive({ active: "discount" });
+          if (refetchDiscount > 0) {
+            console.log("logged discount");
 
             setBaseLoyality({
               max_percent: data.data.data.maxAmount,
@@ -434,64 +452,60 @@ const useLoyality = () => {
               base_name: data.data.data.name,
             });
 
-            dispatch(setSaleCheck(true));
             setValue("max_percent", data.data.data.maxAmount);
             setValue("give_cashback_after", data.data.data.cashbackReturnedDay);
             setValue("base_name", data.data.data.name);
             setValue("base_percent", data.data.data.percent);
             setValue("levels", data.data.data.levels);
-          } else {
-            if (refetchDiscount > 0) {
-              console.log("logged discount");
-
-              setBaseLoyality({
-                max_percent: data.data.data.maxAmount,
-                base_percent: data.data.data.percent,
-                give_cashback_after: data.data.data.cashbackReturnedDay,
-                base_name: data.data.data.name,
-              });
-
-              setValue("max_percent", data.data.data.maxAmount);
-              setValue(
-                "give_cashback_after",
-                data.data.data.cashbackReturnedDay
-              );
-              setValue("base_name", data.data.data.name);
-              setValue("base_percent", data.data.data.percent);
-              setValue("levels", data.data.data.levels);
-            }
           }
         }
-      },
-    }
-  );
+      }
+    },
+  });
 
-  const { isLoading: cashbackLoading, refetch: refetchcashback } = useQuery(
-    ["cashback", refetchCashback],
-    fetchCashback,
-    {
-      retry: 0,
-      refetchOnWindowFocus: false,
-      onSuccess: (data: any) => {
-        if (data?.data?.data === null) {
-          setEmptyCashback({
-            empty: true,
-            type: "cashback",
-          });
+  const {
+    isLoading: cashbackLoading,
+    refetch: refetchcashback,
+    isFetching: cashbackFetching,
+  } = useQuery(["cashback", refetchCashback], fetchCashback, {
+    retry: 0,
+    refetchOnWindowFocus: false,
+    onSuccess: (data: any) => {
+      if (data?.data?.data === null) {
+        setEmptyCashback({
+          empty: true,
+          type: "cashback",
+        });
+
+        setBaseLoyality({
+          max_percent: "",
+          base_percent: "",
+          give_cashback_after: "",
+          base_name: "",
+        });
+
+        reset();
+      } else {
+        dispatch(setMEmptyCashback(false));
+        if (data?.data?.data?.isActive) {
+          setAvailCheck(true);
+          setActive({ active: "cashback" });
+          setValue("max_percent", data.data.data.maxAmount);
 
           setBaseLoyality({
-            max_percent: "",
-            base_percent: "",
-            give_cashback_after: "",
-            base_name: "",
+            max_percent: data.data.data.maxAmount,
+            base_percent: data.data.data.percent,
+            give_cashback_after: data.data.data.cashbackReturnedDay,
+            base_name: data.data.data.name,
           });
 
-          reset();
+          dispatch(setCashbackCheck(true));
+          setValue("give_cashback_after", data.data.data.cashbackReturnedDay);
+          setValue("base_name", data.data.data.name);
+          setValue("base_percent", data.data.data.percent);
+          setValue("levels", data.data.data.levels);
         } else {
-          dispatch(setMEmptyCashback(false));
-          if (data?.data?.data?.isActive) {
-            setAvailCheck(true);
-            setActive({ active: "cashback" });
+          if (refetchCashback > 0) {
             setValue("max_percent", data.data.data.maxAmount);
 
             setBaseLoyality({
@@ -501,37 +515,17 @@ const useLoyality = () => {
               base_name: data.data.data.name,
             });
 
-            dispatch(setCashbackCheck(true));
             setValue("give_cashback_after", data.data.data.cashbackReturnedDay);
             setValue("base_name", data.data.data.name);
             setValue("base_percent", data.data.data.percent);
             setValue("levels", data.data.data.levels);
-          } else {
-            if (refetchCashback > 0) {
-              setValue("max_percent", data.data.data.maxAmount);
-
-              setBaseLoyality({
-                max_percent: data.data.data.maxAmount,
-                base_percent: data.data.data.percent,
-                give_cashback_after: data.data.data.cashbackReturnedDay,
-                base_name: data.data.data.name,
-              });
-
-              setValue(
-                "give_cashback_after",
-                data.data.data.cashbackReturnedDay
-              );
-              setValue("base_name", data.data.data.name);
-              setValue("base_percent", data.data.data.percent);
-              setValue("levels", data.data.data.levels);
-            }
           }
         }
-      },
-    }
-  );
+      }
+    },
+  });
 
-  const { isLoading, refetch } = useQuery(
+  const { isLoading, isFetching, refetch } = useQuery(
     ["Bonus", refetchBonusPoints],
     fetchBonusPoints,
     {
@@ -787,6 +781,9 @@ const useLoyality = () => {
     availCheck,
     setAssertModalVisible,
     assertModalVisible,
+    isFetching,
+    cashbackFetching,
+    discountFetching,
   };
 };
 
