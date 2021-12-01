@@ -29,7 +29,7 @@ export const Img = styled(LazyLoadImage)`
 export const Container = styled.div`
   background: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
-  border-radius: 0 0 14px 14px;
+  border-radius: 14px 14px 14px 14px;
   overflow-x: auto;
   width: 100%;
   &:hover {
@@ -134,27 +134,6 @@ export const TableWrapper = styled.div`
   border-radius: 14px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
   margin-bottom: 20px;
-`;
-export const TableHeader = styled.div`
-  width: 100%;
-  z-index: 10;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 45px;
-  background-color: #ffffff;
-  border-radius: 14px 14px 0 0;
-  border-bottom: 1px solid rgba(96, 110, 234, 0.1);
-  @media (max-width: ${device.planshet}) {
-    padding: 10px;
-  }
-`;
-
-export const Title = styled.h2`
-  color: #223367;
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 21px;
 `;
 
 export const AddButton = styled.button`

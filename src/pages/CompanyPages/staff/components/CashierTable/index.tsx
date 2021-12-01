@@ -3,11 +3,9 @@ import { useSortBy, useTable } from 'react-table';
 import Checkbox from '@material-ui/core/Checkbox';
 import { HeadersType, IProps } from './types';
 import {
-	TableHeader,
 	Tbody,
 	Td,
 	Th,
-	Title,
 	Container,
 	MTable,
 	Thead,
@@ -21,7 +19,10 @@ import {
 import { cashierHeaders } from './headers';
 import LogoDef from 'assets/icons/SideBar/logodefault.png';
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
-import { setSelectedCashiers } from 'services/redux/Slices/staffs';
+import {
+	setOpenFilter,
+	setSelectedCashiers,
+} from 'services/redux/Slices/staffs';
 
 const CashierTable = ({ cashiers }: IProps) => {
 	const dispatch = useAppDispatch();
@@ -91,13 +92,10 @@ const CashierTable = ({ cashiers }: IProps) => {
 			);
 			dispatch(setSelectedCashiers(filteredItem));
 		}
+		dispatch(setOpenFilter(false));
 	};
 	return (
 		<div>
-			<TableHeader>
-				<Title>Кассиры</Title>
-				{/* <AddColumnButton addedHeaders={headers} setAddedHeaders={setHeaders} /> */}
-			</TableHeader>
 			<Container>
 				<MTable {...getTableProps()}>
 					<Thead>

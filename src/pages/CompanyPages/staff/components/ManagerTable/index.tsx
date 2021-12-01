@@ -3,11 +3,9 @@ import { useSortBy, useTable } from 'react-table';
 import Checkbox from '@material-ui/core/Checkbox';
 import { HeadersType, IProps } from './types';
 import {
-	TableHeader,
 	Tbody,
 	Td,
 	Th,
-	Title,
 	Container,
 	MTable,
 	Thead,
@@ -65,10 +63,6 @@ const ManagerTable = ({ managers }: IProps) => {
 
 	return (
 		<div>
-			<TableHeader>
-				<Title>Менеджеры</Title>
-				{/* <AddColumnButton addedHeaders={headers} setAddedHeaders={setHeaders} /> */}
-			</TableHeader>
 			<Container>
 				<MTable {...getTableProps()}>
 					<Thead>
