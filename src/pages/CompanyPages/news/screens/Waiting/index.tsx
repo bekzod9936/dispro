@@ -146,26 +146,8 @@ const Waiting = () => {
           </>
         )}
       </Wrap>:
-        <WrapMobile>
-        <WaitingFilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} />
-        <WrapHeader>
-                    <LeftHeader>
-                      <>
-                        <Flex
-                          width="100%"
-                          height="60px"
-                          alignItems="flex-start"
-                          margin="0"
-                        >
-                          <NavBar
-                            list={newsPath}
-                            padding="0 15px 0 0"
-                            margin="10px 0"
-                          />
-                        </Flex>
-                      </>
-                    </LeftHeader>
-                  </WrapHeader>
+        <Wrap>
+          <WaitingFilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} />
           {response.isLoading || response.isFetching ? (
           <WrapSpinner><Spinner/></WrapSpinner>
 
@@ -207,7 +189,7 @@ const Waiting = () => {
           </>
         )
         }
-              </WrapMobile>}
+              </Wrap>}
     </Container>
   );
 };

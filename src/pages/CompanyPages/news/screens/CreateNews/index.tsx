@@ -39,7 +39,7 @@ import {
   PlusIcon,
   UploadImage,
 } from "assets/icons/proposals/ProposalsIcons";
-import { SaveIcon } from "assets/icons/news/newsIcons";
+import { SaveIcon,SaveIconMobile } from "assets/icons/news/newsIcons";
 import { days, genders, todayDate, nextDay } from "./constants";
 import useWindowWidth from "services/hooks/useWindowWidth";
 import {
@@ -213,7 +213,7 @@ const CreateNews = () => {
             onClick={handleBack}
             style={{ marginRight: "25px", cursor: "pointer" }}
           />
-          <Title>Добавление новости</Title>
+          <Title>{t('Добавление новости')}</Title>
         </div>
       )}
       <UploadModal
@@ -239,7 +239,7 @@ const CreateNews = () => {
           {width <= 600 && (
             <MobileHeader>
               <GoBackIcon onClick={handleBack} style={{ cursor: "pointer" }} />
-              <Title> Добавление новости</Title>
+              <Title> {t('Добавление новости')}</Title>
             </MobileHeader>
           )}
           <Container>
@@ -397,7 +397,7 @@ const CreateNews = () => {
               isFilter
               error={validation && !filter?.regDate?.regDateTo ? true:false}
               text={t("to")}
-              minDate={todayDate}
+              minDate={filter?.regDate?.regDateFrom}
               onChange={(e) => {
                 let date = "" + e.year + "-" + e.month.number + "-" + e.day;
                 setFilter((prev: any) => ({
@@ -411,7 +411,6 @@ const CreateNews = () => {
               </div>
                 </WrapInputs>
               )}
-
 
               <WrapSelect>
                 <Controller
@@ -602,7 +601,7 @@ const CreateNews = () => {
                   <Button
                     onClick={() => setValidation(true)}
                     type="submit"
-                    endIcon={<SaveIcon />}
+                    endIcon={<SaveIconMobile />}
                     buttonStyle={{
                       bgcolor: "#606EEA",
                       color: "#fff",

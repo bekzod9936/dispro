@@ -111,7 +111,7 @@ export const Td = styled.td`
   padding: 15px;
   padding-left: 40px;
   text-align: left;
-  text-transform: capitalize;
+  
   font-weight: normal;
   font-size: 16px;
   color: #223367;
@@ -223,6 +223,7 @@ export const TitleCard = styled.div`
 export const TitleData = styled.div`
   display: flex;
   align-items: center;
+  
   img {
     object-fit: cover;
     border-radius: 14px !important;

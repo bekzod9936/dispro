@@ -84,9 +84,8 @@ const ShowWaitingNews = () => {
           <PreviewContent>
             <h5>
               <span style={{wordBreak: 'break-all' }}>
-                {newsById?.data?.title?.length > 50
-                  ? newsById?.data?.title?.slice(0, 50) + "..."
-                  : newsById?.data?.title}{" "}
+                
+                  {newsById?.data?.title}
               </span>
             </h5>
             <p style={{ paddingTop: "10px",wordBreak: 'break-all' }}>

@@ -48,8 +48,6 @@ const Header = ({ handleOpenNews }: IProps) => {
   const { width } = useWindowWidth();
   return (
     <Container>
-   
-    
     </Container>
   );
 };

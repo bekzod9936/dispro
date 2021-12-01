@@ -44,12 +44,13 @@ export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
     reValidateMode: "onChange",
   });
 
+  
 
   const upDateWaitingNews = (data: any) => {
     let newsBody = {
       title: updatedNews?.title,
-      startLifeTime: data.startDate,
-      endLifeTime: data.endDate,
+      startLifeTime:width>600 ? data.startDate:filter?.regDate?.regDateFrom,
+      endLifeTime: width>600 ? data.endDate:filter?.regDate?.regDateTo,
       description: updatedNews?.description,
       ageFrom: parseInt(updatedNews?.ageFrom),
       ageUnlimited: false,
@@ -92,7 +93,6 @@ export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
   setPublisOpen(false)
  }
 
-  
   return (
     <Container>
          {width<=600 &&
@@ -107,7 +107,6 @@ export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
               margin="0 15px 0 0"
               isFilter
               text={t("from")}
-              // error={validation && !filter?.regDate?.regDateFrom ? true:false}
               minDate={todayDate}
               maxDate={filter?.regDate?.regDateTo}
               onChange={(e) => {
@@ -124,9 +123,8 @@ export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
                <div style={{paddingTop:'20px'}}>
             <CustomDatePicker
               isFilter
-              // error={validation && !filter?.regDate?.regDateTo ? true:false}
               text={t("to")}
-              minDate={todayDate}
+              minDate={filter?.regDate?.regDateFrom}
               onChange={(e) => {
                 let date = "" + e.year + "-" + e.month.number + "-" + e.day;
                 setFilter((prev: any) => ({

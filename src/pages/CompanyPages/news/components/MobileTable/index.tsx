@@ -150,9 +150,9 @@ const MobileTable = ({ refetch, data }: Props) => {
                 <Wrapper>
                   <Title>
                     {info?.description?.length > 20
-                      ? info?.description.slice(0, 20) + ".."
+                      ? info?.description.slice(0, 20) + "..."
                       : info?.description}
-                    :
+                    
                   </Title>
                 </Wrapper>
               </WrapMain>
@@ -395,6 +395,7 @@ const MobileTable = ({ refetch, data }: Props) => {
                                 bgcolor: "#606EEA",
                                 color: "#fff",
                                 weight: "500",
+                                shadow:'0px 4px 9px rgba(96, 110, 234, 0.46)'
                               }}
                               //  endIcon={<MobileCancelIcon />}
                               endIcon={width > 325 && <WhitePublishIcon />}
@@ -415,6 +416,7 @@ const MobileTable = ({ refetch, data }: Props) => {
                           bgcolor: "#606EEA",
                           color: "#fff",
                           weight: "500",
+                          shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)'
                         }}
                         endIcon={
                           width > 325 && (
@@ -431,15 +433,14 @@ const MobileTable = ({ refetch, data }: Props) => {
                 </ModalContent>
                 <Modal open={isDeleteOpen}>
                   <DeleteModal>
-                    <h5>Вы действительно хотите удалить Новость?</h5>
-                    <p>{"После удаления новости , данные будет утеряны"}</p>
+                    <h5>Вы действительно хотите удалить новость?</h5>
+                    <p>{"После удаления новости  данные будет утеряны"}</p>
                     <Buttons>
                       <Button
-                        margin={{ desktop: "0 20px 0 20px" }}
+                        margin={{ desktop: "0 20px 0 20px" ,mobile:"0 10px 0 0"}}
                         onClick={() => setDeleteOpen(false)}
                         buttonStyle={{
-                          bgcolor: "# rgba(96, 110, 234, 0.1);",
-
+                          bgcolor:"rgba(96, 110, 234, 0.1)",
                           color: "#606EEA",
                           weight: "500",
                         }}
