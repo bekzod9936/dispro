@@ -1,4 +1,4 @@
-import partnerApi from "services/interceptors/partner_interceptor";
+import partnerApi from 'services/interceptors/partner_interceptor';
 
 interface Props {
   url: any;
@@ -15,12 +15,12 @@ export const fetchFeedBackCashiers = () => {
 };
 
 export const fetchChatClients = () => {
-  const response = partnerApi.get("/core/chat/list-partner-clients");
+  const response = partnerApi.get('/core/chat/list-partner-clients');
   return response;
 };
 
 export const fetchClientsRatings = () => {
-  const response = partnerApi.get("/core/cashier/rating-review-avg-sum");
+  const response = partnerApi.get('/core/cashier/rating-review-avg-sum');
   return response;
 };
 
@@ -40,5 +40,10 @@ interface DProps {
 
 export const deleteChat = ({ data }: DProps) => {
   const response = partnerApi.delete(`/core/chat/history`, { data: data });
+  return response;
+};
+
+export const fetchReadChats = ({ data }: DProps) => {
+  const response = partnerApi.put(`/core/chat/read`, { msgIds: data });
   return response;
 };

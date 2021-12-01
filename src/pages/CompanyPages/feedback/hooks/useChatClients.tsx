@@ -2,8 +2,8 @@ import { useRef } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { USER_TYPES } from 'services/constants/chat';
 import {
-  fetchChatClients,
   fetchChatClientHistory,
+  fetchChatClients,
   deleteChat,
 } from 'services/queries/feedbackQuery';
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
@@ -141,20 +141,6 @@ const useChatClients = () => {
     }
   );
 
-  const fetchHisFetchData = async () => {
-    await dispatch(
-      setChosenListUser({
-        ...choseListUser,
-        inntialHistory: {
-          ...choseListUser?.inntialHistory,
-          page: choseListUser?.inntialHistory?.page + 1,
-        },
-      })
-    );
-
-    await resChatClientHistory.refetch();
-  };
-
   const deleteRes = useMutation((data) => {
     return deleteChat({ data });
   });
@@ -166,7 +152,6 @@ const useChatClients = () => {
     handleChoose,
     scrollToTop,
     messagesStartRef,
-    fetchHisFetchData,
   };
 };
 

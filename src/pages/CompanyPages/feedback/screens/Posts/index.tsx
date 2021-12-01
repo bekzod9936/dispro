@@ -20,6 +20,13 @@ import App from 'assets/icons/StatistisPage/app.svg';
 import FullModal from 'components/Custom/FullModal';
 import { ReactComponent as LeftBack } from 'assets/icons/FinanceIcons/leftback.svg';
 import { TextareaAutosize } from '@material-ui/core';
+import { OneCheckIcon, DoubleCheckIcoon } from '../../style';
+import Dots from '../../components/Dots';
+import {
+  setChatClientHistory,
+  setChosenListUser,
+} from 'services/redux/Slices/feedback';
+import Emoji from '../../components/Emoji';
 import {
   Container,
   LeftSide,
@@ -66,13 +73,6 @@ import {
   WrapButtons,
   WrapDateMessage,
 } from './style';
-import { OneCheckIcon, DoubleCheckIcoon } from '../../style';
-import Dots from '../../components/Dots';
-import {
-  setChatClientHistory,
-  setChosenListUser,
-} from 'services/redux/Slices/feedback';
-import Emoji from '../../components/Emoji';
 
 interface FormProps {
   message?: string;
@@ -98,7 +98,7 @@ const Posts = () => {
   const chosenListUser: any = useAppSelector(
     (state) => state.feedbackPost.chosenListUser
   );
-  console.log(chosenListUser);
+
   const [users, setUsers] = useState<any>([]);
   const [limit, setLimit] = useState(words);
   const [loading, setLoading] = useState(false);
@@ -107,13 +107,11 @@ const Posts = () => {
   const [inpuSearch, setInpuSearch] = useState<string>('');
   const [searchRes, setSearchRes] = useState<any[]>([]);
   const [searchFocus, setSearchFocus] = useState<boolean>(false);
-  const [height, setHeight] = useState(0);
   const {
     resChatClients,
     resChatClientHistory,
     scrollToTop,
     messagesStartRef,
-    fetchHisFetchData,
     handleChoose,
   } = useChatClients();
 
@@ -140,21 +138,9 @@ const Posts = () => {
 
   const findScrollHeight = (e: any) => {
     e.preventDefault();
-    setHeight(e.target.scrollHeight);
+
     setScrollHeight(Math.abs(e.target.scrollTop));
   };
-
-  useEffect(() => {
-    const a: any = messagesStartRef?.current?.offsetTop;
-    if (scrollHeight + a + 1 === height) {
-      if (
-        chosenListUser?.inntialHistory?.page <=
-        Math.ceil(totalHistory / chosenListUser?.inntialHistory?.perPage)
-      ) {
-        fetchHisFetchData();
-      }
-    }
-  }, [scrollHeight, height]);
 
   useEffect(() => {
     if (socket) {
@@ -231,7 +217,7 @@ const Posts = () => {
             ? defuserman
             : chosen?.genderTypeId === 2
             ? defuserwoman
-            : ''
+            : App
         }
         width='100%'
         effect='blur'

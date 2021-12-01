@@ -38,6 +38,7 @@ import App from 'assets/icons/StatistisPage/app.svg';
 
 const Badge = () => {
   const { t } = useTranslation();
+  const [closeFun, setCloseFun] = useState<any>();
   const { width } = useWindowWidth();
   const [open, setOpen] = useState<boolean>(false);
   const history = useHistory();
@@ -50,6 +51,10 @@ const Badge = () => {
   const companyId = localStorage.getItem('companyId');
   useLayout({ id: companyId });
   const badgeInfo = useRecoilState(badgeData);
+
+  const handleClose = (e: any) => {
+    setCloseFun(e);
+  };
 
   const getTime = (date: any) => {
     const time =
@@ -77,6 +82,7 @@ const Badge = () => {
     } else {
       history.push('/feedback/posts');
     }
+    closeFun.close();
   };
 
   const content = (
@@ -89,7 +95,15 @@ const Badge = () => {
                 <DisIcon />
               ) : (
                 <LazyLoadImage
-                  src={v.image}
+                  src={
+                    v?.image
+                      ? v?.image
+                      : v?.genderTypeId === 1
+                      ? defuserman
+                      : v?.genderTypeId === 2
+                      ? defuserwoman
+                      : App
+                  }
                   alt='user'
                   style={{
                     objectFit: 'cover',
@@ -134,6 +148,7 @@ const Badge = () => {
             </IconButton>
           }
           anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
+          onClose={handleClose}
         >
           <Wrapper>
             <Title>{t('notification')}</Title>
