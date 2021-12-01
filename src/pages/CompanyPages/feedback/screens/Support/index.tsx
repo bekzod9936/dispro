@@ -127,7 +127,7 @@ const Support = () => {
         setTotalSupportHistory({
           ...total,
           loading: false,
-          page: total.page + 1,
+          page: total.page,
         })
       );
       await resChatSupportHistory.refetch();
