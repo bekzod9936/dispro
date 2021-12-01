@@ -36,6 +36,25 @@ export const Container = styled.div`
     margin-top: 50px;
 `
 
+export const PopoverList = styled.div`
+    border-radius: 14px;
+    background-color: #fff;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
+    width: 233px;
+    padding: 15px 0;
+`
+export const PopoverItem = styled.div`
+    cursor: pointer;
+    transition: 200ms all;
+    padding: 15px 25px;
+    font-size: 16px;
+    line-height: 18.75px;
+    color: #223367;
+
+    &:hover {
+        background-color: rgba(96, 110, 234, 0.1);
+    }
+`
 
 
 

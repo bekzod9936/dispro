@@ -524,5 +524,7 @@
   "exitpageaddress": " На странице есть несохраненные элементы.",
   "areyousureleave": "Все равно выйти?",
   "youDontHaveProducts": "У вас нет созданых продуктов",
-  "youDontHaveProductsYet": "У вас пока что нет товаров"
+  "youDontHaveProductsYet": "У вас пока что нет товаров",
+  "section": "Раздел",
+  "item": "Товар"
 }
