@@ -522,5 +522,7 @@
   "companies": "Компании",
   "limitfeedback": "Вы можете написать еще {{limit1}}",
   "exitpageaddress": " На странице есть несохраненные элементы.",
-  "areyousureleave": "Все равно выйти?"
+  "areyousureleave": "Все равно выйти?",
+  "areyousuredeletechat": "Вы действительно хотите удалить  чат?",
+  "deletechatsaveinclients": "После удаления чата, переписка на стороне клиента сохранится"
 }

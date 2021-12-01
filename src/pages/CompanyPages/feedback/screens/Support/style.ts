@@ -170,6 +170,7 @@ export const Messages = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column-reverse;
+  overflow-x: hidden;
   &::-webkit-scrollbar {
     appearance: none;
     display: none;
@@ -183,6 +184,7 @@ export const Messages = styled.div`
     appearance: none;
     display: none;
   }
+
   @media (max-width: ${device.mobile}) {
     grid-row-gap: 15px;
     padding: 10px 20px 0 10px;

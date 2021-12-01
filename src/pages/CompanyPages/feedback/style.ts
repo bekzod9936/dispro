@@ -10,6 +10,7 @@ interface Props {
   isPosts?: boolean;
   big?: boolean;
   main?: boolean;
+  bgcolor?: string;
 }
 
 interface RProps {
@@ -17,21 +18,23 @@ interface RProps {
 }
 
 export const OneCheckIcon = styled(OneCheck)`
-  width: 20px;
-  height: 20px;
-  min-width: 20px;
-  min-height: 20px;
-  max-width: 20px;
-  max-height: 20px;
+  width: 15px;
+  height: 15px;
+  min-width: 15px;
+  min-height: 15px;
+  max-width: 15px;
+  max-height: 15px;
+  margin-left: 15px;
 `;
 
 export const DoubleCheckIcoon = styled(DoubleCheck)`
-  width: 20px;
-  height: 20px;
-  min-width: 20px;
-  min-height: 20px;
-  max-width: 20px;
-  max-height: 20px;
+  width: 15px;
+  height: 15px;
+  min-width: 15px;
+  min-height: 15px;
+  max-width: 15px;
+  max-height: 15px;
+  margin-left: 15px;
 `;
 
 export const UnreadIcon = styled(Unread)`
@@ -44,7 +47,8 @@ export const Avatar = styled.div`
   height: ${({ big }: Props) => (big ? '45px' : '40px')};
   min-width: ${({ big }: Props) => (big ? '45px' : '40px')};
   min-height: ${({ big }: Props) => (big ? '45px' : '40px')};
-  background-color: transparent;
+  background-color: ${({ bgcolor }: Props) =>
+    bgcolor ? bgcolor : 'transparent'};
   margin-right: 15px;
   overflow: hidden;
   display: flex;
