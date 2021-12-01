@@ -75,7 +75,6 @@ export const MTextArea = styled.textarea`
     background-image: url(${Textt});
     height: 20px;
     width: 20px;
-    /* background-color:'red'; */
   }
   &::-webkit-scrollbar {
     width: 20px;
