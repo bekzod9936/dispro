@@ -112,49 +112,31 @@ const Archive = () => {
               {newsById && <NewsBar refetch={response} currentNews={newsById} onClose={onClose} />}
             </SideBar>
             {list.length > 0 ? (
-              <WrapPag>
-                <Info>
-                  {t("shown")}
-                  <span>{between}</span>
-                  {t("from1")} <span>{totalNewsCount}</span>
-                  {countPagination({
-                count: totalNewsCount,
-                firstWord: t('новости '),
-                secondWord: t('новостей'),
-              })}
-                </Info>
-                <Pagination
-                  page={filterValues.page}
-                  count={totalCount}
-                  onChange={handlechangePage}
-                  disabled={response.isLoading || response.isFetching}
-                  siblingCount={0}
-                />
-              </WrapPag>
+               <WrapPag>
+               <Info>
+                 {t("shown")}
+                 <span>{between}</span>
+                 {t("from1")} <span>{totalNewsCount}</span> 
+                 {countPagination({
+               count: totalNewsCount,
+               firstWord: t('новости '),
+               secondWord: t('новостей'),
+             })}
+               </Info>
+               <Pagination
+                 page={filterValues.page}
+                 count={totalCount}
+                 onChange={handlechangePage}
+                 disabled={response.isLoading || response.isFetching}
+                 siblingCount={0}
+               />
+             </WrapPag>
             ) : null}
           </>
         )}
       </Wrap>:
     <WrapMobile>
-    <MobileFilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} filterByDate={filterByDate}/>
-        <WrapHeader>
-                    <LeftHeader>
-                      <>
-                        <Flex
-                          width="100%"
-                          height="60px"
-                          alignItems="flex-start"
-                          margin="0"
-                        >
-                          <NavBar
-                            list={newsPath}
-                            padding="0 15px 0 0"
-                            margin="10px 0"
-                          />
-                        </Flex>
-                      </>
-                    </LeftHeader>
-                  </WrapHeader>
+         <MobileFilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} filterByDate={filterByDate}/> 
           {response.isLoading || response.isFetching ? (
           <WrapSpinner><Spinner/></WrapSpinner>
 
@@ -173,25 +155,25 @@ const Archive = () => {
               {newsById && <NewsBar refetch={response} currentNews={newsById} onClose={onClose} />}
             </SideBar>
             {list.length > 0 ? (
-              <WrapPag>
-                <Info>
-                  {t("shown")}
-                  <span>{between}</span>
-                  {t("from1")} <span>{totalNewsCount}</span>
-                  {countPagination({
-                count: totalNewsCount,
-                firstWord: t('новости '),
-                secondWord: t('новостей'),
-              })}
-                </Info>
-                <Pagination
-                  page={filterValues.page}
-                  count={totalCount}
-                  onChange={handlechangePage}
-                  disabled={response.isLoading || response.isFetching}
-                  siblingCount={width<=600 ? 0 : 4}
-                />
-              </WrapPag>
+          <WrapPag>
+          <Info>
+            {t("shown")}
+            <span>{between}</span>
+            {t("from1")} <span>{totalNewsCount}</span> 
+            {countPagination({
+          count: totalNewsCount,
+          firstWord: 'новости ',
+          secondWord: 'новостей',
+        })}
+          </Info>
+          <Pagination
+            page={filterValues.page}
+            count={totalCount}
+            onChange={handlechangePage}
+            disabled={response.isLoading || response.isFetching}
+            siblingCount={0}
+          />
+        </WrapPag>
             ) : null}
           </>
         )
