@@ -10,6 +10,8 @@ import { useAppSelector, useAppDispatch } from "services/redux/hooks";
 import { SideBar } from "../../components/SideBar";
 import { NewsBar } from "../../components/NewsBar";
 import { Container, Wrap,Info,WrapPag,WrapSpinner } from "./style";
+import NavBar from "components/Custom/NavBar";
+import { Flex } from "../../style";
 import useData from "../useData";
 import useArchive from "./useArchive";
 import Pagination from "components/Custom/Pagination";
@@ -17,7 +19,9 @@ import MobileTable from "../../components/MobileTable";
 import useWindowWidth from 'services/hooks/useWindowWidth';
 import { FilterNews } from "../../components/FilterNews";
 import { countPagination } from '../../components/utils';
-
+import useNewsRoute from "../../routes";
+import { LeftHeader, WrapMobile,WrapHeader } from "./style";
+import {MobileFilterNews} from "../../components/MobileFilterNews";
 interface intialFilterProps {
   page?: number;
   perPage?: number;
@@ -35,6 +39,7 @@ const Archive = () => {
   const between=useAppSelector((state)=>state.news.NewsInfo.between);
   const totalNewsCount=useAppSelector((state)=>state.news.NewsInfo.totalCountNews)
   console.log('totalNewsCount',totalNewsCount)
+  const { newsPath } = useNewsRoute();
   const { t } = useTranslation();
   const handleOpenSetting = () => {
     history.push({
@@ -130,7 +135,26 @@ const Archive = () => {
           </>
         )}
       </Wrap>:
-      <Wrap>
+    <WrapMobile>
+    <MobileFilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} filterByDate={filterByDate}/>
+        <WrapHeader>
+                    <LeftHeader>
+                      <>
+                        <Flex
+                          width="100%"
+                          height="60px"
+                          alignItems="flex-start"
+                          margin="0"
+                        >
+                          <NavBar
+                            list={newsPath}
+                            padding="0 15px 0 0"
+                            margin="10px 0"
+                          />
+                        </Flex>
+                      </>
+                    </LeftHeader>
+                  </WrapHeader>
           {response.isLoading || response.isFetching ? (
           <WrapSpinner><Spinner/></WrapSpinner>
 
@@ -172,7 +196,7 @@ const Archive = () => {
           </>
         )
         }
-        </Wrap>}
+        </WrapMobile>}
     </Container>
   );
 };

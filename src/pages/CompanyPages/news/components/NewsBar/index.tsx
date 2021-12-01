@@ -3,42 +3,32 @@ import {
   CloseIcon,
 } from "assets/icons/ClientsPageIcons/ClientIcons";
 
-import { WatchIcons,WatchIconsWhite, DeleteIcon,PublishIcon,WhitePublishIcon,RepairNewsIcon } from "assets/icons/news/newsIcons";
+import { WatchIcons,WatchIconsWhite, DeleteIcon,PublishIcon,RepairNewsIcon } from "assets/icons/news/newsIcons";
 import Button from "components/Custom/Button";
 import Modal from "components/Custom/Modal";
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { useMutation } from "react-query";
 import { useHistory } from "react-router";
-import { deleteCoupon, putCoupon } from "services/queries/proposalQuery";
 import { deleteNews } from "services/queries/newPageQuery";
 import { IDeferred } from "services/redux/Slices/news/types";
 import {PublicModal} from "./components/PublicModal";
-
-//   import { SetDate } from "../../screens/Coupons/components/SetDate";
 
 import {
   Wrapper,
   Header,
   DeleteModal,
   ContentInfo,
-  Preview,
   ContentSideBar,
   PreviewDivNews,
-  PreviewContent,
   ContentButton,
   LeftRound,
   PreviewBgNews,
   WrapperModal,
   CloseButton,
 } from "./style";
-import iphone from "assets/images/iphone.png";
-import { useAppSelector, useAppDispatch } from "services/redux/hooks";
-import { setSelectedNews } from "services/redux/Slices/news";
-import { RootState } from "services/redux/store";
+
 import { useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
-//   import { useFetchCategories } from "../../screens/UpdateCoupon/useFetchCategories";
+
 interface IProps {
   onClose: (arg: boolean) => void;
   currentNews: IDeferred;
@@ -63,11 +53,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
     
     }
   };
-  const showNewsDetail = () => {
-    if (currentNews) {    
-      history.push("/news/detail");
-    }
-  };
+
 
   const restoreNews=()=>{
     if (currentNews) {
@@ -107,8 +93,8 @@ console.log('gender',currentNews?.genderType )
       <ContentSideBar>
         <ContentInfo>
           <h5>Информация</h5>
-          {console.log('Для всех',currentNews)}
-          <p>{currentNews?.data?.genderType ===0 ?  'Для всех' : currentNews?.data?.genderType ===1 ? 'Толка для мужчин':`Толка для женщин  ` }</p>
+       
+          <p>{currentNews?.data?.genderType ===0 ?  'Для всех' : currentNews?.data?.genderType ===1 ? 'Только для мужчин':`Только для женщин` }</p>
           <p>Срок публикации: {currentNews?.date}</p>
           <p>Возрастное ограничение: {currentNews?.data?.ageFrom}+</p>
         </ContentInfo>

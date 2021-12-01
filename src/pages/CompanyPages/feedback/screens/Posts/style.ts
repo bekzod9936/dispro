@@ -152,11 +152,11 @@ export const Container = styled.div`
 export const LeftSide = styled.div`
   background-color: #abb2eb;
   border-radius: 14px 0 0 14px;
-  width: 25%;
+  width: 30%;
   display: flex;
   flex-direction: column;
   flex: 1;
-  min-width: 260px;
+  min-width: 300px;
 `;
 
 export const RightSide = styled.div`
@@ -613,3 +613,5 @@ export const WrapButtons = styled.div`
   bottom: 0;
   right: 0;
 `;
+
+export const WrapDateMessage = styled.div``;

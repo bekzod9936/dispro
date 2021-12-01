@@ -72,6 +72,7 @@ import {
   Wranning,
   WrapTextArea,
   WrapButtons,
+  WrapDateMessage,
 } from './style';
 
 interface ChProps {
@@ -360,6 +361,8 @@ const Posts = () => {
                       lastName: v.lastName,
                       lastMsg: v.lastMsg,
                       clientGenderTypeId: v.genderTypeId,
+                      chatType: v.chatType,
+                      status: v.status,
                     }}
                   />
                 );
@@ -381,6 +384,8 @@ const Posts = () => {
                       lastName: v.lastName,
                       lastMsg: v.lastMsg,
                       clientGenderTypeId: v.genderTypeId,
+                      chatType: v.chatType,
+                      status: v.status,
                     }}
                   />
                 );
@@ -538,6 +543,8 @@ const Posts = () => {
                       lastName: v.lastName,
                       lastMsg: v.lastMsg,
                       clientGenderTypeId: v.genderTypeId,
+                      chatType: v.chatType,
+                      status: v.status,
                     }}
                   />
                 );
@@ -557,6 +564,8 @@ const Posts = () => {
                       lastName: v.lastName,
                       lastMsg: v.lastMsg,
                       clientGenderTypeId: v.genderTypeId,
+                      chatType: v.chatType,
+                      status: v.status,
                     }}
                   />
                 );
@@ -633,9 +642,11 @@ const Posts = () => {
                           />
                         </Avatar>
                         <Message type={v.chatType}>
-                          <MessageDate type={v.chatType}>
-                            {dayjs(v.createdAt).format('hh:mm')}
-                          </MessageDate>
+                          <WrapDateMessage>
+                            <MessageDate type={v.chatType}>
+                              {dayjs(v.createdAt).format('hh:mm')}
+                            </MessageDate>
+                          </WrapDateMessage>
                           <MessageText type={v.chatType}>{v.msg}</MessageText>
                         </Message>
                       </MessageWrap>

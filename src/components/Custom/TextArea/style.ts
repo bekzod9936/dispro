@@ -53,7 +53,6 @@ export const Label = styled.label`
 `;
 
 export const MTextArea = styled.textarea`
-  z-index: 14;
   border: ${({ error }: ITextAreaProps) =>
     error ? '1px solid red' : '1px solid #C2C2C2;'};
   color: ${({ color }: ITextAreaProps) => color || '#223367'};
@@ -76,7 +75,6 @@ export const MTextArea = styled.textarea`
     background-image: url(${Textt});
     height: 20px;
     width: 20px;
-    /* background-color:'red'; */
   }
   &::-webkit-scrollbar {
     width: 20px;

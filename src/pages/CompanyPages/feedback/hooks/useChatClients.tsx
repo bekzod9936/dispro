@@ -60,6 +60,7 @@ const useChatClients = () => {
     refetchOnWindowFocus: false,
     retry: 0,
     onSuccess: (data) => {
+      console.log(data.data.data);
       if (chosenClient?.choose) {
         const newArr = data.data.data.filter((v: any) => {
           if (v.id === chosenClient?.data?.clientId) {
@@ -158,7 +159,7 @@ const useChatClients = () => {
     messagesStartRef,
     setInntialHistory,
     inntialHistory,
-    fetchHisFetchData
+    fetchHisFetchData,
   };
 };
 

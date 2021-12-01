@@ -9,7 +9,7 @@ import {
   DoubleCheckIcoon,
   UnreadIcon,
 } from '../../style';
-import { Container, Name, Text, Wrapper } from './style';
+import { Container, Name, Text, Wrapper, WrapName } from './style';
 
 interface Props {
   value: {
@@ -20,6 +20,8 @@ interface Props {
     onClick?: (v: any) => void;
     isActive?: boolean;
     clientGenderTypeId?: number;
+    chatType?: number;
+    status?: number;
   };
 }
 
@@ -32,6 +34,8 @@ const ChatUser = ({ value }: Props) => {
     onClick,
     isActive,
     clientGenderTypeId,
+    chatType,
+    status,
   } = value;
   const { width } = useWindowWidth();
   const img = {
@@ -42,10 +46,21 @@ const ChatUser = ({ value }: Props) => {
       ? defuserman
       : clientGenderTypeId === 2
       ? defuserwoman
-      : '',
+      : App,
     height: width > 600 ? '40px' : '50px',
     width: width > 600 ? '40px' : '50px',
   };
+
+  const unread = chatType === 1 ? <UnreadIcon /> : null;
+
+  const check =
+    chatType === 2 ? (
+      status === 1 ? (
+        <OneCheckIcon />
+      ) : status === 2 ? (
+        <DoubleCheckIcoon />
+      ) : null
+    ) : null;
 
   return (
     <Container bgcolor={isActive ? '#8590eb' : 'transparent'} onClick={onClick}>
@@ -64,10 +79,15 @@ const ChatUser = ({ value }: Props) => {
         />
       </Avatar>
       <Wrapper>
-        <Name>
-          {firstName} {lastName} <OneCheckIcon /> <DoubleCheckIcoon />
-          <UnreadIcon />
-        </Name>
+        <WrapName>
+          <Name>
+            <div>
+              {firstName} {lastName}
+            </div>
+            {unread}
+          </Name>
+          {check}
+        </WrapName>
         <Text>{lastMsg}</Text>
       </Wrapper>
     </Container>

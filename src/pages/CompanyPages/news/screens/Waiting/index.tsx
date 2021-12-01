@@ -16,10 +16,13 @@ import Pagination from 'components/Custom/Pagination';
 import { countPagination } from '../../components/utils';
 import useWindowWidth from 'services/hooks/useWindowWidth';
 import { setQuery, setSelectedNews,setErrorMessage } from "services/redux/Slices/news";
-
 import { LimitNews  } from "../../components/LimitNews";
+import NavBar from "components/Custom/NavBar";
 import { FilterNews } from "../../components/FilterNews";
-
+import {WaitingFilterNews} from "../../components/WaitingFilterNews";
+import useNewsRoute from "../../routes";
+import { Flex } from "../../style";
+import { LeftHeader, WrapMobile,WrapHeader } from "./style";
 interface intialFilterProps {
   page?: number;
   perPage?: number;
@@ -37,6 +40,7 @@ const Waiting = () => {
   const totalNewsCount=useAppSelector((state)=>state.news.NewsInfo.totalCountNews)
   const selectedNews = useAppSelector((state) => state.news.selectedNews);
   const query = useAppSelector((state) => state.news.query);
+  const { newsPath } = useNewsRoute();
   const { t } = useTranslation();
   const handleOpenSetting = () => {
     history.push({
@@ -142,7 +146,26 @@ const Waiting = () => {
           </>
         )}
       </Wrap>:
-      <Wrap>
+        <WrapMobile>
+        <WaitingFilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} />
+        <WrapHeader>
+                    <LeftHeader>
+                      <>
+                        <Flex
+                          width="100%"
+                          height="60px"
+                          alignItems="flex-start"
+                          margin="0"
+                        >
+                          <NavBar
+                            list={newsPath}
+                            padding="0 15px 0 0"
+                            margin="10px 0"
+                          />
+                        </Flex>
+                      </>
+                    </LeftHeader>
+                  </WrapHeader>
           {response.isLoading || response.isFetching ? (
           <WrapSpinner><Spinner/></WrapSpinner>
 
@@ -184,7 +207,7 @@ const Waiting = () => {
           </>
         )
         }
-        </Wrap>}
+              </WrapMobile>}
     </Container>
   );
 };

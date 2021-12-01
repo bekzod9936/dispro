@@ -117,11 +117,18 @@ const Table = ({ data, header2 }: Props) => {
                     return (
                       <Td {...cell.getCellProps()}>
                         <TitleData>
-                          {src ? <img style={{objectFit:'fill'}} onError={(e:any)=>{
+                        {src ?
+                                <img src={src} onError={(e: any) => {
+                                  e.target.onerror = null;
+                                  e.target.src = defaultImage
+                                }} /> :
+                                <DefaultImage />}
+                          {/* {src ? <img  style={{objectFit:'contain'}} onError={(e:any)=>{
                             e.target.src=defaultImage
                             e.target.onerror=null
                           }} src={src} /> : <DefaultImage />}
-                          {title ? title : ""}
+                          {title ? title : ""} */}
+                          {title ? title : ""} 
                         </TitleData>
                       </Td>
                     );
