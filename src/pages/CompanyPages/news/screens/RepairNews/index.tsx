@@ -16,15 +16,17 @@ import { WatchIcons,WatchIconsWhite,PublishIcon,WhitePublishIcon,RepairNewsIcon 
 import CropCustomModal from "components/Custom/CropImageModal/index";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
+import CustomDatePicker from "components/Custom/CustomDatePicker";
 import InputFormat from "components/Custom/InputFormat";
 import useWindowWidth from "services/hooks/useWindowWidth";
-
+import { MobileCancelIcon } from "assets/icons/proposals/ProposalsIcons";
 import dayjs from "dayjs";
 import { fetchCreateNews } from "services/queries/newPageQuery";
 import useAddress from "../../../info/screens/Address/useAddress";
 import {
   Label,
   WrapDate,
+  WrapInputsMobile,
   WrapInputs,
   WrapSelect,
 } from "../../components/Header/style";
@@ -55,6 +57,8 @@ import {
   UpSide,
   Wrapper,
   FormRow,
+  Buttons,
+  Message,
 } from "./style";
 import { useUploadImage } from "../../hooks/useUploadIMage";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
@@ -75,9 +79,8 @@ const RepairNews = () => {
 
   const selectedNews = useAppSelector((state) => state.news.selectedNews);
   const newsById = selectedNews?.fullData;
-  const startDate = dayjs(newsById?.data?.startLifeTime).format("YYYY-MM-DD");
-  const endDate = dayjs(newsById?.data?.endLifeTime).format("YYYY-MM-DD");
- 
+  const [filter, setFilter] = React.useState<any>({})
+  const [validation,setValidation]=React.useState<any>(false);
   const { branches } = useStaff();
  
   const [optionalFields, setOptionalFields] = React.useState<IOptionFields>({
@@ -164,8 +167,8 @@ const RepairNews = () => {
   const submitNews = (data: any) => {
     let newsBody = {
       title: data.name,
-      startLifeTime: data.startDate,
-      endLifeTime: data.endDate,
+      startLifeTime:width>600 ? data.startDate :filter?.regDate?.regDateFrom,
+      endLifeTime: width>600 ? data.endDate:filter?.regDate?.regDateTo,
       description: data.description,
       ageFrom: parseInt(data.ageLimit),
       ageTo: 100,
@@ -192,10 +195,17 @@ const RepairNews = () => {
       pushUpTitle: data.descriptionPush,
     };
 
-    // let newsInfo={newsBody,newsId}
+    if(width>600){
+      mutate(newsBody);
+      setTimeout(() => history.push('/news/active'), 1000); 
+    }
+    if(width<=600){
+      if(validation  && filter?.regDate?.regDateFrom && filter?.regDate?.regDateTo){
+        mutate(newsBody);
+        setTimeout(() => history.push('/news/active'), 1000);
+      }
+    }
 
-    mutate(newsBody);
-    setTimeout(() => history.push("/news/active"), 1000);
   };
  
 
@@ -439,59 +449,48 @@ const RepairNews = () => {
                 </WrapInputs>
                 
               ) : (
-                <WrapInputs>
-                  <Label>{t("chose_date")}</Label>
-                  <div>
-                    <Controller
-                      name="startDate"
-                      control={control}
-                      rules={{
-                        required: true,
-                      }}
-                      render={({ field }) => (
-                        <Input
-                          field={field}
-                          type="date"
-                          width={{
-                            maxwidth: 180,
-                            minwidth: 130,
-                          }}
-                          min={todayDate}
-                          error={!!errors.startDate}
-                          IconStart={<WrapDate>{t("from")}</WrapDate>}
-                          inputStyle={{
-                            inpadding: "0 10px 0 0",
-                          }}
-                        />
-                      )}
-                    />
-                    <Controller
-                      name="endDate"
-                      control={control}
-                      rules={{
-                        required: true,
-                      }}
-                      render={({ field }) => (
-                        <Input
-                          type="date"
-                          field={field}
-                          error={!!errors.endDate}
-                          min={watch("startDate")}
-                          width={{
-                            maxwidth: 180,
-                            minwidth: 130,
-                          }}
-                          // required={true}
-                          margin={{ laptop: "0 0 0 15px" }}
-                          IconStart={<WrapDate>{t("to")}</WrapDate>}
-                          inputStyle={{
-                            inpadding: "0 10px 0 0",
-                          }}
-                        />
-                      )}
-                    />
-                  </div>
-                </WrapInputs>
+                <WrapInputsMobile>
+                <Label>{t("chose_date")}</Label>
+                <div >
+                <CustomDatePicker
+            margin="0 15px 0 0"
+            isFilter
+            text={t("from")}
+            error={validation && !filter?.regDate?.regDateFrom ? true:false}
+            minDate={todayDate}
+            maxDate={filter?.regDate?.regDateTo}
+            onChange={(e) => {
+              let date = "" + e.year + "-" + e.month.number + "-" + e.day;
+              setFilter((prev: any) => ({
+                ...prev, regDate: {
+                  ...prev["regDate"],
+                  regDateFrom: date
+                }
+              }))
+            }}
+            value={filter?.regDate?.regDateFrom} />
+
+          <CustomDatePicker
+            isFilter
+            error={validation && !filter?.regDate?.regDateTo ? true:false}
+            text={t("to")}
+            minDate={filter?.regDate?.regDateFrom}
+            
+            onChange={(e) => {
+              let date = "" + e.year + "-" + e.month.number + "-" + e.day;
+              setFilter((prev: any) => ({
+                ...prev, regDate: {
+                  ...prev["regDate"],
+                  regDateTo: date
+                }
+              }))
+            }}
+            value={filter?.regDate?.regDateTo} />
+            </div>
+{validation && !filter?.regDate?.regDateTo && !filter?.regDate?.regDateFrom &&<Message>{t('Укажите период публикации новости')}</Message>}
+            
+              </WrapInputsMobile>
+
               )}
               <br/>
               <WrapSelect>
@@ -681,7 +680,7 @@ const RepairNews = () => {
             </RightSide>
           </Container>
         </UpSide>
-        <DownSide>
+        {width>600 &&  <DownSide>
           <Button
             onClick={handleBack}
             startIcon={<CancelIcon />}
@@ -697,7 +696,38 @@ const RepairNews = () => {
           >
             Восстановить
           </Button>
-        </DownSide>
+        </DownSide>}
+       
+        {width <=600 && 
+                <Buttons>
+                  <div className="upside">
+                    <Button
+                      onClick={handleBack}
+                      endIcon={<MobileCancelIcon />}
+                      buttonStyle={{
+                        bgcolor: "rgba(96, 110, 234, 0.1)",
+                        color: "#606EEA",
+                      }}
+                      margin={{ mobile: "0 8px 8px 0" }}
+                    >
+                      {t("cancel")}
+                    </Button>
+                  </div>
+                  <Button
+                    onClick={() => setValidation(true)}
+                    type="submit"
+                    endIcon={<SaveIcon />}
+                    buttonStyle={{
+                      bgcolor: "#606EEA",
+                      color: "#fff",
+                      shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
+                    }}
+                    margin={{ mobile: "0px 8px  8px  0" }}
+                  >
+                    {"Сохранить"}
+                  </Button>
+                </Buttons>}
+        
       </Form>
     </Wrapper>
   );

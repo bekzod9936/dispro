@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { USER_TYPES } from 'services/constants/chat';
 import {
@@ -9,44 +9,40 @@ import {
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import {
   setChatClientHistory,
+  setChosenListUser,
   setMessagesFeedBack,
   setTotalHistory,
 } from 'services/redux/Slices/feedback';
 
-interface ChProps {
-  date?: string;
-  firstName?: string;
-  id?: number;
-  image?: string;
-  isDeleted?: boolean;
-  lastMsg?: string;
-  lastName?: string;
-  genderTypeId?: number;
-  obtainProgramLoyalty?: { levelName?: string; percent?: number };
-}
-
-const inntialState = { page: 1, perPage: 5 };
-
 const useChatClients = () => {
   const dispatch = useAppDispatch();
   const messagesStartRef = useRef<HTMLDivElement>(null);
+
   const histories = useAppSelector((state) => state.feedbackPost.histories);
-  const [chosen, setChosen] = useState<ChProps>({});
-  const [isChoose, setIsChoose] = useState<boolean>(false);
-  const [inntialHistory, setInntialHistory] = useState(inntialState);
+  const chosen = useAppSelector(
+    (state) => state.feedbackPost.chosenListUser?.chosen
+  );
+
+  const choseListUser: any = useAppSelector(
+    (state) => state.feedbackPost.chosenListUser
+  );
 
   const scrollToTop = () => {
-    console.log('top');
-
     messagesStartRef?.current?.scrollIntoView({
       behavior: 'smooth',
       block: 'end',
     });
   };
 
-  const handleChoose = async (v: ChProps) => {
-    await setChosen(v);
-    await setIsChoose(true);
+  const handleChoose = async (v: any) => {
+    await dispatch(
+      setChosenListUser({
+        ...choseListUser,
+        chosen: v,
+        isChoose: true,
+        fetchHistory: true,
+      })
+    );
     await resChatClientHistory.refetch();
     await scrollToTop();
   };
@@ -60,7 +56,6 @@ const useChatClients = () => {
     refetchOnWindowFocus: false,
     retry: 0,
     onSuccess: (data) => {
-      console.log(data.data.data);
       if (chosenClient?.choose) {
         const newArr = data.data.data.filter((v: any) => {
           if (v.id === chosenClient?.data?.clientId) {
@@ -97,17 +92,30 @@ const useChatClients = () => {
             genderTypeId: chosenClient?.data?.clientGenderTypeId,
             obtainProgramLoyalty: chosenClient?.data?.obtainProgramLoyalty,
           });
+          dispatch(
+            setChosenListUser({
+              ...choseListUser,
+              isChoose: chosenClient?.choose,
+            })
+          );
 
-          setIsChoose(chosenClient?.choose);
           scrollToTop();
         } else {
           dispatch(setMessagesFeedBack(data.data.data));
-          setIsChoose(true);
+          dispatch(
+            setChosenListUser({
+              ...choseListUser,
+              isChoose: true,
+            })
+          );
           handleChoose(newArr[0]);
           scrollToTop();
         }
       } else {
         dispatch(setMessagesFeedBack(data.data.data));
+      }
+      if (choseListUser?.fetchHistory) {
+        resChatClientHistory.refetch();
       }
     },
   });
@@ -117,7 +125,7 @@ const useChatClients = () => {
     () => {
       const withId = chosen?.id ? `&withId=${chosen?.id}` : '';
       return fetchChatClientHistory({
-        url: `withUserType=${USER_TYPES.CUSTOMER}${withId}&page=${inntialHistory?.page}&perPage=${inntialHistory?.perPage}`,
+        url: `withUserType=${USER_TYPES.CUSTOMER}${withId}&page=${choseListUser?.inntialHistory?.page}&perPage=${choseListUser?.inntialHistory?.perPage}`,
       });
     },
     {
@@ -129,15 +137,20 @@ const useChatClients = () => {
         const his: any = histories;
         dispatch(setChatClientHistory([...his, ...data.data.data.histories]));
         dispatch(setTotalHistory(data.data.data.totalCount));
-        console.log(histories, data.data.data.histories);
       },
     }
   );
 
   const fetchHisFetchData = async () => {
-    await setInntialHistory((prev) => {
-      return { page: 2, perPage: inntialHistory.perPage };
-    });
+    await dispatch(
+      setChosenListUser({
+        ...choseListUser,
+        inntialHistory: {
+          ...choseListUser?.inntialHistory,
+          page: choseListUser?.inntialHistory?.page + 1,
+        },
+      })
+    );
 
     await resChatClientHistory.refetch();
   };
@@ -151,14 +164,8 @@ const useChatClients = () => {
     resChatClientHistory,
     deleteRes,
     handleChoose,
-    chosen,
-    setChosen,
-    isChoose,
-    setIsChoose,
     scrollToTop,
     messagesStartRef,
-    setInntialHistory,
-    inntialHistory,
     fetchHisFetchData,
   };
 };

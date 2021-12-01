@@ -1,4 +1,4 @@
-import useSupportChat from 'pages/CompanyPages/feedback/hooks/useSupportChat';
+import useSupportChat from 'pages/CompanyPages/feedback/screens/Support/useSupportChat';
 import { useEffect } from 'react';
 import { SOCKET_EVENT } from 'services/constants/chat';
 import { useAppSelector, useAppDispatch } from 'services/redux/hooks';

@@ -5,6 +5,7 @@ export const Container = styled.div`
   /* height: 100%; */
   width: 100%;
   display: flex;
+  overflow: hidden;
   flex-direction: column;
 `;
 export const WrapSpinner = styled.div`
@@ -110,3 +111,32 @@ export const DefaultImage = styled.div`
   margin-right: 15px;
 `
 
+export const WrapMobile = styled.div`
+  overflow-y: auto;
+  position: relative;
+  overflow-x: hidden;
+  &::-webkit-scrollbar {
+    appearance: none;
+    display: none;
+  }
+  &::-webkit-scrollbar-thumb {
+    appearance: none;
+    display: none;
+  }
+
+  &::-webkit-scrollbar-track {
+    appearance: none;
+    display: none;
+  }
+`;
+export const LeftHeader = styled.div`
+overflow: hidden;`;
+
+export const WrapHeader = styled.div`
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  @media (max-width: ${device.mobile}) {
+    padding: 5px 0 0 10px;
+  }
+`;

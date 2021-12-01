@@ -112,16 +112,19 @@ const Table = ({ data, header2 }: Props) => {
                     let checktitle = cell?.row?.original?.fullData?.data?.title;
                     let title =
                       checktitle?.length > 20
-                        ? <p style={{fontSize:'14px'}}>{checktitle.slice(0, 20) + "..."}</p>
-                        : <p style={{fontSize:'14px'}}>{checktitle}</p>;
+                        ? <p style={{fontSize:'14px'}}>{checktitle.charAt(0).toUpperCase() + checktitle.slice(1,20)+"..."}</p>
+                        : <p style={{fontSize:'14px'}}>{checktitle.charAt(0).toUpperCase()+checktitle.slice(1)}</p>;
                     return (
                       <Td {...cell.getCellProps()}>
                         <TitleData>
-                          {src ? <img style={{objectFit:'fill'}} onError={(e:any)=>{
-                            e.target.src=defaultImage
-                            e.target.onerror=null
-                          }} src={src} /> : <DefaultImage />}
-                          {title ? title : ""}
+                        {src ?
+                                <img src={src} onError={(e: any) => {
+                                  e.target.onerror = null;
+                                  e.target.src = defaultImage
+                                }} /> :
+                                <DefaultImage />}
+                          
+                          {title } 
                         </TitleData>
                       </Td>
                     );
@@ -129,8 +132,8 @@ const Table = ({ data, header2 }: Props) => {
                     let checkDescription = cell?.row?.original?.fullData?.data?.description;
                     let descriptionn =
                       checkDescription?.length >70
-                        ? checkDescription.slice(0, 70) + "..."
-                        : checkDescription;
+                        ? checkDescription.charAt(0).toUpperCase() +checkDescription.slice(1,70)+ "..."
+                        : checkDescription.charAt(0).toUpperCase()+checkDescription.slice(1);
                         console.log('checkDescription',descriptionn)
                     return (
                       <Td {...cell.getCellProps()}>

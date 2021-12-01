@@ -6,6 +6,7 @@ import {
     WrapButton,
     DateIcon,
     DisabledDateIcon,
+    Message,
 } from './style';
 import { useTranslation } from 'react-i18next';
 
@@ -18,7 +19,8 @@ interface Props {
     text?: string
     minDate?: Date | string,
     maxDate?: Date | string,
-    error?: boolean
+    error?: boolean,
+    message?:string,
     height?: {
         mobile?: number;
         planshet?: number;
@@ -32,6 +34,7 @@ const CustomDatePicker = ({
     margin,
     height,
     text,
+    message,
     value,
     minDate,
     maxDate,
@@ -68,6 +71,9 @@ const CustomDatePicker = ({
                 portal={true}
                 zIndex={100000}
             />
+             <Message  >
+                {error ? message : null}
+            </Message>
         </Container>
     );
 };

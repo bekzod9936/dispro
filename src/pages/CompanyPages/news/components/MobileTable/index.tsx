@@ -5,19 +5,24 @@ import { useState } from "react";
 import Button from "components/Custom/Button";
 import { PenIcon } from "assets/icons/news/newsIcons";
 import { CancelIcon } from "assets/icons/news/newsIcons";
-import { WatchIcons,WatchIconsWhite, PublishIcon,WhitePublishIcon,BluePenIcon,RepairNewsIcon } from "assets/icons/news/newsIcons";
+import {
+
+  WhitePublishIcon,
+  BluePenIcon,
+  RepairNewsIcon,
+} from "assets/icons/news/newsIcons";
 import { IconButton } from "@material-ui/core";
-import { MobileCancelIcon } from "assets/icons/proposals/ProposalsIcons";
-import { useAppDispatch, } from 'services/redux/hooks';
+
+import { useAppDispatch } from "services/redux/hooks";
 import { deleteNews } from "services/queries/newPageQuery";
-import {  setSelectedNews } from "services/redux/Slices/news";
+import { setSelectedNews } from "services/redux/Slices/news";
 import useWindowWidth from "services/hooks/useWindowWidth";
 import { DeleteIcon } from "assets/icons/proposals/ProposalsIcons";
 import { useLocation } from "react-router-dom";
-import FullModal from 'components/Custom/FullModal';
+import FullModal from "components/Custom/FullModal";
 import { useTranslation } from "react-i18next";
 import Modal from "components/Custom/Modal";
-import {PublicModal} from "../NewsBar/components/PublicModal";
+import { PublicModal } from "../NewsBar/components/PublicModal";
 import { useHistory } from "react-router-dom";
 import {
   Container,
@@ -41,62 +46,77 @@ import {
   DeleteModal,
   Buttons,
 } from "./style";
-import {
-WrapperModal,
-CloseButton,
-} from "../NewsBar/style";
-import {
-
-  CloseIcon,
-} from "assets/icons/news/newsIcons";
+import { WrapperModal, CloseButton } from "../NewsBar/style";
+import { CloseIcon } from "assets/icons/news/newsIcons";
 interface Props {
   data?: any;
   refetch: any;
 }
 
-const MobileTable = ({refetch, data }: Props) => {
+const MobileTable = ({ refetch, data }: Props) => {
   const [open, setOpen] = useState(false);
   const [id, setId] = useState<any>(null);
-  const dispatch=useAppDispatch();
+  const dispatch = useAppDispatch();
   const history = useHistory();
-  const {t} =useTranslation();
-  const [selectedId,setSelectedId]=useState<number>();
-  const [isDeleteOpen, setDeleteOpen] =useState<boolean>(false);
+  const { t } = useTranslation();
+  
+  const [isDeleteOpen, setDeleteOpen] = useState<boolean>(false);
   const [isPublishOpen, setPublisOpen] = useState<boolean>(false);
   const { width } = useWindowWidth();
   console.log("datamobile", data);
   const location = useLocation();
 
   const onDeleteOpen = async () => {
-    setDeleteOpen(true)
+    setDeleteOpen(true);
   };
-  const onDeleteAction=async (id:number)=>{
-      await deleteNews(id);
-      await refetch.refetch();
-      setDeleteOpen(false)
-  }
-  const handlePublic=async (id:any)=>{
+  const onDeleteAction = async (id: number) => {
+    await deleteNews(id);
+    await refetch.refetch();
+    setDeleteOpen(false);
+  };
+  const handlePublic = async (id: any) => {
     await dispatch(setSelectedNews(id));
     setPublisOpen(true);
-  }
-  const handleEdit= async (id:any)=>{
+  };
+  const handleEdit = async (id: any) => {
     await dispatch(setSelectedNews(id));
-    if(id){
-      setTimeout(() => history.push('/news/edit'), 500);
+    if (id) {
+      setTimeout(() => history.push("/news/edit"), 500);
     }
-  }
+  };
 
-  const handleRepair=async (id:any)=>{
+  const handleRepair = async (id: any) => {
     await dispatch(setSelectedNews(id));
-    if(id){
-    setTimeout(() =>  history.push("/news/repair"),500);
+    if (id) {
+      setTimeout(() => history.push("/news/repair"), 500);
     }
-  }
+  };
 
   return (
     <Container>
       {data?.map((a: any, i: number) => {
         const info = a.fullData?.data;
+        const weekdays = a.fullData?.data?.settings?.weekDays.map(
+          (label: any) => {
+            return {
+              item:
+                label === 1
+                  ? "ПН"
+                  : label === 2
+                  ? "ВТ"
+                  : label === 3
+                  ? "СР"
+                  : label === 4
+                  ? "ЧТ"
+                  : label === 5
+                  ? "ПТ"
+                  : label === 6
+                  ? "СБ"
+                  : "ВС",
+            };
+          }
+        );
+
         return (
           <>
             <Data
@@ -114,7 +134,7 @@ const MobileTable = ({refetch, data }: Props) => {
                       src={info.image}
                       width="40px"
                       effect="blur"
-                      style={{ objectFit: "fill", borderRadius: "14px" }}
+                      style={{ objectFit: "cover", borderRadius: "14px" }}
                     />
                   </WrapIcon>
                 ) : (
@@ -122,25 +142,26 @@ const MobileTable = ({refetch, data }: Props) => {
                 )
               ) : null}
               <WrapMain isAvatar={info?.image}>
-                <FullName>{info?.title?.length>20 ? info?.title?.slice(0,20)+'...': info?.title}</FullName>
+                <FullName>
+                  {info?.title?.length > 20
+                    ? info?.title?.slice(0, 20) + "..."
+                    : info?.title}
+                </FullName>
                 <Wrapper>
                   <Title>
                     {info?.description?.length > 20
-                      ? info?.description.slice(0, 20) + ".."
+                      ? info?.description.slice(0, 20) + "..."
                       : info?.description}
-                    :
+                    
                   </Title>
                 </Wrapper>
               </WrapMain>
             </Data>
             {id === i ? (
-              
               <FullModal open={open}>
-                
                 <ModalContent
                   style={{ display: "flex", flex: 1, flexDirection: "column" }}
                 >
-                 
                   <div>
                     <Header>
                       <IconButton
@@ -161,7 +182,7 @@ const MobileTable = ({refetch, data }: Props) => {
                               width="50px"
                               effect="blur"
                               style={{
-                                objectFit: "fill",
+                                objectFit: "cover",
                                 borderRadius: "14px",
                               }}
                             />
@@ -174,14 +195,16 @@ const MobileTable = ({refetch, data }: Props) => {
                                 fontWeight: 500,
                               }}
                             >
-                              {info?.title?.length>20 ? info?.title?.slice(0,20)+'...': info?.title}
+                              {info?.title?.length > 20
+                                ? info?.title?.slice(0, 20) + "..."
+                                : info?.title}
                             </p>
                             <span
                               style={{ fontSize: "14px", color: "#223367" }}
                             >
-                                {info?.description?.length > 15
-                              ? info?.description?.slice(0, 15) + "..."
-                              : info?.description}
+                              {info?.description?.length > 15
+                                ? info?.description?.slice(0, 15) + "..."
+                                : info?.description}
                             </span>
                           </div>
                         </>
@@ -201,9 +224,25 @@ const MobileTable = ({refetch, data }: Props) => {
                         <p style={{ color: "#C7C7C7" }}>Описание</p>
                         <Box>
                           <BoxInfo>
-                            {info?.description?.length > 150
-                              ? <p style={{whiteSpace: "pre-wrap",wordBreak: 'break-all'}}>{info?.description?.slice(0, 150) + "..."}</p>
-                              : <p style={{whiteSpace: "pre-wrap",wordBreak: 'break-all'}}>{info?.description}</p>}
+                            {info?.description?.length > 150 ? (
+                              <p
+                                style={{
+                                  whiteSpace: "pre-wrap",
+                                  wordBreak: "break-all",
+                                }}
+                              >
+                                {info?.description?.slice(0, 150) + "..."}
+                              </p>
+                            ) : (
+                              <p
+                                style={{
+                                  whiteSpace: "pre-wrap",
+                                  wordBreak: "break-all",
+                                }}
+                              >
+                                {info?.description}
+                              </p>
+                            )}
                           </BoxInfo>
                         </Box>
                       </WrapBox>
@@ -215,13 +254,18 @@ const MobileTable = ({refetch, data }: Props) => {
                           <BoxinfoDetail>{`Возрастное ограничение: ${
                             info?.ageFrom + "+"
                           }`}</BoxinfoDetail>
-
-                          <BoxinfoDetail>{`Дни оповещания Push: ПН, СР, ПТ, СБ`}</BoxinfoDetail>
-                          <BoxinfoDetail>{`Часы оповещения Push: ${
-                            info?.settings?.time?.from +
-                            "-" +
-                            info?.settings?.time?.to
-                          }`}</BoxinfoDetail>
+                          {info?.pushUp && (
+                            <>
+                              <BoxinfoDetail>
+                                {`Дни оповещания Push:  ${weekdays[1]?.item}, ${weekdays[2]?.item}, ${weekdays[3]?.item}, ${weekdays[4]?.item}, ${weekdays[5]?.item}, ${weekdays[6]?.item}, ${weekdays[0]?.item}`}
+                              </BoxinfoDetail>
+                              <BoxinfoDetail>{`Часы оповещения Push: ${
+                                info?.settings?.time?.from +
+                                "-" +
+                                info?.settings?.time?.to
+                              }`}</BoxinfoDetail>
+                            </>
+                          )}
                         </Box>
                       </WrapBoxDetail>
 
@@ -257,197 +301,198 @@ const MobileTable = ({refetch, data }: Props) => {
                       </WrapBoxDetail>
                     </div>
                     <div>
-                      {location.pathname === "/news/active" &&
-                      <Buttons>
-                        <Button
-                          onClick={() =>  onDeleteOpen()}
-                          margin={{ mobile: "0 8px 0 0" }}
-                          buttonStyle={{
-                            bgcolor: "#FF5E68",
-                            color: "#fff",
-                            weight: "700",
-                          }}
-                          // startIcon={<DeleteIcon />}
+                      {location.pathname === "/news/active" && (
+                        <Buttons>
+                          <Button
+                            onClick={() => onDeleteOpen()}
+                            margin={{ mobile: "0 8px 0 0" }}
+                            buttonStyle={{
+                              bgcolor: "#FF5E68",
+                              color: "#fff",
+                              weight: "700",
+                            }}
+                            // startIcon={<DeleteIcon />}
 
-                          endIcon={
-                            width > 325 && (
-                              <DeleteIcon style={{ height: 15, width: 13.5 }} />
-                            )
-                          }
-                        >
-                          Удалить
-                        </Button>
-                        <Button
-                         onClick={()=>handleEdit(a)}
-                          margin={{ desktop: "0 20px 0 20px" }}
-                          buttonStyle={{
-                            bgcolor: "#606EEA",
-                            color: "#fff",
-                            weight: "500",
-                          }}
-                          endIcon={
-                            width > 325 && (
-                              <PenIcon style={{ height: 15, width: 13.5 }} />
-                            )
-                          }
-                        >
-                          {"Редактировать"}
-                        </Button>
-                      </Buttons>
-                      }
-                      {location.pathname === "/news/waiting" &&<>
-                      <Buttons>
-                       <Button
-                         onClick={()=>handleEdit(a)}
-                         margin={{ desktop: "0 20px 0 20px",mobile:"0px 10px 10px 10px " }}
-                         buttonStyle={{
-                           bgcolor: "rgba(96, 110, 234, 0.1)",
-                           color: "#606EEA",
-                           weight: "500",
-                         }}
-                         endIcon={
-                           width > 325 && (
-                             <BluePenIcon style={{ height: 15, width: 13.5 }} />
-                           )
-                         }
-                       >
-                         {"Редактировать"}
-                       </Button>
-                     </Buttons>
-                       <Buttons>
-                       <Button
-                         // onClick={''}
-                         margin={{ mobile: "0 8px 0 0" }}
-                         onClick={() =>  onDeleteOpen()}
-                         buttonStyle={{
-                           bgcolor: "#FF5E68",
-                           color: "#fff",
-                           weight: "700",
-                         }}
-                         // startIcon={<DeleteIcon />}
+                            endIcon={
+                              width > 325 && (
+                                <DeleteIcon
+                                  style={{ height: 15, width: 13.5 }}
+                                />
+                              )
+                            }
+                          >
+                            Удалить
+                          </Button>
+                          <Button
+                            onClick={() => handleEdit(a)}
+                            margin={{ desktop: "0 20px 0 20px" }}
+                            buttonStyle={{
+                              bgcolor: "#606EEA",
+                              color: "#fff",
+                              weight: "500",
+                            }}
+                            endIcon={
+                              width > 325 && (
+                                <PenIcon style={{ height: 15, width: 13.5 }} />
+                              )
+                            }
+                          >
+                            {"Редактировать"}
+                          </Button>
+                        </Buttons>
+                      )}
+                      {location.pathname === "/news/waiting" && (
+                        <>
+                          <Buttons>
+                            <Button
+                              onClick={() => handleEdit(a)}
+                              margin={{
+                                desktop: "0 20px 0 20px",
+                                mobile: "0px 10px 10px 10px ",
+                              }}
+                              buttonStyle={{
+                                bgcolor: "rgba(96, 110, 234, 0.1)",
+                                color: "#606EEA",
+                                weight: "500",
+                              }}
+                              endIcon={
+                                width > 325 && (
+                                  <BluePenIcon
+                                    style={{ height: 15, width: 13.5 }}
+                                  />
+                                )
+                              }
+                            >
+                              {"Редактировать"}
+                            </Button>
+                          </Buttons>
+                          <Buttons>
+                            <Button
+                              // onClick={''}
+                              margin={{ mobile: "0 8px 0 0" }}
+                              onClick={() => onDeleteOpen()}
+                              buttonStyle={{
+                                bgcolor: "#FF5E68",
+                                color: "#fff",
+                                weight: "700",
+                              }}
+                              // startIcon={<DeleteIcon />}
 
-                         endIcon={
-                           width > 325 && (
-                             <DeleteIcon style={{ height: 15, width: 13.5 }} />
-                           )
-                         }
-                       >
-                         Удалить
-                       </Button>
-                       <Button
-                     
-                         onClick={() => handlePublic(a)}
-                         margin={{ desktop: "0 20px 0 20px" }}
-                         buttonStyle={{
-                           bgcolor: "#606EEA",
-                           color: "#fff",
-                           weight: "500",
-                         }}
-                        //  endIcon={<MobileCancelIcon />}
-                         endIcon={
-                           width > 325 && (
-                             <WhitePublishIcon />
-                           )
-                         }
-                       >
-                         {"Опубликовать"}
-                       </Button>
-                     </Buttons>
-                     </>
-                      }
+                              endIcon={
+                                width > 325 && (
+                                  <DeleteIcon
+                                    style={{ height: 15, width: 13.5 }}
+                                  />
+                                )
+                              }
+                            >
+                              Удалить
+                            </Button>
+                            <Button
+                              onClick={() => handlePublic(a)}
+                              margin={{ desktop: "0 20px 0 20px" }}
+                              buttonStyle={{
+                                bgcolor: "#606EEA",
+                                color: "#fff",
+                                weight: "500",
+                                shadow:'0px 4px 9px rgba(96, 110, 234, 0.46)'
+                              }}
+                              //  endIcon={<MobileCancelIcon />}
+                              endIcon={width > 325 && <WhitePublishIcon />}
+                            >
+                              {"Опубликовать"}
+                            </Button>
+                          </Buttons>
+                        </>
+                      )}
                     </div>
                   </div>
-                  {location.pathname === "/news/archive" && <Buttons>
-                     
-                        <Button
-                          onClick={()=>handleRepair(a)}
-                          margin={{ desktop: "0 20px 0 20px" }}
-                          buttonStyle={{
-                            bgcolor: "#606EEA",
-                            color: "#fff",
-                            weight: "500",
-                          }}
-                          endIcon={
-                            width > 325 && (
-                              <RepairNewsIcon style={{ height: 15, width: 13.5 }} />
-                            )
-                          }
-                        >
-                          {"Восстановить"}
-                        </Button>
-                      </Buttons>}
+                  {location.pathname === "/news/archive" && (
+                    <Buttons>
+                      <Button
+                        onClick={() => handleRepair(a)}
+                        margin={{ desktop: "0 20px 0 20px" }}
+                        buttonStyle={{
+                          bgcolor: "#606EEA",
+                          color: "#fff",
+                          weight: "500",
+                          shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)'
+                        }}
+                        endIcon={
+                          width > 325 && (
+                            <RepairNewsIcon
+                              style={{ height: 15, width: 13.5 }}
+                            />
+                          )
+                        }
+                      >
+                        {"Восстановить"}
+                      </Button>
+                    </Buttons>
+                  )}
                 </ModalContent>
                 <Modal open={isDeleteOpen}>
-        <DeleteModal>
-          <h5>Вы действительно хотите удалить Новость?</h5>
-          <p>{'После удаления новости , данные будет утеряны'}</p>
-          <Buttons>
-          <Button
-                        
-                          margin={{ desktop: "0 20px 0 20px" }}
-                          onClick={()=> setDeleteOpen(false)}
-                          buttonStyle={{
-                            bgcolor: "# rgba(96, 110, 234, 0.1);",
-                            
-                            color: "#606EEA",
-                            weight: "500",
-                          }}
-                          endIcon={
-                            width > 325 && (
-                              <CancelIcon style={{ height: 15, width: 13.5 }} />
-                              
-                            )
-                          }
-                        >
-                          {"Отменить"}
-                        </Button>
-                        <Button
-                          onClick={()=>onDeleteAction(info?.id)}
-                          margin={{ mobile: "0 8px 0 0" }}
-                          buttonStyle={{
-                            bgcolor: "#FF5E68",
-                            color: "#fff",
-                            weight: "700",
-                          }}
-                          // startIcon={<DeleteIcon />}
+                  <DeleteModal>
+                    <h5>Вы действительно хотите удалить новость?</h5>
+                    <p>{"После удаления новости  данные будет утеряны"}</p>
+                    <Buttons>
+                      <Button
+                        margin={{ desktop: "0 20px 0 20px" ,mobile:"0 10px 0 0"}}
+                        onClick={() => setDeleteOpen(false)}
+                        buttonStyle={{
+                          bgcolor:"rgba(96, 110, 234, 0.1)",
+                          color: "#606EEA",
+                          weight: "500",
+                        }}
+                        endIcon={
+                          width > 325 && (
+                            <CancelIcon style={{ height: 15, width: 13.5 }} />
+                          )
+                        }
+                      >
+                        {"Отменить"}
+                      </Button>
+                      <Button
+                        onClick={() => onDeleteAction(info?.id)}
+                        margin={{ mobile: "0 8px 0 0" }}
+                        buttonStyle={{
+                          bgcolor: "#FF5E68",
+                          color: "#fff",
+                          weight: "700",
+                        }}
+                        // startIcon={<DeleteIcon />}
 
-                          endIcon={
-                            width > 325 && (
-                              <DeleteIcon style={{ height: 15, width: 13.5 }} />
-                            )
-                          }
-                        >
-                          Удалить
-                        </Button>
-                   
-                      </Buttons>
-        </DeleteModal>
-      </Modal>
-      {width>600 &&<Modal modalStyle={{ bgcolor: "#fff" }}  open={isPublishOpen}>
-        <WrapperModal>
-          <CloseButton onClick={() => setPublisOpen(false)}>
-            <CloseIcon />
-          </CloseButton>
-          <h3>
-           {t('Выберите дату публикации')}
-          </h3>
-          <PublicModal  setPublisOpen={setPublisOpen} />
-      
-        </WrapperModal>
-      </Modal> }
-      
-      {width<=600 &&
-      <FullModal open={isPublishOpen}>
-        
-        {/* <WrapperModal>
-          <CloseButton onClick={() => setPublisOpen(false)}>
-            <CloseIcon />
-          </CloseButton> */}
-        
-          <PublicModal setPublisOpen={setPublisOpen} />
-{/*       
-        </WrapperModal> */}
-      </FullModal> }
+                        endIcon={
+                          width > 325 && (
+                            <DeleteIcon style={{ height: 15, width: 13.5 }} />
+                          )
+                        }
+                      >
+                        Удалить
+                      </Button>
+                    </Buttons>
+                  </DeleteModal>
+                </Modal>
+                {width > 600 && (
+                  <Modal modalStyle={{ bgcolor: "#fff" }} open={isPublishOpen}>
+                    <WrapperModal>
+                      <CloseButton onClick={() => setPublisOpen(false)}>
+                        <CloseIcon />
+                      </CloseButton>
+                      <h3>{t("Выберите дату публикации")}</h3>
+                      <PublicModal setPublisOpen={setPublisOpen} />
+                    </WrapperModal>
+                  </Modal>
+                )}
+
+                {width <= 600 && (
+                  <FullModal open={isPublishOpen}>
+            
+
+                    <PublicModal setPublisOpen={setPublisOpen} />
+             
+                  </FullModal>
+                )}
               </FullModal>
             ) : null}
           </>

@@ -1115,3 +1115,18 @@ export const WrapperModal = styled.div`
         }
     }
 `
+
+export const Message = styled.div`
+  position: absolute;
+  top: 100%;
+  font-weight: 300;
+  color: #ff5e68;
+  overflow-wrap: normal;
+  display: flex;
+  margin-top: 5px;
+  font-size: 16px;
+
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    font-size: 14px;
+  }
+`;

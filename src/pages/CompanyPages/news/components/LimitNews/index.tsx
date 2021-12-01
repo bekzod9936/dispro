@@ -36,7 +36,7 @@ export const LimitNews=({errormessage,linkToComment,CancelError}:LimitNewsModal)
                 buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
                 margin={{ laptop: "0 22px 0 0" }}
                 onClick={linkToComment}
-                startIcon={<CancelIcon />}
+                // startIcon={<CancelIcon />}
               >
                 Написать
               </Button>
@@ -44,7 +44,7 @@ export const LimitNews=({errormessage,linkToComment,CancelError}:LimitNewsModal)
               
                 margin={{ laptop: "0 22px 0 0" }}
                 onClick={CancelError}
-                startIcon={<SaveIcon />}
+                // startIcon={<SaveIcon />}
               >
                 Ok
               </Button>
@@ -54,7 +54,7 @@ export const LimitNews=({errormessage,linkToComment,CancelError}:LimitNewsModal)
               <div className="upside">
                 <Button
                         onClick={linkToComment}
-                  endIcon={<MobileCancelIcon />}
+                  // endIcon={<MobileCancelIcon />}
                   buttonStyle={{
                     bgcolor: "rgba(96, 110, 234, 0.1)",
                     color: "#606EEA",
@@ -66,7 +66,7 @@ export const LimitNews=({errormessage,linkToComment,CancelError}:LimitNewsModal)
               </div>
               <Button
                 onClick={CancelError}
-                endIcon={<SaveIcon />}
+                // endIcon={<SaveIcon />}
                 buttonStyle={{
                   bgcolor: "#606EEA",
                   color: "#fff",

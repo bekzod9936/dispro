@@ -13,5 +13,11 @@ interface PagProps {
     } else if (count === 1) {
       return firstWord;
     }
+    else if (count === 131){
+      return firstWord;
+    }
+    else if (count === 141){
+      return firstWord;
+    }
   };
   

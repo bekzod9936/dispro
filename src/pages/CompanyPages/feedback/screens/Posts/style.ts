@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { device } from 'styles/device';
 import { ReactComponent as Search } from 'assets/icons/FeedBack/search.svg';
-import { ReactComponent as Dots } from 'assets/icons/FeedBack/dots.svg';
+
 import { ReactComponent as Script } from 'assets/icons/FeedBack/script.svg';
 import { ReactComponent as Smile } from 'assets/icons/FeedBack/smile.svg';
 import { ReactComponent as Send } from 'assets/icons/FeedBack/send.svg';
@@ -59,21 +59,6 @@ export const SearchIcon = styled(Search)`
       fill: #606eea;
     }
   }
-`;
-
-export const DotsIcon = styled(Dots)`
-  margin: 10px;
-
-  @media (max-width: ${device.mobile}) {
-    transform: rotate(90deg);
-  }
-`;
-
-export const DotsWrap = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
 `;
 
 export const DownIcon = styled(Down)`
@@ -328,8 +313,10 @@ export const Messages = styled.div`
     display: none;
   }
   @media (max-width: ${device.mobile}) {
-    grid-row-gap: 15px;
-    padding: 10px 20px 0 10px;
+    & > div > div {
+      grid-row-gap: 15px;
+      padding: 10px 20px 0 10px;
+    }
   }
 `;
 
@@ -368,10 +355,6 @@ export const Wrapper = styled.div`
   width: 100%;
   position: relative;
 `;
-
-interface MProps {
-  bgcolor?: string;
-}
 
 export const Message = styled.div`
   background: ${({ type }: JProps) => {
@@ -458,31 +441,6 @@ export const MessageWrap = styled.div`
   }
 `;
 
-export const Delete = styled.div`
-  color: #ff5e68;
-`;
-
-export const Link = styled.div`
-  color: #223367;
-  background-color: #eff0fd;
-`;
-
-export const SelectWrap = styled.div`
-  padding: 15px 0;
-  & > div {
-    font-weight: normal;
-    font-size: 16px;
-    padding: 15px 25px;
-    cursor: pointer;
-  }
-  @media (max-width: ${device.mobile}) {
-    padding: 10px 0;
-    & > div {
-      font-size: 14px;
-    }
-  }
-`;
-
 export const Loading = styled.div`
   color: white;
   display: flex;
@@ -492,26 +450,6 @@ export const Loading = styled.div`
     color: #223367;
     font-weight: 500;
     margin-top: 15px;
-  }
-`;
-
-export const EPicker = styled.div`
-  position: absolute;
-  bottom: 15%;
-  right: 0;
-  .emoji-mart-scroll {
-    ::-webkit-scrollbar {
-      width: 7px;
-    }
-    ::-webkit-scrollbar-track {
-      background-color: transparent;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: #606eea;
-      border-radius: 14px 0px 0px 14px;
-      min-height: 80px;
-    }
   }
 `;
 
@@ -614,4 +552,9 @@ export const WrapButtons = styled.div`
   right: 0;
 `;
 
-export const WrapDateMessage = styled.div``;
+export const WrapDateMessage = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+`;

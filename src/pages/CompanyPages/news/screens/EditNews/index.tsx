@@ -22,6 +22,8 @@ import dayjs from "dayjs";
 import { fetchUpdateNews } from "services/queries/newPageQuery";
 import { UploadModal } from "../CreateNews/components/UploadModal";
 import useAddress from "../../../info/screens/Address/useAddress";
+import CustomDatePicker from "components/Custom/CustomDatePicker";
+import { MobileCancelIcon } from "assets/icons/proposals/ProposalsIcons";
 import {
   Label,
   WrapDate,
@@ -59,6 +61,7 @@ import {
   Wrapper,
   MobileHeader,
   FormRow,
+  Buttons,
 } from "./style";
 import { useUploadImage } from "../../hooks/useUploadIMage";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
@@ -85,7 +88,11 @@ const EditNews = () => {
   const newsById = selectedNews?.fullData;
   const startDate = dayjs(newsById?.data?.startLifeTime).format("YYYY-MM-DD");
   const endDate = dayjs(newsById?.data?.endLifeTime).format("YYYY-MM-DD");
-  const [filter, setFilter] = React.useState<any>({});
+  const [filter, setFilter] = React.useState<any>({ regDate: {
+    regDateFrom: startDate,
+    regDateTo: endDate
+  } });
+  const [validation,setValidation]=React.useState<any>(false);
   const { branches } = useStaff();
 
   const { width } = useWindowWidth();
@@ -178,8 +185,8 @@ console.log('filteredArray',filteredArray)
     let newsBody = {
      
       title: data.name,
-      startLifeTime:data.startDate,
-      endLifeTime: data.endDate,
+      startLifeTime:width>600 ? data.startDate:filter?.regDate?.regDateFrom ,
+      endLifeTime:width>600 ? data.endDate:filter?.regDate?.regDateTo,
       description: data.description,
       ageFrom: parseInt(data.ageLimit),
       ageTo: 100,
@@ -207,9 +214,18 @@ console.log('filteredArray',filteredArray)
     };
  
     let newsInfo={newsBody,newsId}
-    mutate(newsInfo);
-    setTimeout(() => history.push('/news/active'), 1000);
+    if(width>600){
+      mutate(newsInfo);
+      setTimeout(() => history.push('/news/active'), 1000); 
+    }
+    if(width<=600){
+      if(validation  && filter?.regDate?.regDateFrom && filter?.regDate?.regDateTo){
+        mutate(newsInfo);
+        setTimeout(() => history.push('/news/active'), 1000);
+      }
+    }
   };
+
 
 
   const genderType = [
@@ -434,61 +450,45 @@ console.log('filteredArray',filteredArray)
                     />
                   </div>
                 </WrapInputs>:
-              <WrapInputs>
-              <Label>{t("chose_date")}</Label>
-              <div>
-                <Input
-                  type="date"
-                  width={{
-                    maxwidth: 180,
-                    minwidth:130,
-                  }}
-                  min={todayDate}
-                  required={true}
-                  IconStart={<WrapDate>{t("from")}</WrapDate>}
-                  inputStyle={{
-                    inpadding: "0 10px 0 0",
-                  }}
-                  defaultValue={startDate}
-                  value={filter?.regDate?.regDateFrom}
-                  onChange={(e) =>
-                    setFilter((prev: any) => ({
-                      ...prev,
-                      regDate: {
-                        ...prev["regDate"],
-                        regDateFrom: e.target.value,
-                      },
-                    }))
-                  }
-                />
-                <Input
-                  type="date"
-                  defaultValue={endDate}
-                  min={filter?.regDate?.regDateFrom}
-                  width={{
-                    maxwidth: 180,
-                    minwidth:130,
-                  }}
-                  required={true}
-                  margin={{ laptop: "0 0 0 15px" }}
-                  IconStart={<WrapDate>{t("to")}</WrapDate>}
-                  inputStyle={{
-                    inpadding: "0 10px 0 0",
-                  }}
-                  value={filter?.regDate?.regDateTo}
-                  onChange={(e) =>
-                    setFilter((prev: any) => ({
-                      ...prev,
-                      regDate: {
-                        ...prev["regDate"],
-                        regDateTo: e.target.value,
-                      },
-                    }))
-                  }
-                />
-              </div>
-            </WrapInputs>}
-              
+                 <WrapInputs>
+                 <Label>{t("chose_date")}</Label>
+                 <div >
+                 <CustomDatePicker
+             margin="0 15px 0 0"
+             isFilter
+             text={t("from")}
+             error={validation && !filter?.regDate?.regDateFrom ? true:false}
+             minDate={todayDate}
+             maxDate={filter?.regDate?.regDateTo}
+             onChange={(e) => {
+               let date = "" + e.year + "-" + e.month.number + "-" + e.day;
+               setFilter((prev: any) => ({
+                 ...prev, regDate: {
+                   ...prev["regDate"],
+                   regDateFrom: date
+                 }
+               }))
+             }}
+             value={filter?.regDate?.regDateFrom} />
+
+           <CustomDatePicker
+             isFilter
+             error={validation && !filter?.regDate?.regDateTo ? true:false}
+             text={t("to")}
+             minDate={filter?.regDate?.regDateFrom}
+             onChange={(e) => {
+               let date = "" + e.year + "-" + e.month.number + "-" + e.day;
+               setFilter((prev: any) => ({
+                 ...prev, regDate: {
+                   ...prev["regDate"],
+                   regDateTo: date
+                 }
+               }))
+             }}
+             value={filter?.regDate?.regDateTo} />
+             </div>
+               </WrapInputs>
+            }
               <WrapSelect>
                 <Controller
                   name="gender"
@@ -677,7 +677,7 @@ console.log('filteredArray',filteredArray)
             </RightSide>
           </Container>
         </UpSide>
-        <DownSide>
+        {width>600 &&  <DownSide>
           <Button
             onClick={handleBack}
             startIcon={<CancelIcon />}
@@ -694,7 +694,37 @@ console.log('filteredArray',filteredArray)
           >
             Сохранить
           </Button>
-        </DownSide>
+        </DownSide>}
+       
+        {width <=600 && 
+                <Buttons>
+                  <div className="upside">
+                    <Button
+                      onClick={handleBack}
+                      endIcon={<MobileCancelIcon />}
+                      buttonStyle={{
+                        bgcolor: "rgba(96, 110, 234, 0.1)",
+                        color: "#606EEA",
+                      }}
+                      margin={{ mobile: "0 8px 8px 0" }}
+                    >
+                      {t("cancel")}
+                    </Button>
+                  </div>
+                  <Button
+                    onClick={() => setValidation(true)}
+                    type="submit"
+                    endIcon={<SaveIcon />}
+                    buttonStyle={{
+                      bgcolor: "#606EEA",
+                      color: "#fff",
+                      shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
+                    }}
+                    margin={{ mobile: "0px 8px  8px  0" }}
+                  >
+                    {"Сохранить"}
+                  </Button>
+                </Buttons>}
       </Form>
     </Wrapper>
   );
