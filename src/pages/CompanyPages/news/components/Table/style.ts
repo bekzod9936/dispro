@@ -223,15 +223,15 @@ export const TitleCard = styled.div`
 export const TitleData = styled.div`
   display: flex;
   align-items: center;
-  justify-content: left;
-  
-  /* margin-left: 15px; */
+
   img {
-    border-radius: 14px;
-    width: 40px;
-    height: 40px;
+    max-width:100%;
+    object-fit: cover;
+    border-radius: 14px !important;
+    width: 40px ;
+    height: 40px ;
     margin-right: 15px;
-    object-fit:fill;
+
   }
   
 `;

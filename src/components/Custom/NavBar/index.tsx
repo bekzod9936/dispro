@@ -1,5 +1,5 @@
 import { Container, Link } from "./style";
-import { useRef } from "react";
+import { useRef,useEffect } from "react";
 import useWindowWidth from "services/hooks/useWindowWidth";
 interface Props {
   list?: { path?: string; text?: string }[];
@@ -34,6 +34,7 @@ const NavBar = ({ list, margin, padding, vertical }: Props) => {
     }
     return linkRef.current
   }
+
 
   return (
     <Container

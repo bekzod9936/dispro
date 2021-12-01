@@ -82,10 +82,10 @@ const News = () => {
                   <Title padding={{ mobile: "13px 15px 13px 15px" }}>
                     {t("News")}
                   </Title>
-                  { location.pathname === "/news/waiting" ? <WaitingFilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} />: <MobileFilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} filterByDate={filterByDate}/>}
+                  {/* { location.pathname === "/news/waiting" ? <WaitingFilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} />: <MobileFilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} filterByDate={filterByDate}/>} */}
 
                   <Header handleOpenNews={handleOpenNews} />
-                  <WrapHeader>
+                  {/* <WrapHeader>
                     <LeftHeader>
                       <>
                         <Flex
@@ -102,7 +102,7 @@ const News = () => {
                         </Flex>
                       </>
                     </LeftHeader>
-                  </WrapHeader>
+                  </WrapHeader> */}
                 </div>
               )}
             </div>
