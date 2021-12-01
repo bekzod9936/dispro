@@ -49,7 +49,7 @@ const useData = () => {
             col1:v?.title,
             col2:v?.description,
             col3:genderType,
-            col4:date,
+            col4:startDate,
             fullData: {
                 data: v,
                 date:date,

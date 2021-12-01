@@ -108,21 +108,16 @@ export const Preview = styled.div`
 
 export const PreviewContent = styled.div`
   position: absolute;
-  
   background-color: #eef0f2;
-  height: 70%;
-  width: 285px;
-
-  left: 2px;
+  height: 68%;
+  left: 13px;
   right: 10px;
-  bottom: 0%;
-  border-radius: 30px;
+  bottom: 2%;
+  width: 265px;
+  border-radius: 10px 10px 30px 30px;
   padding: 15px 0;
-
   display: flex;
-
   flex-direction: column;
-
   align-items: center;
   img {
     width: 35px;

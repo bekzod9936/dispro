@@ -523,6 +523,14 @@
   "limitfeedback": "Вы можете написать еще {{limit1}}",
   "exitpageaddress": " На странице есть несохраненные элементы.",
   "areyousureleave": "Все равно выйти?",
+  "youDontHaveProducts": "У вас нет созданых продуктов",
+  "youDontHaveProductsYet": "У вас пока что нет товаров",
+  "section": "Раздел",
+  "item": "Товар",
+  "newSection": "Новый раздел",
+  "sectionName": "Название раздела",
+  "createAnother": "Создать еще +",
+  "maxAmountOfCharacters": "Максимальное количество символов: 30",
   "areyousuredeletechat": "Вы действительно хотите удалить  чат?",
   "deletechatsaveinclients": "После удаления чата, переписка на стороне клиента сохранится"
 }

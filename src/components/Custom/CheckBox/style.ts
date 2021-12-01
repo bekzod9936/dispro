@@ -18,4 +18,10 @@ export const Container = styled.div`
       font-size: 18px !important ;
     }
   }
+  @media (max-width: ${device.mobile}) {
+    span.MuiTypography-body1 {
+      font-size: 14px !important ;
+      font-weight: 400 !important ;
+    }
+  }
 `;

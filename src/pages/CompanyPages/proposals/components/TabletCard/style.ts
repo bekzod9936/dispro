@@ -9,6 +9,9 @@ export const Wrapper = styled.div`
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
     cursor: pointer;
     height: max-content;
+    overflow-x: hidden;
+    /* max-width: 354px;
+    width: 100%; */
     h1.statsTitle {
         font-size: 16px;
         line-height: 18.75px;
@@ -17,7 +20,10 @@ export const Wrapper = styled.div`
     }
     .image {
         position: relative;
-        margin-bottom: 15px;
+        margin-bottom: 15px;    
+        max-width: 314px;
+        width: 100%;
+        
         img {
             width: 100%;
             border-radius: 14px;

@@ -51,6 +51,7 @@ export const RightSide = styled.div`
 `
 export const LeftSide = styled.div`
     margin-right: 45px;
+    overflow: hidden;
     @media (max-width: ${device.laptop}) {
         margin-right: 15px;
     }

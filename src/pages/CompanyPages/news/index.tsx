@@ -1,5 +1,4 @@
-import {useEffect} from "react"
-import { setSelectedNews } from "services/redux/Slices/news";
+
 import NavBar from "components/Custom/NavBar";
 import Title from "components/Custom/Title";
 import Spinner from "components/Custom/Spinner";
@@ -12,8 +11,8 @@ import useNewsRoute from "./routes";
 import Header from "./components/Header";
 import useWindowWidth from "services/hooks/useWindowWidth";
 import { MainWrapper, Flex, WrapHeader, LeftHeader, Wrap } from "./style";
-import {MobileFilterNews} from "./components/MobileFilterNews";
 import {WaitingFilterNews} from "./components/WaitingFilterNews";
+import {MobileFilterNews} from "./components/MobileFilterNews";
 const News = () => {
   const { t } = useTranslation();
   const { menuItems, newsPath } = useNewsRoute();
@@ -79,11 +78,9 @@ const News = () => {
                 </div>
               ) : (
                 <div>
-                  <Title padding={{ mobile: "13px 15px 13px 15px" }}>
+                  <Title padding={{ mobile: "13px 15px 5px 15px" }}>
                     {t("News")}
                   </Title>
-                  { location.pathname === "/news/waiting" ? <WaitingFilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} />: <MobileFilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} filterByDate={filterByDate}/>}
-
                   <Header handleOpenNews={handleOpenNews} />
                   <WrapHeader>
                     <LeftHeader>

@@ -170,3 +170,32 @@ export const Buttons = styled.div`
   }
   }
 `
+export const WrapMobile = styled.div`
+  overflow-y: auto;
+  position: relative;
+  overflow-x: hidden;
+  &::-webkit-scrollbar {
+    appearance: none;
+    display: none;
+  }
+  &::-webkit-scrollbar-thumb {
+    appearance: none;
+    display: none;
+  }
+
+  &::-webkit-scrollbar-track {
+    appearance: none;
+    display: none;
+  }
+`;
+export const LeftHeader = styled.div`
+overflow: hidden;`;
+
+export const WrapHeader = styled.div`
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  @media (max-width: ${device.mobile}) {
+    padding: 5px 0 0 10px;
+  }
+`;

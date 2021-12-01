@@ -14,7 +14,7 @@ export interface Props {
   name?: string;
   variant?: 'filled' | 'standard' | 'outlined' | undefined;
   onChange?: (e: any) => void;
-
+  isAbsolute?: boolean;
   placeholder?: string;
   required?: boolean;
   select?: boolean;
@@ -80,7 +80,7 @@ export interface Props {
   };
   maxLength?: number | string;
   minLength?: number | string;
-  resize?:string;
+  resize?: string;
   onFocus?: () => void;
   onBlur?: () => void;
   min?: string;

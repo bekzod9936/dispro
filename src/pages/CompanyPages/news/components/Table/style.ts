@@ -111,7 +111,7 @@ export const Td = styled.td`
   padding: 15px;
   padding-left: 40px;
   text-align: left;
-  text-transform: capitalize;
+  
   font-weight: normal;
   font-size: 16px;
   color: #223367;
@@ -223,15 +223,13 @@ export const TitleCard = styled.div`
 export const TitleData = styled.div`
   display: flex;
   align-items: center;
-  justify-content: left;
   
-  /* margin-left: 15px; */
   img {
-    border-radius: 14px;
-    width: 40px;
-    height: 40px;
+    object-fit: cover;
+    border-radius: 14px !important;
+    width: 40px ;
+    height: 40px ;
     margin-right: 15px;
-    object-fit:fill;
   }
   
 `;

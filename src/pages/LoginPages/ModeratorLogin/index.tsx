@@ -12,9 +12,11 @@ import IconButton from "@material-ui/core/IconButton";
 import { IForm, ROLES } from "./types";
 //hooks
 import useSignIn from "./useSignIn";
+import { useHistory } from "react-router-dom";
 
 const LoginPageAdmin = () => {
-  const { logIn } = useSignIn();
+  const history = useHistory();
+  const { logIn } = useSignIn(history);
   const [type, setType] = useState<boolean>(false);
   const { t } = useTranslation();
 

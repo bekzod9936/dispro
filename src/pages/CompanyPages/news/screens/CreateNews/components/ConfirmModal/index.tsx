@@ -7,7 +7,7 @@ import {WrapperModal,CloseButton,Buttons} from "./style";
 import { CloseIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import Button from "components/Custom/Button";
 import dayjs from "dayjs";
-import { SaveIcon } from "assets/icons/news/newsIcons";
+import { SaveIcon,SaveIconMobile } from "assets/icons/news/newsIcons";
 import { MobileCancelIcon } from "assets/icons/proposals/ProposalsIcons";
 import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 interface ConfirmModal{
@@ -20,7 +20,12 @@ interface ConfirmModal{
 }
 
 export const ConfirmModal=({submit, cancelSubmit,startDate,todayDate,submitData}:ConfirmModal)=>{
+ let start= dayjs(startDate).format("DD.MM.YYYY")
+  let today=dayjs(todayDate).format("DD.MM.YYYY")
 
+    console.log('startDate',start);
+    console.log('todayDate',today)
+    
     const { width } = useWindowWidth();
     const { t } = useTranslation();
 
@@ -34,12 +39,12 @@ export const ConfirmModal=({submit, cancelSubmit,startDate,todayDate,submitData}
           )}
 
           <h3 style={{ marginRight: "20px" }}>
-            {startDate > todayDate
+            {start > today
               ? t(`Новость будет добавлена в раздел "В ожидании" `)
               : t("Новость будет опубликована сразу")}
           </h3>
           <p>
-            {startDate > todayDate
+            {start > today
               ? t(
                   `Новость будет опубликована ${dayjs(startDate).format(
                     "DD.MM.YYYY"
@@ -79,21 +84,21 @@ export const ConfirmModal=({submit, cancelSubmit,startDate,todayDate,submitData}
                     bgcolor: "rgba(96, 110, 234, 0.1)",
                     color: "#606EEA",
                   }}
-                  margin={{ mobile: "0 8px 8px 0" }}
+                  margin={{ mobile: "0 5px 0px 0" }}
                 >
-                  {t("cancel")}
+                  {t("Отмена")}
                 </Button>
               </div>
               <Button
                 onClick={submitData}
                 type="submit"
-                endIcon={<SaveIcon />}
+                endIcon={<SaveIconMobile />}
                 buttonStyle={{
                   bgcolor: "#606EEA",
                   color: "#fff",
                   shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)'
                 }}
-                margin={{ mobile: "0px 8px  8px  0" }}
+                margin={{ mobile: "0px px  0px  0" }}
               >
                 {"Сохранить"}
               </Button>

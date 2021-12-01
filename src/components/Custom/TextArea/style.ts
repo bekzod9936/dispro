@@ -70,12 +70,14 @@ export const MTextArea = styled.textarea`
   min-height: ${({ minHeight }: ITextAreaProps) => minHeight || 'none'};
   max-height: ${({ maxHeight }: ITextAreaProps) => maxHeight || 'none'};
   outline: ${({ outline }: ITextAreaProps) => outline || 'none'};
-
+  @media (min-width: ${device.mobile}) {
+    font-size: 14px;
+    color: #223367;
+  }
   &::-webkit-resizer {
     background-image: url(${Textt});
     height: 20px;
     width: 20px;
-    /* background-color:'red'; */
   }
   &::-webkit-scrollbar {
     width: 20px;
@@ -113,7 +115,6 @@ export const Message = styled.div`
 
 export const Icons = styled.div`
   color: #606eea !important;
-
   width: 100%;
   position: absolute;
   padding-left: 10px;

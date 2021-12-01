@@ -29,8 +29,8 @@ function TextMaskCustom(props: any) {
 }
 
 const NInput = ({
-  onChange = () => {},
-  onKeyPress = () => {},
+  onChange = () => { },
+  onKeyPress = () => { },
   ...props
 }: Props) => {
   return (
@@ -91,7 +91,7 @@ const NInput = ({
         onKeyPress={onKeyPress}
         {...props.register}
       />
-      <Message labelStyle={props.labelStyle}>
+      <Message isAbsolute={props.isAbsolute} labelStyle={props.labelStyle}>
         {props.error ? props.message : null}
       </Message>
     </Container>

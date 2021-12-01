@@ -39,7 +39,6 @@ export const CouponCard = ({
   publishDate,
   stats,
 }: IProps) => {
-  console.log(stats);
 
   const isCoupon = type === 2;
   const { t } = useTranslation();
@@ -67,14 +66,14 @@ export const CouponCard = ({
             </p>
           )}
         </div>
-        <h4>{title}</h4>
+        <h4>{title.length > 20 ? title.slice(0, 20) + "..." : title}</h4>
         <p>
           {description.length > 35
             ? description.slice(0, 35) + "..."
             : description}
         </p>
       </Main>
-      <Submain stats={stats}>
+      <Submain>
         <p>
           {isCoupon ? t("coupon_value") : t("certificate_value")}: {value}{" "}
           {isCoupon ? "%" : "Сум"}

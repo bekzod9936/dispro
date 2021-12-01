@@ -25,7 +25,7 @@ export const WaitingFilterNews=({handleOpenNews,searchNews,filterByDate}:FilterN
         alignItems="center"
         margin="0"
       >
-              <div style={{ width: "20px" }} />
+              
          <Input
           inputStyle={{ border: "none", height: { desktop: 50 ,mobile:36} }}
           IconStart={<SearchIcon style={{ marginLeft: 20 }} />}
@@ -47,6 +47,7 @@ export const WaitingFilterNews=({handleOpenNews,searchNews,filterByDate}:FilterN
             desktop: "0 25px 0 0",
             laptop: "0 25px 0 0",
             planshet: "0 0 20px 0",
+            mobile:"0 0 0 15px",
           }}
           startIcon={<AddMobileIcon />}
         >

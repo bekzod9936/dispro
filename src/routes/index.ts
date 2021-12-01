@@ -35,7 +35,7 @@ const SettingsPage = lazy(
   () => import("../pages/CompanyPages/settings/SettingsPage")
 );
 const ServicesPage = lazy(
-  () => import("../pages/CompanyPages/services/ServicesPage")
+  () => import("../pages/CompanyPages/services")
 );
 const ClientsPage = lazy(() => import("../pages/CompanyPages/clients"));
 const FeedbackPage = lazy(() => import("../pages/CompanyPages/feedback"));
@@ -94,7 +94,7 @@ export const privateCompanyRoutes: IPrivateRoute[] = [
     component: InfoPage,
   },
   {
-    path: "/services",
+    path: "/services/:params",
     layout: DefaultLayoutAdmin,
     component: ServicesPage,
   },
