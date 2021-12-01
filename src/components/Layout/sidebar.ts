@@ -36,7 +36,7 @@ const sidebar: any = [
   {
     Icon: BasketIcon,
     text: "services",
-    path: "services",
+    path: "services/main",
     permission: [],
   },
   {
