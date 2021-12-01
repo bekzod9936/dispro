@@ -526,5 +526,6 @@
   "youDontHaveProducts": "У вас нет созданых продуктов",
   "youDontHaveProductsYet": "У вас пока что нет товаров",
   "section": "Раздел",
-  "item": "Товар"
+  "item": "Товар",
+  "newSection": "Новый раздел"
 }
