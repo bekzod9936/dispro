@@ -43,6 +43,8 @@ export const Container = styled.div`
     appearance: none;
     display: none;
   }
+  scrollbar-width: none;
+  overflow-y: hidden;
 `;
 
 export const Link = styled(NavLink)`

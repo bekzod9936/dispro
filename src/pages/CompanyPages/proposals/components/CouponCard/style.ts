@@ -16,12 +16,15 @@ export const Container = styled.div`
     grid-template-columns: ${({ stats }: IProps) => stats ? "repeat(4, 1fr)" : "repeat(3, 1fr)"};
     grid-template-rows: 1fr;
     /* justify-content: space-between; */
-    /* max-width: ${({ stats }: IProps) => stats ? "1035px" : "860px"}; */
+    max-width: ${({ stats }: IProps) => stats ? "1150px" : "860px"};
     /* width: 100%; */
     margin-bottom: 15px;
     cursor: pointer;
     @media (max-width: 1340px) {
         grid-template-columns: repeat(3, 1fr);
+    }
+    @media (max-width: 1210px) {
+        grid-template-columns: repeat(2, 1fr);
     }
     @media(max-width: ${device.laptop}) {
         max-width: none !important;
@@ -56,6 +59,9 @@ export const Main = styled.div`
     }
     @media (max-width: 1340px) {
         margin-right: 25px;
+    }
+    @media (max-width: 1210px) {
+        margin-right: 0;
     }
     div {
         display: flex;
