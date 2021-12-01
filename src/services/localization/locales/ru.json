@@ -527,5 +527,8 @@
   "youDontHaveProductsYet": "У вас пока что нет товаров",
   "section": "Раздел",
   "item": "Товар",
-  "newSection": "Новый раздел"
+  "newSection": "Новый раздел",
+  "sectionName": "Название раздела",
+  "createAnother": "Создать еще +",
+  "maxAmountOfCharacters": "Максимальное количество символов: 30"
 }
