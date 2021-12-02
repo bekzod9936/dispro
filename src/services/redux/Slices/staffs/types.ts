@@ -20,7 +20,9 @@ export interface staffsState {
   managerId?: any;
   staffData: any;
   pointHistories: any;
+  storeFilters:any
 }
+
 
 export interface ICashiers {
   addInfo?: {

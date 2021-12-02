@@ -169,7 +169,6 @@ export const THead = styled.thead`
 //     font-size: 16px;
 // `
 export const Td = styled.td`
-  padding: 15px;
   text-align: center;
   text-transform: capitalize;
   font-weight: normal;
@@ -211,6 +210,7 @@ export const MCheckbox = styled.div`
     color: #a5a5a5 !important ;
   }
   span.MuiTypography-body1 {
+
     font-weight: 500 !important ;
     font-size: 16px !important ;
     color: #223367 !important ;
@@ -219,6 +219,9 @@ export const MCheckbox = styled.div`
     span.MuiTypography-body1 {
       font-size: 18px !important ;
     }
+  }
+  &.Mui-checked {
+    color: #3492FF;
   }
 `;
 

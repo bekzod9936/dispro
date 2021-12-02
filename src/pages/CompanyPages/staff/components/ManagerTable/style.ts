@@ -72,10 +72,18 @@ interface ITh {
 }
 
 export const Th = styled.th`
-  padding: 0 10px;
+text-align: left;
+//   padding: 0 10px;
   font-weight: normal;
   cursor: pointer;
   font-size: 16px;
+  &:nth-child(1) {
+	padding-left: 10px;
+	width: 10px;
+  }
+  &:nth-child(2) {
+	padding-left: 55px;
+  }
   @media (max-width: ${device.planshet}) {
     font-size: 14px;
     padding: 6px;
@@ -147,16 +155,28 @@ export const THead = styled.thead`
 //     font-size: 16px;
 // `
 export const Td = styled.td`
-  padding: 15px;
-  text-align: center;
+//   text-align: center;
   text-transform: capitalize;
   font-weight: normal;
   font-size: 16px;
   color: #223367;
   cursor: pointer;
+  &:nth-child(1) {
+	padding-left: 10px
+	width: 10px;
+  }
   @media (max-width: ${device.planshet}) {
     font-size: 14px;
     padding: 6px;
+  }
+  &:last-child{
+	margin: 0;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden; 
+	width: 140px;
+    white-space: pre-wrap;
   }
 `;
 export const Tbody = styled.tbody`
@@ -208,6 +228,7 @@ export const ManagerTd = styled.div`
     width: 40px;
     height: 40px;
     margin-right: 15px;
+    margin-left: 15px;
   }
 `
 

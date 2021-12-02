@@ -16,41 +16,41 @@ import 'emoji-mart/css/emoji-mart.css';
 const queryClient = new QueryClient();
 
 const theme = createTheme({
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 600,
-      md: 1000,
-      lg: 1500,
-      xl: 1920,
-    },
-  },
+	breakpoints: {
+		values: {
+			xs: 0,
+			sm: 600,
+			md: 1000,
+			lg: 1500,
+			xl: 1920,
+		},
+	},
 });
 
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker
-    .register('./firebase-messaging-sw.js')
-    .then(function (registration) {})
-    .catch(function (err) {});
+	navigator.serviceWorker
+		.register('./firebase-messaging-sw.js')
+		.then(function (registration) {})
+		.catch(function (err) {});
 }
 
 ReactDOM.render(
-  <React.StrictMode>
-    <RecoilRoot>
-      <I18nextProvider i18n={i18n}>
-        <MuiThemeProvider theme={theme}>
-          <StylesProvider injectFirst>
-            <Provider store={store}>
-              <QueryClientProvider client={queryClient}>
-                <BrowserRouter>
-                  <App />
-                </BrowserRouter>
-              </QueryClientProvider>
-            </Provider>
-          </StylesProvider>
-        </MuiThemeProvider>
-      </I18nextProvider>
-    </RecoilRoot>
-  </React.StrictMode>,
-  document.getElementById('root')
+	<React.StrictMode>
+		<RecoilRoot>
+			<I18nextProvider i18n={i18n}>
+				<MuiThemeProvider theme={theme}>
+					<StylesProvider injectFirst>
+						<Provider store={store}>
+							<QueryClientProvider client={queryClient}>
+								<BrowserRouter>
+									<App />
+								</BrowserRouter>
+							</QueryClientProvider>
+						</Provider>
+					</StylesProvider>
+				</MuiThemeProvider>
+			</I18nextProvider>
+		</RecoilRoot>
+	</React.StrictMode>,
+	document.getElementById('root')
 );

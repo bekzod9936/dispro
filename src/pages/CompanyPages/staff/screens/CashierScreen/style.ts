@@ -1,11 +1,13 @@
 import styled from "styled-components";
+import { device } from "styles/device";
+import { ReactComponent as Delete } from "assets/icons/IconsInfo/delete.svg";
 
 export const CashierDiv = styled.div`
 display: flex;
 flex-direction: column;
 height: 100%;
   width: 100%;
-  margin-top: 50px;
+  margin-top: 30px;
   padding-right: 40px;
   position: relative !important;
   overflow: hidden;
@@ -90,4 +92,45 @@ export const ModalTitle = styled.p`
   /* identical to box height */
 
   color: #223367;
+`;
+
+export const CashierFilterWrap = styled.p`
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	margin-top: 15px;
+`;
+
+export const ButtonKeyWord = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #c4c4c4;
+  border-radius: 46px;
+  font-weight: 300;
+  font-size: 14px;
+  color: #223367;
+  padding: 0 5px 0 15px;
+  margin: 10px 10px 0 0;
+  height: 35px;
+  .MuiIconButton-root {
+    padding: 6px !important;
+    margin-left: 5px;
+  }
+  @media (max-width: ${device.mobile}) {
+    height: 25px;
+    font-weight: 300;
+    font-size: 12px;
+    color: #223367;
+  }
+`;
+interface ButtonProps {
+	mobile?: boolean;
+	color?: string;
+  }
+  
+export const DeleteIc = styled(Delete)`
+  & > path {
+    fill: ${({ color }: ButtonProps) => (color ? color : null)};
+  }
 `;
