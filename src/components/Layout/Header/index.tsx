@@ -56,6 +56,7 @@ import {
   WrapperIcon,
   Box1,
 } from './style';
+import { setChatSupportHistory } from 'services/redux/Slices/feedback';
 
 const Header = () => {
   const { t } = useTranslation();
@@ -182,6 +183,7 @@ const Header = () => {
                 history.push('/partner/company');
                 dispatch(setCompanyInfo({}));
                 socket.disconnect();
+                dispatch(setChatSupportHistory([]));
                 dispatch(setInfoData({ ...initialState?.data }));
               }}
               endIcon={<LogOutWhiteIcon />}
