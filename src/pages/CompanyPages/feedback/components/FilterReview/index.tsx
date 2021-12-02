@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'services/redux/hooks';
 import useFeedBack from '../../hooks/useFeedBack';
-import CheckBox from 'components/Custom/CheckBox';
 import { WrapCheck, Label, WrapChecks, StarIcon } from './style';
 import { IconButton } from '@material-ui/core';
 

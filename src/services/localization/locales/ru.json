@@ -531,5 +531,7 @@
   "sectionName": "Название раздела",
   "createAnother": "Создать еще +",
   "maxAmountOfCharacters": "Максимальное количество символов: 30",
-  "titlesOfSectionsMustBeUnique": "Названия разделов должны быть уникальными"
+  "titlesOfSectionsMustBeUnique": "Названия разделов должны быть уникальными",
+  "areyousuredeletechat": "Вы действительно хотите удалить  чат?",
+  "deletechatsaveinclients": "После удаления чата, переписка на стороне клиента сохранится"
 }

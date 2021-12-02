@@ -66,6 +66,21 @@ export interface IRating {
   upVal?: number;
 }
 
+export interface IChoose {
+  chosen?: IMessage;
+  isChoose?: boolean;
+  inntialHistory?: { page?: number; perPage?: number };
+  fetchHistory?: boolean;
+}
+
+export interface ITHistorySupport {
+  total?: number;
+  page?: number;
+  perPage?: number;
+  loading?: boolean;
+  hasMore?: boolean;
+}
+
 export interface IFeedBack {
   messages?: IMessage[];
   cashiers?: ICashiers[];
@@ -74,9 +89,10 @@ export interface IFeedBack {
   histories?: IHistory[];
   supporthistories?: IHistory[];
   totalHistory?: number;
-  totalSupportHistory?: number;
+  totalSupportHistory?: ITHistorySupport;
   totalCount?: number;
   averageRating?: IRating;
   socket?: any;
   chosenClient?: IChose;
+  chosenListUser?: IChoose;
 }
