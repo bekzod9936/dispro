@@ -66,6 +66,9 @@ export const Wrapper = styled.form`
                 color: #C4C4C4;
             }
         }
+        p.amount {
+            margin-bottom: 15px;
+        }
         p.info {
             font-size: 18px;
             line-height: 21px;

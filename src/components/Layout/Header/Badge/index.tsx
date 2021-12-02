@@ -38,6 +38,7 @@ import App from 'assets/icons/StatistisPage/app.svg';
 
 const Badge = () => {
   const { t } = useTranslation();
+  const [closeFun, setCloseFun] = useState<any>();
   const { width } = useWindowWidth();
   const [open, setOpen] = useState<boolean>(false);
   const history = useHistory();
@@ -50,19 +51,15 @@ const Badge = () => {
   const companyId = localStorage.getItem('companyId');
   useLayout({ id: companyId });
   const badgeInfo = useRecoilState(badgeData);
-  const dd = new Date().getTimezoneOffset();
 
-  const date = 'Wed Nov 25 2020 11:11:49 GMT+0500 (Uzbekistan Standard Time)';
-
-  console.log(badgeInfo, 'ssss');
-  // date: "Fri Nov 26 2021 10:21:22 GMT+0500 (Uzbekistan Standard Time)"
+  const handleClose = (e: any) => {
+    setCloseFun(e);
+  };
 
   const getTime = (date: any) => {
-    const di = dayjs().utcOffset() / 60;
-    const timedef = dayjs().add(di, 'm').format();
     const time =
       dayjs(Date.now()).diff(date, 'minute') < 60
-        ? `${dayjs(timedef).diff(date, 'minute')}M ${t('ago')}`
+        ? `${dayjs(Date.now()).diff(date, 'minute')}M ${t('ago')}`
         : dayjs(Date.now()).diff(date, 'hour') < 24
         ? `${dayjs(Date.now()).diff(date, 'hour')} ${t('hour')} ${t('ago')}`
         : dayjs(Date.now()).diff(date, 'month') === 0
@@ -85,6 +82,7 @@ const Badge = () => {
     } else {
       history.push('/feedback/posts');
     }
+    closeFun.close();
   };
 
   const content = (
@@ -97,7 +95,15 @@ const Badge = () => {
                 <DisIcon />
               ) : (
                 <LazyLoadImage
-                  src={v.image}
+                  src={
+                    v?.image
+                      ? v?.image
+                      : v?.genderTypeId === 1
+                      ? defuserman
+                      : v?.genderTypeId === 2
+                      ? defuserwoman
+                      : App
+                  }
                   alt='user'
                   style={{
                     objectFit: 'cover',
@@ -117,7 +123,7 @@ const Badge = () => {
                 <span>{t('from')}</span>
                 {v.chatType === 6
                   ? `Dis-count`
-                  : `${v.lastName} ${v.firstName}`}
+                  : `${v.firstName} ${v.lastName}`}
               </Name>
               <Date1>{getTime(v.date)}</Date1>
             </WrapData>
@@ -142,6 +148,7 @@ const Badge = () => {
             </IconButton>
           }
           anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
+          onClose={handleClose}
         >
           <Wrapper>
             <Title>{t('notification')}</Title>

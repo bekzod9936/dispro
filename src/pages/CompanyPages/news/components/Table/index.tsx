@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/styles'
 import { useTable, useSortBy } from "react-table";
 import { headers } from "./headers";
 import { useTranslation } from "react-i18next";
+import defaultImage from "assets/images/staff_default.png";
 import {
   Container,
   MTable,
@@ -107,38 +108,38 @@ const Table = ({ data, header2 }: Props) => {
               >
                 {row.cells.map((cell: any) => {
                   if (cell.column.Header === "Заголовок") {
-                
                     let src = cell?.row?.original?.fullData?.data?.image;
                     let checktitle = cell?.row?.original?.fullData?.data?.title;
                     let title =
                       checktitle?.length > 20
-                        ? <p style={{fontSize:'14px'}}>{checktitle.slice(0, 20) + "..."}</p>
-                        : <p style={{fontSize:'14px'}}>{checktitle}</p>;
+                        ? <p style={{fontSize:'14px'}}>{checktitle.charAt(0).toUpperCase() + checktitle.slice(1,20)+"..."}</p>
+                        : <p style={{fontSize:'14px'}}>{checktitle.charAt(0).toUpperCase()+checktitle.slice(1)}</p>;
                     return (
                       <Td {...cell.getCellProps()}>
                         <TitleData>
+                        {src ?
+                                <img src={src} onError={(e: any) => {
+                                  e.target.onerror = null;
+                                  e.target.src = defaultImage
+                                }} /> :
+                                <DefaultImage />}
                           
-                          {src ? <img src={src} /> : <DefaultImage />}
-                          {title ? title : ""}
+                          {title } 
                         </TitleData>
-          
                       </Td>
                     );
                   }  else if (cell.column.Header === "Описание") {
                     let checkDescription = cell?.row?.original?.fullData?.data?.description;
-             
-                    let description =
-                      checkDescription?.length > 78
-                        ? checkDescription.slice(0, 78) + "..."
-                        : checkDescription;
-
+                    let descriptionn =
+                      checkDescription?.length >70
+                        ? checkDescription.charAt(0).toUpperCase() +checkDescription.slice(1,70)+ "..."
+                        : checkDescription.charAt(0).toUpperCase()+checkDescription.slice(1);
+                        console.log('checkDescription',descriptionn)
                     return (
                       <Td {...cell.getCellProps()}>
                            <AgeData>
-                             <p style={{ width:'300px',whiteSpace: "pre-wrap"}}>{description}</p>
-                       
+                             <p style={{minWidth:'250px', maxWidth:'300px',whiteSpace: "pre-wrap",wordBreak: 'break-all'}}>{descriptionn}</p>
                       </AgeData>
-                      
                       </Td>
                     );
                   }
@@ -166,8 +167,8 @@ const Table = ({ data, header2 }: Props) => {
                     return (
                       <Td {...cell.getCellProps()}>
                         <TimeData>
-                          <p>{date}</p>
-                          {ageUnlimeted ? '' :ageFrom>0 ? <h4>{ageFrom+ "+"}</h4>:''}
+                          <p style={{paddingRight:'2px'}}>{date}</p>
+                          {ageUnlimeted ? '' :ageFrom>0 ? <h4 >{ageFrom+ "+"}</h4>:''}
                           {     PushUp ? <LightToolTip arrow placement="left" title={<> 
                           <p style={{padding:'10px 0px',lineHeight:'21px',color:'#223367',fontSize: '18px',fontWeight:300}}>{`Уведомлений получили:${' '+stat?.get?.total+' '}чел.`}</p>  
                           <p style={{lineHeight:'21px',color:'#223367',fontSize: '18px',fontWeight:300}}>{`Уведомлений просмотрели:${' '+stat?.view?.total+' '}чел.`}  </p>

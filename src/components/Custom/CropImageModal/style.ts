@@ -46,7 +46,7 @@ export const Right = styled.div`
     align-items: center;
   }
 
-  @media (max-width: ${device.mobile}) {
+  @media (max-width: ${device.planshet}) {
     width: 100%;
     margin: 0;
   }
@@ -76,7 +76,7 @@ export const Left = styled.div`
     text-align: center;
   }
   border-bottom: 1px solid rgba(96, 110, 234, 0.3);
-  @media (max-width: ${device.mobile}) {
+  @media (max-width: ${device.planshet}) {
     display: none;
   }
 `;

@@ -169,7 +169,7 @@ const CropCustomModal = ({
                   {imageUrl?.length > 6 && (
                     <PreviewBgNews src={imageUrl} alt="" />
                   )}
-                   {/* : <PreviewBgNews src={srcUrl} alt="" /> */}
+                  {/* : <PreviewBgNews src={srcUrl} alt="" /> */}
                   <img
                     style={{ zIndex: 20, position: "relative" }}
                     width="320"
@@ -203,7 +203,7 @@ const CropCustomModal = ({
           <Button
             disabled={imageUrl?.length < 6}
             onClick={handleSave}
-            startIcon={width > 600 ? <SaveIcon /> : <MobileUploadPhotoIcon />}
+            startIcon={width > 1000 ? <SaveIcon /> : <MobileUploadPhotoIcon />}
           >
             Сохранить
           </Button>

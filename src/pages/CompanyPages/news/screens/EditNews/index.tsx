@@ -22,6 +22,8 @@ import dayjs from "dayjs";
 import { fetchUpdateNews } from "services/queries/newPageQuery";
 import { UploadModal } from "../CreateNews/components/UploadModal";
 import useAddress from "../../../info/screens/Address/useAddress";
+import CustomDatePicker from "components/Custom/CustomDatePicker";
+import { MobileCancelIcon } from "assets/icons/proposals/ProposalsIcons";
 import {
   Label,
   WrapDate,
@@ -36,7 +38,7 @@ import {
   PlusIcon,
   UploadImage,
 } from "assets/icons/proposals/ProposalsIcons";
-import { SaveIcon } from "assets/icons/news/newsIcons";
+import { SaveIcon ,SaveIconMobile} from "assets/icons/news/newsIcons";
 import { days, genders, todayDate } from "../CreateNews/constants";
 import {
   PushBlock,
@@ -59,6 +61,7 @@ import {
   Wrapper,
   MobileHeader,
   FormRow,
+  Buttons,
 } from "./style";
 import { useUploadImage } from "../../hooks/useUploadIMage";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
@@ -85,7 +88,11 @@ const EditNews = () => {
   const newsById = selectedNews?.fullData;
   const startDate = dayjs(newsById?.data?.startLifeTime).format("YYYY-MM-DD");
   const endDate = dayjs(newsById?.data?.endLifeTime).format("YYYY-MM-DD");
-  const [filter, setFilter] = React.useState<any>({});
+  const [filter, setFilter] = React.useState<any>({ regDate: {
+    regDateFrom: startDate,
+    regDateTo: endDate
+  } });
+  const [validation,setValidation]=React.useState<any>(false);
   const { branches } = useStaff();
 
   const { width } = useWindowWidth();
@@ -178,8 +185,8 @@ console.log('filteredArray',filteredArray)
     let newsBody = {
      
       title: data.name,
-      startLifeTime: filter?.regDate?.regDateFrom ? filter?.regDate?.regDateFrom:startDate,
-      endLifeTime: filter?.regDate?.regDateTo ? filter?.regDate?.regDateTo:endDate,
+      startLifeTime:width>600 ? data.startDate:filter?.regDate?.regDateFrom ,
+      endLifeTime:width>600 ? data.endDate:filter?.regDate?.regDateTo,
       description: data.description,
       ageFrom: parseInt(data.ageLimit),
       ageTo: 100,
@@ -206,13 +213,20 @@ console.log('filteredArray',filteredArray)
       pushUpTitle: data.descriptionPush,
     };
  
-   
     let newsInfo={newsBody,newsId}
-
-    mutate(newsInfo);
-    setTimeout(() => history.push('/news/active'), 1000);
+    if(width>600){
+      mutate(newsInfo);
+      setTimeout(() => history.push('/news/active'), 1000); 
+    }
+    if(width<=600){
+      if(validation  && filter?.regDate?.regDateFrom && filter?.regDate?.regDateTo){
+        mutate(newsInfo);
+        setTimeout(() => history.push('/news/active'), 1000);
+      }
+    }
   };
-  console.log("filters datse", filter);
+
+
 
   const genderType = [
     {
@@ -262,7 +276,7 @@ console.log('filteredArray',filteredArray)
  }
   },[])
  
-  console.log('mergedBranches',mergedBranches)
+  console.log('newsById',newsById?.data)
   return (
     <Wrapper>
         {width > 600 && (
@@ -356,7 +370,7 @@ console.log('filteredArray',filteredArray)
                     error={!!errors.name}
                     message={t("requiredField")}
                     field={field}
-                    multiline={true}
+                    maxLength={80}
                     label="Название"
                     defaultValue={newsById?.data?.title}
                  
@@ -385,109 +399,96 @@ console.log('filteredArray',filteredArray)
                   />
                 )}
               />
-              {width > 600 ? <WrapInputs>
-                <Label>{t("chose_date")}</Label>
-                <div>
-                  <Input
-                    type="date"
-                  
-                    min={todayDate}
-                    required={true}
-                    IconStart={<WrapDate>{t("from")}</WrapDate>}
-                    inputStyle={{
-                      inpadding: "0 10px 0 0",
-                    }}
-                    defaultValue={startDate}
-                    value={filter?.regDate?.regDateFrom}
-                    onChange={(e) =>
-                      setFilter((prev: any) => ({
-                        ...prev,
-                        regDate: {
-                          ...prev["regDate"],
-                          regDateFrom: e.target.value,
-                        },
-                      }))
-                    }
-                  />
-                  <Input
-                    type="date"
-                    defaultValue={endDate}
-                    min={filter?.regDate?.regDateFrom}
-                   
-                    required={true}
-                    margin={{ laptop: "0 0 0 15px" }}
-                    IconStart={<WrapDate>{t("to")}</WrapDate>}
-                    inputStyle={{
-                      inpadding: "0 10px 0 0",
-                    }}
-                    value={filter?.regDate?.regDateTo}
-                    onChange={(e) =>
-                      setFilter((prev: any) => ({
-                        ...prev,
-                        regDate: {
-                          ...prev["regDate"],
-                          regDateTo: e.target.value,
-                        },
-                      }))
-                    }
-                  />
-                </div>
-              </WrapInputs>:
-              <WrapInputs>
-              <Label>{t("chose_date")}</Label>
-              <div>
-                <Input
-                  type="date"
-                  width={{
-                    maxwidth: 180,
-                    minwidth:130,
-                  }}
-                  min={todayDate}
-                  required={true}
-                  IconStart={<WrapDate>{t("from")}</WrapDate>}
-                  inputStyle={{
-                    inpadding: "0 10px 0 0",
-                  }}
-                  defaultValue={startDate}
-                  value={filter?.regDate?.regDateFrom}
-                  onChange={(e) =>
-                    setFilter((prev: any) => ({
-                      ...prev,
-                      regDate: {
-                        ...prev["regDate"],
-                        regDateFrom: e.target.value,
-                      },
-                    }))
-                  }
-                />
-                <Input
-                  type="date"
-                  defaultValue={endDate}
-                  min={filter?.regDate?.regDateFrom}
-                  width={{
-                    maxwidth: 180,
-                    minwidth:130,
-                  }}
-                  required={true}
-                  margin={{ laptop: "0 0 0 15px" }}
-                  IconStart={<WrapDate>{t("to")}</WrapDate>}
-                  inputStyle={{
-                    inpadding: "0 10px 0 0",
-                  }}
-                  value={filter?.regDate?.regDateTo}
-                  onChange={(e) =>
-                    setFilter((prev: any) => ({
-                      ...prev,
-                      regDate: {
-                        ...prev["regDate"],
-                        regDateTo: e.target.value,
-                      },
-                    }))
-                  }
-                />
-              </div>
-            </WrapInputs>}
-              
+              {width > 600 ?   <WrapInputs>
+                  <Label>{t("chose_date")}</Label>
+                  <div>
+                    <Controller
+                      name="startDate"
+                      control={control}
+                      rules={{
+                        required: true,
+                      }}
+                      defaultValue={startDate}
+                      render={({ field }) => (
+                        <Input
+                          field={field}
+                          type="date"
+                        
+                          min={todayDate}
+                          defaultValue={startDate}
+                          error={!!errors.startDate}
+                          IconStart={<WrapDate>{t("from")}</WrapDate>}
+                          inputStyle={{
+                            inpadding: "0 10px 0 0",
+                          }}
+                        />
+                      )}
+                    />
+                    <Controller
+                      name="endDate"
+                      control={control}
+                      rules={{
+                        required: true,
+                      }}
+                      defaultValue={endDate}
+                      render={({ field }) => (
+                        <Input
+                          type="date"
+                          field={field}
+                          error={!!errors.endDate}
+                          defaultValue={endDate}
+                          min={watch("startDate")}
+                         
+                          // required={true}
+                          margin={{ laptop: "0 0 0 15px" }}
+                          IconStart={<WrapDate>{t("to")}</WrapDate>}
+                          inputStyle={{
+                            inpadding: "0 10px 0 0",
+                          }}
+                        />
+                      )}
+                    />
+                  </div>
+                </WrapInputs>:
+                 <WrapInputs>
+                 <Label>{t("chose_date")}</Label>
+                 <div >
+                 <CustomDatePicker
+             margin="0 15px 0 0"
+             isFilter
+             text={t("from")}
+             error={validation && !filter?.regDate?.regDateFrom ? true:false}
+             minDate={todayDate}
+             maxDate={filter?.regDate?.regDateTo}
+             onChange={(e) => {
+               let date = "" + e.year + "-" + e.month.number + "-" + e.day;
+               setFilter((prev: any) => ({
+                 ...prev, regDate: {
+                   ...prev["regDate"],
+                   regDateFrom: date
+                 }
+               }))
+             }}
+             value={filter?.regDate?.regDateFrom} />
+
+           <CustomDatePicker
+             isFilter
+             error={validation && !filter?.regDate?.regDateTo ? true:false}
+             text={t("to")}
+             minDate={filter?.regDate?.regDateFrom}
+             onChange={(e) => {
+               let date = "" + e.year + "-" + e.month.number + "-" + e.day;
+               setFilter((prev: any) => ({
+                 ...prev, regDate: {
+                   ...prev["regDate"],
+                   regDateTo: date
+                 }
+               }))
+             }}
+             value={filter?.regDate?.regDateTo} />
+             </div>
+               </WrapInputs>
+            }
               <WrapSelect>
                 <Controller
                   name="gender"
@@ -513,9 +514,7 @@ console.log('filteredArray',filteredArray)
               <Controller
                 name="ageLimit"
                 control={control}
-                // rules={{
-                //   required: true,
-                // }}
+           
                 defaultValue={newsById?.data?.ageFrom}
                 render={({ field }) => (
                   <InputFormat
@@ -557,19 +556,22 @@ console.log('filteredArray',filteredArray)
                         label="Текст Push-уведомления"
                         type="textarea"
                         multiline={true}
+                        maxLength={100}
+                        
                         defaultValue={newsById?.data?.pushUpTitle}
                         inputStyle={{
                           height: { desktop: 120, laptop: 90, mobile:120 },
                         }}
-                        IconEnd={width>600 &&
-                          <WrapArea>
-                            <TextAreaIcon />
-                          </WrapArea>
-                        }
+                        // IconEnd={width>600 &&
+                        //   <WrapArea>
+                        //     <TextAreaIcon />
+                        //   </WrapArea>
+                        // }
                       />
                     )}
                   />
                 )}
+             
               </PushWrapper>
               <PushWrapper>
                 {optionalFields.push && (
@@ -580,6 +582,7 @@ console.log('filteredArray',filteredArray)
                     render={({ field }) => (
                       <MultiSelect
                         field={field}
+                        isClearable={false}
                         isMulti={true}
                         options={days}
                         label="Укажите дни"
@@ -632,7 +635,7 @@ console.log('filteredArray',filteredArray)
                 <CheckBox
                   checked={checked}
                   name={"checked"}
-                  label={"Круглосуточна"}
+                  label={"Круглосуточно"}
                   onChange={(e: any) => setChecked(e)}
                 />
               )}
@@ -674,7 +677,7 @@ console.log('filteredArray',filteredArray)
             </RightSide>
           </Container>
         </UpSide>
-        <DownSide>
+        {width>600 &&  <DownSide>
           <Button
             onClick={handleBack}
             startIcon={<CancelIcon />}
@@ -691,7 +694,37 @@ console.log('filteredArray',filteredArray)
           >
             Сохранить
           </Button>
-        </DownSide>
+        </DownSide>}
+       
+        {width <=600 && 
+                <Buttons>
+                  <div className="upside">
+                    <Button
+                      onClick={handleBack}
+                      endIcon={<MobileCancelIcon />}
+                      buttonStyle={{
+                        bgcolor: "rgba(96, 110, 234, 0.1)",
+                        color: "#606EEA",
+                      }}
+                      margin={{ mobile: "0 8px 8px 0" }}
+                    >
+                      {t("cancel")}
+                    </Button>
+                  </div>
+                  <Button
+                    onClick={() => setValidation(true)}
+                    type="submit"
+                    endIcon={<SaveIconMobile />}
+                    buttonStyle={{
+                      bgcolor: "#606EEA",
+                      color: "#fff",
+                      shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
+                    }}
+                    margin={{ mobile: "0px 8px  8px  0" }}
+                  >
+                    {"Сохранить"}
+                  </Button>
+                </Buttons>}
       </Form>
     </Wrapper>
   );

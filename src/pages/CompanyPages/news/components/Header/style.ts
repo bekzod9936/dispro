@@ -9,6 +9,14 @@ export const WrapInputs = styled.div`
   }
  
 `;
+export const WrapInputsMobile=styled.div`
+position: relative;
+  display: flex;
+  flex-direction: column;
+  & > div {
+    display: flex;
+  }
+`
 export const Container = styled.div`
     width: 100%;
     height: 100%;
@@ -63,7 +71,7 @@ export const WrapDate = styled.div`
   padding-left: 15px;
   @media (max-width: ${device.mobile}) {
     font-size: 14px;
-    padding-left: 8px;
+
   }
   @media (max-width: 360px) {
      display:none;

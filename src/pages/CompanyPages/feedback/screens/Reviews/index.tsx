@@ -3,7 +3,6 @@ import Input from 'components/Custom/Input';
 import { useState } from 'react';
 import { useAppSelector } from 'services/redux/hooks';
 import { useTranslation } from 'react-i18next';
-import Pagination from 'components/Custom/Pagination';
 import { formatPagination } from '../../utils';
 import feedDef from 'assets/images/feedback.png';
 import User from '../../components/User';
@@ -22,7 +21,8 @@ import {
   NoResult,
   Container,
 } from './style';
-
+import useWindowWidth from 'services/hooks/useWindowWidth';
+import Stars from '../../components/Stars';
 interface intialFilterProps {
   page?: number;
   cashierStaffId?: number | string;
@@ -32,6 +32,7 @@ interface intialFilterProps {
 
 const Reviews = () => {
   const { t } = useTranslation();
+  const { width } = useWindowWidth();
 
   const intialFilter = {
     page: 1,
@@ -80,19 +81,19 @@ const Reviews = () => {
           inputStyle={{
             border: 'none',
             shadow: '0px 4px 4px rgba(0, 0, 0, 0.04)',
-            outpadding: '0 0 0 25px',
-            inpadding: '0 20px 0 10px',
+            outpadding: width > 600 ? '0 0 0 25px' : '0 0 0 10px',
+            inpadding: width > 600 ? '0 20px 0 10px' : '0 10px 0 0',
             height: {
               desktop: 50,
               laptop: 45,
               planshet: 40,
-              mobile: 40,
+              mobile: 36,
             },
           }}
           type='search'
           onChange={handleSearch}
           width={{ maxwidth: 280 }}
-          margin={{ laptop: '0 20px 0 0' }}
+          margin={{ laptop: '0 20px 0 0', mobile: '0 10px 0 0' }}
           placeholder={t('searchbyclients')}
           onFocus={() => setSearchFocus(true)}
           onBlur={() => (inpuSearch === '' ? setSearchFocus(false) : null)}
@@ -103,44 +104,48 @@ const Reviews = () => {
           filterValues={filterValues}
         />
       </FilterWarp>
+
       {resClients.isLoading || resClients.isFetching ? (
         <Spinner />
-      ) : clients?.length === 0 ? (
+      ) : clients.length === 0 ? (
         <WrapDefPhoto>
           <Img src={feedDef} alt='feedback' />
-          {t('feeddef')}
+          <span>{t('feeddef')}</span>
         </WrapDefPhoto>
       ) : (
-        <Content>
-          <WrapDef>
-            {!searchFocus || inpuSearch === '' ? (
-              clients?.map((v: any) => <User value={v} />)
-            ) : searchRes?.length === 0 ? (
-              <NoResult>{t('noresult')}</NoResult>
-            ) : (
-              searchRes?.map((v: any) => <User value={v} />)
-            )}
-          </WrapDef>
-          {clients.length > 0 ? (
-            <WrapPag>
-              <Info>
-                {t('shown')}
-                <span>{between}</span>
-                {t('from1')} <span>{totalCount}</span>
-                {formatPagination({
-                  count: totalCount,
-                  firstWord: t('review1'),
-                  secondWord: t('review23'),
-                })}
-              </Info>
-              <NewPagination
-                onChange={handleChangePage}
-                currentPage={Number(filterValues.page)}
-                totalCount={Math.ceil(totalCount / intialFilter?.perPage)}
-              />
-            </WrapPag>
-          ) : null}
-        </Content>
+        <>
+          {width > 600 ? null : <Stars />}
+          <Content>
+            <WrapDef>
+              {!searchFocus || inpuSearch === '' ? (
+                clients?.map((v: any) => <User value={v} />)
+              ) : searchRes?.length === 0 ? (
+                <NoResult>{t('noresult')}</NoResult>
+              ) : (
+                searchRes?.map((v: any) => <User value={v} />)
+              )}
+            </WrapDef>
+            {clients.length > 0 ? (
+              <WrapPag>
+                <Info>
+                  {t('shown')}
+                  <span>{between}</span>
+                  {t('from1')} <span>{totalCount}</span>
+                  {formatPagination({
+                    count: totalCount,
+                    firstWord: t('review1'),
+                    secondWord: t('review23'),
+                  })}
+                </Info>
+                <NewPagination
+                  onChange={handleChangePage}
+                  currentPage={Number(filterValues.page)}
+                  totalCount={Math.ceil(totalCount / intialFilter?.perPage)}
+                />
+              </WrapPag>
+            ) : null}
+          </Content>
+        </>
       )}
     </Container>
   );

@@ -8,7 +8,6 @@ import { ReactComponent as VK } from 'assets/icons/IconsInfo/vk.svg';
 import { ReactComponent as WhatsApp } from 'assets/icons/IconsInfo/whatsapp.svg';
 import { ReactComponent as Viber } from 'assets/icons/IconsInfo/viber.svg';
 import { ReactComponent as Arrow } from 'assets/icons/IconsInfo/arrowright.svg';
-import { ReactComponent as TextArea } from 'assets/icons/IconsInfo/textarea.svg';
 import { ReactComponent as Trash } from 'assets/icons/IconsInfo/trash.svg';
 import { ReactComponent as PhotoLoading } from 'assets/icons/IconsInfo/photoloading.svg';
 import { ReactComponent as Delete } from 'assets/icons/IconsInfo/delete.svg';
@@ -145,25 +144,7 @@ export const WrapTrash = styled.div`
 
 export const ArrowIcon = styled(Arrow)``;
 
-export const TextAreaIcon = styled(TextArea)``;
-
 export const WrapLoading = styled.div``;
-
-export const WrapArea = styled.div`
-  display: flex;
-  flex: 1;
-  align-items: flex-end;
-  margin: 65px 10px 0 0;
-  @media (max-width: ${device.mobile}) {
-    margin: 55px 5px 0 0;
-  }
-  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
-    margin: 30px 10px 0 0;
-  }
-  @media (min-width: ${device.laptop}) {
-    margin: 90px 10px 0 0;
-  }
-`;
 
 export const WrapArrow = styled.div`
   background-color: ${({ bgcolor }: Props) =>
@@ -309,11 +290,21 @@ export const WrapCurrency = styled.div`
     display: flex;
     align-items: center;
     padding-left: 25px;
-    @media (max-width: ${device.mobile}) {
+  }
+  @media (max-width: ${device.mobile}) {
+    div {
       height: 45px;
+      font-size: 15px;
     }
 
-    @media (min-width: ${device.laptop}) {
+    span {
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+  }
+
+  @media (min-width: ${device.laptop}) {
+    div {
       height: 60px;
     }
   }

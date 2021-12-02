@@ -33,9 +33,9 @@ const MenuList = () => {
   return (
     <WrapList>
       <List>
-        {sidebar.map(({ Icon, text, path, permission }: any) => {
+        {sidebar?.current?.map(({ Icon, text, path, permission }: any) => {
           let currentpath = path.split("/");
-          console.log(permission, "permission");
+
           if (
             permission?.includes(2) ||
             permission.includes(1) ||

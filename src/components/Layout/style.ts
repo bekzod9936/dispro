@@ -113,6 +113,14 @@ export const LogoIcon = styled.img`
   min-height: 33px;
   max-width: 60px;
   max-height: 33px;
+  @media (max-width: ${device.planshet}) {
+    width: 45px;
+    height: 25px;
+    min-width: 45px;
+    min-height: 25px;
+    max-width: 45px;
+    max-height: 25px;
+  }
 `;
 
 export const Title = styled.div`
@@ -246,7 +254,7 @@ export const DesktopDrawer = styled(Drawer)`
     justify-content: space-between;
     margin: 0 15px 0 20px;
   }
-  @media (max-width: ${device.mobile}) {
+  @media (max-width: ${device.planshet}) {
     display: none;
   }
 `;
@@ -267,7 +275,7 @@ export const MobileDrawer = styled(SwipeableDrawer)`
       display: none;
     }
   }
-  @media (min-width: ${device.mobile}) {
+  @media (min-width: ${device.planshet}) {
     display: none;
   }
   & > div > div {
@@ -321,7 +329,7 @@ export const Wrarning = styled.div`
     text-align: center;
     box-shadow: none;
     flex-direction: column;
-    margin-top: 20px;
+    padding: 20px 0 0;
   }
 `;
 

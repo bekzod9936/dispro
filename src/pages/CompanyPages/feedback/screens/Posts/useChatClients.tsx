@@ -1,36 +1,19 @@
-import { useState, useRef } from 'react';
-import { useMutation, useQuery } from 'react-query';
-import { USER_TYPES } from 'services/constants/chat';
-import {
-  fetchChatClients,
-  fetchChatClientHistory,
-  deleteChat,
-} from 'services/queries/feedbackQuery';
+import { useRef } from 'react';
+import { useQuery } from 'react-query';
+import { fetchChatClients } from 'services/queries/feedbackQuery';
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import {
-  setChatClientHistory,
+  setChosenListUser,
   setMessagesFeedBack,
-  setTotalHistory,
 } from 'services/redux/Slices/feedback';
-
-interface ChProps {
-  date?: string;
-  firstName?: string;
-  id?: number;
-  image?: string;
-  isDeleted?: boolean;
-  lastMsg?: string;
-  lastName?: string;
-  genderTypeId?: number;
-  obtainProgramLoyalty?: { levelName?: string; percent?: number };
-}
 
 const useChatClients = () => {
   const dispatch = useAppDispatch();
   const messagesStartRef = useRef<HTMLDivElement>(null);
 
-  const [chosen, setChosen] = useState<ChProps>({});
-  const [isChoose, setIsChoose] = useState<boolean>(false);
+  const choseListUser: any = useAppSelector(
+    (state) => state.feedbackPost.chosenListUser
+  );
 
   const scrollToTop = () => {
     messagesStartRef?.current?.scrollIntoView({
@@ -39,10 +22,16 @@ const useChatClients = () => {
     });
   };
 
-  const handleChoose = async (v: ChProps) => {
-    await setChosen(v);
-    await setIsChoose(true);
-    await resChatClientHistory.refetch();
+  const handleChoose = async (v: any) => {
+    await dispatch(
+      setChosenListUser({
+        ...choseListUser,
+        chosen: v,
+        isChoose: true,
+        fetchHistory: true,
+      })
+    );
+
     await scrollToTop();
   };
 
@@ -91,12 +80,22 @@ const useChatClients = () => {
             genderTypeId: chosenClient?.data?.clientGenderTypeId,
             obtainProgramLoyalty: chosenClient?.data?.obtainProgramLoyalty,
           });
+          dispatch(
+            setChosenListUser({
+              ...choseListUser,
+              isChoose: chosenClient?.choose,
+            })
+          );
 
-          setIsChoose(chosenClient?.choose);
           scrollToTop();
         } else {
           dispatch(setMessagesFeedBack(data.data.data));
-          setIsChoose(true);
+          dispatch(
+            setChosenListUser({
+              ...choseListUser,
+              isChoose: true,
+            })
+          );
           handleChoose(newArr[0]);
           scrollToTop();
         }
@@ -106,38 +105,9 @@ const useChatClients = () => {
     },
   });
 
-  const resChatClientHistory = useQuery(
-    'getClientChatHistory',
-    () => {
-      return fetchChatClientHistory({
-        url: `withUserType=${USER_TYPES.CUSTOMER}&withId=${chosen?.id}&page=1&perPage=22`,
-      });
-    },
-    {
-      keepPreviousData: true,
-      refetchOnWindowFocus: false,
-      retry: 0,
-      enabled: false,
-      onSuccess: (data) => {
-        dispatch(setChatClientHistory(data.data.data.histories));
-        dispatch(setTotalHistory(data.data.data.totalCount));
-      },
-    }
-  );
-
-  const deleteRes = useMutation((data) => {
-    return deleteChat({ data });
-  });
-
   return {
     resChatClients,
-    resChatClientHistory,
-    deleteRes,
     handleChoose,
-    chosen,
-    setChosen,
-    isChoose,
-    setIsChoose,
     scrollToTop,
     messagesStartRef,
   };

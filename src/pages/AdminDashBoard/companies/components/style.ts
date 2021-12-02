@@ -95,7 +95,15 @@ export const Thead = styled.thead`
   }
 `;
 
-export const Tr = styled.tr``;
+export interface ITRow {
+  background?: boolean | number;
+  checked?: boolean;
+}
+
+export const Tr = styled.tr`
+  background-color: ${({ checked }: ITRow) =>
+    checked ? "rgba(96, 110, 234, 0.3) !important" : "transparent"};
+`;
 
 export const Th = styled.th`
   padding: 0 10px;

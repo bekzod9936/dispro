@@ -16,11 +16,12 @@ import {
   setCurrentCoupon,
 } from 'services/redux/Slices/proposals/proposals';
 import { EmptyPage } from '../Drafts/components/EmptyPage';
-import { Container, SearchBar } from '../Drafts/style';
+import { Container, SearchBar, SearchIconWrapper } from '../Drafts/style';
 import useWindowWidth from 'services/hooks/useWindowWidth';
 import { CouponList } from '../../components/CouponList';
 import FullModal from 'components/Custom/FullModal';
 import { FullSideBar } from '../../components/FullSideBar';
+import { TabletCard } from '../../components/TabletCard';
 
 const OnSale = () => {
   const { onSale, currentCoupon } = useAppSelector(
@@ -46,10 +47,33 @@ const OnSale = () => {
     dispatch(resetCurrentCoupon());
   }, []);
   const coupons = () => {
-    if (width > 600) {
+    if (width <= 1000 && width > 600) {
+      return onSale.map((el: IDeferred) => (
+        <TabletCard
+          startDate={el.startDate}
+          endDate={el.endDate}
+          isSelected={currentCoupon.id === el.id}
+          onClick={() => handleOpen(el.id)}
+          key={el.id}
+          image={el.image}
+          title={el.title}
+          ageFrom={el.ageFrom}
+          type={el.type}
+          categoryIds={el.categoryIds}
+          description={el.description}
+          price={el.price}
+          value={el.value}
+          count={el.count}
+          stats={el.stat}
+
+        />
+      ));
+    }
+    else if (width > 600) {
       return onSale.map((el: IDeferred) => (
         <CouponCard
           startDate={el.startDate}
+          stats={el.stat}
           endDate={el.endDate}
           isSelected={currentCoupon.id === el.id}
           onClick={() => handleOpen(el.id)}
@@ -95,11 +119,9 @@ const OnSale = () => {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           IconStart={
-            <SearchIcon
-              style={
-                width > 600 ? { marginLeft: '35px' } : { marginLeft: '15px' }
-              }
-            />
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
           }
           placeholder='Поиск...'
           margin={{ laptop: '0 0 20px 0' }}
@@ -107,9 +129,8 @@ const OnSale = () => {
           width={{ maxwidth: 500, width: '100%' }}
         />
       </SearchBar>
-      <Container>
-        {isFetching ? <Spinner /> : onSale.length !== 0 && coupons()}
-        {!onSale.length && <EmptyPage />}
+      <Container isFullScreen={isFetching || onSale.length === 0}>
+        {isFetching ? <Spinner /> : onSale.length === 0 ? <EmptyPage /> : coupons()}
       </Container>
     </Wrapper>
   );

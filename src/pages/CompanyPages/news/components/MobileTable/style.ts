@@ -86,6 +86,7 @@ export const BoxInfo = styled.div`
   font-size: 14px;
   padding-right:20px;
   color: #223367;
+  
 `;
 export const Buttons = styled.div`
 	display: flex;
@@ -96,7 +97,8 @@ export const Buttons = styled.div`
 export const BoxinfoDetail=styled.div`
 font-weight:300;
 font-size:14px;
-color:'#223367';
+
+color: #223367;
 padding:5px 0px;
 `;
 interface MProps {

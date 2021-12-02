@@ -12,6 +12,8 @@ import i18n from './services/localization/i18n';
 import { BrowserRouter } from 'react-router-dom';
 import { createTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import 'emoji-mart/css/emoji-mart.css';
+import { ErrorBoundary } from 'react-error-boundary';
+import { ErrorFallback } from 'pages/Fallbacks/ErrorFallback';
 
 const queryClient = new QueryClient();
 
@@ -43,7 +45,9 @@ ReactDOM.render(
 						<Provider store={store}>
 							<QueryClientProvider client={queryClient}>
 								<BrowserRouter>
-									<App />
+									<ErrorBoundary FallbackComponent={ErrorFallback}>
+										<App />
+									</ErrorBoundary>
 								</BrowserRouter>
 							</QueryClientProvider>
 						</Provider>

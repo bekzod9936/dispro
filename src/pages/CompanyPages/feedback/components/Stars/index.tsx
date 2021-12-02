@@ -33,7 +33,15 @@ const Stars = () => {
                   ))}
               </WrapIconStart>
               <WrapStartT>
-                <RateText>
+                <RateText
+                  colort={
+                    ratings?.length
+                      ? ratings[i]?.percentage
+                        ? true
+                        : false
+                      : null
+                  }
+                >
                   &middot;
                   {ratings?.length
                     ? ratings[i]?.percentage
@@ -41,14 +49,32 @@ const Stars = () => {
                       : '0%'
                     : null}
                 </RateText>
-                <RateText>
+                <RateText
+                  colort={
+                    ratings?.length
+                      ? ratings[i]?.percentage
+                        ? true
+                        : false
+                      : null
+                  }
+                >
                   {ratings?.length
                     ? ratings[i]?.amount
                       ? `${ratings[i]?.amount} `
                       : '0 '
                     : null}
                 </RateText>
-                <RateText>{t('evaluations')}</RateText>
+                <RateText
+                  colort={
+                    ratings?.length
+                      ? ratings[i]?.percentage
+                        ? true
+                        : false
+                      : null
+                  }
+                >
+                  {t('evaluations')}
+                </RateText>
               </WrapStartT>
             </WrapStars>
           );

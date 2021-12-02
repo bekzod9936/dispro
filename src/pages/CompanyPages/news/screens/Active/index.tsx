@@ -5,6 +5,7 @@ import { AddIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
 import Spinner from "components/Custom/Spinner";
 import Table from "../../components/Table";
 import { Flex } from "../../style";
+import NavBar from "components/Custom/NavBar";
 import { SearchIcon } from "components/Layout/Header/style";
 import MobileTable from "../../components/MobileTable";
 import NoNews from "../../components/NoNews";
@@ -17,9 +18,13 @@ import { SideBar } from "../../components/SideBar";
 import { useAppSelector, useAppDispatch } from "services/redux/hooks";
 import useData from "../useData";
 import useWindowWidth from 'services/hooks/useWindowWidth';
+import { countPagination } from '../../components/utils';
 import Button from "components/Custom/Button";
 import { LimitNews  } from "../../components/LimitNews";
 import { FilterNews } from "../../components/FilterNews";
+import {LaptopFilterNews} from "../../components/LaptopFilterNews";
+import {MobileFilterNews} from "../../components/MobileFilterNews";
+import { LeftHeader, WrapMobile,WrapHeader } from "./style";
 import {
   Container,
   Wrap,
@@ -28,9 +33,10 @@ import {
   WrapSpinner,
 
 } from "./style";
-
+import useNewsRoute from "../../routes";
 import useActive from "./useActive";
 import Pagination from "components/Custom/Pagination";
+
 
 
 interface intialFilterProps {
@@ -51,10 +57,11 @@ const Active = () => {
   const query = useAppSelector((state) => state.news.query);
   const errormessage=useAppSelector((state)=>state.news.errorMessage)
  
-  
+  const { newsPath } = useNewsRoute();
   const totalNewsCount = useAppSelector(
     (state) => state.news.NewsInfo.totalCountNews
   );
+  console.log('totalNewsCount',totalNewsCount)
   const selectedNews = useAppSelector((state) => state.news.selectedNews);
   console.log("selectedNews", selectedNews);
   const { t } = useTranslation();
@@ -126,9 +133,10 @@ const Active = () => {
     <Container>
       <LimitNews errormessage={errormessage}  linkToComment={LinkComment} CancelError={ResetError} />
       {width>600 && <FilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} filterByDate={filterByDate}/>}
+      
       {width>600 ? 
       <Wrap>
-        { response.isFetching ? (
+        {response.isLoading || response.isFetching ? (
           <WrapSpinner><Spinner/></WrapSpinner>
 
         ) : (
@@ -148,7 +156,12 @@ const Active = () => {
                 <Info>
                   {t("shown")}
                   <span>{between}</span>
-                  {t("from1")} <span>{totalNewsCount}</span> {t("новостей")}
+                  {t("from1")} <span>{totalNewsCount}</span> 
+                  {countPagination({
+                count: Number(totalNewsCount),
+                firstWord: t('новости '),
+                secondWord: t('новостей'),
+              })}
                 </Info>
                 <Pagination
                   page={filterValues.page}
@@ -163,10 +176,9 @@ const Active = () => {
         )}
       </Wrap>:
       <Wrap>
-        
+         <MobileFilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} filterByDate={filterByDate}/> 
           {response.isLoading || response.isFetching ? (
           <WrapSpinner><Spinner/></WrapSpinner>
-
         )
          : 
          (
@@ -186,7 +198,12 @@ const Active = () => {
                 <Info>
                   {t("shown")}
                   <span>{between}</span>
-                  {t("from1")} <span>{totalNewsCount}</span> {t("новостей")}
+                  {t("from1")} <span>{totalNewsCount}</span>
+                  {countPagination({
+             count: Number(totalNewsCount),
+                firstWord: t('новости '),
+                secondWord: t('новостей'),
+              })}
                 </Info>
                 <Pagination
                   page={filterValues.page}

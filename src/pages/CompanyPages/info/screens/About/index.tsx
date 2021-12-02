@@ -16,6 +16,7 @@ import { inputPhoneNumber } from 'utilities/inputFormat';
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import SaveButton from '../../components/Buttons/SaveButton';
 import ExitButton from '../../components/Buttons/ExitButton';
+import LogoDef from 'assets/icons/SideBar/logodefault.png';
 import {
   Container,
   UpSide,
@@ -25,8 +26,6 @@ import {
   WrapCurrency,
   ArrowIcon,
   WrapArrow,
-  TextAreaIcon,
-  WrapArea,
   PhotoLoadingIcon,
   TrashIcon,
   WrapLoading,
@@ -46,6 +45,7 @@ import {
   WrapPhoto,
 } from './style';
 import { setExitModal } from 'services/redux/Slices/info/info';
+import { TextArea } from 'components/Custom/TextArea';
 
 interface FormProps {
   telNumber?: string;
@@ -406,6 +406,10 @@ const Main = () => {
                             borderRadius: '14px',
                           }}
                           effect='blur'
+                          onError={(e: any) => {
+                            e.target.onerror = null;
+                            e.target.src = LogoDef;
+                          }}
                         />
                         <WrapTrash>
                           <TrashIcon />
@@ -463,24 +467,14 @@ const Main = () => {
               control={control}
               rules={{ required: true }}
               render={({ field }) => (
-                <Input
-                  label={t('description')}
-                  error={errors.description ? true : false}
+                <TextArea
+                  {...field}
                   message={t('requiredField')}
-                  type='textarea'
-                  field={field}
-                  margin={{
-                    laptop: '20px 0 25px',
-                  }}
-                  multiline={true}
-                  inputStyle={{
-                    height: { mobile: 70, laptop: 90, desktop: 120 },
-                  }}
-                  IconEnd={
-                    <WrapArea>
-                      <TextAreaIcon />
-                    </WrapArea>
-                  }
+                  error={errors.description ? true : false}
+                  minHeight={'120px'}
+                  maxHeight={'300px'}
+                  resize={'vertical'}
+                  title={t('description')}
                 />
               )}
             />

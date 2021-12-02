@@ -40,6 +40,7 @@ const useArchive = ({filterValues}:PProps) => {
     keepPreviousData: true,
     refetchOnWindowFocus: false,
     retry: 0,
+    
     onSuccess: (data) => {
       console.log("data", data.data.data);
       dispatch(
@@ -53,8 +54,8 @@ const useArchive = ({filterValues}:PProps) => {
       );
       dispatch(setNewsTotal(Math.ceil(data.data.data.totalCount/ filterValues?.perPage)))
       dispatch(setNewsTotalCount(data.data.data.totalCount))
-      // let res=handleSort(data.data.data.news)
-      dispatch(setNewsData(data.data.data.news))
+      let res=handleSort(data.data.data.news)
+      dispatch(setNewsData(res))
   
     },
   });

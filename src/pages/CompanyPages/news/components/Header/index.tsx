@@ -1,22 +1,15 @@
 import React, {useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { AddIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
 
-import { SearchIcon } from "components/Layout/Header/style";
-import Button from "components/Custom/Button";
-import Input from "components/Custom/Input";
-import { Flex } from "../../style";
-import {Container,MobileFlex,TopMobile} from './style';
+import {Container} from './style';
 import { useTranslation } from "react-i18next";
 import { IProps } from "./types";
 import { useAppSelector, useAppDispatch } from "services/redux/hooks";
-import DatePcker from "components/Custom/DatePicker";
-import { setQuery, setSelectedNews,setToDate,setFromDate } from "services/redux/Slices/news";
-// import FilterActiveNews from './Components/FilterActivePeriod';
-// import FilterArchiveNews from './Components/FilterArchivePeriod';
+
+import { setQuery, setSelectedNews} from "services/redux/Slices/news";
+
 import useWindowWidth from "services/hooks/useWindowWidth";
-import useActive from "../../screens/Active/useActive";
-import useArchive from "../../screens/Archive/useArchive";
+
 const Header = ({ handleOpenNews }: IProps) => {
   const location = useLocation();
   const dispatch = useAppDispatch();
@@ -34,19 +27,27 @@ const Header = ({ handleOpenNews }: IProps) => {
     toDate: '',
   };
 
+  useEffect(()=>{
+    if (location.pathname !== "/news/active") {
+    dispatch(setQuery(""));
+    }
+    if (location.pathname !== "/news/waiting") {
+      dispatch(setQuery(""));
+      }
+      if (location.pathname !== "/news/archive") {
+        dispatch(setQuery(""));
+        }
+  },[])
 
   useEffect(() => {
     if (location.pathname !== "/news") {
       dispatch(setSelectedNews([]));
-
     }
   }, [dispatch(setSelectedNews([]))]);
   const { t } = useTranslation();
   const { width } = useWindowWidth();
   return (
     <Container>
-   
-    
     </Container>
   );
 };

@@ -7,7 +7,7 @@ import Input from "components/Custom/Input"
 import { useAppSelector, } from 'services/redux/hooks'
 import { useState } from "react"
 import Button from 'components/Custom/Button'
-import { useMutation } from 'react-query'
+import { useMutation, useQueryClient } from 'react-query'
 import { blockClient, changeVipPercent } from 'services/queries/clientsQuery'
 import { ResetModal } from '../ResetModal'
 interface IProps {
@@ -74,8 +74,16 @@ export const MobileForm = ({ open, action, onClose, client, refetch }: IProps) =
     const [resetModal, setResetModal] = useState(false)
     const { t } = useTranslation()
     const content = formContents[action]
+    const queryClient = useQueryClient()
 
-    const { mutate, isLoading } = useMutation((data: any) => changeVipPercent(data))
+    const { mutate, isLoading } = useMutation((data: any) => changeVipPercent(data), {
+        onSuccess: () => {
+            if (selectedClients.length > 5) {
+                queryClient.invalidateQueries("fetchAllClients")
+            }
+        }
+    })
+
     const { mutate: blockMutate } = useMutation((data: any) => blockClient(data))
 
     const handleSubmit = (e: any) => {
@@ -84,7 +92,7 @@ export const MobileForm = ({ open, action, onClose, client, refetch }: IProps) =
             let ids = selectedClients.map(el => el.id)
             if (selectedClients.length > 1) {
                 mutate({
-                    clientIds: [ids],
+                    clientIds: ids,
                     isActive: true,
                     percent: percent
                 })
@@ -156,7 +164,7 @@ export const MobileForm = ({ open, action, onClose, client, refetch }: IProps) =
                             <>
                                 <p className="label">{t("client")}</p>
                                 <span>{client.name}</span>
-                                {client.isBlocked ? <b>{t("blocked")}</b> : <b>{action <= 2 ? t("points") + ": " + client.points : t('status') + ": " + client.currentStatus + " " + client.percent + "%"}</b>}
+                                {client.isBlocked ? <b>{t("blocked")}</b> : <b>{action <= 2 ? t("points") + ": " + client.points : t('status') + ": " + (client.currentStatus === client.prevStatus ? client.currentStatus : "Спец") + " " + client.percent + "%"}</b>}
                             </>
                         }
                     </ClientInfo>

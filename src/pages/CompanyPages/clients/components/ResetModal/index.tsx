@@ -2,8 +2,9 @@ import { DoneIcon, RightArrowIcon, VioletCancelIcon } from "assets/icons/Clients
 import Button from "components/Custom/Button"
 import Modal from "components/Custom/Modal"
 import { useTranslation } from "react-i18next"
-import { useMutation } from "react-query"
+import { useMutation, useQueryClient } from "react-query"
 import { changeVipPercent } from "services/queries/clientsQuery"
+import { useAppSelector } from "services/redux/hooks"
 import { ResetModalWrapper } from "./style"
 
 interface IProps {
@@ -23,15 +24,32 @@ interface IProps {
 
 export const ResetModal = ({ open, client, onClose, refetch }: IProps) => {
     const { t } = useTranslation()
+    const { selectedClients } = useAppSelector(state => state.clients)
+    const queryClient = useQueryClient()
 
-    const { mutate } = useMutation((data: any) => changeVipPercent(data))
+    const { mutate } = useMutation((data: any) => changeVipPercent(data), {
+        onSuccess: () => {
+            if (selectedClients.length > 5) {
+                queryClient.invalidateQueries("fetchAllClients")
+            }
+        }
+    })
 
     const handleRemoveStatus = async () => {
-        await mutate({
-            clientIds: [client.id],
-            isActive: false,
-            percent: 0
-        })
+        if (selectedClients.length > 1) {
+            let ids = selectedClients.map(el => el.id)
+            mutate({
+                clientIds: ids,
+                isActive: false,
+                percent: 0
+            })
+        } else {
+            await mutate({
+                clientIds: [client.id],
+                isActive: false,
+                percent: 0
+            })
+        }
         onClose()
         refetch()
     }
@@ -46,10 +64,10 @@ export const ResetModal = ({ open, client, onClose, refetch }: IProps) => {
                 </div>
                 <div className="main">
                     <p>{t("currentStatus")}</p>
-                    <span>{client.status}{" "}{client.percent}%</span>
+                    <span>{selectedClients.length > 1 ? "Специальный" : "Спец"}{" "}{!(selectedClients.length > 1) && client.percent + "%"}</span>
                     <RightArrowIcon />
                     <p>{t("standartStatus")}</p>
-                    <span>{client.prevStatus}{" "}{client.prevPercent}%</span>
+                    <span>{selectedClients.length > 1 ? "Стандартный" : client.prevStatus}{" "}{!(selectedClients.length > 1) && client.prevPercent + "%"}</span>
                 </div>
                 <div className="footer">
                     <Button

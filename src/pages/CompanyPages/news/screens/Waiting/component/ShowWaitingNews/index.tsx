@@ -79,17 +79,16 @@ const ShowWaitingNews = () => {
       </div>
       <Wrapper>
         <Preview>
-          <img className="couponImg" src={newsById?.data?.image} alt="" />
+          <img style={{objectFit:'fill'}} className="couponImg" src={newsById?.data?.image} alt="" />
           <img className="iphoneImg" width="300" src={iphone} />
           <PreviewContent>
             <h5>
-              <span>
-                {newsById?.data?.title?.length > 50
-                  ? newsById?.data?.title?.slice(0, 50) + "..."
-                  : newsById?.data?.title}{" "}
+              <span style={{wordBreak: 'break-all' }}>
+                
+                  {newsById?.data?.title}
               </span>
             </h5>
-            <p style={{ paddingTop: "10px" }}>
+            <p style={{ paddingTop: "10px",wordBreak: 'break-all' }}>
               {newsById?.data?.description.length > 500
                 ? newsById?.data?.description?.slice(0, 500) + "..."
                 : newsById?.data?.description}

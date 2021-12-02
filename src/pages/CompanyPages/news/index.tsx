@@ -1,5 +1,4 @@
-import {useEffect} from "react"
-import { setSelectedNews } from "services/redux/Slices/news";
+
 import NavBar from "components/Custom/NavBar";
 import Title from "components/Custom/Title";
 import Spinner from "components/Custom/Spinner";
@@ -12,8 +11,7 @@ import useNewsRoute from "./routes";
 import Header from "./components/Header";
 import useWindowWidth from "services/hooks/useWindowWidth";
 import { MainWrapper, Flex, WrapHeader, LeftHeader, Wrap } from "./style";
-import {MobileFilterNews} from "./components/MobileFilterNews";
-import {WaitingFilterNews} from "./components/WaitingFilterNews";
+
 const News = () => {
   const { t } = useTranslation();
   const { menuItems, newsPath } = useNewsRoute();
@@ -30,19 +28,6 @@ const News = () => {
     dispatch(setQuery(""));
   };
 
-
-  const searchNews=(e:any)=>{
-    dispatch(setQuery(e.target.value));
-  }
-
-  const filterByDate=async (e:any)=>{
-  //   await setFilterValues({
-  //     ...filterValues,
-  //     fromDate: e.slice(0, e.indexOf(' ~')),
-  //     toDate: e.slice(e.indexOf('~ ') + 2),
-  //   });
-  // await response.refetch();
-  }
 
   return (
     <MainWrapper id="drawer-container">
@@ -79,25 +64,23 @@ const News = () => {
                 </div>
               ) : (
                 <div>
-                  <Title padding={{ mobile: "13px 15px 13px 15px" }}>
+                  <Title padding={{ mobile: "13px 15px 5px 15px" }}>
                     {t("News")}
                   </Title>
-                  { location.pathname === "/news/waiting" ? <WaitingFilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} />: <MobileFilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} filterByDate={filterByDate}/>}
-
                   <Header handleOpenNews={handleOpenNews} />
                   <WrapHeader>
                     <LeftHeader>
                       <>
                         <Flex
                           width="100%"
-                          height="60px"
+                          height="50px"
                           alignItems="flex-start"
                           margin="0"
                         >
                           <NavBar
                             list={newsPath}
-                            padding="0 15px 0 0"
-                            margin="10px 0"
+                            padding="0 10px 0 5px"
+                            margin="0px 0"
                           />
                         </Flex>
                       </>

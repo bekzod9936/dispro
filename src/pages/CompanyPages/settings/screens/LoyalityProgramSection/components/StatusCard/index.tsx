@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { numberWith } from "services/utils";
 //styles
@@ -13,7 +14,7 @@ import {
 //types
 import { IProps } from "./types";
 
-const StatusCard = ({ index, val }: IProps) => {
+const StatusCard = ({ val }: IProps) => {
   console.log(val, "val status card");
   const { t } = useTranslation();
 
@@ -28,12 +29,13 @@ const StatusCard = ({ index, val }: IProps) => {
       return "";
     }
   };
+
   return (
     <Container>
       <Row>
         <SubTitle>
           {t("requirementLevl", {
-            level: index + 1,
+            level: 1,
           })}
         </SubTitle>
       </Row>
@@ -41,19 +43,22 @@ const StatusCard = ({ index, val }: IProps) => {
       <LevelDiv>
         {val?.length &&
           val?.map((item: any, index: number) => {
-            return (
-              <LRow>
-                <LText>
-                  {handleItem(item.type)}
-                  {": "}
-                </LText>
-                <LValue>{numberWith(item.amount, " ")}</LValue>
-              </LRow>
-            );
+            if (item?.condition !== "or") {
+              return (
+                <LRow key={index}>
+                  <LText>
+                    {handleItem(item.type)}
+                    {": "}
+                  </LText>
+                  <LValue>{numberWith(item.amount, " ")}</LValue>
+                </LRow>
+              );
+            }
+            return null;
           })}
       </LevelDiv>
     </Container>
   );
 };
 
-export default StatusCard;
+export default memo(StatusCard);

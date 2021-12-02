@@ -8,6 +8,8 @@ export interface IMessage {
   lastName?: string;
   genderTypeId?: number;
   obtainProgramLoyalty?: { levelName?: string; percent?: number };
+  chatType?: number;
+  status?: number;
 }
 
 export interface ICashiers {
@@ -64,6 +66,21 @@ export interface IRating {
   upVal?: number;
 }
 
+export interface IChoose {
+  chosen?: IMessage;
+  isChoose?: boolean;
+  inntialHistory?: { page?: number; perPage?: number };
+  fetchHistory?: boolean;
+}
+
+export interface ITHistorySupport {
+  total?: number;
+  page?: number;
+  perPage?: number;
+  loading?: boolean;
+  hasMore?: boolean;
+}
+
 export interface IFeedBack {
   messages?: IMessage[];
   cashiers?: ICashiers[];
@@ -71,10 +88,11 @@ export interface IFeedBack {
   ratings?: IRatings[];
   histories?: IHistory[];
   supporthistories?: IHistory[];
-  totalHistory?: number;
-  totalSupportHistory?: number;
+  totalHistory?: ITHistorySupport;
+  totalSupportHistory?: ITHistorySupport;
   totalCount?: number;
   averageRating?: IRating;
   socket?: any;
   chosenClient?: IChose;
+  chosenListUser?: IChoose;
 }

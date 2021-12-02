@@ -1,11 +1,10 @@
 import styled from 'styled-components';
 import { device } from 'styles/device';
 import { ReactComponent as Search } from 'assets/icons/FeedBack/search.svg';
-import { ReactComponent as Dots } from 'assets/icons/FeedBack/dots.svg';
+
 import { ReactComponent as Script } from 'assets/icons/FeedBack/script.svg';
 import { ReactComponent as Smile } from 'assets/icons/FeedBack/smile.svg';
 import { ReactComponent as Send } from 'assets/icons/FeedBack/send.svg';
-import { ReactComponent as Down } from 'assets/icons/FeedBack/down.svg';
 
 interface Props {
   right?: boolean;
@@ -15,29 +14,22 @@ export const SearchIcon = styled(Search)`
   margin-right: 10px;
   width: 20px;
   height: 20px;
-`;
-
-export const DotsIcon = styled(Dots)`
-  margin: 10px;
-`;
-
-export const DotsWrap = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-`;
-
-export const DownIcon = styled(Down)`
-  width: 18px;
-  height: 18px;
-  @media (min-width: ${device.laptop}) {
-    width: 24px;
-    height: 24px;
+  @media (max-width: ${device.mobile}) {
+    width: 16px;
+    height: 16px;
+    margin-right: 0;
+    & path {
+      fill: #606eea;
+    }
   }
 `;
 
-export const ScriptIcon = styled(Script)``;
+export const ScriptIcon = styled(Script)`
+  @media (max-width: ${device.mobile}) {
+    width: 20px;
+    height: 20px;
+  }
+`;
 
 export const WrapScript = styled.div`
   margin: 0 30px;
@@ -45,36 +37,14 @@ export const WrapScript = styled.div`
 
 export const SmileIcon = styled(Smile)``;
 
-export const SendIcon = styled(Send)``;
-
-export const WrapDown = styled.div`
-  background: rgba(96, 110, 234, 0.45);
-  border-radius: 14px;
-  width: 50px;
-  height: 50px;
-  min-width: 50px;
-  min-height: 50px;
-  max-width: 50px;
-  max-height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  @media (min-width: ${device.laptop}) {
-    width: 60px;
-    height: 60px;
-    min-width: 60px;
-    min-height: 60px;
-    max-width: 60px;
-    max-height: 60px;
+export const SendIcon = styled(Send)`
+  @media (max-width: ${device.mobile}) {
+    width: 20px;
+    height: 20px;
+    & path {
+      fill: #606eea;
+    }
   }
-`;
-
-export const WrapDownIcon = styled.div`
-  position: absolute;
-  right: 20px;
-  bottom: 0;
-  z-index: 3;
 `;
 
 export const Container = styled.div`
@@ -91,11 +61,11 @@ export const Container = styled.div`
 export const LeftSide = styled.div`
   background-color: #abb2eb;
   border-radius: 14px 0 0 14px;
-  width: 25%;
+  width: 30%;
   display: flex;
   flex-direction: column;
   flex: 1;
-  min-width: 260px;
+  min-width: 300px;
 `;
 
 export const RightSide = styled.div`
@@ -163,6 +133,10 @@ export const WrapChatUsers = styled.div`
 
 export const WrapUserInfo = styled.div`
   display: flex;
+  @media (max-width: ${device.mobile}) {
+    flex: 1;
+    justify-content: space-between;
+  }
 `;
 
 export const UserName = styled.div`
@@ -173,14 +147,6 @@ export const UserName = styled.div`
     font-size: 18px;
   }
 `;
-export const Status = styled.div`
-  font-weight: normal;
-  font-size: 15px;
-  color: #8f8f8f;
-  @media (min-width: ${device.laptop}) {
-    font-size: 16px;
-  }
-`;
 
 export const WrapInfo = styled.div``;
 
@@ -189,6 +155,13 @@ export const Form = styled.form`
   border: 2px solid #c2c2c2;
   border-radius: 14px;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  @media (max-width: ${device.mobile}) {
+    border: none;
+    border-radius: 0;
+  }
 `;
 
 export const Body = styled.div`
@@ -232,34 +205,7 @@ export const WrapIcons = styled.div`
   justify-content: flex-end;
 `;
 
-export const ChatPlace = styled.div`
-  display: flex;
-  flex: 1;
-  overflow: hidden;
-  margin-bottom: 15px;
-  position: relative;
-`;
 
-export const Messages = styled.div`
-  overflow-y: auto;
-  width: 100%;
-  display: flex;
-  flex-direction: column-reverse;
-  overflow-x: hidden;
-  &::-webkit-scrollbar {
-    appearance: none;
-    display: none;
-  }
-  &::-webkit-scrollbar-thumb {
-    appearance: none;
-    display: none;
-  }
-
-  &::-webkit-scrollbar-track {
-    appearance: none;
-    display: none;
-  }
-`;
 
 export const Img = styled.img`
   width: 25%;
@@ -297,102 +243,15 @@ export const Wrapper = styled.div`
   position: relative;
 `;
 
-interface MProps {
-  bgcolor?: string;
-}
-
-export const Message = styled.div`
-  background: ${({ bgcolor }: MProps) => bgcolor};
-  border-radius: 16px 16px 16px 0;
-  margin-left: 10px;
-  position: relative;
-  padding: 15px;
-  max-width: 450px;
-  word-wrap: break-word;
-  &::before {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 0;
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-bottom: ${({ bgcolor }: MProps) => `20px solid ${bgcolor}`};
-    left: -15px;
-    bottom: 0;
-  }
-`;
-
-export const MessageText = styled.pre`
-  font-weight: normal;
-  font-size: 14px;
-  color: ${({ bgcolor }: MProps) => bgcolor};
-  margin-top: 5px;
-
-  white-space: pre-wrap; /* Since CSS 2.1 */
-  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-  white-space: -pre-wrap; /* Opera 4-6 */
-  white-space: -o-pre-wrap; /* Opera 7 */
-  word-wrap: break-word;
-`;
-
-export const MessageDate = styled.div`
-  font-weight: normal;
-  font-size: 12px;
-  color: ${({ bgcolor }: MProps) => bgcolor};
-`;
-
-export const MessageWrap = styled.div`
-  display: flex;
-  margin: 20px 0 0 20px;
-  align-items: flex-end;
-  width: 100%;
-`;
-
-export const Delete = styled.div``;
-
-export const Link = styled.div``;
-
-export const SelectWrap = styled.div`
-  padding: 15px 0;
-  & > div {
-    font-weight: normal;
-    font-size: 16px;
-    padding: 15px 25px;
-    cursor: pointer;
-  }
-  & > div:first-child {
-    color: #223367;
-    background-color: #eff0fd;
-  }
-  & > div:last-child {
-    color: #ff5e68;
-  }
-`;
-
 export const Loading = styled.div`
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-`;
-
-export const EPicker = styled.div`
-  position: absolute;
-  bottom: 15%;
-  right: 0;
-  .emoji-mart-scroll {
-    ::-webkit-scrollbar {
-      width: 7px;
-    }
-    ::-webkit-scrollbar-track {
-      background-color: transparent;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: #606eea;
-      border-radius: 14px 0px 0px 14px;
-      min-height: 80px;
-    }
+  @media (max-width: ${device.mobile}) {
+    color: #223367;
+    font-weight: 500;
+    margin-top: 15px;
   }
 `;
 
@@ -408,4 +267,89 @@ export const NoResult = styled.div`
   word-break: break-word;
   width: 100%;
   text-align: center;
+  @media (max-width: ${device.mobile}) {
+    margin-top: 10px;
+  }
+`;
+
+export const MobileMessages = styled.div`
+  background-color: white;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
+  border-radius: 12px;
+  margin-top: 13px;
+`;
+
+export const MobileContainer = styled.div``;
+
+export const WrapModal = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+`;
+
+export const HeaderModal = styled.div`
+  display: flex;
+  padding: 10px 15px;
+  align-items: center;
+`;
+export const BodyModal = styled.div`
+  flex-grow: 1;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+`;
+export const FooterModal = styled.div`
+  border-top: 1px solid #c2c2c2;
+  height: fit-content;
+`;
+
+export const Wranning = styled.div`
+  background: #f5f5f5;
+  height: 40px;
+  min-height: 40px;
+  max-height: 40px;
+  font-size: 14px;
+  color: #8f8f8f;
+  display: flex;
+  align-items: center;
+  padding-left: 15px;
+`;
+
+export const WrapTextArea = styled.div`
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 15px 0;
+  position: relative;
+  & > textarea::-webkit-resizer {
+    display: none;
+  }
+  & > textarea::placeholder {
+    font-size: 14px;
+    color: #c2c2c2;
+    font-family: var(--fontFamily);
+  }
+  & > textarea {
+    resize: none;
+    overflow: hidden !important;
+    border: none !important;
+    padding: 0 90px 0 15px !important;
+    align-self: center;
+    font-family: var(--fontFamily);
+  }
+  & > textarea:focus {
+    outline: 0;
+  }
+`;
+
+export const WrapButtons = styled.div`
+  position: absolute;
+  bottom: 0;
+  right: 0;
 `;

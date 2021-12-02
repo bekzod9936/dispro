@@ -7,6 +7,7 @@ import MultiSelect from "components/Custom/MultiSelect";
 import Title from "components/Custom/Title";
 import CheckBox from "components/Custom/CheckBox";
 import React from "react";
+import CustomDatePicker from "components/Custom/CustomDatePicker";
 import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
@@ -38,7 +39,7 @@ import {
   PlusIcon,
   UploadImage,
 } from "assets/icons/proposals/ProposalsIcons";
-import { SaveIcon } from "assets/icons/news/newsIcons";
+import { SaveIcon,SaveIconMobile } from "assets/icons/news/newsIcons";
 import { days, genders, todayDate, nextDay } from "./constants";
 import useWindowWidth from "services/hooks/useWindowWidth";
 import {
@@ -92,7 +93,7 @@ const CreateNews = () => {
   const [formData, setFormData] = React.useState({});
   const [cancel, setCancel] = React.useState(false);
   const [startDate, setStartDate] = React.useState<any>();
-
+  const [validation,setValidation]=React.useState<any>(false);
   const [errorFileType, setErrorFileType] = React.useState<any>(false);
   const handleBack = () => {
     history.goBack();
@@ -132,6 +133,7 @@ const CreateNews = () => {
     }
   };
 
+
   const cancelFormat=()=>{
     setErrorFileType(false);
   }
@@ -156,8 +158,8 @@ const CreateNews = () => {
   const submitNews = (data: any) => {
     let newsData = {
       title: data.name,
-      startLifeTime: data.startDate,
-      endLifeTime: data.endDate,
+      startLifeTime: width>600 ? data.startDate:filter?.regDate?.regDateFrom,
+      endLifeTime: width>600 ?  data.endDate:filter?.regDate?.regDateTo,
       description: data.description,
       ageFrom: parseInt(data.ageLimit),
       ageTo: 100,
@@ -165,7 +167,7 @@ const CreateNews = () => {
       couponIds: [],
       image: image,
       genderType: data.gender?.id,
-      pushUp: optionalFields.push,
+      pushUp: optionalFields.push &&data.descriptionPush,
       settings: {
         weekDays:
           optionalFields.push && data?.days?.length
@@ -183,7 +185,7 @@ const CreateNews = () => {
       },
       pushUpTitle: optionalFields.push && data.descriptionPush,
     };
-    setStartDate(data.startDate);
+    setStartDate(width>600 ? data.startDate:filter?.regDate?.regDateFrom);
     setSubmit(true);
     setFormData(newsData);
   };
@@ -195,13 +197,11 @@ const CreateNews = () => {
     setCancel(false);
   };
   const submitData = () => {
-    console.log(formData);
+
     mutate(formData);
 
     setTimeout(() => history.goBack(), 1000);
   };
-  console.log(watch("description"));
-  console.log("errors", errors);
 
   return (
     <Wrapper>
@@ -213,7 +213,7 @@ const CreateNews = () => {
             onClick={handleBack}
             style={{ marginRight: "25px", cursor: "pointer" }}
           />
-          <Title>Добавление новости</Title>
+          <Title>{t('Добавление новости')}</Title>
         </div>
       )}
       <UploadModal
@@ -239,7 +239,7 @@ const CreateNews = () => {
           {width <= 600 && (
             <MobileHeader>
               <GoBackIcon onClick={handleBack} style={{ cursor: "pointer" }} />
-              <Title> Добавление новости</Title>
+              <Title> {t('Добавление новости')}</Title>
             </MobileHeader>
           )}
           <Container>
@@ -343,7 +343,6 @@ const CreateNews = () => {
                           type="date"
                           min={todayDate}
                           error={!!errors.startDate}
-                          // message={t("requiredField")}
                           IconStart={<WrapDate>{t("from")}</WrapDate>}
                           inputStyle={{
                             inpadding: "0 10px 0 0",
@@ -376,58 +375,40 @@ const CreateNews = () => {
               ) : (
                 <WrapInputs>
                   <Label>{t("chose_date")}</Label>
-                  <div>
-                    <Controller
-                      name="startDate"
-                      control={control}
-                      rules={{
-                        required: true,
-                      }}
-                      render={({ field }) => (
-                        <Input
-                          field={field}
-                          type="date"
-                          width={{
-                            maxwidth: 180,
-                            minwidth: 130,
-                          }}
-                          min={todayDate}
-                          error={!!errors.name}
-                          // message={t("requiredField")}
-                          IconStart={<WrapDate>{t("from")}</WrapDate>}
-                          inputStyle={{
-                            inpadding: "0 10px 0 0",
-                          }}
-                        />
-                      )}
-                    />
-                    <Controller
-                      name="endDate"
-                      control={control}
-                      rules={{
-                        required: true,
-                      }}
-                      render={({ field }) => (
-                        <Input
-                          type="date"
-                          field={field}
-                          error={!!errors.name}
-                          // message={t("requiredField")}
-                          min={watch("startDate")}
-                          width={{
-                            maxwidth: 180,
-                            minwidth: 130,
-                          }}
-                          // required={true}
-                          margin={{ laptop: "0 0 0 15px" }}
-                          IconStart={<WrapDate>{t("to")}</WrapDate>}
-                          inputStyle={{
-                            inpadding: "0 10px 0 0",
-                          }}
-                        />
-                      )}
-                    />
-                  </div>
+                  <div >
+                  <CustomDatePicker
+              margin="0 15px 0 0"
+              isFilter
+              text={t("from")}
+              error={validation && !filter?.regDate?.regDateFrom ? true:false}
+              minDate={todayDate}
+              maxDate={filter?.regDate?.regDateTo}
+              onChange={(e) => {
+                let date = "" + e.year + "-" + e.month.number + "-" + e.day;
+                setFilter((prev: any) => ({
+                  ...prev, regDate: {
+                    ...prev["regDate"],
+                    regDateFrom: date
+                  }
+                }))
+              }}
+              value={filter?.regDate?.regDateFrom} />
+            <CustomDatePicker
+              isFilter
+              error={validation && !filter?.regDate?.regDateTo ? true:false}
+              text={t("to")}
+              minDate={filter?.regDate?.regDateFrom}
+              onChange={(e) => {
+                let date = "" + e.year + "-" + e.month.number + "-" + e.day;
+                setFilter((prev: any) => ({
+                  ...prev, regDate: {
+                    ...prev["regDate"],
+                    regDateTo: date
+                  }
+                }))
+              }}
+              value={filter?.regDate?.regDateTo} />
+              </div>
                 </WrapInputs>
               )}
 
@@ -492,6 +473,7 @@ const CreateNews = () => {
                         type="textarea"
                         required={optionalFields.push ? true : false}
                         multiline={true}
+                        maxLength={100}
                         inputStyle={{
                           height: { desktop: 120, laptop: 90, mobile: 120 },
                         }}
@@ -512,9 +494,14 @@ const CreateNews = () => {
                     control={control}
                     render={({ field }) => (
                       <MultiSelect
+                        isClearable={false}
                         field={field}
                         isMulti={true}
                         options={days}
+                        selectStyle={{
+                          weight:300,
+                          fontSize:{desktop:14},
+                        }}
                         label="Укажите дни"
                       />
                     )}
@@ -610,8 +597,9 @@ const CreateNews = () => {
                     </Button>
                   </div>
                   <Button
+                    onClick={() => setValidation(true)}
                     type="submit"
-                    endIcon={<SaveIcon />}
+                    endIcon={<SaveIconMobile />}
                     buttonStyle={{
                       bgcolor: "#606EEA",
                       color: "#fff",
@@ -636,7 +624,7 @@ const CreateNews = () => {
               Отменить
             </Button>
             <Button
-              // onClick={() => setSubmit(true)}
+              // onClick={() => setValidation(true)}
               type="submit"
               margin={{ laptop: "0 25px" }}
               startIcon={<SaveIcon />}

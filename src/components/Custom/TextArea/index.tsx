@@ -34,11 +34,7 @@ export const TextArea = ({textarea,error,defaultValue ,IconEnd,label,maxHeight,m
         <Wrapper {...container}>
             <Label {...label}   onClick={handleFocus}>{title}</Label>
             <MTextArea error={error}
-           
-        
-            
             {...field} defaultValue={defaultValue} maxHeight={maxHeight} minHeight={minHeight}  maxLength={maxLength} required={required} resize={resize} value={value} onChange={onChange} ref={textareaRef} {...textarea}>
-
            {/* <TextAreaIcon /> */}
             </MTextArea>  
             <Message  >

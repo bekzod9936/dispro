@@ -79,7 +79,7 @@ export const PeriodWrapper = styled.div`
   }
   .buttonsWrapper {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
 
   }
   @media (max-width: ${device.mobile}) {

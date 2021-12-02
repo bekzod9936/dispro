@@ -1,5 +1,6 @@
 import { Container, Link } from "./style";
-import { useRef } from "react";
+import { useRef,useEffect } from "react";
+import useWindowWidth from "services/hooks/useWindowWidth";
 interface Props {
   list?: { path?: string; text?: string }[];
   margin?: string;
@@ -16,13 +17,14 @@ export const activeStyle = {
 const NavBar = ({ list, margin, padding, vertical }: Props) => {
   const parentRef = useRef<null | HTMLDivElement>(null);
   const linkRef = useRef<null | Map<number, any>>(null)
+  const { width } = useWindowWidth()
   const handleClick = (e: any, index: number) => {
     const map = getMap();
     const node = map.get(index);
     node?.scrollIntoView({
       behavior: "smooth",
       block: "nearest",
-      inline: "center"
+      inline: width > 600 ? "nearest" : "center"
     })
   };
 
@@ -32,6 +34,7 @@ const NavBar = ({ list, margin, padding, vertical }: Props) => {
     }
     return linkRef.current
   }
+
 
   return (
     <Container

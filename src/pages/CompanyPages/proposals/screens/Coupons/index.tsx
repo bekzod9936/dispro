@@ -124,7 +124,10 @@ const Coupons = () => {
     handleSubmit,
     register,
     watch,
-    formState: { errors, isValid },
+    setValue,
+    setError,
+    clearErrors,
+    formState: { errors, isValid, },
   } = useForm({
     mode: 'onChange',
     shouldFocusError: true,
@@ -146,9 +149,17 @@ const Coupons = () => {
 
   const _ = useFetchCategories(setCategories);
 
-  const handleUploadImg = async (data: any) => {
-    setFile(data.target.files[0]);
-    setIsCropVisible(true);
+  const handleUploadImg = (data: any) => {
+    if (data.target.files[0].type == 'image/jpeg' || data.target.files[0].type == 'image/png') {
+      setFile(data.target.files[0]);
+      setIsCropVisible(true);
+    }
+    else {
+      setError("image", {
+        message: "Можно загрузить фотографию в формате JPG или PNG"
+      })
+    }
+    setValue('image', null)
   };
 
   const onPublish = (data: any) => {
@@ -185,6 +196,7 @@ const Coupons = () => {
     setFile('');
     setImage('');
     deleteImage(image);
+    clearErrors("image")
   };
 
   const handleBack = () => {
@@ -222,9 +234,12 @@ const Coupons = () => {
     dispatch(setSaving(true));
   };
 
+
+  console.log(errors);
+
   return (
     <Wrapper>
-      {width > 600 && (
+      {width > 1000 && (
         <div
           style={{ display: 'flex', marginBottom: 30, alignItems: 'center' }}
         >
@@ -267,7 +282,7 @@ const Coupons = () => {
           </div>
         </LeaveModal>
       </Modal>
-      {width > 600 && (
+      {width > 1000 && (
         <PreviewModal
           price={watch('cost')}
           ageFrom={watch('ageLimit')}
@@ -281,7 +296,7 @@ const Coupons = () => {
       )}
       <Form onSubmit={publish ? handleSubmit(onPublish) : handleSubmit(onSave)}>
         <UpSide>
-          {width <= 600 && (
+          {width <= 1000 && (
             <MobileHeader>
               <GoBackIcon onClick={handleBack} style={{ cursor: 'pointer' }} />
               <Title>Создание {isCoupon ? 'купона' : 'сертификата'}</Title>
@@ -289,7 +304,7 @@ const Coupons = () => {
           )}
           <Container>
             <LeftSide>
-              <Title>Фотографии</Title>
+              <Title padding={{ planshet: "0" }}>Фотографии</Title>
               {!isLoading && !image && (
                 <div style={{ marginBottom: 30 }}>
                   <Header>
@@ -309,7 +324,7 @@ const Coupons = () => {
                     <UploadImage />
                   </UploadButton>
                   {errors.image && (
-                    <ErrorMessage>{t('requiredField')}</ErrorMessage>
+                    <ErrorMessage>{errors.image?.message || t('requiredField')}</ErrorMessage>
                   )}
                 </div>
               )}
@@ -433,7 +448,7 @@ const Coupons = () => {
                     error={!!errors.description}
                     multiline={true}
                     inputStyle={{
-                      height: { desktop: 120, laptop: 90, mobile: 60 },
+                      height: { desktop: 120, laptop: 90, mobile: 60, planshet: 120 },
                     }}
                   />
                 )}
@@ -537,8 +552,12 @@ const Coupons = () => {
                     <Controller
                       control={control}
                       name='timeFrom'
+                      // rules={{
+                      //   max: watch("timeTo")?.split(":")[0]
+                      // }}
                       render={({ field }) => (
                         <Input
+                          max={watch("timeTo")}
                           margin={{
                             laptop: '0 25px 0 0',
                             mobile: '0 12px 0 0',
@@ -551,14 +570,17 @@ const Coupons = () => {
                     <Controller
                       control={control}
                       name='timeTo'
+                      // rules={{
+                      //   min: watch("timeFrom")?.split(":")[0]
+                      // }}
                       render={({ field }) => (
-                        <Input type='time' field={field} />
+                        <Input min={watch("timeFrom")} type='time' field={field} />
                       )}
                     />
                   </div>
                 )}
               </AgeWrapper>
-              {width > 600 && (
+              {width > 1000 && (
                 <>
                   {isValid ? (
                     <Button
@@ -625,8 +647,8 @@ const Coupons = () => {
         <DownSide>
           <Button
             onClick={() => setLeave(true)}
-            startIcon={<CancelIcon />}
-            buttonStyle={{ color: '#223367', bgcolor: '#ffffff' }}
+            startIcon={width > 1000 ? <CancelIcon /> : <MobileCancelIcon />}
+            buttonStyle={width > 1000 ? { color: '#223367', bgcolor: '#ffffff' } : { color: "#606EEA", bgcolor: "rgba(96, 110, 234, 0.1)" }}
           >
             Отменить
           </Button>
@@ -647,7 +669,7 @@ const Coupons = () => {
             }}
             startIcon={<SaveIcon />}
           >
-            Сохранить в черновик
+            {width > 1000 ? t('saveToDrafts') : "Сохранить"}
           </Button>
         </DownSide>
       </Form>

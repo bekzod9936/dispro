@@ -9,6 +9,14 @@ export const Container = styled.div`
   padding: 20px;
   width: 100%;
   margin: 10px 0 20px;
+
+  @media (max-width: ${device.mobile}) {
+    display: flex;
+    padding: 12px 18px;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px 0 15px;
+  }
 `;
 
 export const Title = styled.div`
@@ -22,6 +30,9 @@ export const Title = styled.div`
   width: 100%;
   @media (max-width: ${device.mobile}) {
     font-size: 14px;
+    width: 140px;
+    margin-bottom: 0;
+    text-align: start;
   }
   @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
     font-size: 14px;
@@ -60,6 +71,7 @@ export const PercentInfo = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 0 5px;
 `;
 
 export const LineIcon = styled(Line)`
@@ -69,7 +81,6 @@ export const LineIcon = styled(Line)`
 export const PercentNum = styled.div`
   font-weight: bold;
   font-size: 40px;
-  line-height: 47px;
   color: #606eea;
 `;
 

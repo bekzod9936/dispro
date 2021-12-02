@@ -54,7 +54,9 @@ import {
   Close1Icon,
   WrapClose,
   WrapperIcon,
+  Box1,
 } from './style';
+import { setChatSupportHistory } from 'services/redux/Slices/feedback';
 
 const Header = () => {
   const { t } = useTranslation();
@@ -181,6 +183,7 @@ const Header = () => {
                 history.push('/partner/company');
                 dispatch(setCompanyInfo({}));
                 socket.disconnect();
+                dispatch(setChatSupportHistory([]));
                 dispatch(setInfoData({ ...initialState?.data }));
               }}
               endIcon={<LogOutWhiteIcon />}
@@ -249,7 +252,7 @@ const Header = () => {
           </Title>
         </Wrap>
       </Wrapper>
-      <Wrapper>
+      <Box1>
         <IconButton>
           <SearchIcon mobile={true} />
         </IconButton>
@@ -281,7 +284,9 @@ const Header = () => {
                 <ArrowIcon marginLeft={true} />
               </Button>
             }
-            openBgColor='rgba(96, 110, 234, 0.1)'
+            openBgColor={
+              width > 1000 ? 'rgba(96, 110, 234, 0.1)' : 'transparent'
+            }
             radius={14}
             popoverStyle={{ marginTop: '20px' }}
             anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
@@ -327,7 +332,7 @@ const Header = () => {
             </FullModal>
           </>
         )}
-      </Wrapper>
+      </Box1>
     </Container>
   );
 };

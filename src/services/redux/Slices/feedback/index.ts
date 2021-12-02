@@ -8,6 +8,8 @@ import {
   IHistory,
   IChose,
   IRating,
+  IChoose,
+  ITHistorySupport,
 } from './types';
 
 const initialState: IFeedBack = {
@@ -17,12 +19,30 @@ const initialState: IFeedBack = {
   ratings: [],
   histories: [],
   supporthistories: [],
-  totalHistory: 0,
-  totalSupportHistory: 0,
+  totalHistory: {
+    total: 0,
+    page: 1,
+    perPage: 10,
+    loading: false,
+    hasMore: true,
+  },
+  totalSupportHistory: {
+    total: 0,
+    page: 1,
+    perPage: 10,
+    loading: false,
+    hasMore: true,
+  },
   totalCount: 0,
   averageRating: { avg: 0, count: 0, downVal: 0, upVal: 0 },
   socket: {},
   chosenClient: { data: {}, choose: false },
+  chosenListUser: {
+    inntialHistory: { page: 1, perPage: 5 },
+    fetchHistory: false,
+    isChoose: false,
+    chosen: {},
+  },
 };
 
 const feedbackPostSlice = createSlice({
@@ -51,10 +71,13 @@ const feedbackPostSlice = createSlice({
       state.totalCount = action.payload;
     },
 
-    setTotalHistory: (state, action: PayloadAction<number>) => {
+    setTotalHistory: (state, action: PayloadAction<ITHistorySupport>) => {
       state.totalHistory = action.payload;
     },
-    setTotalSupportHistory: (state, action: PayloadAction<number>) => {
+    setTotalSupportHistory: (
+      state,
+      action: PayloadAction<ITHistorySupport>
+    ) => {
       state.totalSupportHistory = action.payload;
     },
     setAverageRatingFeedBack: (state, action: PayloadAction<IRating>) => {
@@ -66,6 +89,9 @@ const feedbackPostSlice = createSlice({
     },
     setChosenClientChat: (state, action: PayloadAction<IChose>) => {
       state.chosenClient = action.payload;
+    },
+    setChosenListUser: (state, action: PayloadAction<IChoose>) => {
+      state.chosenListUser = action.payload;
     },
   },
 });
@@ -83,5 +109,6 @@ export const {
   setChatSupportHistory,
   setTotalSupportHistory,
   setChosenClientChat,
+  setChosenListUser,
 } = feedbackPostSlice.actions;
 export default feedbackPostSlice.reducer;

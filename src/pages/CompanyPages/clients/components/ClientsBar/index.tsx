@@ -13,7 +13,7 @@ import {
 import { CancelButton } from "../QrCodeBar/style";
 import { selectAll, setAllClients, setClient } from 'services/redux/Slices/clients'
 import { MModal } from "../Modal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useHistory } from "react-router";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 import {
@@ -63,7 +63,7 @@ const modalInfo: any = {
 export const ClientsBar = ({ refetch }: IProps) => {
     const dispatch = useAppDispatch()
     const { t } = useTranslation()
-    const { selectedClients } = useAppSelector(state => state.clients)
+    const { selectedClients, allClients } = useAppSelector(state => state.clients)
     const client = selectedClients[0]
     const [vipModal, setVipModal] = useState(false)
     const history = useHistory()
@@ -72,7 +72,7 @@ export const ClientsBar = ({ refetch }: IProps) => {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [modalContent, setModalContent] = useState<any>({})
     const [vipModalState, setVipModalState] = useState<"selecting" | "updating" | "removing">("selecting")
-
+    const [fetchingAllClients, setFetchingAllClients] = useState('')
 
     const handleOpen = (action: string) => {
         setIsModalOpen(true);
@@ -80,7 +80,11 @@ export const ClientsBar = ({ refetch }: IProps) => {
     };
 
     const handleAddAll = (action: boolean) => {
-        dispatch(setAllClients(action));
+        if (allClients.length === 0) {
+            setFetchingAllClients("Подождите несколько минут...")
+        } else {
+            dispatch(setAllClients(action));
+        }
     };
 
     const handleClose = () => {
@@ -102,7 +106,11 @@ export const ClientsBar = ({ refetch }: IProps) => {
         }
     };
 
-
+    useEffect(() => {
+        if (allClients.length > 0) {
+            setFetchingAllClients("")
+        }
+    }, [allClients])
     const { mutate } = useMutation((data: any) => blockClient(data))
 
     const handleUnblock = () => {
@@ -150,7 +158,7 @@ export const ClientsBar = ({ refetch }: IProps) => {
                                 }} alt="clientAvatar" /> : <DefaultImage />}
                             <ContentInfo>
                                 <p>{client.firstName} {client.lastName}</p>
-                                <span>Статус: {client.personalLoyaltyInfo.isActive ? client.addInfo.status : client.obtainProgramLoyalty.levelName} {client.personalLoyaltyInfo.isActive ? client.personalLoyaltyInfo.percent : client.obtainProgramLoyalty.percent}%</span>
+                                <span>Статус: {client.personalLoyaltyInfo.isActive ? "Спец" : client.obtainProgramLoyalty.levelName} {client.personalLoyaltyInfo.isActive ? client.personalLoyaltyInfo.percent : client.obtainProgramLoyalty.percent}%</span>
                             </ContentInfo>
                         </Content>
                         <SubContent>
@@ -181,7 +189,7 @@ export const ClientsBar = ({ refetch }: IProps) => {
                                             <MinusCoinsIcon style={{ marginLeft: 10 }} />
                                         </MButton>
                                         <MToggle>
-                                            <p>Индивидуальный статус</p>
+                                            <p>Специальный статус</p>
                                             <CustomToggle
                                                 checked={client?.personalLoyaltyInfo?.isActive || vipModal}
                                                 defaultChecked={client?.personalLoyaltyInfo?.isActive}
@@ -194,7 +202,7 @@ export const ClientsBar = ({ refetch }: IProps) => {
                                                     setVipModal(true)
                                                 }}
                                                 className="updatePercent">
-                                                Настроить индивидуальный статус
+                                                Настроить специальный статус
                                             </button>}
                                     </>}
                             </Buttons>
@@ -216,14 +224,16 @@ export const ClientsBar = ({ refetch }: IProps) => {
                 </WrapperContent> : selectedClients.length > 1 ?
                     <div>
                         <Text>Выбрано: {selectedClients.length}</Text>
-                        <SelectedClients>
-                            {selectedClients.map(client => (
-                                <div className="client">
-                                    <span>{client.firstName + " " + client.lastName}</span>
-                                    <MiniCloseIcon onClick={() => dispatch(setClient(client.id))} />
-                                </div>
-                            ))}
-                        </SelectedClients>
+                        {fetchingAllClients ?
+                            <div className="loadingText">{fetchingAllClients}</div>
+                            : <SelectedClients>
+                                {selectedClients.map(client => (
+                                    <div className="client">
+                                        <span>{client.firstName + " " + client.lastName}</span>
+                                        <MiniCloseIcon onClick={() => dispatch(setClient(client.id))} />
+                                    </div>
+                                ))}
+                            </SelectedClients>}
                         <div style={{ display: "flex", justifyContent: "center" }}>
                             <Button
                                 onClick={() => setCheckAll(true)}
@@ -249,14 +259,26 @@ export const ClientsBar = ({ refetch }: IProps) => {
                                 <MinusCoinsIcon style={{ marginLeft: 10 }} />
                             </MButton>
                             <MToggle>
-                                <p>Индивидуальный статус</p>
+                                <p>Специальный статус</p>
                                 <CustomToggle
-                                    checked={vipModal}
+                                    checked={selectedClients.every(client => client.personalLoyaltyInfo.isActive) || vipModal}
+                                    defaultChecked={selectedClients.every(client => client.personalLoyaltyInfo.isActive)}
                                     onChange={handleChangeStatus} />
                             </MToggle>
+                            {selectedClients.every(el => el.personalLoyaltyInfo.isActive) &&
+                                <button
+                                    onClick={() => {
+                                        setVipModalState("updating")
+                                        setVipModal(true)
+                                    }}
+                                    className="updatePercent">
+                                    Настроить специальный статус
+                                </button>}
                         </Buttons>
                         <SelectButtons>
-                            <button onClick={() => handleAddAll(true)}>
+                            <button
+
+                                onClick={() => handleAddAll(true)}>
                                 Выбрать всех клиентов
                             </button>
                             <button onClick={() => handleAddAll(false)}>

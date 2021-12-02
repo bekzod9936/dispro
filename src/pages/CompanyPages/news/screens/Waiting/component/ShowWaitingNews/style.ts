@@ -94,33 +94,30 @@ export const Preview = styled.div`
     width: 100%;
     top: 10px;
     min-height: 185px;
+    object-fit:'cover';
   }
   img.iphoneImg {
     max-width: 290px;
     width: 100%;
     height: 100%;
     position: relative;
+    object-fit:'cover';
     /* z-index: 12; */
   }
 `;
 
 export const PreviewContent = styled.div`
   position: absolute;
-  
   background-color: #eef0f2;
-  height: 70%;
-  width: 285px;
-
-  left: 2px;
+  height: 68%;
+  left: 13px;
   right: 10px;
-  bottom: 0%;
-  border-radius: 30px;
+  bottom: 2%;
+  width: 265px;
+  border-radius: 10px 10px 30px 30px;
   padding: 15px 0;
-
   display: flex;
-
   flex-direction: column;
-
   align-items: center;
   img {
     width: 35px;

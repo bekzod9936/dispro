@@ -25,6 +25,13 @@ export const AgeBlock = styled.div`
         color: #223367;
         font-weight: 500;
     }
+    @media (max-width: ${device.planshet}) {
+      h6 {
+        font-weight: 400;
+        font-size: 15px;
+        line-height: 16px;
+      }
+    }
     @media (max-width: ${device.mobile}) {
       h6 {
         font-weight: 300;
@@ -55,11 +62,11 @@ export const Container = styled.div`
     width: 100%;
     display: flex;
     justify-content: space-between;
-    height: 100%;
+    padding: 20px 60px 20px 0;
     @media (max-width: ${device.laptop}) {
       padding-right: 20px;
+      padding-bottom: 0;
     }
-    padding: 20px 60px 20px 0;
     @media (max-width: ${device.mobile}) {
       flex-direction: column;
       justify-content: initial;
@@ -71,11 +78,19 @@ export const Container = styled.div`
 export const Wrapper = styled.div`
     width: 100%;
     height: 100%;
-    @media (max-width: ${device.mobile}) {
+    @media (max-width: ${device.planshet}) {
       position: fixed;
       top: 0;
       left: 0;
+      bottom: 0;
+      right: 0;
       z-index: 2500;
+      display: flex;
+      align-items: center;
+      orientation: portret;
+    } 
+    @media (max-width: ${device.mobile}) {
+      
     }
 `
 export const MobileHeader = styled.div`
@@ -84,7 +99,11 @@ export const MobileHeader = styled.div`
   align-items: center;
   justify-content: flex-start;
   width: 100%;
-  padding: 15px 0 0 15px;
+  padding: 0;
+  @media (max-width: ${device.mobile}) {
+    padding: 15px 0 0 15px;
+
+  }
 `
 export const UpSide = styled.div`
     height: 75%;
@@ -102,6 +121,12 @@ export const UpSide = styled.div`
     ::-webkit-scrollbar-thumb {
         background: #606eea;
         border-radius: 14px 0px 0px 14px;
+    }
+    @media (max-width: ${device.planshet}) {
+      height: 100%;
+      ::-webkit-scrollbar {
+    width: 5px;
+    }
     }
     @media (max-width: ${device.mobile}) {
       height: 100%;
@@ -161,6 +186,10 @@ export const DownSide = styled.div`
     @media (max-width: 1150px) {
       padding-right: 20px;
     }
+    @media (max-width: ${device.planshet}) {
+      max-height: 100px;
+      height: 100%;
+    }
     @media (max-width: ${device.mobile}) {
       display: none;
     }
@@ -182,6 +211,10 @@ export const Form = styled.form`
     }
     @media (max-width: 1150px) {
       padding-right: 0;
+    }
+    @media (max-width: ${device.planshet}) {
+      width: 100%;
+      padding-bottom: 0;
     }
     @media (max-width: ${device.mobile}) {
       width: 100%;

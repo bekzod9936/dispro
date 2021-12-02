@@ -9,7 +9,14 @@ interface Props {
   margin?: string;
 }
 
-export const CloseIcon = styled(Close)``;
+export const CloseIcon = styled(Close)`
+  width: 18px;
+  height: 18px;
+  @media (max-width: ${device.mobile}) {
+    width: 15px;
+    height: 15px;
+  }
+`;
 
 export const MoneyIcon = styled(Money)``;
 
@@ -28,6 +35,11 @@ export const StarIcon = styled(Star)`
       bgcolor ? '#FFC107' : 'rgba(255, 193, 7, 0.3)'};
   }
   @media (min-width: ${device.laptop}) {
+    margin-right: 5px;
+    width: 13px;
+    height: 13px;
+  }
+  @media (max-width: ${device.mobile}) {
     margin-right: 5px;
     width: 13px;
     height: 13px;
@@ -51,6 +63,10 @@ export const Container = styled.div`
   flex-direction: column;
   height: fit-content;
   flex: 1;
+  @media (max-width: ${device.mobile}) {
+    border-radius: 12px;
+    padding: 10px;
+  }
 `;
 
 export const Header = styled.div`
@@ -78,6 +94,9 @@ export const UserName = styled.div`
   @media (min-width: ${device.laptop}) {
     font-size: 16px;
   }
+  @media (max-width: ${device.mobile}) {
+    font-size: 14px;
+  }
 `;
 
 export const Status = styled.div`
@@ -87,17 +106,36 @@ export const Status = styled.div`
   @media (min-width: ${device.laptop}) {
     font-size: 14px;
   }
+  @media (max-width: ${device.mobile}) {
+    font-size: 12px;
+  }
 `;
 
 export const Date1 = styled.div`
-  font-weight: normal;
-  font-size: 13px;
-  color: #8f8f8f;
-  white-space: nowrap;
-
-  margin: ${({ margin }: Props) => margin};
-  @media (min-width: ${device.laptop}) {
-    font-size: 14px;
+  div {
+    font-weight: normal;
+    font-size: 13px;
+    color: #8f8f8f;
+    white-space: nowrap;
+    margin: ${({ margin }: Props) => margin};
+    text-align: end;
+    @media (min-width: ${device.laptop}) {
+      font-size: 14px;
+    }
+  }
+  div.mobile {
+    display: none;
+  }
+  @media (max-width: ${device.mobile}) {
+    div {
+      font-size: 12px;
+    }
+    div.laptop {
+      display: none;
+    }
+    div.mobile {
+      display: block;
+    }
   }
 `;
 
@@ -112,9 +150,19 @@ export const Title = styled.div`
   @media (min-width: ${device.laptop}) {
     font-size: 14px;
   }
+  @media (max-width: ${device.mobile}) {
+    font-size: 14px;
+  }
 `;
 
-export const Context = styled.div``;
+export const Context = styled.div`
+  flex-grow: 1;
+  @media (max-width: ${device.mobile}) {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+`;
 
 export const Casher = styled.div`
   font-weight: 300;
@@ -125,6 +173,9 @@ export const Casher = styled.div`
   justify-content: flex-start;
   flex: 1;
   @media (min-width: ${device.laptop}) {
+    font-size: 14px;
+  }
+  @media (max-width: ${device.mobile}) {
     font-size: 14px;
   }
 `;
@@ -144,6 +195,10 @@ export const Content = styled.div`
   margin-bottom: 10px;
   width: 100%;
   @media (min-width: ${device.laptop}) {
+    font-size: 14px;
+  }
+  @media (max-width: ${device.mobile}) {
+    -webkit-line-clamp: 4;
     font-size: 14px;
   }
 `;
@@ -171,11 +226,17 @@ export const ModalWrap = styled.div`
     background: #606eea;
     border-radius: 14px 0px 0px 14px;
   }
+  @media (max-width: ${device.mobile}) {
+    padding: 15px;
+  }
 `;
 
+export const WrapMContent = styled.div``;
+
 export const ModalContext = styled.div`
-  max-width: 350px;
+  width: 100%;
   word-break: break-word;
+  max-width: 500px;
 `;
 
 export const WrapClose = styled.div`
@@ -190,7 +251,11 @@ export const ModalText = styled.div`
   color: #223367;
 `;
 
-export const Wrapper = styled.div``;
+export const Wrapper = styled.div`
+  @media (max-width: ${device.mobile}) {
+    grid-gap: 5px;
+  }
+`;
 
 export const WrapFillial = styled.div`
   display: grid;
@@ -205,4 +270,13 @@ export const WrapMoney = styled.div`
   grid-template-columns: auto auto;
   justify-content: start;
   grid-gap: 15px;
+`;
+
+export const WrapButton = styled.div`
+  @media (max-width: ${device.mobile}) {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+  }
 `;

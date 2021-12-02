@@ -60,7 +60,7 @@ export const UploadButton = styled.div`
     }
     @media (max-width: ${device.mobile}) {
       padding: 10px 15px;
- 
+      margin:0px 50px;
       label {
         font-size: 14px;
         line-height: 16px;
@@ -74,4 +74,9 @@ export const CloseButton = styled.div`
     right: 25px;
     top: 25px;
     cursor: pointer;
+    @media (max-width: ${device.mobile}) {
+        right: 10px;
+    top: 20px;
+
+  }
 `
