@@ -227,6 +227,7 @@ const MobileTable = ({ refetch, data }: Props) => {
                                 style={{
                                   whiteSpace: "pre-wrap",
                                   wordBreak: "break-all",
+                                  fontWeight: 400,
                                 }}
                               >
                                 {info?.description?.slice(0, 150) + "..."}
@@ -236,6 +237,7 @@ const MobileTable = ({ refetch, data }: Props) => {
                                 style={{
                                   whiteSpace: "pre-wrap",
                                   wordBreak: "break-all",
+                                  fontWeight: 400,
                                 }}
                               >
                                 {info?.description}
