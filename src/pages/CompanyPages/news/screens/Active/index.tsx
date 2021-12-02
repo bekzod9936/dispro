@@ -22,6 +22,7 @@ import { countPagination } from '../../components/utils';
 import Button from "components/Custom/Button";
 import { LimitNews  } from "../../components/LimitNews";
 import { FilterNews } from "../../components/FilterNews";
+import {LaptopFilterNews} from "../../components/LaptopFilterNews";
 import {MobileFilterNews} from "../../components/MobileFilterNews";
 import { LeftHeader, WrapMobile,WrapHeader } from "./style";
 import {
@@ -132,6 +133,7 @@ const Active = () => {
     <Container>
       <LimitNews errormessage={errormessage}  linkToComment={LinkComment} CancelError={ResetError} />
       {width>600 && <FilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} filterByDate={filterByDate}/>}
+      
       {width>600 ? 
       <Wrap>
         {response.isLoading || response.isFetching ? (

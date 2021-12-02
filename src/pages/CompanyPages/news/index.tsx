@@ -11,8 +11,7 @@ import useNewsRoute from "./routes";
 import Header from "./components/Header";
 import useWindowWidth from "services/hooks/useWindowWidth";
 import { MainWrapper, Flex, WrapHeader, LeftHeader, Wrap } from "./style";
-import {WaitingFilterNews} from "./components/WaitingFilterNews";
-import {MobileFilterNews} from "./components/MobileFilterNews";
+
 const News = () => {
   const { t } = useTranslation();
   const { menuItems, newsPath } = useNewsRoute();
@@ -29,19 +28,6 @@ const News = () => {
     dispatch(setQuery(""));
   };
 
-
-  const searchNews=(e:any)=>{
-    dispatch(setQuery(e.target.value));
-  }
-
-  const filterByDate=async (e:any)=>{
-  //   await setFilterValues({
-  //     ...filterValues,
-  //     fromDate: e.slice(0, e.indexOf(' ~')),
-  //     toDate: e.slice(e.indexOf('~ ') + 2),
-  //   });
-  // await response.refetch();
-  }
 
   return (
     <MainWrapper id="drawer-container">
