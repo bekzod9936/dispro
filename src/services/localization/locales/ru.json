@@ -530,5 +530,6 @@
   "newSection": "Новый раздел",
   "sectionName": "Название раздела",
   "createAnother": "Создать еще +",
-  "maxAmountOfCharacters": "Максимальное количество символов: 30"
+  "maxAmountOfCharacters": "Максимальное количество символов: 30",
+  "titlesOfSectionsMustBeUnique": "Названия разделов должны быть уникальными"
 }
