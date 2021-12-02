@@ -123,6 +123,7 @@ export const MobileFilterNews=({handleOpenNews,searchNews,filterByDate}:FilterNe
         </Flex> 
         <Flex  width="100%"
       justifyContent="flex-start"
+
       alignItems="center" margin="13px 0px 0px 0px"> 
          
       {filterByDate &&   <DatePcker
