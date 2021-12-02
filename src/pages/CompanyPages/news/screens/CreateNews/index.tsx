@@ -167,7 +167,7 @@ const CreateNews = () => {
       couponIds: [],
       image: image,
       genderType: data.gender?.id,
-      pushUp: optionalFields.push,
+      pushUp: optionalFields.push &&data.descriptionPush,
       settings: {
         weekDays:
           optionalFields.push && data?.days?.length
@@ -565,8 +565,6 @@ const CreateNews = () => {
                             placeholdercolor: "#223367",
                             inpadding: "2px 10px 2px 60px",
                             placewieght: "500",
-                          
-                           
                           }}
                           placeholder={t("Выберите филиалы")}
                           margin={{

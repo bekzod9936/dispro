@@ -70,9 +70,9 @@ export const MTextArea = styled.textarea`
   min-height: ${({ minHeight }: ITextAreaProps) => minHeight || 'none'};
   max-height: ${({ maxHeight }: ITextAreaProps) => maxHeight || 'none'};
   outline: ${({ outline }: ITextAreaProps) => outline || 'none'};
-  @media (min-width: ${device.mobile}) {
+  @media (max-width: ${device.mobile}) {
     font-size: 14px;
-    color: #223367;
+
   }
   &::-webkit-resizer {
     background-image: url(${Textt});
@@ -90,6 +90,7 @@ export const MTextArea = styled.textarea`
 
 export const Wrapper = styled.div`
   display: flex;
+  
   flex-direction: column;
   position: relative;
   margin: ${({ margin }: IContainerProps) => margin || '25px 0'};

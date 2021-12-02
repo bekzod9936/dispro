@@ -138,7 +138,7 @@ const Table = ({ data, header2 }: Props) => {
                     return (
                       <Td {...cell.getCellProps()}>
                            <AgeData>
-                             <p style={{ maxWidth:'300px',whiteSpace: "pre-wrap",wordBreak: 'break-all'}}>{descriptionn}</p>
+                             <p style={{minWidth:'250px', maxWidth:'300px',whiteSpace: "pre-wrap",wordBreak: 'break-all'}}>{descriptionn}</p>
                       </AgeData>
                       </Td>
                     );
@@ -167,8 +167,8 @@ const Table = ({ data, header2 }: Props) => {
                     return (
                       <Td {...cell.getCellProps()}>
                         <TimeData>
-                          <p>{date}</p>
-                          {ageUnlimeted ? '' :ageFrom>0 ? <h4>{ageFrom+ "+"}</h4>:''}
+                          <p style={{paddingRight:'2px'}}>{date}</p>
+                          {ageUnlimeted ? '' :ageFrom>0 ? <h4 >{ageFrom+ "+"}</h4>:''}
                           {     PushUp ? <LightToolTip arrow placement="left" title={<> 
                           <p style={{padding:'10px 0px',lineHeight:'21px',color:'#223367',fontSize: '18px',fontWeight:300}}>{`Уведомлений получили:${' '+stat?.get?.total+' '}чел.`}</p>  
                           <p style={{lineHeight:'21px',color:'#223367',fontSize: '18px',fontWeight:300}}>{`Уведомлений просмотрели:${' '+stat?.view?.total+' '}чел.`}  </p>

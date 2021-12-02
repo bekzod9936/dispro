@@ -67,7 +67,7 @@ export const WrapText = styled.div`
       font-size: 14px;
     }
     & > span:last-child {
-      font-size: 12px;
+      font-size: 10px !important;
     }
   }
   @media (min-width: ${device.laptop}) {
