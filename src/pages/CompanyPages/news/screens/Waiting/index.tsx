@@ -107,7 +107,7 @@ const Waiting = () => {
      
       {width>600 ? 
       <Wrap>
-        {response.isLoading || response.isFetching ? (
+        {response.isLoading || response.isFetching ?  (
           <WrapSpinner><Spinner/></WrapSpinner>
 
         ) : (
@@ -127,9 +127,9 @@ const Waiting = () => {
                 <Info>
                   {t("shown")}
                   <span>{between}</span>
-                  {t("from1")} <span>{totalNewsCount}</span>
+                  {t("from1")} <span>{totalNewsCount}</span> 
                   {countPagination({
-                count: totalNewsCount,
+                count: Number(totalNewsCount),
                 firstWord: t('новости '),
                 secondWord: t('новостей'),
               })}

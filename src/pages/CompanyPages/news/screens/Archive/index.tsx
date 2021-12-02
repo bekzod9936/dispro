@@ -96,7 +96,7 @@ const Archive = () => {
          {width>600 && <FilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} filterByDate={filterByDate}/>}
       {width>600 ? 
       <Wrap>
-        {response.isLoading || response.isFetching ? (
+        {response.isLoading || response.isFetching ?  (
           <WrapSpinner><Spinner/></WrapSpinner>
 
         ) : (

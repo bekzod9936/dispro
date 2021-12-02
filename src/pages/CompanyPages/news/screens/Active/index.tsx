@@ -134,7 +134,7 @@ const Active = () => {
       {width>600 && <FilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} filterByDate={filterByDate}/>}
       {width>600 ? 
       <Wrap>
-        { response.isFetching ? (
+        {response.isLoading || response.isFetching ? (
           <WrapSpinner><Spinner/></WrapSpinner>
 
         ) : (
