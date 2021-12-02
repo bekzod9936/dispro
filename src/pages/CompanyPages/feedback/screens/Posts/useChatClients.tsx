@@ -1,27 +1,15 @@
 import { useRef } from 'react';
-import { useMutation, useQuery } from 'react-query';
-import { USER_TYPES } from 'services/constants/chat';
-import {
-  fetchChatClientHistory,
-  fetchChatClients,
-  deleteChat,
-} from 'services/queries/feedbackQuery';
+import { useQuery } from 'react-query';
+import { fetchChatClients } from 'services/queries/feedbackQuery';
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import {
-  setChatClientHistory,
   setChosenListUser,
   setMessagesFeedBack,
-  setTotalHistory,
 } from 'services/redux/Slices/feedback';
 
 const useChatClients = () => {
   const dispatch = useAppDispatch();
   const messagesStartRef = useRef<HTMLDivElement>(null);
-
-  const histories = useAppSelector((state) => state.feedbackPost.histories);
-  const chosen = useAppSelector(
-    (state) => state.feedbackPost.chosenListUser?.chosen
-  );
 
   const choseListUser: any = useAppSelector(
     (state) => state.feedbackPost.chosenListUser
@@ -43,7 +31,7 @@ const useChatClients = () => {
         fetchHistory: true,
       })
     );
-    await resChatClientHistory.refetch();
+
     await scrollToTop();
   };
 
@@ -114,41 +102,11 @@ const useChatClients = () => {
       } else {
         dispatch(setMessagesFeedBack(data.data.data));
       }
-      if (choseListUser?.fetchHistory) {
-        resChatClientHistory.refetch();
-      }
     },
-  });
-
-  const resChatClientHistory = useQuery(
-    'getClientChatHistory',
-    () => {
-      const withId = chosen?.id ? `&withId=${chosen?.id}` : '';
-      return fetchChatClientHistory({
-        url: `withUserType=${USER_TYPES.CUSTOMER}${withId}&page=${choseListUser?.inntialHistory?.page}&perPage=${choseListUser?.inntialHistory?.perPage}`,
-      });
-    },
-    {
-      keepPreviousData: true,
-      refetchOnWindowFocus: false,
-      retry: 0,
-      enabled: false,
-      onSuccess: (data) => {
-        const his: any = histories;
-        dispatch(setChatClientHistory([...his, ...data.data.data.histories]));
-        dispatch(setTotalHistory(data.data.data.totalCount));
-      },
-    }
-  );
-
-  const deleteRes = useMutation((data) => {
-    return deleteChat({ data });
   });
 
   return {
     resChatClients,
-    resChatClientHistory,
-    deleteRes,
     handleChoose,
     scrollToTop,
     messagesStartRef,

@@ -46,6 +46,35 @@ export const Container = styled.div`
   flex-direction: column;
 `;
 
+export const Divider = styled.div`
+  text-align: center;
+  width: 100%;
+  position: relative;
+  & > div {
+    font-weight: 500;
+    font-size: 14px;
+    color: #223367;
+    display: flex;
+    align-items: center;
+    text-align: center;
+  }
+
+  & > div::before,
+  & > div::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid rgba(96, 110, 234, 0.1);
+  }
+
+  & > div:not(:empty)::before {
+    margin-right: 30px;
+  }
+
+  & > div:not(:empty)::after {
+    margin-left: 30px;
+  }
+`;
+
 export const MessageContainer = styled.div`
   max-width: 1000px;
   background: #ffffff;
@@ -186,8 +215,10 @@ export const Messages = styled.div`
   }
 
   @media (max-width: ${device.mobile}) {
-    grid-row-gap: 15px;
-    padding: 10px 20px 0 10px;
+    div.infinite-scroll-component {
+      grid-row-gap: 15px;
+      padding: 10px 20px 0 10px;
+    }
   }
 `;
 

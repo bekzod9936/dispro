@@ -4,13 +4,12 @@ import Input from 'components/Custom/Input';
 import Button from 'components/Custom/Button';
 import { useTranslation } from 'react-i18next';
 import { Avatar, Status } from '../../style';
-import useChatClients from '../../hooks/useChatClients';
+import useChatClients from './useChatClients';
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import defaultChat from 'assets/images/choosechat.png';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import useWindowWidth from 'services/hooks/useWindowWidth';
 import { SOCKET_EVENT } from 'services/constants/chat';
-import dayjs from 'dayjs';
 import { ruCount } from '../../hooks/format';
 import { IconButton } from '@material-ui/core';
 import { useForm, Controller } from 'react-hook-form';
@@ -20,7 +19,6 @@ import App from 'assets/icons/StatistisPage/app.svg';
 import FullModal from 'components/Custom/FullModal';
 import { ReactComponent as LeftBack } from 'assets/icons/FinanceIcons/leftback.svg';
 import { TextareaAutosize } from '@material-ui/core';
-import { OneCheckIcon, DoubleCheckIcoon } from '../../style';
 import Dots from '../../components/Dots';
 import {
   setChatClientHistory,
@@ -45,22 +43,13 @@ import {
   SendIcon,
   InputWarn,
   WrapIcons,
-  ChatPlace,
   WrapImg,
   WrapChoose,
-  Messages,
   Wrapper,
-  DownIcon,
-  WrapDown,
   Img,
-  Message,
-  MessageText,
-  MessageDate,
-  MessageWrap,
   Loading,
   Fetching,
   WrapScript,
-  WrapDownIcon,
   NoResult,
   MobileMessages,
   MobileContainer,
@@ -71,9 +60,9 @@ import {
   Wranning,
   WrapTextArea,
   WrapButtons,
-  WrapDateMessage,
 } from './style';
-
+import useHistory from './useHistory';
+import ChatPlace from '../../components/ChatPlace';
 interface FormProps {
   message?: string;
 }
@@ -103,48 +92,25 @@ const Posts = () => {
   const [limit, setLimit] = useState(words);
   const [loading, setLoading] = useState(false);
   const [showEmoji, setShowEmoji] = useState<boolean>(false);
-  const [scrollHeight, setScrollHeight] = useState(0);
+
   const [inpuSearch, setInpuSearch] = useState<string>('');
   const [searchRes, setSearchRes] = useState<any[]>([]);
   const [searchFocus, setSearchFocus] = useState<boolean>(false);
-  const {
-    resChatClients,
-    resChatClientHistory,
-    scrollToTop,
-    messagesStartRef,
-    handleChoose,
-  } = useChatClients();
 
+  const { resChatClients, scrollToTop, handleChoose } = useChatClients();
+
+  const { resChatClientHistory } = useHistory();
   const messages = useAppSelector((state) => state.feedbackPost.messages);
-  const histories = useAppSelector((state) => state.feedbackPost.histories);
-  const totalHistory: any = useAppSelector(
-    (state) => state.feedbackPost.totalHistory
-  );
+
   const socket = useAppSelector((state) => state.feedbackPost.socket);
-  const companyInfo = useAppSelector((state) => state.partner.companyInfo);
 
   useEffect(() => {
     setUsers(messages);
   }, [messages]);
 
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  const scrollToBottom = () => {
-    messagesEndRef?.current?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'end',
-    });
-  };
-
-  const findScrollHeight = (e: any) => {
-    e.preventDefault();
-
-    setScrollHeight(Math.abs(e.target.scrollTop));
-  };
-
   useEffect(() => {
     if (socket) {
-      scrollToBottom();
+      scrollToTop();
     }
   }, [socket]);
 
@@ -229,14 +195,6 @@ const Posts = () => {
       />
     </Avatar>
   );
-
-  const check = (status: any) => {
-    return status === 1 ? (
-      <OneCheckIcon />
-    ) : status === 2 ? (
-      <DoubleCheckIcoon />
-    ) : null;
-  };
 
   const limitwords = (
     <>
@@ -370,26 +328,7 @@ const Posts = () => {
               </WrapUserInfo>
             </HeaderModal>
             <BodyModal>
-              <ChatPlace>
-                <Messages onScroll={findScrollHeight}>
-                  <div>
-                    <div ref={messagesStartRef} />
-                    {histories?.map((v: any) => {
-                      return (
-                        <MessageWrap type={v.chatType}>
-                          <Message type={v.chatType}>
-                            <MessageDate type={v.chatType}>
-                              {dayjs(v.createdAt).format('hh:mm')}
-                            </MessageDate>
-                            <MessageText type={v.chatType}>{v.msg}</MessageText>
-                          </Message>
-                        </MessageWrap>
-                      );
-                    })}
-                    <div ref={messagesEndRef} />
-                  </div>
-                </Messages>
-              </ChatPlace>
+              <ChatPlace />
             </BodyModal>
             <FooterModal>
               <Form onSubmit={handleSubmit(onSubmit)}>
@@ -490,55 +429,7 @@ const Posts = () => {
                 <Dots />
               </Header>
               <Body>
-                <ChatPlace>
-                  {scrollHeight > 0 ? (
-                    <WrapDownIcon>
-                      <WrapDown onClick={() => scrollToTop()}>
-                        <DownIcon />
-                      </WrapDown>
-                    </WrapDownIcon>
-                  ) : null}
-                  <Messages onScroll={findScrollHeight}>
-                    <div ref={messagesStartRef} />
-                    {histories?.map((v: any) => {
-                      return (
-                        <MessageWrap>
-                          <Avatar>
-                            <LazyLoadImage
-                              src={
-                                v.chatType === 1
-                                  ? chosen?.image
-                                    ? chosen?.image
-                                    : ''
-                                  : companyInfo.logo
-                              }
-                              alt='user'
-                              style={{
-                                objectFit: 'cover',
-                              }}
-                              height='100%'
-                              width='100%'
-                              onError={(e: any) => {
-                                e.target.onerror = null;
-                                e.target.src = App;
-                              }}
-                            />
-                          </Avatar>
-                          <Message type={v.chatType}>
-                            <WrapDateMessage>
-                              <MessageDate type={v.chatType}>
-                                {dayjs(v.createdAt).format('hh:mm')}
-                              </MessageDate>
-                              {v.chatType === 2 ? check(v.status) : null}
-                            </WrapDateMessage>
-                            <MessageText type={v.chatType}>{v.msg}</MessageText>
-                          </Message>
-                        </MessageWrap>
-                      );
-                    })}
-                    <div ref={messagesEndRef} />
-                  </Messages>
-                </ChatPlace>
+                <ChatPlace />
                 <Form onSubmit={handleSubmit(onSubmit)}>
                   <Controller
                     name='message'

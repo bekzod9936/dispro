@@ -19,7 +19,13 @@ const initialState: IFeedBack = {
   ratings: [],
   histories: [],
   supporthistories: [],
-  totalHistory: 0,
+  totalHistory: {
+    total: 0,
+    page: 1,
+    perPage: 10,
+    loading: false,
+    hasMore: true,
+  },
   totalSupportHistory: {
     total: 0,
     page: 1,
@@ -65,7 +71,7 @@ const feedbackPostSlice = createSlice({
       state.totalCount = action.payload;
     },
 
-    setTotalHistory: (state, action: PayloadAction<number>) => {
+    setTotalHistory: (state, action: PayloadAction<ITHistorySupport>) => {
       state.totalHistory = action.payload;
     },
     setTotalSupportHistory: (
