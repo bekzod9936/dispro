@@ -190,21 +190,19 @@ const MobileTable = ({ refetch, data }: Props) => {
                           <div style={{ display: "block" }}>
                             <p
                               style={{
+                               whiteSpace: "pre-wrap",wordBreak: 'break-all',
+                               
                                 fontSize: "16px",
                                 color: "#223367",
                                 fontWeight: 500,
                               }}
                             >
-                              {info?.title?.length > 20
-                                ? info?.title?.slice(0, 20) + "..."
-                                : info?.title}
+                              {info?.title}
                             </p>
                             <span
                               style={{ fontSize: "14px", color: "#223367" }}
                             >
-                              {info?.description?.length > 15
-                                ? info?.description?.slice(0, 15) + "..."
-                                : info?.description}
+                              {info?.pushUp? 'Push-up':''}
                             </span>
                           </div>
                         </>

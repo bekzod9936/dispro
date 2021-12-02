@@ -60,6 +60,7 @@ const Active = () => {
   const totalNewsCount = useAppSelector(
     (state) => state.news.NewsInfo.totalCountNews
   );
+  console.log('totalNewsCount',totalNewsCount)
   const selectedNews = useAppSelector((state) => state.news.selectedNews);
   console.log("selectedNews", selectedNews);
   const { t } = useTranslation();
@@ -70,7 +71,6 @@ const Active = () => {
     });
     dispatch(setQuery(""));
   };
-
 
   const intialFilter = {
     page:1,
@@ -156,7 +156,7 @@ const Active = () => {
                   <span>{between}</span>
                   {t("from1")} <span>{totalNewsCount}</span> 
                   {countPagination({
-                count: totalNewsCount,
+                count: Number(totalNewsCount),
                 firstWord: t('новости '),
                 secondWord: t('новостей'),
               })}
@@ -173,7 +173,7 @@ const Active = () => {
           </>
         )}
       </Wrap>:
-      <WrapMobile>
+      <Wrap>
          <MobileFilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} filterByDate={filterByDate}/> 
           {response.isLoading || response.isFetching ? (
           <WrapSpinner><Spinner/></WrapSpinner>
@@ -198,7 +198,7 @@ const Active = () => {
                   <span>{between}</span>
                   {t("from1")} <span>{totalNewsCount}</span>
                   {countPagination({
-                count: totalNewsCount,
+             count: Number(totalNewsCount),
                 firstWord: t('новости '),
                 secondWord: t('новостей'),
               })}
@@ -216,7 +216,7 @@ const Active = () => {
           </>
         )
         }
-        </WrapMobile>}
+        </Wrap>}
     </Container>
   );
 };

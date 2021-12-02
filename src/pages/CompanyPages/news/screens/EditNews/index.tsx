@@ -38,7 +38,7 @@ import {
   PlusIcon,
   UploadImage,
 } from "assets/icons/proposals/ProposalsIcons";
-import { SaveIcon } from "assets/icons/news/newsIcons";
+import { SaveIcon ,SaveIconMobile} from "assets/icons/news/newsIcons";
 import { days, genders, todayDate } from "../CreateNews/constants";
 import {
   PushBlock,
@@ -562,11 +562,11 @@ console.log('filteredArray',filteredArray)
                         inputStyle={{
                           height: { desktop: 120, laptop: 90, mobile:120 },
                         }}
-                        IconEnd={width>600 &&
-                          <WrapArea>
-                            <TextAreaIcon />
-                          </WrapArea>
-                        }
+                        // IconEnd={width>600 &&
+                        //   <WrapArea>
+                        //     <TextAreaIcon />
+                        //   </WrapArea>
+                        // }
                       />
                     )}
                   />
@@ -714,7 +714,7 @@ console.log('filteredArray',filteredArray)
                   <Button
                     onClick={() => setValidation(true)}
                     type="submit"
-                    endIcon={<SaveIcon />}
+                    endIcon={<SaveIconMobile />}
                     buttonStyle={{
                       bgcolor: "#606EEA",
                       color: "#fff",

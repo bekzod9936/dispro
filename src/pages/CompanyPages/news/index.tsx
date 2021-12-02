@@ -87,14 +87,14 @@ const News = () => {
                       <>
                         <Flex
                           width="100%"
-                          height="60px"
+                          height="50px"
                           alignItems="flex-start"
                           margin="0"
                         >
                           <NavBar
                             list={newsPath}
-                            padding="0 15px 0 0"
-                            margin="10px 0"
+                            padding="0 10px 0 5px"
+                            margin="0px 0"
                           />
                         </Flex>
                       </>

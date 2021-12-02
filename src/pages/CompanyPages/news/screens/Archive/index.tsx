@@ -135,7 +135,7 @@ const Archive = () => {
           </>
         )}
       </Wrap>:
-    <WrapMobile>
+    <Wrap>
          <MobileFilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} filterByDate={filterByDate}/> 
           {response.isLoading || response.isFetching ? (
           <WrapSpinner><Spinner/></WrapSpinner>
@@ -178,7 +178,7 @@ const Archive = () => {
           </>
         )
         }
-        </WrapMobile>}
+        </Wrap>}
     </Container>
   );
 };
