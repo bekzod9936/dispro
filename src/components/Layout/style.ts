@@ -329,7 +329,7 @@ export const Wrarning = styled.div`
     text-align: center;
     box-shadow: none;
     flex-direction: column;
-    padding: 20px 0;
+    padding: 20px 0 0;
   }
 `;
 

@@ -716,7 +716,7 @@ const Address = () => {
                         label={t('phoneNumber')}
                         {...field}
                         onChange={(e: any) => {
-                          field.onChange(e.target.value.match(/\d/g).join(''));
+                          field.onChange(e.target.value.match(/\d/g)?.join(''));
                         }}
                         maskPhone={true}
                         margin={{

@@ -526,5 +526,12 @@
   "youDontHaveProducts": "У вас нет созданых продуктов",
   "youDontHaveProductsYet": "У вас пока что нет товаров",
   "section": "Раздел",
-  "item": "Товар"
+  "item": "Товар",
+  "newSection": "Новый раздел",
+  "sectionName": "Название раздела",
+  "createAnother": "Создать еще +",
+  "maxAmountOfCharacters": "Максимальное количество символов: 30",
+  "titlesOfSectionsMustBeUnique": "Названия разделов должны быть уникальными",
+  "areyousuredeletechat": "Вы действительно хотите удалить  чат?",
+  "deletechatsaveinclients": "После удаления чата, переписка на стороне клиента сохранится"
 }

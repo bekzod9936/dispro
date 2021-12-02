@@ -94,7 +94,7 @@ const FilterClients = () => {
 
   const radioList = data?.filter?.referal?.map((v: any) => {
     const val = v.refIds
-      .map((v: any, i: any) => `refIdsB%5B${i}%5D=${v}&`)
+      .map((v: any, i: any) => `refIds%5B${i}%5D=${v}&`)
       .join('');
     return {
       value: val,

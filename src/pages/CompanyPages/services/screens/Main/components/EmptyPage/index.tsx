@@ -1,5 +1,7 @@
 //packages
 import { useTranslation } from 'react-i18next'
+import { Link } from "react-router-dom"
+
 
 //style
 import { Wrapper } from "./style"
@@ -15,13 +17,17 @@ interface EmptyPageProps {
 
 export const EmptyPage: React.FC<EmptyPageProps> = () => {
     const { t } = useTranslation()
+
+
     return (
         <Wrapper>
             <img src={emptyBoxImg} alt="emptyBoxImage" />
             <p>{t("youDontHaveProductsYet")}</p>
-            <Button>
-                {t("add")}
-            </Button>
+            <Link to="/services/create">
+                <Button>
+                    {t("add")}
+                </Button>
+            </Link>
         </Wrapper>
     )
 }

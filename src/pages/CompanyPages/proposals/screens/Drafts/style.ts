@@ -49,9 +49,17 @@ export const Container = styled.div`
     @media (max-width: ${device.planshet}) {
         padding-bottom: 150px;
         display: ${({ isFullScreen }: IProps) => isFullScreen ? "block" : "grid"};
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         grid-template-rows: auto;
         gap: 20px;
+        flex-wrap: wrap;
+    }
+    @media (max-width: 850px) {
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 60px;
+    }
+    @media (max-width: 768px) {
+        column-gap: 20px;
     }
     @media (max-width: ${device.mobile}) {
         padding-right: 8px !important;
