@@ -11,7 +11,7 @@ export const Container = styled.div`
 export const Wrap = styled.div`
   overflow-y: auto;
   padding-right: 25px;
-  padding-top:40px;
+  padding-top:20px;
   ::-webkit-scrollbar {
     width: 7px;
   }

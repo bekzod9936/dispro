@@ -52,7 +52,7 @@ interface IProps {
   refetch: any;
 }
 export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
-  console.log("currentNews", currentNews);
+
 
   const history = useHistory();
   const location = useLocation();
@@ -154,7 +154,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
       <ContentSideBar>
         {width > 600 && width <= 1000 ? (
           <ContentInfo>
-            <h5>Описание</h5>
+            <h5>{t('Описание')}</h5>
 
             <p
               style={{
@@ -168,7 +168,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
               {currentNews?.data?.description}
             </p>
 
-            <h5>Информация</h5>
+            <h5>{t('Информация')}</h5>
             <p>
               {currentNews?.data?.genderType === 0
                 ? "Для всех"
@@ -176,11 +176,11 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
                 ? "Только для мужчин"
                 : `Только для женщин`}
             </p>
-            <p>Срок публикации: {currentNews?.date}</p>
-            <p style={{marginBottom: "20px"}}>Возрастное ограничение: {currentNews?.data?.ageFrom}+</p>
+            <p>{t('Срок публикации')}: {currentNews?.date}</p>
+            <p style={{marginBottom: "20px"}}>{t('Возрастное ограничение')}: {currentNews?.data?.ageFrom}+</p>
             {currentNews?.data?.pushUp ? 
             <div >
-            <h5>Push up статистика
+            <h5>{t('Push up статистика')}
             </h5>
             <WrapBoxDetail>
                         
@@ -217,7 +217,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
           </ContentInfo>
         ) : (
           <ContentInfo>
-            <h5>Информация</h5>
+            <h5>{t('Информация')}</h5>
             <p>
               {currentNews?.data?.genderType === 0
                 ? "Для всех"
@@ -225,8 +225,8 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
                 ? "Только для мужчин"
                 : `Только для женщин`}
             </p>
-            <p>Срок публикации: {currentNews?.date}</p>
-            <p>Возрастное ограничение: {currentNews?.data?.ageFrom}+</p>
+            <p>{t('Срок публикации')}: {currentNews?.date}</p>
+            <p>{t('Возрастное ограничение')}: {currentNews?.data?.ageFrom}+</p>
           </ContentInfo>
         )}
 
@@ -249,7 +249,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
                 }}
                 startIcon={<WatchIcons />}
               >
-                Смотреть полностью
+               {t('Смотреть полностью')} 
               </Button>
               
             </div>
@@ -274,7 +274,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
                 }}
                 startIcon={<WatchIconsWhite />}
               >
-                Смотреть полностью
+                          {t('Смотреть полностью')}   
               </Button>
             
             </div>
@@ -305,7 +305,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
               )
             }
            >
-           Редактировать
+               {t('Редактировать')}     
            </Button>
          
          </div>
@@ -330,7 +330,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
                 }}
                 startIcon={<PublishIcon />}
               >
-                Опубликовать
+                             {t('Опубликовать')}   
               </Button>
             </div>
           )}
@@ -357,7 +357,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
               
               endIcon={width > 325 && <WhitePublishIcon />}
             >
-              Опубликовать
+                   {t('Опубликовать')}    
             </Button>
             <div
             style={{
@@ -382,7 +382,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
                 )
               }
             >
-              Редактировать
+                         {t('Редактировать')}     
             </Button>
           </div>
           </div>
@@ -408,7 +408,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
                 }}
                 startIcon={<DeleteIcon />}
               >
-                Удалить
+                    {t('Удалить')}       
               </Button>
             )}
                {location.pathname !== "/news/archive" && width>600 && width<=1000 && (
@@ -422,7 +422,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
                 }}
                 endIcon={<DeletePlanshetIcon />}
               >
-                Удалить
+                   {t('Удалить')}      
               </Button>
             )}
             {location.pathname === "/news/archive" && width>1000 && (
@@ -437,7 +437,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
                 
                 startIcon={<RepairNewsIcon />}
               >
-                Восстановить новость
+                  {t(' Восстановить новость')} 
               </Button>
             )}
                  {location.pathname === "/news/archive" && width>600 && width<1000&&(
@@ -452,7 +452,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
                 
                 endIcon={<RepairNewsIcon />}
               >
-                Восстановить новость
+               {t(' Восстановить новость')}  
               </Button>
             )}
           </div>
@@ -460,15 +460,15 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
       </ContentSideBar>
       <Modal open={isDeleteOpen}>
         <DeleteModal>
-          <h5>Вы действительно хотите удалить новость?</h5>
-          <p>{"После удаления новости  данные будет утеряны"}</p>
+          <h5> {t(' Вы действительно хотите удалить новость?')}   </h5>
+          <p>{t('После удаления новости  данные будет утеряны')}</p>
           <Button
             buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
             margin={{ laptop: "0 22px 0 0" }}
             onClick={() => setDeleteOpen(false)}
             startIcon={<CancelIcon />}
           >
-            Отмена
+                       {t(' Отмена')}    
           </Button>
           <Button
             buttonStyle={{
@@ -478,7 +478,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
             onClick={onDelete}
             startIcon={<DeleteIcon />}
           >
-            Удалить
+                  {t(' Удалить')}      
           </Button>
         </DeleteModal>
       </Modal>

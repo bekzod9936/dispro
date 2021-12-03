@@ -1,14 +1,11 @@
 import React from 'react';
-
+import { useTranslation } from 'react-i18next';
+import { IProps } from "../Header/types";
 import { FONT_SIZE } from '../../../../../services/Types/enums';
+//styles
 import { Flex } from '../../../../../styles/BuildingBlocks';
 import {  Text } from '../../../../../styles/CustomStyles';
 import noPending from '../../../../../assets/images/nopending.png';
-
-import { useTranslation } from 'react-i18next';
-
-import { IProps } from "../Header/types";
-
 
 const NoNewsLaptop: React.FC<IProps> = ({handleOpenSetting}) => {
 
@@ -42,9 +39,6 @@ const NoNewsLaptop: React.FC<IProps> = ({handleOpenSetting}) => {
               </Text>
             </div>
             <div style={{ marginTop: '15px' }}>
-               {/* Settings side  */}
-     
-            
             </div>
           </Flex>
         </Flex>

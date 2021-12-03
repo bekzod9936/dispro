@@ -17,7 +17,6 @@ const News = () => {
   const { menuItems, newsPath } = useNewsRoute();
   const dispatch = useAppDispatch();
   const location = useLocation();
-
   const { width } = useWindowWidth();
   const history = useHistory();
   const handleOpenNews = () => {
@@ -27,7 +26,6 @@ const News = () => {
     });
     dispatch(setQuery(""));
   };
-
 
   return (
     <MainWrapper id="drawer-container">
@@ -59,7 +57,7 @@ const News = () => {
                           />
                         </Flex>:  <Flex
                           width="100%"
-                          height="85px"
+                          height="75px"
                           alignItems="flex-start"
                           margin="0"
                         >
