@@ -200,7 +200,6 @@ export const ChatPlace1 = styled.div`
   display: flex;
   flex: 1;
   overflow: hidden;
-  margin-bottom: 15px;
   position: relative;
 
   @media (max-width: ${device.mobile}) {

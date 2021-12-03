@@ -7,7 +7,6 @@ import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import Button from 'components/Custom/Button';
 import Input from 'components/Custom/Input';
-import { Avatar } from '../../style';
 import { IconButton } from '@material-ui/core';
 import useSupportChat from './useSupportChat';
 import dayjs from 'dayjs';
@@ -23,14 +22,11 @@ import Emoji from '../../components/Emoji';
 import Spinner from 'components/Custom/Spinner';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {
-  InputDown,
-  ScriptIcon,
-  SmileIcon,
-  SendIcon,
-  InputWarn,
-  WrapIcons,
-  WrapScript,
-} from '../Posts/style';
+  setChatSupportHistory,
+  setTotalSupportHistory,
+} from 'services/redux/Slices/feedback';
+import useRead from '../../hooks/useRead';
+import useLayout from 'components/Layout/useLayout';
 import {
   Container,
   MessageContainer,
@@ -63,14 +59,18 @@ import {
   Wranning,
   WrapTextArea,
   WrapButtons,
-  Divider,
 } from './style';
 import {
-  setChatSupportHistory,
-  setTotalSupportHistory,
-} from 'services/redux/Slices/feedback';
-import useRead from '../../hooks/useRead';
-import useLayout from 'components/Layout/useLayout';
+  Avatar,
+  InputDown,
+  ScriptIcon,
+  SmileIcon,
+  SendIcon,
+  InputWarn,
+  WrapIcons,
+  WrapScript,
+  Divider,
+} from '../../style';
 
 interface FormProps {
   message?: string;

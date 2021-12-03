@@ -10,20 +10,12 @@ import {
 const useChatClients = () => {
   const dispatch = useAppDispatch();
   const messagesStartRef = useRef<HTMLDivElement>(null);
-
   const choseListUser: any = useAppSelector(
     (state) => state.feedbackPost.chosenListUser
   );
 
-  const scrollToTop = () => {
-    messagesStartRef?.current?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'end',
-    });
-  };
-
-  const handleChoose = async (v: any) => {
-    await dispatch(
+  const handleChoose = (v: any) => {
+    dispatch(
       setChosenListUser({
         ...choseListUser,
         chosen: v,
@@ -31,8 +23,13 @@ const useChatClients = () => {
         fetchHistory: true,
       })
     );
+  };
 
-    await scrollToTop();
+  const scrollToTop = () => {
+    messagesStartRef?.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'end',
+    });
   };
 
   const chosenClient = useAppSelector(
@@ -53,23 +50,7 @@ const useChatClients = () => {
           }
         });
         if (newArr.length === 0) {
-          dispatch(
-            setMessagesFeedBack([
-              {
-                date: '',
-                firstName: chosenClient?.data?.clientFirstName,
-                id: chosenClient?.data?.clientId,
-                image: chosenClient?.data?.clientImage,
-                isDeleted: false,
-                lastMsg: '',
-                lastName: chosenClient?.data?.clientLastName,
-                genderTypeId: chosenClient?.data?.clientGenderTypeId,
-                obtainProgramLoyalty: chosenClient?.data?.obtainProgramLoyalty,
-              },
-              ...data.data.data,
-            ])
-          );
-          handleChoose({
+          const newData = {
             date: '',
             firstName: chosenClient?.data?.clientFirstName,
             id: chosenClient?.data?.clientId,
@@ -79,14 +60,15 @@ const useChatClients = () => {
             lastName: chosenClient?.data?.clientLastName,
             genderTypeId: chosenClient?.data?.clientGenderTypeId,
             obtainProgramLoyalty: chosenClient?.data?.obtainProgramLoyalty,
-          });
+          };
+          dispatch(setMessagesFeedBack([newData, ...data.data.data]));
+          handleChoose(newData);
           dispatch(
             setChosenListUser({
               ...choseListUser,
               isChoose: chosenClient?.choose,
             })
           );
-
           scrollToTop();
         } else {
           dispatch(setMessagesFeedBack(data.data.data));
