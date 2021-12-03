@@ -234,6 +234,7 @@ export const ManagerTd = styled.div`
 
 export const DefaultLogo = styled.div`
   width: 40px;
+  margin-left: 15px;
   height: 40px;
   border-radius: 14px;
   background: linear-gradient(215.2deg, #C7EEFF -12.1%, #FCA9EA 101.51%);

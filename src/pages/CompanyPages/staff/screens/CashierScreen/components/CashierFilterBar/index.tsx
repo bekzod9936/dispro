@@ -50,7 +50,7 @@ import {
 	setOpenFilter,
 } from 'services/redux/Slices/staffs';
 import Input from 'components/Custom/Input';
-import { CheckIcon } from 'pages/CompanyPages/statistics/screens/Clients/style';
+// import { CheckIcon } from 'pages/CompanyPages/statistics/screens/Clients/style';
 import { TickIcon } from 'components/Custom/Filter/style';
 import Radio from 'components/Custom/Radio';
 import { useQueryClient } from 'react-query';
