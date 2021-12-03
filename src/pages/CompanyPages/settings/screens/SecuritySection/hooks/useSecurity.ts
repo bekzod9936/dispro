@@ -58,7 +58,6 @@ const useSecurity = () => {
   );
 
   const onFormSubmit = (data: IForm) => {
-    console.log(data, "data submitted");
     changeSecurity.mutate({
       safeties: {
         daily_purchase_limit: +data.first,
