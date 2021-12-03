@@ -35,7 +35,7 @@ export const Wrapper = styled.div`
   height: 100%;
   background-color:#fff;
   border-radius: 15px;
-padding-top:77px;
+padding-top:50px;
 padding-bottom:50px;
 padding-left:100px;
 
