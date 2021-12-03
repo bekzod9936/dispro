@@ -97,7 +97,7 @@ export const Preview = styled.div`
     object-fit:'cover';
   }
   img.iphoneImg {
-    max-width: 290px;
+    max-width: 300px !important;
     width: 100%;
     height: 100%;
     position: relative;
@@ -113,7 +113,7 @@ export const PreviewContent = styled.div`
   left: 13px;
   right: 10px;
   bottom: 2%;
-  width: 265px;
+  width: 274px;
   border-radius: 10px 10px 30px 30px;
   padding: 15px 0;
   display: flex;

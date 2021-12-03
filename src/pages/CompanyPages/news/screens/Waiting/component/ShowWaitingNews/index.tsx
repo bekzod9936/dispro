@@ -118,7 +118,7 @@ const ShowWaitingNews = () => {
       <Wrapper>
         <Preview>
           <img style={{objectFit:'fill'}} className="couponImg" src={newsById?.data?.image} alt="" />
-          <img className="iphoneImg" width="300" src={iphone} />
+          <img className="iphoneImg" max-width="300px" src={iphone} />
           <PreviewContent>
             <h5>
               <span style={{wordBreak: 'break-all' }}>
