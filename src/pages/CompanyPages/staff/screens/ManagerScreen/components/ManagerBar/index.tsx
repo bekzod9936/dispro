@@ -20,6 +20,7 @@ import {
 	ButtonKeyWord,
 	ManagerCollection,
 	DeleteIc,
+	ImageWrap,
 } from './style';
 import { IconButton } from '@material-ui/core';
 import { useUploadImage } from 'pages/CompanyPages/staff/hooks/useUploadIMage';
@@ -72,19 +73,20 @@ const ManagerBar: React.FC<any> = ({}) => {
 					<UpSide>
 						<ManagerRow justifyContent='center'>
 							<ManagerCol>
-								{selectedManagers[0].logo.startsWith('https://') ? (
-									<Img
-										src={selectedManagers[0].logo}
-										effect='blur'
-										height='100%'
-										width='100%'
-										// onError={(e: any) => (e?.target?.src = `${NoPhoto}`)}
-									/>
-								) : (
-									<Logo />
-								)}
+								<ImageWrap>
+									{selectedManagers[0].logo.startsWith('https://') ? (
+										<Img
+											src={selectedManagers[0].logo}
+											effect='blur'
+											height='100%'
+											width='100%'
+											// onError={(e: any) => (e?.target?.src = `${NoPhoto}`)}
+										/>
+									) : (
+										<Logo />
+									)}
+								</ImageWrap>
 							</ManagerCol>
-							<div style={{ width: '10px' }} />
 							<ManagerCol>
 								<BarTitle>{selectedManagers[0].firstName}</BarTitle>
 								<BarText>

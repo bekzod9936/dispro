@@ -7,7 +7,7 @@ import { device } from "styles/device";
 export const Container = styled.div`
   background: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
-  border-radius: 0 0 14px 14px;
+  border-radius: 14px 14px 14px 14px;
   overflow-x: auto;
   width: 100%;
   &:hover {
@@ -72,10 +72,18 @@ interface ITh {
 }
 
 export const Th = styled.th`
-  padding: 0 10px;
+text-align: left;
+//   padding: 0 10px;
   font-weight: normal;
   cursor: pointer;
   font-size: 16px;
+  &:nth-child(1) {
+	padding-left: 10px;
+	width: 10px;
+  }
+  &:nth-child(2) {
+	padding-left: 55px;
+  }
   @media (max-width: ${device.planshet}) {
     font-size: 14px;
     padding: 6px;
@@ -113,27 +121,6 @@ export const TableWrapper = styled.div`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
   margin-bottom: 20px;
 `;
-export const TableHeader = styled.div`
-  width: 100%;
-  z-index: 10;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 45px;
-  background-color: #ffffff;
-  border-radius: 14px 14px 0 0;
-  border-bottom: 1px solid rgba(96, 110, 234, 0.1);
-  @media (max-width: ${device.planshet}) {
-    padding: 10px;
-  }
-`;
-
-export const Title = styled.h2`
-  color: #223367;
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 21px;
-`;
 
 export const AddButton = styled.button`
   outline: 0;
@@ -168,16 +155,28 @@ export const THead = styled.thead`
 //     font-size: 16px;
 // `
 export const Td = styled.td`
-  padding: 15px;
-  text-align: center;
+//   text-align: center;
   text-transform: capitalize;
   font-weight: normal;
   font-size: 16px;
   color: #223367;
   cursor: pointer;
+  &:nth-child(1) {
+	padding-left: 10px
+	width: 10px;
+  }
   @media (max-width: ${device.planshet}) {
     font-size: 14px;
     padding: 6px;
+  }
+  &:last-child{
+	margin: 0;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden; 
+	width: 140px;
+    white-space: pre-wrap;
   }
 `;
 export const Tbody = styled.tbody`
@@ -229,11 +228,13 @@ export const ManagerTd = styled.div`
     width: 40px;
     height: 40px;
     margin-right: 15px;
+    margin-left: 15px;
   }
 `
 
 export const DefaultLogo = styled.div`
   width: 40px;
+  margin-left: 15px;
   height: 40px;
   border-radius: 14px;
   background: linear-gradient(215.2deg, #C7EEFF -12.1%, #FCA9EA 101.51%);
