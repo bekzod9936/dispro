@@ -7,6 +7,7 @@ import {
   CancelIcon,
   CloseIcon,
 } from "assets/icons/ClientsPageIcons/ClientIcons";
+import { SaveIconMobile } from "assets/icons/news/newsIcons";
 import { SaveIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
 import "react-image-crop/dist/ReactCrop.css";
 import {
@@ -187,7 +188,7 @@ const CropCustomModal = ({
             )}
           </div>
         </div>
-        <div>
+        {coupon ? <div>
           <Button
             onClick={handleClose}
             startIcon={width > 329 && <CancelIcon />}
@@ -207,7 +208,28 @@ const CropCustomModal = ({
           >
             Сохранить
           </Button>
-        </div>
+        </div>: <div style={{display:'flex',justifyContent:'center'}}>
+          <Button
+            onClick={handleClose}
+            endIcon={width > 329 && <CancelIcon />}
+            margin={{ laptop: "0 25px 0 50px", mobile: "0 8px 0 0" }}
+            buttonStyle={{
+              bgcolor: "rgba(96, 110, 234, 0.1)",
+                        color: "#606EEA",
+              weight: "500",
+            }}
+          >
+            Отмена
+          </Button>
+          <Button
+            disabled={imageUrl?.length < 6}
+            onClick={handleSave}
+            endIcon={width > 1000 ? <SaveIcon /> : <SaveIconMobile />}
+          >
+            Сохранить
+          </Button>
+        </div>}
+        
       </Wrapper>
     </Modal>
   );

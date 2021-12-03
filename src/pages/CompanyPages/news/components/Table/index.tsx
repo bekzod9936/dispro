@@ -131,7 +131,7 @@ const Table = ({ data, header2 }: Props) => {
                   }  else if (cell.column.Header === "Описание") {
                     let checkDescription = cell?.row?.original?.fullData?.data?.description;
                     let descriptionn =
-                      checkDescription?.length >70
+                      checkDescription?.length >60
                         ? checkDescription.charAt(0).toUpperCase() +checkDescription.slice(1,70)+ "..."
                         : checkDescription.charAt(0).toUpperCase()+checkDescription.slice(1);
                         console.log('checkDescription',descriptionn)

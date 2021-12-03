@@ -2,17 +2,29 @@ import {
   CancelIcon,
   CloseIcon,
 } from "assets/icons/ClientsPageIcons/ClientIcons";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import {
+  WatchIcons,
+  WatchIconsWhite,
+  DeleteIcon,
+  DeletePlanshetIcon,
+  PublishIcon,
+  RepairNewsIcon,
+  PenIconPlanshet,
+  WhitePublishIcon
+} from "assets/icons/news/newsIcons";
 
-import { WatchIcons,WatchIconsWhite, DeleteIcon,PublishIcon,RepairNewsIcon } from "assets/icons/news/newsIcons";
 import Button from "components/Custom/Button";
 import Modal from "components/Custom/Modal";
+
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useHistory } from "react-router";
 import { deleteNews } from "services/queries/newPageQuery";
 import { IDeferred } from "services/redux/Slices/news/types";
-import {PublicModal} from "./components/PublicModal";
-
+import { PublicModal } from "./components/PublicModal";
+import { PenIcon } from "assets/icons/news/newsIcons";
+import useWindowWidth from "services/hooks/useWindowWidth";
 import {
   Wrapper,
   Header,
@@ -25,6 +37,11 @@ import {
   PreviewBgNews,
   WrapperModal,
   CloseButton,
+  WrapIcon,
+  WrapAvatar,
+  Box,
+  WrapBoxDetail,
+  BoxinfoDetail,
 } from "./style";
 
 import { useTranslation } from "react-i18next";
@@ -35,31 +52,30 @@ interface IProps {
   refetch: any;
 }
 export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
-
-  console.log("currentNews",currentNews)
+  console.log("currentNews", currentNews);
 
   const history = useHistory();
   const location = useLocation();
-
+  const { width } = useWindowWidth();
   const { t } = useTranslation();
   const [isDeleteOpen, setDeleteOpen] = React.useState<boolean>(false);
   const [isPublishOpen, setPublisOpen] = React.useState<boolean>(false);
- 
-
 
   const showNew = () => {
     if (currentNews) {
-       history.push("/news/showwaiting");
-    
+      history.push("/news/showwaiting");
     }
   };
+ 
+  const editNews = () => {
+    history.push("/news/edit");
+  };
 
-
-  const restoreNews=()=>{
+  const restoreNews = () => {
     if (currentNews) {
       history.push("/news/repair");
     }
-  }
+  };
 
   const onDelete = async () => {
     await deleteNews(currentNews?.data?.id);
@@ -67,50 +83,165 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
     setDeleteOpen(false);
     onClose(false);
   };
-console.log('gender',currentNews?.genderType )
+
   return (
     <Wrapper>
       <Header>
-        <h6>{'Новости'}</h6>
+        <h6>{"Новость"}</h6>
         <CloseIcon onClick={onClose} style={{ cursor: "pointer" }} />
       </Header>
       {/* <Preview> */}
-      <LeftRound>
-        <PreviewDivNews>
-          {currentNews?.data?.image?.length > 6 && (
-            <PreviewBgNews src={currentNews?.data?.image} alt="" />
-          )}
-          <img
-            style={{ zIndex: 20, position: "relative",objectFit:'fill' }}
-            width="320"
-            height="180"
-            alt=""
-          />
-        </PreviewDivNews>
-        <h5>{currentNews?.data?.title?.length>50 ? currentNews?.data?.title?.slice(0,30)+'...':currentNews?.data?.title}</h5>
-        <p style={{wordBreak: 'break-all'}}>{currentNews?.data?.description?.length> 66 ? currentNews?.data?.description?.slice(0,66)+'...':currentNews?.data?.description}</p>
-      </LeftRound>
+      {width > 1000 ? (
+        <LeftRound>
+          <PreviewDivNews>
+            {currentNews?.data?.image?.length > 6 && (
+              <PreviewBgNews src={currentNews?.data?.image} alt="" />
+            )}
+            <img
+              style={{ zIndex: 20, position: "relative", objectFit: "fill" }}
+              width="320"
+              height="180"
+              alt=""
+            />
+          </PreviewDivNews>
+          <h5>
+            {currentNews?.data?.title?.length > 50
+              ? currentNews?.data?.title?.slice(0, 30) + "..."
+              : currentNews?.data?.title}
+          </h5>
+          <p style={{ wordBreak: "break-all" }}>
+            {currentNews?.data?.description?.length > 66
+              ? currentNews?.data?.description?.slice(0, 66) + "..."
+              : currentNews?.data?.description}
+          </p>
+        </LeftRound>
+      ) : (
+        <WrapAvatar>
+          <>
+            <WrapIcon>
+              <LazyLoadImage
+                alt="avatar"
+                height="50px"
+                src={currentNews?.data?.image}
+                width="50px"
+                effect="blur"
+                style={{
+                  objectFit: "cover",
+                  borderRadius: "14px",
+                }}
+              />
+            </WrapIcon>
+            <div style={{ display: "block" }}>
+              <p
+                style={{
+                  whiteSpace: "pre-wrap",
+                  wordBreak: "break-all",
+                  fontSize: "16px",
+                  color: "#223367",
+                  fontWeight: 500,
+                }}
+              >
+                {currentNews?.data?.title}
+              </p>
+              <span style={{ fontSize: "14px", color: "#223367" }}>
+                {currentNews?.data?.pushUp ? "Push-up" : ""}
+              </span>
+            </div>
+          </>
+        </WrapAvatar>
+      )}
+
       <ContentSideBar>
-        <ContentInfo>
-          <h5>Информация</h5>
-       
-          <p>{currentNews?.data?.genderType ===0 ?  'Для всех' : currentNews?.data?.genderType ===1 ? 'Только для мужчин':`Только для женщин` }</p>
-          <p>Срок публикации: {currentNews?.date}</p>
-          <p>Возрастное ограничение: {currentNews?.data?.ageFrom}+</p>
-        </ContentInfo>
+        {width > 600 && width <= 1000 ? (
+          <ContentInfo>
+            <h5>Описание</h5>
+
+            <p
+              style={{
+                wordBreak: "break-all",
+                fontWeight: 400,
+                marginBottom: "20px",
+                color:"#223367",
+                fontSize:'14px'
+              }}
+            >
+              {currentNews?.data?.description}
+            </p>
+
+            <h5>Информация</h5>
+            <p>
+              {currentNews?.data?.genderType === 0
+                ? "Для всех"
+                : currentNews?.data?.genderType === 1
+                ? "Только для мужчин"
+                : `Только для женщин`}
+            </p>
+            <p>Срок публикации: {currentNews?.date}</p>
+            <p style={{marginBottom: "20px"}}>Возрастное ограничение: {currentNews?.data?.ageFrom}+</p>
+            {currentNews?.data?.pushUp ? 
+            <div >
+            <h5>Push up статистика
+            </h5>
+            <WrapBoxDetail>
+                        
+                        <Box>
+                          <BoxinfoDetail>{`Уведомлений получили: ${currentNews?.data?.stat?.get?.total} чел`}</BoxinfoDetail>
+                          <BoxinfoDetail>
+                            {`Уведомлений просмотрели:${currentNews?.data?.stat?.view?.total} чел`}
+                            <br />
+                            <span
+                              style={{ fontSize: "14px", color: "#606EEA" }}
+                            >{`${currentNews?.data?.stat?.view?.male} Муж`}</span>
+                            <span
+                              style={{ fontSize: "14px", color: "#FF56BB" }}
+                            >
+                              {" " + `${currentNews?.data?.stat?.view?.female} Жен`}
+                            </span>
+                          </BoxinfoDetail>
+                          <BoxinfoDetail>
+                            {`Произвели оплату: ${currentNews?.data?.stat?.paid?.total} чел`}
+                            <br />
+                            <span
+                              style={{ fontSize: "14px", color: "#606EEA" }}
+                            >{`${currentNews?.data?.stat?.paid?.male} Муж`}</span>
+                            <span
+                              style={{ fontSize: "14px", color: "#FF56BB" }}
+                            >
+                              {" " + `${currentNews?.data?.stat?.paid?.female} Жен`}
+                            </span>
+                          </BoxinfoDetail>
+                        </Box>
+                      </WrapBoxDetail>
+                      </div>
+:''}
+          </ContentInfo>
+        ) : (
+          <ContentInfo>
+            <h5>Информация</h5>
+            <p>
+              {currentNews?.data?.genderType === 0
+                ? "Для всех"
+                : currentNews?.data?.genderType === 1
+                ? "Только для мужчин"
+                : `Только для женщин`}
+            </p>
+            <p>Срок публикации: {currentNews?.date}</p>
+            <p>Возрастное ограничение: {currentNews?.data?.ageFrom}+</p>
+          </ContentInfo>
+        )}
+
         <ContentButton>
-          {location.pathname === "/news/waiting" &&(
+          {location.pathname === "/news/waiting" && width>1000 && (
             <div
               style={{
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "flex-end",
-                marginBottom:'10px',
-              
+                marginBottom: "10px",
               }}
             >
-              <Button
+             <Button
                 onClick={() => showNew()}
                 buttonStyle={{
                   color: "#606EEA",
@@ -120,34 +251,66 @@ console.log('gender',currentNews?.genderType )
               >
                 Смотреть полностью
               </Button>
+              
             </div>
           )}
-             {location.pathname === "/news/active" && (
+          { location.pathname === "/news/active" && width>1000 && (
+         
             <div
               style={{
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "flex-end",
-                marginBottom:'10px',
-        
+                marginBottom: "10px",
               }}
             >
-              <Button
+            <Button
                 onClick={() => showNew()}
                 buttonStyle={{
                   color: "#fff",
                   bgcolor: "#606EEA",
-                  shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)'
-                  
+                  shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
                 }}
                 startIcon={<WatchIconsWhite />}
               >
                 Смотреть полностью
               </Button>
+            
             </div>
           )}
-          {location.pathname === "/news/waiting" && (
+             { location.pathname === "/news/active" && width>600 && width<=1000 && (
+         
+         <div
+           style={{
+             display: "flex",
+             flexDirection: "column",
+             alignItems: "center",
+             justifyContent: "flex-end",
+             marginBottom: "10px",
+           }}
+         >
+         <Button
+             onClick={() => editNews()}
+             buttonStyle={{
+               color: "#fff",
+               bgcolor: "#606EEA",
+               shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
+               height: { planshet: 45 },
+             }}
+            
+             endIcon={
+              width > 325 && (
+                <PenIcon style={{ height: 15, width: 13.5 }} />
+              )
+            }
+           >
+           Редактировать
+           </Button>
+         
+         </div>
+       )}
+          {location.pathname === "/news/waiting" && width>1000  && (
             <div
               style={{
                 display: "flex",
@@ -155,8 +318,7 @@ console.log('gender',currentNews?.genderType )
                 alignItems: "center",
                 justifyContent: "flex-end",
                 marginTop: "25px",
-                marginBottom:'10px',
-           
+                marginBottom: "10px",
               }}
             >
               <Button
@@ -164,12 +326,68 @@ console.log('gender',currentNews?.genderType )
                 buttonStyle={{
                   color: "#606EEA",
                   bgcolor: " rgba(96,110,234,0.1)",
+            
                 }}
                 startIcon={<PublishIcon />}
               >
                 Опубликовать
               </Button>
             </div>
+          )}
+
+          {location.pathname === "/news/waiting" && width>600 && width<=1000 && (
+            <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "flex-end",
+              marginTop: "25px",
+              marginBottom: "10px",
+            }}
+          >
+            <Button
+              onClick={() => setPublisOpen(true)}
+              buttonStyle={{
+                color: "#fff",
+                bgcolor: "#606EEA",
+                shadow:" 0px 4px 9px rgba(96, 110, 234, 0.46)",
+                height: { planshet: 45 },
+              }}
+              
+              endIcon={width > 325 && <WhitePublishIcon />}
+            >
+              Опубликовать
+            </Button>
+            <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "flex-end",
+              marginTop: "25px",
+              marginBottom: "10px",
+            }}
+          >
+            <Button
+                   onClick={() => editNews()}
+              buttonStyle={{
+                color: "#606EEA",
+                bgcolor: " rgba(96,110,234,0.1)",
+                height: { planshet: 45 },
+              }}
+              endIcon={
+                width > 325 && (
+                  <PenIconPlanshet style={{ height: 15, width: 13.5 }} />
+                )
+              }
+            >
+              Редактировать
+            </Button>
+          </div>
+          </div>
+          
+          
           )}
           <div
             style={{
@@ -178,24 +396,61 @@ console.log('gender',currentNews?.genderType )
               alignItems: "center",
               justifyContent: "flex-end",
               paddingTop: "5%",
-              
-         
             }}
           >
-            {location.pathname !== "/news/archive" && (
+            {location.pathname !== "/news/archive" && width>1000 && (
               <Button
                 onClick={() => setDeleteOpen(true)}
-                buttonStyle={{ color: "#ffffff", bgcolor: "#FF5E68" ,shadow: '0px 4px 9px rgba(255, 94, 104, 0.46)'}}
+                buttonStyle={{
+                  color: "#ffffff",
+                  bgcolor: "#FF5E68",
+                  shadow: "0px 4px 9px rgba(255, 94, 104, 0.46)",
+                }}
                 startIcon={<DeleteIcon />}
               >
                 Удалить
               </Button>
             )}
-            {location.pathname === "/news/archive" && (
+               {location.pathname !== "/news/archive" && width>600 && width<=1000 && (
+              <Button
+                onClick={() => setDeleteOpen(true)}
+                buttonStyle={{
+                  color: "#ffffff",
+                  bgcolor: "#FF5E68",
+                  shadow: "0px 4px 9px rgba(255, 94, 104, 0.46)",
+                  // height: { planshet: 45 },
+                }}
+                endIcon={<DeletePlanshetIcon />}
+              >
+                Удалить
+              </Button>
+            )}
+            {location.pathname === "/news/archive" && width>1000 && (
               <Button
                 onClick={() => restoreNews()}
-                buttonStyle={{ color: "#ffffff", bgcolor: "#606EEA",shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)' }}
+                buttonStyle={{
+                  color: "#ffffff",
+                  bgcolor: "#606EEA",
+                  shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
+     
+                }}
+                
                 startIcon={<RepairNewsIcon />}
+              >
+                Восстановить новость
+              </Button>
+            )}
+                 {location.pathname === "/news/archive" && width>600 && width<1000&&(
+              <Button
+                onClick={() => restoreNews()}
+                buttonStyle={{
+                  color: "#ffffff",
+                  bgcolor: "#606EEA",
+                  shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
+                  height: { planshet: 45 },
+                }}
+                
+                endIcon={<RepairNewsIcon />}
               >
                 Восстановить новость
               </Button>
@@ -206,7 +461,7 @@ console.log('gender',currentNews?.genderType )
       <Modal open={isDeleteOpen}>
         <DeleteModal>
           <h5>Вы действительно хотите удалить новость?</h5>
-          <p>{'После удаления новости  данные будет утеряны'}</p>
+          <p>{"После удаления новости  данные будет утеряны"}</p>
           <Button
             buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
             margin={{ laptop: "0 22px 0 0" }}
@@ -216,7 +471,10 @@ console.log('gender',currentNews?.genderType )
             Отмена
           </Button>
           <Button
-            buttonStyle={{ bgcolor: "#FF5E68 " ,shadow: '0px 4px 9px rgba(255, 94, 104, 0.46)'}}
+            buttonStyle={{
+              bgcolor: "#FF5E68 ",
+              shadow: "0px 4px 9px rgba(255, 94, 104, 0.46)",
+            }}
             onClick={onDelete}
             startIcon={<DeleteIcon />}
           >
@@ -224,16 +482,13 @@ console.log('gender',currentNews?.genderType )
           </Button>
         </DeleteModal>
       </Modal>
-      <Modal modalStyle={{ bgcolor: "#fff" }}  open={isPublishOpen}>
+      <Modal modalStyle={{ bgcolor: "#fff" }} open={isPublishOpen}>
         <WrapperModal>
           <CloseButton onClick={() => setPublisOpen(false)}>
             <CloseIcon />
           </CloseButton>
-          <h3>
-           {t('Выберите период')}
-          </h3>
-          <PublicModal  setPublisOpen={setPublisOpen} />
-      
+          <h3>{t("Выберите период")}</h3>
+          <PublicModal setPublisOpen={setPublisOpen} />
         </WrapperModal>
       </Modal>
     </Wrapper>

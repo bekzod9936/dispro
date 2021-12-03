@@ -21,6 +21,8 @@ import NavBar from "components/Custom/NavBar";
 import { FilterNews } from "../../components/FilterNews";
 import {WaitingFilterNews} from "../../components/WaitingFilterNews";
 import useNewsRoute from "../../routes";
+import {LaptopFilterNews} from "../../components/LaptopFilterNews";
+import NoNewsLaptop from "../../components/NoNewsLaptop";
 import { Flex } from "../../style";
 import { LeftHeader, WrapMobile,WrapHeader } from "./style";
 interface intialFilterProps {
@@ -103,7 +105,7 @@ const Waiting = () => {
   return (
     <Container>
       <LimitNews errormessage={errormessage}  linkToComment={LinkComment} CancelError={ResetError} />
-     {width>600 && <FilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} />}
+      {width>600 && width<=1000 ? <LaptopFilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} />:width>1000 && <FilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} />}
      
       {width>600 ? 
       <Wrap>
@@ -115,9 +117,11 @@ const Waiting = () => {
             {data.length > 0 ? (
               <Table  data={list} />
             ) : (
-              <div style={{ paddingRight: "20%", paddingTop: "5%" }}>
-                <NoNews handleOpenSetting={handleOpenSetting} />
+              <div>{width>1000 ? <div style={{ paddingRight: "20%", paddingTop: "5%" }}><NoNews handleOpenSetting={handleOpenSetting} /></div>:
+              <div style={{ paddingRight: "10%", paddingTop: "10%" }}>
+                <NoNewsLaptop handleOpenSetting={handleOpenSetting} />
               </div>
+}</div>
             )}
             <SideBar isOpen={newsById} maxWidth={"370px"}>
               {newsById && <NewsBar refetch={response} currentNews={newsById} onClose={onClose} />}

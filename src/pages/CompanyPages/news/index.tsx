@@ -44,8 +44,20 @@ const News = () => {
                   <WrapHeader>
                     <LeftHeader>
                       <>
-                        <Title>{t("News")}</Title>
-                        <Flex
+                        <Title padding={{planshet:'0 0 0 0px'}}>{t("News")}</Title>
+                        {width>600 && width<=1000 ? 
+                          <Flex
+                          width="100%"
+                          height="70px"
+                          alignItems="flex-start"
+                          margin="0"
+                        >
+                          <NavBar
+                            list={newsPath}
+                            padding="0 15px 0 0"
+                            margin="10px 0"
+                          />
+                        </Flex>:  <Flex
                           width="100%"
                           height="85px"
                           alignItems="flex-start"
@@ -56,7 +68,8 @@ const News = () => {
                             padding="0 15px 0 0"
                             margin="10px 0"
                           />
-                        </Flex>
+                        </Flex>}
+                      
                       </>
                     </LeftHeader>
                   </WrapHeader>

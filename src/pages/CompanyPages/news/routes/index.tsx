@@ -66,6 +66,12 @@ const useNewsRoute=()=>{
             text:t('Смотреть полностью'),
             component:ShowWaitingNews,
         },
+     
+        {
+            path:'/news/shownews',
+            text:t('Смотреть полностью'),
+            component:ShowWaitingNews,
+        },
         {
             path:'/news/edit',
             text:t('Смотреть полностью'),

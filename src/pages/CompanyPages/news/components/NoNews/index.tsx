@@ -30,8 +30,6 @@ const NoNews: React.FC<IProps> = ({handleOpenSetting}) => {
           <div className='imagePart'>
             <img   src={noPending} />
           </div>
-      
-       
        <Flex
             margin='0px 0px 0px 15px'
             flexDirection='column'
