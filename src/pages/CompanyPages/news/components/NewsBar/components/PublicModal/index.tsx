@@ -197,7 +197,7 @@ export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
             />
           </div>
         </WrapInputs>
-        <div
+        {width>1000 ?     <div
           style={{
             display: "flex",
             paddingTop: "20px",
@@ -223,7 +223,26 @@ export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
           >
             Опубликовать
           </Button>
-        </div>
+        </div>:  <div style={{display: 'flex',
+    justifyContent: 'center'}}>
+          <Button
+            buttonStyle={{   color: "#606EEA",
+            bgcolor: " rgba(96,110,234,0.1)",}}
+            margin={{ laptop: "0 20px 0 0", mobile: "0 8px 0 0" }}
+            endIcon={<MobileCancelIcon />}
+            onClick={cancelPublish}
+          >
+            Отмена
+          </Button>
+          <Button buttonStyle={{
+                shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)' 
+              }} 
+      
+              endIcon={width > 335 && <PublishIcon />} type="submit">
+            Опубликовать
+          </Button>
+        </div>}
+    
       </Form>}
      
     </Container>
