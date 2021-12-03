@@ -7,7 +7,6 @@ import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import Button from 'components/Custom/Button';
 import Input from 'components/Custom/Input';
-import { Avatar } from '../../style';
 import { IconButton } from '@material-ui/core';
 import useSupportChat from './useSupportChat';
 import dayjs from 'dayjs';
@@ -21,15 +20,13 @@ import App from 'assets/icons/StatistisPage/app.svg';
 import { TextareaAutosize } from '@material-ui/core';
 import Emoji from '../../components/Emoji';
 import Spinner from 'components/Custom/Spinner';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import {
-  InputDown,
-  ScriptIcon,
-  SmileIcon,
-  SendIcon,
-  InputWarn,
-  WrapIcons,
-  WrapScript,
-} from '../Posts/style';
+  setChatSupportHistory,
+  setTotalSupportHistory,
+} from 'services/redux/Slices/feedback';
+import useRead from '../../hooks/useRead';
+import useLayout from 'components/Layout/useLayout';
 import {
   Container,
   MessageContainer,
@@ -63,9 +60,17 @@ import {
   WrapTextArea,
   WrapButtons,
 } from './style';
-import { setTotalSupportHistory } from 'services/redux/Slices/feedback';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import useRead from '../../hooks/useRead';
+import {
+  Avatar,
+  InputDown,
+  ScriptIcon,
+  SmileIcon,
+  SendIcon,
+  InputWarn,
+  WrapIcons,
+  WrapScript,
+  Divider,
+} from '../../style';
 
 interface FormProps {
   message?: string;
@@ -76,6 +81,7 @@ const Support = () => {
   const { width } = useWindowWidth();
   const history = useHistory();
   const dispatch = useAppDispatch();
+  const [lastdate, setLastdate] = useState<any>('');
   const companyId: any = localStorage.getItem('companyId');
   const words = 400;
   const { control, handleSubmit, setValue, getValues, watch } =
@@ -93,26 +99,20 @@ const Support = () => {
     (state) => state.feedbackPost.supporthistories
   );
 
-  const { resChatSupportHistory, setPage, page } = useSupportChat();
+  const { resChatSupportHistory, setPage, page, data } = useSupportChat();
   const { readChat } = useRead();
   const [showEmoji, setShowEmoji] = useState<boolean>(false);
   const [scrollHeight, setScrollHeight] = useState(0);
   const [limit, setLimit] = useState(words);
-
+  const [newMassage, setNewMassage] = useState<any>({});
   const socket = useAppSelector((state) => state.feedbackPost.socket);
   const companyInfo = useAppSelector((state) => state.partner.companyInfo);
+  const { resBadge } = useLayout({ id: companyId });
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesStartRef = useRef<HTMLDivElement>(null);
 
   const values = getValues();
-
-  const scrollToBottom = () => {
-    messagesEndRef?.current?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'end',
-    });
-  };
 
   const scrollToTop = () => {
     messagesStartRef?.current?.scrollIntoView({
@@ -144,7 +144,13 @@ const Support = () => {
     const newArr = histories
       .filter((v: any) => (v.chatType === 6 ? v.id : null))
       .map((i: any) => i.id);
-    readChat.mutate(newArr);
+    if (newArr.length !== 0) {
+      readChat.mutate(newArr);
+    }
+    if (histories.length > 0) {
+      const last = histories[histories?.length - 1];
+      setLastdate(last?.createdAt);
+    }
   }, [histories]);
 
   const findScrollHeight = (e: any) => {
@@ -157,10 +163,29 @@ const Support = () => {
   };
 
   useEffect(() => {
-    socket.on(SOCKET_EVENT.CHAT_MODERATOR_TO_PARTNER, (data: any) => {
-      scrollToTop();
+    socket.on(SOCKET_EVENT.CHAT_MODERATOR_TO_PARTNER, (message: any) => {
+      setNewMassage({
+        chatType: message.chatType,
+        companyId: message.companyId,
+        createdAt: Date.now(),
+        fromId: message.fromId,
+        id: message.id,
+        msg: message.data.message,
+        status: message.status,
+        toId: message.toId,
+      });
     });
   }, [socket]);
+
+  useEffect(() => {
+    if (newMassage.id !== undefined) {
+      dispatch(setChatSupportHistory([newMassage, ...histories]));
+      if (CHAT_TYPES.PARTNER_TO_MODERATOR !== newMassage.chatType) {
+        resBadge.refetch();
+        readChat.mutate([newMassage?.id]);
+      }
+    }
+  }, [newMassage]);
 
   useEffect(() => {
     if (values?.message !== undefined) {
@@ -186,7 +211,17 @@ const Support = () => {
         (res: any) => {
           if (res.success) {
             setValue('message', '');
-            resChatSupportHistory.refetch();
+
+            setNewMassage({
+              chatType: res?.data?.chatType,
+              companyId: res?.data?.datacompanyId,
+              createdAt: res?.data?.createdAt,
+              fromId: res?.data?.fromId,
+              id: res?.data?.id,
+              msg: res?.data?.msg,
+              status: res?.data?.status,
+              toId: res?.data?.toId,
+            });
             setLoading(false);
           } else {
             setLoading(false);
@@ -199,7 +234,7 @@ const Support = () => {
   const title = <HTitle>{t('supportcall')}</HTitle>;
 
   const avatar = (
-    <Avatar big={true}>
+    <Avatar big={true} bgcolor='#E6E6E6'>
       <DisIcon />
     </Avatar>
   );
@@ -248,6 +283,18 @@ const Support = () => {
               <ChatPlace>
                 {resChatSupportHistory.isLoading ? (
                   <Spinner />
+                ) : histories.length === 0 ? (
+                  <div
+                    style={{
+                      display: 'flex',
+                      flex: 1,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '20px',
+                    }}
+                  >
+                    {t('thereisnomessage')}
+                  </div>
                 ) : (
                   <>
                     {scrollHeight > 1 ? (
@@ -283,9 +330,9 @@ const Support = () => {
                         }
                         scrollableTarget='scrollableDiv'
                         endMessage={
-                          <p style={{ textAlign: 'center' }}>
-                            <b>Yay! You have seen it all</b>
-                          </p>
+                          <Divider>
+                            <div>{dayjs(lastdate).format('DD MMMM YYYY')}</div>
+                          </Divider>
                         }
                       >
                         {histories?.map((v: any) => {
@@ -403,23 +450,52 @@ const Support = () => {
           </HeaderModal>
           <BodyModal>
             <ChatPlace>
-              <Messages onScroll={findScrollHeight}>
-                <div ref={messagesStartRef} />
-                {histories?.map((v: any) => {
-                  return (
-                    <MessageWrap type={v.chatType}>
-                      <Message type={v.chatType}>
-                        <MessageDate type={v.chatType}>
-                          {dayjs(v.createdAt)
-                            .subtract(2, 'minute')
-                            .format('hh:mm')}
-                        </MessageDate>
-                        <MessageText type={v.chatType}>{v.msg}</MessageText>
-                      </Message>
-                    </MessageWrap>
-                  );
-                })}
-                <div ref={messagesEndRef} />
+              <Messages id='scrollableDiv' onScroll={findScrollHeight}>
+                <InfiniteScroll
+                  dataLength={histories?.length}
+                  next={fetchHisFetchData}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column-reverse',
+                    overflow: 'hidden',
+                  }}
+                  inverse={true}
+                  hasMore={total?.hasMore}
+                  loader={
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        width: '100%',
+                      }}
+                    >
+                      <Spinner />
+                    </div>
+                  }
+                  scrollableTarget='scrollableDiv'
+                  endMessage={
+                    <Divider>
+                      <div>{dayjs(lastdate).format('DD MMMM YYYY')}</div>
+                    </Divider>
+                  }
+                >
+                  <div ref={messagesStartRef} />
+                  {histories?.map((v: any) => {
+                    return (
+                      <MessageWrap type={v.chatType}>
+                        <Message type={v.chatType}>
+                          <MessageDate type={v.chatType}>
+                            {dayjs(v.createdAt)
+                              .subtract(2, 'minute')
+                              .format('hh:mm')}
+                          </MessageDate>
+                          <MessageText type={v.chatType}>{v.msg}</MessageText>
+                        </Message>
+                      </MessageWrap>
+                    );
+                  })}
+                  <div ref={messagesEndRef} />
+                </InfiniteScroll>
               </Messages>
             </ChatPlace>
           </BodyModal>

@@ -15,12 +15,14 @@ export interface IBreakH {
 export const BarContainer = styled.div`
   height: 100%;
   position: relative;
+  max-width: 450px;
+  box-shadow: -5px 2px 20px rgba(0, 0, 0, 0.06);
 `;
 
 export const ManagerCard = styled.div`
   padding-top: 15%;
-  padding-left: 10%;
-  padding-right: 10%;
+  padding-left: 8%;
+  padding-right: 8%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -59,7 +61,7 @@ export const ManagerRow = styled.div`
   justify-content: ${({ justifyContent = "space-between" }: ICashierRow) =>
     justifyContent};
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 `;
 
 export const ManagerCol = styled.div`
@@ -76,17 +78,18 @@ export const Img = styled(LazyLoadImage)`
 	width: 62px;
 	height: 62px;
 	border-radius: 14px;
-	margin-right: 20px;
+	
 	overflow: hidden;
 `;
 
 export const BarTitle = styled.p`
   font-family: Roboto;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 20px;
-  line-height: 26px;
+font-style: normal;
+font-weight: bold;
+font-size: 18px;
+line-height: 21px;
   color: #223367;
+  margin-bottom: 5px;
 `;
 
 export const BarText = styled.p`
@@ -233,4 +236,8 @@ export const DeleteIc = styled(Delete)`
   & > path {
     fill: ${({ color }: ButtonProps) => (color ? color : null)};
   }
+`;
+
+export const ImageWrap = styled.div`
+ 	margin-right: 20px;
 `;

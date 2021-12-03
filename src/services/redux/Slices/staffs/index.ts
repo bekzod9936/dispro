@@ -27,6 +27,7 @@ const initialState: staffsState = {
     totalCount: 0,
     between: '',
   },
+  storeFilters: null
 };
 
 const staffsSlice = createSlice({
@@ -102,6 +103,13 @@ const staffsSlice = createSlice({
 	setPointHistoriesBetween: (state, action: PayloadAction<string>) => {
 		state.pointHistories.between = action.payload;
 	  },
+	  setStoreFilters: (state, {payload}: PayloadAction<any>) => {
+		  let res = payload.reduce((acc: any, curr: any) => {
+			acc[curr.value] = curr.label;
+			return acc
+		  }, {})
+		  state.storeFilters = Object.keys(res).map(el => ({value: el, label: res[el]}))
+	  }
 
 
   },
@@ -131,5 +139,6 @@ export const {
   setPointHistoriesBetween,
   setPointHistoriesData,
   setPointHistoriesTotal,
+  setStoreFilters
   } = staffsSlice.actions;
 export default staffsSlice.reducer;

@@ -533,5 +533,6 @@
   "maxAmountOfCharacters": "Максимальное количество символов: 30",
   "titlesOfSectionsMustBeUnique": "Названия разделов должны быть уникальными",
   "areyousuredeletechat": "Вы действительно хотите удалить  чат?",
-  "deletechatsaveinclients": "После удаления чата, переписка на стороне клиента сохранится"
+  "deletechatsaveinclients": "После удаления чата, переписка на стороне клиента сохранится",
+  "thereisnomessage": "У Вас пока нет сообщений"
 }

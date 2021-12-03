@@ -46,6 +46,10 @@ export const Container = styled.div`
   flex-direction: column;
 `;
 
+
+
+
+
 export const MessageContainer = styled.div`
   max-width: 1000px;
   background: #ffffff;
@@ -186,8 +190,10 @@ export const Messages = styled.div`
   }
 
   @media (max-width: ${device.mobile}) {
-    grid-row-gap: 15px;
-    padding: 10px 20px 0 10px;
+    div.infinite-scroll-component {
+      grid-row-gap: 15px;
+      padding: 10px 20px 0 10px;
+    }
   }
 `;
 

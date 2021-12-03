@@ -9,7 +9,7 @@ export interface LabelProps {
 
 export  interface Props {
   title?: string;
-  list?: { value?: string | number; label?: string | number }[];
+  list?: { value?: string | number; label?: string | number | any | HTMLElement }[];
   onChange?: (e: any) => void;
   value?: any;
   required?: boolean;

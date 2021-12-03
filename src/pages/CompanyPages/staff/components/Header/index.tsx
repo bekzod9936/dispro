@@ -16,6 +16,7 @@ import {
 	setOpenFilter,
 	setOpenManager,
 	setQuery,
+	setSelectedCashiers,
 } from 'services/redux/Slices/staffs';
 
 const Header = ({
@@ -122,6 +123,7 @@ const Header = ({
 					startIcon={<FilterIcon />}
 					onClick={() => {
 						dispatch(setOpenFilter(!open));
+						dispatch(setSelectedCashiers([]));
 					}}
 				>
 					{t('filters')}

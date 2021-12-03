@@ -1,4 +1,6 @@
-export interface IProps {}
+export interface IProps {
+	parentRef: any
+}
 
 export interface ITRow {
   background?: boolean | number;

@@ -42,11 +42,9 @@ const Badge = () => {
   const { width } = useWindowWidth();
   const [open, setOpen] = useState<boolean>(false);
   const history = useHistory();
-  dayjs.extend(utc);
+  const currentYear: any = new Date().getFullYear();
   dayjs.extend(isYesterday);
   dayjs.extend(isToday);
-
-  dayjs().isYesterday();
 
   const companyId = localStorage.getItem('companyId');
   useLayout({ id: companyId });
@@ -57,22 +55,14 @@ const Badge = () => {
   };
 
   const getTime = (date: any) => {
-    const time =
-      dayjs(Date.now()).diff(date, 'minute') < 60
-        ? `${dayjs(Date.now()).diff(date, 'minute')}M ${t('ago')}`
-        : dayjs(Date.now()).diff(date, 'hour') < 24
-        ? `${dayjs(Date.now()).diff(date, 'hour')} ${t('hour')} ${t('ago')}`
-        : dayjs(Date.now()).diff(date, 'month') === 0
-        ? `${dayjs(Date.now()).diff(date, 'day')} ${t('day')} ${t('ago')} ${t(
-            'atfortime'
-          )} ${dayjs(date).format('HH:mm')}`
-        : dayjs(Date.now()).diff(date, 'year') === 0
-        ? `${dayjs(date).format('DD MMMM')} ${t('atfortime')} ${dayjs(
-            date
-          ).format('HH:mm')}`
-        : `${dayjs(date).format('DD MMMM YYYY')} ${t('atfortime')} ${dayjs(
-            date
-          ).format('HH:mm')}`;
+    const time = dayjs(date).isYesterday()
+      ? `${t('yesterday')} ${dayjs(date).format('HH:mm')}`
+      : dayjs(date).isToday()
+      ? `${t('today')} ${dayjs(date).format('HH:mm')}`
+      : dayjs(date).format('YYYY') == currentYear
+      ? dayjs(date).format('DD MMMM')
+      : dayjs(date).format('DD MMMM YYYY');
+
     return time;
   };
 

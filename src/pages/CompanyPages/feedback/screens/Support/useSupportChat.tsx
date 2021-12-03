@@ -9,6 +9,7 @@ import {
 } from 'services/redux/Slices/feedback';
 
 const useSupportChat = () => {
+  const [data, setData] = useState<any>([]);
   const dispatch = useAppDispatch();
   const [page, setPage] = useState(1);
   const totalHistory: any = useAppSelector(
@@ -35,21 +36,33 @@ const useSupportChat = () => {
       refetchOnWindowFocus: false,
       retry: 0,
       onSuccess: (data) => {
-        const arr = [...histories, ...data?.data?.data?.histories];
-        dispatch(setChatSupportHistory(arr));
-
-        dispatch(
-          setTotalSupportHistory({
-            ...totalHistory,
-            total: data?.data?.data?.totalCount,
-            loading: false,
-          })
-        );
+        if (data?.data?.data?.histories.length === 0) {
+          dispatch(
+            setTotalSupportHistory({
+              ...totalHistory,
+              total: data?.data?.data?.totalCount,
+              loading: false,
+              hasMore: false,
+            })
+          );
+        } else {
+          const arr = [...histories, ...data?.data?.data?.histories];
+          dispatch(setChatSupportHistory(arr));
+          setData(arr);
+          dispatch(
+            setTotalSupportHistory({
+              ...totalHistory,
+              total: data?.data?.data?.totalCount,
+              loading: false,
+              hasMore: true,
+            })
+          );
+        }
       },
     }
   );
 
-  return { resChatSupportHistory, setPage , page};
+  return { resChatSupportHistory, setPage, page, data };
 };
 
 export default useSupportChat;
