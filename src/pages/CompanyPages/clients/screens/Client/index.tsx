@@ -253,6 +253,9 @@ const Client = () => {
                                         onClick={() => handleBlock()}
                                         endIcon={<UnBlockIcon />}
                                         buttonStyle={{
+                                            fontSize: {
+                                                planshet: 17
+                                            },
                                             bgcolor: "rgba(15, 207, 11, 0.1)",
                                             color: "#0FCF0B",
                                             weight: 500
@@ -263,6 +266,9 @@ const Client = () => {
                                         onClick={() => handleBlock()}
                                         endIcon={<BlockIcon />}
                                         buttonStyle={{
+                                            fontSize: {
+                                                planshet: 17
+                                            },
                                             bgcolor: "rgba(255, 94, 104, 0.1)",
                                             color: "#FF5E68",
                                             weight: 500
@@ -286,7 +292,10 @@ const Client = () => {
                                 buttonStyle={{
                                     bgcolor: "rgba(96, 110, 234, 0.1)",
                                     color: "#606EEA",
-                                    weight: 500
+                                    weight: 500,
+                                    fontSize: {
+                                        planshet: 17
+                                    }
                                 }}>
                                 {t("accurePoints")}
                             </Button>
@@ -299,6 +308,9 @@ const Client = () => {
                                     bgcolor: "rgba(96, 110, 234, 0.1)",
                                     color: "#606EEA",
                                     weight: 500,
+                                    fontSize: {
+                                        planshet: 17
+                                    }
                                 }}>
                                 {t("substractPoints")}
                             </Button>
@@ -312,7 +324,10 @@ const Client = () => {
                                 buttonStyle={{
                                     bgcolor: "rgba(96, 110, 234, 0.1)",
                                     color: "#606EEA",
-                                    weight: 500
+                                    weight: 500,
+                                    fontSize: {
+                                        planshet: 17
+                                    }
                                 }}>
                                 {t("changeStatus")}
                             </Button>

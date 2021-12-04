@@ -105,7 +105,7 @@ const clientsSlice = createSlice({
             state.selectedClients = []
             state.client = initialClient
             state.selectedAllClients = []
-            state.totalPages = Math.ceil(payload.totalCount / 5)
+            state.totalPages = Math.ceil(payload.totalCount / 10)
         },
         setPage: (state: IState, { payload }: PayloadAction<number>) => {
             state.page = payload

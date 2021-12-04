@@ -25,7 +25,7 @@ export const fetchPersonalInfo = async (data: any) => {
 
 export const fetchClients = async (page: number, url: string) => {
   const response = await partnerApi(
-    `/core/client/by/company?page=${page}&perPage=5&${url}`
+    `/core/client/by/company?page=${page}&perPage=10&${url}`
   );
   return response;
 };
