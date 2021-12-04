@@ -139,6 +139,10 @@ export const UpSide = styled.div`
       height: 100%;
       width: 100%;
     }
+    @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+      height: 90%;
+      width: 100%;
+    }
     
 `
 export const Buttons = styled.div`
@@ -202,12 +206,20 @@ export const DownSide = styled.div`
     padding: 25px 0;
     background-color: white;
     width: 100%;
+    z-index:20;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
     display: flex;
     justify-content: flex-start;
     height: 25%;
     @media (max-width: 1150px) {
       padding-right: 20px;
+    }
+    @media (min-width: ${device.mobile}) and (max-width:${device.planshet}) {
+      display: flex;
+      padding: 25px 0 0 0;
+      height: 8%;
+      justify-content: center;
+
     }
 `
 export const Form = styled.form`
@@ -219,6 +231,7 @@ export const Form = styled.form`
     padding: 35px 110px 0 110px;
     @media (max-width: ${device.laptop}) {
       padding: 20px 25px;
+      width: 100%;
     }
     @media (max-width: 1150px) {
       padding-right: 0;

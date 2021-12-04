@@ -1,7 +1,6 @@
 
 import { Flex } from "../../style";
 import Button from "components/Custom/Button";
-import { AddIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
 import {AddMobileIcon} from "assets/icons/news/newsIcons";
 import Input from "components/Custom/Input";
 import DatePcker from "components/Custom/DatePicker";

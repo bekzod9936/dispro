@@ -1,22 +1,21 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { IProps } from "../Header/types";
+ //icons
 import {CreateNewsIcon} from '../../../../../assets/icons/NewsIcons/NewsIcons';
 import { FONT_SIZE } from '../../../../../services/Types/enums';
+//custom 
+import Button from "components/Custom/Button";
+//styles
 import { Flex } from '../../../../../styles/BuildingBlocks';
 import {  Text } from '../../../../../styles/CustomStyles';
 import noPending from '../../../../../assets/images/nopending.png';
-import { useLocation } from "react-router-dom";
-import { useTranslation } from 'react-i18next';
-import { useAppSelector, useAppDispatch } from "services/redux/hooks";
-import Button from "components/Custom/Button";
-import { AddIconNews } from "assets/icons/InfoPageIcons/InfoPageIcons";
-import { IProps } from "../Header/types";
-import useWindowWidth from "services/hooks/useWindowWidth";
+
 
 const NoNews: React.FC<IProps> = ({handleOpenSetting}) => {
-  const location = useLocation();
-  const dispatch = useAppDispatch();
+
   const { t } = useTranslation();
-  const {width}=useWindowWidth();
+
   return (
     <>
       <Flex
@@ -30,8 +29,6 @@ const NoNews: React.FC<IProps> = ({handleOpenSetting}) => {
           <div className='imagePart'>
             <img   src={noPending} />
           </div>
-      
-       
        <Flex
             margin='0px 0px 0px 15px'
             flexDirection='column'
@@ -43,7 +40,7 @@ const NoNews: React.FC<IProps> = ({handleOpenSetting}) => {
               </Text>
             </div>
             <div style={{ marginTop: '15px' }}>
-               {/* Settings side  */}
+         
       <Button
         onClick={
          

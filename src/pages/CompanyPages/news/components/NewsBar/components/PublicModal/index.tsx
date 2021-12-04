@@ -99,8 +99,8 @@ export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
          <form onSubmit={handleSubmit(upDateWaitingNews)}>
         <PeriodWrapper >
         <div>
-          <h5>Выберите период</h5>
-          <p>Выберите период</p>
+          <h5>{t('Выберите период')}</h5>
+          <p>{t('Выберите период')}</p>
           <div className="startAndEndDate">
              <div >
              <CustomDatePicker
@@ -145,12 +145,12 @@ export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
             endIcon={<MobileCancelIcon />}
             onClick={cancelPublish}
           >
-            Отмена
+            {t('Отмена')}
           </Button>
           <Button disabled={filter?.regDate?.regDateFrom && filter?.regDate?.regDateTo ? false :true} buttonStyle={{
                 shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)' 
               }} endIcon={width > 335 && <PublishIcon />} type="submit">
-            Опубликовать
+               {t('Опубликовать')} 
           </Button>
         </div>
       </PeriodWrapper>
@@ -197,7 +197,7 @@ export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
             />
           </div>
         </WrapInputs>
-        <div
+        {width>1000 ?     <div
           style={{
             display: "flex",
             paddingTop: "20px",
@@ -210,7 +210,7 @@ export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
             onClick={() => setPublisOpen(false)}
             startIcon={<CancelIcon />}
           >
-            Отмена
+             {t('Отмена')} 
           </Button>
           <Button
           buttonStyle={{
@@ -221,9 +221,28 @@ export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
             margin={{ laptop: "0 0px 0 0" }}
             startIcon={<WhitePublishIcon />}
           >
-            Опубликовать
+           {t('Опубликовать')}   
           </Button>
-        </div>
+        </div>:  <div style={{display: 'flex',
+            justifyContent: 'center'}}>
+          <Button
+            buttonStyle={{   color: "#606EEA",
+            bgcolor: " rgba(96,110,234,0.1)",}}
+            margin={{ laptop: "0 20px 0 0", mobile: "0 8px 0 0" }}
+            endIcon={<MobileCancelIcon />}
+            onClick={cancelPublish}
+          >
+               {t('Отмена')}   
+          </Button>
+          <Button buttonStyle={{
+                shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)' 
+              }} 
+      
+              endIcon={width > 335 && <PublishIcon />} type="submit">
+                  {t('Опубликовать')}    
+          </Button>
+        </div>}
+    
       </Form>}
      
     </Container>

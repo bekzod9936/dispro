@@ -2,10 +2,7 @@ import Button from "components/Custom/Button";
 import Modal from "components/Custom/Modal";
 import {WrapperModal,CloseButton,Buttons} from "./style";
 import useWindowWidth from 'services/hooks/useWindowWidth';
-import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import { CloseIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
-import { SaveIcon } from "assets/icons/news/newsIcons";
-import { MobileCancelIcon } from "assets/icons/proposals/ProposalsIcons";
 import { useTranslation } from "react-i18next";
  interface LimitNewsModal{
   errormessage?: boolean,
@@ -25,10 +22,10 @@ export const LimitNews=({errormessage,linkToComment,CancelError}:LimitNewsModal)
       </CloseButton>}
     
       <h3 >
-      Лимит новостей исчерпан
+       {t('Лимит новостей исчерпан')} 
       </h3>
           <p>
-           Для более подробной информации, просим обратиться к Модератору
+           {t('Для более подробной информации, просим обратиться к Модератору')}
           </p>
           {width > 600 ? (
             <>
@@ -38,7 +35,7 @@ export const LimitNews=({errormessage,linkToComment,CancelError}:LimitNewsModal)
                 onClick={linkToComment}
                 // startIcon={<CancelIcon />}
               >
-                Написать
+                {t('Написать')}
               </Button>
               <Button
               
@@ -46,7 +43,7 @@ export const LimitNews=({errormessage,linkToComment,CancelError}:LimitNewsModal)
                 onClick={CancelError}
                 // startIcon={<SaveIcon />}
               >
-                Ok
+                {t('Ok')}
               </Button>
             </>
           ) : (

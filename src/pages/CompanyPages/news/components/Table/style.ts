@@ -125,18 +125,23 @@ export const UpIcon = styled(Up)`
   }
 `;
 
-export const AgeData = styled.div`
+export const Description = styled.div`
   display: flex;
   position: relative;
   justify-content:space-between;
   align-items: center;
   margin-right:10px;
+  
   p {
+    min-width:250px !important;
+     max-width:300px !important;
+     white-space: pre-wrap !important;
+     word-break: break-all !important;
     font-size: 14px;
     line-height:'21px';
     color:'#223367';
-    font-size: '18px';
     font-weight:300;
+
   }
   
   h4 {
@@ -156,6 +161,14 @@ export const AgeData = styled.div`
   }
   `
 
+  export const GenderStyle=styled.div`
+  
+    line-height:21px;
+    color:'#223367';
+    font-size: 14px;
+    font-weight:300;
+  
+  `
 export const TimeData = styled.div`
 display: flex;
 position: relative;
@@ -166,7 +179,6 @@ p {
   font-size: 14px;
   line-height:'21px';
   color:'#223367';
-  font-size: '18px';
   font-weight:300;
 }
 
@@ -177,6 +189,12 @@ h4 {
   background: linear-gradient(215.2deg, #8bdd59 -12.1%, #dcf089 101.51%);
   border-radius: 14px;
 }
+h6{
+  color:'#223367';
+  font-weight:300;
+  font-size: 14px;
+  padding-right:2px;
+}
 h3 {  
 
   padding: 10px 20px;
@@ -185,7 +203,7 @@ h3 {
   background: linear-gradient(215.2deg, #C7EEFF -12.1%, #FCA9EA 101.51%);
   border-radius: 14px;
 }
- .div span {
+ span {
 
     font-weight:300;
 }
@@ -250,73 +268,32 @@ export const DefaultImage = styled.div`
 `;
 
 
-export const ToolTipText = styled("span")({
-
-  visibility: "hidden",
-  width: "350px",
-  backgroundColor: "#fff",
-  color: "#223367",
-  textAlign: "center",
-  borderRadius: "6px",
-  position: "absolute",
-  paddingTop:"10px",
-  paddingBottom:"5px",
-  zIndex: 1,
-  top:'60px',
-  marginLeft: "-450px",
-  marginTop: "-140px",
-  ":after": {
-    content: '""',
-    position: "absolute",
-    top: "50%",
-    // left: "100%",
-    marginLeft: "-5px",
-    borderWidth: "5px",
-    borderStyle: "solid",
-    borderRadius: '14px',
-    borderColor: "white transparent transparent transparent"
-  }
-
-});
+export const TooltipGetAll=styled.div`
+padding:'10px 0px';
+line-height:'21px';
+color:'#223367';
+font-size: '18px';
+font-weight:300;
+`;
 
 
-export const ToolTipDescription = styled("span")({
+export const TooltipGet=styled.div`
+line-height:'21px';
+color:'#223367';
+font-size: '18px';
+font-weight:300;
+`;
+export const TooltipMale=styled.div`
 
-  visibility: "hidden",
-  width: "350px",
-  backgroundColor: "#fff",
-  color: "#223367",
-  textAlign: "center",
-  whiteSpace: "pre-wrap",
-  borderRadius: "6px",
-  position: "absolute",
-  paddingTop:"10px",
-  paddingBottom:"5px",
-  zIndex: 1,
-  top:'20px',
-  padding:'10px',
-  marginLeft: "-100px",
-  marginTop: "-140px",
-  ":after": {
-    content: '""',
-    position: "absolute",
-    top: "50%",
-    left: "100%",
-     marginLeft: "-5px",
-    borderWidth: "5px",
-    borderStyle: "solid",
-    borderRadius: '14px',
-    borderColor: "white transparent transparent transparent"
-  }
+  color:'red' !important;
+font-weight:300;
 
-});
 
-export const ToolTip = styled("div")({
-  position: "relative",
-  display: "inline-block",
- 
-  ":hover span": {
-    visibility: "visible"
-  }
-});
+`;
+export const TooltipFemale=styled.div`
 
+
+color:'red' !important;
+font-weight:300;
+
+`

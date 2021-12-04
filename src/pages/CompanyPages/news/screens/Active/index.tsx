@@ -132,7 +132,7 @@ const Active = () => {
   return (
     <Container>
       <LimitNews errormessage={errormessage}  linkToComment={LinkComment} CancelError={ResetError} />
-      {width>600 && <FilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} filterByDate={filterByDate}/>}
+      {width>600 && width<=1000 ? <LaptopFilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} filterByDate={filterByDate}/>:width>1000 && <FilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} filterByDate={filterByDate}/>}
       
       {width>600 ? 
       <Wrap>
@@ -180,7 +180,7 @@ const Active = () => {
           {response.isLoading || response.isFetching ? (
           <WrapSpinner><Spinner/></WrapSpinner>
         )
-         : 
+         : width<600 &&
          (
           <>
             {data?.length > 0 ? (

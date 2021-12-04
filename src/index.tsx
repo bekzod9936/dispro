@@ -14,6 +14,8 @@ import { createTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import 'emoji-mart/css/emoji-mart.css';
 import { ErrorBoundary } from 'react-error-boundary';
 import { ErrorFallback } from 'pages/Fallbacks/ErrorFallback';
+import 'react-toastify/dist/ReactToastify.css';
+import {ToastContainer} from "react-toastify"
 
 const queryClient = new QueryClient();
 
@@ -47,6 +49,7 @@ ReactDOM.render(
 								<BrowserRouter>
 									<ErrorBoundary FallbackComponent={ErrorFallback}>
 										<App />
+										<ToastContainer />
 									</ErrorBoundary>
 								</BrowserRouter>
 							</QueryClientProvider>
