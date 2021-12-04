@@ -35,7 +35,7 @@ export const Wrapper = styled.div`
   height: 100%;
   background-color:#fff;
   border-radius: 15px;
-padding-top:77px;
+padding-top:50px;
 padding-bottom:50px;
 padding-left:100px;
 
@@ -54,7 +54,7 @@ export const Header = styled.div`
 `;
 
 export const Content = styled.div`
-  margin: 20px 400px;
+  margin: 20px 0px 20px 300px;
   position: absolute;
   /* top: 50%; */
   top: 0%;
@@ -97,7 +97,7 @@ export const Preview = styled.div`
     object-fit:'cover';
   }
   img.iphoneImg {
-    max-width: 290px;
+    max-width: 300px !important;
     width: 100%;
     height: 100%;
     position: relative;
@@ -113,7 +113,7 @@ export const PreviewContent = styled.div`
   left: 13px;
   right: 10px;
   bottom: 2%;
-  width: 265px;
+  width: 274px;
   border-radius: 10px 10px 30px 30px;
   padding: 15px 0;
   display: flex;
@@ -167,3 +167,113 @@ export const Img = styled.img`
     display: block;
   }
 `;
+
+export const Buttons = styled.div`
+	display: flex;
+	justify-content: center;
+    margin-top: 5px;
+    
+`
+export const ModalContent = styled.div`
+  padding: 15px;
+`;
+
+export const HeaderLaptop = styled.header`
+  display: flex;
+  align-items: center;
+  margin-left: -10px;
+  grid-gap: 15px;
+  & > span {
+    font-weight: 500;
+    font-size: 16px;
+    color: #223367;
+  }
+`;
+export const WrapAvatar = styled.div`
+  display: flex;
+  align-items: center;
+  grid-gap: 15px;
+  & > span {
+    font-weight: 500;
+    font-size: 16px;
+    color: #223367;
+  }
+`;
+export const WrapIcon = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+export const WrapBox = styled.div`
+padding:25px 10px;
+`;
+export const WrapBoxDetail=styled.div`
+padding:0px 10px;
+`
+export const Box = styled.div`
+  /* border-bottom: 1px solid rgba(96, 110, 234, 0.3); */
+  padding: 10px 0 10px 5px;
+`;
+
+export const BoxTitle = styled.div`
+  font-weight: normal;
+  font-size: 14px;
+  color: #a5a5a5;
+  margin-bottom: 5px;
+`;
+
+export const BoxInfo = styled.div`
+  font-weight: 500;
+  font-size: 14px;
+  padding-right:20px;
+  color: #223367;
+  
+`;
+export const BoxinfoDetail=styled.div`
+font-weight:300;
+font-size:14px;
+
+color: #223367;
+padding:5px 0px;
+`;
+
+export const WrapperModal = styled.div`
+    padding: 20px 45px;
+    min-width:530px;
+    position: relative;
+    a {
+        text-decoration: none;
+    }
+    h3 {
+        font-size: 22px;
+        line-height: 26px;
+        margin-bottom: 10px;
+        color: #223367;
+
+    }
+    p {
+        font-size: 18px;
+        font-weight: 300;
+        color: #223367;
+        margin-bottom: 25px;
+    }
+    @media (max-width: ${device.mobile}) {
+        width: 100%;
+        position: relative;
+      padding: 0;
+      justify-content: initial;
+      align-items: center;
+      min-height: none;
+      height: 100%;
+      border-radius: 0;
+    
+        h3 {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+        p {
+            display: none;
+        }
+    }
+`

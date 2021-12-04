@@ -22,6 +22,7 @@ import { countPagination } from '../../components/utils';
 import Button from "components/Custom/Button";
 import { LimitNews  } from "../../components/LimitNews";
 import { FilterNews } from "../../components/FilterNews";
+import {LaptopFilterNews} from "../../components/LaptopFilterNews";
 import {MobileFilterNews} from "../../components/MobileFilterNews";
 import { LeftHeader, WrapMobile,WrapHeader } from "./style";
 import {
@@ -60,6 +61,7 @@ const Active = () => {
   const totalNewsCount = useAppSelector(
     (state) => state.news.NewsInfo.totalCountNews
   );
+  console.log('totalNewsCount',totalNewsCount)
   const selectedNews = useAppSelector((state) => state.news.selectedNews);
   console.log("selectedNews", selectedNews);
   const { t } = useTranslation();
@@ -70,7 +72,6 @@ const Active = () => {
     });
     dispatch(setQuery(""));
   };
-
 
   const intialFilter = {
     page:1,
@@ -131,10 +132,11 @@ const Active = () => {
   return (
     <Container>
       <LimitNews errormessage={errormessage}  linkToComment={LinkComment} CancelError={ResetError} />
-      {width>600 && <FilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} filterByDate={filterByDate}/>}
+      {width>600 && width<=1000 ? <LaptopFilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} filterByDate={filterByDate}/>:width>1000 && <FilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} filterByDate={filterByDate}/>}
+      
       {width>600 ? 
       <Wrap>
-        { response.isFetching ? (
+        {response.isLoading || response.isFetching ? (
           <WrapSpinner><Spinner/></WrapSpinner>
 
         ) : (
@@ -156,7 +158,7 @@ const Active = () => {
                   <span>{between}</span>
                   {t("from1")} <span>{totalNewsCount}</span> 
                   {countPagination({
-                count: totalNewsCount,
+                count: Number(totalNewsCount),
                 firstWord: t('новости '),
                 secondWord: t('новостей'),
               })}
@@ -173,12 +175,12 @@ const Active = () => {
           </>
         )}
       </Wrap>:
-      <WrapMobile>
+      <Wrap>
          <MobileFilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} filterByDate={filterByDate}/> 
           {response.isLoading || response.isFetching ? (
           <WrapSpinner><Spinner/></WrapSpinner>
         )
-         : 
+         : width<600 &&
          (
           <>
             {data?.length > 0 ? (
@@ -198,7 +200,7 @@ const Active = () => {
                   <span>{between}</span>
                   {t("from1")} <span>{totalNewsCount}</span>
                   {countPagination({
-                count: totalNewsCount,
+             count: Number(totalNewsCount),
                 firstWord: t('новости '),
                 secondWord: t('новостей'),
               })}
@@ -216,7 +218,7 @@ const Active = () => {
           </>
         )
         }
-        </WrapMobile>}
+        </Wrap>}
     </Container>
   );
 };

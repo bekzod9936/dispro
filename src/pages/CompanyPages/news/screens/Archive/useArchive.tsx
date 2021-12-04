@@ -40,6 +40,7 @@ const useArchive = ({filterValues}:PProps) => {
     keepPreviousData: true,
     refetchOnWindowFocus: false,
     retry: 0,
+    
     onSuccess: (data) => {
       console.log("data", data.data.data);
       dispatch(

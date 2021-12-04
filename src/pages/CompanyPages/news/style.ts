@@ -18,6 +18,10 @@ export const MainWrapper = styled.div`
   @media (max-width: ${device.mobile}) {
     padding: 0px 0 0 0px;
   }
+  @media (min-width:${device.mobile}) and (max-width:${device.planshet}){
+    padding: 0px 0 0 0px;
+  }
+
 `;
 
 export const SpinnerDiv = styled.div`
@@ -78,11 +82,7 @@ export const Flex = styled.div<IFlex>`
   overflow-y: ${(props: IFlex) => props.overflowY || 'visible'};
   flex-wrap: ${(props: IFlex) => props.flexWrap || 'nowrap'};
 
-  @media (max-width: ${device.mobile}) {
-    flex-direction: flex;
-    align-items: center;
-    justify-content:center;
-  }
+
 
   @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
     flex-direction: flex;
@@ -120,6 +120,9 @@ export const WrapHeader = styled.div`
   justify-content: space-between;
   @media (max-width: ${device.mobile}) {
     padding: 5px 0 0 10px;
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    padding: 25px 0 0 25px;
   }
 `;
 

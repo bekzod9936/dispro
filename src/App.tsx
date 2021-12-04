@@ -52,6 +52,7 @@ function App() {
         onClose={(e: any) => dispatch(setNotifyOpen(e))}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
       />
+      
       <RestrictModal />
     </>
   );

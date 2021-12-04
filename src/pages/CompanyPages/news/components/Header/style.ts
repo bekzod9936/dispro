@@ -73,6 +73,10 @@ export const WrapDate = styled.div`
     font-size: 14px;
 
   }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    font-size: 14px;
+    padding-left: 5px;
+  }
   @media (max-width: 360px) {
      display:none;
     /* font-size: 14px;

@@ -21,6 +21,8 @@ import { FilterNews } from "../../components/FilterNews";
 import { countPagination } from '../../components/utils';
 import useNewsRoute from "../../routes";
 import { LeftHeader, WrapMobile,WrapHeader } from "./style";
+import {LaptopFilterNews} from "../../components/LaptopFilterNews";
+import NoNewsLaptop from "../../components/NoNewsLaptop";
 import {MobileFilterNews} from "../../components/MobileFilterNews";
 interface intialFilterProps {
   page?: number;
@@ -93,10 +95,10 @@ const Archive = () => {
 
   return (
     <Container>
-         {width>600 && <FilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} filterByDate={filterByDate}/>}
+           {width>600 && width<=1000 ? <LaptopFilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} filterByDate={filterByDate}/>:width>1000 && <FilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} filterByDate={filterByDate}/>}
       {width>600 ? 
       <Wrap>
-        {response.isLoading || response.isFetching ? (
+        {response.isLoading || response.isFetching ?  (
           <WrapSpinner><Spinner/></WrapSpinner>
 
         ) : (
@@ -104,9 +106,11 @@ const Archive = () => {
             {data.length > 0 ? (
               <Table  data={list} />
             ) : (
-              <div style={{ paddingRight: "20%", paddingTop: "5%" }}>
-                <NoNews handleOpenSetting={handleOpenSetting} />
+              <div>{width>1000 ? <div style={{ paddingRight: "20%", paddingTop: "5%" }}><NoNews handleOpenSetting={handleOpenSetting} /></div>:
+              <div style={{ paddingRight: "10%", paddingTop: "10%" }}>
+                <NoNewsLaptop handleOpenSetting={handleOpenSetting} />
               </div>
+}</div>
             )}
             <SideBar isOpen={newsById} maxWidth={"370px"}>
               {newsById && <NewsBar refetch={response} currentNews={newsById} onClose={onClose} />}
@@ -135,7 +139,7 @@ const Archive = () => {
           </>
         )}
       </Wrap>:
-    <WrapMobile>
+    <Wrap>
          <MobileFilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} filterByDate={filterByDate}/> 
           {response.isLoading || response.isFetching ? (
           <WrapSpinner><Spinner/></WrapSpinner>
@@ -178,7 +182,7 @@ const Archive = () => {
           </>
         )
         }
-        </WrapMobile>}
+        </Wrap>}
     </Container>
   );
 };

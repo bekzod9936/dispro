@@ -29,7 +29,7 @@ export const WrapSpinner = styled.div`
 export const Wrap = styled.div`
   overflow-y: auto;
   padding-right: 25px;
-  padding-top:40px;
+  padding-top:20px;
   ::-webkit-scrollbar {
     width: 7px;
   }
@@ -43,6 +43,11 @@ export const Wrap = styled.div`
   }
   @media (max-width: ${device.mobile}) {
     padding:0px 15px;
+  }
+  @media (min-width: ${device.mobile})and (max-width:${device.planshet}){
+    padding-top:20px;
+    padding-right: 25px;
+    padding-left: 25px;
   }
 `;
 

@@ -19,7 +19,13 @@ const initialState: IFeedBack = {
   ratings: [],
   histories: [],
   supporthistories: [],
-  totalHistory: 0,
+  totalHistory: {
+    total: 0,
+    page: 1,
+    perPage: 10,
+    loading: false,
+    hasMore: true,
+  },
   totalSupportHistory: {
     total: 0,
     page: 1,
@@ -37,6 +43,7 @@ const initialState: IFeedBack = {
     isChoose: false,
     chosen: {},
   },
+  badgeStorePost: {},
 };
 
 const feedbackPostSlice = createSlice({
@@ -65,7 +72,7 @@ const feedbackPostSlice = createSlice({
       state.totalCount = action.payload;
     },
 
-    setTotalHistory: (state, action: PayloadAction<number>) => {
+    setTotalHistory: (state, action: PayloadAction<ITHistorySupport>) => {
       state.totalHistory = action.payload;
     },
     setTotalSupportHistory: (
@@ -87,6 +94,9 @@ const feedbackPostSlice = createSlice({
     setChosenListUser: (state, action: PayloadAction<IChoose>) => {
       state.chosenListUser = action.payload;
     },
+    setBadgeStorePost: (state, action: PayloadAction<IMessage>) => {
+      state.badgeStorePost = action.payload;
+    },
   },
 });
 
@@ -104,5 +114,6 @@ export const {
   setTotalSupportHistory,
   setChosenClientChat,
   setChosenListUser,
+  setBadgeStorePost,
 } = feedbackPostSlice.actions;
 export default feedbackPostSlice.reducer;

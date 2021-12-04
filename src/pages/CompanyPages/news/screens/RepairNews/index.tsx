@@ -13,6 +13,7 @@ import Spinner from "components/Helpers/Spinner";
 import ImageLazyLoad from "components/Custom/ImageLazyLoad/ImageLazyLoad";
 import useStaff from "../../hooks/useStaff";
 import { WatchIcons,WatchIconsWhite,PublishIcon,WhitePublishIcon,RepairNewsIcon } from "assets/icons/news/newsIcons";
+import { SaveIcon,SaveIconMobile } from "assets/icons/news/newsIcons";
 import CropCustomModal from "components/Custom/CropImageModal/index";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
@@ -38,7 +39,7 @@ import {
   PlusIcon,
   UploadImage,
 } from "assets/icons/proposals/ProposalsIcons";
-import { SaveIcon } from "assets/icons/news/newsIcons";
+import {UpSide} from "../CreateNews/style"
 import { days, genders, todayDate } from "../CreateNews/constants";
 import {
   PushBlock,
@@ -54,11 +55,12 @@ import {
   UploadButton,
   WrapArea,
   TextAreaIcon,
-  UpSide,
+ 
   Wrapper,
   FormRow,
   Buttons,
   Message,
+  MobileHeader
 } from "./style";
 import { useUploadImage } from "../../hooks/useUploadIMage";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
@@ -274,7 +276,7 @@ const RepairNews = () => {
 
   return (
     <Wrapper>
-      {width > 600 && (
+      {width > 1000 && (
         <div
           style={{ display: "flex", marginBottom: 30, alignItems: "center" }}
         >
@@ -294,20 +296,12 @@ const RepairNews = () => {
       />
       <Form onSubmit={handleSubmit(submitNews)}>
         <UpSide>
-          {width <= 600 && (
-            <div
-              style={{
-                display: "flex",
-                marginBottom: 30,
-                alignItems: "center",
-              }}
-            >
-              <GoBackIcon
-                onClick={handleBack}
-                style={{ marginRight: "25px", cursor: "pointer" }}
-              />
-              <Title>Восстановить новости</Title>
-            </div>
+        
+            {width <= 1000 && (
+            <MobileHeader>
+              <GoBackIcon onClick={handleBack} style={{ cursor: "pointer" }} />
+              <Title> {t('Восстановить новости')}</Title>
+            </MobileHeader>
           )}
           <Container>
             <LeftSide>
@@ -411,7 +405,7 @@ const RepairNews = () => {
                       render={({ field }) => (
                         <Input
                           field={field}
-                        
+                          width={{maxwidth:600,minwidth:100}}
                           type="date"
                           min={todayDate}
                           error={!!errors.startDate}
@@ -433,7 +427,7 @@ const RepairNews = () => {
                         <Input
                           type="date"
                           field={field}
-                        
+                          width={{maxwidth:600,minwidth:100}}
                           error={!!errors.endDate}
                           min={watch("startDate")}
                           margin={{ laptop: "0 0 0 15px" }}
@@ -680,7 +674,37 @@ const RepairNews = () => {
             </RightSide>
           </Container>
         </UpSide>
-        {width>600 &&  <DownSide>
+        {width>600 && width <= 1000 && (
+            <DownSide>
+                <Button
+                    onClick={handleBack}
+             endIcon={<MobileCancelIcon />}
+             buttonStyle={{
+               bgcolor: "rgba(96, 110, 234, 0.1)",
+               color: "#606EEA",
+             }}
+            >
+              Отмена
+            </Button>
+            <Button
+              type="submit"
+              margin={{ laptop: "0 25px" }}
+              endIcon={<RepairNewsIcon />}
+              buttonStyle={{
+                bgcolor: "#606EEA",
+                color: "#fff",
+                shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
+              }}
+            >
+
+              
+          
+            Восстановить
+            </Button>
+                </DownSide>
+              )}
+      
+        {width>1000 &&  <DownSide>
           <Button
             onClick={handleBack}
             startIcon={<CancelIcon />}
@@ -716,7 +740,7 @@ const RepairNews = () => {
                   <Button
                     onClick={() => setValidation(true)}
                     type="submit"
-                    endIcon={<SaveIcon />}
+                    endIcon={<SaveIconMobile />}
                     buttonStyle={{
                       bgcolor: "#606EEA",
                       color: "#fff",

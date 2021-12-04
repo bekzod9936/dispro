@@ -167,7 +167,7 @@ const CreateNews = () => {
       couponIds: [],
       image: image,
       genderType: data.gender?.id,
-      pushUp: optionalFields.push,
+      pushUp: optionalFields.push &&data.descriptionPush,
       settings: {
         weekDays:
           optionalFields.push && data?.days?.length
@@ -183,7 +183,7 @@ const CreateNews = () => {
             ? data.filialID.map((el: any) => el.value)
             : [],
       },
-      pushUpTitle: optionalFields.push && data.descriptionPush,
+      pushUpTitle: optionalFields.push ? data.descriptionPush:'',
     };
     setStartDate(width>600 ? data.startDate:filter?.regDate?.regDateFrom);
     setSubmit(true);
@@ -205,7 +205,7 @@ const CreateNews = () => {
 
   return (
     <Wrapper>
-      {width > 600 && (
+      {width > 1000 && (
         <div
           style={{ display: "flex", marginBottom: 30, alignItems: "center" }}
         >
@@ -236,7 +236,7 @@ const CreateNews = () => {
 
       <Form onSubmit={handleSubmit(submitNews)}>
         <UpSide>
-          {width <= 600 && (
+          {width <= 1000 && (
             <MobileHeader>
               <GoBackIcon onClick={handleBack} style={{ cursor: "pointer" }} />
               <Title> {t('Добавление новости')}</Title>
@@ -327,7 +327,7 @@ const CreateNews = () => {
                   />
                 )}
               />
-              {width > 600 ? (
+              {width > 1000  ? (
                 <WrapInputs>
                   <Label>{t("chose_date")}</Label>
                   <div>
@@ -372,7 +372,55 @@ const CreateNews = () => {
                     />
                   </div>
                 </WrapInputs>
-              ) : (
+              ) : width > 600 && width<=
+              1000 ? (
+                <WrapInputs>
+                  <Label>{t("chose_date")}</Label>
+                  <div>
+                    <Controller
+                      name="startDate"
+                      control={control}
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field }) => (
+                        <Input
+                          field={field}
+                          type="date"
+                          min={todayDate}
+                          width={{maxwidth:400,minwidth:100}}
+                          error={!!errors.startDate}
+                          IconStart={<WrapDate>{t("from")}</WrapDate>}
+                          inputStyle={{
+                            inpadding: "0 2px 0 0",
+                          }}
+                        />
+                      )}
+                    />
+                    <Controller
+                      name="endDate"
+                      control={control}
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field }) => (
+                        <Input
+                          type="date"
+                          field={field}
+                          width={{maxwidth:400,minwidth:100}}
+                          error={!!errors.endDate}
+                          min={watch("startDate")}
+                          margin={{ laptop: "0 0 0 15px" }}
+                          IconStart={<WrapDate>{t("to")}</WrapDate>}
+                          inputStyle={{
+                            inpadding: "0 2px 0 0",
+                          }}
+                        />
+                      )}
+                    />
+                  </div>
+                </WrapInputs>
+              ):(
                 <WrapInputs>
                   <Label>{t("chose_date")}</Label>
                   <div >
@@ -565,8 +613,6 @@ const CreateNews = () => {
                             placeholdercolor: "#223367",
                             inpadding: "2px 10px 2px 60px",
                             placewieght: "500",
-                          
-                           
                           }}
                           placeholder={t("Выберите филиалы")}
                           margin={{
@@ -587,7 +633,8 @@ const CreateNews = () => {
                 <Buttons>
                   <div className="upside">
                     <Button
-                      onClick={() => setCancel(true)}
+                    onClick={() => setCancel(true)}
+                  
                       endIcon={<MobileCancelIcon />}
                       buttonStyle={{
                         bgcolor: "rgba(96, 110, 234, 0.1)",
@@ -613,10 +660,37 @@ const CreateNews = () => {
                   </Button>
                 </Buttons>
               )}
+               
             </RightSide>
           </Container>
         </UpSide>
-        {width > 600 && (
+        {width>600 && width <= 1000 && (
+            <DownSide>
+                <Button
+                onClick={() => setCancel(true)}
+             endIcon={<MobileCancelIcon />}
+             buttonStyle={{
+               bgcolor: "rgba(96, 110, 234, 0.1)",
+               color: "#606EEA",
+             }}
+            >
+              Отмена
+            </Button>
+            <Button
+              type="submit"
+              margin={{ laptop: "0 25px" }}
+              endIcon={<SaveIconMobile />}
+              buttonStyle={{
+                bgcolor: "#606EEA",
+                color: "#fff",
+                shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
+              }}
+            >
+              Сохранить
+            </Button>
+                </DownSide>
+              )}
+        {width > 1000 && (
           <DownSide>
             <Button
               onClick={() => setCancel(true)}
@@ -626,7 +700,6 @@ const CreateNews = () => {
               Отменить
             </Button>
             <Button
-              // onClick={() => setValidation(true)}
               type="submit"
               margin={{ laptop: "0 25px" }}
               startIcon={<SaveIcon />}

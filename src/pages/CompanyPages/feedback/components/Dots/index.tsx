@@ -6,7 +6,8 @@ import { useTranslation } from 'react-i18next';
 import useWindowWidth from 'services/hooks/useWindowWidth';
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import { setChosenListUser } from 'services/redux/Slices/feedback';
-import useChatClients from '../../hooks/useChatClients';
+import useChatClients from '../../screens/Posts/useChatClients';
+import useDelete from '../../hooks/useDelete';
 import {
   Delete,
   Link,
@@ -34,7 +35,8 @@ const Dots = () => {
     (state) => state.feedbackPost.chosenListUser
   );
 
-  const { deleteRes, resChatClients } = useChatClients();
+  const { resChatClients } = useChatClients();
+  const { deleteRes } = useDelete();
 
   const handleDelete = () => {
     const data: any = {
@@ -43,7 +45,9 @@ const Dots = () => {
     };
     deleteRes.mutate(data, {
       onSuccess: () => {
-        dispatch(setChosenListUser({ ...chosenListUser, isChoose: false }));
+        dispatch(
+          setChosenListUser({ ...chosenListUser, isChoose: false, chosen: {} })
+        );
         resChatClients.refetch();
         setOpen(false);
       },

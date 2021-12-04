@@ -108,13 +108,17 @@ input::-webkit-inner-spin-button {
     width: 38px;
     height: 19px;
   }
+  .toggle-switch .switch {
+    top: 1px !important;
 
-}
-@media only screen and (max-width: 600px) {
+  }
   .toggle-switch .switch::before {
     width: 15px !important;
     height: 15px !important; 
+    left: 0px !important;
+    top: 2px !important;
   }
+
 }
 
 

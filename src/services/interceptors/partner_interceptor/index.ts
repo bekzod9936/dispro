@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import jwtDecode from "jwt-decode";
+import { notify } from "services/utils/local_notification";
 //constants
 import { URL, VERSION } from "../../constants/config";
 //types
@@ -30,13 +31,24 @@ partnerApi.interceptors.request.use((config: AxiosRequestConfig) => {
 });
 
 partnerApi.interceptors.response.use(
-  (response: AxiosResponse<any>) => response,
+  (response: AxiosResponse<any>) => {
+    if (response.status === 201 && response.data?.data?.success) {
+      notify("succesw");
+    }
+
+    return response;
+  },
   async (err: any) => {
     const originalRequest = err.config;
     let companyToken = localStorage.getItem(PARTNER.COMPANY_TOKEN);
     let moderatorToken = localStorage.getItem(PARTNER.ACCESS_TOKEN);
     let refreshToken = localStorage.getItem(PARTNER.REFRESH_TOKEN);
     const errId = err?.response?.data?.error?.errId;
+    const errRes = err?.response?.data?.error;
+
+    if (errRes.isFriendly) {
+      notify(errRes.errMsg);
+    }
 
     if ((errId === 8 || errId === 7) && companyToken) {
       let decoded: any = jwtDecode(companyToken);

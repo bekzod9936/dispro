@@ -88,11 +88,12 @@ export interface IFeedBack {
   ratings?: IRatings[];
   histories?: IHistory[];
   supporthistories?: IHistory[];
-  totalHistory?: number;
+  totalHistory?: ITHistorySupport;
   totalSupportHistory?: ITHistorySupport;
   totalCount?: number;
   averageRating?: IRating;
   socket?: any;
   chosenClient?: IChose;
   chosenListUser?: IChoose;
+  badgeStorePost?: IMessage;
 }

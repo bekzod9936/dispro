@@ -63,7 +63,7 @@ const MobileTable = ({ refetch, data }: Props) => {
   const [isDeleteOpen, setDeleteOpen] = useState<boolean>(false);
   const [isPublishOpen, setPublisOpen] = useState<boolean>(false);
   const { width } = useWindowWidth();
-  console.log("datamobile", data);
+
   const location = useLocation();
 
   const onDeleteOpen = async () => {
@@ -190,21 +190,19 @@ const MobileTable = ({ refetch, data }: Props) => {
                           <div style={{ display: "block" }}>
                             <p
                               style={{
+                               whiteSpace: "pre-wrap",wordBreak: 'break-all',
+                               
                                 fontSize: "16px",
                                 color: "#223367",
                                 fontWeight: 500,
                               }}
                             >
-                              {info?.title?.length > 20
-                                ? info?.title?.slice(0, 20) + "..."
-                                : info?.title}
+                              {info?.title}
                             </p>
                             <span
                               style={{ fontSize: "14px", color: "#223367" }}
                             >
-                              {info?.description?.length > 15
-                                ? info?.description?.slice(0, 15) + "..."
-                                : info?.description}
+                              {info?.pushUp? 'Push-up':''}
                             </span>
                           </div>
                         </>
@@ -229,6 +227,7 @@ const MobileTable = ({ refetch, data }: Props) => {
                                 style={{
                                   whiteSpace: "pre-wrap",
                                   wordBreak: "break-all",
+                                  fontWeight: 400,
                                 }}
                               >
                                 {info?.description?.slice(0, 150) + "..."}
@@ -238,6 +237,7 @@ const MobileTable = ({ refetch, data }: Props) => {
                                 style={{
                                   whiteSpace: "pre-wrap",
                                   wordBreak: "break-all",
+                                  fontWeight: 400,
                                 }}
                               >
                                 {info?.description}
@@ -247,7 +247,7 @@ const MobileTable = ({ refetch, data }: Props) => {
                         </Box>
                       </WrapBox>
                       <WrapBoxDetail>
-                        <p style={{ color: "#C7C7C7" }}>Информация</p>
+                        <p style={{ color: "#C7C7C7" }}>{t('Информация')}</p>
                         <Box>
                           <BoxinfoDetail>{`${a.fullData?.genderType}`}</BoxinfoDetail>
                           <BoxinfoDetail>{`Срок публикции: ${a.fullData?.date}`}</BoxinfoDetail>
@@ -321,7 +321,7 @@ const MobileTable = ({ refetch, data }: Props) => {
                               )
                             }
                           >
-                            Удалить
+                           {t('Удалить')} 
                           </Button>
                           <Button
                             onClick={() => handleEdit(a)}
@@ -386,7 +386,7 @@ const MobileTable = ({ refetch, data }: Props) => {
                                 )
                               }
                             >
-                              Удалить
+                              {t('Удалить')}
                             </Button>
                             <Button
                               onClick={() => handlePublic(a)}
@@ -400,7 +400,7 @@ const MobileTable = ({ refetch, data }: Props) => {
                               //  endIcon={<MobileCancelIcon />}
                               endIcon={width > 325 && <WhitePublishIcon />}
                             >
-                              {"Опубликовать"}
+                                  {t('Опубликовать')} 
                             </Button>
                           </Buttons>
                         </>
@@ -426,15 +426,15 @@ const MobileTable = ({ refetch, data }: Props) => {
                           )
                         }
                       >
-                        {"Восстановить"}
+                        {t('Восстановить')}   
                       </Button>
                     </Buttons>
                   )}
                 </ModalContent>
                 <Modal open={isDeleteOpen}>
                   <DeleteModal>
-                    <h5>Вы действительно хотите удалить новость?</h5>
-                    <p>{"После удаления новости  данные будет утеряны"}</p>
+                    <h5>{t('Вы действительно хотите удалить новость?')}</h5>
+                    <p>{t('После удаления новости  данные будет утеряны')}</p>
                     <Buttons>
                       <Button
                         margin={{ desktop: "0 20px 0 20px" ,mobile:"0 10px 0 0"}}
@@ -450,7 +450,7 @@ const MobileTable = ({ refetch, data }: Props) => {
                           )
                         }
                       >
-                        {"Отменить"}
+                        {t('Отменить')}
                       </Button>
                       <Button
                         onClick={() => onDeleteAction(info?.id)}
@@ -468,7 +468,7 @@ const MobileTable = ({ refetch, data }: Props) => {
                           )
                         }
                       >
-                        Удалить
+                       {t('Удалить')} 
                       </Button>
                     </Buttons>
                   </DeleteModal>

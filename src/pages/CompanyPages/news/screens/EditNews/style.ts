@@ -547,9 +547,12 @@ export const DownSide = styled.div`
     @media (max-width: 1150px) {
       padding-right: 20px;
     }
-    @media (max-width: ${device.mobile}) {
-      padding: 25px 20px;
-      height: 15%;
+    @media (min-width: ${device.mobile}) and (max-width:${device.planshet}) {
+      display: flex;
+      padding: 25px 0 0 0;
+      height: 8%;
+      justify-content: center;
+
     }
     @media (max-width: 320px) {
       padding: 15px 0px;
@@ -565,6 +568,7 @@ export const Form = styled.form`
     padding: 35px 110px 0 110px;
     @media (max-width: ${device.laptop}) {
       padding: 20px 25px;
+      width: 100%;
     }
     @media (max-width: 1150px) {
       padding-right: 0;

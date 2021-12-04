@@ -34,7 +34,7 @@ export const WaitingFilterNews=({handleOpenNews,searchNews,filterByDate}:FilterN
           onChange={(e) => searchNews(e)}
           width={{ maxwidth: 500 }}
         />
-      <div style={{ width: "20px" }} />
+   
         <Button
           onClick={handleOpenNews}
           buttonStyle={{
@@ -47,7 +47,7 @@ export const WaitingFilterNews=({handleOpenNews,searchNews,filterByDate}:FilterN
             desktop: "0 25px 0 0",
             laptop: "0 25px 0 0",
             planshet: "0 0 20px 0",
-            mobile:"0 0 0 15px",
+            mobile:"0 0 0 13px",
           }}
           startIcon={<AddMobileIcon />}
         >

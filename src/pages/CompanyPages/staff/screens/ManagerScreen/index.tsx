@@ -78,7 +78,7 @@ const ManagerScreen = () => {
 				</EmptyContainer>
 			)}
 
-			<SideBar maxWidth='450px' isOpen={selectedManagers?.length}>
+			<SideBar maxWidth='340px' isOpen={selectedManagers?.length}>
 				<ManagerBar />
 			</SideBar>
 

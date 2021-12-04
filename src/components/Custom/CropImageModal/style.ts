@@ -118,6 +118,9 @@ export const LeftRound = styled.div`
   @media (max-width: ${device.mobile}) {
     display: none;
   }
+  @media (max-width: ${device.planshet}) {
+    display: none;
+  }
   /* box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); */
   /* border-bottom: 1px solid rgba(96, 110, 234, 0.3); */
   /* box-shadow: 0px -1px 5px rgba(96, 110, 234, 0.25); */

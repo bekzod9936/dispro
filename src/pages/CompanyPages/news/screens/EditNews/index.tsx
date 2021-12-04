@@ -38,7 +38,8 @@ import {
   PlusIcon,
   UploadImage,
 } from "assets/icons/proposals/ProposalsIcons";
-import { SaveIcon } from "assets/icons/news/newsIcons";
+import {UpSide} from "../CreateNews/style"
+import { SaveIcon ,SaveIconMobile} from "assets/icons/news/newsIcons";
 import { days, genders, todayDate } from "../CreateNews/constants";
 import {
   PushBlock,
@@ -54,10 +55,7 @@ import {
 
   RightSide,
   UploadButton,
-  WrapperModal,
-  WrapArea,
-  TextAreaIcon,
-  UpSide,
+
   Wrapper,
   MobileHeader,
   FormRow,
@@ -275,11 +273,10 @@ console.log('filteredArray',filteredArray)
   handleBack();
  }
   },[])
- 
-  console.log('newsById',newsById?.data)
+
   return (
     <Wrapper>
-        {width > 600 && (
+        {width > 1000 && (
         <div
           style={{ display: "flex", marginBottom: 30, alignItems: "center" }}
         >
@@ -300,7 +297,7 @@ console.log('filteredArray',filteredArray)
 
       <Form onSubmit={handleSubmit(submitNews)}>
         <UpSide>
-        {width <= 600 && (
+        {width <= 1000 &&  (
             <MobileHeader>
               <GoBackIcon onClick={handleBack} style={{ cursor: "pointer" }} />
               <Title>Редактирование новости</Title>
@@ -393,6 +390,7 @@ console.log('filteredArray',filteredArray)
                     message={t("requiredField")}
                     error={!!errors.description}
                     minHeight={'150px'}
+                    fontSize={width>1000 ? '18px':'14px'}
                     maxHeight={'300px'}
                     resize={'vertical'}
                     title={"Описание"}
@@ -413,7 +411,7 @@ console.log('filteredArray',filteredArray)
                         <Input
                           field={field}
                           type="date"
-                        
+                          width={{maxwidth:400,minwidth:100}}
                           min={todayDate}
                           defaultValue={startDate}
                           error={!!errors.startDate}
@@ -438,8 +436,7 @@ console.log('filteredArray',filteredArray)
                           error={!!errors.endDate}
                           defaultValue={endDate}
                           min={watch("startDate")}
-                         
-                          // required={true}
+                          width={{maxwidth:400,minwidth:100}}
                           margin={{ laptop: "0 0 0 15px" }}
                           IconStart={<WrapDate>{t("to")}</WrapDate>}
                           inputStyle={{
@@ -452,7 +449,7 @@ console.log('filteredArray',filteredArray)
                 </WrapInputs>:
                  <WrapInputs>
                  <Label>{t("chose_date")}</Label>
-                 <div >
+                 <div>
                  <CustomDatePicker
              margin="0 15px 0 0"
              isFilter
@@ -562,11 +559,11 @@ console.log('filteredArray',filteredArray)
                         inputStyle={{
                           height: { desktop: 120, laptop: 90, mobile:120 },
                         }}
-                        IconEnd={width>600 &&
-                          <WrapArea>
-                            <TextAreaIcon />
-                          </WrapArea>
-                        }
+                        // IconEnd={width>600 &&
+                        //   <WrapArea>
+                        //     <TextAreaIcon />
+                        //   </WrapArea>
+                        // }
                       />
                     )}
                   />
@@ -677,7 +674,36 @@ console.log('filteredArray',filteredArray)
             </RightSide>
           </Container>
         </UpSide>
-        {width>600 &&  <DownSide>
+        {width>600 && width <= 1000 && (
+            <DownSide>
+                <Button
+                    onClick={handleBack}
+             endIcon={<MobileCancelIcon />}
+             buttonStyle={{
+               bgcolor: "rgba(96, 110, 234, 0.1)",
+               color: "#606EEA",
+             }}
+            >
+              Отмена
+            </Button>
+            <Button
+              type="submit"
+              margin={{ laptop: "0 25px" }}
+              endIcon={<SaveIconMobile />}
+              buttonStyle={{
+                bgcolor: "#606EEA",
+                color: "#fff",
+                shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
+              }}
+            >
+
+              
+          
+Сохранить
+            </Button>
+                </DownSide>
+              )}
+        {width>1000 &&  <DownSide>
           <Button
             onClick={handleBack}
             startIcon={<CancelIcon />}
@@ -714,7 +740,7 @@ console.log('filteredArray',filteredArray)
                   <Button
                     onClick={() => setValidation(true)}
                     type="submit"
-                    endIcon={<SaveIcon />}
+                    endIcon={<SaveIconMobile />}
                     buttonStyle={{
                       bgcolor: "#606EEA",
                       color: "#fff",

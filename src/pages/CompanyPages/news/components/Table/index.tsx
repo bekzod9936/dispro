@@ -1,9 +1,12 @@
 import  { useMemo } from "react";
-import { IconButton, Tooltip } from '@material-ui/core';
+//libraries
+import { useTranslation } from "react-i18next";
+import { Tooltip } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles'
 import { useTable, useSortBy } from "react-table";
+//components
 import { headers } from "./headers";
-import { useTranslation } from "react-i18next";
+//icons
 import defaultImage from "assets/images/staff_default.png";
 import {
   Container,
@@ -15,14 +18,13 @@ import {
   Td,
   UpIcon,
   TRow,
-  AgeData,
+  Description,
   TitleData,
   DefaultImage,
   TimeData,
-  ToolTipText,
-  Text,
-  ToolTipDescription,
-  ToolTip,
+  GenderStyle,
+  TooltipGetAll,
+  TooltipGet,
 } from "./style";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 import { setSelectedNews } from "services/redux/Slices/news";
@@ -63,7 +65,6 @@ const Table = ({ data, header2 }: Props) => {
           fontSize: 18,
           padding: 15,
           borderRadius: 14,
-    
       },
       arrow: {
           color: "#fff"
@@ -130,26 +131,26 @@ const Table = ({ data, header2 }: Props) => {
                     );
                   }  else if (cell.column.Header === "Описание") {
                     let checkDescription = cell?.row?.original?.fullData?.data?.description;
-                    let descriptionn =
+                    let description =
                       checkDescription?.length >70
                         ? checkDescription.charAt(0).toUpperCase() +checkDescription.slice(1,70)+ "..."
                         : checkDescription.charAt(0).toUpperCase()+checkDescription.slice(1);
-                        console.log('checkDescription',descriptionn)
+                       
                     return (
                       <Td {...cell.getCellProps()}>
-                           <AgeData>
-                             <p style={{ maxWidth:'300px',whiteSpace: "pre-wrap",wordBreak: 'break-all'}}>{descriptionn}</p>
-                      </AgeData>
+                           <Description>
+                             <p >{description}</p>
+                      </Description>
                       </Td>
                     );
                   }
                   else if (cell.column.Header === "Пол") {
                     let genderType =
                       cell?.row?.original?.fullData?.data?.genderType === 1
-                        ? <p style={{lineHeight:'21px',color:'#223367',fontSize: '14px',fontWeight:300}}>{"Для мужчин"}</p>
+                        ?<GenderStyle>{t("Для мужчин")}</GenderStyle>
                         : cell?.row?.original?.fullData?.data?.genderType === 2
-                        ? <p style={{lineHeight:'21px',color:'#223367',fontSize: '14px',fontWeight:300}}>{"Для женщины"}</p>
-                        : <p style={{lineHeight:'21px',color:'#223367',fontSize: '14px',fontWeight:300}}>{"Для всех"}</p>;
+                        ? <GenderStyle>{t("Для женщины")}</GenderStyle>
+                        : <GenderStyle>{t("Для всех")}</GenderStyle>;
                     return (
                       <Td {...cell.getCellProps()}>
                         {genderType}
@@ -167,14 +168,14 @@ const Table = ({ data, header2 }: Props) => {
                     return (
                       <Td {...cell.getCellProps()}>
                         <TimeData>
-                          <p>{date}</p>
-                          {ageUnlimeted ? '' :ageFrom>0 ? <h4>{ageFrom+ "+"}</h4>:''}
+                          <p style={{paddingRight:'2px'}}>{date}</p>
+                          {ageUnlimeted ? '' :ageFrom>0 ? <h4 >{ageFrom+ "+"}</h4>:''}
                           {     PushUp ? <LightToolTip arrow placement="left" title={<> 
-                          <p style={{padding:'10px 0px',lineHeight:'21px',color:'#223367',fontSize: '18px',fontWeight:300}}>{`Уведомлений получили:${' '+stat?.get?.total+' '}чел.`}</p>  
-                          <p style={{lineHeight:'21px',color:'#223367',fontSize: '18px',fontWeight:300}}>{`Уведомлений просмотрели:${' '+stat?.view?.total+' '}чел.`}  </p>
+                          <TooltipGetAll >{`Уведомлений получили:${' '+stat?.get?.total+' '}чел.`}</TooltipGetAll>  
+                          <TooltipGet>{`Уведомлений просмотрели:${' '+stat?.view?.total+' '}чел.`}  </TooltipGet>
                           <span style={{color:'#606EEA',fontWeight:300,}}>{`${' '+stat?.view?.male+' '} Муж`}</span>
                           <span style={{color:'#FF56BB',fontWeight:300,}}>{`${' '+stat?.view?.female+' '} Жен`}</span>
-                          <p style={{lineHeight:'21px',color:'#223367',fontSize: '18px',fontWeight:300}}>{`Произвели оплату:${' '+stat?.paid?.total+' '}чел.`} </p>
+                          <TooltipGet>{`Произвели оплату:${' '+stat?.paid?.total+' '}чел.`} </TooltipGet>
                           <span style={{color:'#606EEA',fontWeight:300}}>{`${' '+stat?.paid?.male+' '} Муж`}</span>
                           <span style={{color:'#FF56BB',fontWeight:300}}>{`${' '+stat?.paid?.female+' '} Жен`}</span>
                        

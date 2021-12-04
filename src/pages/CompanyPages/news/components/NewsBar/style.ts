@@ -21,6 +21,7 @@ export const DeleteModal = styled.div`
         margin-bottom: 30px;
     }
 `
+
 export const Wrapper = styled.div`
     position: relative;
     height: 100%;
@@ -29,6 +30,9 @@ export const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    @media  (max-width: 1000) {
+        width: 320px;
+    }
     /* justify-content: space-between; */
 `
 
@@ -44,6 +48,7 @@ export const Header = styled.div`
         font-weight:700;
         font-size: 18px;
         color: #223367;
+        
         line-height: 21px;
     }
 `
@@ -117,7 +122,6 @@ export const PreviewDivNews = styled.div`
 export const LeftRound = styled.div`
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
   align-items: center;
   height: 275px;
   overflow: hidden;
@@ -146,9 +150,9 @@ export const LeftRound = styled.div`
     color: #223367;
   }
   background: #ffffff;
-  box-shadow: -5px 2px 20px rgba(0, 0, 0, 0.06)
+  box-shadow: -5px 2px 20px rgba(0, 0, 0, 0.06);
 `;
-export const PreviewBgNews = styled.img`
+export const  PreviewBgNews = styled.img`
   position: absolute;
   top: 0px;
   left: 0px;
@@ -158,8 +162,7 @@ export const PreviewBgNews = styled.img`
   height: 180px !important;
   border-radius: 5px solid black;
   border: 5px;
-  /* object-fit: fill; */
-  /* border-radius: 30px; */
+ 
 `;
 export const PreviewContent = styled.div`
     position: absolute;
@@ -262,3 +265,36 @@ export const WrapperModal = styled.div`
         }
     }
 `
+
+export const WrapAvatar = styled.div`
+  display: flex;
+  width:100%;
+  align-items: center;
+  justify-content:flex-start;
+  grid-gap: 15px;
+  & > span {
+    font-weight: 500;
+    font-size: 16px;
+    color: #223367;
+  }
+`;
+
+export const WrapIcon = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+export const WrapBoxDetail=styled.div`
+padding:0px 0px;
+`
+export const Box = styled.div`
+  /* border-bottom: 1px solid rgba(96, 110, 234, 0.3); */
+  padding: 10px 0 10px 0px;
+`;
+export const BoxinfoDetail=styled.div`
+font-weight:300;
+font-size:14px;
+
+color: #223367;
+padding:5px 0px;
+`;
