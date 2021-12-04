@@ -45,7 +45,7 @@ const ChatPlace = ({ data }: Props) => {
   const [scrollHeight, setScrollHeight] = useState(0);
   const [page, setPage] = useState(1);
   const [lastdate, setLastdate] = useState<any>('');
-  const [data1, setData1] = useState<any>([]);
+
   const companyInfo = useAppSelector((state) => state.partner.companyInfo);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { readChat } = useRead();
@@ -84,7 +84,6 @@ const ChatPlace = ({ data }: Props) => {
   );
 
   useEffect(() => {
-    dispatch(setChatClientHistory([]));
     dispatch(
       setTotalHistory({
         total: 0,
@@ -150,7 +149,6 @@ const ChatPlace = ({ data }: Props) => {
       const last = histories[histories?.length - 1];
       setLastdate(last?.createdAt);
     }
-    setData1(data1);
   }, [histories]);
 
   const findScrollHeight = (e: any) => {
@@ -158,7 +156,7 @@ const ChatPlace = ({ data }: Props) => {
     setScrollHeight(Math.abs(e.target.scrollTop));
   };
 
-  console.log(histories.length);
+  console.log(histories);
   if (width <= 600) {
     return (
       <ChatPlace1>

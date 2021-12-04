@@ -78,7 +78,12 @@ export const ModalWrap = styled.div`
   margin-top: 30px;
 `;
 
-export const ModalText = styled.div``;
+export const ModalText = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 40px;
+  margin: 10px 0;
+`;
 
 export const CloseIcon = styled(Close)`
   width: 24px;
