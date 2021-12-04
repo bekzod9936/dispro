@@ -211,7 +211,6 @@ const Support = () => {
         (res: any) => {
           if (res.success) {
             setValue('message', '');
-
             setNewMassage({
               chatType: res?.data?.chatType,
               companyId: res?.data?.datacompanyId,

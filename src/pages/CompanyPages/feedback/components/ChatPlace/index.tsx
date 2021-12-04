@@ -28,22 +28,27 @@ import useChatClients from '../../screens/Posts/useChatClients';
 import { useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { fetchChatClientHistory } from 'services/queries/feedbackQuery';
-import { USER_TYPES } from 'services/constants/chat';
+import { CHAT_TYPES, USER_TYPES } from 'services/constants/chat';
 import defuserman from 'assets/icons/defuserman.png';
 import defuserwoman from 'assets/icons/defuserwoman.png';
+import useRead from '../../hooks/useRead';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   data?: any;
 }
 
 const ChatPlace = ({ data }: Props) => {
+  const { t } = useTranslation();
+
   const { width } = useWindowWidth();
   const [scrollHeight, setScrollHeight] = useState(0);
   const [page, setPage] = useState(1);
   const [lastdate, setLastdate] = useState<any>('');
+  const [data1, setData1] = useState<any>([]);
   const companyInfo = useAppSelector((state) => state.partner.companyInfo);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-
+  const { readChat } = useRead();
   const dispatch = useAppDispatch();
   const { scrollToTop, messagesStartRef } = useChatClients();
   const chosen = useAppSelector(
@@ -129,10 +134,23 @@ const ChatPlace = ({ data }: Props) => {
   );
 
   useEffect(() => {
+    const newArr = histories
+      .filter((v: any) =>
+        v.chatType === CHAT_TYPES.CLIENT_TO_PARTNER
+          ? v.status === 1
+            ? v.id
+            : null
+          : null
+      )
+      .map((i: any) => i.id);
+    if (newArr.length !== 0) {
+      readChat.mutate(newArr);
+    }
     if (histories.length === totalHistory.total) {
       const last = histories[histories?.length - 1];
       setLastdate(last?.createdAt);
     }
+    setData1(data1);
   }, [histories]);
 
   const findScrollHeight = (e: any) => {
@@ -140,27 +158,76 @@ const ChatPlace = ({ data }: Props) => {
     setScrollHeight(Math.abs(e.target.scrollTop));
   };
 
+  console.log(histories.length);
   if (width <= 600) {
     return (
       <ChatPlace1>
-        <Messages onScroll={findScrollHeight}>
-          <div>
-            <div ref={messagesStartRef} />
-            {histories?.map((v: any) => {
-              return (
-                <MessageWrap type={v.chatType}>
-                  <Message type={v.chatType}>
-                    <MessageDate type={v.chatType}>
-                      {dayjs(v.createdAt).format('hh:mm')}
-                    </MessageDate>
-                    <MessageText type={v.chatType}>{v.msg}</MessageText>
-                  </Message>
-                </MessageWrap>
-              );
-            })}
-            <div ref={messagesEndRef} />
+        {resChatClientHistory.isLoading ? (
+          <Spinner />
+        ) : histories?.length === 0 ? (
+          <div
+            style={{
+              display: 'flex',
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '20px',
+            }}
+          >
+            {t('thereisnomessage')}
           </div>
-        </Messages>
+        ) : (
+          <>
+            <Messages onScroll={findScrollHeight}>
+              <div>
+                <div ref={messagesStartRef} />
+                <InfiniteScroll
+                  dataLength={histories?.length}
+                  next={fetchHisFetchData}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column-reverse',
+                    overflow: 'hidden',
+                  }}
+                  inverse={true}
+                  scrollThreshold='-1000px'
+                  hasMore={totalHistory?.hasMore}
+                  loader={
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        width: '100%',
+                      }}
+                    >
+                      <Spinner />
+                    </div>
+                  }
+                  scrollableTarget='scrollableDiv'
+                  endMessage={
+                    <Divider>
+                      <div>{dayjs(lastdate).format('DD MMMM YYYY')}</div>
+                    </Divider>
+                  }
+                >
+                  {histories?.map((v: any) => {
+                    return (
+                      <MessageWrap type={v.chatType}>
+                        <Message type={v.chatType}>
+                          <MessageDate type={v.chatType}>
+                            {dayjs(v.createdAt).format('hh:mm')}
+                          </MessageDate>
+                          <MessageText type={v.chatType}>{v.msg}</MessageText>
+                        </Message>
+                      </MessageWrap>
+                    );
+                  })}
+                </InfiniteScroll>
+                <div ref={messagesEndRef} />
+              </div>
+            </Messages>
+          </>
+        )}
       </ChatPlace1>
     );
   } else {
@@ -168,6 +235,18 @@ const ChatPlace = ({ data }: Props) => {
       <ChatPlace1>
         {resChatClientHistory.isLoading ? (
           <Spinner />
+        ) : histories.length === 0 ? (
+          <div
+            style={{
+              display: 'flex',
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '20px',
+            }}
+          >
+            {t('thereisnomessage')}
+          </div>
         ) : (
           <>
             {scrollHeight > 0 ? (

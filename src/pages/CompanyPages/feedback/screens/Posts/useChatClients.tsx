@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import {
   setChosenListUser,
   setMessagesFeedBack,
+  setTotalHistory,
 } from 'services/redux/Slices/feedback';
 
 const useChatClients = () => {
@@ -24,6 +25,10 @@ const useChatClients = () => {
       })
     );
   };
+
+  const totalData: any = useAppSelector(
+    (state) => state.feedbackPost.totalHistory
+  );
 
   const scrollToTop = () => {
     messagesStartRef?.current?.scrollIntoView({
@@ -49,24 +54,26 @@ const useChatClients = () => {
             return null;
           }
         });
+        const newData = {
+          date: '',
+          firstName: chosenClient?.data?.clientFirstName,
+          id: chosenClient?.data?.clientId,
+          image: chosenClient?.data?.clientImage,
+          isDeleted: false,
+          lastMsg: '',
+          lastName: chosenClient?.data?.clientLastName,
+          genderTypeId: chosenClient?.data?.clientGenderTypeId,
+          obtainProgramLoyalty: chosenClient?.data?.obtainProgramLoyalty,
+        };
+
         if (newArr.length === 0) {
-          const newData = {
-            date: '',
-            firstName: chosenClient?.data?.clientFirstName,
-            id: chosenClient?.data?.clientId,
-            image: chosenClient?.data?.clientImage,
-            isDeleted: false,
-            lastMsg: '',
-            lastName: chosenClient?.data?.clientLastName,
-            genderTypeId: chosenClient?.data?.clientGenderTypeId,
-            obtainProgramLoyalty: chosenClient?.data?.obtainProgramLoyalty,
-          };
           dispatch(setMessagesFeedBack([newData, ...data.data.data]));
-          handleChoose(newData);
+          dispatch(setTotalHistory({ ...totalData, hasMore: false }));
           dispatch(
             setChosenListUser({
               ...choseListUser,
               isChoose: chosenClient?.choose,
+              chosen: newData,
             })
           );
           scrollToTop();
@@ -76,6 +83,14 @@ const useChatClients = () => {
             setChosenListUser({
               ...choseListUser,
               isChoose: true,
+            })
+          );
+          dispatch(setTotalHistory({ ...totalData, hasMore: true }));
+          dispatch(
+            setChosenListUser({
+              ...choseListUser,
+              isChoose: chosenClient?.choose,
+              chosen: newData,
             })
           );
           handleChoose(newArr[0]);

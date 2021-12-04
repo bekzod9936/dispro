@@ -34,6 +34,11 @@ export const Upside = styled.div`
   height: 85px;
   display: grid;
   grid-template-columns: 25% 75%;
+  @media (min-width: ${device.laptop}) {
+    min-height: 90px;
+    max-height: 90px;
+    height: 90px;
+  }
 `;
 
 export const Downside = styled.div`
@@ -207,4 +212,86 @@ export const NoResult = styled.div`
   @media (max-width: ${device.mobile}) {
     margin-top: 10px;
   }
+`;
+
+export const Wranning = styled.div`
+  background: #f5f5f5;
+  height: 40px;
+  min-height: 40px;
+  max-height: 40px;
+  font-size: 14px;
+  color: #8f8f8f;
+  display: flex;
+  align-items: center;
+  padding-left: 15px;
+`;
+
+export const MobileContainer = styled.div``;
+
+export const MobileMessages = styled.div`
+  background-color: white;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
+  border-radius: 12px;
+  margin-top: 13px;
+`;
+
+export const WrapModal = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+`;
+
+export const HeaderModal = styled.div`
+  display: flex;
+  padding: 10px 15px;
+  align-items: center;
+`;
+export const BodyModal = styled.div`
+  flex-grow: 1;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+`;
+export const FooterModal = styled.div`
+  border-top: 1px solid #c2c2c2;
+  height: fit-content;
+`;
+
+export const WrapTextArea = styled.div`
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 15px 0;
+  position: relative;
+  & > textarea::-webkit-resizer {
+    display: none;
+  }
+  & > textarea::placeholder {
+    font-size: 14px;
+    color: #c2c2c2;
+    font-family: var(--fontFamily);
+  }
+  & > textarea {
+    resize: none;
+    overflow: hidden !important;
+    border: none !important;
+    padding: 0 90px 0 15px !important;
+    align-self: center;
+    font-family: var(--fontFamily);
+  }
+  & > textarea:focus {
+    outline: 0;
+  }
+`;
+
+export const WrapButtons = styled.div`
+  position: absolute;
+  bottom: 0;
+  right: 0;
 `;

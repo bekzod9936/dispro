@@ -51,7 +51,7 @@ const ChatUser = ({ value }: Props) => {
     width: width > 600 ? '40px' : '50px',
   };
 
-  const unread = chatType === 1 ? <UnreadIcon /> : null;
+  const unread = chatType === 1 ? status === 2 ? null : <UnreadIcon /> : null;
 
   const check =
     chatType === 2 ? (

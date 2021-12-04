@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { useForm, Controller } from 'react-hook-form';
 //hooks
+import { ReactComponent as LeftBack } from 'assets/icons/FinanceIcons/leftback.svg';
 import useChatClients from './useChatClients';
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import useWindowWidth from 'services/hooks/useWindowWidth';
@@ -22,6 +23,16 @@ import ChatUser from '../../components/ChatUser';
 //custom
 import Input from 'components/Custom/Input';
 import Button from 'components/Custom/Button';
+import { IconButton } from '@material-ui/core';
+import ChatPlace from '../../components/ChatPlace';
+import { CHAT_TYPES, SOCKET_EVENT } from 'services/constants/chat';
+import {
+  setChatClientHistory,
+  setChosenListUser,
+  setMessagesFeedBack,
+  setTotalHistory,
+} from 'services/redux/Slices/feedback';
+import { TextareaAutosize } from '@material-ui/core';
 //style
 import {
   Container,
@@ -43,6 +54,15 @@ import {
   Form,
   Body,
   NoResult,
+  Wranning,
+  MobileContainer,
+  MobileMessages,
+  WrapModal,
+  HeaderModal,
+  BodyModal,
+  FooterModal,
+  WrapTextArea,
+  WrapButtons,
 } from './style';
 import {
   Avatar,
@@ -55,10 +75,8 @@ import {
   WrapIcons,
   WrapScript,
 } from '../../style';
-import { IconButton } from '@material-ui/core';
-import ChatPlace from '../../components/ChatPlace';
-import { CHAT_TYPES, SOCKET_EVENT } from 'services/constants/chat';
-import { setChatClientHistory } from 'services/redux/Slices/feedback';
+import FullModal from 'components/Custom/FullModal';
+import useDelete from '../../hooks/useDelete';
 
 interface StateProps {
   chosenValues?: any;
@@ -94,6 +112,13 @@ const Posts = () => {
   const { resBadge } = useLayout({ id: companyId });
   const { readChat } = useRead();
   const staffId = useAppSelector((state) => state.auth.staffId);
+  const badgeStore = useAppSelector(
+    (state) => state.feedbackPost.badgeStorePost
+  );
+  const chosenClient = useAppSelector(
+    (state) => state.feedbackPost.chosenClient
+  );
+
   const socket = useAppSelector((state) => state.feedbackPost.socket);
   const { control, handleSubmit, setValue, getValues, watch } =
     useForm<FormProps>({
@@ -102,15 +127,65 @@ const Posts = () => {
     });
   const values = getValues();
 
-  const messages = useAppSelector((state) => state.feedbackPost.messages);
+  const messages: any = useAppSelector((state) => state.feedbackPost.messages);
+  const totalData: any = useAppSelector(
+    (state) => state.feedbackPost.totalHistory
+  );
+  useEffect(() => {
+    if (chosenClient?.choose) {
+      const newArr = messages.filter((v: any) => {
+        if (v.id === chosenClient?.data?.clientId) {
+          return v;
+        } else {
+          return null;
+        }
+      });
+      const newData = {
+        date: '',
+        firstName: chosenClient?.data?.clientFirstName,
+        id: chosenClient?.data?.clientId,
+        image: chosenClient?.data?.clientImage,
+        isDeleted: false,
+        lastMsg: '',
+        lastName: chosenClient?.data?.clientLastName,
+        genderTypeId: chosenClient?.data?.clientGenderTypeId,
+        obtainProgramLoyalty: chosenClient?.data?.obtainProgramLoyalty,
+      };
+      if (newArr.length === 0) {
+        dispatch(setMessagesFeedBack([newData, ...messages]));
+        dispatch(setTotalHistory({ ...totalData, hasMore: false }));
+        dispatch(
+          setChosenListUser({
+            ...choseListUser,
+            isChoose: chosenClient?.choose,
+            chosen: newData,
+          })
+        );
+        scrollToTop();
+      } else {
+      }
+      setState({ ...state, chosenValues: newData });
+      dispatch(setChatClientHistory([]));
+    }
+  }, [chosenClient]);
 
   const { resChatClients, scrollToTop } = useChatClients();
-
   useEffect(() => {
     if (values?.message !== undefined) {
       setState({ ...state, limit: words - values?.message?.length });
     }
   }, [watch('message')]);
+
+  const choseListUser: any = useAppSelector(
+    (state) => state.feedbackPost.chosenListUser
+  );
+
+  useEffect(() => {
+    if (badgeStore?.id !== state.chosenValues.id) {
+      setState({ ...state, chosenValues: badgeStore });
+      dispatch(setChatClientHistory([]));
+    }
+  }, [badgeStore]);
 
   useEffect(() => {
     setUsers(messages);
@@ -135,7 +210,7 @@ const Posts = () => {
   useEffect(() => {
     if (state.chosenValues.id !== undefined) {
       dispatch(setChatClientHistory([newMassage, ...histories]));
-      if (CHAT_TYPES.CLIENT_TO_PARTNER !== newMassage.chatType) {
+      if (CHAT_TYPES.CLIENT_TO_PARTNER === newMassage.chatType) {
         resBadge.refetch();
         readChat.mutate([newMassage?.id]);
       }
@@ -211,8 +286,17 @@ const Posts = () => {
         key={v.id}
         value={{
           onClick: () => {
-            setState({ ...state, chosenValues: v });
-            dispatch(setChatClientHistory([]));
+            if (v.id !== state.chosenValues?.id) {
+              setState({ ...state, chosenValues: v });
+              dispatch(setChatClientHistory([]));
+              dispatch(
+                setChosenListUser({
+                  ...choseListUser,
+                  chosen: v,
+                  isChoose: true,
+                })
+              );
+            }
           },
           isActive: v.id === state.chosenValues?.id,
           firstName: v.firstName,
@@ -233,8 +317,17 @@ const Posts = () => {
         key={v.id}
         value={{
           onClick: () => {
-            setState({ ...state, chosenValues: v });
-            dispatch(setChatClientHistory([]));
+            if (v.id !== state.chosenValues?.id) {
+              setState({ ...state, chosenValues: v });
+              dispatch(setChatClientHistory([]));
+              dispatch(
+                setChosenListUser({
+                  ...choseListUser,
+                  chosen: v,
+                  isChoose: true,
+                })
+              );
+            }
           },
           isActive: v.id === state.chosenValues?.id,
           firstName: v.firstName,
@@ -249,55 +342,85 @@ const Posts = () => {
     );
   });
 
-  return (
-    <Container>
-      <Upside>
-        <Box1>
-          <Input
-            fullWidth={true}
-            inputStyle={{
-              border: 'none',
-              inpadding: '0  5px 0 20px',
-              height: { desktop: 50, laptop: 45, planshet: 45, mobile: 40 },
-            }}
-            placeholder={t('searchthere')}
-            IconEnd={<SearchIcon />}
-            type='search'
-            onChange={handleSearch}
-            onFocus={() => setSearchFocus(true)}
-            onBlur={() => (inpuSearch === '' ? setSearchFocus(false) : null)}
-            value={inpuSearch}
-          />
-          {resChatClients.isFetching && resChatClients.isLoading ? (
-            <Fetching>Loading....</Fetching>
-          ) : null}
-        </Box1>
-        <Box2>
-          {state?.chosenValues?.id !== undefined ? (
-            <WrapUserInfo>
-              <div>
-                <Avatar big={true}>
-                  <LazyLoadImage
-                    alt='image'
-                    height='100%'
-                    src={
-                      state?.chosenValues?.image
-                        ? state?.chosenValues?.image
-                        : state?.chosenValues?.genderTypeId === 1
-                        ? defuserman
-                        : state?.chosenValues?.genderTypeId === 2
-                        ? defuserwoman
-                        : App
-                    }
-                    width='100%'
-                    effect='blur'
-                    style={{ objectFit: 'cover' }}
-                    onError={(e: any) => {
-                      e.target.onerror = null;
-                      e.target.src = App;
-                    }}
-                  />
-                </Avatar>
+  if (width <= 600) {
+    return (
+      <MobileContainer>
+        <Input
+          IconStart={<SearchIcon />}
+          inputStyle={{
+            border: 'none',
+            shadow: '0px 4px 4px rgba(0, 0, 0, 0.04)',
+            outpadding: width > 600 ? '0 0 0 25px' : '0 0 0 10px',
+            inpadding: width > 600 ? '0 20px 0 10px' : '0 10px 0 0',
+            height: {
+              desktop: 50,
+              laptop: 45,
+              planshet: 40,
+              mobile: 36,
+            },
+          }}
+          type='search'
+          placeholder={t('searchbyclients')}
+          onChange={handleSearch}
+          onFocus={() => setSearchFocus(true)}
+          onBlur={() => (inpuSearch === '' ? setSearchFocus(false) : null)}
+          value={inpuSearch}
+        />
+        {resChatClients.isFetching || resChatClients.isLoading ? (
+          <Fetching>Loading....</Fetching>
+        ) : (
+          <>
+            {!searchFocus || inpuSearch === '' ? (
+              <MobileMessages>{userList}</MobileMessages>
+            ) : searchRes?.length === 0 ? (
+              <NoResult>{t('notfinduser')}</NoResult>
+            ) : (
+              <MobileMessages>{searchList}</MobileMessages>
+            )}
+          </>
+        )}
+        <FullModal open={choseListUser?.isChoose}>
+          <WrapModal>
+            <HeaderModal>
+              <IconButton
+                onClick={() => {
+                  dispatch(setChatClientHistory([]));
+                  dispatch(
+                    setChosenListUser({
+                      ...choseListUser,
+                      chosen: {},
+                      isChoose: false,
+                      fetchHistory: false,
+                    })
+                  );
+                }}
+                style={{ margin: '0 5px 0 -12px' }}
+              >
+                <LeftBack />
+              </IconButton>
+              <Avatar big={true}>
+                <LazyLoadImage
+                  alt='image'
+                  height='100%'
+                  src={
+                    state?.chosenValues?.image
+                      ? state?.chosenValues?.image
+                      : state?.chosenValues?.genderTypeId === 1
+                      ? defuserman
+                      : state?.chosenValues?.genderTypeId === 2
+                      ? defuserwoman
+                      : App
+                  }
+                  width='100%'
+                  effect='blur'
+                  style={{ objectFit: 'cover' }}
+                  onError={(e: any) => {
+                    e.target.onerror = null;
+                    e.target.src = App;
+                  }}
+                />
+              </Avatar>
+              <WrapUserInfo>
                 <WrapInfo>
                   <UserName>
                     {state?.chosenValues?.firstName}{' '}
@@ -309,107 +432,218 @@ const Posts = () => {
                     } ${state?.chosenValues?.obtainProgramLoyalty?.percent}%`}
                   </Status>
                 </WrapInfo>
-              </div>
-              <Dots />
-            </WrapUserInfo>
-          ) : null}
-        </Box2>
-      </Upside>
-      <Downside>
-        <Box3>
-          <WrapChatUsers>
-            {!searchFocus || inpuSearch === '' ? (
-              <>{userList}</>
-            ) : searchRes?.length === 0 ? (
-              <NoResult>{t('notfinduser')}</NoResult>
-            ) : (
-              <>{searchList}</>
-            )}
-          </WrapChatUsers>
-        </Box3>
-        {state?.chosenValues?.id !== undefined ? (
-          messages?.map((v: any) => {
-            if (v.id === state?.chosenValues?.id) {
-              return (
-                <>
-                  <Box4>
-                    <ChatPlace data={state.chosenValues} />
-                    <Body>
-                      <Form onSubmit={handleSubmit(onSubmit)}>
-                        <Controller
-                          name='message'
-                          control={control}
-                          rules={{
-                            required: true,
-                            maxLength: 400,
-                          }}
-                          defaultValue=''
-                          render={({ field }) => (
-                            <Input
-                              fullWidth={true}
-                              multiline={true}
-                              placeholder={t('writeyoutmessage')}
-                              inputStyle={{
-                                border: 'none',
-                                inpadding: width > 1500 ? '10px 20px' : '',
-                              }}
-                              field={field}
-                              maxLength={400}
-                            />
-                          )}
-                        />
-                        <InputDown>
-                          <InputWarn>{limitwords}</InputWarn>
-                          <WrapIcons>
-                            <IconButton
-                              onClick={() =>
-                                setState({
-                                  ...state,
-                                  showEmoji: !state.showEmoji,
-                                })
-                              }
-                            >
-                              <SmileIcon />
-                            </IconButton>
-                            <WrapScript>
-                              <IconButton>
-                                <ScriptIcon />
-                              </IconButton>
-                            </WrapScript>
-                            <Button
-                              type='submit'
-                              disabled={state.loading}
-                              startIcon={<SendIcon />}
-                            >
-                              {t('send')}
-                            </Button>
-                          </WrapIcons>
-                        </InputDown>
-                      </Form>
-                    </Body>
-                  </Box4>
-                  {state.showEmoji ? (
-                    <Emoji
-                      value={getValues('message')}
-                      onSelect={(e) => setValue('message', e)}
-                      onBlur={() => setState({ ...state, showEmoji: false })}
+                <Dots />
+              </WrapUserInfo>
+            </HeaderModal>
+            <BodyModal>
+              <ChatPlace />
+            </BodyModal>
+            <FooterModal>
+              <Form onSubmit={handleSubmit(onSubmit)}>
+                <WrapTextArea>
+                  <Controller
+                    name='message'
+                    control={control}
+                    rules={{
+                      required: true,
+                    }}
+                    defaultValue=''
+                    render={({ field }) => (
+                      <TextareaAutosize
+                        minRows={1}
+                        maxRows={6}
+                        placeholder={t('writeyoutmessage')}
+                        onChange={(e) => field.onChange(e)}
+                        value={field.value}
+                        style={{
+                          maxWidth: '100%',
+                          minWidth: '100%',
+                          maxHeight: '102px',
+                        }}
+                        maxLength={400}
+                      />
+                    )}
+                  />
+                  <WrapButtons>
+                    <IconButton>
+                      <ScriptIcon />
+                    </IconButton>
+                    <IconButton type='submit' disabled={state.loading}>
+                      <SendIcon />
+                    </IconButton>
+                  </WrapButtons>
+                </WrapTextArea>
+                <Wranning>{limitwords}</Wranning>
+              </Form>
+            </FooterModal>
+          </WrapModal>
+        </FullModal>
+      </MobileContainer>
+    );
+  } else {
+    return (
+      <Container>
+        <Upside>
+          <Box1>
+            <Input
+              fullWidth={true}
+              inputStyle={{
+                border: 'none',
+                inpadding: '0  5px 0 20px',
+                height: { desktop: 50, laptop: 45, planshet: 45, mobile: 40 },
+              }}
+              placeholder={t('searchthere')}
+              IconEnd={<SearchIcon />}
+              type='search'
+              onChange={handleSearch}
+              onFocus={() => setSearchFocus(true)}
+              onBlur={() => (inpuSearch === '' ? setSearchFocus(false) : null)}
+              value={inpuSearch}
+            />
+            {resChatClients.isFetching || resChatClients.isLoading ? (
+              <Fetching>Loading....</Fetching>
+            ) : null}
+          </Box1>
+          <Box2>
+            {state?.chosenValues?.id !== undefined &&
+            choseListUser?.isChoose ? (
+              <WrapUserInfo>
+                <div>
+                  <Avatar big={true}>
+                    <LazyLoadImage
+                      alt='image'
+                      height='100%'
+                      src={
+                        state?.chosenValues?.image
+                          ? state?.chosenValues?.image
+                          : state?.chosenValues?.genderTypeId === 1
+                          ? defuserman
+                          : state?.chosenValues?.genderTypeId === 2
+                          ? defuserwoman
+                          : App
+                      }
+                      width='100%'
+                      effect='blur'
+                      style={{ objectFit: 'cover' }}
+                      onError={(e: any) => {
+                        e.target.onerror = null;
+                        e.target.src = App;
+                      }}
                     />
-                  ) : null}
-                </>
-              );
-            }
-          })
-        ) : (
-          <Box4>
-            <WrapImg>
-              <Img src={defaultChat} alt='defphoto' />
-              <WrapChoose>{t('choseChat')}</WrapChoose>
-            </WrapImg>
-          </Box4>
-        )}
-      </Downside>
-    </Container>
-  );
+                  </Avatar>
+                  <WrapInfo>
+                    <UserName>
+                      {state?.chosenValues?.firstName}{' '}
+                      {state?.chosenValues?.lastName}
+                    </UserName>
+                    <Status main={true}>
+                      {`${t('status')}: ${
+                        state?.chosenValues?.obtainProgramLoyalty?.levelName
+                      } ${state?.chosenValues?.obtainProgramLoyalty?.percent}%`}
+                    </Status>
+                  </WrapInfo>
+                </div>
+                <Dots />
+              </WrapUserInfo>
+            ) : null}
+          </Box2>
+        </Upside>
+        <Downside>
+          <Box3>
+            <WrapChatUsers>
+              {!searchFocus || inpuSearch === '' ? (
+                <>{userList}</>
+              ) : searchRes?.length === 0 ? (
+                <NoResult>{t('notfinduser')}</NoResult>
+              ) : (
+                <>{searchList}</>
+              )}
+            </WrapChatUsers>
+          </Box3>
+          {state?.chosenValues?.id !== undefined && choseListUser?.isChoose ? (
+            messages?.map((v: any) => {
+              if (v.id === state?.chosenValues?.id) {
+                return (
+                  <>
+                    <Box4>
+                      <ChatPlace data={state.chosenValues} />
+                      <Body>
+                        <Form onSubmit={handleSubmit(onSubmit)}>
+                          <Controller
+                            name='message'
+                            control={control}
+                            rules={{
+                              required: true,
+                              maxLength: 400,
+                            }}
+                            defaultValue=''
+                            render={({ field }) => (
+                              <Input
+                                fullWidth={true}
+                                multiline={true}
+                                placeholder={t('writeyoutmessage')}
+                                inputStyle={{
+                                  border: 'none',
+                                  inpadding: width > 1500 ? '10px 20px' : '',
+                                }}
+                                field={field}
+                                maxLength={400}
+                              />
+                            )}
+                          />
+                          <InputDown>
+                            <InputWarn>{limitwords}</InputWarn>
+                            <WrapIcons>
+                              <IconButton
+                                onClick={() =>
+                                  setState({
+                                    ...state,
+                                    showEmoji: !state.showEmoji,
+                                  })
+                                }
+                              >
+                                <SmileIcon />
+                              </IconButton>
+                              <WrapScript>
+                                <IconButton>
+                                  <ScriptIcon />
+                                </IconButton>
+                              </WrapScript>
+                              <Button
+                                type='submit'
+                                disabled={state.loading}
+                                startIcon={<SendIcon />}
+                              >
+                                {t('send')}
+                              </Button>
+                            </WrapIcons>
+                          </InputDown>
+                        </Form>
+                      </Body>
+                    </Box4>
+                    {state.showEmoji ? (
+                      <Emoji
+                        value={getValues('message')}
+                        onSelect={(e) => setValue('message', e)}
+                        onBlur={() => setState({ ...state, showEmoji: false })}
+                      />
+                    ) : null}
+                  </>
+                );
+              }
+            })
+          ) : (
+            <Box4>
+              <WrapImg>
+                <Img src={defaultChat} alt='defphoto' />
+                <WrapChoose>{t('choseChat')}</WrapChoose>
+              </WrapImg>
+            </Box4>
+          )}
+        </Downside>
+      </Container>
+    );
+  }
 };
 
 export default Posts;
