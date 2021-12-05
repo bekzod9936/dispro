@@ -35,7 +35,7 @@ import {
   ModalContent,
   WrapBox,
   Box,
-  BoxTitle,
+  MobileContent,
   WrapBoxDetail,
   BoxinfoDetail,
   BoxInfo,
@@ -209,37 +209,18 @@ const MobileTable = ({ refetch, data }: Props) => {
                       </WrapAvatar>
                     </Header>
                   </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flex: 1,
-                      flexDirection: "column",
-                      justifyContent: "space-between",
-                    }}
-                  >
+                  <MobileContent>
                     <div>
                       <WrapBox>
-                        <p style={{ color: "#C7C7C7" }}>Описание</p>
+                        <p style={{ color: "#C7C7C7" }}>{t("Описание")}</p>
                         <Box>
                           <BoxInfo>
                             {info?.description?.length > 150 ? (
-                              <p
-                                style={{
-                                  whiteSpace: "pre-wrap",
-                                  wordBreak: "break-all",
-                                  fontWeight: 400,
-                                }}
-                              >
+                              <p>
                                 {info?.description?.slice(0, 150) + "..."}
                               </p>
                             ) : (
-                              <p
-                                style={{
-                                  whiteSpace: "pre-wrap",
-                                  wordBreak: "break-all",
-                                  fontWeight: 400,
-                                }}
-                              >
+                              <p>
                                 {info?.description}
                               </p>
                             )}
@@ -270,7 +251,7 @@ const MobileTable = ({ refetch, data }: Props) => {
                       </WrapBoxDetail>
 
                       <WrapBoxDetail>
-                        <p style={{ color: "#C7C7C7" }}>Push up статистика</p>
+                        <p style={{ color: "#C7C7C7" }}>{t("Push up статистика")}</p>
                         <Box>
                           <BoxinfoDetail>{`Уведомлений получили: ${info?.stat?.get?.total} чел`}</BoxinfoDetail>
                           <BoxinfoDetail>
@@ -406,7 +387,7 @@ const MobileTable = ({ refetch, data }: Props) => {
                         </>
                       )}
                     </div>
-                  </div>
+                  </MobileContent>
                   {location.pathname === "/news/archive" && (
                     <Buttons>
                       <Button

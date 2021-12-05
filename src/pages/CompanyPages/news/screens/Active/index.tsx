@@ -54,10 +54,9 @@ const Active = () => {
   
   const totalCount = useAppSelector((state) => state.news.NewsInfo.totalCount);
   const between = useAppSelector((state) => state.news.NewsInfo.between);
-  const query = useAppSelector((state) => state.news.query);
-  const errormessage=useAppSelector((state)=>state.news.errorMessage)
  
-  const { newsPath } = useNewsRoute();
+  const errormessage=useAppSelector((state)=>state.news.errorMessage)
+
   const totalNewsCount = useAppSelector(
     (state) => state.news.NewsInfo.totalCountNews
   );

@@ -1,4 +1,4 @@
-import { useMemo, useState,useEffect } from "react";
+import {  useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Spinner from "components/Custom/Spinner";
@@ -10,8 +10,7 @@ import { useAppSelector, useAppDispatch } from "services/redux/hooks";
 import { SideBar } from "../../components/SideBar";
 import { NewsBar } from "../../components/NewsBar";
 import { Container, Wrap,Info,WrapPag,WrapSpinner } from "./style";
-import NavBar from "components/Custom/NavBar";
-import { Flex } from "../../style";
+
 import useData from "../useData";
 import useArchive from "./useArchive";
 import Pagination from "components/Custom/Pagination";
@@ -19,8 +18,7 @@ import MobileTable from "../../components/MobileTable";
 import useWindowWidth from 'services/hooks/useWindowWidth';
 import { FilterNews } from "../../components/FilterNews";
 import { countPagination } from '../../components/utils';
-import useNewsRoute from "../../routes";
-import { LeftHeader, WrapMobile,WrapHeader } from "./style";
+
 import {LaptopFilterNews} from "../../components/LaptopFilterNews";
 import NoNewsLaptop from "../../components/NoNewsLaptop";
 import {MobileFilterNews} from "../../components/MobileFilterNews";
@@ -40,8 +38,8 @@ const Archive = () => {
   const totalCount=useAppSelector((state)=>state.news.NewsInfo.totalCount);
   const between=useAppSelector((state)=>state.news.NewsInfo.between);
   const totalNewsCount=useAppSelector((state)=>state.news.NewsInfo.totalCountNews)
-  console.log('totalNewsCount',totalNewsCount)
-  const { newsPath } = useNewsRoute();
+ 
+  
   const { t } = useTranslation();
   const handleOpenSetting = () => {
     history.push({
@@ -50,7 +48,7 @@ const Archive = () => {
     });
     dispatch(setQuery(""));
   };
-  const query = useAppSelector((state) => state.news.query);
+ 
   const intialFilter = {
     page: 1,
     perPage: 5,
@@ -166,8 +164,8 @@ const Archive = () => {
             {t("from1")} <span>{totalNewsCount}</span> 
             {countPagination({
           count: totalNewsCount,
-          firstWord: 'новости ',
-          secondWord: 'новостей',
+          firstWord: t('новости'),
+          secondWord: t('новостей'),
         })}
           </Info>
           <Pagination

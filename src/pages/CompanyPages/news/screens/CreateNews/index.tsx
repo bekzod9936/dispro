@@ -318,6 +318,7 @@ const CreateNews = () => {
                   <TextArea
                     maxLength={800}
                     {...field}
+                    fontSize={width>1000 ? '18px':'14px'}
                     message={t("requiredField")}
                     error={!!errors.description}
                     minHeight={"150px"}
@@ -342,6 +343,7 @@ const CreateNews = () => {
                           field={field}
                           type="date"
                           min={todayDate}
+                          width={{maxwidth:600,minwidth:10}}
                           error={!!errors.startDate}
                           IconStart={<WrapDate>{t("from")}</WrapDate>}
                           inputStyle={{
@@ -360,6 +362,7 @@ const CreateNews = () => {
                         <Input
                           type="date"
                           field={field}
+                          width={{maxwidth:600,minwidth:10}}
                           error={!!errors.endDate}
                           min={watch("startDate")}
                           margin={{ laptop: "0 0 0 15px" }}
@@ -523,7 +526,7 @@ const CreateNews = () => {
                         multiline={true}
                         maxLength={100}
                         inputStyle={{
-                          height: { desktop: 120, laptop: 90, mobile: 120 },
+                          height: { desktop: 120,planshet:90, laptop: 90, mobile: 120 },
                         }}
                         // IconEnd={width>600 ?
                         //   <WrapArea>
@@ -656,7 +659,7 @@ const CreateNews = () => {
                     }}
                     margin={{ mobile: "0px 8px  8px  0" }}
                   >
-                    {"Сохранить"}
+                    {t("Сохранить")}
                   </Button>
                 </Buttons>
               )}
@@ -674,7 +677,7 @@ const CreateNews = () => {
                color: "#606EEA",
              }}
             >
-              Отмена
+             {t('Отмена')} 
             </Button>
             <Button
               type="submit"
@@ -686,7 +689,7 @@ const CreateNews = () => {
                 shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
               }}
             >
-              Сохранить
+              {t("Сохранить")}
             </Button>
                 </DownSide>
               )}
@@ -697,7 +700,7 @@ const CreateNews = () => {
               startIcon={<CancelIcon />}
               buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
             >
-              Отменить
+              {t("Отменить")}
             </Button>
             <Button
               type="submit"
@@ -707,7 +710,7 @@ const CreateNews = () => {
                 shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
               }}
             >
-              Сохранить
+              {t("Сохранить")}
             </Button>
           </DownSide>
         )}

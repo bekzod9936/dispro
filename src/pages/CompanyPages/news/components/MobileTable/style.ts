@@ -80,12 +80,23 @@ export const BoxTitle = styled.div`
   color: #a5a5a5;
   margin-bottom: 5px;
 `;
+export const MobileContent=styled.div`
+display: flex;
+flex: 1;
+flex-direction: column;
+justify-content: space-between;
+`;
 
 export const BoxInfo = styled.div`
   font-weight: 500;
   font-size: 14px;
   padding-right:20px;
-  color: #223367;
+  color: rgb(34, 51, 103);
+  p{
+    white-space: pre-wrap;
+    word-break: break-all;
+    font-weight: 400;
+  }
   
 `;
 export const Buttons = styled.div`
@@ -121,10 +132,17 @@ export const WrapAvatar = styled.div`
   display: flex;
   align-items: center;
   grid-gap: 15px;
-  & > span {
-    font-weight: 500;
+   span {
+    font-weight: 300;
+    font-size: 14px;
+    color: #223367;
+  }
+  p{
+    white-space:pre-wrap;
+    word-break:break-all;
     font-size: 16px;
     color: #223367;
+    font-weight: 500;
   }
 `;
 

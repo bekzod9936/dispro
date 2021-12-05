@@ -1,13 +1,13 @@
-import { Controller, useForm, useWatch } from "react-hook-form";
-import { useMutation, useQuery } from "react-query";
+import { Controller, useForm } from "react-hook-form";
+import { useMutation } from "react-query";
 import { useHistory } from "react-router-dom";
 import CustomDatePicker from "components/Custom/CustomDatePicker";
 import Button from "components/Custom/Button";
-import { Form, WrapInputs, Label, WrapDate, Container,PeriodWrapper } from "./style";
+import { Form, WrapInputs, Label,  Container,PeriodWrapper } from "./style";
 import { useState } from "react";
 import Input from "components/Custom/Input";
 import { useTranslation } from "react-i18next";
-import { todayDate, nextDay } from "./constants";
+import { todayDate } from "./constants";
 import { useAppSelector ,useAppDispatch} from "services/redux/hooks";
 import {setSelectedNews} from "services/redux/Slices/news";
 import { fetchUpdateNews } from "services/queries/newPageQuery";
@@ -15,7 +15,7 @@ import dayjs from "dayjs";
 import useWindowWidth from "services/hooks/useWindowWidth";
 import {
   CancelIcon,
-  CloseIcon,
+
 } from "assets/icons/ClientsPageIcons/ClientIcons";
 import { WhitePublishIcon } from "assets/icons/news/newsIcons";
 import { MobileCancelIcon, PublishIcon } from "assets/icons/proposals/ProposalsIcons";

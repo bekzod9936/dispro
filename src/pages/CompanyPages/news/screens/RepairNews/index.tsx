@@ -557,7 +557,7 @@ const RepairNews = () => {
                         maxLength={100}
                         defaultValue={newsById?.data?.pushUpTitle}
                         inputStyle={{
-                          height: { desktop: 120, laptop: 90, mobile: 120 },
+                          height: { desktop: 120,planshet:90, laptop: 90, mobile: 120 },
                         }}
                         IconEnd={
                           width > 600 && (
@@ -684,7 +684,7 @@ const RepairNews = () => {
                color: "#606EEA",
              }}
             >
-              Отмена
+             {t ("Отмена")}
             </Button>
             <Button
               type="submit"
@@ -699,7 +699,7 @@ const RepairNews = () => {
 
               
           
-            Восстановить
+           {t("Восстановить")} 
             </Button>
                 </DownSide>
               )}
@@ -710,7 +710,7 @@ const RepairNews = () => {
             startIcon={<CancelIcon />}
             buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
           >
-            Отменить
+          {t("Отменить")}  
           </Button>
           <Button
             type="submit"
@@ -718,7 +718,7 @@ const RepairNews = () => {
             endIcon={<RepairNewsIcon />}
                     buttonStyle={{ shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)'}}
           >
-            Восстановить
+           {t("Восстановить")} 
           </Button>
         </DownSide>}
        
@@ -748,7 +748,7 @@ const RepairNews = () => {
                     }}
                     margin={{ mobile: "0px 8px  8px  0" }}
                   >
-                    {"Сохранить"}
+                    {t("Сохранить")}
                   </Button>
                 </Buttons>}
         

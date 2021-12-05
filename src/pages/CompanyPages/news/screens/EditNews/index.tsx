@@ -411,7 +411,7 @@ console.log('filteredArray',filteredArray)
                         <Input
                           field={field}
                           type="date"
-                          width={{maxwidth:400,minwidth:100}}
+                          width={{maxwidth:600,minwidth:10}}
                           min={todayDate}
                           defaultValue={startDate}
                           error={!!errors.startDate}
@@ -436,7 +436,7 @@ console.log('filteredArray',filteredArray)
                           error={!!errors.endDate}
                           defaultValue={endDate}
                           min={watch("startDate")}
-                          width={{maxwidth:400,minwidth:100}}
+                          width={{maxwidth:600,minwidth:10}}
                           margin={{ laptop: "0 0 0 15px" }}
                           IconStart={<WrapDate>{t("to")}</WrapDate>}
                           inputStyle={{
@@ -557,7 +557,7 @@ console.log('filteredArray',filteredArray)
                         
                         defaultValue={newsById?.data?.pushUpTitle}
                         inputStyle={{
-                          height: { desktop: 120, laptop: 90, mobile:120 },
+                          height: { desktop: 120,planshet:90, laptop: 90, mobile:120 },
                         }}
                         // IconEnd={width>600 &&
                         //   <WrapArea>

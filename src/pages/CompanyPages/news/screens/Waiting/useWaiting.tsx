@@ -19,7 +19,7 @@ const useWaiting = ({filterValues}:PProps) => {
   const dispatch = useAppDispatch();
   const query=useAppSelector((state)=>state.news.query);
   const [debouncedQuery] = useDebounce(query, 300);
-  const response=useQuery(["fetchNews",filterValues, debouncedQuery],
+  const response=useQuery(["fetchWaitingNews",filterValues, debouncedQuery],
   () => {
      if(debouncedQuery !==''){
        return searchPendingNews(debouncedQuery)

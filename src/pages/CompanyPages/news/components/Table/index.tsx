@@ -180,7 +180,7 @@ const Table = ({ data, header2 }: Props) => {
                           <span style={{color:'#FF56BB',fontWeight:300}}>{`${' '+stat?.paid?.female+' '} Жен`}</span>
                        
                           </>}>
-                    <h3> Push-up</h3>
+                    <h3>{t("Push-up")}</h3>
                 </LightToolTip>:''}
                         </TimeData>
                  

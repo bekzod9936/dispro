@@ -5,7 +5,7 @@ import useWindowWidth from "services/hooks/useWindowWidth";
 import Button from "components/Custom/Button";
 import { useTranslation } from "react-i18next";
 import { MobileCancelIcon } from "assets/icons/proposals/ProposalsIcons";
-import { SaveIcon } from "assets/icons/news/newsIcons";
+import { SaveIcon,SaveIconMobile } from "assets/icons/news/newsIcons";
 interface CancelNewsModal{
     cancel:any,
     cancelNews:()=>void,
@@ -30,7 +30,7 @@ export const CancelNewsModal=({cancel, cancelNews,notCancel}:CancelNewsModal)=>{
                 margin={{ laptop: "0 22px 0 0" }}
                 onClick={notCancel}
               >
-                Нет
+                {t("Нет")}
               </Button>
               <Button
                 type="submit"
@@ -38,7 +38,7 @@ export const CancelNewsModal=({cancel, cancelNews,notCancel}:CancelNewsModal)=>{
                 onClick={cancelNews}
                 buttonStyle={{shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)' }}
               >
-                Да
+                {t("Да")}
               </Button>
             </>
           ) : (
@@ -53,13 +53,13 @@ export const CancelNewsModal=({cancel, cancelNews,notCancel}:CancelNewsModal)=>{
                   }}
                   margin={{ mobile: "0 8px 8px 0" }}
                 >
-                  {" Нет"}
+                  {t("Нет")}
                 </Button>
               </div>
               <Button
                 onClick={cancelNews}
                 type="submit"
-                endIcon={<SaveIcon />}
+                endIcon={<SaveIconMobile />}
                 buttonStyle={{
                   bgcolor: "#606EEA",
                   color: "#fff",
@@ -67,7 +67,7 @@ export const CancelNewsModal=({cancel, cancelNews,notCancel}:CancelNewsModal)=>{
                 }}
                 margin={{ mobile: "0px 8px  8px  0" }}
               >
-                {"  Да"}
+                {t("Да")}
               </Button>
             </Buttons>
           )}

@@ -26,7 +26,7 @@ const useActive = ({filterValues}:Props) => {
 
   const [debouncedQuery] = useDebounce(query, 300);
 
-  const response=useQuery(["fetchNews", filterValues,debouncedQuery],
+  const response=useQuery(["fetchActiveNews", filterValues,debouncedQuery],
   () => {
      if(debouncedQuery !==''){
        return searchActiveNews(debouncedQuery)
