@@ -2,7 +2,6 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import useSuggestion from './useSuggestions';
 import Spinner from 'components/Custom/Spinner';
-import Pagination from 'components/Custom/Pagination';
 import Table from '../../components/Table';
 import dayjs from 'dayjs';
 import { Container } from './style';
@@ -11,7 +10,9 @@ import { useAppSelector } from 'services/redux/hooks';
 import { countPagination, numberWithNew } from 'services/utils';
 import useWindowWidth from 'services/hooks/useWindowWidth';
 import MobileTable from '../../components/MobileTable';
-import { Info, WrapPag } from '../../style';
+import financeCashierDef from '../../../../../assets/images/financeCashierDef.png';
+import { Info, WrapPag, Img, WrapDef, TitleDef } from '../../style';
+import { NewPagination } from 'components/Custom/NewPagination';
 
 interface intialFilterProps {
   page?: number;
@@ -176,6 +177,11 @@ const Suggestions = () => {
       />
       {response.isLoading || response.isFetching ? (
         <Spinner />
+      ) : data.length === 0 ? (
+        <WrapDef>
+          <Img src={financeCashierDef} alt='finance' />
+          <TitleDef>{t('therewillbeahistoryofsuggestions')}</TitleDef>
+        </WrapDef>
       ) : width > 600 ? (
         <Table columns={columns} data={listdesktop} />
       ) : (
@@ -199,12 +205,10 @@ const Suggestions = () => {
               secondWord: t('operations23'),
             })}
           </Info>
-          <Pagination
-            page={filterValues.page}
-            count={total.count}
+          <NewPagination
             onChange={handlechangePage}
-            disabled={response.isLoading || response.isFetching}
-            siblingCount={0}
+            currentPage={Number(filterValues.page)}
+            totalCount={Number(total?.count)}
           />
         </WrapPag>
       )}

@@ -99,7 +99,7 @@ const Support = () => {
     (state) => state.feedbackPost.supporthistories
   );
 
-  const { resChatSupportHistory, setPage, page, data } = useSupportChat();
+  const { resChatSupportHistory, setPage, page } = useSupportChat();
   const { readChat } = useRead();
   const [showEmoji, setShowEmoji] = useState<boolean>(false);
   const [scrollHeight, setScrollHeight] = useState(0);
@@ -142,7 +142,7 @@ const Support = () => {
 
   useEffect(() => {
     const newArr = histories
-      .filter((v: any) => (v.chatType === 6 ? v.id : null))
+      .filter((v: any) => (v.chatType === 6 && v.status === 1 ? v.id : null))
       .map((i: any) => i.id);
     if (newArr.length !== 0) {
       readChat.mutate(newArr);
@@ -211,6 +211,7 @@ const Support = () => {
         (res: any) => {
           if (res.success) {
             setValue('message', '');
+            scrollToTop();
             setNewMassage({
               chatType: res?.data?.chatType,
               companyId: res?.data?.datacompanyId,
@@ -449,53 +450,70 @@ const Support = () => {
           </HeaderModal>
           <BodyModal>
             <ChatPlace>
-              <Messages id='scrollableDiv' onScroll={findScrollHeight}>
-                <InfiniteScroll
-                  dataLength={histories?.length}
-                  next={fetchHisFetchData}
+              {resChatSupportHistory.isLoading ? (
+                <Spinner />
+              ) : histories.length === 0 ? (
+                <div
                   style={{
                     display: 'flex',
-                    flexDirection: 'column-reverse',
-                    overflow: 'hidden',
+                    flex: 1,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '20px',
                   }}
-                  inverse={true}
-                  hasMore={total?.hasMore}
-                  loader={
-                    <div
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        width: '100%',
-                      }}
-                    >
-                      <Spinner />
-                    </div>
-                  }
-                  scrollableTarget='scrollableDiv'
-                  endMessage={
-                    <Divider>
-                      <div>{dayjs(lastdate).format('DD MMMM YYYY')}</div>
-                    </Divider>
-                  }
                 >
-                  <div ref={messagesStartRef} />
-                  {histories?.map((v: any) => {
-                    return (
-                      <MessageWrap type={v.chatType}>
-                        <Message type={v.chatType}>
-                          <MessageDate type={v.chatType}>
-                            {dayjs(v.createdAt)
-                              .subtract(2, 'minute')
-                              .format('hh:mm')}
-                          </MessageDate>
-                          <MessageText type={v.chatType}>{v.msg}</MessageText>
-                        </Message>
-                      </MessageWrap>
-                    );
-                  })}
-                  <div ref={messagesEndRef} />
-                </InfiniteScroll>
-              </Messages>
+                  {t('thereisnomessage')}
+                </div>
+              ) : (
+                <Messages id='scrollableDiv' onScroll={findScrollHeight}>
+                  <InfiniteScroll
+                    dataLength={histories?.length}
+                    next={fetchHisFetchData}
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column-reverse',
+                      overflow: 'hidden',
+                    }}
+                    inverse={true}
+                    hasMore={total?.hasMore}
+                    loader={
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          width: '100%',
+                          zIndex: 3000,
+                        }}
+                      >
+                        <Spinner />
+                      </div>
+                    }
+                    scrollableTarget='scrollableDiv'
+                    endMessage={
+                      <Divider>
+                        <div>{dayjs(lastdate).format('DD MMMM YYYY')}</div>
+                      </Divider>
+                    }
+                  >
+                    <div ref={messagesStartRef} />
+                    {histories?.map((v: any) => {
+                      return (
+                        <MessageWrap type={v.chatType}>
+                          <Message type={v.chatType}>
+                            <MessageDate type={v.chatType}>
+                              {dayjs(v.createdAt)
+                                .subtract(2, 'minute')
+                                .format('hh:mm')}
+                            </MessageDate>
+                            <MessageText type={v.chatType}>{v.msg}</MessageText>
+                          </Message>
+                        </MessageWrap>
+                      );
+                    })}
+                    <div ref={messagesEndRef} />
+                  </InfiniteScroll>
+                </Messages>
+              )}
             </ChatPlace>
           </BodyModal>
           <FooterModal>

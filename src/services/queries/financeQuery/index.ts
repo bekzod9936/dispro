@@ -1,6 +1,7 @@
-import partnerApi from "../../interceptors/partner_interceptor";
+import partnerApi from '../../interceptors/partner_interceptor';
 interface Props {
   url: string;
+  accountId?: any;
 }
 export const fetchFinanceSuggestion = ({ url }: Props) => {
   const response = partnerApi.get(
@@ -33,9 +34,9 @@ export const fetchFinanceHistoryExcel = ({ startDate, endDate }: ExProps) => {
   return response;
 };
 
-export const fetchFinanceCashBack = ({ url }: Props) => {
+export const fetchFinanceCashBack = ({ url, accountId }: Props) => {
   const response = partnerApi.get(
-    `/banking/accounts/company/cashback/history/new?${url}`
+    `/banking/accounts/company/cashback/history/new?accountId=${accountId}&${url}`
   );
   return response;
 };

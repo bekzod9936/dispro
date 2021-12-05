@@ -171,6 +171,7 @@ const FilterClients = () => {
                 purchaseCountFrom: e.target.value,
               });
             }}
+            type='tel'
           />
           <InputFormat
             label={t('enter_number')}
@@ -191,6 +192,7 @@ const FilterClients = () => {
                 purchaseCountTo: e.target.value,
               })
             }
+            type='tel'
           />
         </>
       ),
@@ -205,6 +207,8 @@ const FilterClients = () => {
           }
           label={t('enter_amount')}
           value={filterValues.allPurchaseSum}
+          type='tel'
+          maxLength={9}
         />
       ),
     },

@@ -473,7 +473,10 @@
   "selectdate": "Выберите дату публикации",
   "chooseperiod": "Выбрать период",
   "sortnewclients": "Прирост новых клиентов",
-  "therewillbeahistoryofcashiers": "Тут будет находиться история по кассирам",
+  "therewillbeahistoryofcashiers": "Тут будет находиться история финансов по кассирам",
+  "therewillbeahistoryofsuggestions": "Тут будет находиться история финансов по спецпредложениям",
+  "therewillbeahistoryofpayplace": "Тут будет находиться история финансов оплате на местах",
+  "therewillbeahistoryofcashback": "Тут будет находиться история финансов  кешбэку",
   "notification1": " уведомления",
   "notification23": "уведомлений",
   "today": "Сегодня",
@@ -534,5 +537,6 @@
   "titlesOfSectionsMustBeUnique": "Названия разделов должны быть уникальными",
   "areyousuredeletechat": "Вы действительно хотите удалить  чат?",
   "deletechatsaveinclients": "После удаления чата, переписка на стороне клиента сохранится",
-  "thereisnomessage": "У Вас пока нет сообщений"
+  "thereisnomessage": "У Вас пока нет сообщений",
+  "notfoundsearch": "За выбранный период нет данных"
 }
