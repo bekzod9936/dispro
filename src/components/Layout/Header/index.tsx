@@ -17,8 +17,12 @@ import useSocket from './useSocket';
 import useWindowWidth from 'services/hooks/useWindowWidth';
 import FullModal from 'components/Custom/FullModal';
 import { numberWithNew } from 'services/utils';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { mainLimit, mainBalance } from 'services/atoms/info';
+import {
+  setLimitAccounts,
+  setBalanceAccounts,
+} from 'services/atoms/info/selector';
 import Badge from './Badge';
 import {
   Container,
@@ -66,6 +70,9 @@ const Header = () => {
   const companyId = localStorage.getItem('companyId');
   const { resLimit } = useLayout({ id: companyId });
 
+  const setLimit = useSetRecoilState(setLimitAccounts);
+  const setBalance = useSetRecoilState(setBalanceAccounts);
+
   const accountsLimit = useRecoilState(mainLimit);
   const accountsBalance = useRecoilState(mainBalance);
 
@@ -76,6 +83,20 @@ const Header = () => {
   const socket = useAppSelector((state) => state.feedbackPost.socket);
 
   useSocket();
+
+  const onExit = () => {
+    setOpen(false);
+    setModal(false);
+    localStorage.removeItem('companyId');
+    localStorage.removeItem('companyToken');
+    history.push('/partner/company');
+    dispatch(setCompanyInfo({}));
+    socket.disconnect();
+    dispatch(setChatSupportHistory([]));
+    dispatch(setInfoData({ ...initialState?.data }));
+    setLimit({ limit: 0 });
+    setBalance({ balance: 0 });
+  };
 
   const logocontent = (
     <Content>
@@ -175,17 +196,7 @@ const Header = () => {
                 color: 'white',
                 bgcolor: '#606EEA',
               }}
-              onClick={() => {
-                setOpen(false);
-                setModal(false);
-                localStorage.removeItem('companyId');
-                localStorage.removeItem('companyToken');
-                history.push('/partner/company');
-                dispatch(setCompanyInfo({}));
-                socket.disconnect();
-                dispatch(setChatSupportHistory([]));
-                dispatch(setInfoData({ ...initialState?.data }));
-              }}
+              onClick={onExit}
               endIcon={<LogOutWhiteIcon />}
             >
               {t('logout')}

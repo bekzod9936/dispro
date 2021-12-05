@@ -2,7 +2,6 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import useHistory from './hook/useHistory';
 import Spinner from 'components/Custom/Spinner';
-import Pagination from 'components/Custom/Pagination';
 import Table from '../../components/Table';
 import { Tr, Th } from '../../components/Table/style';
 import Filter from 'components/Custom/Filter/index';
@@ -33,9 +32,6 @@ import {
   CartIcon,
   ExcelIcon,
   WrapSelectV,
-  Img,
-  WrapDef,
-  TitleDef,
 } from './style';
 import {
   WrapPag,
@@ -45,7 +41,11 @@ import {
   WrapTotalSum,
   WrapSum,
   Label,
+  Img,
+  WrapDef,
+  TitleDef,
 } from '../../style';
+import { NewPagination } from 'components/Custom/NewPagination';
 
 interface intialFilterProps {
   page?: number;
@@ -402,18 +402,18 @@ const Payment = () => {
     ) : null;
 
   const filtercash = cashierStaffId?.label ? (
-    <ButtonKeyWord
-      onClick={async () => {
-        await setFilterValues({
-          ...filterValues,
-          cashierStaffId: 0,
-        });
-        await setCashierStaffId({});
-        await response.refetch();
-      }}
-    >
+    <ButtonKeyWord>
       {cashierStaffId?.label}
-      <IconButton>
+      <IconButton
+        onClick={async () => {
+          await setFilterValues({
+            ...filterValues,
+            cashierStaffId: 0,
+          });
+          await setCashierStaffId({});
+          await response.refetch();
+        }}
+      >
         <DeleteIcon />
       </IconButton>
     </ButtonKeyWord>
@@ -452,7 +452,7 @@ const Payment = () => {
               margin={{
                 laptop: '0 0 0 10px',
               }}
-              disabled={resExcel.isLoading}
+              disabled={resExcel.isLoading || total?.count === 0}
             >
               {t('exportexcel')}
             </Button>
@@ -523,12 +523,10 @@ const Payment = () => {
                   secondWord: t('operations23'),
                 })}
               </Info>
-              <Pagination
-                page={filterValues.page}
-                count={total.count}
+              <NewPagination
                 onChange={handlechangePage}
-                disabled={response.isLoading || response.isFetching}
-                siblingCount={0}
+                currentPage={Number(filterValues.page)}
+                totalCount={Number(total?.count)}
               />
             </WrapPag>
           )}

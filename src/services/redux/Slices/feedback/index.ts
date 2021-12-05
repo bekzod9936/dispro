@@ -43,6 +43,7 @@ const initialState: IFeedBack = {
     isChoose: false,
     chosen: {},
   },
+  badgeStorePost: {},
 };
 
 const feedbackPostSlice = createSlice({
@@ -93,6 +94,9 @@ const feedbackPostSlice = createSlice({
     setChosenListUser: (state, action: PayloadAction<IChoose>) => {
       state.chosenListUser = action.payload;
     },
+    setBadgeStorePost: (state, action: PayloadAction<IMessage>) => {
+      state.badgeStorePost = action.payload;
+    },
   },
 });
 
@@ -110,5 +114,6 @@ export const {
   setTotalSupportHistory,
   setChosenClientChat,
   setChosenListUser,
+  setBadgeStorePost,
 } = feedbackPostSlice.actions;
 export default feedbackPostSlice.reducer;

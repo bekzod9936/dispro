@@ -46,7 +46,7 @@ const ShowWaitingNews = () => {
     history.goBack();
   };
   const editNews = () => {
-    history.push("/news/edit");
+    history.push('/news/edit');
   };
 
   React.useEffect(() => {
@@ -72,13 +72,13 @@ const ShowWaitingNews = () => {
 
   const date =
     startDays +
-    " " +
+    ' ' +
     startmonthName +
-    " - " +
+    ' - ' +
     endDays +
-    " " +
+    ' ' +
     endmonthName +
-    "" +
+    '' +
     years;
 
   return (
@@ -86,11 +86,11 @@ const ShowWaitingNews = () => {
       <div style={{ display: "flex", marginBottom: 30, alignItems: "center" }}>
         <GoBackIcon
           onClick={handleBack}
-          style={{ marginRight: "25px", cursor: "pointer" }}
+          style={{ marginRight: '25px', cursor: 'pointer' }}
         />
         <Title>
           {newsById?.data?.title?.length > 30
-            ? newsById?.data?.title?.slice(0, 30) + "..."
+            ? newsById?.data?.title?.slice(0, 30) + '...'
             : newsById?.data?.title}
         </Title>
       </div>
@@ -111,7 +111,7 @@ const ShowWaitingNews = () => {
             </h5>
             <p >
               {newsById?.data?.description.length > 250
-                ? newsById?.data?.description?.slice(0, 250) + "..."
+                ? newsById?.data?.description?.slice(0, 250) + '...'
                 : newsById?.data?.description}
             </p>
             <div>
@@ -206,8 +206,8 @@ const ShowWaitingNews = () => {
             <h5>{t("Вы действительно хотите удалить новость?")}</h5>
             <p>{t("После удаления новости  данные будет утеряны")}</p>
             <Button
-              buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
-              margin={{ laptop: "0 22px 0 0" }}
+              buttonStyle={{ color: '#223367', bgcolor: '#ffffff' }}
+              margin={{ laptop: '0 22px 0 0' }}
               onClick={() => setDeleteOpen(false)}
               startIcon={<CancelIcon />}
             >
@@ -215,8 +215,8 @@ const ShowWaitingNews = () => {
             </Button>
             <Button
               buttonStyle={{
-                bgcolor: "#FF5E68 ",
-                shadow: "0px 4px 9px rgba(255, 94, 104, 0.46)",
+                bgcolor: '#FF5E68 ',
+                shadow: '0px 4px 9px rgba(255, 94, 104, 0.46)',
               }}
               onClick={() => onDelete(newsById?.data?.id)}
               startIcon={<DeleteIcon />}

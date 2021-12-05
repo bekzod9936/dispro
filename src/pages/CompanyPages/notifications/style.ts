@@ -150,6 +150,7 @@ export const WrapPag = styled.div`
   justify-content: space-between;
   align-items: center;
   margin: 20px 0;
+  padding: 0 25px 0 0;
   @media (max-width: ${device.mobile}) {
     flex-direction: column;
     justify-content: flex-start;

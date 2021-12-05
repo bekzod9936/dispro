@@ -9,6 +9,7 @@ import { numberWithNew } from 'services/utils';
 import { useAppSelector } from 'services/redux/hooks';
 import MobileTable from '../../components/MobileTable';
 import useWindowWidth from 'services/hooks/useWindowWidth';
+import notfoundsearch from 'assets/images/notfoundsearch.png';
 import {
   Container,
   AppIcon,
@@ -17,6 +18,7 @@ import {
   Img,
   Wrapper,
 } from './style';
+import { DefDiv, ImgDef, WrapDef } from '../../style';
 
 const Traffics = () => {
   const { t } = useTranslation();
@@ -73,7 +75,7 @@ const Traffics = () => {
       ],
     };
   });
-
+  console.log(data);
   const columns: any = useMemo(
     () => [
       {
@@ -128,17 +130,24 @@ const Traffics = () => {
       <Wrapper>
         {response.isLoading || response.isFetching ? (
           <Spinner />
-        ) : width > 600 ? (
-          <Table columns={columns} data={listdesktop} />
+        ) : data?.length !== 0 ? (
+          width > 600 ? (
+            <Table columns={columns} data={listdesktop} />
+          ) : (
+            <MobileTable
+              data={{
+                title: t('revenue'),
+                info: listmobile,
+              }}
+              headertitle={t('traffic_providers')}
+              isAvatar={true}
+            />
+          )
         ) : (
-          <MobileTable
-            data={{
-              title: t('revenue'),
-              info: listmobile,
-            }}
-            headertitle={t('traffic_providers')}
-            isAvatar={true}
-          />
+          <WrapDef>
+            <ImgDef src={notfoundsearch} alt='defimage' />
+            <DefDiv>{t('notfoundsearch')}</DefDiv>
+          </WrapDef>
         )}
       </Wrapper>
     </Container>

@@ -95,4 +95,5 @@ export interface IFeedBack {
   socket?: any;
   chosenClient?: IChose;
   chosenListUser?: IChoose;
+  badgeStorePost?: IMessage;
 }

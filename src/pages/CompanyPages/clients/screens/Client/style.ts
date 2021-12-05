@@ -1,4 +1,3 @@
-import { CoinsIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import styled from "styled-components";
 import { device } from "styles/device";
 
@@ -48,7 +47,6 @@ export const DownSide = styled.div`
 export const MWrapper = styled.div`
   width: 100%;
   height: 100%;
-  padding-bottom: 100px;
   overflow-x: hidden;
   overflow-y: auto;
   ::-webkit-scrollbar {
@@ -61,6 +59,10 @@ export const MWrapper = styled.div`
   &::-webkit-scrollbar-thumb {
     background: #606eea;
     border-radius: 14px 0px 0px 14px;
+  }
+  @media (max-width: ${device.mobile}) {
+  padding-bottom: 100px;
+
   }
   `
 export const MUpside = styled.div`

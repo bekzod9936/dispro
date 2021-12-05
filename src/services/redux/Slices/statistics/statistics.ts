@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { OffersProps, Props, OperationsProps, TrafficProps } from "./types";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { OffersProps, Props, OperationsProps, TrafficProps } from './types';
 
 interface statisticsState {
   currentSection: string;
@@ -11,33 +11,17 @@ interface statisticsState {
   traffics?: TrafficProps[];
 }
 const initialState: statisticsState = {
-  currentSection: "clients",
+  currentSection: 'clients',
   clientStatistics: [],
   operationStatistics: [],
   clientStats: {},
   operations: {},
-  offers: [
-    {
-      activeCount: "",
-      expireCount: "",
-      payedCount: "",
-      type: "",
-      usedCount: "",
-    },
-  ],
-  traffics: [
-    {
-      source: "",
-      clientCount: "",
-      clientPayedCount: "",
-      chequeCount: "",
-      receipts: "",
-    },
-  ],
+  offers: [],
+  traffics: [],
 };
 
 const statisticsSlice = createSlice({
-  name: "statistics",
+  name: 'statistics',
   initialState: initialState,
   reducers: {
     setCurrentSection: (state, action: PayloadAction<string>) => {

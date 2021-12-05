@@ -35,11 +35,14 @@ import {
 import defuserman from 'assets/icons/defuserman.png';
 import defuserwoman from 'assets/icons/defuserwoman.png';
 import App from 'assets/icons/StatistisPage/app.svg';
+import { useAppDispatch } from 'services/redux/hooks';
+import { setBadgeStorePost } from 'services/redux/Slices/feedback';
 
 const Badge = () => {
   const { t } = useTranslation();
   const [closeFun, setCloseFun] = useState<any>();
   const { width } = useWindowWidth();
+  const dispatch = useAppDispatch();
   const [open, setOpen] = useState<boolean>(false);
   const history = useHistory();
   const currentYear: any = new Date().getFullYear();
@@ -59,10 +62,7 @@ const Badge = () => {
       ? `${t('yesterday')} ${dayjs(date).format('HH:mm')}`
       : dayjs(date).isToday()
       ? `${t('today')} ${dayjs(date).format('HH:mm')}`
-      : dayjs(date).format('YYYY') == currentYear
-      ? dayjs(date).format('DD MMMM')
-      : dayjs(date).format('DD MMMM YYYY');
-
+      : dayjs(date).format('DD.MM.YYYY');
     return time;
   };
 
@@ -71,6 +71,7 @@ const Badge = () => {
       history.push('/support');
     } else {
       history.push('/feedback/posts');
+      dispatch(setBadgeStorePost(v));
     }
     closeFun.close();
   };
