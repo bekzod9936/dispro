@@ -5,10 +5,12 @@ export const Wrapper = styled.div`
     margin-right: 100px;
     margin-bottom: 35px;
     display: flex;
-    align-items: center;
+    align-items: start;
     @media (max-width: ${device.planshet}) {
-        margin-right: 48px;
-        margin-bottom: 30px;
+        margin-right: 15px;
+        margin-bottom: 20px;
+        max-width: 166px;
+        width: 100%;
     }
 `
 
