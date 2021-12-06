@@ -198,6 +198,11 @@ const Support = () => {
     }
   }, [watch('message')]);
 
+  const funScrollDown = async (message: any) => {
+    await setNewMassage(message);
+    await scrollToTop();
+  };
+
   const onSubmit = (e: any) => {
     setLoading(true);
     if (e.message.length > 0) {
@@ -216,8 +221,7 @@ const Support = () => {
         (res: any) => {
           if (res.success) {
             setValue('message', '');
-            scrollToTop();
-            setNewMassage({
+            const message = {
               chatType: res?.data?.chatType,
               companyId: res?.data?.datacompanyId,
               createdAt: res?.data?.createdAt,
@@ -226,7 +230,10 @@ const Support = () => {
               msg: res?.data?.msg,
               status: res?.data?.status,
               toId: res?.data?.toId,
-            });
+            };
+
+            funScrollDown(message);
+
             setLoading(false);
           } else {
             setLoading(false);
