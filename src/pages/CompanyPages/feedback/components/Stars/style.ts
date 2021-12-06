@@ -49,6 +49,7 @@ export const WrapStars = styled.div`
   justify-content: space-between;
   margin-bottom: 20px;
   width: 100%;
+
   @media (min-width: ${device.mobile}) and (max-width: ${device.laptop}) {
     grid-template-columns: 1fr 1fr;
     grid-gap: 5px;

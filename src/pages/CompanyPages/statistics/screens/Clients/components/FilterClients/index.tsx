@@ -208,7 +208,7 @@ const FilterClients = () => {
           label={t('enter_amount')}
           value={filterValues.allPurchaseSum}
           type='tel'
-          maxLength={9}
+          maxLength={11}
         />
       ),
     },
