@@ -19,7 +19,7 @@ import {
 import { managerHeaders } from './headers';
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import { setSelectedManagers } from 'services/redux/Slices/staffs';
-import managerDefault from 'assets/images/staff_default.png';
+import managerDefault from 'assets/images/defaultGreen.png';
 
 const ManagerTable = ({ managers }: IProps) => {
 	const dispatch = useAppDispatch();

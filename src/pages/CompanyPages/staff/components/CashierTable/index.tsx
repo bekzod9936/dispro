@@ -17,7 +17,7 @@ import {
 	ImgDiv,
 } from './style';
 import { cashierHeaders } from './headers';
-import LogoDef from 'assets/icons/SideBar/logodefault.png';
+import LogoDef from 'assets/images/staff_default.png';
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import {
 	setOpenFilter,
