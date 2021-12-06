@@ -351,7 +351,7 @@ const CashierCard = () => {
 					<ModalBody>
 						<BarTitle>Вы уверены что хотите удалить кассира?</BarTitle>
 						<Break height={15} />
-						<BarText>{staffData?.firstName}</BarText>
+						<BarText>{`${staffData?.firstName} ${staffData?.lastName}`}</BarText>
 					</ModalBody>
 					<Break height={35} />
 					<ModalAction>
