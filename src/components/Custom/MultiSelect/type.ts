@@ -5,6 +5,7 @@ export interface Props {
   isClearable?: boolean;
   isSearchable?: boolean;
   name?: string;
+ 
   options?: { value?: any; label?: any; name?: any }[];
   isMulti?: boolean;
   error?: boolean;
@@ -33,6 +34,7 @@ export interface Props {
     desktop?: number;
   };
   selectStyle?: {
+    maxHeight?:string | number;
     color?: string;
     bgcolor?: string;
     weight?: string | number;

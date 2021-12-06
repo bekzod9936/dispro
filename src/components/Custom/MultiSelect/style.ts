@@ -27,6 +27,7 @@ export const Container = styled.div`
 `;
 
 export const NewSelect = styled(Select)`
+ 
   .css-1ss0qri-control {
     background-color: ${({ selectStyle }: Props) =>
       selectStyle?.bgcolor ? selectStyle?.bgcolor : "white"} !important;
