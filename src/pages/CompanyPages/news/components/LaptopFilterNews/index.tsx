@@ -30,31 +30,45 @@ export const LaptopFilterNews=({handleOpenNews,searchNews,filterByDate}:FilterNe
             bgcolor: "#FFFFFF",
             color: "#223367",
             weight: 500,
-            height: { desktop: 50 },
+            height: { desktop: 50,
+                planshet:45, },
           }}
           margin={{
             desktop: "0 25px 0 0",
             laptop: "0 25px 0 0",
-            planshet: "0 0 20px 0",
-            mobile:"20px 0 0 0"
+            planshet: "0 0 0px 25px",
+        
           }}
           startIcon={<AddIcon />}
         >
           {t("Создать")}
         </Button>
-        <div style={{ width: "20px" }} />
+        {filterByDate &&   <div style={{ width: "20px" }} />}
         {filterByDate &&   <DatePcker
+         height={{
+            planshet:45,
+         }
+         }
             onChange={async (e: any) => {filterByDate(e)}}
           />}
-    
-        <Input
+      <div style={{ width: "20px" }} />
+      {filterByDate ? <Input
           inputStyle={{ border: "none", height: { desktop: 50 } }}
           IconStart={<SearchIcon style={{ marginLeft: 20 }} />}
           value={query}
           placeholder="Поиск по новостям"
           onChange={(e) => searchNews(e)}
-          width={{ maxwidth: 500 }}
-        />
+          width={{ maxwidth: 280 }}
+        />: 
+        <Input
+        inputStyle={{ border: "none", height: { desktop: 50 } }}
+        IconStart={<SearchIcon style={{ marginLeft: 20 }} />}
+        value={query}
+        placeholder="Поиск по новостям"
+        onChange={(e) => searchNews(e)}
+        width={{ maxwidth: 500 }}
+      />}
+       
       </Flex>
     )
 }

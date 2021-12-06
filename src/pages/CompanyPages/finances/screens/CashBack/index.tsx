@@ -1,8 +1,7 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import useCashBack from './useCashBack';
 import Spinner from 'components/Custom/Spinner';
-import Pagination from 'components/Custom/Pagination';
 import Table from '../../components/Table';
 import DatePcker from 'components/Custom/DatePicker';
 import dayjs from 'dayjs';
@@ -10,6 +9,7 @@ import { countPagination, numberWithNew } from 'services/utils';
 import { useAppSelector } from 'services/redux/hooks';
 import useWindowWidth from 'services/hooks/useWindowWidth';
 import MobileTable from '../../components/MobileTable';
+import financeCashierDef from '../../../../../assets/images/financeCashierDef.png';
 import {
   Container,
   CashBackIcon,
@@ -26,7 +26,11 @@ import {
   WrapPag,
   Info,
   WrapSum,
+  Img,
+  WrapDef,
+  TitleDef,
 } from '../../style';
+import { NewPagination } from 'components/Custom/NewPagination';
 
 interface intialFilterProps {
   page?: number;
@@ -48,9 +52,7 @@ const Payment = () => {
     (state) => state.finance.cashBackFinance.header
   );
 
-  const companyId = localStorage.getItem('companyId');
   const intialFilter = {
-    accountId: companyId,
     page: 1,
     perPage: 5,
   };
@@ -58,7 +60,7 @@ const Payment = () => {
   const [filterValues, setFilterValues] =
     useState<intialFilterProps>(intialFilter);
 
-  const { response } = useCashBack({
+  const { response, enable } = useCashBack({
     filterValues: filterValues,
   });
 
@@ -260,7 +262,6 @@ const Payment = () => {
               dateFrom: e.slice(0, e.indexOf(' ~')),
               dateTo: e.slice(e.indexOf('~ ') + 2),
             });
-            await response.refetch();
           }}
         />
         {width <= 600 ? (
@@ -285,8 +286,13 @@ const Payment = () => {
             </WrapTotalSum>
           </WrapTotal>
         ) : null}
-        {response.isLoading || response.isFetching ? (
+        {response.isLoading || response.isFetching || !enable ? (
           <Spinner />
+        ) : data.length === 0 ? (
+          <WrapDef>
+            <Img src={financeCashierDef} alt='finance' />
+            <TitleDef>{t('therewillbeahistoryofcashback')}</TitleDef>
+          </WrapDef>
         ) : width > 600 ? (
           <Table columns={columns} data={listdesktop} />
         ) : (
@@ -310,12 +316,10 @@ const Payment = () => {
                 secondWord: t('operations23'),
               })}
             </Info>
-            <Pagination
-              page={filterValues.page}
-              count={total.count}
+            <NewPagination
               onChange={handlechangePage}
-              disabled={response.isLoading || response.isFetching}
-              siblingCount={0}
+              currentPage={Number(filterValues.page)}
+              totalCount={Number(total?.count)}
             />
           </WrapPag>
         )}

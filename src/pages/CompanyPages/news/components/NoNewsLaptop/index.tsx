@@ -1,17 +1,15 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { IProps } from "../Header/types";
-import useWindowWidth from "services/hooks/useWindowWidth";
-//icons
-import noPending from "../../../../../assets/images/nopending.png";
-//styles
 import { FONT_SIZE } from "../../../../../services/Types/enums";
+//styles
 import { Flex } from "../../../../../styles/BuildingBlocks";
 import { Text } from "../../../../../styles/CustomStyles";
+import noPending from "../../../../../assets/images/nopending.png";
 
-const NoNews: React.FC<IProps> = ({ handleOpenSetting }) => {
+const NoNewsLaptop: React.FC<IProps> = ({ handleOpenSetting }) => {
   const { t } = useTranslation();
-  const { width } = useWindowWidth();
+
   return (
     <>
       <Flex
@@ -27,7 +25,7 @@ const NoNews: React.FC<IProps> = ({ handleOpenSetting }) => {
           flexDirection="column"
         >
           <div className="imagePart">
-            <img src={noPending} style={{ width: "220px" }} />
+            <img src={noPending} style={{ width: "250px" }} />
           </div>
 
           <Flex
@@ -38,11 +36,11 @@ const NoNews: React.FC<IProps> = ({ handleOpenSetting }) => {
             <div
               style={{
                 textAlign: "center",
-                maxWidth: "233px",
+                maxWidth: "260px",
                 paddingTop: "5%",
               }}
             >
-              <Text fontSize={FONT_SIZE.smallPlus} fontWeight={400}>
+              <Text fontSize={FONT_SIZE.meduim} fontWeight={400}>
                 {t("noPendingNews")}
               </Text>
             </div>
@@ -54,4 +52,4 @@ const NoNews: React.FC<IProps> = ({ handleOpenSetting }) => {
   );
 };
 
-export default NoNews;
+export default NoNewsLaptop;

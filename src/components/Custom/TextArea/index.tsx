@@ -6,6 +6,7 @@ interface IProps {
     label?: ILabelProps,
     container?: IContainerProps,
     onChange?: any,
+    fontSize?:string |number,
     value?: string | number,
     defaultValue?:string |number,
     title: string,
@@ -22,7 +23,7 @@ interface IProps {
 }
 
 
-export const TextArea = ({textarea,error,defaultValue ,IconEnd,label,maxHeight,minHeight,message,required,maxLength,resize, value, onChange, title, container, field}: IProps) => {
+export const TextArea = ({textarea,fontSize,error,defaultValue ,IconEnd,label,maxHeight,minHeight,message,required,maxLength,resize, value, onChange, title, container, field}: IProps) => {
     const textareaRef = React.useRef<HTMLTextAreaElement | any>(null)
 
     const handleFocus = () => {
@@ -34,7 +35,7 @@ export const TextArea = ({textarea,error,defaultValue ,IconEnd,label,maxHeight,m
         <Wrapper {...container}>
             <Label {...label}   onClick={handleFocus}>{title}</Label>
             <MTextArea error={error}
-            {...field} defaultValue={defaultValue} maxHeight={maxHeight} minHeight={minHeight}  maxLength={maxLength} required={required} resize={resize} value={value} onChange={onChange} ref={textareaRef} {...textarea}>
+            {...field} defaultValue={defaultValue} fontSize={fontSize} maxHeight={maxHeight} minHeight={minHeight}  maxLength={maxLength} required={required} resize={resize} value={value} onChange={onChange} ref={textareaRef} {...textarea}>
            {/* <TextAreaIcon /> */}
             </MTextArea>  
             <Message  >

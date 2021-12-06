@@ -12,8 +12,14 @@ import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import Spinner from "components/Helpers/Spinner";
 import ImageLazyLoad from "components/Custom/ImageLazyLoad/ImageLazyLoad";
 import useStaff from "../../hooks/useStaff";
-import { WatchIcons,WatchIconsWhite,PublishIcon,WhitePublishIcon,RepairNewsIcon } from "assets/icons/news/newsIcons";
-import { SaveIcon,SaveIconMobile } from "assets/icons/news/newsIcons";
+import {
+  WatchIcons,
+  WatchIconsWhite,
+  PublishIcon,
+  WhitePublishIcon,
+  RepairNewsIcon,
+} from "assets/icons/news/newsIcons";
+import { SaveIcon, SaveIconMobile } from "assets/icons/news/newsIcons";
 import CropCustomModal from "components/Custom/CropImageModal/index";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
@@ -39,7 +45,7 @@ import {
   PlusIcon,
   UploadImage,
 } from "assets/icons/proposals/ProposalsIcons";
-
+import { UpSide } from "../CreateNews/style";
 import { days, genders, todayDate } from "../CreateNews/constants";
 import {
   PushBlock,
@@ -55,11 +61,11 @@ import {
   UploadButton,
   WrapArea,
   TextAreaIcon,
-  UpSide,
   Wrapper,
   FormRow,
   Buttons,
   Message,
+  MobileHeader,
 } from "./style";
 import { useUploadImage } from "../../hooks/useUploadIMage";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
@@ -80,10 +86,10 @@ const RepairNews = () => {
 
   const selectedNews = useAppSelector((state) => state.news.selectedNews);
   const newsById = selectedNews?.fullData;
-  const [filter, setFilter] = React.useState<any>({})
-  const [validation,setValidation]=React.useState<any>(false);
+  const [filter, setFilter] = React.useState<any>({});
+  const [validation, setValidation] = React.useState<any>(false);
   const { branches } = useStaff();
- 
+
   const [optionalFields, setOptionalFields] = React.useState<IOptionFields>({
     push: newsById?.data?.pushUp,
   });
@@ -94,7 +100,7 @@ const RepairNews = () => {
   );
   const [isCropVisible, setIsCropVisible] = React.useState(false);
   const [image, setImage] = React.useState(newsById?.data?.image);
-  const [errorFileType,setErrorFileType]=React.useState<any>(false);
+  const [errorFileType, setErrorFileType] = React.useState<any>(false);
   const { width } = useWindowWidth();
   const handleBack = () => {
     history.goBack();
@@ -118,27 +124,23 @@ const RepairNews = () => {
   });
 
   const handleUploadImg = (data: any) => {
-
-    if (data.target.files[0].type =="image/jpeg") {
+    if (data.target.files[0].type == "image/jpeg") {
       setFile(data.target.files[0]);
       setIsCropVisible(true);
-      setErrorFileType(false)
-   }
-   else if (data.target.files[0].type =="image/png"){
-    setFile(data.target.files[0]);
-    setIsCropVisible(true);
-    setErrorFileType(false)
-   }
-   else {
-    setErrorFileType(true)
-    setIsCropVisible(false);
-   }
-     
+      setErrorFileType(false);
+    } else if (data.target.files[0].type == "image/png") {
+      setFile(data.target.files[0]);
+      setIsCropVisible(true);
+      setErrorFileType(false);
+    } else {
+      setErrorFileType(true);
+      setIsCropVisible(false);
+    }
   };
 
-  const cancelFormat=()=>{
-    setErrorFileType(false)
-  }
+  const cancelFormat = () => {
+    setErrorFileType(false);
+  };
 
   const handleOpenBlock = (e: any, action: "push") => {
     setOptionalFields((prev: IOptionFields) => ({
@@ -168,8 +170,9 @@ const RepairNews = () => {
   const submitNews = (data: any) => {
     let newsBody = {
       title: data.name,
-      startLifeTime:width>600 ? data.startDate :filter?.regDate?.regDateFrom,
-      endLifeTime: width>600 ? data.endDate:filter?.regDate?.regDateTo,
+      startLifeTime:
+        width > 600 ? data.startDate : filter?.regDate?.regDateFrom,
+      endLifeTime: width > 600 ? data.endDate : filter?.regDate?.regDateTo,
       description: data.description,
       ageFrom: parseInt(data.ageLimit),
       ageTo: 100,
@@ -196,19 +199,21 @@ const RepairNews = () => {
       pushUpTitle: data.descriptionPush,
     };
 
-    if(width>600){
+    if (width > 600) {
       mutate(newsBody);
-      setTimeout(() => history.push('/news/active'), 1000); 
+      setTimeout(() => history.push("/news/active"), 1000);
     }
-    if(width<=600){
-      if(validation  && filter?.regDate?.regDateFrom && filter?.regDate?.regDateTo){
+    if (width <= 600) {
+      if (
+        validation &&
+        filter?.regDate?.regDateFrom &&
+        filter?.regDate?.regDateTo
+      ) {
         mutate(newsBody);
-        setTimeout(() => history.push('/news/active'), 1000);
+        setTimeout(() => history.push("/news/active"), 1000);
       }
     }
-
   };
- 
 
   const genderType = [
     {
@@ -267,15 +272,15 @@ const RepairNews = () => {
   React.useEffect(() => {
     setValue("filialID", mergedBranches);
   }, [mergedBranches]);
-  React.useEffect(()=>{
-    if(newsId ===undefined){
-     handleBack();
+  React.useEffect(() => {
+    if (newsId === undefined) {
+      handleBack();
     }
-     },[])
+  }, []);
 
   return (
     <Wrapper>
-      {width > 600 && (
+      {width > 1000 && (
         <div
           style={{ display: "flex", marginBottom: 30, alignItems: "center" }}
         >
@@ -287,33 +292,23 @@ const RepairNews = () => {
         </div>
       )}
 
-      
-  <UploadModal
+      <UploadModal
         errorFileType={errorFileType}
         handleUploadImg={handleUploadImg}
         cancelFormat={cancelFormat}
       />
       <Form onSubmit={handleSubmit(submitNews)}>
         <UpSide>
-          {width <= 600 && (
-            <div
-              style={{
-                display: "flex",
-                marginBottom: 30,
-                alignItems: "center",
-              }}
-            >
-              <GoBackIcon
-                onClick={handleBack}
-                style={{ marginRight: "25px", cursor: "pointer" }}
-              />
-              <Title>Восстановить новости</Title>
-            </div>
+          {width <= 1000 && (
+            <MobileHeader>
+              <GoBackIcon onClick={handleBack} style={{ cursor: "pointer" }} />
+              <Title> {t("Восстановить новости")}</Title>
+            </MobileHeader>
           )}
           <Container>
             <LeftSide>
               <Title>Фотографии</Title>
-              {!isLoading && !image &&(
+              {!isLoading && !image && (
                 <div style={{ marginBottom: 30 }}>
                   <Header>
                     <p>
@@ -344,8 +339,8 @@ const RepairNews = () => {
               )}
               {image && (
                 <ImageBlock>
-                          <div style={{filter: 'brightness(50%)'}}>
-                  <ImageLazyLoad objectFit="contain" src={image} alt="logo" />
+                  <div style={{ filter: "brightness(50%)" }}>
+                    <ImageLazyLoad objectFit="contain" src={image} alt="logo" />
                   </div>
                   <DeleteIcon onClick={handleDelete} />
                 </ImageBlock>
@@ -378,7 +373,7 @@ const RepairNews = () => {
                   />
                 )}
               />
-<Controller
+              <Controller
                 name="description"
                 control={control}
                 rules={{
@@ -392,9 +387,9 @@ const RepairNews = () => {
                     defaultValue={newsById?.data?.description}
                     message={t("requiredField")}
                     error={!!errors.description}
-                    minHeight={'150px'}
-                    maxHeight={'300px'}
-                    resize={'vertical'}
+                    minHeight={"150px"}
+                    maxHeight={"300px"}
+                    resize={"vertical"}
                     title={"Описание"}
                   />
                 )}
@@ -412,7 +407,7 @@ const RepairNews = () => {
                       render={({ field }) => (
                         <Input
                           field={field}
-                        
+                          width={{ maxwidth: 600, minwidth: 100 }}
                           type="date"
                           min={todayDate}
                           error={!!errors.startDate}
@@ -423,7 +418,7 @@ const RepairNews = () => {
                         />
                       )}
                     />
-                   
+
                     <Controller
                       name="endDate"
                       control={control}
@@ -434,7 +429,7 @@ const RepairNews = () => {
                         <Input
                           type="date"
                           field={field}
-                        
+                          width={{ maxwidth: 600, minwidth: 100 }}
                           error={!!errors.endDate}
                           min={watch("startDate")}
                           margin={{ laptop: "0 0 0 15px" }}
@@ -446,54 +441,67 @@ const RepairNews = () => {
                       )}
                     />
                   </div>
-                  
                 </WrapInputs>
-                
               ) : (
                 <WrapInputsMobile>
-                <Label>{t("chose_date")}</Label>
-                <div >
-                <CustomDatePicker
-            margin="0 15px 0 0"
-            isFilter
-            text={t("from")}
-            error={validation && !filter?.regDate?.regDateFrom ? true:false}
-            minDate={todayDate}
-            maxDate={filter?.regDate?.regDateTo}
-            onChange={(e) => {
-              let date = "" + e.year + "-" + e.month.number + "-" + e.day;
-              setFilter((prev: any) => ({
-                ...prev, regDate: {
-                  ...prev["regDate"],
-                  regDateFrom: date
-                }
-              }))
-            }}
-            value={filter?.regDate?.regDateFrom} />
+                  <Label>{t("chose_date")}</Label>
+                  <div>
+                    <CustomDatePicker
+                      margin="0 15px 0 0"
+                      isFilter
+                      text={t("from")}
+                      error={
+                        validation && !filter?.regDate?.regDateFrom
+                          ? true
+                          : false
+                      }
+                      minDate={todayDate}
+                      maxDate={filter?.regDate?.regDateTo}
+                      onChange={(e) => {
+                        let date =
+                          "" + e.year + "-" + e.month.number + "-" + e.day;
+                        setFilter((prev: any) => ({
+                          ...prev,
+                          regDate: {
+                            ...prev["regDate"],
+                            regDateFrom: date,
+                          },
+                        }));
+                      }}
+                      value={filter?.regDate?.regDateFrom}
+                    />
 
-          <CustomDatePicker
-            isFilter
-            error={validation && !filter?.regDate?.regDateTo ? true:false}
-            text={t("to")}
-            minDate={filter?.regDate?.regDateFrom}
-            
-            onChange={(e) => {
-              let date = "" + e.year + "-" + e.month.number + "-" + e.day;
-              setFilter((prev: any) => ({
-                ...prev, regDate: {
-                  ...prev["regDate"],
-                  regDateTo: date
-                }
-              }))
-            }}
-            value={filter?.regDate?.regDateTo} />
-            </div>
-{validation && !filter?.regDate?.regDateTo && !filter?.regDate?.regDateFrom &&<Message>{t('Укажите период публикации новости')}</Message>}
-            
-              </WrapInputsMobile>
-
+                    <CustomDatePicker
+                      isFilter
+                      error={
+                        validation && !filter?.regDate?.regDateTo ? true : false
+                      }
+                      text={t("to")}
+                      minDate={filter?.regDate?.regDateFrom}
+                      onChange={(e) => {
+                        let date =
+                          "" + e.year + "-" + e.month.number + "-" + e.day;
+                        setFilter((prev: any) => ({
+                          ...prev,
+                          regDate: {
+                            ...prev["regDate"],
+                            regDateTo: date,
+                          },
+                        }));
+                      }}
+                      value={filter?.regDate?.regDateTo}
+                    />
+                  </div>
+                  {validation &&
+                    !filter?.regDate?.regDateTo &&
+                    !filter?.regDate?.regDateFrom && (
+                      <Message>
+                        {t("Укажите период публикации новости")}
+                      </Message>
+                    )}
+                </WrapInputsMobile>
               )}
-              <br/>
+              <br />
               <WrapSelect>
                 <Controller
                   name="gender"
@@ -560,11 +568,15 @@ const RepairNews = () => {
                         label="Текст Push-уведомления"
                         type="textarea"
                         multiline={true}
-                        
                         maxLength={100}
                         defaultValue={newsById?.data?.pushUpTitle}
                         inputStyle={{
-                          height: { desktop: 120, laptop: 90, mobile: 120 },
+                          height: {
+                            desktop: 120,
+                            planshet: 90,
+                            laptop: 90,
+                            mobile: 120,
+                          },
                         }}
                         IconEnd={
                           width > 600 && (
@@ -681,54 +693,83 @@ const RepairNews = () => {
             </RightSide>
           </Container>
         </UpSide>
-        {width>600 &&  <DownSide>
-          <Button
-            onClick={handleBack}
-            startIcon={<CancelIcon />}
-            buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
-          >
-            Отменить
-          </Button>
-          <Button
-            type="submit"
-            margin={{ laptop: "0 25px",mobile:"0 10px"}}
-            endIcon={<RepairNewsIcon />}
-                    buttonStyle={{ shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)'}}
-          >
-            Восстановить
-          </Button>
-        </DownSide>}
-       
-        {width <=600 && 
-                <Buttons>
-                  <div className="upside">
-                    <Button
-                      onClick={handleBack}
-                      endIcon={<MobileCancelIcon />}
-                      buttonStyle={{
-                        bgcolor: "rgba(96, 110, 234, 0.1)",
-                        color: "#606EEA",
-                      }}
-                      margin={{ mobile: "0 8px 8px 0" }}
-                    >
-                      {t("cancel")}
-                    </Button>
-                  </div>
-                  <Button
-                    onClick={() => setValidation(true)}
-                    type="submit"
-                    endIcon={<SaveIconMobile />}
-                    buttonStyle={{
-                      bgcolor: "#606EEA",
-                      color: "#fff",
-                      shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
-                    }}
-                    margin={{ mobile: "0px 8px  8px  0" }}
-                  >
-                    {"Сохранить"}
-                  </Button>
-                </Buttons>}
-        
+        {width > 600 && width <= 1000 && (
+          <DownSide>
+            <Button
+              onClick={handleBack}
+              endIcon={<MobileCancelIcon />}
+              buttonStyle={{
+                bgcolor: "rgba(96, 110, 234, 0.1)",
+                color: "#606EEA",
+              }}
+            >
+              {t("Отмена")}
+            </Button>
+            <Button
+              type="submit"
+              margin={{ laptop: "0 25px" }}
+              endIcon={<RepairNewsIcon />}
+              buttonStyle={{
+                bgcolor: "#606EEA",
+                color: "#fff",
+                shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
+              }}
+            >
+              {t("Восстановить")}
+            </Button>
+          </DownSide>
+        )}
+
+        {width > 1000 && (
+          <DownSide>
+            <Button
+              onClick={handleBack}
+              startIcon={<CancelIcon />}
+              buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
+            >
+              {t("Отменить")}
+            </Button>
+            <Button
+              type="submit"
+              margin={{ laptop: "0 25px", mobile: "0 10px" }}
+              endIcon={<RepairNewsIcon />}
+              buttonStyle={{ shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)" }}
+            >
+              {t("Восстановить")}
+            </Button>
+          </DownSide>
+        )}
+
+        {width <= 600 && (
+          <Buttons>
+            <div className="upside">
+              <Button
+                onClick={handleBack}
+                endIcon={<MobileCancelIcon />}
+                buttonStyle={{
+                  bgcolor: "rgba(96, 110, 234, 0.1)",
+                  color: "#606EEA",
+                }}
+                margin={{ mobile: "0 8px 8px 0" }}
+              >
+                {t("cancel")}
+              </Button>
+            </div>
+            <Button
+              onClick={() => setValidation(true)}
+              type="submit"
+              endIcon={<SaveIconMobile />}
+              buttonStyle={{
+                bgcolor: "#606EEA",
+                color: "#fff",
+                shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
+              }}
+              margin={{ mobile: "0px 8px  8px  0" }}
+            >
+              {t("Сохранить")}
+            </Button>
+          </Buttons>
+        )}
       </Form>
     </Wrapper>
   );

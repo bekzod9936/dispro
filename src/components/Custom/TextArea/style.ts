@@ -13,6 +13,7 @@ export interface ITextAreaProps {
   margin?: string;
   padding?: string;
   maxWidth?: string;
+  
   height?: string;
   minHeight?: string;
   maxHeight?: string;
@@ -62,6 +63,7 @@ export const MTextArea = styled.textarea`
     borderRadius || '14px'};
   margin: ${({ margin }: ITextAreaProps) => margin || '0'};
   padding: ${({ padding }: ITextAreaProps) => padding || '15px'};
+  font-weight: ${({ fontWeight }: ILabelProps) => fontWeight || '400'};
   font-family: 'Roboto', sans-serif;
   font-size: ${({ fontSize }: ITextAreaProps) => fontSize || '16px'};
   max-width: ${({ maxWidth }: ITextAreaProps) => maxWidth || '100%'};

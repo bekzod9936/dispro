@@ -1,4 +1,4 @@
-import { useMemo, useState,useEffect } from "react";
+import { useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Spinner from "components/Custom/Spinner";
@@ -9,19 +9,19 @@ import { setQuery, setSelectedNews } from "services/redux/Slices/news";
 import { useAppSelector, useAppDispatch } from "services/redux/hooks";
 import { SideBar } from "../../components/SideBar";
 import { NewsBar } from "../../components/NewsBar";
-import { Container, Wrap,Info,WrapPag,WrapSpinner } from "./style";
-import NavBar from "components/Custom/NavBar";
-import { Flex } from "../../style";
+import { Container, Wrap, Info, WrapPag, WrapSpinner } from "./style";
+
 import useData from "../useData";
 import useArchive from "./useArchive";
 import Pagination from "components/Custom/Pagination";
 import MobileTable from "../../components/MobileTable";
-import useWindowWidth from 'services/hooks/useWindowWidth';
+import useWindowWidth from "services/hooks/useWindowWidth";
 import { FilterNews } from "../../components/FilterNews";
-import { countPagination } from '../../components/utils';
-import useNewsRoute from "../../routes";
-import { LeftHeader, WrapMobile,WrapHeader } from "./style";
-import {MobileFilterNews} from "../../components/MobileFilterNews";
+import { countPagination } from "../../components/utils";
+
+import { LaptopFilterNews } from "../../components/LaptopFilterNews";
+import NoNewsLaptop from "../../components/NoNewsLaptop";
+import { MobileFilterNews } from "../../components/MobileFilterNews";
 interface intialFilterProps {
   page?: number;
   perPage?: number;
@@ -35,11 +35,12 @@ const Archive = () => {
   const history = useHistory();
   const data = useAppSelector((state) => state.news.NewsInfo.data);
   const selectedNews = useAppSelector((state) => state.news.selectedNews);
-  const totalCount=useAppSelector((state)=>state.news.NewsInfo.totalCount);
-  const between=useAppSelector((state)=>state.news.NewsInfo.between);
-  const totalNewsCount=useAppSelector((state)=>state.news.NewsInfo.totalCountNews)
-  console.log('totalNewsCount',totalNewsCount)
-  const { newsPath } = useNewsRoute();
+  const totalCount = useAppSelector((state) => state.news.NewsInfo.totalCount);
+  const between = useAppSelector((state) => state.news.NewsInfo.between);
+  const totalNewsCount = useAppSelector(
+    (state) => state.news.NewsInfo.totalCountNews
+  );
+
   const { t } = useTranslation();
   const handleOpenSetting = () => {
     history.push({
@@ -48,19 +49,19 @@ const Archive = () => {
     });
     dispatch(setQuery(""));
   };
-  const query = useAppSelector((state) => state.news.query);
+
   const intialFilter = {
     page: 1,
     perPage: 5,
-    fromDate: '',
-    toDate: '',
+    fromDate: "",
+    toDate: "",
   };
 
   const [filterValues, setFilterValues] =
     useState<intialFilterProps>(intialFilter);
-  
-  const { response } = useArchive({filterValues: filterValues});
-  const {list}=useData();
+
+  const { response } = useArchive({ filterValues: filterValues });
+  const { list } = useData();
   const { width } = useWindowWidth();
   const newsById = selectedNews?.fullData;
   const handlechangePage = async (e: any) => {
@@ -70,7 +71,7 @@ const Archive = () => {
   const onClose = () => {
     dispatch(setSelectedNews(""));
   };
-  
+
   const handleOpenNews = () => {
     history.push({
       pathname: "/news/create",
@@ -78,107 +79,145 @@ const Archive = () => {
     });
     dispatch(setQuery(""));
   };
-  const searchNews=(e:any)=>{
+  const searchNews = (e: any) => {
     dispatch(setQuery(e.target.value));
-  }
-  const filterByDate=async (e:any)=>{
+  };
+  const filterByDate = async (e: any) => {
     await setFilterValues({
       ...filterValues,
-      fromDate: e.slice(0, e.indexOf(' ~')),
-      toDate: e.slice(e.indexOf('~ ') + 2),
+      fromDate: e.slice(0, e.indexOf(" ~")),
+      toDate: e.slice(e.indexOf("~ ") + 2),
     });
-  await response.refetch();
-  }
-
+    await response.refetch();
+  };
 
   return (
     <Container>
-         {width>600 && <FilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} filterByDate={filterByDate}/>}
-      {width>600 ? 
-      <Wrap>
-        {response.isLoading || response.isFetching ?  (
-          <WrapSpinner><Spinner/></WrapSpinner>
-
-        ) : (
-          <>
-            {data.length > 0 ? (
-              <Table  data={list} />
-            ) : (
-              <div style={{ paddingRight: "20%", paddingTop: "5%" }}>
-                <NoNews handleOpenSetting={handleOpenSetting} />
-              </div>
-            )}
-            <SideBar isOpen={newsById} maxWidth={"370px"}>
-              {newsById && <NewsBar refetch={response} currentNews={newsById} onClose={onClose} />}
-            </SideBar>
-            {list.length > 0 ? (
-               <WrapPag>
-               <Info>
-                 {t("shown")}
-                 <span>{between}</span>
-                 {t("from1")} <span>{totalNewsCount}</span> 
-                 {countPagination({
-               count: totalNewsCount,
-               firstWord: t('новости '),
-               secondWord: t('новостей'),
-             })}
-               </Info>
-               <Pagination
-                 page={filterValues.page}
-                 count={totalCount}
-                 onChange={handlechangePage}
-                 disabled={response.isLoading || response.isFetching}
-                 siblingCount={0}
-               />
-             </WrapPag>
-            ) : null}
-          </>
-        )}
-      </Wrap>:
-    <Wrap>
-         <MobileFilterNews handleOpenNews={handleOpenNews} searchNews={searchNews} filterByDate={filterByDate}/> 
-          {response.isLoading || response.isFetching ? (
-          <WrapSpinner><Spinner/></WrapSpinner>
-
-        )
-         : 
-         (
-          <>
-            {data.length > 0 ? (
-              <MobileTable  refetch={response}  data={list} />
-            ) : (
-              <div style={{ paddingTop: "15%" }}>
-              <NoNewsMobile handleOpenSetting={handleOpenSetting} />
-            </div>
-            )}
-            <SideBar isOpen={newsById} maxWidth={"370px"}>
-              {newsById && <NewsBar refetch={response} currentNews={newsById} onClose={onClose} />}
-            </SideBar>
-            {list.length > 0 ? (
-          <WrapPag>
-          <Info>
-            {t("shown")}
-            <span>{between}</span>
-            {t("from1")} <span>{totalNewsCount}</span> 
-            {countPagination({
-          count: totalNewsCount,
-          firstWord: 'новости ',
-          secondWord: 'новостей',
-        })}
-          </Info>
-          <Pagination
-            page={filterValues.page}
-            count={totalCount}
-            onChange={handlechangePage}
-            disabled={response.isLoading || response.isFetching}
-            siblingCount={0}
+      {width > 600 && width <= 1000 ? (
+        <LaptopFilterNews
+          handleOpenNews={handleOpenNews}
+          searchNews={searchNews}
+          filterByDate={filterByDate}
+        />
+      ) : (
+        width > 1000 && (
+          <FilterNews
+            handleOpenNews={handleOpenNews}
+            searchNews={searchNews}
+            filterByDate={filterByDate}
           />
-        </WrapPag>
-            ) : null}
-          </>
         )
-        }
-        </Wrap>}
+      )}
+      {width > 600 ? (
+        <Wrap>
+          {response.isLoading || response.isFetching ? (
+            <WrapSpinner>
+              <Spinner />
+            </WrapSpinner>
+          ) : (
+            <>
+              {data.length > 0 ? (
+                <Table data={list} />
+              ) : (
+                <div>
+                  {width > 1000 ? (
+                    <div style={{ paddingRight: "20%", paddingTop: "5%" }}>
+                      <NoNews handleOpenSetting={handleOpenSetting} />
+                    </div>
+                  ) : (
+                    <div style={{ paddingRight: "10%", paddingTop: "10%" }}>
+                      <NoNewsLaptop handleOpenSetting={handleOpenSetting} />
+                    </div>
+                  )}
+                </div>
+              )}
+              <SideBar isOpen={newsById} maxWidth={"370px"}>
+                {newsById && (
+                  <NewsBar
+                    refetch={response}
+                    currentNews={newsById}
+                    onClose={onClose}
+                  />
+                )}
+              </SideBar>
+              {list.length > 0 ? (
+                <WrapPag>
+                  <Info>
+                    {t("shown")}
+                    <span>{between}</span>
+                    {t("from1")} <span>{totalNewsCount}</span>
+                    {countPagination({
+                      count: totalNewsCount,
+                      firstWord: t("новости "),
+                      secondWord: t("новостей"),
+                    })}
+                  </Info>
+                  <Pagination
+                    page={filterValues.page}
+                    count={totalCount}
+                    onChange={handlechangePage}
+                    disabled={response.isLoading || response.isFetching}
+                    siblingCount={0}
+                  />
+                </WrapPag>
+              ) : null}
+            </>
+          )}
+        </Wrap>
+      ) : (
+        <Wrap>
+          <MobileFilterNews
+            handleOpenNews={handleOpenNews}
+            searchNews={searchNews}
+            filterByDate={filterByDate}
+          />
+          {response.isLoading || response.isFetching ? (
+            <WrapSpinner>
+              <Spinner />
+            </WrapSpinner>
+          ) : (
+            <>
+              {data.length > 0 ? (
+                <MobileTable refetch={response} data={list} />
+              ) : (
+                <div style={{ paddingTop: "15%" }}>
+                  <NoNewsMobile handleOpenSetting={handleOpenSetting} />
+                </div>
+              )}
+              <SideBar isOpen={newsById} maxWidth={"370px"}>
+                {newsById && (
+                  <NewsBar
+                    refetch={response}
+                    currentNews={newsById}
+                    onClose={onClose}
+                  />
+                )}
+              </SideBar>
+              {list.length > 0 ? (
+                <WrapPag>
+                  <Info>
+                    {t("shown")}
+                    <span>{between}</span>
+                    {t("from1")} <span>{totalNewsCount}</span>
+                    {countPagination({
+                      count: totalNewsCount,
+                      firstWord: t("новости"),
+                      secondWord: t("новостей"),
+                    })}
+                  </Info>
+                  <Pagination
+                    page={filterValues.page}
+                    count={totalCount}
+                    onChange={handlechangePage}
+                    disabled={response.isLoading || response.isFetching}
+                    siblingCount={0}
+                  />
+                </WrapPag>
+              ) : null}
+            </>
+          )}
+        </Wrap>
+      )}
     </Container>
   );
 };

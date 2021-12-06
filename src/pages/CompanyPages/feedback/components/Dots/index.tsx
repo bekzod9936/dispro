@@ -45,7 +45,9 @@ const Dots = () => {
     };
     deleteRes.mutate(data, {
       onSuccess: () => {
-        dispatch(setChosenListUser({ ...chosenListUser, isChoose: false }));
+        dispatch(
+          setChosenListUser({ ...chosenListUser, isChoose: false, chosen: {} })
+        );
         resChatClients.refetch();
         setOpen(false);
       },

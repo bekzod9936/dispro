@@ -47,7 +47,7 @@ const PrivateRoutes = () => {
       //  else if (pathName !== "/partner") {
       //   return <Redirect from="*" to="/" />;
       // }
-      return <Redirect from="*" to="/" />;
+      // return <Redirect from="*" to="/" />;
     })
     .concat(
       privateCompanyRoutes.map((item: IPrivateRoute) => {

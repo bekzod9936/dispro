@@ -76,6 +76,9 @@ export const InfoBlock = styled.div`
             line-height: 16.41px;
             font-weight: 300;
             margin-bottom: 13px;
+            @media (max-width: ${device.planshet}) {
+                text-align: center;
+            }
             span {
                 color: #3492FF;
             }

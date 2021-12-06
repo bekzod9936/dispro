@@ -1,6 +1,5 @@
 import Title from 'components/Custom/Title';
 import { useTranslation } from 'react-i18next';
-import Pagination from 'components/Custom/Pagination';
 import { useState, useEffect, useRef } from 'react';
 import useNotefications from './useNotefications';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
@@ -40,6 +39,7 @@ import {
   MessageIcon,
   Titletext,
 } from './style';
+import { NewPagination } from 'components/Custom/NewPagination';
 
 interface intialFilterProps {
   page?: number;
@@ -223,12 +223,10 @@ const Notifications = () => {
                 secondWord: t('notification23'),
               })}
             </Info>
-            <Pagination
-              page={filterValues.page}
-              count={totalCount}
+            <NewPagination
               onChange={handlechangePage}
-              disabled={response.isLoading || response.isFetching}
-              siblingCount={0}
+              currentPage={Number(filterValues.page)}
+              totalCount={Number(totalCount)}
             />
           </WrapPag>
         </Wrap>

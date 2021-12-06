@@ -18,6 +18,10 @@ export const MainWrapper = styled.div`
   @media (max-width: ${device.mobile}) {
     padding: 0px 0 0 0px;
   }
+  @media (min-width:${device.mobile}) and (max-width:${device.planshet}){
+    padding: 0px 0 0 0px;
+  }
+
 `;
 
 export const SpinnerDiv = styled.div`
@@ -116,6 +120,9 @@ export const WrapHeader = styled.div`
   justify-content: space-between;
   @media (max-width: ${device.mobile}) {
     padding: 5px 0 0 10px;
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    padding: 25px 0 0 25px;
   }
 `;
 
