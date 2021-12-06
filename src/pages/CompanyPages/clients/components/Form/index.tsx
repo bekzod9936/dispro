@@ -75,6 +75,7 @@ export const MobileForm = ({ open, action, onClose, client, refetch }: IProps) =
     const { t } = useTranslation()
     const content = formContents[action]
     const queryClient = useQueryClient()
+    const disabled = selectedClients.some(el => el.isPlBlocked)
 
     const { mutate, isLoading } = useMutation((data: any) => changeVipPercent(data), {
         onSuccess: () => {
@@ -122,6 +123,8 @@ export const MobileForm = ({ open, action, onClose, client, refetch }: IProps) =
 
     const handleChange = (e: any) => {
         const value = e.target.value
+        if (value.endsWith(' ')) return
+
         if (value.length > 1 && value.startsWith("0")) return
         if (Number(value) >= 100) {
             setPercent("100")
@@ -173,8 +176,8 @@ export const MobileForm = ({ open, action, onClose, client, refetch }: IProps) =
                             <Input
                                 label={t(content.inputLabel)}
                                 max="100"
-                                error={percent === "0"}
-                                message={percent === "0" ? "Минимальный процент: 1%" : t("requiredField")}
+                                error={percent === "0" || client.isBlocked || disabled}
+                                message={(client.isBlocked || disabled) ? 'Один или несколько клиентов заблокированы. Начислить спец статус можно только незаблокированным клиентам' : percent === "0" ? "Минимальный процент: 1%" : t("requiredField")}
                                 margin={{
                                     mobile: "0 0 25px 0"
                                 }}
@@ -238,7 +241,7 @@ export const MobileForm = ({ open, action, onClose, client, refetch }: IProps) =
                         {action !== 4 ?
                             <Button
                                 type="submit"
-                                disabled={percent === "0" || percent === "" || isLoading || client.isBlocked}
+                                disabled={percent === "0" || percent === "" || isLoading || client.isBlocked || disabled}
                                 endIcon={<DoneIcon />}>
                                 {t(content.secondButtonLabel)}
                             </Button> :
