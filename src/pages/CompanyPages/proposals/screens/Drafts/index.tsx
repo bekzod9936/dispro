@@ -3,7 +3,6 @@ import { SearchIcon } from 'assets/icons/ClientsPageIcons/ClientIcons';
 import { AddIcon } from 'assets/icons/InfoPageIcons/InfoPageIcons';
 import Button from 'components/Custom/Button';
 import Input from 'components/Custom/Input';
-import NotifySnack from 'components/Custom/Snackbar';
 import Spinner from 'components/Helpers/Spinner';
 import { SideBar } from 'pages/CompanyPages/clients/components/SideBar';
 import { useTranslation } from 'react-i18next';
@@ -11,7 +10,6 @@ import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import {
   resetCurrentCoupon,
   setCurrentCoupon,
-  setSaving,
 } from 'services/redux/Slices/proposals/proposals';
 import { IDeferred } from 'services/redux/Slices/proposals/types';
 import { RootState } from 'services/redux/store';

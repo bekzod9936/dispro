@@ -45,7 +45,6 @@ import CancelButton from "../../components/CancelButton";
 import SaveButton from "../../components/SaveButton";
 import CustomToggle from "components/Custom/CustomToggleSwitch";
 import SettingButton from "../../components/SettingButton";
-import NotifySnack from "components/Custom/Snackbar";
 import InputFormat from "components/Custom/InputFormat";
 import RippleEffect from "components/Custom/RippleEffect";
 import Button from "components/Custom/Button";
