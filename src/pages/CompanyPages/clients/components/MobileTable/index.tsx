@@ -34,7 +34,7 @@ export const MobileTable = ({ array, onClick }: IProps) => {
 
     const handleClick = (e: any, id: number, userId: number) => {
         if (!isSelecting) {
-            onClick(e, id)
+            // onClick(e, id)
             history.push(`/clients/${id + "-" + userId}/information`)
         }
         else onClick(e, id)
@@ -57,14 +57,14 @@ export const MobileTable = ({ array, onClick }: IProps) => {
                             <MCheckbox>
                                 <Checkbox checked={selectedClients.some(el => client.id === el.id)} />
                             </MCheckbox>}
-                        {client.image ? 
+                        {client.image ?
                             <img src={client.image} onError={(e: any) => {
                                 e.target.onerror = null;
                                 e.target.src = clientDefault;
                             }} alt="clientImg" /> : <DefaultImg />}
                         <div className="content">
                             <h5>{client.name}</h5>
-                            <p>{client.isBlocked ? <span>{t("blocked")}</span> : <b>{client.discountStatus} {client.discountValue}%</b>}</p>
+                            <p>{client.isBlocked ? <span>{t("blocked")}</span> : <b>{t(client.discountStatus)} {client.discountValue}%</b>}</p>
                         </div>
                     </Trow>
                 ))}
