@@ -11,7 +11,7 @@ import {
   PublishIcon,
   RepairNewsIcon,
   PenIconPlanshet,
-  WhitePublishIcon
+  WhitePublishIcon,
 } from "assets/icons/news/newsIcons";
 
 import Button from "components/Custom/Button";
@@ -42,6 +42,8 @@ import {
   Box,
   WrapBoxDetail,
   BoxinfoDetail,
+  TitleSideBar,
+  ButtonView,
 } from "./style";
 
 import { useTranslation } from "react-i18next";
@@ -52,8 +54,6 @@ interface IProps {
   refetch: any;
 }
 export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
-
-
   const history = useHistory();
   const location = useLocation();
   const { width } = useWindowWidth();
@@ -66,7 +66,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
       history.push("/news/showwaiting");
     }
   };
- 
+
   const editNews = () => {
     history.push("/news/edit");
   };
@@ -131,22 +131,12 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
                 }}
               />
             </WrapIcon>
-            <div style={{ display: "block" }}>
-              <p
-                style={{
-                  whiteSpace: "pre-wrap",
-                  wordBreak: "break-all",
-                  fontSize: "16px",
-                  color: "#223367",
-                  fontWeight: 500,
-                }}
-              >
-                {currentNews?.data?.title}
-              </p>
-              <span style={{ fontSize: "14px", color: "#223367" }}>
-                {currentNews?.data?.pushUp ? "Push-up" : ""}
-              </span>
-            </div>
+            <TitleSideBar>
+              <div style={{ display: "block" }}>
+                <p>{currentNews?.data?.title}</p>
+                <span>{currentNews?.data?.pushUp ? "Push-up" : ""}</span>
+              </div>
+            </TitleSideBar>
           </>
         </WrapAvatar>
       )}
@@ -154,21 +144,12 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
       <ContentSideBar>
         {width > 600 && width <= 1000 ? (
           <ContentInfo>
-            <h5>{t('Описание')}</h5>
+            <h5>{t("Описание")}</h5>
+            <TitleSideBar>
+              <h4>{currentNews?.data?.description}</h4>
+            </TitleSideBar>
 
-            <p
-              style={{
-                wordBreak: "break-all",
-                fontWeight: 400,
-                marginBottom: "20px",
-                color:"#223367",
-                fontSize:'14px'
-              }}
-            >
-              {currentNews?.data?.description}
-            </p>
-
-            <h5>{t('Информация')}</h5>
+            <h5>{t("Информация")}</h5>
             <p>
               {currentNews?.data?.genderType === 0
                 ? "Для всех"
@@ -176,48 +157,48 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
                 ? "Только для мужчин"
                 : `Только для женщин`}
             </p>
-            <p>{t('Срок публикации')}: {currentNews?.date}</p>
-            <p style={{marginBottom: "20px"}}>{t('Возрастное ограничение')}: {currentNews?.data?.ageFrom}+</p>
-            {currentNews?.data?.pushUp ? 
-            <div >
-            <h5>{t('Push up статистика')}
-            </h5>
-            <WrapBoxDetail>
-                        
-                        <Box>
-                          <BoxinfoDetail>{`Уведомлений получили: ${currentNews?.data?.stat?.get?.total} чел`}</BoxinfoDetail>
-                          <BoxinfoDetail>
-                            {`Уведомлений просмотрели:${currentNews?.data?.stat?.view?.total} чел`}
-                            <br />
-                            <span
-                              style={{ fontSize: "14px", color: "#606EEA" }}
-                            >{`${currentNews?.data?.stat?.view?.male} Муж`}</span>
-                            <span
-                              style={{ fontSize: "14px", color: "#FF56BB" }}
-                            >
-                              {" " + `${currentNews?.data?.stat?.view?.female} Жен`}
-                            </span>
-                          </BoxinfoDetail>
-                          <BoxinfoDetail>
-                            {`Произвели оплату: ${currentNews?.data?.stat?.paid?.total} чел`}
-                            <br />
-                            <span
-                              style={{ fontSize: "14px", color: "#606EEA" }}
-                            >{`${currentNews?.data?.stat?.paid?.male} Муж`}</span>
-                            <span
-                              style={{ fontSize: "14px", color: "#FF56BB" }}
-                            >
-                              {" " + `${currentNews?.data?.stat?.paid?.female} Жен`}
-                            </span>
-                          </BoxinfoDetail>
-                        </Box>
-                      </WrapBoxDetail>
-                      </div>
-:''}
+            <p>
+              {t("Срок публикации")}: {currentNews?.date}
+            </p>
+            <p style={{ marginBottom: "20px" }}>
+              {t("Возрастное ограничение")}: {currentNews?.data?.ageFrom}+
+            </p>
+            {currentNews?.data?.pushUp ? (
+              <div>
+                <h5>{t("Push up статистика")}</h5>
+                <WrapBoxDetail>
+                  <Box>
+                    <BoxinfoDetail>{`Уведомлений получили: ${currentNews?.data?.stat?.get?.total} чел`}</BoxinfoDetail>
+                    <BoxinfoDetail>
+                      {`Уведомлений просмотрели:${currentNews?.data?.stat?.view?.total} чел`}
+                      <br />
+                      <span
+                        style={{ fontSize: "14px", color: "#606EEA" }}
+                      >{`${currentNews?.data?.stat?.view?.male} Муж`}</span>
+                      <span style={{ fontSize: "14px", color: "#FF56BB" }}>
+                        {" " + `${currentNews?.data?.stat?.view?.female} Жен`}
+                      </span>
+                    </BoxinfoDetail>
+                    <BoxinfoDetail>
+                      {`Произвели оплату: ${currentNews?.data?.stat?.paid?.total} чел`}
+                      <br />
+                      <span
+                        style={{ fontSize: "14px", color: "#606EEA" }}
+                      >{`${currentNews?.data?.stat?.paid?.male} Муж`}</span>
+                      <span style={{ fontSize: "14px", color: "#FF56BB" }}>
+                        {" " + `${currentNews?.data?.stat?.paid?.female} Жен`}
+                      </span>
+                    </BoxinfoDetail>
+                  </Box>
+                </WrapBoxDetail>
+              </div>
+            ) : (
+              ""
+            )}
           </ContentInfo>
         ) : (
           <ContentInfo>
-            <h5>{t('Информация')}</h5>
+            <h5>{t("Информация")}</h5>
             <p>
               {currentNews?.data?.genderType === 0
                 ? "Для всех"
@@ -225,23 +206,19 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
                 ? "Только для мужчин"
                 : `Только для женщин`}
             </p>
-            <p>{t('Срок публикации')}: {currentNews?.date}</p>
-            <p>{t('Возрастное ограничение')}: {currentNews?.data?.ageFrom}+</p>
+            <p>
+              {t("Срок публикации")}: {currentNews?.date}
+            </p>
+            <p>
+              {t("Возрастное ограничение")}: {currentNews?.data?.ageFrom}+
+            </p>
           </ContentInfo>
         )}
 
         <ContentButton>
-          {location.pathname === "/news/waiting" && width>1000 && (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "flex-end",
-                marginBottom: "10px",
-              }}
-            >
-             <Button
+          {location.pathname === "/news/waiting" && width > 1000 && (
+            <ButtonView>
+              <Button
                 onClick={() => showNew()}
                 buttonStyle={{
                   color: "#606EEA",
@@ -249,23 +226,13 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
                 }}
                 startIcon={<WatchIcons />}
               >
-               {t('Смотреть полностью')} 
+                {t("Смотреть полностью")}
               </Button>
-              
-            </div>
+            </ButtonView>
           )}
-          { location.pathname === "/news/active" && width>1000 && (
-         
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "flex-end",
-                marginBottom: "10px",
-              }}
-            >
-            <Button
+          {location.pathname === "/news/active" && width > 1000 && (
+            <ButtonView>
+              <Button
                 onClick={() => showNew()}
                 buttonStyle={{
                   color: "#fff",
@@ -274,51 +241,36 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
                 }}
                 startIcon={<WatchIconsWhite />}
               >
-                          {t('Смотреть полностью')}   
+                {t("Смотреть полностью")}
               </Button>
-            
-            </div>
+            </ButtonView>
           )}
-             { location.pathname === "/news/active" && width>600 && width<=1000 && (
-         
-         <div
-           style={{
-             display: "flex",
-             flexDirection: "column",
-             alignItems: "center",
-             justifyContent: "flex-end",
-             marginBottom: "10px",
-           }}
-         >
-         <Button
-             onClick={() => editNews()}
-             buttonStyle={{
-               color: "#fff",
-               bgcolor: "#606EEA",
-               shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
-               height: { planshet: 45 },
-             }}
-            
-             endIcon={
-              width > 325 && (
-                <PenIcon style={{ height: 15, width: 13.5 }} />
-              )
-            }
-           >
-               {t('Редактировать')}     
-           </Button>
-         
-         </div>
-       )}
-          {location.pathname === "/news/waiting" && width>1000  && (
-            <div
+          {location.pathname === "/news/active" &&
+            width > 600 &&
+            width <= 1000 && (
+              <ButtonView>
+                <Button
+                  onClick={() => editNews()}
+                  buttonStyle={{
+                    color: "#fff",
+                    bgcolor: "#606EEA",
+                    shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
+                    height: { planshet: 45 },
+                  }}
+                  endIcon={
+                    width > 325 && (
+                      <PenIcon style={{ height: 15, width: 13.5 }} />
+                    )
+                  }
+                >
+                  {t("Редактировать")}
+                </Button>
+              </ButtonView>
+            )}
+          {location.pathname === "/news/waiting" && width > 1000 && (
+            <ButtonView
               style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "flex-end",
                 marginTop: "25px",
-                marginBottom: "10px",
               }}
             >
               <Button
@@ -326,69 +278,57 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
                 buttonStyle={{
                   color: "#606EEA",
                   bgcolor: " rgba(96,110,234,0.1)",
-            
                 }}
                 startIcon={<PublishIcon />}
               >
-                             {t('Опубликовать')}   
+                {t("Опубликовать")}
               </Button>
-            </div>
+            </ButtonView>
           )}
 
-          {location.pathname === "/news/waiting" && width>600 && width<=1000 && (
-            <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "flex-end",
-              marginTop: "25px",
-              marginBottom: "10px",
-            }}
-          >
-            <Button
-              onClick={() => setPublisOpen(true)}
-              buttonStyle={{
-                color: "#fff",
-                bgcolor: "#606EEA",
-                shadow:" 0px 4px 9px rgba(96, 110, 234, 0.46)",
-                height: { planshet: 45 },
-              }}
-              
-              endIcon={width > 325 && <WhitePublishIcon />}
-            >
-                   {t('Опубликовать')}    
-            </Button>
-            <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "flex-end",
-              marginTop: "25px",
-              marginBottom: "10px",
-            }}
-          >
-            <Button
-                   onClick={() => editNews()}
-              buttonStyle={{
-                color: "#606EEA",
-                bgcolor: " rgba(96,110,234,0.1)",
-                height: { planshet: 45 },
-              }}
-              endIcon={
-                width > 325 && (
-                  <PenIconPlanshet style={{ height: 15, width: 13.5 }} />
-                )
-              }
-            >
-                         {t('Редактировать')}     
-            </Button>
-          </div>
-          </div>
-          
-          
-          )}
+          {location.pathname === "/news/waiting" &&
+            width > 600 &&
+            width <= 1000 && (
+              <ButtonView
+                style={{
+                  marginTop: "25px",
+                }}
+              >
+                <Button
+                  onClick={() => setPublisOpen(true)}
+                  buttonStyle={{
+                    color: "#fff",
+                    bgcolor: "#606EEA",
+                    shadow: " 0px 4px 9px rgba(96, 110, 234, 0.46)",
+                    height: { planshet: 45 },
+                  }}
+                  endIcon={width > 325 && <WhitePublishIcon />}
+                >
+                  {t("Опубликовать")}
+                </Button>
+                <ButtonView
+                  style={{
+                    marginTop: "25px",
+                  }}
+                >
+                  <Button
+                    onClick={() => editNews()}
+                    buttonStyle={{
+                      color: "#606EEA",
+                      bgcolor: " rgba(96,110,234,0.1)",
+                      height: { planshet: 45 },
+                    }}
+                    endIcon={
+                      width > 325 && (
+                        <PenIconPlanshet style={{ height: 15, width: 13.5 }} />
+                      )
+                    }
+                  >
+                    {t("Редактировать")}
+                  </Button>
+                </ButtonView>
+              </ButtonView>
+            )}
           <div
             style={{
               display: "flex",
@@ -398,7 +338,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
               paddingTop: "5%",
             }}
           >
-            {location.pathname !== "/news/archive" && width>1000 && (
+            {location.pathname !== "/news/archive" && width > 1000 && (
               <Button
                 onClick={() => setDeleteOpen(true)}
                 buttonStyle={{
@@ -408,67 +348,68 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
                 }}
                 startIcon={<DeleteIcon />}
               >
-                    {t('Удалить')}       
+                {t("Удалить")}
               </Button>
             )}
-               {location.pathname !== "/news/archive" && width>600 && width<=1000 && (
-              <Button
-                onClick={() => setDeleteOpen(true)}
-                buttonStyle={{
-                  color: "#ffffff",
-                  bgcolor: "#FF5E68",
-                  shadow: "0px 4px 9px rgba(255, 94, 104, 0.46)",
-                  // height: { planshet: 45 },
-                }}
-                endIcon={<DeletePlanshetIcon />}
-              >
-                   {t('Удалить')}      
-              </Button>
-            )}
-            {location.pathname === "/news/archive" && width>1000 && (
+            {location.pathname !== "/news/archive" &&
+              width > 600 &&
+              width <= 1000 && (
+                <Button
+                  onClick={() => setDeleteOpen(true)}
+                  buttonStyle={{
+                    color: "#ffffff",
+                    bgcolor: "#FF5E68",
+                    shadow: "0px 4px 9px rgba(255, 94, 104, 0.46)",
+                    // height: { planshet: 45 },
+                  }}
+                  endIcon={<DeletePlanshetIcon />}
+                >
+                  {t("Удалить")}
+                </Button>
+              )}
+            {location.pathname === "/news/archive" && width > 1000 && (
               <Button
                 onClick={() => restoreNews()}
                 buttonStyle={{
                   color: "#ffffff",
                   bgcolor: "#606EEA",
                   shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
-     
                 }}
-                
                 startIcon={<RepairNewsIcon />}
               >
-                  {t(' Восстановить новость')} 
+                {t(" Восстановить новость")}
               </Button>
             )}
-                 {location.pathname === "/news/archive" && width>600 && width<1000&&(
-              <Button
-                onClick={() => restoreNews()}
-                buttonStyle={{
-                  color: "#ffffff",
-                  bgcolor: "#606EEA",
-                  shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
-                  height: { planshet: 45 },
-                }}
-                
-                endIcon={<RepairNewsIcon />}
-              >
-               {t(' Восстановить новость')}  
-              </Button>
-            )}
+            {location.pathname === "/news/archive" &&
+              width > 600 &&
+              width < 1000 && (
+                <Button
+                  onClick={() => restoreNews()}
+                  buttonStyle={{
+                    color: "#ffffff",
+                    bgcolor: "#606EEA",
+                    shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
+                    height: { planshet: 45 },
+                  }}
+                  endIcon={<RepairNewsIcon />}
+                >
+                  {t(" Восстановить новость")}
+                </Button>
+              )}
           </div>
         </ContentButton>
       </ContentSideBar>
       <Modal open={isDeleteOpen}>
         <DeleteModal>
-          <h5> {t(' Вы действительно хотите удалить новость?')}   </h5>
-          <p>{t('После удаления новости  данные будет утеряны')}</p>
+          <h5> {t(" Вы действительно хотите удалить новость?")} </h5>
+          <p>{t("После удаления новости  данные будет утеряны")}</p>
           <Button
             buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
             margin={{ laptop: "0 22px 0 0" }}
             onClick={() => setDeleteOpen(false)}
             startIcon={<CancelIcon />}
           >
-                       {t(' Отмена')}    
+            {t(" Отмена")}
           </Button>
           <Button
             buttonStyle={{
@@ -478,7 +419,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
             onClick={onDelete}
             startIcon={<DeleteIcon />}
           >
-                  {t(' Удалить')}      
+            {t(" Удалить")}
           </Button>
         </DeleteModal>
       </Modal>

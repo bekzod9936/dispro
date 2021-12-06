@@ -49,6 +49,7 @@ import {
   setECashback,
   switchKeyT,
 } from "services/atoms/settings";
+import { notify } from "services/utils/local_notification";
 
 const useLoyality = () => {
   let companyId: any = localStorage.getItem("companyId");
@@ -96,9 +97,6 @@ const useLoyality = () => {
     name: "levels",
   });
 
-  //alert error time
-  const [checkL, setCheckL] = useState(false);
-  const [alertName, setAlertName] = useState<any>("");
   const [modified, setModified] = useState("0");
   const [assertModalVisible, setAssertModalVisible] = useState<boolean>(false);
 
@@ -106,8 +104,6 @@ const useLoyality = () => {
   const dispatch = useAppDispatch();
 
   //program loyality
-  const [onSuccesSave, setOnSuccessSave] = useState(false);
-  const [onErrorSave, setOnErrorSave] = useState(false);
   const [availCheck, setAvailCheck] = useState(false);
   const [refetchCashback, setRefetchCashback] = useState(0);
   const [refetchDiscount, setRefetchDiscount] = useState(0);
@@ -144,7 +140,7 @@ const useLoyality = () => {
     },
     {
       onSuccess: () => {
-        setOnSuccessSave(true);
+        notify(t("save"));
         refetch();
         refetchdiscount();
         refetchcashback();
@@ -158,17 +154,14 @@ const useLoyality = () => {
     for (i = 0; i < levels?.length; i++) {
       if (!levels[i]?.name || !levels[i]?.percent) {
         errorCheck = true;
-        setCheckL(true);
-        setAlertName(t("fields_not_filled"));
+        notify(t("fields_not_filled"));
       }
       if (
         levels[i - 1]?.percent &&
         parseInt(levels[i].percent) <= parseInt(levels[i - 1]?.percent)
       ) {
         errorCheck = true;
-        setCheckL(true);
-        // console.log("levels Second 1", levels);
-        setAlertName(
+        notify(
           `${t("percentage_in")} "${levels[i].name}" ${t(
             "must_be_more_than"
           )} "${levels[i - 1].name}"`
@@ -179,8 +172,7 @@ const useLoyality = () => {
 
         if (!i && parseInt(levels[i].percent) <= parseInt(baseAmount)) {
           errorCheck = true;
-          setCheckL(true);
-          setAlertName(
+          notify(
             `${t("percentage_in")} "${levels[i].name}" ${t(
               "must_be_more_than"
             )} "${baseName}"`
@@ -196,8 +188,7 @@ const useLoyality = () => {
             !levels[i].requirements![reqi].amount
           ) {
             errorCheck = true;
-            setCheckL(true);
-            setAlertName(t("fields_not_filled"));
+            notify(t("fields_not_filled"));
           }
 
           // console.log("levels => ", levels);
@@ -249,8 +240,7 @@ const useLoyality = () => {
               }),
               "name 111"
             );
-            setCheckL(true);
-            setAlertName(
+            notify(
               `${t("count")} "${
                 levelReqs.find((item: any) => {
                   return levels[i].requirements![reqi].type == item.id;
@@ -767,15 +757,8 @@ const useLoyality = () => {
     refetchcashback,
     onFormSubmit,
     loayalityPut,
-    onSuccesSave,
-    setOnSuccessSave,
-    setOnErrorSave,
-    onErrorSave,
     errors,
-    alertName,
     checkLevels,
-    checkL,
-    setCheckL,
     modified,
     setModified,
     availCheck,

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { ReactComponent as Up } from "assets/icons/up.svg";
-import { device } from "styles/device"
+import { device } from "styles/device";
 interface Props {
   up?: boolean;
   active?: boolean;
@@ -111,7 +111,7 @@ export const Td = styled.td`
   padding: 15px;
   padding-left: 40px;
   text-align: left;
-  
+
   font-weight: normal;
   font-size: 16px;
   color: #223367;
@@ -128,101 +128,90 @@ export const UpIcon = styled(Up)`
 export const Description = styled.div`
   display: flex;
   position: relative;
-  justify-content:space-between;
+  justify-content: space-between;
   align-items: center;
-  margin-right:10px;
-  
+  margin-right: 10px;
+
   p {
-    min-width:250px !important;
-     max-width:300px !important;
-     white-space: pre-wrap !important;
-     word-break: break-all !important;
+    min-width: 250px !important;
+    max-width: 300px !important;
+    white-space: pre-wrap !important;
+    word-break: break-all !important;
     font-size: 14px;
-    line-height:'21px';
-    color:'#223367';
-    font-weight:300;
-
+    line-height: "21px";
+    color: "#223367";
+    font-weight: 300;
   }
-  
-  h4 {
 
+  h4 {
     padding: 10px 20px;
     font-size: 14px;
     background: linear-gradient(215.2deg, #8bdd59 -12.1%, #dcf089 101.51%);
     border-radius: 14px;
   }
-  h3 {  
- 
+  h3 {
     padding: 10px 20px;
     /* margin-right:20px; */
     font-size: 14px;
-    background: linear-gradient(215.2deg, #C7EEFF -12.1%, #FCA9EA 101.51%);
+    background: linear-gradient(215.2deg, #c7eeff -12.1%, #fca9ea 101.51%);
     border-radius: 14px;
   }
-  `
+`;
 
-  export const GenderStyle=styled.div`
-  
-    line-height:21px;
-    color:'#223367';
-    font-size: 14px;
-    font-weight:300;
-  
-  `
+export const GenderStyle = styled.div`
+  line-height: 21px;
+  color: "#223367";
+  font-size: 14px;
+  font-weight: 300;
+`;
 export const TimeData = styled.div`
-display: flex;
-position: relative;
-justify-content:space-between;
-align-items: center;
-margin-right:10px;
-p {
-  font-size: 14px;
-  line-height:'21px';
-  color:'#223367';
-  font-weight:300;
-}
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 10px;
+  p {
+    font-size: 14px;
+    line-height: "21px";
+    color: "#223367";
+    font-weight: 300;
+  }
 
-h4 {
-
-  padding: 10px 20px;
-  font-size: 14px;
-  background: linear-gradient(215.2deg, #8bdd59 -12.1%, #dcf089 101.51%);
-  border-radius: 14px;
-}
-h6{
-  color:'#223367';
-  font-weight:300;
-  font-size: 14px;
-  padding-right:2px;
-}
-h3 {  
-
-  padding: 10px 20px;
-  /* margin-right:20px; */
-  font-size: 14px;
-  background: linear-gradient(215.2deg, #C7EEFF -12.1%, #FCA9EA 101.51%);
-  border-radius: 14px;
-}
- span {
-
-    font-weight:300;
-}
-`
-
+  h4 {
+    padding: 10px 20px;
+    font-size: 14px;
+    background: linear-gradient(215.2deg, #8bdd59 -12.1%, #dcf089 101.51%);
+    border-radius: 14px;
+  }
+  h6 {
+    color: "#223367";
+    font-weight: 300;
+    font-size: 14px;
+    padding-right: 2px;
+  }
+  h3 {
+    padding: 10px 20px;
+    /* margin-right:20px; */
+    font-size: 14px;
+    background: linear-gradient(215.2deg, #c7eeff -12.1%, #fca9ea 101.51%);
+    border-radius: 14px;
+  }
+  span {
+    font-weight: 300;
+  }
+`;
 
 export const Text = styled.p`
-
-font-size: 14px;
-color: #223367;
-max-width: 300px;
-display: inline;
+  font-size: 14px;
+  color: #223367;
+  max-width: 300px;
+  display: inline;
   -webkit-line-clamp: 3;
   text-overflow: ellipsis;
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   word-wrap: break-word;
-
 `;
 
 export const TitleCard = styled.div`
@@ -237,19 +226,17 @@ export const TitleCard = styled.div`
   }
 `;
 
-
 export const TitleData = styled.div`
   display: flex;
   align-items: center;
-  
+
   img {
     object-fit: cover;
     border-radius: 14px !important;
-    width: 40px ;
-    height: 40px ;
+    width: 40px;
+    height: 40px;
     margin-right: 15px;
   }
-  
 `;
 
 export const TRow = styled.tr`
@@ -267,33 +254,25 @@ export const DefaultImage = styled.div`
   margin-right: 15px;
 `;
 
-
-export const TooltipGetAll=styled.div`
-padding:'10px 0px';
-line-height:'21px';
-color:'#223367';
-font-size: '18px';
-font-weight:300;
+export const TooltipGetAll = styled.div`
+  padding: "10px 0px";
+  line-height: "21px";
+  color: "#223367";
+  font-size: "18px";
+  font-weight: 300;
 `;
 
-
-export const TooltipGet=styled.div`
-line-height:'21px';
-color:'#223367';
-font-size: '18px';
-font-weight:300;
+export const TooltipGet = styled.div`
+  line-height: "21px";
+  color: "#223367";
+  font-size: "18px";
+  font-weight: 300;
 `;
-export const TooltipMale=styled.div`
-
-  color:'red' !important;
-font-weight:300;
-
-
+export const TooltipMale = styled.div`
+  color: "red" !important;
+  font-weight: 300;
 `;
-export const TooltipFemale=styled.div`
-
-
-color:'red' !important;
-font-weight:300;
-
-`
+export const TooltipFemale = styled.div`
+  color: "red" !important;
+  font-weight: 300;
+`;

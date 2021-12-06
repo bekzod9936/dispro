@@ -12,6 +12,7 @@ import {
   setNewReferal,
   setReferalActive,
 } from "services/queries/referalProgramQuery";
+import { notify } from "services/utils/local_notification";
 //types
 interface FormProps {
   referals?: any;
@@ -22,8 +23,6 @@ const useReferalData = () => {
 
   const { t } = useTranslation();
   const companyId = localStorage.getItem("companyId");
-  const [errorRef, setErrorRef] = useState(false);
-  const [referalError, setReferalError] = useState("");
   const [saving, setSaving] = useState(false);
   const [newState, setNewState] = useState<string>("old");
   const [checkedState, setCheckedState] = useState<boolean>(false);
@@ -57,49 +56,55 @@ const useReferalData = () => {
   }, []);
 
   //by leve-get data
-  const { refetch: refetchLevel } = useQuery(
-    ["referal_level"],
-    () => getReferalLevel(),
-    {
-      retry: 0,
-      refetchOnWindowFocus: false,
-      onSuccess: (data) => {
-        console.log(data.data, "data levels");
-        setLevelsRef(data.data.data);
-      },
-    }
-  );
+  const {
+    refetch: refetchLevel,
+    isLoading: loadingReferal,
+    isFetching: fetchingReferal,
+  } = useQuery(["referal_level"], () => getReferalLevel(), {
+    retry: 0,
+    refetchOnWindowFocus: false,
+    onSuccess: (data) => {
+      console.log(data.data, "data levels");
+      setLevelsRef(data.data.data);
+    },
+  });
 
   //get Bonus referals
 
-  const { refetch } = useQuery(["bonusreferals"], () => fetchBonusReferals(), {
-    retry: 0,
-    refetchOnWindowFocus: false,
-    onSuccess: (data: any) => {
-      console.log(data?.data?.data, "referal program");
-      setCheckedState(data?.data?.data?.isActive);
+  const { refetch, isLoading, isFetching } = useQuery(
+    ["bonusreferals"],
+    () => fetchBonusReferals(),
+    {
+      retry: 0,
+      refetchOnWindowFocus: false,
+      onSuccess: (data: any) => {
+        console.log(data?.data?.data, "referal program");
+        setCheckedState(data?.data?.data?.isActive);
 
-      if (data.data.data?.levels) {
-        setValue(
-          "referals",
-          data.data.data?.levels?.sort((a: any, b: any) => a.number - b.number)
-        );
-      } else {
-        setValue("referals", [
-          {
-            id: "37622af0-1e13-4321-9a8b-3b14c82cbb7f",
-            name: "1",
-            number: 1,
-            percent: 0,
-          },
-        ]);
-      }
+        if (data.data.data?.levels) {
+          setValue(
+            "referals",
+            data.data.data?.levels?.sort(
+              (a: any, b: any) => a.number - b.number
+            )
+          );
+        } else {
+          setValue("referals", [
+            {
+              id: "37622af0-1e13-4321-9a8b-3b14c82cbb7f",
+              name: "1",
+              number: 1,
+              percent: 0,
+            },
+          ]);
+        }
 
-      if (data?.data?.data === null) {
-        setNewState("new");
-      }
-    },
-  });
+        if (data?.data?.data === null) {
+          setNewState("new");
+        }
+      },
+    }
+  );
 
   const setActivate = useMutation((data: any) => setReferalActive(data));
 
@@ -148,8 +153,7 @@ const useReferalData = () => {
           levels[i - 1]?.percent &&
           parseInt(levels[i]?.percent) > parseInt(levels[i - 1]?.percent)
         ) {
-          setErrorRef(true);
-          setReferalError(
+          notify(
             `${t("percentage_in")} "${levels[i]?.number} ${t("level")}" ${t(
               "must_be_more_than"
             )}"${levels[i - 1]?.number} ${t("level")}"`
@@ -172,7 +176,6 @@ const useReferalData = () => {
             referals: data.referals,
             isActive: checkedState,
           });
-          setErrorRef(false);
         } else {
           setActivate.mutateAsync({
             isActive: checkedState,
@@ -182,7 +185,6 @@ const useReferalData = () => {
             referals: data.referals,
             isActive: checkedState,
           });
-          setErrorRef(false);
         }
 
         setSaving(false);
@@ -205,13 +207,14 @@ const useReferalData = () => {
     saving,
     handleSubmit,
     errors,
-    errorRef,
-    referalError,
-    setErrorRef,
     refetchLevel,
     levelsRef,
     handleClick,
     referalRef,
+    loadingReferal,
+    isLoading,
+    fetchingReferal,
+    isFetching,
   };
 };
 

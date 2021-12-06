@@ -173,6 +173,7 @@ const CreateManager = ({ openManager }: IProps) => {
 														<UploadButton>
 															<label htmlFor='uploadImg'>Загрузить фото</label>
 															<input
+																accept='image/*'
 																{...register('logo', { required: false })}
 																onChange={handleUploadImg}
 																type='file'

@@ -38,8 +38,8 @@ import {
   PlusIcon,
   UploadImage,
 } from "assets/icons/proposals/ProposalsIcons";
-import {UpSide} from "../CreateNews/style"
-import { SaveIcon ,SaveIconMobile} from "assets/icons/news/newsIcons";
+import { UpSide } from "../CreateNews/style";
+import { SaveIcon, SaveIconMobile } from "assets/icons/news/newsIcons";
 import { days, genders, todayDate } from "../CreateNews/constants";
 import {
   PushBlock,
@@ -50,12 +50,9 @@ import {
   Form,
   Header,
   ImageBlock,
-
   LeftSide,
-
   RightSide,
   UploadButton,
-
   Wrapper,
   MobileHeader,
   FormRow,
@@ -69,7 +66,6 @@ interface IOptionFields {
   push: boolean;
 }
 
-
 const EditNews = () => {
   const { t } = useTranslation();
   const history = useHistory();
@@ -78,19 +74,21 @@ const EditNews = () => {
   // const { dataAddress,} = useAddress({
   //   id: companyId,
   // });
-    const { dataAddress,} = useAddress({
-   id: companyId,
+  const { dataAddress } = useAddress({
+    id: companyId,
   });
 
   const selectedNews = useAppSelector((state) => state.news.selectedNews);
   const newsById = selectedNews?.fullData;
   const startDate = dayjs(newsById?.data?.startLifeTime).format("YYYY-MM-DD");
   const endDate = dayjs(newsById?.data?.endLifeTime).format("YYYY-MM-DD");
-  const [filter, setFilter] = React.useState<any>({ regDate: {
-    regDateFrom: startDate,
-    regDateTo: endDate
-  } });
-  const [validation,setValidation]=React.useState<any>(false);
+  const [filter, setFilter] = React.useState<any>({
+    regDate: {
+      regDateFrom: startDate,
+      regDateTo: endDate,
+    },
+  });
+  const [validation, setValidation] = React.useState<any>(false);
   const { branches } = useStaff();
 
   const { width } = useWindowWidth();
@@ -105,7 +103,7 @@ const EditNews = () => {
   );
   const [isCropVisible, setIsCropVisible] = React.useState(false);
   const [image, setImage] = React.useState(newsById?.data?.image);
-  const [errorFileType,setErrorFileType]=React.useState<any>(false);
+  const [errorFileType, setErrorFileType] = React.useState<any>(false);
   const [leave, setLeave] = React.useState<boolean>(false);
   const handleBack = () => {
     history.goBack();
@@ -113,7 +111,7 @@ const EditNews = () => {
   const { handleUpload, deleteImage, setLoading, isLoading } =
     useUploadImage(setImage);
 
-  const { mutate } = useMutation((data:any)=>fetchUpdateNews(data));
+  const { mutate } = useMutation((data: any) => fetchUpdateNews(data));
   console.log("newsById", newsById?.data);
   const {
     control,
@@ -128,29 +126,24 @@ const EditNews = () => {
     reValidateMode: "onChange",
   });
 
- 
   const handleUploadImg = (data: any) => {
-
-    if (data.target.files[0].type =="image/jpeg") {
+    if (data.target.files[0].type == "image/jpeg") {
       setFile(data.target.files[0]);
       setIsCropVisible(true);
-      setErrorFileType(false)
-   }
-   else if (data.target.files[0].type =="image/png"){
-    setFile(data.target.files[0]);
-    setIsCropVisible(true);
-    setErrorFileType(false)
-   }
-   else {
-    setErrorFileType(true)
-    setIsCropVisible(false);
-   }
-     
+      setErrorFileType(false);
+    } else if (data.target.files[0].type == "image/png") {
+      setFile(data.target.files[0]);
+      setIsCropVisible(true);
+      setErrorFileType(false);
+    } else {
+      setErrorFileType(true);
+      setIsCropVisible(false);
+    }
   };
 
-  const cancelFormat=()=>{
-    setErrorFileType(false)
-  }
+  const cancelFormat = () => {
+    setErrorFileType(false);
+  };
 
   const handleOpenBlock = (e: any, action: "push") => {
     setOptionalFields((prev: IOptionFields) => ({
@@ -164,11 +157,11 @@ const EditNews = () => {
     setImage("");
     deleteImage(image);
   };
-  
-  const newsId=newsById?.data?.id
+
+  const newsId = newsById?.data?.id;
   const allFilials = dataAddress;
   const filials = newsById?.data?.settings?.stores;
-  console.log('newsId id',newsId)
+  console.log("newsId id", newsId);
   let filteredArray = allFilials?.filter(function (array_el: any) {
     return (
       filials?.filter(function (item: any) {
@@ -176,15 +169,14 @@ const EditNews = () => {
       }).length == 1
     );
   });
-  
-console.log('filteredArray',filteredArray)
+
+  console.log("filteredArray", filteredArray);
   const submitNews = (data: any) => {
- 
     let newsBody = {
-     
       title: data.name,
-      startLifeTime:width>600 ? data.startDate:filter?.regDate?.regDateFrom ,
-      endLifeTime:width>600 ? data.endDate:filter?.regDate?.regDateTo,
+      startLifeTime:
+        width > 600 ? data.startDate : filter?.regDate?.regDateFrom,
+      endLifeTime: width > 600 ? data.endDate : filter?.regDate?.regDateTo,
       description: data.description,
       ageFrom: parseInt(data.ageLimit),
       ageTo: 100,
@@ -195,7 +187,7 @@ console.log('filteredArray',filteredArray)
       pushUp: optionalFields.push,
       settings: {
         weekDays:
-          optionalFields.push && data?.days?.length>0
+          optionalFields.push && data?.days?.length > 0
             ? data.days.map((el: any) => el.id)
             : [0, 1, 2, 3, 4, 5, 6],
         aroundTheClock: checked ? true : false,
@@ -210,21 +202,23 @@ console.log('filteredArray',filteredArray)
       },
       pushUpTitle: data.descriptionPush,
     };
- 
-    let newsInfo={newsBody,newsId}
-    if(width>600){
+
+    let newsInfo = { newsBody, newsId };
+    if (width > 600) {
       mutate(newsInfo);
-      setTimeout(() => history.push('/news/active'), 1000); 
+      setTimeout(() => history.push("/news/active"), 1000);
     }
-    if(width<=600){
-      if(validation  && filter?.regDate?.regDateFrom && filter?.regDate?.regDateTo){
+    if (width <= 600) {
+      if (
+        validation &&
+        filter?.regDate?.regDateFrom &&
+        filter?.regDate?.regDateTo
+      ) {
         mutate(newsInfo);
-        setTimeout(() => history.push('/news/active'), 1000);
+        setTimeout(() => history.push("/news/active"), 1000);
       }
     }
   };
-
-
 
   const genderType = [
     {
@@ -233,7 +227,9 @@ console.log('filteredArray',filteredArray)
           ? "Для мужчин"
           : newsById?.data?.genderType === 2
           ? "Для женщин"
-          :newsById?.data?.genderType === 0 ?"Для всех":'',
+          : newsById?.data?.genderType === 0
+          ? "Для всех"
+          : "",
     },
   ];
 
@@ -253,30 +249,44 @@ console.log('filteredArray',filteredArray)
           : el == 5
           ? "Пятница"
           : "Суббота",
-          id:el==0 ? 0:el==1 ? 1:el==2? 2:el==3?3 :el==4 ? 4:el==5 ? 5 :el==6? 6:[]
+      id:
+        el == 0
+          ? 0
+          : el == 1
+          ? 1
+          : el == 2
+          ? 2
+          : el == 3
+          ? 3
+          : el == 4
+          ? 4
+          : el == 5
+          ? 5
+          : el == 6
+          ? 6
+          : [],
     };
   });
-  const mergedBranches=filteredArray?.map((item:any)=>{
+  const mergedBranches = filteredArray?.map((item: any) => {
     return {
-        value:item.id,
-        label:item.name
-    }
-  })
+      value: item.id,
+      label: item.name,
+    };
+  });
 
   React.useEffect(() => {
     setValue("filialID", mergedBranches);
-    
-  }, [mergedBranches,newsById?.data?.pushUp]);
+  }, [mergedBranches, newsById?.data?.pushUp]);
 
-  React.useEffect(()=>{
- if(newsId ===undefined){
-  handleBack();
- }
-  },[])
+  React.useEffect(() => {
+    if (newsId === undefined) {
+      handleBack();
+    }
+  }, []);
 
   return (
     <Wrapper>
-        {width > 1000 && (
+      {width > 1000 && (
         <div
           style={{ display: "flex", marginBottom: 30, alignItems: "center" }}
         >
@@ -284,12 +294,11 @@ console.log('filteredArray',filteredArray)
             onClick={handleBack}
             style={{ marginRight: "25px", cursor: "pointer" }}
           />
-          <Title>
-              Редактирование новости</Title>
+          <Title>Редактирование новости</Title>
         </div>
       )}
-  
-  <UploadModal
+
+      <UploadModal
         errorFileType={errorFileType}
         handleUploadImg={handleUploadImg}
         cancelFormat={cancelFormat}
@@ -297,7 +306,7 @@ console.log('filteredArray',filteredArray)
 
       <Form onSubmit={handleSubmit(submitNews)}>
         <UpSide>
-        {width <= 1000 &&  (
+          {width <= 1000 && (
             <MobileHeader>
               <GoBackIcon onClick={handleBack} style={{ cursor: "pointer" }} />
               <Title>Редактирование новости</Title>
@@ -320,7 +329,7 @@ console.log('filteredArray',filteredArray)
                     <input
                       {...register("image", { required: true })}
                       onChange={handleUploadImg}
-                       value={image}
+                      value={image}
                       type="file"
                       id="uploadImg"
                     />
@@ -337,9 +346,9 @@ console.log('filteredArray',filteredArray)
                 </div>
               )}
               {image && (
-                <ImageBlock >
-              <div style={{filter: 'brightness(50%)'}}>
-                  <ImageLazyLoad   objectFit="contain" src={image} alt="logo" />
+                <ImageBlock>
+                  <div style={{ filter: "brightness(50%)" }}>
+                    <ImageLazyLoad objectFit="contain" src={image} alt="logo" />
                   </div>
                   <DeleteIcon onClick={handleDelete} />
                 </ImageBlock>
@@ -363,19 +372,18 @@ console.log('filteredArray',filteredArray)
                 defaultValue={newsById?.data?.title}
                 render={({ field }) => (
                   <Input
-                  type="textarea"
+                    type="textarea"
                     error={!!errors.name}
                     message={t("requiredField")}
                     field={field}
                     maxLength={80}
                     label="Название"
                     defaultValue={newsById?.data?.title}
-                 
                   />
                 )}
               />
 
-          <Controller
+              <Controller
                 name="description"
                 control={control}
                 rules={{
@@ -389,15 +397,16 @@ console.log('filteredArray',filteredArray)
                     defaultValue={newsById?.data?.description}
                     message={t("requiredField")}
                     error={!!errors.description}
-                    minHeight={'150px'}
-                    fontSize={width>1000 ? '18px':'14px'}
-                    maxHeight={'300px'}
-                    resize={'vertical'}
+                    minHeight={"150px"}
+                    fontSize={width > 1000 ? "18px" : "14px"}
+                    maxHeight={"300px"}
+                    resize={"vertical"}
                     title={"Описание"}
                   />
                 )}
               />
-              {width > 600 ?   <WrapInputs>
+              {width > 600 ? (
+                <WrapInputs>
                   <Label>{t("chose_date")}</Label>
                   <div>
                     <Controller
@@ -411,7 +420,7 @@ console.log('filteredArray',filteredArray)
                         <Input
                           field={field}
                           type="date"
-                          width={{maxwidth:400,minwidth:100}}
+                          width={{ maxwidth: 600, minwidth: 10 }}
                           min={todayDate}
                           defaultValue={startDate}
                           error={!!errors.startDate}
@@ -436,7 +445,7 @@ console.log('filteredArray',filteredArray)
                           error={!!errors.endDate}
                           defaultValue={endDate}
                           min={watch("startDate")}
-                          width={{maxwidth:400,minwidth:100}}
+                          width={{ maxwidth: 600, minwidth: 10 }}
                           margin={{ laptop: "0 0 0 15px" }}
                           IconStart={<WrapDate>{t("to")}</WrapDate>}
                           inputStyle={{
@@ -446,46 +455,59 @@ console.log('filteredArray',filteredArray)
                       )}
                     />
                   </div>
-                </WrapInputs>:
-                 <WrapInputs>
-                 <Label>{t("chose_date")}</Label>
-                 <div>
-                 <CustomDatePicker
-             margin="0 15px 0 0"
-             isFilter
-             text={t("from")}
-             error={validation && !filter?.regDate?.regDateFrom ? true:false}
-             minDate={todayDate}
-             maxDate={filter?.regDate?.regDateTo}
-             onChange={(e) => {
-               let date = "" + e.year + "-" + e.month.number + "-" + e.day;
-               setFilter((prev: any) => ({
-                 ...prev, regDate: {
-                   ...prev["regDate"],
-                   regDateFrom: date
-                 }
-               }))
-             }}
-             value={filter?.regDate?.regDateFrom} />
+                </WrapInputs>
+              ) : (
+                <WrapInputs>
+                  <Label>{t("chose_date")}</Label>
+                  <div>
+                    <CustomDatePicker
+                      margin="0 15px 0 0"
+                      isFilter
+                      text={t("from")}
+                      error={
+                        validation && !filter?.regDate?.regDateFrom
+                          ? true
+                          : false
+                      }
+                      minDate={todayDate}
+                      maxDate={filter?.regDate?.regDateTo}
+                      onChange={(e) => {
+                        let date =
+                          "" + e.year + "-" + e.month.number + "-" + e.day;
+                        setFilter((prev: any) => ({
+                          ...prev,
+                          regDate: {
+                            ...prev["regDate"],
+                            regDateFrom: date,
+                          },
+                        }));
+                      }}
+                      value={filter?.regDate?.regDateFrom}
+                    />
 
-           <CustomDatePicker
-             isFilter
-             error={validation && !filter?.regDate?.regDateTo ? true:false}
-             text={t("to")}
-             minDate={filter?.regDate?.regDateFrom}
-             onChange={(e) => {
-               let date = "" + e.year + "-" + e.month.number + "-" + e.day;
-               setFilter((prev: any) => ({
-                 ...prev, regDate: {
-                   ...prev["regDate"],
-                   regDateTo: date
-                 }
-               }))
-             }}
-             value={filter?.regDate?.regDateTo} />
-             </div>
-               </WrapInputs>
-            }
+                    <CustomDatePicker
+                      isFilter
+                      error={
+                        validation && !filter?.regDate?.regDateTo ? true : false
+                      }
+                      text={t("to")}
+                      minDate={filter?.regDate?.regDateFrom}
+                      onChange={(e) => {
+                        let date =
+                          "" + e.year + "-" + e.month.number + "-" + e.day;
+                        setFilter((prev: any) => ({
+                          ...prev,
+                          regDate: {
+                            ...prev["regDate"],
+                            regDateTo: date,
+                          },
+                        }));
+                      }}
+                      value={filter?.regDate?.regDateTo}
+                    />
+                  </div>
+                </WrapInputs>
+              )}
               <WrapSelect>
                 <Controller
                   name="gender"
@@ -511,17 +533,13 @@ console.log('filteredArray',filteredArray)
               <Controller
                 name="ageLimit"
                 control={control}
-           
                 defaultValue={newsById?.data?.ageFrom}
                 render={({ field }) => (
                   <InputFormat
                     field={field}
                     defaultValue={newsById?.data?.ageFrom}
                     max="100"
-                    message={
-                      parseInt(watch('ageLimit'))
-                       
-                    }
+                    message={parseInt(watch("ageLimit"))}
                     error={!!errors.ageLimit}
                     // message={t("requiredField")}
                     IconStart={<PlusIcon style={{ marginLeft: "20px" }} />}
@@ -537,7 +555,7 @@ console.log('filteredArray',filteredArray)
                     {t("Использовать новость в формате Push-уведомления")}
                   </h6>
                   <CustomToggle
-                  defaultChecked={newsById?.data?.pushUp}
+                    defaultChecked={newsById?.data?.pushUp}
                     onChange={(e: any) => handleOpenBlock(e, "push")}
                   />
                 </PushBlock>
@@ -554,10 +572,14 @@ console.log('filteredArray',filteredArray)
                         type="textarea"
                         multiline={true}
                         maxLength={100}
-                        
                         defaultValue={newsById?.data?.pushUpTitle}
                         inputStyle={{
-                          height: { desktop: 120, laptop: 90, mobile:120 },
+                          height: {
+                            desktop: 120,
+                            planshet: 90,
+                            laptop: 90,
+                            mobile: 120,
+                          },
                         }}
                         // IconEnd={width>600 &&
                         //   <WrapArea>
@@ -568,7 +590,6 @@ console.log('filteredArray',filteredArray)
                     )}
                   />
                 )}
-             
               </PushWrapper>
               <PushWrapper>
                 {optionalFields.push && (
@@ -642,13 +663,12 @@ console.log('filteredArray',filteredArray)
                   <Controller
                     control={control}
                     name="filialID"
-                    defaultValue={mergedBranches? mergedBranches:''}
+                    defaultValue={mergedBranches ? mergedBranches : ""}
                     render={({ field }) => {
                       return (
                         <MultiSelect
                           options={branches}
                           isMulti={true}
-              
                           selectStyle={{
                             bgcolor: "#eff0fd",
                             border: "none",
@@ -674,15 +694,15 @@ console.log('filteredArray',filteredArray)
             </RightSide>
           </Container>
         </UpSide>
-        {width>600 && width <= 1000 && (
-            <DownSide>
-                <Button
-                    onClick={handleBack}
-             endIcon={<MobileCancelIcon />}
-             buttonStyle={{
-               bgcolor: "rgba(96, 110, 234, 0.1)",
-               color: "#606EEA",
-             }}
+        {width > 600 && width <= 1000 && (
+          <DownSide>
+            <Button
+              onClick={handleBack}
+              endIcon={<MobileCancelIcon />}
+              buttonStyle={{
+                bgcolor: "rgba(96, 110, 234, 0.1)",
+                color: "#606EEA",
+              }}
             >
               Отмена
             </Button>
@@ -696,61 +716,60 @@ console.log('filteredArray',filteredArray)
                 shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
               }}
             >
-
-              
-          
-Сохранить
+              Сохранить
             </Button>
-                </DownSide>
-              )}
-        {width>1000 &&  <DownSide>
-          <Button
-            onClick={handleBack}
-            startIcon={<CancelIcon />}
-            buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
-          >
-            Отменить
-          </Button>
-          <Button
-            type="submit"
-            margin={{ laptop: "0 25px" }}
-            startIcon={<SaveIcon />}
-            buttonStyle={{shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)' }}
-            
-          >
-            Сохранить
-          </Button>
-        </DownSide>}
-       
-        {width <=600 && 
-                <Buttons>
-                  <div className="upside">
-                    <Button
-                      onClick={handleBack}
-                      endIcon={<MobileCancelIcon />}
-                      buttonStyle={{
-                        bgcolor: "rgba(96, 110, 234, 0.1)",
-                        color: "#606EEA",
-                      }}
-                      margin={{ mobile: "0 8px 8px 0" }}
-                    >
-                      {t("cancel")}
-                    </Button>
-                  </div>
-                  <Button
-                    onClick={() => setValidation(true)}
-                    type="submit"
-                    endIcon={<SaveIconMobile />}
-                    buttonStyle={{
-                      bgcolor: "#606EEA",
-                      color: "#fff",
-                      shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
-                    }}
-                    margin={{ mobile: "0px 8px  8px  0" }}
-                  >
-                    {"Сохранить"}
-                  </Button>
-                </Buttons>}
+          </DownSide>
+        )}
+        {width > 1000 && (
+          <DownSide>
+            <Button
+              onClick={handleBack}
+              startIcon={<CancelIcon />}
+              buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
+            >
+              Отменить
+            </Button>
+            <Button
+              type="submit"
+              margin={{ laptop: "0 25px" }}
+              startIcon={<SaveIcon />}
+              buttonStyle={{ shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)" }}
+            >
+              Сохранить
+            </Button>
+          </DownSide>
+        )}
+
+        {width <= 600 && (
+          <Buttons>
+            <div className="upside">
+              <Button
+                onClick={handleBack}
+                endIcon={<MobileCancelIcon />}
+                buttonStyle={{
+                  bgcolor: "rgba(96, 110, 234, 0.1)",
+                  color: "#606EEA",
+                }}
+                margin={{ mobile: "0 8px 8px 0" }}
+              >
+                {t("cancel")}
+              </Button>
+            </div>
+            <Button
+              onClick={() => setValidation(true)}
+              type="submit"
+              endIcon={<SaveIconMobile />}
+              buttonStyle={{
+                bgcolor: "#606EEA",
+                color: "#fff",
+                shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
+              }}
+              margin={{ mobile: "0px 8px  8px  0" }}
+            >
+              {"Сохранить"}
+            </Button>
+          </Buttons>
+        )}
       </Form>
     </Wrapper>
   );
