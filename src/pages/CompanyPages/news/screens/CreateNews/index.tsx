@@ -553,6 +553,7 @@ const CreateNews = () => {
                   />
                 )}
               </PushWrapper>
+            
               <PushWrapper>
                 {optionalFields.push && (
                   <Controller
@@ -573,7 +574,7 @@ const CreateNews = () => {
                     )}
                   />
                 )}
-                
+               
               </PushWrapper>
               <PushWrapper>
                 <div style={{ marginBottom: "10px" }}>
@@ -615,8 +616,7 @@ const CreateNews = () => {
                   onChange={(e: any) => setChecked(e)}
                 />
               )}
-
-              {optionalFields.push && (
+                 {optionalFields.push && (
                 <FormRow>
                   <Controller
                     control={control}
@@ -626,6 +626,7 @@ const CreateNews = () => {
                         <MultiSelect
                           options={branches}
                           isMulti={true}
+                          isBranchHeight={width<600 ? true:false}
                           selectStyle={{
                             bgcolor: "#eff0fd",
                             border: "none",
@@ -636,8 +637,9 @@ const CreateNews = () => {
                           placeholder={t("Выберите филиалы")}
                           margin={{
                             laptop: "20px 0 25px",
-                          
+                            
                           }}
+                         
                           field={field}
                           isClearable={false}
                           icon={<MarketIcon />}
@@ -649,6 +651,9 @@ const CreateNews = () => {
                   />
                 </FormRow>
               )}
+                
+
+             
               {width <= 600 && (
                 <Buttons>
                   <div className="upside">

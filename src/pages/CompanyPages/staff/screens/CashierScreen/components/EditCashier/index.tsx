@@ -205,6 +205,7 @@ const EditCashier = ({ openEdit, refetch }: IProps) => {
 								render={({ field }) => {
 									return (
 										<Input
+											disabled={true}
 											label={t('phoneNumber')}
 											error={errors.telNumber ? true : false}
 											message={t('requiredField')}
@@ -234,6 +235,7 @@ const EditCashier = ({ openEdit, refetch }: IProps) => {
 								render={({ field }) => {
 									return (
 										<MultiSelect
+											isDisabled={true}
 											defaultValue={getStoreName(storeName[0]?.id)}
 											icon={<Market />}
 											selectStyle={{

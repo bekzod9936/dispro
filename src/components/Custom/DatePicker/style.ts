@@ -85,6 +85,7 @@ export const WrapText = styled.div`
       font-size: 14px;
     }
   }
+
 `;
 
 export const ResetIcon = styled(Reset)``;
@@ -106,7 +107,7 @@ export const MobileReset = styled.div`
   align-items: center;
   justify-content: center;
   border: 1px solid #c4c4c4;
-  border-radius: 46px;
+  border-radius: 15px;
   font-weight: 300;
   font-size: 14px;
   color: #a5a5a5;
@@ -120,6 +121,12 @@ export const MobileReset = styled.div`
   }
   @media (min-width: ${device.planshet}) {
     display: none;
+  }
+
+  @media (max-width:${device.mobile}){
+    margin: 10px 0 0px 0px;
+    padding: 0 2px 0 12px;
+    font-size: 12px;
   }
 `;
 

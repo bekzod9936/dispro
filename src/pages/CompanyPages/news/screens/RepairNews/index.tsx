@@ -668,6 +668,7 @@ const RepairNews = () => {
                         <MultiSelect
                           options={branches}
                           isMulti={true}
+                          isBranchHeight={width<600 ? true:false}
                           selectStyle={{
                             bgcolor: "#eff0fd",
                             border: "none",
