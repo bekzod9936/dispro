@@ -179,7 +179,7 @@ const Support = () => {
 
   const fun = async () => {
     await dispatch(setChatSupportHistory([newMassage, ...histories]));
-    await setTimeout(() => scrollToTop(), 500);
+    await scrollToTop();
   };
 
   useEffect(() => {
@@ -199,8 +199,8 @@ const Support = () => {
   }, [watch('message')]);
 
   const funScrollDown = async (message: any) => {
-    await setNewMassage(message);
-    await setTimeout(() => scrollToTop(), 500);
+    await dispatch(setChatSupportHistory([message, ...histories]));
+    await scrollToTop();
   };
 
   const onSubmit = (e: any) => {
@@ -231,9 +231,7 @@ const Support = () => {
               status: res?.data?.status,
               toId: res?.data?.toId,
             };
-
             funScrollDown(message);
-
             setLoading(false);
           } else {
             setLoading(false);
@@ -478,6 +476,7 @@ const Support = () => {
                 </div>
               ) : (
                 <Messages id='scrollableDiv' onScroll={findScrollHeight}>
+                  <div ref={messagesStartRef} />
                   <InfiniteScroll
                     dataLength={histories?.length}
                     next={fetchHisFetchData}
@@ -507,7 +506,6 @@ const Support = () => {
                       </Divider>
                     }
                   >
-                    <div ref={messagesStartRef} />
                     {histories?.map((v: any) => {
                       return (
                         <MessageWrap type={v.chatType}>
