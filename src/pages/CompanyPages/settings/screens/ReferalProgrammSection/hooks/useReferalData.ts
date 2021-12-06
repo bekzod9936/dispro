@@ -12,6 +12,7 @@ import {
   setNewReferal,
   setReferalActive,
 } from "services/queries/referalProgramQuery";
+import { notify } from "services/utils/local_notification";
 //types
 interface FormProps {
   referals?: any;
@@ -22,8 +23,6 @@ const useReferalData = () => {
 
   const { t } = useTranslation();
   const companyId = localStorage.getItem("companyId");
-  const [errorRef, setErrorRef] = useState(false);
-  const [referalError, setReferalError] = useState("");
   const [saving, setSaving] = useState(false);
   const [newState, setNewState] = useState<string>("old");
   const [checkedState, setCheckedState] = useState<boolean>(false);
@@ -154,8 +153,7 @@ const useReferalData = () => {
           levels[i - 1]?.percent &&
           parseInt(levels[i]?.percent) > parseInt(levels[i - 1]?.percent)
         ) {
-          setErrorRef(true);
-          setReferalError(
+          notify(
             `${t("percentage_in")} "${levels[i]?.number} ${t("level")}" ${t(
               "must_be_more_than"
             )}"${levels[i - 1]?.number} ${t("level")}"`
@@ -178,7 +176,6 @@ const useReferalData = () => {
             referals: data.referals,
             isActive: checkedState,
           });
-          setErrorRef(false);
         } else {
           setActivate.mutateAsync({
             isActive: checkedState,
@@ -188,7 +185,6 @@ const useReferalData = () => {
             referals: data.referals,
             isActive: checkedState,
           });
-          setErrorRef(false);
         }
 
         setSaving(false);
@@ -211,9 +207,6 @@ const useReferalData = () => {
     saving,
     handleSubmit,
     errors,
-    errorRef,
-    referalError,
-    setErrorRef,
     refetchLevel,
     levelsRef,
     handleClick,

@@ -177,3 +177,7 @@ input::-webkit-inner-spin-button {
   color: #223367 !important;
   font-weight: 500 !important;
 }
+
+.toastProgress {
+  background-color: #3492ff;
+}

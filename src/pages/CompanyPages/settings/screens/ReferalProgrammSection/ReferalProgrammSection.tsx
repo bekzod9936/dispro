@@ -69,9 +69,6 @@ const ReferalProgrammSection = () => {
     saving,
     handleSubmit,
     errors,
-    errorRef,
-    referalError,
-    setErrorRef,
     setValue,
     levelsRef,
     referalRef,
@@ -370,18 +367,6 @@ const ReferalProgrammSection = () => {
           <div></div>
         )}
       </RightGrid>
-
-      {/* Notifications  */}
-      <NotifySnack
-        open={errorRef}
-        error={true}
-        vertical="bottom"
-        horizontal="right"
-        message={referalError}
-        handleClose={() => {
-          setErrorRef(false);
-        }}
-      />
       {mobileContent()}
     </GridContainer>
   );
