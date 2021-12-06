@@ -177,9 +177,14 @@ const Support = () => {
     });
   }, [socket]);
 
+  const fun = async () => {
+    await dispatch(setChatSupportHistory([newMassage, ...histories]));
+    await scrollToTop();
+  };
+
   useEffect(() => {
     if (newMassage.id !== undefined) {
-      dispatch(setChatSupportHistory([newMassage, ...histories]));
+      fun();
       if (CHAT_TYPES.PARTNER_TO_MODERATOR !== newMassage.chatType) {
         resBadge.refetch();
         readChat.mutate([newMassage?.id]);
