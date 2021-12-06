@@ -21,8 +21,7 @@ export const FormRow = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
- 
-  padding:0px 0px 39px 0;
+  padding:0px 0px 20px 0;
 `;
 
 

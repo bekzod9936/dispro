@@ -626,6 +626,7 @@ const CreateNews = () => {
                         <MultiSelect
                           options={branches}
                           isMulti={true}
+                          isBranchHeight={width<600 ? true:false}
                           selectStyle={{
                             bgcolor: "#eff0fd",
                             border: "none",
@@ -633,7 +634,6 @@ const CreateNews = () => {
                             inpadding: "2px 10px 2px 60px",
                             placewieght: "500",
                           }}
-                         
                           placeholder={t("Выберите филиалы")}
                           margin={{
                             laptop: "20px 0 25px",

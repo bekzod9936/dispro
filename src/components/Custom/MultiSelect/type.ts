@@ -8,6 +8,7 @@ export interface Props {
  
   options?: { value?: any; label?: any; name?: any }[];
   isMulti?: boolean;
+  isBranchHeight?:boolean;
   error?: boolean;
   autoFocus?: boolean;
   className?: any;
