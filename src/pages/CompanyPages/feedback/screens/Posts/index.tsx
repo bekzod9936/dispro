@@ -27,6 +27,7 @@ import { IconButton } from '@material-ui/core';
 import ChatPlace from '../../components/ChatPlace';
 import { CHAT_TYPES, SOCKET_EVENT } from 'services/constants/chat';
 import {
+  setBadgeStorePost,
   setChatClientHistory,
   setChosenListUser,
   setMessagesFeedBack,
@@ -76,7 +77,6 @@ import {
   WrapScript,
 } from '../../style';
 import FullModal from 'components/Custom/FullModal';
-import useDelete from '../../hooks/useDelete';
 
 interface StateProps {
   chosenValues?: any;
@@ -170,7 +170,6 @@ const Posts = () => {
   }, [chosenClient]);
 
   const { resChatClients, scrollToTop } = useChatClients();
-
   useEffect(() => {
     if (values?.message !== undefined) {
       setState({ ...state, limit: words - values?.message?.length });
@@ -182,20 +181,20 @@ const Posts = () => {
   );
 
   useEffect(() => {
-    if (badgeStore?.id !== state.chosenValues.id) {
-      const a = messages.filter((v: any) => badgeStore?.id === v.id);
-      console.log(a);
-      setState({ ...state, chosenValues: badgeStore });
-      dispatch(setChatClientHistory([]));
-      dispatch(
-        setChosenListUser({
-          ...choseListUser,
-          chosen: badgeStore,
-          isChoose: true,
-        })
-      );
+    if (messages.length > 0) {
+      const arr: any = messages.filter((v: any) => v.id === badgeStore?.id);
+      if (badgeStore?.id !== state.chosenValues.id) {
+        setState({ ...state, chosenValues: arr[0] });
+        dispatch(
+          setChosenListUser({
+            ...choseListUser,
+            isChoose: true,
+            chosen: arr[0],
+          })
+        );
+      }
     }
-  }, [badgeStore]);
+  }, [badgeStore, messages]);
 
   useEffect(() => {
     setUsers(messages);
@@ -221,8 +220,11 @@ const Posts = () => {
     if (state.chosenValues.id !== undefined) {
       dispatch(setChatClientHistory([newMassage, ...histories]));
       if (CHAT_TYPES.CLIENT_TO_PARTNER === newMassage.chatType) {
-        resBadge.refetch();
-        readChat.mutate([newMassage?.id]);
+        readChat.mutate([newMassage?.id], {
+          onSuccess: () => {
+            resBadge.refetch();
+          },
+        });
       }
     }
   }, [newMassage]);

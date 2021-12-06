@@ -155,6 +155,7 @@ const Support = () => {
 
   const findScrollHeight = (e: any) => {
     e.preventDefault();
+
     setScrollHeight(Math.abs(e.target.scrollTop));
   };
 
