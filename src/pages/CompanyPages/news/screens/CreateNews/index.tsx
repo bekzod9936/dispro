@@ -186,7 +186,7 @@ const CreateNews = () => {
       pushUpTitle: optionalFields.push ? data.descriptionPush : "",
     };
     setStartDate(width > 600 ? data.startDate : filter?.regDate?.regDateFrom);
-    setSubmit(true);
+    setSubmit(width > 600 && data.startDate ? true: filter?.regDate?.regDateFrom ? true : false);
     setFormData(newsData);
   };
 
