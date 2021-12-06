@@ -3,7 +3,7 @@ import { Controller, useFieldArray } from "react-hook-form";
 
 //assets and style
 import { ReactComponent as ArrowBack } from "assets/icons/arrow_left.svg";
-import { HBreak } from "../../styles";
+import { HBreak, SpinnerDiv } from "../../styles";
 import { SaveIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
 import {
   AddIconSettings,
@@ -56,6 +56,7 @@ import { IconButton } from "@material-ui/core";
 import useReferalData from "./hooks/useReferalData";
 import useWindowWidth from "services/hooks/useWindowWidth";
 import ReferalCard from "./components/ReferalCard";
+import Spinner from "components/Helpers/Spinner";
 
 const ReferalProgrammSection = () => {
   const { t } = useTranslation();
@@ -75,6 +76,10 @@ const ReferalProgrammSection = () => {
     levelsRef,
     referalRef,
     handleClick,
+    isLoading,
+    loadingReferal,
+    fetchingReferal,
+    isFetching,
   } = useReferalData();
 
   //form field array
@@ -286,6 +291,13 @@ const ReferalProgrammSection = () => {
       return null;
     }
   };
+
+  if(loadingReferal || isLoading || fetchingReferal ||
+    isFetching) {
+    return <SpinnerDiv>
+      <Spinner />
+    </SpinnerDiv>
+  }
 
   return (
     <GridContainer>
