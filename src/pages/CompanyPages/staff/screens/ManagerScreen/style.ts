@@ -10,7 +10,8 @@ export const Text = styled.p`
   font-style: normal;
   font-weight: normal;
   font-size: 18px;
-  width: 480px;
+  width: 530px;
+  line-height: 150%;
 `;
 
 export const Break = styled.div`
