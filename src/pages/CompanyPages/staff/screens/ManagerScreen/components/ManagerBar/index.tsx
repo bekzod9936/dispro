@@ -67,7 +67,7 @@ const ManagerBar: React.FC<any> = ({}) => {
 
 	//   Комментарий
 	const staffsDiv = () => {
-		if (selectedManagers?.length) {
+		if (selectedManagers?.length === 1) {
 			return (
 				<ManagerCard>
 					<UpSide>
