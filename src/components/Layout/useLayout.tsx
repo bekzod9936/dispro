@@ -59,7 +59,6 @@ const useLayout = ({ id }: LProps) => {
     () => fetchLimitFinance({ companyId, currency }),
     {
       onSuccess: (data) => {
-        console.log(data);
         dispatch(setAccounts(data?.data?.data?.accounts));
         setLimit({ limit: data?.data?.data?.accounts[0]?.limit });
         setBalance({ balance: data?.data?.data?.accounts[0]?.balance });

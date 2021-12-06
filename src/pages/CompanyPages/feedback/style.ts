@@ -90,7 +90,7 @@ export const MainWrapper = styled.div`
     position: absolute;
     top: 15px;
     bottom: 15px;
-    right: 25%;
+    right: 26%;
   }
 
   div.review {
@@ -144,7 +144,7 @@ export const MainWrapper = styled.div`
 `;
 
 export const Wrapper = styled.div`
-  width: ${({ reviews }: RProps) => (reviews ? '74%' : '100%')};
+  width: ${({ reviews }: RProps) => (reviews ? '72%' : '100%')};
   @media (max-width: ${device.mobile}) {
     width: 100%;
   }

@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import { setChosenListUser } from 'services/redux/Slices/feedback';
 import useChatClients from '../../screens/Posts/useChatClients';
 import useDelete from '../../hooks/useDelete';
+import blockChatDeletion from 'assets/images/blockChatDeletion.png';
 import {
   Delete,
   Link,
@@ -20,6 +21,9 @@ import {
   ModalWrap,
   ModalText,
   CloseIcon,
+  Img,
+  WrapWarning,
+  Texts,
 } from './style';
 
 const Dots = () => {
@@ -28,6 +32,7 @@ const Dots = () => {
   const dispatch = useAppDispatch();
   const [closeFun, setCloseFun] = useState<any>();
   const [open, setOpen] = useState(false);
+  const [openWaring, setOpenWarning] = useState(false);
   const chosen = useAppSelector(
     (state) => state.feedbackPost.chosenListUser?.chosen
   );
@@ -77,7 +82,7 @@ const Dots = () => {
           <Link>{t('sharelink')}</Link>
           <Delete
             onClick={() => {
-              setOpen(true);
+              setOpenWarning(true);
               closeFun.close();
             }}
           >
@@ -85,10 +90,29 @@ const Dots = () => {
           </Delete>
         </SelectWrap>
       </Popover>
+      <Modal open={openWaring}>
+        <WrapWarning>
+          <Img src={blockChatDeletion} alt='defImage' />
+          <span className='title'> {t('chatdeletewarning')}</span>
+          <span className='text'> {t('chatdeletewarning1')}</span>
+
+          <Button
+            onClick={() => {
+              setOpen(true);
+              setOpenWarning(false);
+            }}
+            buttonStyle={{ shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)' }}
+          >
+            {t('continue')}
+          </Button>
+        </WrapWarning>
+      </Modal>
       <Modal open={open}>
         <ModelContent>
-          <ModelTitle> {t('areyousuredeletechat')}</ModelTitle>
-          <ModalText>{t('deletechatsaveinclients')}</ModalText>
+          <Texts>
+            <ModelTitle> {t('areyousuredeletechat')}</ModelTitle>
+            <ModalText>{t('deletechatsaveinclients')}</ModalText>
+          </Texts>
           <ModalWrap>
             <Button
               buttonStyle={{

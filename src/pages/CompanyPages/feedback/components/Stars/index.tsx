@@ -13,7 +13,7 @@ import {
 
 const Stars = () => {
   const { t } = useTranslation();
-  const ratings = useAppSelector((state) => state.feedbackPost.ratings);
+  const ratings: any = useAppSelector((state) => state.feedbackPost.ratings);
   const rate = useAppSelector((state) => state.feedbackPost.averageRating);
 
   return (
@@ -23,6 +23,8 @@ const Stars = () => {
         <Grade title={t('totalratings')} rate={rate} total={true} />
         <Rate>{t('rate')}</Rate>
         {[5, 4, 3, 2, 1].map((v: any, i: number) => {
+          const ss = ratings.filter((a: any) => a.rating === v);
+          const color: any = ss.length !== 0 ? true : false;
           return (
             <WrapStars>
               <WrapIconStart>
@@ -33,48 +35,14 @@ const Stars = () => {
                   ))}
               </WrapIconStart>
               <WrapStartT>
-                <RateText
-                  colort={
-                    ratings?.length
-                      ? ratings[i]?.percentage
-                        ? true
-                        : false
-                      : null
-                  }
-                >
+                <RateText colort={color}>
                   &middot;
-                  {ratings?.length
-                    ? ratings[i]?.percentage
-                      ? `${ratings[i]?.percentage}%`
-                      : '0%'
-                    : null}
+                  {ss.length !== 0 ? `${ss[0]?.percentage}%` : '0%'}
                 </RateText>
-                <RateText
-                  colort={
-                    ratings?.length
-                      ? ratings[i]?.percentage
-                        ? true
-                        : false
-                      : null
-                  }
-                >
-                  {ratings?.length
-                    ? ratings[i]?.amount
-                      ? `${ratings[i]?.amount} `
-                      : '0 '
-                    : null}
+                <RateText colort={color}>
+                  {ss.length !== 0 ? `${ss[0]?.amount} ` : '0 '}
                 </RateText>
-                <RateText
-                  colort={
-                    ratings?.length
-                      ? ratings[i]?.percentage
-                        ? true
-                        : false
-                      : null
-                  }
-                >
-                  {t('evaluations')}
-                </RateText>
+                <RateText colort={color}>{t('evaluations')}</RateText>
               </WrapStartT>
             </WrapStars>
           );

@@ -5,8 +5,10 @@ export interface Props {
   isClearable?: boolean;
   isSearchable?: boolean;
   name?: string;
+ 
   options?: { value?: any; label?: any; name?: any }[];
   isMulti?: boolean;
+  isBranchHeight?:boolean;
   error?: boolean;
   autoFocus?: boolean;
   className?: any;
@@ -33,6 +35,7 @@ export interface Props {
     desktop?: number;
   };
   selectStyle?: {
+    maxHeight?:string | number;
     color?: string;
     bgcolor?: string;
     weight?: string | number;

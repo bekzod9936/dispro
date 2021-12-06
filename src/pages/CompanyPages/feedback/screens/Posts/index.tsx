@@ -170,6 +170,7 @@ const Posts = () => {
   }, [chosenClient]);
 
   const { resChatClients, scrollToTop } = useChatClients();
+
   useEffect(() => {
     if (values?.message !== undefined) {
       setState({ ...state, limit: words - values?.message?.length });
@@ -182,8 +183,17 @@ const Posts = () => {
 
   useEffect(() => {
     if (badgeStore?.id !== state.chosenValues.id) {
+      const a = messages.filter((v: any) => badgeStore?.id === v.id);
+      console.log(a);
       setState({ ...state, chosenValues: badgeStore });
       dispatch(setChatClientHistory([]));
+      dispatch(
+        setChosenListUser({
+          ...choseListUser,
+          chosen: badgeStore,
+          isChoose: true,
+        })
+      );
     }
   }, [badgeStore]);
 

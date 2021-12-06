@@ -9,5 +9,6 @@ export const notify = (text: string) => {
     pauseOnHover: true,
     draggable: true,
     progress: undefined,
+    progressClassName: "toastProgress",
   });
 };
