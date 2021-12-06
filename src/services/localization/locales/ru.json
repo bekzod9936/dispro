@@ -143,7 +143,7 @@
   "downloadPNG": "Скачать PNG",
   "copyLink": "Скопировать ссылку",
   "edit": "Редактировать",
-  "sure_want_delete?": "Вы действительно хотите удалить промокод?",
+  "sure_want_delete?": "Вы действительно хотите удалить QR-код?",
   "delete": "Удалить",
   "aboutCompany": "О компании",
   "address": "Адреса",
@@ -443,7 +443,7 @@
   "comments": "Отзывы",
   "totalgradecashier": "Общая оценка кассира",
   "forexample": "Например",
-  "empty_setting_text": "Выберите подходящую вам, программу лояльности",
+  "empty_setting_text": "Выберите подходящую вам программу лояльности",
   "lastPurchase": "Последняя покупка",
   "byRecommendation": "По рекомендации",
   "addNote": "Добавить заметку",
@@ -538,5 +538,7 @@
   "areyousuredeletechat": "Вы действительно хотите удалить  чат?",
   "deletechatsaveinclients": "После удаления чата, переписка на стороне клиента сохранится",
   "thereisnomessage": "У Вас пока нет сообщений",
-  "notfoundsearch": "За выбранный период нет данных"
+  "notfoundsearch": "За выбранный период нет данных",
+  "qrCodeForPayment": "QR-код для оплаты",
+  "saved": "Сохранено"
 }

@@ -127,6 +127,7 @@ const LoyaltyProgramSection = () => {
     !isFetching &&
     !cashbackFetching &&
     !discountFetching;
+
   const cashbackActive =
     active.active === "cashback" ||
     activeCheck === "cashback" ||
@@ -494,6 +495,7 @@ const LoyaltyProgramSection = () => {
                                 defaultValue={base_loyality?.max_percent}
                                 type="string"
                                 field={field}
+                                max="100"
                                 message={t("requiredField")}
                                 error={errors.max_percent?.type === "required"}
                               />
