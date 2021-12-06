@@ -45,7 +45,7 @@ export const Wrap = styled.div`
     padding: 0px 15px;
   }
   @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
-    padding-top: 20px;
+    padding-top: 0px;
     padding-right: 25px;
     padding-left: 25px;
   }
