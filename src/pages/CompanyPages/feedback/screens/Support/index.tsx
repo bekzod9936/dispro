@@ -179,7 +179,7 @@ const Support = () => {
 
   const fun = async () => {
     await dispatch(setChatSupportHistory([newMassage, ...histories]));
-    await scrollToTop();
+    await setTimeout(() => scrollToTop(), 500);
   };
 
   useEffect(() => {
@@ -200,7 +200,7 @@ const Support = () => {
 
   const funScrollDown = async (message: any) => {
     await setNewMassage(message);
-    await scrollToTop();
+    await setTimeout(() => scrollToTop(), 500);
   };
 
   const onSubmit = (e: any) => {
