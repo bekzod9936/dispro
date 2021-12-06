@@ -482,6 +482,9 @@ export const UpSide = styled.div`
     @media (max-width: ${device.mobile}) {
       height: 100%;
       width: 100%;
+      ::-webkit-scrollbar {
+    width: 5px;
+    }
     }
     
 `
