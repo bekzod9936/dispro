@@ -24,6 +24,8 @@ export const LaptopFilterNews=({handleOpenNews,searchNews,filterByDate}:FilterNe
         alignItems="center"
         margin="0"
       >
+        <div style={{display:'flex'}}>
+        <div>
         <Button
           onClick={handleOpenNews}
           buttonStyle={{
@@ -43,32 +45,31 @@ export const LaptopFilterNews=({handleOpenNews,searchNews,filterByDate}:FilterNe
         >
           {t("Создать")}
         </Button>
+        </div>
         {filterByDate &&   <div style={{ width: "20px" }} />}
-        {filterByDate &&   <DatePcker
+        <div>
+    
+        {filterByDate &&   <DatePcker  margin="0 0 20px 0"
          height={{
             planshet:45,
          }
+        
          }
             onChange={async (e: any) => {filterByDate(e)}}
           />}
-      <div style={{ width: "20px" }} />
-      {filterByDate ? <Input
-          inputStyle={{ border: "none", height: { desktop: 50 } }}
-          IconStart={<SearchIcon style={{ marginLeft: 20 }} />}
-          value={query}
-          placeholder="Поиск по новостям"
-          onChange={(e) => searchNews(e)}
-          width={{ maxwidth: 280 }}
-        />: 
+          </div>
+          <div style={{ width: "20px" }} />
+          <div>
         <Input
         inputStyle={{ border: "none", height: { desktop: 50 } }}
         IconStart={<SearchIcon style={{ marginLeft: 20 }} />}
         value={query}
         placeholder="Поиск по новостям"
         onChange={(e) => searchNews(e)}
-        width={{ maxwidth: 500 }}
-      />}
-       
+        width={{minwidth:300, maxwidth: 500 }}
+      />
+       </div>
+       </div>
       </Flex>
     )
 }
