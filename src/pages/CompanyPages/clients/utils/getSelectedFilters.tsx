@@ -155,7 +155,7 @@ export const useHandleGetFilters = ({ filters, handleRemove, referals }: IProps)
     result.push(
       <SelectedFilter>
         <p>
-          {t("status")}: {clientLevels.find(el => el.number == status).name}
+          {t("status")}: {t(clientLevels.find(el => el.number == status).name)}
         </p>
         <RemoveFilterBtn onClick={() => handleRemove("status")} />
       </SelectedFilter>
