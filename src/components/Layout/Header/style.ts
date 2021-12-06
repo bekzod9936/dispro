@@ -212,8 +212,9 @@ export const Wrap = styled.div`
 export const Title = styled.div`
   font-style: normal;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 22px;
   color: #223367;
+  line-height: 26px;
   margin-left: 15px;
   margin-bottom: 5px;
   white-space: nowrap;

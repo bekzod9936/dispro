@@ -45,7 +45,7 @@ const Badge = () => {
   const dispatch = useAppDispatch();
   const [open, setOpen] = useState<boolean>(false);
   const history = useHistory();
-  const currentYear: any = new Date().getFullYear();
+
   dayjs.extend(isYesterday);
   dayjs.extend(isToday);
 

@@ -67,7 +67,7 @@ const ManagerBar: React.FC<any> = ({}) => {
 
 	//   Комментарий
 	const staffsDiv = () => {
-		if (selectedManagers?.length) {
+		if (selectedManagers?.length === 1) {
 			return (
 				<ManagerCard>
 					<UpSide>
@@ -110,7 +110,7 @@ const ManagerBar: React.FC<any> = ({}) => {
 								<Button
 									endIcon={<EditIcon />}
 									buttonStyle={{
-										bgcolor: 'rgba(96, 110, 234, 0.1)',
+										bgcolor: 'transparent',
 										color: '#606EEA',
 									}}
 									onClick={() => {
@@ -125,8 +125,8 @@ const ManagerBar: React.FC<any> = ({}) => {
 						<ManagerRow justifyContent='center'>
 							<Button
 								buttonStyle={{
+									bgcolor: 'rgba(96, 110, 234, 0.1)',
 									color: '#606EEA',
-									bgcolor: '#fff',
 								}}
 								onClick={() => {
 									roleManager.mutate(selectedManagers[0].id);

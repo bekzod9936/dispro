@@ -685,6 +685,7 @@ export const FormRow = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  padding:0px 0px 20px 0;
 `;
 
 
@@ -780,6 +781,17 @@ export const Container = styled.div`
 export const Wrapper = styled.div`
     width: 100%;
     height: 100%;
+    @media (max-width: ${device.planshet}) {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      z-index: 2500;
+      display: flex;
+      align-items: center;
+      orientation: portret;
+    }
 `
 
 export const UpSide = styled.div`

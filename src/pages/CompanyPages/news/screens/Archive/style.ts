@@ -12,6 +12,12 @@ export const WrapSpinner = styled.div`
   overflow-y: auto;
   position: relative;
   overflow-x: hidden;
+  @media (min-width:${device.mobile})and (max-width: ${device.planshet}) {
+    padding: 200px 0 0 10px;
+  }
+  @media (max-width: ${device.mobile}) {
+    padding: 150px 0 0 10px;
+  }
   &::-webkit-scrollbar {
     appearance: none;
     display: none;
@@ -45,7 +51,7 @@ export const Wrap = styled.div`
     padding: 0px 15px;
   }
   @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
-    padding-top: 20px;
+    padding-top: 0px;
     padding-right: 25px;
     padding-left: 25px;
   }

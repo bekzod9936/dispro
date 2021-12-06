@@ -40,6 +40,9 @@ const useChatClients = () => {
   const chosenClient = useAppSelector(
     (state) => state.feedbackPost.chosenClient
   );
+  const badgeStore = useAppSelector(
+    (state) => state.feedbackPost.badgeStorePost
+  );
 
   const resChatClients = useQuery('getClientsChat', fetchChatClients, {
     keepPreviousData: true,

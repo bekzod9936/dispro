@@ -177,9 +177,14 @@ const Support = () => {
     });
   }, [socket]);
 
+  const fun = async () => {
+    await dispatch(setChatSupportHistory([newMassage, ...histories]));
+    await scrollToTop();
+  };
+
   useEffect(() => {
     if (newMassage.id !== undefined) {
-      dispatch(setChatSupportHistory([newMassage, ...histories]));
+      fun();
       if (CHAT_TYPES.PARTNER_TO_MODERATOR !== newMassage.chatType) {
         resBadge.refetch();
         readChat.mutate([newMassage?.id]);
@@ -192,6 +197,11 @@ const Support = () => {
       setLimit(words - values?.message?.length);
     }
   }, [watch('message')]);
+
+  const funScrollDown = async (message: any) => {
+    await dispatch(setChatSupportHistory([message, ...histories]));
+    await scrollToTop();
+  };
 
   const onSubmit = (e: any) => {
     setLoading(true);
@@ -211,8 +221,7 @@ const Support = () => {
         (res: any) => {
           if (res.success) {
             setValue('message', '');
-            scrollToTop();
-            setNewMassage({
+            const message = {
               chatType: res?.data?.chatType,
               companyId: res?.data?.datacompanyId,
               createdAt: res?.data?.createdAt,
@@ -221,7 +230,8 @@ const Support = () => {
               msg: res?.data?.msg,
               status: res?.data?.status,
               toId: res?.data?.toId,
-            });
+            };
+            funScrollDown(message);
             setLoading(false);
           } else {
             setLoading(false);
@@ -466,6 +476,7 @@ const Support = () => {
                 </div>
               ) : (
                 <Messages id='scrollableDiv' onScroll={findScrollHeight}>
+                  <div ref={messagesStartRef} />
                   <InfiniteScroll
                     dataLength={histories?.length}
                     next={fetchHisFetchData}
@@ -495,7 +506,6 @@ const Support = () => {
                       </Divider>
                     }
                   >
-                    <div ref={messagesStartRef} />
                     {histories?.map((v: any) => {
                       return (
                         <MessageWrap type={v.chatType}>

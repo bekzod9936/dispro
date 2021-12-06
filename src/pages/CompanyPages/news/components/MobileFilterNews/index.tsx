@@ -23,7 +23,7 @@ export const MobileFilterNews = ({
   const query = useAppSelector((state) => state.news.query);
   return (
     <>
-      {width > 375 ? (
+      {width > 360 ? (
         <Flex
           width="100%"
           justifyContent="space-between"
@@ -31,7 +31,8 @@ export const MobileFilterNews = ({
           flexDirection="column"
           margin="0"
         >
-          <Flex width="100%" justifyContent="flex-start" alignItems="center">
+           <div style={{width:"100%",display:'flex'}}>
+        <div>
             <Button
               onClick={handleOpenNews}
               buttonStyle={{
@@ -50,7 +51,7 @@ export const MobileFilterNews = ({
             >
               {t("Создать ")}
             </Button>
-
+            </div>
             {filterByDate && (
               <DatePcker
                 onChange={async (e: any) => {
@@ -58,7 +59,7 @@ export const MobileFilterNews = ({
                 }}
               />
             )}
-          </Flex>
+  </div>
           <Flex
             width="100%"
             justifyContent="center"

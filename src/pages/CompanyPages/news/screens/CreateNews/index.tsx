@@ -186,7 +186,7 @@ const CreateNews = () => {
       pushUpTitle: optionalFields.push ? data.descriptionPush : "",
     };
     setStartDate(width > 600 ? data.startDate : filter?.regDate?.regDateFrom);
-    setSubmit(true);
+    setSubmit(width > 600 && data.startDate ? true: filter?.regDate?.regDateFrom ? true : false);
     setFormData(newsData);
   };
 
@@ -327,7 +327,7 @@ const CreateNews = () => {
                   />
                 )}
               />
-              {width > 1000 ? (
+              {width > 600 ? (
                 <WrapInputs>
                   <Label>{t("chose_date")}</Label>
                   <div>
@@ -374,54 +374,7 @@ const CreateNews = () => {
                     />
                   </div>
                 </WrapInputs>
-              ) : width > 600 && width <= 1000 ? (
-                <WrapInputs>
-                  <Label>{t("chose_date")}</Label>
-                  <div>
-                    <Controller
-                      name="startDate"
-                      control={control}
-                      rules={{
-                        required: true,
-                      }}
-                      render={({ field }) => (
-                        <Input
-                          field={field}
-                          type="date"
-                          min={todayDate}
-                          width={{ maxwidth: 400, minwidth: 100 }}
-                          error={!!errors.startDate}
-                          IconStart={<WrapDate>{t("from")}</WrapDate>}
-                          inputStyle={{
-                            inpadding: "0 2px 0 0",
-                          }}
-                        />
-                      )}
-                    />
-                    <Controller
-                      name="endDate"
-                      control={control}
-                      rules={{
-                        required: true,
-                      }}
-                      render={({ field }) => (
-                        <Input
-                          type="date"
-                          field={field}
-                          width={{ maxwidth: 400, minwidth: 100 }}
-                          error={!!errors.endDate}
-                          min={watch("startDate")}
-                          margin={{ laptop: "0 0 0 15px" }}
-                          IconStart={<WrapDate>{t("to")}</WrapDate>}
-                          inputStyle={{
-                            inpadding: "0 2px 0 0",
-                          }}
-                        />
-                      )}
-                    />
-                  </div>
-                </WrapInputs>
-              ) : (
+              ) :(
                 <WrapInputs>
                   <Label>{t("chose_date")}</Label>
                   <div>
@@ -553,6 +506,7 @@ const CreateNews = () => {
                   />
                 )}
               </PushWrapper>
+            
               <PushWrapper>
                 {optionalFields.push && (
                   <Controller
@@ -573,7 +527,7 @@ const CreateNews = () => {
                     )}
                   />
                 )}
-                
+               
               </PushWrapper>
               <PushWrapper>
                 <div style={{ marginBottom: "10px" }}>
@@ -615,8 +569,7 @@ const CreateNews = () => {
                   onChange={(e: any) => setChecked(e)}
                 />
               )}
-
-              {optionalFields.push && (
+                 {optionalFields.push && (
                 <FormRow>
                   <Controller
                     control={control}
@@ -626,6 +579,7 @@ const CreateNews = () => {
                         <MultiSelect
                           options={branches}
                           isMulti={true}
+                          isBranchHeight={width<600 ? true:false}
                           selectStyle={{
                             bgcolor: "#eff0fd",
                             border: "none",
@@ -636,8 +590,9 @@ const CreateNews = () => {
                           placeholder={t("Выберите филиалы")}
                           margin={{
                             laptop: "20px 0 25px",
-                          
+                            
                           }}
+                         
                           field={field}
                           isClearable={false}
                           icon={<MarketIcon />}
@@ -649,6 +604,9 @@ const CreateNews = () => {
                   />
                 </FormRow>
               )}
+                
+
+             
               {width <= 600 && (
                 <Buttons>
                   <div className="upside">

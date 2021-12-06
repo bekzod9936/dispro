@@ -224,7 +224,7 @@ const CropCustomModal = ({
           <Button
             disabled={imageUrl?.length < 6}
             onClick={handleSave}
-            endIcon={width > 1000 ? <SaveIcon /> : <SaveIconMobile />}
+            endIcon={width > 1000 ? <SaveIcon /> : <MobileUploadPhotoIcon />}
           >
             Сохранить
           </Button>
