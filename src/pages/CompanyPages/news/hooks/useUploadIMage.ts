@@ -19,7 +19,6 @@ export const useUploadImage = (handleSet: any) => {
     return new Blob([ia], { type: mimeString });
   };
 
-
   const { mutate, isLoading } = useMutation(
     (v: any) => uploadPhoto({ body: v }),
     {
