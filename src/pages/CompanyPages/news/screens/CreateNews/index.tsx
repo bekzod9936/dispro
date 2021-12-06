@@ -39,7 +39,7 @@ import {
   PlusIcon,
   UploadImage,
 } from "assets/icons/proposals/ProposalsIcons";
-import { SaveIcon,SaveIconMobile } from "assets/icons/news/newsIcons";
+import { SaveIcon, SaveIconMobile } from "assets/icons/news/newsIcons";
 import { days, genders, todayDate, nextDay } from "./constants";
 import useWindowWidth from "services/hooks/useWindowWidth";
 import {
@@ -93,7 +93,7 @@ const CreateNews = () => {
   const [formData, setFormData] = React.useState({});
   const [cancel, setCancel] = React.useState(false);
   const [startDate, setStartDate] = React.useState<any>();
-  const [validation,setValidation]=React.useState<any>(false);
+  const [validation, setValidation] = React.useState<any>(false);
   const [errorFileType, setErrorFileType] = React.useState<any>(false);
   const handleBack = () => {
     history.goBack();
@@ -133,10 +133,9 @@ const CreateNews = () => {
     }
   };
 
-
-  const cancelFormat=()=>{
+  const cancelFormat = () => {
     setErrorFileType(false);
-  }
+  };
 
   const handleOpenBlock = (e: any, action: "push") => {
     setOptionalFields((prev: IOptionFields) => ({
@@ -158,8 +157,9 @@ const CreateNews = () => {
   const submitNews = (data: any) => {
     let newsData = {
       title: data.name,
-      startLifeTime: width>600 ? data.startDate:filter?.regDate?.regDateFrom,
-      endLifeTime: width>600 ?  data.endDate:filter?.regDate?.regDateTo,
+      startLifeTime:
+        width > 600 ? data.startDate : filter?.regDate?.regDateFrom,
+      endLifeTime: width > 600 ? data.endDate : filter?.regDate?.regDateTo,
       description: data.description,
       ageFrom: parseInt(data.ageLimit),
       ageTo: 100,
@@ -167,7 +167,7 @@ const CreateNews = () => {
       couponIds: [],
       image: image,
       genderType: data.gender?.id,
-      pushUp: optionalFields.push &&data.descriptionPush,
+      pushUp: optionalFields.push && data.descriptionPush,
       settings: {
         weekDays:
           optionalFields.push && data?.days?.length
@@ -183,9 +183,9 @@ const CreateNews = () => {
             ? data.filialID.map((el: any) => el.value)
             : [],
       },
-      pushUpTitle: optionalFields.push ? data.descriptionPush:'',
+      pushUpTitle: optionalFields.push ? data.descriptionPush : "",
     };
-    setStartDate(width>600 ? data.startDate:filter?.regDate?.regDateFrom);
+    setStartDate(width > 600 ? data.startDate : filter?.regDate?.regDateFrom);
     setSubmit(true);
     setFormData(newsData);
   };
@@ -197,7 +197,6 @@ const CreateNews = () => {
     setCancel(false);
   };
   const submitData = () => {
-
     mutate(formData);
 
     setTimeout(() => history.goBack(), 1000);
@@ -213,7 +212,7 @@ const CreateNews = () => {
             onClick={handleBack}
             style={{ marginRight: "25px", cursor: "pointer" }}
           />
-          <Title>{t('Добавление новости')}</Title>
+          <Title>{t("Добавление новости")}</Title>
         </div>
       )}
       <UploadModal
@@ -239,7 +238,7 @@ const CreateNews = () => {
           {width <= 1000 && (
             <MobileHeader>
               <GoBackIcon onClick={handleBack} style={{ cursor: "pointer" }} />
-              <Title> {t('Добавление новости')}</Title>
+              <Title> {t("Добавление новости")}</Title>
             </MobileHeader>
           )}
           <Container>
@@ -318,7 +317,7 @@ const CreateNews = () => {
                   <TextArea
                     maxLength={800}
                     {...field}
-                    fontSize={width>1000 ? '18px':'14px'}
+                    fontSize={width > 1000 ? "18px" : "14px"}
                     message={t("requiredField")}
                     error={!!errors.description}
                     minHeight={"150px"}
@@ -328,7 +327,7 @@ const CreateNews = () => {
                   />
                 )}
               />
-              {width > 1000  ? (
+              {width > 1000 ? (
                 <WrapInputs>
                   <Label>{t("chose_date")}</Label>
                   <div>
@@ -343,7 +342,7 @@ const CreateNews = () => {
                           field={field}
                           type="date"
                           min={todayDate}
-                          width={{maxwidth:600,minwidth:10}}
+                          width={{ maxwidth: 600, minwidth: 10 }}
                           error={!!errors.startDate}
                           IconStart={<WrapDate>{t("from")}</WrapDate>}
                           inputStyle={{
@@ -362,7 +361,7 @@ const CreateNews = () => {
                         <Input
                           type="date"
                           field={field}
-                          width={{maxwidth:600,minwidth:10}}
+                          width={{ maxwidth: 600, minwidth: 10 }}
                           error={!!errors.endDate}
                           min={watch("startDate")}
                           margin={{ laptop: "0 0 0 15px" }}
@@ -375,8 +374,7 @@ const CreateNews = () => {
                     />
                   </div>
                 </WrapInputs>
-              ) : width > 600 && width<=
-              1000 ? (
+              ) : width > 600 && width <= 1000 ? (
                 <WrapInputs>
                   <Label>{t("chose_date")}</Label>
                   <div>
@@ -391,7 +389,7 @@ const CreateNews = () => {
                           field={field}
                           type="date"
                           min={todayDate}
-                          width={{maxwidth:400,minwidth:100}}
+                          width={{ maxwidth: 400, minwidth: 100 }}
                           error={!!errors.startDate}
                           IconStart={<WrapDate>{t("from")}</WrapDate>}
                           inputStyle={{
@@ -410,7 +408,7 @@ const CreateNews = () => {
                         <Input
                           type="date"
                           field={field}
-                          width={{maxwidth:400,minwidth:100}}
+                          width={{ maxwidth: 400, minwidth: 100 }}
                           error={!!errors.endDate}
                           min={watch("startDate")}
                           margin={{ laptop: "0 0 0 15px" }}
@@ -423,43 +421,55 @@ const CreateNews = () => {
                     />
                   </div>
                 </WrapInputs>
-              ):(
+              ) : (
                 <WrapInputs>
                   <Label>{t("chose_date")}</Label>
-                  <div >
-                  <CustomDatePicker
-              margin="0 15px 0 0"
-              isFilter
-              text={t("from")}
-              error={validation && !filter?.regDate?.regDateFrom ? true:false}
-              minDate={todayDate}
-              maxDate={filter?.regDate?.regDateTo}
-              onChange={(e) => {
-                let date = "" + e.year + "-" + e.month.number + "-" + e.day;
-                setFilter((prev: any) => ({
-                  ...prev, regDate: {
-                    ...prev["regDate"],
-                    regDateFrom: date
-                  }
-                }))
-              }}
-              value={filter?.regDate?.regDateFrom} />
-            <CustomDatePicker
-              isFilter
-              error={validation && !filter?.regDate?.regDateTo ? true:false}
-              text={t("to")}
-              minDate={filter?.regDate?.regDateFrom}
-              onChange={(e) => {
-                let date = "" + e.year + "-" + e.month.number + "-" + e.day;
-                setFilter((prev: any) => ({
-                  ...prev, regDate: {
-                    ...prev["regDate"],
-                    regDateTo: date
-                  }
-                }))
-              }}
-              value={filter?.regDate?.regDateTo} />
-              </div>
+                  <div>
+                    <CustomDatePicker
+                      margin="0 15px 0 0"
+                      isFilter
+                      text={t("from")}
+                      error={
+                        validation && !filter?.regDate?.regDateFrom
+                          ? true
+                          : false
+                      }
+                      minDate={todayDate}
+                      maxDate={filter?.regDate?.regDateTo}
+                      onChange={(e) => {
+                        let date =
+                          "" + e.year + "-" + e.month.number + "-" + e.day;
+                        setFilter((prev: any) => ({
+                          ...prev,
+                          regDate: {
+                            ...prev["regDate"],
+                            regDateFrom: date,
+                          },
+                        }));
+                      }}
+                      value={filter?.regDate?.regDateFrom}
+                    />
+                    <CustomDatePicker
+                      isFilter
+                      error={
+                        validation && !filter?.regDate?.regDateTo ? true : false
+                      }
+                      text={t("to")}
+                      minDate={filter?.regDate?.regDateFrom}
+                      onChange={(e) => {
+                        let date =
+                          "" + e.year + "-" + e.month.number + "-" + e.day;
+                        setFilter((prev: any) => ({
+                          ...prev,
+                          regDate: {
+                            ...prev["regDate"],
+                            regDateTo: date,
+                          },
+                        }));
+                      }}
+                      value={filter?.regDate?.regDateTo}
+                    />
+                  </div>
                 </WrapInputs>
               )}
 
@@ -526,7 +536,12 @@ const CreateNews = () => {
                         multiline={true}
                         maxLength={100}
                         inputStyle={{
-                          height: { desktop: 120,planshet:90, laptop: 90, mobile: 120 },
+                          height: {
+                            desktop: 120,
+                            planshet: 90,
+                            laptop: 90,
+                            mobile: 120,
+                          },
                         }}
                         // IconEnd={width>600 ?
                         //   <WrapArea>
@@ -550,14 +565,15 @@ const CreateNews = () => {
                         isMulti={true}
                         options={days}
                         selectStyle={{
-                          weight:300,
-                          fontSize:{desktop:14},
+                          weight: 300,
+                          fontSize: { desktop: 14 },
                         }}
                         label="Укажите дни"
                       />
                     )}
                   />
                 )}
+                
               </PushWrapper>
               <PushWrapper>
                 <div style={{ marginBottom: "10px" }}>
@@ -620,6 +636,7 @@ const CreateNews = () => {
                           placeholder={t("Выберите филиалы")}
                           margin={{
                             laptop: "20px 0 25px",
+                          
                           }}
                           field={field}
                           isClearable={false}
@@ -636,8 +653,7 @@ const CreateNews = () => {
                 <Buttons>
                   <div className="upside">
                     <Button
-                    onClick={() => setCancel(true)}
-                  
+                      onClick={() => setCancel(true)}
                       endIcon={<MobileCancelIcon />}
                       buttonStyle={{
                         bgcolor: "rgba(96, 110, 234, 0.1)",
@@ -663,21 +679,20 @@ const CreateNews = () => {
                   </Button>
                 </Buttons>
               )}
-               
             </RightSide>
           </Container>
         </UpSide>
-        {width>600 && width <= 1000 && (
-            <DownSide>
-                <Button
-                onClick={() => setCancel(true)}
-             endIcon={<MobileCancelIcon />}
-             buttonStyle={{
-               bgcolor: "rgba(96, 110, 234, 0.1)",
-               color: "#606EEA",
-             }}
+        {width > 600 && width <= 1000 && (
+          <DownSide>
+            <Button
+              onClick={() => setCancel(true)}
+              endIcon={<MobileCancelIcon />}
+              buttonStyle={{
+                bgcolor: "rgba(96, 110, 234, 0.1)",
+                color: "#606EEA",
+              }}
             >
-             {t('Отмена')} 
+              {t("Отмена")}
             </Button>
             <Button
               type="submit"
@@ -691,8 +706,8 @@ const CreateNews = () => {
             >
               {t("Сохранить")}
             </Button>
-                </DownSide>
-              )}
+          </DownSide>
+        )}
         {width > 1000 && (
           <DownSide>
             <Button

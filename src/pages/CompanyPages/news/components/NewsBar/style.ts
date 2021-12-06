@@ -74,7 +74,7 @@ export const ContentInfo = styled.div`
 `;
 export const ContentButton = styled.div``;
 
-export const ButtonView=styled.div`
+export const ButtonView = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -297,20 +297,18 @@ export const TitleSideBar = styled.div`
     font-weight: 500;
   }
   span {
-    font-size: 14px; 
-    color: #223367 ;
+    font-size: 14px;
+    color: #223367;
   }
   @media (max-width: ${device.planshet}) {
     h4 {
-    white-space: pre-wrap;
-    word-break: break-all;
-    font-size: 14px;
-    color: #223367 !important;
-    font-weight: 400;
-    margin-bottom:20px;
-
-  }
-
+      white-space: pre-wrap;
+      word-break: break-all;
+      font-size: 14px;
+      color: #223367 !important;
+      font-weight: 400;
+      margin-bottom: 20px;
+    }
   }
 `;
 

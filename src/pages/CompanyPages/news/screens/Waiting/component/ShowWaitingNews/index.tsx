@@ -46,7 +46,7 @@ const ShowWaitingNews = () => {
     history.goBack();
   };
   const editNews = () => {
-    history.push('/news/edit');
+    history.push("/news/edit");
   };
 
   React.useEffect(() => {
@@ -72,13 +72,13 @@ const ShowWaitingNews = () => {
 
   const date =
     startDays +
-    ' ' +
+    " " +
     startmonthName +
-    ' - ' +
+    " - " +
     endDays +
-    ' ' +
+    " " +
     endmonthName +
-    '' +
+    "" +
     years;
 
   return (
@@ -86,11 +86,11 @@ const ShowWaitingNews = () => {
       <div style={{ display: "flex", marginBottom: 30, alignItems: "center" }}>
         <GoBackIcon
           onClick={handleBack}
-          style={{ marginRight: '25px', cursor: 'pointer' }}
+          style={{ marginRight: "25px", cursor: "pointer" }}
         />
         <Title>
           {newsById?.data?.title?.length > 30
-            ? newsById?.data?.title?.slice(0, 30) + '...'
+            ? newsById?.data?.title?.slice(0, 30) + "..."
             : newsById?.data?.title}
         </Title>
       </div>
@@ -105,13 +105,11 @@ const ShowWaitingNews = () => {
           <img className="iphoneImg" max-width="300px" src={iphone} />
           <PreviewContent>
             <h5>
-              <span >
-                {newsById?.data?.title}
-              </span>
+              <span>{newsById?.data?.title}</span>
             </h5>
-            <p >
+            <p>
               {newsById?.data?.description.length > 250
-                ? newsById?.data?.description?.slice(0, 250) + '...'
+                ? newsById?.data?.description?.slice(0, 250) + "..."
                 : newsById?.data?.description}
             </p>
             <div>
@@ -125,25 +123,19 @@ const ShowWaitingNews = () => {
               <ContentView>
                 <div style={{ padding: "0 0 0 50px" }}>
                   <h5>{t("Название новости")}</h5>
-                  <TitleNews>
-                    {newsById?.data?.title}
-                  </TitleNews>
+                  <TitleNews>{newsById?.data?.title}</TitleNews>
                   <h5>{t("Описание новости")}</h5>
                   {newsById?.data?.description?.length > 790 ? (
-                    <LongDescriptionNews
-                    
-                    >
+                    <LongDescriptionNews>
                       {newsById?.data?.description}
                     </LongDescriptionNews>
                   ) : (
-                    <DescriptionNews 
-                    >
+                    <DescriptionNews>
                       {newsById?.data?.description}
                     </DescriptionNews>
                   )}
 
                   <div style={{ display: "flex" }}>
-                 
                     <ContentButton
                       style={{
                         paddingRight: "5%",
@@ -160,11 +152,8 @@ const ShowWaitingNews = () => {
                       >
                         {t("Редактировать")}
                       </Button>
-                      </ContentButton>
-                    <ContentButton
-                      style={{paddingRight: "50%",
-                      }}
-                    >
+                    </ContentButton>
+                    <ContentButton style={{ paddingRight: "50%" }}>
                       <Button
                         onClick={() => setDeleteOpen(true)}
                         buttonStyle={{
@@ -197,7 +186,7 @@ const ShowWaitingNews = () => {
                     {newsById?.data?.ageFrom + "+"}
                   </p>
                 </div>
-                </ContentView>
+              </ContentView>
             </Content>
           </div>
         </Preview>
@@ -206,8 +195,8 @@ const ShowWaitingNews = () => {
             <h5>{t("Вы действительно хотите удалить новость?")}</h5>
             <p>{t("После удаления новости  данные будет утеряны")}</p>
             <Button
-              buttonStyle={{ color: '#223367', bgcolor: '#ffffff' }}
-              margin={{ laptop: '0 22px 0 0' }}
+              buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
+              margin={{ laptop: "0 22px 0 0" }}
               onClick={() => setDeleteOpen(false)}
               startIcon={<CancelIcon />}
             >
@@ -215,8 +204,8 @@ const ShowWaitingNews = () => {
             </Button>
             <Button
               buttonStyle={{
-                bgcolor: '#FF5E68 ',
-                shadow: '0px 4px 9px rgba(255, 94, 104, 0.46)',
+                bgcolor: "#FF5E68 ",
+                shadow: "0px 4px 9px rgba(255, 94, 104, 0.46)",
               }}
               onClick={() => onDelete(newsById?.data?.id)}
               startIcon={<DeleteIcon />}

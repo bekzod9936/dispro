@@ -217,8 +217,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
 
         <ContentButton>
           {location.pathname === "/news/waiting" && width > 1000 && (
-              <ButtonView>
-          
+            <ButtonView>
               <Button
                 onClick={() => showNew()}
                 buttonStyle={{
@@ -229,11 +228,10 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
               >
                 {t("Смотреть полностью")}
               </Button>
-     
-            </ButtonView> 
+            </ButtonView>
           )}
           {location.pathname === "/news/active" && width > 1000 && (
-               <ButtonView>
+            <ButtonView>
               <Button
                 onClick={() => showNew()}
                 buttonStyle={{
@@ -245,7 +243,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
               >
                 {t("Смотреть полностью")}
               </Button>
-              </ButtonView> 
+            </ButtonView>
           )}
           {location.pathname === "/news/active" &&
             width > 600 &&
@@ -267,14 +265,12 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
                 >
                   {t("Редактировать")}
                 </Button>
-                </ButtonView> 
+              </ButtonView>
             )}
           {location.pathname === "/news/waiting" && width > 1000 && (
             <ButtonView
               style={{
-             
                 marginTop: "25px",
-          
               }}
             >
               <Button
@@ -295,9 +291,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
             width <= 1000 && (
               <ButtonView
                 style={{
-                  
                   marginTop: "25px",
-                
                 }}
               >
                 <Button
@@ -314,7 +308,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
                 </Button>
                 <ButtonView
                   style={{
-                  marginTop: "25px",
+                    marginTop: "25px",
                   }}
                 >
                   <Button
