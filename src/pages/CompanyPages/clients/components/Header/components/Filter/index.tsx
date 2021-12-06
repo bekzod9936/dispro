@@ -42,7 +42,7 @@ export const MFilter = () => {
   }
   const getLevels = (arr: any) => {
     return arr?.map((el: any) => ({
-      label: el.name,
+      label: t(el.name),
       value: el.number
     }))
   }
