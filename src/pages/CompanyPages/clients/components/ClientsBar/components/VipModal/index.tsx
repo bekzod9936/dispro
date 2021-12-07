@@ -112,9 +112,10 @@ export const VipModal = ({ handleClose, refetch, state, id, clientInfo }: IProps
                         </p>
                     </div>}
                 <Input
-                    message={Number(percent) < 1 ? t("requiredField") : "Минимальный процент: 1"}
-                    error={error && Number(percent) < 1}
-                    margin={{ laptop: "0 0 30px 0" }}
+                    type='tel'
+                    message={(clientInfo.isBlocked || selectedClients.some(el => el.isPlBlocked)) ? 'Один или несколько клиентов заблокированы. Начислить спец статус можно только незаблокированным клиентам' : Number(percent) < 1 ? t("requiredField") : "Минимальный процент: 1"}
+                    error={error && Number(percent) < 1 || clientInfo.isBlocked || selectedClients.some(el => el.isPlBlocked)}
+                    margin={{ laptop: "0 0 55px 0" }}
                     value={percent}
                     onChange={handleChange} />
                 <div className="buttons">
@@ -126,7 +127,7 @@ export const VipModal = ({ handleClose, refetch, state, id, clientInfo }: IProps
                         Отменить
                     </Button>
                     <Button
-                        disabled={mutation.isLoading}
+                        disabled={mutation.isLoading || client.isPlBlocked || selectedClients.some(el => el.isPlBlocked) || clientInfo.isBlocked}
                         type="submit"
                         startIcon={<DoneIcon />}>
                         Готово
