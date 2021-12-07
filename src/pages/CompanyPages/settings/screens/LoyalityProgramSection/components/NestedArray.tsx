@@ -26,10 +26,9 @@ interface IProps {
   setValue?: any;
 }
 
-let render = 0;
 
 const NestedArray = ({ index, control, setValue }: IProps) => {
-  console.log(++render, "rendering");
+ 
   const { t } = useTranslation();
   const { labelType, loyalityOptions } = useDetail();
   const levels = useWatch({

@@ -123,6 +123,7 @@ const useReferalData = () => {
         refetchLevel();
         setNewState("old");
         handleClick();
+        notify(t("saved"));
       },
     }
   );
@@ -138,6 +139,7 @@ const useReferalData = () => {
       onSuccess: () => {
         refetch();
         refetchLevel();
+        notify(t("saved"));
       },
     }
   );
@@ -162,8 +164,6 @@ const useReferalData = () => {
           return;
         }
       }
-
-      console.log(data.referals, "first side");
 
       if (!block) {
         console.log("second side", data.referals);
