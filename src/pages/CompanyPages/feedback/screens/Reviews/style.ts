@@ -172,6 +172,8 @@ export const Mas = styled.div`
   color: #223367;
   font-weight: normal;
   font-size: 18px;
+  box-sizing: border-box;
+
   @media (max-width: ${device.planshet}) {
     column-count: 1;
   }
