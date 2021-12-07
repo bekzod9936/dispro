@@ -87,29 +87,32 @@ const Header = ({
 			</Popover>
 
 			{/* Settings side  */}
-			<Button
-				onClick={
-					location.pathname !== '/staff/manager/setting'
-						? handleOpenSetting
-						: () => {
-								console.log('Manager');
-						  }
-				}
-				buttonStyle={{
-					bgcolor: '#FFFFFF',
-					color: '#223367',
-					weight: 500,
-					height: { desktop: 60 },
-				}}
-				margin={{
-					desktop: '0 25px 0 0',
-					laptop: '0 25px 0 0',
-					planshet: '0 0 20px 0',
-				}}
-				startIcon={<SettingsIcon />}
-			>
-				{t('settings')}
-			</Button>
+			{location.pathname !== '/staff/manager' && (
+				<Button
+					onClick={
+						location.pathname !== '/staff/manager/setting'
+							? handleOpenSetting
+							: () => {
+									console.log('Manager');
+							  }
+					}
+					buttonStyle={{
+						bgcolor: '#FFFFFF',
+						color: '#223367',
+						weight: 500,
+						height: { desktop: 60 },
+					}}
+					margin={{
+						desktop: '0 25px 0 0',
+						laptop: '0 25px 0 0',
+						planshet: '0 0 20px 0',
+					}}
+					startIcon={<SettingsIcon />}
+				>
+					{t('settings')}
+				</Button>
+			)}
+
 			{/* Filter side  */}
 			{location.pathname !== '/staff/manager' && (
 				<Button
