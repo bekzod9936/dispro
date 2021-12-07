@@ -97,7 +97,7 @@ export const VipModal = ({ handleClose, refetch, state, id, clientInfo }: IProps
         return (
             <Wrapper onSubmit={onSubmit}>
                 <div className="header">
-                    <h3>Индивидуальный %</h3>
+                    <h3>{t('individualStatus')} %</h3>
                     <CloseIcon onClick={handleClose} />
                 </div>
                 {selectedClients.length > 1 ?
