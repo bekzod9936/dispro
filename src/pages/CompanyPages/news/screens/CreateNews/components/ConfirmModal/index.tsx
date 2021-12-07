@@ -27,7 +27,7 @@ export const ConfirmModal = ({
   let start = dayjs(startDate).format("DD.MM.YYYY");
   let today = dayjs(todayDate).format("DD.MM.YYYY");
 
-  console.log("startDate", start);
+  console.log("startDate", startDate);
   console.log("todayDate", today);
 
   const { width } = useWindowWidth();

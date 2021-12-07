@@ -216,12 +216,12 @@ const FilterClients = () => {
       title: t('status'),
       content: (
         <WrapStatus>
-          <Label>{t('chose_status')}</Label>
+          <Label>{t('statuschoose')}</Label>
           <WrapCheck>
             {status?.map((v: any) => (
               <CheckBox
                 key={v.label}
-                label={v.label}
+                label={v.label === 'BLOCKED' ? t('BLOCKED') : v.label}
                 checked={v?.[v?.name]}
                 name={v.name}
                 onChange={(e: any) => {

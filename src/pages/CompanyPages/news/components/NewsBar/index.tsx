@@ -87,7 +87,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
   return (
     <Wrapper>
       <Header>
-        <h6>{"Новость"}</h6>
+        <h6>{t("Новость")}</h6>
         <CloseIcon onClick={onClose} style={{ cursor: "pointer" }} />
       </Header>
       {/* <Preview> */}
@@ -152,10 +152,10 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
             <h5>{t("Информация")}</h5>
             <p>
               {currentNews?.data?.genderType === 0
-                ? "Для всех"
+                ? t("Для всех")
                 : currentNews?.data?.genderType === 1
-                ? "Только для мужчин"
-                : `Только для женщин`}
+                ? t("Только для мужчин")
+                : t("Только для женщин")}
             </p>
             <p>
               {t("Срок публикации")}: {currentNews?.date}
@@ -359,8 +359,6 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
                   buttonStyle={{
                     color: "#ffffff",
                     bgcolor: "#FF5E68",
-                    shadow: "0px 4px 9px rgba(255, 94, 104, 0.46)",
-                    // height: { planshet: 45 },
                   }}
                   endIcon={<DeletePlanshetIcon />}
                 >
