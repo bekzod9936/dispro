@@ -35,10 +35,21 @@ const useFeedBack = ({ filterValues }: Props) => {
 
   const resClients = useQuery(
     'feedBackClientsInfo',
-    () =>
-      fetchFeedBackClients({
-        url: `/rating-review?perPage=${filterValues.perPage}&page=${filterValues?.page}&rating=${filterValues.rating}&cashierId=${filterValues.cashierStaffId}`,
-      }),
+    () => {
+      console.log(filterValues.cashierStaffId, 'cha');
+      const rating: any =
+        filterValues.rating !== '' && filterValues.rating !== undefined
+          ? `&rating=${filterValues.rating}`
+          : '';
+      const cash: any =
+        filterValues.cashierStaffId !== '' &&
+        filterValues.cashierStaffId !== undefined
+          ? `&cashierId=${filterValues.cashierStaffId}`
+          : '';
+      return fetchFeedBackClients({
+        url: `/rating-review?perPage=${filterValues.perPage}&page=${filterValues?.page}${rating}${cash}`,
+      });
+    },
     {
       keepPreviousData: true,
       refetchOnWindowFocus: false,

@@ -2,6 +2,10 @@ import styled from 'styled-components';
 import { device } from 'styles/device';
 import { ReactComponent as Search } from 'assets/icons/searchblue.svg';
 
+interface Props {
+  isValue?: boolean;
+}
+
 export const Container = styled.div``;
 
 export const SearchIcon = styled(Search)`
@@ -23,10 +27,14 @@ export const SearchIcon = styled(Search)`
 
 export const FilterWarp = styled.div`
   display: flex;
-  flex-direction: row;
-  margin: 0 0 20px 0;
+  margin: ${({ isValue }: Props) => (isValue ? '0 0 55px 0' : '0 0 20px 0')};
+  grid-gap: 10px;
+  position: relative;
   @media (max-width: ${device.mobile}) {
-    margin: 0 0 10px 0;
+    margin: ${({ isValue }: Props) => (isValue ? '0 0 45px 0' : '0 0 10px 0')};
+  }
+  @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
+    margin: ${({ isValue }: Props) => (isValue ? '0 0 50px 0' : '0 0 20px 0')};
   }
 `;
 

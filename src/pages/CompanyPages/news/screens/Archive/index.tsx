@@ -22,6 +22,7 @@ import { countPagination } from "../../components/utils";
 import { LaptopFilterNews } from "../../components/LaptopFilterNews";
 import NoNewsLaptop from "../../components/NoNewsLaptop";
 import { MobileFilterNews } from "../../components/MobileFilterNews";
+import { NewPagination } from 'components/Custom/NewPagination';
 interface intialFilterProps {
   page?: number;
   perPage?: number;
@@ -152,13 +153,12 @@ const Archive = () => {
                       secondWord: t("новостей"),
                     })}
                   </Info>
-                  <Pagination
-                    page={filterValues.page}
-                    count={totalCount}
-                    onChange={handlechangePage}
-                    disabled={response.isLoading || response.isFetching}
-                    siblingCount={0}
-                  />
+                  <NewPagination
+              onChange={handlechangePage}
+              currentPage={Number(filterValues.page)}
+              totalCount={Number(totalCount)}
+            />
+         
                 </WrapPag>
               ) : null}
             </>
@@ -195,7 +195,7 @@ const Archive = () => {
               </SideBar>
               {list.length > 0 ? (
                 <WrapPag>
-                  <Info>
+                   <Info>
                     {t("shown")}
                     <span>{between}</span>
                     {t("from1")} <span>{totalNewsCount}</span>
@@ -205,13 +205,12 @@ const Archive = () => {
                       secondWord: t("новостей"),
                     })}
                   </Info>
-                  <Pagination
-                    page={filterValues.page}
-                    count={totalCount}
-                    onChange={handlechangePage}
-                    disabled={response.isLoading || response.isFetching}
-                    siblingCount={0}
-                  />
+                   <NewPagination
+              onChange={handlechangePage}
+              currentPage={Number(filterValues.page)}
+              totalCount={Number(totalCount)}
+            />
+               
                 </WrapPag>
               ) : null}
             </>
