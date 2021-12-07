@@ -214,7 +214,7 @@ const MobileTable = ({ refetch, data }: Props) => {
                       <WrapBox>
                         <p style={{ color: "#C7C7C7" }}>{t("Описание")}</p>
                         <Box>
-                          <BoxInfo>
+                          {info?.pushUp ?   <BoxInfo>
                             {info?.description?.length > 150 ? (
                               <p>
                                 {info?.description?.slice(0, 150) + "..."}
@@ -224,7 +224,14 @@ const MobileTable = ({ refetch, data }: Props) => {
                                 {info?.description}
                               </p>
                             )}
-                          </BoxInfo>
+                          </BoxInfo>:<BoxInfo>
+                           
+                              <p>
+                                {info?.description}
+                              </p>
+                           
+                          </BoxInfo>}
+                        
                         </Box>
                       </WrapBox>
                       <WrapBoxDetail>
@@ -249,7 +256,7 @@ const MobileTable = ({ refetch, data }: Props) => {
                           )}
                         </Box>
                       </WrapBoxDetail>
-
+{info?.pushUp &&
                       <WrapBoxDetail>
                         <p style={{ color: "#C7C7C7" }}>{t("Push up статистика")}</p>
                         <Box>
@@ -280,6 +287,8 @@ const MobileTable = ({ refetch, data }: Props) => {
                           </BoxinfoDetail>
                         </Box>
                       </WrapBoxDetail>
+      }
+      
                     </div>
                     <div>
                       {location.pathname === "/news/active" && (
