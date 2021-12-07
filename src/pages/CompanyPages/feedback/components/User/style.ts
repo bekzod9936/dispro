@@ -65,6 +65,10 @@ export const Container = styled.div`
   flex-direction: column;
   margin-bottom: 20px;
   min-width: 190px;
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+  break-inside: avoid;
+
   @media (max-width: ${device.mobile}) {
     border-radius: 12px;
     padding: 10px;
