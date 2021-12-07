@@ -153,6 +153,7 @@ export const MFilter = () => {
       content: (
         <>
           <InputFormat
+          type='tel'
             label={t("enter_number")}
             IconStart={<WrapPlaceHolder>{t("from")}</WrapPlaceHolder>}
             width={{
@@ -172,6 +173,7 @@ export const MFilter = () => {
             }))}
           />
           <InputFormat
+          type='tel'
             label={t("enter_number")}
             margin={{ laptop: "0 0 0 15px" }}
             IconStart={<WrapPlaceHolder>{t("to")}</WrapPlaceHolder>}
@@ -199,6 +201,7 @@ export const MFilter = () => {
       content: (
         <InputFormat
           maxLength="11"
+          type='tel'
           placeholder={t("notless")}
           onChange={(e) => setFilter((prev: any) => ({ ...prev, notless: e.target.value }))}
           label={t("enter_amount")}

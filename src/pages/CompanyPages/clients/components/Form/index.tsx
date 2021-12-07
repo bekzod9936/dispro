@@ -176,8 +176,9 @@ export const MobileForm = ({ open, action, onClose, client, refetch }: IProps) =
                             <Input
                                 label={t(content.inputLabel)}
                                 max="100"
+                                type='tel'
                                 error={percent === "0" || client.isBlocked || disabled}
-                                message={(client.isBlocked || disabled) ? 'Один или несколько клиентов заблокированы. Начислить спец статус можно только незаблокированным клиентам' : percent === "0" ? "Минимальный процент: 1%" : t("requiredField")}
+                                message={(client.isBlocked || disabled) ? 'Один или несколько клиентов заблокированы. Начислить спец статус можно только незаблокированным клиентамz' : percent === "0" ? "Минимальный процент: 1%" : t("requiredField")}
                                 margin={{
                                     mobile: "0 0 25px 0"
                                 }}
