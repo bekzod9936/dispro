@@ -200,7 +200,7 @@ const CreateNews = () => {
 
     setTimeout(() => history.goBack(), 1000);
   };
-
+ 
   return (
     <Wrapper>
       {width > 1000 && (
@@ -211,7 +211,7 @@ const CreateNews = () => {
             onClick={handleBack}
             style={{ marginRight: "25px", cursor: "pointer" }}
           />
-          <Title>{t("Добавление новости")}</Title>
+          <Title>{t('Добавление новости')}</Title>
         </div>
       )}
       <UploadModal
