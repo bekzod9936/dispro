@@ -81,14 +81,14 @@ const MobileTable = ({ refetch, data }: Props) => {
   const handleEdit = async (id: any) => {
     await dispatch(setSelectedNews(id));
     if (id) {
-      setTimeout(() => history.push("/news/edit"), 500);
+      setTimeout(() => history.push("/news/edit"), 1000);
     }
   };
 
   const handleRepair = async (id: any) => {
     await dispatch(setSelectedNews(id));
     if (id) {
-      setTimeout(() => history.push("/news/repair"), 500);
+      setTimeout(() => history.push("/news/repair"), 1000);
     }
   };
 

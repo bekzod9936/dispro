@@ -172,6 +172,7 @@ const EditNews = () => {
 
   console.log("filteredArray", filteredArray);
   const submitNews = (data: any) => {
+    console.log('data.gender.id',data.gender.id)
     let newsBody = {
       title: data.name,
       startLifeTime:
@@ -183,7 +184,7 @@ const EditNews = () => {
       ageUnlimited: false,
       couponIds: [],
       image: image,
-      genderType: data.gender.id,
+      genderType: data?.gender?.id===0 ||data?.gender?.id===1 ||data?.gender?.id===2 ? data?.gender?.id: newsById?.data?.genderType,
       pushUp: optionalFields.push,
       settings: {
         weekDays:
@@ -231,8 +232,16 @@ const EditNews = () => {
           : newsById?.data?.genderType === 0
           ? "Для всех"
           : "",
+        id:   newsById?.data?.genderType === 1
+        ? 1
+        : newsById?.data?.genderType === 2
+        ? 2
+        : newsById?.data?.genderType === 0
+        ? 0
+        : 0,
     },
   ];
+  console.log('genderType',genderType)
   
 
   const weekDays = newsById?.data?.settings?.weekDays?.map((el: any) => {
