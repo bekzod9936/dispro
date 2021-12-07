@@ -17,7 +17,8 @@ interface IProps {
         name: string,
         status: string,
         prevStatus: string,
-        prevPercent: string | number
+        prevPercent: string | number,
+        isBlocked: boolean
     }
 }
 export const VipModal = ({ handleClose, refetch, state, id, clientInfo }: IProps) => {
@@ -25,6 +26,7 @@ export const VipModal = ({ handleClose, refetch, state, id, clientInfo }: IProps
     const [percent, setPercent] = useState("")
     const [error, setError] = useState(false)
     const { selectedClients } = useAppSelector(state => state.clients)
+    const client = selectedClients[0]
     const queryClient = useQueryClient()
 
 
@@ -143,9 +145,10 @@ export const VipModal = ({ handleClose, refetch, state, id, clientInfo }: IProps
                     {selectedClients.length > 1 ? <p className="client">{"Выбрано клиентов: " + selectedClients.length}</p> : <p className="client">{clientInfo.name}<b>•</b><span>Статус: {"Спец" + " " + clientInfo.value}%</span></p>}
                 </div>
                 <Input
-                    message={Number(percent) < 1 ? t("requiredField") : "Минимальный процент: 1"}
-                    error={Number(percent) < 1}
-                    margin={{ laptop: "0 0 30px 0" }}
+                    type='tel'
+                    message={(clientInfo.isBlocked || selectedClients.some(el => el.isPlBlocked)) ? 'Один или несколько клиентов заблокированы. Начислить спец статус можно только незаблокированным клиентам' : Number(percent) < 1 ? t("requiredField") : "Минимальный процент: 1"}
+                    error={Number(percent) < 1 || clientInfo.isBlocked || selectedClients.some(el => el.isPlBlocked)}
+                    margin={{ laptop: "0 0 50px 0" }}
                     value={percent}
                     defaultValue={clientInfo.value?.toString()}
                     onChange={handleChange} />
@@ -158,7 +161,7 @@ export const VipModal = ({ handleClose, refetch, state, id, clientInfo }: IProps
                         Отменить
                     </Button>
                     <Button
-                        disabled={mutation.isLoading}
+                        disabled={mutation.isLoading || client.isPlBlocked || selectedClients.some(el => el.isPlBlocked) || clientInfo.isBlocked}
                         type="submit"
                         startIcon={<DoneIcon />}>
                         Готово
