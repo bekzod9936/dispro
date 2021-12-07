@@ -59,10 +59,16 @@ export const Container = styled.div`
   border-radius: 14px;
   padding: 20px;
   cursor: pointer;
-  display: flex;
-  flex-direction: column;
   height: fit-content;
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  min-width: 190px;
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+  break-inside: avoid;
+
   @media (max-width: ${device.mobile}) {
     border-radius: 12px;
     padding: 10px;
@@ -77,12 +83,14 @@ export const Header = styled.div`
 export const LeftHeader = styled.div`
   display: flex;
   align-items: center;
+  width: 100%;
 `;
 
 export const WrapText = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  width: 100%;
 `;
 
 export const UserName = styled.div`
@@ -279,4 +287,10 @@ export const WrapButton = styled.div`
     justify-content: center;
     align-items: flex-end;
   }
+`;
+
+export const WrapDates = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 `;
