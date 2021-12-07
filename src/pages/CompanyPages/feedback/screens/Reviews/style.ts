@@ -120,21 +120,6 @@ export const Img = styled.img`
   }
 `;
 
-export const WrapDef = styled.div`
-  color: #223367;
-  font-weight: normal;
-  font-size: 18px;
-  text-align: center;
-  grid-gap: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  flex: 1;
-  @media (max-width: ${device.mobile}) {
-    margin-top: 10px;
-    grid-gap: 15px;
-  }
-`;
-
 export const NoResult = styled.div`
   display: flex;
   flex: 1;
@@ -178,5 +163,16 @@ export const WrapPag = styled.div`
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
+  }
+`;
+
+export const Mas = styled.div`
+  column-count: 2;
+  column-gap: 25px;
+  color: #223367;
+  font-weight: normal;
+  font-size: 18px;
+  @media (max-width: ${device.planshet}) {
+    column-count: 1;
   }
 `;

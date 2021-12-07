@@ -9,6 +9,8 @@ import User from '../../components/User';
 import Spinner from 'components/Custom/Spinner';
 import useFeedBack from '../../hooks/useFeedBack';
 import { NewPagination } from 'components/Custom/NewPagination';
+import useWindowWidth from 'services/hooks/useWindowWidth';
+import Stars from '../../components/Stars';
 import {
   SearchIcon,
   FilterWarp,
@@ -16,13 +18,11 @@ import {
   Info,
   Content,
   Img,
-  WrapDef,
   WrapDefPhoto,
   NoResult,
   Container,
+  Mas,
 } from './style';
-import useWindowWidth from 'services/hooks/useWindowWidth';
-import Stars from '../../components/Stars';
 
 interface intialFilterProps {
   page?: number;
@@ -122,7 +122,7 @@ const Reviews = () => {
         <>
           {width > 600 ? null : <Stars />}
           <Content>
-            <WrapDef>
+            <Mas>
               {!searchFocus || inpuSearch === '' ? (
                 clients?.map((v: any) => <User value={v} />)
               ) : searchRes?.length === 0 ? (
@@ -130,7 +130,7 @@ const Reviews = () => {
               ) : (
                 searchRes?.map((v: any) => <User value={v} />)
               )}
-            </WrapDef>
+            </Mas>
             {clients.length > 0 ? (
               <WrapPag>
                 <Info>
