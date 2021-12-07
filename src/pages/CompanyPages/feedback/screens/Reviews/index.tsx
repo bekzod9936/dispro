@@ -53,6 +53,9 @@ const Reviews = () => {
     filterValues,
   });
 
+  console.log(resClients.isLoading, resClients.isFetching, 'aaaa');
+
+
   const handleSearch = (e: any) => {
     setInpuSearch(e.target.value);
 

@@ -56,7 +56,7 @@ const User = ({ value }: Props) => {
   const { width } = useWindowWidth();
 
   const [open, setOpen] = useState<boolean>(false);
-
+  dispatch(setChosenClientChat({ data: {}, choose: false }));
   const image = {
     alt: 'image',
     src: value.clientImage
