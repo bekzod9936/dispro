@@ -553,12 +553,14 @@
   "forMale":"Только для мужчин",
   "forFemale":"Только для женщин",
   "pushUpStatistics":"Push up статистика",
-  
   "afterDelete":"После удаления новости  данные будет утеряны",
   "newspaginationtitle":"новости",
   "newspaginationtitles":"новостей",
   "uploadPhoto":"Загрузить фото",
   "withPushNotification":"Использовать новость в формате Push-уведомления",
-  "periodNews":"Укажите период публикации новости"
-  
+  "periodNews":"Укажите период публикации новости",
+  "rating": "Оценка",
+  "star1": "звезда",
+  "star23": "звезды",
+  "star5": "звезд"
 }

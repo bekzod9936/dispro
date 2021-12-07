@@ -2,6 +2,10 @@ import styled from 'styled-components';
 import { device } from 'styles/device';
 import { ReactComponent as Search } from 'assets/icons/searchblue.svg';
 
+interface Props {
+  isValue?: boolean;
+}
+
 export const Container = styled.div``;
 
 export const SearchIcon = styled(Search)`
@@ -23,10 +27,14 @@ export const SearchIcon = styled(Search)`
 
 export const FilterWarp = styled.div`
   display: flex;
-  flex-direction: row;
-  margin: 0 0 20px 0;
+  margin: ${({ isValue }: Props) => (isValue ? '0 0 55px 0' : '0 0 20px 0')};
+  grid-gap: 10px;
+  position: relative;
   @media (max-width: ${device.mobile}) {
-    margin: 0 0 10px 0;
+    margin: ${({ isValue }: Props) => (isValue ? '0 0 45px 0' : '0 0 10px 0')};
+  }
+  @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
+    margin: ${({ isValue }: Props) => (isValue ? '0 0 50px 0' : '0 0 20px 0')};
   }
 `;
 
@@ -112,21 +120,6 @@ export const Img = styled.img`
   }
 `;
 
-export const WrapDef = styled.div`
-  color: #223367;
-  font-weight: normal;
-  font-size: 18px;
-  text-align: center;
-  grid-gap: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  flex: 1;
-  @media (max-width: ${device.mobile}) {
-    margin-top: 10px;
-    grid-gap: 15px;
-  }
-`;
-
 export const NoResult = styled.div`
   display: flex;
   flex: 1;
@@ -170,5 +163,18 @@ export const WrapPag = styled.div`
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
+  }
+`;
+
+export const Mas = styled.div`
+  column-count: 2;
+  column-gap: 25px;
+  color: #223367;
+  font-weight: normal;
+  font-size: 18px;
+  box-sizing: border-box;
+
+  @media (max-width: ${device.planshet}) {
+    column-count: 1;
   }
 `;

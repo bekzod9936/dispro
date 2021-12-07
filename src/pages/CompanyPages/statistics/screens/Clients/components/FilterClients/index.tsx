@@ -221,7 +221,13 @@ const FilterClients = () => {
             {status?.map((v: any) => (
               <CheckBox
                 key={v.label}
-                label={v.label === 'BLOCKED' ? t('BLOCKED') : v.label}
+                label={
+                  v.label === 'BLOCKED'
+                    ? t('BLOCKED')
+                    : v.label === 'VIP'
+                    ? t('VIP')
+                    : v.label
+                }
                 checked={v?.[v?.name]}
                 name={v.name}
                 onChange={(e: any) => {

@@ -98,7 +98,7 @@ export const MFilter = () => {
               margin="0 15px 0 0"
               isFilter
               text={t("from")}
-              maxDate={filter?.regDate?.regDateTo}
+              maxDate={filter?.regDate?.regDateTo || new Date()}
               onChange={(e) => {
                 let date = "" + e.year + "-" + e.month.number + "-" + e.day;
                 setFilter((prev: any) => ({
@@ -113,6 +113,7 @@ export const MFilter = () => {
               isFilter
               text={t("to")}
               minDate={filter?.regDate?.regDateFrom}
+              maxDate={new Date()}
               onChange={(e) => {
                 let date = "" + e.year + "-" + e.month.number + "-" + e.day;
                 setFilter((prev: any) => ({
@@ -153,7 +154,7 @@ export const MFilter = () => {
       content: (
         <>
           <InputFormat
-          type='tel'
+            type='tel'
             label={t("enter_number")}
             IconStart={<WrapPlaceHolder>{t("from")}</WrapPlaceHolder>}
             width={{
@@ -173,7 +174,7 @@ export const MFilter = () => {
             }))}
           />
           <InputFormat
-          type='tel'
+            type='tel'
             label={t("enter_number")}
             margin={{ laptop: "0 0 0 15px" }}
             IconStart={<WrapPlaceHolder>{t("to")}</WrapPlaceHolder>}
