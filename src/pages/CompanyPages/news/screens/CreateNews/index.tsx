@@ -166,7 +166,7 @@ const CreateNews = () => {
       couponIds: [],
       image: image,
       genderType: data.gender?.id,
-      pushUp: optionalFields.push && data.descriptionPush,
+      pushUp: optionalFields.push ?  data.descriptionPush:'',
       settings: {
         weekDays:
           optionalFields.push && data?.days?.length

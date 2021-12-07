@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import jwtDecode from "jwt-decode";
+import { handleAction } from "services/utils/handle_action";
 import { notify } from "services/utils/local_notification";
 //constants
 import { URL, VERSION } from "../../constants/config";
@@ -25,6 +26,7 @@ partnerApi.interceptors.request.use((config: AxiosRequestConfig) => {
   } else {
     config.headers.authorization = `Bearer ${companyToken}`;
   }
+  config.headers.action = handleAction(window.location.pathname);
   config.headers.langId = 1;
   config.headers.vers = VERSION;
   return config;
