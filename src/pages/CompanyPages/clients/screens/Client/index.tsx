@@ -120,6 +120,7 @@ const Client = () => {
                 <Modal open={vipModal}>
                     <VipModal
                         clientInfo={{
+                            isBlocked: client?.isPlBlocked || false,
                             name: currentClient?.clientInfo.firstName + " " + currentClient?.clientInfo.lastName,
                             prevPercent: currentClient?.clientInfo?.obtainProgramLoyalty?.percent + "",
                             prevStatus: currentClient?.clientInfo?.obtainProgramLoyalty?.levelName + "",
@@ -231,6 +232,7 @@ const Client = () => {
                                 <Modal open={vipModal}>
                                     <VipModal
                                         clientInfo={{
+                                            isBlocked: client?.isPlBlocked || false,
                                             name: client?.firstName + " " + client?.lastName,
                                             prevPercent: client?.obtainProgramLoyalty?.percent + "",
                                             prevStatus: client?.obtainProgramLoyalty?.levelName + "",

@@ -94,7 +94,7 @@ const clientsSlice = createSlice({
                     countRefer: el.addInfo.countRefer || "-",
                     sourceBy: el.addInfo.sourceBy,
                     purchaseCount: numberWith(el.addInfo.countOperation + "", " "),
-                    status: el.addInfo.status,
+                    status: el.addInfo.status === 'BLOCKED' ? 'Заблокирован' : el.addInfo.status === 'VIP' ? 'Спец' : el.addInfo.status,
                     lastPurchase: el.addInfo.lastPurchaseDate ? dayjs(el.addInfo.lastPurchaseDate).format("DD.MM.YYYY") : "-",
                     isBlocked: el.isPlBlocked
                 };
