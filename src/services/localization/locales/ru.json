@@ -548,6 +548,17 @@
   "chatdeletewarning1": "После удаления чата, переписка на стороне клиента сохранится",
   "BLOCKED": "Заблокированные",
   "VIP": "Спец",
-  "statuschoose": "Выберите статус"
+  "statuschoose": "Выберите статус",
+  "forAll":"Для всех",
+  "forMale":"Только для мужчин",
+  "forFemale":"Только для женщин",
+  "pushUpStatistics":"Push up статистика",
+  
+  "afterDelete":"После удаления новости  данные будет утеряны",
+  "newspaginationtitle":"новости",
+  "newspaginationtitles":"новостей",
+  "uploadPhoto":"Загрузить фото",
+  "withPushNotification":"Использовать новость в формате Push-уведомления",
+  "periodNews":"Укажите период публикации новости"
   
 }

@@ -22,11 +22,11 @@ export const WrapperModal = styled.div`
   }
   @media (max-width: ${device.mobile}) {
     max-width: 300px;
-    padding: 20px 15px;
+    padding: 20px 12px;
     h3 {
       font-size: 16px;
       font-weight: 500;
-      margin-bottom: 15px;
+      margin-bottom: 10px;
       color: #223367;
     }
     p {

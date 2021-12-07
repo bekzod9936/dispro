@@ -47,7 +47,7 @@ export const WaitingFilterNews = ({
         }}
         startIcon={<AddMobileIcon />}
       >
-        {t("Создать ")}
+        {t("create ")}
       </Button>
       {filterByDate && (
         <DatePcker

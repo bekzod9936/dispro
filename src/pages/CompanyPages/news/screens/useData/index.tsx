@@ -43,7 +43,7 @@ const useData = () => {
       v?.genderType === 1
         ? "Для мужчин"
         : v?.genderType === 2
-        ? "Для женщины"
+        ? "Для женщин"
         : "Для всех";
         return {
             col1:v?.title,

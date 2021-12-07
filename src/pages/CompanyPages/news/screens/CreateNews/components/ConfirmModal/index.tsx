@@ -41,12 +41,16 @@ export const ConfirmModal = ({
             <CloseIcon />
           </CloseButton>
         )}
-
-        <h3 style={{ marginRight: "20px" }}>
+      {width>600 ?      <h3 style={{ marginRight: "20px" }}>
           {start > today
             ? t(`Новость будет добавлена в раздел "В ожидании" `)
             : t("Новость будет опубликована сразу")}
-        </h3>
+        </h3>:     <h3 >
+          {start > today
+            ? t(`Новость будет добавлена в раздел "В ожидании" `)
+            : t("Новость будет опубликована сразу")}
+        </h3>}
+   
         <p>
           {start > today
             ? t(
