@@ -175,8 +175,8 @@ const EditNews = () => {
     let newsBody = {
       title: data.name,
       startLifeTime:
-        width > 600 ? data.startDate : filter?.regDate?.regDateFrom,
-      endLifeTime: width > 600 ? data.endDate : filter?.regDate?.regDateTo,
+        width > 1000 ? data.startDate : filter?.regDate?.regDateFrom,
+      endLifeTime: width > 1000 ? data.endDate : filter?.regDate?.regDateTo,
       description: data.description,
       ageFrom: parseInt(data.ageLimit),
       ageTo: 100,
@@ -204,11 +204,11 @@ const EditNews = () => {
     };
 
     let newsInfo = { newsBody, newsId };
-    if (width > 600) {
+    if (width > 1000) {
       mutate(newsInfo);
       setTimeout(() => history.push("/news/active"), 1000);
     }
-    if (width <= 600) {
+    if (width <= 1000) {
       if (
         validation &&
         filter?.regDate?.regDateFrom &&
@@ -405,7 +405,7 @@ const EditNews = () => {
                   />
                 )}
               />
-              {width > 600 ? (
+              {width > 1000 ? (
                 <WrapInputs>
                   <Label>{t("chose_date")}</Label>
                   <div>
@@ -462,7 +462,7 @@ const EditNews = () => {
                   <div>
                     <CustomDatePicker
                       margin="0 15px 0 0"
-                      isFilter
+                      isStyledDate
                       text={t("from")}
                       error={
                         validation && !filter?.regDate?.regDateFrom
@@ -473,9 +473,10 @@ const EditNews = () => {
                       maxDate={filter?.regDate?.regDateTo}
                       onChange={(e) => {
                         let date =
-                          "" + e.year + "-" + e.month.number + "-" + e.day;
+                          "" + e.year + "." + e.month.number + "." + e.day;
                         setFilter((prev: any) => ({
                           ...prev,
+                          
                           regDate: {
                             ...prev["regDate"],
                             regDateFrom: date,
@@ -486,7 +487,7 @@ const EditNews = () => {
                     />
 
                     <CustomDatePicker
-                      isFilter
+                     isStyledDate
                       error={
                         validation && !filter?.regDate?.regDateTo ? true : false
                       }
@@ -494,7 +495,7 @@ const EditNews = () => {
                       minDate={filter?.regDate?.regDateFrom}
                       onChange={(e) => {
                         let date =
-                          "" + e.year + "-" + e.month.number + "-" + e.day;
+                          "" + e.year + "." + e.month.number + "." + e.day;
                         setFilter((prev: any) => ({
                           ...prev,
                           regDate: {
@@ -705,9 +706,10 @@ const EditNews = () => {
                 color: "#606EEA",
               }}
             >
-              Отмена
+             {t("Отмена")} 
             </Button>
             <Button
+            onClick={() => setValidation(true)}
               type="submit"
               margin={{ laptop: "0 25px" }}
               endIcon={<SaveIconMobile />}
@@ -717,7 +719,7 @@ const EditNews = () => {
                 shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
               }}
             >
-              Сохранить
+              {t("Сохранить")}
             </Button>
           </DownSide>
         )}
