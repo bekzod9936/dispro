@@ -1,13 +1,14 @@
-import React from "react";
+import FallbackOnLazyLoad from "pages/Fallbacks/FallbackOnLazyLoad";
+import React, { Fragment, Suspense } from "react";
 //app_routes
 import AuthRoutes from "./AuthRoutes/index";
 import PrivateRoutes from "./PrivateRoutes/index";
 
 export const RenderAllRoutes: React.FC = () => {
   return (
-    <React.Fragment>
+    <Fragment>
       {AuthRoutes()}
-      {PrivateRoutes()}
-    </React.Fragment>
+      <Suspense fallback={<FallbackOnLazyLoad />}>{PrivateRoutes()}</Suspense>
+    </Fragment>
   );
 };
