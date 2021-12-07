@@ -26,7 +26,9 @@ partnerApi.interceptors.request.use((config: AxiosRequestConfig) => {
   } else {
     config.headers.authorization = `Bearer ${companyToken}`;
   }
-  config.headers.action = handleAction(window.location.pathname);
+  if (!config.url?.includes("core/staff-companies")) {
+    config.headers.action = handleAction(window.location.pathname);
+  }
   config.headers.langId = 1;
   config.headers.vers = VERSION;
   return config;
