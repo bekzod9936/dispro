@@ -210,7 +210,7 @@ export const MFilter = () => {
       title: t('status'),
       content: (
         <Radio
-          title={t("chose_status")}
+          title={t("statuschoose")}
           list={getLevels(clientLevels)}
           value={Number(filter?.status)}
           onChange={(e) => setFilter((prev: any) => ({ ...prev, status: e }))}

@@ -65,7 +65,6 @@ const QRCodesSection = () => {
 
   const branches = useAppSelector((state) => state.qrSetting.branches);
 
-  console.log(branches, "branches");
   const [closeFun, setCloseFun] = useState<any>();
   const handleClose = (e: any) => {
     setCloseFun(e);
@@ -92,6 +91,13 @@ const QRCodesSection = () => {
       },
     },
   ];
+
+  const handleLink = (link: string) => {
+    const filteredBranch = link.split("/");
+    const myItem = filteredBranch[filteredBranch?.length - 1].split("?");
+    const filteredItem = myItem[0];
+    return filteredItem;
+  };
 
   return (
     <QRPageWrapper>
@@ -205,6 +211,14 @@ const QRCodesSection = () => {
                       }
                     })
                     ?.map((item: any, index: number) => {
+                      const filteredBranch = item?.dynLink?.split("/");
+                      const myItem =
+                        filteredBranch[filteredBranch?.length - 1].split("?");
+                      const filteredItem = myItem[0];
+                      if (filteredItem === "null") {
+                        return null;
+                      }
+                      console.log(item);
                       return (
                         <CardItem key={item?.id}>
                           <BranchQrCode
