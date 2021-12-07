@@ -35,39 +35,34 @@ import {
 import defuserman from 'assets/icons/defuserman.png';
 import defuserwoman from 'assets/icons/defuserwoman.png';
 import App from 'assets/icons/StatistisPage/app.svg';
+import { useAppDispatch } from 'services/redux/hooks';
+import { setBadgeStorePost } from 'services/redux/Slices/feedback';
 
 const Badge = () => {
   const { t } = useTranslation();
+  const [closeFun, setCloseFun] = useState<any>();
   const { width } = useWindowWidth();
+  const dispatch = useAppDispatch();
   const [open, setOpen] = useState<boolean>(false);
   const history = useHistory();
-  dayjs.extend(utc);
+
   dayjs.extend(isYesterday);
   dayjs.extend(isToday);
-
-  dayjs().isYesterday();
 
   const companyId = localStorage.getItem('companyId');
   useLayout({ id: companyId });
   const badgeInfo = useRecoilState(badgeData);
 
+  const handleClose = (e: any) => {
+    setCloseFun(e);
+  };
+
   const getTime = (date: any) => {
-    const time =
-      dayjs(Date.now()).diff(date, 'minute') < 60
-        ? `${dayjs(Date.now()).diff(date, 'minute')}M ${t('ago')}`
-        : dayjs(Date.now()).diff(date, 'hour') < 24
-        ? `${dayjs(Date.now()).diff(date, 'hour')} ${t('hour')} ${t('ago')}`
-        : dayjs(Date.now()).diff(date, 'month') === 0
-        ? `${dayjs(Date.now()).diff(date, 'day')} ${t('day')} ${t('ago')} ${t(
-            'atfortime'
-          )} ${dayjs(date).format('HH:mm')}`
-        : dayjs(Date.now()).diff(date, 'year') === 0
-        ? `${dayjs(date).format('DD MMMM')} ${t('atfortime')} ${dayjs(
-            date
-          ).format('HH:mm')}`
-        : `${dayjs(date).format('DD MMMM YYYY')} ${t('atfortime')} ${dayjs(
-            date
-          ).format('HH:mm')}`;
+    const time = dayjs(date).isYesterday()
+      ? `${t('yesterday')} ${dayjs(date).format('HH:mm')}`
+      : dayjs(date).isToday()
+      ? `${t('today')} ${dayjs(date).format('HH:mm')}`
+      : dayjs(date).format('DD.MM.YYYY');
     return time;
   };
 
@@ -76,7 +71,9 @@ const Badge = () => {
       history.push('/support');
     } else {
       history.push('/feedback/posts');
+      dispatch(setBadgeStorePost(v));
     }
+    closeFun.close();
   };
 
   const content = (
@@ -89,7 +86,15 @@ const Badge = () => {
                 <DisIcon />
               ) : (
                 <LazyLoadImage
-                  src={v.image}
+                  src={
+                    v?.image
+                      ? v?.image
+                      : v?.genderTypeId === 1
+                      ? defuserman
+                      : v?.genderTypeId === 2
+                      ? defuserwoman
+                      : App
+                  }
                   alt='user'
                   style={{
                     objectFit: 'cover',
@@ -134,6 +139,7 @@ const Badge = () => {
             </IconButton>
           }
           anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
+          onClose={handleClose}
         >
           <Wrapper>
             <Title>{t('notification')}</Title>

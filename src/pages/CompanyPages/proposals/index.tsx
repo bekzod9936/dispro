@@ -16,7 +16,10 @@ const ProposalsPage = () => {
 
 
     React.useEffect(() => {
-        const res = history.location.pathname.includes("create") || history.location.pathname.includes("update") || history.location.pathname.includes("check")
+        const res =
+            history.location.pathname.includes("create") ||
+            history.location.pathname.includes("update") ||
+            history.location.pathname.includes("check")
 
         setCreating(res)
     }, [history.location.pathname])

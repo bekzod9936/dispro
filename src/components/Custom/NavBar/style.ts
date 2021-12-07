@@ -18,6 +18,10 @@ export const Container = styled.div`
   @media (max-width: ${device.planshet}) {
     grid-template-columns: ${({ listlength, vertical }: Props) =>
     `repeat(${listlength}, fit-content(100%) )`};
+    grid-column-gap: 15px;
+  }
+  @media (max-width: ${device.mobile}) {
+    grid-column-gap: 10px;
   }
 
   grid-template-columns: ${({ listlength, vertical }: Props) =>
@@ -80,7 +84,8 @@ export const Link = styled(NavLink)`
     }
   }
   @media (min-width: ${device.mobile}) and (max-width: ${device.laptop}) {
-    font-size: 16px;
-    padding: 10px 20px;
+    font-size: 18px;
+    padding: 13px 20px;
+    line-height: 117%;
   }
 `;

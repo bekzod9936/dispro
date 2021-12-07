@@ -22,7 +22,7 @@ export const Footer = ({ query }: IProps) => {
   return (
     <WrapPag>
       {!query ? <p>
-        Показано <span>{formatPagination({ page, perPage: 5, total: totalCount })}</span> из <span>{totalCount}</span> {totalCount.toString().endsWith("1") ? "клиента" : "клиентов"}
+        Показано <span>{formatPagination({ page, perPage: 10, total: totalCount })}</span> из <span>{totalCount}</span> {totalCount.toString().endsWith("1") ? "клиента" : "клиентов"}
       </p> : <p></p>}
       <NewPagination onChange={handleChangePage} currentPage={page} totalCount={Number(totalPages)} />
     </WrapPag>

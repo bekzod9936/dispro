@@ -51,7 +51,6 @@ import CustomToggle from "components/Custom/CustomToggleSwitch";
 import Spinner from "components/Helpers/Spinner";
 import Button from "components/Custom/Button";
 import RippleEffect from "components/Custom/RippleEffect";
-import NotifySnack from "components/Custom/Snackbar";
 import Modal from "components/Custom/Modal";
 import Radio from "components/Custom/Radio";
 import InputFormat from "components/Custom/InputFormat";
@@ -95,14 +94,7 @@ const LoyaltyProgramSection = () => {
     loayalityChange,
     onFormSubmit,
     loayalityPut,
-    onSuccesSave,
-    setOnSuccessSave,
-    onErrorSave,
-    setOnErrorSave,
     errors,
-    alertName,
-    checkL,
-    setCheckL,
     modified,
     setModified,
     assertModalVisible,
@@ -135,6 +127,7 @@ const LoyaltyProgramSection = () => {
     !isFetching &&
     !cashbackFetching &&
     !discountFetching;
+
   const cashbackActive =
     active.active === "cashback" ||
     activeCheck === "cashback" ||
@@ -502,6 +495,7 @@ const LoyaltyProgramSection = () => {
                                 defaultValue={base_loyality?.max_percent}
                                 type="string"
                                 field={field}
+                                max="100"
                                 message={t("requiredField")}
                                 error={errors.max_percent?.type === "required"}
                               />
@@ -672,34 +666,6 @@ const LoyaltyProgramSection = () => {
               </BtnContainer>
             </ModalComponent>
           </Modal>
-          <NotifySnack
-            open={checkL}
-            error={true}
-            vertical="bottom"
-            horizontal="right"
-            message={alertName}
-            handleClose={() => {
-              setCheckL(false);
-            }}
-          />
-          <NotifySnack
-            open={onSuccesSave}
-            vertical="top"
-            horizontal="center"
-            message="Сохранено"
-            handleClose={() => {
-              setOnSuccessSave(false);
-            }}
-          />
-          <NotifySnack
-            open={onErrorSave}
-            vertical="bottom"
-            horizontal="right"
-            message="Error"
-            handleClose={() => {
-              setOnErrorSave(false);
-            }}
-          />
         </>
       );
     }

@@ -15,7 +15,6 @@ import {
 import { IProps } from "./types";
 
 const StatusCard = ({ val }: IProps) => {
-  console.log(val, "val status card");
   const { t } = useTranslation();
 
   const handleItem = (type: any) => {

@@ -5,7 +5,23 @@ interface IBreak {
   height?: number;
 }
 
-export const Form = styled.form``;
+export const Form = styled.form`
+	overflow-y: auto;
+	width: 580px;
+
+	scroll-behavior: auto;
+
+	::-webkit-scrollbar {
+	width: 7px;
+	}
+	::-webkit-scrollbar-track {
+	background-color: transparent;
+	}
+
+	::-webkit-scrollbar-thumb {
+	background: #606eea;
+	border-radius: 14px 0px 0px 14px;
+`;
 
 export const FormRow = styled.div`
   display: flex;

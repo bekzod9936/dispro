@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { IProps } from './types';
-import useRoles from './useRoles';
 import {
 	Container,
 	Table,
@@ -17,7 +16,7 @@ import { useTranslation } from 'react-i18next';
 import { useAppSelector, useAppDispatch } from 'services/redux/hooks';
 import useManagers from 'pages/CompanyPages/staff/hooks/useManagers';
 import { getPermission } from 'services/queries/staffQuery';
-import { useMutation, useQuery } from 'react-query';
+import { useQuery } from 'react-query';
 import Spinner from 'components/Custom/Spinner';
 import Button from 'components/Custom/Button';
 import { setOpenManager, setStepManager } from 'services/redux/Slices/staffs';
@@ -42,9 +41,10 @@ const permissionsRole: any = {
 	support: [],
 };
 
-const RoleTable = ({}: IProps) => {
+const RoleTable = ({ parentRef }: IProps) => {
 	const dispatch = useAppDispatch();
 	const { t } = useTranslation();
+	const errorRef = useRef<null | HTMLSpanElement>(null);
 	const permissions = useAppSelector((state) => state.staffs.permissions);
 	const { managers } = useAppSelector((state) => state.staffs);
 	const [state, setState] = useState<any>({});
@@ -55,16 +55,6 @@ const RoleTable = ({}: IProps) => {
 		period: '',
 	});
 
-	// const roleManager = useMutation(
-	// 	(id: any) => {
-	// 		return getPermission(id);
-	// 	},
-	// 	{
-	// 		onSuccess: (data) => {
-	// 			setState(data.data.data.permissions || permissionsRole);
-	// 		},
-	// 	}
-	// );
 	const userName = managers?.find((item: any) => item.id == managerId);
 
 	const { isFetching } = useQuery(
@@ -79,14 +69,17 @@ const RoleTable = ({}: IProps) => {
 		}
 	);
 
-	// useEffect(() => {
-	// 	console.log(managerId);
-	// 	roleManager.mutate(managerId);
-	// }, []);
+	useEffect(() => {
+		let res = Object.keys(state).every((el) => state[el].join('') == '');
+		if (res) {
+			console.log(res);
 
-	// useEffect(() => {
-	// 	setState(permissions);
-	// }, [permissions]);
+			parentRef?.scrollTo({
+				top: 0,
+				behavior: 'smooth',
+			});
+		}
+	}, [state]);
 
 	const onSave = () => {
 		saveRoleManager.mutate({ state, id: managerId });
@@ -104,7 +97,7 @@ const RoleTable = ({}: IProps) => {
 			{Object.keys(state).every((el) => state[el].join('') === '') ? (
 				<DisabledWrap>
 					<DisableBtn />
-					<DisabledText>
+					<DisabledText ref={errorRef}>
 						Менеджеру нельзя отключить доступ по всем пунктам
 					</DisabledText>
 				</DisabledWrap>
@@ -229,14 +222,6 @@ const RoleTable = ({}: IProps) => {
 						dispatch(setOpenManager(false));
 						dispatch(setStepManager(1));
 						onSave();
-
-						// if (selectedRole.length > 0) {
-						// 	saveRoleManager.mutate(
-						// 		selectedRole.map((item: any) => item?.value)
-						// 	);
-						// } else {
-						// 	saveRoleManager.mutate(permissionsRole);
-						// }
 					}}
 					startIcon={<SaveIcon />}
 				>

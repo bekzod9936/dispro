@@ -42,6 +42,8 @@ export const WrapStars = styled.div`
 `;
 
 export const Container = styled.div`
+// column-count: 3;
+// column-gap: 10px;
   background: #ffffff;
   box-shadow: 0px 12px 16px rgba(13, 19, 36, 0.08);
   border-radius: 14px;

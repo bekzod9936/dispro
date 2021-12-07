@@ -13,6 +13,7 @@ export interface ITextAreaProps {
   margin?: string;
   padding?: string;
   maxWidth?: string;
+  
   height?: string;
   minHeight?: string;
   maxHeight?: string;
@@ -62,6 +63,7 @@ export const MTextArea = styled.textarea`
     borderRadius || '14px'};
   margin: ${({ margin }: ITextAreaProps) => margin || '0'};
   padding: ${({ padding }: ITextAreaProps) => padding || '15px'};
+  font-weight: ${({ fontWeight }: ILabelProps) => fontWeight || '400'};
   font-family: 'Roboto', sans-serif;
   font-size: ${({ fontSize }: ITextAreaProps) => fontSize || '16px'};
   max-width: ${({ maxWidth }: ITextAreaProps) => maxWidth || '100%'};
@@ -70,9 +72,9 @@ export const MTextArea = styled.textarea`
   min-height: ${({ minHeight }: ITextAreaProps) => minHeight || 'none'};
   max-height: ${({ maxHeight }: ITextAreaProps) => maxHeight || 'none'};
   outline: ${({ outline }: ITextAreaProps) => outline || 'none'};
-  @media (min-width: ${device.mobile}) {
+  @media (max-width: ${device.mobile}) {
     font-size: 14px;
-    color: #223367;
+
   }
   &::-webkit-resizer {
     background-image: url(${Textt});
@@ -90,6 +92,7 @@ export const MTextArea = styled.textarea`
 
 export const Wrapper = styled.div`
   display: flex;
+  
   flex-direction: column;
   position: relative;
   margin: ${({ margin }: IContainerProps) => margin || '25px 0'};

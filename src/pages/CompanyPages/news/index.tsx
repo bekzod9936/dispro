@@ -11,14 +11,12 @@ import useNewsRoute from "./routes";
 import Header from "./components/Header";
 import useWindowWidth from "services/hooks/useWindowWidth";
 import { MainWrapper, Flex, WrapHeader, LeftHeader, Wrap } from "./style";
-import {WaitingFilterNews} from "./components/WaitingFilterNews";
-import {MobileFilterNews} from "./components/MobileFilterNews";
+
 const News = () => {
   const { t } = useTranslation();
   const { menuItems, newsPath } = useNewsRoute();
   const dispatch = useAppDispatch();
   const location = useLocation();
-
   const { width } = useWindowWidth();
   const history = useHistory();
   const handleOpenNews = () => {
@@ -28,20 +26,6 @@ const News = () => {
     });
     dispatch(setQuery(""));
   };
-
-
-  const searchNews=(e:any)=>{
-    dispatch(setQuery(e.target.value));
-  }
-
-  const filterByDate=async (e:any)=>{
-  //   await setFilterValues({
-  //     ...filterValues,
-  //     fromDate: e.slice(0, e.indexOf(' ~')),
-  //     toDate: e.slice(e.indexOf('~ ') + 2),
-  //   });
-  // await response.refetch();
-  }
 
   return (
     <MainWrapper id="drawer-container">
@@ -58,10 +42,11 @@ const News = () => {
                   <WrapHeader>
                     <LeftHeader>
                       <>
-                        <Title>{t("News")}</Title>
-                        <Flex
+                        <Title padding={{planshet:'0 0 0 0px'}}>{t("News")}</Title>
+                        {width>600 && width<=1000 ? 
+                          <Flex
                           width="100%"
-                          height="85px"
+                          height="70px"
                           alignItems="flex-start"
                           margin="0"
                         >
@@ -70,7 +55,19 @@ const News = () => {
                             padding="0 15px 0 0"
                             margin="10px 0"
                           />
-                        </Flex>
+                        </Flex>:  <Flex
+                          width="100%"
+                          height="75px"
+                          alignItems="flex-start"
+                          margin="0"
+                        >
+                          <NavBar
+                            list={newsPath}
+                            padding="0 15px 0 0"
+                            margin="10px 0"
+                          />
+                        </Flex>}
+                      
                       </>
                     </LeftHeader>
                   </WrapHeader>
@@ -87,14 +84,14 @@ const News = () => {
                       <>
                         <Flex
                           width="100%"
-                          height="60px"
+                          height="50px"
                           alignItems="flex-start"
                           margin="0"
                         >
                           <NavBar
                             list={newsPath}
-                            padding="0 15px 0 0"
-                            margin="10px 0"
+                            padding="0 10px 0 5px"
+                            margin="0px 0"
                           />
                         </Flex>
                       </>

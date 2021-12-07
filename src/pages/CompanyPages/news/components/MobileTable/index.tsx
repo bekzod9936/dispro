@@ -35,7 +35,7 @@ import {
   ModalContent,
   WrapBox,
   Box,
-  BoxTitle,
+  MobileContent,
   WrapBoxDetail,
   BoxinfoDetail,
   BoxInfo,
@@ -63,7 +63,7 @@ const MobileTable = ({ refetch, data }: Props) => {
   const [isDeleteOpen, setDeleteOpen] = useState<boolean>(false);
   const [isPublishOpen, setPublisOpen] = useState<boolean>(false);
   const { width } = useWindowWidth();
-  console.log("datamobile", data);
+
   const location = useLocation();
 
   const onDeleteOpen = async () => {
@@ -81,14 +81,14 @@ const MobileTable = ({ refetch, data }: Props) => {
   const handleEdit = async (id: any) => {
     await dispatch(setSelectedNews(id));
     if (id) {
-      setTimeout(() => history.push("/news/edit"), 500);
+      setTimeout(() => history.push("/news/edit"), 1000);
     }
   };
 
   const handleRepair = async (id: any) => {
     await dispatch(setSelectedNews(id));
     if (id) {
-      setTimeout(() => history.push("/news/repair"), 500);
+      setTimeout(() => history.push("/news/repair"), 1000);
     }
   };
 
@@ -190,74 +190,54 @@ const MobileTable = ({ refetch, data }: Props) => {
                           <div style={{ display: "block" }}>
                             <p
                               style={{
+                               whiteSpace: "pre-wrap",wordBreak: 'break-all',
+                               
                                 fontSize: "16px",
                                 color: "#223367",
                                 fontWeight: 500,
                               }}
                             >
-                              {info?.title?.length > 20
-                                ? info?.title?.slice(0, 20) + "..."
-                                : info?.title}
+                              {info?.title}
                             </p>
                             <span
                               style={{ fontSize: "14px", color: "#223367" }}
                             >
-                              {info?.description?.length > 15
-                                ? info?.description?.slice(0, 15) + "..."
-                                : info?.description}
+                              {info?.pushUp? 'Push-up':''}
                             </span>
                           </div>
                         </>
                       </WrapAvatar>
                     </Header>
                   </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flex: 1,
-                      flexDirection: "column",
-                      justifyContent: "space-between",
-                    }}
-                  >
+                  <MobileContent>
                     <div>
                       <WrapBox>
-                        <p style={{ color: "#C7C7C7" }}>Описание</p>
+                        <p style={{ color: "#C7C7C7" }}>{t("Описание")}</p>
                         <Box>
-                          <BoxInfo>
-                            {info?.description?.length > 150 ? (
-                              <p
-                                style={{
-                                  whiteSpace: "pre-wrap",
-                                  wordBreak: "break-all",
-                                }}
-                              >
-                                {info?.description?.slice(0, 150) + "..."}
-                              </p>
-                            ) : (
-                              <p
-                                style={{
-                                  whiteSpace: "pre-wrap",
-                                  wordBreak: "break-all",
-                                }}
-                              >
+                         <BoxInfo>
+                           
+                              <p>
                                 {info?.description}
                               </p>
-                            )}
+                           
                           </BoxInfo>
+                        
                         </Box>
                       </WrapBox>
                       <WrapBoxDetail>
-                        <p style={{ color: "#C7C7C7" }}>Информация</p>
+                        <p style={{ color: "#C7C7C7" }}>{t('Информация')}</p>
                         <Box>
+                          {console.log('a.fullData?.genderType',a.fullData?.genderType)}
                           <BoxinfoDetail>{`${a.fullData?.genderType}`}</BoxinfoDetail>
-                          <BoxinfoDetail>{`Срок публикции: ${a.fullData?.date}`}</BoxinfoDetail>
+                          <BoxinfoDetail>{`Срок публикации: ${a.fullData?.date}`}</BoxinfoDetail>
                           <BoxinfoDetail>{`Возрастное ограничение: ${
                             info?.ageFrom + "+"
                           }`}</BoxinfoDetail>
+                      
                           {info?.pushUp && (
                             <>
                               <BoxinfoDetail>
-                                {`Дни оповещания Push:  ${weekdays[1]?.item}, ${weekdays[2]?.item}, ${weekdays[3]?.item}, ${weekdays[4]?.item}, ${weekdays[5]?.item}, ${weekdays[6]?.item}, ${weekdays[0]?.item}`}
+                                {`Дни оповещания Push:  ${weekdays[1]?.item ? weekdays[1]?.item:''} ${weekdays[2]?.item ?weekdays[2]?.item:''} ${weekdays[3]?.item?weekdays[3]?.item : '' } ${weekdays[4]?.item ? weekdays[4]?.item:''} ${weekdays[5]?.item ? weekdays[5]?.item:''} ${weekdays[6]?.item ? weekdays[6]?.item:''} ${weekdays[0]?.item ? weekdays[0]?.item:''}`}
                               </BoxinfoDetail>
                               <BoxinfoDetail>{`Часы оповещения Push: ${
                                 info?.settings?.time?.from +
@@ -270,7 +250,7 @@ const MobileTable = ({ refetch, data }: Props) => {
                       </WrapBoxDetail>
 
                       <WrapBoxDetail>
-                        <p style={{ color: "#C7C7C7" }}>Push up статистика</p>
+                        <p style={{ color: "#C7C7C7" }}>{t("Push up статистика")}</p>
                         <Box>
                           <BoxinfoDetail>{`Уведомлений получили: ${info?.stat?.get?.total} чел`}</BoxinfoDetail>
                           <BoxinfoDetail>
@@ -299,6 +279,8 @@ const MobileTable = ({ refetch, data }: Props) => {
                           </BoxinfoDetail>
                         </Box>
                       </WrapBoxDetail>
+      
+      
                     </div>
                     <div>
                       {location.pathname === "/news/active" && (
@@ -321,7 +303,7 @@ const MobileTable = ({ refetch, data }: Props) => {
                               )
                             }
                           >
-                            Удалить
+                           {t('Удалить')} 
                           </Button>
                           <Button
                             onClick={() => handleEdit(a)}
@@ -386,7 +368,7 @@ const MobileTable = ({ refetch, data }: Props) => {
                                 )
                               }
                             >
-                              Удалить
+                              {t('Удалить')}
                             </Button>
                             <Button
                               onClick={() => handlePublic(a)}
@@ -400,13 +382,13 @@ const MobileTable = ({ refetch, data }: Props) => {
                               //  endIcon={<MobileCancelIcon />}
                               endIcon={width > 325 && <WhitePublishIcon />}
                             >
-                              {"Опубликовать"}
+                                  {t('Опубликовать')} 
                             </Button>
                           </Buttons>
                         </>
                       )}
                     </div>
-                  </div>
+                  </MobileContent>
                   {location.pathname === "/news/archive" && (
                     <Buttons>
                       <Button
@@ -426,15 +408,15 @@ const MobileTable = ({ refetch, data }: Props) => {
                           )
                         }
                       >
-                        {"Восстановить"}
+                        {t('Восстановить')}   
                       </Button>
                     </Buttons>
                   )}
                 </ModalContent>
                 <Modal open={isDeleteOpen}>
                   <DeleteModal>
-                    <h5>Вы действительно хотите удалить новость?</h5>
-                    <p>{"После удаления новости  данные будет утеряны"}</p>
+                    <h5>{t('Вы действительно хотите удалить новость?')}</h5>
+                    <p>{t('После удаления новости  данные будет утеряны')}</p>
                     <Buttons>
                       <Button
                         margin={{ desktop: "0 20px 0 20px" ,mobile:"0 10px 0 0"}}
@@ -450,7 +432,7 @@ const MobileTable = ({ refetch, data }: Props) => {
                           )
                         }
                       >
-                        {"Отменить"}
+                        {t('Отменить')}
                       </Button>
                       <Button
                         onClick={() => onDeleteAction(info?.id)}
@@ -468,7 +450,7 @@ const MobileTable = ({ refetch, data }: Props) => {
                           )
                         }
                       >
-                        Удалить
+                       {t('Удалить')} 
                       </Button>
                     </Buttons>
                   </DeleteModal>

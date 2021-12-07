@@ -49,6 +49,8 @@ import {
   setECashback,
   switchKeyT,
 } from "services/atoms/settings";
+import { setSwitchKeyT } from "services/atoms/settings/index";
+import { notify } from "services/utils/local_notification";
 
 const useLoyality = () => {
   let companyId: any = localStorage.getItem("companyId");
@@ -67,6 +69,7 @@ const useLoyality = () => {
   const setLoyaltyUse = useSetRecoilState(setUseLoyal);
   const setActive = useSetRecoilState(setActiveM);
   const setActiveCheck = useSetRecoilState(setActiveCheckM);
+  const setSwitchKey = useSetRecoilState(setSwitchKeyT);
 
   const setEmptyCashback = useSetRecoilState(setECashback);
   const setEmptyDiscount = useSetRecoilState(setEDiscount);
@@ -96,9 +99,6 @@ const useLoyality = () => {
     name: "levels",
   });
 
-  //alert error time
-  const [checkL, setCheckL] = useState(false);
-  const [alertName, setAlertName] = useState<any>("");
   const [modified, setModified] = useState("0");
   const [assertModalVisible, setAssertModalVisible] = useState<boolean>(false);
 
@@ -106,8 +106,6 @@ const useLoyality = () => {
   const dispatch = useAppDispatch();
 
   //program loyality
-  const [onSuccesSave, setOnSuccessSave] = useState(false);
-  const [onErrorSave, setOnErrorSave] = useState(false);
   const [availCheck, setAvailCheck] = useState(false);
   const [refetchCashback, setRefetchCashback] = useState(0);
   const [refetchDiscount, setRefetchDiscount] = useState(0);
@@ -144,7 +142,7 @@ const useLoyality = () => {
     },
     {
       onSuccess: () => {
-        setOnSuccessSave(true);
+        notify(t("save"));
         refetch();
         refetchdiscount();
         refetchcashback();
@@ -158,17 +156,14 @@ const useLoyality = () => {
     for (i = 0; i < levels?.length; i++) {
       if (!levels[i]?.name || !levels[i]?.percent) {
         errorCheck = true;
-        setCheckL(true);
-        setAlertName(t("fields_not_filled"));
+        notify(t("fields_not_filled"));
       }
       if (
         levels[i - 1]?.percent &&
         parseInt(levels[i].percent) <= parseInt(levels[i - 1]?.percent)
       ) {
         errorCheck = true;
-        setCheckL(true);
-        // console.log("levels Second 1", levels);
-        setAlertName(
+        notify(
           `${t("percentage_in")} "${levels[i].name}" ${t(
             "must_be_more_than"
           )} "${levels[i - 1].name}"`
@@ -179,8 +174,7 @@ const useLoyality = () => {
 
         if (!i && parseInt(levels[i].percent) <= parseInt(baseAmount)) {
           errorCheck = true;
-          setCheckL(true);
-          setAlertName(
+          notify(
             `${t("percentage_in")} "${levels[i].name}" ${t(
               "must_be_more_than"
             )} "${baseName}"`
@@ -196,8 +190,7 @@ const useLoyality = () => {
             !levels[i].requirements![reqi].amount
           ) {
             errorCheck = true;
-            setCheckL(true);
-            setAlertName(t("fields_not_filled"));
+            notify(t("fields_not_filled"));
           }
 
           // console.log("levels => ", levels);
@@ -249,8 +242,7 @@ const useLoyality = () => {
               }),
               "name 111"
             );
-            setCheckL(true);
-            setAlertName(
+            notify(
               `${t("count")} "${
                 levelReqs.find((item: any) => {
                   return levels[i].requirements![reqi].type == item.id;
@@ -268,17 +260,16 @@ const useLoyality = () => {
   };
 
   const onFormSubmit = async (data: FormProps) => {
-    setActiveCheck(switchKey);
     if (!checkLevels(data.levels, data.base_name, data.base_percent)) {
+      setActiveCheck(switchKey);
       try {
         useProgramSave.mutate({
           useProgram: data.useProgram,
           usePoint: data.usePoint,
         });
-
-        if (activeCheck === "discount") {
+        if (activeCheck === "discount" || switchKey === "discount") {
           loayalityPut.mutate({
-            cashbackReturnedDay: 0,
+            cashbackReturnedDay: data.give_cashback_after,
             description: "",
             isActive: true,
             companyId: parseInt(companyId),
@@ -314,9 +305,9 @@ const useLoyality = () => {
               type: "discount",
             });
           }
-        } else if (activeCheck === "cashback") {
+        } else if (activeCheck === "cashback" || switchKey === "cashback") {
           loayalityPut.mutate({
-            cashbackReturnedDay: data.give_cashback_after || 0,
+            cashbackReturnedDay: data.give_cashback_after,
             description: "",
             isActive: true,
             companyId: parseInt(companyId),
@@ -352,9 +343,9 @@ const useLoyality = () => {
               type: "cashback",
             });
           }
-        } else if (activeCheck === "bonuspoint") {
+        } else if (activeCheck === "bonuspoint" || switchKey === "bonuspoint") {
           loayalityPut.mutate({
-            cashbackReturnedDay: 0,
+            cashbackReturnedDay: data.give_cashback_after,
             description: "",
             isActive: true,
             companyId: parseInt(companyId),
@@ -427,6 +418,7 @@ const useLoyality = () => {
         if (data?.data?.data?.isActive) {
           setAvailCheck(true);
           setActive({ active: "discount" });
+          setSwitchKey("discount");
 
           setBaseLoyality({
             max_percent: data.data.data.maxAmount,
@@ -490,6 +482,7 @@ const useLoyality = () => {
         if (data?.data?.data?.isActive) {
           setAvailCheck(true);
           setActive({ active: "cashback" });
+          setSwitchKey("cashback");
           setValue("max_percent", data.data.data.maxAmount);
 
           setBaseLoyality({
@@ -550,6 +543,7 @@ const useLoyality = () => {
           if (data?.data?.data?.isActive) {
             setAvailCheck(true);
             setActive({ active: "bonuspoint" });
+            setSwitchKey("bonuspoint");
 
             setBaseLoyality({
               max_percent: data.data.data.maxAmount,
@@ -729,8 +723,7 @@ const useLoyality = () => {
     },
   });
 
-  console.log(activeCheck, "active check");
-  console.log(active.active, "active");
+  console.log(refetchCashback, activeCheck, active.active, "refetch cashback");
 
   useEffect(() => {
     if (active.active === "cashback" || activeCheck === "cashback") {
@@ -767,15 +760,8 @@ const useLoyality = () => {
     refetchcashback,
     onFormSubmit,
     loayalityPut,
-    onSuccesSave,
-    setOnSuccessSave,
-    setOnErrorSave,
-    onErrorSave,
     errors,
-    alertName,
     checkLevels,
-    checkL,
-    setCheckL,
     modified,
     setModified,
     availCheck,

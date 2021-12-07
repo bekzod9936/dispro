@@ -14,16 +14,18 @@ export interface IBreakH {
 export const BarContainer = styled.div`
   height: 100%;
   position: relative;
+  box-shadow: -5px 2px 20px rgba(0, 0, 0, 0.06);
 `;
 
 export const CashierCard = styled.div`
   padding-top: 15%;
-  padding-left: 10%;
-  padding-right: 10%;
+  padding-left: 8%;
+  padding-right: 8%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
+  
 `;
 
 export const CashierRow = styled.div`
@@ -37,7 +39,7 @@ export const CashierRow = styled.div`
 export const CashierCol = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
 `;
 
 export const ImgDiv = styled.div`
@@ -51,12 +53,12 @@ export const Img = styled(LazyLoadImage)`
 `;
 
 export const BarTitle = styled.p`
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 20px;
-  line-height: 26px;
-  color: #223367;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 18px;
+	line-height: 26px;
+ 	 margin-bottom: 5px;
 `;
 
 export const BarText = styled.p`
@@ -136,6 +138,10 @@ export const DownSide = styled.div`
   flex: 1;
 `;
 
+export const ImageWrap = styled.div`
+ 	margin-right: 20px;
+`;
+
 interface ButtonProps {
 	mobile?: boolean;
 	color?: string;
@@ -155,7 +161,7 @@ export const ButtonKeyWord = styled.div`
   border-radius: 46px;
   font-weight: 300;
   font-size: 14px;
-  color: #223367;
+  color: red;
   padding: 0 5px 0 15px;
   margin: 10px 10px 0 0;
   height: 35px;

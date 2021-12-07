@@ -25,6 +25,9 @@ export const Form = styled.form`
     @media (max-width: ${device.laptop}) {
       padding: 20px 25px;
     }
+    @media (max-width: ${device.planshet}) {
+      padding: 2px 2px;
+    }
     @media (max-width: 1150px) {
       padding-right: 0;
     }
@@ -80,6 +83,11 @@ export const PeriodWrapper = styled.div`
   .buttonsWrapper {
     display: flex;
     justify-content: center;
+
+  }
+  .buttonsWrapperPlanshet{
+    display: flex;
+    justify-content: flex-end;
 
   }
   @media (max-width: ${device.mobile}) {

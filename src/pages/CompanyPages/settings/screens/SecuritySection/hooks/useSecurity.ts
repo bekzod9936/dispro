@@ -3,8 +3,11 @@ import { useForm, useWatch } from "react-hook-form";
 import { fetchSafeties } from "services/queries/partnerQuery";
 import { changeCompanySecurity } from "services/queries/securitySettingQuery";
 import { IForm } from "../constants";
+import { notify } from "services/utils/local_notification";
+import { useTranslation } from "react-i18next";
 
 const useSecurity = () => {
+  const { t } = useTranslation();
   const { control, handleSubmit, setValue } = useForm<IForm>();
 
   const suspendedClient = useWatch({
@@ -53,12 +56,12 @@ const useSecurity = () => {
     {
       onSuccess: () => {
         refetch();
+        notify(t("saved"));
       },
     }
   );
 
   const onFormSubmit = (data: IForm) => {
-    console.log(data, "data submitted");
     changeSecurity.mutate({
       safeties: {
         daily_purchase_limit: +data.first,

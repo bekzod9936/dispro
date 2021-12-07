@@ -169,6 +169,7 @@ const EditManager = ({ openEdit }: IProps) => {
 													<UploadButton>
 														<label htmlFor='uploadImg'>Загрузить фото</label>
 														<input
+															accept='image/*'
 															{...register('logo', { required: false })}
 															onChange={handleUploadImg}
 															type='file'
@@ -265,6 +266,7 @@ const EditManager = ({ openEdit }: IProps) => {
 								render={({ field }) => {
 									return (
 										<Input
+											disabled={true}
 											label={t('phoneNumber')}
 											error={errors.telNumber ? true : false}
 											message={t('requiredField')}
@@ -294,6 +296,7 @@ const EditManager = ({ openEdit }: IProps) => {
 								render={({ field }) => {
 									return (
 										<MultiSelect
+											isDisabled={true}
 											defaultValue={storeName}
 											icon={<Market />}
 											selectStyle={{

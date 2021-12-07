@@ -3,6 +3,7 @@ import { URL, VERSION } from "../../constants/config";
 import jwtDecode from "jwt-decode";
 import { IAuthToken } from "../../Types/api";
 import { PARTNER } from "../partner_interceptor/types";
+import { notify } from "services/utils/local_notification";
 
 const authApi = axios.create({
   baseURL: URL,
@@ -25,6 +26,11 @@ authApi.interceptors.response.use(
     let accessToken = localStorage.getItem(PARTNER.ACCESS_TOKEN);
     let refreshToken = localStorage.getItem(PARTNER.REFRESH_TOKEN);
     const errId = err?.response?.data?.error?.errId;
+    const errRes = err?.response?.data?.error;
+
+    if (errRes.isFriendly) {
+      notify(errRes.errMsg);
+    }
 
     if ((errId === 8 || errId === 7) && companyToken) {
       let decoded: any = jwtDecode(companyToken);

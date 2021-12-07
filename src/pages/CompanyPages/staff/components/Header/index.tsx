@@ -16,6 +16,7 @@ import {
 	setOpenFilter,
 	setOpenManager,
 	setQuery,
+	setSelectedCashiers,
 } from 'services/redux/Slices/staffs';
 
 const Header = ({
@@ -119,16 +120,22 @@ const Header = ({
 						weight: 500,
 						height: { desktop: 60 },
 					}}
+					margin={{
+						desktop: '0 25px 0 0',
+						laptop: '0 25px 0 0',
+						planshet: '0 0 20px 0',
+					}}
 					startIcon={<FilterIcon />}
 					onClick={() => {
 						dispatch(setOpenFilter(!open));
+						dispatch(setSelectedCashiers([]));
 					}}
 				>
 					{t('filters')}
 				</Button>
 			)}
 
-			<div style={{ width: '70px' }} />
+			{/* <div style={{ width: '70px' }} /> */}
 			<Input
 				inputStyle={{ border: 'none' }}
 				IconStart={<SearchIcon style={{ marginLeft: 20 }} />}

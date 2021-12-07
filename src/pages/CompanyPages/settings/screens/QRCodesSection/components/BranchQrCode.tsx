@@ -1,16 +1,14 @@
-import { memo, useState } from "react";
+import { memo } from "react";
 import QRCode from "qrcode.react";
 import { IProps } from "./types";
 import { downloadQR } from "./utils";
 import useWindowWidth from "services/hooks/useWindowWidth";
 import { Text } from "styles/CustomStyles";
-import Popover from "components/Custom/Popover";
 import {
   QrCard,
   QrRow,
   QeaderHeaderRow,
   QrContainer,
-  OptionDiv,
   QrImg,
   DownloadDiv,
   SaveIcon,
@@ -18,13 +16,10 @@ import {
   ScrapperIcon,
 } from "./style";
 import { Break } from "../../../styles/index";
-import { OptionsList, OptionsListItem } from "styles/CustomStyles";
 import { useTranslation } from "react-i18next";
 import { COLORS } from "services/Types/enums";
 import Button from "components/Custom/Button";
-import { ThreeDotsIcon } from "assets/icons/SettingsIcons/SettingsPageIcon";
 import { copyToClipboard } from "services/utils";
-import { IconButton } from "@material-ui/core";
 
 const BranchQrCode = ({
   item,
@@ -36,12 +31,6 @@ const BranchQrCode = ({
 }: IProps) => {
   const { width } = useWindowWidth();
   const { t } = useTranslation();
-  const [closeMenu, setCloseMenu] = useState<any>();
-
-  const handleClose = (e: any) => {
-    setCloseMenu(e);
-    handleOption(item);
-  };
 
   const downloadQrCode = () => {
     const canvas = document.getElementById(
@@ -64,7 +53,7 @@ const BranchQrCode = ({
     <QrCard>
       <QeaderHeaderRow>
         <div>
-          <Text fontSize="18px">{item.name}(QR код для оплата)</Text>
+          <Text fontSize="18px">{item.name}({t('qrCodeForPayment')})</Text>
         </div>
       </QeaderHeaderRow>
       <QrRow>

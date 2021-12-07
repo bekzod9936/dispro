@@ -117,37 +117,3 @@ export const WrapSelectV = styled.div`
   flex-wrap: wrap;
   grid-gap: 10px;
 `;
-
-export const Img = styled.img`
-  min-width: 90px;
-  max-width: 120px;
-  min-height: 180px;
-  max-height: 250px;
-  width: 8%;
-  height: 12%;
-  margin: 5% 0 2% 0;
-  @media (max-width: ${device.mobile}) {
-    margin: 10% 0 5% 0;
-  }
-`;
-
-export const WrapDef = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-`;
-
-export const TitleDef = styled.div`
-  color: #223367;
-  font-weight: normal;
-  font-size: 18px;
-  @media (max-width: ${device.mobile}) {
-    font-size: 15px;
-    display: flex;
-    width: 50%;
-    word-wrap: break-word;
-    text-align: center;
-  }
-`;

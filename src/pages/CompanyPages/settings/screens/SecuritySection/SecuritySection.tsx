@@ -19,7 +19,6 @@ const SecuritySection = () => {
   const {
     control,
     suspendedClient,
-    suspendedSum,
     handleSubmit,
     onFormSubmit,
     isLoading,
@@ -104,74 +103,6 @@ const SecuritySection = () => {
           </UpRow>
 
           <Break height={50} />
-
-          {/* Security row suspended client count */}
-
-          <UpRow>
-            <Grid
-              container
-              xs={12}
-              sm={12}
-              md={7}
-              lg={7}
-              direction="row"
-              alignItems="flex-start"
-              justifyContent="flex-start"
-            >
-              <Grid
-                container
-                justifyContent="flex-start"
-                alignItems="flex-start"
-                direction="column"
-                xs={10}
-              >
-                <Grid item xs={12}>
-                  <Text fontWeight={500} fontSize="18px">
-                    Ограничить сумму счета
-                  </Text>
-                </Grid>
-                <Grid item xs={12}>
-                  <Text fontWeight={300} fontSize="14px">
-                    Кассир не сможет провести операцию больше указанной суммы
-                  </Text>
-                </Grid>
-              </Grid>
-              <Grid container justifyContent="flex-end" xs={2}>
-                <Controller
-                  name="suspendedSum"
-                  control={control}
-                  defaultValue={suspendedSum}
-                  render={({ field }) => {
-                    return <CustomToggle checked={field.value} {...field} />;
-                  }}
-                />
-              </Grid>
-            </Grid>
-            <Break height={25} />
-            {suspendedSum && (
-              <Grid xs={12} sm={12} md={4} lg={4}>
-                <Controller
-                  name="second"
-                  control={control}
-                  render={({ field }) => {
-                    return (
-                      <InputFormat
-                        width={{
-                          width: "100%",
-                        }}
-                        field={field}
-                        label={t("enterSum")}
-                        maxLength={11}
-                        inputStyle={{
-                          bgcolor: bgInput,
-                        }}
-                      />
-                    );
-                  }}
-                />
-              </Grid>
-            )}
-          </UpRow>
         </UpWrapper>
       </UpSide>
 

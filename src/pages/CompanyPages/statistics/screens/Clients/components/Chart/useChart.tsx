@@ -26,7 +26,7 @@ const useChart = () => {
       refetchIntervalInBackground: true,
       retry: 0,
       onSuccess: (data) => {
-        console.log(data, 'stststs');
+        // console.log(data, 'stststs');
       },
     }
   );

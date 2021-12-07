@@ -133,6 +133,7 @@ export const ClientsBar = ({ refetch }: IProps) => {
             <Modal open={vipModal}>
                 <VipModal
                     clientInfo={{
+                        isBlocked: client?.isPlBlocked,
                         name: client?.firstName + " " + client?.lastName,
                         prevStatus: client?.obtainProgramLoyalty?.levelName,
                         prevPercent: client?.obtainProgramLoyalty?.percent,

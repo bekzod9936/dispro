@@ -186,8 +186,9 @@ export const Messages = styled.div`
   }
 
   @media (max-width: ${device.mobile}) {
-    grid-row-gap: 15px;
-    padding: 10px 20px 0 10px;
+    div.infinite-scroll-component {
+      padding: 10px 20px 0 10px;
+    }
   }
 `;
 
@@ -282,7 +283,7 @@ export const MessageWrap = styled.div`
       const ss: any = getType({ type });
       return ss?.justify;
     }};
-    margin: 0;
+    margin: 0 0 15px 0;
   }
 `;
 

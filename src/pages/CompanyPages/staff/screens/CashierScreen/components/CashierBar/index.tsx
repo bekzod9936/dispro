@@ -22,6 +22,7 @@ import {
 	BarNormalText,
 	ButtonKeyWord,
 	DeleteIc,
+	ImageWrap,
 } from './style';
 import { IconButton } from '@material-ui/core';
 import { ReactComponent as Logo } from 'assets/icons/cashier_logo_placeholder.svg';
@@ -66,20 +67,21 @@ const CashierBar = () => {
 					<UpSide>
 						<CashierRow justifyContent='center'>
 							<CashierCol>
-								{selectedCashiers[0].logo !== '' ? (
-									<ImgDiv>
-										<Img
-											src={selectedCashiers[0].logo}
-											effect='blur'
-											height='100%'
-											width='100%'
-										/>
-									</ImgDiv>
-								) : (
-									<Logo />
-								)}
+								<ImageWrap>
+									{selectedCashiers[0].logo !== '' ? (
+										<ImgDiv>
+											<Img
+												src={selectedCashiers[0].logo}
+												effect='blur'
+												height='100%'
+												width='100%'
+											/>
+										</ImgDiv>
+									) : (
+										<Logo />
+									)}
+								</ImageWrap>
 							</CashierCol>
-							<div style={{ width: '10px' }} />
 							<CashierCol>
 								<BarTitle>{selectedCashiers[0].firstName}</BarTitle>
 								<BarText>

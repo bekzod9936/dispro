@@ -18,6 +18,10 @@ export const MainWrapper = styled.div`
   @media (max-width: ${device.mobile}) {
     padding: 0px 0 0 0px;
   }
+  @media (min-width:${device.mobile}) and (max-width:${device.planshet}){
+    padding: 0px 0 0 0px;
+  }
+
 `;
 
 export const SpinnerDiv = styled.div`
@@ -32,18 +36,21 @@ export const Wrap = styled.div`
   overflow-y: auto;
   position: relative;
   overflow-x: hidden;
-  &::-webkit-scrollbar {
-    appearance: none;
-    display: none;
+  ::-webkit-scrollbar {
+    width: 7px;
   }
-  &::-webkit-scrollbar-thumb {
-    appearance: none;
-    display: none;
+  @media (max-width: ${device.mobile}) {
+    ::-webkit-scrollbar {
+    width: 5px;
+  }
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
   }
 
-  &::-webkit-scrollbar-track {
-    appearance: none;
-    display: none;
+  ::-webkit-scrollbar-thumb {
+    background: #606eea;
+    border-radius: 14px 0px 0px 14px;
   }
 `;
 
@@ -78,11 +85,7 @@ export const Flex = styled.div<IFlex>`
   overflow-y: ${(props: IFlex) => props.overflowY || 'visible'};
   flex-wrap: ${(props: IFlex) => props.flexWrap || 'nowrap'};
 
-  @media (max-width: ${device.mobile}) {
-    flex-direction: flex;
-    align-items: center;
-    justify-content:center;
-  }
+
 
   @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
     flex-direction: flex;
@@ -120,6 +123,9 @@ export const WrapHeader = styled.div`
   justify-content: space-between;
   @media (max-width: ${device.mobile}) {
     padding: 5px 0 0 10px;
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    padding: 25px 0 0 25px;
   }
 `;
 

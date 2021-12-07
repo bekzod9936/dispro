@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useQuery, useMutation } from "react-query";
 import {useHistory} from "react-router-dom";
 import {
@@ -8,7 +8,7 @@ import {
   createCashier,
   editStaff,
 } from "services/queries/staffQuery";
-import { useAppDispatch } from "services/redux/hooks";
+import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 import {
   selectAllCashier,
   setCashiers,
@@ -17,15 +17,29 @@ import {
   setSelectedManagers,
   setOpenEditCashier,
   setStaffData,
+  setStoreFilters,
 } from "services/redux/Slices/staffs";
+import { store } from "services/redux/store";
 import { numberWith } from "services/utils";
 
-const useCashiers = ({ page, query, period }: any) => {
+
+export const useSearchBranch = (query: string, arr: any[]) => {
+	const branches = useMemo(() => {
+		if(!query) return arr;
+		return arr.filter(el => el.label.toLowerCase().includes(query.toLowerCase()))
+	}, [query, arr])
+	return branches
+}
+
+
+
+const useCashiers = ({ page, query, period, storeIdForFilter}: any) => {
   const history = useHistory();
   const [open, setOpen] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const dispatch = useAppDispatch();
-
+  const { storeFilters} = useAppSelector(state => state.staffs)
+  
     //edit
 	const editCashier = useMutation((data: any) => editStaff(data), {
 		onSuccess: () => {
@@ -36,7 +50,7 @@ const useCashiers = ({ page, query, period }: any) => {
 	  });
 
   const response = useQuery(
-    ["cashiers", page, query, period],
+    ["cashiers", page, query, period, storeIdForFilter],
     () => {
       if (query !== "") {
         return searchCashiers(query);
@@ -44,14 +58,19 @@ const useCashiers = ({ page, query, period }: any) => {
       const url = Object.keys(period)
         .map((e: string) => `${e}=${period[e]}&`)
         .join("");
-      return getCashiers(page, url);
+	
+      return getCashiers(page, url, storeIdForFilter);
     },
     {
       retry: 0,
       refetchOnWindowFocus: false,
       cacheTime: 5000,
       onSuccess: (data) => {
+		  let cashiers = data?.data?.data?.staffs;
+		
+		
         dispatch(setCashiers(data.data.data.staffs));
+		!storeFilters && dispatch(setStoreFilters(cashiers.map((el: any) => ({value: el.store.id, label: el.store.address}))))
         dispatch(
           selectAllCashier(
             data?.data?.data?.staffs?.map((cashier: any) => {

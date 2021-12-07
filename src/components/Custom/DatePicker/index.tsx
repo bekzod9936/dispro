@@ -1,4 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
+import Button from 'components/Custom/Button';
+import { useTranslation } from 'react-i18next';
+import { IconButton } from '@material-ui/core';
+import useWindowWidth from 'services/hooks/useWindowWidth';
 import {
   Container,
   RDatePicker,
@@ -7,11 +11,9 @@ import {
   ResetIcon,
   WrapButton,
   DateIcon,
+  MobileReset,
+  DeleteIcon,
 } from './style';
-import Button from 'components/Custom/Button';
-import { useTranslation } from 'react-i18next';
-import { IconButton } from '@material-ui/core';
-import useWindowWidth from 'services/hooks/useWindowWidth';
 
 interface Props {
   onChange?: (e: any) => void;
@@ -31,7 +33,7 @@ const DatePicker = ({
   margin,
   defaultValue = [''],
   numberofmonths,
-  height
+  height,
 }: Props) => {
   const datePickerRef: any = useRef();
   const { t } = useTranslation();
@@ -60,8 +62,8 @@ const DatePicker = ({
   const format = 'YYYY-MM-DD';
 
   return (
-    <Container>
-      <WrapButton margin={margin}>
+    <Container margin={margin}>
+      <WrapButton>
         <Button
           startIcon={<DateIcon />}
           endIcon={width > 600 ? <DownIcon /> : null}
@@ -70,10 +72,11 @@ const DatePicker = ({
             bgcolor: 'white',
             shadow: '0px 4px 4px rgba(0, 0, 0, 0.04)',
             color: '#223367',
-            height: height ? height :   {
-              mobile: 36,
-          
-            },
+            height: height
+              ? height
+              : {
+                  mobile: 36,
+                },
           }}
         >
           <WrapText>
@@ -97,6 +100,14 @@ const DatePicker = ({
         format={format}
         portal={true}
       />
+      {date === '' ? null : (
+        <MobileReset>
+          {date}
+          <IconButton onClick={handleClick}>
+            <DeleteIcon />
+          </IconButton>
+        </MobileReset>
+      )}
     </Container>
   );
 };

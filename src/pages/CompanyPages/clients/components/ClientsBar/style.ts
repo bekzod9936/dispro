@@ -27,6 +27,10 @@ export const Wrapper = styled.div`
         font-weight: 500;
     }
 
+    @media (max-width: ${device.planshet}) {
+        padding-bottom: 160px;
+    }
+
 `
 export const SelectButtons = styled.div`
     display: flex;

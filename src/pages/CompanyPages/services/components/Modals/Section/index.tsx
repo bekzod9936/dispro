@@ -2,6 +2,7 @@
 import { useTranslation } from "react-i18next"
 import { useForm, useFieldArray, Controller } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
+import { Alert } from "@material-ui/lab"
 
 //components
 import { IconButton } from "@material-ui/core"
@@ -35,7 +36,7 @@ export const SectionModal: React.FC<SectionModalProps> = ({ isOpen, onClose }) =
 
     const { handleSubmit, control, clearErrors, formState: { errors } } = useForm({
         defaultValues: {
-            sections: [{ name: "" }]
+            sections: [{ title: "" }]
         },
         resolver: yupResolver(sectionsSchema),
         mode: "onChange"
@@ -56,6 +57,7 @@ export const SectionModal: React.FC<SectionModalProps> = ({ isOpen, onClose }) =
         clearErrors()
         onClose()
     }
+    console.log(errors);
 
     return (
         <Modal
@@ -74,18 +76,19 @@ export const SectionModal: React.FC<SectionModalProps> = ({ isOpen, onClose }) =
                     </div>
                     <p>Можно добавить еще {20 - fields.length} разделов</p>
                 </Header>
+                {/* <Alert severity="error">{errors?.sections.message}</Alert> */}
                 <Main>
                     {
                         fields.map((field, index) => (
                             <Field key={field.id}>
                                 <Controller
                                     control={control}
-                                    name={`sections.${index}.name` as const}
+                                    name={`sections.${index}.title` as const}
                                     render={({ field }) => (
                                         <Input
                                             isAbsolute
-                                            error={Boolean(errors?.sections?.[index]?.name)}
-                                            message={t(errors?.sections?.[index]?.name?.message + "")}
+                                            error={Boolean(errors?.sections?.[index]?.title)}
+                                            message={t(errors?.sections?.[index]?.title?.message + "")}
                                             field={field}
                                             label={t("sectionName")}
                                             IconEnd={fields.length > 1 ? <RemoveInputIcon onClick={() => {
@@ -96,7 +99,7 @@ export const SectionModal: React.FC<SectionModalProps> = ({ isOpen, onClose }) =
                                 {fields.length <= 19 && index === fields.length - 1 &&
                                     <button onClick={() => {
                                         append({
-                                            name: ""
+                                            title: ""
                                         })
                                     }} className="add">{t("createAnother")}</button>}
                             </Field>

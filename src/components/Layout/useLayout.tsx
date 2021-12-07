@@ -55,12 +55,11 @@ const useLayout = ({ id }: LProps) => {
   const currency = useAppSelector((state) => state.info.data?.currencyId);
 
   const resLimit = useQuery(
-    'fetchLimitFinance',
+    ['fetchLimitFinance', currency],
     () => fetchLimitFinance({ companyId, currency }),
     {
       onSuccess: (data) => {
         dispatch(setAccounts(data?.data?.data?.accounts));
-        // dispatch(setLimitAccounts(data?.data?.data?.accounts[0]?.limit));
         setLimit({ limit: data?.data?.data?.accounts[0]?.limit });
         setBalance({ balance: data?.data?.data?.accounts[0]?.balance });
       },

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { IProps } from './types';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -51,6 +51,7 @@ const CreateManager = ({ openManager }: IProps) => {
 	const [logo, setLogo] = useState('');
 	const [imgError, setImgError] = useState(false);
 	const [file, setFile] = useState('');
+	const parentRef = useRef<any | null>(null);
 	const [isCropVisible, setIsCropVisible] = useState(false);
 	const { saveRoleManager, modified, setModified, createManager } = useManagers(
 		{
@@ -172,6 +173,7 @@ const CreateManager = ({ openManager }: IProps) => {
 														<UploadButton>
 															<label htmlFor='uploadImg'>Загрузить фото</label>
 															<input
+																accept='image/*'
 																{...register('logo', { required: false })}
 																onChange={handleUploadImg}
 																type='file'
@@ -374,7 +376,7 @@ const CreateManager = ({ openManager }: IProps) => {
 
 			{/* second step */}
 			{stepManager === 2 && (
-				<ModalMain style={{ width: '663px' }}>
+				<ModalMain ref={parentRef} style={{ width: '663px' }}>
 					<ModalHead>
 						<ModalTitle>Настройки доступа</ModalTitle>
 
@@ -389,7 +391,7 @@ const CreateManager = ({ openManager }: IProps) => {
 					</ModalHead>
 					<ModalBody>
 						{/* tables  */}
-						<RoleTable />
+						<RoleTable parentRef={parentRef?.current} />
 					</ModalBody>
 				</ModalMain>
 			)}

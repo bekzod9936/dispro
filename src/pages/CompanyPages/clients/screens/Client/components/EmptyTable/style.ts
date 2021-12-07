@@ -14,6 +14,12 @@ export const Wrapper = styled.div`
         color: #223367;
         margin-top: 15px;
     }
+    @media(max-width: ${device.planshet}) {
+        p {
+            width: 240px;
+            text-align: center;
+        }
+    }
     @media(max-width: ${device.mobile}) {
         p {
             text-align: center;

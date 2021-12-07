@@ -21,6 +21,7 @@ export const FormRow = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  padding:0px 0px 20px 0;
 `;
 
 
@@ -116,6 +117,17 @@ export const Container = styled.div`
 export const Wrapper = styled.div`
     width: 100%;
     height: 100%;
+    @media (max-width: ${device.planshet}) {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      z-index: 2500;
+      display: flex;
+      align-items: center;
+      orientation: portret;
+    }
 `
 
 export const UpSide = styled.div`
@@ -136,6 +148,13 @@ export const UpSide = styled.div`
         border-radius: 14px 0px 0px 14px;
     }
     @media (max-width: ${device.mobile}) {
+      height: 100%;
+      width: 100%;
+      ::-webkit-scrollbar {
+       width: 5px;
+    }
+    }
+    @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
       height: 100%;
       width: 100%;
     }
@@ -202,12 +221,20 @@ export const DownSide = styled.div`
     padding: 25px 0;
     background-color: white;
     width: 100%;
+    z-index:20;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
     display: flex;
     justify-content: flex-start;
     height: 25%;
     @media (max-width: 1150px) {
       padding-right: 20px;
+    }
+    @media (min-width: ${device.mobile}) and (max-width:${device.planshet}) {
+      display: flex;
+      padding: 25px 0 0 0;
+      height: 8%;
+      justify-content: center;
+
     }
 `
 export const Form = styled.form`
@@ -219,6 +246,7 @@ export const Form = styled.form`
     padding: 35px 110px 0 110px;
     @media (max-width: ${device.laptop}) {
       padding: 20px 25px;
+      width: 100%;
     }
     @media (max-width: 1150px) {
       padding-right: 0;

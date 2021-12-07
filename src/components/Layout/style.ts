@@ -223,6 +223,8 @@ export const ListI = styled(ListItem)`
 
 export const DesktopDrawer = styled(Drawer)`
   .MuiDrawer-paper {
+    scrollbar-width: none;
+
     &::-webkit-scrollbar {
       appearance: none;
       display: none;
