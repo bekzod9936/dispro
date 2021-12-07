@@ -28,6 +28,7 @@ import useNewsRoute from "../../routes";
 import { LaptopFilterNews } from "../../components/LaptopFilterNews";
 import NoNewsLaptop from "../../components/NoNewsLaptop";
 import { Flex } from "../../style";
+import { NewPagination } from 'components/Custom/NewPagination';
 import { LeftHeader, WrapMobile, WrapHeader } from "./style";
 interface intialFilterProps {
   page?: number;
@@ -48,6 +49,7 @@ const Waiting = () => {
   );
   const selectedNews = useAppSelector((state) => state.news.selectedNews);
   const query = useAppSelector((state) => state.news.query);
+  
   const { newsPath } = useNewsRoute();
   const { t } = useTranslation();
   const handleOpenSetting = () => {
@@ -163,13 +165,18 @@ const Waiting = () => {
                       secondWord: t("новостей"),
                     })}
                   </Info>
-                  <Pagination
+                     <NewPagination
+              onChange={handlechangePage}
+              currentPage={Number(filterValues.page)}
+              totalCount={Number(totalCount)}
+            />
+                  {/* <Pagination
                     page={filterValues.page}
                     count={totalCount}
                     onChange={handlechangePage}
                     disabled={response.isLoading || response.isFetching}
                     siblingCount={0}
-                  />
+                  /> */}
                 </WrapPag>
               ) : null}
             </>
@@ -215,13 +222,13 @@ const Waiting = () => {
                       secondWord: t("новостей"),
                     })}
                   </Info>
-                  <Pagination
-                    page={filterValues.page}
-                    count={totalCount}
-                    onChange={handlechangePage}
-                    disabled={response.isLoading || response.isFetching}
-                    siblingCount={width <= 600 ? 0 : 4}
-                  />
+                    <NewPagination
+              onChange={handlechangePage}
+              currentPage={Number(filterValues.page)}
+              totalCount={Number(totalCount)}
+            />
+                   
+                  
                 </WrapPag>
               ) : null}
             </>

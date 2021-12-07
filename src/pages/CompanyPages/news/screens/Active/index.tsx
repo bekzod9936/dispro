@@ -33,7 +33,7 @@ import { Container, Wrap, Info, WrapPag, WrapSpinner } from "./style";
 import useNewsRoute from "../../routes";
 import useActive from "./useActive";
 import Pagination from "components/Custom/Pagination";
-
+import { NewPagination } from 'components/Custom/NewPagination';
 interface intialFilterProps {
   page?: number;
   perPage?: number;
@@ -179,13 +179,12 @@ const Active = () => {
                       secondWord: t("новостей"),
                     })}
                   </Info>
-                  <Pagination
-                    page={filterValues.page}
-                    count={totalCount}
-                    onChange={handlechangePage}
-                    disabled={response.isLoading || response.isFetching}
-                    siblingCount={0}
-                  />
+                  <NewPagination
+              onChange={handlechangePage}
+              currentPage={Number(filterValues.page)}
+              totalCount={Number(totalCount)}
+            />
+               
                 </WrapPag>
               ) : null}
             </>
@@ -223,7 +222,7 @@ const Active = () => {
                 </SideBar>
                 {list.length > 0 ? (
                   <WrapPag>
-                    <Info>
+                       <Info>
                       {t("shown")}
                       <span>{between}</span>
                       {t("from1")} <span>{totalNewsCount}</span>
@@ -233,13 +232,12 @@ const Active = () => {
                         secondWord: t("новостей"),
                       })}
                     </Info>
-                    <Pagination
-                      page={filterValues.page}
-                      count={totalCount}
-                      onChange={handlechangePage}
-                      disabled={response.isLoading || response.isFetching}
-                      siblingCount={width <= 600 ? 0 : 4}
-                    />
+
+               <NewPagination
+              onChange={handlechangePage}
+              currentPage={Number(filterValues.page)}
+              totalCount={Number(totalCount)}
+            />
                   </WrapPag>
                 ) : null}
               </>

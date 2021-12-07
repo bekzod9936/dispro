@@ -2,7 +2,6 @@ import Button from "components/Custom/Button";
 import CustomToggle from "components/Custom/CustomToggleSwitch";
 import Input from "components/Custom/Input";
 import { TextArea } from "components/Custom/TextArea";
-
 import MultiSelect from "components/Custom/MultiSelect";
 import Title from "components/Custom/Title";
 import CheckBox from "components/Custom/CheckBox";
@@ -158,8 +157,8 @@ const CreateNews = () => {
     let newsData = {
       title: data.name,
       startLifeTime:
-        width > 600 ? data.startDate : filter?.regDate?.regDateFrom,
-      endLifeTime: width > 600 ? data.endDate : filter?.regDate?.regDateTo,
+        width > 1000 ? data.startDate : filter?.regDate?.regDateFrom,
+      endLifeTime: width > 1000 ? data.endDate : filter?.regDate?.regDateTo,
       description: data.description,
       ageFrom: parseInt(data.ageLimit),
       ageTo: 100,
@@ -167,7 +166,7 @@ const CreateNews = () => {
       couponIds: [],
       image: image,
       genderType: data.gender?.id,
-      pushUp: optionalFields.push && data.descriptionPush,
+      pushUp: optionalFields.push ,
       settings: {
         weekDays:
           optionalFields.push && data?.days?.length
@@ -185,8 +184,8 @@ const CreateNews = () => {
       },
       pushUpTitle: optionalFields.push ? data.descriptionPush : "",
     };
-    setStartDate(width > 600 ? data.startDate : filter?.regDate?.regDateFrom);
-    setSubmit(width > 600 && data.startDate ? true: filter?.regDate?.regDateFrom ? true : false);
+    setStartDate(width > 1000 ? data.startDate : filter?.regDate?.regDateFrom);
+    setSubmit(width > 1000 && data.startDate ? true: filter?.regDate?.regDateFrom ? true : false);
     setFormData(newsData);
   };
 
@@ -201,7 +200,7 @@ const CreateNews = () => {
 
     setTimeout(() => history.goBack(), 1000);
   };
-
+ 
   return (
     <Wrapper>
       {width > 1000 && (
@@ -212,7 +211,7 @@ const CreateNews = () => {
             onClick={handleBack}
             style={{ marginRight: "25px", cursor: "pointer" }}
           />
-          <Title>{t("Добавление новости")}</Title>
+          <Title>{t('Добавление новости')}</Title>
         </div>
       )}
       <UploadModal
@@ -327,7 +326,7 @@ const CreateNews = () => {
                   />
                 )}
               />
-              {width > 600 ? (
+              {width > 1000 ? (
                 <WrapInputs>
                   <Label>{t("chose_date")}</Label>
                   <div>
@@ -380,7 +379,7 @@ const CreateNews = () => {
                   <div>
                     <CustomDatePicker
                       margin="0 15px 0 0"
-                      isFilter
+                      isStyledDate
                       text={t("from")}
                       error={
                         validation && !filter?.regDate?.regDateFrom
@@ -390,20 +389,22 @@ const CreateNews = () => {
                       minDate={todayDate}
                       maxDate={filter?.regDate?.regDateTo}
                       onChange={(e) => {
+                     
+                        
                         let date =
-                          "" + e.year + "-" + e.month.number + "-" + e.day;
+                          ""+ e.year + "." + e.month.number + "." + e.day;
                         setFilter((prev: any) => ({
                           ...prev,
                           regDate: {
                             ...prev["regDate"],
-                            regDateFrom: date,
+                            regDateFrom: date
                           },
                         }));
                       }}
                       value={filter?.regDate?.regDateFrom}
                     />
                     <CustomDatePicker
-                      isFilter
+                        isStyledDate
                       error={
                         validation && !filter?.regDate?.regDateTo ? true : false
                       }
@@ -411,7 +412,7 @@ const CreateNews = () => {
                       minDate={filter?.regDate?.regDateFrom}
                       onChange={(e) => {
                         let date =
-                          "" + e.year + "-" + e.month.number + "-" + e.day;
+                        ""+e.year + "." + e.month.number + "." + e.day;
                         setFilter((prev: any) => ({
                           ...prev,
                           regDate: {
@@ -420,6 +421,7 @@ const CreateNews = () => {
                           },
                         }));
                       }}
+                      
                       value={filter?.regDate?.regDateTo}
                     />
                   </div>
@@ -653,6 +655,7 @@ const CreateNews = () => {
               {t("Отмена")}
             </Button>
             <Button
+             onClick={() => setValidation(true)}
               type="submit"
               margin={{ laptop: "0 25px" }}
               endIcon={<SaveIconMobile />}
