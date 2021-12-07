@@ -182,6 +182,7 @@ const CashierSetting = () => {
 									render={({ field }) => {
 										return (
 											<InputFormat
+												maxLength='11'
 												label={'Размер вознаграждения UZS'}
 												disabled={!additionalCheck}
 												type='string'
@@ -205,6 +206,7 @@ const CashierSetting = () => {
 									render={({ field }) => {
 										return (
 											<InputFormat
+												maxLength='11'
 												label={'Сумма операции'}
 												disabled={!additionalCheck}
 												type='string'
