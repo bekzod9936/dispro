@@ -23,6 +23,7 @@ import {
 } from './style';
 import useWindowWidth from 'services/hooks/useWindowWidth';
 import Stars from '../../components/Stars';
+
 interface intialFilterProps {
   page?: number;
   cashierStaffId?: number | string;
@@ -53,9 +54,6 @@ const Reviews = () => {
     filterValues,
   });
 
-  console.log(resClients.isLoading, resClients.isFetching, 'aaaa');
-
-
   const handleSearch = (e: any) => {
     setInpuSearch(e.target.value);
 
@@ -76,9 +74,14 @@ const Reviews = () => {
     await resClients.refetch();
   };
 
+  const isValue =
+    (filterValues.cashierStaffId !== '' &&
+      filterValues.cashierStaffId !== undefined) ||
+    (filterValues.rating !== '' && filterValues.rating !== undefined);
+
   return (
     <Container>
-      <FilterWarp>
+      <FilterWarp isValue={isValue}>
         <Input
           IconStart={<SearchIcon />}
           inputStyle={{

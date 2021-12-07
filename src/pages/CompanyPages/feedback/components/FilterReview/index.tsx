@@ -4,7 +4,15 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'services/redux/hooks';
 import useFeedBack from '../../hooks/useFeedBack';
-import { WrapCheck, Label, WrapChecks, StarIcon } from './style';
+import {
+  WrapCheck,
+  Label,
+  WrapChecks,
+  StarIcon,
+  ButtonKeyWord,
+  DeleteIcon,
+  WrapValues,
+} from './style';
 import { IconButton } from '@material-ui/core';
 
 interface CProps {
@@ -96,8 +104,73 @@ const FilterReview = ({ setFilterValues, filterValues }: Props) => {
     },
   ];
 
+  const filtercash =
+    filterValues.cashierStaffId !== '' &&
+    filterValues.cashierStaffId !== undefined ? (
+      <ButtonKeyWord>
+        {`${t('cashier')}: `}
+        {cashierStaffId?.label}
+        <IconButton
+          onClick={async () => {
+            await setFilterValues({
+              ...filterValues,
+              cashierStaffId: '',
+            });
+            await setCashierStaffId({});
+            await resClients.refetch();
+          }}
+        >
+          <DeleteIcon />
+        </IconButton>
+      </ButtonKeyWord>
+    ) : null;
+
+  const funCount = (number: any) => {
+    switch (number) {
+      case 1:
+        return t('star1');
+      case 2:
+      case 3:
+      case 4:
+        return t('star23');
+      case 5:
+        return t('star5');
+    }
+  };
+
+  const ratingValue: any =
+    filterValues.rating !== '' && filterValues.rating !== undefined ? (
+      <ButtonKeyWord>
+        {`${t('rating')}: ${filterValues.rating} ${funCount(
+          filterValues.rating
+        )}`}
+        <IconButton
+          onClick={async () => {
+            await setFilterValues({
+              ...filterValues,
+              rating: '',
+            });
+            await setRating('');
+            await resClients.refetch();
+          }}
+        >
+          <DeleteIcon />
+        </IconButton>
+      </ButtonKeyWord>
+    ) : null;
+
   return (
-    <Filter list={filterList} onSubmit={handleFilterSubmit} onReset={onReset} />
+    <>
+      <Filter
+        list={filterList}
+        onSubmit={handleFilterSubmit}
+        onReset={onReset}
+      />
+      <WrapValues>
+        {ratingValue}
+        {filtercash}
+      </WrapValues>
+    </>
   );
 };
 
