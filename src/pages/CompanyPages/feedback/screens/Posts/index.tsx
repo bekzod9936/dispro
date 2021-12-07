@@ -33,6 +33,7 @@ import {
   setTotalHistory,
 } from 'services/redux/Slices/feedback';
 import { TextareaAutosize } from '@material-ui/core';
+import FullModal from 'components/Custom/FullModal';
 //style
 import {
   Container,
@@ -75,8 +76,6 @@ import {
   WrapIcons,
   WrapScript,
 } from '../../style';
-import FullModal from 'components/Custom/FullModal';
-import useDelete from '../../hooks/useDelete';
 
 interface StateProps {
   chosenValues?: any;
@@ -92,18 +91,25 @@ interface FormProps {
 const Posts = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const companyId: any = localStorage.getItem('companyId');
+  const { control, handleSubmit, setValue, getValues, watch } =
+    useForm<FormProps>({
+      mode: 'onBlur',
+      shouldFocusError: true,
+    });
+  const values = getValues();
   const [state, setState] = useState<StateProps>({
     showEmoji: false,
     loading: false,
     chosenValues: {},
     limit: 400,
   });
-  const companyId: any = localStorage.getItem('companyId');
+
   const [newMassage, setNewMassage] = useState<any>({});
   const [inpuSearch, setInpuSearch] = useState<string>('');
   const [searchRes, setSearchRes] = useState<any[]>([]);
   const [searchFocus, setSearchFocus] = useState<boolean>(false);
-  const [users, setUsers] = useState<any>([]);
+
   const words = 400;
   const { width } = useWindowWidth();
   const histories: any = useAppSelector(
@@ -120,86 +126,53 @@ const Posts = () => {
   );
 
   const socket = useAppSelector((state) => state.feedbackPost.socket);
-  const { control, handleSubmit, setValue, getValues, watch } =
-    useForm<FormProps>({
-      mode: 'onBlur',
-      shouldFocusError: true,
-    });
-  const values = getValues();
 
-  const messages: any = useAppSelector((state) => state.feedbackPost.messages);
-  const totalData: any = useAppSelector(
-    (state) => state.feedbackPost.totalHistory
-  );
+  const usersList: any = useAppSelector((state) => state.feedbackPost.messages);
+
   useEffect(() => {
-    if (chosenClient?.choose) {
-      const newArr = messages.filter((v: any) => {
-        if (v.id === chosenClient?.data?.clientId) {
-          return v;
-        } else {
-          return null;
-        }
-      });
-      const newData = {
-        date: '',
-        firstName: chosenClient?.data?.clientFirstName,
-        id: chosenClient?.data?.clientId,
-        image: chosenClient?.data?.clientImage,
-        isDeleted: false,
-        lastMsg: '',
-        lastName: chosenClient?.data?.clientLastName,
-        genderTypeId: chosenClient?.data?.clientGenderTypeId,
-        obtainProgramLoyalty: chosenClient?.data?.obtainProgramLoyalty,
-      };
-      if (newArr.length === 0) {
-        dispatch(setMessagesFeedBack([newData, ...messages]));
-        dispatch(setTotalHistory({ ...totalData, hasMore: false }));
-        dispatch(
-          setChosenListUser({
-            ...choseListUser,
-            isChoose: chosenClient?.choose,
-            chosen: newData,
-          })
-        );
-        scrollToTop();
-      } else {
+    if (usersList.length > 0) {
+      if (chosenClient?.choose) {
+        const newData = {
+          date: '',
+          firstName: chosenClient?.data?.clientFirstName,
+          id: chosenClient?.data?.clientId,
+          image: chosenClient?.data?.clientImage,
+          isDeleted: false,
+          lastMsg: '',
+          lastName: chosenClient?.data?.clientLastName,
+          genderTypeId: chosenClient?.data?.clientGenderTypeId,
+          obtainProgramLoyalty: chosenClient?.data?.obtainProgramLoyalty,
+        };
+        setState({ ...state, chosenValues: newData });
+        dispatch(setChatClientHistory([]));
       }
-      setState({ ...state, chosenValues: newData });
-      dispatch(setChatClientHistory([]));
     }
-  }, [chosenClient]);
+  }, [usersList]);
 
   const { resChatClients, scrollToTop } = useChatClients();
-
-  useEffect(() => {
-    if (values?.message !== undefined) {
-      setState({ ...state, limit: words - values?.message?.length });
-    }
-  }, [watch('message')]);
 
   const choseListUser: any = useAppSelector(
     (state) => state.feedbackPost.chosenListUser
   );
 
   useEffect(() => {
-    if (badgeStore?.id !== state.chosenValues.id) {
-      const a = messages.filter((v: any) => badgeStore?.id === v.id);
-      console.log(a);
-      setState({ ...state, chosenValues: badgeStore });
-      dispatch(setChatClientHistory([]));
-      dispatch(
-        setChosenListUser({
-          ...choseListUser,
-          chosen: badgeStore,
-          isChoose: true,
-        })
-      );
+    if (usersList.length > 0) {
+      const arr: any = usersList.filter((v: any) => v.id === badgeStore?.id);
+      if (
+        badgeStore?.id !== state.chosenValues.id &&
+        badgeStore?.id !== undefined
+      ) {
+        setState({ ...state, chosenValues: arr[0] });
+        dispatch(
+          setChosenListUser({
+            ...choseListUser,
+            isChoose: true,
+            chosen: arr[0],
+          })
+        );
+      }
     }
-  }, [badgeStore]);
-
-  useEffect(() => {
-    setUsers(messages);
-  }, [messages]);
+  }, [badgeStore, usersList]);
 
   useEffect(() => {
     socket?.on(SOCKET_EVENT.CHAT_CLIENT_TO_PARTNER, function (message: any) {
@@ -218,39 +191,20 @@ const Posts = () => {
   }, [socket]);
 
   useEffect(() => {
-    if (state.chosenValues.id !== undefined) {
+    if (state.chosenValues.id === newMassage?.fromId) {
       dispatch(setChatClientHistory([newMassage, ...histories]));
       if (CHAT_TYPES.CLIENT_TO_PARTNER === newMassage.chatType) {
-        resBadge.refetch();
-        readChat.mutate([newMassage?.id]);
+        readChat.mutate([newMassage?.id], {
+          onSuccess: () => {
+            resBadge.refetch();
+          },
+        });
       }
     }
+    if (state.chosenValues.id === newMassage?.toId && newMassage.msg !== '') {
+      dispatch(setChatClientHistory([newMassage, ...histories]));
+    }
   }, [newMassage]);
-
-  const handleSearch = (e: any) => {
-    setInpuSearch(e.target.value);
-    const searchResult: any = messages?.filter((v: any) => {
-      return (
-        v.firstName.toLowerCase().includes(e.target.value?.toLowerCase()) ||
-        v.lastName.toLowerCase().includes(e.target.value?.toLowerCase())
-      );
-    });
-
-    setSearchRes(searchResult);
-  };
-
-  const limitwords = (
-    <>
-      {t('limitfeedback')}
-
-      {` ${state.limit} ${ruCount({
-        count: state.limit,
-        firstWord: 'символ',
-        secondWord: 'символа',
-        thirdWord: 'символов',
-      })}`}
-    </>
-  );
 
   const onSubmit = (e: any) => {
     setState({ ...state, loading: true });
@@ -269,6 +223,7 @@ const Posts = () => {
         },
         (res: any) => {
           if (res.success) {
+            console.log(res.data);
             setValue('message', '');
             setNewMassage({
               chatType: res?.data?.chatType,
@@ -290,67 +245,69 @@ const Posts = () => {
     }
   };
 
-  const userList = users?.map((v: any) => {
-    return (
-      <ChatUser
-        key={v.id}
-        value={{
-          onClick: () => {
-            if (v.id !== state.chosenValues?.id) {
-              setState({ ...state, chosenValues: v });
-              dispatch(setChatClientHistory([]));
-              dispatch(
-                setChosenListUser({
-                  ...choseListUser,
-                  chosen: v,
-                  isChoose: true,
-                })
-              );
-            }
-          },
-          isActive: v.id === state.chosenValues?.id,
-          firstName: v.firstName,
-          image: v.image,
-          lastName: v.lastName,
-          lastMsg: v.lastMsg,
-          clientGenderTypeId: v.genderTypeId,
-          chatType: v.chatType,
-          status: v.status,
-        }}
-      />
-    );
-  });
+  const funRenderUsers = (list: any) => {
+    return list?.map((v: any) => {
+      return (
+        <ChatUser
+          key={v.id}
+          value={{
+            onClick: () => {
+              if (v.id !== state.chosenValues?.id) {
+                setState({ ...state, chosenValues: v });
+                dispatch(setChatClientHistory([]));
+                dispatch(
+                  setChosenListUser({
+                    ...choseListUser,
+                    chosen: v,
+                    isChoose: true,
+                  })
+                );
+              }
+            },
+            isActive: v.id === state.chosenValues?.id,
+            firstName: v.firstName,
+            image: v.image,
+            lastName: v.lastName,
+            lastMsg: v.lastMsg,
+            clientGenderTypeId: v.genderTypeId,
+            chatType: v.chatType,
+            status: v.status,
+          }}
+        />
+      );
+    });
+  };
 
-  const searchList = searchRes?.map((v: any) => {
-    return (
-      <ChatUser
-        key={v.id}
-        value={{
-          onClick: () => {
-            if (v.id !== state.chosenValues?.id) {
-              setState({ ...state, chosenValues: v });
-              dispatch(setChatClientHistory([]));
-              dispatch(
-                setChosenListUser({
-                  ...choseListUser,
-                  chosen: v,
-                  isChoose: true,
-                })
-              );
-            }
-          },
-          isActive: v.id === state.chosenValues?.id,
-          firstName: v.firstName,
-          image: v.image,
-          lastName: v.lastName,
-          lastMsg: v.lastMsg,
-          clientGenderTypeId: v.genderTypeId,
-          chatType: v.chatType,
-          status: v.status,
-        }}
-      />
-    );
-  });
+  useEffect(() => {
+    if (values?.message !== undefined) {
+      setState({ ...state, limit: words - values?.message?.length });
+    }
+  }, [watch('message')]);
+
+  const handleSearch = (e: any) => {
+    setInpuSearch(e.target.value);
+    const searchResult: any = usersList?.filter((v: any) => {
+      return (
+        v.firstName.toLowerCase().includes(e.target.value?.toLowerCase()) ||
+        v.lastName.toLowerCase().includes(e.target.value?.toLowerCase())
+      );
+    });
+
+    setSearchRes(searchResult);
+  };
+
+  const limitwords = (
+    <>
+      {t('limitfeedback')}
+
+      {` ${state.limit} ${ruCount({
+        count: state.limit,
+        firstWord: 'символ',
+        secondWord: 'символа',
+        thirdWord: 'символов',
+      })}`}
+    </>
+  );
 
   if (width <= 600) {
     return (
@@ -381,11 +338,11 @@ const Posts = () => {
         ) : (
           <>
             {!searchFocus || inpuSearch === '' ? (
-              <MobileMessages>{userList}</MobileMessages>
+              <MobileMessages>{funRenderUsers(usersList)}</MobileMessages>
             ) : searchRes?.length === 0 ? (
               <NoResult>{t('notfinduser')}</NoResult>
             ) : (
-              <MobileMessages>{searchList}</MobileMessages>
+              <MobileMessages>{funRenderUsers(searchRes)}</MobileMessages>
             )}
           </>
         )}
@@ -562,16 +519,16 @@ const Posts = () => {
           <Box3>
             <WrapChatUsers>
               {!searchFocus || inpuSearch === '' ? (
-                <>{userList}</>
+                <>{funRenderUsers(usersList)}</>
               ) : searchRes?.length === 0 ? (
                 <NoResult>{t('notfinduser')}</NoResult>
               ) : (
-                <>{searchList}</>
+                <>{funRenderUsers(searchRes)}</>
               )}
             </WrapChatUsers>
           </Box3>
           {state?.chosenValues?.id !== undefined && choseListUser?.isChoose ? (
-            messages?.map((v: any) => {
+            usersList?.map((v: any) => {
               if (v.id === state?.chosenValues?.id) {
                 return (
                   <>

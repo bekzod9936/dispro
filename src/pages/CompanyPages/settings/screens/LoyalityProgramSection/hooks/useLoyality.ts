@@ -258,17 +258,19 @@ const useLoyality = () => {
   };
 
   const onFormSubmit = async (data: FormProps) => {
-    setActiveCheck(switchKey);
     if (!checkLevels(data.levels, data.base_name, data.base_percent)) {
+      setActiveCheck(switchKey);
       try {
         useProgramSave.mutate({
           useProgram: data.useProgram,
           usePoint: data.usePoint,
         });
 
+        console.log(data, "data used for change");
+
         if (activeCheck === "discount") {
           loayalityPut.mutate({
-            cashbackReturnedDay: 0,
+            cashbackReturnedDay: data.give_cashback_after,
             description: "",
             isActive: true,
             companyId: parseInt(companyId),
@@ -306,7 +308,7 @@ const useLoyality = () => {
           }
         } else if (activeCheck === "cashback") {
           loayalityPut.mutate({
-            cashbackReturnedDay: data.give_cashback_after || 0,
+            cashbackReturnedDay: data.give_cashback_after,
             description: "",
             isActive: true,
             companyId: parseInt(companyId),
@@ -344,7 +346,7 @@ const useLoyality = () => {
           }
         } else if (activeCheck === "bonuspoint") {
           loayalityPut.mutate({
-            cashbackReturnedDay: 0,
+            cashbackReturnedDay: data.give_cashback_after,
             description: "",
             isActive: true,
             companyId: parseInt(companyId),
@@ -719,8 +721,7 @@ const useLoyality = () => {
     },
   });
 
-  console.log(activeCheck, "active check");
-  console.log(active.active, "active");
+  console.log(refetchCashback, activeCheck, active.active, "refetch cashback");
 
   useEffect(() => {
     if (active.active === "cashback" || activeCheck === "cashback") {
