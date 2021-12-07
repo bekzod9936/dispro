@@ -132,7 +132,10 @@ const CreateManager = ({ openManager }: IProps) => {
 	const handleUploadImg = (data: any) => {
 		setFile(data.target.files[0]);
 		setIsCropVisible(true);
+
+		setValue('logo', '');
 	};
+	console.log(logo);
 
 	return (
 		<Modal open={openManager}>

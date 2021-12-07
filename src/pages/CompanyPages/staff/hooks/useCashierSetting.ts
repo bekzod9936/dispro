@@ -19,7 +19,9 @@ export interface IForm {
 const useCashierSetting = () => {
   const dispatch = useAppDispatch();
 
-  const { control, handleSubmit, setValue } = useForm<IForm>();
+  const { control, handleSubmit, setValue, watch, clearErrors, formState: {errors} } = useForm<IForm>({
+	  mode: 'onChange'
+  });
 
   const ballCheck = useWatch({
     control,
@@ -114,6 +116,9 @@ const useCashierSetting = () => {
     setValue,
     control,
     changeLoyality,
+	errors,
+	watch,
+	clearErrors
   };
 };
 
