@@ -2,23 +2,11 @@ import useWindowWidth from 'services/hooks/useWindowWidth';
 import Spinner from 'components/Custom/Spinner';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import dayjs from 'dayjs';
-import { Avatar, Divider } from '../../style';
-import {
-  WrapDateMessage,
-  WrapDownIcon,
-  MessageWrap,
-  MessageDate,
-  MessageText,
-  Message,
-  WrapDown,
-  DownIcon,
-  Messages,
-  ChatPlace1,
-} from './style';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import { useState, useRef } from 'react';
 import {
+  setBadgeStorePost,
   setChatClientHistory,
   setTotalHistory,
 } from 'services/redux/Slices/feedback';
@@ -33,27 +21,50 @@ import defuserman from 'assets/icons/defuserman.png';
 import defuserwoman from 'assets/icons/defuserwoman.png';
 import useRead from '../../hooks/useRead';
 import { useTranslation } from 'react-i18next';
-
+import { Avatar, Divider } from '../../style';
+import {
+  WrapDateMessage,
+  WrapDownIcon,
+  MessageWrap,
+  MessageDate,
+  MessageText,
+  Message,
+  WrapDown,
+  DownIcon,
+  Messages,
+  ChatPlace1,
+} from './style';
+import useLayout from 'components/Layout/useLayout';
 interface Props {
   data?: any;
 }
 
 const ChatPlace = ({ data }: Props) => {
   const { t } = useTranslation();
-
   const { width } = useWindowWidth();
+  const companyInfo = useAppSelector((state) => state.partner.companyInfo);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const companyId: any = localStorage.getItem('companyId');
+
   const [scrollHeight, setScrollHeight] = useState(0);
   const [page, setPage] = useState(1);
   const [lastdate, setLastdate] = useState<any>('');
 
-  const companyInfo = useAppSelector((state) => state.partner.companyInfo);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const histories: any = useAppSelector(
+    (state) => state.feedbackPost.histories
+  );
+  const totalHistory: any = useAppSelector(
+    (state) => state.feedbackPost.totalHistory
+  );
+  const { resBadge } = useLayout({ id: companyId });
+
   const { readChat } = useRead();
   const dispatch = useAppDispatch();
-  const { scrollToTop, messagesStartRef } = useChatClients();
+  const { scrollToTop, messagesStartRef, resChatClients } = useChatClients();
   const chosen = useAppSelector(
     (state) => state.feedbackPost.chosenListUser?.chosen
   );
+
   const totalData: any = useAppSelector(
     (state) => state.feedbackPost.totalHistory
   );
@@ -117,21 +128,6 @@ const ChatPlace = ({ data }: Props) => {
     }
   };
 
-  const check = (status: any) => {
-    return status === 1 ? (
-      <OneCheckIcon />
-    ) : status === 2 ? (
-      <DoubleCheckIcoon />
-    ) : null;
-  };
-
-  const histories: any = useAppSelector(
-    (state) => state.feedbackPost.histories
-  );
-  const totalHistory: any = useAppSelector(
-    (state) => state.feedbackPost.totalHistory
-  );
-
   useEffect(() => {
     const newArr = histories
       .filter((v: any) =>
@@ -143,7 +139,13 @@ const ChatPlace = ({ data }: Props) => {
       )
       .map((i: any) => i.id);
     if (newArr.length !== 0) {
-      readChat.mutate(newArr);
+      readChat.mutate(newArr, {
+        onSuccess: () => {
+          resBadge.refetch();
+          dispatch(setBadgeStorePost({}));
+          setTimeout(() => resChatClients.refetch(), 2000);
+        },
+      });
     }
     if (histories.length === totalHistory.total) {
       const last = histories[histories?.length - 1];
@@ -156,7 +158,14 @@ const ChatPlace = ({ data }: Props) => {
     setScrollHeight(Math.abs(e.target.scrollTop));
   };
 
-  console.log(histories);
+  const check = (status: any) => {
+    return status === 1 ? (
+      <OneCheckIcon />
+    ) : status === 2 ? (
+      <DoubleCheckIcoon />
+    ) : null;
+  };
+
   if (width <= 600) {
     return (
       <ChatPlace1>

@@ -3,9 +3,12 @@ import { useForm, useWatch } from "react-hook-form";
 import { useQuery, useMutation } from "react-query";
 import { fetchRewards } from "services/queries/partnerQuery";
 import { saveBonusRewards } from "services/queries/awardingSettingsQuery";
+import { notify } from "services/utils/local_notification";
+import { useTranslation } from "react-i18next";
 
 const useAwards = () => {
   const companyId: any = localStorage.getItem("companyId");
+  const { t } = useTranslation();
   const { control, handleSubmit, setValue } = useForm<IForm>();
 
   const inviteCheck = useWatch({
@@ -81,6 +84,7 @@ const useAwards = () => {
     {
       onSuccess: () => {
         refetch();
+        notify(t("saved"));
       },
     }
   );

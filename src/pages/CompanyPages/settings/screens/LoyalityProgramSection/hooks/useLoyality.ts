@@ -49,6 +49,7 @@ import {
   setECashback,
   switchKeyT,
 } from "services/atoms/settings";
+import { setSwitchKeyT } from "services/atoms/settings/index";
 import { notify } from "services/utils/local_notification";
 
 const useLoyality = () => {
@@ -68,6 +69,7 @@ const useLoyality = () => {
   const setLoyaltyUse = useSetRecoilState(setUseLoyal);
   const setActive = useSetRecoilState(setActiveM);
   const setActiveCheck = useSetRecoilState(setActiveCheckM);
+  const setSwitchKey = useSetRecoilState(setSwitchKeyT);
 
   const setEmptyCashback = useSetRecoilState(setECashback);
   const setEmptyDiscount = useSetRecoilState(setEDiscount);
@@ -258,17 +260,16 @@ const useLoyality = () => {
   };
 
   const onFormSubmit = async (data: FormProps) => {
-    setActiveCheck(switchKey);
     if (!checkLevels(data.levels, data.base_name, data.base_percent)) {
+      setActiveCheck(switchKey);
       try {
         useProgramSave.mutate({
           useProgram: data.useProgram,
           usePoint: data.usePoint,
         });
-
-        if (activeCheck === "discount") {
+        if (activeCheck === "discount" || switchKey === "discount") {
           loayalityPut.mutate({
-            cashbackReturnedDay: 0,
+            cashbackReturnedDay: data.give_cashback_after,
             description: "",
             isActive: true,
             companyId: parseInt(companyId),
@@ -304,9 +305,9 @@ const useLoyality = () => {
               type: "discount",
             });
           }
-        } else if (activeCheck === "cashback") {
+        } else if (activeCheck === "cashback" || switchKey === "cashback") {
           loayalityPut.mutate({
-            cashbackReturnedDay: data.give_cashback_after || 0,
+            cashbackReturnedDay: data.give_cashback_after,
             description: "",
             isActive: true,
             companyId: parseInt(companyId),
@@ -342,9 +343,9 @@ const useLoyality = () => {
               type: "cashback",
             });
           }
-        } else if (activeCheck === "bonuspoint") {
+        } else if (activeCheck === "bonuspoint" || switchKey === "bonuspoint") {
           loayalityPut.mutate({
-            cashbackReturnedDay: 0,
+            cashbackReturnedDay: data.give_cashback_after,
             description: "",
             isActive: true,
             companyId: parseInt(companyId),
@@ -417,6 +418,7 @@ const useLoyality = () => {
         if (data?.data?.data?.isActive) {
           setAvailCheck(true);
           setActive({ active: "discount" });
+          setSwitchKey("discount");
 
           setBaseLoyality({
             max_percent: data.data.data.maxAmount,
@@ -480,6 +482,7 @@ const useLoyality = () => {
         if (data?.data?.data?.isActive) {
           setAvailCheck(true);
           setActive({ active: "cashback" });
+          setSwitchKey("cashback");
           setValue("max_percent", data.data.data.maxAmount);
 
           setBaseLoyality({
@@ -540,6 +543,7 @@ const useLoyality = () => {
           if (data?.data?.data?.isActive) {
             setAvailCheck(true);
             setActive({ active: "bonuspoint" });
+            setSwitchKey("bonuspoint");
 
             setBaseLoyality({
               max_percent: data.data.data.maxAmount,
@@ -719,8 +723,7 @@ const useLoyality = () => {
     },
   });
 
-  console.log(activeCheck, "active check");
-  console.log(active.active, "active");
+  console.log(refetchCashback, activeCheck, active.active, "refetch cashback");
 
   useEffect(() => {
     if (active.active === "cashback" || activeCheck === "cashback") {

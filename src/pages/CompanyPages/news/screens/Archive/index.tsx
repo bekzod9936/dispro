@@ -10,10 +10,8 @@ import { useAppSelector, useAppDispatch } from "services/redux/hooks";
 import { SideBar } from "../../components/SideBar";
 import { NewsBar } from "../../components/NewsBar";
 import { Container, Wrap, Info, WrapPag, WrapSpinner } from "./style";
-
 import useData from "../useData";
 import useArchive from "./useArchive";
-import Pagination from "components/Custom/Pagination";
 import MobileTable from "../../components/MobileTable";
 import useWindowWidth from "services/hooks/useWindowWidth";
 import { FilterNews } from "../../components/FilterNews";
@@ -22,6 +20,7 @@ import { countPagination } from "../../components/utils";
 import { LaptopFilterNews } from "../../components/LaptopFilterNews";
 import NoNewsLaptop from "../../components/NoNewsLaptop";
 import { MobileFilterNews } from "../../components/MobileFilterNews";
+import { NewPagination } from 'components/Custom/NewPagination';
 interface intialFilterProps {
   page?: number;
   perPage?: number;
@@ -148,17 +147,16 @@ const Archive = () => {
                     {t("from1")} <span>{totalNewsCount}</span>
                     {countPagination({
                       count: totalNewsCount,
-                      firstWord: t("новости "),
-                      secondWord: t("новостей"),
+                      firstWord: t("newspaginationtitle "),
+                      secondWord: t("newspaginationtitles"),
                     })}
                   </Info>
-                  <Pagination
-                    page={filterValues.page}
-                    count={totalCount}
-                    onChange={handlechangePage}
-                    disabled={response.isLoading || response.isFetching}
-                    siblingCount={0}
-                  />
+                  <NewPagination
+              onChange={handlechangePage}
+              currentPage={Number(filterValues.page)}
+              totalCount={Number(totalCount)}
+            />
+         
                 </WrapPag>
               ) : null}
             </>
@@ -195,23 +193,21 @@ const Archive = () => {
               </SideBar>
               {list.length > 0 ? (
                 <WrapPag>
-                  <Info>
+                   <Info>
                     {t("shown")}
                     <span>{between}</span>
                     {t("from1")} <span>{totalNewsCount}</span>
                     {countPagination({
                       count: totalNewsCount,
-                      firstWord: t("новости"),
-                      secondWord: t("новостей"),
+                      firstWord: t("newspaginationtitle"),
+                      secondWord: t("newspaginationtitles"),
                     })}
                   </Info>
-                  <Pagination
-                    page={filterValues.page}
-                    count={totalCount}
-                    onChange={handlechangePage}
-                    disabled={response.isLoading || response.isFetching}
-                    siblingCount={0}
-                  />
+                   <NewPagination
+              onChange={handlechangePage}
+              currentPage={Number(filterValues.page)}
+              totalCount={Number(totalCount)}
+            />
                 </WrapPag>
               ) : null}
             </>

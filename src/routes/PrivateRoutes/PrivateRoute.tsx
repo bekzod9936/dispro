@@ -27,16 +27,20 @@ const PrivateRoute: React.FC<IProps> = ({ Layout, Component, ...rest }) => {
           );
         }
 
-        return (accessToken && path.includes("partner")) ||
-          (companyToken && !path.includes("partner")) ? (
-          <Layout>
-            <Component {...props} />
-          </Layout>
-        ) : !companyToken && !path.includes("company") ? (
-          <Redirect from="*" to="/partner/company" />
-        ) : (
-          <Redirect from="*" to="/" />
-        );
+        if (
+          (accessToken && path.includes("partner")) ||
+          (companyToken && !path.includes("partner"))
+        ) {
+          return (
+            <Layout>
+              <Component {...props} />
+            </Layout>
+          );
+        } else if (!companyToken && !path.includes("company")) {
+          return <Redirect from="*" to="/partner/company" />;
+        } else {
+          return <Redirect from="*" to="/" />;
+        }
       }}
     />
   );

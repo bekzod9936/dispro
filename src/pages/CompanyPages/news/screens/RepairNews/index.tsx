@@ -171,8 +171,8 @@ const RepairNews = () => {
     let newsBody = {
       title: data.name,
       startLifeTime:
-        width > 600 ? data.startDate : filter?.regDate?.regDateFrom,
-      endLifeTime: width > 600 ? data.endDate : filter?.regDate?.regDateTo,
+        width > 1000 ? data.startDate : filter?.regDate?.regDateFrom,
+      endLifeTime: width > 1000 ? data.endDate : filter?.regDate?.regDateTo,
       description: data.description,
       ageFrom: parseInt(data.ageLimit),
       ageTo: 100,
@@ -199,11 +199,11 @@ const RepairNews = () => {
       pushUpTitle: data.descriptionPush,
     };
 
-    if (width > 600) {
+    if (width > 1000) {
       mutate(newsBody);
       setTimeout(() => history.push("/news/active"), 1000);
     }
-    if (width <= 600) {
+    if (width <= 1000) {
       if (
         validation &&
         filter?.regDate?.regDateFrom &&
@@ -288,7 +288,7 @@ const RepairNews = () => {
             onClick={handleBack}
             style={{ marginRight: "25px", cursor: "pointer" }}
           />
-          <Title>Восстановить новости</Title>
+          <Title>{t("resetingNews")}</Title>
         </div>
       )}
 
@@ -302,23 +302,23 @@ const RepairNews = () => {
           {width <= 1000 && (
             <MobileHeader>
               <GoBackIcon onClick={handleBack} style={{ cursor: "pointer" }} />
-              <Title> {t("Восстановить новости")}</Title>
+              <Title> {t("resetingNews")}</Title>
             </MobileHeader>
           )}
           <Container>
             <LeftSide>
-              <Title>Фотографии</Title>
+              <Title>{t("photos")}</Title>
               {!isLoading && !image && (
                 <div style={{ marginBottom: 30 }}>
                   <Header>
                     <p>
                       {t(
-                        " Можно загрузить фотографию JPG или PNG, минимальное разрешение 400*400рх, размер не более 3Мбайт."
+                        "logo_text"
                       )}
                     </p>
                   </Header>
                   <UploadButton>
-                    <label htmlFor="uploadImg">Загрузить фото</label>
+                    <label htmlFor="uploadImg">{t("uploadPhoto")}</label>
                     <input
                       {...register("image", { required: true })}
                       onChange={handleUploadImg}
@@ -368,7 +368,7 @@ const RepairNews = () => {
                     message={t("requiredField")}
                     field={field}
                     maxLength={80}
-                    label="Название"
+                    label={t("title")}
                     defaultValue={newsById?.data?.title}
                   />
                 )}
@@ -390,11 +390,11 @@ const RepairNews = () => {
                     minHeight={"150px"}
                     maxHeight={"300px"}
                     resize={"vertical"}
-                    title={"Описание"}
+                    title={"description"}
                   />
                 )}
               />
-              {width > 600 ? (
+              {width > 1000 ? (
                 <WrapInputs>
                   <Label>{t("chose_date")}</Label>
                   <div>
@@ -448,7 +448,7 @@ const RepairNews = () => {
                   <div>
                     <CustomDatePicker
                       margin="0 15px 0 0"
-                      isFilter
+                      isStyledDate
                       text={t("from")}
                       error={
                         validation && !filter?.regDate?.regDateFrom
@@ -472,7 +472,7 @@ const RepairNews = () => {
                     />
 
                     <CustomDatePicker
-                      isFilter
+                      isStyledDate
                       error={
                         validation && !filter?.regDate?.regDateTo ? true : false
                       }
@@ -496,7 +496,7 @@ const RepairNews = () => {
                     !filter?.regDate?.regDateTo &&
                     !filter?.regDate?.regDateFrom && (
                       <Message>
-                        {t("Укажите период публикации новости")}
+                        {t("periodNews")}
                       </Message>
                     )}
                 </WrapInputsMobile>
@@ -516,7 +516,7 @@ const RepairNews = () => {
                       error={!!errors.gender}
                       message={t("requiredField")}
                       field={field}
-                      label="Выберите пол"
+                      label={t("chose_gender")}
                       defaultValue={genderType}
                       options={genders}
                       margin={{ laptop: "0 0 35px 0" }}
@@ -534,13 +534,14 @@ const RepairNews = () => {
                 render={({ field }) => (
                   <InputFormat
                     field={field}
+                    type="tel"
                     defaultValue={newsById?.data?.ageFrom}
                     max="100"
                     message={parseInt(watch("ageLimit"))}
                     error={!!errors.ageLimit}
                     // message={t("requiredField")}
                     IconStart={<PlusIcon style={{ marginLeft: "20px" }} />}
-                    label="Возрастное ограничение"
+                    label={t("ageLimit")}
                   />
                 )}
               />
@@ -549,7 +550,7 @@ const RepairNews = () => {
               <PushWrapper>
                 <PushBlock>
                   <h6 style={{ width: "80%" }}>
-                    {t("Использовать новость в формате Push-уведомления")}
+                    {t("withPushNotification")}
                   </h6>
                   <CustomToggle
                     defaultChecked={newsById?.data?.pushUp}
@@ -707,6 +708,7 @@ const RepairNews = () => {
               {t("Отмена")}
             </Button>
             <Button
+             onClick={() => setValidation(true)}
               type="submit"
               margin={{ laptop: "0 25px" }}
               endIcon={<RepairNewsIcon />}

@@ -29,6 +29,7 @@ export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
   const dispatch = useAppDispatch();
   const newsId = selectedNews?.fullData?.data?.id;
   const { mutate } = useMutation((data: any) => fetchUpdateNews(data));
+  const [validation,setValidation]=useState(false)
   const [filter, setFilter] = useState<any>({});
   const history = useHistory();
   const { width } = useWindowWidth();
@@ -44,18 +45,19 @@ export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
     reValidateMode: "onChange",
   });
 
+ 
   const upDateWaitingNews = (data: any) => {
     let newsBody = {
       title: updatedNews?.title,
       startLifeTime:
-        width > 600 ? data.startDate : filter?.regDate?.regDateFrom,
-      endLifeTime: width > 600 ? data.endDate : filter?.regDate?.regDateTo,
+        width > 1000 ? data.startDate : filter?.regDate?.regDateFrom,
+      endLifeTime: width > 1000 ? data.endDate : filter?.regDate?.regDateTo,
       description: updatedNews?.description,
       ageFrom: parseInt(updatedNews?.ageFrom),
       ageUnlimited: false,
       couponIds: [],
       image: updatedNews?.image,
-      genderType: data.gender?.id,
+      genderType: updatedNews?.genderType,
       pushUp: updatedNews?.pushUp,
       settings: {
         weekDays:
@@ -104,7 +106,7 @@ export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
                 <div>
                   <CustomDatePicker
                     margin="0 15px 0 0"
-                    isFilter
+                    isStyledDate
                     text={t("from")}
                     minDate={todayDate}
                     maxDate={filter?.regDate?.regDateTo}
@@ -124,7 +126,7 @@ export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
                 </div>
                 <div style={{ paddingTop: "20px" }}>
                   <CustomDatePicker
-                    isFilter
+                           isStyledDate
                     text={t("to")}
                     minDate={filter?.regDate?.regDateFrom}
                     onChange={(e) => {
@@ -176,6 +178,50 @@ export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
       )}
       {width > 600 && (
         <Form onSubmit={handleSubmit(upDateWaitingNews)}>
+          {width>600 &&width<=1000 ?     <WrapInputs>
+                  <Label>{t("chose_date")}</Label>
+                  <div>
+                    <CustomDatePicker
+                      margin="0 15px 0 0"
+                      isStyledDate
+                  
+                      text={t("from")}
+                    
+                      minDate={todayDate}
+                      maxDate={filter?.regDate?.regDateTo}
+                      onChange={(e) => {
+                        let date =
+                          ""+ e.year + "-" + e.month.number + "-" + e.day;
+                        setFilter((prev: any) => ({
+                          ...prev,
+                          regDate: {
+                            ...prev["regDate"],
+                            regDateFrom: date
+                          },
+                        }));
+                      }}
+                      value={filter?.regDate?.regDateFrom}
+                    />
+                    <CustomDatePicker
+                        isStyledDate
+                      text={t("to")}
+                      minDate={filter?.regDate?.regDateFrom}
+                      onChange={(e) => {
+                        let date =
+                        ""+e.year + "-" + e.month.number + "-" + e.day;
+                        setFilter((prev: any) => ({
+                          ...prev,
+                          regDate: {
+                            ...prev["regDate"],
+                            regDateTo: date,
+                          },
+                        }));
+                      }}
+                      
+                      value={filter?.regDate?.regDateTo}
+                    />
+                  </div>
+                </WrapInputs>:
           <WrapInputs>
             <Label>{t("Выберите период")}</Label>
             <div className="startAndEndDate">
@@ -215,6 +261,7 @@ export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
               />
             </div>
           </WrapInputs>
+}
           {width > 1000 ? (
             <div
               style={{
@@ -243,22 +290,24 @@ export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
               </Button>
             </div>
           ) : (
-            <div style={{ display: "flex", justifyContent: "center" }}>
+            <div style={{ display: "flex",  paddingTop: "20px", justifyContent: "center" }}>
               <Button
                 buttonStyle={{
                   color: "#606EEA",
                   bgcolor: " rgba(96,110,234,0.1)",
                 }}
-                margin={{ laptop: "0 20px 0 0", mobile: "0 8px 0 0" }}
+                margin={{ laptop: "0 20px 0 0",planshet:"0 20px 0 20px", mobile: "0 8px 0 0" }}
                 endIcon={<MobileCancelIcon />}
                 onClick={cancelPublish}
               >
                 {t("Отмена")}
               </Button>
               <Button
-                buttonStyle={{
-                  shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
-                }}
+              disabled={ width>600  && width<=1000 &&
+                filter?.regDate?.regDateFrom && filter?.regDate?.regDateTo
+                  ? false
+                  :width<600 ? false : true
+              }
                 endIcon={width > 335 && <PublishIcon />}
                 type="submit"
               >

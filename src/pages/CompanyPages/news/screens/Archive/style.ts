@@ -48,6 +48,9 @@ export const Wrap = styled.div`
     border-radius: 14px 0px 0px 14px;
   }
   @media (max-width: ${device.mobile}) {
+    ::-webkit-scrollbar {
+    width: 5px;
+  }
     padding: 0px 15px;
   }
   @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
@@ -78,7 +81,7 @@ export const Info = styled.div`
     font-size: 18px;
   }
   @media (max-width: ${device.mobile}) {
-    margin-bottom: 15px;
+    margin-bottom: 12px;
     font-size: 16px;
     span {
       font-size: 16px;

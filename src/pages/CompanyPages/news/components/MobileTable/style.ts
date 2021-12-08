@@ -96,6 +96,8 @@ export const BoxInfo = styled.div`
     white-space: pre-wrap;
     word-break: break-all;
     font-weight: 400;
+    line-height:16px;
+    font-size:14px;
   }
 `;
 export const Buttons = styled.div`

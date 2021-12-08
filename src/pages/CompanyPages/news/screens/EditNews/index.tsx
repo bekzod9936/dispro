@@ -172,18 +172,19 @@ const EditNews = () => {
 
   console.log("filteredArray", filteredArray);
   const submitNews = (data: any) => {
+    console.log('data.gender.id',data.gender.id)
     let newsBody = {
       title: data.name,
       startLifeTime:
-        width > 600 ? data.startDate : filter?.regDate?.regDateFrom,
-      endLifeTime: width > 600 ? data.endDate : filter?.regDate?.regDateTo,
+        width > 1000 ? data.startDate : filter?.regDate?.regDateFrom,
+      endLifeTime: width > 1000 ? data.endDate : filter?.regDate?.regDateTo,
       description: data.description,
       ageFrom: parseInt(data.ageLimit),
       ageTo: 100,
       ageUnlimited: false,
       couponIds: [],
       image: image,
-      genderType: data.gender?.id,
+      genderType: data?.gender?.id===0 ||data?.gender?.id===1 ||data?.gender?.id===2 ? data?.gender?.id: newsById?.data?.genderType,
       pushUp: optionalFields.push,
       settings: {
         weekDays:
@@ -204,11 +205,11 @@ const EditNews = () => {
     };
 
     let newsInfo = { newsBody, newsId };
-    if (width > 600) {
+    if (width > 1000) {
       mutate(newsInfo);
       setTimeout(() => history.push("/news/active"), 1000);
     }
-    if (width <= 600) {
+    if (width <= 1000) {
       if (
         validation &&
         filter?.regDate?.regDateFrom &&
@@ -219,6 +220,7 @@ const EditNews = () => {
       }
     }
   };
+  
 
   const genderType = [
     {
@@ -230,8 +232,17 @@ const EditNews = () => {
           : newsById?.data?.genderType === 0
           ? "Для всех"
           : "",
+        id:   newsById?.data?.genderType === 1
+        ? 1
+        : newsById?.data?.genderType === 2
+        ? 2
+        : newsById?.data?.genderType === 0
+        ? 0
+        : 0,
     },
   ];
+  console.log('genderType',genderType)
+  
 
   const weekDays = newsById?.data?.settings?.weekDays?.map((el: any) => {
     return {
@@ -294,7 +305,7 @@ const EditNews = () => {
             onClick={handleBack}
             style={{ marginRight: "25px", cursor: "pointer" }}
           />
-          <Title>Редактирование новости</Title>
+          <Title>{t("editingNews")}</Title>
         </div>
       )}
 
@@ -309,23 +320,23 @@ const EditNews = () => {
           {width <= 1000 && (
             <MobileHeader>
               <GoBackIcon onClick={handleBack} style={{ cursor: "pointer" }} />
-              <Title>Редактирование новости</Title>
+              <Title>{t("editingNews")}</Title>
             </MobileHeader>
           )}
           <Container>
             <LeftSide>
-              <Title>Фотографии</Title>
+              <Title>{t("photos")}</Title>
               {!isLoading && !image && (
                 <div style={{ marginBottom: 30 }}>
                   <Header>
                     <p>
                       {t(
-                        " Можно загрузить фотографию JPG или PNG, минимальное разрешение 400*400рх, размер не более 3Мбайт."
+                        "logo_text"
                       )}
                     </p>
                   </Header>
                   <UploadButton>
-                    <label htmlFor="uploadImg">Загрузить фото</label>
+                    <label htmlFor="uploadImg">{t("uploadPhoto")}</label>
                     <input
                       {...register("image", { required: true })}
                       onChange={handleUploadImg}
@@ -377,7 +388,7 @@ const EditNews = () => {
                     message={t("requiredField")}
                     field={field}
                     maxLength={80}
-                    label="Название"
+                    label={t("title")}
                     defaultValue={newsById?.data?.title}
                   />
                 )}
@@ -401,11 +412,11 @@ const EditNews = () => {
                     fontSize={width > 1000 ? "18px" : "14px"}
                     maxHeight={"300px"}
                     resize={"vertical"}
-                    title={"Описание"}
+                    title={t("description")}
                   />
                 )}
               />
-              {width > 600 ? (
+              {width > 1000 ? (
                 <WrapInputs>
                   <Label>{t("chose_date")}</Label>
                   <div>
@@ -462,7 +473,7 @@ const EditNews = () => {
                   <div>
                     <CustomDatePicker
                       margin="0 15px 0 0"
-                      isFilter
+                      isStyledDate
                       text={t("from")}
                       error={
                         validation && !filter?.regDate?.regDateFrom
@@ -476,6 +487,7 @@ const EditNews = () => {
                           "" + e.year + "-" + e.month.number + "-" + e.day;
                         setFilter((prev: any) => ({
                           ...prev,
+                          
                           regDate: {
                             ...prev["regDate"],
                             regDateFrom: date,
@@ -486,7 +498,7 @@ const EditNews = () => {
                     />
 
                     <CustomDatePicker
-                      isFilter
+                     isStyledDate
                       error={
                         validation && !filter?.regDate?.regDateTo ? true : false
                       }
@@ -522,7 +534,7 @@ const EditNews = () => {
                       error={!!errors.gender}
                       message={t("requiredField")}
                       field={field}
-                      label="Выберите пол"
+                      label={t("chose_gender")}
                       defaultValue={genderType}
                       options={genders}
                       margin={{ laptop: "0 0 35px 0" }}
@@ -539,11 +551,11 @@ const EditNews = () => {
                     field={field}
                     defaultValue={newsById?.data?.ageFrom}
                     max="100"
+                    type="tel"
                     message={parseInt(watch("ageLimit"))}
                     error={!!errors.ageLimit}
-                    // message={t("requiredField")}
                     IconStart={<PlusIcon style={{ marginLeft: "20px" }} />}
-                    label="Возрастное ограничение"
+                    label={t("ageLimit")}
                   />
                 )}
               />
@@ -552,7 +564,7 @@ const EditNews = () => {
               <PushWrapper>
                 <PushBlock>
                   <h6 style={{ width: "80%" }}>
-                    {t("Использовать новость в формате Push-уведомления")}
+                    {t("withPushNotification")}
                   </h6>
                   <CustomToggle
                     defaultChecked={newsById?.data?.pushUp}
@@ -568,7 +580,7 @@ const EditNews = () => {
                       <Input
                         field={field}
                         margin={{ laptop: "35px 0" }}
-                        label="Текст Push-уведомления"
+                        label={"text_push"}
                         type="textarea"
                         multiline={true}
                         maxLength={100}
@@ -581,11 +593,7 @@ const EditNews = () => {
                             mobile: 120,
                           },
                         }}
-                        // IconEnd={width>600 &&
-                        //   <WrapArea>
-                        //     <TextAreaIcon />
-                        //   </WrapArea>
-                        // }
+                     
                       />
                     )}
                   />
@@ -603,7 +611,7 @@ const EditNews = () => {
                         isClearable={false}
                         isMulti={true}
                         options={days}
-                        label="Укажите дни"
+                        label={t("point_out_days")}
                         defaultValue={weekDays}
                       />
                     )}
@@ -614,7 +622,7 @@ const EditNews = () => {
                 <div style={{ marginBottom: "10px" }}>
                   {optionalFields.push && (
                     <Label>
-                      <div>{t("Укажите временной промежуток")}</div>
+                      <div>{t("point_out_time")}</div>
                     </Label>
                   )}
                 </div>
@@ -653,7 +661,7 @@ const EditNews = () => {
                 <CheckBox
                   checked={checked}
                   name={"checked"}
-                  label={"Круглосуточно"}
+                  label={t("24/7")}
                   onChange={(e: any) => setChecked(e)}
                 />
               )}
@@ -705,9 +713,10 @@ const EditNews = () => {
                 color: "#606EEA",
               }}
             >
-              Отмена
+             {t("cancellation")} 
             </Button>
             <Button
+            onClick={() => setValidation(true)}
               type="submit"
               margin={{ laptop: "0 25px" }}
               endIcon={<SaveIconMobile />}
@@ -717,7 +726,7 @@ const EditNews = () => {
                 shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
               }}
             >
-              Сохранить
+              {t("save")}
             </Button>
           </DownSide>
         )}
@@ -728,7 +737,7 @@ const EditNews = () => {
               startIcon={<CancelIcon />}
               buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
             >
-              Отменить
+              {t("cancel")}
             </Button>
             <Button
               type="submit"
@@ -736,7 +745,7 @@ const EditNews = () => {
               startIcon={<SaveIcon />}
               buttonStyle={{ shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)" }}
             >
-              Сохранить
+              {t("save")}
             </Button>
           </DownSide>
         )}
@@ -767,7 +776,7 @@ const EditNews = () => {
               }}
               margin={{ mobile: "0px 8px  8px  0" }}
             >
-              {"Сохранить"}
+              {"save"}
             </Button>
           </Buttons>
         )}

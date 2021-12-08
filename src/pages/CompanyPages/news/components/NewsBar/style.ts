@@ -307,6 +307,7 @@ export const TitleSideBar = styled.div`
       font-size: 14px;
       color: #223367 !important;
       font-weight: 400;
+      line-height:16px !important;
       margin-bottom: 20px;
     }
   }

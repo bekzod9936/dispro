@@ -55,7 +55,7 @@ export const Header = ({ query, setQuery, setModals }: IProps) => {
           <MFilter />
           {width > 1000 && <NewDatePicker onChange={(e) => handlePickDate(e)} />}
           <Button
-            margin={{ laptop: "0 20px", mobile: "0 0 0 8px", planshet: "0 0 0 15px" }}
+            margin={{ laptop: "0 20px", mobile: "0 0 0 8px", planshet: "0 15px 0 0" }}
             onClick={() => setModals((prev: any) => ({ ...prev, qrModal: true }))}
             buttonStyle={{
               shadow: '0px 4px 4px rgba(0, 0, 0, 0.04)',

@@ -42,6 +42,7 @@ import {
   WrapMoney,
   WrapButton,
   WrapMContent,
+  WrapDates,
 } from './style';
 
 interface Props {
@@ -56,7 +57,7 @@ const User = ({ value }: Props) => {
   const { width } = useWindowWidth();
 
   const [open, setOpen] = useState<boolean>(false);
-
+  dispatch(setChosenClientChat({ data: {}, choose: false }));
   const image = {
     alt: 'image',
     src: value.clientImage
@@ -100,7 +101,7 @@ const User = ({ value }: Props) => {
           <WrapClose>
             {width > 600 ? (
               <Date1 margin='3px 10px 0 20px'>
-                {dayjs(value.createdAt).format('DD.MM.YYYY HH:mm')}
+                <div>{dayjs(value.createdAt).format('DD.MM.YYYY HH:mm')}</div>
               </Date1>
             ) : null}
             <IconButton
@@ -196,26 +197,28 @@ const User = ({ value }: Props) => {
               />
             </Avatar>
             <WrapText>
-              <UserName>
-                {value.clientFirstName} {value.clientLastName}
-              </UserName>
+              <WrapDates>
+                <UserName>
+                  {value.clientFirstName} {value.clientLastName}
+                </UserName>
+                <Date1 margin='3px 0 0 20px'>
+                  <div className='laptop'>
+                    {dayjs(value.createdAt).format('DD.MM.YYYY HH:mm')}
+                  </div>
+                  <div className='mobile'>
+                    {dayjs(value.createdAt).format('DD.MM.YYYY')}
+                  </div>
+                  <div className='mobile'>
+                    {dayjs(value.createdAt).format('HH:mm')}
+                  </div>
+                </Date1>
+              </WrapDates>
               <Status>
                 {t('status')}:
                 {` ${value?.obtainProgramLoyalty?.levelName} ${value?.obtainProgramLoyalty?.percent}%`}
               </Status>
             </WrapText>
           </LeftHeader>
-          <Date1 margin='3px 0 0 20px'>
-            <div className='laptop'>
-              {dayjs(value.createdAt).format('DD.MM.YYYY HH:mm')}
-            </div>
-            <div className='mobile'>
-              {dayjs(value.createdAt).format('DD.MM.YYYY')}
-            </div>
-            <div className='mobile'>
-              {dayjs(value.createdAt).format('HH:mm')}
-            </div>
-          </Date1>
         </Header>
         <WrapStars>
           {[1, 2, 3, 4, 5].map((v: any) => (

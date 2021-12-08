@@ -141,7 +141,7 @@
   "downloadPNG": "Скачать PNG",
   "copyLink": "Скопировать ссылку",
   "edit": "Редактировать",
-  "sure_want_delete?": "Вы действительно хотите удалить промокод?",
+  "sure_want_delete?": "QR-kodni o'chirishni tasdiqlaysizmi?",
   "delete": "Удалить",
   "aboutCompany": "О компании",
   "address": "Адреса",
@@ -321,5 +321,7 @@
   "common": {},
   "configure_setting_error": "Sodiqlik dasturini sozlang",
   "requirementLevl": "№{{level}} holat sharti",
-  "companies": "Kompaniyalar"
+  "companies": "Kompaniyalar",
+  "qrCodeForPayment": "To'lovlar uchun QR-kod",
+  "saved": "Saqlandi"
 }

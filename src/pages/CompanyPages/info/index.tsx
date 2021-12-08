@@ -1,18 +1,18 @@
-import { Suspense, useState } from 'react';
-import { useHistory } from 'react-router';
-import { useTranslation } from 'react-i18next';
-import { Switch, Route } from 'react-router-dom';
-import Title from 'components/Custom/Title';
-import Modal from 'components/Custom/Modal';
-import Button from 'components/Custom/Button';
-import NavBar from 'components/Custom/NavBar';
-import { useRouteMatch } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
-import { setCompanyInfo } from 'services/redux/Slices/partnerSlice';
-import ExitButton from './components/Buttons/ExitButton';
-import useInfoRoute from './routers';
-import Spinner from 'components/Custom/Spinner';
-import Grid from 'components/Custom/Grid';
+import { Suspense } from "react";
+import { useHistory } from "react-router";
+import { useTranslation } from "react-i18next";
+import { Switch, Route, Redirect } from "react-router-dom";
+import Title from "components/Custom/Title";
+import Modal from "components/Custom/Modal";
+import Button from "components/Custom/Button";
+import NavBar from "components/Custom/NavBar";
+import { useRouteMatch } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "services/redux/hooks";
+import { setCompanyInfo } from "services/redux/Slices/partnerSlice";
+import ExitButton from "./components/Buttons/ExitButton";
+import useInfoRoute from "./routers";
+import Spinner from "components/Custom/Spinner";
+import Grid from "components/Custom/Grid";
 import {
   Container,
   ModelContent,
@@ -22,9 +22,9 @@ import {
   CloseIcon,
   Warn,
   WrapNav,
-} from './style';
-import { setExitModal } from 'services/redux/Slices/info/info';
-import CancelButton from './components/Buttons/CancelButton';
+} from "./style";
+import { setExitModal } from "services/redux/Slices/info/info";
+import CancelButton from "./components/Buttons/CancelButton";
 
 const Infopage = () => {
   const { t } = useTranslation();
@@ -48,16 +48,16 @@ const Infopage = () => {
   return (
     <Container
       bgcolor={
-        match?.url === '/info/about' || !infoPageSlice || addressAdding
-          ? 'white'
-          : 'transparent'
+        match?.url === "/info/about" || !infoPageSlice || addressAdding
+          ? "white"
+          : "transparent"
       }
-      photosectionpadding={match?.url === '/info/photos' ? true : false}
+      photosectionpadding={match?.url === "/info/photos" ? true : false}
     >
-      <Title padding={{ mobile: '0 0 0 15px' }}>{t('info')}</Title>
+      <Title padding={{ mobile: "0 0 0 15px" }}>{t("info")}</Title>
       <WrapNav>
-        <Grid style={{ width: '100%', overflowY: 'auto', overflowX: 'hidden' }}>
-          <NavBar list={menuItems} padding='0' margin='0' />
+        <Grid style={{ width: "100%", overflowY: "auto", overflowX: "hidden" }}>
+          <NavBar list={menuItems} padding="0" margin="0" />
         </Grid>
         {fill ? null : (
           <ExitButton
@@ -68,25 +68,26 @@ const Infopage = () => {
       </WrapNav>
       <Modal onClose={(v: boolean) => dispatch(setExitModal(v))} open={open}>
         <ModelContent>
-          <ModelTitle>{t('sureleave')}</ModelTitle>
-          <Warn>{t('warningcompanyinfo')}</Warn>
+          <ModelTitle>{t("sureleave")}</ModelTitle>
+          <Warn>{t("warningcompanyinfo")}</Warn>
           <ModalWrap>
             <CancelButton onClick={() => dispatch(setExitModal(false))} />
             <Button
               buttonStyle={{
-                color: 'white',
-                bgcolor: '#FF5E68',
+                color: "white",
+                bgcolor: "#FF5E68",
                 weight: 500,
               }}
               onClick={() => {
                 dispatch(setExitModal(false));
-                localStorage.removeItem('companyId');
-                localStorage.removeItem('companyToken');
-                history.push('/partner/company');
+                localStorage.removeItem("companyId");
+                localStorage.removeItem("companyToken");
+                history.push("/partner/company");
                 dispatch(setCompanyInfo({}));
+                window.location.replace("/partner/company");
               }}
             >
-              {t('logout')}
+              {t("logout")}
               <LogOutIcon />
             </Button>
           </ModalWrap>
@@ -97,6 +98,9 @@ const Infopage = () => {
           {menuItems.map((item) => {
             return <Route exact path={item.path} component={item.component} />;
           })}
+          <Route path="*">
+            <Redirect to={menuItems[0].path} />
+          </Route>
         </Suspense>
       </Switch>
     </Container>
