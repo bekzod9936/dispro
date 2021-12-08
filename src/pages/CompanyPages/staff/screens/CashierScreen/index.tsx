@@ -137,6 +137,7 @@ const CashierScreen = () => {
 
 				<SideBar maxWidth='340px' isOpen={openFilter}>
 					<CashierFilterBar
+						storeIdForFilter={storeIdForFilter}
 						setStoreIdForFilter={setStoreIdForFilter}
 						filterValue={filterValue}
 						setFilterValue={setFilterValue}
