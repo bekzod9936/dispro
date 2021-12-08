@@ -175,8 +175,8 @@ const Active = () => {
                     {t("from1")} <span>{totalNewsCount}</span>
                     {countPagination({
                       count: Number(totalNewsCount),
-                      firstWord: t("новости "),
-                      secondWord: t("новостей"),
+                      firstWord: t("newspaginationtitle"),
+                      secondWord: t("newspaginationtitles"),
                     })}
                   </Info>
                   <NewPagination
@@ -228,8 +228,8 @@ const Active = () => {
                       {t("from1")} <span>{totalNewsCount}</span>
                       {countPagination({
                         count: Number(totalNewsCount),
-                        firstWord: t("новости "),
-                        secondWord: t("новостей"),
+                        firstWord: t("newspaginationtitle "),
+                        secondWord: t("newspaginationtitles"),
                       })}
                     </Info>
 

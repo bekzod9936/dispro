@@ -115,6 +115,7 @@ const CreateCashier = ({ openCash }: IProps) => {
 									rules={{ required: true }}
 									render={({ field }) => (
 										<Input
+											maxLength='20'
 											label={t('cashier_name')}
 											error={errors.firstName ? true : false}
 											message={t('requiredField')}
@@ -135,6 +136,7 @@ const CreateCashier = ({ openCash }: IProps) => {
 									rules={{ required: true }}
 									render={({ field }) => (
 										<Input
+											maxLength='20'
 											label={t('cashier_lastName')}
 											error={errors.lastName ? true : false}
 											message={t('requiredField')}

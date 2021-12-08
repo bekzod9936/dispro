@@ -20,6 +20,7 @@ export const PlanshetHeader = styled.div`
     display: flex;
     align-items: center;
     margin-bottom: 20px;
+    flex-direction: row-reverse;
   }
   @media(max-width: ${device.mobile}) {
     flex-direction: column;

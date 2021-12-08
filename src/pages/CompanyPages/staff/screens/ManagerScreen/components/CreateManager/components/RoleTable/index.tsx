@@ -38,7 +38,7 @@ const permissionsRole: any = {
 	notifications: [],
 	info: [],
 	settings: [],
-	support: [],
+	// support: [],
 };
 
 const RoleTable = ({ parentRef }: IProps) => {
@@ -64,7 +64,13 @@ const RoleTable = ({ parentRef }: IProps) => {
 			retry: 0,
 			refetchOnWindowFocus: false,
 			onSuccess: (data) => {
-				setState(data.data.data.permissions || permissionsRole);
+				let res = null;
+				if (data.data.data.permissions) {
+					res = { ...data.data.data.permissions };
+					delete res.support;
+				}
+
+				setState(res || permissionsRole);
 			},
 		}
 	);

@@ -162,6 +162,7 @@ const EditCashier = ({ openEdit, refetch }: IProps) => {
 									rules={{ required: true }}
 									render={({ field }) => (
 										<Input
+											maxLength='20'
 											label={t('cashier_name')}
 											error={errors.firstName ? true : false}
 											message={t('requiredField')}
@@ -182,6 +183,7 @@ const EditCashier = ({ openEdit, refetch }: IProps) => {
 									rules={{ required: true }}
 									render={({ field }) => (
 										<Input
+											maxLength='20'
 											label={t('cashier_lastName')}
 											error={errors.lastName ? true : false}
 											message={t('requiredField')}
@@ -270,6 +272,7 @@ const EditCashier = ({ openEdit, refetch }: IProps) => {
 								render={({ field }) => {
 									return (
 										<Input
+											maxLength='100'
 											label={t('comment')}
 											type='string'
 											field={field}

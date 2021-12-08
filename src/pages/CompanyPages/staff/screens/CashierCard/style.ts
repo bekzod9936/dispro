@@ -148,12 +148,20 @@ export const StaffName = styled.p`
 `;
 
 export const StaffText = styled.p`
+  width: 235px;
   font-family: Roboto;
   font-style: normal;
   font-weight: 300;
   font-size: 16px;
   line-height: 19px;
   color: #223367;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical; 
+  white-space: pre-wrap;
 `;
 
 export const StaffSecondText = styled.p`

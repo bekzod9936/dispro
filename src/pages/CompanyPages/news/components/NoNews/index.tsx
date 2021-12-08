@@ -52,7 +52,7 @@ const NoNews: React.FC<IProps> = ({ handleOpenSetting }) => {
                 }}
                 startIcon={<CreateNewsIcon />}
               >
-                {t("Создать новость")}
+                {t("createNews")}
               </Button>
             </div>
           </Flex>
