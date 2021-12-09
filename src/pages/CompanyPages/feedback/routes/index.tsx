@@ -1,7 +1,7 @@
 import { lazy } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const Posts = lazy(() => import('../screens/Posts'));
+const Posts = lazy(() => import('../screens/NewPosts'));
 const Reviews = lazy(() => import('../screens/Reviews'));
 
 interface IFeedbackRow {

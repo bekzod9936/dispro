@@ -190,6 +190,7 @@ const Support = () => {
   useEffect(() => {
     if (newMassage.id !== undefined) {
       fun();
+      scrollToTop();
       if (CHAT_TYPES.PARTNER_TO_MODERATOR !== newMassage.chatType) {
         readChat.mutate([newMassage?.id], {
           onSuccess: () => {

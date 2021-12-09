@@ -15,7 +15,8 @@ const Stars = () => {
   const { t } = useTranslation();
   const ratings: any = useAppSelector((state) => state.feedbackPost.ratings);
   const rate = useAppSelector((state) => state.feedbackPost.averageRating);
-
+  let value = 0;
+  ratings.map((v: any) => (value = value + v?.amount));
   return (
     <Container>
       <div>
@@ -37,7 +38,9 @@ const Stars = () => {
               <WrapStartT>
                 <RateText colort={color}>
                   &middot;
-                  {ss.length !== 0 ? `${ss[0]?.percentage}%` : '0%'}
+                  {ss.length !== 0
+                    ? `${((100 * ss[0]?.amount) / value).toFixed(1)}%`
+                    : '0%'}
                 </RateText>
                 <RateText colort={color}>
                   {ss.length !== 0 ? `${ss[0]?.amount} ` : '0 '}

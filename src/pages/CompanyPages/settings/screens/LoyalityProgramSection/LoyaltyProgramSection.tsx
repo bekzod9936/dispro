@@ -1,7 +1,6 @@
 import { Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-
 //hooks
 import useLoyality from "./hooks/useLoyality";
 import useWindowWidth from "services/hooks/useWindowWidth";
