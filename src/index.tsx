@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import * as ReactDOM from "react-dom";
 import "./index.css";
 import { RecoilRoot } from "recoil";
 import App from "./App";
@@ -39,8 +39,9 @@ if ("serviceWorker" in navigator) {
 }
 
 const container = document.getElementById("root");
+const root = ReactDOM.createRoot(container!);
 
-ReactDOM.render(
+root.render(
   <React.StrictMode>
     <RecoilRoot>
       <I18nextProvider i18n={i18n}>
@@ -60,6 +61,5 @@ ReactDOM.render(
         </MuiThemeProvider>
       </I18nextProvider>
     </RecoilRoot>
-  </React.StrictMode>,
-  container
+  </React.StrictMode>
 );
