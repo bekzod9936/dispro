@@ -144,14 +144,17 @@ const MobileTable = ({ refetch, data }: Props) => {
               <WrapMain isAvatar={info?.image}>
                 <FullName>
                   {info?.title?.length > 20
-                    ? info?.title?.slice(0, 20) + "..."
-                    : info?.title}
+                    ?info?.title?.charAt(0).toUpperCase()+ info?.title?.slice(1, 20) + "..."
+                    :  info?.title?.charAt(0).toUpperCase() +
+                    info?.title?.slice(1)}
+                   
                 </FullName>
                 <Wrapper>
                   <Title>
                     {info?.description?.length > 20
-                      ? info?.description.slice(0, 20) + "..."
-                      : info?.description}
+                      ? info?.description?.charAt(0).toUpperCase()+ info?.description?.slice(1, 20) + "..."
+                      : info?.description?.charAt(0).toUpperCase() +
+                      info?.description?.slice(1)}
                     
                   </Title>
                 </Wrapper>
