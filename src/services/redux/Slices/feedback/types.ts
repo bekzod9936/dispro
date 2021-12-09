@@ -1,14 +1,14 @@
 export interface IMessage {
+  chatType?: number;
   date?: string;
   firstName?: string;
+  genderTypeId?: number;
   id?: number;
   image?: string;
   isDeleted?: boolean;
   lastMsg?: string;
   lastName?: string;
-  genderTypeId?: number;
   obtainProgramLoyalty?: { levelName?: string; percent?: number };
-  chatType?: number;
   status?: number;
 }
 
@@ -45,6 +45,7 @@ export interface IHistory {
   fromId?: number;
   id?: number;
   msg?: string;
+  status?: number;
   toId?: number;
 }
 
@@ -81,6 +82,15 @@ export interface ITHistorySupport {
   hasMore?: boolean;
 }
 
+export interface IUsersProps {
+  id?: number;
+  messages?: IHistory[];
+  totalMessages?: number;
+  hasMore?: boolean;
+  page?: number;
+  info?: IMessage;
+}
+
 export interface IFeedBack {
   messages?: IMessage[];
   cashiers?: ICashiers[];
@@ -96,4 +106,5 @@ export interface IFeedBack {
   chosenClient?: IChose;
   chosenListUser?: IChoose;
   badgeStorePost?: IMessage;
+  users?: IUsersProps[];
 }
