@@ -37,11 +37,9 @@ if ("serviceWorker" in navigator) {
     .then(function (registration) {})
     .catch(function (err) {});
 }
+const rootElement = document.getElementById("root");
 
-const container = document.getElementById("root");
-const root = ReactDOM.createRoot(container!);
-
-root.render(
+ReactDOM.render(
   <React.StrictMode>
     <RecoilRoot>
       <I18nextProvider i18n={i18n}>
@@ -50,10 +48,10 @@ root.render(
             <Provider store={store}>
               <QueryClientProvider client={queryClient}>
                 <BrowserRouter>
-                  <ErrorBoundary FallbackComponent={ErrorFallback}>
-                    <App />
-                    <ToastContainer />
-                  </ErrorBoundary>
+                  {/* <ErrorBoundary FallbackComponent={ErrorFallback}> */}
+                  <App />
+                  <ToastContainer />
+                  {/* </ErrorBoundary> */}
                 </BrowserRouter>
               </QueryClientProvider>
             </Provider>
@@ -61,5 +59,6 @@ root.render(
         </MuiThemeProvider>
       </I18nextProvider>
     </RecoilRoot>
-  </React.StrictMode>
+  </React.StrictMode>,
+  rootElement
 );
