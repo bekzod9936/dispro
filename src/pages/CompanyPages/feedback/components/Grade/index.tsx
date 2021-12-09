@@ -48,7 +48,7 @@ const Grade = ({ title, rate, total }: Props) => {
               ) : null}
               {rate && !total ? <PercentDef>/5</PercentDef> : null}
             </PercentWrap>
-            {width > 600 ? (
+            {/* {width > 600 ? (
               total ? null : (
                 <PercentInfo>
                   <LineIcon />
@@ -57,7 +57,7 @@ const Grade = ({ title, rate, total }: Props) => {
                     : `-${rate?.downVal}%`}
                 </PercentInfo>
               )
-            ) : null}
+            ) : null} */}
           </>
         ) : (
           <Text>{t('nobodydidnotevaluate')}</Text>

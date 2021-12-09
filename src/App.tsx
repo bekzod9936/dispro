@@ -42,7 +42,9 @@ function App() {
         <Route exact path="/terms-and-conditions" component={Condition} />
         <Route exact path="/privacy-policy" component={Policy} />
         <RenderAllRoutes />
-        <Route path="*" component={NotFound} />
+        <Route path="*">
+          <NotFound />
+        </Route>
       </Switch>
       <SnackBar
         message={info.body}
@@ -52,7 +54,7 @@ function App() {
         onClose={(e: any) => dispatch(setNotifyOpen(e))}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
       />
-      
+
       <RestrictModal />
     </>
   );

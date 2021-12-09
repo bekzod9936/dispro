@@ -1,7 +1,7 @@
-import { Suspense, useState } from "react";
+import { Suspense } from "react";
 import { useHistory } from "react-router";
 import { useTranslation } from "react-i18next";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import Title from "components/Custom/Title";
 import Modal from "components/Custom/Modal";
 import Button from "components/Custom/Button";
@@ -98,6 +98,9 @@ const Infopage = () => {
           {menuItems.map((item) => {
             return <Route exact path={item.path} component={item.component} />;
           })}
+          <Route path="*">
+            <Redirect to={menuItems[0].path} />
+          </Route>
         </Suspense>
       </Switch>
     </Container>

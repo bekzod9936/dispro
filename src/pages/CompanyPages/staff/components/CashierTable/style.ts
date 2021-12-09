@@ -231,3 +231,13 @@ export const WrapIcon = styled.div`
   justify-content: flex-start;
   align-items: center;
 `;
+
+export const Footer = styled.div`
+  margin-top: 20px;
+  @media (max-width: ${device.planshet}) {
+    margin-left: 20px;
+  }
+  @media (max-width: ${device.mobile}) {
+    margin-left: 15px;
+  }
+`

@@ -13,51 +13,36 @@ import { Container, Name, Text, Wrapper, WrapName } from './style';
 
 interface Props {
   value: {
-    firstName?: string;
-    image?: string;
-    lastMsg?: string;
-    lastName?: string;
     onClick?: (v: any) => void;
     isActive?: boolean;
-    clientGenderTypeId?: number;
-    chatType?: number;
-    status?: number;
+    data?: any;
   };
 }
 
 const ChatUser = ({ value }: Props) => {
-  const {
-    firstName,
-    image = '',
-    lastMsg,
-    lastName,
-    onClick,
-    isActive,
-    clientGenderTypeId,
-    chatType,
-    status,
-  } = value;
+  const { onClick, isActive, data } = value;
   const { width } = useWindowWidth();
   const img = {
     alt: 'image',
-    src: image
-      ? image
-      : clientGenderTypeId === 1
+    src: data.image
+      ? data.image
+      : data.genderTypeId === 1
       ? defuserman
-      : clientGenderTypeId === 2
+      : data.genderTypeId === 2
       ? defuserwoman
       : App,
     height: width > 600 ? '40px' : '50px',
     width: width > 600 ? '40px' : '50px',
   };
 
-  const unread = chatType === 1 ? status === 2 ? null : <UnreadIcon /> : null;
+  const unread =
+    data.chatType === 1 ? data.status === 2 ? null : <UnreadIcon /> : null;
 
   const check =
-    chatType === 2 ? (
-      status === 1 ? (
+    data.chatType === 2 ? (
+      data.status === 1 ? (
         <OneCheckIcon />
-      ) : status === 2 ? (
+      ) : data.status === 2 ? (
         <DoubleCheckIcoon />
       ) : null
     ) : null;
@@ -82,13 +67,13 @@ const ChatUser = ({ value }: Props) => {
         <WrapName>
           <Name>
             <div>
-              {firstName} {lastName}
+              {data.firstName} {data.lastName}
             </div>
             {unread}
           </Name>
           {check}
         </WrapName>
-        <Text>{lastMsg}</Text>
+        <Text>{data.lastMsg}</Text>
       </Wrapper>
     </Container>
   );

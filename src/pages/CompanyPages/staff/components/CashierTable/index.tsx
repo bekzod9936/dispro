@@ -15,14 +15,21 @@ import {
 	WrapIcon,
 	Img,
 	ImgDiv,
+	Footer,
 } from './style';
 import { cashierHeaders } from './headers';
-import LogoDef from 'assets/icons/SideBar/logodefault.png';
+import LogoDef from 'assets/images/staff_default.png';
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import {
 	setOpenFilter,
 	setSelectedCashiers,
 } from 'services/redux/Slices/staffs';
+import { NewPagination } from 'components/Custom/NewPagination';
+import useCashierTable from '../../hooks/useCashierTable';
+interface intialFilterProps {
+	page?: number;
+	perPage?: number;
+}
 
 const CashierTable = ({ cashiers }: IProps) => {
 	const dispatch = useAppDispatch();
@@ -30,6 +37,7 @@ const CashierTable = ({ cashiers }: IProps) => {
 	const selectedCashiers = useAppSelector(
 		(state) => state.staffs.selectedCashiers
 	);
+	const cashierId = useAppSelector((state) => state.staffs.cashierId);
 	// const [selectedCashiers, setSelectedCashiers] = useState([]);
 	const [checked, setChecked] = useState(false);
 	const [headers, setHeaders] = useState<HeadersType[]>(cashierHeaders);
@@ -94,8 +102,30 @@ const CashierTable = ({ cashiers }: IProps) => {
 		}
 		dispatch(setOpenFilter(false));
 	};
+
+	const totalCount = useAppSelector(
+		(state) => state.staffs.pointHistories.totalCount
+	);
+
+	const intialFilter = {
+		cashierId: cashierId,
+		page: 1,
+		perPage: 7,
+	};
+
+	const [filterValues, setFilterValues] =
+		useState<intialFilterProps>(intialFilter);
+
+	const { response } = useCashierTable({
+		filterValues: filterValues,
+	});
+	const handlechangePage = async (e: any) => {
+		await setFilterValues({ ...filterValues, page: e });
+		await response.refetch();
+	};
+
 	return (
-		<div>
+		<>
 			<Container>
 				<MTable {...getTableProps()}>
 					<Thead>
@@ -170,7 +200,14 @@ const CashierTable = ({ cashiers }: IProps) => {
 					</Tbody>
 				</MTable>
 			</Container>
-		</div>
+			{/* <Footer>
+				<NewPagination
+					onChange={handlechangePage}
+					currentPage={Number(filterValues.page)}
+					totalCount={Number(totalCount)}
+				/>
+			</Footer> */}
+		</>
 	);
 };
 

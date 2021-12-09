@@ -9,6 +9,7 @@ import Pagination from 'components/Custom/Pagination';
 import { useAppSelector } from 'services/redux/hooks';
 import useBallTable from './useBallTable';
 import Spinner from 'components/Custom/Spinner';
+import { NewPagination } from 'components/Custom/NewPagination';
 interface intialFilterProps {
 	page?: number;
 	perPage?: number;
@@ -125,14 +126,21 @@ const BallTable = () => {
 							<span>{between}</span>
 							{t('from1')} <span>{totalCount}</span> {t('operations1')}
 						</Info>
-						<Pagination
+
+						<NewPagination
+							onChange={handlechangePage}
+							currentPage={Number(filterValues.page)}
+							totalCount={Number(totalCount)}
+						/>
+
+						{/* <Pagination
 							page={filterValues.page}
 							count={totalCount}
 							onChange={handlechangePage}
 							disabled={response.isLoading || response.isFetching}
 							// siblingCount={0}
 							boundaryCount={0}
-						/>
+						/> */}
 					</WrapPag>
 				</>
 			)}

@@ -119,7 +119,7 @@ export const Title = styled.div`
 
 export const Context = styled.div`
   overflow: hidden;
-  max-width: 80%;
+  max-width: 100%;
 `;
 
 export const Casher = styled.div`
@@ -154,6 +154,7 @@ export const Content = styled.div`
 `;
 
 export const ModelContent = styled.div`
+  width: 595px;
   max-width: 600px;
   max-height: 450px;
   overflow: hidden;

@@ -4,9 +4,7 @@ import Popover from 'components/Custom/Popover';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import useWindowWidth from 'services/hooks/useWindowWidth';
-import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
-import { setChosenListUser } from 'services/redux/Slices/feedback';
-import useChatClients from '../../screens/Posts/useChatClients';
+import useChatClients from '../../screens/NewPosts/useUsers';
 import useDelete from '../../hooks/useDelete';
 import blockChatDeletion from 'assets/images/blockChatDeletion.png';
 import {
@@ -25,35 +23,41 @@ import {
   WrapWarning,
   Texts,
 } from './style';
+import { setUsers } from 'services/redux/Slices/feedback';
+import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 
-const Dots = () => {
+interface Props {
+  id?: any;
+  setCurrentUser?: any;
+}
+
+const Dots = ({ id, setCurrentUser }: Props) => {
   const { t } = useTranslation();
   const { width } = useWindowWidth();
-  const dispatch = useAppDispatch();
   const [closeFun, setCloseFun] = useState<any>();
   const [open, setOpen] = useState(false);
   const [openWaring, setOpenWarning] = useState(false);
-  const chosen = useAppSelector(
-    (state) => state.feedbackPost.chosenListUser?.chosen
-  );
-  const chosenListUser = useAppSelector(
-    (state) => state.feedbackPost.chosenListUser
-  );
+  const dispatch = useAppDispatch();
+  const users: any = useAppSelector((state) => state.feedbackPost.users);
 
   const { resChatClients } = useChatClients();
   const { deleteRes } = useDelete();
 
+  const funFetch = async (newArr: any) => {
+    await dispatch(setUsers(newArr));
+    await resChatClients.refetch();
+    await setCurrentUser({});
+  };
+
   const handleDelete = () => {
     const data: any = {
       withUserType: 1,
-      withId: chosen?.id,
+      withId: id,
     };
     deleteRes.mutate(data, {
       onSuccess: () => {
-        dispatch(
-          setChosenListUser({ ...chosenListUser, isChoose: false, chosen: {} })
-        );
-        resChatClients.refetch();
+        const newArr = users.filter((v: any) => v?.id !== id);
+        funFetch(newArr);
         setOpen(false);
       },
     });

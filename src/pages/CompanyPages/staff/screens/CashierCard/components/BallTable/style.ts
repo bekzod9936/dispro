@@ -185,7 +185,7 @@ export const EmptyDiv = styled.div`
 `;
 
 export const NoData = styled.div`
-	padding: 100px 0 121px 0;
+	height: 50vh;
 	border-radius: 14px !important;
 	display: flex;
 	justify-content: center;

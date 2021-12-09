@@ -10,6 +10,7 @@ import {
   IRating,
   IChoose,
   ITHistorySupport,
+  IUsersProps,
 } from './types';
 
 const initialState: IFeedBack = {
@@ -44,6 +45,7 @@ const initialState: IFeedBack = {
     chosen: {},
   },
   badgeStorePost: {},
+  users: [],
 };
 
 const feedbackPostSlice = createSlice({
@@ -97,6 +99,9 @@ const feedbackPostSlice = createSlice({
     setBadgeStorePost: (state, action: PayloadAction<IMessage>) => {
       state.badgeStorePost = action.payload;
     },
+    setUsers: (state, action: PayloadAction<IUsersProps[]>) => {
+      state.users = action.payload;
+    },
   },
 });
 
@@ -115,5 +120,6 @@ export const {
   setChosenClientChat,
   setChosenListUser,
   setBadgeStorePost,
+  setUsers
 } = feedbackPostSlice.actions;
 export default feedbackPostSlice.reducer;

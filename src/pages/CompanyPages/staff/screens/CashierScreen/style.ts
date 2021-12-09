@@ -8,10 +8,34 @@ flex-direction: column;
 height: 100%;
   width: 100%;
   margin-top: 30px;
-  padding-right: 40px;
+//   padding-right: 40px;
   position: relative !important;
-  overflow: hidden;
+//   overflow: hidden;
   
+
+  padding-right: 25px;
+  overflow-y: auto;
+  @media (max-width: ${device.mobile}) {
+    overflow: visible;
+  }
+  @media (max-width: ${device.mobile}) {
+    padding-right: 15px;
+    &::-webkit-scrollbar {
+      width: 4px !important;
+  }
+  }
+  &::-webkit-scrollbar {
+    width: 7px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #606eea;
+    border-radius: 14px 0px 0px 14px;
+  }
+
 `;
 
 export const Text = styled.p`
@@ -132,5 +156,30 @@ interface ButtonProps {
 export const DeleteIc = styled(Delete)`
   & > path {
     fill: ${({ color }: ButtonProps) => (color ? color : null)};
+  }
+`;
+
+export const Wrap = styled.div`
+  padding-right: 25px;
+  overflow-y: auto;
+  @media (max-width: ${device.mobile}) {
+    overflow: visible;
+  }
+  @media (max-width: ${device.mobile}) {
+    padding-right: 15px;
+    &::-webkit-scrollbar {
+      width: 4px !important;
+  }
+  }
+  &::-webkit-scrollbar {
+    width: 7px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #606eea;
+    border-radius: 14px 0px 0px 14px;
   }
 `;

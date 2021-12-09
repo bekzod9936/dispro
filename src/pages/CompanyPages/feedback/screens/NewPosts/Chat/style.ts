@@ -38,18 +38,69 @@ const getType = ({ type }: JProps) => {
   }
 };
 
-export const WrapDateMessage = styled.div`
+export const Container = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
   width: 100%;
+  position: relative;
 `;
 
-export const WrapDownIcon = styled.div`
-  position: absolute;
-  right: 20px;
-  bottom: 0;
-  z-index: 3;
+export const WrapUserInfo = styled.div`
+  display: flex;
+  @media (max-width: ${device.mobile}) {
+    flex: 1;
+    justify-content: space-between;
+  }
+`;
+
+export const WrapInfo = styled.div``;
+
+export const UserName = styled.div`
+  font-weight: 500;
+  font-size: 16px;
+  color: #223367;
+  @media (min-width: ${device.laptop}) {
+    font-size: 18px;
+  }
+`;
+
+export const Body = styled.div`
+  display: flex;
+  flex: 1;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  padding: 15px;
+`;
+
+export const Form = styled.form`
+  background: #ffffff;
+  border: 2px solid #c2c2c2;
+  border-radius: 14px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  @media (max-width: ${device.mobile}) {
+    border: none;
+    border-radius: 0;
+  }
+`;
+
+export const ChatPlace1 = styled.div`
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  margin-bottom: 15px;
+  position: relative;
+
+  @media (max-width: ${device.mobile}) {
+    margin-bottom: 0;
+  }
 `;
 
 export const MessageWrap = styled.div`
@@ -62,33 +113,42 @@ export const MessageWrap = styled.div`
       const ss: any = getType({ type });
       return ss?.justify;
     }};
-    margin: 0 0 15px 0;
+    margin: 0;
   }
 `;
 
-export const MessageDate = styled.div`
-  font-weight: normal;
-  font-size: 12px;
-  color: ${({ type }: JProps) => {
-    const ss: any = getType({ type });
-    return ss?.date;
-  }};
+export const Messages = styled.div`
+  overflow-y: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column-reverse;
+  overflow-x: hidden;
+  &::-webkit-scrollbar {
+    appearance: none;
+    display: none;
+  }
+  &::-webkit-scrollbar-thumb {
+    appearance: none;
+    display: none;
+  }
+
+  &::-webkit-scrollbar-track {
+    appearance: none;
+    display: none;
+  }
+  @media (max-width: ${device.mobile}) {
+    & > div > div {
+      grid-row-gap: 15px;
+      padding: 10px 20px 0 10px;
+    }
+  }
 `;
 
-export const MessageText = styled.pre`
-  font-weight: normal;
-  font-size: 14px;
-  color: ${({ type }: JProps) => {
-    const ss: any = getType({ type });
-    return ss?.color;
-  }};
-  margin-top: 5px;
-
-  white-space: pre-wrap;
-  white-space: -moz-pre-wrap;
-  white-space: -pre-wrap;
-  white-space: -o-pre-wrap;
-  word-wrap: break-word;
+export const WrapDownIcon = styled.div`
+  position: absolute;
+  right: 20px;
+  bottom: 0;
+  z-index: 3;
 `;
 
 export const Message = styled.div`
@@ -169,39 +229,65 @@ export const DownIcon = styled(Down)`
   }
 `;
 
-export const Messages = styled.div`
-  overflow-y: auto;
-  width: 100%;
+export const WrapDateMessage = styled.div`
   display: flex;
-  flex-direction: column-reverse;
-  overflow-x: hidden;
-  &::-webkit-scrollbar {
-    appearance: none;
-    display: none;
-  }
-  &::-webkit-scrollbar-thumb {
-    appearance: none;
-    display: none;
-  }
-
-  &::-webkit-scrollbar-track {
-    appearance: none;
-    display: none;
-  }
-  @media (max-width: ${device.mobile}) {
-    & > div > div {
-      padding: 10px 20px 0 10px;
-    }
-  }
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 `;
 
-export const ChatPlace1 = styled.div`
-  display: flex;
-  flex: 1;
-  overflow: hidden;
-  position: relative;
+export const MessageText = styled.pre`
+  font-weight: normal;
+  font-size: 14px;
+  color: ${({ type }: JProps) => {
+    const ss: any = getType({ type });
+    return ss?.color;
+  }};
+  margin-top: 5px;
 
-  @media (max-width: ${device.mobile}) {
-    margin-bottom: 0;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+`;
+
+export const MessageDate = styled.div`
+  font-weight: normal;
+  font-size: 12px;
+  color: ${({ type }: JProps) => {
+    const ss: any = getType({ type });
+    return ss?.date;
+  }};
+`;
+
+export const Divider = styled.div`
+  text-align: center;
+  width: 100%;
+  position: relative;
+  padding: 10px 0;
+  & > div {
+    font-weight: 500;
+    font-size: 14px;
+    color: #223367;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    padding: 0 10px;
+  }
+
+  & > div::before,
+  & > div::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid rgba(96, 110, 234, 0.1);
+  }
+
+  & > div:not(:empty)::before {
+    margin-right: 30px;
+  }
+
+  & > div:not(:empty)::after {
+    margin-left: 30px;
   }
 `;
