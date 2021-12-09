@@ -1,5 +1,4 @@
 // import { useRecoilValue } from "recoil";
-// import { Redirect } from "react-router-dom";
 
 import PrivateRoute from "./PrivateRoute";
 //types

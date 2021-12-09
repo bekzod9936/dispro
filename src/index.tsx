@@ -48,10 +48,10 @@ ReactDOM.render(
             <Provider store={store}>
               <QueryClientProvider client={queryClient}>
                 <BrowserRouter>
-                  {/* <ErrorBoundary FallbackComponent={ErrorFallback}> */}
-                  <App />
-                  <ToastContainer />
-                  {/* </ErrorBoundary> */}
+                  <ErrorBoundary FallbackComponent={ErrorFallback}>
+                    <App />
+                    <ToastContainer />
+                  </ErrorBoundary>
                 </BrowserRouter>
               </QueryClientProvider>
             </Provider>
