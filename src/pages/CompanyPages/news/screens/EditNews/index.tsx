@@ -776,7 +776,7 @@ const EditNews = () => {
               }}
               margin={{ mobile: "0px 8px  8px  0" }}
             >
-              {"save"}
+              {t("save")}
             </Button>
           </Buttons>
         )}
