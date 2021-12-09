@@ -28,7 +28,7 @@ export const Wrapper = styled.div`
     }
 
     @media (max-width: ${device.planshet}) {
-        padding-bottom: 60px;
+        padding-bottom: 160px;
     }
 
 `

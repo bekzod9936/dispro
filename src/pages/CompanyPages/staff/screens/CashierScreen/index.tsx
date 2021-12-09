@@ -19,6 +19,7 @@ import {
 	ButtonKeyWord,
 	DeleteIc,
 	CashierFilterWrap,
+	Wrap,
 } from './style';
 import { setOpenCash, setOpenFilter } from 'services/redux/Slices/staffs';
 import EditCashier from './components/EditCashier';
@@ -90,24 +91,26 @@ const CashierScreen = () => {
 						<Spinner />
 					</SpinnerDiv>
 				) : cashiers?.length > 0 ? (
-					<CashierTable
-						cashiers={cashiers.map((cashier: any) => {
-							return {
-								...cashier,
-								storeName: cashier?.store?.name,
-								firstName: cashier?.firstName + ' ' + cashier?.lastName,
-								score: numberWith(cashier?.addInfo?.avgRating, ' '),
-								avgCheque: numberWith(cashier?.addInfo?.avgCheque, ' '),
-								clients: numberWith(cashier?.addInfo?.countClient, ' '),
-								operations: numberWith(cashier?.addInfo?.countOperation, ' '),
-								amountOperation: numberWith(
-									cashier?.addInfo?.amountOperation,
-									' '
-								),
-								countRefer: numberWith(cashier?.addInfo?.countRefer, ' '),
-							};
-						})}
-					/>
+					<Wrap>
+						<CashierTable
+							cashiers={cashiers.map((cashier: any) => {
+								return {
+									...cashier,
+									storeName: cashier?.store?.name,
+									firstName: cashier?.firstName + ' ' + cashier?.lastName,
+									score: numberWith(cashier?.addInfo?.avgRating, ' '),
+									avgCheque: numberWith(cashier?.addInfo?.avgCheque, ' '),
+									clients: numberWith(cashier?.addInfo?.countClient, ' '),
+									operations: numberWith(cashier?.addInfo?.countOperation, ' '),
+									amountOperation: numberWith(
+										cashier?.addInfo?.amountOperation,
+										' '
+									),
+									countRefer: numberWith(cashier?.addInfo?.countRefer, ' '),
+								};
+							})}
+						/>
+					</Wrap>
 				) : (
 					<EmptyContainer>
 						<EmptyLeft>
@@ -137,6 +140,7 @@ const CashierScreen = () => {
 
 				<SideBar maxWidth='340px' isOpen={openFilter}>
 					<CashierFilterBar
+						storeIdForFilter={storeIdForFilter}
 						setStoreIdForFilter={setStoreIdForFilter}
 						filterValue={filterValue}
 						setFilterValue={setFilterValue}

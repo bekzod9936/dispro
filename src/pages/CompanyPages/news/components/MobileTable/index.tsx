@@ -81,14 +81,14 @@ const MobileTable = ({ refetch, data }: Props) => {
   const handleEdit = async (id: any) => {
     await dispatch(setSelectedNews(id));
     if (id) {
-      setTimeout(() => history.push("/news/edit"), 500);
+      setTimeout(() => history.push("/news/edit"), 1000);
     }
   };
 
   const handleRepair = async (id: any) => {
     await dispatch(setSelectedNews(id));
     if (id) {
-      setTimeout(() => history.push("/news/repair"), 500);
+      setTimeout(() => history.push("/news/repair"), 1000);
     }
   };
 
@@ -219,7 +219,7 @@ const MobileTable = ({ refetch, data }: Props) => {
                               <p>
                                 {info?.description}
                               </p>
-                       
+                           
                           </BoxInfo>
                         
                         </Box>
@@ -227,15 +227,17 @@ const MobileTable = ({ refetch, data }: Props) => {
                       <WrapBoxDetail>
                         <p style={{ color: "#C7C7C7" }}>{t('Информация')}</p>
                         <Box>
+                          {console.log('a.fullData?.genderType',a.fullData?.genderType)}
                           <BoxinfoDetail>{`${a.fullData?.genderType}`}</BoxinfoDetail>
-                          <BoxinfoDetail>{`Срок публикции: ${a.fullData?.date}`}</BoxinfoDetail>
+                          <BoxinfoDetail>{`Срок публикации: ${a.fullData?.date}`}</BoxinfoDetail>
                           <BoxinfoDetail>{`Возрастное ограничение: ${
                             info?.ageFrom + "+"
                           }`}</BoxinfoDetail>
+                      
                           {info?.pushUp && (
                             <>
                               <BoxinfoDetail>
-                                {`Дни оповещания Push:  ${weekdays[1]?.item}, ${weekdays[2]?.item}, ${weekdays[3]?.item}, ${weekdays[4]?.item}, ${weekdays[5]?.item}, ${weekdays[6]?.item}, ${weekdays[0]?.item}`}
+                                {`Дни оповещания Push:  ${weekdays[1]?.item ? weekdays[1]?.item:''} ${weekdays[2]?.item ?weekdays[2]?.item:''} ${weekdays[3]?.item?weekdays[3]?.item : '' } ${weekdays[4]?.item ? weekdays[4]?.item:''} ${weekdays[5]?.item ? weekdays[5]?.item:''} ${weekdays[6]?.item ? weekdays[6]?.item:''} ${weekdays[0]?.item ? weekdays[0]?.item:''}`}
                               </BoxinfoDetail>
                               <BoxinfoDetail>{`Часы оповещения Push: ${
                                 info?.settings?.time?.from +

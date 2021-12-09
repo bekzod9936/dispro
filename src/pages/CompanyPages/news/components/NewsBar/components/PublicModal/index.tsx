@@ -45,6 +45,7 @@ export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
     reValidateMode: "onChange",
   });
 
+ 
   const upDateWaitingNews = (data: any) => {
     let newsBody = {
       title: updatedNews?.title,
@@ -56,7 +57,7 @@ export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
       ageUnlimited: false,
       couponIds: [],
       image: updatedNews?.image,
-      genderType: data.gender?.id,
+      genderType: updatedNews?.genderType,
       pushUp: updatedNews?.pushUp,
       settings: {
         weekDays:

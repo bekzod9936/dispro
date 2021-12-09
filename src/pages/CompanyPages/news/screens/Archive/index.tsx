@@ -10,10 +10,8 @@ import { useAppSelector, useAppDispatch } from "services/redux/hooks";
 import { SideBar } from "../../components/SideBar";
 import { NewsBar } from "../../components/NewsBar";
 import { Container, Wrap, Info, WrapPag, WrapSpinner } from "./style";
-
 import useData from "../useData";
 import useArchive from "./useArchive";
-import Pagination from "components/Custom/Pagination";
 import MobileTable from "../../components/MobileTable";
 import useWindowWidth from "services/hooks/useWindowWidth";
 import { FilterNews } from "../../components/FilterNews";
@@ -149,8 +147,8 @@ const Archive = () => {
                     {t("from1")} <span>{totalNewsCount}</span>
                     {countPagination({
                       count: totalNewsCount,
-                      firstWord: t("новости "),
-                      secondWord: t("новостей"),
+                      firstWord: t("newspaginationtitle "),
+                      secondWord: t("newspaginationtitles"),
                     })}
                   </Info>
                   <NewPagination
@@ -201,8 +199,8 @@ const Archive = () => {
                     {t("from1")} <span>{totalNewsCount}</span>
                     {countPagination({
                       count: totalNewsCount,
-                      firstWord: t("новости"),
-                      secondWord: t("новостей"),
+                      firstWord: t("newspaginationtitle"),
+                      secondWord: t("newspaginationtitles"),
                     })}
                   </Info>
                    <NewPagination
@@ -210,7 +208,6 @@ const Archive = () => {
               currentPage={Number(filterValues.page)}
               totalCount={Number(totalCount)}
             />
-               
                 </WrapPag>
               ) : null}
             </>

@@ -90,9 +90,12 @@ export const ButtonsWrapper = styled.div`
   margin-top: ${(props: IButtonWrapper) => props.marginTop + "px" || "0"};
   @media (max-width: ${device.planshet}) {
     margin: 0;
+    max-width: none;
+    width: max-content;
   }
   @media(max-width: ${device.mobile}) {
     margin: 13px 0;
+    width: 100%;
   }
 `
 

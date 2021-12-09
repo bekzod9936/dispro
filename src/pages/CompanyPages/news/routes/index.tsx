@@ -23,34 +23,34 @@ const useNewsRoute = () => {
   const newsPath: INewsRow[] = [
     {
       path: "/news/waiting",
-      text: t("В ожидании"),
+      text: t("in_pending"),
       component: Waiting,
     },
     {
       path: "/news/active",
-      text: t("Активные новости"),
+      text: t("active_news"),
       component: Active,
     },
     {
       path: "/news/archive",
-      text: t("Архив новостей"),
+      text: t("news_archive"),
       component: Archive,
     },
   ];
   const menuItems: INewsRow[] = [
     {
       path: "/news/waiting",
-      text: t("В ожидании"),
+      text: t("in_pending"),
       component: Waiting,
     },
     {
       path: "/news/active",
-      text: t("Активные новости"),
+      text: t("active_news"),
       component: Active,
     },
     {
       path: "/news/archive",
-      text: t("Архив новостей"),
+      text: t("news_archive"),
       component: Archive,
     },
     {
@@ -60,28 +60,27 @@ const useNewsRoute = () => {
     },
     {
       path: "/news/detail",
-      text: t("Смотреть полностью"),
+      text: t("seeFull"),
       component: ShowNews,
     },
     {
       path: "/news/showwaiting",
-      text: t("Смотреть полностью"),
+      text: t("seeFull"),
       component: ShowWaitingNews,
     },
-
     {
       path: "/news/shownews",
-      text: t("Смотреть полностью"),
+      text: t("seeFull"),
       component: ShowWaitingNews,
     },
     {
       path: "/news/edit",
-      text: t("Смотреть полностью"),
+      text: t("seeFull"),
       component: EditNews,
     },
     {
       path: "/news/repair",
-      text: t(" Восстановить новость"),
+      text: t("resetNews"),
       component: RepairNews,
     },
   ];

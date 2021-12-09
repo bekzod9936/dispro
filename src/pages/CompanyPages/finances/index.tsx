@@ -1,7 +1,7 @@
 import { useRecoilState } from "recoil";
 import { Suspense } from "react";
 import { useTranslation } from "react-i18next";
-import { Route, Switch } from "react-router";
+import { Route, Switch, Redirect } from "react-router";
 //routes
 import useFinanceRoute from "./routes";
 import useLayout from "components/Layout/useLayout";
@@ -79,6 +79,9 @@ const Finance = () => {
                 <Route exact path={item.path} component={item.component} />
               );
             })}
+            <Route path="*">
+              <Redirect to={menuItems[0].path} />
+            </Route>
           </Suspense>
         </Switch>
       </Wrap>

@@ -237,23 +237,24 @@ const CreateNews = () => {
           {width <= 1000 && (
             <MobileHeader>
               <GoBackIcon onClick={handleBack} style={{ cursor: "pointer" }} />
-              <Title> {t("Добавление новости")}</Title>
+              <Title> {t("addingNews")}</Title>
             </MobileHeader>
           )}
+
           <Container>
             <LeftSide>
-              <Title>Фотографии</Title>
+              <Title>{t("photos")}</Title>
               {!isLoading && !image && (
                 <div style={{ marginBottom: 30 }}>
                   <Header>
                     <p>
                       {t(
-                        " Можно загрузить фотографию JPG или PNG, минимальное разрешение 400*400рх, размер не более 3Мбайт."
+                        "uploadPhotoInfo"
                       )}
                     </p>
                   </Header>
                   <UploadButton>
-                    <label htmlFor="uploadImg">Загрузить фото</label>
+                    <label htmlFor="uploadImg">{t("uploadPhoto")}</label>
                     <input
                       {...register("image", { required: true })}
                       value={image}
@@ -301,7 +302,7 @@ const CreateNews = () => {
                     message={t("requiredField")}
                     field={field}
                     maxLength={80}
-                    label="Название"
+                    label={t("Название")}
                   />
                 )}
               />
@@ -322,7 +323,7 @@ const CreateNews = () => {
                     minHeight={"150px"}
                     maxHeight={"300px"}
                     resize={"vertical"}
-                    title={"Описание"}
+                    title={t("Описание")}
                   />
                 )}
               />
@@ -392,7 +393,7 @@ const CreateNews = () => {
                      
                         
                         let date =
-                          ""+ e.year + "." + e.month.number + "." + e.day;
+                          ""+ e.year + "-" + e.month.number + "-" + e.day;
                         setFilter((prev: any) => ({
                           ...prev,
                           regDate: {
@@ -412,7 +413,7 @@ const CreateNews = () => {
                       minDate={filter?.regDate?.regDateFrom}
                       onChange={(e) => {
                         let date =
-                        ""+e.year + "." + e.month.number + "." + e.day;
+                        ""+e.year + "-" + e.month.number + "-" + e.day;
                         setFilter((prev: any) => ({
                           ...prev,
                           regDate: {
@@ -441,7 +442,7 @@ const CreateNews = () => {
                       error={!!errors.gender}
                       message={t("requiredField")}
                       field={field}
-                      label="Выберите пол"
+                      label={t("chose_gender")}
                       options={genders}
                       margin={{ laptop: "0 0 35px 0" }}
                     />
@@ -454,6 +455,7 @@ const CreateNews = () => {
                 render={({ field }) => (
                   <InputFormat
                     field={field}
+                    type="tel"
                     defaultValue={""}
                     max="100"
                     message={
@@ -462,7 +464,7 @@ const CreateNews = () => {
                         : t("requiredField")
                     }
                     IconStart={<PlusIcon style={{ marginLeft: "20px" }} />}
-                    label="Возрастное ограничение"
+                    label={t("ageLimit")}
                   />
                 )}
               />
@@ -471,7 +473,7 @@ const CreateNews = () => {
               <PushWrapper>
                 <PushBlock>
                   <h6 style={{ width: "80%" }}>
-                    {t("Использовать новость в формате Push-уведомления")}
+                    {t("withPushNotification")}
                   </h6>
                   <CustomToggle
                     onChange={(e: any) => handleOpenBlock(e, "push")}
@@ -485,7 +487,7 @@ const CreateNews = () => {
                       <Input
                         field={field}
                         margin={{ laptop: "35px 0" }}
-                        label="Текст Push-уведомления"
+                        label={t("text_push")}
                         type="textarea"
                         required={optionalFields.push ? true : false}
                         multiline={true}
@@ -524,7 +526,7 @@ const CreateNews = () => {
                           weight: 300,
                           fontSize: { desktop: 14 },
                         }}
-                        label="Укажите дни"
+                        label={t("point_out_days")}
                       />
                     )}
                   />
@@ -535,7 +537,7 @@ const CreateNews = () => {
                 <div style={{ marginBottom: "10px" }}>
                   {optionalFields.push && (
                     <Label>
-                      <div>{t("Укажите временной промежуток")}</div>
+                      <div>{t("point_out_time")}</div>
                     </Label>
                   )}
                 </div>
@@ -567,7 +569,7 @@ const CreateNews = () => {
                 <CheckBox
                   checked={checked}
                   name={"checked"}
-                  label={"Круглосуточно"}
+                  label={t("24/7")}
                   onChange={(e: any) => setChecked(e)}
                 />
               )}
@@ -589,7 +591,7 @@ const CreateNews = () => {
                             inpadding: "2px 10px 2px 60px",
                             placewieght: "500",
                           }}
-                          placeholder={t("Выберите филиалы")}
+                          placeholder={t("chose_filial")}
                           margin={{
                             laptop: "20px 0 25px",
                             
@@ -635,7 +637,7 @@ const CreateNews = () => {
                     }}
                     margin={{ mobile: "0px 8px  8px  0" }}
                   >
-                    {t("Сохранить")}
+                    {t("save")}
                   </Button>
                 </Buttons>
               )}
@@ -652,7 +654,7 @@ const CreateNews = () => {
                 color: "#606EEA",
               }}
             >
-              {t("Отмена")}
+              {t("cancellation")}
             </Button>
             <Button
              onClick={() => setValidation(true)}
@@ -665,7 +667,7 @@ const CreateNews = () => {
                 shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
               }}
             >
-              {t("Сохранить")}
+              {t("save")}
             </Button>
           </DownSide>
         )}
@@ -676,7 +678,7 @@ const CreateNews = () => {
               startIcon={<CancelIcon />}
               buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
             >
-              {t("Отменить")}
+              {t("cancel")}
             </Button>
             <Button
               type="submit"
@@ -686,7 +688,7 @@ const CreateNews = () => {
                 shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
               }}
             >
-              {t("Сохранить")}
+              {t("save")}
             </Button>
           </DownSide>
         )}

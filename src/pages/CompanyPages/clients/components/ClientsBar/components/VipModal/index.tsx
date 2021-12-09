@@ -7,6 +7,8 @@ import { useMutation, useQueryClient } from 'react-query'
 import { changeVipPercent } from 'services/queries/clientsQuery'
 import { useAppSelector } from 'services/redux/hooks'
 import { Status, Wrapper } from './style'
+import useWindowWidth from 'services/hooks/useWindowWidth'
+import { MobileCancelIcon } from 'assets/icons/proposals/ProposalsIcons'
 interface IProps {
     handleClose: () => void,
     refetch?: any,
@@ -28,7 +30,7 @@ export const VipModal = ({ handleClose, refetch, state, id, clientInfo }: IProps
     const { selectedClients } = useAppSelector(state => state.clients)
     const client = selectedClients[0]
     const queryClient = useQueryClient()
-
+    const { width } = useWindowWidth()
 
     const mutation = useMutation((data: any) => changeVipPercent(data), {
         onSuccess: () => {
@@ -121,9 +123,9 @@ export const VipModal = ({ handleClose, refetch, state, id, clientInfo }: IProps
                 <div className="buttons">
                     <Button
                         onClick={handleClose}
-                        buttonStyle={{ bgcolor: "#ffffff", color: "#223367" }}
+                        buttonStyle={width > 1000 ? { bgcolor: "#ffffff", color: "#223367" } : { color: '#606EEA', bgcolor: 'rgba(96, 110, 234, 0.1)' }}
                         margin={{ laptop: "0 25px 0 0" }}
-                        startIcon={<CancelIcon />}>
+                        startIcon={width > 1000 ? <CancelIcon /> : <MobileCancelIcon />}>
                         Отменить
                     </Button>
                     <Button
@@ -156,9 +158,9 @@ export const VipModal = ({ handleClose, refetch, state, id, clientInfo }: IProps
                 <div className="buttons">
                     <Button
                         onClick={handleClose}
-                        buttonStyle={{ bgcolor: "#ffffff", color: "#223367" }}
+                        buttonStyle={width > 1000 ? { bgcolor: "#ffffff", color: "#223367" } : { color: '#606EEA', bgcolor: 'rgba(96, 110, 234, 0.1)' }}
                         margin={{ laptop: "0 25px 0 0" }}
-                        startIcon={<CancelIcon />}>
+                        startIcon={width > 1000 ? <CancelIcon /> : <MobileCancelIcon />}>
                         Отменить
                     </Button>
                     <Button
@@ -197,9 +199,9 @@ export const VipModal = ({ handleClose, refetch, state, id, clientInfo }: IProps
                 <div className="buttons">
                     <Button
                         onClick={handleClose}
-                        buttonStyle={{ bgcolor: "#ffffff", color: "#223367" }}
+                        buttonStyle={width > 1000 ? { bgcolor: "#ffffff", color: "#223367" } : { color: '#606EEA', bgcolor: 'rgba(96, 110, 234, 0.1)' }}
                         margin={{ laptop: "0 25px 0 0" }}
-                        startIcon={<CancelIcon />}>
+                        startIcon={width > 1000 ? <CancelIcon /> : <MobileCancelIcon />}>
                         Отменить
                     </Button>
                     <Button

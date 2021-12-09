@@ -71,6 +71,7 @@ const CreateManager = ({ openManager }: IProps) => {
 		setValue,
 		getValues,
 		register,
+		setError,
 		formState: { errors, isValid, isSubmitSuccessful },
 	} = useForm<FormProps>({
 		mode: 'onChange',
@@ -79,31 +80,48 @@ const CreateManager = ({ openManager }: IProps) => {
 	});
 	const onSave = (data: FormProps) => {
 		console.log(data, 'data');
-		createManager.mutate({
-			logo: logo,
-			comment: data.comment,
-			firstName: data.firstName,
-			lastName: data.lastName,
-			storeId: data.storeId?.value,
-			telNumber: `+998${data.telNumber}`,
-			roleId: 2,
-		});
+		createManager.mutate(
+			{
+				logo: logo,
+				comment: data.comment,
+				firstName: data.firstName,
+				lastName: data.lastName,
+				storeId: data.storeId?.value,
+				telNumber: `+998${data.telNumber}`,
+				roleId: 2,
+			},
+			{
+				onSuccess: () => {
+					reset({
+						logo: '',
+						comment: '',
+						firstName: '',
+						lastName: '',
+						storeId: '',
+						telNumber: '+998',
+					});
+				},
+				onError: () => {
+					setError('telNumber', { type: 'duplicate', message: 'duplicate' });
+				},
+			}
+		);
 	};
 
-	useEffect(() => {
-		if (isSubmitSuccessful) {
-			setTimeout(() => {
-				reset({
-					logo: '',
-					comment: '',
-					firstName: '',
-					lastName: '',
-					storeId: '',
-					telNumber: '+998',
-				});
-			}, 4000);
-		}
-	}, [isSubmitSuccessful, reset]);
+	// useEffect(() => {
+	// 	if (isSubmitSuccessful) {
+	// 		setTimeout(() => {
+	// 			reset({
+	// 				logo: '',
+	// 				comment: '',
+	// 				firstName: '',
+	// 				lastName: '',
+	// 				storeId: '',
+	// 				telNumber: '+998',
+	// 			});
+	// 		}, 4000);
+	// 	}
+	// }, [isSubmitSuccessful, reset]);
 
 	const tel: any = getValues();
 
@@ -132,7 +150,10 @@ const CreateManager = ({ openManager }: IProps) => {
 	const handleUploadImg = (data: any) => {
 		setFile(data.target.files[0]);
 		setIsCropVisible(true);
+
+		setValue('logo', '');
 	};
+	console.log(logo);
 
 	return (
 		<Modal open={openManager}>
@@ -273,7 +294,9 @@ const CreateManager = ({ openManager }: IProps) => {
 											<Input
 												label={t('phoneNumber')}
 												error={errors.telNumber ? true : false}
-												message={t('requiredField')}
+												message={
+													errors?.telNumber?.message || t('requiredField')
+												}
 												type='string'
 												field={field}
 												fullWidth={true}
@@ -331,6 +354,7 @@ const CreateManager = ({ openManager }: IProps) => {
 									render={({ field }) => {
 										return (
 											<Input
+												maxLength='100'
 												label={t('comment')}
 												type='string'
 												field={field}

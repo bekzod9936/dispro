@@ -59,12 +59,14 @@ interface Props {
 	filterValue: any;
 	setFilterValue: any;
 	setStoreIdForFilter: (a: any) => void;
+	storeIdForFilter: number | null;
 }
 
 const CashierFilterBar: React.FC<Props> = ({
 	filterValue,
 	setFilterValue,
 	setStoreIdForFilter,
+	storeIdForFilter,
 }) => {
 	const history = useHistory();
 	const location = useLocation();
@@ -142,6 +144,7 @@ const CashierFilterBar: React.FC<Props> = ({
 						value={filterValue}
 						onChange={(e) => setFilterValue(e)}
 					/>
+					{storeIdForFilter && <span>{allCashier.length}</span>}
 				</FilterList>
 				<DownSide>
 					<CashierRow>

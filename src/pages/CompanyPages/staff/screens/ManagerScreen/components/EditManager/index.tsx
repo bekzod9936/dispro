@@ -223,6 +223,7 @@ const EditManager = ({ openEdit }: IProps) => {
 									rules={{ required: true }}
 									render={({ field }) => (
 										<Input
+											maxLength='20'
 											label={t('manager_name')}
 											error={errors.firstName ? true : false}
 											message={t('requiredField')}
@@ -243,6 +244,7 @@ const EditManager = ({ openEdit }: IProps) => {
 									rules={{ required: true }}
 									render={({ field }) => (
 										<Input
+											maxLength='20'
 											label={t('manager_lastName')}
 											error={errors.lastName ? true : false}
 											message={t('requiredField')}
@@ -331,6 +333,7 @@ const EditManager = ({ openEdit }: IProps) => {
 								render={({ field }) => {
 									return (
 										<Input
+											maxLength='100'
 											label={t('comment')}
 											type='string'
 											field={field}

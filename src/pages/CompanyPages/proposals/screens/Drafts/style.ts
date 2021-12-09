@@ -58,7 +58,7 @@ export const Container = styled.div`
         grid-template-columns: repeat(2, 1fr);
         column-gap: 60px;
     }
-    @media (max-width: 768px) {
+    @media (max-width: 800px) {
         column-gap: 20px;
     }
     @media (max-width: ${device.mobile}) {
