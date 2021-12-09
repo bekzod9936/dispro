@@ -23,12 +23,12 @@ const useStaffRoute = () => {
   const staffPath: IStaffsRow[] = [
     {
       path: "/staff",
-      text: t("Cashiers"),
+      text: t("cashier"),
       component: CashierScreen,
     },
     {
       path: "/staff/manager",
-      text: t("Managers"),
+      text: t("manager"),
       component: ManagerScreen,
     },
   ];
