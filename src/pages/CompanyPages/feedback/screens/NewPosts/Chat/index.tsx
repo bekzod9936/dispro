@@ -291,6 +291,7 @@ const Chat = ({ value, setCurrentUser }: Props) => {
         }
       });
       setMessageSuccess(newArray);
+      scrollToTop();
     }
   }, [newMassage]);
 
