@@ -316,15 +316,15 @@ const Support = () => {
                   </div>
                 ) : (
                   <>
-                    {scrollHeight > 1 ? (
-                      <WrapDownIcon>
-                        <WrapDown onClick={() => scrollToTop()}>
-                          <DownIcon />
-                        </WrapDown>
-                      </WrapDownIcon>
-                    ) : null}
                     <Messages id='scrollableDiv' onScroll={findScrollHeight}>
                       <div ref={messagesStartRef} />
+                      {scrollHeight > 1 ? (
+                        <WrapDownIcon>
+                          <WrapDown onClick={() => scrollToTop()}>
+                            <DownIcon />
+                          </WrapDown>
+                        </WrapDownIcon>
+                      ) : null}
                       <InfiniteScroll
                         dataLength={histories?.length}
                         next={fetchHisFetchData}
@@ -334,7 +334,6 @@ const Support = () => {
                           overflow: 'hidden',
                         }}
                         inverse={true}
-                        scrollThreshold='-1000px'
                         hasMore={total?.hasMore}
                         loader={
                           <div
