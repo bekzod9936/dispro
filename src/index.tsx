@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import * as ReactDOM from "react-dom";
 import "./index.css";
 import { RecoilRoot } from "recoil";
 import App from "./App";
@@ -37,8 +37,7 @@ if ("serviceWorker" in navigator) {
     .then(function (registration) {})
     .catch(function (err) {});
 }
-
-const container = document.getElementById("root");
+const rootElement = document.getElementById("root");
 
 ReactDOM.render(
   <React.StrictMode>
@@ -49,10 +48,10 @@ ReactDOM.render(
             <Provider store={store}>
               <QueryClientProvider client={queryClient}>
                 <BrowserRouter>
-                  <ErrorBoundary FallbackComponent={ErrorFallback}>
-                    <App />
-                    <ToastContainer />
-                  </ErrorBoundary>
+                  {/* <ErrorBoundary FallbackComponent={ErrorFallback}> */}
+                  <App />
+                  <ToastContainer />
+                  {/* </ErrorBoundary> */}
                 </BrowserRouter>
               </QueryClientProvider>
             </Provider>
@@ -61,5 +60,5 @@ ReactDOM.render(
       </I18nextProvider>
     </RecoilRoot>
   </React.StrictMode>,
-  container
+  rootElement
 );
