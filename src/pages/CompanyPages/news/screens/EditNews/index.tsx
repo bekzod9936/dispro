@@ -580,7 +580,7 @@ const EditNews = () => {
                       <Input
                         field={field}
                         margin={{ laptop: "35px 0" }}
-                        label={"text_push"}
+                        label={t("text_push")}
                         type="textarea"
                         multiline={true}
                         maxLength={100}
