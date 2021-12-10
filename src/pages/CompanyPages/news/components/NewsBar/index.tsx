@@ -132,7 +132,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
               />
             </WrapIcon>
             <TitleSideBar>
-              <div style={{ display: "block" }}>
+              <div style={{ display: "block",marginLeft:'5px' }}>
                 <p>{currentNews?.data?.title}</p>
                 <span>{currentNews?.data?.pushUp ? "Push-up" : ""}</span>
               </div>
