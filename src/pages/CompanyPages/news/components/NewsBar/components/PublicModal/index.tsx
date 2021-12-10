@@ -49,9 +49,8 @@ export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
   const upDateWaitingNews = (data: any) => {
     let newsBody = {
       title: updatedNews?.title,
-      startLifeTime:
-        width > 1000 ? data.startDate : filter?.regDate?.regDateFrom,
-      endLifeTime: width > 1000 ? data.endDate : filter?.regDate?.regDateTo,
+      startLifeTime: data.startDate ,
+      endLifeTime:data.endDate ,
       description: updatedNews?.description,
       ageFrom: parseInt(updatedNews?.ageFrom),
       ageUnlimited: false,
@@ -104,44 +103,40 @@ export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
               <p>{t("Выберите период")}</p>
               <div className="startAndEndDate">
                 <div>
-                  <CustomDatePicker
-                    margin="0 15px 0 0"
-                    isStyledDate
-                    text={t("from")}
-                    minDate={todayDate}
-                    maxDate={filter?.regDate?.regDateTo}
-                    onChange={(e) => {
-                      let date =
-                        "" + e.year + "-" + e.month.number + "-" + e.day;
-                      setFilter((prev: any) => ({
-                        ...prev,
-                        regDate: {
-                          ...prev["regDate"],
-                          regDateFrom: date,
-                        },
-                      }));
-                    }}
-                    value={filter?.regDate?.regDateFrom}
-                  />
+                <Controller
+                  name="startDate"
+                  rules={{
+                    required: true,
+                  }}
+                  control={control}
+                  render={({ field }) => (
+                    <CustomDatePicker
+                      text={t("from")}
+                      margin={width > 430 ? "0 10px 0 0" : "0 0 12px 0"}
+                      error={errors.startDate}
+                      minDate={new Date()}
+                      onChange={field.onChange}
+                      value={field.value} 
+                      />
+                  )}
+                />
                 </div>
                 <div style={{ paddingTop: "20px" }}>
-                  <CustomDatePicker
-                           isStyledDate
-                    text={t("to")}
-                    minDate={filter?.regDate?.regDateFrom}
-                    onChange={(e) => {
-                      let date =
-                        "" + e.year + "-" + e.month.number + "-" + e.day;
-                      setFilter((prev: any) => ({
-                        ...prev,
-                        regDate: {
-                          ...prev["regDate"],
-                          regDateTo: date,
-                        },
-                      }));
-                    }}
-                    value={filter?.regDate?.regDateTo}
-                  />
+                <Controller
+                  rules={{
+                    required: true,
+                  }}
+                  control={control}
+                  name="endDate"
+                  render={({ field }) => (
+                    <CustomDatePicker
+                      text={t("to")}
+                      error={errors.endDate}
+                      minDate={watch("startDate")}
+                      onChange={field.onChange}
+                      value={field.value} />
+                  )}
+                />
                 </div>
               </div>
             </div>
@@ -159,11 +154,7 @@ export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
                 {t("Отмена")}
               </Button>
               <Button
-                disabled={
-                  filter?.regDate?.regDateFrom && filter?.regDate?.regDateTo
-                    ? false
-                    : true
-                }
+                
                 buttonStyle={{
                   shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
                 }}
@@ -178,90 +169,46 @@ export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
       )}
       {width > 600 && (
         <Form onSubmit={handleSubmit(upDateWaitingNews)}>
-          {width>600 &&width<=1000 ?     <WrapInputs>
-                  <Label>{t("chose_date")}</Label>
-                  <div>
+            <WrapInputs>
+                        <div className="startAndEndDate">
+                <Controller
+                  name="startDate"
+                  rules={{
+                    required: true,
+                  }}
+                  control={control}
+                  render={({ field }) => (
                     <CustomDatePicker
-                      margin="0 15px 0 0"
-                      isStyledDate
-                  
                       text={t("from")}
+                      margin={width > 430 ? "0 10px 0 0" : "0 0 12px 0"}
+                      error={errors.startDate}
+                      minDate={new Date()}
+                      onChange={field.onChange}
+                      value={field.value} 
+                      />
+                  )}
+                />
                     
-                      minDate={todayDate}
-                      maxDate={filter?.regDate?.regDateTo}
-                      onChange={(e) => {
-                        let date =
-                          ""+ e.year + "-" + e.month.number + "-" + e.day;
-                        setFilter((prev: any) => ({
-                          ...prev,
-                          regDate: {
-                            ...prev["regDate"],
-                            regDateFrom: date
-                          },
-                        }));
-                      }}
-                      value={filter?.regDate?.regDateFrom}
-                    />
+                <Controller
+                  rules={{
+                    required: true,
+                  }}
+                  control={control}
+                  name="endDate"
+                  render={({ field }) => (
                     <CustomDatePicker
-                        isStyledDate
                       text={t("to")}
-                      minDate={filter?.regDate?.regDateFrom}
-                      onChange={(e) => {
-                        let date =
-                        ""+e.year + "-" + e.month.number + "-" + e.day;
-                        setFilter((prev: any) => ({
-                          ...prev,
-                          regDate: {
-                            ...prev["regDate"],
-                            regDateTo: date,
-                          },
-                        }));
-                      }}
-                      
-                      value={filter?.regDate?.regDateTo}
-                    />
-                  </div>
-                </WrapInputs>:
-          <WrapInputs>
-            <Label>{t("Выберите период")}</Label>
-            <div className="startAndEndDate">
-              <Controller
-                name="startDate"
-                rules={{
-                  required: true,
-                }}
-                control={control}
-                render={({ field }) => (
-                  <Input
-                    label={width <= 430 && t("From")}
-                    field={field}
-                    type="date"
-                    error={!!errors.startDate}
-                    min={dayjs(Date.now()).format("YYYY-MM-DD")}
-                    margin={{ laptop: "0 20px 20px 0" }}
-                  />
-                )}
-              />
-              <Controller
-                rules={{
-                  required: true,
-                }}
-                control={control}
-                name="endDate"
-                render={({ field }) => (
-                  <Input
-                    field={field}
-                    error={!!errors.endDate}
-                    label={width <= 430 && t("To")}
-                    min={watch("startDate")}
-                    // message={t("requiredField")}
-                    type="date"
-                  />
-                )}
-              />
-            </div>
-          </WrapInputs>
-}
+                      error={errors.endDate}
+                      minDate={watch("startDate")}
+                      onChange={field.onChange}
+                      value={field.value} />
+                  )}
+                />
+          </div>
+         
+              </WrapInputs>
+              
+        
           {width > 1000 ? (
             <div
               style={{
@@ -302,15 +249,8 @@ export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
               >
                 {t("Отмена")}
               </Button>
-              <Button
-              disabled={ width>600  && width<=1000 &&
-                filter?.regDate?.regDateFrom && filter?.regDate?.regDateTo
-                  ? false
-                  :width<600 ? false : true
-              }
-                endIcon={width > 335 && <PublishIcon />}
-                type="submit"
-              >
+              <Button     type="submit"          endIcon={<WhitePublishIcon />}>
+            
                 {t("Опубликовать")}
               </Button>
             </div>

@@ -1,6 +1,7 @@
 import React from 'react'
 import { ReactComponent as EmptyPageImg } from 'assets/images/clientsStar.svg'
 import styled from 'styled-components'
+import { device } from 'styles/device'
 export const EmptyPage = () => {
     return (
         <Wrapper>
@@ -41,5 +42,12 @@ const TextContent = styled.div`
         font-size: 16px;
         font-weight: 400;
         
+    }
+    @media (max-width: ${device.planshet}) {
+        p {
+            max-width: 348px;
+            font-size: 18px;
+            line-height: 21px;
+        }
     }
 `

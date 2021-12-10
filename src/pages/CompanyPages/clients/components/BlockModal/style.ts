@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { device } from "styles/device";
 
 export const Wrapper = styled.form`
     padding: 30px 40px;
@@ -32,6 +33,9 @@ export const Wrapper = styled.form`
         width: 100%;
         align-items: center;
         justify-content: flex-end;
+        @media (max-width: ${device.planshet}) {
+            justify-content: center;
+        }
     }
     .clientInfo {
         

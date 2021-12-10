@@ -7,6 +7,12 @@ export const WrapInputs = styled.div`
   & > div {
     display: flex;
   }
+  .startAndEndDate {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+  }
 
 `;
 export const Container=styled.div`

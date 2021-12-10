@@ -318,8 +318,8 @@ export const getFiltersForQuery = (filters: any, referals: any) => {
 
 export const tableDataHelper = (arr: ITableHelperItem[]) => {
   return arr.map(el => ({
-    cashier: el.name,
-    date: dayjs(el.date).format("DD.MM.YYYY hh:mm"),
+    cashier: Boolean(el.name.trim()) ? el.name : 'Оплата на местах',
+    date: dayjs(el.date).format("DD.MM.YYYY HH:mm"),
     points: numberWith(el.point + "", " "),
     type: "Оплата",
     UZS: numberWith(el.amount + "", " "),
@@ -351,7 +351,7 @@ const pointTypes: any = {
 
 export const tablePointsHelper = (arr: IPointHelperItem[]) => {
   return arr.map(el => ({
-    date: dayjs(el.date).format("DD.MM.YYYY hh:mm"),
+    date: dayjs(el.date).format("DD.MM.YYYY HH:mm"),
     type: pointTypes[el.type] || "",
     referal: el.name || "",
     points: numberWith(el.amount + "", " "),
@@ -363,7 +363,7 @@ export const tablePointsHelper = (arr: IPointHelperItem[]) => {
 
 export const tableRecommendsHelper = (arr: ITableRecs[]) => {
   return arr.map(el => ({
-    registration_date: dayjs(el.date).format("DD.MM.YYYY hh:mm"),
+    registration_date: dayjs(el.date).format("DD.MM.YYYY HH:mm"),
     client: el.name,
     level: el.levelNumber,
     image: el.image
@@ -375,12 +375,12 @@ export const getOperationsForMobileTable = (arr: ITableHelperItem[]) => {
   return arr.reduce((acc: any, curr: any) => {
     let day = dayjs(curr.date).format("DD.MM.YYYY")
     acc[day] = acc[day] ? [...acc[day], {
-      time: dayjs(curr.date).format("hh:mm"),
+      time: dayjs(curr.date).format("HH:mm"),
       action: "Оплата",
       value: `${curr.amount ? numberWith(curr.amount + "", " ") + " UZS " : ""}${curr.cashback ? numberWith(curr.cashback + "", " ") + " Кешбэк " : ""}${curr.discount ? numberWith(curr.discount + "", " ") + " Скидка " : ""}${curr.point ? numberWith(curr.point + "", " ") + " Б." : ""}`
 
     }] : [{
-      time: dayjs(curr.date).format("hh:mm"),
+      time: dayjs(curr.date).format("HH:mm"),
       action: "Оплата",
       value: `${curr.amount ? numberWith(curr.amount + "", " ") + " UZS " : ""}${curr.cashback ? numberWith(curr.cashback + "", " ") + " Кешбэк " : ""}${curr.discount ? numberWith(curr.discount + "", " ") + " Скидка " : ""}${curr.point ? numberWith(curr.point + "", " ") + " Б." : ""}`
     }]
@@ -395,11 +395,11 @@ export const getPointsForMobile = (arr: IPointHelperItem[]) => {
   return arr.reduce((acc: any, curr: any) => {
     let day = dayjs(curr.date).format("DD.MM.YYYY");
     acc[day] = acc[day] ? [...acc[day], {
-      time: dayjs(curr.date).format("hh:mm"),
+      time: dayjs(curr.date).format("HH:mm"),
       action: pointTypes[curr.type],
       amount: numberWith(curr.amount + "", " ")
     }] : [{
-      time: dayjs(curr.date).format("hh:mm"),
+      time: dayjs(curr.date).format("HH:mm"),
       action: pointTypes[curr.type],
       amount: numberWith(curr.amount + "", " ")
     }]

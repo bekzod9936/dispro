@@ -12,6 +12,7 @@ export const sectionsSchema = yup.object().shape({
         const { createError, path } = this;
         if (res?.length === new Set(res).size) return true;
         else {
+            if (array?.some(e => !(e.title))) return true
             let index = 0;
             let uniqueArray: string[] = [];
             array?.forEach((el: any, indx: number) => {
