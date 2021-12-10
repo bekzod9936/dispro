@@ -8,7 +8,7 @@ export const Container = styled.div`
   justify-content: center;
   overflow-y: auto;
   width: 100%;
-
+  background-color: red;
   ::-webkit-scrollbar {
     width: 7px;
   }
@@ -43,13 +43,12 @@ export const MainWrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 30px;
+
   @media (max-width: ${device.planshet}) {
     box-shadow: none;
     width: 100%;
     max-height: 100%;
-    flex: 1;
-    height: 100%;
+    flex-shrink: 1;
   }
 `;
 
@@ -108,6 +107,7 @@ export const Content = styled.div`
   padding: 0 50px 20px;
   flex: 1;
   display: flex;
+  height: 100%;
   @media (max-width: ${device.mobile}) {
     padding: 0 15px;
   }
