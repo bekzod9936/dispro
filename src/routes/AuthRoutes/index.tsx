@@ -1,7 +1,6 @@
 import { Suspense } from "react";
 import { Redirect } from "react-router-dom";
 
-import FallbackOnLazyLoad from "pages/Fallbacks/FallbackOnLazyLoad";
 import { authRoutes } from "routes";
 import { IPublicRoute } from "routes/types";
 import AuthRoute from "./AuthRoute";
