@@ -445,6 +445,8 @@ const CreateNews = () => {
                     field={field}
                     type="tel"
                     defaultValue={""}
+                  
+               
                     max="100"
                     message={
                       parseInt(watch("ageLimit")) > 100
@@ -456,6 +458,7 @@ const CreateNews = () => {
                   />
                 )}
               />
+            
             </LeftSide>
             <RightSide>
               <PushWrapper>

@@ -132,7 +132,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
               />
             </WrapIcon>
             <TitleSideBar>
-              <div style={{ display: "block",marginLeft:'5px' }}>
+              <div style={{ display: "block",marginLeft:'10px' }}>
                 <p>{currentNews?.data?.title}</p>
                 <span>{currentNews?.data?.pushUp ? "Push-up" : ""}</span>
               </div>
@@ -401,6 +401,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
         <DeleteModal>
           <h5> {t("deleteNewsTitle")} </h5>
           <p>{t("afterDelete")}</p>
+          <div style={{display:'flex',justifyContent:'center'}}>
           <Button
             buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
             margin={{ laptop: "0 22px 0 0" }}
@@ -419,6 +420,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
           >
             {t("delete")}
           </Button>
+          </div>
         </DeleteModal>
       </Modal>
       <Modal modalStyle={{ bgcolor: "#fff" }} open={isPublishOpen}>
