@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import { device } from 'styles/device'
 
-export const MButton = ({children, ...props}: any) => {
+export const MButton = ({ children, ...props }: any) => {
     return (
         <Wrapper {...props}>
             {children}
@@ -30,5 +31,9 @@ const Wrapper = styled.button`
     &:hover {
         background-color: rgba(96, 110, 234, 0.1);
 
+    }
+
+    @media (max-width: ${device.planshet}) {
+        background-color: rgba(96, 110, 234, 0.1);
     }
 `
