@@ -608,9 +608,7 @@ const CreateNews = () => {
                   />
                 </FormRow>
               )}
-                
-
-             
+              
               {width <= 600 && (
                 <Buttons>
                   <div className="upside">
