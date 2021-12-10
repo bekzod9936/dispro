@@ -21,7 +21,11 @@ import {
   Img,
 } from './style';
 import { SOCKET_EVENT } from 'services/constants/chat';
-import { setChosenClientChat, setUsers } from 'services/redux/Slices/feedback';
+import {
+  setBadgeStorePost,
+  setChosenClientChat,
+  setUsers,
+} from 'services/redux/Slices/feedback';
 
 const NewPosts = () => {
   const { t } = useTranslation();
@@ -29,7 +33,7 @@ const NewPosts = () => {
   const [searchRes, setSearchRes] = useState<any[]>([]);
   const [searchFocus, setSearchFocus] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<any>({});
-  const [review, setReview] = useState<any>({});
+
   const dispatch = useAppDispatch();
 
   const badge: any = useAppSelector(
@@ -120,6 +124,7 @@ const NewPosts = () => {
           value={{
             onClick: () => {
               setCurrentUser(v);
+              dispatch(setBadgeStorePost({}));
               dispatch(setChosenClientChat({ data: {}, choose: false }));
             },
             isActive: v?.id === currentUser?.id,

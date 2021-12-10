@@ -1,4 +1,21 @@
-import { useState } from "react";
+import { useState } from 'react';
+import { LoginPanel } from '../Loginpanel/index';
+import { Left, LeftBack } from 'assets/icons/LoginPage/LoginPageIcons';
+import Button from 'components/Custom/Button';
+import LangSelect from 'components/LangSelect';
+import Grid from 'components/Custom/Grid';
+import { PARTNER } from 'services/interceptors/partner_interceptor/types';
+import { useTranslation } from 'react-i18next';
+import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
+import { useHistory, useRouteMatch } from 'react-router';
+import {
+  setProceedAuth,
+  setBackAddCompany,
+} from 'services/redux/Slices/authSlice';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import SamWalton from 'assets/images/SamWalton.png';
+import jackMa from 'assets/images/JackMa.png';
+import logo from 'assets/images/logo.png';
 import {
   Container,
   LeftSide,
@@ -13,23 +30,7 @@ import {
   WrapButton,
   WButton,
   WLogo,
-} from "./style";
-import { useTranslation } from "react-i18next";
-import { useAppDispatch, useAppSelector } from "services/redux/hooks";
-import { useHistory, useRouteMatch } from "react-router";
-import {
-  setProceedAuth,
-  setBackAddCompany,
-} from "services/redux/Slices/authSlice";
-import SamWalton from "assets/images/SamWalton.png";
-import jackMa from "assets/images/JackMa.png";
-import { LoginPanel } from "../Loginpanel/index";
-import { Left, LeftBack } from "assets/icons/LoginPage/LoginPageIcons";
-import logo from "assets/icons/logo_mobile.svg";
-import Button from "components/Custom/Button";
-import LangSelect from "components/LangSelect";
-import Grid from "components/Custom/Grid";
-import { PARTNER } from "services/interceptors/partner_interceptor/types";
+} from './style';
 
 const TestLoginpage = ({ children }: any) => {
   const { t } = useTranslation();
@@ -46,20 +47,20 @@ const TestLoginpage = ({ children }: any) => {
   const handleLogout = () => {
     localStorage.removeItem(PARTNER.ACCESS_TOKEN);
     localStorage.removeItem(PARTNER.REFRESH_TOKEN);
-    history.push("/");
+    history.push('/');
   };
 
   const handleBack = () => {
     if (backAddCompany) {
       dispatch(setBackAddCompany(false));
     } else {
-      if (match.path.includes("/partner/company")) {
+      if (match.path.includes('/partner/company')) {
         handleLogout();
       }
       if (proceedAuth) {
         dispatch(setProceedAuth(false));
       }
-      if (match.path.includes("/partner/registration")) {
+      if (match.path.includes('/partner/registration')) {
         handleLogout();
       }
     }
@@ -71,36 +72,54 @@ const TestLoginpage = ({ children }: any) => {
     <Container>
       <LeftSide>
         <Wrapper display={display}>
-          <Img src={jackMa} alt="JackMa" />
-          <Text fontSize={25}>{t("JackMaWords")}</Text>
+          <Img>
+            <LazyLoadImage
+              src={jackMa}
+              alt='JackMa'
+              width='100%'
+              height='100%'
+              effect='blur'
+              style={{ borderRadius: '50%' }}
+            />
+          </Img>
+          <Text fontSize={25}>{t('JackMaWords')}</Text>
           <TextWrap>
             <div>
-              <Text fontSize={18} weight="bold">
-                &mdash; {t("JackMa")}
+              <Text fontSize={18} weight='bold'>
+                &mdash; {t('JackMa')}
               </Text>
             </div>
             <div>
-              <Text weight="300">{t("JackMaInfo")}</Text>
+              <Text weight='300'>{t('JackMaInfo')}</Text>
             </div>
           </TextWrap>
         </Wrapper>
         <Wrapper display={!display}>
-          <Img src={SamWalton} alt="SamWalton" />
-          <Text fontSize={25}>{t("SamWaltonWords")}</Text>
+          <Img>
+            <LazyLoadImage
+              src={SamWalton}
+              alt='SamWalton'
+              width='100%'
+              height='100%'
+              effect='blur'
+              style={{ borderRadius: '50%' }}
+            />
+          </Img>
+          <Text fontSize={25}>{t('SamWaltonWords')}</Text>
           <TextWrap>
             <div>
-              <Text fontSize={18} weight="bold">
-                &mdash; {t("SamWalton")}
+              <Text fontSize={18} weight='bold'>
+                &mdash; {t('SamWalton')}
               </Text>
             </div>
             <div>
-              <Text weight="300">{t("SamWaltonInfo")}</Text>
+              <Text weight='300'>{t('SamWaltonInfo')}</Text>
             </div>
           </TextWrap>
         </Wrapper>
       </LeftSide>
       <RightSide>
-        <Grid style={{ width: "100%" }}>
+        <Grid style={{ width: '100%' }}>
           <WrapSelect justify={accessToken ? true : false}>
             <WLogo>
               {accessToken !== null && (
@@ -112,20 +131,28 @@ const TestLoginpage = ({ children }: any) => {
                     <Button
                       onClick={handleBack}
                       buttonStyle={{
-                        color: "#223367",
-                        radius: "70px 14px 14px 14px",
+                        color: '#223367',
+                        radius: '70px 14px 14px 14px',
                         weight: 500,
-                        bgcolor: "rgba(96, 110, 234, 0.1)",
+                        bgcolor: 'rgba(96, 110, 234, 0.1)',
                       }}
                     >
-                      <Left /> {t("back")}
+                      <Left /> {t('back')}
                     </Button>
                   </WrapButton>
                 </>
               )}
               <Title>
-                <ImgLogo src={logo} alt="logo" />
-                {t("discount")}
+                <ImgLogo>
+                  <LazyLoadImage
+                    src={logo}
+                    alt='logo'
+                    width='100%'
+                    height='100%'
+                    effect='blur'
+                  />
+                </ImgLogo>
+                {t('discount')}
               </Title>
             </WLogo>
             <LangSelect />

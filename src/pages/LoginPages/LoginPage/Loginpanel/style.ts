@@ -1,11 +1,6 @@
 import styled from 'styled-components';
 import { device } from '../../../../styles/device';
 
-interface TProps {
-  weight?: string;
-  fontSize?: number;
-  marginB?: number;
-}
 interface TimeProp {
   time?: number;
 }
@@ -17,8 +12,7 @@ export const Container = styled.div`
   justify-content: center;
   padding: 0 35px 25px;
   width: 100%;
-  @media (max-width: ${device.mobile}) {
-    box-shadow: none;
+  @media (max-width: ${device.planshet}) {
     width: 100%;
     padding: 0 15px 30px;
   }
@@ -36,13 +30,22 @@ export const MainWrap = styled.div`
   border-radius: 14px;
   display: flex;
   flex-direction: column;
-  @media (max-width: ${device.mobile}) {
-    box-shadow: none;
-    width: 100%;
-  }
+
   @media (min-width: ${device.laptop}) {
     height: 95%;
     min-height: 500px;
+  }
+  @media (max-width: ${device.planshet}) {
+    width: 100%;
+    max-height: 100%;
+    flex-shrink: 1;
+    box-shadow: none;
+  }
+  @media (max-width: ${device.mobile}) {
+    width: 100%;
+    height: 100%;
+    flex-shrink: 1;
+    box-shadow: none;
   }
 `;
 
@@ -62,7 +65,7 @@ export const Header = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  @media (max-width: ${device.mobile}) {
+  @media (max-width: ${device.planshet}) {
     display: none;
   }
 `;
@@ -83,22 +86,48 @@ export const Body = styled.div`
   flex: 100%;
   display: flex;
   flex-direction: column;
-  @media (min-width: ${device.mobile}) and (max-width: ${device.laptop}) {
-    margin: 30px 50px;
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    margin: 40px 100px 0;
+  }
+  @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
+    margin: 30px 50px 0;
   }
   @media (max-width: ${device.mobile}) {
     margin: 50px 0 0;
   }
 `;
 
-export const Text = styled.div`
-  font-weight: ${({ weight }: TProps) => weight || 'normal'};
-  font-size: ${({ fontSize }: TProps) => `${fontSize}px` || '16px'};
+export const MText = styled.div`
+  font-weight: bold;
+  font-size: 22px;
   color: #223367;
   font-style: normal;
-  margin-bottom: ${({ marginB }: TProps) => `${marginB}px` || null};
+  margin-bottom: 10px;
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    font-size: 22px;
+    margin-bottom: 15px;
+    text-align: center;
+  }
   @media (max-width: ${device.mobile}) {
     font-size: 18px;
+    text-align: center;
+  }
+`;
+
+export const SText = styled.div`
+  font-weight: normal;
+  font-size: 16px;
+  color: #223367;
+  font-style: normal;
+
+  margin-bottom: 20px;
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    font-size: 18px;
+    margin-bottom: 40px;
+    text-align: center;
+  }
+  @media (max-width: ${device.mobile}) {
+    font-size: 14px;
     text-align: center;
   }
 `;
@@ -131,6 +160,10 @@ export const WrapTime = styled.div`
     width: 34px;
     height: 34px;
   }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    width: 40px;
+    height: 40px;
+  }
 `;
 export const Time = styled.div`
   background: ${({ time }: TimeProp) =>
@@ -150,6 +183,11 @@ export const Time = styled.div`
     width: 23px;
     height: 23px;
   }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    font-size: 12px;
+    width: 26px;
+    height: 26px;
+  }
 `;
 
 export const SmsNumber = styled.div`
@@ -159,7 +197,7 @@ export const SmsNumber = styled.div`
   color: #c2c2c2;
   margin-top: 5px;
   display: ${({ time }: TimeProp) => (time === 0 ? 'none' : 'block')};
-  @media (max-width: ${device.mobile}) {
+  @media (max-width: ${device.planshet}) {
     font-size: 14px;
   }
 `;
@@ -194,6 +232,27 @@ export const LogInWrap = styled.div`
   flex-direction: column;
   justify-content: space-between;
   flex: 1;
+  @media (min-width: ${device.mobile}) and (max-width: ${device.laptop}) {
+    margin-bottom: 30px;
+  }
 `;
 
 export const LogInContentWrap = styled.div``;
+
+export const WrapImg = styled.div`
+  @media (max-width: ${device.mobile}) {
+    width: 35px;
+    height: 20px;
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    width: 55px;
+    height: 30px;
+  }
+  @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
+    width: 65px;
+    height: 35px;
+  }
+  width: 70px;
+  height: 40px;
+  margin-right: 20px;
+`;

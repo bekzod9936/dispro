@@ -159,9 +159,21 @@ const Notifications = () => {
     </>
   );
 
+  const mainContent = () => {
+    if (width > 1000) {
+      return (
+        <SideDrawer ref={ref} open={open}>
+          {content}
+        </SideDrawer>
+      );
+    } else {
+      return <FullModal open={open}>{content}</FullModal>;
+    }
+  };
+
   return (
     <Container>
-      <Title>
+      <Title padding={{ planshet: '0' }}>
         {t('notifications')} {t('from')} DIS-COUNT
       </Title>
       {response.isLoading || response.isFetching ? (
@@ -236,13 +248,7 @@ const Notifications = () => {
           <span>{t('notificationsfromdiscount')}</span>
         </WrapDefault>
       )}
-      {width > 600 ? (
-        <SideDrawer ref={ref} open={open}>
-          {content}
-        </SideDrawer>
-      ) : (
-        <FullModal open={open}>{content}</FullModal>
-      )}
+      {mainContent()}
     </Container>
   );
 };

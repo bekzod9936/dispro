@@ -21,6 +21,12 @@ const ExitButton = ({ onClick, mobile, margin }: Props) => {
           color: '#606EEA',
           bgcolor: 'rgba(96, 110, 234, 0.1)',
           weight: 500,
+          height: {
+            mobile: 40,
+            planshet: 45,
+            laptop: 50,
+            desktop: 50,
+          },
         }}
         width={{ width: 'fit-content' }}
         margin={margin}
