@@ -170,9 +170,9 @@ const EditNews = () => {
     );
   });
 
-  console.log("filteredArray", filteredArray);
+
   const submitNews = (data: any) => {
-    console.log('data.gender.id',data.gender.id)
+
     let newsBody = {
       title: data.name,
       startLifeTime:
