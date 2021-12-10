@@ -445,17 +445,16 @@ const CreateNews = () => {
                     field={field}
                     type="tel"
                     defaultValue={""}
+                  
+               
                     max="100"
-                    message={
-                      parseInt(watch("ageLimit")) > 100
-                        ? "ageLimit: 100"
-                        : t("requiredField")
-                    }
+                    message={parseInt(watch("ageLimit"))}
                     IconStart={<PlusIcon style={{ marginLeft: "20px" }} />}
                     label={t("ageLimit")}
                   />
                 )}
               />
+            
             </LeftSide>
             <RightSide>
               <PushWrapper>
