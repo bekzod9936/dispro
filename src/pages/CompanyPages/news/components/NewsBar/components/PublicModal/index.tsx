@@ -249,7 +249,7 @@ export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
               >
                 {t("Отмена")}
               </Button>
-              <Button     type="submit">
+              <Button     type="submit"          endIcon={<WhitePublishIcon />}>
             
                 {t("Опубликовать")}
               </Button>
