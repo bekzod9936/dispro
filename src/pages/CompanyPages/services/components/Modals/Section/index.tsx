@@ -51,13 +51,14 @@ export const SectionModal: React.FC<SectionModalProps> = ({ isOpen, onClose }) =
     const { t } = useTranslation()
 
     const onSubmit = async (data: createSectionFormType) => {
+        console.log(data);
+
     }
 
     const handleClose = () => {
         clearErrors()
         onClose()
     }
-    console.log(errors);
 
     return (
         <Modal
@@ -76,7 +77,6 @@ export const SectionModal: React.FC<SectionModalProps> = ({ isOpen, onClose }) =
                     </div>
                     <p>Можно добавить еще {20 - fields.length} разделов</p>
                 </Header>
-                {/* <Alert severity="error">{errors?.sections.message}</Alert> */}
                 <Main>
                     {
                         fields.map((field, index) => (
