@@ -166,12 +166,15 @@ const RepairNews = () => {
       }).length == 1
     );
   });
+  function getValidDate(obj: any) {
+    return "" + obj.year + "-" + obj.month.number + "-" + obj.day
+  }
 
   const submitNews = (data: any) => {
     let newsBody = {
       title: data.name,
-      startLifeTime:data.startDate ,
-      endLifeTime: data.endDate,
+      startLifeTime:getValidDate(data.startDate) ,
+      endLifeTime: getValidDate(data.endDate),
       description: data.description,
       ageFrom: parseInt(data.ageLimit),
       ageTo: 100,
@@ -453,7 +456,7 @@ const RepairNews = () => {
           render={({ field }) => (
             <CustomDatePicker
               text={t("from")}
-              margin={width > 430 ? "0 10px 0 0" : "0 4px 0px 0"}
+              margin={width > 430 ? "0 10px 0 0" : "0 12px 0 0"}
               error={errors.startDate}
               minDate={new Date()}
               onChange={field.onChange}

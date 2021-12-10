@@ -152,12 +152,15 @@ const CreateNews = () => {
     setCancel(false);
     history.goBack();
   };
+  function getValidDate(obj: any) {
+    return "" + obj.year + "-" + obj.month.number + "-" + obj.day
+  }
 
   const submitNews = (data: any) => {
     let newsData = {
       title: data.name,
-      startLifeTime: data.startDate ,
-      endLifeTime: data.endDate ,
+      startLifeTime:width>1000 ? data.startDate: getValidDate(data.startDate) ,
+      endLifeTime:width>1000 ?data.endDate: getValidDate(data.endDate ),
       description: data.description,
       ageFrom: parseInt(data.ageLimit),
       ageTo: 100,
@@ -385,7 +388,7 @@ const CreateNews = () => {
                   render={({ field }) => (
                     <CustomDatePicker
                       text={t("from")}
-                      margin={width > 430 ? "0 10px 0 0" : "0 2px 0 0"}
+                      margin={width > 430 ? "0 10px 0 0" : "0 12px 0 0"}
                       error={errors.startDate}
                       minDate={new Date()}
                       onChange={field.onChange}
