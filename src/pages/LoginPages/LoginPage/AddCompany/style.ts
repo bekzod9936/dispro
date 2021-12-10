@@ -6,7 +6,7 @@ export const Container = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  overflow-x: auto;
+  overflow-y: auto;
   width: 100%;
 
   ::-webkit-scrollbar {
@@ -28,6 +28,10 @@ export const Container = styled.div`
   @media (min-width: ${device.laptop}) {
     margin-top: 50px;
   }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    align-items: center;
+    overflow-y: hidden;
+  }
 `;
 
 export const MainWrap = styled.div`
@@ -44,7 +48,8 @@ export const MainWrap = styled.div`
     box-shadow: none;
     width: 100%;
     max-height: 100%;
-    flex-shrink: 1;
+    flex: 1;
+    height: 100%;
   }
 `;
 
@@ -102,6 +107,7 @@ export const Content = styled.div`
   width: 100%;
   padding: 0 50px 20px;
   flex: 1;
+  display: flex;
   @media (max-width: ${device.mobile}) {
     padding: 0 15px;
   }
@@ -117,6 +123,7 @@ export const Form = styled.form`
   width: 100%;
   display: flex;
   flex-direction: column;
+
   justify-content: space-between;
   @media (max-width: ${device.mobile}) {
     height: 100%;
