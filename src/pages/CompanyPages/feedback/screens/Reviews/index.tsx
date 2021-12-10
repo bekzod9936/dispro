@@ -11,6 +11,7 @@ import useFeedBack from '../../hooks/useFeedBack';
 import { NewPagination } from 'components/Custom/NewPagination';
 import useWindowWidth from 'services/hooks/useWindowWidth';
 import Stars from '../../components/Stars';
+import { useDebounce } from 'use-debounce/lib';
 import {
   SearchIcon,
   FilterWarp,
@@ -29,6 +30,7 @@ interface intialFilterProps {
   cashierStaffId?: number | string;
   perPage?: number;
   rating?: number | string;
+  key?: string | number;
 }
 
 const Reviews = () => {
@@ -40,33 +42,24 @@ const Reviews = () => {
     cashierStaffId: '',
     perPage: 6,
     rating: '',
+    key: '',
   };
 
   const [filterValues, setFilterValues] =
     useState<intialFilterProps>(intialFilter);
 
   const [inpuSearch, setInpuSearch] = useState<string>('');
-  const [searchFocus, setSearchFocus] = useState<boolean>(false);
-  const [searchRes, setSearchRes] = useState<any[]>([]);
+  const [debouncedQuery] = useDebounce(inpuSearch, 300);
+
   const clients: any = useAppSelector((state) => state.feedbackPost.clients);
 
   const { resClients, totalCount, between } = useFeedBack({
     filterValues,
+    key: debouncedQuery,
   });
 
   const handleSearch = (e: any) => {
     setInpuSearch(e.target.value);
-
-    const searchResult: any = clients.filter((v: any) => {
-      return (
-        v.clientFirstName
-          .toLowerCase()
-          .includes(e.target.value?.toLowerCase()) ||
-        v.clientLastName.toLowerCase().includes(e.target.value?.toLowerCase())
-      );
-    });
-
-    setSearchRes(searchResult);
   };
 
   const handleChangePage = async (e: any) => {
@@ -101,13 +94,12 @@ const Reviews = () => {
           width={{ maxwidth: 280 }}
           margin={{ laptop: '0 20px 0 0', mobile: '0 10px 0 0' }}
           placeholder={t('searchbyclients')}
-          onFocus={() => setSearchFocus(true)}
-          onBlur={() => (inpuSearch === '' ? setSearchFocus(false) : null)}
           value={inpuSearch}
         />
         <FilterReview
           setFilterValues={setFilterValues}
           filterValues={filterValues}
+          refetch={() => resClients.refetch()}
         />
       </FilterWarp>
 
@@ -123,12 +115,10 @@ const Reviews = () => {
           {width > 600 ? null : <Stars />}
           <Content>
             <Mas>
-              {!searchFocus || inpuSearch === '' ? (
-                clients?.map((v: any) => <User value={v} />)
-              ) : searchRes?.length === 0 ? (
+              {clients.length === 0 ? (
                 <NoResult>{t('noresult')}</NoResult>
               ) : (
-                searchRes?.map((v: any) => <User value={v} />)
+                clients?.map((v: any) => <User value={v} />)
               )}
             </Mas>
             {clients.length > 0 ? (

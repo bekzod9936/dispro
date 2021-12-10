@@ -18,7 +18,14 @@ import {
   setProceedAuth,
 } from 'services/redux/Slices/authSlice';
 //assets
-import DisIcon from 'assets/icons/DisIcon';
+import logo from 'assets/images/logo.png';
+//components
+import Input from 'components/Custom/Input';
+import MultiSelect from 'components/Custom/MultiSelect';
+import SnackBar from 'components/Custom/NewSnack';
+import Button from 'components/Custom/Button';
+import { PARTNER } from 'services/interceptors/partner_interceptor/types';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 //styles
 import {
   Container,
@@ -27,7 +34,6 @@ import {
   Header,
   Title,
   Body,
-  Text,
   Message,
   WrapTime,
   Time,
@@ -38,13 +44,10 @@ import {
   WrapButton,
   LogInContentWrap,
   LogInWrap,
+  MText,
+  SText,
+  WrapImg,
 } from './style';
-//components
-import Input from 'components/Custom/Input';
-import MultiSelect from 'components/Custom/MultiSelect';
-import SnackBar from 'components/Custom/NewSnack';
-import Button from 'components/Custom/Button';
-import { PARTNER } from 'services/interceptors/partner_interceptor/types';
 
 export const LoginPanel = () => {
   const { t } = useTranslation();
@@ -258,15 +261,21 @@ export const LoginPanel = () => {
         <Header>
           <Version>v1.0.130</Version>
           <Title>
-            <DisIcon />
+            <WrapImg>
+              <LazyLoadImage
+                src={logo}
+                alt='logo'
+                effect='blur'
+                width='100%'
+                height='100%'
+              />
+            </WrapImg>
             {proceedAuth ? t('disadmin') : t('discount')}
           </Title>
         </Header>
         <Body>
-          <Text fontSize={22} weight='bold' marginB={10}>
-            {proceedAuth ? t('enterAssertCode') : t('welcome')}
-          </Text>
-          {!proceedAuth && <Text marginB={20}> {t('enterData')}</Text>}
+          <MText>{proceedAuth ? t('enterAssertCode') : t('welcome')}</MText>
+          {!proceedAuth && <SText> {t('enterData')}</SText>}
           <Form
             onSubmit={
               proceedAuth ? handleSubmit(onSubmitSms) : handleSubmit(onSubmit)
@@ -287,7 +296,11 @@ export const LoginPanel = () => {
                     render={({ field }) => (
                       <Input
                         label={t('assertCode')}
-                        error={errorSms || errors.smsCode ? true : false}
+                        error={
+                          errorSms || errors.smsCode || time === 0
+                            ? true
+                            : false
+                        }
                         field={field}
                         margin={{
                           laptop: '20px 0 0',

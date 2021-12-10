@@ -19,6 +19,8 @@ import InputFormat from "components/Custom/InputFormat";
 import useWindowWidth from "services/hooks/useWindowWidth";
 import CustomDatePicker from "components/Custom/CustomDatePicker";
 import CheckBox from "components/Custom/CheckBox";
+import dayjs from "dayjs";
+import { numberWith } from "services/utils";
 
 
 
@@ -50,6 +52,7 @@ export const MFilter = () => {
   const filterList = [
     {
       title: t("gender"),
+      value: filters.gender ? (Number(filters.gender) === 1 ? t('male') : t('female')) : undefined,
       content: (
         <Radio
           flexDirection="row"
@@ -70,6 +73,7 @@ export const MFilter = () => {
     },
     {
       title: t("registration_date"),
+      value: (filters.regDate?.regDateTo && filters.regDate.regDateFrom) ? dayjs(filters?.regDate?.regDateFrom).format('YYYY.MM.DD') + " - " + dayjs(filters?.regDate?.regDateTo).format('YYYY.MM.DD') : (filters.regDate?.regDateTo || filters.regDate?.regDateFrom) ? dayjs(filters.regDate?.regDateTo || filters.regDate?.regDateFrom).format('YYYY.MM.DD') : undefined,
       content: (
         <WrapInputs>
           <Label>{t("chose_date")}</Label>
@@ -151,6 +155,7 @@ export const MFilter = () => {
     },
     {
       title: t("purchuase_amount"),
+      value: (filters.purchaseAmount?.purchaseCountFrom && filters.purchaseAmount?.purchaseCountTo) ? filters?.purchaseAmount?.purchaseCountFrom + " - " + filters?.purchaseAmount?.purchaseCountTo : (filters.purchaseAmount?.purchaseCountFrom || filters.purchaseAmount?.purchaseCountTo),
       content: (
         <>
           <InputFormat
@@ -199,6 +204,7 @@ export const MFilter = () => {
     },
     {
       title: t("purchuase_cost"),
+      value: filters.notless ? numberWith(filters.notless + "", " ") : undefined,
       content: (
         <InputFormat
           maxLength="11"
@@ -212,6 +218,7 @@ export const MFilter = () => {
     },
     {
       title: t('status'),
+      value: filters.status ? t(clientLevels.find(e => Number(e.number) === Number(filters.status)).name) : undefined,
       content: (
         <Radio
           title={t("statuschoose")}
@@ -223,6 +230,7 @@ export const MFilter = () => {
     },
     {
       title: t("traffic_provider"),
+      value: filters.trafficProvider ? referals[filters.trafficProvider].name : undefined,
       content: (
         <Radio
           flexDirection="row"
@@ -246,7 +254,6 @@ export const MFilter = () => {
   const handleReset = () => {
     dispatch(resetFilters())
   }
-
 
   return (
     <Wrapper>

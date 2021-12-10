@@ -14,18 +14,16 @@ export const Main = styled.div`
   height: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
   flex-direction: column;
   padding-bottom: 25px;
   overflow-y: auto;
   overflow-x: hidden;
   border-radius: inherit;
-  flex: 100%;
-  -webkit-overflow-scrolling: touch;
+  flex: 1;
+
   ::-webkit-scrollbar {
     width: 7px;
   }
-
   ::-webkit-scrollbar-track {
     background-color: #f1f4f6;
   }
@@ -50,17 +48,22 @@ export const Container = styled.div`
   grid-column-gap: 25px;
   grid-row-gap: 35px;
   grid-template-columns: minmax(140px, 250px) minmax(140px, 250px);
-  margin-top: 25%;
+  @media (min-width: ${device.planshet}) {
+    margin-top: 25%;
+  }
   @media (max-width: ${device.mobile}) {
     grid-column-gap: 10px;
     grid-row-gap: 20px;
     margin-top: 0;
     height: fit-content;
   }
-  @media (min-width: ${device.mobile}) and (max-width: ${device.laptop}) {
+  @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
     grid-column-gap: 18px;
     grid-row-gap: 28px;
     grid-template-columns: minmax(140px, 190px) minmax(140px, 190px);
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    grid-template-columns: minmax(140px, 220px) minmax(140px, 220px);
   }
 `;
 
@@ -183,10 +186,6 @@ export const Img = styled(ImageLazyLoad)`
   .lazy-load-image-background {
     height: 100% !important;
   }
-  /* min-width: 50px;
-  max-width: 100px;
-  min-height: 50px;
-  max-height: 100px; */
 `;
 
 export const ChooseText = styled.div`
@@ -197,7 +196,10 @@ export const ChooseText = styled.div`
   width: 100%;
   height: fit-content;
   margin: 25px 0;
-  @media (min-width: ${device.mobile}) {
+  @media (min-width: ${device.planshet}) {
     display: none;
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    margin: 70px 0 50px;
   }
 `;
