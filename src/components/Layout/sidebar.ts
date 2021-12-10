@@ -48,7 +48,7 @@ const sidebar: any = [
   {
     Icon: WorkersIcon,
     text: "staff",
-    path: "staff",
+    path: "staff/cashiers",
     permission: [],
   },
   {
