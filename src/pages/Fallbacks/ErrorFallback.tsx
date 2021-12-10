@@ -7,11 +7,7 @@ export const ErrorFallback = ({ error }: any) => {
   useEffect(() => {
     const chunkFailedMessage = /Loading chunk [\d]+ failed/;
     if (
-      (error?.message && chunkFailedMessage.test(error.message)) ||
-      error?.message ===
-        "Rendered fewer hooks than expected. This may be caused by an accidental early return statement." ||
-      "Rendered more hooks than during the previous render."
-    ) {
+      (error?.message && chunkFailedMessage.test(error.message))) {
       window.location.reload();
     }
   }, [error]);

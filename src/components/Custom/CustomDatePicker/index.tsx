@@ -16,12 +16,12 @@ interface Props {
     disabled?: boolean
     value?: any,
     isFilter?: boolean,
-    isStyledDate?:boolean
+    isStyledDate?: boolean
     text?: string
     minDate?: Date | string,
     maxDate?: Date | string,
     error?: boolean,
-    message?:string,
+    message?: string,
     height?: {
         mobile?: number;
         planshet?: number;
@@ -46,8 +46,8 @@ const CustomDatePicker = ({
 }: Props) => {
     const datePickerRef: any = useRef();
     const date = isFilter ? value : value ? "" + value?.day + "-" + value?.month?.number + "-" + value?.year : null
-    const styleData=value?.slice(8,10)+value?.slice(4,8)+value?.slice(0,4);
-    const handleClick = () => { 
+
+    const handleClick = () => {
         datePickerRef.current.openCalendar()
     }
 
@@ -56,7 +56,7 @@ const CustomDatePicker = ({
             <WrapButton disabled={disabled} onClick={handleClick}>
                 <WrapText disabled={disabled}>
                     {(!date && text) && <span>{text}</span>}
-                    {date && <span>{isStyledDate ? styleData:date}</span>}
+                    {date && <span>{date}</span>}
                 </WrapText>
                 {disabled ? <DisabledDateIcon /> : <DateIcon />}
             </WrapButton>
@@ -72,7 +72,7 @@ const CustomDatePicker = ({
                 portal={true}
                 zIndex={100000}
             />
-             <Message  >
+            <Message  >
                 {error ? message : null}
             </Message>
         </Container>
