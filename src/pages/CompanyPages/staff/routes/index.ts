@@ -22,15 +22,6 @@ const useStaffRoute = () => {
   const { t } = useTranslation();
   const staffPath: IStaffsRow[] = [
     {
-<<<<<<< HEAD
-      path: "/staff",
-      text: t("cashier"),
-      component: CashierScreen,
-    },
-    {
-      path: "/staff/manager",
-      text: t("manager"),
-=======
       path: '/staff/cashiers',
       text: t('Cashiers'),
       component: CashierScreen,
@@ -38,7 +29,6 @@ const useStaffRoute = () => {
     {
       path: '/staff/manager',
       text: t('Managers'),
->>>>>>> 8c0c115f101afc98a15de13063e27c1462510468
       component: ManagerScreen,
     },
   ];
