@@ -14,7 +14,7 @@ export const ImgDiv = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 10px;
+  margin-right: 15px;
 `;
 
 export const Img = styled(LazyLoadImage)`
@@ -169,6 +169,7 @@ export const THead = styled.thead`
 //     font-size: 16px;
 // `
 export const Td = styled.td`
+
   text-align: center;
   text-transform: capitalize;
   font-weight: normal;
@@ -178,6 +179,9 @@ export const Td = styled.td`
   @media (max-width: ${device.planshet}) {
     font-size: 14px;
     padding: 6px;
+  }
+  &: nth-child(2){
+	padding: 0 30px 0 0;
   }
 `;
 export const Tbody = styled.tbody`
@@ -232,12 +236,12 @@ export const WrapIcon = styled.div`
   align-items: center;
 `;
 
-export const Footer = styled.div`
-  margin-top: 20px;
-  @media (max-width: ${device.planshet}) {
-    margin-left: 20px;
-  }
-  @media (max-width: ${device.mobile}) {
-    margin-left: 15px;
-  }
-`
+// export const Footer = styled.div`
+//   margin-top: 20px;
+//   @media (max-width: ${device.planshet}) {
+//     margin-left: 20px;
+//   }
+//   @media (max-width: ${device.mobile}) {
+//     margin-left: 15px;
+//   }
+// `
