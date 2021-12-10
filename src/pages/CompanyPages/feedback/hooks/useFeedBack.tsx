@@ -7,7 +7,7 @@ import {
 } from 'services/queries/feedbackQuery';
 import {
   setAverageRatingFeedBack,
-  setCashiersFeedBack,
+  setFiterFeedBack,
   setClientsFeedBack,
   setRatingsFeedBack,
   setTotalCountFeedBack,
@@ -29,14 +29,13 @@ const useFeedBack = ({ filterValues }: Props) => {
     refetchOnWindowFocus: false,
     retry: 0,
     onSuccess: (data) => {
-      dispatch(setCashiersFeedBack(data.data.data));
+      dispatch(setFiterFeedBack(data.data.data));
     },
   });
 
   const resClients = useQuery(
     'feedBackClientsInfo',
     () => {
-      console.log(filterValues.cashierStaffId, 'cha');
       const rating: any =
         filterValues.rating !== '' && filterValues.rating !== undefined
           ? `&rating=${filterValues.rating}`
@@ -58,7 +57,6 @@ const useFeedBack = ({ filterValues }: Props) => {
         dispatch(setTotalCountFeedBack(data.data.data.totalCount));
         dispatch(setClientsFeedBack(data.data.data.ratingAndReviews));
         setTotalCount(data.data.data.totalCount);
-
         setBetween(
           formatPagination({
             page: filterValues?.page,

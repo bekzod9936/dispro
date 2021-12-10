@@ -28,11 +28,11 @@ interface Props {
 const FilterReview = ({ setFilterValues, filterValues }: Props) => {
   const { t } = useTranslation();
   const [rating, setRating] = useState<any>('');
-  const cashiers = useAppSelector((state) => state.feedbackPost.cashiers);
+  const filter: any = useAppSelector((state) => state.feedbackPost.filter);
 
   const [cashierStaffId, setCashierStaffId] = useState<CProps>();
 
-  const cashiersFilter = cashiers
+  const cashiersFilter = filter?.cashiers
     ?.filter((v: any) => v.firstName !== '' || v.lastName !== '')
     ?.map((v: any) => {
       return {
