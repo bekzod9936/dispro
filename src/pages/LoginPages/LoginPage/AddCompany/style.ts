@@ -8,7 +8,7 @@ export const Container = styled.div`
   justify-content: center;
   overflow-y: auto;
   width: 100%;
-  background-color: red;
+
   ::-webkit-scrollbar {
     width: 7px;
   }
@@ -108,6 +108,7 @@ export const Content = styled.div`
   flex: 1;
   display: flex;
   height: 100%;
+  flex-direction: column;
   @media (max-width: ${device.mobile}) {
     padding: 0 15px;
   }
