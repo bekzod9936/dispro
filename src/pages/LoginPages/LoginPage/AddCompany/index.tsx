@@ -91,10 +91,10 @@ const AddCompany = () => {
             {t('disadmin')}
           </Title>
         </Header>
-        <WrapGrid>
-          <Title>{t('addingcompany')}</Title>
-        </WrapGrid>
         <Content>
+          <WrapGrid>
+            <Title>{t('addingcompany')}</Title>
+          </WrapGrid>
           <Form onSubmit={handleSubmit(onSubmit)}>
             <div>
               <Controller

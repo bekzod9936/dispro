@@ -29,7 +29,6 @@ export const Container = styled.div`
     margin-top: 50px;
   }
   @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
-    align-items: center;
     overflow-y: hidden;
   }
 `;
@@ -43,13 +42,14 @@ export const MainWrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 30px;
+
   @media (max-width: ${device.planshet}) {
     box-shadow: none;
     width: 100%;
     max-height: 100%;
-    flex: 1;
     height: 100%;
+    flex-shrink: 1;
+    justify-content: space-between;
   }
 `;
 
@@ -108,6 +108,8 @@ export const Content = styled.div`
   padding: 0 50px 20px;
   flex: 1;
   display: flex;
+  height: 100%;
+  flex-direction: column;
   @media (max-width: ${device.mobile}) {
     padding: 0 15px;
   }
