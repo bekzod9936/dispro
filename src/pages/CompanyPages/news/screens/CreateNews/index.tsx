@@ -156,9 +156,8 @@ const CreateNews = () => {
   const submitNews = (data: any) => {
     let newsData = {
       title: data.name,
-      startLifeTime:
-        width > 1000 ? data.startDate : filter?.regDate?.regDateFrom,
-      endLifeTime: width > 1000 ? data.endDate : filter?.regDate?.regDateTo,
+      startLifeTime: data.startDate ,
+      endLifeTime: data.endDate ,
       description: data.description,
       ageFrom: parseInt(data.ageLimit),
       ageTo: 100,
@@ -184,8 +183,8 @@ const CreateNews = () => {
       },
       pushUpTitle: optionalFields.push ? data.descriptionPush : "",
     };
-    setStartDate(width > 1000 ? data.startDate : filter?.regDate?.regDateFrom);
-    setSubmit(width > 1000 && data.startDate ? true : filter?.regDate?.regDateFrom ? true : false);
+    setStartDate(data.startDate);
+    setSubmit(true);
     setFormData(newsData);
   };
 
@@ -376,58 +375,43 @@ const CreateNews = () => {
                 </WrapInputs>
               ) : (
                 <WrapInputs>
-                  <Label>{t("chose_date")}</Label>
-                  <div>
+                        <div className="startAndEndDate">
+                <Controller
+                  name="startDate"
+                  rules={{
+                    required: true,
+                  }}
+                  control={control}
+                  render={({ field }) => (
                     <CustomDatePicker
-                      margin="0 15px 0 0"
-                      // isStyledDate
                       text={t("from")}
-                      error={
-                        validation && !filter?.regDate?.regDateFrom
-                          ? true
-                          : false
-                      }
-                      minDate={todayDate}
-                      maxDate={filter?.regDate?.regDateTo}
-                      onChange={(e) => {
-
-
-                        let date =
-                          "" + e.year + "-" + e.month.number + "-" + e.day;
-                        console.log(date)
-                        setFilter((prev: any) => ({
-                          ...prev,
-                          regDate: {
-                            ...prev["regDate"],
-                            regDateFrom: date
-                          },
-                        }));
-                      }}
-                      value={filter?.regDate?.regDateFrom}
-                    />
+                      margin={width > 430 ? "0 10px 0 0" : "0 0 12px 0"}
+                      error={errors.startDate}
+                      minDate={new Date()}
+                      onChange={field.onChange}
+                      value={field.value} 
+                      />
+                  )}
+                />
+                    
+                <Controller
+                  rules={{
+                    required: true,
+                  }}
+                  control={control}
+                  name="endDate"
+                  render={({ field }) => (
                     <CustomDatePicker
-                      isStyledDate
-                      error={
-                        validation && !filter?.regDate?.regDateTo ? true : false
-                      }
                       text={t("to")}
-                      minDate={filter?.regDate?.regDateFrom}
-                      onChange={(e) => {
-                        let date =
-                          "" + e.year + "-" + e.month.number + "-" + e.day;
-                        setFilter((prev: any) => ({
-                          ...prev,
-                          regDate: {
-                            ...prev["regDate"],
-                            regDateTo: date,
-                          },
-                        }));
-                      }}
-
-                      value={filter?.regDate?.regDateTo}
-                    />
-                  </div>
-                </WrapInputs>
+                      error={errors.endDate}
+                      minDate={watch("startDate")}
+                      onChange={field.onChange}
+                      value={field.value} />
+                  )}
+                />
+          </div>
+         
+              </WrapInputs>
               )}
 
               <WrapSelect>

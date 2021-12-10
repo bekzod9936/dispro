@@ -473,7 +473,7 @@ const EditNews = () => {
                   <div>
                     <CustomDatePicker
                       margin="0 15px 0 0"
-                      isStyledDate
+                      isFilter
                       text={t("from")}
                       error={
                         validation && !filter?.regDate?.regDateFrom
@@ -498,7 +498,7 @@ const EditNews = () => {
                     />
 
                     <CustomDatePicker
-                     isStyledDate
+                     isFilter
                       error={
                         validation && !filter?.regDate?.regDateTo ? true : false
                       }
