@@ -20,6 +20,7 @@ import {
 	DeleteIc,
 	CashierFilterWrap,
 	Wrap,
+	NText,
 } from './style';
 import { setOpenCash, setOpenFilter } from 'services/redux/Slices/staffs';
 import EditCashier from './components/EditCashier';
@@ -96,8 +97,12 @@ const CashierScreen = () => {
 							cashiers={cashiers.map((cashier: any) => {
 								return {
 									...cashier,
-									storeName: cashier?.store?.name,
-									firstName: cashier?.firstName + ' ' + cashier?.lastName,
+									storeName: <NText>{cashier?.store?.name}</NText>,
+									firstName: (
+										<NText>
+											{cashier?.firstName + ' ' + cashier?.lastName}
+										</NText>
+									),
 									score: numberWith(cashier?.addInfo?.avgRating, ' '),
 									avgCheque: numberWith(cashier?.addInfo?.avgCheque, ' '),
 									clients: numberWith(cashier?.addInfo?.countClient, ' '),

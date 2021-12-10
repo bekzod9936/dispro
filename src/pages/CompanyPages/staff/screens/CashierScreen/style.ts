@@ -183,3 +183,11 @@ export const Wrap = styled.div`
     border-radius: 14px 0px 0px 14px;
   }
 `;
+
+export const NText = styled.p`
+  text-align: left;
+  white-space: nowrap; 
+  width: 120px; 
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;

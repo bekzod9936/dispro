@@ -166,7 +166,7 @@ const CreateNews = () => {
       couponIds: [],
       image: image,
       genderType: data.gender?.id,
-      pushUp: optionalFields.push ,
+      pushUp: optionalFields.push,
       settings: {
         weekDays:
           optionalFields.push && data?.days?.length
@@ -185,7 +185,7 @@ const CreateNews = () => {
       pushUpTitle: optionalFields.push ? data.descriptionPush : "",
     };
     setStartDate(width > 1000 ? data.startDate : filter?.regDate?.regDateFrom);
-    setSubmit(width > 1000 && data.startDate ? true: filter?.regDate?.regDateFrom ? true : false);
+    setSubmit(width > 1000 && data.startDate ? true : filter?.regDate?.regDateFrom ? true : false);
     setFormData(newsData);
   };
 
@@ -200,7 +200,7 @@ const CreateNews = () => {
 
     setTimeout(() => history.goBack(), 1000);
   };
- 
+
   return (
     <Wrapper>
       {width > 1000 && (
@@ -374,13 +374,13 @@ const CreateNews = () => {
                     />
                   </div>
                 </WrapInputs>
-              ) :(
+              ) : (
                 <WrapInputs>
                   <Label>{t("chose_date")}</Label>
                   <div>
                     <CustomDatePicker
                       margin="0 15px 0 0"
-                      isStyledDate
+                      // isStyledDate
                       text={t("from")}
                       error={
                         validation && !filter?.regDate?.regDateFrom
@@ -390,10 +390,11 @@ const CreateNews = () => {
                       minDate={todayDate}
                       maxDate={filter?.regDate?.regDateTo}
                       onChange={(e) => {
-                     
-                        
+
+
                         let date =
-                          ""+ e.year + "-" + e.month.number + "-" + e.day;
+                          "" + e.year + "-" + e.month.number + "-" + e.day;
+                        console.log(date)
                         setFilter((prev: any) => ({
                           ...prev,
                           regDate: {
@@ -405,7 +406,7 @@ const CreateNews = () => {
                       value={filter?.regDate?.regDateFrom}
                     />
                     <CustomDatePicker
-                        isStyledDate
+                      isStyledDate
                       error={
                         validation && !filter?.regDate?.regDateTo ? true : false
                       }
@@ -413,7 +414,7 @@ const CreateNews = () => {
                       minDate={filter?.regDate?.regDateFrom}
                       onChange={(e) => {
                         let date =
-                        ""+e.year + "-" + e.month.number + "-" + e.day;
+                          "" + e.year + "-" + e.month.number + "-" + e.day;
                         setFilter((prev: any) => ({
                           ...prev,
                           regDate: {
@@ -422,7 +423,7 @@ const CreateNews = () => {
                           },
                         }));
                       }}
-                      
+
                       value={filter?.regDate?.regDateTo}
                     />
                   </div>
@@ -500,17 +501,17 @@ const CreateNews = () => {
                             mobile: 120,
                           },
                         }}
-                        // IconEnd={width>600 ?
-                        //   <WrapArea>
-                        //     <TextAreaIcon />
-                        //   </WrapArea>:''
-                        // }
+                      // IconEnd={width>600 ?
+                      //   <WrapArea>
+                      //     <TextAreaIcon />
+                      //   </WrapArea>:''
+                      // }
                       />
                     )}
                   />
                 )}
               </PushWrapper>
-            
+
               <PushWrapper>
                 {optionalFields.push && (
                   <Controller
@@ -531,7 +532,7 @@ const CreateNews = () => {
                     )}
                   />
                 )}
-               
+
               </PushWrapper>
               <PushWrapper>
                 <div style={{ marginBottom: "10px" }}>
@@ -573,7 +574,7 @@ const CreateNews = () => {
                   onChange={(e: any) => setChecked(e)}
                 />
               )}
-                 {optionalFields.push && (
+              {optionalFields.push && (
                 <FormRow>
                   <Controller
                     control={control}
@@ -583,7 +584,7 @@ const CreateNews = () => {
                         <MultiSelect
                           options={branches}
                           isMulti={true}
-                          isBranchHeight={width<600 ? true:false}
+                          isBranchHeight={width < 600 ? true : false}
                           selectStyle={{
                             bgcolor: "#eff0fd",
                             border: "none",
@@ -594,9 +595,9 @@ const CreateNews = () => {
                           placeholder={t("chose_filial")}
                           margin={{
                             laptop: "20px 0 25px",
-                            
+
                           }}
-                         
+
                           field={field}
                           isClearable={false}
                           icon={<MarketIcon />}
@@ -608,9 +609,9 @@ const CreateNews = () => {
                   />
                 </FormRow>
               )}
-                
 
-             
+
+
               {width <= 600 && (
                 <Buttons>
                   <div className="upside">
@@ -657,7 +658,7 @@ const CreateNews = () => {
               {t("cancellation")}
             </Button>
             <Button
-             onClick={() => setValidation(true)}
+              onClick={() => setValidation(true)}
               type="submit"
               margin={{ laptop: "0 25px" }}
               endIcon={<SaveIconMobile />}

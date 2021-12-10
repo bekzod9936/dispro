@@ -47,9 +47,6 @@ const ProposalsPage = () => {
               {routes.map((route: any) => (
                 <Route exact path={route.path} component={route.component} />
               ))}
-              {/* <Route path="*">
-                <Redirect to={routes[0].path} />
-              </Route> */}
             </Suspense>
           </Switch>
         </RightSide>
