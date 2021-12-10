@@ -11,7 +11,7 @@ export const WrapInputs = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 5px;
+    margin-bottom: 0px;
   }
  
 `;

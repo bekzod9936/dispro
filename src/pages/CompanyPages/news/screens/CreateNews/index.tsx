@@ -385,7 +385,7 @@ const CreateNews = () => {
                   render={({ field }) => (
                     <CustomDatePicker
                       text={t("from")}
-                      margin={width > 430 ? "0 10px 0 0" : "0 0 12px 0"}
+                      margin={width > 430 ? "0 10px 0 0" : "0 2px 0 0"}
                       error={errors.startDate}
                       minDate={new Date()}
                       onChange={field.onChange}
