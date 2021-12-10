@@ -29,7 +29,6 @@ export const Container = styled.div`
     margin-top: 50px;
   }
   @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
-    align-items: center;
     overflow-y: hidden;
   }
 `;
@@ -48,7 +47,9 @@ export const MainWrap = styled.div`
     box-shadow: none;
     width: 100%;
     max-height: 100%;
+    height: 100%;
     flex-shrink: 1;
+    justify-content: space-between;
   }
 `;
 
