@@ -552,6 +552,7 @@ const EditNews = () => {
                     defaultValue={newsById?.data?.ageFrom}
                     max="100"
                     type="tel"
+                    onlyNumber={true}
                     message={parseInt(watch("ageLimit"))}
                     error={!!errors.ageLimit}
                     IconStart={<PlusIcon style={{ marginLeft: "20px" }} />}
