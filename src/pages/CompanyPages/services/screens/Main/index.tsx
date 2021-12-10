@@ -5,16 +5,16 @@ import { useState } from "react"
 import { useTranslation } from "react-i18next";
 
 //components
-import Title from "components/Custom/Title";
+import { Header } from "./components/Header";
 import Popover from "./components/Popover"
 import Input from "components/Custom/Input";
+import { SectionModal } from "../../components/Modals/Section";
+import { EmptyPage } from "./components/EmptyPage";
 
 
 //style
-import { Wrapper, Header, SearchIcon, Container } from "./style"
+import { Wrapper, SearchIcon, Container } from "./style"
 import { Flex } from "../../style";
-import { EmptyPage } from "./components/EmptyPage";
-import { SectionModal } from "../../components/Modals/Section";
 
 
 interface MainProps {
@@ -23,22 +23,22 @@ interface MainProps {
 
 const Main: React.FC<MainProps> = () => {
     const [createSection, setCreateSection] = useState<boolean>(false)
+
     const { t } = useTranslation()
 
+    const handleOpen = () => {
+        setCreateSection(true)
+    }
+
+    const handleClose = () => {
+        setCreateSection(false)
+    }
 
     return (
         <Wrapper>
-            <Header>
-                <Title>
-                    {t("services")}
-                </Title>
-                <p>
-                    <b>•</b>
-                    {t("youDontHaveProducts")}
-                </p>
-            </Header>
+            <Header />
             <Flex>
-                <Popover onClick={() => setCreateSection(true)} />
+                <Popover onClick={handleOpen} />
                 <Input
                     margin={{
                         desktop: "0 0 0 24px"
@@ -57,7 +57,7 @@ const Main: React.FC<MainProps> = () => {
             <Container>
                 <EmptyPage />
             </Container>
-            <SectionModal isOpen={createSection} onClose={() => setCreateSection(false)} />
+            <SectionModal isOpen={createSection} onClose={handleClose} />
         </Wrapper>
     )
 }
