@@ -3,7 +3,7 @@ import MultiSelect from 'components/Custom/MultiSelect';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'services/redux/hooks';
-import useFeedBack from '../../hooks/useFeedBack';
+import { IconButton } from '@material-ui/core';
 import {
   WrapCheck,
   Label,
@@ -13,7 +13,6 @@ import {
   DeleteIcon,
   WrapValues,
 } from './style';
-import { IconButton } from '@material-ui/core';
 
 interface CProps {
   value?: any;
@@ -23,9 +22,10 @@ interface CProps {
 interface Props {
   filterValues?: any;
   setFilterValues?: any;
+  refetch?: any;
 }
 
-const FilterReview = ({ setFilterValues, filterValues }: Props) => {
+const FilterReview = ({ setFilterValues, filterValues, refetch }: Props) => {
   const { t } = useTranslation();
   const [rating, setRating] = useState<any>('');
   const filter: any = useAppSelector((state) => state.feedbackPost.filter);
@@ -41,24 +41,20 @@ const FilterReview = ({ setFilterValues, filterValues }: Props) => {
       };
     });
 
-  const { resClients, resCashiers } = useFeedBack({
-    filterValues,
-  });
-
   const handleFilterSubmit = async () => {
     await setFilterValues({
       ...filterValues,
       cashierStaffId: cashierStaffId?.value,
       rating: rating,
     });
-    await resClients.refetch();
+    await refetch();
   };
 
   const onReset = async () => {
     await setFilterValues({ ...filterValues, cashierStaffId: '', rating: '' });
     await setCashierStaffId({});
     await setRating('');
-    await resClients.refetch();
+    await refetch();
   };
 
   const handleStarCheck = (v: any) => {
@@ -75,7 +71,6 @@ const FilterReview = ({ setFilterValues, filterValues }: Props) => {
           onChange={(e: any) => setCashierStaffId(e)}
           value={cashierStaffId}
           selectStyle={{ bgcolor: '#eff0fd' }}
-          isLoading={resCashiers.isLoading}
         />
       ),
     },
@@ -117,7 +112,7 @@ const FilterReview = ({ setFilterValues, filterValues }: Props) => {
               cashierStaffId: '',
             });
             await setCashierStaffId({});
-            await resClients.refetch();
+            await refetch();
           }}
         >
           <DeleteIcon />
@@ -151,7 +146,7 @@ const FilterReview = ({ setFilterValues, filterValues }: Props) => {
               rating: '',
             });
             await setRating('');
-            await resClients.refetch();
+            await refetch();
           }}
         >
           <DeleteIcon />

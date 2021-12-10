@@ -17,9 +17,10 @@ import { formatPagination } from 'services/utils/formatPagination';
 
 interface Props {
   filterValues?: any;
+  key?: any;
 }
 
-const useFeedBack = ({ filterValues }: Props) => {
+const useFeedBack = ({ filterValues, key }: Props) => {
   const dispatch = useAppDispatch();
   const [between, setBetween] = useState<string>('');
   const [totalCount, setTotalCount] = useState<number>(0);
@@ -34,7 +35,7 @@ const useFeedBack = ({ filterValues }: Props) => {
   });
 
   const resClients = useQuery(
-    'feedBackClientsInfo',
+    ['feedBackClientsInfo', key],
     () => {
       const rating: any =
         filterValues.rating !== '' && filterValues.rating !== undefined
@@ -45,8 +46,9 @@ const useFeedBack = ({ filterValues }: Props) => {
         filterValues.cashierStaffId !== undefined
           ? `&cashierId=${filterValues.cashierStaffId}`
           : '';
+      const key1 = key !== '' && key !== undefined ? `&key=${key}` : '';
       return fetchFeedBackClients({
-        url: `/rating-review?perPage=${filterValues.perPage}&page=${filterValues?.page}${rating}${cash}`,
+        url: `/rating-review?perPage=${filterValues.perPage}&page=${filterValues?.page}${rating}${cash}${key1}`,
       });
     },
     {
