@@ -188,7 +188,7 @@ export const WrapList = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
+  height: calc(100vh - 65px);
   .MuiButtonBase-root {
     padding: 10px 0 10px 37px !important;
   }
@@ -321,9 +321,13 @@ export const Wrarning = styled.div`
     height: 100%;
     text-align: center;
     box-shadow: none;
-    flex-direction: column;
-    margin-top: 20px;
+    flex-direction: row;
+    height: 100%;
+    text-align: start;
+    max-width: 500px;
+    align-self: center;
   }
+
   @media (max-width: ${device.mobile}) {
     font-size: 14px;
     flex-direction: column;
@@ -339,6 +343,11 @@ export const WranningIcon = styled(Warn)`
   min-width: 32px;
   min-height: 30px;
   @media (min-width: ${device.planshet}) {
+    margin-right: 20px;
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    width: 50px;
+    height: 45px;
     margin-right: 20px;
   }
 `;

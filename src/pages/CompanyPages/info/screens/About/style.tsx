@@ -68,6 +68,11 @@ export const PhotoLoadingIcon = styled(PhotoLoading)`
     width: 18px;
     height: 18px;
   }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+  }
 `;
 
 export const TrashIcon = styled(Trash)`
@@ -155,7 +160,8 @@ export const WrapArrow = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  @media (max-width: ${device.mobile}) {
+
+  @media (max-width: ${device.planshet}) {
     height: 45px;
     width: 45px;
   }
@@ -177,9 +183,11 @@ export const Form = styled.form`
   flex-direction: column;
   justify-content: space-between;
   position: relative;
-  @media (max-width: ${device.mobile}) {
-    padding: 0 0 65px 0;
+
+  @media (max-width: ${device.planshet}) {
+    padding: 0;
     border-radius: 0;
+    padding: 0 0 65px 0;
   }
   @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
     padding: 30px 0 0 0;
@@ -225,7 +233,7 @@ export const DownSide = styled.div`
     display: flex;
     align-items: center;
   }
-  @media (max-width: ${device.mobile}) {
+  @media (max-width: ${device.planshet}) {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -291,7 +299,7 @@ export const WrapCurrency = styled.div`
     align-items: center;
     padding-left: 25px;
   }
-  @media (max-width: ${device.mobile}) {
+  @media (max-width: ${device.planshet}) {
     div {
       height: 45px;
       font-size: 15px;
@@ -320,17 +328,22 @@ export const LabelLoading = styled.label`
   align-items: center;
   justify-content: center;
   width: fit-content;
-  padding: 13px;
   cursor: pointer;
   margin-top: 10px;
   user-select: none;
-  @media (max-width: ${device.mobile}) {
-    padding: 10px;
-    font-size: 14px;
+  height: 50px;
+  padding: 0 15px;
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    height: 45px;
+    font-size: 16px;
+    padding: 0 20px;
   }
-
+  @media (max-width: ${device.mobile}) {
+    font-size: 14px;
+    padding: 0 15px;
+    height: 45px;
+  }
   @media (min-width: ${device.laptop}) {
-    padding: 15px;
     font-size: 18px;
   }
 `;
