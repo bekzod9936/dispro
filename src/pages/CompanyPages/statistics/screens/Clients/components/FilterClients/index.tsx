@@ -5,52 +5,52 @@ import Radio from 'components/Custom/Radio';
 import CheckBox from 'components/Custom/CheckBox';
 import Filter from 'components/Custom/Filter/index';
 import DatePcker from 'components/Custom/DatePicker';
-import useClientsHook from '../../useClientsHook';
 import { useAppSelector } from 'services/redux/hooks';
 import { useTranslation } from 'react-i18next';
+import dayjs from 'dayjs';
+import { numberWith } from 'services/utils';
+
 import {
   Label,
   WrapStatus,
   WrapCheck,
   WrapPlaceHolder,
   WrapInputs,
+  WrapFilter,
 } from './style';
 
 interface Props {
-  startDate?: string;
-  endDate?: string;
-  regDateFrom?: string;
-  regDateTo?: string;
-  genderTypeId?: string | number;
-  purchaseCountFrom?: string;
-  purchaseCountTo?: string;
-  allPurchaseSum?: string;
-  usedLevelNumber?: string;
+  response?: any;
+  filterValues?: any;
+  setFilterValues?: any;
+  traffic?: any;
+  setTraffic?: any;
+  intialState?: any;
+  status?: any;
+  setStatus?: any;
+  setUsedLevel?: any;
 }
 
-const intialState = {
-  startDate: '',
-  endDate: '',
-  regDateFrom: '',
-  regDateTo: '',
-  genderTypeId: '',
-  purchaseCountFrom: '',
-  purchaseCountTo: '',
-  allPurchaseSum: '',
-  usedLevelNumber: '',
-};
-
-const FilterClients = () => {
+const FilterClients = ({
+  response,
+  filterValues,
+  setFilterValues,
+  traffic,
+  setTraffic,
+  intialState,
+  status,
+  setStatus,
+  setUsedLevel,
+}: Props) => {
   const { t } = useTranslation();
   const data = useAppSelector((state) => state.statistics.clientStats);
-  const [filterValues, setFilterValues] = useState<Props>(intialState);
   const [date, setDate] = useState({ startDate: '', endDate: '' });
-  const [traffic, setTraffic] = useState('');
 
-  const { response, status, setStatus, setUsedLevel } = useClientsHook({
-    filterValues,
-    traffic,
-  });
+  const allPurchaseSumValue: any = numberWith(
+    String(filterValues.allPurchaseSum),
+    ' ',
+    '-'
+  );
 
   const genders = [
     { value: '1', label: `${t('male')}` },
@@ -79,6 +79,10 @@ const FilterClients = () => {
     await response.refetch();
   };
 
+  function capitalize(s: any) {
+    return s[0].toUpperCase() + s.slice(1);
+  }
+
   const handleDataPicker = async (e: any) => {
     await setFilterValues({
       ...filterValues,
@@ -105,6 +109,11 @@ const FilterClients = () => {
   const filterList = [
     {
       title: t('gender'),
+      value: filterValues.genderTypeId
+        ? Number(filterValues.genderTypeId) === 1
+          ? t('male')
+          : t('female')
+        : undefined,
       content: (
         <Radio
           flexDirection='row'
@@ -119,6 +128,16 @@ const FilterClients = () => {
     },
     {
       title: t('registration_date'),
+      value:
+        filterValues.regDateTo && filterValues.regDateFrom
+          ? dayjs(filterValues.regDateFrom).format('YYYY.MM.DD') +
+            ' - ' +
+            dayjs(filterValues.regDateTo).format('YYYY.MM.DD')
+          : filterValues.regDateTo || filterValues.regDateFrom
+          ? dayjs(filterValues.regDateTo || filterValues.regDateFrom).format(
+              'YYYY.MM.DD'
+            )
+          : undefined,
       content: (
         <WrapInputs>
           <Label>{t('chose_date')}</Label>
@@ -151,6 +170,12 @@ const FilterClients = () => {
     },
     {
       title: t('purchuase_amount'),
+      value:
+        filterValues.purchaseCountFrom && filterValues.purchaseCountTo
+          ? filterValues.purchaseCountFrom +
+            ' - ' +
+            filterValues.purchaseCountTo
+          : filterValues.purchaseCountFrom || filterValues.purchaseCountTo,
       content: (
         <>
           <InputFormat
@@ -199,6 +224,7 @@ const FilterClients = () => {
     },
     {
       title: t('purchuase_cost'),
+      value: filterValues.allPurchaseSum ? allPurchaseSumValue : undefined,
       content: (
         <InputFormat
           placeholder={t('notless')}
@@ -255,6 +281,9 @@ const FilterClients = () => {
     },
     {
       title: t('traffic_provider'),
+      value: traffic
+        ? capitalize(radioList?.find((v: any) => traffic === v.value)?.label)
+        : undefined,
       content: (
         <Radio
           flexDirection='row'
@@ -270,7 +299,7 @@ const FilterClients = () => {
   ];
 
   return (
-    <>
+    <WrapFilter>
       <Filter
         onSubmit={() =>
           handleFilterSubmit({
@@ -283,7 +312,7 @@ const FilterClients = () => {
         list={filterList}
       />
       <DatePcker onChange={handleDataPicker} margin='0 0 0 20px' />
-    </>
+    </WrapFilter>
   );
 };
 

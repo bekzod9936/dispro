@@ -17,6 +17,9 @@ import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import SaveButton from '../../components/Buttons/SaveButton';
 import ExitButton from '../../components/Buttons/ExitButton';
 import LogoDef from 'assets/icons/SideBar/logodefault.png';
+import { setExitModal } from 'services/redux/Slices/info/info';
+import { TextArea } from 'components/Custom/TextArea';
+import useWindowWidth from 'services/hooks/useWindowWidth';
 import {
   Container,
   UpSide,
@@ -44,8 +47,6 @@ import {
   ForExample,
   WrapPhoto,
 } from './style';
-import { setExitModal } from 'services/redux/Slices/info/info';
-import { TextArea } from 'components/Custom/TextArea';
 
 interface FormProps {
   telNumber?: string;
@@ -69,6 +70,7 @@ const Main = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const dispatch = useAppDispatch();
+  const { width } = useWindowWidth();
 
   const { response, data } = useInfoPage();
   const companyId: any = localStorage.getItem('companyId');
@@ -355,6 +357,77 @@ const Main = () => {
     setValue('socialLinks', newLinks);
   };
 
+  const selectAndKeywords = (
+    <>
+      <Controller
+        name='categories'
+        control={control}
+        rules={{ required: true }}
+        render={({ field }) => (
+          <MultiSelect
+            isLoading={resCategory.isLoading || response.isLoading}
+            options={option?.length < 2 ? category : []}
+            isMulti={true}
+            label={t('chose_categories')}
+            margin={{
+              laptop: '20px 0 25px',
+            }}
+            message={t('requiredField')}
+            error={errors.categories ? true : false}
+            field={field}
+            isClearable={false}
+            nooptionsmessage={t('noOptionMessage')}
+          />
+        )}
+      />
+      <Controller
+        name='keywords'
+        control={control}
+        rules={{ required: keywords?.length === 0 ? true : false }}
+        defaultValue=''
+        render={({ field }) => (
+          <Input
+            label={t('keywords')}
+            error={errors.keywords ? true : false}
+            message={t('requiredField')}
+            type='string'
+            field={field}
+            margin={{
+              laptop: '20px 0 15px',
+            }}
+            inputStyle={{
+              border:
+                getValues('keywords') !== ''
+                  ? '1px solid #606EEA'
+                  : '1px solid #C2C2C2',
+            }}
+            IconEnd={
+              <WrapArrow
+                onClick={handleKeywords}
+                bgcolor={getValues('keywords') !== ''}
+                style={{ cursor: 'pointer' }}
+              >
+                <ArrowIcon />
+              </WrapArrow>
+            }
+          />
+        )}
+      />
+      <WrapKeyWords>
+        {keywords?.map((v: any) => {
+          return (
+            <ButtonKeyWord>
+              {v}
+              <IconButton onClick={() => handleKeyDelete(v)}>
+                <DeleteIcon color='#C4C4C4' />
+              </IconButton>
+            </ButtonKeyWord>
+          );
+        })}
+      </WrapKeyWords>
+    </>
+  );
+
   if (resinfoSubData.isLoading || response.isLoading || response.isFetching) {
     return <Spinner />;
   }
@@ -482,74 +555,10 @@ const Main = () => {
               <span>{t('currency')}</span>
               <div>UZS (Uzbekistan sum)</div>
             </WrapCurrency>
-            <Controller
-              name='categories'
-              control={control}
-              rules={{ required: true }}
-              render={({ field }) => (
-                <MultiSelect
-                  isLoading={resCategory.isLoading || response.isLoading}
-                  options={option?.length < 2 ? category : []}
-                  isMulti={true}
-                  label={t('chose_categories')}
-                  margin={{
-                    laptop: '20px 0 25px',
-                  }}
-                  message={t('requiredField')}
-                  error={errors.categories ? true : false}
-                  field={field}
-                  isClearable={false}
-                  nooptionsmessage={t('noOptionMessage')}
-                />
-              )}
-            />
-            <Controller
-              name='keywords'
-              control={control}
-              rules={{ required: keywords?.length === 0 ? true : false }}
-              defaultValue=''
-              render={({ field }) => (
-                <Input
-                  label={t('keywords')}
-                  error={errors.keywords ? true : false}
-                  message={t('requiredField')}
-                  type='string'
-                  field={field}
-                  margin={{
-                    laptop: '20px 0 15px',
-                  }}
-                  inputStyle={{
-                    border:
-                      getValues('keywords') !== ''
-                        ? '1px solid #606EEA'
-                        : '1px solid #C2C2C2',
-                  }}
-                  IconEnd={
-                    <WrapArrow
-                      onClick={handleKeywords}
-                      bgcolor={getValues('keywords') !== ''}
-                      style={{ cursor: 'pointer' }}
-                    >
-                      <ArrowIcon />
-                    </WrapArrow>
-                  }
-                />
-              )}
-            />
-            <WrapKeyWords>
-              {keywords?.map((v: any) => {
-                return (
-                  <ButtonKeyWord>
-                    {v}
-                    <IconButton onClick={() => handleKeyDelete(v)}>
-                      <DeleteIcon color='#C4C4C4' />
-                    </IconButton>
-                  </ButtonKeyWord>
-                );
-              })}
-            </WrapKeyWords>
+            {width > 1000 ? selectAndKeywords : null}
           </LeftSide>
           <RightSide>
+            {width <= 1000 ? selectAndKeywords : null}
             <Title>{t('phone')}</Title>
             <Text>{t('maincompanynumber')}</Text>
             <Controller

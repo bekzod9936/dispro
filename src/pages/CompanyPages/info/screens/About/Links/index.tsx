@@ -10,7 +10,6 @@ import {
   WrapSocial,
   ModelContent,
   ModalWrap,
-  CloseIcon,
   DeleteIcon,
   ValueStyle,
 } from './style';

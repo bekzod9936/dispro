@@ -4,7 +4,7 @@ import Radio from 'components/Custom/Radio';
 import Filter from 'components/Custom/Filter/index';
 import DatePcker from 'components/Custom/DatePicker';
 import useOperationsHook from '../../useOperationsHook';
-
+import { WrapFilter } from './style';
 interface Props {
   startDate?: string;
   endDate?: string;
@@ -59,6 +59,11 @@ const FilterOperations = () => {
   const filterList = [
     {
       title: t('gender'),
+      value: filterValues.genderTypeId
+        ? Number(filterValues.genderTypeId) === 1
+          ? t('male')
+          : t('female')
+        : undefined,
       content: (
         <Radio
           flexDirection='row'
@@ -74,7 +79,7 @@ const FilterOperations = () => {
   ];
 
   return (
-    <>
+    <WrapFilter>
       <Filter
         onSubmit={() =>
           handleFilterSubmit({
@@ -86,7 +91,7 @@ const FilterOperations = () => {
         list={filterList}
       />
       <DatePcker onChange={handleDataPicker} margin='0 0 0 20px' />
-    </>
+    </WrapFilter>
   );
 };
 

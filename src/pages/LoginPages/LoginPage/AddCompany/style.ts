@@ -6,7 +6,7 @@ export const Container = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  overflow-x: auto;
+  overflow-y: auto;
   width: 100%;
 
   ::-webkit-scrollbar {
@@ -28,6 +28,10 @@ export const Container = styled.div`
   @media (min-width: ${device.laptop}) {
     margin-top: 50px;
   }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    overflow-y: hidden;
+    height: 100%;
+  }
 `;
 
 export const MainWrap = styled.div`
@@ -39,12 +43,13 @@ export const MainWrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 30px;
+
   @media (max-width: ${device.planshet}) {
     box-shadow: none;
     width: 100%;
-    height: 100%;
-    margin-bottom: 0;
+    height: calc(100% - 120px);
+    flex-grow: 1;
+    display: flex;
   }
 `;
 
@@ -102,6 +107,9 @@ export const Content = styled.div`
   width: 100%;
   padding: 0 50px 20px;
   flex: 1;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
   @media (max-width: ${device.mobile}) {
     padding: 0 15px;
   }
@@ -117,13 +125,13 @@ export const Form = styled.form`
   width: 100%;
   display: flex;
   flex-direction: column;
+
   justify-content: space-between;
   @media (max-width: ${device.mobile}) {
     height: 100%;
   }
   @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
-    flex: 1;
-    height: 100%;
+    flex-grow: 1;
   }
 `;
 

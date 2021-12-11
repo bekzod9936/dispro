@@ -45,12 +45,14 @@ export const PublicModal = ({ setPublisOpen: setPublisOpen }: PublicClick) => {
     reValidateMode: "onChange",
   });
 
- 
+  function getValidDate(obj: any) {
+    return "" + obj.year + "-" + obj.month.number + "-" + obj.day
+  }
   const upDateWaitingNews = (data: any) => {
     let newsBody = {
       title: updatedNews?.title,
-      startLifeTime: data.startDate ,
-      endLifeTime:data.endDate ,
+      startLifeTime: getValidDate(data.startDate) ,
+      endLifeTime:getValidDate(data.endDate) ,
       description: updatedNews?.description,
       ageFrom: parseInt(updatedNews?.ageFrom),
       ageUnlimited: false,

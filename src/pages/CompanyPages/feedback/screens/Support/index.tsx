@@ -99,7 +99,7 @@ const Support = () => {
     (state) => state.feedbackPost.supporthistories
   );
 
-  const { resChatSupportHistory, setPage, page } = useSupportChat();
+  const { resChatSupportHistory, setPage, page, noValue } = useSupportChat();
   const { readChat } = useRead();
   const [showEmoji, setShowEmoji] = useState<boolean>(false);
   const [scrollHeight, setScrollHeight] = useState(0);
@@ -302,7 +302,7 @@ const Support = () => {
               <ChatPlace>
                 {resChatSupportHistory.isLoading ? (
                   <Spinner />
-                ) : histories.length === 0 ? (
+                ) : noValue ? (
                   <div
                     style={{
                       display: 'flex',
@@ -355,7 +355,7 @@ const Support = () => {
                       >
                         {histories?.map((v: any) => {
                           return (
-                            <MessageWrap type={v.chatType}>
+                            <MessageWrap type={v.chatType} key={v.id}>
                               <Avatar bgcolor='#E6E6E6'>
                                 {v.chatType === 6 ? (
                                   <DisIcon />
@@ -485,6 +485,13 @@ const Support = () => {
               ) : (
                 <Messages id='scrollableDiv' onScroll={findScrollHeight}>
                   <div ref={messagesStartRef} />
+                  {scrollHeight > 1 ? (
+                    <WrapDownIcon>
+                      <WrapDown onClick={() => scrollToTop()}>
+                        <DownIcon />
+                      </WrapDown>
+                    </WrapDownIcon>
+                  ) : null}
                   <InfiniteScroll
                     dataLength={histories?.length}
                     next={fetchHisFetchData}
@@ -516,7 +523,7 @@ const Support = () => {
                   >
                     {histories?.map((v: any) => {
                       return (
-                        <MessageWrap type={v.chatType}>
+                        <MessageWrap type={v.chatType} key={v.id}>
                           <Message type={v.chatType}>
                             <MessageDate type={v.chatType}>
                               {dayjs(v.createdAt)

@@ -289,6 +289,7 @@ export const WrapIcon = styled.div`
 `;
 export const TitleSideBar = styled.div`
   display: "block";
+
   p {
     white-space: pre-wrap;
     word-break: break-all;

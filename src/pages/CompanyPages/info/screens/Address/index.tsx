@@ -587,6 +587,25 @@ const Address = () => {
       )}
       <LeftSide>
         <div>
+          <Controller
+            name='regionId'
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <MultiSelect
+                isLoading={responseRegions.isLoading}
+                options={regions}
+                label={t('chooseregion')}
+                margin={{
+                  laptop: '0 0 25px',
+                }}
+                message={t('requiredField')}
+                error={errors.regionId ? true : false}
+                field={field}
+                isClearable={false}
+              />
+            )}
+          />
           <Title>{t('Address')}</Title>
           <Text>{t('enterLocationText')}</Text>
           <WrapAddress>
@@ -635,25 +654,7 @@ const Address = () => {
               />
             </YandexContainer>
           </MobileMap>
-          <Controller
-            name='regionId'
-            control={control}
-            rules={{ required: true }}
-            render={({ field }) => (
-              <MultiSelect
-                isLoading={responseRegions.isLoading}
-                options={regions}
-                label={t('chooseregion')}
-                margin={{
-                  laptop: '20px 0 25px',
-                }}
-                message={t('requiredField')}
-                error={errors.regionId ? true : false}
-                field={field}
-                isClearable={false}
-              />
-            )}
-          />
+
           <Title>{t('addressClarification')}</Title>
           <Text>{t('enterOrientationText')}</Text>
           <Controller

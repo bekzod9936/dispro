@@ -5,9 +5,6 @@ import { ReactComponent as Across } from 'assets/icons/SideBar/close.svg';
 import { device } from 'styles/device';
 
 export const Container = styled.div`
-  height: 150px;
-  width: 400px;
-  position: absolute;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -15,8 +12,8 @@ export const Container = styled.div`
   border-radius: 14px;
   padding: 10px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
-  top: 20px;
-  right: 30px;
+  width: 100%;
+  height: 100%;
   .highcharts-title {
     fill: #223367;
     font-weight: 500;
