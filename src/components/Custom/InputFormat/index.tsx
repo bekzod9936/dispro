@@ -30,7 +30,7 @@ function NumberFormatCustom(props: any) {
       }}
       thousandSeparator=" "
       prefix=""
-      decimalSeparator=","
+      decimalSeparator={other.onlyNumber ? false :","}
       allowEmptyFormatting={false}
       allowNegative={false}
       allowLeadingZeros={false}
@@ -60,8 +60,10 @@ const InputFormat = ({ onChange = () => { }, ...props }: Props) => {
           minLength: props.minLength,
           min: props.min,
           max: props.max,
+          onlyNumber:props.onlyNumber
         }}
         max={props.max}
+        onlyNumber={props.onlyNumber}
         min={props.min}
         autoComplete={props.autoComplete}
         autoFocus={props.autoFocus}
@@ -110,6 +112,7 @@ export default InputFormat;
 
 export interface Props {
   field?: any;
+  onlyNumber?:boolean;
   autoComplete?: string;
   autoFocus?: boolean;
   defaultValue?: any;

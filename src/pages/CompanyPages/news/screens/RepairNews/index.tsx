@@ -518,6 +518,7 @@ const RepairNews = () => {
                   <InputFormat
                     field={field}
                     type="tel"
+                    onlyNumber={true}
                     defaultValue={newsById?.data?.ageFrom}
                     max="100"
                     message={parseInt(watch("ageLimit"))}
