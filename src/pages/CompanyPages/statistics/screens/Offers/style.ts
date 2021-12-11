@@ -21,6 +21,7 @@ export const WrapIcon = styled.div`
 
 export const Wrapper = styled.div`
   overflow-y: scroll;
+  overflow-x: hidden;
   ::-webkit-scrollbar {
     width: 7px;
   }

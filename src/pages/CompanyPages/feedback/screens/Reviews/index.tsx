@@ -31,6 +31,7 @@ interface intialFilterProps {
   perPage?: number;
   rating?: number | string;
   key?: string | number;
+  storeIds?: string | number;
 }
 
 const Reviews = () => {
@@ -43,6 +44,7 @@ const Reviews = () => {
     perPage: 6,
     rating: '',
     key: '',
+    storeIds: '',
   };
 
   const [filterValues, setFilterValues] =
@@ -59,6 +61,7 @@ const Reviews = () => {
   });
 
   const handleSearch = (e: any) => {
+    setFilterValues({ ...filterValues, page: 1 });
     setInpuSearch(e.target.value);
   };
 

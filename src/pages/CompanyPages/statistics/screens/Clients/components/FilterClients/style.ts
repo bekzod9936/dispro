@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { device } from 'styles/device';
-import { ReactComponent as Delete } from 'assets/icons/IconsInfo/delete.svg';
 
 export const Label = styled.label`
   font-weight: bold;
@@ -34,5 +33,13 @@ export const WrapInputs = styled.div`
   & > div {
     display: flex;
     width: 100%;
+  }
+`;
+
+export const WrapFilter = styled.div`
+  padding-bottom: 20px;
+  display: flex;
+  @media (max-width: ${device.mobile}) {
+    padding-bottom: 15px;
   }
 `;
