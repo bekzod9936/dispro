@@ -23,6 +23,13 @@ const Wrapper = styled.div`
         color: #223367;
         margin-top: 30px;
     }
+
+    @media (max-width: ${device.planshet}) {
+        p {
+            width: 235px;
+            text-align: center;
+        }
+    }
     @media (max-width: ${device.mobile}) {
         text-align: center;
     }

@@ -3,6 +3,19 @@ import { device } from "styles/device";
 
 export const Wrapper = styled.div`
     padding-right: 45px;
+    overflow: auto;
+    height: 100%;
+
+    ::-webkit-scrollbar {
+    width: 7px;
+    }
+    ::-webkit-scrollbar-track {
+        background-color: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #606eea;
+        border-radius: 14px 0px 0px 14px;
+    }
     @media (max-width: ${device.planshet}) {
         padding-right: 0;
     }
@@ -13,9 +26,8 @@ export const Container = styled.div`
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
     border-radius: 14px;
     padding: 50px 0 50px 80px;
-    overflow: auto;
     
-    min-height: 70vh;
+    
     @media (max-width: ${device.planshet}) {
         position: fixed;
         top: 0;
