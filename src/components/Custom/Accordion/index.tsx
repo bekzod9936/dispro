@@ -5,6 +5,7 @@ import {
   MAccordionDetails,
   Container,
   DownIcon,
+  Content,
 } from './style';
 
 interface Props {
@@ -15,14 +16,14 @@ interface Props {
   square?: boolean;
   expandIcon?: any;
   IconButtonProps?: Object;
-  list?: { title?: string; content?: any }[];
+  list?: { title?: string; content?: any, value?: any }[];
 }
 
 const Accordion = ({
   defaultExpanded,
   disabled,
   expanded,
-  onChange = () => {},
+  onChange = () => { },
   square,
   expandIcon,
   IconButtonProps,
@@ -42,7 +43,9 @@ const Accordion = ({
             onClick={() => handleClick(v.title)}
             expandIcon={<DownIcon />}
           >
-            {v.title}
+            <Content>
+              <p>{v.title}</p><span>{v.value || ""}</span>
+            </Content>
           </MAccordionSummary>
           <MAccordionDetails>{v.content}</MAccordionDetails>
         </MAccordion>

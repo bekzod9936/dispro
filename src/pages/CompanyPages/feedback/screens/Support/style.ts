@@ -308,6 +308,16 @@ export const WrapDown = styled.div`
     max-width: 60px;
     max-height: 60px;
   }
+  @media (max-width: ${device.mobile}) {
+    background-color: #223367;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    max-width: 40px;
+    max-height: 40px;
+    border-radius: 12px;
+  }
 `;
 
 export const DownIcon = styled(Down)`
@@ -316,6 +326,10 @@ export const DownIcon = styled(Down)`
   @media (min-width: ${device.laptop}) {
     width: 24px;
     height: 24px;
+  }
+  @media (max-width: ${device.mobile}) {
+    width: 14px;
+    height: 14px;
   }
 `;
 
@@ -326,8 +340,8 @@ export const DisIcon = styled(Dis)`
 export const WrapDownIcon = styled.div`
   position: absolute;
   right: 20px;
-  bottom: 0;
-  z-index: 3;
+  bottom: 10px;
+  z-index: 1500;
 `;
 
 export const WrapModal = styled.div`

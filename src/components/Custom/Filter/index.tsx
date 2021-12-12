@@ -26,7 +26,7 @@ import {
 } from './style';
 
 interface Props {
-  list?: { title: string; content: any }[];
+  list?: { title: string; content: any, value?: string }[];
   onSubmit?: () => void;
   onReset?: () => void;
   error?: boolean;

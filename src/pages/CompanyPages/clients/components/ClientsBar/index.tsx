@@ -40,6 +40,7 @@ import { ViewAll } from "../ViewAll";
 import { useTranslation } from "react-i18next";
 import { useMutation } from "react-query";
 import { blockClient } from "services/queries/clientsQuery";
+import useWindowWidth from "services/hooks/useWindowWidth";
 interface IProps {
     refetch: any;
 }
@@ -73,7 +74,7 @@ export const ClientsBar = ({ refetch }: IProps) => {
     const [modalContent, setModalContent] = useState<any>({})
     const [vipModalState, setVipModalState] = useState<"selecting" | "updating" | "removing">("selecting")
     const [fetchingAllClients, setFetchingAllClients] = useState('')
-
+    const { width } = useWindowWidth()
     const handleOpen = (action: string) => {
         setIsModalOpen(true);
         setModalContent(modalInfo[action]);
@@ -92,7 +93,8 @@ export const ClientsBar = ({ refetch }: IProps) => {
     };
 
     const handleClient = () => {
-        history.push(`/clients/${client.id}-${client.userId}/operations`)
+        const path = width > 1000 ? 'operations' : 'information'
+        history.push(`/clients/${client.id}-${client.userId}/${path}`)
     }
 
     const handleChangeStatus = (e: any) => {

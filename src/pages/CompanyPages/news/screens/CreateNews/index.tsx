@@ -152,13 +152,15 @@ const CreateNews = () => {
     setCancel(false);
     history.goBack();
   };
+  function getValidDate(obj: any) {
+    return "" + obj.year + "-" + obj.month.number + "-" + obj.day
+  }
 
   const submitNews = (data: any) => {
     let newsData = {
       title: data.name,
-      startLifeTime:
-        width > 1000 ? data.startDate : filter?.regDate?.regDateFrom,
-      endLifeTime: width > 1000 ? data.endDate : filter?.regDate?.regDateTo,
+      startLifeTime:width>1000 ? data.startDate: getValidDate(data.startDate) ,
+      endLifeTime:width>1000 ?data.endDate: getValidDate(data.endDate ),
       description: data.description,
       ageFrom: parseInt(data.ageLimit),
       ageTo: 100,
@@ -166,7 +168,7 @@ const CreateNews = () => {
       couponIds: [],
       image: image,
       genderType: data.gender?.id,
-      pushUp: optionalFields.push ,
+      pushUp: optionalFields.push,
       settings: {
         weekDays:
           optionalFields.push && data?.days?.length
@@ -184,8 +186,8 @@ const CreateNews = () => {
       },
       pushUpTitle: optionalFields.push ? data.descriptionPush : "",
     };
-    setStartDate(width > 1000 ? data.startDate : filter?.regDate?.regDateFrom);
-    setSubmit(width > 1000 && data.startDate ? true: filter?.regDate?.regDateFrom ? true : false);
+    setStartDate(data.startDate);
+    setSubmit(true);
     setFormData(newsData);
   };
 
@@ -200,7 +202,7 @@ const CreateNews = () => {
 
     setTimeout(() => history.goBack(), 1000);
   };
- 
+
   return (
     <Wrapper>
       {width > 1000 && (
@@ -374,59 +376,45 @@ const CreateNews = () => {
                     />
                   </div>
                 </WrapInputs>
-              ) :(
+              ) : (
                 <WrapInputs>
-                  <Label>{t("chose_date")}</Label>
-                  <div>
+                        <div className="startAndEndDate">
+                <Controller
+                  name="startDate"
+                  rules={{
+                    required: true,
+                  }}
+                  control={control}
+                  render={({ field }) => (
                     <CustomDatePicker
-                      margin="0 15px 0 0"
-                      isStyledDate
                       text={t("from")}
-                      error={
-                        validation && !filter?.regDate?.regDateFrom
-                          ? true
-                          : false
-                      }
-                      minDate={todayDate}
-                      maxDate={filter?.regDate?.regDateTo}
-                      onChange={(e) => {
-                     
-                        
-                        let date =
-                          ""+ e.year + "-" + e.month.number + "-" + e.day;
-                        setFilter((prev: any) => ({
-                          ...prev,
-                          regDate: {
-                            ...prev["regDate"],
-                            regDateFrom: date
-                          },
-                        }));
-                      }}
-                      value={filter?.regDate?.regDateFrom}
-                    />
+                      margin={width > 430 ? "0 10px 0 0" : "0 12px 0 0"}
+                      error={errors.startDate}
+                      minDate={new Date()}
+                      onChange={field.onChange}
+                      value={field.value} 
+                      />
+                  )}
+                />
+                    
+                <Controller
+                  rules={{
+                    required: true,
+                  }}
+                  control={control}
+                  name="endDate"
+                  render={({ field }) => (
                     <CustomDatePicker
-                        isStyledDate
-                      error={
-                        validation && !filter?.regDate?.regDateTo ? true : false
-                      }
                       text={t("to")}
-                      minDate={filter?.regDate?.regDateFrom}
-                      onChange={(e) => {
-                        let date =
-                        ""+e.year + "-" + e.month.number + "-" + e.day;
-                        setFilter((prev: any) => ({
-                          ...prev,
-                          regDate: {
-                            ...prev["regDate"],
-                            regDateTo: date,
-                          },
-                        }));
-                      }}
-                      
-                      value={filter?.regDate?.regDateTo}
-                    />
-                  </div>
-                </WrapInputs>
+                      error={errors.endDate}
+                      minDate={watch("startDate")}
+                      onChange={field.onChange}
+                      value={field.value} />
+                  )}
+                />
+          </div>
+         
+              </WrapInputs>
               )}
 
               <WrapSelect>
@@ -457,6 +445,8 @@ const CreateNews = () => {
                     field={field}
                     type="tel"
                     defaultValue={""}
+                    
+                    onlyNumber={true}
                     max="100"
                     message={
                       parseInt(watch("ageLimit")) > 100
@@ -500,17 +490,17 @@ const CreateNews = () => {
                             mobile: 120,
                           },
                         }}
-                        // IconEnd={width>600 ?
-                        //   <WrapArea>
-                        //     <TextAreaIcon />
-                        //   </WrapArea>:''
-                        // }
+                      // IconEnd={width>600 ?
+                      //   <WrapArea>
+                      //     <TextAreaIcon />
+                      //   </WrapArea>:''
+                      // }
                       />
                     )}
                   />
                 )}
               </PushWrapper>
-            
+
               <PushWrapper>
                 {optionalFields.push && (
                   <Controller
@@ -531,7 +521,7 @@ const CreateNews = () => {
                     )}
                   />
                 )}
-               
+
               </PushWrapper>
               <PushWrapper>
                 <div style={{ marginBottom: "10px" }}>
@@ -573,7 +563,7 @@ const CreateNews = () => {
                   onChange={(e: any) => setChecked(e)}
                 />
               )}
-                 {optionalFields.push && (
+              {optionalFields.push && (
                 <FormRow>
                   <Controller
                     control={control}
@@ -583,7 +573,7 @@ const CreateNews = () => {
                         <MultiSelect
                           options={branches}
                           isMulti={true}
-                          isBranchHeight={width<600 ? true:false}
+                          isBranchHeight={width < 600 ? true : false}
                           selectStyle={{
                             bgcolor: "#eff0fd",
                             border: "none",
@@ -594,9 +584,9 @@ const CreateNews = () => {
                           placeholder={t("chose_filial")}
                           margin={{
                             laptop: "20px 0 25px",
-                            
+
                           }}
-                         
+
                           field={field}
                           isClearable={false}
                           icon={<MarketIcon />}
@@ -608,9 +598,9 @@ const CreateNews = () => {
                   />
                 </FormRow>
               )}
-                
 
-             
+
+
               {width <= 600 && (
                 <Buttons>
                   <div className="upside">
@@ -657,7 +647,7 @@ const CreateNews = () => {
               {t("cancellation")}
             </Button>
             <Button
-             onClick={() => setValidation(true)}
+              onClick={() => setValidation(true)}
               type="submit"
               margin={{ laptop: "0 25px" }}
               endIcon={<SaveIconMobile />}

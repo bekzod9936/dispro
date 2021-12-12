@@ -170,9 +170,9 @@ const EditNews = () => {
     );
   });
 
-  console.log("filteredArray", filteredArray);
+
   const submitNews = (data: any) => {
-    console.log('data.gender.id',data.gender.id)
+
     let newsBody = {
       title: data.name,
       startLifeTime:
@@ -473,7 +473,7 @@ const EditNews = () => {
                   <div>
                     <CustomDatePicker
                       margin="0 15px 0 0"
-                      isStyledDate
+                      isFilter
                       text={t("from")}
                       error={
                         validation && !filter?.regDate?.regDateFrom
@@ -498,7 +498,7 @@ const EditNews = () => {
                     />
 
                     <CustomDatePicker
-                     isStyledDate
+                     isFilter
                       error={
                         validation && !filter?.regDate?.regDateTo ? true : false
                       }
@@ -552,6 +552,7 @@ const EditNews = () => {
                     defaultValue={newsById?.data?.ageFrom}
                     max="100"
                     type="tel"
+                    onlyNumber={true}
                     message={parseInt(watch("ageLimit"))}
                     error={!!errors.ageLimit}
                     IconStart={<PlusIcon style={{ marginLeft: "20px" }} />}

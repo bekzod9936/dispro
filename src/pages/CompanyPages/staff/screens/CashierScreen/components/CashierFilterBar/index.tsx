@@ -144,7 +144,7 @@ const CashierFilterBar: React.FC<Props> = ({
 						value={filterValue}
 						onChange={(e) => setFilterValue(e)}
 					/>
-					{storeIdForFilter && <span>{allCashier.length}</span>}
+					{/* {storeIdForFilter && <span>{allCashier.length}</span>} */}
 				</FilterList>
 				<DownSide>
 					<CashierRow>

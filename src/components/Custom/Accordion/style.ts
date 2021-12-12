@@ -60,3 +60,18 @@ export const MAccordion = styled(MuiAccordion)``;
 export const MAccordionSummary = styled(MuiAccordionSummary)``;
 
 export const MAccordionDetails = styled(MuiAccordionDetails)``;
+
+
+export const Content = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+
+  span {
+    font-size: 16px;
+    line-height: 18.75px;
+    color: #C4C4C4;
+    font-weight: 300;
+  }
+`

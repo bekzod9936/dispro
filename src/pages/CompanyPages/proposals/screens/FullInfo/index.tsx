@@ -22,6 +22,7 @@ const FullInfoPage = () => {
         goBack()
     }
     const _ = useFetchCategories(setCategories, currentCoupon.categoryIds)
+
     return (
         <Wrapper>
             {width > 1000 &&

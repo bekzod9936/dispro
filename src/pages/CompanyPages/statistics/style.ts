@@ -24,6 +24,10 @@ export const UsersIcon = styled(Users)`
     width: 21px;
     height: 18px;
   }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    width: 23px;
+    height: 23px;
+  }
 `;
 
 export const ManIcon = styled(Man)`
@@ -36,8 +40,8 @@ export const ManIcon = styled(Man)`
 `;
 
 export const WomanIcon = styled(Woman)`
-  width: 15px;
-  height: 40px;
+  width: 35px;
+  height: 30px;
   @media (max-width: ${device.mobile}) {
     width: 10px;
     height: 25px;
@@ -54,6 +58,10 @@ export const AgeMobIcon = styled(AgeMob)`
     width: 11px;
     height: 39px;
   }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    width: 13px;
+    height: 46px;
+  }
 `;
 
 export const CalendarIcon = styled(Calendar)`
@@ -62,6 +70,10 @@ export const CalendarIcon = styled(Calendar)`
   @media (max-width: ${device.mobile}) {
     width: 20px;
     height: 18px;
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    width: 23px;
+    height: 23px;
   }
   & > path {
     fill: #c4c4c4;
@@ -75,6 +87,10 @@ export const CartIcon = styled(Cart)`
     width: 21px;
     height: 20px;
   }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    width: 23px;
+    height: 23px;
+  }
 `;
 
 export const MoneyIcon = styled(Money)`
@@ -82,6 +98,10 @@ export const MoneyIcon = styled(Money)`
   height: 35px;
   @media (max-width: ${device.mobile}) {
     width: 16px;
+    height: 20px;
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    width: 24px;
     height: 20px;
   }
 `;
@@ -93,6 +113,10 @@ export const RatingIcon = styled(Rating)`
     width: 21px;
     height: 21px;
   }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    width: 23px;
+    height: 23px;
+  }
 `;
 
 export const ScoreIcon = styled(Score)`
@@ -101,6 +125,10 @@ export const ScoreIcon = styled(Score)`
   @media (max-width: ${device.mobile}) {
     width: 20px;
     height: 18px;
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    width: 23px;
+    height: 23px;
   }
 `;
 
@@ -111,6 +139,10 @@ export const CheckIcon = styled(Check)`
     width: 20px;
     height: 20px;
   }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    width: 23px;
+    height: 23px;
+  }
 `;
 
 export const CashBackIcon = styled(CashBack)`
@@ -119,6 +151,10 @@ export const CashBackIcon = styled(CashBack)`
   @media (max-width: ${device.mobile}) {
     width: 20px;
     height: 20px;
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    width: 23px;
+    height: 23px;
   }
 `;
 
@@ -129,6 +165,10 @@ export const DiscountIcon = styled(Discount)`
     width: 20px;
     height: 20px;
   }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    width: 23px;
+    height: 23px;
+  }
 `;
 
 export const SertificateIcon = styled(Sertificate)`
@@ -137,6 +177,10 @@ export const SertificateIcon = styled(Sertificate)`
   @media (max-width: ${device.mobile}) {
     width: 16px;
     height: 19px;
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    width: 23px;
+    height: 23px;
   }
 `;
 
@@ -147,6 +191,10 @@ export const CouponIcon = styled(Coupon)`
     width: 20px;
     height: 20px;
   }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    width: 23px;
+    height: 23px;
+  }
 `;
 
 export const LaptopIcon = styled(Laptop)`
@@ -155,6 +203,10 @@ export const LaptopIcon = styled(Laptop)`
   @media (max-width: ${device.mobile}) {
     width: 21px;
     height: 21px;
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    width: 23px;
+    height: 23px;
   }
 `;
 
@@ -173,13 +225,7 @@ export const WrapInfo = styled.div`
   display: flex;
 `;
 
-export const WrapFilter = styled.div`
-  padding-bottom: 20px;
-  display: flex;
-  @media (max-width: ${device.mobile}) {
-    padding-bottom: 15px;
-  }
-`;
+
 
 export const Title = styled.div`
   font-weight: 500;

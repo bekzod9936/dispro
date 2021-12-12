@@ -3,7 +3,7 @@ import MultiSelect from 'components/Custom/MultiSelect';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'services/redux/hooks';
-import useFeedBack from '../../hooks/useFeedBack';
+import { IconButton } from '@material-ui/core';
 import {
   WrapCheck,
   Label,
@@ -13,7 +13,6 @@ import {
   DeleteIcon,
   WrapValues,
 } from './style';
-import { IconButton } from '@material-ui/core';
 
 interface CProps {
   value?: any;
@@ -23,16 +22,18 @@ interface CProps {
 interface Props {
   filterValues?: any;
   setFilterValues?: any;
+  refetch?: any;
 }
 
-const FilterReview = ({ setFilterValues, filterValues }: Props) => {
+const FilterReview = ({ setFilterValues, filterValues, refetch }: Props) => {
   const { t } = useTranslation();
   const [rating, setRating] = useState<any>('');
-  const cashiers = useAppSelector((state) => state.feedbackPost.cashiers);
+  const filter: any = useAppSelector((state) => state.feedbackPost.filter);
 
   const [cashierStaffId, setCashierStaffId] = useState<CProps>();
+  const [store, setStore] = useState<CProps>();
 
-  const cashiersFilter = cashiers
+  const cashiersFilter = filter?.cashiers
     ?.filter((v: any) => v.firstName !== '' || v.lastName !== '')
     ?.map((v: any) => {
       return {
@@ -41,8 +42,11 @@ const FilterReview = ({ setFilterValues, filterValues }: Props) => {
       };
     });
 
-  const { resClients, resCashiers } = useFeedBack({
-    filterValues,
+  const storesFilter = filter.stores?.map((v: any) => {
+    return {
+      value: v.id,
+      label: v.name,
+    };
   });
 
   const handleFilterSubmit = async () => {
@@ -50,15 +54,22 @@ const FilterReview = ({ setFilterValues, filterValues }: Props) => {
       ...filterValues,
       cashierStaffId: cashierStaffId?.value,
       rating: rating,
+      storeIds: store?.value,
     });
-    await resClients.refetch();
+    await refetch();
   };
 
   const onReset = async () => {
-    await setFilterValues({ ...filterValues, cashierStaffId: '', rating: '' });
+    await setFilterValues({
+      ...filterValues,
+      cashierStaffId: '',
+      rating: '',
+      storeIds: '',
+    });
     await setCashierStaffId({});
     await setRating('');
-    await resClients.refetch();
+    await setStore({});
+    await refetch();
   };
 
   const handleStarCheck = (v: any) => {
@@ -75,7 +86,18 @@ const FilterReview = ({ setFilterValues, filterValues }: Props) => {
           onChange={(e: any) => setCashierStaffId(e)}
           value={cashierStaffId}
           selectStyle={{ bgcolor: '#eff0fd' }}
-          isLoading={resCashiers.isLoading}
+        />
+      ),
+    },
+    {
+      title: t('withfilial'),
+      content: (
+        <MultiSelect
+          label={t('choosefilial')}
+          options={storesFilter}
+          onChange={(e: any) => setStore(e)}
+          value={store}
+          selectStyle={{ bgcolor: '#eff0fd' }}
         />
       ),
     },
@@ -117,7 +139,7 @@ const FilterReview = ({ setFilterValues, filterValues }: Props) => {
               cashierStaffId: '',
             });
             await setCashierStaffId({});
-            await resClients.refetch();
+            await refetch();
           }}
         >
           <DeleteIcon />
@@ -151,7 +173,7 @@ const FilterReview = ({ setFilterValues, filterValues }: Props) => {
               rating: '',
             });
             await setRating('');
-            await resClients.refetch();
+            await refetch();
           }}
         >
           <DeleteIcon />

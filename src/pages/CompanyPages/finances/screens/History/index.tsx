@@ -17,6 +17,7 @@ import MobileTable from '../../components/MobileTable';
 import useWindowWidth from 'services/hooks/useWindowWidth';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import financeCashierDef from '../../../../../assets/images/financeCashierDef.png';
+import { NewPagination } from 'components/Custom/NewPagination';
 import {
   Container,
   WrapFilter,
@@ -45,7 +46,6 @@ import {
   WrapDef,
   TitleDef,
 } from '../../style';
-import { NewPagination } from 'components/Custom/NewPagination';
 
 interface intialFilterProps {
   page?: number;

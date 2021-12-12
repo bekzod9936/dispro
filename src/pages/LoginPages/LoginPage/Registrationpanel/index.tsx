@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import DisIcon from '../../../../assets/icons/DisIcon';
 import Button from '../../../../components/Custom/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import { createCompany } from '../../../../services/queries/partnerQuery';
@@ -9,6 +8,7 @@ import { useMutation } from 'react-query';
 import { useAppSelector } from '../../../../services/redux/hooks';
 import { useHistory } from 'react-router';
 import Input from '../../../../components/Custom/Input';
+import logo from 'assets/images/logo.png';
 import {
   Container,
   Header,
@@ -26,8 +26,10 @@ import {
   Label,
   WrapCheck,
   CountryWrap,
+  WrapImg,
 } from './style';
 import MultiSelect from '../../../../components/Custom/MultiSelect';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 interface FormProps {
   email: string;
@@ -146,7 +148,15 @@ const Registrationpanel = () => {
         <Header>
           <Version>v1.0.130</Version>
           <Title>
-            <DisIcon />
+            <WrapImg>
+              <LazyLoadImage
+                src={logo}
+                alt='logo'
+                effect='blur'
+                width='100%'
+                height='100%'
+              />
+            </WrapImg>
             {t('disadmin')}
           </Title>
         </Header>
@@ -166,7 +176,7 @@ const Registrationpanel = () => {
             onSubmit={handleSubmit(step === 0 ? onSubmitStep1 : onSubmitStep2)}
           >
             {step === 0 ? (
-              <>
+              <div>
                 <Controller
                   name='firstName'
                   control={control}
@@ -218,6 +228,7 @@ const Registrationpanel = () => {
                     />
                   )}
                 />
+
                 <WrapCheck>
                   <Controller
                     name='readPolice'
@@ -251,7 +262,7 @@ const Registrationpanel = () => {
                     </RLink>
                   </Label>
                 </WrapCheck>
-              </>
+              </div>
             ) : (
               <div>
                 <Controller

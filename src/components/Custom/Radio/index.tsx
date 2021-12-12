@@ -13,14 +13,16 @@ const MRadio = ({
   labelPlacement,
   value,
   flexDirection = 'row',
-  marginlabel
+  marginlabel,
+  textTransform,
+  formControlMarginRight
 }: Props) => {
   const handleChange = (event: any) => {
     onChange(event.target.value);
   };
 
   return (
-    <Container marginlabel={marginlabel} flexDirection={flexDirection}>
+    <Container formControlMarginRight={formControlMarginRight} textTransform={textTransform} marginlabel={marginlabel} flexDirection={flexDirection}>
       <FormControl component='fieldset'>
         <FormLabel component='legend'>{title}</FormLabel>
         <RadioGroup

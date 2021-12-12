@@ -25,6 +25,12 @@ const SaveButton = ({
       buttonStyle={{
         shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)',
         weight: 500,
+        height: {
+          mobile: 40,
+          planshet: 45,
+          laptop: 50,
+          desktop: 50,
+        },
       }}
       margin={margin}
       onClick={onClick}

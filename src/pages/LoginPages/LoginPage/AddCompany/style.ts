@@ -1,13 +1,12 @@
 import styled from 'styled-components';
 import { device } from '../../../../styles/device';
-import { Step, StepLabel, Stepper } from '@material-ui/core';
 
 export const Container = styled.div`
   flex: 1;
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  overflow-x: auto;
+  overflow-y: auto;
   width: 100%;
 
   ::-webkit-scrollbar {
@@ -24,11 +23,14 @@ export const Container = styled.div`
   }
 
   @media (max-width: ${device.mobile}) {
-    box-shadow: none;
     width: 100%;
   }
   @media (min-width: ${device.laptop}) {
     margin-top: 50px;
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    overflow-y: hidden;
+    height: 100%;
   }
 `;
 
@@ -41,12 +43,13 @@ export const MainWrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 30px;
-  @media (max-width: ${device.mobile}) {
+
+  @media (max-width: ${device.planshet}) {
     box-shadow: none;
     width: 100%;
-    height: 100%;
-    margin-bottom: 0;
+    height: calc(100% - 120px);
+    flex-grow: 1;
+    display: flex;
   }
 `;
 
@@ -56,7 +59,7 @@ export const Header = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  @media (max-width: ${device.mobile}) {
+  @media (max-width: ${device.planshet}) {
     display: none;
   }
 `;
@@ -77,6 +80,9 @@ export const Title = styled.div`
     font-size: 20px;
     margin-bottom: 15px;
   }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    padding-top: 40px;
+  }
 `;
 
 export const Version = styled.div`
@@ -87,6 +93,9 @@ export const Version = styled.div`
   text-align: right;
   width: 100%;
   margin: 15px 25px 15px 0;
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    display: none;
+  }
 `;
 
 export const WrapGrid = styled.div`
@@ -96,10 +105,16 @@ export const WrapGrid = styled.div`
 
 export const Content = styled.div`
   width: 100%;
-  padding: 0 50px;
+  padding: 0 50px 20px;
   flex: 1;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
   @media (max-width: ${device.mobile}) {
     padding: 0 15px;
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    padding: 0 115px 30px;
   }
   @media (min-width: ${device.laptop}) {
     padding: 0 50px;
@@ -110,9 +125,13 @@ export const Form = styled.form`
   width: 100%;
   display: flex;
   flex-direction: column;
+
   justify-content: space-between;
   @media (max-width: ${device.mobile}) {
     height: 100%;
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    flex-grow: 1;
   }
 `;
 
@@ -161,4 +180,22 @@ export const CountryWrap = styled.div`
       font-size: 15px;
     }
   }
+`;
+
+export const WrapImg = styled.div`
+  @media (max-width: ${device.mobile}) {
+    width: 35px;
+    height: 20px;
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    width: 55px;
+    height: 30px;
+  }
+  @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
+    width: 65px;
+    height: 35px;
+  }
+  width: 70px;
+  height: 40px;
+  margin-right: 20px;
 `;

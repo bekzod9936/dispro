@@ -11,7 +11,7 @@ interface ServicesPageProps {
 const ServicesPage: React.FC<ServicesPageProps> = () => {
     const routes = getRoutes()
     return (
-        <div>
+        <div style={{ height: '100%' }}>
             <Switch>
                 <Suspense fallback={<Spinner />}>
                     {

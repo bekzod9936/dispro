@@ -86,8 +86,8 @@ const RepairNews = () => {
 
   const selectedNews = useAppSelector((state) => state.news.selectedNews);
   const newsById = selectedNews?.fullData;
-  const [filter, setFilter] = React.useState<any>({});
-  const [validation, setValidation] = React.useState<any>(false);
+
+  
   const { branches } = useStaff();
 
   const [optionalFields, setOptionalFields] = React.useState<IOptionFields>({
@@ -166,20 +166,22 @@ const RepairNews = () => {
       }).length == 1
     );
   });
+  function getValidDate(obj: any) {
+    return "" + obj.year + "-" + obj.month.number + "-" + obj.day
+  }
 
   const submitNews = (data: any) => {
     let newsBody = {
       title: data.name,
-      startLifeTime:
-        width > 1000 ? data.startDate : filter?.regDate?.regDateFrom,
-      endLifeTime: width > 1000 ? data.endDate : filter?.regDate?.regDateTo,
+      startLifeTime:getValidDate(data.startDate) ,
+      endLifeTime: getValidDate(data.endDate),
       description: data.description,
       ageFrom: parseInt(data.ageLimit),
       ageTo: 100,
       ageUnlimited: false,
       couponIds: [],
       image: image,
-      genderType: data.gender?.id,
+      genderType: data?.gender?.id===0 ||data?.gender?.id===1 ||data?.gender?.id===2 ? data?.gender?.id: newsById?.data?.genderType,
       pushUp: optionalFields.push,
       settings: {
         weekDays:
@@ -199,20 +201,20 @@ const RepairNews = () => {
       pushUpTitle: data.descriptionPush,
     };
 
-    if (width > 1000) {
+   
       mutate(newsBody);
       setTimeout(() => history.push("/news/active"), 1000);
-    }
-    if (width <= 1000) {
-      if (
-        validation &&
-        filter?.regDate?.regDateFrom &&
-        filter?.regDate?.regDateTo
-      ) {
-        mutate(newsBody);
-        setTimeout(() => history.push("/news/active"), 1000);
-      }
-    }
+    
+    // if (width <= 1000) {
+    //   if (
+    //     validation &&
+    //     filter?.regDate?.regDateFrom &&
+    //     filter?.regDate?.regDateTo
+    //   ) {
+    //     mutate(newsBody);
+    //     setTimeout(() => history.push("/news/active"), 1000);
+    //   }
+    // }
   };
 
   const genderType = [
@@ -443,63 +445,44 @@ const RepairNews = () => {
                   </div>
                 </WrapInputs>
               ) : (
-                <WrapInputsMobile>
-                  <Label>{t("chose_date")}</Label>
-                  <div>
-                    <CustomDatePicker
-                      margin="0 15px 0 0"
-                      isStyledDate
-                      text={t("from")}
-                      error={
-                        validation && !filter?.regDate?.regDateFrom
-                          ? true
-                          : false
-                      }
-                      minDate={todayDate}
-                      maxDate={filter?.regDate?.regDateTo}
-                      onChange={(e) => {
-                        let date =
-                          "" + e.year + "-" + e.month.number + "-" + e.day;
-                        setFilter((prev: any) => ({
-                          ...prev,
-                          regDate: {
-                            ...prev["regDate"],
-                            regDateFrom: date,
-                          },
-                        }));
-                      }}
-                      value={filter?.regDate?.regDateFrom}
-                    />
-
-                    <CustomDatePicker
-                      isStyledDate
-                      error={
-                        validation && !filter?.regDate?.regDateTo ? true : false
-                      }
-                      text={t("to")}
-                      minDate={filter?.regDate?.regDateFrom}
-                      onChange={(e) => {
-                        let date =
-                          "" + e.year + "-" + e.month.number + "-" + e.day;
-                        setFilter((prev: any) => ({
-                          ...prev,
-                          regDate: {
-                            ...prev["regDate"],
-                            regDateTo: date,
-                          },
-                        }));
-                      }}
-                      value={filter?.regDate?.regDateTo}
-                    />
-                  </div>
-                  {validation &&
-                    !filter?.regDate?.regDateTo &&
-                    !filter?.regDate?.regDateFrom && (
-                      <Message>
-                        {t("periodNews")}
-                      </Message>
-                    )}
-                </WrapInputsMobile>
+                <WrapInputs>
+                <div className="startAndEndDate">
+        <Controller
+          name="startDate"
+          rules={{
+            required: true,
+          }}
+          control={control}
+          render={({ field }) => (
+            <CustomDatePicker
+              text={t("from")}
+              margin={width > 430 ? "0 10px 0 0" : "0 12px 0 0"}
+              error={errors.startDate}
+              minDate={new Date()}
+              onChange={field.onChange}
+              value={field.value} 
+              />
+          )}
+        />
+            
+        <Controller
+          rules={{
+            required: true,
+          }}
+          control={control}
+          name="endDate"
+          render={({ field }) => (
+            <CustomDatePicker
+              text={t("to")}
+              error={errors.endDate}
+              minDate={watch("startDate")}
+              onChange={field.onChange}
+              value={field.value} />
+          )}
+        />
+  </div>
+ 
+      </WrapInputs>
               )}
               <br />
               <WrapSelect>
@@ -535,6 +518,7 @@ const RepairNews = () => {
                   <InputFormat
                     field={field}
                     type="tel"
+                    onlyNumber={true}
                     defaultValue={newsById?.data?.ageFrom}
                     max="100"
                     message={parseInt(watch("ageLimit"))}
@@ -708,7 +692,7 @@ const RepairNews = () => {
               {t("Отмена")}
             </Button>
             <Button
-             onClick={() => setValidation(true)}
+        
               type="submit"
               margin={{ laptop: "0 25px" }}
               endIcon={<RepairNewsIcon />}
@@ -759,7 +743,7 @@ const RepairNews = () => {
               </Button>
             </div>
             <Button
-              onClick={() => setValidation(true)}
+     
               type="submit"
               endIcon={<SaveIconMobile />}
               buttonStyle={{

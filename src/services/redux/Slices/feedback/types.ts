@@ -91,13 +91,23 @@ export interface IUsersProps {
   info?: IMessage;
 }
 
+interface IStores {
+  address: string;
+  id: number;
+  name: string;
+}
+
+export interface IFiter {
+  cashiers?: ICashiers[];
+  stores?: IStores[];
+}
 export interface IFeedBack {
   messages?: IMessage[];
-  cashiers?: ICashiers[];
   clients?: IratingAndReviews[];
   ratings?: IRatings[];
   histories?: IHistory[];
   supporthistories?: IHistory[];
+  filter?: IFiter;
   totalHistory?: ITHistorySupport;
   totalSupportHistory?: ITHistorySupport;
   totalCount?: number;

@@ -5,7 +5,7 @@ import { RProps, Props } from './types';
 export const Container = styled.div`
   label.MuiFormControlLabel-root {
     margin: ${({ marginlabel }: Props) =>
-      marginlabel ? `${marginlabel}!important` : null};
+      marginlabel ? `${marginlabel} !important` : null};
   }
   span.MuiRadio-colorSecondary.Mui-checked {
     color: #3492ff !important ;
@@ -22,8 +22,15 @@ export const Container = styled.div`
     font-weight: 500 !important ;
     font-size: 16px;
     color: #223367 !important ;
-    text-transform: capitalize;
+    text-transform: ${({textTransform}: Props) => !textTransform ? 'capitalize' : 'initial'};
   }
+
+  label.MuiFormControlLabel-root {
+    &:not(:last-child) {
+      margin-right: ${({formControlMarginRight}: Props) => formControlMarginRight + ' !important' || '16px'}
+    }
+  }
+
   .MuiFormControl-root {
     display: flex !important ;
     flex-direction: ${({ flexDirection = 'row' }: RProps) =>

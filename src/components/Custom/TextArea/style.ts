@@ -13,7 +13,7 @@ export interface ITextAreaProps {
   margin?: string;
   padding?: string;
   maxWidth?: string;
-  
+
   height?: string;
   minHeight?: string;
   maxHeight?: string;
@@ -47,7 +47,7 @@ export const Label = styled.label`
   margin: ${({ margin }: ILabelProps) => margin || '0 0 7px 0'};
   padding: ${({ padding }: ILabelProps) => padding || '0px'};
   text-align: ${({ textAlign }: ILabelProps) => textAlign || 'start'};
-  @media (max-width: ${device.mobile}) {
+  @media (max-width: ${device.planshet}) {
     font-size: 14px;
     margin-bottom: 5px;
   }
@@ -74,7 +74,6 @@ export const MTextArea = styled.textarea`
   outline: ${({ outline }: ITextAreaProps) => outline || 'none'};
   @media (max-width: ${device.mobile}) {
     font-size: 14px;
-
   }
   &::-webkit-resizer {
     background-image: url(${Textt});
@@ -92,7 +91,7 @@ export const MTextArea = styled.textarea`
 
 export const Wrapper = styled.div`
   display: flex;
-  
+
   flex-direction: column;
   position: relative;
   margin: ${({ margin }: IContainerProps) => margin || '25px 0'};

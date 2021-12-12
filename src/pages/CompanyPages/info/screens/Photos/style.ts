@@ -31,7 +31,7 @@ export const Container = styled.div`
       border-radius: 14px 0px 0px 14px;
     }
   }
-  @media (max-width: ${device.mobile}) {
+  @media (max-width: ${device.planshet}) {
     flex-direction: column;
     flex: unset;
     flex-grow: 1;
@@ -86,17 +86,28 @@ export const LabelNoPhoto = styled.label`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 15px;
+  padding: 0 15px;
   user-select: none;
   cursor: pointer;
+  height: 50px;
   & > svg {
     margin-left: 10px;
     width: 22px;
     height: 22px;
   }
+
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    height: 45px;
+    font-size: 17px;
+    & > svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
   @media (max-width: ${device.mobile}) {
     font-size: 14px;
-    padding: 10px 15px;
+    padding: 0 15px;
+    height: 40px;
     & > svg {
       width: 17px;
       height: 17px;
@@ -234,7 +245,7 @@ export const DownSide = styled.div`
   flex-shrink: 1;
   padding: 0 15px !important;
   overflow: hidden !important;
-  @media (max-width: ${device.mobile}) {
+  @media (max-width: ${device.planshet}) {
     & > div {
       display: flex;
       width: 100%;

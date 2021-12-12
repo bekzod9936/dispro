@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ManagerDiv, Text, Break, Wrap } from './style';
+import { ManagerDiv, Text, Break } from './style';
 import { ReactComponent as EmptyManager } from 'assets/icons/manager_empty.svg';
 import { ReactComponent as AddManager } from 'assets/icons/add_manager.svg';
 import ManagerTable from '../../components/ManagerTable';
@@ -48,16 +48,14 @@ const ManagerScreen = () => {
 					<Spinner />
 				</SpinnerDiv>
 			) : managers?.length > 0 ? (
-				<Wrap>
-					<ManagerTable
-						managers={managers.map((manager: any) => {
-							return {
-								...manager,
-								firstName: manager?.firstName + ' ' + manager?.lastName,
-							};
-						})}
-					/>
-				</Wrap>
+				<ManagerTable
+					managers={managers.map((manager: any) => {
+						return {
+							...manager,
+							firstName: manager?.firstName + ' ' + manager?.lastName,
+						};
+					})}
+				/>
 			) : (
 				<EmptyContainer>
 					<EmptyLeft>

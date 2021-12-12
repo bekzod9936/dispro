@@ -85,7 +85,7 @@ export const Content = styled.div`
 export const Preview = styled.div`
     position: relative;
     z-index: 12;
-    height: 45%;
+    height: 375px;
     overflow: hidden;
     /* @media (max-height: 900px) {
         display: none;
