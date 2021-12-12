@@ -8,6 +8,8 @@ export interface LabelProps {
 }
 
 export  interface Props {
+  formControlMarginRight?: string,
+  textTransform?: boolean,
   title?: string;
   list?: { value?: string | number; label?: string | number | any | HTMLElement }[];
   onChange?: (e: any) => void;

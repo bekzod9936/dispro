@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-import { ReactComponent as SearchSvg } from 'assets/icons/searchblue.svg';
 
 export const Wrapper = styled.div`
     padding: 30px 0 0 35px;
@@ -17,9 +16,3 @@ export const Container = styled.div`
 `
 
 
-//icons
-
-
-export const SearchIcon = styled(SearchSvg)`
-    margin-left: 34px;
-`
