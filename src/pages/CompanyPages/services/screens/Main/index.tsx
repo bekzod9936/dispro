@@ -26,19 +26,17 @@ const Main: React.FC<MainProps> = () => {
 
     const { t } = useTranslation()
 
-    const handleOpen = () => {
-        setCreateSection(true)
-    }
-
-    const handleClose = () => {
-        setCreateSection(false)
+    const handleToggle = (bool: boolean) => {
+        return () => {
+            setCreateSection(bool)
+        }
     }
 
     return (
         <Wrapper>
             <Header />
             <Flex>
-                <Popover onClick={handleOpen} />
+                <Popover onClick={handleToggle(true)} />
                 <Input
                     margin={{
                         desktop: "0 0 0 24px"
@@ -57,7 +55,7 @@ const Main: React.FC<MainProps> = () => {
             <Container>
                 <EmptyPage />
             </Container>
-            <SectionModal isOpen={createSection} onClose={handleClose} />
+            <SectionModal isOpen={createSection} onClose={handleToggle(false)} />
         </Wrapper>
     )
 }
