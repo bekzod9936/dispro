@@ -173,8 +173,8 @@ const RepairNews = () => {
   const submitNews = (data: any) => {
     let newsBody = {
       title: data.name,
-      startLifeTime:getValidDate(data.startDate) ,
-      endLifeTime: getValidDate(data.endDate),
+      startLifeTime:  width > 1000 ? data.startDate :getValidDate(data.startDate) ,
+      endLifeTime: width > 1000 ? data.endDate: getValidDate(data.endDate),
       description: data.description,
       ageFrom: parseInt(data.ageLimit),
       ageTo: 100,
@@ -233,19 +233,19 @@ const RepairNews = () => {
   const weekDays = newsById?.data?.settings?.weekDays.map((el: any) => {
     return {
       label:
-        el == 0
-          ? "Воскресенье"
-          : el == 1
-          ? "Вторник"
-          : el == 2
-          ? "tuesday"
-          : el == 3
-          ? "Среда"
-          : el == 4
-          ? "Четверг"
-          : el == 5
-          ? "Пятница"
-          : "Суббота",
+      el == 0
+      ? "Воскресенье"
+      : el == 1
+      ? "Понедельник"
+      : el == 2
+      ? "Вторник"
+      : el == 3
+      ? "Среда"
+      : el == 4
+      ? "Четверг"
+      : el == 5
+      ? "Пятница"
+      : "Суббота",
       id:
         el == 0
           ? 0
@@ -510,9 +510,6 @@ const RepairNews = () => {
               <Controller
                 name="ageLimit"
                 control={control}
-                // rules={{
-                //   required: true,
-                // }}
                 defaultValue={newsById?.data?.ageFrom}
                 render={({ field }) => (
                   <InputFormat
@@ -523,7 +520,6 @@ const RepairNews = () => {
                     max="100"
                     message={parseInt(watch("ageLimit"))}
                     error={!!errors.ageLimit}
-                    // message={t("requiredField")}
                     IconStart={<PlusIcon style={{ marginLeft: "20px" }} />}
                     label={t("ageLimit")}
                   />
