@@ -1,4 +1,4 @@
-import { CancelIcon } from 'assets/icons/ClientsPageIcons/ClientIcons';
+import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import {
   DangerIcon,
   DeleteIcon,
@@ -9,15 +9,15 @@ import {
   PublishIcon,
   SaveIcon,
   UploadImage,
-} from 'assets/icons/proposals/ProposalsIcons';
-import Button from 'components/Custom/Button';
-import CustomToggle from 'components/Custom/CustomToggleSwitch';
-import Input from 'components/Custom/Input';
-import MultiSelect from 'components/Custom/MultiSelect';
-import Title from 'components/Custom/Title';
-import React, { useEffect } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { useHistory } from 'react-router-dom';
+} from "assets/icons/proposals/ProposalsIcons";
+import Button from "components/Custom/Button";
+import CustomToggle from "components/Custom/CustomToggleSwitch";
+import Input from "components/Custom/Input";
+import MultiSelect from "components/Custom/MultiSelect";
+import Title from "components/Custom/Title";
+import React, { useEffect } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 import {
   AgeBlock,
   AgeWrapper,
@@ -33,38 +33,34 @@ import {
   UploadButton,
   UpSide,
   Wrapper,
-} from './style';
-import CropCustomModal from 'components/Custom/CropImageModal/index';
-import { useTranslation } from 'react-i18next';
-import { useMutation } from 'react-query';
-import { updateCoupon, postCoupon } from 'services/queries/proposalQuery';
-import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
-import { RootState } from 'services/redux/store';
-import { resetCurrentCoupon } from 'services/redux/Slices/proposals/proposals';
-import { days } from '../Coupons/constants';
-import ImageLazyLoad from 'components/Custom/ImageLazyLoad/ImageLazyLoad';
-import { useUploadImage } from '../Coupons/hooks/useUploadIMage';
-import { PreviewModal } from '../../components/PreviewModal';
-import {
-  Buttons,
-  IconWrapper,
-  LeaveModal,
-  PreviewMessage,
-} from '../Coupons/style';
-import { SetDate } from '../Coupons/components/SetDate';
-import Modal from 'components/Custom/Modal';
-import { useFetchCategories } from './useFetchCategories';
-import { getWeekDays } from '../../utils/getValidDate';
-import InputFormat from 'components/Custom/InputFormat';
-import useWindowWidth from 'services/hooks/useWindowWidth';
-import FullModal from 'components/Custom/FullModal';
-import Spinner from 'components/Helpers/Spinner';
+} from "./style";
+import CropCustomModal from "components/Custom/CropImageModal/index";
+import { useTranslation } from "react-i18next";
+import { useMutation } from "react-query";
+import { updateCoupon, postCoupon } from "services/queries/proposalQuery";
+import { useAppDispatch, useAppSelector } from "services/redux/hooks";
+import { RootState } from "services/redux/store";
+import { resetCurrentCoupon } from "services/redux/Slices/proposals/proposals";
+import { days } from "../Coupons/constants";
+import ImageLazyLoad from "components/Custom/ImageLazyLoad/ImageLazyLoad";
+import { useUploadImage } from "../Coupons/hooks/useUploadIMage";
+import { PreviewModal } from "../../components/PreviewModal";
+import { Buttons, IconWrapper, PreviewMessage } from "../Coupons/style";
+import { SetDate } from "../Coupons/components/SetDate";
+import Modal from "components/Custom/Modal";
+import { useFetchCategories } from "./useFetchCategories";
+import { getWeekDays } from "../../utils/getValidDate";
+import InputFormat from "components/Custom/InputFormat";
+import useWindowWidth from "services/hooks/useWindowWidth";
+import FullModal from "components/Custom/FullModal";
+import Spinner from "components/Helpers/Spinner";
+import { LeaveModal } from "../../components/LeaveModal";
 const UpdateCoupon = () => {
   const { currentCoupon } = useAppSelector(
     (state: RootState) => state.proposals
   );
   const { t } = useTranslation();
-  const [file, setFile] = React.useState<string>('');
+  const [file, setFile] = React.useState<string>("");
   const [isCoupon, setIsCoupon] = React.useState<boolean>(true);
   const [image, setImage] = React.useState<string>(currentCoupon.image);
   const [coupon, setCoupon] = React.useState<any>();
@@ -89,19 +85,19 @@ const UpdateCoupon = () => {
     control,
     setValue,
     clearErrors,
-    setError
+    setError,
   } = useForm({
-    mode: 'onChange',
+    mode: "onChange",
     shouldFocusError: true,
-    reValidateMode: 'onChange',
+    reValidateMode: "onChange",
   });
   const [previewModal, setPreviewModal] = React.useState<boolean>(false);
   const [optionalFields, setOptionalFields] = React.useState({
     age: !currentCoupon.ageUnlimited,
     days: currentCoupon?.settings?.weekDays?.length !== 7,
     time: !(
-      currentCoupon?.settings?.time?.from === '00:00' &&
-      currentCoupon?.settings?.time?.to === '23:59'
+      currentCoupon?.settings?.time?.from === "00:00" &&
+      currentCoupon?.settings?.time?.to === "23:59"
     ),
   });
   const handleBack = () => {
@@ -109,7 +105,7 @@ const UpdateCoupon = () => {
     history.goBack();
   };
   useEffect(() => {
-    if (currentCoupon.title === '') {
+    if (currentCoupon.title === "") {
       handleBack();
     }
   }, []);
@@ -125,7 +121,7 @@ const UpdateCoupon = () => {
   const { mutate } = useMutation(({ id, data }: any) => updateCoupon(id, data));
 
   React.useEffect(() => {
-    const res = history.location.pathname.includes('coupon');
+    const res = history.location.pathname.includes("coupon");
     setIsCoupon(res);
   }, []);
 
@@ -135,7 +131,7 @@ const UpdateCoupon = () => {
       price: data.cost,
       description: data.description,
       count: data.amount,
-      value: data.percent.toString().split(' ').join(''),
+      value: data.percent.toString().split(" ").join(""),
       currencyId: 1,
       ageFrom: optionalFields.age ? data.ageLimit : null,
       ageUnlimited: !!!data.ageLimit || !optionalFields.age,
@@ -150,8 +146,8 @@ const UpdateCoupon = () => {
             ? data.days.map((el: any) => el.id)
             : [0, 1, 2, 3, 4, 5, 6],
         time: {
-          from: optionalFields.time && data?.timeFrom ? data.timeFrom : '00:00',
-          to: optionalFields.time && data?.timeTo ? data.timeTo : '23:59',
+          from: optionalFields.time && data?.timeFrom ? data.timeFrom : "00:00",
+          to: optionalFields.time && data?.timeTo ? data.timeTo : "23:59",
         },
       },
     };
@@ -171,8 +167,8 @@ const UpdateCoupon = () => {
       count: data.amount,
       ageUnlimited: !optionalFields.age || !!!data.ageLimit,
       price: data.cost,
-      value: data.percent.toString().split(' ').join(''),
-      type: isCoupon ? '2' : '1',
+      value: data.percent.toString().split(" ").join(""),
+      type: isCoupon ? "2" : "1",
       currencyId: 1,
       categoryIds: data.categories.map((el: any) => el.id),
       companyId: 18,
@@ -186,30 +182,32 @@ const UpdateCoupon = () => {
             ? data.days.map((el: any) => el.id)
             : [0, 1, 2, 3, 4, 5, 6],
         time: {
-          from: optionalFields.time && data?.timeFrom ? data.timeFrom : '00:00',
-          to: optionalFields.time && data?.timeTo ? data.timeTo : '23:59',
+          from: optionalFields.time && data?.timeFrom ? data.timeFrom : "00:00",
+          to: optionalFields.time && data?.timeTo ? data.timeTo : "23:59",
         },
       },
     });
   };
 
   const handleUploadImg = (data: any) => {
-    if (data.target.files[0].type == 'image/jpeg' || data.target.files[0].type == 'image/png') {
+    if (
+      data.target.files[0].type == "image/jpeg" ||
+      data.target.files[0].type == "image/png"
+    ) {
       setFile(data.target.files[0]);
       setIsCropVisible(true);
-    }
-    else {
+    } else {
       setError("image", {
-        message: "Можно загрузить фотографию в формате JPG или PNG"
-      })
+        message: "Можно загрузить фотографию в формате JPG или PNG",
+      });
     }
-    setValue('image', null)
+    setValue("image", null);
   };
 
   const handleDelete = () => {
     deleteImage(image);
-    setImage('');
-    clearErrors('image')
+    setImage("");
+    clearErrors("image");
   };
   React.useEffect(() => {
     let res = Object.keys(errors)?.length;
@@ -217,25 +215,24 @@ const UpdateCoupon = () => {
   }, [isValid]);
 
   React.useEffect(() => {
-    setValue('categories', categories.defaults);
+    setValue("categories", categories.defaults);
   }, [categories.defaults]);
 
   React.useEffect(() => {
-    setValue('percent', currentCoupon.value?.toString());
+    setValue("percent", currentCoupon.value?.toString());
   }, [currentCoupon.value]);
-
 
   return (
     <Wrapper>
       {width > 1000 && (
         <div
-          style={{ display: 'flex', marginBottom: 30, alignItems: 'center' }}
+          style={{ display: "flex", marginBottom: 30, alignItems: "center" }}
         >
           <GoBackIcon
             onClick={handleBack}
-            style={{ marginRight: '25px', cursor: 'pointer' }}
+            style={{ marginRight: "25px", cursor: "pointer" }}
           />
-          <Title>Редактирование {isCoupon ? 'купона' : 'сертификата'}</Title>
+          <Title>Редактирование {isCoupon ? "купона" : "сертификата"}</Title>
         </div>
       )}
       {width > 600 ? (
@@ -257,37 +254,28 @@ const UpdateCoupon = () => {
           />
         </FullModal>
       )}
-      <Modal open={leave}>
-        <LeaveModal>
-          <p>
-            Вы действительно хотите отменить редактирование спецпредложения?
-          </p>
-          <div className='buttons'>
-            <Button
-              buttonStyle={{ bgcolor: 'white', color: '#223367' }}
-              margin={{ laptop: '0 15px 0 0' }}
-              onClick={() => setLeave(false)}
-            >
-              Нет
-            </Button>
-            <Button onClick={handleBack}>Да</Button>
-          </div>
-        </LeaveModal>
-      </Modal>
+      <LeaveModal
+        open={leave}
+        handleBack={handleBack}
+        setLeave={setLeave}
+        message={`Редактирование ${isCoupon ? "купона" : "сертификата"}`}
+      />
       <PreviewModal
-        price={watch('cost')}
+        price={watch("cost")}
         isCoupon={isCoupon}
-        value={watch('percent')}
+        value={watch("percent")}
         image={image}
         open={previewModal}
         handleClose={() => setPreviewModal(false)}
-        ageFrom={watch('ageLimit')}
+        ageFrom={watch("ageLimit")}
       />
       <Form onSubmit={publish ? handleSubmit(onPublish) : handleSubmit(onSave)}>
         {width <= 1000 && (
-          <MobileHeader>
-            <GoBackIcon onClick={handleBack} style={{ cursor: 'pointer' }} />
-            <Title>Редактирование {isCoupon ? 'купона' : 'сертификата'}</Title>
+          <MobileHeader
+            style={width <= 1000 && width > 600 ? { marginLeft: 20 } : {}}
+          >
+            <GoBackIcon onClick={handleBack} style={{ cursor: "pointer" }} />
+            <Title>Редактирование {isCoupon ? "купона" : "сертификата"}</Title>
           </MobileHeader>
         )}
         <UpSide>
@@ -303,28 +291,30 @@ const UpdateCoupon = () => {
                     </p>
                   </Header>
                   <UploadButton>
-                    <label htmlFor='uploadImg'>Загрузить фото</label>
+                    <label htmlFor="uploadImg">Загрузить фото</label>
                     <input
-                      {...register('image', { required: true })}
+                      {...register("image", { required: true })}
                       onChange={handleUploadImg}
-                      type='file'
-                      id='uploadImg'
+                      type="file"
+                      id="uploadImg"
                     />
                     <UploadImage />
                   </UploadButton>
                   {errors.image && (
-                    <ErrorMessage>{errors.image?.message || t('requiredField')}</ErrorMessage>
+                    <ErrorMessage>
+                      {errors.image?.message || t("requiredField")}
+                    </ErrorMessage>
                   )}
                 </div>
               )}
               {isLoading && (
-                <div style={{ width: '100%', height: 140 }}>
+                <div style={{ width: "100%", height: 140 }}>
                   <Spinner size={30} />
                 </div>
               )}
               {image && (
                 <ImageBlock>
-                  <ImageLazyLoad objectFit='contain' src={image} alt='logo' />
+                  <ImageLazyLoad objectFit="contain" src={image} alt="logo" />
                   <DeleteIcon onClick={handleDelete} />
                 </ImageBlock>
               )}
@@ -341,7 +331,7 @@ const UpdateCoupon = () => {
               )}
 
               <Controller
-                name='name'
+                name="name"
                 control={control}
                 defaultValue={currentCoupon.title}
                 rules={{
@@ -350,16 +340,16 @@ const UpdateCoupon = () => {
                 render={({ field }) => (
                   <Input
                     error={!!errors.name}
-                    message={t('requiredField')}
+                    message={t("requiredField")}
                     field={field}
                     maxLength="100"
                     defaultValue={currentCoupon.title}
-                    label='Название'
+                    label="Название"
                   />
                 )}
               />
               <Controller
-                name='percent'
+                name="percent"
                 control={control}
                 defaultValue={currentCoupon.value}
                 rules={{
@@ -371,17 +361,17 @@ const UpdateCoupon = () => {
                     return (
                       <InputFormat
                         field={field}
-                        type='string'
-                        max='10000000'
+                        type="string"
+                        max="10000000"
                         defaultValue={currentCoupon.value?.toString()}
                         error={!!errors.percent}
                         message={
-                          parseInt(watch('percent')) < 1000
-                            ? 'Минимальная сумма: 1000'
-                            : t('requiredField')
+                          parseInt(watch("percent")) < 1000
+                            ? "Минимальная сумма: 1000"
+                            : t("requiredField")
                         }
-                        label={'Укажите сумму сертификата'}
-                        margin={{ laptop: '35px 0' }}
+                        label={"Укажите сумму сертификата"}
+                        margin={{ laptop: "35px 0" }}
                       />
                     );
                   else
@@ -389,22 +379,22 @@ const UpdateCoupon = () => {
                       <InputFormat
                         field={field}
                         defaultValue={currentCoupon.value?.toString()}
-                        type='string'
-                        label={'Укажите % купона'}
+                        type="string"
+                        label={"Укажите % купона"}
                         error={!!errors.percent}
-                        max='100'
-                        margin={{ laptop: '35px 0' }}
+                        max="100"
+                        margin={{ laptop: "35px 0" }}
                         message={
-                          parseInt(watch('percent')) < 1
-                            ? 'Минимальный процент: 1'
-                            : t('requiredField')
+                          parseInt(watch("percent")) < 1
+                            ? "Минимальный процент: 1"
+                            : t("requiredField")
                         }
                       />
                     );
                 }}
               />
               <Controller
-                name='amount'
+                name="amount"
                 control={control}
                 rules={{
                   required: true,
@@ -413,21 +403,21 @@ const UpdateCoupon = () => {
                 defaultValue={currentCoupon.count}
                 render={({ field }) => (
                   <InputFormat
-                    max='5000'
+                    max="5000"
                     error={!!errors.amount}
                     message={
-                      parseInt(watch('amount')) < 5
-                        ? 'Минимальное количество: 5'
-                        : t('requiredField')
+                      parseInt(watch("amount")) < 5
+                        ? "Минимальное количество: 5"
+                        : t("requiredField")
                     }
                     field={field}
                     defaultValue={currentCoupon.count}
-                    label='Количество'
+                    label="Количество"
                   />
                 )}
               />
               <Controller
-                name='description'
+                name="description"
                 control={control}
                 defaultValue={currentCoupon.description}
                 rules={{
@@ -436,21 +426,22 @@ const UpdateCoupon = () => {
                 render={({ field }) => (
                   <Input
                     field={field}
-                    margin={{ laptop: '35px 0' }}
-                    label='Описание'
-                    type='textarea'
-                    message={t('requiredField')}
+                    margin={{ laptop: "35px 0" }}
+                    label="Описание"
+                    type="textarea"
+                    message={t("requiredField")}
                     error={!!errors.description}
                     multiline={true}
                     defaultValue={currentCoupon.description}
                     inputStyle={{
                       height: { desktop: 120, laptop: 90, mobile: 60 },
+                      inpadding: "10px 15px",
                     }}
                   />
                 )}
               />
               <Controller
-                name='categories'
+                name="categories"
                 control={control}
                 rules={{
                   required: true,
@@ -460,17 +451,17 @@ const UpdateCoupon = () => {
                   <MultiSelect
                     isMulti={true}
                     error={!!errors.categories}
-                    message={t('requiredField')}
+                    message={t("requiredField")}
                     field={field}
                     defaultValue={categories.defaults}
-                    label='Выберите категорию'
+                    label="Выберите категорию"
                     options={categories.categories}
-                    margin={{ laptop: '0 0 35px 0' }}
+                    margin={{ laptop: "0 0 35px 0" }}
                   />
                 )}
               />
               <Controller
-                name='cost'
+                name="cost"
                 control={control}
                 rules={{
                   required: true,
@@ -483,13 +474,13 @@ const UpdateCoupon = () => {
                     error={!!errors.cost}
                     defaultValue={currentCoupon.price}
                     message={
-                      parseInt(watch('cost')) < 1000
-                        ? 'Минимальная цена: 1000'
-                        : t('requiredField')
+                      parseInt(watch("cost")) < 1000
+                        ? "Минимальная цена: 1000"
+                        : t("requiredField")
                     }
-                    label={isCoupon ? 'Цена купона' : 'Цена сертификата'}
-                    max='10000000'
-                    margin={{ laptop: '25px 0 35px 0' }}
+                    label={isCoupon ? "Цена купона" : "Цена сертификата"}
+                    max="10000000"
+                    margin={{ laptop: "25px 0 35px 0" }}
                   />
                 )}
               />
@@ -500,21 +491,21 @@ const UpdateCoupon = () => {
                   <h6>Добавить возрастное ограничение</h6>
                   <CustomToggle
                     checked={optionalFields.age}
-                    onChange={(e: any) => handleOpenBlock(e, 'age')}
+                    onChange={(e: any) => handleOpenBlock(e, "age")}
                   />
                 </AgeBlock>
                 {optionalFields.age && (
                   <Controller
-                    name='ageLimit'
+                    name="ageLimit"
                     control={control}
                     defaultValue={currentCoupon.ageFrom || ""}
                     render={({ field }) => (
                       <InputFormat
                         field={field}
-                        max='100'
+                        max="100"
                         maxLength="2"
-                        IconStart={<PlusIcon style={{ marginLeft: '20px' }} />}
-                        label='Возрастное ограничение'
+                        IconStart={<PlusIcon style={{ marginLeft: "20px" }} />}
+                        label="Возрастное ограничение"
                       />
                     )}
                   />
@@ -522,15 +513,15 @@ const UpdateCoupon = () => {
               </AgeWrapper>
               <AgeWrapper>
                 <AgeBlock>
-                  <h6>Дни действия {isCoupon ? 'купона' : 'сертификата'}</h6>
+                  <h6>Дни действия {isCoupon ? "купона" : "сертификата"}</h6>
                   <CustomToggle
                     checked={optionalFields.days}
-                    onChange={(e: any) => handleOpenBlock(e, 'days')}
+                    onChange={(e: any) => handleOpenBlock(e, "days")}
                   />
                 </AgeBlock>
                 {optionalFields.days && (
                   <Controller
-                    name='days'
+                    name="days"
                     control={control}
                     defaultValue={getWeekDays(
                       currentCoupon?.settings?.weekDays
@@ -543,7 +534,7 @@ const UpdateCoupon = () => {
                         defaultValue={getWeekDays(
                           currentCoupon?.settings?.weekDays
                         )}
-                        label='Укажите дни'
+                        label="Укажите дни"
                       />
                     )}
                   />
@@ -551,40 +542,40 @@ const UpdateCoupon = () => {
               </AgeWrapper>
               <AgeWrapper>
                 <AgeBlock>
-                  <h6>Время действия {isCoupon ? 'купона' : 'сертификата'}</h6>
+                  <h6>Время действия {isCoupon ? "купона" : "сертификата"}</h6>
                   <CustomToggle
                     checked={optionalFields.time}
-                    onChange={(e: any) => handleOpenBlock(e, 'time')}
+                    onChange={(e: any) => handleOpenBlock(e, "time")}
                   />
                 </AgeBlock>
                 {optionalFields.time && (
-                  <div style={{ display: 'flex' }}>
+                  <div style={{ display: "flex" }}>
                     <Controller
                       control={control}
-                      name='timeFrom'
+                      name="timeFrom"
                       defaultValue={currentCoupon?.settings?.time?.from}
                       render={({ field }) => (
                         <Input
                           defaultValue={currentCoupon?.settings?.time?.from}
                           margin={{
-                            laptop: '0 25px 0 0',
-                            mobile: '0 12px 0 0',
+                            laptop: "0 25px 0 0",
+                            mobile: "0 12px 0 0",
                           }}
                           max={watch("timeTo")}
-                          type='time'
+                          type="time"
                           field={field}
                         />
                       )}
                     />
                     <Controller
                       control={control}
-                      name='timeTo'
+                      name="timeTo"
                       defaultValue={currentCoupon?.settings?.time?.to}
                       render={({ field }) => (
                         <Input
                           min={watch("timeFrom")}
                           defaultValue={currentCoupon?.settings?.time?.to}
-                          type='time'
+                          type="time"
                           field={field}
                         />
                       )}
@@ -597,7 +588,7 @@ const UpdateCoupon = () => {
                   {valid ? (
                     <Button
                       onClick={() => setPreviewModal(true)}
-                      buttonStyle={{ bgcolor: '#ffffff', color: '#606EEA' }}
+                      buttonStyle={{ bgcolor: "#ffffff", color: "#606EEA" }}
                       endIcon={<PhoneIcon />}
                     >
                       Показать превью
@@ -615,41 +606,41 @@ const UpdateCoupon = () => {
               )}
               {width <= 600 && (
                 <Buttons>
-                  <div className='upside'>
+                  <div className="upside">
                     <Button
                       onClick={() => setLeave(true)}
                       endIcon={<MobileCancelIcon />}
                       buttonStyle={{
-                        bgcolor: 'rgba(96, 110, 234, 0.1)',
-                        color: '#606EEA',
+                        bgcolor: "rgba(96, 110, 234, 0.1)",
+                        color: "#606EEA",
                       }}
-                      margin={{ mobile: '0 8px 8px 0' }}
+                      margin={{ mobile: "0 8px 8px 0" }}
                     >
-                      {t('cancel')}
+                      {t("cancel")}
                     </Button>
                     <Button
                       onClick={() => setPublish(true)}
-                      type='submit'
+                      type="submit"
                       endIcon={
                         <IconWrapper>
                           <PublishIcon />
                         </IconWrapper>
                       }
                     >
-                      {t('publish')}
+                      {t("publish")}
                     </Button>
                   </div>
                   <Button
                     onClick={() => setPublish(false)}
-                    type='submit'
+                    type="submit"
                     endIcon={<SaveIcon />}
                     buttonStyle={{
-                      bgcolor: 'rgba(96, 110, 234, 0.1)',
-                      color: '#606EEA',
+                      bgcolor: "rgba(96, 110, 234, 0.1)",
+                      color: "#606EEA",
                     }}
-                    margin={{ mobile: '8px 0 0 0' }}
+                    margin={{ mobile: "8px 0 0 0" }}
                   >
-                    {t('saveToDrafts')}
+                    {t("saveToDrafts")}
                   </Button>
                 </Buttons>
               )}
@@ -658,26 +649,31 @@ const UpdateCoupon = () => {
         </UpSide>
         <DownSide>
           <Button
+            margin={{ planshet: "0 0 0 20px" }}
             onClick={() => setLeave(true)}
-            startIcon={<CancelIcon />}
-            buttonStyle={{ color: '#223367', bgcolor: '#ffffff' }}
+            startIcon={width > 1000 ? <CancelIcon /> : <MobileCancelIcon />}
+            buttonStyle={
+              width > 1000
+                ? { color: "#223367", bgcolor: "#ffffff" }
+                : { color: "#606EEA", bgcolor: "rgba(96, 110, 234, 0.1)" }
+            }
           >
             Отменить
           </Button>
           <Button
             onClick={() => setPublish(true)}
-            type='submit'
-            margin={{ laptop: '0 25px' }}
+            type="submit"
+            margin={{ laptop: "0 25px" }}
             startIcon={<PublishIcon />}
           >
             Опубликовать
           </Button>
           <Button
             onClick={() => setPublish(false)}
-            type='submit'
+            type="submit"
             buttonStyle={{
-              color: '#606EEA',
-              bgcolor: 'rgba(96, 110, 234, 0.1)',
+              color: "#606EEA",
+              bgcolor: "rgba(96, 110, 234, 0.1)",
             }}
             startIcon={<SaveIcon />}
           >

@@ -100,8 +100,16 @@ export const MobileHeader = styled.div`
   justify-content: flex-start;
   width: 100%;
   padding: 0;
+  @media (max-width: ${device.planshet}) {
+    margin-left: 20px;
+  }
+  
   @media (max-width: ${device.mobile}) {
     padding: 15px 0 0 15px;
+    margin-left: 0;
+    svg {
+      margin-right: 15px;
+    }
 
   }
 `
@@ -124,6 +132,7 @@ export const UpSide = styled.div`
     }
     @media (max-width: ${device.planshet}) {
       height: 100%;
+      padding-left: 20px;
       ::-webkit-scrollbar {
     width: 5px;
     }
@@ -131,6 +140,7 @@ export const UpSide = styled.div`
     @media (max-width: ${device.mobile}) {
       height: 100%;
       width: 100%;
+      padding-left: 0;
     }
 `
 
@@ -215,6 +225,7 @@ export const Form = styled.form`
     @media (max-width: ${device.planshet}) {
       width: 100%;
       padding-bottom: 0;
+      padding-left: 0;
     }
     @media (max-width: ${device.mobile}) {
       width: 100%;

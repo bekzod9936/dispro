@@ -122,13 +122,16 @@ export const UpSide = styled.div`
     }
     @media (max-width: ${device.planshet}) {
       height: 100%;
+      padding-left: 20px;
       ::-webkit-scrollbar {
-    width: 5px;
+      width: 5px;
     }
     }
     @media (max-width: ${device.mobile}) {
       height: 100%;
       width: 100%;
+      padding-left: 0;
+
     }
 `
 
@@ -208,6 +211,7 @@ export const Form = styled.form`
     @media (max-width: ${device.planshet}) {
       width: 100%;
       padding-bottom: 0;
+      padding-left: 0;
     }
     @media (max-width: ${device.mobile}) {
       width: 100%;
@@ -383,18 +387,24 @@ export const PreviewMessage = styled.div`
 
 export const LeaveModal = styled.div`
   padding: 20px;
-  max-width: 450px;
-  width: 100%;
+  width: 400px;
+
   p {
     font-size: 18px;
     font-weight: 500;
     margin-bottom: 20px;
   }
+
   div.buttons {
     display: flex;
     width: 100%;
     justify-content: flex-end;
     align-items: center;
+
+    @media (max-width: ${device.planshet}) {
+    justify-content: center;
+
+    }
   }
 `
 

@@ -1,0 +1,37 @@
+import styled from "styled-components";
+import { ReactComponent as ExitSvg } from "assets/icons/exit.svg"
+import { ReactComponent as LanguageSvg } from "assets/icons/language.svg";
+export const Wrapper = styled.div`
+    padding: 30px 40px;
+    width: 100%;
+
+    .header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        margin-bottom: 25px;
+        width: 100%;
+
+        h3 {
+            font-size: 22px;
+            font-weight: 25.78px;
+            color: #223367;
+            width: 265px;
+        }
+    }
+
+    .main {
+        margin-bottom: 35px;
+    }
+
+    .footer {
+        display: flex;
+        width: 100%;
+        justify-content: flex-end;
+        align-items: center;
+    }
+`
+
+//icons 
+export const CloseIcon = styled(ExitSvg)``
+export const LanguageIcon = styled(LanguageSvg)``
