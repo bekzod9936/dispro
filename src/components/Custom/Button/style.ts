@@ -32,6 +32,9 @@ export const Container = styled.div`
     opacity: ${({ disabled }) => disabled && '1'}!important;
   }
   cursor: ${({ disabled }: Props) => disabled && 'not-allowed !important'};
+  .MuiButton-label {
+    white-space: nowrap !important;
+  }
   @media (max-width: ${device.mobile}) {
     height: ${({ buttonStyle }: Props) =>
       buttonStyle?.height?.mobile
