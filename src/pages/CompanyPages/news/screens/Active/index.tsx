@@ -49,7 +49,7 @@ const Active = () => {
 
   const totalCount = useAppSelector((state) => state.news.NewsInfo.totalCount);
   const between = useAppSelector((state) => state.news.NewsInfo.between);
-
+  console.log('totalCount',totalCount)
   const errormessage = useAppSelector((state) => state.news.errorMessage);
 
   const totalNewsCount = useAppSelector(
@@ -73,7 +73,7 @@ const Active = () => {
     fromDate: "",
     toDate: "",
   };
-
+  const query = useAppSelector((state) => state.news.query);
   const { width } = useWindowWidth();
   const [filterValues, setFilterValues] =
     useState<intialFilterProps>(intialFilter);
@@ -169,10 +169,10 @@ const Active = () => {
               </SideBar>
               {list.length > 0 ? (
                 <WrapPag>
-                  <Info>
+                   <Info>
                     {t("shown")}
-                    <span>{between}</span>
-                    {t("from1")} <span>{totalNewsCount}</span>
+                    {query ? null:<span>{ between}</span>}
+                    { query ? null:t("from1")} <span>{totalNewsCount}</span>
                     {countPagination({
                       count: Number(totalNewsCount),
                       firstWord: t("newspaginationtitle"),
@@ -222,16 +222,16 @@ const Active = () => {
                 </SideBar>
                 {list.length > 0 ? (
                   <WrapPag>
-                       <Info>
-                      {t("shown")}
-                      <span>{between}</span>
-                      {t("from1")} <span>{totalNewsCount}</span>
-                      {countPagination({
-                        count: Number(totalNewsCount),
-                        firstWord: t("newspaginationtitle "),
-                        secondWord: t("newspaginationtitles"),
-                      })}
-                    </Info>
+                        <Info>
+                    {t("shown")}
+                    {query ? null:<span>{ between}</span>}
+                    { query ? null:t("from1")} <span>{totalNewsCount}</span>
+                    {countPagination({
+                      count: Number(totalNewsCount),
+                      firstWord: t("newspaginationtitle"),
+                      secondWord: t("newspaginationtitles"),
+                    })}
+                  </Info>
 
                <NewPagination
               onChange={handlechangePage}

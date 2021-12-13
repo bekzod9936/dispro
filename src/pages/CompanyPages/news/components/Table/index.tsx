@@ -159,7 +159,7 @@ const Table = ({ data, header2 }: Props) => {
                         <GenderStyle>{t("Для мужчин")}</GenderStyle>
                       ) : cell?.row?.original?.fullData?.data?.genderType ===
                         2 ? (
-                        <GenderStyle>{t("Для женщины")}</GenderStyle>
+                        <GenderStyle>{t("Для женщин")}</GenderStyle>
                       ) : (
                         <GenderStyle>{t("Для всех")}</GenderStyle>
                       );
