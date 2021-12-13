@@ -3,7 +3,6 @@ import { device } from 'styles/device';
 import { ReactComponent as OneCheck } from 'assets/icons/FeedBack/onecheck.svg';
 import { ReactComponent as DoubleCheck } from 'assets/icons/FeedBack/doublecheck.svg';
 import { ReactComponent as Unread } from 'assets/icons/FeedBack/unread.svg';
-import { ReactComponent as Script } from 'assets/icons/FeedBack/script.svg';
 import { ReactComponent as Smile } from 'assets/icons/FeedBack/smile.svg';
 import { ReactComponent as Send } from 'assets/icons/FeedBack/send.svg';
 interface Props {
@@ -180,17 +179,6 @@ export const InputDown = styled.div`
   @media (min-width: ${device.laptop}) {
     padding: 15px;
   }
-`;
-
-export const ScriptIcon = styled(Script)`
-  @media (max-width: ${device.mobile}) {
-    width: 20px;
-    height: 20px;
-  }
-`;
-
-export const WrapScript = styled.div`
-  margin: 0 30px;
 `;
 
 export const SmileIcon = styled(Smile)``;

@@ -1,5 +1,6 @@
-import styled from "styled-components";
-import { device } from "styles/device";
+import styled from 'styled-components';
+import { device } from 'styles/device';
+import { ReactComponent as Down } from 'assets/icons/down.svg';
 
 export const QRPageWrapper = styled.div`
   display: flex;
@@ -8,16 +9,8 @@ export const QRPageWrapper = styled.div`
   flex: 1;
   width: 100%;
   position: relative;
-  padding-left: 15px;
+
   overflow-x: hidden;
-
-  @media (max-width: ${device.mobile}) {
-    padding-left: 0;
-  }
-
-  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
-    padding-left: 0;
-  }
 `;
 
 export const Wrapper = styled.div`
@@ -93,7 +86,7 @@ export const MyHeadAction = styled.div`
   width: 70%;
   align-items: flex-start;
   height: 15%;
-
+  grid-gap: 20px;
   @media (max-width: ${device.mobile}) {
     flex-direction: row-reverse;
     width: 100%;
@@ -108,9 +101,9 @@ export const MyHeadAction = styled.div`
 export const CardContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 30px;
   flex-wrap: wrap;
-
+  padding-bottom: 15px;
   @media (max-width: ${device.planshet}) {
     grid-template-columns: 1fr;
     padding: 0 15px;
@@ -119,4 +112,13 @@ export const CardContainer = styled.div`
 
 export const CardItem = styled.div`
   flex: 1;
+`;
+
+export const DownIcon = styled(Down)`
+  transform: rotate(180deg);
+  width: 12px !important;
+  height: 6px !important;
+  & > path {
+    fill: #c4c4c4;
+  }
 `;

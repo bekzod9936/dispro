@@ -1,13 +1,12 @@
-import { useTranslation } from "react-i18next";
-import { useForm, Controller } from "react-hook-form";
+import { useTranslation } from 'react-i18next';
+import { useForm, Controller } from 'react-hook-form';
 //components
-import Button from "components/Custom/Button";
-import CancelButton from "../../../components/CancelButton";
-import SaveButton from "../../../components/SaveButton";
-import Modal from "components/Custom/Modal";
-import MultiSelect from "components/Custom/MultiSelect";
-import IconButton from "@material-ui/core/IconButton";
-import { ReactComponent as Market } from "assets/icons/SideBar/ilmarket.svg";
+import CancelButton from '../../../components/CancelButton';
+import SaveButton from '../../../components/SaveButton';
+import Modal from 'components/Custom/Modal';
+import MultiSelect from 'components/Custom/MultiSelect';
+import IconButton from '@material-ui/core/IconButton';
+import { ReactComponent as Market } from 'assets/icons/SideBar/ilmarket.svg';
 
 //style
 import {
@@ -17,13 +16,13 @@ import {
   ModalRow,
   Break,
   ModalText,
-} from "./style";
-import { BtnAction } from "../styles/index";
-import { ReactComponent as Close } from "assets/icons/exit.svg";
-import { useAppSelector } from "services/redux/hooks";
+} from './style';
+import { BtnAction } from '../styles/index';
+import { ReactComponent as Close } from 'assets/icons/exit.svg';
+import { useAppSelector } from 'services/redux/hooks';
 //types
-import { FormProps } from "../types";
-import useWindowWidth from "services/hooks/useWindowWidth";
+import { FormProps } from '../types';
+import useWindowWidth from 'services/hooks/useWindowWidth';
 
 const QrForBranch = ({ qrVisible, onSave, closeQr }: IProps) => {
   const { t } = useTranslation();
@@ -35,21 +34,21 @@ const QrForBranch = ({ qrVisible, onSave, closeQr }: IProps) => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormProps>({
-    mode: "onChange",
+    mode: 'onChange',
     shouldFocusError: true,
-    reValidateMode: "onChange",
+    reValidateMode: 'onChange',
   });
 
   return (
     <Modal open={qrVisible}>
       <Form onSubmit={handleSubmit(onSave)}>
         <ModalContent>
-          <ModalRow jContent="space-between">
+          <ModalRow jContent='space-between'>
             <ModalTitle>QR для оплаты на местах</ModalTitle>
             {width <= 1000 ? null : (
               <IconButton
                 style={{
-                  padding: "5px",
+                  padding: '5px',
                 }}
                 onClick={closeQr}
               >
@@ -58,41 +57,38 @@ const QrForBranch = ({ qrVisible, onSave, closeQr }: IProps) => {
             )}
           </ModalRow>
           <Break mHeight={10} />
-          <ModalRow jContent="space-between">
-            <ModalText>
-              Выберите филиал, в котором будет производиться оплата на местах
-              через QR-код
-            </ModalText>
+          <ModalRow jContent='space-between'>
+            <ModalText>{t('choosefilialqrcodesetting')}</ModalText>
           </ModalRow>
           <Break mHeight={20} />
 
-          <ModalRow jContent="center">
+          <ModalRow jContent='center'>
             <Controller
               control={control}
               rules={{
                 required: true,
               }}
-              name="branch"
+              name='branch'
               render={({ field }) => {
                 return (
                   <MultiSelect
                     isMulti={false}
                     error={!!errors.branch}
-                    message={t("requiredField")}
+                    message={t('requiredField')}
                     field={field}
                     options={stores}
-                    margin={{ laptop: "0 0 35px 0" }}
+                    margin={{ laptop: '0 0 35px 0' }}
                     icon={<Market />}
                     selectStyle={{
-                      bgcolor: "#eff0fd",
-                      border: "none",
-                      placeholdercolor: "#223367",
-                      inpadding: "2px 10px 2px 60px",
-                      placewieght: "500",
+                      bgcolor: '#eff0fd',
+                      border: 'none',
+                      placeholdercolor: '#223367',
+                      inpadding: '2px 10px 2px 60px',
+                      placewieght: '500',
                     }}
-                    iconleft={"20px"}
-                    icondowncolor="#C4C4C4"
-                    placeholder={t("choose_branch")}
+                    iconleft={'20px'}
+                    icondowncolor='#C4C4C4'
+                    placeholder={t('choose_branch')}
                     isClearable={false}
                   />
                 );
@@ -102,8 +98,8 @@ const QrForBranch = ({ qrVisible, onSave, closeQr }: IProps) => {
         </ModalContent>
 
         <BtnAction>
-          <CancelButton onClick={closeQr} text={t("cancel")} />
-          <SaveButton text={t("save")} />
+          <CancelButton onClick={closeQr} text={t('cancel')} />
+          <SaveButton text={t('save')} />
         </BtnAction>
       </Form>
     </Modal>

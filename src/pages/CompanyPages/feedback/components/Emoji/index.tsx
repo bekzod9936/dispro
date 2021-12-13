@@ -25,7 +25,7 @@ const Emoji = ({ value, onBlur = () => {}, onSelect = () => {} }: Props) => {
   });
 
   return (
-    <EPicker ref={ref} onBlur={onBlur}>
+    <EPicker ref={ref}>
       <Picker
         set='google'
         onSelect={(e: any) => {

@@ -1,10 +1,10 @@
-import { Controller, useFieldArray, useWatch } from "react-hook-form";
-import { useTranslation } from "react-i18next";
-import { useRecoilValue } from "recoil";
+import { Controller, useFieldArray, useWatch } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import { useRecoilValue } from 'recoil';
 //actions
-import { addModal, handleClick } from "services/redux/Slices/settingsSlice";
+import { addModal, handleClick } from 'services/redux/Slices/settingsSlice';
 //assets and style
-import { ReactComponent as ArrowBack } from "assets/icons/arrow_left.svg";
+import { ReactComponent as ArrowBack } from 'assets/icons/arrow_left.svg';
 import {
   Container,
   Header,
@@ -16,27 +16,27 @@ import {
   Footer,
   SubText,
   EText,
-} from "./style";
-import { FormProps } from "../../hooks/types";
-import { Break, SpinnerDiv } from "pages/CompanyPages/settings/styles";
+} from './style';
+import { FormProps } from '../../hooks/types';
+import { Break, SpinnerDiv } from 'pages/CompanyPages/settings/styles';
 //hooks
-import { useAppSelector, useAppDispatch } from "services/redux/hooks";
+import { useAppSelector, useAppDispatch } from 'services/redux/hooks';
 // import useMobileContent from "./useMobileContent";
 //components
-import Checkbox from "components/Custom/CheckBox";
-import InputFormat from "components/Custom/InputFormat";
-import Input from "components/Custom/Input";
-import { IconButton } from "@material-ui/core";
-import NestedArray from "./nested_array";
-import Button from "components/Custom/Button";
-import CancelButton from "pages/CompanyPages/settings/components/CancelButton";
-import SaveButton from "pages/CompanyPages/settings/components/SaveButton";
-import useMobileData from "./useMobileData";
-import Spinner from "components/Helpers/Spinner";
-import RippleEffect from "components/Custom/RippleEffect";
-import SnackBar from "components/Custom/NewSnack";
+import Checkbox from 'components/Custom/CheckBox';
+import InputFormat from 'components/Custom/InputFormat';
+import Input from 'components/Custom/Input';
+import { IconButton } from '@material-ui/core';
+import NestedArray from './nested_array';
+import Button from 'components/Custom/Button';
+import CancelButton from 'pages/CompanyPages/settings/components/CancelButton';
+import SaveButton from 'pages/CompanyPages/settings/components/SaveButton';
+import useMobileData from './useMobileData';
+import Spinner from 'components/Helpers/Spinner';
+import RippleEffect from 'components/Custom/RippleEffect';
+import SnackBar from 'components/Custom/NewSnack';
 //atoms
-import { baseLoyalty, useLoyal } from "services/atoms/settings/loyality";
+import { baseLoyalty, useLoyal } from 'services/atoms/settings/loyality';
 
 const MainModel = () => {
   const dispatch = useAppDispatch();
@@ -65,16 +65,16 @@ const MainModel = () => {
 
   const { fields, append, remove } = useFieldArray<FormProps>({
     control,
-    name: "levels",
+    name: 'levels',
   });
 
   const openCashback = useAppSelector((state) => state.settings.openState);
 
-  console.log(errors, "errors");
+  console.log(errors, 'errors');
 
   const levels = useWatch({
     control,
-    name: "levels",
+    name: 'levels',
   });
 
   const handleOpen = () => {
@@ -107,7 +107,7 @@ const MainModel = () => {
     );
   }
 
-  console.log(alertName, "alert name");
+  console.log(alertName, 'alert name');
 
   return (
     <Container>
@@ -116,7 +116,7 @@ const MainModel = () => {
           onClick={() =>
             dispatch(
               handleClick({
-                type: "cashback",
+                type: 'cashback',
                 open: false,
               })
             )
@@ -124,7 +124,7 @@ const MainModel = () => {
         >
           <ArrowBack />
         </IconButton>
-        <Htext>Настройка предостовления скидки</Htext>
+        <Htext>Настройка предоставления скидки</Htext>
       </Header>
       <Body onSubmit={handleSubmit(onFormSubmit)}>
         <Break height={20} />
@@ -142,18 +142,18 @@ const MainModel = () => {
             defaultValue={base_loyality?.base_name}
             render={({ field }) => (
               <Input
-                label={"№ 1 Название статуса"}
-                type="string"
+                label={'№ 1 Название статуса'}
+                type='string'
                 defaultValue={base_loyality?.base_name}
                 field={field}
-                message={t("requiredField")}
+                message={t('requiredField')}
               />
             )}
           />
         </Row>
         <Row>
           <Controller
-            name="base_percent"
+            name='base_percent'
             rules={{
               required: true,
               max: 100,
@@ -165,18 +165,18 @@ const MainModel = () => {
               return (
                 <InputFormat
                   field={field}
-                  label={"Укажите % статуса"}
-                  type="string"
+                  label={'Укажите % статуса'}
+                  type='string'
                   defaultValue={base_loyality?.base_percent}
                   maxLength={3}
-                  max="100"
+                  max='100'
                   width={{
-                    width: "100%",
+                    width: '100%',
                   }}
                   margin={{
-                    laptop: "20px 0 0",
+                    laptop: '20px 0 0',
                   }}
-                  message={""}
+                  message={''}
                   error={errors.base_percent}
                 />
               );
@@ -187,14 +187,14 @@ const MainModel = () => {
         {fields.map((item: any, index: number) => {
           return (
             <Column key={index}>
-              <Row aItems="flex-end">
+              <Row aItems='flex-end'>
                 <SubText>№ {index + 2} Название статуса</SubText>
                 {fields[fields.length - 1] === fields[index] && (
                   <RippleEffect
                     onClick={() => {
                       remove(index);
                       setValue(
-                        "levels",
+                        'levels',
                         fields.filter(
                           (item: any, indexV: number) => indexV !== index
                         )
@@ -202,7 +202,7 @@ const MainModel = () => {
                     }}
                     padding={0}
                   >
-                    <EText>{t("delete")}</EText>
+                    <EText>{t('delete')}</EText>
                   </RippleEffect>
                 )}
               </Row>
@@ -217,10 +217,10 @@ const MainModel = () => {
                   render={({ field }) => (
                     <Input
                       label={``}
-                      type="string"
+                      type='string'
                       field={field}
                       defaultValue={item.name}
-                      message={t("requiredField")}
+                      message={t('requiredField')}
                     />
                   )}
                 />
@@ -239,21 +239,21 @@ const MainModel = () => {
                     return (
                       <InputFormat
                         field={field}
-                        label={"Укажите % статуса"}
+                        label={'Укажите % статуса'}
                         labelStyle={{
-                          letterSpacing: "0.5",
+                          letterSpacing: '0.5',
                         }}
-                        type="string"
+                        type='string'
                         defaultValue={item.percent}
                         maxLength={3}
-                        max="100"
+                        max='100'
                         width={{
-                          width: "100%",
+                          width: '100%',
                         }}
                         margin={{
-                          laptop: "20px 0 0",
+                          laptop: '20px 0 0',
                         }}
-                        message={""}
+                        message={''}
                         // error={errors.base_percent}
                       />
                     );
@@ -274,8 +274,8 @@ const MainModel = () => {
         <Row>
           <Button
             buttonStyle={{
-              bgcolor: "transparent",
-              color: "#3492FF",
+              bgcolor: 'transparent',
+              color: '#3492FF',
               fontSize: {
                 mobile: 12.5,
                 planshet: 14,
@@ -283,14 +283,14 @@ const MainModel = () => {
             }}
             onClick={() => {
               append({
-                name: "new_row",
+                name: 'new_row',
                 percent: 15,
                 requirements: [
                   {
                     amount: 100,
-                    condition: "",
+                    condition: '',
                     type: 1,
-                    unit: "UZS",
+                    unit: 'UZS',
                   },
                 ],
               });
@@ -302,8 +302,8 @@ const MainModel = () => {
             <Button
               onClick={handleOpen}
               buttonStyle={{
-                bgcolor: "transparent",
-                color: "#3492FF",
+                bgcolor: 'transparent',
+                color: '#3492FF',
                 fontSize: {
                   mobile: 12.5,
                   planshet: 14,
@@ -317,7 +317,7 @@ const MainModel = () => {
         <Break height={15} />
         <Row>
           <Controller
-            name="max_percent"
+            name='max_percent'
             control={control}
             rules={{
               required: true,
@@ -326,22 +326,22 @@ const MainModel = () => {
             render={({ field }) => {
               return (
                 <InputFormat
-                  label={t("max_percent")}
+                  label={t('max_percent')}
                   defaultValue={base_loyality?.max_percent}
-                  type="string"
+                  type='string'
                   field={field}
-                  message={t("requiredField")}
-                  error={errors.max_percent?.type === "required"}
+                  message={t('requiredField')}
+                  error={errors.max_percent?.type === 'required'}
                 />
               );
             }}
           />
         </Row>
         <Break height={15} />
-        {openCashback.type === "cashback" && (
+        {openCashback.type === 'cashback' && (
           <Row>
             <Controller
-              name="give_cashback_after"
+              name='give_cashback_after'
               control={control}
               rules={{
                 required: true,
@@ -351,10 +351,10 @@ const MainModel = () => {
                 return (
                   <InputFormat
                     field={field}
-                    label={t("give_cashback_after")}
+                    label={t('give_cashback_after')}
                     defaultValue={base_loyality?.give_cashback_after}
-                    error={errors.give_cashback_after?.type === "required"}
-                    message={t("requiredField")}
+                    error={errors.give_cashback_after?.type === 'required'}
+                    message={t('requiredField')}
                   />
                 );
               }}
@@ -364,28 +364,28 @@ const MainModel = () => {
         <Break height={25} />
         <Row>
           <Controller
-            name="useProgram"
+            name='useProgram'
             control={control}
             defaultValue={useLoyalMain.useProgram}
             render={({ field }) => (
               <Checkbox
                 {...field}
                 checked={useLoyalMain.useProgram}
-                label={t("useLoyaltyProgram")}
+                label={t('useLoyaltyProgram')}
               />
             )}
-          />{" "}
+          />{' '}
         </Row>
         <Row>
           <Controller
-            name="usePoint"
+            name='usePoint'
             control={control}
             defaultValue={useLoyalMain.usePoint}
             render={({ field }) => (
               <Checkbox
                 {...field}
                 checked={useLoyalMain.usePoint}
-                label={t("substractingPoints")}
+                label={t('substractingPoints')}
               />
             )}
           />
@@ -396,24 +396,24 @@ const MainModel = () => {
             onClick={() => {
               dispatch(
                 handleClick({
-                  type: "cashback",
+                  type: 'cashback',
                   open: false,
                 })
               );
             }}
-            text={t("cancel")}
+            text={t('cancel')}
           />
-          <SaveButton type="submit" text={t("save")} />
+          <SaveButton type='submit' text={t('save')} />
         </Footer>
       </Body>
 
       <SnackBar
         message={alertName}
-        status="error"
+        status='error'
         open={checkL}
         autoHideDuration={5000}
         onClose={(e: any) => setCheckL(e)}
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       />
     </Container>
   );

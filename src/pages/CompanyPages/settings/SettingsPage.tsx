@@ -18,7 +18,7 @@ const SettingsPage = () => {
         <Title>{t('settings')}</Title>
       </WrapperTitle>
       <WrapperNav>
-        <NavBar list={menuItems} margin='20px 0' padding='0 10px 10px 0' />
+        <NavBar list={menuItems} margin='20px 0 0' padding='0 10px 0 0' />
       </WrapperNav>
 
       <Switch>
@@ -29,16 +29,16 @@ const SettingsPage = () => {
             </SpinnerDiv>
           }
         >
-          {menuItems.map((item) => {
+          {menuItems.map((item, i) => {
             return (
               <>
-                <Route path='*'>
-                  <Redirect to={item.path} />
-                </Route>
                 <Route exact path={item.path} component={item.component} />
               </>
             );
           })}
+          <Route path='*' exact={true}>
+            <Redirect to={menuItems[0].path} />
+          </Route>
         </Suspense>
       </Switch>
     </PageWrapperFlex>

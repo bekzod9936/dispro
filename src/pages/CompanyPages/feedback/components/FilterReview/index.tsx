@@ -46,7 +46,11 @@ const FilterReview = ({
 
   const [cashierIds, setCashierIds] = useState<CProps[]>([]);
   const [storeIds, setStoreIds] = useState<CProps[]>([]);
-
+  const [Filters, setFilters] = useState<any>({
+    cashierIds: [],
+    storeIds: [],
+    rating: '',
+  });
   const cashiersFilter = filter?.cashiers
     ?.filter((v: any) => v.firstName !== '' || v.lastName !== '')
     ?.map((v: any) => {
@@ -78,6 +82,11 @@ const FilterReview = ({
           : '',
     });
     await refetch();
+    await setFilters({
+      cashierIds: cashierIds,
+      storeIds: storeIds,
+      rating: rating,
+    });
   };
 
   const onReset = async () => {
@@ -172,6 +181,10 @@ const FilterReview = ({
                 await setCashierIds(
                   values.filter((a: any) => a.value !== v.value)
                 );
+                await setFilters({
+                  ...Filters,
+                  cashierIds: values.filter((a: any) => a.value !== v.value),
+                });
                 await refetch();
               }}
             >
@@ -205,6 +218,10 @@ const FilterReview = ({
                 await setStoreIds(
                   values.filter((a: any) => a.value !== v.value)
                 );
+                await setFilters({
+                  ...Filters,
+                  storeIds: values.filter((a: any) => a.value !== v.value),
+                });
                 await refetch();
               }}
             >
@@ -232,11 +249,9 @@ const FilterReview = ({
   };
 
   const ratingValue: any =
-    filterValues.rating !== '' && filterValues.rating !== undefined ? (
+    Filters.rating !== '' && Filters.rating !== undefined ? (
       <ButtonKeyWord>
-        {`${t('rating')}: ${filterValues.rating} ${funCount(
-          filterValues.rating
-        )}`}
+        {`${t('rating')}: ${Filters.rating} ${funCount(Filters.rating)}`}
         <IconButton
           onClick={async () => {
             await setFilterValues({
@@ -245,6 +260,7 @@ const FilterReview = ({
               rating: '',
             });
             await setRating('');
+            await setFilters({ ...Filters, rating: '' });
             await refetch();
           }}
         >
@@ -284,8 +300,8 @@ const FilterReview = ({
         />
       </div>
       <WrapValues>
-        {filtercash(cashierIds)}
-        {filterStroe(storeIds)}
+        {filtercash(Filters.cashierIds)}
+        {filterStroe(Filters.storeIds)}
         {ratingValue}
       </WrapValues>
     </FilterWarp>

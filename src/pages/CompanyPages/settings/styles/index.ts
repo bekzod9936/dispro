@@ -1,4 +1,5 @@
-import styled from "styled-components";
+import styled from 'styled-components';
+import { device } from 'styles/device';
 
 export const SpinnerDiv = styled.div`
   width: 100%;
@@ -33,6 +34,13 @@ export const HBreak = styled.div`
 
 export const WrapperNav = styled.div`
   height: fit-content;
+  @media (max-width: ${device.mobile}) {
+    padding-left: 15px;
+  }
 `;
 
-export const WrapperTitle = styled.div``;
+export const WrapperTitle = styled.div`
+  @media (max-width: ${device.mobile}) {
+    padding-left: 15px;
+  }
+`;

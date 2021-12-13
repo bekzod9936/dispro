@@ -184,9 +184,9 @@
   "enterNewName": "Введите новое название",
   "loyaltyProgram": "Программы лояльности",
   "referalProgram": "Реферальная программа",
-  "awarding": "Вознаграждение",
+  "awarding": "Вознаграждения",
   "security": "Безопасность",
-  "qrcodes": "QR коды",
+  "qrcodes": "QR-коды",
   "awardSize": "Размер вознаграждения",
   "awardLimit": "Лимит на количество вознаграждений",
   "payfor": "Отправлять за",
@@ -575,5 +575,8 @@
   "createSection": "Создать раздел +",
   "addingDescOnAnotherLang": "Добавление описания на другом языке",
   "addingTitleOnAnotherLang": "Добавление названия на другом языке",
-  "chooseLanguage": "Выберите язык"
+  "chooseLanguage": "Выберите язык",
+  "choosefilialqrcodesetting": "Выберите филиал, в котором будет производиться оплата на местах через QR-код",
+  "forcomfortqrcodeplace": "Для удобства, назовите QR-код местом, где вы собираетесь его использовать.",
+  "notfoundsearchsetting": "По вашему запросу ничего не найдено..."
 }
