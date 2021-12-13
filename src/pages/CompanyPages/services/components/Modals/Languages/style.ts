@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import { ReactComponent as ExitSvg } from "assets/icons/exit.svg"
 import { ReactComponent as LanguageSvg } from "assets/icons/language.svg";
+import { ReactComponent as CancelSvg } from 'assets/icons/cancelButton.svg'
+import { ReactComponent as SaveSvg } from 'assets/icons/save.svg'
+
 export const Wrapper = styled.div`
     padding: 30px 40px;
     width: 100%;
@@ -35,3 +38,5 @@ export const Wrapper = styled.div`
 //icons 
 export const CloseIcon = styled(ExitSvg)``
 export const LanguageIcon = styled(LanguageSvg)``
+export const CancelIcon = styled(CancelSvg)``
+export const SaveIcon = styled(SaveSvg)``
