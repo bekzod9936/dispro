@@ -31,6 +31,7 @@ const FilterReview = ({ setFilterValues, filterValues, refetch }: Props) => {
   const filter: any = useAppSelector((state) => state.feedbackPost.filter);
 
   const [cashierStaffId, setCashierStaffId] = useState<CProps>();
+  const [store, setStore] = useState<CProps>();
 
   const cashiersFilter = filter?.cashiers
     ?.filter((v: any) => v.firstName !== '' || v.lastName !== '')
@@ -41,19 +42,33 @@ const FilterReview = ({ setFilterValues, filterValues, refetch }: Props) => {
       };
     });
 
+  const storesFilter = filter.stores?.map((v: any) => {
+    return {
+      value: v.id,
+      label: v.name,
+    };
+  });
+
   const handleFilterSubmit = async () => {
     await setFilterValues({
       ...filterValues,
       cashierStaffId: cashierStaffId?.value,
       rating: rating,
+      storeIds: store?.value,
     });
     await refetch();
   };
 
   const onReset = async () => {
-    await setFilterValues({ ...filterValues, cashierStaffId: '', rating: '' });
+    await setFilterValues({
+      ...filterValues,
+      cashierStaffId: '',
+      rating: '',
+      storeIds: '',
+    });
     await setCashierStaffId({});
     await setRating('');
+    await setStore({});
     await refetch();
   };
 
@@ -70,6 +85,18 @@ const FilterReview = ({ setFilterValues, filterValues, refetch }: Props) => {
           options={cashiersFilter}
           onChange={(e: any) => setCashierStaffId(e)}
           value={cashierStaffId}
+          selectStyle={{ bgcolor: '#eff0fd' }}
+        />
+      ),
+    },
+    {
+      title: t('withfilial'),
+      content: (
+        <MultiSelect
+          label={t('choosefilial')}
+          options={storesFilter}
+          onChange={(e: any) => setStore(e)}
+          value={store}
           selectStyle={{ bgcolor: '#eff0fd' }}
         />
       ),

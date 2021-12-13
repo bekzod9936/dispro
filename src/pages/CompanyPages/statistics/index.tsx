@@ -16,7 +16,7 @@ const Statistics = () => {
 
   return (
     <Container>
-      <Title>{t('statistics')}</Title>
+      <Title padding={{ planshet: '0' }}>{t('statistics')}</Title>
       <WrapNav>
         <Grid style={{ width: '100%', overflowY: 'auto', overflowX: 'hidden' }}>
           <NavBar list={menuItems} margin='0' padding='0' />

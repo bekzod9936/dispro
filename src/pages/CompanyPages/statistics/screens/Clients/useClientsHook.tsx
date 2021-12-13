@@ -94,7 +94,7 @@ const useClientsHook = ({ filterValues, traffic }: Props) => {
     {
       title: t('ageAvg'),
       value: data?.ageAvg,
-      Icon: width > 600 ? <AgeIcon /> : <AgeMobIcon />,
+      Icon: width > 1000 ? <AgeIcon /> : <AgeMobIcon />,
     },
     {
       title: t('uniqueChequeClient'),

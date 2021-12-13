@@ -12,6 +12,7 @@ const useSupportChat = () => {
   const [data, setData] = useState<any>([]);
   const dispatch = useAppDispatch();
   const [page, setPage] = useState(1);
+  const [noValue, setNoValue] = useState(false);
   const totalHistory: any = useAppSelector(
     (state) => state.feedbackPost.totalSupportHistory
   );
@@ -36,6 +37,11 @@ const useSupportChat = () => {
       refetchOnWindowFocus: false,
       retry: 0,
       onSuccess: (data) => {
+        if (data.data.data.totalCount === 0) {
+          setNoValue(true);
+        } else {
+          setNoValue(false);
+        }
         if (data?.data?.data?.histories.length === 0) {
           dispatch(
             setTotalSupportHistory({
@@ -62,7 +68,7 @@ const useSupportChat = () => {
     }
   );
 
-  return { resChatSupportHistory, setPage, page, data };
+  return { resChatSupportHistory, setPage, page, data, noValue };
 };
 
 export default useSupportChat;

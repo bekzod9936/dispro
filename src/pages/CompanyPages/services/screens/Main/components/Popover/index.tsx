@@ -28,7 +28,7 @@ const MPopover: React.FC<MPopoverProps> = ({ onClick }) => {
         history.push('/services/create')
     }
 
-    const handleClose = (e: any) => {
+    const handleClose = (e: PopupState) => {
         setAnchorEl(e)
     }
 

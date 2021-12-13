@@ -37,18 +37,19 @@ const useFeedBack = ({ filterValues, key }: Props) => {
   const resClients = useQuery(
     ['feedBackClientsInfo', key],
     () => {
-      const rating: any =
-        filterValues.rating !== '' && filterValues.rating !== undefined
-          ? `&rating=${filterValues.rating}`
-          : '';
-      const cash: any =
-        filterValues.cashierStaffId !== '' &&
-        filterValues.cashierStaffId !== undefined
-          ? `&cashierId=${filterValues.cashierStaffId}`
-          : '';
+      const url = Object.keys(filterValues)
+        .map((v: any) => {
+          if (filterValues[v] !== '' && filterValues[v] !== undefined) {
+            return `${v}=${filterValues[v]}&`;
+          } else {
+            return '';
+          }
+        })
+        .join('');
+
       const key1 = key !== '' && key !== undefined ? `&key=${key}` : '';
       return fetchFeedBackClients({
-        url: `/rating-review?perPage=${filterValues.perPage}&page=${filterValues?.page}${rating}${cash}${key1}`,
+        url: `/rating-review?${url}${key1}`,
       });
     },
     {

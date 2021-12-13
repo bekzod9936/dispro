@@ -13,11 +13,11 @@ export const Container = styled.div`
   display: grid;
   @media (min-width: ${device.planshet}) {
     grid-template-rows: ${({ vertical, listlength }: Props) =>
-    vertical ? `repeat(${listlength}), fit-content(100%)` : ''};
+      vertical ? `repeat(${listlength}), fit-content(100%)` : ''};
   }
   @media (max-width: ${device.planshet}) {
     grid-template-columns: ${({ listlength, vertical }: Props) =>
-    `repeat(${listlength}, fit-content(100%) )`};
+      `repeat(${listlength}, fit-content(100%) )`};
     grid-column-gap: 15px;
   }
   @media (max-width: ${device.mobile}) {
@@ -85,7 +85,7 @@ export const Link = styled(NavLink)`
   }
   @media (min-width: ${device.mobile}) and (max-width: ${device.laptop}) {
     font-size: 18px;
-    padding: 13px 20px;
+    padding: 12px 20px;
     line-height: 117%;
   }
 `;

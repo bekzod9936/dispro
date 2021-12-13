@@ -30,6 +30,7 @@ export const Container = styled.div`
   }
   @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
     overflow-y: hidden;
+    height: 100%;
   }
 `;
 
@@ -46,10 +47,9 @@ export const MainWrap = styled.div`
   @media (max-width: ${device.planshet}) {
     box-shadow: none;
     width: 100%;
-    max-height: 100%;
-    height: 100%;
-    flex-shrink: 1;
-    justify-content: space-between;
+    height: calc(100% - 120px);
+    flex-grow: 1;
+    display: flex;
   }
 `;
 
@@ -131,8 +131,7 @@ export const Form = styled.form`
     height: 100%;
   }
   @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
-    flex: 1;
-    height: 100%;
+    flex-grow: 1;
   }
 `;
 

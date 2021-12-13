@@ -37,6 +37,12 @@ const CancelButton = ({ onClick = () => {}, mobile, margin }: Props) => {
         color: '#606EEA',
         bgcolor: '#eff0fd',
         weight: '500',
+        height: {
+          mobile: 40,
+          planshet: 45,
+          laptop: 50,
+          desktop: 50,
+        },
       }}
       onClick={onClick}
       margin={{ mobile: '0 10px 0 0', planshet: '0 10px 0 0' }}
