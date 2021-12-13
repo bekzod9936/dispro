@@ -13,8 +13,6 @@ import useWindowWidth from 'services/hooks/useWindowWidth';
 import Stars from '../../components/Stars';
 import { useDebounce } from 'use-debounce/lib';
 import {
-  SearchIcon,
-  FilterWarp,
   WrapPag,
   Info,
   Content,
@@ -27,7 +25,7 @@ import {
 
 interface intialFilterProps {
   page?: number;
-  cashierStaffId?: number | string;
+  cashierIds?: number | string;
   perPage?: number;
   rating?: number | string;
   key?: string | number;
@@ -40,7 +38,7 @@ const Reviews = () => {
 
   const intialFilter = {
     page: 1,
-    cashierStaffId: '',
+    cashierIds: '',
     perPage: 6,
     rating: '',
     key: '',
@@ -70,42 +68,15 @@ const Reviews = () => {
     await resClients.refetch();
   };
 
-  const isValue =
-    (filterValues.cashierStaffId !== '' &&
-      filterValues.cashierStaffId !== undefined) ||
-    (filterValues.rating !== '' && filterValues.rating !== undefined);
-
   return (
     <Container>
-      <FilterWarp isValue={isValue}>
-        <Input
-          IconStart={<SearchIcon />}
-          inputStyle={{
-            border: 'none',
-            shadow: '0px 4px 4px rgba(0, 0, 0, 0.04)',
-            outpadding: width > 600 ? '0 0 0 25px' : '0 0 0 10px',
-            inpadding: width > 600 ? '0 20px 0 10px' : '0 10px 0 0',
-            height: {
-              desktop: 50,
-              laptop: 45,
-              planshet: 40,
-              mobile: 36,
-            },
-          }}
-          type='search'
-          onChange={handleSearch}
-          width={{ maxwidth: 280 }}
-          margin={{ laptop: '0 20px 0 0', mobile: '0 10px 0 0' }}
-          placeholder={t('searchbyclients')}
-          value={inpuSearch}
-        />
-        <FilterReview
-          setFilterValues={setFilterValues}
-          filterValues={filterValues}
-          refetch={() => resClients.refetch()}
-        />
-      </FilterWarp>
-
+      <FilterReview
+        setFilterValues={setFilterValues}
+        filterValues={filterValues}
+        refetch={() => resClients.refetch()}
+        handleSearch={handleSearch}
+        inpuSearch={inpuSearch}
+      />
       {resClients.isLoading || resClients.isFetching ? (
         <Spinner />
       ) : clients.length === 0 ? (
