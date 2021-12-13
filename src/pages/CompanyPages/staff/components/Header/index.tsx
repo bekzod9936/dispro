@@ -1,16 +1,7 @@
-import Popover from 'components/Custom/Popover';
 import { useLocation } from 'react-router-dom';
-import { AddIcon } from 'assets/icons/InfoPageIcons/InfoPageIcons';
-import { ReactComponent as ArrowDown } from 'assets/icons/arrow_down.svg';
-import { ReactComponent as SettingsIcon } from 'assets/icons/settings_icon.svg';
-import { ReactComponent as FilterIcon } from 'assets/icons/StatistisPage/filter.svg';
-import { SearchIcon } from 'components/Layout/Header/style';
-import Button from 'components/Custom/Button';
-import Input from 'components/Custom/Input';
-import { StaffPopover, PopoverRow, Flex } from '../../style';
 import { useTranslation } from 'react-i18next';
-import { IProps } from './types';
-import { useAppSelector, useAppDispatch } from 'services/redux/hooks';
+
+//helpers
 import {
 	setOpenCash,
 	setOpenFilter,
@@ -18,6 +9,25 @@ import {
 	setQuery,
 	setSelectedCashiers,
 } from 'services/redux/Slices/staffs';
+import { useAppSelector, useAppDispatch } from 'services/redux/hooks';
+
+//components
+import Button from 'components/Custom/Button';
+import Input from 'components/Custom/Input';
+import Popover from 'components/Custom/Popover';
+
+//styles
+import { SearchIcon } from 'components/Layout/Header/style';
+import { StaffPopover, PopoverRow, Flex } from '../../style';
+
+//types
+import { IProps } from './types';
+
+//icons
+import { ReactComponent as ArrowDown } from 'assets/icons/arrow_down.svg';
+import { ReactComponent as SettingsIcon } from 'assets/icons/settings_icon.svg';
+import { ReactComponent as FilterIcon } from 'assets/icons/StatistisPage/filter.svg';
+import { AddIcon } from 'assets/icons/InfoPageIcons/InfoPageIcons';
 
 const Header = ({
 	handleOpen,

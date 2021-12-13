@@ -1,10 +1,16 @@
 import styled from 'styled-components';
+
+//icons
 import { ReactComponent as Up } from 'assets/icons/up.svg';
 
 interface Props {
   up?: boolean;
   active?: boolean;
 }
+
+interface Props {
+	header2?: boolean;
+  }
 
 export const Container = styled.div`
   background: #ffffff;
@@ -50,9 +56,6 @@ export const MTable = styled.table`
   }
 `;
 
-interface Props {
-  header2?: boolean;
-}
 
 export const Thead = styled.thead`
   background: #ffffff;

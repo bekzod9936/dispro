@@ -1,8 +1,15 @@
 import styled from "styled-components";
-import { ITRow } from "./types";
 
-import { ReactComponent as Up } from "assets/icons/up.svg";
+//styles
 import { device } from "styles/device";
+
+//types
+import { ITRow, IHeader, ITh, Props} from "./types";
+
+//icons
+import { ReactComponent as Up } from "assets/icons/up.svg";
+
+
 
 export const Container = styled.div`
   background: #ffffff;
@@ -47,9 +54,7 @@ export const MTable = styled.table`
   }
 `;
 
-interface IHeader {
-  header?: boolean;
-}
+
 export const Thead = styled.thead`
   background: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
@@ -67,9 +72,7 @@ export const Thead = styled.thead`
   }
 `;
 
-interface ITh {
-  active?: boolean;
-}
+
 
 export const Th = styled.th`
 text-align: left;
@@ -100,10 +103,7 @@ text-align: left;
     }
   }
 `;
-interface Props {
-  up?: boolean;
-  active?: boolean;
-}
+
 
 export const UpIcon = styled(Up)`
   transform: ${({ up }: Props) => (up ? "rotate(-180deg)" : "rotate(0)")};
@@ -147,15 +147,8 @@ export const THead = styled.thead`
   width: 100%;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
 `;
-// export const Th = styled.th`
-//     text-align: start;
-//     padding: 20px;
-//     color: #A5A5A5;
-//     border: none;
-//     font-size: 16px;
-// `
+
 export const Td = styled.td`
-//   text-align: center;
   text-transform: capitalize;
   font-weight: normal;
   font-size: 16px;

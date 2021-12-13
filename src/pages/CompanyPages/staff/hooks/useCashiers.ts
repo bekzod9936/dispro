@@ -1,6 +1,8 @@
 import { useState, useMemo } from "react";
 import { useQuery, useMutation } from "react-query";
 import {useHistory} from "react-router-dom";
+
+//helpers
 import {
   deleteSingleCashier,
   getCashiers,

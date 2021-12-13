@@ -1,7 +1,16 @@
 import { useMemo, useState, useEffect } from 'react';
 import { useSortBy, useTable } from 'react-table';
 import Checkbox from '@material-ui/core/Checkbox';
-import { HeadersType, IProps } from './types';
+
+//helpers
+import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
+import {
+	setOpenFilter,
+	setSelectedCashiers,
+} from 'services/redux/Slices/staffs';
+//components
+import { cashierHeaders } from './headers';
+//styles
 import {
 	Tbody,
 	Td,
@@ -16,13 +25,10 @@ import {
 	Img,
 	ImgDiv,
 } from './style';
-import { cashierHeaders } from './headers';
+//types
+import { HeadersType, IProps } from './types';
+//icons
 import LogoDef from 'assets/images/staff_default.png';
-import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
-import {
-	setOpenFilter,
-	setSelectedCashiers,
-} from 'services/redux/Slices/staffs';
 
 const CashierTable = ({ cashiers }: IProps) => {
 	const dispatch = useAppDispatch();
