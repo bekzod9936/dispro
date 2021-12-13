@@ -66,6 +66,7 @@ const FilterReview = ({
   const handleFilterSubmit = async () => {
     await setFilterValues({
       ...filterValues,
+      page: 1,
       cashierIds:
         cashierIds.map((v: any) => v.value).length > 0
           ? `[${cashierIds.map((v: any) => v.value).join(',')}]`
@@ -82,6 +83,7 @@ const FilterReview = ({
   const onReset = async () => {
     await setFilterValues({
       ...filterValues,
+      page: 1,
       cashierIds: '',
       rating: '',
       storeIds: '',
