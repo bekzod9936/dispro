@@ -173,8 +173,8 @@ const RepairNews = () => {
   const submitNews = (data: any) => {
     let newsBody = {
       title: data.name,
-      startLifeTime:getValidDate(data.startDate) ,
-      endLifeTime: getValidDate(data.endDate),
+      startLifeTime:  width > 1000 ? data.startDate :getValidDate(data.startDate) ,
+      endLifeTime: width > 1000 ? data.endDate: getValidDate(data.endDate),
       description: data.description,
       ageFrom: parseInt(data.ageLimit),
       ageTo: 100,
@@ -510,9 +510,6 @@ const RepairNews = () => {
               <Controller
                 name="ageLimit"
                 control={control}
-                // rules={{
-                //   required: true,
-                // }}
                 defaultValue={newsById?.data?.ageFrom}
                 render={({ field }) => (
                   <InputFormat
@@ -523,7 +520,6 @@ const RepairNews = () => {
                     max="100"
                     message={parseInt(watch("ageLimit"))}
                     error={!!errors.ageLimit}
-                    // message={t("requiredField")}
                     IconStart={<PlusIcon style={{ marginLeft: "20px" }} />}
                     label={t("ageLimit")}
                   />
