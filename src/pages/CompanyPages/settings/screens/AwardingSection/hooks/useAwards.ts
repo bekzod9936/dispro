@@ -90,6 +90,7 @@ const useAwards = () => {
   );
 
   const onFormSubmit = async (data: IForm) => {
+    console.log('test',data.birthdayCheck)
     if (data.awardSizeFirst) {
       TOTAL_FIELDS_PATTERN[0].amount = +data.awardSizeFirst;
 
@@ -97,9 +98,9 @@ const useAwards = () => {
     }
     if (data.awardSizeSecond) {
       TOTAL_FIELDS_PATTERN[1].amount = +data.awardSizeSecond;
+      TOTAL_FIELDS_PATTERN[1].isActive = data.recommendCheck;
       TOTAL_FIELDS_PATTERN[1].levels[0].limitCountReward = data.awardLimit;
       //   awardLimit
-      TOTAL_FIELDS_PATTERN[1].isActive = data.recommendCheck;
     }
     if (data.awardSizeThird) {
       TOTAL_FIELDS_PATTERN[2].amount = +data.awardSizeThird;
@@ -120,6 +121,8 @@ const useAwards = () => {
     if (data.payfor) {
       TOTAL_FIELDS_PATTERN[2].levels[0].beforeDay = data.payfor;
     }
+
+    console.log(TOTAL_FIELDS_PATTERN, "total fields")
 
     try {
       saveBonus.mutate({
