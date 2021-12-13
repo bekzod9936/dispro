@@ -190,6 +190,7 @@ export const DownSide = styled.div`
     @media (max-width: ${device.planshet}) {
       max-height: 100px;
       height: 100%;
+      justify-content: center;
     }
     @media (max-width: ${device.mobile}) {
       display: none;

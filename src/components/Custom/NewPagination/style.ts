@@ -34,7 +34,10 @@ export const PInput = styled(Input)`
   border: 1px solid #c2c2c2;
   box-sizing: border-box;
   border-radius: 14px;
-  padding: 13px 30px;
+  padding: 13px 0;
+  input {
+    text-align: center;
+  }
   @media (max-width: ${device.mobile}) {
     padding: 11px 25px;
     max-width: 65px;

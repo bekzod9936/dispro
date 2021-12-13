@@ -15,11 +15,6 @@ export type titleType = {
   lang: string;
 };
 
-interface ILanguages {
-  [index: number]: string;
-}
-const languages: ILanguages = { 0: "(Рус)", 1: "(Uzb)", 2: "(Eng)" };
-
 export const Titles: React.FC<TitlesProps> = ({ control }) => {
   const { t } = useTranslation();
   const [modal, setModal] = useState(false);
@@ -31,6 +26,15 @@ export const Titles: React.FC<TitlesProps> = ({ control }) => {
 
   const handleOpen = () => {
     setModal(true);
+  };
+
+  const handleClose = () => {
+    setModal(false);
+  };
+
+  const handleAddField = (arr: string[]) => {
+    let titles = arr.map((e) => ({ title: "", lang: e }));
+    append(titles);
   };
 
   return (
@@ -61,7 +65,13 @@ export const Titles: React.FC<TitlesProps> = ({ control }) => {
           )}
         </div>
       ))}
-      <Languages open={modal} title="addingTitleOnAnotherLang" />
+      <Languages
+        onConfirm={handleAddField}
+        fields={fields}
+        onClose={handleClose}
+        open={modal}
+        title="addingTitleOnAnotherLang"
+      />
     </Wrapper>
   );
 };

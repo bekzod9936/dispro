@@ -1,8 +1,15 @@
+//packages
+import { useForm, FormProvider } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+
 //components
-import { useFieldArray, useForm, FormProvider } from "react-hook-form";
 import { Header } from "./components/Header";
-import Input from "components/Custom/Input";
+import { Titles } from "./components/Titles";
+import { titleType } from "./components/Titles";
 import Radio from "components/Custom/Radio";
+import MultiSelect from "components/Custom/MultiSelect";
+import CustomToggle from "components/Custom/CustomToggleSwitch";
+
 //style
 import {
   Wrapper,
@@ -15,17 +22,14 @@ import {
   LightToolTip,
   ToggleBlock,
 } from "./style";
-import { useTranslation } from "react-i18next";
 import { SubButton } from "../../style";
-import MultiSelect from "components/Custom/MultiSelect";
-import { IconButton } from "@material-ui/core";
-import CustomToggle from "components/Custom/CustomToggleSwitch";
-import { Titles } from "./components/Titles";
-import { titleType } from "./components/Titles";
+import { Descs, descType } from "./components/Descs";
+
 interface CreateProps {}
 
 export interface FormFieldTypes {
   titles: titleType[];
+  descriptions: descType[];
 }
 
 const measurements = [
@@ -54,6 +58,7 @@ const Create: React.FC<CreateProps> = () => {
     mode: "onChange",
     defaultValues: {
       titles: [{ title: "", lang: "(Рус)" }],
+      descriptions: [{ body: "", lang: "(Рус)" }],
     },
   });
 
@@ -68,18 +73,7 @@ const Create: React.FC<CreateProps> = () => {
         <FormProvider {...form}>
           <Container>
             <Titles control={form.control} />
-            <div style={{ marginBottom: 25 }}>
-              <Input
-                label={t("description") + " (Рус)"}
-                multiline
-                type="textarea"
-                inputStyle={{
-                  height: { desktop: 124, laptop: 124 },
-                  inpadding: "10px 15px",
-                }}
-              />
-              <SubButton>{t("addDescOnAnotherLang")}</SubButton>
-            </div>
+            <Descs control={form.control} />
             <div>
               <MultiSelect
                 margin={{

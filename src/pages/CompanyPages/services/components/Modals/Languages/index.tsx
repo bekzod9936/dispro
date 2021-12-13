@@ -2,16 +2,32 @@ import { IconButton } from "@material-ui/core";
 import Button from "components/Custom/Button";
 import Modal from "components/Custom/Modal";
 import MultiSelect from "components/Custom/MultiSelect";
+import { FormFieldTypes } from "pages/CompanyPages/services/screens/Create";
+import { useState } from "react";
+import { FieldArrayWithId } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Wrapper, CloseIcon, LanguageIcon } from "./style";
+import {
+  Wrapper,
+  CloseIcon,
+  LanguageIcon,
+  CancelIcon,
+  SaveIcon,
+} from "./style";
 
 interface LanguagesProps {
   title: string;
   open: boolean;
-  //   handleAddLanguage: (e: string) => void
+  onClose: () => void;
+  fields: FieldArrayWithId<FormFieldTypes, "titles", "id">[];
+  onConfirm: (e: string[]) => void;
 }
 
 const languages = [
+  {
+    value: 0,
+    label: "Русский",
+    name: "(Рус)",
+  },
   {
     value: 1,
     label: "Английский",
@@ -24,8 +40,34 @@ const languages = [
   },
 ];
 
-export const Languages: React.FC<LanguagesProps> = ({ title, open }) => {
+export const Languages: React.FC<LanguagesProps> = ({
+  title,
+  open,
+  onClose,
+  fields,
+  onConfirm,
+}) => {
+  const [selectedLanguages, setSelectedLanguages] = useState<typeof languages>(
+    []
+  );
   const { t } = useTranslation();
+
+  const handleSortOptions = (
+    array: typeof languages,
+    inputs: typeof fields
+  ) => {
+    return array.filter((e) => inputs.every((el) => el.lang !== e.name));
+  };
+
+  const handleChange = (array: typeof languages) => {
+    setSelectedLanguages(array);
+  };
+
+  const handleConfirm = () => {
+    onConfirm(selectedLanguages.map((e) => e.name));
+    setSelectedLanguages([]);
+    onClose();
+  };
 
   return (
     <Modal
@@ -38,13 +80,15 @@ export const Languages: React.FC<LanguagesProps> = ({ title, open }) => {
       <Wrapper>
         <div className="header">
           <h3>{t(title)}</h3>
-          <IconButton>
+          <IconButton onClick={onClose}>
             <CloseIcon />
           </IconButton>
         </div>
         <div className="main">
           <MultiSelect
-            options={languages}
+            options={handleSortOptions(languages, fields)}
+            value={selectedLanguages}
+            onChange={handleChange}
             isMulti
             selectStyle={{
               fontSize: {
@@ -63,8 +107,17 @@ export const Languages: React.FC<LanguagesProps> = ({ title, open }) => {
           />
         </div>
         <div className="footer">
-          <Button>{t("cancel")}</Button>
-          <Button>{t("save")}</Button>
+          <Button
+            onClick={onClose}
+            margin={{ desktop: "0 20px 0 0", laptop: "0 20px 0 0" }}
+            startIcon={<CancelIcon />}
+            buttonStyle={{ bgcolor: "#fff", color: "#223367", weight: 500 }}
+          >
+            {t("cancel")}
+          </Button>
+          <Button onClick={handleConfirm} startIcon={<SaveIcon />}>
+            {t("save")}
+          </Button>
         </div>
       </Wrapper>
     </Modal>
