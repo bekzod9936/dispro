@@ -35,7 +35,7 @@ const useFeedBack = ({ filterValues, key }: Props) => {
   });
 
   const resClients = useQuery(
-    ['feedBackClientsInfo', key],
+    ['feedBackClientsInfo', key, filterValues],
     () => {
       const url = Object.keys(filterValues)
         .map((v: any) => {
