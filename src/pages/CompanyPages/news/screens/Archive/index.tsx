@@ -58,7 +58,7 @@ const Archive = () => {
 
   const [filterValues, setFilterValues] =
     useState<intialFilterProps>(intialFilter);
-
+    const query = useAppSelector((state) => state.news.query);
   const { response } = useArchive({ filterValues: filterValues });
   const { list } = useData();
   const { width } = useWindowWidth();
@@ -141,23 +141,23 @@ const Archive = () => {
               </SideBar>
               {list.length > 0 ? (
                 <WrapPag>
-                  <Info>
+                 <Info>
                     {t("shown")}
-                    <span>{between}</span>
-                    {t("from1")} <span>{totalNewsCount}</span>
+                    {query ? null:<span>{ between}</span>}
+                    { query ? null:t("from1")} <span>{totalNewsCount}</span>
                     {countPagination({
-                      count: totalNewsCount,
-                      firstWord: t("newspaginationtitle "),
+                      count: Number(totalNewsCount),
+                      firstWord: t("newspaginationtitle"),
                       secondWord: t("newspaginationtitles"),
                     })}
                   </Info>
-                  <NewPagination
-              onChange={handlechangePage}
-              currentPage={Number(filterValues.page)}
-              totalCount={Number(totalCount)}
-            />
-         
-                </WrapPag>
+                <NewPagination
+            onChange={handlechangePage}
+            currentPage={Number(filterValues.page)}
+            totalCount={Number(totalCount)}
+          />
+             
+              </WrapPag>
               ) : null}
             </>
           )}
@@ -193,12 +193,12 @@ const Archive = () => {
               </SideBar>
               {list.length > 0 ? (
                 <WrapPag>
-                   <Info>
+                <Info>
                     {t("shown")}
-                    <span>{between}</span>
-                    {t("from1")} <span>{totalNewsCount}</span>
+                    {query ? null:<span>{ between}</span>}
+                    { query ? null:t("from1")} <span>{totalNewsCount}</span>
                     {countPagination({
-                      count: totalNewsCount,
+                      count: Number(totalNewsCount),
                       firstWord: t("newspaginationtitle"),
                       secondWord: t("newspaginationtitles"),
                     })}

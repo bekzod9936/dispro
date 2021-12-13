@@ -22,7 +22,7 @@ import InputFormat from "components/Custom/InputFormat";
 import dayjs from "dayjs";
 import { fetchCreateNews } from "services/queries/newPageQuery";
 import { setErrorMessage } from "services/redux/Slices/news";
-import { MobileCancelIcon } from "assets/icons/proposals/ProposalsIcons";
+import { MobileCancelIcon } from "assets/icons/news/newsIcons";
 import { UploadModal } from "./components/UploadModal";
 import { ConfirmModal } from "./components/ConfirmModal";
 import { CancelNewsModal } from "./components/CancelNewsModal";
