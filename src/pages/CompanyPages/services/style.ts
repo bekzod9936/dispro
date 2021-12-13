@@ -1,3 +1,4 @@
+import { IconButton } from "@material-ui/core";
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
@@ -22,3 +23,8 @@ export const SubButton = styled.button`
     font-size: 14px;
     line-height: 16.41px;
 `
+
+export const ButtonIcon = styled(IconButton)`
+    margin-right: 5px;
+`
+

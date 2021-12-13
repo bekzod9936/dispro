@@ -571,5 +571,8 @@
   "addDescOnAnotherLang": "Добавить описание на другом языке +",
   "measurementUnit": "Единица измерения",
   "attendance": "Услуги",
-  "createSection": "Создать раздел +"
+  "createSection": "Создать раздел +",
+  "addingDescOnAnotherLang": "Добавление описания на другом языке",
+  "addingTitleOnAnotherLang": "Добавление названия на другом языке",
+  "chooseLanguage": "Выберите язык"
 }

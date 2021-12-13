@@ -16,7 +16,7 @@ export const Header = () => {
     }
 
     return (
-        <Flex>
+        <Flex style={{marginBottom: 25}}>
             <IconButton style={{marginRight: 15}} onClick={handleGoBack}>
                 <GoBackIcon />
             </IconButton>
