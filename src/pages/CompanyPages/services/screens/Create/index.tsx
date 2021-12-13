@@ -4,8 +4,6 @@ import { useTranslation } from "react-i18next";
 
 //components
 import { Header } from "./components/Header";
-import { Titles } from "./components/Titles";
-import { titleType } from "./components/Titles";
 import Radio from "components/Custom/Radio";
 import MultiSelect from "components/Custom/MultiSelect";
 import CustomToggle from "components/Custom/CustomToggleSwitch";
@@ -23,14 +21,11 @@ import {
   ToggleBlock,
 } from "./style";
 import { SubButton } from "../../style";
-import { Descs, descType } from "./components/Descs";
+import { DynamicFields } from "./components/DynamicFields";
+import { FormFieldTypes } from "../../utils/types";
+import { Button } from "@material-ui/core";
 
 interface CreateProps {}
-
-export interface FormFieldTypes {
-  titles: titleType[];
-  descriptions: descType[];
-}
 
 const measurements = [
   {
@@ -72,8 +67,13 @@ const Create: React.FC<CreateProps> = () => {
       <Form onSubmit={form.handleSubmit(onSubmit)}>
         <FormProvider {...form}>
           <Container>
-            <Titles control={form.control} />
-            <Descs control={form.control} />
+            <DynamicFields control={form.control} name="titles" label="title" />
+            <DynamicFields
+              isDescription
+              control={form.control}
+              name="descriptions"
+              label="description"
+            />
             <div>
               <MultiSelect
                 margin={{
@@ -177,6 +177,9 @@ const Create: React.FC<CreateProps> = () => {
                 <QuestionMarkIcon />
               </LightToolTip>
             </ToggleBlock>
+            <Button variant="contained" type="submit">
+              Submit
+            </Button>
           </Container>
         </FormProvider>
       </Form>

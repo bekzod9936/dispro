@@ -1,11 +1,15 @@
+import { useState } from "react";
+//packages
+import { FieldArrayWithId } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+
+//components
 import { IconButton } from "@material-ui/core";
 import Button from "components/Custom/Button";
 import Modal from "components/Custom/Modal";
 import MultiSelect from "components/Custom/MultiSelect";
-import { FormFieldTypes } from "pages/CompanyPages/services/screens/Create";
-import { useState } from "react";
-import { FieldArrayWithId } from "react-hook-form";
-import { useTranslation } from "react-i18next";
+
+//style
 import {
   Wrapper,
   CloseIcon,
@@ -13,6 +17,9 @@ import {
   CancelIcon,
   SaveIcon,
 } from "./style";
+
+//other
+import { FormFieldTypes } from "pages/CompanyPages/services/utils/types";
 
 interface LanguagesProps {
   title: string;
