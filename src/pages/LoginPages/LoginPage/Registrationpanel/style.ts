@@ -43,9 +43,9 @@ export const MainWrap = styled.div`
 
   @media (max-width: ${device.planshet}) {
     width: 100%;
-    height: 100%;
     flex-shrink: 1;
     box-shadow: none;
+    height: calc(100% - 120px);
   }
 `;
 

@@ -88,6 +88,9 @@ export const Container = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    padding: 0 20px;
+  }
 `;
 
 export const Form = styled.form`
@@ -114,6 +117,9 @@ export const WrapHeader = styled.div`
     display: grid;
     grid-template-columns: auto;
     grid-template-rows: auto auto;
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    display: none;
   }
 `;
 
@@ -216,6 +222,9 @@ export const WrapContent = styled.div`
     margin-top: 15px;
     padding: 0 20px;
     overflow-y: hidden;
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    margin-top: 0;
   }
   @media (min-width: ${device.mobile}) {
     overflow-y: auto;
@@ -468,4 +477,12 @@ export const ModelTitle = styled.div`
 export const ModalWrap = styled.div`
   display: flex;
   margin-top: 30px;
+`;
+
+export const PlanshetHeader = styled.div`
+  display: none;
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    display: flex;
+    padding: 0 20px 20px 20px;
+  }
 `;

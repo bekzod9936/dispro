@@ -47,7 +47,8 @@ const useFeedBack = ({ filterValues, key }: Props) => {
         })
         .join('');
 
-      const key1 = key !== '' && key !== undefined ? `&key=${key}` : '';
+      const key1 = key !== '' && key !== undefined ? String(`&key=${key}`) : '';
+
       return fetchFeedBackClients({
         url: `/rating-review?${url}${key1}`,
       });
