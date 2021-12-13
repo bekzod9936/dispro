@@ -1,6 +1,7 @@
-import { Props } from './types';
-import MaskedInput from 'react-text-mask';
-import { Container, MInput, Label, Adornment, Message } from './style';
+import { Props } from "./types";
+import MaskedInput from "react-text-mask";
+import { Container, MInput, Label, Adornment, Message } from "./style";
+import { RemoveInputIcon } from "pages/CompanyPages/services/components/Modals/Section/style";
 
 function TextMaskCustom(props: any) {
   const { inputRef, ...other } = props;
@@ -23,14 +24,14 @@ function TextMaskCustom(props: any) {
         /^[0-9]*$/,
       ]}
       keepCharPositions={true}
-      placeholderChar={'\u2000'}
+      placeholderChar={"\u2000"}
     />
   );
 }
 
 const NInput = ({
-  onChange = () => { },
-  onKeyPress = () => { },
+  onChange = () => {},
+  onKeyPress = () => {},
   ...props
 }: Props) => {
   return (
@@ -44,7 +45,7 @@ const NInput = ({
           disabled={props.disabled}
           lmargin={props.lmargin}
         >
-          {props.label}
+          {props.label} {props.labelIcon || null}
         </Label>
       ) : null}
       <MInput
@@ -76,10 +77,10 @@ const NInput = ({
         variant={props.variant}
         InputProps={{
           startAdornment: props.IconStart ? (
-            <Adornment position='start'>{props.IconStart}</Adornment>
+            <Adornment position="start">{props.IconStart}</Adornment>
           ) : null,
           endAdornment: props.IconEnd ? (
-            <Adornment position='end'>{props.IconEnd}</Adornment>
+            <Adornment position="end">{props.IconEnd}</Adornment>
           ) : null,
           inputComponent: props.maskPhone ? TextMaskCustom : undefined,
         }}

@@ -57,8 +57,8 @@ const Create: React.FC<CreateProps> = () => {
   const form = useForm<FormFieldTypes>({
     mode: "onChange",
     defaultValues: {
-      titles: [{ title: "", lang: "(Рус)" }],
-      descriptions: [{ body: "", lang: "(Рус)" }],
+      titles: [{ data: "", lang: "(Рус)" }],
+      descriptions: [{ data: "", lang: "(Рус)" }],
     },
   });
 

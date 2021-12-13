@@ -18,7 +18,7 @@ interface LanguagesProps {
   title: string;
   open: boolean;
   onClose: () => void;
-  fields: FieldArrayWithId<FormFieldTypes, "titles", "id">[];
+  fields: FieldArrayWithId<FormFieldTypes, "titles" | "descriptions", "id">[];
   onConfirm: (e: string[]) => void;
 }
 
