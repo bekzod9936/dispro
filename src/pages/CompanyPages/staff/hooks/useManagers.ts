@@ -74,7 +74,7 @@ const useManagers = ({ page, query, period }: any) => {
 
         dispatch(
           setAllManager(
-            data?.data?.data?.map((manager: any) => {
+            data?.data?.data?.staffs?.map((manager: any) => {
               return {
                 ...manager,
 				comment: manager?.comment,

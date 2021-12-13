@@ -70,7 +70,7 @@ const useCashiers = ({ page, query, period, storeIdForFilter}: any) => {
 		
 		
         dispatch(setCashiers(data.data.data.staffs));
-		!storeFilters && dispatch(setStoreFilters(cashiers.map((el: any) => ({value: el.store.id, label: el.store.address}))))
+		!storeFilters && dispatch(setStoreFilters(cashiers.map((el: any) => ({value: el.store?.id, label: el.store?.address}))))
         dispatch(
           selectAllCashier(
             data?.data?.data?.staffs?.map((cashier: any) => {

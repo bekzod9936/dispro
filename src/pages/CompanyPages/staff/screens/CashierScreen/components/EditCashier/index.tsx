@@ -93,10 +93,11 @@ const EditCashier = ({ openEdit, refetch }: IProps) => {
 
 	useEffect(() => {
 		if (selectedCashiers?.length) {
-			let firstname = selectedCashiers[0].firstName.split(' ')[0];
+			console.log(`selectedCashiers[0].firstName`, selectedCashiers[0]);
+			// let firstname = selectedCashiers[0].firstName.split(' ')[0];
 
 			const tel: string = String(selectedCashiers[0].telNumber).slice(4);
-			setValue('firstName', firstname);
+			// setValue('firstName', firstname);
 			setValue('lastName', selectedCashiers[0].lastName);
 			setValue('comment', selectedCashiers[0].comment);
 			setValue('telNumber', tel);
