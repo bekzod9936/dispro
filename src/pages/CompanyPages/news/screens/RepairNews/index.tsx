@@ -205,16 +205,7 @@ const RepairNews = () => {
       mutate(newsBody);
       setTimeout(() => history.push("/news/active"), 1000);
     
-    // if (width <= 1000) {
-    //   if (
-    //     validation &&
-    //     filter?.regDate?.regDateFrom &&
-    //     filter?.regDate?.regDateTo
-    //   ) {
-    //     mutate(newsBody);
-    //     setTimeout(() => history.push("/news/active"), 1000);
-    //   }
-    // }
+ 
   };
 
   const genderType = [
@@ -279,6 +270,14 @@ const RepairNews = () => {
       handleBack();
     }
   }, []);
+
+  React.useEffect(() => {
+    if (checked) {
+      setValue("timeFrom",  "00:00");
+      setValue("timeTo",  "23:59");
+    }
+ 
+}, [checked]);
 
   return (
     <Wrapper>
@@ -608,6 +607,7 @@ const RepairNews = () => {
                         <Input
                           margin={{ laptop: "0 25px 0 0" }}
                           type="time"
+                          disabled={checked ?true:false}
                           defaultValue={newsById?.data?.settings?.time?.from}
                           field={field}
                         />
@@ -621,6 +621,7 @@ const RepairNews = () => {
                         <Input
                           type="time"
                           field={field}
+                          disabled={checked ?true:false}
                           defaultValue={newsById?.data?.settings?.time?.to}
                         />
                       )}
@@ -634,7 +635,7 @@ const RepairNews = () => {
                   checked={checked}
                   name={"checked"}
                   label={"Круглосуточно"}
-                  onChange={(e: any) => setChecked(e)}
+                  onChange={(e: any) => setChecked(e.target.checked)}
                 />
               )}
 

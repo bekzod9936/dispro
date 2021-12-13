@@ -47,14 +47,22 @@ export const Wrapper = styled.div`
             font-size: 18px;
             line-height: 21.09px;
             color: #223367;
-            margin-bottom: 13px;
+            margin-bottom: 5px;
             font-weight: 400;
+        }
+        h6 {
+            font-size: 14px;
+            line-height: 16.41px;
+            color: #8F8F8F;
+            font-weight: 400;
+            margin-bottom: 12px;
         }
         p.description {
             font-size: 14px;
             line-height: 16.41px;
             color: #223367;
             margin-bottom: 20px;
+            margin-top: 8px;
             font-weight: 300;
         }
         span {

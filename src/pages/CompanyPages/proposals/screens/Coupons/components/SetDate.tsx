@@ -5,7 +5,11 @@ import Button from "components/Custom/Button";
 import { useHistory } from "react-router";
 import { ICoupon } from "..";
 import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
-import { MobileCancelIcon, MobileGoBackIcon, PublishIcon } from "assets/icons/proposals/ProposalsIcons";
+import {
+  MobileCancelIcon,
+  MobileGoBackIcon,
+  PublishIcon,
+} from "assets/icons/proposals/ProposalsIcons";
 import { useMutation } from "react-query";
 import { postCoupon, putCoupon } from "services/queries/proposalQuery";
 import dayjs from "dayjs";
@@ -41,7 +45,7 @@ export const SetDate = ({
     publishDate: "",
   });
   const { t } = useTranslation();
-  const { width } = useWindowWidth()
+  const { width } = useWindowWidth();
   const { mutate } = useMutation((data: ICoupon) => postCoupon(data), {
     onSuccess: (data) => {
       putCoupon(data.data.data.id, {
@@ -62,11 +66,11 @@ export const SetDate = ({
   const onPublish = async (data: any) => {
     let startDate = getValidDate(data.startDate);
     let endDate = getValidDate(data.endDate);
-    let publishDate = getValidDate(data.publishDate)
+    let publishDate = getValidDate(data.publishDate);
     setValidDate({
       startDate,
       endDate,
-      publishDate
+      publishDate,
     });
 
     if (shouldPublish) {
@@ -99,22 +103,23 @@ export const SetDate = ({
 
   const handleFn = (obj: any) => {
     const result = new Date(obj).getTime() + 2592000000;
-    return new Date(result)
+    return new Date(result);
   };
 
   function getValidDate(obj: any) {
-    return "" + obj.year + "-" + obj.month.number + "-" + obj.day
+    return "" + obj.year + "-" + obj.month.number + "-" + obj.day;
   }
-
 
   return (
     <form style={{ height: "100%" }} onSubmit={handleSubmit(onPublish)}>
       <PeriodWrapper>
         <div>
-          <div className="header">{width <= 600 &&
-            <IconButton onClick={handleClose}>
-              <MobileGoBackIcon />
-            </IconButton>}
+          <div className="header">
+            {width <= 600 && (
+              <IconButton onClick={handleClose}>
+                <MobileGoBackIcon />
+              </IconButton>
+            )}
             <h5>Выберите дату публикации</h5>
           </div>
           <p>Выберите дату публикации</p>
@@ -131,7 +136,8 @@ export const SetDate = ({
                 minDate={new Date()}
                 maxDate={new Date().getFullYear() + 2 + "-01-01"}
                 onChange={field.onChange}
-                value={field.value} />
+                value={field.value}
+              />
             )}
           />
           <p>Выберите период действия купона</p>
@@ -151,7 +157,8 @@ export const SetDate = ({
                   minDate={watch("publishDate")}
                   maxDate={handleFn(watch("publishDate"))}
                   onChange={field.onChange}
-                  value={field.value} />
+                  value={field.value}
+                />
               )}
             />
             <Controller
@@ -168,16 +175,21 @@ export const SetDate = ({
                   minDate={watch("startDate")}
                   maxDate={handleFn(watch("publishDate"))}
                   onChange={field.onChange}
-                  value={field.value} />
+                  value={field.value}
+                />
               )}
             />
           </div>
         </div>
         <div className="buttonsWrapper">
           <Button
-            buttonStyle={width > 600 ? { color: "#223367", bgcolor: "#ffffff" } : { color: "#606EEA", bgcolor: "rgba(96, 110, 234, 0.1)" }}
+            buttonStyle={
+              width > 1000
+                ? { color: "#223367", bgcolor: "#ffffff" }
+                : { color: "#606EEA", bgcolor: "rgba(96, 110, 234, 0.1)" }
+            }
             margin={{ laptop: "0 20px 0 0", mobile: "0 8px 0 0" }}
-            startIcon={width > 600 ? <CancelIcon /> : <MobileCancelIcon />}
+            startIcon={width > 1000 ? <CancelIcon /> : <MobileCancelIcon />}
             onClick={handleClose}
           >
             Отменить

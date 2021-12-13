@@ -1,8 +1,15 @@
+//packages
+import { useForm, FormProvider } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+
 //components
-import { useForm } from "react-hook-form";
 import { Header } from "./components/Header";
-import Input from "components/Custom/Input";
+import { Titles } from "./components/Titles";
+import { titleType } from "./components/Titles";
 import Radio from "components/Custom/Radio";
+import MultiSelect from "components/Custom/MultiSelect";
+import CustomToggle from "components/Custom/CustomToggleSwitch";
+
 //style
 import {
   Wrapper,
@@ -15,13 +22,15 @@ import {
   LightToolTip,
   ToggleBlock,
 } from "./style";
-import { useTranslation } from "react-i18next";
 import { SubButton } from "../../style";
-import MultiSelect from "components/Custom/MultiSelect";
-import { IconButton } from "@material-ui/core";
-import CustomToggle from "components/Custom/CustomToggleSwitch";
+import { Descs, descType } from "./components/Descs";
 
 interface CreateProps {}
+
+export interface FormFieldTypes {
+  titles: titleType[];
+  descriptions: descType[];
+}
 
 const measurements = [
   {
@@ -45,8 +54,12 @@ const radioList = [
 const Create: React.FC<CreateProps> = () => {
   const { t } = useTranslation();
 
-  const form = useForm({
+  const form = useForm<FormFieldTypes>({
     mode: "onChange",
+    defaultValues: {
+      titles: [{ title: "", lang: "(Рус)" }],
+      descriptions: [{ body: "", lang: "(Рус)" }],
+    },
   });
 
   const onSubmit = (data: any) => {
@@ -57,49 +70,16 @@ const Create: React.FC<CreateProps> = () => {
     <Wrapper>
       <Header />
       <Form onSubmit={form.handleSubmit(onSubmit)}>
-        <Container>
-          <div style={{ marginBottom: 25 }}>
-            <Input label={t("title") + " (Рус)"} isAbsolute />
-            <SubButton>{t("addTitleOnAnotherLang")}</SubButton>
-          </div>
-          <div style={{ marginBottom: 25 }}>
-            <Input
-              label={t("description") + " (Рус)"}
-              multiline
-              type="textarea"
-              inputStyle={{
-                height: { desktop: 124, laptop: 124 },
-                inpadding: "10px 15px",
-              }}
-            />
-            <SubButton>{t("addDescOnAnotherLang")}</SubButton>
-          </div>
-          <div>
-            <MultiSelect
-              margin={{
-                desktop: "0 0 20px 0",
-                laptop: "0 0 20px 0",
-              }}
-              selectStyle={{
-                fontSize: {
-                  desktop: 18,
-                  laptop: 18,
-                },
-                bgcolor: "#eff0fd",
-                border: "none",
-                placeholdercolor: "#223367",
-                inpadding: "2px 10px 2px 75px",
-                placewieght: "500",
-              }}
-              iconleft="25px"
-              icon={<MeasurementIcon />}
-              isMulti
-              options={measurements}
-              placeholder={t("measurementUnit")}
-            />
-            <div style={{ display: "flex" }}>
+        <FormProvider {...form}>
+          <Container>
+            <Titles control={form.control} />
+            <Descs control={form.control} />
+            <div>
               <MultiSelect
-                margin={{ desktop: "0 20px 0 0", laptop: "0 20px 0 0" }}
+                margin={{
+                  desktop: "0 0 20px 0",
+                  laptop: "0 0 20px 0",
+                }}
                 selectStyle={{
                   fontSize: {
                     desktop: 18,
@@ -112,19 +92,14 @@ const Create: React.FC<CreateProps> = () => {
                   placewieght: "500",
                 }}
                 iconleft="25px"
-                icon={<ServicesIcon />}
+                icon={<MeasurementIcon />}
+                isMulti
                 options={measurements}
-                placeholder={t("attendance")}
+                placeholder={t("measurementUnit")}
               />
-              <div
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "flex-end",
-                }}
-              >
+              <div style={{ display: "flex" }}>
                 <MultiSelect
+                  margin={{ desktop: "0 20px 0 0", laptop: "0 20px 0 0" }}
                   selectStyle={{
                     fontSize: {
                       desktop: 18,
@@ -137,43 +112,73 @@ const Create: React.FC<CreateProps> = () => {
                     placewieght: "500",
                   }}
                   iconleft="25px"
-                  icon={<SectionsIcon />}
+                  icon={<ServicesIcon />}
                   options={measurements}
-                  placeholder={t("Космонавты")}
+                  placeholder={t("attendance")}
                 />
-                <SubButton>{t("createSection")}</SubButton>
+                <div
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-end",
+                  }}
+                >
+                  <MultiSelect
+                    selectStyle={{
+                      fontSize: {
+                        desktop: 18,
+                        laptop: 18,
+                      },
+                      bgcolor: "#eff0fd",
+                      border: "none",
+                      placeholdercolor: "#223367",
+                      inpadding: "2px 10px 2px 75px",
+                      placewieght: "500",
+                    }}
+                    iconleft="25px"
+                    icon={<SectionsIcon />}
+                    options={measurements}
+                    placeholder={t("Космонавты")}
+                  />
+                  <SubButton>{t("createSection")}</SubButton>
+                </div>
               </div>
             </div>
-          </div>
-          <div
-            style={{ display: "flex", alignItems: "center", marginBottom: 25 }}
-          >
-            <Radio
-              formControlMarginRight="55px"
-              flexDirection="row"
-              list={radioList}
-              textTransform
-            />
-            <LightToolTip
-              placement="top"
-              arrow
-              title="При заказе этих товаров на их стоимость не будет начислятся cкидка/кешбэк/ баллы, а так же за товар нельзя оплатить баллами"
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: 25,
+              }}
             >
-              <QuestionMarkIcon />
-            </LightToolTip>
-          </div>
-          <ToggleBlock>
-            <CustomToggle />
-            <p>Не применять программу лояльности</p>
-            <LightToolTip
-              placement="top"
-              arrow
-              title="При заказе этих товаров на их стоимость не будет начислятся cкидка/кешбэк/ баллы, а так же за товар нельзя оплатить баллами"
-            >
-              <QuestionMarkIcon />
-            </LightToolTip>
-          </ToggleBlock>
-        </Container>
+              <Radio
+                formControlMarginRight="55px"
+                flexDirection="row"
+                list={radioList}
+                textTransform
+              />
+              <LightToolTip
+                placement="top"
+                arrow
+                title="При заказе этих товаров на их стоимость не будет начислятся cкидка/кешбэк/ баллы, а так же за товар нельзя оплатить баллами"
+              >
+                <QuestionMarkIcon />
+              </LightToolTip>
+            </div>
+            <ToggleBlock>
+              <CustomToggle />
+              <p>Не применять программу лояльности</p>
+              <LightToolTip
+                placement="top"
+                arrow
+                title="При заказе этих товаров на их стоимость не будет начислятся cкидка/кешбэк/ баллы, а так же за товар нельзя оплатить баллами"
+              >
+                <QuestionMarkIcon />
+              </LightToolTip>
+            </ToggleBlock>
+          </Container>
+        </FormProvider>
       </Form>
     </Wrapper>
   );

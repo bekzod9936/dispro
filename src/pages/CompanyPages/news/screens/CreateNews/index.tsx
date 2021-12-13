@@ -77,7 +77,7 @@ const CreateNews = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const history = useHistory();
-  const [filter, setFilter] = React.useState<any>({});
+
   const { width } = useWindowWidth();
   const { branches } = useStaff();
   const [optionalFields, setOptionalFields] = React.useState<IOptionFields>({
@@ -109,6 +109,7 @@ const CreateNews = () => {
     control,
     handleSubmit,
     register,
+    setValue,
     watch,
     formState: { errors, isValid },
   } = useForm({
@@ -202,6 +203,13 @@ const CreateNews = () => {
 
     setTimeout(() => history.goBack(), 1000);
   };
+  React.useEffect(() => {
+    if (checked) {
+      setValue("timeFrom",  "00:00");
+      setValue("timeTo",  "23:59");
+    }
+ 
+}, [checked]);
 
   return (
     <Wrapper>
@@ -319,7 +327,7 @@ const CreateNews = () => {
                   <TextArea
                     maxLength={800}
                     {...field}
-                    fontSize={width > 1000 ? "18px" : "14px"}
+                    fontSize={width > 1000 ? "15px" : "14px"}
                     message={t("requiredField")}
                     error={!!errors.description}
                     minHeight={"150px"}
@@ -396,7 +404,6 @@ const CreateNews = () => {
                       />
                   )}
                 />
-                    
                 <Controller
                   rules={{
                     required: true,
@@ -445,7 +452,6 @@ const CreateNews = () => {
                     field={field}
                     type="tel"
                     defaultValue={""}
-                    
                     onlyNumber={true}
                     max="100"
                     message={
@@ -490,17 +496,11 @@ const CreateNews = () => {
                             mobile: 120,
                           },
                         }}
-                      // IconEnd={width>600 ?
-                      //   <WrapArea>
-                      //     <TextAreaIcon />
-                      //   </WrapArea>:''
-                      // }
                       />
                     )}
                   />
                 )}
               </PushWrapper>
-
               <PushWrapper>
                 {optionalFields.push && (
                   <Controller
@@ -521,7 +521,6 @@ const CreateNews = () => {
                     )}
                   />
                 )}
-
               </PushWrapper>
               <PushWrapper>
                 <div style={{ marginBottom: "10px" }}>
@@ -531,7 +530,7 @@ const CreateNews = () => {
                     </Label>
                   )}
                 </div>
-                {optionalFields.push && (
+                {optionalFields.push &&  (
                   <div style={{ display: "flex" }}>
                     <Controller
                       control={control}
@@ -539,8 +538,10 @@ const CreateNews = () => {
                       render={({ field }) => (
                         <Input
                           margin={{ laptop: "0 25px 0 0" }}
-                          type="time"
+                          type="time"  
                           field={field}
+                          disabled={checked ?true:false}
+                       
                         />
                       )}
                     />
@@ -548,7 +549,7 @@ const CreateNews = () => {
                       control={control}
                       name="timeTo"
                       render={({ field }) => (
-                        <Input type="time" field={field} />
+                        <Input type="time"  disabled={checked ?true:false} field={field} />
                       )}
                     />
                   </div>
@@ -560,7 +561,7 @@ const CreateNews = () => {
                   checked={checked}
                   name={"checked"}
                   label={t("24/7")}
-                  onChange={(e: any) => setChecked(e)}
+                  onChange={(e: any) => setChecked(e.target.checked)}
                 />
               )}
               {optionalFields.push && (
@@ -598,9 +599,6 @@ const CreateNews = () => {
                   />
                 </FormRow>
               )}
-
-
-
               {width <= 600 && (
                 <Buttons>
                   <div className="upside">

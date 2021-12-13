@@ -1,27 +1,27 @@
-import React from 'react';
-import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
-import { IDeferred } from 'services/redux/Slices/proposals/types';
-import { RootState } from 'services/redux/store';
-import { Wrapper } from './style';
-import { useDeferred } from './useDeferred';
-import Input from 'components/Custom/Input';
-import { SearchIcon } from 'assets/icons/ClientsPageIcons/ClientIcons';
-import { useDebounce } from 'use-debounce/lib';
-import Spinner from 'components/Helpers/Spinner';
-import { CouponCard } from '../../components/CouponCard';
+import React from "react";
+import { useAppDispatch, useAppSelector } from "services/redux/hooks";
+import { IDeferred } from "services/redux/Slices/proposals/types";
+import { RootState } from "services/redux/store";
+import { Wrapper } from "./style";
+import { useDeferred } from "./useDeferred";
+import Input from "components/Custom/Input";
+import { SearchIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
+import { useDebounce } from "use-debounce/lib";
+import Spinner from "components/Helpers/Spinner";
+import { CouponCard } from "../../components/CouponCard";
 import {
   resetCurrentCoupon,
   setCurrentCoupon,
-} from 'services/redux/Slices/proposals/proposals';
-import { SideBar } from 'pages/CompanyPages/clients/components/SideBar';
-import { CouponBar } from '../../components/CouponSideBar';
-import { EmptyPage } from '../Drafts/components/EmptyPage';
-import { Container, SearchIconWrapper } from '../Drafts/style';
-import { CouponList } from '../../components/CouponList';
-import useWindowWidth from 'services/hooks/useWindowWidth';
-import FullModal from 'components/Custom/FullModal';
-import { FullSideBar } from '../../components/FullSideBar';
-import { TabletCard } from '../../components/TabletCard';
+} from "services/redux/Slices/proposals/proposals";
+import { SideBar } from "pages/CompanyPages/clients/components/SideBar";
+import { CouponBar } from "../../components/CouponSideBar";
+import { EmptyPage } from "../Drafts/components/EmptyPage";
+import { Container, SearchIconWrapper } from "../Drafts/style";
+import { CouponList } from "../../components/CouponList";
+import useWindowWidth from "services/hooks/useWindowWidth";
+import FullModal from "components/Custom/FullModal";
+import { FullSideBar } from "../../components/FullSideBar";
+import { TabletCard } from "../../components/TabletCard";
 
 const Deferred = () => {
   const dispatch = useAppDispatch();
@@ -29,7 +29,7 @@ const Deferred = () => {
     (state: RootState) => state.proposals
   );
   const [open, setOpen] = React.useState<boolean>(false);
-  const [value, setValue] = React.useState<string>('');
+  const [value, setValue] = React.useState<string>("");
   const [debouncedQuery] = useDebounce(value, 300);
   const { isFetching, refetch } = useDeferred({
     dispatch,
@@ -37,7 +37,7 @@ const Deferred = () => {
   });
   const { width } = useWindowWidth();
   const handleOpen = (id: number) => {
-    dispatch(setCurrentCoupon({ id, location: 'deferred' }));
+    dispatch(setCurrentCoupon({ id, location: "deferred" }));
     setOpen(true);
   };
 
@@ -48,6 +48,7 @@ const Deferred = () => {
   React.useEffect(() => {
     dispatch(resetCurrentCoupon());
   }, []);
+
   const coupons = () => {
     if (width <= 1000 && width > 600) {
       return deferred.map((el: IDeferred) => (
@@ -68,8 +69,7 @@ const Deferred = () => {
           count={el.count}
         />
       ));
-    }
-    else if (width > 600) {
+    } else if (width > 600) {
       return deferred.map((el: IDeferred) => (
         <CouponCard
           startDate={el.startDate}
@@ -90,14 +90,14 @@ const Deferred = () => {
       ));
     } else {
       return (
-        <CouponList location='deferred' onClick={setOpen} coupons={deferred} />
+        <CouponList location="deferred" onClick={setOpen} coupons={deferred} />
       );
     }
   };
   return (
     <Wrapper>
       {width > 600 ? (
-        <SideBar maxWidth='370px' isOpen={open}>
+        <SideBar maxWidth="370px" isOpen={open}>
           <CouponBar
             refetch={refetch}
             resetCoupon={handleReset}
@@ -113,20 +113,26 @@ const Deferred = () => {
       <Input
         value={value}
         error={deferred.length === 0 && !isFetching && !!value}
-        message={'По запросу ничего не найдено'}
+        message={"По запросу ничего не найдено"}
         onChange={(e) => setValue(e.target.value)}
         IconStart={
           <SearchIconWrapper>
             <SearchIcon />
           </SearchIconWrapper>
         }
-        placeholder='Поиск...'
-        margin={{ laptop: '0 0 20px 0' }}
-        inputStyle={{ border: 'none' }}
-        width={{ maxwidth: 500, width: '100%' }}
+        placeholder="Поиск..."
+        margin={{ laptop: "0 0 20px 0" }}
+        inputStyle={{ border: "none" }}
+        width={{ maxwidth: 500, width: "100%" }}
       />
       <Container isFullScreen={isFetching || deferred.length === 0}>
-        {isFetching ? <Spinner /> : deferred.length === 0 ? <EmptyPage /> : coupons()}
+        {isFetching ? (
+          <Spinner />
+        ) : deferred.length === 0 ? (
+          <EmptyPage />
+        ) : (
+          coupons()
+        )}
       </Container>
     </Wrapper>
   );
