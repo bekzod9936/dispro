@@ -312,6 +312,7 @@
   "uzs": "so'm",
   "quantity": "ta",
   "people": "odam",
+  "peopleRu": "odam",
   "hello_say": "{{count}} ta salom",
   "fields_not_filled": "Maydonlar to'ldirilmagan",
   "percentage_in": "Foizda",
