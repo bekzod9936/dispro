@@ -1,4 +1,4 @@
-export const operationsHeaders = ["date", "type", "cashier", "points", "sale", "UZS", "cashbackSum"]
+export const operationsHeaders = ["date", "type", "cashier", "points", "sale", "cashbackSum", "UZS"]
 export const operationsColumns = [
     {
         date: "26.04.2021 13:57",

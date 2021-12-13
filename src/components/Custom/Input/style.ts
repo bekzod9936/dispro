@@ -208,6 +208,8 @@ export const MInput = styled(TextField)`
 export const Label = styled(InputLabel)`
   width: fit-content;
   user-select: none;
+  display: flex;
+  align-items: center;
 
   color: ${({ labelStyle }: Props) =>
     labelStyle?.color ? labelStyle?.color : '#C7C7C7'} !important;

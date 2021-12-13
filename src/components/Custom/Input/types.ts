@@ -1,5 +1,6 @@
 export interface Props {
   field?: any;
+  labelIcon?: JSX.Element | boolean,
   autoComplete?: string;
   autoFocus?: boolean;
   defaultValue?: any;

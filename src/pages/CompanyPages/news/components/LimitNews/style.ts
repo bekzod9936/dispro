@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { device } from "styles/device"
 
 export const WrapperModal = styled.div`
-    padding: 20px 45px;
+    padding: 20px 30px;
     width:500px;
     position: relative;
     a {
@@ -21,6 +21,7 @@ export const WrapperModal = styled.div`
         color: #223367;
         margin-bottom: 25px;
     }
+    
     @media (max-width: ${device.mobile}) {
       max-width:300px;
       padding: 20px 15px;

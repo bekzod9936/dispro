@@ -33,11 +33,7 @@ export const ConfirmModal = ({
   return (
     <Modal modalStyle={{ bgcolor: "#fff" }} open={submit}>
       <WrapperModal>
-        {width > 600 && (
-          <CloseButton onClick={cancelSubmit}>
-            <CloseIcon />
-          </CloseButton>
-        )}
+  
       {width>600 ?      <h3 style={{ marginRight: "20px" }}>
           {start > today
             ? t(`Новость будет добавлена в раздел "В ожидании" `)
@@ -59,7 +55,7 @@ export const ConfirmModal = ({
                 "Новость перейдет в раздел Активные и будет доступна вашим клиентам в приложении"
               )}
         </p>
-        {width > 600 ? (
+        {width > 1000 ? (
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
             <Button
               buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
@@ -79,7 +75,29 @@ export const ConfirmModal = ({
               Сохранить
             </Button>
           </div>
-        ) : (
+        ) : width>600 && width<=1000 ?  (<div style={{ display: "flex", justifyContent: "center" }}>
+        <Button
+                       onClick={cancelSubmit}
+              endIcon={<MobileCancelIcon />}
+              buttonStyle={{
+                bgcolor: "rgba(96, 110, 234, 0.1)",
+                color: "#606EEA",
+                
+              }}
+              margin={{ planshet: "0 20px 0px 0" }}
+            >
+              {t("cancellation")}
+            </Button>
+        <Button
+          type="submit"
+          margin={{ laptop: "0 22px 0 0" }}
+          onClick={submitData}
+          buttonStyle={{ shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)" }}
+          endIcon={<SaveIconMobile />}
+        >
+          Сохранить
+        </Button>
+      </div>):(
           <Buttons>
             <div className="upside">
               <Button
