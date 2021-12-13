@@ -635,7 +635,7 @@ const RepairNews = () => {
                   checked={checked}
                   name={"checked"}
                   label={"Круглосуточно"}
-                  onChange={(e: any) => setChecked(e)}
+                  onChange={(e: any) => setChecked(e.target.checked)}
                 />
               )}
 
