@@ -210,7 +210,7 @@ const CreateNews = () => {
     }
  
 }, [checked]);
-console.log('checked',checked)
+
   return (
     <Wrapper>
       {width > 1000 && (
@@ -549,7 +549,7 @@ console.log('checked',checked)
                       control={control}
                       name="timeTo"
                       render={({ field }) => (
-                        <Input type="time"      disabled={checked ?true:false} field={field} />
+                        <Input type="time"  disabled={checked ?true:false} field={field} />
                       )}
                     />
                   </div>
