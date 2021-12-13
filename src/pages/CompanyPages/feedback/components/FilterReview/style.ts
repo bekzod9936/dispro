@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { device } from 'styles/device';
 import { ReactComponent as Star } from 'assets/icons/FeedBack/star.svg';
 import { ReactComponent as Delete } from 'assets/icons/IconsInfo/delete.svg';
+import { ReactComponent as Search } from 'assets/icons/searchblue.svg';
 
 interface Props {
   bgcolor?: boolean;
@@ -13,6 +14,23 @@ export const WrapCheck = styled.div`
   width: 100%;
   flex: 1;
   flex-direction: column;
+`;
+
+export const SearchIcon = styled(Search)`
+  width: 24px;
+  height: 24px;
+  @media (min-width: ${device.laptop}) {
+    width: 26px;
+    height: 26px;
+  }
+  @media (max-width: ${device.planshet}) {
+    width: 20px;
+    height: 20px;
+  }
+  @media (max-width: ${device.mobile}) {
+    width: 16px;
+    height: 16px;
+  }
 `;
 
 export const Label = styled.label`
@@ -86,8 +104,16 @@ export const DeleteIcon = styled(Delete)`
 
 export const WrapValues = styled.div`
   display: flex;
-  position: absolute;
-  top: calc(100% + 10px);
-  left: 0;
   grid-gap: 10px;
+  flex-wrap: wrap;
+`;
+
+export const FilterWarp = styled.div`
+  display: flex;
+  grid-gap: 10px;
+  margin-bottom: 20px;
+  flex-direction: column;
+  div.filterCom {
+    display: flex;
+  }
 `;

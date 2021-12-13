@@ -60,8 +60,8 @@ const QrForBranch = ({ qrVisible, onSave, closeQr }: IProps) => {
           <Break mHeight={10} />
           <ModalRow jContent="space-between">
             <ModalText>
-              Выберите филиал, в которой будет производитьсяоплата на местах,
-              через QR
+              Выберите филиал, в котором будет производиться оплата на местах
+              через QR-код
             </ModalText>
           </ModalRow>
           <Break mHeight={20} />

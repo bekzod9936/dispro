@@ -56,6 +56,7 @@ import useReferalData from "./hooks/useReferalData";
 import useWindowWidth from "services/hooks/useWindowWidth";
 import ReferalCard from "./components/ReferalCard";
 import Spinner from "components/Helpers/Spinner";
+import { ruCount } from "services/utils";
 
 const ReferalProgrammSection = () => {
   const { t } = useTranslation();
@@ -143,7 +144,14 @@ const ReferalProgrammSection = () => {
                           item.number === 2
                             ? "Петя"
                             : item.number > 2
-                            ? `${index} ${t("people")}`
+                            ? index +
+                              " " +
+                              ruCount({
+                                count: index,
+                                firstWord: t("people"),
+                                secondWord: t("peopleRu"),
+                                thirdWord: t("peopleRu"),
+                              })
                             : null
                         }
                       />
@@ -288,11 +296,12 @@ const ReferalProgrammSection = () => {
     }
   };
 
-  if(loadingReferal || isLoading || fetchingReferal ||
-    isFetching) {
-    return <SpinnerDiv>
-      <Spinner />
-    </SpinnerDiv>
+  if (loadingReferal || isLoading || fetchingReferal || isFetching) {
+    return (
+      <SpinnerDiv>
+        <Spinner />
+      </SpinnerDiv>
+    );
   }
 
   return (
