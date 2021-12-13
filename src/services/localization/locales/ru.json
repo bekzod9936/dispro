@@ -565,5 +565,11 @@
   "star23": "звезды",
   "star5": "звезд",
   "withfilial": "По филиалам",
-  "choosefilial":"Выберите филиал"
+  "choosefilial":"Выберите филиал",
+  "newItem": "Новый товар",
+  "addTitleOnAnotherLang": "Добавить название на другом языке +",
+  "addDescOnAnotherLang": "Добавить описание на другом языке +",
+  "measurementUnit": "Единица измерения",
+  "attendance": "Услуги",
+  "createSection": "Создать раздел +"
 }

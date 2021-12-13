@@ -1,6 +1,13 @@
 import styled from "styled-components";
 
+import { ReactComponent as SearchSvg } from 'assets/icons/searchblue.svg';
+
+
 export const Wrapper = styled.div`
+    
+`
+
+export const Nav = styled.div`
     display: flex;
     align-items: center;
     margin-bottom: 35px;
@@ -19,4 +26,12 @@ export const Wrapper = styled.div`
             font-size: 22px;
         }
     }
+`
+
+
+//icons
+
+
+export const SearchIcon = styled(SearchSvg)`
+    margin-left: 34px;
 `

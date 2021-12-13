@@ -2,14 +2,13 @@
 import { useTranslation } from "react-i18next"
 import { useForm, useFieldArray, Controller } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
-import { Alert } from "@material-ui/lab"
 
 //components
 import { IconButton } from "@material-ui/core"
 import Modal from "components/Custom/Modal"
 import Input from "components/Custom/Input"
 import Button from "components/Custom/Button"
-
+import { SubButton } from "pages/CompanyPages/services/style"
 
 //style
 import {
@@ -23,6 +22,8 @@ import {
     CreateSectionIcon,
     CancelIcon
 } from "./style"
+
+//other
 import { createSectionFormType } from "pages/CompanyPages/services/utils/types"
 import { sectionsSchema } from "pages/CompanyPages/services/utils/schemas.yup"
 
@@ -91,17 +92,11 @@ export const SectionModal: React.FC<SectionModalProps> = ({ isOpen, onClose }) =
                                             message={t(errors?.sections?.[index]?.title?.message + "")}
                                             field={field}
                                             label={t("sectionName")}
-                                            IconEnd={fields.length > 1 ? <RemoveInputIcon onClick={() => {
-                                                remove(index)
-                                            }} /> : undefined} />
+                                            IconEnd={fields.length > 1 ? <RemoveInputIcon onClick={() => remove(index)} /> : undefined} />
                                     )}
                                 />
                                 {fields.length <= 19 && index === fields.length - 1 &&
-                                    <button onClick={() => {
-                                        append({
-                                            title: ""
-                                        })
-                                    }} className="add">{t("createAnother")}</button>}
+                                    <SubButton onClick={() => append({ title: "" })}>{t("createAnother")}</SubButton>}
                             </Field>
                         ))
                     }

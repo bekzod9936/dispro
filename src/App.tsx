@@ -10,7 +10,6 @@ import RestrictModal from "components/Helpers/RestrictModal";
 //screens
 import Condition from "pages/LoginPages/LoginPage/Condition";
 import Policy from "pages/LoginPages/LoginPage/Policy";
-import NotFound from "pages/NotFound";
 //routes
 import { RenderAllRoutes } from "./routes/routes";
 //hooks
@@ -42,9 +41,6 @@ function App() {
         <Route exact path="/terms-and-conditions" component={Condition} />
         <Route exact path="/privacy-policy" component={Policy} />
         <RenderAllRoutes />
-        <Route path="*">
-          <NotFound />
-        </Route>
       </Switch>
       <SnackBar
         message={info.body}
