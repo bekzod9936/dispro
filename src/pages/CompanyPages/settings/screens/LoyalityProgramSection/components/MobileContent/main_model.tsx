@@ -283,13 +283,13 @@ const MainModel = () => {
             }}
             onClick={() => {
               append({
-                name: 'new_row',
-                percent: 15,
+                name: null,
+                percent: null,
                 requirements: [
                   {
-                    amount: 100,
-                    condition: '',
-                    type: 1,
+                    amount: null,
+                    condition: null,
+                    type: null,
                     unit: 'UZS',
                   },
                 ],
