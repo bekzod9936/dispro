@@ -4,6 +4,7 @@ export const EPicker = styled.div`
   position: absolute;
   bottom: 15%;
   right: 0;
+  z-index: 3000;
   .emoji-mart-scroll {
     ::-webkit-scrollbar {
       width: 7px;

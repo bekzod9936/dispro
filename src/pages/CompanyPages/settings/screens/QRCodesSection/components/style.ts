@@ -1,16 +1,20 @@
-import styled from "styled-components";
-import { device } from "styles/device";
-import { ReactComponent as SaveIc } from "assets/icons/save_ic.svg";
-import { ReactComponent as RightArrowIc } from "assets/icons/right_arrow_ic.svg";
-import { ReactComponent as ScrapperIc } from "assets/icons/scrapper_ic.svg";
+import styled from 'styled-components';
+import { device } from 'styles/device';
+import { ReactComponent as SaveIc } from 'assets/icons/save_ic.svg';
+import { ReactComponent as RightArrowIc } from 'assets/icons/right_arrow_ic.svg';
+import { ReactComponent as ScrapperIc } from 'assets/icons/scrapper_ic.svg';
+import { ReactComponent as Dots } from 'assets/icons/FeedBack/dots.svg';
+
+export const DotsIcon = styled(Dots)`
+  transform: rotate(90deg);
+`;
 
 export const QrCard = styled.div`
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  padding: 19px 22px;
-  width: 90%;
-  margin: 10px 10px 10px 0px;
+  padding: 5px 5px 20px 20px;
+  width: 100%;
   border-radius: 14px;
   background: white;
 
@@ -110,13 +114,13 @@ export const Form = styled.form`
 `;
 
 interface IRow {
-  jContent: "space-between" | "center" | "space-around";
+  jContent: 'space-between' | 'center' | 'space-around';
 }
 
 export const ModalRow = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: ${({ jContent = "space-between" }: IRow) => jContent};
+  justify-content: ${({ jContent = 'space-between' }: IRow) => jContent};
   align-items: flex-start;
 `;
 
@@ -163,14 +167,14 @@ interface IBreak {
 }
 
 export const Break = styled.div`
-  height: ${({ height = 25 }: IBreak) => height + "px"};
+  height: ${({ height = 25 }: IBreak) => height + 'px'};
 
   @media (max-width: ${device.mobile}) {
-    height: ${({ mHeight = 20 }: IBreak) => mHeight + "px"};
+    height: ${({ mHeight = 20 }: IBreak) => mHeight + 'px'};
   }
 
   @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
-    height: ${({ mHeight = 20 }: IBreak) => mHeight + "px"};
+    height: ${({ mHeight = 20 }: IBreak) => mHeight + 'px'};
   }
 `;
 
