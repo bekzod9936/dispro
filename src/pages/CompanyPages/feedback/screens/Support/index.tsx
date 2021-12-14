@@ -211,8 +211,8 @@ const Support = () => {
   };
 
   const onSubmit = (e: any) => {
-    setLoading(true);
-    if (e.message.length > 0) {
+    if (e.message.length > 0 && e?.message.match(/\S/) !== null) {
+      setLoading(true);
       socket.emit(
         'chat_to_server',
         {
@@ -222,7 +222,7 @@ const Support = () => {
           fromId: staffId,
           companyId: +companyId,
           data: {
-            message: e.message,
+            message: e.message.trim(),
           },
         },
         (res: any) => {
