@@ -476,29 +476,28 @@ const CreateNews = () => {
                   />
                 </PushBlock>
                 {optionalFields.push && (
-                  <Controller
-                    name="descriptionPush"
-                    control={control}
-                    render={({ field }) => (
-                      <Input
-                        field={field}
-                        margin={{ laptop: "35px 0" }}
-                        label={t("text_push")}
-                        type="textarea"
-                        required={optionalFields.push ? true : false}
-                        multiline={true}
-                        maxLength={100}
-                        inputStyle={{
-                          height: {
-                            desktop: 120,
-                            planshet: 90,
-                            laptop: 90,
-                            mobile: 120,
-                          },
-                        }}
-                      />
-                    )}
-                  />
+                   <Controller
+                   name="descriptionPush"
+                   control={control}
+
+                   rules={{
+                     required: true,
+                   }}
+                   render={({ field }) => (
+                     <TextArea
+                       maxLength={100}
+                       {...field}
+                      
+                       fontSize={width > 1000 ? "15px" : "14px"}
+                       required={optionalFields.push ? true : false}
+                       minHeight={"100px"}
+                       maxHeight={"150px"}
+                       resize={"vertical"}
+                       title={t("text_push")}
+                     />
+                   )}
+                 />
+              
                 )}
               </PushWrapper>
               <PushWrapper>

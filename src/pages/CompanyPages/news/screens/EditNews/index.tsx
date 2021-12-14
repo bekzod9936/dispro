@@ -581,31 +581,28 @@ const EditNews = () => {
                   />
                 </PushBlock>
                 {optionalFields.push && (
-                  <Controller
+                    <Controller
                     name="descriptionPush"
                     control={control}
                     defaultValue={newsById?.data?.pushUpTitle}
+                    rules={{
+                      required: true,
+                    }}
                     render={({ field }) => (
-                      <Input
-                        field={field}
-                        margin={{ laptop: "35px 0" }}
-                        label={t("text_push")}
-                        type="textarea"
-                        multiline={true}
+                      <TextArea
                         maxLength={100}
+                        {...field}
                         defaultValue={newsById?.data?.pushUpTitle}
-                        inputStyle={{
-                          height: {
-                            desktop: 120,
-                            planshet: 90,
-                            laptop: 90,
-                            mobile: 120,
-                          },
-                        }}
-                     
+                        fontSize={width > 1000 ? "15px" : "14px"}
+                        required={optionalFields.push ? true : false}
+                        minHeight={"100px"}
+                        maxHeight={"150px"}
+                        resize={"vertical"}
+                        title={t("text_push")}
                       />
                     )}
                   />
+          
                 )}
               </PushWrapper>
               <PushWrapper>

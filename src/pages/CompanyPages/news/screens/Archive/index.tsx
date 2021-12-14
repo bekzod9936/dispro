@@ -39,7 +39,7 @@ const Archive = () => {
   const totalNewsCount = useAppSelector(
     (state) => state.news.NewsInfo.totalCountNews
   );
-
+  const { width } = useWindowWidth();
   const { t } = useTranslation();
   const handleOpenSetting = () => {
     history.push({
@@ -51,7 +51,7 @@ const Archive = () => {
 
   const intialFilter = {
     page: 1,
-    perPage: 5,
+    perPage: width>1000 || width<600 ?5:10,
     fromDate: "",
     toDate: "",
   };
@@ -61,7 +61,7 @@ const Archive = () => {
     const query = useAppSelector((state) => state.news.query);
   const { response } = useArchive({ filterValues: filterValues });
   const { list } = useData();
-  const { width } = useWindowWidth();
+
   const newsById = selectedNews?.fullData;
   const handlechangePage = async (e: any) => {
     await setFilterValues({ ...filterValues, page: e });
@@ -119,16 +119,16 @@ const Archive = () => {
                 <Table data={list} />
               ) : (
                 <div>
-                  {width > 1000 ? (
-                    <div style={{ paddingRight: "20%", paddingTop: "5%" }}>
-                      <NoNews handleOpenSetting={handleOpenSetting} />
-                    </div>
-                  ) : (
-                    <div style={{ paddingRight: "10%", paddingTop: "10%" }}>
-                      <NoNewsLaptop handleOpenSetting={handleOpenSetting} />
-                    </div>
-                  )}
-                </div>
+                {width > 1000 ? (
+                  <div style={{ paddingRight: "20%", paddingTop: "5%" }}>
+                    <NoNews handleOpenSetting={handleOpenSetting} />
+                  </div>
+                ) : (
+                  <div style={{ paddingRight: "10%", paddingTop: "20%" }}>
+                    <NoNewsLaptop handleOpenSetting={handleOpenSetting} />
+                  </div>
+                )}
+              </div>
               )}
               <SideBar isOpen={newsById} maxWidth={"370px"}>
                 {newsById && (
@@ -143,8 +143,8 @@ const Archive = () => {
                 <WrapPag>
                  <Info>
                     {t("shown")}
-                    {query ? null:<span>{ between}</span>}
-                    { query ? null:t("from1")} <span>{totalNewsCount}</span>
+                    <span>{ between}</span>
+                    {t("from1")} <span>{totalNewsCount}</span>
                     {countPagination({
                       count: Number(totalNewsCount),
                       firstWord: t("newspaginationtitle"),
@@ -195,8 +195,8 @@ const Archive = () => {
                 <WrapPag>
                 <Info>
                     {t("shown")}
-                    {query ? null:<span>{ between}</span>}
-                    { query ? null:t("from1")} <span>{totalNewsCount}</span>
+                    <span>{ between}</span>
+                    { t("from1")} <span>{totalNewsCount}</span>
                     {countPagination({
                       count: Number(totalNewsCount),
                       firstWord: t("newspaginationtitle"),

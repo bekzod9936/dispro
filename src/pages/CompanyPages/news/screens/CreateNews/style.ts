@@ -156,6 +156,7 @@ export const UpSide = styled.div`
     }
     @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
       height: 100%;
+      padding: 0px 20px;
       width: 100%;
     }
     
@@ -232,7 +233,9 @@ export const DownSide = styled.div`
     @media (min-width: ${device.mobile}) and (max-width:${device.planshet}) {
       display: flex;
       padding: 25px 0 0 0;
+    
       height: 8%;
+   
       justify-content: center;
 
     }
@@ -244,8 +247,8 @@ export const Form = styled.form`
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
     border-radius: 14px;
     padding: 35px 110px 0 110px;
-    @media (max-width: ${device.laptop}) {
-      padding: 20px 25px;
+    @media (max-width: ${device.planshet}) {
+      padding: 20px 0px;
       width: 100%;
     }
     @media (max-width: 1150px) {

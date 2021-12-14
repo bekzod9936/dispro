@@ -4,47 +4,54 @@ import { IProps } from "../Header/types";
 import { FONT_SIZE } from "../../../../../services/Types/enums";
 //styles
 import { Flex } from "../../../../../styles/BuildingBlocks";
+import { CreateNewsIcon } from "../../../../../assets/icons/NewsIcons/NewsIcons";
 import { Text } from "../../../../../styles/CustomStyles";
 import noPending from "../../../../../assets/images/nopending.png";
-
+import Button from "components/Custom/Button";
 const NoNewsLaptop: React.FC<IProps> = ({ handleOpenSetting }) => {
   const { t } = useTranslation();
 
   return (
     <>
-      <Flex
+       <Flex
         width="100%"
         height="100%"
         justifyContent="center"
         alignItems="center"
-        flexDirection="column"
       >
-        <Flex
-          alignItems="center"
-          margin="15px 0px 15px 0px"
-          flexDirection="column"
-        >
-          <div className="imagePart">
-            <img src={noPending} style={{ width: "250px" }} />
+        <Flex >
+          <div className="imagePart" style={{padding:'0px 20px'}}>
+            <img src={noPending} style={{width:'300px'}}/>
           </div>
-
           <Flex
-            margin="0px 0px 0px 15px"
+            margin="0px 0px 0px 10px"
             flexDirection="column"
             alignItems="flex-start"
           >
-            <div
-              style={{
-                textAlign: "center",
-                maxWidth: "260px",
-                paddingTop: "5%",
-              }}
-            >
-              <Text fontSize={FONT_SIZE.meduim} fontWeight={400}>
+            <div style={{ maxWidth: "500px" }}>
+              <Text fontSize={FONT_SIZE.mediumPlus} fontWeight={400}>
                 {t("noPendingNews")}
               </Text>
             </div>
-            <div style={{ marginTop: "15px" }}></div>
+            <div style={{ marginTop: "15px" }}>
+              <Button
+                onClick={handleOpenSetting}
+                buttonStyle={{
+                  bgcolor: "rgb(96, 110, 234)",
+                  color: "#fff",
+                  weight: 500,
+                  height: { desktop: 60,planshet:45 },
+                }}
+                margin={{
+                  desktop: "0 25px 0 0",
+                  laptop: "0 25px 0 0",
+                  planshet: "0 0px 0px 0",
+                }}
+                startIcon={<CreateNewsIcon />}
+              >
+                {t("createNews")}
+              </Button>
+            </div>
           </Flex>
         </Flex>
       </Flex>
