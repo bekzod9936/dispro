@@ -49,19 +49,21 @@ export const Durations: React.FC<DurationsProps> = () => {
         label={t("preparationTime")}
         labelPlacement="end"
       />
-      <Fields>
-        <h4>Задайте вашему товару время изготовления</h4>
-        {fields.map((item, index) => (
-          <GridContainer key={item.id}>
-            <Duration name={`preparationTime.${index}.days`} label="days" />
-            <Duration name={`preparationTime.${index}.hours`} label="hours" />
-            <Duration
-              name={`preparationTime.${index}.minutes`}
-              label="minutes"
-            />
-          </GridContainer>
-        ))}
-      </Fields>
+      {fields.length > 0 && (
+        <Fields>
+          <h4>Задайте вашему товару время изготовления</h4>
+          {fields.map((item, index) => (
+            <GridContainer key={item.id}>
+              <Duration name={`preparationTime.${index}.days`} label="days" />
+              <Duration name={`preparationTime.${index}.hours`} label="hours" />
+              <Duration
+                name={`preparationTime.${index}.minutes`}
+                label="minutes"
+              />
+            </GridContainer>
+          ))}
+        </Fields>
+      )}
     </div>
   );
 };
