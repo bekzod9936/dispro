@@ -3,7 +3,8 @@ import { makeStyles } from "@material-ui/core";
 export const useStyles = makeStyles({
     label: {
         fontSize: 16,
-        color: '#223367'
+        color: '#223367',
+        lineHeight: 18.75
     },
     root: {
         transition: '200ms all'

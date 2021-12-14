@@ -1,9 +1,10 @@
-import { useState } from 'react';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import { Container } from './style';
+import { useState } from "react";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import { Container } from "./style";
 
 interface Props {
+  styles?: any;
   id?: string;
   onChange?: (e: any) => void;
   name?: string;
@@ -12,7 +13,7 @@ interface Props {
   checkedIcon?: any;
   disabled?: boolean;
   required?: boolean;
-  labelPlacement?: 'bottom' | 'end' | 'start' | 'top';
+  labelPlacement?: "bottom" | "end" | "start" | "top";
   value?: any;
   ref?: any;
   icon?: any;
@@ -28,6 +29,7 @@ const CheckBox = ({
   disabled,
   checkedIcon,
   icon,
+  styles,
 }: Props) => {
   const [state, setState] = useState(disabled || checked);
   const handleChange = (e: any) => {
@@ -41,6 +43,7 @@ const CheckBox = ({
   return (
     <Container>
       <FormControlLabel
+        classes={{ root: styles }}
         control={
           <Checkbox
             disabled={disabled}
