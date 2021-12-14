@@ -69,8 +69,9 @@ const Waiting = () => {
 
   const [filterValues, setFilterValues] =
     useState<intialFilterProps>(intialFilter);
-    
-  const { response } = useWaiting({ filterValues: filterValues });
+    const [searchFilterValues, setSearchFilterValues] =
+    useState<intialFilterProps>(intialFilter);
+  const { response } = useWaiting({  filterValues: query ?searchFilterValues:filterValues,  });
   const { list } = useData();
   
   const errormessage = useAppSelector((state) => state.news.errorMessage);
@@ -78,6 +79,10 @@ const Waiting = () => {
 
   const handlechangePage = async (e: any) => {
     await setFilterValues({ ...filterValues, page: e });
+    await response.refetch();
+  };
+  const handlechangePageSearch = async (e: any) => {
+    await setSearchFilterValues({ ...searchFilterValues, page: e });
     await response.refetch();
   };
   const handleOpenNews = () => {
@@ -166,9 +171,9 @@ const Waiting = () => {
                     })}
                   </Info>
                      <NewPagination
-              onChange={handlechangePage}
-              currentPage={Number(filterValues.page)}
-              totalCount={Number(totalCount)}
+                   onChange={query ? handlechangePageSearch:handlechangePage}
+                   currentPage={Number(query ?searchFilterValues.page: filterValues.page)}
+                   totalCount={Number(totalCount)}
             />
             
                 </WrapPag>
@@ -217,9 +222,9 @@ const Waiting = () => {
                     })}
                   </Info>
                     <NewPagination
-              onChange={handlechangePage}
-              currentPage={Number(filterValues.page)}
-              totalCount={Number(totalCount)}
+                         onChange={query ? handlechangePageSearch:handlechangePage}
+                         currentPage={Number(query ?searchFilterValues.page: filterValues.page)}
+                         totalCount={Number(totalCount)}
             />
                    
                   

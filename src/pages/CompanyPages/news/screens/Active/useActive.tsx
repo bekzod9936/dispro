@@ -38,9 +38,10 @@ const useActive = ({ filterValues }: Props) => {
       const url = Object.keys(filterValues)
       .map((v) => `${v}=${filterValues[v]}&`)
       .join("");
+ 
       if (debouncedQuery !== "") {
-        return searchActiveNews({url:`page=1&perPage=5&=&key=${debouncedQuery}`});
-      }   
+        return searchActiveNews({url:url+`&key=${debouncedQuery}`});
+      }
       return fetchActivenews({
         url: url,
       });

@@ -26,10 +26,10 @@ const useWaiting = ({ filterValues }: PProps) => {
       const url = Object.keys(filterValues)
       .map((v) => `${v}=${filterValues[v]}&`)
       .join("");
+   
       if (debouncedQuery !== "") {
-        return searchPendingNews({url:url+`key=${debouncedQuery}`});
+        return searchPendingNews({url:url+`&key=${debouncedQuery}`});
       }
-
       return fetchPendingNews({
         url: url,
       });

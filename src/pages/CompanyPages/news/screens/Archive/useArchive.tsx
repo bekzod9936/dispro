@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 import { useDebounce } from "use-debounce/lib";
 interface PProps {
   filterValues: any;
+
 }
 
 function handleSort(arr: any) {
@@ -33,8 +34,9 @@ const useArchive = ({ filterValues }: PProps) => {
       const url = Object.keys(filterValues)
       .map((v) => `${v}=${filterValues[v]}&`)
       .join("");
+    
       if (debouncedQuery !== "") {
-        return searchArchiveNews({url:`page=1&perPage=5&=&key=${debouncedQuery}`});
+        return searchArchiveNews({url:url+`&key=${debouncedQuery}`});
       }
       return fetchArchiveNews({
         url: url,

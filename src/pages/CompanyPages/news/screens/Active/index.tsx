@@ -78,12 +78,17 @@ const Active = () => {
 
   const [filterValues, setFilterValues] =
     useState<intialFilterProps>(intialFilter);
-
-  const { response } = useActive({ filterValues: filterValues });
+    const [searchFilterValues, setSearchFilterValues] =
+    useState<intialFilterProps>(intialFilter);
+  const { response } = useActive({ filterValues: query ?searchFilterValues:filterValues, });
 
   const { list } = useData();
   const handlechangePage = async (e: any) => {
     await setFilterValues({ ...filterValues, page: e });
+    await response.refetch();
+  };
+  const handlechangePageSearch = async (e: any) => {
+    await setSearchFilterValues({ ...searchFilterValues, page: e });
     await response.refetch();
   };
   const onClose = () => {
@@ -190,9 +195,9 @@ const Active = () => {
                     })}
                   </Info>
                   <NewPagination
-              onChange={handlechangePage}
-              currentPage={Number(filterValues.page)}
-              totalCount={Number(totalCount)}
+            onChange={query ? handlechangePageSearch:handlechangePage}
+            currentPage={Number(query ?searchFilterValues.page: filterValues.page)}
+            totalCount={Number(totalCount)}
             />
                
                 </WrapPag>
@@ -244,9 +249,9 @@ const Active = () => {
                   </Info>
 
                <NewPagination
-              onChange={handlechangePage}
-              currentPage={Number(filterValues.page)}
-              totalCount={Number(totalCount)}
+             onChange={query ? handlechangePageSearch:handlechangePage}
+             currentPage={Number(query ?searchFilterValues.page: filterValues.page)}
+             totalCount={Number(totalCount)}
             />
                   </WrapPag>
                 ) : null}

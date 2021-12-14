@@ -36,6 +36,7 @@ const Archive = () => {
   const selectedNews = useAppSelector((state) => state.news.selectedNews);
   const totalCount = useAppSelector((state) => state.news.NewsInfo.totalCount);
   const between = useAppSelector((state) => state.news.NewsInfo.between);
+ 
   const totalNewsCount = useAppSelector(
     (state) => state.news.NewsInfo.totalCountNews
   );
@@ -58,13 +59,19 @@ const Archive = () => {
 
   const [filterValues, setFilterValues] =
     useState<intialFilterProps>(intialFilter);
+    const [searchFilterValues, setSearchFilterValues] =
+    useState<intialFilterProps>(intialFilter);
     const query = useAppSelector((state) => state.news.query);
-  const { response } = useArchive({ filterValues: filterValues });
+  const { response } = useArchive({ filterValues: query ?searchFilterValues:filterValues, });
   const { list } = useData();
 
   const newsById = selectedNews?.fullData;
   const handlechangePage = async (e: any) => {
     await setFilterValues({ ...filterValues, page: e });
+    await response.refetch();
+  };
+  const handlechangePageSearch = async (e: any) => {
+    await setSearchFilterValues({ ...searchFilterValues, page: e });
     await response.refetch();
   };
   const onClose = () => {
@@ -152,8 +159,8 @@ const Archive = () => {
                     })}
                   </Info>
                 <NewPagination
-            onChange={handlechangePage}
-            currentPage={Number(filterValues.page)}
+            onChange={query ? handlechangePageSearch:handlechangePage}
+            currentPage={Number(query ?searchFilterValues.page: filterValues.page)}
             totalCount={Number(totalCount)}
           />
              
@@ -204,8 +211,8 @@ const Archive = () => {
                     })}
                   </Info>
                    <NewPagination
-              onChange={handlechangePage}
-              currentPage={Number(filterValues.page)}
+              onChange={query ? handlechangePageSearch:handlechangePage}
+              currentPage={Number(query ?searchFilterValues.page: filterValues.page)}
               totalCount={Number(totalCount)}
             />
                 </WrapPag>
