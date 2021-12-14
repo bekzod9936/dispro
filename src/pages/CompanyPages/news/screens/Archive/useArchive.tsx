@@ -30,12 +30,12 @@ const useArchive = ({ filterValues }: PProps) => {
   const response = useQuery(
     ["fetchArchiveNews", filterValues, debouncedQuery],
     () => {
-      if (debouncedQuery !== "") {
-        return searchArchiveNews(debouncedQuery);
-      }
       const url = Object.keys(filterValues)
-        .map((v: any) => `${v}=${filterValues[v]}&`)
-        .join("");
+      .map((v) => `${v}=${filterValues[v]}&`)
+      .join("");
+      if (debouncedQuery !== "") {
+        return searchArchiveNews({url:`page=1&perPage=5&=&key=${debouncedQuery}`});
+      }
       return fetchArchiveNews({
         url: url,
       });

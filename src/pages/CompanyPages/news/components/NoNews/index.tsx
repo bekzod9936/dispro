@@ -43,7 +43,7 @@ const NoNews: React.FC<IProps> = ({ handleOpenSetting }) => {
                   bgcolor: "rgb(96, 110, 234)",
                   color: "#fff",
                   weight: 500,
-                  height: { desktop: 60 },
+                  height: { desktop: 50 },
                 }}
                 margin={{
                   desktop: "0 25px 0 0",

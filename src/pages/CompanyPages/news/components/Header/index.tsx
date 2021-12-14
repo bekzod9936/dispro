@@ -31,7 +31,7 @@ const Header = ({ handleOpenNews }: IProps) => {
     if (location.pathname !== "/news") {
       dispatch(setSelectedNews([]));
     }
-  }, [dispatch(setSelectedNews([]))]);
+  }, [dispatch(setSelectedNews([])), dispatch(setQuery(""))]);
  
   return (
     <Container>
