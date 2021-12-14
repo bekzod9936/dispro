@@ -18,7 +18,7 @@ import { FormFieldTypes } from "pages/CompanyPages/services/utils/types";
 
 interface DynamicFieldsProps {
   control: Control<FormFieldTypes>;
-  name: keyof FormFieldTypes;
+  name: "descriptions" | "titles" | `variants.${number}.name`;
   isDescription?: boolean;
   label: string;
 }
