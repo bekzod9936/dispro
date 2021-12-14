@@ -2,14 +2,15 @@ import styled from "styled-components";
 import { ReactComponent as RemoveInputSvg } from "assets/icons/removeInput.svg"
 import { IconButton } from "@material-ui/core";
 interface Props {
-    isMultiple: boolean
+    isMultiple: boolean,
+    marginBottom?: string
 }
 
 export const Wrapper = styled.div`
     display: grid;
     grid-template-columns: repeat(${({isMultiple}: Props) => isMultiple ? 3 : 1}, 1fr);
     width: 100%;
-    margin-bottom: 25px;
+    margin-bottom: ${({marginBottom}: Props) => marginBottom || '25px'};
     gap: 15px;
 `
 

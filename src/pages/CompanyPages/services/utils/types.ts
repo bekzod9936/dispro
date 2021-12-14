@@ -15,11 +15,18 @@ type descType = {
 
 export type variantType = {
     name: titleType[],
-    price: number,
-    priceWithSale: number,
-    amount: number,
+    price: string,
+    priceWithSale: string,
+    amount: string,
     articul: string
 } 
+
+export type preparationTimeType = {
+    days: string,
+    hours: string,
+    minutes: string
+
+}
 export interface FormFieldTypes {
   titles: titleType[];
   descriptions: descType[];
@@ -28,5 +35,6 @@ export interface FormFieldTypes {
   section: any,
   loyaltyType: any,
   loyaltyOff: boolean,
-  variants: variantType[]
+  variants: variantType[],
+  preparationTime: preparationTimeType[]
 }

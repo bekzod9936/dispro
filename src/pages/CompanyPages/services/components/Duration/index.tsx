@@ -1,27 +1,28 @@
 import InputFormat from "components/Custom/InputFormat";
-import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { FormFieldTypes } from "../../utils/types";
-interface FieldProps {
-  name: `variants.${number}.${
-    | "price"
-    | "priceWithSale"
-    | "amount"
-    | "articul"}`;
+import { useStyles } from "./style";
+
+interface DurationProps {
+  name: `preparationTime.${number}.${"days" | "hours" | "minutes"}`;
   label: string;
 }
-export const Field: React.FC<FieldProps> = ({ name, label }) => {
+export const Duration: React.FC<DurationProps> = ({ name, label }) => {
   const { control } = useFormContext<FormFieldTypes>();
+  const { t } = useTranslation();
+  const styles = useStyles();
+
   return (
     <Controller
-      control={control}
       name={name}
+      control={control}
       render={({ field }) => (
         <InputFormat
           isAbsolute
-          label={label}
           onChange={field.onChange}
           value={field.value}
+          IconEnd={<span className={styles.root}>{t(label)}</span>}
         />
       )}
     />

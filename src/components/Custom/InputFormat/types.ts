@@ -1,4 +1,5 @@
 export interface Props {
+  isAbsolute?: boolean
   field?: any;
   autoComplete?: string;
   autoFocus?: boolean;

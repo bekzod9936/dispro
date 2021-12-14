@@ -578,5 +578,12 @@
   "chooseLanguage": "Выберите язык",
   "choosefilialqrcodesetting": "Выберите филиал, в котором будет производиться оплата на местах через QR-код",
   "forcomfortqrcodeplace": "Для удобства, назовите QR-код местом, где вы собираетесь его использовать.",
-  "notfoundsearchsetting": "По вашему запросу ничего не найдено..."
+  "notfoundsearchsetting": "По вашему запросу ничего не найдено...",
+  "priceWithSale": "Цена со скидкой",
+  "articul": "Артикул",
+  "addVariant": "Добавить вариант +",
+  "preparationTime": "Задать товару время изготовления",
+  "days": "дней",
+  "hours": "часов",
+  "minutes": "минут"
 }

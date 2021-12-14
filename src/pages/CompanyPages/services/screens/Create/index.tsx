@@ -16,6 +16,8 @@ import { Selects } from "./components/Selects";
 import { Radios } from "./components/Radios";
 import { Toggles } from "./components/Toggles";
 import { Variants } from "./components/Variants";
+import InputFormat from "components/Custom/InputFormat";
+import { Durations } from "./components/Durations";
 
 interface CreateProps {}
 
@@ -25,14 +27,14 @@ const Create: React.FC<CreateProps> = () => {
   const form = useForm<FormFieldTypes>({
     mode: "onChange",
     defaultValues: {
-      titles: [{ data: "", lang: "(Рус)" }],
+      titles: [{ data: "lorem", lang: "(Рус)" }],
       descriptions: [{ data: "", lang: "(Рус)" }],
       variants: [
         {
           name: [{ data: "", lang: "(Рус)" }],
-          amount: 0,
-          price: 0,
-          priceWithSale: 0,
+          amount: "",
+          price: "",
+          priceWithSale: "",
           articul: "",
         },
       ],
@@ -55,6 +57,7 @@ const Create: React.FC<CreateProps> = () => {
             <Radios />
             <Toggles />
             <Variants />
+            <Durations />
             <Button variant="contained" type="submit">
               Submit
             </Button>
