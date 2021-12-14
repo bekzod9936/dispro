@@ -35,14 +35,14 @@ export const useFetchClients = ({ query }: IArgs) => {
   const response = useQuery(
     ["clients", page, query, period, filters],
     () => {
-      if (query !== "") {
-        return searchClients(query);
-      }
+      // if (query !== "") {
+      //   return searchClients(query);
+      // }
       let url = Object.keys(period)
         .map((e: string) => `${e}=${period[e]}&`)
         .join("");
       let filter = getFiltersForQuery(filters, referals);
-      url = url + filter
+      url = url + filter + `&key=${query}`;
       return fetchClients(page, url);
     },
     {

@@ -204,7 +204,7 @@ export const Adornment = styled(InputAdornment)`
 `;
 
 export const Message = styled.div`
-  position: absolute;
+  position: ${({isAbsolute}: Props) => !isAbsolute ? 'absolute': 'static'};
   top: 100%;
   font-weight: 300;
   color: #ff5e68;

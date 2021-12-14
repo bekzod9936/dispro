@@ -27,9 +27,9 @@ export const fetchArchiveNews = ({ url }: Props) => {
   return response;
 };
 
-export const searchActiveNews = (search: string | undefined) => {
+export const searchActiveNews = ({ url }: Props) => {
   const response = partnerApi.get(
-    `/core/news/by/company/actives/new?key=${search}`
+    `/core/news/by/company/actives/new?${url}`
   );
   return response;
 };
@@ -40,16 +40,16 @@ export const setPeriodActiveNews = (data: any) => {
   return response;
 };
 
-export const searchPendingNews = (search: string | undefined) => {
+export const searchPendingNews = ({ url }: Props) => {
   const response = partnerApi.get(
-    `/core/news/by/company/pending/new?key=${search}`
+    `/core/news/by/company/pending/new?${url}`
   );
   return response;
 };
 
-export const searchArchiveNews = (search: string | undefined) => {
+export const searchArchiveNews = ({ url }: Props) => {
   const response = partnerApi.get(
-    `/core/news/by/company/archives/new?key=${search}`
+    `/core/news/by/company/archives/new?${url}`
   );
   return response;
 };

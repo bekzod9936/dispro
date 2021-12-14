@@ -538,35 +538,26 @@ const RepairNews = () => {
                 </PushBlock>
                 {optionalFields.push && (
                   <Controller
-                    name="descriptionPush"
-                    control={control}
-                    defaultValue={newsById?.data?.pushUpTitle}
-                    render={({ field }) => (
-                      <Input
-                        field={field}
-                        margin={{ laptop: "35px 0" }}
-                        label="Текст Push-уведомления"
-                        type="textarea"
-                        multiline={true}
-                        maxLength={100}
-                        defaultValue={newsById?.data?.pushUpTitle}
-                        inputStyle={{
-                          height: {
-                            desktop: 120,
-                            planshet: 90,
-                            laptop: 90,
-                            mobile: 120,
-                          },
-                        }}
-                        IconEnd={
-                          width > 600 && (
-                            <WrapArea>
-                              <TextAreaIcon />
-                            </WrapArea>
-                          )
-                        }
-                      />
-                    )}
+                  name="descriptionPush"
+                  control={control}
+                  defaultValue={newsById?.data?.pushUpTitle}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field }) => (
+                    <TextArea
+                      maxLength={100}
+                      {...field}
+                      defaultValue={newsById?.data?.pushUpTitle}
+                      fontSize={width > 1000 ? "15px" : "14px"}
+                      required={optionalFields.push ? true : false}
+                      minHeight={"100px"}
+                      maxHeight={"150px"}
+                      resize={"vertical"}
+                      title={t("text_push")}
+                    />
+                  )}
+                
                   />
                 )}
               </PushWrapper>

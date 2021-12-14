@@ -18,9 +18,10 @@ import { FormFieldTypes } from "pages/CompanyPages/services/utils/types";
 
 interface DynamicFieldsProps {
   control: Control<FormFieldTypes>;
-  name: keyof FormFieldTypes;
+  name: "descriptions" | "titles" | `variants.${number}.name`;
   isDescription?: boolean;
   label: string;
+  marginBottom?: string;
 }
 
 export const DynamicFields: React.FC<DynamicFieldsProps> = ({
@@ -28,6 +29,7 @@ export const DynamicFields: React.FC<DynamicFieldsProps> = ({
   name,
   isDescription,
   label,
+  marginBottom,
 }) => {
   const { t } = useTranslation();
   const [modal, setModal] = useState(false);
@@ -58,7 +60,7 @@ export const DynamicFields: React.FC<DynamicFieldsProps> = ({
   };
 
   return (
-    <Wrapper isMultiple={fields.length > 1}>
+    <Wrapper marginBottom={marginBottom} isMultiple={fields.length > 1}>
       {fields.map((item, index) => (
         <div key={item.id}>
           <Controller
