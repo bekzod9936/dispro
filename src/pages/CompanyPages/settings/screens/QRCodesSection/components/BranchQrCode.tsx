@@ -1,9 +1,9 @@
-import { memo } from "react";
-import QRCode from "qrcode.react";
-import { IProps } from "./types";
-import { downloadQR } from "./utils";
-import useWindowWidth from "services/hooks/useWindowWidth";
-import { Text } from "styles/CustomStyles";
+import { memo } from 'react';
+import QRCode from 'qrcode.react';
+import { IProps } from './types';
+import { downloadQR } from './utils';
+import useWindowWidth from 'services/hooks/useWindowWidth';
+import { Text } from 'styles/CustomStyles';
 import {
   QrCard,
   QrRow,
@@ -14,12 +14,12 @@ import {
   SaveIcon,
   RightArrIcon,
   ScrapperIcon,
-} from "./style";
-import { Break } from "../../../styles/index";
-import { useTranslation } from "react-i18next";
-import { COLORS } from "services/Types/enums";
-import Button from "components/Custom/Button";
-import { copyToClipboard } from "services/utils";
+} from './style';
+import { Break } from '../../../styles/index';
+import { useTranslation } from 'react-i18next';
+import { COLORS } from 'services/Types/enums';
+import Button from 'components/Custom/Button';
+import { copyToClipboard } from 'services/utils';
 
 const BranchQrCode = ({
   item,
@@ -53,7 +53,9 @@ const BranchQrCode = ({
     <QrCard>
       <QeaderHeaderRow>
         <div>
-          <Text fontSize="18px">{item.name}({t('qrCodeForPayment')})</Text>
+          <Text fontSize='18px'>
+            {item.name}({t('qrCodeForPayment')})
+          </Text>
         </div>
       </QeaderHeaderRow>
       <QrRow>
@@ -62,9 +64,9 @@ const BranchQrCode = ({
             id={`referral-qr-code-${index}`}
             value={item.dynLink}
             size={qrSize()}
-            bgColor="#FFFFFF"
-            fgColor="#000000"
-            level={"H"}
+            bgColor='#FFFFFF'
+            fgColor='#000000'
+            level={'H'}
           />
         </QrImg>
 
@@ -72,26 +74,26 @@ const BranchQrCode = ({
           <DownloadDiv>
             <Button
               buttonStyle={{
-                color: "#fff",
+                color: '#fff',
                 fontSize: {
                   desktop: 14,
                   laptop: 13,
                 },
               }}
               width={{
-                width: "100%",
+                width: '100%',
               }}
               onClick={() => downloadQrCode()}
               startIcon={<SaveIcon />}
             >
-              {t("downloadPNG")}
+              {t('downloadPNG')}
             </Button>
           </DownloadDiv>
 
           <Break height={15} />
           <Button
             buttonStyle={{
-              bgcolor: " rgba(96, 110, 234, 0.1)",
+              bgcolor: ' rgba(96, 110, 234, 0.1)',
               color: COLORS.purple,
               fontSize: {
                 desktop: 14,
@@ -99,7 +101,7 @@ const BranchQrCode = ({
               },
             }}
             width={{
-              width: "90%",
+              width: '90%',
             }}
             fullWidth={true}
             onClick={() => {
@@ -107,7 +109,7 @@ const BranchQrCode = ({
             }}
             endIcon={width < 1000 ? <RightArrIcon /> : <ScrapperIcon />}
           >
-            {t("copyLink")}
+            {t('copyLink')}
           </Button>
         </QrContainer>
       </QrRow>

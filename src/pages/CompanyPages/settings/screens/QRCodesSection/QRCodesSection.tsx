@@ -1,15 +1,15 @@
-import { useState, Suspense, lazy } from "react";
-import { useTranslation } from "react-i18next";
-import { useAppSelector } from "services/redux/hooks";
+import { useState, Suspense, lazy } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useAppSelector } from 'services/redux/hooks';
 
 // assets and styles
-import Input from "components/Custom/Input";
-import Popover from "components/Custom/Popover";
-import Button from "components/Custom/Button";
-import { Break, SpinnerDiv } from "../../styles";
-import { SearchIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
-import { FilledAddIcon } from "assets/icons/SettingsIcons/SettingsPageIcon";
-import CustomSelectPopoverComponent from "components/Custom/CustomSelectPopoverComponent";
+import Input from 'components/Custom/Input';
+import Popover from 'components/Custom/Popover';
+import Button from 'components/Custom/Button';
+import { Break, SpinnerDiv } from '../../styles';
+import { SearchIcon } from 'assets/icons/ClientsPageIcons/ClientIcons';
+import { FilledAddIcon } from 'assets/icons/SettingsIcons/SettingsPageIcon';
+import CustomSelectPopoverComponent from 'components/Custom/CustomSelectPopoverComponent';
 import {
   CreateBtn,
   IconDiv,
@@ -19,20 +19,21 @@ import {
   CardContainer,
   CardItem,
   Wrapper,
-} from "./styles";
+  DownIcon,
+} from './styles';
 
 //hooks
-import useScroll from "services/hooks/useScroll";
-import useQrCode from "./hooks/useQrCode";
-import useBranch from "./hooks/useBranch";
+import useScroll from 'services/hooks/useScroll';
+import useQrCode from './hooks/useQrCode';
+import useBranch from './hooks/useBranch';
 
 //components
-import QrActionModal from "./components/QrActionModal";
-import QrForBranch from "./components/QrForBranch";
-import Spinner from "components/Helpers/Spinner";
+import QrActionModal from './components/QrActionModal';
+import QrForBranch from './components/QrForBranch';
+import Spinner from 'components/Helpers/Spinner';
 // import QrCodeCard from "./components/QrCodeCard";
-const QrCodeCard = lazy(() => import("./components/QrCodeCard"));
-const BranchQrCode = lazy(() => import("./components/BranchQrCode"));
+const QrCodeCard = lazy(() => import('./components/QrCodeCard'));
+const BranchQrCode = lazy(() => import('./components/BranchQrCode'));
 
 const QRCodesSection = () => {
   const { t } = useTranslation();
@@ -62,7 +63,7 @@ const QRCodesSection = () => {
     handleSavePromocode,
   } = useQrCode();
   const { closeQr, onSave, qrVisible, openQr } = useBranch();
-
+  const [searchFocus, setSearchFocus] = useState<boolean>(false);
   const branches = useAppSelector((state) => state.qrSetting.branches);
 
   const [closeFun, setCloseFun] = useState<any>();
@@ -72,8 +73,8 @@ const QRCodesSection = () => {
 
   const options = [
     {
-      key: "forDownload",
-      content: "forDownload",
+      key: 'forDownload',
+      content: 'forDownload',
       handler: () => {
         setModalVisible(true);
         setOptionsListOpen(false);
@@ -82,8 +83,8 @@ const QRCodesSection = () => {
     },
 
     {
-      key: "forP2p",
-      content: "forP2p",
+      key: 'forP2p',
+      content: 'forP2p',
       handler: () => {
         openQr();
         setOptionsListOpen(false);
@@ -93,11 +94,70 @@ const QRCodesSection = () => {
   ];
 
   const handleLink = (link: string) => {
-    const filteredBranch = link.split("/");
-    const myItem = filteredBranch[filteredBranch?.length - 1].split("?");
+    const filteredBranch = link.split('/');
+    const myItem = filteredBranch[filteredBranch?.length - 1].split('?');
     const filteredItem = myItem[0];
     return filteredItem;
   };
+  console.log(data?.data?.data, 'branch');
+
+  const qrcodecard =
+    !isLoading &&
+    data?.data &&
+    data?.data?.data
+      ?.filter((value: any) => {
+        if (searchQR === '') {
+          return true;
+        } else {
+          return value.source.toLowerCase().includes(searchQR?.toLowerCase());
+        }
+      })
+      .map((item: any, index: number) => {
+        return (
+          <CardItem key={item?.id}>
+            <QrCodeCard
+              item={item}
+              index={index}
+              handleOption={() => handleOption(item?.id)}
+              optionsOpen={optionsOpen}
+              handleDeleteClick={handleDeleteClick}
+              handleEditClick={handleEditClick}
+              setId={setId}
+            />
+          </CardItem>
+        );
+      });
+  const branchqrcode = branches?.length
+    ? branches
+        ?.filter((value: any) => {
+          if (searchQR === '') {
+            return true;
+          } else {
+            return value.name.toLowerCase().includes(searchQR?.toLowerCase());
+          }
+        })
+        ?.map((item: any, index: number) => {
+          const filteredBranch = item?.dynLink?.split('/');
+          const myItem = filteredBranch[filteredBranch?.length - 1].split('?');
+          const filteredItem = myItem[0];
+          if (filteredItem === 'null') {
+            return null;
+          }
+          return (
+            <CardItem key={item?.id}>
+              <BranchQrCode
+                item={item}
+                index={index}
+                handleOption={() => handleOption(item?.id)}
+                optionsOpen={optionsOpen}
+                handleDeleteClick={handleDeleteClick}
+                handleEditClick={handleEditClick}
+                setId={setId}
+              />
+            </CardItem>
+          );
+        })
+    : null;
 
   return (
     <QRPageWrapper>
@@ -107,32 +167,34 @@ const QRCodesSection = () => {
             click={
               <Button
                 startIcon={<FilledAddIcon />}
+                endIcon={<DownIcon />}
                 width={{
                   minwidth: 170,
                 }}
                 buttonStyle={{
-                  bgcolor: "white",
-                  color: "#223367",
+                  bgcolor: 'white',
+                  color: '#223367',
                   height: {
-                    desktop: 60,
-                    laptop: 60,
+                    mobile: 40,
+                    laptop: 45,
+                    desktop: 50,
                   },
                 }}
                 // style={{ width: "170px" }}
                 onClick={handleCreateQRCode}
               >
-                {t("create")}
+                {t('create')}
               </Button>
             }
-            anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
-            transformOrigin={{ horizontal: "left", vertical: "top" }}
-            popoverStyle={{ marginTop: "20px" }}
+            anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+            transformOrigin={{ horizontal: 'left', vertical: 'top' }}
+            popoverStyle={{ marginTop: '20px' }}
             onClose={handleClose}
           >
             {optionsListOpen && (
               <CustomSelectPopoverComponent
                 options={options}
-                width="fit-content"
+                width='fit-content'
               />
             )}
           </Popover>
@@ -146,14 +208,19 @@ const QRCodesSection = () => {
               </IconDiv>
             }
             inputStyle={{
-              border: "none",
+              border: 'none',
               height: {
-                mobile: 45,
-                laptop: 60,
+                mobile: 40,
+                laptop: 45,
+                desktop: 50,
               },
             }}
-            placeholder="Поиск по QR"
+            type='search'
+            placeholder='Поиск по QR'
             onChange={handleSearchQR}
+            onFocus={() => setSearchFocus(true)}
+            onBlur={() => (searchQR === '' ? setSearchFocus(false) : null)}
+            value={searchQR}
           />
         </HeadInput>
       </MyHeadAction>
@@ -173,68 +240,26 @@ const QRCodesSection = () => {
           }
         >
           <Wrapper onScroll={handleScroll}>
-            <CardContainer>
-              {!isLoading &&
-                data?.data &&
-                data?.data?.data
-                  ?.filter((value: any) => {
-                    if (searchQR === "") {
-                      return true;
-                    } else {
-                      return value.source.match(searchQR);
-                    }
-                  })
-                  .map((item: any, index: number) => {
-                    return (
-                      <CardItem key={item?.id}>
-                        <QrCodeCard
-                          item={item}
-                          index={index}
-                          handleOption={() => handleOption(item?.id)}
-                          optionsOpen={optionsOpen}
-                          handleDeleteClick={handleDeleteClick}
-                          handleEditClick={handleEditClick}
-                          setId={setId}
-                        />
-                      </CardItem>
-                    );
-                  })}
-
-              {/* //branches qr code  */}
-              {branches?.length
-                ? branches
-                    ?.filter((value: any) => {
-                      if (searchQR === "") {
-                        return true;
-                      } else {
-                        return value.name.match(searchQR);
-                      }
-                    })
-                    ?.map((item: any, index: number) => {
-                      const filteredBranch = item?.dynLink?.split("/");
-                      const myItem =
-                        filteredBranch[filteredBranch?.length - 1].split("?");
-                      const filteredItem = myItem[0];
-                      if (filteredItem === "null") {
-                        return null;
-                      }
-                      console.log(item);
-                      return (
-                        <CardItem key={item?.id}>
-                          <BranchQrCode
-                            item={item}
-                            index={index}
-                            handleOption={() => handleOption(item?.id)}
-                            optionsOpen={optionsOpen}
-                            handleDeleteClick={handleDeleteClick}
-                            handleEditClick={handleEditClick}
-                            setId={setId}
-                          />
-                        </CardItem>
-                      );
-                    })
-                : null}
-            </CardContainer>
+            {searchFocus &&
+            searchQR !== '' &&
+            searchQR !== undefined &&
+            qrcodecard?.length === 0 &&
+            branchqrcode.length === 0 ? (
+              <div
+                style={{
+                  display: 'flex',
+                  flexGrow: 1,
+                  width: '100%',
+                  height: '100%',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                {t('notfoundsearchsetting')}
+              </div>
+            ) : (
+              <CardContainer>{qrcodecard?.concat(branchqrcode)}</CardContainer>
+            )}
           </Wrapper>
         </Suspense>
       )}

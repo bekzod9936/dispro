@@ -38,9 +38,7 @@ const Stars = () => {
               <WrapStartT>
                 <RateText colort={color}>
                   &middot;
-                  {ss.length !== 0
-                    ? `${((100 * ss[0]?.amount) / value).toFixed(1)}%`
-                    : '0%'}
+                  {ss.length !== 0 ? `${ss[0]?.percentage}%` : '0%'}
                 </RateText>
                 <RateText colort={color}>
                   {ss.length !== 0 ? `${ss[0]?.amount} ` : '0 '}

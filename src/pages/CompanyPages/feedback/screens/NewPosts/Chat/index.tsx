@@ -51,8 +51,6 @@ import {
   WrapIcons,
   SmileIcon,
   SendIcon,
-  WrapScript,
-  ScriptIcon,
   OneCheckIcon,
   DoubleCheckIcoon,
 } from '../../../style';
@@ -471,7 +469,7 @@ const Chat = ({ value, setCurrentUser }: Props) => {
                         <Message type={v.chatType}>
                           <WrapDateMessage>
                             <MessageDate type={v.chatType}>
-                              {dayjs(v.createdAt).format('hh:mm')}
+                              {dayjs(v.createdAt).format('HH:mm')}
                             </MessageDate>
                             {v.chatType === 2 ? check(v.status) : null}
                           </WrapDateMessage>
@@ -515,11 +513,6 @@ const Chat = ({ value, setCurrentUser }: Props) => {
               <IconButton onClick={handleShowEmoji}>
                 <SmileIcon />
               </IconButton>
-              <WrapScript>
-                <IconButton>
-                  <ScriptIcon />
-                </IconButton>
-              </WrapScript>
               <Button type='submit' disabled={loading} startIcon={<SendIcon />}>
                 {t('send')}
               </Button>
