@@ -9,6 +9,7 @@ interface Props {
   balance?: number;
   limit?: number;
   regions?: RProps[];
+  payGo?: number;
 }
 
 export const initialState: Props = {
@@ -50,6 +51,7 @@ export const initialState: Props = {
   balance: 0,
   limit: 0,
   regions: [],
+  payGo: 0,
 };
 
 const info = createSlice({
@@ -75,8 +77,10 @@ const info = createSlice({
       state.accounts = action.payload;
     },
     setRegions1: (state, action: PayloadAction<RProps[]>) => {
-      console.log(action.payload, 'act');
       state.regions = action.payload;
+    },
+    setPayGo: (state, action: PayloadAction<number>) => {
+      state.payGo = action.payload;
     },
   },
 });
@@ -89,5 +93,6 @@ export const {
   setLimitAccounts,
   setBalanceAccounts,
   setRegions1,
+  setPayGo,
 } = info.actions;
 export default info.reducer;

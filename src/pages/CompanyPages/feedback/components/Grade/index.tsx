@@ -37,10 +37,9 @@ const Grade = ({ title, rate, total }: Props) => {
         )
       ) : null}
       <Wrapper>
-        {rate?.avg !== 0 ||
-        rate?.count !== 0 ||
-        rate?.downVal !== 0 ||
-        rate?.upVal !== 0 ? (
+        {rate?.avg === null || rate?.count === 0 ? (
+          <Text>{t('nobodydidnotevaluate')}</Text>
+        ) : (
           <>
             <PercentWrap total={total}>
               {rate ? (
@@ -48,7 +47,7 @@ const Grade = ({ title, rate, total }: Props) => {
               ) : null}
               {rate && !total ? <PercentDef>/5</PercentDef> : null}
             </PercentWrap>
-            {/* {width > 600 ? (
+            {width > 600 ? (
               total ? null : (
                 <PercentInfo>
                   <LineIcon />
@@ -57,10 +56,8 @@ const Grade = ({ title, rate, total }: Props) => {
                     : `-${rate?.downVal}%`}
                 </PercentInfo>
               )
-            ) : null} */}
+            ) : null}
           </>
-        ) : (
-          <Text>{t('nobodydidnotevaluate')}</Text>
         )}
       </Wrapper>
     </Container>

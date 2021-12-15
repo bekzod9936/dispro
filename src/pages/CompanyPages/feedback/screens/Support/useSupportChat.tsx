@@ -9,7 +9,6 @@ import {
 } from 'services/redux/Slices/feedback';
 
 const useSupportChat = () => {
-  const [data, setData] = useState<any>([]);
   const dispatch = useAppDispatch();
   const [page, setPage] = useState(1);
   const [noValue, setNoValue] = useState(false);
@@ -52,23 +51,42 @@ const useSupportChat = () => {
             })
           );
         } else {
-          const arr = [...histories, ...data?.data?.data?.histories];
-          dispatch(setChatSupportHistory(arr));
-          setData(arr);
-          dispatch(
-            setTotalSupportHistory({
-              ...totalHistory,
-              total: data?.data?.data?.totalCount,
-              loading: false,
-              hasMore: true,
-            })
-          );
+          if (data?.data?.data?.totalCount > totalHistory.total) {
+            const newAk = data?.data?.data?.histories?.filter((a: any) => {
+              const aaa = histories?.find((v: any) => v?.id === a?.id);
+              if (aaa?.id === undefined) {
+                return a;
+              }
+            });
+            console.log(newAk);
+            dispatch(setChatSupportHistory([...newAk, ...histories]));
+            dispatch(
+              setTotalSupportHistory({
+                ...totalHistory,
+                total: data?.data?.data?.totalCount,
+                loading: false,
+                hasMore: true,
+              })
+            );
+          } else {
+            const arr = [...histories, ...data?.data?.data?.histories];
+            dispatch(setChatSupportHistory(arr));
+            dispatch(
+              setTotalSupportHistory({
+                ...totalHistory,
+                total: data?.data?.data?.totalCount,
+                loading: false,
+                hasMore: true,
+              })
+            );
+          }
+          console.log(data?.data?.data?.totalCount);
         }
       },
     }
   );
 
-  return { resChatSupportHistory, setPage, page, data, noValue };
+  return { resChatSupportHistory, setPage, page, noValue };
 };
 
 export default useSupportChat;
