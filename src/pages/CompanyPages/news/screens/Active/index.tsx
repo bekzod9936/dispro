@@ -125,12 +125,7 @@ const Active = () => {
     });
     await response.refetch();
   };
-  useEffect(()=>{
-    if (location.pathname !== "/news/active") {
-    dispatch(setQuery(""));
-    }
   
-  },[dispatch(setQuery(""))])
 
   return (
     <Container>

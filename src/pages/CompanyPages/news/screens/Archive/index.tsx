@@ -97,12 +97,7 @@ const Archive = () => {
     await response.refetch();
   };
 
-  useEffect(()=>{
-    if (location.pathname !== "/news/archive") {
-    dispatch(setQuery(""));
-    }
-  
-  },[dispatch(setQuery(""))])
+
 
   return (
     <Container>
