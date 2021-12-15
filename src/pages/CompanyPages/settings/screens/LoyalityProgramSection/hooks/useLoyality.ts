@@ -113,10 +113,19 @@ const useLoyality = () => {
   const [refetchDiscount, setRefetchDiscount] = useState(0);
   const [refetchBonusPoints, setRefetchBonusPoints] = useState(0);
 
+  // check state gor only park
+  const [checkedState, setCheckedState] = useState<boolean>(false);
+
   //Save and change loyality
   const useProgramSave = useMutation((data: any) =>
     saveUseProgramLoyality(data)
   );
+
+
+  // check state function 
+  const handleSwitch = (checked: boolean) => {
+    setCheckedState(checked);
+  };
 
   const loayalityPut = useMutation(
     (data: any) => {
@@ -746,11 +755,13 @@ const useLoyality = () => {
     refetchBonusPoints,
     refetchCashback,
     refetchDiscount,
+    checkedState,
     setValue,
     setRefetchCashback,
     setRefetchDiscount,
     setRefetchBonusPoints,
     handleSwitchChange,
+    handleSwitch,
     handleSubmit,
     dynamicFields,
     append,
