@@ -26,6 +26,7 @@ interface Props {
     laptop?: number;
     desktop?: number;
   };
+  notshowvalue?: boolean;
 }
 
 const DatePicker = ({
@@ -34,6 +35,7 @@ const DatePicker = ({
   defaultValue = [''],
   numberofmonths,
   height,
+  notshowvalue = true,
 }: Props) => {
   const datePickerRef: any = useRef();
   const { t } = useTranslation();
@@ -100,7 +102,7 @@ const DatePicker = ({
         format={format}
         portal={true}
       />
-      {date === '' ? null : (
+      {date === '' && notshowvalue ? null : (
         <MobileReset>
           {date}
           <IconButton onClick={handleClick}>
