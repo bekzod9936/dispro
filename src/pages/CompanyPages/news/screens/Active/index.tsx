@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { AddIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
@@ -118,13 +118,20 @@ const Active = () => {
   };
 
   const filterByDate = async (e: any) => {
-    await setFilterValues({
+    query ?   await setSearchFilterValues({
+      ...searchFilterValues,
+      fromDate: e.slice(0, e.indexOf(" ~")),
+      toDate: e.slice(e.indexOf("~ ") + 2),
+    }):   await setFilterValues({
       ...filterValues,
       fromDate: e.slice(0, e.indexOf(" ~")),
       toDate: e.slice(e.indexOf("~ ") + 2),
     });
+ 
+  
     await response.refetch();
   };
+  
 
   return (
     <Container>
