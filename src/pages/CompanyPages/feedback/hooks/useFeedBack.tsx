@@ -77,8 +77,14 @@ const useFeedBack = ({ filterValues, key }: Props) => {
     refetchOnWindowFocus: false,
     retry: 0,
     onSuccess: (data) => {
+      const info = {
+        avg: data.data.data?.rating?.avg,
+        count: data.data.data?.review?.count,
+        downVal: data.data.data?.rating.downVal,
+        upVal: data.data.data?.rating.upVal,
+      };
       dispatch(setRatingsFeedBack(data.data.data.ratingNumbers));
-      dispatch(setAverageRatingFeedBack(data.data.data.rating));
+      dispatch(setAverageRatingFeedBack(info));
     },
   });
 

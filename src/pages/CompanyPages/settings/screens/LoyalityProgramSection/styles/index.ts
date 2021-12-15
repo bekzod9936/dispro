@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { Grid } from "@material-ui/core";
+import styled from 'styled-components';
+import { Grid } from '@material-ui/core';
 
 interface IProps {
   bgContain?: boolean;
@@ -61,7 +61,7 @@ export const ThirdContainer = styled.div`
 export const AddIconDiv = styled.div`
   /* background: rgba(96, 110, 234, 0.1); */
   background: ${({ bgContain = true }: IProps) =>
-    bgContain ? "rgba(96, 110, 234, 0.1)" : "#fff"};
+    bgContain ? 'rgba(96, 110, 234, 0.1)' : '#fff'};
   border-radius: 8px;
   width: 46px;
   height: 46px;
@@ -98,7 +98,7 @@ export const SubText = styled.p`
   font-size: 16px;
   line-height: 18.75px;
   font-weight: 400;
-  font-style: "Roboto";
+  font-style: 'Roboto';
   margin: 0 20px 0 0;
   padding: 0;
 `;
@@ -172,4 +172,12 @@ export const BottomSide = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+`;
+
+export const WrapModalPaygo = styled.div`
+  padding: 50px 50px 20px 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 `;
