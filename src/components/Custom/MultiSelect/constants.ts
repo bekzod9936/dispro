@@ -3,8 +3,7 @@ export const customStyle = (props: any) => ({
   menuList:(base:any)=>({
     ...base,
     minHeight: 50,
-  
-    maxHeight:props.isBranchHeight ? 100:1000,
+    maxHeight:props.isBranchHeight ? 100:200,
   }),
   control: (base: any, state: any) => ({
     ...base,
@@ -35,8 +34,6 @@ export const customStyle = (props: any) => ({
   option: (base: any, state: any) => {
     return {
       ...base,  
-    
-
       color: props.selectStyle?.color ? props.selectStyle?.color : "#223367",
       fontWeight: props.selectStyle?.weight ? props.selectStyle?.weight : "500",
       backgroundColor: state.isSelected ? "#E8F0FE" : "white",

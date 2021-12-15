@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 import { useQuery, useMutation } from "react-query";
+
+//helpers
+import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 import { getStaffData, resetPoints } from "services/queries/staffQuery";
 import { setCashierId, setStaffData } from "services/redux/Slices/staffs";
 
@@ -31,6 +33,7 @@ const useCashierCard = () => {
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
       onSuccess: (data) => {
+		  console.log('asdsadsadsad', data?.data?.data)
         if (data?.data?.data?.cashier) {
           dispatch(setStaffData(data.data.data.cashier));
         } else {

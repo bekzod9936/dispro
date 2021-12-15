@@ -1,20 +1,32 @@
+import { useEffect } from 'react';
 import { lazy, useState } from 'react';
-import NavBar from 'components/Custom/NavBar';
-import IconButton from '@material-ui/core/IconButton';
-import { useAppSelector, useAppDispatch } from 'services/redux/hooks';
 import { useLocation, useHistory } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+
+//helpers
+import { useAppSelector, useAppDispatch } from 'services/redux/hooks';
 import { SpinnerDiv } from 'pages/CompanyPages/staff/style';
 import useStaffRoute from '../../routes';
-import { ReactComponent as Money } from 'assets/icons/CashierData/money.svg';
-import { ReactComponent as MoneyBag } from 'assets/icons/StatistisPage/money.svg';
-import { ReactComponent as Basket } from 'assets/icons/CashierData/basket.svg';
-import { ReactComponent as Score } from 'assets/icons/StatistisPage/score.svg';
-import { ReactComponent as Cashback } from 'assets/icons/CashierData/cashback.svg';
-import { ReactComponent as TotalClients } from 'assets/icons/StatistisPage/users.svg';
-import { ReactComponent as Discount } from 'assets/icons/CashierData/discount.svg';
-import { ReactComponent as PaidWithPoints } from 'assets/icons/CashierData/paidWthPoints.svg';
-import { ReactComponent as ArrowBack } from 'assets/icons/arrow_back.svg';
-import { ReactComponent as DeleteWhiteIcon } from 'assets/icons/trash_white.svg';
+import useCashierCard from './hooks/useCashierCard';
+import { numberWith } from 'services/utils';
+import useStaff from '../../hooks/useStaff';
+import useCashiers from '../../hooks/useCashiers';
+import { setOpenEditCashier } from 'services/redux/Slices/staffs';
+
+//components
+import IconButton from '@material-ui/core/IconButton';
+import EditCashier from '../../screens/CashierScreen/components/EditCashier';
+import NavBar from 'components/Custom/NavBar';
+import Spinner from 'components/Helpers/Spinner';
+import Button from 'components/Custom/Button';
+import { SideBar } from 'pages/CompanyPages/staff/components/SideBar';
+import QrBar from './components/QrBar';
+import BallTable from './components/BallTable';
+import Popover from 'components/Custom/Popover';
+import Modal from 'components/Custom/Modal';
+
+//styles
 import {
 	CardContainer,
 	StaticDiv,
@@ -45,30 +57,23 @@ import {
 	ModalBody,
 	ModalAction,
 	BarTitle,
-	ButtonKeyWord,
-	DeleteIc,
 	BarText,
 } from './style';
-import useCashierCard from './hooks/useCashierCard';
-import Spinner from 'components/Helpers/Spinner';
-import { numberWith } from 'services/utils';
-import { useTranslation } from 'react-i18next';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
-import { useEffect } from 'react';
-import defaultImg from 'assets/images/staff_default.png';
-import useStaff from '../../hooks/useStaff';
-import Button from 'components/Custom/Button';
-import { SideBar } from 'pages/CompanyPages/staff/components/SideBar';
-import QrBar from './components/QrBar';
 import { CashierWrapTitle, TitleText } from '../CashierSettings/style';
-import BallTable from './components/BallTable';
-import Popover from 'components/Custom/Popover';
-import Modal from 'components/Custom/Modal';
-import useCashiers from '../../hooks/useCashiers';
+
+//icons
+import { ReactComponent as Money } from 'assets/icons/CashierData/money.svg';
+import { ReactComponent as MoneyBag } from 'assets/icons/StatistisPage/money.svg';
+import { ReactComponent as Basket } from 'assets/icons/CashierData/basket.svg';
+import { ReactComponent as Score } from 'assets/icons/StatistisPage/score.svg';
+import { ReactComponent as Cashback } from 'assets/icons/CashierData/cashback.svg';
+import { ReactComponent as TotalClients } from 'assets/icons/StatistisPage/users.svg';
+import { ReactComponent as Discount } from 'assets/icons/CashierData/discount.svg';
+import { ReactComponent as PaidWithPoints } from 'assets/icons/CashierData/paidWthPoints.svg';
+import { ReactComponent as ArrowBack } from 'assets/icons/arrow_back.svg';
+import { ReactComponent as DeleteWhiteIcon } from 'assets/icons/trash_white.svg';
+import defaultImg from 'assets/images/staff_default.png';
 import { CancelIcon } from 'assets/icons/ClientsPageIcons/ClientIcons';
-import EditCashier from '../../screens/CashierScreen/components/EditCashier';
-import { setStaffData, setOpenEditCashier } from 'services/redux/Slices/staffs';
-import CustomSelectPopoverComponent from 'components/Custom/CustomSelectPopoverComponent';
 
 const CashierBalls = lazy(() => import('./screens/CashierBalls'));
 const CashierFeedback = lazy(() => import('./screens/CashierFeedback'));
@@ -98,10 +103,10 @@ const CashierCard = () => {
 		let id: any = history?.location?.state?.id;
 	}, []);
 
-	const getStoreName = (storeId: any) => {
+	const getStoreName = (storeIds: any) => {
 		let branch: any = '';
 		if (branches?.length) {
-			branch = branches.find((item: any) => item.value === storeId)?.label;
+			branch = branches.find((item: any) => item.value === storeIds)?.label;
 		} else {
 			branch = '';
 		}
@@ -258,7 +263,7 @@ const CashierCard = () => {
 							<StaffCol>
 								<StaffSecondText>Филиал</StaffSecondText>
 								<Break height={5} />
-								<StaffText>{getStoreName(staffData?.storeId)}</StaffText>
+								<StaffText>{getStoreName(staffData?.storeIds[0])}</StaffText>
 							</StaffCol>
 							<StaffCol>
 								<StaffSecondText>Комментарий</StaffSecondText>
