@@ -4,14 +4,8 @@ import useHistory from './hook/useHistory';
 import Spinner from 'components/Custom/Spinner';
 import Table from '../../components/Table';
 import { Tr, Th } from '../../components/Table/style';
-import Filter from 'components/Custom/Filter/index';
 import dayjs from 'dayjs';
-import Input from 'components/Custom/Input';
-import MultiSelect from 'components/Custom/MultiSelect';
-import useExcel from './hook/useExcel';
-import Button from 'components/Custom/Button';
 import { useAppSelector } from 'services/redux/hooks';
-import { IconButton } from '@material-ui/core';
 import { countPagination, numberWithNew } from 'services/utils';
 import MobileTable from '../../components/MobileTable';
 import useWindowWidth from 'services/hooks/useWindowWidth';
@@ -20,19 +14,10 @@ import financeCashierDef from '../../../../../assets/images/financeCashierDef.pn
 import { NewPagination } from 'components/Custom/NewPagination';
 import {
   Container,
-  WrapFilter,
-  WrapInputs,
-  Label1,
-  WrapDate,
-  ButtonKeyWord,
-  DeleteIcon,
-  WrapFilterValues,
   MoneyIcon,
   DiscountIcon,
   PinkIcon,
   CartIcon,
-  ExcelIcon,
-  WrapSelectV,
 } from './style';
 import {
   WrapPag,
@@ -46,6 +31,7 @@ import {
   WrapDef,
   TitleDef,
 } from '../../style';
+import FilterHistory from './components/FilterHistory';
 
 interface intialFilterProps {
   page?: number;
@@ -53,11 +39,7 @@ interface intialFilterProps {
   cashierStaffId?: number | string;
   endDate?: string;
   startDate?: string;
-}
-
-interface CashProp {
-  value?: number;
-  label?: string;
+  storeId?: number;
 }
 
 const Payment = () => {
@@ -72,34 +54,20 @@ const Payment = () => {
 
   const sum = useAppSelector((state) => state.finance.historyFinance.sum);
 
-  const cashier = useAppSelector(
-    (state) => state.finance.historyFinance.cashier
-  );
-
   const intialFilter = {
     startDate: dayjs().startOf('month').format('YYYY-MM-DD'),
     endDate: dayjs().endOf('month').format('YYYY-MM-DD'),
-    cashierStaffId: 0,
+    cashierStaffId: '',
     page: 1,
     perPage: 5,
   };
 
-  const intialDate = {
-    startDate: dayjs().startOf('month').format('YYYY-MM-DD'),
-    endDate: dayjs().endOf('month').format('YYYY-MM-DD'),
-  };
-
-  const [date, setDate] = useState(intialDate);
-  const [dateLimit, setDateLimit] = useState({ startDate: '', endDate: '' });
   const [filterValues, setFilterValues] =
     useState<intialFilterProps>(intialFilter);
-  const [cashierStaffId, setCashierStaffId] = useState<CashProp>();
 
   const { response } = useHistory({
     filterValues: filterValues,
   });
-
-  const { resExcel } = useExcel();
 
   const listdesktop = data?.map((v: any) => {
     const date = dayjs(v.chequeDate).format('DD.MM.YYYY');
@@ -267,200 +235,19 @@ const Payment = () => {
     await setFilterValues({ ...filterValues, page: e });
     await response.refetch();
   };
-
-  const filterList = [
-    {
-      title: t('byDate'),
-      content: (
-        <WrapInputs>
-          <Label1>{t('chose_date')}</Label1>
-          <div>
-            <Input
-              type='date'
-              max={dateLimit.endDate}
-              IconStart={<WrapDate>{t('from')}</WrapDate>}
-              inputStyle={{
-                inpadding: '0 10px 0 0',
-              }}
-              width={{
-                width: '50%',
-              }}
-              value={date.startDate}
-              onChange={(e: any) => {
-                const d = new Date(e.target.value);
-                const isafter = dayjs(d).isAfter(dayjs(date.endDate));
-                if (isafter) {
-                  const a: any = dayjs(e.target.value, 'YYYY-MM-DD').add(
-                    1,
-                    'days'
-                  );
-                  let b: any = dayjs(a._d).format('YYYY-MM-DD');
-                  setDate({
-                    endDate: b,
-                    startDate: e.target.value,
-                  });
-                } else {
-                  setDate({ ...date, startDate: e.target.value });
-                }
-
-                setDateLimit({ ...dateLimit, startDate: e.target.value });
-              }}
-            />
-            <Input
-              type='date'
-              margin={{ laptop: '0 0  0 0' }}
-              IconStart={<WrapDate>{t('to')}</WrapDate>}
-              inputStyle={{
-                inpadding: '0 10px 0 0',
-              }}
-              width={{
-                width: '50%',
-              }}
-              min={dateLimit.startDate}
-              value={date.endDate}
-              onChange={(e: any) => {
-                const d = new Date(e.target.value);
-                const isafter = dayjs(d).isBefore(dayjs(date.startDate));
-                if (isafter) {
-                  const a: any = dayjs(e.target.value, 'YYYY-MM-DD').add(
-                    -1,
-                    'days'
-                  );
-                  let b: any = dayjs(a._d).format('YYYY-MM-DD');
-                  setDate({
-                    startDate: b,
-                    endDate: e.target.value,
-                  });
-                } else {
-                  setDate({ ...date, endDate: e.target.value });
-                }
-                setDateLimit({ ...dateLimit, endDate: e.target.value });
-              }}
-            />
-          </div>
-        </WrapInputs>
-      ),
-    },
-    {
-      title: t('bycashier'),
-      content: (
-        <MultiSelect
-          label={t('chose_cashier')}
-          options={cashier}
-          placeholder={t('cashiernotselected')}
-          onChange={(e: any) => setCashierStaffId(e)}
-          value={cashierStaffId}
-        />
-      ),
-    },
-  ];
-
-  const handleFilterSubmit = async ({ startDate = '', endDate = '' }) => {
-    await setFilterValues({
-      ...filterValues,
-      cashierStaffId: cashierStaffId?.value ? cashierStaffId?.value : '',
-      startDate: startDate,
-      endDate: endDate,
-    });
-
-    await response.refetch();
-  };
-
-  const onReset = async () => {
-    await setFilterValues(intialFilter);
-    await setDate(intialDate);
-    await setCashierStaffId({});
-    await setDateLimit({ startDate: '', endDate: '' });
-    await response.refetch();
-  };
-
-  const handleClick = () => {
-    resExcel.refetch();
-  };
-
-  const filterselectvalue =
-    dateLimit?.startDate !== '' && dateLimit?.endDate !== '' ? (
-      <ButtonKeyWord
-        onClick={async () => {
-          await setFilterValues({
-            ...filterValues,
-            endDate: '',
-            startDate: '',
-          });
-          await setDate(intialDate);
-          await setDateLimit({ startDate: '', endDate: '' });
-          await response.refetch();
-        }}
-      >
-        {`${dayjs(dateLimit?.startDate).format('DD MMMM')}-${dayjs(
-          dateLimit?.endDate
-        ).format('DD MMMM, YYYY')}`}
-        <IconButton>
-          <DeleteIcon />
-        </IconButton>
-      </ButtonKeyWord>
-    ) : null;
-
-  const filtercash = cashierStaffId?.label ? (
-    <ButtonKeyWord>
-      {cashierStaffId?.label}
-      <IconButton
-        onClick={async () => {
-          await setFilterValues({
-            ...filterValues,
-            cashierStaffId: 0,
-          });
-          await setCashierStaffId({});
-          await response.refetch();
-        }}
-      >
-        <DeleteIcon />
-      </IconButton>
-    </ButtonKeyWord>
-  ) : null;
-
+  console.log(filterValues);
   return (
     <Container>
       {response.isLoading ? (
         <Spinner />
       ) : (
         <>
-          <WrapFilter>
-            <WrapFilterValues>
-              <Filter
-                onSubmit={() =>
-                  handleFilterSubmit({
-                    startDate: date.startDate,
-                    endDate: date.endDate,
-                  })
-                }
-                onReset={onReset}
-                list={filterList}
-              />
-              {width > 600 ? filterselectvalue : null}
-              {width > 600 ? filtercash : null}
-            </WrapFilterValues>
-            <Button
-              onClick={handleClick}
-              startIcon={<ExcelIcon />}
-              buttonStyle={{
-                bgcolor: '#45A13B',
-                height: {
-                  mobile: 36,
-                },
-              }}
-              margin={{
-                laptop: '0 0 0 10px',
-              }}
-              disabled={resExcel.isLoading || total?.count === 0}
-            >
-              {t('exportexcel')}
-            </Button>
-          </WrapFilter>
-          <WrapSelectV>
-            {width > 600 ? null : <>{filterselectvalue}</>}
-            {width > 600 ? null : <>{filtercash}</>}
-          </WrapSelectV>
+          <FilterHistory
+            setFilterValues={setFilterValues}
+            filterValues={filterValues}
+            refetch={() => response.refetch()}
+            intialFilter={intialFilter}
+          />
           {width <= 600 ? (
             <WrapTotal>
               <WrapTotalSum>
@@ -523,11 +310,13 @@ const Payment = () => {
                   secondWord: t('operations23'),
                 })}
               </Info>
-              <NewPagination
-                onChange={handlechangePage}
-                currentPage={Number(filterValues.page)}
-                totalCount={Number(total?.count)}
-              />
+              {!response.isFetching && (
+                <NewPagination
+                  onChange={handlechangePage}
+                  currentPage={Number(filterValues.page)}
+                  totalCount={Number(total?.count)}
+                />
+              )}
             </WrapPag>
           )}
         </>
