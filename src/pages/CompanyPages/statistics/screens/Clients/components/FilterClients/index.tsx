@@ -18,6 +18,7 @@ import {
   WrapInputs,
   WrapFilter,
 } from './style';
+import MultiSelect from 'components/Custom/MultiSelect';
 
 interface Props {
   response?: any;
@@ -45,7 +46,8 @@ const FilterClients = ({
   const { t } = useTranslation();
   const data = useAppSelector((state) => state.statistics.clientStats);
   const [date, setDate] = useState({ startDate: '', endDate: '' });
-
+  const [storeIds, setStoreIds] = useState<any[]>([]);
+  const [values, setValues] = useState({});
   const allPurchaseSumValue: any = numberWith(
     String(filterValues.allPurchaseSum),
     ' ',
@@ -102,6 +104,13 @@ const FilterClients = ({
       .join('');
     return {
       value: val,
+      label: v.name,
+    };
+  });
+
+  const storesFilter = data?.filter?.stores?.map((v: any) => {
+    return {
+      value: v.id,
       label: v.name,
     };
   });
@@ -235,6 +244,29 @@ const FilterClients = ({
           value={filterValues.allPurchaseSum}
           type='tel'
           maxLength={11}
+        />
+      ),
+    },
+    {
+      title: t('withfilial'),
+      value: storeIds.length > 0 ? storeIds.length : undefined,
+      content: (
+        <MultiSelect
+          label={t('choosefilial')}
+          options={storesFilter}
+          onChange={(e: any) => {
+            setFilterValues({
+              ...filterValues,
+              storeIds:
+                e.map((v: any) => v.value).length > 0
+                  ? `[${e.map((v: any) => v.value).join(',')}]`
+                  : '',
+            });
+            setStoreIds(e);
+          }}
+          value={storeIds}
+          selectStyle={{ bgcolor: '#eff0fd' }}
+          isMulti={true}
         />
       ),
     },

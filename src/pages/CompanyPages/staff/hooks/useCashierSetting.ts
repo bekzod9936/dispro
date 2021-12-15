@@ -1,10 +1,11 @@
 import { useForm, useWatch } from "react-hook-form";
 import { useQuery, useMutation } from "react-query";
+
+//helpers
 import { fetchRewards } from "services/queries/partnerQuery";
 import { changeLoyal } from "services/queries/staffQuery";
 import { useAppDispatch } from "services/redux/hooks";
 import { setSummaOperations } from "services/redux/Slices/staffs";
-
 export interface IForm {
   ballCheck: boolean;
   additionalCheck: boolean;
@@ -37,11 +38,6 @@ const useCashierSetting = () => {
     control,
     name: "recommendCheck",
   });
-
-  // const ballPoint = useWatch({
-  //   control,
-  //   name: "ballPoint",
-  // });
 
   //change settings
   const changeLoyality = useMutation((data: any) => changeLoyal(data), {
@@ -101,12 +97,6 @@ const useCashierSetting = () => {
       },
     }
   );
-
-  // useEffect(() => {
-  //   if (+ballPoint >= 100) {
-  //     setValue("ballPoint", "100");
-  //   }
-  // }, [ballPoint]);
 
   return {
     ballCheck,

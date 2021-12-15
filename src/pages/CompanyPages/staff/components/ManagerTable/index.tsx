@@ -1,7 +1,15 @@
 import { useMemo, useState, useEffect } from 'react';
 import { useSortBy, useTable } from 'react-table';
+
+//helpers
+import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
+import { setSelectedManagers } from 'services/redux/Slices/staffs';
+
+//components
+import { managerHeaders } from './headers';
 import Checkbox from '@material-ui/core/Checkbox';
-import { HeadersType, IProps } from './types';
+
+//styles
 import {
 	Tbody,
 	Td,
@@ -16,9 +24,11 @@ import {
 	DefaultLogo,
 	ManagerLogo,
 } from './style';
-import { managerHeaders } from './headers';
-import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
-import { setSelectedManagers } from 'services/redux/Slices/staffs';
+
+//types
+import { HeadersType, IProps } from './types';
+
+//icons
 import managerDefault from 'assets/images/defaultGreen.png';
 
 const ManagerTable = ({ managers }: IProps) => {

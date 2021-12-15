@@ -35,7 +35,6 @@ const CreateCashier = ({ openCash }: IProps) => {
 	});
 
 	const { branches } = useStaff();
-	//   const [branches, setBranches] = useState([]);
 	const dispatch = useAppDispatch();
 	const { t } = useTranslation();
 	const {
@@ -45,6 +44,7 @@ const CreateCashier = ({ openCash }: IProps) => {
 		watch,
 		setValue,
 		getValues,
+		register,
 		formState: { errors, isValid, isSubmitSuccessful },
 	} = useForm<FormProps>({
 		mode: 'onChange',
@@ -58,7 +58,7 @@ const CreateCashier = ({ openCash }: IProps) => {
 			comment: data.comment,
 			firstName: data.firstName,
 			lastName: data.lastName,
-			storeId: data.storeId?.value,
+			storeIds: [data.storeIds.value],
 			telNumber: `+998${data.telNumber}`,
 			roleId: 3,
 		});
@@ -71,7 +71,7 @@ const CreateCashier = ({ openCash }: IProps) => {
 					comment: '',
 					firstName: '',
 					lastName: '',
-					storeId: '',
+					storeIds: '',
 					telNumber: '+998',
 				});
 			}, 4000);
@@ -112,13 +112,20 @@ const CreateCashier = ({ openCash }: IProps) => {
 								<Controller
 									control={control}
 									name='firstName'
-									rules={{ required: true }}
+									rules={{
+										required: true,
+										pattern: /[A-Za-z]{3}/,
+									}}
 									render={({ field }) => (
 										<Input
 											maxLength='20'
 											label={t('cashier_name')}
 											error={errors.firstName ? true : false}
-											message={t('requiredField')}
+											message={
+												errors.firstName?.type === 'required'
+													? t('requiredField')
+													: 'Вводить только буквы'
+											}
 											type='string'
 											field={field}
 											margin={{
@@ -133,13 +140,17 @@ const CreateCashier = ({ openCash }: IProps) => {
 								<Controller
 									control={control}
 									name='lastName'
-									rules={{ required: true }}
+									rules={{ required: true, pattern: /[A-Za-z]{3}/ }}
 									render={({ field }) => (
 										<Input
 											maxLength='20'
 											label={t('cashier_lastName')}
 											error={errors.lastName ? true : false}
-											message={t('requiredField')}
+											message={
+												errors.firstName?.type === 'required'
+													? t('requiredField')
+													: 'Вводить только буквы'
+											}
 											type='string'
 											field={field}
 											margin={{
@@ -181,7 +192,7 @@ const CreateCashier = ({ openCash }: IProps) => {
 						<FormRow>
 							<Controller
 								control={control}
-								name='storeId'
+								name='storeIds'
 								rules={{
 									required: true,
 								}}
@@ -206,7 +217,7 @@ const CreateCashier = ({ openCash }: IProps) => {
 												laptop: '20px 0 25px',
 											}}
 											message={t('requiredField')}
-											error={errors.storeId ? true : false}
+											error={errors.storeIds ? true : false}
 											field={field}
 											isClearable={false}
 										/>

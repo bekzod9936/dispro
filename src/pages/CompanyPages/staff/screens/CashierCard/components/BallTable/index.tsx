@@ -1,15 +1,22 @@
 import { useMemo, useState } from 'react';
-import Table from '../Table';
-import { Container, NoData, NoDataText, WrapPag, Info } from './style';
-// import { headers } from './headers';
-import { ReactComponent as CashierDataPoints } from 'assets/images/cashierDataPoints.svg';
 import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
-import Pagination from 'components/Custom/Pagination';
-import { useAppSelector } from 'services/redux/hooks';
+
+//helpers
 import useBallTable from './useBallTable';
+import { useAppSelector } from 'services/redux/hooks';
+
+//components
+import Table from '../Table';
 import Spinner from 'components/Custom/Spinner';
 import { NewPagination } from 'components/Custom/NewPagination';
+
+//styles
+import { Container, NoData, NoDataText, WrapPag, Info } from './style';
+
+//icons
+import { ReactComponent as CashierDataPoints } from 'assets/images/cashierDataPoints.svg';
+
 interface intialFilterProps {
 	page?: number;
 	perPage?: number;
@@ -132,15 +139,6 @@ const BallTable = () => {
 							currentPage={Number(filterValues.page)}
 							totalCount={Number(totalCount)}
 						/>
-
-						{/* <Pagination
-							page={filterValues.page}
-							count={totalCount}
-							onChange={handlechangePage}
-							disabled={response.isLoading || response.isFetching}
-							// siblingCount={0}
-							boundaryCount={0}
-						/> */}
 					</WrapPag>
 				</>
 			)}

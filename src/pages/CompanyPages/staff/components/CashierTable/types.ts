@@ -2,7 +2,6 @@ export interface ITRow {
   background?: boolean | number;
   checked?: boolean;
 }
-
 export interface IProps {
   cashiers: ICashTable[];
 }
@@ -11,7 +10,6 @@ export type HeadersType = {
   value: string;
   label: string;
 };
-
 export interface ICashTable {
   firstName?: string;
   score: string | number;
@@ -21,3 +19,13 @@ export interface ICashTable {
   amountOperation: string | number;
   countRefer: string | number;
 }
+export interface IHeader {
+	header?: boolean;
+  }
+export interface ITh {
+	active?: boolean;
+  }
+export interface Props {
+	up?: boolean;
+	active?: boolean;
+  }

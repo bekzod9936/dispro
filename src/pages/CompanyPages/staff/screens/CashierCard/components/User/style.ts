@@ -8,6 +8,13 @@ import { ReactComponent as Money } from 'assets/icons/FeedBack/money.svg';
 interface Props {
   margin?: string;
 }
+interface Props {
+	bgcolor?: boolean;
+  }
+  interface Props {
+	big?: boolean;
+  }
+  
 
 export const CloseIcon = styled(Close)``;
 
@@ -15,9 +22,7 @@ export const MoneyIcon = styled(Money)``;
 
 export const MessageIcon = styled(Message)``;
 
-interface Props {
-  bgcolor?: boolean;
-}
+
 
 export const StarIcon = styled(Star)`
   margin-right: 3px;
@@ -211,9 +216,6 @@ export const WrapMoney = styled.div`
   grid-gap: 15px;
 `;
 
-interface Props {
-  big?: boolean;
-}
 
 export const Avatar = styled.div`
   border-radius: 14px;

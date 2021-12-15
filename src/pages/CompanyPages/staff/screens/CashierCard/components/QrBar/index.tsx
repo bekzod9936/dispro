@@ -1,17 +1,24 @@
 import Button from 'components/Custom/Button';
 import QRCode from 'qrcode.react';
 import { useTranslation } from 'react-i18next';
-import { DownloadIcon } from 'assets/icons/SettingsIcons/SettingsPageIcon';
-import { QrDiv, UpSide, DownSide, QrRow, QrText } from './style';
-import { ReactComponent as ExitIcon } from 'assets/icons/exit.svg';
-import { ReactComponent as ShareIcon } from 'assets/icons/share_right.svg';
 
+//components
+import { QrDiv, UpSide, DownSide, QrRow, QrText } from './style';
 import { IconButton } from '@material-ui/core';
+
+//styles
 import { Break } from '../../style';
+
+//icons
+import { DownloadIcon } from 'assets/icons/SettingsIcons/SettingsPageIcon';
+import { ReactComponent as ExitIcon } from 'assets/icons/exit.svg';
+interface IProps {
+	qrLink: string;
+	closeQr: any;
+}
 
 const QrBar = ({ qrLink, closeQr }: IProps) => {
 	const { t } = useTranslation();
-
 	const downloadQR = () => {
 		const canvas = document.getElementById(
 			`referral-qr-code`
@@ -60,8 +67,3 @@ const QrBar = ({ qrLink, closeQr }: IProps) => {
 };
 
 export default QrBar;
-
-interface IProps {
-	qrLink: string;
-	closeQr: any;
-}

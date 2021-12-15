@@ -1,25 +1,25 @@
-import { useState } from 'react';
-import { useQuery } from 'react-query';
-import { useSetRecoilState } from 'recoil';
-import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
-import { setStaffId } from 'services/redux/Slices/authSlice';
+import { useState } from "react";
+import { useQuery } from "react-query";
+import { useSetRecoilState } from "recoil";
+import { useAppDispatch, useAppSelector } from "services/redux/hooks";
+import { setStaffId } from "services/redux/Slices/authSlice";
 import {
   setAccounts,
   setInfoData,
   setPayGo,
-} from 'services/redux/Slices/info/info';
-import { setCompanyInfo } from '../../services/redux/Slices/partnerSlice';
+} from "services/redux/Slices/info/info";
+import { setCompanyInfo } from "../../services/redux/Slices/partnerSlice";
 
 //queries
-import { fetchBadge, fetchLimitFinance } from 'services/queries/InfoQuery';
-import { fetchInfo, fetchPayGoGet } from 'services/queries/partnerQuery';
+import { fetchBadge, fetchLimitFinance } from "services/queries/InfoQuery";
+import { fetchInfo, fetchPayGoGet } from "services/queries/partnerQuery";
 
 //selectors
 import {
   setLimitAccounts,
   setBalanceAccounts,
-} from 'services/atoms/info/selector';
-import { setBadgeData } from 'services/atoms/info/badge';
+} from "services/atoms/info/selector";
+import { setBadgeData } from "services/atoms/info/badge";
 
 interface Props {
   name?: string;
@@ -33,7 +33,7 @@ interface LProps {
 }
 const useLayout = ({ id }: LProps) => {
   const dispatch = useAppDispatch();
-  const companyId = localStorage.getItem('companyId');
+  const companyId = localStorage.getItem("companyId");
 
   const setLimit = useSetRecoilState(setLimitAccounts);
   const setBalance = useSetRecoilState(setBalanceAccounts);
@@ -43,7 +43,7 @@ const useLayout = ({ id }: LProps) => {
     filledAddress: false,
   });
 
-  const resHeader = useQuery('logoANDname', () => fetchInfo(id), {
+  const resHeader = useQuery("logoANDname", () => fetchInfo(id), {
     onSuccess: (data) => {
       dispatch(setCompanyInfo(data?.data.data));
       dispatch(setInfoData(data?.data.data));
@@ -59,7 +59,7 @@ const useLayout = ({ id }: LProps) => {
   const currency = useAppSelector((state) => state.info.data?.currencyId);
 
   const resLimit = useQuery(
-    ['fetchLimitFinance', currency],
+    ["fetchLimitFinance", currency],
     () => fetchLimitFinance({ companyId, currency }),
     {
       onSuccess: (data) => {
@@ -73,7 +73,7 @@ const useLayout = ({ id }: LProps) => {
     }
   );
 
-  const resBadge = useQuery('fetchBadge', fetchBadge, {
+  const resBadge = useQuery("fetchBadge", fetchBadge, {
     onSuccess: (data) => {
       setBadge(data.data.data);
     },
@@ -82,9 +82,8 @@ const useLayout = ({ id }: LProps) => {
     retry: 0,
   });
 
-  const payGoResponse = useQuery('payGoGetFetch', () => fetchPayGoGet(), {
+  const payGoResponse = useQuery("payGoGetFetch", () => fetchPayGoGet(), {
     onSuccess: (data) => {
-      console.log(data.data.data);
       dispatch(setPayGo(data.data.data.payGo));
     },
   });
