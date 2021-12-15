@@ -25,13 +25,13 @@ const Header = ({ handleOpenNews }: IProps) => {
       if (location.pathname !== "/news/archive") {
         dispatch(setQuery(""));
         }
-  },[])
+  },[dispatch(setQuery(""))])
 
   useEffect(() => {
     if (location.pathname !== "/news") {
       dispatch(setSelectedNews([]));
     }
-  }, [dispatch(setSelectedNews([])), dispatch(setQuery(""))]);
+  }, [dispatch(setSelectedNews([]))]);
  
   return (
     <Container>
