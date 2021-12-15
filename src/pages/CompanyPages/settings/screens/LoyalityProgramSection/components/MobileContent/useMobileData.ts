@@ -107,7 +107,7 @@ const useMobileData = () => {
     },
     {
       onSuccess: () => {
-        notify(t('Сохранено! Данные успешно сохранены'));
+        notify(t('  Сохранено!  Данные успешно сохранены'));
         refetch();
         refetchdiscount();
         refetchcashback();
