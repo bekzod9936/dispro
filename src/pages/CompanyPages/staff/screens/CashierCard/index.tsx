@@ -263,7 +263,7 @@ const CashierCard = () => {
 							<StaffCol>
 								<StaffSecondText>Филиал</StaffSecondText>
 								<Break height={5} />
-								<StaffText>{getStoreName(staffData?.storeIds[0])}</StaffText>
+								<StaffText>{getStoreName(staffData?.storeIds?.[0])}</StaffText>
 							</StaffCol>
 							<StaffCol>
 								<StaffSecondText>Комментарий</StaffSecondText>

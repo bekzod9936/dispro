@@ -113,7 +113,7 @@ const useCashiers = ({ page, query, period, storeIdForFilter}: any) => {
       dispatch(setSelectedManagers([]));
 
 	  dispatch(setStaffData([]));
-	  history.push('/staff');
+	  history.push('/staff/cashiers');
 
       response.refetch();
     },
