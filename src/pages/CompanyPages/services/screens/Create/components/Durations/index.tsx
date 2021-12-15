@@ -30,7 +30,7 @@ export const Durations: React.FC<DurationsProps> = () => {
   };
 
   return (
-    <div className={styles.wrapper}>
+    <div>
       <FormControlLabel
         classes={{ root: styles.root }}
         onChange={handleChange}

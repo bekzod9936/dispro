@@ -4,9 +4,6 @@ import styled from "styled-components";
 
 
 export const useStyles = makeStyles({
-    wrapper: {
-        marginBottom: 25
-    },
     root: {
       fontSize: "16px !important",
       color: "#223367",
@@ -47,18 +44,19 @@ export const useStyles = makeStyles({
     },
   });
 export const Fields = styled.div`
-h4 {
-      font-size: 16px;
-      color: #C7C7C7;
-      line-height: 18.75px;
-      margin-bottom: 10px;
-  }
+  margin-bottom: 25px;
+  h4 {
+        font-size: 16px;
+        color: #C7C7C7;
+        line-height: 18.75px;
+        margin-bottom: 10px;
+    }
 `
 
 export const GridContainer = styled.div`
-display: grid;
-grid-template-columns: repeat(3, 1fr);
-column-gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 20px;
 
   h4 {
       font-size: 16px;
