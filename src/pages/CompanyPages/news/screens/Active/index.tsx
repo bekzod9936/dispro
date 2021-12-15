@@ -118,16 +118,17 @@ const Active = () => {
   };
 
   const filterByDate = async (e: any) => {
-    await setFilterValues({
+    query ?   await setSearchFilterValues({
+      ...searchFilterValues,
+      fromDate: e.slice(0, e.indexOf(" ~")),
+      toDate: e.slice(e.indexOf("~ ") + 2),
+    }):   await setFilterValues({
       ...filterValues,
       fromDate: e.slice(0, e.indexOf(" ~")),
       toDate: e.slice(e.indexOf("~ ") + 2),
     });
-    await setSearchFilterValues({
-      ...searchFilterValues,
-      fromDate: e.slice(0, e.indexOf(" ~")),
-      toDate: e.slice(e.indexOf("~ ") + 2),
-    })
+ 
+  
     await response.refetch();
   };
   
