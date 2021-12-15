@@ -80,6 +80,11 @@ export interface ITotal {
   pages?: number;
 }
 
+export interface IStore {
+  address: string;
+  id: number;
+  name: string;
+}
 export interface IFinance {
   suggestionFinance: {
     data: ISuggestion[];
@@ -104,6 +109,7 @@ export interface IFinance {
     between: string;
     sum: ISum;
     cashier: ICashier[];
+    storeIds: IStore[];
   };
 }
 

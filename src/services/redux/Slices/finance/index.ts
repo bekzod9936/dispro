@@ -9,6 +9,7 @@ import {
   ISum,
   ICashier,
   ITotal,
+  IStore,
 } from './types';
 
 const initialState: IFinance = {
@@ -39,6 +40,7 @@ const initialState: IFinance = {
       paid: 0,
     },
     cashier: [],
+    storeIds: [],
   },
 };
 
@@ -94,6 +96,9 @@ const financeSlice = createSlice({
     setCashierHistoryFinance: (state, action: PayloadAction<ICashier[]>) => {
       state.historyFinance.cashier = action.payload;
     },
+    setStoreIdsHistoryFinance: (state, action: PayloadAction<IStore[]>) => {
+      state.historyFinance.storeIds = action.payload;
+    },
   },
 });
 
@@ -114,5 +119,6 @@ export const {
   setHistoryFinanceBetween,
   setSumHistoryFinance,
   setCashierHistoryFinance,
+  setStoreIdsHistoryFinance,
 } = financeSlice.actions;
 export default financeSlice.reducer;
