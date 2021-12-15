@@ -1,8 +1,11 @@
-import { IFlex } from 'services/Types/Style';
 import styled from 'styled-components';
 import ButtonBase from '@material-ui/core/ButtonBase';
+
+//styles
 import { device } from 'styles/device';
 
+//types
+import { IFlex } from 'services/Types/Style';
 export interface IRow {
   light?: boolean;
 }

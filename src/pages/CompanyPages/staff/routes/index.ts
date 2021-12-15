@@ -11,7 +11,6 @@ const CashierBalls = lazy(
 const CashierFeedback = lazy(
   () => import('../screens/CashierCard/screens/CashierFeedback')
 );
-
 export interface IStaffsRow {
   path: string;
   text: string;

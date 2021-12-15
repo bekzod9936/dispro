@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useQuery, useMutation } from "react-query";
+
+//helpers
 import {
   createCashier,
   getManagers,
-//   getRoleManager,
   searchManagers,
   setRoleManager,
   deleteSingleCashier,
@@ -74,7 +75,7 @@ const useManagers = ({ page, query, period }: any) => {
 
         dispatch(
           setAllManager(
-            data?.data?.data?.map((manager: any) => {
+            data?.data?.data?.staffs?.map((manager: any) => {
               return {
                 ...manager,
 				comment: manager?.comment,

@@ -1,6 +1,24 @@
 import styled from "styled-components";
+
+//styles
 import { device } from "styles/device";
+
+//icons`
 import { ReactComponent as Up } from "assets/icons/up.svg";
+interface ITh {
+	active?: boolean;
+  }
+interface IHeader {
+	header?: boolean;
+  }
+  interface Props {
+	up?: boolean;
+	active?: boolean;
+  }
+  export interface ITRow {
+	background?: boolean | number;
+	checked?: boolean;
+  }
 
 export const Container = styled.div`
   background: #ffffff;
@@ -54,9 +72,7 @@ export const MTable = styled.table`
   }
 `;
 
-interface IHeader {
-  header?: boolean;
-}
+
 export const Thead = styled.thead`
   background: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
@@ -74,9 +90,7 @@ export const Thead = styled.thead`
   }
 `;
 
-interface ITh {
-  active?: boolean;
-}
+
 
 export const Th = styled.th`
   padding: 0 10px;
@@ -99,10 +113,7 @@ export const Th = styled.th`
     }
   }
 `;
-interface Props {
-  up?: boolean;
-  active?: boolean;
-}
+
 
 export const UpIcon = styled(Up)`
   transform: ${({ up }: Props) => (up ? "rotate(-180deg)" : "rotate(0)")};
@@ -171,10 +182,7 @@ export const TRow = styled.tr`
     checked ? "rgba(96, 110, 234, 0.3) !important" : "transparent"};
 `;
 
-export interface ITRow {
-  background?: boolean | number;
-  checked?: boolean;
-}
+
 
 export const EmptyDiv = styled.div`
   display: flex;

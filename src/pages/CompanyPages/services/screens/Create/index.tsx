@@ -1,23 +1,25 @@
 //packages
 import { useForm, FormProvider } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { Button } from "@material-ui/core";
 
 //components
-import { Header } from "./components/Header";
-import { Button } from "@material-ui/core";
+import {
+  Header,
+  Durations,
+  Fields,
+  Selects,
+  Radios,
+  Toggles,
+  Variants,
+  Photos,
+} from "./components";
 
 //style
 import { Wrapper, Form, Container } from "./style";
 
 //other
 import { FormFieldTypes } from "../../utils/types";
-import { Fields } from "./components/Fields";
-import { Selects } from "./components/Selects";
-import { Radios } from "./components/Radios";
-import { Toggles } from "./components/Toggles";
-import { Variants } from "./components/Variants";
-import InputFormat from "components/Custom/InputFormat";
-import { Durations } from "./components/Durations";
 
 interface CreateProps {}
 
@@ -39,6 +41,7 @@ const Create: React.FC<CreateProps> = () => {
         },
       ],
       loyaltyOff: false,
+      images: [],
     },
   });
 
@@ -58,6 +61,7 @@ const Create: React.FC<CreateProps> = () => {
             <Toggles />
             <Variants />
             <Durations />
+            <Photos />
             <Button variant="contained" type="submit">
               Submit
             </Button>

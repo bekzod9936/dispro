@@ -37,4 +37,5 @@ export interface FormFieldTypes {
   loyaltyOff: boolean,
   variants: variantType[],
   preparationTime: preparationTimeType[]
+  images: string[]
 }

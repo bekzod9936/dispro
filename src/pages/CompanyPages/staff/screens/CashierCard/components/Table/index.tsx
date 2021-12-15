@@ -1,4 +1,6 @@
 import { useTable, useSortBy } from 'react-table';
+
+//styles
 import { Container, MTable, Thead, Tr, Th, Tbody, Td, UpIcon } from './style';
 
 interface Props {

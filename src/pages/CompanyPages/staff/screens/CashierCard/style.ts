@@ -1,7 +1,24 @@
 import styled from 'styled-components';
+
+//styles
 import { device } from 'styles/device';
+
+//icons
 import { ReactComponent as QRStaff } from 'assets/icons/qr_staff.svg';
 import { ReactComponent as Dots } from 'assets/icons/verticalDots.svg';
+interface IMAction {
+	justifyContent?:
+	  | "space-between"
+	  | "center"
+	  | "flex-end"
+	  | "flex-start"
+	  | "space-around";
+	mTop?: number;
+  }
+  interface ButtonProps {
+	mobile?: boolean;
+	color?: string;
+  }
 
 export const QRIcon = styled(QRStaff)`
   margin-left: 10px;
@@ -253,15 +270,7 @@ export const ModalBody = styled.div`
   align-items: flex-start;
 `;
 
-interface IMAction {
-	justifyContent?:
-	  | "space-between"
-	  | "center"
-	  | "flex-end"
-	  | "flex-start"
-	  | "space-around";
-	mTop?: number;
-  }
+
 
 export const ModalAction = styled.div`
   display: flex;
@@ -303,12 +312,6 @@ export const ButtonKeyWord = styled.div`
     color: #223367;
   }
 `;
-
-
-interface ButtonProps {
-	mobile?: boolean;
-	color?: string;
-  }
 
 export const DeleteIc = styled(Delete)`
   & > path {

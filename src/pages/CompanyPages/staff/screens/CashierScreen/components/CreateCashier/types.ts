@@ -4,5 +4,5 @@ export interface FormProps {
   telNumber: string;
   email?: string;
   comment?: string;
-  storeId: any;
+  storeIds: any;
 }

@@ -1,13 +1,20 @@
-import Modal from 'components/Custom/Modal';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IconButton } from '@material-ui/core';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import Button from 'components/Custom/Button';
 import dayjs from 'dayjs';
 import { useHistory, useLocation } from 'react-router';
+
+//helpers
+import { IconButton } from '@material-ui/core';
 import { useAppDispatch } from 'services/redux/hooks';
 import { setChosenClientChat } from 'services/redux/Slices/feedback';
+import { setCashierId } from 'services/redux/Slices/staffs';
+
+//components
+import Button from 'components/Custom/Button';
+import Modal from 'components/Custom/Modal';
+
+//styles
 import {
 	Container,
 	Header,
@@ -35,7 +42,8 @@ import {
 	WrapMoney,
 	Avatar,
 } from './style';
-import { setCashierId } from 'services/redux/Slices/staffs';
+
+//icons
 import defuserman from 'assets/icons/defuserman.png';
 import defuserwoman from 'assets/icons/defuserwoman.png';
 

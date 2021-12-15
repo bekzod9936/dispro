@@ -4,7 +4,8 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 //hooks
 import useLoyality from './hooks/useLoyality';
 import useWindowWidth from 'services/hooks/useWindowWidth';
-
+//Redux
+import { useAppSelector } from 'services/redux/hooks';
 //styles
 import { Flex } from 'styles/BuildingBlocks';
 import { LargePanel } from '../../styles/SettingStyles';
@@ -81,11 +82,13 @@ const LoyaltyProgramSection = () => {
   const { t } = useTranslation();
   const { width } = useWindowWidth();
   const history = useHistory();
-
+  const infoData = useAppSelector((state) => state.info.data?.type);
   const {
     control,
     setValue,
     handleSwitchChange,
+    checkedState,
+    handleSwitch,
     handleSubmit,
     dynamicFields,
     getValues,
@@ -159,6 +162,7 @@ const LoyaltyProgramSection = () => {
     }
   };
 
+  console.log('checked',checkedState)
   const content = () => {
     if (width <= 1000) {
       return (
@@ -191,13 +195,17 @@ const LoyaltyProgramSection = () => {
                       alignItems='flex-start'
                       margin='0'
                     >
-                      <CustomToggle
+                      {infoData=== 2 ? <CustomToggle
                         checked={item.key === active.active}
-                        disabled={item.key === active.active}
+                        disabled={checkedState ? true:item.key === active.active}
                         onChange={(checked: any) => handleChecked(item.key)}
-                      />
+                      />: <CustomToggle
+                      checked={item.key === active.active}
+                      disabled={item.key === active.active}
+                      onChange={(checked: any) => handleChecked(item.key)}
+                    />}
+                  
                     </Flex>
-
                     <Flex
                       margin='0 0 0 20px'
                       flexDirection='column'
@@ -217,10 +225,44 @@ const LoyaltyProgramSection = () => {
                   </Flex>
                 );
               })}
+              {infoData ===2 && <Flex
+                    justifyContent='space-between'
+                    margin='0px 0px 35px 0px'
+                    alignItems='flex-start'
+                  >
+                    <Flex
+                      flexDirection={'column'}
+                      justifyContent='start'
+                      alignItems='flex-start'
+                      margin='0'
+                    >
+                    <CustomToggle
+                checked={checkedState}
+                onChange={(e: any) => {
+                  handleSwitch(e.target.checked);
+                }}
+              />
+            
+                    </Flex>
+                    <Flex
+                      margin='0 0 0 20px'
+                      flexDirection='column'
+                      alignItems='flex-start'
+                    >
+                      <div style={{}}>
+                        <Text fontSize='18px' fontWeight={500}>
+                          {'Отключения Программы Лояльности'}
+                        </Text>
+                      </div>
+                     
+                    </Flex>
+                  </Flex>}
+          
+              
             </Flex>
           </LeftGrid>
 
-          {activeEmpty ? (
+          { activeEmpty ? (
             <Grid
               justifyContent='center'
               alignItems='center'
@@ -229,7 +271,7 @@ const LoyaltyProgramSection = () => {
               xs={12}
               sm={7}
             >
-              <EmptySetting />
+                          {isLoading ? <Spinner />: <EmptySetting />} 
               <EText>{t('empty_setting_text')}</EText>
             </Grid>
           ) : (

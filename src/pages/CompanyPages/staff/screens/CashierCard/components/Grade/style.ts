@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+
+//styles
 import { device } from 'styles/device';
 
 export const Container = styled.div`

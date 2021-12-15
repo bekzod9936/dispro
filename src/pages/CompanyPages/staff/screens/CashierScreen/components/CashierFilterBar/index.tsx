@@ -82,7 +82,6 @@ const CashierFilterBar: React.FC<Props> = ({
 	});
 	const branches = useSearchBranch(query, storeFilters);
 	const allCashier = useAppSelector((state) => state.staffs.allCashiers);
-
 	const selectedCashiers = useAppSelector(
 		(state) => state.staffs.selectedCashiers
 	);
