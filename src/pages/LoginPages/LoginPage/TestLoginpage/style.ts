@@ -1,6 +1,6 @@
-import styled, { css } from "styled-components";
-import { device } from "../../../../styles/device";
-import IconButton from "@material-ui/core/IconButton";
+import styled, { css } from 'styled-components';
+import { device } from '../../../../styles/device';
+import IconButton from '@material-ui/core/IconButton';
 
 interface textProps {
   fontSize?: number;
@@ -42,7 +42,7 @@ export const LeftSide = styled.div`
     flex: 1;
     justify-content: space-between;
   }
-  @media (max-width: ${device.mobile}) {
+  @media (max-width: ${device.planshet}) {
     display: none;
   }
 `;
@@ -55,7 +55,7 @@ export const RightSide = styled.div`
   display: flex;
   flex-direction: column;
 
-  @media (max-width: ${device.mobile}) {
+  @media (max-width: ${device.planshet}) {
     background: white;
     border-top-left-radius: 0;
     align-items: center;
@@ -64,7 +64,7 @@ export const RightSide = styled.div`
   }
 `;
 
-export const Img = styled.img`
+export const Img = styled.div`
   border-radius: 50%;
   width: 60%;
   height: 65%;
@@ -73,7 +73,7 @@ export const Img = styled.img`
 export const Wrapper = styled.div`
   height: 100vh;
   padding: 60px;
-  display: ${({ display }: WrapProps) => (display ? "none" : "flex")};
+  display: ${({ display }: WrapProps) => (display ? 'none' : 'flex')};
   ${({ display }: WrapProps) => (display ? null : common)}
   transition: 1s all linear;
   -webkit-animation-name: fade;
@@ -110,7 +110,7 @@ export const Wrapper = styled.div`
 
 export const Text = styled.p`
   font-weight: normal;
-  font-size: ${({ fontSize }: textProps) => `${fontSize}px` || "16px"};
+  font-size: ${({ fontSize }: textProps) => `${fontSize}px` || '16px'};
   font-weight: ${({ weight }: textProps) => weight || null};
   color: #ffffff;
   display: flex;
@@ -133,20 +133,40 @@ export const TextWrap = styled.div`
 export const WrapSelect = styled.div`
   display: flex;
   justify-content: ${({ justify }: SelectProps) =>
-    justify ? "space-between" : "flex-end"};
+    justify ? 'space-between' : 'flex-end'};
   align-items: center;
   flex-shrink: 1;
-  padding: 25px 35px 10px 25px;
+  padding: 15px;
 
-  @media (max-width: ${device.mobile}) {
+  @media (max-width: ${device.planshet}) {
     width: 100%;
     display: flex;
     justify-content: space-between;
+  }
+  @media (min-width: ${device.mobile}) {
     padding: 15px;
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    padding: ${({ justify }: SelectProps) => (justify ? '15px 20px' : '40px')};
   }
 `;
 
-export const ImgLogo = styled.img`
+export const ImgLogo = styled.div`
+  @media (max-width: ${device.mobile}) {
+    width: 35px;
+    height: 20px;
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    margin-right: 15px;
+    width: 55px;
+    height: 30px;
+  }
+  @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
+    width: 65px;
+    height: 35px;
+  }
+  width: 70px;
+  height: 40px;
   margin-right: 10px;
 `;
 
@@ -158,21 +178,27 @@ export const Title = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  @media (min-width: ${device.mobile}) {
+  @media (min-width: ${device.planshet}) {
     display: none;
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    font-size: 20px;
   }
 `;
 
 export const WrapButton = styled.div`
   display: inline-block;
-  @media (max-width: ${device.mobile}) {
+  @media (max-width: ${device.planshet}) {
     display: none;
   }
 `;
 
 export const WButton = styled(IconButton)`
-  margin-right: 5px;
-  @media (min-width: ${device.mobile}) {
+  margin-right: 10px;
+  @media (max-width: ${device.mobile}) {
+    margin-right: 5px;
+  }
+  @media (min-width: ${device.planshet}) {
     display: none;
   }
 `;

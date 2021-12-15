@@ -39,7 +39,7 @@ export const FilterNews=({handleOpenNews,searchNews,filterByDate}:FilterNews)=>{
           }}
           startIcon={<AddIcon />}
         >
-          {t("Создать новость")}
+          {t("createNews")}
         </Button>
   
         <div style={{ width: "20px" }} />
@@ -47,7 +47,7 @@ export const FilterNews=({handleOpenNews,searchNews,filterByDate}:FilterNews)=>{
           inputStyle={{ border: "none", height: { desktop: 50 } }}
           IconStart={<SearchIcon style={{ marginLeft: 20 }} />}
           value={query}
-          placeholder="Поиск по новостям"
+          placeholder={t("searchFromNews")}
           onChange={(e) => searchNews(e)}
           width={{ maxwidth: 500 }}
         />

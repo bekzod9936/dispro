@@ -24,7 +24,6 @@ export const Container = styled.div`
   }
 
   @media (max-width: ${device.mobile}) {
-    box-shadow: none;
     width: 100%;
   }
   @media (min-width: ${device.laptop}) {
@@ -41,12 +40,12 @@ export const MainWrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 30px;
-  @media (max-width: ${device.mobile}) {
-    box-shadow: none;
+
+  @media (max-width: ${device.planshet}) {
     width: 100%;
-    height: 100%;
-    margin-bottom: 0;
+    flex-shrink: 1;
+    box-shadow: none;
+    height: calc(100% - 120px);
   }
 `;
 
@@ -56,7 +55,7 @@ export const Header = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  @media (max-width: ${device.mobile}) {
+  @media (max-width: ${device.planshet}) {
     display: none;
   }
 `;
@@ -72,6 +71,9 @@ export const Title = styled.div`
   margin-bottom: 10px;
   @media (max-width: ${device.mobile}) {
     font-size: 18px;
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    padding-top: 40px;
   }
   @media (max-width: ${device.laptop}) {
     font-size: 20px;
@@ -126,7 +128,7 @@ export const WrapStep = styled(Stepper)`
   @media (max-width: ${device.laptop}) {
     padding: 20px !important;
   }
-  @media (max-width: ${device.mobile}) {
+  @media (max-width: ${device.planshet}) {
     grid-row-start: 3;
     grid-row-end: 3;
   }
@@ -144,9 +146,14 @@ export const WrapGrid = styled.div`
 export const Content = styled.div`
   width: 100%;
   padding: 0 50px;
-  flex: 1;
+  flex-grow: 1;
+  display: flex;
+  height: 100%;
   @media (max-width: ${device.mobile}) {
     padding: 0 15px;
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    padding: 0 115px 30px;
   }
   @media (min-width: ${device.laptop}) {
     padding: 0 50px;
@@ -244,4 +251,22 @@ export const CountryWrap = styled.div`
       font-size: 15px;
     }
   }
+`;
+
+export const WrapImg = styled.div`
+  @media (max-width: ${device.mobile}) {
+    width: 35px;
+    height: 20px;
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    width: 55px;
+    height: 30px;
+  }
+  @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
+    width: 65px;
+    height: 35px;
+  }
+  width: 70px;
+  height: 40px;
+  margin-right: 20px;
 `;

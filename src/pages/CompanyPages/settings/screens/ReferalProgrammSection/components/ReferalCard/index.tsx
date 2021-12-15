@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import Button from "components/Custom/Button";
 import InputFormat from "components/Custom/InputFormat";
 import { Break } from "pages/CompanyPages/settings/styles";
+import { ruCount } from "services/utils";
 
 const ReferalCard = ({
   removeCol,
@@ -67,7 +68,14 @@ const ReferalCard = ({
             item.number === 2
               ? "Петя"
               : item.number > 2
-              ? `${index} ${t("people")}`
+              ? index +
+                " " +
+                ruCount({
+                  count: index,
+                  firstWord: t("people"),
+                  secondWord: t("peopleRu"),
+                  thirdWord: t("peopleRu"),
+                })
               : null
           }
         />

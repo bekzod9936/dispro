@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { AddIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
@@ -32,6 +32,7 @@ import { LeftHeader, WrapMobile, WrapHeader } from "./style";
 import { Container, Wrap, Info, WrapPag, WrapSpinner } from "./style";
 import useNewsRoute from "../../routes";
 import useActive from "./useActive";
+import NoNewsLaptop from "../../components/NoNewsLaptop";
 import Pagination from "components/Custom/Pagination";
 import { NewPagination } from 'components/Custom/NewPagination';
 interface intialFilterProps {
@@ -49,7 +50,7 @@ const Active = () => {
 
   const totalCount = useAppSelector((state) => state.news.NewsInfo.totalCount);
   const between = useAppSelector((state) => state.news.NewsInfo.between);
-
+  console.log('totalCount',totalCount)
   const errormessage = useAppSelector((state) => state.news.errorMessage);
 
   const totalNewsCount = useAppSelector(
@@ -66,23 +67,28 @@ const Active = () => {
     });
     dispatch(setQuery(""));
   };
-
+  const { width } = useWindowWidth();
   const intialFilter = {
     page: 1,
-    perPage: 5,
+    perPage: width>1000 || width<600 ?5:10,
     fromDate: "",
     toDate: "",
   };
+  const query = useAppSelector((state) => state.news.query);
 
-  const { width } = useWindowWidth();
   const [filterValues, setFilterValues] =
     useState<intialFilterProps>(intialFilter);
-
-  const { response } = useActive({ filterValues: filterValues });
+    const [searchFilterValues, setSearchFilterValues] =
+    useState<intialFilterProps>(intialFilter);
+  const { response } = useActive({ filterValues: query ? searchFilterValues:filterValues, });
 
   const { list } = useData();
   const handlechangePage = async (e: any) => {
     await setFilterValues({ ...filterValues, page: e });
+    await response.refetch();
+  };
+  const handlechangePageSearch = async (e: any) => {
+    await setSearchFilterValues({ ...searchFilterValues, page: e });
     await response.refetch();
   };
   const onClose = () => {
@@ -112,13 +118,20 @@ const Active = () => {
   };
 
   const filterByDate = async (e: any) => {
-    await setFilterValues({
+    query ?   await setSearchFilterValues({
+      ...searchFilterValues,
+      fromDate: e.slice(0, e.indexOf(" ~")),
+      toDate: e.slice(e.indexOf("~ ") + 2),
+    }):   await setFilterValues({
       ...filterValues,
       fromDate: e.slice(0, e.indexOf(" ~")),
       toDate: e.slice(e.indexOf("~ ") + 2),
     });
+ 
+  
     await response.refetch();
   };
+  
 
   return (
     <Container>
@@ -154,9 +167,17 @@ const Active = () => {
               {data?.length > 0 ? (
                 <Table data={list} />
               ) : (
-                <div style={{ paddingRight: "20%", paddingTop: "5%" }}>
-                  <NoNews handleOpenSetting={handleOpenSetting} />
-                </div>
+                <div>
+                {width > 1000 ? (
+                  <div style={{ paddingRight: "20%", paddingTop: "5%" }}>
+                    <NoNews handleOpenSetting={handleOpenSetting} />
+                  </div>
+                ) : (
+                  <div style={{ paddingRight: "10%", paddingTop: "20%" }}>
+                    <NoNewsLaptop handleOpenSetting={handleOpenSetting} />
+                  </div>
+                )}
+              </div>
               )}
               <SideBar isOpen={newsById} maxWidth={"370px"}>
                 {newsById && (
@@ -169,10 +190,11 @@ const Active = () => {
               </SideBar>
               {list.length > 0 ? (
                 <WrapPag>
-                  <Info>
+                   <Info>
                     {t("shown")}
-                    <span>{between}</span>
-                    {t("from1")} <span>{totalNewsCount}</span>
+                    <span>{ between}</span>
+                    {t("from1")}
+                    <span>{totalNewsCount}</span>
                     {countPagination({
                       count: Number(totalNewsCount),
                       firstWord: t("newspaginationtitle"),
@@ -180,9 +202,9 @@ const Active = () => {
                     })}
                   </Info>
                   <NewPagination
-              onChange={handlechangePage}
-              currentPage={Number(filterValues.page)}
-              totalCount={Number(totalCount)}
+            onChange={query ? handlechangePageSearch:handlechangePage}
+            currentPage={Number(query ?searchFilterValues.page: filterValues.page)}
+            totalCount={Number(totalCount)}
             />
                
                 </WrapPag>
@@ -222,21 +244,21 @@ const Active = () => {
                 </SideBar>
                 {list.length > 0 ? (
                   <WrapPag>
-                       <Info>
-                      {t("shown")}
-                      <span>{between}</span>
-                      {t("from1")} <span>{totalNewsCount}</span>
-                      {countPagination({
-                        count: Number(totalNewsCount),
-                        firstWord: t("newspaginationtitle "),
-                        secondWord: t("newspaginationtitles"),
-                      })}
-                    </Info>
+                        <Info>
+                    {t("shown")}
+                    <span>{ between}</span>
+                    {t("from1")} <span>{totalNewsCount}</span>
+                    {countPagination({
+                      count: Number(totalNewsCount),
+                      firstWord: t("newspaginationtitle"),
+                      secondWord: t("newspaginationtitles"),
+                    })}
+                  </Info>
 
                <NewPagination
-              onChange={handlechangePage}
-              currentPage={Number(filterValues.page)}
-              totalCount={Number(totalCount)}
+             onChange={query ? handlechangePageSearch:handlechangePage}
+             currentPage={Number(query ?searchFilterValues.page: filterValues.page)}
+             totalCount={Number(totalCount)}
             />
                   </WrapPag>
                 ) : null}

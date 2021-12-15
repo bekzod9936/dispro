@@ -11,11 +11,15 @@ import {
   IChoose,
   ITHistorySupport,
   IUsersProps,
+  IFiter,
 } from './types';
 
 const initialState: IFeedBack = {
   messages: [],
-  cashiers: [],
+  filter: {
+    cashiers: [],
+    stores: [],
+  },
   clients: [],
   ratings: [],
   histories: [],
@@ -55,8 +59,8 @@ const feedbackPostSlice = createSlice({
     setMessagesFeedBack: (state, action: PayloadAction<IMessage[]>) => {
       state.messages = action.payload;
     },
-    setCashiersFeedBack: (state, action: PayloadAction<ICashiers[]>) => {
-      state.cashiers = action.payload;
+    setFiterFeedBack: (state, action: PayloadAction<IFiter>) => {
+      state.filter = action.payload;
     },
     setClientsFeedBack: (state, action: PayloadAction<IratingAndReviews[]>) => {
       state.clients = action.payload;
@@ -107,7 +111,7 @@ const feedbackPostSlice = createSlice({
 
 export const {
   setMessagesFeedBack,
-  setCashiersFeedBack,
+  setFiterFeedBack,
   setClientsFeedBack,
   setTotalCountFeedBack,
   setRatingsFeedBack,
@@ -120,6 +124,6 @@ export const {
   setChosenClientChat,
   setChosenListUser,
   setBadgeStorePost,
-  setUsers
+  setUsers,
 } = feedbackPostSlice.actions;
 export default feedbackPostSlice.reducer;

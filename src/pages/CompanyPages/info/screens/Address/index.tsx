@@ -58,6 +58,7 @@ import {
   ModelContent,
   ModelTitle,
   ModalWrap,
+  PlanshetHeader,
 } from './style';
 import FullModal from 'components/Custom/FullModal';
 import useWindowWidth from 'services/hooks/useWindowWidth';
@@ -587,6 +588,25 @@ const Address = () => {
       )}
       <LeftSide>
         <div>
+          <Controller
+            name='regionId'
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <MultiSelect
+                isLoading={responseRegions.isLoading}
+                options={regions}
+                label={t('chooseregion')}
+                margin={{
+                  laptop: '0 0 25px',
+                }}
+                message={t('requiredField')}
+                error={errors.regionId ? true : false}
+                field={field}
+                isClearable={false}
+              />
+            )}
+          />
           <Title>{t('Address')}</Title>
           <Text>{t('enterLocationText')}</Text>
           <WrapAddress>
@@ -635,25 +655,7 @@ const Address = () => {
               />
             </YandexContainer>
           </MobileMap>
-          <Controller
-            name='regionId'
-            control={control}
-            rules={{ required: true }}
-            render={({ field }) => (
-              <MultiSelect
-                isLoading={responseRegions.isLoading}
-                options={regions}
-                label={t('chooseregion')}
-                margin={{
-                  laptop: '20px 0 25px',
-                }}
-                message={t('requiredField')}
-                error={errors.regionId ? true : false}
-                field={field}
-                isClearable={false}
-              />
-            )}
-          />
+
           <Title>{t('addressClarification')}</Title>
           <Text>{t('enterOrientationText')}</Text>
           <Controller
@@ -861,189 +863,244 @@ const Address = () => {
   );
 
   return (
-    <Container>
-      {open ? (
-        <>
-          <AddWrap>
-            <div>
-              <WrapHeader>
-                <Button
-                  buttonStyle={{
-                    bgcolor: 'white',
-                    color: '#223367',
-                    weight: 500,
-                    shadow: '0px 4px 4px rgba(0, 0, 0, 0.04)',
-                    fontSize: {
-                      mobile: 14,
-                      laptop: 16,
-                      desktop: 18,
-                    },
-                    height: {
-                      mobile: 36,
-                      planshet: 45,
-                      laptop: 50,
-                      desktop: 60,
-                    },
-                  }}
-                  margin={{
-                    mobile: '15px 0 0 20px',
-                  }}
-                  onClick={handlePluseClick}
-                >
-                  <PlusIcon />
-                  {t('addFilial')}
-                </Button>
-                <WrapInput>
-                  <Input
-                    inputStyle={{
-                      inpadding: '0 10px',
-                      border: 'none',
-                      height: { mobile: 36 },
-                    }}
-                    placeholder={t('searchbarnches')}
-                    IconStart={<SearchIcon />}
-                    margin={{ laptop: '0 0 0 20px', mobile: '0 20px' }}
-                    fullWidth={true}
-                    onChange={handleSearch}
-                    type='search'
-                    onFocus={() => setSearchFocus(true)}
-                    onBlur={() =>
-                      inpuSearch === '' ? setSearchFocus(false) : null
-                    }
-                    value={inpuSearch}
-                  />
-                </WrapInput>
-              </WrapHeader>
-              <WrapContent>
-                {responseAddress.isLoading || responseAddress.isFetching ? (
-                  <Spinner />
-                ) : !searchFocus || inpuSearch === '' ? (
-                  fillial?.map((v: IAddress) => (
-                    <AddressInfo
-                      onClick={() => {
-                        handleChoosFillial(v);
-                      }}
-                    >
-                      <Left>
-                        <Title>{v.name}</Title>
-                        <Text1>{v.address}</Text1>
-                      </Left>
-                      <Right>
-                        {v.telNumbers.map((n: any) => (
-                          <Number>{n}</Number>
-                        ))}
-                      </Right>
-                    </AddressInfo>
-                  ))
-                ) : searchRes.length === 0 ? (
-                  <NoResult>{t('noresult')}</NoResult>
-                ) : (
-                  searchRes?.map((v: IAddress) => (
-                    <AddressInfo
-                      onClick={() => {
-                        handleChoosFillial(v);
-                      }}
-                    >
-                      <Left>
-                        <Title>{v.name}</Title>
-                        <Text1>{v.address}</Text1>
-                      </Left>
-                      <Right>
-                        {v.telNumbers.map((n: any) => (
-                          <Number>{n}</Number>
-                        ))}
-                      </Right>
-                    </AddressInfo>
-                  ))
-                )}
-                <MobileMap>
-                  <YandexContainer bcolor={mapError}>
-                    <YandexMap
-                      onBoundsChange={onBoundsChange}
-                      handleRef={(e: any) => setYandexRef(e)}
-                      place={place}
-                      onClickPlaceMark={onClickPlace}
-                      placeOptions={palceOptions}
-                    />
-                  </YandexContainer>
-                </MobileMap>
-              </WrapContent>
-            </div>
-          </AddWrap>
-        </>
-      ) : width > 600 || !fill ? (
-        formcontent
-      ) : (
-        <FullModal open={!open}>
+    <>
+      <PlanshetHeader>
+        {open ? (
           <>
-            <WrapModalClose>
-              <IconButton
-                onClick={() => setModalSaveOpen(true)}
-                style={{ width: 'fit-content' }}
-              >
-                <LeftIcon />
-              </IconButton>
-
-              {isMain ? (
-                <Title>{t('mainaddress')}</Title>
-              ) : edit ? (
-                <Title>{t('newbranch')}</Title>
-              ) : add ? (
-                <Title>{t('fillialcompany')}</Title>
-              ) : null}
-            </WrapModalClose>
-            {formcontent}
-          </>
-        </FullModal>
-      )}
-      <Rightside>
-        {width > 600 ? (
-          <YandexContainer bcolor={mapError}>
-            <YandexMap
-              onBoundsChange={onBoundsChange}
-              handleRef={(e: any) => setYandexRef(e)}
-              place={place}
-              onClickPlaceMark={onClickPlace}
-              placeOptions={palceOptions}
-            />
-          </YandexContainer>
-        ) : null}
-      </Rightside>
-      {newComp ? <NewCompanyNotification /> : null}
-      <Modal open={modalSaveOpen}>
-        <ModelContent>
-          <ModelTitle>{t('exitpageaddress')}</ModelTitle>
-          <ModelTitle>{t('areyousureleave')}</ModelTitle>
-          <ModalWrap>
             <Button
               buttonStyle={{
-                color: 'white',
-                bgcolor: '#FF5E68',
+                bgcolor: 'white',
+                color: '#223367',
                 weight: 500,
+                shadow: '0px 4px 4px rgba(0, 0, 0, 0.04)',
+
+                fontSize: {
+                  mobile: 14,
+                  laptop: 16,
+                  desktop: 18,
+                },
+                height: {
+                  mobile: 36,
+                  planshet: 45,
+                  laptop: 50,
+                  desktop: 60,
+                },
               }}
               margin={{
-                laptop: '0 30px 0 0',
-                mobile: '0 10px 0 0',
+                mobile: '15px 0 0 20px',
               }}
-              onClick={onClose}
+              onClick={handlePluseClick}
             >
-              {t('quit')}
+              <PlusIcon />
+              {t('addFilial')}
             </Button>
-            <Button
-              buttonStyle={{
-                color: 'white',
-                bgcolor: '#606EEA',
-              }}
-              onClick={() => {
-                setModalSaveOpen(false);
-              }}
-            >
-              {t('back')}
-            </Button>
-          </ModalWrap>
-        </ModelContent>
-      </Modal>
-    </Container>
+            <WrapInput>
+              <Input
+                inputStyle={{
+                  inpadding: '0 10px',
+                  border: 'none',
+                  height: { mobile: 36 },
+                }}
+                placeholder={t('searchbarnches')}
+                IconStart={<SearchIcon />}
+                margin={{ laptop: '0 0 0 20px', mobile: '0 20px' }}
+                fullWidth={true}
+                onChange={handleSearch}
+                type='search'
+                onFocus={() => setSearchFocus(true)}
+                onBlur={() =>
+                  inpuSearch === '' ? setSearchFocus(false) : null
+                }
+                value={inpuSearch}
+              />
+            </WrapInput>
+          </>
+        ) : null}
+      </PlanshetHeader>
+      <Container>
+        {open ? (
+          <>
+            <AddWrap>
+              <div>
+                <WrapHeader>
+                  <Button
+                    buttonStyle={{
+                      bgcolor: 'white',
+                      color: '#223367',
+                      weight: 500,
+                      shadow: '0px 4px 4px rgba(0, 0, 0, 0.04)',
+                      fontSize: {
+                        mobile: 14,
+                        laptop: 16,
+                        desktop: 18,
+                      },
+                      height: {
+                        mobile: 36,
+                        planshet: 45,
+                        laptop: 50,
+                        desktop: 60,
+                      },
+                    }}
+                    margin={{
+                      mobile: '15px 0 0 20px',
+                    }}
+                    onClick={handlePluseClick}
+                  >
+                    <PlusIcon />
+                    {t('addFilial')}
+                  </Button>
+                  <WrapInput>
+                    <Input
+                      inputStyle={{
+                        inpadding: '0 10px',
+                        border: 'none',
+                        height: { mobile: 36 },
+                      }}
+                      placeholder={t('searchbarnches')}
+                      IconStart={<SearchIcon />}
+                      margin={{ laptop: '0 0 0 20px', mobile: '0 20px' }}
+                      fullWidth={true}
+                      onChange={handleSearch}
+                      type='search'
+                      onFocus={() => setSearchFocus(true)}
+                      onBlur={() =>
+                        inpuSearch === '' ? setSearchFocus(false) : null
+                      }
+                      value={inpuSearch}
+                    />
+                  </WrapInput>
+                </WrapHeader>
+                <WrapContent>
+                  {responseAddress.isLoading || responseAddress.isFetching ? (
+                    <Spinner />
+                  ) : !searchFocus || inpuSearch === '' ? (
+                    fillial?.map((v: IAddress) => (
+                      <AddressInfo
+                        onClick={() => {
+                          handleChoosFillial(v);
+                        }}
+                      >
+                        <Left>
+                          <Title>{v.name}</Title>
+                          <Text1>{v.address}</Text1>
+                        </Left>
+                        <Right>
+                          {v.telNumbers.map((n: any) => (
+                            <Number>{n}</Number>
+                          ))}
+                        </Right>
+                      </AddressInfo>
+                    ))
+                  ) : searchRes.length === 0 ? (
+                    <NoResult>{t('noresult')}</NoResult>
+                  ) : (
+                    searchRes?.map((v: IAddress) => (
+                      <AddressInfo
+                        onClick={() => {
+                          handleChoosFillial(v);
+                        }}
+                      >
+                        <Left>
+                          <Title>{v.name}</Title>
+                          <Text1>{v.address}</Text1>
+                        </Left>
+                        <Right>
+                          {v.telNumbers.map((n: any) => (
+                            <Number>{n}</Number>
+                          ))}
+                        </Right>
+                      </AddressInfo>
+                    ))
+                  )}
+                  <MobileMap>
+                    <YandexContainer bcolor={mapError}>
+                      <YandexMap
+                        onBoundsChange={onBoundsChange}
+                        handleRef={(e: any) => setYandexRef(e)}
+                        place={place}
+                        onClickPlaceMark={onClickPlace}
+                        placeOptions={palceOptions}
+                      />
+                    </YandexContainer>
+                  </MobileMap>
+                </WrapContent>
+              </div>
+            </AddWrap>
+          </>
+        ) : width > 600 || !fill ? (
+          formcontent
+        ) : (
+          <FullModal open={!open}>
+            <>
+              <WrapModalClose>
+                <IconButton
+                  onClick={() => setModalSaveOpen(true)}
+                  style={{ width: 'fit-content' }}
+                >
+                  <LeftIcon />
+                </IconButton>
+
+                {isMain ? (
+                  <Title>{t('mainaddress')}</Title>
+                ) : edit ? (
+                  <Title>{t('newbranch')}</Title>
+                ) : add ? (
+                  <Title>{t('fillialcompany')}</Title>
+                ) : null}
+              </WrapModalClose>
+              {formcontent}
+            </>
+          </FullModal>
+        )}
+        <Rightside>
+          {width > 600 ? (
+            <YandexContainer bcolor={mapError}>
+              <YandexMap
+                onBoundsChange={onBoundsChange}
+                handleRef={(e: any) => setYandexRef(e)}
+                place={place}
+                onClickPlaceMark={onClickPlace}
+                placeOptions={palceOptions}
+              />
+            </YandexContainer>
+          ) : null}
+        </Rightside>
+        {newComp ? <NewCompanyNotification /> : null}
+        <Modal open={modalSaveOpen}>
+          <ModelContent>
+            <ModelTitle>{t('exitpageaddress')}</ModelTitle>
+            <ModelTitle>{t('areyousureleave')}</ModelTitle>
+            <ModalWrap>
+              <Button
+                buttonStyle={{
+                  color: 'white',
+                  bgcolor: '#FF5E68',
+                  weight: 500,
+                }}
+                margin={{
+                  laptop: '0 30px 0 0',
+                  mobile: '0 10px 0 0',
+                }}
+                onClick={onClose}
+              >
+                {t('quit')}
+              </Button>
+              <Button
+                buttonStyle={{
+                  color: 'white',
+                  bgcolor: '#606EEA',
+                }}
+                onClick={() => {
+                  setModalSaveOpen(false);
+                }}
+              >
+                {t('back')}
+              </Button>
+            </ModalWrap>
+          </ModelContent>
+        </Modal>
+      </Container>
+    </>
   );
 };
 

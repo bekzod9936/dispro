@@ -8,8 +8,6 @@ import { useAppDispatch } from "services/redux/hooks";
 
 import { setQuery, setSelectedNews} from "services/redux/Slices/news";
 
-
-
 const Header = ({ handleOpenNews }: IProps) => {
   const location = useLocation();
   const dispatch = useAppDispatch();
@@ -25,7 +23,7 @@ const Header = ({ handleOpenNews }: IProps) => {
       if (location.pathname !== "/news/archive") {
         dispatch(setQuery(""));
         }
-  },[])
+  },[location])
 
   useEffect(() => {
     if (location.pathname !== "/news") {

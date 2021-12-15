@@ -1,10 +1,10 @@
-import dayjs from "dayjs";
-import partnerApi from "services/interceptors/partner_interceptor";
-import { URL } from "services/constants/config";
+import dayjs from 'dayjs';
+import partnerApi from 'services/interceptors/partner_interceptor';
+import { URL } from 'services/constants/config';
 
 export const fetchClientStatistics = async (
   section: string,
-  gender?: "male" | "female" | "",
+  gender?: 'male' | 'female' | '',
   purchaseFrom?: number,
   purchaseTo?: number,
   purchaseCost?: number,
@@ -18,7 +18,7 @@ export const fetchClientStatistics = async (
   const query = [];
   if (gender) {
     query.push(
-      `genderTypeId=${gender === "male" ? 1 : gender === "female" ? 2 : null}`
+      `genderTypeId=${gender === 'male' ? 1 : gender === 'female' ? 2 : null}`
     );
   }
   if (purchaseFrom) {
@@ -31,16 +31,16 @@ export const fetchClientStatistics = async (
     query.push(`allPurchaseSum=${purchaseCost}`);
   }
   if (endDate) {
-    query.push(`regDateTo=${dayjs(endDate).format("YYYY-MM-DD")}`);
+    query.push(`regDateTo=${dayjs(endDate).format('YYYY-MM-DD')}`);
   }
   if (fromDate) {
-    query.push(`regDateFrom=${dayjs(fromDate).format("YYYY-MM-DD")}`);
+    query.push(`regDateFrom=${dayjs(fromDate).format('YYYY-MM-DD')}`);
   }
   if (startDateUpper) {
-    query.push(`startDate=${dayjs(startDateUpper).format("YYYY-MM-DD")}`);
+    query.push(`startDate=${dayjs(startDateUpper).format('YYYY-MM-DD')}`);
   }
   if (endDateUpper) {
-    query.push(`endDate=${dayjs(endDateUpper).format("YYYY-MM-DD")}`);
+    query.push(`endDate=${dayjs(endDateUpper).format('YYYY-MM-DD')}`);
   }
 
   const response = await partnerApi.get(
@@ -48,8 +48,8 @@ export const fetchClientStatistics = async (
       query.length === 1
         ? `?${query[0]}`
         : query.length > 1
-        ? `?${query.join("&")}`
-        : ""
+        ? `?${query.join('&')}`
+        : ''
     }`
   );
   return response;
@@ -58,12 +58,12 @@ export const fetchClientStatistics = async (
 export const fetchClients = async (page: number, start: any, end: any) => {
   const query = [];
   if (start) {
-    query.push(`&startDate=${dayjs(start).format("YYYY-MM-DD")}`);
+    query.push(`&startDate=${dayjs(start).format('YYYY-MM-DD')}`);
   }
   if (end) {
-    query.push(`&endDate=${dayjs(end).format("YYYY-MM-DD")}`);
+    query.push(`&endDate=${dayjs(end).format('YYYY-MM-DD')}`);
   }
-  let combined = query.join("");
+  let combined = query.join('');
   const response = await partnerApi(
     `/core/client/by/company?page=${page}&perPage=6${combined}`
   );
@@ -78,12 +78,12 @@ export const fetchFeedbacks = async (page: number) => {
 };
 
 export const fetchRatings = async () => {
-  const respose = await partnerApi.get("core/cashier/rating-review-avg-sum");
+  const respose = await partnerApi.get('core/cashier/rating-review-avg-sum');
   return respose;
 };
 
 export const fetchChatItems = () => {
-  const response = partnerApi.get("/core/chat/list-partner-clients");
+  const response = partnerApi.get('/core/chat/list-partner-clients');
   return response;
 };
 export const fetchSingleChatItem = (id: number) => {
@@ -113,7 +113,7 @@ export const enterCompany = async ({
   companyType,
 }: companyProps) => {
   const response = await partnerApi.put(
-    "/auth/update-token",
+    '/auth/update-token',
     {
       companyId: companyId,
       companyType: companyType,
@@ -193,36 +193,41 @@ export const fetchPolicy = ({ type, language }: ConProps) => {
 //referal systemm
 
 export const fetchBonusReferals = () => {
-  const response = partnerApi.get("bonus/bonusreferals");
+  const response = partnerApi.get('bonus/bonusreferals');
   return response;
 };
 
 export const fetchRewards = () => {
-  const response = partnerApi.get("/bonus/rewards");
+  const response = partnerApi.get('/bonus/rewards');
   return response;
 };
 export const fetchSafeties = () => {
-  const response = partnerApi.get("/core/company-safeties");
+  const response = partnerApi.get('/core/company-safeties');
   return response;
 };
 export const fetchQRCodes = () => {
-  const response = partnerApi.get("/core/ref");
+  const response = partnerApi.get('/core/ref');
   return response;
 };
 
 // Partner PROGRAM LOYALITY
 
 export const fetchCashback = () => {
-  const response = partnerApi.get("/bonus/cashbacks");
+  const response = partnerApi.get('/bonus/cashbacks');
   return response;
 };
 
 export const fetchDiscount = () => {
-  const response = partnerApi.get("/bonus/discounts");
+  const response = partnerApi.get('/bonus/discounts');
   return response;
 };
 
 export const fetchBonusPoints = () => {
-  const response = partnerApi.get("/bonus/bonuspoints");
+  const response = partnerApi.get('/bonus/bonuspoints');
+  return response;
+};
+
+export const fetchPayGoGet = () => {
+  const response = partnerApi.get('/directory/company/settings/get/pay-go');
   return response;
 };

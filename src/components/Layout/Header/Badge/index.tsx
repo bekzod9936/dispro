@@ -113,7 +113,7 @@ const Badge = () => {
               <Name>
                 <span>{t('from')}</span>
                 {v.chatType === 6
-                  ? `Dis-count`
+                  ? `DIS-COUNT`
                   : `${v.firstName} ${v.lastName}`}
               </Name>
               <Date1>{getTime(v.date)}</Date1>

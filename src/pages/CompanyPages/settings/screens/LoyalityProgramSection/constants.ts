@@ -23,6 +23,7 @@ export const switchItems = [
     text: "Клиент получает баллы после каждой покупки, которые может потратить только у вас в компании",
     key: "bonuspoint",
   },
+ 
 ];
 
 export const levelReqs = [

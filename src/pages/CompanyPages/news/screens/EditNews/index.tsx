@@ -170,9 +170,9 @@ const EditNews = () => {
     );
   });
 
-  console.log("filteredArray", filteredArray);
+
   const submitNews = (data: any) => {
-    console.log('data.gender.id',data.gender.id)
+
     let newsBody = {
       title: data.name,
       startLifeTime:
@@ -294,6 +294,14 @@ const EditNews = () => {
       handleBack();
     }
   }, []);
+  
+  React.useEffect(() => {
+    if (checked) {
+      setValue("timeFrom",  "00:00");
+      setValue("timeTo",  "23:59");
+    }
+ 
+}, [checked]);
 
   return (
     <Wrapper>
@@ -473,7 +481,7 @@ const EditNews = () => {
                   <div>
                     <CustomDatePicker
                       margin="0 15px 0 0"
-                      isStyledDate
+                      isFilter
                       text={t("from")}
                       error={
                         validation && !filter?.regDate?.regDateFrom
@@ -498,7 +506,7 @@ const EditNews = () => {
                     />
 
                     <CustomDatePicker
-                     isStyledDate
+                     isFilter
                       error={
                         validation && !filter?.regDate?.regDateTo ? true : false
                       }
@@ -552,6 +560,7 @@ const EditNews = () => {
                     defaultValue={newsById?.data?.ageFrom}
                     max="100"
                     type="tel"
+                    onlyNumber={true}
                     message={parseInt(watch("ageLimit"))}
                     error={!!errors.ageLimit}
                     IconStart={<PlusIcon style={{ marginLeft: "20px" }} />}
@@ -572,31 +581,28 @@ const EditNews = () => {
                   />
                 </PushBlock>
                 {optionalFields.push && (
-                  <Controller
+                    <Controller
                     name="descriptionPush"
                     control={control}
                     defaultValue={newsById?.data?.pushUpTitle}
+                    rules={{
+                      required: true,
+                    }}
                     render={({ field }) => (
-                      <Input
-                        field={field}
-                        margin={{ laptop: "35px 0" }}
-                        label={t("text_push")}
-                        type="textarea"
-                        multiline={true}
+                      <TextArea
                         maxLength={100}
+                        {...field}
                         defaultValue={newsById?.data?.pushUpTitle}
-                        inputStyle={{
-                          height: {
-                            desktop: 120,
-                            planshet: 90,
-                            laptop: 90,
-                            mobile: 120,
-                          },
-                        }}
-                     
+                        fontSize={width > 1000 ? "15px" : "14px"}
+                        required={optionalFields.push ? true : false}
+                        minHeight={"100px"}
+                        maxHeight={"150px"}
+                        resize={"vertical"}
+                        title={t("text_push")}
                       />
                     )}
                   />
+          
                 )}
               </PushWrapper>
               <PushWrapper>
@@ -636,6 +642,7 @@ const EditNews = () => {
                         <Input
                           margin={{ laptop: "0 25px 0 0" }}
                           type="time"
+                          disabled={checked ?true:false}
                           defaultValue={newsById?.data?.settings?.time?.from}
                           field={field}
                         />
@@ -649,6 +656,7 @@ const EditNews = () => {
                         <Input
                           type="time"
                           field={field}
+                          disabled={checked ?true:false}
                           defaultValue={newsById?.data?.settings?.time?.to}
                         />
                       )}
@@ -658,12 +666,13 @@ const EditNews = () => {
               </PushWrapper>
 
               {optionalFields.push && (
+               
                 <CheckBox
-                  checked={checked}
-                  name={"checked"}
-                  label={t("24/7")}
-                  onChange={(e: any) => setChecked(e)}
-                />
+                checked={checked}
+                name={"checked"}
+                label={t("24/7")}
+                onChange={(e: any) => setChecked(e.target.checked)}
+              />
               )}
 
               {optionalFields.push && (

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Spinner from "components/Custom/Spinner";
@@ -36,10 +36,11 @@ const Archive = () => {
   const selectedNews = useAppSelector((state) => state.news.selectedNews);
   const totalCount = useAppSelector((state) => state.news.NewsInfo.totalCount);
   const between = useAppSelector((state) => state.news.NewsInfo.between);
+ 
   const totalNewsCount = useAppSelector(
     (state) => state.news.NewsInfo.totalCountNews
   );
-
+  const { width } = useWindowWidth();
   const { t } = useTranslation();
   const handleOpenSetting = () => {
     history.push({
@@ -51,20 +52,26 @@ const Archive = () => {
 
   const intialFilter = {
     page: 1,
-    perPage: 5,
+    perPage: width>1000 || width<600 ?5:10,
     fromDate: "",
     toDate: "",
   };
 
   const [filterValues, setFilterValues] =
     useState<intialFilterProps>(intialFilter);
-
-  const { response } = useArchive({ filterValues: filterValues });
+    const [searchFilterValues, setSearchFilterValues] =
+    useState<intialFilterProps>(intialFilter);
+    const query = useAppSelector((state) => state.news.query);
+  const { response } = useArchive({ filterValues: query ?searchFilterValues:filterValues, });
   const { list } = useData();
-  const { width } = useWindowWidth();
+
   const newsById = selectedNews?.fullData;
   const handlechangePage = async (e: any) => {
     await setFilterValues({ ...filterValues, page: e });
+    await response.refetch();
+  };
+  const handlechangePageSearch = async (e: any) => {
+    await setSearchFilterValues({ ...searchFilterValues, page: e });
     await response.refetch();
   };
   const onClose = () => {
@@ -81,12 +88,19 @@ const Archive = () => {
   const searchNews = (e: any) => {
     dispatch(setQuery(e.target.value));
   };
+ 
   const filterByDate = async (e: any) => {
-    await setFilterValues({
+    query ?   await setSearchFilterValues({
+      ...searchFilterValues,
+      fromDate: e.slice(0, e.indexOf(" ~")),
+      toDate: e.slice(e.indexOf("~ ") + 2),
+    }):   await setFilterValues({
       ...filterValues,
       fromDate: e.slice(0, e.indexOf(" ~")),
       toDate: e.slice(e.indexOf("~ ") + 2),
     });
+ 
+  
     await response.refetch();
   };
 
@@ -119,16 +133,16 @@ const Archive = () => {
                 <Table data={list} />
               ) : (
                 <div>
-                  {width > 1000 ? (
-                    <div style={{ paddingRight: "20%", paddingTop: "5%" }}>
-                      <NoNews handleOpenSetting={handleOpenSetting} />
-                    </div>
-                  ) : (
-                    <div style={{ paddingRight: "10%", paddingTop: "10%" }}>
-                      <NoNewsLaptop handleOpenSetting={handleOpenSetting} />
-                    </div>
-                  )}
-                </div>
+                {width > 1000 ? (
+                  <div style={{ paddingRight: "20%", paddingTop: "5%" }}>
+                    <NoNews handleOpenSetting={handleOpenSetting} />
+                  </div>
+                ) : (
+                  <div style={{ paddingRight: "10%", paddingTop: "20%" }}>
+                    <NoNewsLaptop handleOpenSetting={handleOpenSetting} />
+                  </div>
+                )}
+              </div>
               )}
               <SideBar isOpen={newsById} maxWidth={"370px"}>
                 {newsById && (
@@ -141,23 +155,23 @@ const Archive = () => {
               </SideBar>
               {list.length > 0 ? (
                 <WrapPag>
-                  <Info>
+                 <Info>
                     {t("shown")}
-                    <span>{between}</span>
+                    <span>{ between}</span>
                     {t("from1")} <span>{totalNewsCount}</span>
                     {countPagination({
-                      count: totalNewsCount,
-                      firstWord: t("newspaginationtitle "),
+                      count: Number(totalNewsCount),
+                      firstWord: t("newspaginationtitle"),
                       secondWord: t("newspaginationtitles"),
                     })}
                   </Info>
-                  <NewPagination
-              onChange={handlechangePage}
-              currentPage={Number(filterValues.page)}
-              totalCount={Number(totalCount)}
-            />
-         
-                </WrapPag>
+                <NewPagination
+            onChange={query ? handlechangePageSearch:handlechangePage}
+            currentPage={Number(query ?searchFilterValues.page: filterValues.page)}
+            totalCount={Number(totalCount)}
+          />
+             
+              </WrapPag>
               ) : null}
             </>
           )}
@@ -193,19 +207,19 @@ const Archive = () => {
               </SideBar>
               {list.length > 0 ? (
                 <WrapPag>
-                   <Info>
+                <Info>
                     {t("shown")}
-                    <span>{between}</span>
-                    {t("from1")} <span>{totalNewsCount}</span>
+                    <span>{ between}</span>
+                    { t("from1")} <span>{totalNewsCount}</span>
                     {countPagination({
-                      count: totalNewsCount,
+                      count: Number(totalNewsCount),
                       firstWord: t("newspaginationtitle"),
                       secondWord: t("newspaginationtitles"),
                     })}
                   </Info>
                    <NewPagination
-              onChange={handlechangePage}
-              currentPage={Number(filterValues.page)}
+              onChange={query ? handlechangePageSearch:handlechangePage}
+              currentPage={Number(query ?searchFilterValues.page: filterValues.page)}
               totalCount={Number(totalCount)}
             />
                 </WrapPag>

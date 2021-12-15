@@ -22,7 +22,7 @@ import InputFormat from "components/Custom/InputFormat";
 import dayjs from "dayjs";
 import { fetchCreateNews } from "services/queries/newPageQuery";
 import { setErrorMessage } from "services/redux/Slices/news";
-import { MobileCancelIcon } from "assets/icons/proposals/ProposalsIcons";
+import { MobileCancelIcon } from "assets/icons/news/newsIcons";
 import { UploadModal } from "./components/UploadModal";
 import { ConfirmModal } from "./components/ConfirmModal";
 import { CancelNewsModal } from "./components/CancelNewsModal";
@@ -77,7 +77,7 @@ const CreateNews = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const history = useHistory();
-  const [filter, setFilter] = React.useState<any>({});
+
   const { width } = useWindowWidth();
   const { branches } = useStaff();
   const [optionalFields, setOptionalFields] = React.useState<IOptionFields>({
@@ -109,6 +109,7 @@ const CreateNews = () => {
     control,
     handleSubmit,
     register,
+    setValue,
     watch,
     formState: { errors, isValid },
   } = useForm({
@@ -152,13 +153,15 @@ const CreateNews = () => {
     setCancel(false);
     history.goBack();
   };
+  function getValidDate(obj: any) {
+    return "" + obj.year + "-" + obj.month.number + "-" + obj.day
+  }
 
   const submitNews = (data: any) => {
     let newsData = {
       title: data.name,
-      startLifeTime:
-        width > 1000 ? data.startDate : filter?.regDate?.regDateFrom,
-      endLifeTime: width > 1000 ? data.endDate : filter?.regDate?.regDateTo,
+      startLifeTime:width>1000 ? data.startDate: getValidDate(data.startDate) ,
+      endLifeTime:width>1000 ?data.endDate: getValidDate(data.endDate ),
       description: data.description,
       ageFrom: parseInt(data.ageLimit),
       ageTo: 100,
@@ -184,8 +187,8 @@ const CreateNews = () => {
       },
       pushUpTitle: optionalFields.push ? data.descriptionPush : "",
     };
-    setStartDate(width > 1000 ? data.startDate : filter?.regDate?.regDateFrom);
-    setSubmit(width > 1000 && data.startDate ? true : filter?.regDate?.regDateFrom ? true : false);
+    setStartDate(data.startDate);
+    setSubmit(true);
     setFormData(newsData);
   };
 
@@ -200,6 +203,13 @@ const CreateNews = () => {
 
     setTimeout(() => history.goBack(), 1000);
   };
+  React.useEffect(() => {
+    if (checked) {
+      setValue("timeFrom",  "00:00");
+      setValue("timeTo",  "23:59");
+    }
+ 
+}, [checked]);
 
   return (
     <Wrapper>
@@ -317,7 +327,7 @@ const CreateNews = () => {
                   <TextArea
                     maxLength={800}
                     {...field}
-                    fontSize={width > 1000 ? "18px" : "14px"}
+                    fontSize={width > 1000 ? "15px" : "14px"}
                     message={t("requiredField")}
                     error={!!errors.description}
                     minHeight={"150px"}
@@ -376,58 +386,42 @@ const CreateNews = () => {
                 </WrapInputs>
               ) : (
                 <WrapInputs>
-                  <Label>{t("chose_date")}</Label>
-                  <div>
+                        <div className="startAndEndDate">
+                <Controller
+                  name="startDate"
+                  rules={{
+                    required: true,
+                  }}
+                  control={control}
+                  render={({ field }) => (
                     <CustomDatePicker
-                      margin="0 15px 0 0"
-                      // isStyledDate
                       text={t("from")}
-                      error={
-                        validation && !filter?.regDate?.regDateFrom
-                          ? true
-                          : false
-                      }
-                      minDate={todayDate}
-                      maxDate={filter?.regDate?.regDateTo}
-                      onChange={(e) => {
-
-
-                        let date =
-                          "" + e.year + "-" + e.month.number + "-" + e.day;
-                        console.log(date)
-                        setFilter((prev: any) => ({
-                          ...prev,
-                          regDate: {
-                            ...prev["regDate"],
-                            regDateFrom: date
-                          },
-                        }));
-                      }}
-                      value={filter?.regDate?.regDateFrom}
-                    />
+                      margin={width > 430 ? "0 10px 0 0" : "0 12px 0 0"}
+                      error={errors.startDate}
+                      minDate={new Date()}
+                      onChange={field.onChange}
+                      value={field.value} 
+                      />
+                  )}
+                />
+                <Controller
+                  rules={{
+                    required: true,
+                  }}
+                  control={control}
+                  name="endDate"
+                  render={({ field }) => (
                     <CustomDatePicker
-                      isStyledDate
-                      error={
-                        validation && !filter?.regDate?.regDateTo ? true : false
-                      }
                       text={t("to")}
-                      minDate={filter?.regDate?.regDateFrom}
-                      onChange={(e) => {
-                        let date =
-                          "" + e.year + "-" + e.month.number + "-" + e.day;
-                        setFilter((prev: any) => ({
-                          ...prev,
-                          regDate: {
-                            ...prev["regDate"],
-                            regDateTo: date,
-                          },
-                        }));
-                      }}
-
-                      value={filter?.regDate?.regDateTo}
-                    />
-                  </div>
-                </WrapInputs>
+                      error={errors.endDate}
+                      minDate={watch("startDate")}
+                      onChange={field.onChange}
+                      value={field.value} />
+                  )}
+                />
+          </div>
+         
+              </WrapInputs>
               )}
 
               <WrapSelect>
@@ -458,6 +452,7 @@ const CreateNews = () => {
                     field={field}
                     type="tel"
                     defaultValue={""}
+                    onlyNumber={true}
                     max="100"
                     message={
                       parseInt(watch("ageLimit")) > 100
@@ -481,37 +476,30 @@ const CreateNews = () => {
                   />
                 </PushBlock>
                 {optionalFields.push && (
-                  <Controller
-                    name="descriptionPush"
-                    control={control}
-                    render={({ field }) => (
-                      <Input
-                        field={field}
-                        margin={{ laptop: "35px 0" }}
-                        label={t("text_push")}
-                        type="textarea"
-                        required={optionalFields.push ? true : false}
-                        multiline={true}
-                        maxLength={100}
-                        inputStyle={{
-                          height: {
-                            desktop: 120,
-                            planshet: 90,
-                            laptop: 90,
-                            mobile: 120,
-                          },
-                        }}
-                      // IconEnd={width>600 ?
-                      //   <WrapArea>
-                      //     <TextAreaIcon />
-                      //   </WrapArea>:''
-                      // }
-                      />
-                    )}
-                  />
+                   <Controller
+                   name="descriptionPush"
+                   control={control}
+
+                   rules={{
+                     required: true,
+                   }}
+                   render={({ field }) => (
+                     <TextArea
+                       maxLength={100}
+                       {...field}
+                      
+                       fontSize={width > 1000 ? "15px" : "14px"}
+                       required={optionalFields.push ? true : false}
+                       minHeight={"100px"}
+                       maxHeight={"150px"}
+                       resize={"vertical"}
+                       title={t("text_push")}
+                     />
+                   )}
+                 />
+              
                 )}
               </PushWrapper>
-
               <PushWrapper>
                 {optionalFields.push && (
                   <Controller
@@ -532,7 +520,6 @@ const CreateNews = () => {
                     )}
                   />
                 )}
-
               </PushWrapper>
               <PushWrapper>
                 <div style={{ marginBottom: "10px" }}>
@@ -542,7 +529,7 @@ const CreateNews = () => {
                     </Label>
                   )}
                 </div>
-                {optionalFields.push && (
+                {optionalFields.push &&  (
                   <div style={{ display: "flex" }}>
                     <Controller
                       control={control}
@@ -550,8 +537,10 @@ const CreateNews = () => {
                       render={({ field }) => (
                         <Input
                           margin={{ laptop: "0 25px 0 0" }}
-                          type="time"
+                          type="time"  
                           field={field}
+                          disabled={checked ?true:false}
+                       
                         />
                       )}
                     />
@@ -559,7 +548,7 @@ const CreateNews = () => {
                       control={control}
                       name="timeTo"
                       render={({ field }) => (
-                        <Input type="time" field={field} />
+                        <Input type="time"  disabled={checked ?true:false} field={field} />
                       )}
                     />
                   </div>
@@ -571,7 +560,7 @@ const CreateNews = () => {
                   checked={checked}
                   name={"checked"}
                   label={t("24/7")}
-                  onChange={(e: any) => setChecked(e)}
+                  onChange={(e: any) => setChecked(e.target.checked)}
                 />
               )}
               {optionalFields.push && (
@@ -609,9 +598,6 @@ const CreateNews = () => {
                   />
                 </FormRow>
               )}
-
-
-
               {width <= 600 && (
                 <Buttons>
                   <div className="upside">

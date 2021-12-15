@@ -111,7 +111,7 @@ export const parseSimpleString = (str: string) => {
 };
 
 interface Props {
-  count: number;
+  count: number | any;
   firstWord: string;
   secondWord: string;
   thirdWord: string;

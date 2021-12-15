@@ -64,7 +64,7 @@ export const MModal = ({
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     handleOpen(false);
-    await refetch();
+    // await refetch();
   };
 
   return (

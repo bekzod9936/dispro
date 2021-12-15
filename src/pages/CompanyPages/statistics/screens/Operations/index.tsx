@@ -3,16 +3,16 @@ import useOperationsHook from './useOperationsHook';
 import { numberWithNew } from 'services/utils';
 import FilterOperations from './components/FilterOperations';
 import { Container, Wrapper, WrapperCon } from './style';
-import { WrapInfo, WrapFilter, Title, Value, Content } from '../../style';
+import { WrapInfo,  Title, Value, Content } from '../../style';
 
 const Operations = () => {
   const { response, list } = useOperationsHook({});
 
   return (
     <Container>
-      <WrapFilter>
+    
         <FilterOperations />
-      </WrapFilter>
+     
       <WrapperCon>
         {response.isLoading || response.isFetching ? (
           <Spinner />

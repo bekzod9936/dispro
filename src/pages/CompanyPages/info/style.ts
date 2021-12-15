@@ -151,6 +151,9 @@ export const WrapNav = styled.div`
   @media (max-width: ${device.mobile}) {
     padding: 15px;
   }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    padding: 20px;
+  }
   @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
     padding: 10px 10px 10px 0;
   }

@@ -30,7 +30,7 @@ function NumberFormatCustom(props: any) {
       }}
       thousandSeparator=" "
       prefix=""
-      decimalSeparator=","
+      decimalSeparator={other.onlyNumber ? false : ","}
       allowEmptyFormatting={false}
       allowNegative={false}
       allowLeadingZeros={false}
@@ -39,7 +39,7 @@ function NumberFormatCustom(props: any) {
   );
 }
 
-const InputFormat = ({ onChange = () => { }, ...props }: Props) => {
+const InputFormat = ({ onChange = () => {}, ...props }: Props) => {
   return (
     <Container width={props.width} margin={props.margin}>
       {props.label ? (
@@ -60,8 +60,10 @@ const InputFormat = ({ onChange = () => { }, ...props }: Props) => {
           minLength: props.minLength,
           min: props.min,
           max: props.max,
+          onlyNumber: props.onlyNumber,
         }}
         max={props.max}
+        onlyNumber={props.onlyNumber}
         min={props.min}
         autoComplete={props.autoComplete}
         autoFocus={props.autoFocus}
@@ -99,7 +101,7 @@ const InputFormat = ({ onChange = () => { }, ...props }: Props) => {
         inputComponent
         {...props.register}
       />
-      <Message labelStyle={props.labelStyle}>
+      <Message isAbsolute={props.isAbsolute} labelStyle={props.labelStyle}>
         {props.error ? props.message : null}
       </Message>
     </Container>
@@ -109,7 +111,9 @@ const InputFormat = ({ onChange = () => { }, ...props }: Props) => {
 export default InputFormat;
 
 export interface Props {
+  isAbsolute?: boolean;
   field?: any;
+  onlyNumber?: boolean;
   autoComplete?: string;
   autoFocus?: boolean;
   defaultValue?: any;

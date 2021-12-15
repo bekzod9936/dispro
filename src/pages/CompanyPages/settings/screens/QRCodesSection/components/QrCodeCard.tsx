@@ -1,10 +1,10 @@
-import { memo, useState } from "react";
-import QRCode from "qrcode.react";
-import { IProps } from "./types";
-import { downloadQR } from "./utils";
-import useWindowWidth from "services/hooks/useWindowWidth";
-import { Text } from "styles/CustomStyles";
-import Popover from "components/Custom/Popover";
+import { memo, useState } from 'react';
+import QRCode from 'qrcode.react';
+import { IProps } from './types';
+import { downloadQR } from './utils';
+import useWindowWidth from 'services/hooks/useWindowWidth';
+import { Text } from 'styles/CustomStyles';
+import Popover from 'components/Custom/Popover';
 import {
   QrCard,
   QrRow,
@@ -16,15 +16,15 @@ import {
   SaveIcon,
   RightArrIcon,
   ScrapperIcon,
-} from "./style";
-import { Break } from "../../../styles/index";
-import { OptionsList, OptionsListItem } from "styles/CustomStyles";
-import { useTranslation } from "react-i18next";
-import { COLORS } from "services/Types/enums";
-import Button from "components/Custom/Button";
-import { ThreeDotsIcon } from "assets/icons/SettingsIcons/SettingsPageIcon";
-import { copyToClipboard } from "services/utils";
-import { IconButton } from "@material-ui/core";
+  DotsIcon,
+} from './style';
+import { Break } from '../../../styles/index';
+import { OptionsList, OptionsListItem } from 'styles/CustomStyles';
+import { useTranslation } from 'react-i18next';
+import { COLORS } from 'services/Types/enums';
+import Button from 'components/Custom/Button';
+import { copyToClipboard } from 'services/utils';
+import { IconButton } from '@material-ui/core';
 
 const QrCodeCard = ({
   item,
@@ -64,25 +64,25 @@ const QrCodeCard = ({
     <QrCard>
       <QeaderHeaderRow>
         <div>
-          <Text fontSize="18px">{item.source}</Text>
+          <Text fontSize='18px'>{item.source}</Text>
         </div>
 
         <Popover
           click={
             <IconButton>
-              <ThreeDotsIcon />
+              <DotsIcon />
             </IconButton>
           }
-          anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
-          transformOrigin={{ horizontal: "left", vertical: "top" }}
-          popoverStyle={{ marginTop: "20px" }}
+          anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+          transformOrigin={{ horizontal: 'left', vertical: 'top' }}
+          popoverStyle={{ marginTop: '20px' }}
           onClose={handleClose}
         >
           {/* {optionsOpen === item.id && ( */}
           <OptionDiv>
-            <OptionsList style={{ width: "100%" }}>
+            <OptionsList style={{ width: '100%' }}>
               <OptionsListItem
-                style={{ width: "100%" }}
+                style={{ width: '100%' }}
                 onClick={() => {
                   handleEditClick();
                   setId(item.id);
@@ -90,12 +90,12 @@ const QrCodeCard = ({
                 }}
               >
                 <Text
-                  marginLeft="0px"
-                  marginRight="0px"
-                  fontSize="16px"
+                  marginLeft='0px'
+                  marginRight='0px'
+                  fontSize='16px'
                   fontWeight={400}
                 >
-                  {t("edit")}
+                  {t('edit')}
                 </Text>
               </OptionsListItem>
               <OptionsListItem
@@ -104,16 +104,16 @@ const QrCodeCard = ({
                   setId(item.id);
                   closeMenu.close();
                 }}
-                style={{ width: "100%" }}
+                style={{ width: '100%' }}
               >
                 <Text
-                  marginLeft="0px"
-                  marginRight="0px"
-                  fontSize="16px"
+                  marginLeft='0px'
+                  marginRight='0px'
+                  fontSize='16px'
                   fontWeight={400}
                   color={COLORS.red}
                 >
-                  {t("delete")}
+                  {t('delete')}
                 </Text>
               </OptionsListItem>
             </OptionsList>
@@ -127,9 +127,9 @@ const QrCodeCard = ({
             id={`referral-qr-code-${index}`}
             value={item.dynLinkToken}
             size={qrSize()}
-            bgColor="#FFFFFF"
-            fgColor="#000000"
-            level={"H"}
+            bgColor='#FFFFFF'
+            fgColor='#000000'
+            level={'H'}
           />
         </QrImg>
 
@@ -137,26 +137,26 @@ const QrCodeCard = ({
           <DownloadDiv>
             <Button
               buttonStyle={{
-                color: "#fff",
+                color: '#fff',
                 fontSize: {
                   desktop: 14,
                   laptop: 13,
                 },
               }}
               width={{
-                width: "100%",
+                width: '100%',
               }}
               onClick={() => downloadQrCode()}
               startIcon={<SaveIcon />}
             >
-              {t("downloadPNG")}
+              {t('downloadPNG')}
             </Button>
           </DownloadDiv>
 
           <Break height={15} />
           <Button
             buttonStyle={{
-              bgcolor: " rgba(96, 110, 234, 0.1)",
+              bgcolor: ' rgba(96, 110, 234, 0.1)',
               color: COLORS.purple,
               fontSize: {
                 desktop: 14,
@@ -164,7 +164,7 @@ const QrCodeCard = ({
               },
             }}
             width={{
-              width: "90%",
+              width: '90%',
             }}
             fullWidth={true}
             onClick={() => {
@@ -172,7 +172,7 @@ const QrCodeCard = ({
             }}
             endIcon={width < 1000 ? <RightArrIcon /> : <ScrapperIcon />}
           >
-            {t("copyLink")}
+            {t('copyLink')}
           </Button>
         </QrContainer>
       </QrRow>

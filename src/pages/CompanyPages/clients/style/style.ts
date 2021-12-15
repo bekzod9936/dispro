@@ -45,6 +45,7 @@ export const SpinnerWrapper = styled.div`
 export const Wrap = styled.div`
   padding-right: 25px;
   overflow-y: auto;
+  min-height: 350px;
   @media (max-width: ${device.mobile}) {
     overflow: visible;
   }

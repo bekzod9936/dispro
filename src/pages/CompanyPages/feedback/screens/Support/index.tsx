@@ -63,12 +63,10 @@ import {
 import {
   Avatar,
   InputDown,
-  ScriptIcon,
   SmileIcon,
   SendIcon,
   InputWarn,
   WrapIcons,
-  WrapScript,
   Divider,
 } from '../../style';
 
@@ -99,7 +97,7 @@ const Support = () => {
     (state) => state.feedbackPost.supporthistories
   );
 
-  const { resChatSupportHistory, setPage, page } = useSupportChat();
+  const { resChatSupportHistory, setPage, page, noValue } = useSupportChat();
   const { readChat } = useRead();
   const [showEmoji, setShowEmoji] = useState<boolean>(false);
   const [scrollHeight, setScrollHeight] = useState(0);
@@ -213,8 +211,8 @@ const Support = () => {
   };
 
   const onSubmit = (e: any) => {
-    setLoading(true);
-    if (e.message.length > 0) {
+    if (e.message.length > 0 && e?.message.match(/\S/) !== null) {
+      setLoading(true);
       socket.emit(
         'chat_to_server',
         {
@@ -224,7 +222,7 @@ const Support = () => {
           fromId: staffId,
           companyId: +companyId,
           data: {
-            message: e.message,
+            message: e.message.trim(),
           },
         },
         (res: any) => {
@@ -302,7 +300,7 @@ const Support = () => {
               <ChatPlace>
                 {resChatSupportHistory.isLoading ? (
                   <Spinner />
-                ) : histories.length === 0 ? (
+                ) : noValue ? (
                   <div
                     style={{
                       display: 'flex',
@@ -355,7 +353,7 @@ const Support = () => {
                       >
                         {histories?.map((v: any) => {
                           return (
-                            <MessageWrap type={v.chatType}>
+                            <MessageWrap type={v.chatType} key={v.id}>
                               <Avatar bgcolor='#E6E6E6'>
                                 {v.chatType === 6 ? (
                                   <DisIcon />
@@ -377,7 +375,7 @@ const Support = () => {
                               </Avatar>
                               <Message type={v.chatType}>
                                 <MessageDate type={v.chatType}>
-                                  {dayjs(v.createdAt).format('hh:mm')}
+                                  {dayjs(v.createdAt).format('HH:mm')}
                                 </MessageDate>
                                 <MessageText type={v.chatType}>
                                   {v.msg}
@@ -420,11 +418,7 @@ const Support = () => {
                     <IconButton onClick={handleShowEmoji}>
                       <SmileIcon />
                     </IconButton>
-                    <WrapScript>
-                      <IconButton>
-                        <ScriptIcon />
-                      </IconButton>
-                    </WrapScript>
+
                     <Button
                       type='submit'
                       disabled={loading}
@@ -485,6 +479,13 @@ const Support = () => {
               ) : (
                 <Messages id='scrollableDiv' onScroll={findScrollHeight}>
                   <div ref={messagesStartRef} />
+                  {scrollHeight > 1 ? (
+                    <WrapDownIcon>
+                      <WrapDown onClick={() => scrollToTop()}>
+                        <DownIcon />
+                      </WrapDown>
+                    </WrapDownIcon>
+                  ) : null}
                   <InfiniteScroll
                     dataLength={histories?.length}
                     next={fetchHisFetchData}
@@ -516,12 +517,10 @@ const Support = () => {
                   >
                     {histories?.map((v: any) => {
                       return (
-                        <MessageWrap type={v.chatType}>
+                        <MessageWrap type={v.chatType} key={v.id}>
                           <Message type={v.chatType}>
                             <MessageDate type={v.chatType}>
-                              {dayjs(v.createdAt)
-                                .subtract(2, 'minute')
-                                .format('hh:mm')}
+                              {dayjs(v.createdAt).format('HH:mm')}
                             </MessageDate>
                             <MessageText type={v.chatType}>{v.msg}</MessageText>
                           </Message>
@@ -561,9 +560,6 @@ const Support = () => {
                   )}
                 />
                 <WrapButtons>
-                  <IconButton>
-                    <ScriptIcon />
-                  </IconButton>
                   <IconButton type='submit' disabled={loading}>
                     <SendIcon />
                   </IconButton>

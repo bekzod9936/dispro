@@ -183,6 +183,9 @@ export const WrapperCard = styled.div`
     padding-right: 15px;
     grid-gap: 25px;
   }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    grid-template-columns: repeat(2, minmax(40%, 1fr));
+  }
   @media (min-width: ${device.laptop}) {
     grid-template-columns: repeat(4, minmax(20%, 1fr));
     padding-right: 25px;

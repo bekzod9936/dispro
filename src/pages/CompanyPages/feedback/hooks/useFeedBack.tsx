@@ -7,7 +7,7 @@ import {
 } from 'services/queries/feedbackQuery';
 import {
   setAverageRatingFeedBack,
-  setCashiersFeedBack,
+  setFiterFeedBack,
   setClientsFeedBack,
   setRatingsFeedBack,
   setTotalCountFeedBack,
@@ -17,9 +17,10 @@ import { formatPagination } from 'services/utils/formatPagination';
 
 interface Props {
   filterValues?: any;
+  key?: any;
 }
 
-const useFeedBack = ({ filterValues }: Props) => {
+const useFeedBack = ({ filterValues, key }: Props) => {
   const dispatch = useAppDispatch();
   const [between, setBetween] = useState<string>('');
   const [totalCount, setTotalCount] = useState<number>(0);
@@ -29,25 +30,27 @@ const useFeedBack = ({ filterValues }: Props) => {
     refetchOnWindowFocus: false,
     retry: 0,
     onSuccess: (data) => {
-      dispatch(setCashiersFeedBack(data.data.data));
+      dispatch(setFiterFeedBack(data.data.data));
     },
   });
 
   const resClients = useQuery(
-    'feedBackClientsInfo',
+    ['feedBackClientsInfo', key, filterValues],
     () => {
-      console.log(filterValues.cashierStaffId, 'cha');
-      const rating: any =
-        filterValues.rating !== '' && filterValues.rating !== undefined
-          ? `&rating=${filterValues.rating}`
-          : '';
-      const cash: any =
-        filterValues.cashierStaffId !== '' &&
-        filterValues.cashierStaffId !== undefined
-          ? `&cashierId=${filterValues.cashierStaffId}`
-          : '';
+      const url = Object.keys(filterValues)
+        .map((v: any) => {
+          if (filterValues[v] !== '' && filterValues[v] !== undefined) {
+            return `${v}=${filterValues[v]}&`;
+          } else {
+            return '';
+          }
+        })
+        .join('');
+
+      const key1 = key !== '' && key !== undefined ? String(`&key=${key}`) : '';
+
       return fetchFeedBackClients({
-        url: `/rating-review?perPage=${filterValues.perPage}&page=${filterValues?.page}${rating}${cash}`,
+        url: `/rating-review?${url}${key1}`,
       });
     },
     {
@@ -58,7 +61,6 @@ const useFeedBack = ({ filterValues }: Props) => {
         dispatch(setTotalCountFeedBack(data.data.data.totalCount));
         dispatch(setClientsFeedBack(data.data.data.ratingAndReviews));
         setTotalCount(data.data.data.totalCount);
-
         setBetween(
           formatPagination({
             page: filterValues?.page,
@@ -75,8 +77,14 @@ const useFeedBack = ({ filterValues }: Props) => {
     refetchOnWindowFocus: false,
     retry: 0,
     onSuccess: (data) => {
+      const info = {
+        avg: data.data.data?.rating?.avg,
+        count: data.data.data?.review?.count,
+        downVal: data.data.data?.rating.downVal,
+        upVal: data.data.data?.rating.upVal,
+      };
       dispatch(setRatingsFeedBack(data.data.data.ratingNumbers));
-      dispatch(setAverageRatingFeedBack(data.data.data.rating));
+      dispatch(setAverageRatingFeedBack(info));
     },
   });
 
