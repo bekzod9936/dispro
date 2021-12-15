@@ -13,6 +13,7 @@ export interface Props {
     gender?: { id?: number; name?: string }[];
     levels?: { name?: string; number?: number }[];
     referal?: { name?: string; refIds: number[] }[];
+    stores?: { address: string; id: number; name: string }[];
   };
   maleCount?: number;
   paidWithMoney?: number;
