@@ -1,7 +1,6 @@
 //packages
 import { useForm, FormProvider } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Button } from "@material-ui/core";
 
 //components
 import {
@@ -13,6 +12,7 @@ import {
   Toggles,
   Variants,
   Photos,
+  Buttons,
 } from "./components";
 
 //style
@@ -20,6 +20,7 @@ import { Wrapper, Form, Container } from "./style";
 
 //other
 import { FormFieldTypes } from "../../utils/types";
+import { createItemDefaultFields } from "../../helpers";
 
 interface CreateProps {}
 
@@ -28,21 +29,7 @@ const Create: React.FC<CreateProps> = () => {
 
   const form = useForm<FormFieldTypes>({
     mode: "onChange",
-    defaultValues: {
-      titles: [{ data: "lorem", lang: "(Рус)" }],
-      descriptions: [{ data: "", lang: "(Рус)" }],
-      variants: [
-        {
-          name: [{ data: "", lang: "(Рус)" }],
-          amount: "",
-          price: "",
-          priceWithSale: "",
-          articul: "",
-        },
-      ],
-      loyaltyOff: false,
-      images: [],
-    },
+    defaultValues: createItemDefaultFields,
   });
 
   const onSubmit = (data: any) => {
@@ -62,9 +49,7 @@ const Create: React.FC<CreateProps> = () => {
             <Variants />
             <Durations />
             <Photos />
-            <Button variant="contained" type="submit">
-              Submit
-            </Button>
+            <Buttons />
           </Container>
         </FormProvider>
       </Form>

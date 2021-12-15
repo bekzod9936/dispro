@@ -1,18 +1,17 @@
-import ImageLazyLoad from "components/Custom/ImageLazyLoad/ImageLazyLoad";
-import Spinner from "components/Helpers/Spinner";
-import { UploadButton } from "pages/CompanyPages/services/components/UploadButton";
-import { useImage } from "pages/CompanyPages/services/hooks";
 import { useRef } from "react";
 
+//packages
 import { useTranslation } from "react-i18next";
-import {
-  GridContainer,
-  GridItem,
-  Header,
-  SpinnerWrapper,
-  TrashIcon,
-  TrashIconWrapper,
-} from "./style";
+
+//components
+import { PhotoItem } from "pages/CompanyPages/services/components/PhotoItem";
+import { UploadButton } from "pages/CompanyPages/services/components/UploadButton";
+
+//style
+import { GridContainer, Header } from "./style";
+
+//other
+import { useImage } from "pages/CompanyPages/services/hooks";
 
 interface PhotosProps {}
 
@@ -21,6 +20,7 @@ export const Photos: React.FC<PhotosProps> = () => {
   const imageRef = useRef<null | string>(null);
 
   const { links, uploadImage, deleteImage, setLinks } = useImage();
+
   const imageLimit = 5 - links.length;
 
   const onUpload = (formDatas: FormData[]) => {
@@ -59,26 +59,13 @@ export const Photos: React.FC<PhotosProps> = () => {
       </Header>
       <GridContainer>
         {links.map((link, index) => (
-          <GridItem
-            isLoading={deleteImage.isLoading && imageRef.current === link}
-            onClick={() => onDelete(link)}
-          >
-            <ImageLazyLoad
-              src={link}
-              objectFit="cover"
-              alt={"image_" + index}
-            />
-            {!deleteImage.isLoading && (
-              <TrashIconWrapper>
-                <TrashIcon />
-              </TrashIconWrapper>
-            )}
-            {deleteImage.isLoading && imageRef.current === link && (
-              <SpinnerWrapper>
-                <Spinner size={30} />
-              </SpinnerWrapper>
-            )}
-          </GridItem>
+          <PhotoItem
+            isCurrentItem={imageRef.current === link}
+            onDelete={onDelete}
+            isLoading={deleteImage.isLoading}
+            link={link}
+            key={index}
+          />
         ))}
       </GridContainer>
     </div>

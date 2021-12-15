@@ -14,3 +14,24 @@ export const filesToBlob = (files: File[]) => {
     
     return files.map(file => fileToBlob(file, companyId))
 }
+
+
+export const isFieldLast = (max: number, current: number, length: number): boolean => {
+    return length <= max && current === length
+}
+
+export const createItemDefaultFields = {
+    titles: [{ data: "lorem", lang: "(Рус)" }],
+    descriptions: [{ data: "", lang: "(Рус)" }],
+    variants: [
+      {
+        name: [{ data: "", lang: "(Рус)" }],
+        amount: "",
+        price: "",
+        priceWithSale: "",
+        articul: "",
+      },
+    ],
+    loyaltyOff: false,
+    images: [],
+}

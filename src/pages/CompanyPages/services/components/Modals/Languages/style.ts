@@ -35,6 +35,41 @@ export const Wrapper = styled.div`
     }
 `
 
+export const useStyles = () => {
+    return {
+        modal: {
+            style: {
+              maxwidth: 480,
+              width: "100%",
+            }
+        },
+        input: {
+            style: {
+              fontSize: {
+                desktop: 18,
+                laptop: 18,
+              },
+              bgcolor: "#eff0fd",
+              border: "none",
+              placeholdercolor: "#223367",
+              inpadding: "2px 10px 2px 75px",
+              placewieght: "500",
+            }
+        },
+        button: {
+            style: {
+                bgcolor: "#fff", 
+                color: "#223367", 
+                weight: 500
+            },
+            margin: {
+                desktop: "0 20px 0 0", 
+                laptop: "0 20px 0 0"
+            }
+        }
+    }
+}
+
 //icons 
 export const CloseIcon = styled(ExitSvg)``
 export const LanguageIcon = styled(LanguageSvg)``

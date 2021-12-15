@@ -6,10 +6,10 @@ import { useTranslation } from "react-i18next";
 
 //components
 import Input from "components/Custom/Input";
-import { Languages } from "pages/CompanyPages/services/components/Modals/Languages";
+import { LanguagesModal } from "pages/CompanyPages/services/components/Modals/Languages";
 
 //styles
-import { ButtonIcon, MockIcon, RemoveInputIcon } from "./style";
+import { ButtonIcon, MockIcon, RemoveInputIcon, useStyles } from "./style";
 import { SubButton } from "pages/CompanyPages/services/style";
 import { Wrapper } from "./style";
 
@@ -33,6 +33,7 @@ export const DynamicFields: React.FC<DynamicFieldsProps> = ({
 }) => {
   const { t } = useTranslation();
   const [modal, setModal] = useState(false);
+  const { input } = useStyles();
   const { fields, append, remove } = useFieldArray({
     control,
     name,
@@ -81,14 +82,7 @@ export const DynamicFields: React.FC<DynamicFieldsProps> = ({
                 multiline={isDescription}
                 isAbsolute
                 type={isDescription ? "textarea" : ""}
-                inputStyle={
-                  isDescription
-                    ? {
-                        height: { desktop: 124, laptop: 124 },
-                        inpadding: "10px 15px",
-                      }
-                    : undefined
-                }
+                inputStyle={input.style(Boolean(isDescription))}
               />
             )}
           />
@@ -99,7 +93,7 @@ export const DynamicFields: React.FC<DynamicFieldsProps> = ({
           )}
         </div>
       ))}
-      <Languages
+      <LanguagesModal
         open={modal}
         onClose={handleClose}
         onConfirm={handleAddField}

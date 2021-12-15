@@ -6,8 +6,9 @@ import { Toggles } from "./Toggles";
 import { Variants } from "./Variants";
 import { Durations } from "./Durations";
 import { Photos } from './Photos'
+import { Buttons } from './Buttons'
 
 
 
 
-export { Header, Fields, Selects, Radios, Toggles, Variants, Durations, Photos }
+export { Header, Fields, Selects, Radios, Toggles, Variants, Durations, Photos, Buttons }

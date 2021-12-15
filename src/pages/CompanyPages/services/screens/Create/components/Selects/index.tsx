@@ -1,8 +1,11 @@
+import { useState } from "react";
 //packages
 import { useTranslation } from "react-i18next";
 
 //components
 import { SelectField } from "../../../../components/SelectFields";
+import { SectionModal } from "pages/CompanyPages/services/components/Modals/Section";
+import { SubButton } from "pages/CompanyPages/services/style";
 
 //styles
 import {
@@ -12,7 +15,6 @@ import {
   SectionsIcon,
   ServicesIcon,
 } from "./style";
-import { SubButton } from "pages/CompanyPages/services/style";
 
 interface SelectsProps {}
 
@@ -30,7 +32,17 @@ const measurements = [
 ];
 
 export const Selects: React.FC<SelectsProps> = () => {
+  const [sectionModal, setSectionModal] = useState(false);
   const { t } = useTranslation();
+
+  const handleOpen = () => {
+    setSectionModal(true);
+  };
+
+  const handleClose = () => {
+    setSectionModal(false);
+  };
+
   return (
     <div>
       <SelectField
@@ -55,8 +67,9 @@ export const Selects: React.FC<SelectsProps> = () => {
             icon={<SectionsIcon />}
             placeholder="Выберите раздел"
           />
-          <SubButton>{t("createSection")}</SubButton>
+          <SubButton onClick={handleOpen}>{t("createSection")}</SubButton>
         </LeftField>
+        <SectionModal isSingle onClose={handleClose} isOpen={sectionModal} />
       </Flex>
     </div>
   );
