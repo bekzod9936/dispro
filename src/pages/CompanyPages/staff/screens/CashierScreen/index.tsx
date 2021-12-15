@@ -97,12 +97,8 @@ const CashierScreen = () => {
 							cashiers={cashiers.map((cashier: any) => {
 								return {
 									...cashier,
-									storeName: <NText>{cashier?.store?.name}</NText>,
-									firstName: (
-										<NText>
-											{cashier?.firstName + ' ' + cashier?.lastName}
-										</NText>
-									),
+									storeName: cashier?.stores[0]?.name,
+									firstName: cashier?.firstName + ' ' + cashier?.lastName,
 									score: numberWith(cashier?.addInfo?.avgRating, ' '),
 									avgCheque: numberWith(cashier?.addInfo?.avgCheque, ' '),
 									clients: numberWith(cashier?.addInfo?.countClient, ' '),

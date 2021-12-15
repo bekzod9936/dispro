@@ -34,7 +34,6 @@ const EditCashier = ({ openEdit, refetch }: IProps) => {
 	const selectedCashiers = useAppSelector(
 		(state) => state.staffs.selectedCashiers
 	);
-
 	const cashierId: any = state?.id;
 
 	const { staffData } = useAppSelector((state) => state.staffs);
@@ -60,7 +59,7 @@ const EditCashier = ({ openEdit, refetch }: IProps) => {
 
 	const storeName = [
 		{
-			id: selectedCashiers?.length ? selectedCashiers[0].store.id : null,
+			id: selectedCashiers?.length ? selectedCashiers[0].stores[0].id : null,
 		},
 	];
 
@@ -69,7 +68,7 @@ const EditCashier = ({ openEdit, refetch }: IProps) => {
 		if (selectedCashiers?.length) {
 			await editCashier.mutate({
 				id: selectedCashiers[0].id,
-				storeId: data.storeId.value,
+				storeIds: [data.storeIds[0].value],
 				firstName: data.firstName,
 				lastName: data.lastName,
 				comment: data.comment,
@@ -78,7 +77,7 @@ const EditCashier = ({ openEdit, refetch }: IProps) => {
 		} else {
 			await editCashier.mutate({
 				id: cashierId,
-				storeId: data.storeId.value,
+				storeIds: [data.storeIds[0].value],
 				firstName: data?.firstName,
 				lastName: data?.lastName,
 				comment: data?.comment,
@@ -93,15 +92,14 @@ const EditCashier = ({ openEdit, refetch }: IProps) => {
 
 	useEffect(() => {
 		if (selectedCashiers?.length) {
-			console.log(`selectedCashiers[0].firstName`, selectedCashiers[0]);
-			// let firstname = selectedCashiers[0].firstName.split(' ')[0];
+			let firstname = selectedCashiers[0].firstName.split(' ')[0];
 
 			const tel: string = String(selectedCashiers[0].telNumber).slice(4);
-			// setValue('firstName', firstname);
+			setValue('firstName', firstname);
 			setValue('lastName', selectedCashiers[0].lastName);
 			setValue('comment', selectedCashiers[0].comment);
 			setValue('telNumber', tel);
-			setValue('storeId', getStoreName(storeName[0]?.id));
+			setValue('storeIds', getStoreName(storeName[0]?.id));
 		} else {
 			let firstname = staffData.firstName;
 			const tel: string = String(staffData.telNumber).slice(4);
@@ -109,7 +107,9 @@ const EditCashier = ({ openEdit, refetch }: IProps) => {
 			setValue('lastName', staffData.lastName);
 			setValue('comment', staffData.comment);
 			setValue('telNumber', tel);
-			setValue('storeId', getStoreName(staffData?.storeId));
+			if (staffData.storeIds) {
+				setValue('storeIds', getStoreName(staffData?.storeIds[0]));
+			}
 		}
 	}, [selectedCashiers, staffData]);
 
@@ -127,12 +127,15 @@ const EditCashier = ({ openEdit, refetch }: IProps) => {
 		}
 	}, [checkPhone.check, watch('telNumber')]);
 
-	const getStoreName = (storeId: any) => {
+	const getStoreName = (storeIds: any) => {
 		let branch: any;
 
 		if (branches?.length) {
 			branch = [
-				{ label: branches.find((item: any) => item.value === storeId)?.label },
+				{
+					label: branches.find((item: any) => item.value === storeIds)?.label,
+					value: branches.find((item: any) => item.value === storeIds)?.value,
+				},
 			];
 		} else {
 			branch = '';
@@ -230,7 +233,7 @@ const EditCashier = ({ openEdit, refetch }: IProps) => {
 						<FormRow>
 							<Controller
 								control={control}
-								name='storeId'
+								name='storeIds'
 								defaultValue={getStoreName(storeName[0]?.id)}
 								rules={{
 									required: true,
@@ -258,7 +261,7 @@ const EditCashier = ({ openEdit, refetch }: IProps) => {
 												laptop: '20px 0 25px',
 											}}
 											message={t('requiredField')}
-											error={errors.storeId ? true : false}
+											error={errors.storeIds ? true : false}
 											field={field}
 											isClearable={false}
 										/>

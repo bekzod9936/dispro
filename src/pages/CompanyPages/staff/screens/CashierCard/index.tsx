@@ -103,10 +103,10 @@ const CashierCard = () => {
 		let id: any = history?.location?.state?.id;
 	}, []);
 
-	const getStoreName = (storeId: any) => {
+	const getStoreName = (storeIds: any) => {
 		let branch: any = '';
 		if (branches?.length) {
-			branch = branches.find((item: any) => item.value === storeId)?.label;
+			branch = branches.find((item: any) => item.value === storeIds)?.label;
 		} else {
 			branch = '';
 		}
@@ -263,7 +263,7 @@ const CashierCard = () => {
 							<StaffCol>
 								<StaffSecondText>Филиал</StaffSecondText>
 								<Break height={5} />
-								<StaffText>{getStoreName(staffData?.storeId)}</StaffText>
+								<StaffText>{getStoreName(staffData?.storeIds[0])}</StaffText>
 							</StaffCol>
 							<StaffCol>
 								<StaffSecondText>Комментарий</StaffSecondText>

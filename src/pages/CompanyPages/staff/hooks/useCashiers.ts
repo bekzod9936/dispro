@@ -24,14 +24,25 @@ import {
 import { store } from "services/redux/store";
 import { numberWith } from "services/utils";
 
+const handleCheckLabelFields = (arr: any[]) => {
+	if(!arr) {
+		return []
+	}
+	return arr.filter(e => e.label)
+}
+
 
 export const useSearchBranch = (query: string, arr: any[]) => {
+console.log(`arr`, arr)
 	const branches = useMemo(() => {
-		if(!query) return arr;
-		return arr.filter(el => el.label.toLowerCase().includes(query.toLowerCase()))
+		if(!query) return handleCheckLabelFields(arr);
+		return handleCheckLabelFields(arr).filter(el =>  el.label.toLowerCase().includes(query.toLowerCase()) )
 	}, [query, arr])
-	return branches
+	console.log(`branches`, branches)
+	return branches;
+	
 }
+
 
 
 
@@ -69,10 +80,9 @@ const useCashiers = ({ page, query, period, storeIdForFilter}: any) => {
       cacheTime: 5000,
       onSuccess: (data) => {
 		  let cashiers = data?.data?.data?.staffs;
-		
-		
+		console.log(`cashiers`, cashiers)
         dispatch(setCashiers(data.data.data.staffs));
-		!storeFilters && dispatch(setStoreFilters(cashiers.map((el: any) => ({value: el.store?.id, label: el.store?.address}))))
+		!storeFilters && dispatch(setStoreFilters(cashiers.map((el: any) => ({value: el.stores[0]?.id, label: el.stores[0]?.address}))))
         dispatch(
           selectAllCashier(
             data?.data?.data?.staffs?.map((cashier: any) => {
@@ -103,7 +113,7 @@ const useCashiers = ({ page, query, period, storeIdForFilter}: any) => {
       dispatch(setSelectedManagers([]));
 
 	  dispatch(setStaffData([]));
-								history.push('/staff');
+	  history.push('/staff');
 
       response.refetch();
     },
@@ -111,6 +121,7 @@ const useCashiers = ({ page, query, period, storeIdForFilter}: any) => {
 
   const createCash = useMutation((data: any) => createCashier(data), {
     onSuccess: (data) => {
+	console.log(`data`, data)
       response.refetch();
       setOpen(false);
       dispatch(setSelectedCashiers([]));

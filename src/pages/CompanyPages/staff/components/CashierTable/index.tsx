@@ -36,6 +36,7 @@ const CashierTable = ({ cashiers }: IProps) => {
 	const selectedCashiers = useAppSelector(
 		(state) => state.staffs.selectedCashiers
 	);
+	console.log(`cashiers`, cashiers);
 	const [checked, setChecked] = useState(false);
 	const [headers, setHeaders] = useState<HeadersType[]>(cashierHeaders);
 
@@ -82,7 +83,7 @@ const CashierTable = ({ cashiers }: IProps) => {
 
 	const { getTableBodyProps, headerGroups, getTableProps, rows, prepareRow } =
 		useTable({ data: cashiers, columns: columns }, useSortBy);
-
+	console.log(`rows`, rows);
 	const handleAddClientByClick = (e: any, row: any) => {
 		e.stopPropagation();
 		const isAdded = selectedCashiers?.some(
