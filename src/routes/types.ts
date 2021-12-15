@@ -2,13 +2,14 @@ import { IDefaultLayout } from "../components/Layout/DefaultLayoutAdmin";
 
 export interface IPrivateRoute {
   path: string;
-  layout: React.FC<IDefaultLayout>;
+  layout: React.FC<IDefaultLayout> | any;
   component: any;
 }
 
 export interface IPublicRoute {
   path: string;
   component: React.LazyExoticComponent<React.ComponentType<any>>;
+  layout?: any;
 }
 
 //tokens
