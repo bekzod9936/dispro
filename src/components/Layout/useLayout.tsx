@@ -3,12 +3,16 @@ import { useQuery } from 'react-query';
 import { useSetRecoilState } from 'recoil';
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import { setStaffId } from 'services/redux/Slices/authSlice';
-import { setAccounts, setInfoData } from 'services/redux/Slices/info/info';
+import {
+  setAccounts,
+  setInfoData,
+  setPayGo,
+} from 'services/redux/Slices/info/info';
 import { setCompanyInfo } from '../../services/redux/Slices/partnerSlice';
 
 //queries
 import { fetchBadge, fetchLimitFinance } from 'services/queries/InfoQuery';
-import { fetchInfo } from 'services/queries/partnerQuery';
+import { fetchInfo, fetchPayGoGet } from 'services/queries/partnerQuery';
 
 //selectors
 import {
@@ -78,7 +82,14 @@ const useLayout = ({ id }: LProps) => {
     retry: 0,
   });
 
-  return { resHeader, headerData, resLimit, resBadge };
+  const payGoResponse = useQuery('payGoGetFetch', () => fetchPayGoGet(), {
+    onSuccess: (data) => {
+      console.log(data.data.data);
+      dispatch(setPayGo(data.data.data.payGo));
+    },
+  });
+
+  return { resHeader, headerData, resLimit, resBadge, payGoResponse };
 };
 
 export default useLayout;
