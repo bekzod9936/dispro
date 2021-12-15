@@ -17,7 +17,7 @@ import {
 //utils
 import { parseSimpleString } from "services/utils";
 import { levelReqs } from "../../constants";
-import { notify } from 'services/utils/local_notification';
+import { notifySuccess } from 'services/utils/local_notification';
 //hooks
 import { FormProps } from "../../hooks/types";
 import { handleClick } from "services/redux/Slices/settingsSlice";
@@ -107,7 +107,7 @@ const useMobileData = () => {
     },
     {
       onSuccess: () => {
-        notify(t('  Сохранено!  Данные успешно сохранены'));
+        notifySuccess(t('  Сохранено!  Данные успешно сохранены'));
         refetch();
         refetchdiscount();
         refetchcashback();
