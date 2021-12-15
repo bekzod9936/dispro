@@ -45,7 +45,7 @@ const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
 
   const [width, setWidth] = useState(window.innerWidth);
   const [mobileOpen, setMobileOpen] = useState(false);
-  // const [open, setOpen] = useState(width <= 1000 ? false : true);
+
   const open = useRecoilValue(openMenu);
   const setOpen = useSetRecoilState(setOpenMenu);
 
