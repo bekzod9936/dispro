@@ -28,6 +28,7 @@ import {
   EText,
   RightGrid,
   BottomSide,
+  WrapModalPaygo,
 } from './styles';
 import { Break } from '../../styles';
 
@@ -74,10 +75,13 @@ import {
   eDiscount,
   activeCheckM,
 } from 'services/atoms/settings';
+import { useHistory } from 'react-router';
 
 const LoyaltyProgramSection = () => {
   const { t } = useTranslation();
   const { width } = useWindowWidth();
+  const history = useHistory();
+
   const {
     control,
     setValue,
@@ -101,6 +105,8 @@ const LoyaltyProgramSection = () => {
     isFetching,
     cashbackFetching,
     discountFetching,
+    payGoModal,
+    setpayGoModal,
   } = useLoyality();
 
   //selectors
@@ -268,7 +274,7 @@ const LoyaltyProgramSection = () => {
                           rules={{
                             required: true,
                             max: 100,
-                            min: 0,
+                            min: 1,
                           }}
                           defaultValue={base_loyality?.base_percent}
                           control={control}
@@ -379,7 +385,7 @@ const LoyaltyProgramSection = () => {
                                   rules={{
                                     required: true,
                                     max: 100,
-                                    min: 0,
+                                    min: 1,
                                   }}
                                   control={control}
                                   defaultValue={numberWith(item?.percent, ' ')}
@@ -485,6 +491,7 @@ const LoyaltyProgramSection = () => {
                           control={control}
                           rules={{
                             required: true,
+                            min: 1,
                           }}
                           defaultValue={base_loyality?.max_percent}
                           render={({ field }) => {
@@ -583,6 +590,19 @@ const LoyaltyProgramSection = () => {
                           </Button>
                         </div>
                       </HeaderGrid>
+                      <Modal open={payGoModal}>
+                        <WrapModalPaygo>
+                          <Text marginBottom={'25px'}>{t('paygowarning')}</Text>
+                          <Button
+                            onClick={() => {
+                              setpayGoModal(false);
+                              history.push('/support');
+                            }}
+                          >
+                            {t('writetomoderator')}
+                          </Button>
+                        </WrapModalPaygo>
+                      </Modal>
                     </BottomSide>
                   </Form>
                 </LargePanel>
