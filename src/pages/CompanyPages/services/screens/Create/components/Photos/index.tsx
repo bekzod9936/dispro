@@ -1,13 +1,24 @@
+import ImageLazyLoad from "components/Custom/ImageLazyLoad/ImageLazyLoad";
+import Spinner from "components/Helpers/Spinner";
 import { UploadButton } from "pages/CompanyPages/services/components/UploadButton";
 import { useImage } from "pages/CompanyPages/services/hooks";
+import { useRef } from "react";
 
 import { useTranslation } from "react-i18next";
-import { GridContainer, Header, Image } from "./style";
+import {
+  GridContainer,
+  GridItem,
+  Header,
+  SpinnerWrapper,
+  TrashIcon,
+  TrashIconWrapper,
+} from "./style";
 
 interface PhotosProps {}
 
 export const Photos: React.FC<PhotosProps> = () => {
   const { t } = useTranslation();
+  const imageRef = useRef<null | string>(null);
 
   const { links, uploadImage, deleteImage, setLinks } = useImage();
   const imageLimit = 5 - links.length;
@@ -19,6 +30,7 @@ export const Photos: React.FC<PhotosProps> = () => {
   };
 
   const onDelete = (link: string) => {
+    imageRef.current = link;
     deleteImage.mutate(link, {
       onSuccess() {
         setLinks((prev) => prev.filter((item) => item !== link));
@@ -47,11 +59,26 @@ export const Photos: React.FC<PhotosProps> = () => {
       </Header>
       <GridContainer>
         {links.map((link, index) => (
-          <Image
+          <GridItem
+            isLoading={deleteImage.isLoading && imageRef.current === link}
             onClick={() => onDelete(link)}
-            src={link}
-            alt={"image" + index}
-          />
+          >
+            <ImageLazyLoad
+              src={link}
+              objectFit="cover"
+              alt={"image_" + index}
+            />
+            {!deleteImage.isLoading && (
+              <TrashIconWrapper>
+                <TrashIcon />
+              </TrashIconWrapper>
+            )}
+            {deleteImage.isLoading && imageRef.current === link && (
+              <SpinnerWrapper>
+                <Spinner size={30} />
+              </SpinnerWrapper>
+            )}
+          </GridItem>
         ))}
       </GridContainer>
     </div>

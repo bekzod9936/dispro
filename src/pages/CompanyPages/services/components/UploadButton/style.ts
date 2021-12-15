@@ -14,7 +14,7 @@ export const Button = styled.label`
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
+    cursor: ${({isLoading}: IProps) => isLoading ? 'wait' : 'pointer'};
     
     span {
         font-size: 18px;
