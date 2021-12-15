@@ -21,38 +21,51 @@ import CustomDatePicker from "components/Custom/CustomDatePicker";
 import CheckBox from "components/Custom/CheckBox";
 import dayjs from "dayjs";
 import { numberWith } from "services/utils";
-
-
+import MultiSelect from "components/Custom/MultiSelect";
 
 export const MFilter = () => {
   const { t } = useTranslation();
-  const dispatch = useAppDispatch()
-  const { filters, referals, clientLevels } = useAppSelector(state => state.clients)
-  const [filter, setFilter] = useState<any>({})
-  const { width } = useWindowWidth()
+  const dispatch = useAppDispatch();
+  const { filters, referals, clientLevels, filials } = useAppSelector(
+    (state) => state.clients
+  );
+  const [filter, setFilter] = useState<any>({});
+  const { width } = useWindowWidth();
 
   useEffect(() => {
-    setFilter(filters)
-  }, [filters])
+    setFilter(filters);
+  }, [filters]);
 
   const getReferals = (arr: any) => {
     return arr?.map((el: any, index: number) => ({
       realValue: el.refIds,
       label: el.name,
-      value: index
-    }))
-  }
+      value: index,
+    }));
+  };
   const getLevels = (arr: any) => {
     return arr?.map((el: any) => ({
       label: t(el.name),
-      value: el.number
-    }))
-  }
+      value: el.number,
+    }));
+  };
+
+  const getFilials = (arr: any[]) => {
+    return arr.map((e) => ({
+      name: e.name,
+      label: e.name,
+      value: e.id,
+    }));
+  };
 
   const filterList = [
     {
       title: t("gender"),
-      value: filters.gender ? (Number(filters.gender) === 1 ? t('male') : t('female')) : undefined,
+      value: filters.gender
+        ? Number(filters.gender) === 1
+          ? t("male")
+          : t("female")
+        : undefined,
       content: (
         <Radio
           flexDirection="row"
@@ -61,19 +74,30 @@ export const MFilter = () => {
             { value: "2", label: `${t("female")}` },
           ]}
           title={t("chose_gender")}
-          onChange={(v: string) => setFilter((prev: any) => ({
-            ...prev,
-            gender: v
-          }))}
+          onChange={(v: string) =>
+            setFilter((prev: any) => ({
+              ...prev,
+              gender: v,
+            }))
+          }
           value={filter?.gender}
-        // onChange={(v: string) => setFilter((prev: any) => ({ ...prev, gender: v }))}
-        // value={filter.gender}
+          // onChange={(v: string) => setFilter((prev: any) => ({ ...prev, gender: v }))}
+          // value={filter.gender}
         />
       ),
     },
     {
       title: t("registration_date"),
-      value: (filters.regDate?.regDateTo && filters.regDate.regDateFrom) ? dayjs(filters?.regDate?.regDateFrom).format('YYYY.MM.DD') + " - " + dayjs(filters?.regDate?.regDateTo).format('YYYY.MM.DD') : (filters.regDate?.regDateTo || filters.regDate?.regDateFrom) ? dayjs(filters.regDate?.regDateTo || filters.regDate?.regDateFrom).format('YYYY.MM.DD') : undefined,
+      value:
+        filters.regDate?.regDateTo && filters.regDate.regDateFrom
+          ? dayjs(filters?.regDate?.regDateFrom).format("YYYY.MM.DD") +
+            " - " +
+            dayjs(filters?.regDate?.regDateTo).format("YYYY.MM.DD")
+          : filters.regDate?.regDateTo || filters.regDate?.regDateFrom
+          ? dayjs(
+              filters.regDate?.regDateTo || filters.regDate?.regDateFrom
+            ).format("YYYY.MM.DD")
+          : undefined,
       content: (
         <WrapInputs>
           <Label>{t("chose_date")}</Label>
@@ -106,13 +130,15 @@ export const MFilter = () => {
               onChange={(e) => {
                 let date = "" + e.year + "-" + e.month.number + "-" + e.day;
                 setFilter((prev: any) => ({
-                  ...prev, regDate: {
+                  ...prev,
+                  regDate: {
                     ...prev["regDate"],
-                    regDateFrom: date
-                  }
-                }))
+                    regDateFrom: date,
+                  },
+                }));
               }}
-              value={filter?.regDate?.regDateFrom} />
+              value={filter?.regDate?.regDateFrom}
+            />
             <CustomDatePicker
               isFilter
               text={t("to")}
@@ -121,13 +147,15 @@ export const MFilter = () => {
               onChange={(e) => {
                 let date = "" + e.year + "-" + e.month.number + "-" + e.day;
                 setFilter((prev: any) => ({
-                  ...prev, regDate: {
+                  ...prev,
+                  regDate: {
                     ...prev["regDate"],
-                    regDateTo: date
-                  }
-                }))
+                    regDateTo: date,
+                  },
+                }));
               }}
-              value={filter?.regDate?.regDateTo} />
+              value={filter?.regDate?.regDateTo}
+            />
 
             {/* <Input
               type="date"
@@ -155,11 +183,18 @@ export const MFilter = () => {
     },
     {
       title: t("purchuase_amount"),
-      value: (filters.purchaseAmount?.purchaseCountFrom && filters.purchaseAmount?.purchaseCountTo) ? filters?.purchaseAmount?.purchaseCountFrom + " - " + filters?.purchaseAmount?.purchaseCountTo : (filters.purchaseAmount?.purchaseCountFrom || filters.purchaseAmount?.purchaseCountTo),
+      value:
+        filters.purchaseAmount?.purchaseCountFrom &&
+        filters.purchaseAmount?.purchaseCountTo
+          ? filters?.purchaseAmount?.purchaseCountFrom +
+            " - " +
+            filters?.purchaseAmount?.purchaseCountTo
+          : filters.purchaseAmount?.purchaseCountFrom ||
+            filters.purchaseAmount?.purchaseCountTo,
       content: (
         <>
           <InputFormat
-            type='tel'
+            type="tel"
             label={t("enter_number")}
             IconStart={<WrapPlaceHolder>{t("from")}</WrapPlaceHolder>}
             width={{
@@ -171,19 +206,27 @@ export const MFilter = () => {
             }}
             maxLength="5"
             value={filter?.purchaseAmount?.purchaseCountFrom}
-            onChange={(e) => setFilter((prev: any) => ({
-              ...prev, purchaseAmount: {
-                ...prev["purchaseAmount"],
-                purchaseCountFrom: e.target.value
-              }
-            }))}
+            onChange={(e) =>
+              setFilter((prev: any) => ({
+                ...prev,
+                purchaseAmount: {
+                  ...prev["purchaseAmount"],
+                  purchaseCountFrom: e.target.value,
+                },
+              }))
+            }
           />
           <InputFormat
-            type='tel'
+            type="tel"
             label={t("enter_number")}
             margin={{ laptop: "0 0 0 15px" }}
             IconStart={<WrapPlaceHolder>{t("to")}</WrapPlaceHolder>}
-            error={(filter?.purchaseAmount?.purchaseCountFrom != "" && filter?.purchaseAmount?.purchaseCountTo != "") && Number(filter?.purchaseAmount?.purchaseCountFrom) > Number(filter?.purchaseAmount?.purchaseCountTo)}
+            error={
+              filter?.purchaseAmount?.purchaseCountFrom != "" &&
+              filter?.purchaseAmount?.purchaseCountTo != "" &&
+              Number(filter?.purchaseAmount?.purchaseCountFrom) >
+                Number(filter?.purchaseAmount?.purchaseCountTo)
+            }
             width={{
               maxwidth: 200,
             }}
@@ -192,51 +235,86 @@ export const MFilter = () => {
             }}
             maxLength="5"
             value={filter?.purchaseAmount?.purchaseCountTo}
-            onChange={(e) => setFilter((prev: any) => ({
-              ...prev, purchaseAmount: {
-                ...prev["purchaseAmount"],
-                purchaseCountTo: e.target.value
-              }
-            }))}
+            onChange={(e) =>
+              setFilter((prev: any) => ({
+                ...prev,
+                purchaseAmount: {
+                  ...prev["purchaseAmount"],
+                  purchaseCountTo: e.target.value,
+                },
+              }))
+            }
           />
         </>
       ),
     },
     {
       title: t("purchuase_cost"),
-      value: filters.notless ? numberWith(filters.notless + "", " ") : undefined,
+      value: filters.notless
+        ? numberWith(filters.notless + "", " ")
+        : undefined,
       content: (
         <InputFormat
           maxLength="11"
-          type='tel'
+          type="tel"
           placeholder={t("notless")}
-          onChange={(e) => setFilter((prev: any) => ({ ...prev, notless: e.target.value }))}
+          onChange={(e) =>
+            setFilter((prev: any) => ({ ...prev, notless: e.target.value }))
+          }
           label={t("enter_amount")}
           value={filter?.notless}
         />
       ),
     },
     {
-      title: t('status'),
-      value: filters.status ? t(clientLevels.find(e => Number(e.number) === Number(filters.status)).name) : undefined,
+      title: t("withfilial"),
+      value:
+        filters && filters.filials && filters.filials.length > 0
+          ? filters?.filials?.length
+          : undefined,
+      content: (
+        <MultiSelect
+          isMulti
+          label={t("choosefilial")}
+          selectStyle={{ bgcolor: "#eff0fd" }}
+          options={getFilials(filials)}
+          value={filter?.filials}
+          onChange={(e) => setFilter((prev: any) => ({ ...prev, filials: e }))}
+        />
+      ),
+    },
+    {
+      title: t("status"),
+      value: filters.status
+        ? t(
+            clientLevels.find(
+              (e) => Number(e.number) === Number(filters.status)
+            ).name
+          )
+        : undefined,
       content: (
         <Radio
           title={t("statuschoose")}
           list={getLevels(clientLevels)}
           value={Number(filter?.status)}
           onChange={(e) => setFilter((prev: any) => ({ ...prev, status: e }))}
-          flexDirection="row" />
-      )
+          flexDirection="row"
+        />
+      ),
     },
     {
       title: t("traffic_provider"),
-      value: filters.trafficProvider ? referals[filters.trafficProvider].name : undefined,
+      value: filters.trafficProvider
+        ? referals[filters.trafficProvider].name
+        : undefined,
       content: (
         <Radio
           flexDirection="row"
           list={getReferals(referals)}
           title={t("chose_trafic_provider")}
-          onChange={(e) => setFilter((prev: any) => ({ ...prev, trafficProvider: e }))}
+          onChange={(e) =>
+            setFilter((prev: any) => ({ ...prev, trafficProvider: e }))
+          }
           value={Number(filter?.trafficProvider)}
         />
       ),
@@ -246,24 +324,35 @@ export const MFilter = () => {
   const handleSubmit = () => {
     const res = {
       ...filter,
-    }
-    if ((filter?.purchaseAmount?.purchaseCountFrom != "" && filter?.purchaseAmount?.purchaseCountTo != "") && Number(filter?.purchaseAmount?.purchaseCountFrom) > Number(filter?.purchaseAmount?.purchaseCountTo)) return
-    dispatch(setFilters(res))
+    };
+    if (
+      filter?.purchaseAmount?.purchaseCountFrom != "" &&
+      filter?.purchaseAmount?.purchaseCountTo != "" &&
+      Number(filter?.purchaseAmount?.purchaseCountFrom) >
+        Number(filter?.purchaseAmount?.purchaseCountTo)
+    )
+      return;
+    dispatch(setFilters(res));
   };
 
   const handleReset = () => {
-    dispatch(resetFilters())
-  }
+    dispatch(resetFilters());
+  };
 
   return (
     <Wrapper>
       <Filter
         position={-50}
-        error={(filter?.purchaseAmount?.purchaseCountFrom != "" && filter?.purchaseAmount?.purchaseCountTo != "") && Number(filter?.purchaseAmount?.purchaseCountFrom) > Number(filter?.purchaseAmount?.purchaseCountTo)}
+        error={
+          filter?.purchaseAmount?.purchaseCountFrom != "" &&
+          filter?.purchaseAmount?.purchaseCountTo != "" &&
+          Number(filter?.purchaseAmount?.purchaseCountFrom) >
+            Number(filter?.purchaseAmount?.purchaseCountTo)
+        }
         list={filterList}
         onSubmit={handleSubmit}
-        onReset={handleReset} />
+        onReset={handleReset}
+      />
     </Wrapper>
   );
 };
-

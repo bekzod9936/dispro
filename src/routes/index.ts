@@ -49,10 +49,12 @@ export const authRoutes: IPublicRoute[] = [
   {
     path: "/",
     component: TestLoginPage,
+    layout: null,
   },
   {
     path: "/admin",
     component: ModeratorLogin,
+    layout: null,
   },
 ];
 
@@ -137,11 +139,11 @@ export const privateCompanyRoutes: IPrivateRoute[] = [
     layout: DefaultLayoutAdmin,
     component: SupportPage,
   },
-  {
-    path: "*",
-    layout: DefaultLayoutAdmin,
-    component: NotFound,
-  },
+  // {
+  //   path: "*",
+  //   layout: DefaultLayoutAdmin,
+  //   component: NotFound,
+  // },
 ];
 
 export const privateRoutes: IPrivateRoute[] = [

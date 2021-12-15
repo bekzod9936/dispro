@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import { fetchAllClients, fetchClients, searchClients } from "services/queries/clientsQuery";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
-import { setAllClientsData, setClientLevels, setClients, setReferals } from "services/redux/Slices/clients";
+import { setAllClientsData, setClientLevels, setClients, setFilials, setReferals } from "services/redux/Slices/clients";
 import { RootState } from "services/redux/store";
 import { getFiltersForQuery } from "../utils/getSelectedFilters";
 interface IArgs {
@@ -59,6 +59,7 @@ export const useFetchClients = ({ query }: IArgs) => {
         }, {})
         dispatch(setReferals(data.data.data.filter.referal));
         dispatch(setClientLevels(data.data.data.filter.levels))
+        dispatch(setFilials(data.data.data.filter.stores))
 
       },
     }
