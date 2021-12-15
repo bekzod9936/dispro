@@ -62,6 +62,7 @@ const initialState: IState = {
   note: "",
   referals: [],
   clientLevels: [],
+  filials: [],
   headers: [
     { value: "Клиент", label: "fullName" },
     { value: "Сумма скидки", label: "discountSum" },
@@ -151,6 +152,12 @@ const clientsSlice = createSlice({
     removeFilter: (state: IState, { payload }: PayloadAction<string>) => {
       delete state.filters[payload];
     },
+    removeFilial: (state: IState, { payload }: any) => {
+      state.filters = {
+        ...state.filters,
+        filials: state.filters.filials?.filter((e) => e.value !== payload),
+      };
+    },
     setPeriod: (state: IState, { payload }: PayloadAction<string>) => {
       if (payload) {
         const [startDate, endDate] = payload.split(" ~ ");
@@ -195,6 +202,9 @@ const clientsSlice = createSlice({
     setClientLevels: (state: IState, { payload }: any) => {
       state.clientLevels = [...payload];
     },
+    setFilials: (state: IState, { payload }: PayloadAction<any[]>) => {
+      state.filials = payload;
+    },
   },
 });
 
@@ -215,5 +225,7 @@ export const {
   setAllClients,
   setAllClientsData,
   setClientLevels,
+  setFilials,
+  removeFilial,
 } = clientsSlice.actions;
 export default clientsSlice.reducer;

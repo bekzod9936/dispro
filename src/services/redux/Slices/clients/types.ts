@@ -17,7 +17,8 @@ export interface IState {
     allClients: any[],
     selectedAllClients: IClient[],
     client: IClient,
-    clientLevels: any[]
+    clientLevels: any[],
+    filials: any[]
 }
 
 interface ISimpleClient {
@@ -53,7 +54,8 @@ export interface IFilters {
     }
     notless?: number | string,
     status?: any,
-    trafficProvider?: string | number | any
+    trafficProvider?: string | number | any,
+    filials?: any[]
 }
 
 export interface IVisibleClient {
