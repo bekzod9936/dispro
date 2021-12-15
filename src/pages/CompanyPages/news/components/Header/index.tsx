@@ -23,7 +23,7 @@ const Header = ({ handleOpenNews }: IProps) => {
       if (location.pathname !== "/news/archive") {
         dispatch(setQuery(""));
         }
-  },[dispatch(setQuery(""))])
+  },[location])
 
   useEffect(() => {
     if (location.pathname !== "/news") {
