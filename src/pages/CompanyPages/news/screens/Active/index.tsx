@@ -80,7 +80,7 @@ const Active = () => {
     useState<intialFilterProps>(intialFilter);
     const [searchFilterValues, setSearchFilterValues] =
     useState<intialFilterProps>(intialFilter);
-  const { response } = useActive({ filterValues: query ?searchFilterValues:filterValues, });
+  const { response } = useActive({ filterValues: query ? searchFilterValues:filterValues, });
 
   const { list } = useData();
   const handlechangePage = async (e: any) => {
