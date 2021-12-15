@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Spinner from "components/Custom/Spinner";
@@ -96,6 +96,13 @@ const Archive = () => {
     });
     await response.refetch();
   };
+
+  useEffect(()=>{
+    if (location.pathname !== "/news/archive") {
+    dispatch(setQuery(""));
+    }
+  
+  },[dispatch(setQuery(""))])
 
   return (
     <Container>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { AddIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
@@ -125,6 +125,12 @@ const Active = () => {
     });
     await response.refetch();
   };
+  useEffect(()=>{
+    if (location.pathname !== "/news/active") {
+    dispatch(setQuery(""));
+    }
+  
+  },[dispatch(setQuery(""))])
 
   return (
     <Container>

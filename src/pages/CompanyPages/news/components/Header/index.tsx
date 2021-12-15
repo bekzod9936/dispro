@@ -8,24 +8,22 @@ import { useAppDispatch } from "services/redux/hooks";
 
 import { setQuery, setSelectedNews} from "services/redux/Slices/news";
 
-
-
 const Header = ({ handleOpenNews }: IProps) => {
   const location = useLocation();
   const dispatch = useAppDispatch();
 
 
-  useEffect(()=>{
-    if (location.pathname !== "/news/active") {
-    dispatch(setQuery(""));
-    }
-    if (location.pathname !== "/news/waiting") {
-      dispatch(setQuery(""));
-      }
-      if (location.pathname !== "/news/archive") {
-        dispatch(setQuery(""));
-        }
-  },[dispatch(setQuery(""))])
+  // useEffect(()=>{
+  //   if (location.pathname !== "/news/active") {
+  //   dispatch(setQuery(""));
+  //   }
+  //   if (location.pathname !== "/news/waiting") {
+  //     dispatch(setQuery(""));
+  //     }
+  //     if (location.pathname !== "/news/archive") {
+  //       dispatch(setQuery(""));
+  //       }
+  // },[dispatch(setQuery(""))])
 
   useEffect(() => {
     if (location.pathname !== "/news") {
