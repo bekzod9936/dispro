@@ -242,7 +242,7 @@ const CropCustomModal = ({
           </div>
         ) : (
           <div
-            style={{ width: "100%", display: "flex", justifyContent: "center" }}
+            style={{ width: "100%", display: "flex", justifyContent: "center", paddingBottom:'10px'}}
           >
             <Button
               onClick={handleClose}
