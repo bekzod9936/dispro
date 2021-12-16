@@ -311,7 +311,7 @@ const CreateNews = () => {
                     error={!!errors.name}
                     message={t("requiredField")}
                     field={field}
-                    multiline={true}
+                    // multiline={true}
                     maxLength={80}
                     label={t("Название")}
                   />
