@@ -52,6 +52,14 @@ const CreateCashier = ({ openCash }: IProps) => {
 		reValidateMode: 'onChange',
 	});
 
+	const resetData = {
+		comment: '',
+		firstName: '',
+		lastName: '',
+		storeIds: '',
+		telNumber: '+998',
+	};
+
 	const onSave = (data: FormProps) => {
 		console.log(data, 'data');
 		createCash.mutate({
@@ -67,13 +75,7 @@ const CreateCashier = ({ openCash }: IProps) => {
 	useEffect(() => {
 		if (isSubmitSuccessful) {
 			setTimeout(() => {
-				reset({
-					comment: '',
-					firstName: '',
-					lastName: '',
-					storeIds: '',
-					telNumber: '+998',
-				});
+				reset(resetData);
 			}, 4000);
 		}
 	}, [isSubmitSuccessful, reset]);
@@ -101,6 +103,7 @@ const CreateCashier = ({ openCash }: IProps) => {
 						<IconButton
 							onClick={() => {
 								dispatch(setOpenCash(false));
+								reset(resetData);
 							}}
 						>
 							<ExitIcon />
@@ -147,7 +150,7 @@ const CreateCashier = ({ openCash }: IProps) => {
 											label={t('cashier_lastName')}
 											error={errors.lastName ? true : false}
 											message={
-												errors.firstName?.type === 'required'
+												errors.lastName?.type === 'required'
 													? t('requiredField')
 													: 'Вводить только буквы'
 											}
@@ -255,6 +258,7 @@ const CreateCashier = ({ openCash }: IProps) => {
 							}}
 							onClick={() => {
 								dispatch(setOpenCash(false));
+								reset(resetData);
 							}}
 							startIcon={<CancelIcon />}
 						>
