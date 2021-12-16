@@ -874,7 +874,7 @@ svg {
 }
 `
 export const DownSide = styled.div`
-    border-top: 1px solid #606EEA;
+    border-top: 1px solid #CFD3F9;
     padding: 25px 0;
     background-color: white;
     width: 100%;
@@ -901,8 +901,8 @@ export const Form = styled.form`
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
     border-radius: 14px;
     padding: 35px 110px 0 110px;
-    @media (max-width: ${device.laptop}) {
-      padding: 20px 25px;
+    @media (max-width: ${device.planshet}) {
+      padding: 20px 0px;
       width: 100%;
     }
     @media (max-width: 1150px) {

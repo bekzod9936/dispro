@@ -45,7 +45,10 @@ export const Right = styled.div`
     justify-content: center;
     align-items: center;
   }
-
+ 
+  @media (max-width:320px){
+    height: 320px;
+  }
   @media (max-width: ${device.planshet}) {
     width: 100%;
     margin: 0;

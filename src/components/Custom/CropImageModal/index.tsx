@@ -242,7 +242,7 @@ const CropCustomModal = ({
           </div>
         ) : (
           <div
-            style={{ width: "100%", display: "flex", justifyContent: "center" }}
+            style={{ width: "100%", display: "flex", justifyContent: "center",}}
           >
             <Button
               onClick={handleClose}
@@ -257,7 +257,7 @@ const CropCustomModal = ({
               Отмена
             </Button>
             <Button
-              disabled={imageUrl?.length < 8}
+              disabled={imageUrl?.length < 8  }
               onClick={handleSave}
               endIcon={width > 1000 ? <SaveIcon /> : <MobileUploadPhotoIcon />}
             >

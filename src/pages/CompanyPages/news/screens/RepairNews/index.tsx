@@ -593,11 +593,15 @@ const RepairNews = () => {
                     <Controller
                       control={control}
                       name="timeFrom"
+                      rules={{
+                        required: true,
+                      }}
                       defaultValue={newsById?.data?.settings?.time?.from}
                       render={({ field }) => (
                         <Input
                           margin={{ laptop: "0 25px 0 0" }}
                           type="time"
+                          required={optionalFields.push ? true : false}
                           disabled={checked ?true:false}
                           defaultValue={newsById?.data?.settings?.time?.from}
                           field={field}
@@ -607,12 +611,16 @@ const RepairNews = () => {
                     <Controller
                       control={control}
                       name="timeTo"
+                      rules={{
+                        required: true,
+                      }}
                       defaultValue={newsById?.data?.settings?.time?.to}
                       render={({ field }) => (
                         <Input
                           type="time"
                           field={field}
                           disabled={checked ?true:false}
+                          required={optionalFields.push ? true : false}
                           defaultValue={newsById?.data?.settings?.time?.to}
                         />
                       )}
