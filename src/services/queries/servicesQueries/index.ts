@@ -14,7 +14,7 @@ export const Api = {
                 Authorization: `Bearer ${token}`,
                 langId: 1,
               },
-        } )
+        })
         
         if (!(data.success)) {
             throw new Error('response error, services page')
@@ -35,8 +35,8 @@ export const Api = {
               langId: 1,
             },
         })
-        console.log(data);
 
         return data
-    }
+    },
+
 }
