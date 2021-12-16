@@ -189,7 +189,7 @@ const CropCustomModal = ({
             )}
           </div>
         </div>
-        {imageUrl.length < 8 && (
+        {imageUrl?.length < 8 && (
           <ErrorMessage>
             <p>Выберите область картинки</p>
           </ErrorMessage>

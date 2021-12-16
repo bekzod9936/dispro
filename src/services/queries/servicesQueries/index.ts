@@ -39,4 +39,8 @@ export const Api = {
         return data
     },
 
+    async createSection() {
+        
+    }
+
 }
