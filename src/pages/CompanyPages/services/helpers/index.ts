@@ -1,3 +1,6 @@
+import { sectionDtoType } from "services/queries/servicesQueries/response.types"
+import { createSectionFormType } from "../utils/types"
+
 export const fileToBlob = (file: File, id: string) => {
     let formData = new FormData()
     formData.append('itemId', id)
@@ -21,7 +24,7 @@ export const isFieldLast = (max: number, current: number, length: number): boole
 }
 
 export const createItemDefaultFields = {
-    titles: [{ data: "lorem", lang: "(Рус)" }],
+    titles: [{ data: "", lang: "(Рус)" }],
     descriptions: [{ data: "", lang: "(Рус)" }],
     variants: [
       {
@@ -34,4 +37,24 @@ export const createItemDefaultFields = {
     ],
     loyaltyOff: false,
     images: [],
+}
+
+
+export const sectionsToSectionArray = (data: createSectionFormType) => {
+  return data.sections.map(section => sectionFieldToDto(section.title))
+
+}
+
+const sectionFieldToDto = (title: string): sectionDtoType => {
+  return {
+    hideInMobile: false,
+    parentId: 0,
+    positionAt: 1,
+    goodsSectionTranslates: [
+      {
+        langId: 1,
+        translateName: title
+      }
+    ]
+  }
 }

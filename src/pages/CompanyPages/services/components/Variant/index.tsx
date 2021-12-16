@@ -9,11 +9,17 @@ interface VariantProps {
   index: number;
 }
 export const Variant: React.FC<VariantProps> = ({ index }) => {
-  const { control } = useFormContext<FormFieldTypes>();
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext<FormFieldTypes>();
   const { t } = useTranslation();
+  const error = errors.descriptions ? errors.descriptions[index] : undefined;
+
   return (
     <Wrapper>
       <DynamicFields
+        error={error}
         marginBottom="15px"
         name={`variants.${index}.name`}
         control={control}

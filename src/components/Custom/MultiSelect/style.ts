@@ -209,7 +209,7 @@ export const Label = styled(InputLabel)`
 `;
 
 export const Message = styled.div`
-  position: absolute;
+  position: ${({isStatic}: Props) => isStatic ? 'static' : 'absolute'};
   top: 100%;
   font-weight: 300;
   color: #ff5e68;

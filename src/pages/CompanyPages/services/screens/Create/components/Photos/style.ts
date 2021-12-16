@@ -19,6 +19,14 @@ export const Header = styled.div`
     margin-bottom: 20px;
 `
 
+export const ErrorMessage = styled.div`
+    font-size: 16px;
+    color: #ff5e68;
+    font-weight: 300;
+    margin-top: 5px;
+    margin-left: 5px;
+`
+
 export const GridContainer = styled.div`
     display: grid;
     grid-template-columns: repeat(4, 200px);

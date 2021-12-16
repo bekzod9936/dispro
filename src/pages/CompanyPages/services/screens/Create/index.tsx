@@ -21,6 +21,8 @@ import { Wrapper, Form, Container } from "./style";
 //other
 import { FormFieldTypes } from "../../utils/types";
 import { createItemDefaultFields } from "../../helpers";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { goodsSchema } from "../../utils/schemas.yup";
 
 interface CreateProps {}
 
@@ -30,12 +32,13 @@ const Create: React.FC<CreateProps> = () => {
   const form = useForm<FormFieldTypes>({
     mode: "onChange",
     defaultValues: createItemDefaultFields,
+    resolver: yupResolver(goodsSchema),
   });
 
   const onSubmit = (data: any) => {
     console.log(data);
   };
-
+  console.log(form.formState.errors);
   return (
     <Wrapper>
       <Header />

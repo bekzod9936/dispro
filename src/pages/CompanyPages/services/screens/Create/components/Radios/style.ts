@@ -3,9 +3,19 @@ import styled from "styled-components";
 import { ReactComponent as QuestionMarkSvg } from 'assets/icons/questionMark.svg'
 
 export const Wrapper = styled.div`
+    margin-bottom: 25px;
+`
+
+export const Content = styled.div`
     display: flex;
     align-items: center;
-    margin-bottom: 25px;
+`
+
+export const ErrorMessage = styled.div`
+    font-size: 16px;
+    color: #ff5e68;
+    font-weight: 300;
+    margin-top: 5px;
 `
 
 export const LightToolTip = withStyles(() => ({
