@@ -88,7 +88,7 @@ const CashierCard = () => {
 	const { isLoading, openQr, setOpenQr, handleOption, refetch } =
 		useCashierCard();
 	const { staffData } = useAppSelector((state) => state.staffs);
-	const prevPage: any = state?.prevPage || '/staff';
+	const prevPage: any = state?.prevPage || '/staff/cashier';
 	const cashierId: any = state?.id;
 	const [closeFun, setCloseFun] = useState<any>();
 	const openEdit = useAppSelector((state) => state.staffs.openEditCashier);
@@ -326,7 +326,7 @@ const CashierCard = () => {
 						<Side>
 							<NavBar
 								list={menuItems.filter((item) =>
-									item.path.includes('/staff/cashier')
+									item.path.includes('/staff/cashier/')
 								)}
 								margin='20px 0 0'
 								padding='0 10px 10px 0'

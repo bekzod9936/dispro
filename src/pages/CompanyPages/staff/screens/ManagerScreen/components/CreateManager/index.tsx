@@ -86,7 +86,7 @@ const CreateManager = ({ openManager }: IProps) => {
 				comment: data.comment,
 				firstName: data.firstName,
 				lastName: data.lastName,
-				storeId: data.storeId?.value,
+				storeId: [data.storeIds?.value],
 				telNumber: `+998${data.telNumber}`,
 				roleId: 2,
 			},
@@ -97,7 +97,7 @@ const CreateManager = ({ openManager }: IProps) => {
 						comment: '',
 						firstName: '',
 						lastName: '',
-						storeId: '',
+						storeIds: '',
 						telNumber: '+998',
 					});
 				},
@@ -314,7 +314,7 @@ const CreateManager = ({ openManager }: IProps) => {
 							<FormRow>
 								<Controller
 									control={control}
-									name='storeId'
+									name='storeIds'
 									rules={{
 										required: true,
 									}}
@@ -339,7 +339,7 @@ const CreateManager = ({ openManager }: IProps) => {
 													laptop: '20px 0 25px',
 												}}
 												message={t('requiredField')}
-												error={errors.storeId ? true : false}
+												error={errors.storeIds ? true : false}
 												field={field}
 												isClearable={false}
 											/>
