@@ -309,9 +309,9 @@ const CreateNews = () => {
                 render={({ field }) => (
                   <Input
                     error={!!errors.name}
+                    type="text"
                     message={t("requiredField")}
                     field={field}
-                    // multiline={true}
                     maxLength={80}
                     label={t("Название")}
                   />
@@ -534,6 +534,10 @@ const CreateNews = () => {
                   <div style={{ display: "flex" }}>
                     <Controller
                       control={control}
+                      
+                   rules={{
+                    required: true,
+                  }}
                       name="timeFrom"
                       render={({ field }) => (
                         <Input
@@ -541,15 +545,18 @@ const CreateNews = () => {
                           type="time"  
                           field={field}
                           disabled={checked ?true:false}
-                       
+                          required={optionalFields.push ? true : false}
                         />
                       )}
                     />
                     <Controller
                       control={control}
                       name="timeTo"
+                      rules={{
+                        required: true,
+                      }}
                       render={({ field }) => (
-                        <Input type="time"  disabled={checked ?true:false} field={field} />
+                        <Input type="time"   required={optionalFields.push ? true : false} disabled={checked ?true:false} field={field} />
                       )}
                     />
                   </div>
