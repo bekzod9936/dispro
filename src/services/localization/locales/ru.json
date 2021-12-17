@@ -595,5 +595,6 @@
   "maxAmountOfSymbols": "Максимальное количество символов: 28",
   "maxAmountOfSymbolsDesc": "Максимальное количество символов: 250",
   "chooseAtLeastOneImage": "Загрузите хотя бы одно изображение",
-  "requiredFields": "Поля обязательны к заполнению"
+  "requiredFields": "Поля обязательны к заполнению",
+  "chooseCategory": "Выберите категорию"
 }

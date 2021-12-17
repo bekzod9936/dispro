@@ -1,9 +1,11 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
 import { useForm, useFormContext } from "react-hook-form";
-import { useMutation } from "react-query"
+import { useMutation, useQuery } from "react-query"
 import { Api } from "services/queries/servicesQueries";
 import { sectionDtoType } from "services/queries/servicesQueries/response.types";
+import { useAppSelector } from "services/redux/hooks";
+import { responseCategoriesToExactCategories } from "../helpers";
 import { sectionsSchema } from "../utils/schemas.yup";
 import { FormFieldTypes } from "../utils/types";
 
@@ -47,4 +49,20 @@ export const useSections = () => {
 
 export const usePostSection = () => {
     return useMutation((dto: sectionDtoType) => Api.createSection(dto))
+}
+
+
+export const useCategories = () => {
+    const { categories } = useAppSelector(state => state.partner.companyInfo);
+    const [categoryList, setCategoryList] = useState<{name: string, value: string | number, label: string}[]>([])
+
+    const _ = useQuery('fetchCategories', () => Api.getCategories(), {
+        refetchOnWindowFocus: false,
+        onSuccess: (data) => {
+            setCategoryList(responseCategoriesToExactCategories(data.data, categories))
+        }
+    })
+
+    return categoryList
+
 }

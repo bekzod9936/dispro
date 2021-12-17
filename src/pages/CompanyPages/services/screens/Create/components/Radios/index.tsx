@@ -1,6 +1,6 @@
 import { RadioFields } from "pages/CompanyPages/services/components/RadioFields";
 import { FormFieldTypes } from "pages/CompanyPages/services/utils/types";
-import React from "react";
+import React, { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { LightToolTip, QuestionMarkIcon } from "./style";
@@ -21,7 +21,7 @@ export const Radios: React.FC<RadiosProps> = () => {
         <LightToolTip
           placement="top"
           arrow
-          title="При заказе этих товаров на их стоимость не будет начислятся cкидка/кешбэк/ баллы, а так же за товар нельзя оплатить баллами"
+          title="Товар который можно купить 100% оплатив баллами"
         >
           <QuestionMarkIcon />
         </LightToolTip>

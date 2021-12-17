@@ -16,3 +16,21 @@ export type sectionDtoType = {
         translateName: string
     }[]
 }
+
+export interface ICategory {
+    code: string,
+    companies: unknown[],
+    coupons: unknown[],
+    id: number,
+    logo: string,
+    merchantCount: number,
+    merchants: unknown[],
+    name: string,
+    parentId: number
+}
+
+export type categoriesResponseType = {
+    data: ICategory[],
+    error: null | unknown,
+    success: boolean
+}
