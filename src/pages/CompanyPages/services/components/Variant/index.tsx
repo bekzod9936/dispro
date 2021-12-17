@@ -36,7 +36,7 @@ export const Variant: React.FC<VariantProps> = ({ index }) => {
       <GridContainer>
         <Field
           error={error?.price}
-          label={t("price")}
+          label={t("cost")}
           name={`variants.${index}.price`}
         />
         <Field
@@ -51,6 +51,7 @@ export const Variant: React.FC<VariantProps> = ({ index }) => {
           name={`variants.${index}.amount`}
         />
         <Field
+          isArticul
           error={error?.articul}
           label={t("articul")}
           name={`variants.${index}.articul`}

@@ -120,7 +120,9 @@ export const Selects: React.FC<SelectsProps> = () => {
             icon={<SectionsIcon />}
             placeholder="Выберите раздел"
           />
-          <SubButton onClick={handleOpen}>{t("createSection")}</SubButton>
+          <SubButton type="button" onClick={handleOpen}>
+            {t("createSection")}
+          </SubButton>
         </LeftField>
         <SectionModal isSingle onClose={handleClose} isOpen={sectionModal} />
       </Flex>

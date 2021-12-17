@@ -12,7 +12,17 @@ export const Radios: React.FC<RadiosProps> = () => {
   const { t } = useTranslation();
   const {
     formState: { errors },
+    getValues,
+    setValue,
   } = useFormContext<FormFieldTypes>();
+
+  const isLoyaltyOff = getValues("loyaltyOff");
+
+  useEffect(() => {
+    if (isLoyaltyOff) {
+      setValue("loyaltyType", undefined);
+    }
+  }, [isLoyaltyOff]);
 
   return (
     <Wrapper>
