@@ -38,6 +38,7 @@ const Create: React.FC<CreateProps> = () => {
   const onSubmit = (data: any) => {
     console.log(data);
   };
+
   return (
     <Wrapper>
       <Header />

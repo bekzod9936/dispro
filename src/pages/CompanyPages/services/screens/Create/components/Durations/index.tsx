@@ -1,7 +1,6 @@
 import { Checkbox, FormControlLabel } from "@material-ui/core";
 import { Duration } from "pages/CompanyPages/services/components/Duration";
 import { FormFieldTypes } from "pages/CompanyPages/services/utils/types";
-import { useEffect } from "react";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { ErrorMessage, Fields, GridContainer, useStyles } from "./style";
@@ -67,7 +66,7 @@ export const Durations: React.FC<DurationsProps> = () => {
                   label="minutes"
                 />
               </GridContainer>
-              {errors.preparationTime && (
+              {Boolean(errors?.preparationTime?.[0]) && (
                 <ErrorMessage>{t("requiredFields")}</ErrorMessage>
               )}
             </>

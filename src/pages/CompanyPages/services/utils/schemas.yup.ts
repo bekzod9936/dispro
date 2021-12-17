@@ -42,6 +42,8 @@ const variantSchema = yup.object().shape({
         return Number(text) > 8
     }).required('enterAmountOfItem'),
 
+
+
     articul: yup.string().required('enterArticulOfItem').max(30, 'maxAmountOfSymbols'),
 
     // price: yup.string().test('length', 'maxPriceOneBillion', (text) => {
@@ -64,6 +66,7 @@ const variantSchemaWithSale = yup.object().shape({
     amount: yup.string().test('length', 'minAmountOfItems', (text) => {
         return Number(text) > 8
     }).required('enterAmountOfItem'),
+
 
     articul: yup.string().required('enterArticulOfItem').max(30, 'maxAmountOfSymbols'),
 
@@ -119,14 +122,16 @@ export const goodsSchema = yup.object().shape({
 
     preparationTime: yup.array().of(
         yup.object().shape({
-            days: yup.string(),
+            days: yup.number(),
             hours: yup.string(),
             minutes: yup.string()
+        }).test('atLeastOneFieldRequired', 'requiredField', (val) => {
+            const {days, hours, minutes} = val;
+
+            return Boolean(days) || Boolean(minutes) || Boolean(hours)
         })
 
-    ).test('test', 'requiredField', (arr) => {
-        return arr?.length === 0 || Boolean(arr?.some(e => Boolean(e.days) || Boolean(e.hours) || Boolean(e.minutes)))
-    }),
+    ),
 
 
     variants: yup.array().when('loyaltyType', {
