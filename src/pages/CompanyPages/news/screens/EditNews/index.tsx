@@ -637,6 +637,9 @@ const EditNews = () => {
                     <Controller
                       control={control}
                       name="timeFrom"
+                      rules={{
+                        required: true,
+                      }}
                       defaultValue={newsById?.data?.settings?.time?.from}
                       render={({ field }) => (
                         <Input
@@ -644,6 +647,7 @@ const EditNews = () => {
                           type="time"
                           disabled={checked ?true:false}
                           defaultValue={newsById?.data?.settings?.time?.from}
+                          required={optionalFields.push ? true : false}
                           field={field}
                         />
                       )}
@@ -651,11 +655,15 @@ const EditNews = () => {
                     <Controller
                       control={control}
                       name="timeTo"
+                      rules={{
+                        required: true,
+                      }}
                       defaultValue={newsById?.data?.settings?.time?.to}
                       render={({ field }) => (
                         <Input
                           type="time"
                           field={field}
+                          required={optionalFields.push ? true : false}
                           disabled={checked ?true:false}
                           defaultValue={newsById?.data?.settings?.time?.to}
                         />

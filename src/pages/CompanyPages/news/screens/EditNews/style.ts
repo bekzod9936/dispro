@@ -461,7 +461,6 @@ export const Wrapper = styled.div`
       orientation: portret;
     }
 `
-
 export const UpSide = styled.div`
     height: 80%;
     scroll-behavior: auto;
@@ -483,11 +482,42 @@ export const UpSide = styled.div`
       height: 100%;
       width: 100%;
       ::-webkit-scrollbar {
-    width: 5px;
+       width: 5px;
     }
+    }
+    @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+      height: 100%;
+      padding: 0px 20px;
+      width: 100%;
     }
     
 `
+// export const UpSide = styled.div`
+//     height: 80%;
+//     scroll-behavior: auto;
+//     display: flex;
+//     flex-direction: column;
+//     overflow-y: scroll;
+//     overflow-x: hidden;
+//     ::-webkit-scrollbar {
+//     width: 7px;
+//     }
+//     ::-webkit-scrollbar-track {
+//         background-color: transparent;
+//     }
+//     ::-webkit-scrollbar-thumb {
+//         background: #606eea;
+//         border-radius: 14px 0px 0px 14px;
+//     }
+//     @media (max-width: ${device.mobile}) {
+//       height: 100%;
+//       width: 100%;
+//       ::-webkit-scrollbar {
+//     width: 5px;
+//     }
+//     }
+    
+// `
 export const Buttons = styled.div`
   margin-top: 20px;
   display: flex;
@@ -551,7 +581,8 @@ svg {
 }
 `
 export const DownSide = styled.div`
-    border-top: 1px solid #606EEA;
+  
+    border-top: 1px solid #CFD3F9;
     padding: 25px 0;
     background-color: white;
     width: 100%;
@@ -581,8 +612,8 @@ export const Form = styled.form`
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
     border-radius: 14px;
     padding: 35px 110px 0 110px;
-    @media (max-width: ${device.laptop}) {
-      padding: 20px 25px;
+    @media (max-width: ${device.planshet}) {
+      padding: 20px 0px;
       width: 100%;
     }
     @media (max-width: 1150px) {

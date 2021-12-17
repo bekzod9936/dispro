@@ -1,14 +1,23 @@
-import Spinner from "components/Helpers/Spinner";
 import { useRef } from "react";
+
+//packages
 import { useTranslation } from "react-i18next";
-import { filesToBlob } from "../../helpers";
+
+//components
+import Spinner from "components/Helpers/Spinner";
+
+//style
 import { Button, PhotoIcon } from "./style";
+
+//other
+import { filesToBlob } from "../../helpers";
 
 interface UploadButtonProps {
   imagesLength: number;
   handleUpload: (arg: FormData[]) => void;
   isLoading: boolean;
 }
+
 export const UploadButton: React.FC<UploadButtonProps> = ({
   imagesLength,
   handleUpload,

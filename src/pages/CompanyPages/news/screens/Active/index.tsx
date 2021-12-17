@@ -201,11 +201,11 @@ const Active = () => {
                       secondWord: t("newspaginationtitles"),
                     })}
                   </Info>
-                  <NewPagination
+                  {!response.isLoading &&<NewPagination
             onChange={query ? handlechangePageSearch:handlechangePage}
             currentPage={Number(query ?searchFilterValues.page: filterValues.page)}
             totalCount={Number(totalCount)}
-            />
+            />}
                
                 </WrapPag>
               ) : null}
@@ -255,11 +255,12 @@ const Active = () => {
                     })}
                   </Info>
 
-               <NewPagination
+              {!response.isFetching && <NewPagination
              onChange={query ? handlechangePageSearch:handlechangePage}
              currentPage={Number(query ?searchFilterValues.page: filterValues.page)}
              totalCount={Number(totalCount)}
-            />
+              
+            />}
                   </WrapPag>
                 ) : null}
               </>

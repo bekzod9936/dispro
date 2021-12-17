@@ -1,7 +1,6 @@
 import { Props } from "./types";
 import MaskedInput from "react-text-mask";
 import { Container, MInput, Label, Adornment, Message } from "./style";
-import { RemoveInputIcon } from "pages/CompanyPages/services/components/Modals/Section/style";
 
 function TextMaskCustom(props: any) {
   const { inputRef, ...other } = props;

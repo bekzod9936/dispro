@@ -8,7 +8,7 @@ export const Variants = () => {
   const { control } = useFormContext();
   const { t } = useTranslation();
 
-  const { fields, append } = useFieldArray({
+  const { fields, append, remove } = useFieldArray({
     control,
     name: "variants",
   });
@@ -28,9 +28,24 @@ export const Variants = () => {
       {fields.map((item, index) => (
         <Item isLastElem={index === fields.length - 1} key={item.id}>
           <Variant index={index} />
-          {index === fields.length - 1 && fields.length <= 2 && (
-            <SubButton onClick={handleAddVariant}>{t("addVariant")}</SubButton>
-          )}
+          <div
+            style={{
+              display: "flex",
+              width: "100%",
+              justifyContent: "space-between",
+            }}
+          >
+            {index === fields.length - 1 && fields.length <= 2 && (
+              <SubButton onClick={handleAddVariant}>
+                {t("addVariant")}
+              </SubButton>
+            )}
+            {index === fields.length - 1 && fields.length > 1 && (
+              <SubButton deleteButton onClick={() => remove(index)}>
+                {t("removeVariant")}
+              </SubButton>
+            )}
+          </div>
         </Item>
       ))}
     </Wrapper>

@@ -30,14 +30,21 @@ export const SelectField: React.FC<SelectFieldProps> = ({
   placeholder,
 }) => {
   const { t } = useTranslation();
-  const { control } = useFormContext();
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext();
+
   return (
     <Controller
       name={name}
       control={control}
       render={({ field }) => (
         <MultiSelect
+          isStatic
           field={field}
+          error={Boolean(errors[name]?.value)}
+          message={t(errors[name]?.value?.message)}
           margin={margin}
           selectStyle={{
             fontSize: {

@@ -1,6 +1,6 @@
 import React from "react";
 import Modal from "components/Custom/Modal";
-import iphone from "assets/images/iphone.png"
+import iphone from "assets/images/iphone.png";
 import ReactCrop from "react-image-crop";
 import Button from "components/Custom/Button";
 import {
@@ -21,6 +21,7 @@ import {
   LeftRound,
   Right,
   Wrapper,
+  ErrorMessage,
 } from "./style";
 import { useAppSelector } from "services/redux/hooks";
 import { RootState } from "services/redux/store";
@@ -35,7 +36,7 @@ interface IProps {
   handleUpload?: any;
   setIsLoading?: (arg: boolean) => void;
   isCoupon?: boolean;
-  coupon?: boolean
+  coupon?: boolean;
 }
 const CropCustomModal = ({
   open,
@@ -45,7 +46,7 @@ const CropCustomModal = ({
   handleUpload,
   isCoupon,
   setIsLoading,
-  coupon
+  coupon,
 }: IProps) => {
   const { logo, name } = useAppSelector(
     (state: RootState) => state.partner.companyInfo
@@ -54,13 +55,12 @@ const CropCustomModal = ({
   const [image, setImage] = React.useState<any>(null);
   const [imageUrl, setImageUrl] = React.useState<any>(null);
   const { t } = useTranslation();
-  const { width } = useWindowWidth()
+  const { width } = useWindowWidth();
   const [crop, setCrop] = React.useState<any>({
     unit: "%",
     width: 40,
     aspect: 16 / 9,
   });
-
 
   React.useEffect(() => {
     setSrcUrl(URL.createObjectURL(src));
@@ -70,7 +70,7 @@ const CropCustomModal = ({
     setIsCropVisible(false);
     setFile(null);
     setImage(null);
-    setSrcUrl(null)
+    setSrcUrl(null);
   };
 
   const handleSave = async () => {
@@ -120,11 +120,12 @@ const CropCustomModal = ({
       setImageUrl(base64);
     }
   };
+  console.log(imageUrl);
 
   return (
     <Modal open={open}>
       <Wrapper>
-        <div style={{ marginBottom: "35px" }}>
+        <div style={{ marginBottom: "10px" }}>
           <Header>
             <h4>Выберите нужную область</h4>
             <CloseIcon onClick={handleClose} />
@@ -188,68 +189,82 @@ const CropCustomModal = ({
             )}
           </div>
         </div>
-        {coupon ? <div>
-          <Button
-            onClick={handleClose}
-            startIcon={width > 329 && <CancelIcon />}
-            margin={{ laptop: "0 25px 0 0", mobile: "0 8px 0 0" }}
-            buttonStyle={{
-              bgcolor: "#FFFFFF",
-              color: "#223367",
-              weight: "500",
-            }}
+        {imageUrl?.length < 8 && (
+          <ErrorMessage>
+            <p>Выберите область картинки</p>
+          </ErrorMessage>
+        )}
+        {coupon ? (
+          <div>
+            <Button
+              onClick={handleClose}
+              startIcon={width > 329 && <CancelIcon />}
+              margin={{ laptop: "0 25px 0 0", mobile: "0 8px 0 0" }}
+              buttonStyle={{
+                bgcolor: "#FFFFFF",
+                color: "#223367",
+                weight: "500",
+              }}
+            >
+              Отмена
+            </Button>
+            <Button
+              disabled={imageUrl?.length < 8}
+              onClick={handleSave}
+              startIcon={
+                width > 1000 ? <SaveIcon /> : <MobileUploadPhotoIcon />
+              }
+            >
+              Сохранить
+            </Button>
+          </div>
+        ) : width > 600 ? (
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <Button
+              onClick={handleClose}
+              endIcon={width > 329 && <CancelIcon />}
+              margin={{ laptop: "0 25px 0 50px", mobile: "0 8px 0 0" }}
+              buttonStyle={{
+                bgcolor: "rgba(96, 110, 234, 0.1)",
+                color: "#606EEA",
+                weight: "500",
+              }}
+            >
+              Отмена
+            </Button>
+            <Button
+              disabled={imageUrl?.length < 8}
+              onClick={handleSave}
+              endIcon={width > 1000 ? <SaveIcon /> : <MobileUploadPhotoIcon />}
+            >
+              Сохранить
+            </Button>
+          </div>
+        ) : (
+          <div
+            style={{ width: "100%", display: "flex", justifyContent: "center",}}
           >
-            Отмена
-          </Button>
-          <Button
-            disabled={imageUrl?.length < 6}
-            onClick={handleSave}
-            startIcon={width > 1000 ? <SaveIcon /> : <MobileUploadPhotoIcon />}
-          >
-            Сохранить
-          </Button>
-        </div>:width>600 ?  <div style={{display:'flex',justifyContent:'center'}}>
-          <Button
-            onClick={handleClose}
-            endIcon={width > 329 && <CancelIcon />}
-            margin={{ laptop: "0 25px 0 50px", mobile: "0 8px 0 0" }}
-            buttonStyle={{
-              bgcolor: "rgba(96, 110, 234, 0.1)",
-                        color: "#606EEA",
-              weight: "500",
-            }}
-          >
-            Отмена
-          </Button>
-          <Button
-            disabled={imageUrl?.length < 6}
-            onClick={handleSave}
-            endIcon={width > 1000 ? <SaveIcon /> : <MobileUploadPhotoIcon />}
-          >
-            Сохранить
-          </Button>
-        </div>: <div style={{width:"100%",display:'flex',justifyContent:'center'}}>
-          <Button
-            onClick={handleClose}
-            endIcon={width > 329 && <CancelIcon />}
-            margin={{ laptop: "0 25px 0 50px", mobile: "0 8px 0 0" }}
-            buttonStyle={{
-              bgcolor: "rgba(96, 110, 234, 0.1)",
-                        color: "#606EEA",
-              weight: "500",
-            }}
-          >
-            Отмена
-          </Button>
-          <Button
-            disabled={imageUrl?.length < 6}
-            onClick={handleSave}
-            endIcon={width > 1000 ? <SaveIcon /> : <MobileUploadPhotoIcon />}
-          >
-            Сохранить
-          </Button>
-        </div>}
-        
+            <Button
+              onClick={handleClose}
+              endIcon={width > 329 && <CancelIcon />}
+              margin={{ laptop: "0 25px 0 50px", mobile: "0 8px 0 0" }}
+              buttonStyle={{
+                bgcolor: "rgba(96, 110, 234, 0.1)",
+                color: "#606EEA",
+                weight: "500",
+              }}
+            >
+              Отмена
+            </Button>
+            <Button
+              disabled={imageUrl?.length < 8  }
+              onClick={handleSave}
+              endIcon={width > 1000 ? <SaveIcon /> : <MobileUploadPhotoIcon />}
+            >
+              Сохранить
+            </Button>
+          </div>
+        )}
       </Wrapper>
     </Modal>
   );

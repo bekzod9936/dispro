@@ -39,7 +39,7 @@ export const PInput = styled(Input)`
     text-align: center;
   }
   @media (max-width: ${device.mobile}) {
-    padding: 11px 25px;
+    padding: 11px 0;
     max-width: 65px;
   }
   input {

@@ -1,7 +1,8 @@
 import axios, {AxiosResponse} from 'axios'
 import { STORAGE_URL } from "../../constants/config";
 import { PARTNER } from "services/interceptors/partner_interceptor/types";
-import { uploadImageType } from './response.types';
+import { sectionDtoType, uploadImageType } from './response.types';
+import partnerApi from 'services/interceptors/partner_interceptor';
 
 
 export const Api = {
@@ -14,7 +15,7 @@ export const Api = {
                 Authorization: `Bearer ${token}`,
                 langId: 1,
               },
-        } )
+        })
         
         if (!(data.success)) {
             throw new Error('response error, services page')
@@ -35,8 +36,15 @@ export const Api = {
               langId: 1,
             },
         })
-        console.log(data);
 
         return data
+    },
+
+    async createSection(dto: sectionDtoType) {
+        const response = await partnerApi.post<sectionDtoType, AxiosResponse<{data: any}>>('/core/goodsSection', dto)
+
+        console.log(response.data);
+        
     }
+
 }

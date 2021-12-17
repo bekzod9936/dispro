@@ -1,9 +1,5 @@
 import styled from 'styled-components'
 
-interface ImageProps {
-    
-}
-
 export const Header = styled.div`
     h5 {
         font-size: 16px;
@@ -23,17 +19,18 @@ export const Header = styled.div`
     margin-bottom: 20px;
 `
 
+export const ErrorMessage = styled.div`
+    font-size: 16px;
+    color: #ff5e68;
+    font-weight: 300;
+    margin-top: 5px;
+    margin-left: 5px;
+`
+
 export const GridContainer = styled.div`
     display: grid;
     grid-template-columns: repeat(4, 200px);
     grid-template-rows: auto;
     gap: 20px;
-`
-
-export const Image = styled.img`
-    cursor: pointer;
-    display: block;
-    border-radius: 14px;
-    object-fit: cover;
-    width: 200px;
+    margin-bottom: 35px;
 `

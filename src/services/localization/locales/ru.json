@@ -595,5 +595,13 @@
   "addingcomment": "Добавление комментария",
   "changingcomment": "Редактирование комментария",
   "paycash/payterminal": "Оплата наличными / терминалом",
-  "paycardapp":"Оплата черезе приложение"
+  "paycardapp": "Оплата черезе приложение",
+  "removeVariant": "Удалить вариант -",
+  "leavePage": "Покинуть страницу?",
+  "servicesPageQuitModalAlertMessage": "Данные будут утеряны, если вы покинете страницу “Создание товара”",
+  "minAmountOfSymbols": "Минимальное количество символов: 4",
+  "maxAmountOfSymbols": "Максимальное количество символов: 28",
+  "maxAmountOfSymbolsDesc": "Максимальное количество символов: 250",
+  "chooseAtLeastOneImage": "Загрузите хотя бы одно изображение",
+  "requiredFields": "Поля обязательны к заполнению"
 }

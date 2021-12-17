@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 //packages
 import { FieldArrayWithId } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -16,6 +17,7 @@ import {
   LanguageIcon,
   CancelIcon,
   SaveIcon,
+  useStyles,
 } from "./style";
 
 //other
@@ -47,7 +49,7 @@ const languages = [
   },
 ];
 
-export const Languages: React.FC<LanguagesProps> = ({
+export const LanguagesModal: React.FC<LanguagesProps> = ({
   title,
   open,
   onClose,
@@ -58,6 +60,7 @@ export const Languages: React.FC<LanguagesProps> = ({
     []
   );
   const { t } = useTranslation();
+  const { modal, button, input } = useStyles();
 
   const handleSortOptions = (
     array: typeof languages,
@@ -77,13 +80,7 @@ export const Languages: React.FC<LanguagesProps> = ({
   };
 
   return (
-    <Modal
-      width={{
-        maxwidth: 480,
-        width: "100%",
-      }}
-      open={open}
-    >
+    <Modal width={modal.style} open={open}>
       <Wrapper>
         <div className="header">
           <h3>{t(title)}</h3>
@@ -97,17 +94,7 @@ export const Languages: React.FC<LanguagesProps> = ({
             value={selectedLanguages}
             onChange={handleChange}
             isMulti
-            selectStyle={{
-              fontSize: {
-                desktop: 18,
-                laptop: 18,
-              },
-              bgcolor: "#eff0fd",
-              border: "none",
-              placeholdercolor: "#223367",
-              inpadding: "2px 10px 2px 75px",
-              placewieght: "500",
-            }}
+            selectStyle={input.style}
             iconleft="25px"
             icon={<LanguageIcon />}
             placeholder={t("chooseLanguage")}
@@ -116,9 +103,9 @@ export const Languages: React.FC<LanguagesProps> = ({
         <div className="footer">
           <Button
             onClick={onClose}
-            margin={{ desktop: "0 20px 0 0", laptop: "0 20px 0 0" }}
+            margin={button.margin}
             startIcon={<CancelIcon />}
-            buttonStyle={{ bgcolor: "#fff", color: "#223367", weight: 500 }}
+            buttonStyle={button.style}
           >
             {t("cancel")}
           </Button>

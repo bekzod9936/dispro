@@ -1,7 +1,13 @@
 import { makeStyles } from "@material-ui/core";
 import styled from "styled-components";
 
-
+export const ErrorMessage = styled.div`
+  font-size: 16px;
+  color: #ff5e68;
+  font-weight: 300;
+  margin-top: 5px;
+  margin-left: 5px;
+`
 
 export const useStyles = makeStyles({
     root: {
