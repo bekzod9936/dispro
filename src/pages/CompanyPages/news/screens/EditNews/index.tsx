@@ -396,7 +396,7 @@ const EditNews = () => {
                     error={errors.name ? true:false}
                     message={errors?.name?.type === "required" ? t("requiredField"):t("максимальное число символов 80")}
                     field={field}
-                    maxLength={81}
+                    maxLength={80}
                     label={t("title")}
                     defaultValue={newsById?.data?.title}
                   />
@@ -413,7 +413,7 @@ const EditNews = () => {
                 defaultValue={newsById?.data?.description}
                 render={({ field }) => (
                   <TextArea
-                    maxLength={801}
+                  maxLength={800}
                     {...field}
                     defaultValue={newsById?.data?.description}
                     message={t("requiredField")}
