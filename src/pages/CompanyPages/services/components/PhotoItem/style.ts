@@ -76,6 +76,6 @@ export const SpinnerWrapper = styled.div`
 
 //icons
 export const TrashIcon = styled(TrashSvg)`
-    height: 35px;
-    width: 35px;
+    height: 30px;
+    width: 30px;
 `

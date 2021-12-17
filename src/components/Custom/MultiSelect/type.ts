@@ -1,4 +1,5 @@
 export interface Props {
+  isStatic?: boolean
   defaultValue?: any;
   isDisabled?: boolean;
   isLoading?: boolean;

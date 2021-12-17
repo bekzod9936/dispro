@@ -23,8 +23,9 @@ import {
 
 //other
 import { createSectionFormType } from "pages/CompanyPages/services/utils/types";
-import { useSections } from "pages/CompanyPages/services/hooks";
+import { usePostSection, useSections } from "pages/CompanyPages/services/hooks";
 import { SectionField } from "../../SectionField";
+import { sectionsToSectionArray } from "pages/CompanyPages/services/helpers";
 
 interface SectionModalProps {
   isOpen: boolean;
@@ -49,10 +50,13 @@ export const SectionModal: React.FC<SectionModalProps> = ({
     name: "sections",
   });
 
+  const { mutate } = usePostSection();
+
   const fieldsLimit = 20 - fields.length;
 
   const onSubmit = async (data: createSectionFormType) => {
-    console.log(data);
+    const sectionDtos = sectionsToSectionArray(data);
+    mutate(sectionDtos[0]);
   };
 
   const handleRemoveField = (index: number) => {

@@ -1,5 +1,5 @@
 export type createSectionFormType = {
-    sections: { name: string }[]
+    sections: { title: string }[]
 }
 
 

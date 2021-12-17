@@ -40,3 +40,12 @@ export const fetchFinanceCashBack = ({ url, accountId }: Props) => {
   );
   return response;
 };
+
+interface CProps {
+  data: { chequeId: number; chequeComment: string };
+}
+
+export const fetchComment = ({ data }: CProps) => {
+  const response = partnerApi.put('/billing/cheques', data);
+  return response;
+};

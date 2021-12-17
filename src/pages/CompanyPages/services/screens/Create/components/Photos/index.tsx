@@ -8,7 +8,7 @@ import { PhotoItem } from "pages/CompanyPages/services/components/PhotoItem";
 import { UploadButton } from "pages/CompanyPages/services/components/UploadButton";
 
 //style
-import { GridContainer, Header } from "./style";
+import { ErrorMessage, GridContainer, Header } from "./style";
 
 //other
 import { useImage } from "pages/CompanyPages/services/hooks";
@@ -19,7 +19,7 @@ export const Photos: React.FC<PhotosProps> = () => {
   const { t } = useTranslation();
   const imageRef = useRef<null | string>(null);
 
-  const { links, uploadImage, deleteImage, setLinks } = useImage();
+  const { links, uploadImage, deleteImage, setLinks, errors } = useImage();
 
   const imageLimit = 5 - links.length;
 
@@ -54,6 +54,9 @@ export const Photos: React.FC<PhotosProps> = () => {
               handleUpload={onUpload}
               imagesLength={links.length}
             />
+            {errors.images && (
+              <ErrorMessage>{t("chooseAtLeastOneImage")}</ErrorMessage>
+            )}
           </>
         )}
       </Header>

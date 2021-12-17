@@ -30,5 +30,80 @@ export const sectionsSchema = yup.object().shape({
     })
 })
 
+export const goodsSchema = yup.object().shape({
+    titles: yup.array().of(
+        yup.object().shape({
+            data: yup.string().min(4, 'minAmountOfSymbols').max(28, 'maxAmountOfSymbols').required('requiredField'),
+            lang: yup.string().required()
+        })
+    ),
 
+    descriptions: yup.array().of(
+        yup.object().shape({
+            data: yup.string().max(250, 'maxAmountOfSymbolsDesc').required('requiredField'),
+            lang: yup.string().required()
+        })
+    ),
+
+    loyaltyOff: yup.boolean(),
+
+    measurement: yup.object().shape({
+        label: yup.string(),
+        name: yup.string(),
+        value: yup.number().required('requiredField')
+    }).required('requiredField'),
+
+    service: yup.object().shape({
+        label: yup.string(),
+        name: yup.string(),
+        value: yup.number().required('requiredField')
+    }).required('requiredField'),
+
+    section: yup.object().shape({
+        label: yup.string(),
+        name: yup.string(),
+        value: yup.number().required('requiredField')
+    }).required('requiredField'),
+
+    loyaltyType: yup.string().required('requiredField'),
+
+    images: yup.array().of(
+        yup.string()
+    ).length(1, 'chooseAtLeastOneImage'),
+
+    preparationTime: yup.array().of(
+        yup.object().shape({
+            days: yup.string(),
+            hours: yup.string(),
+            minutes: yup.string()
+        })
+
+    ).test('test', 'requiredField', (arr) => {
+        return arr?.length === 0 || Boolean(arr?.some(e => Boolean(e.days) || Boolean(e.hours) || Boolean(e.minutes)))
+    }),
+
+
+    variants: yup.array().of(
+        yup.object().shape({
+            name: yup.array().of(
+                yup.object().shape({
+                    data: yup.string().min(4, 'minAmountOfSymbols').max(28, 'maxAmountOfSymbols').required('requiredField'),
+                    lang: yup.string().required()
+                })
+            ),
+
+            amount: yup.string().test('length', 'minAmountOfItems', (text) => {
+                return Number(text) > 4
+            }).required('requiredField'),
+
+            articul: yup.string().required('requiredField'),
+
+            price: yup.string().test('length', 'minPrice', (text) => {
+                return Number(text) > 5000
+            }).required('requiredField'),
+
+            priceWithSale: yup.number().lessThan(yup.ref('price'))
+        })
+    )
+})
 

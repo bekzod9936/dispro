@@ -29,14 +29,23 @@ interface Props {
       title?: any;
       avatar?: any;
       value?: any;
+      values?: any;
       body?: { title?: any; value?: any }[];
     }[];
   };
   headertitle?: string;
   isAvatar?: boolean;
+  footer?: any;
+  onClickRow?: (e: any) => void;
 }
 
-const MobileTable = ({ data, headertitle, isAvatar }: Props) => {
+const MobileTable = ({
+  data,
+  headertitle,
+  isAvatar,
+  footer,
+  onClickRow = () => {},
+}: Props) => {
   const [open, setOpen] = useState(false);
   const [id, setId] = useState<any>(null);
 
@@ -68,7 +77,12 @@ const MobileTable = ({ data, headertitle, isAvatar }: Props) => {
                   <PinkIcon />
                 )
               ) : null}
-              <WrapMain isAvatar={isAvatar}>
+              <WrapMain
+                onClick={() => {
+                  onClickRow(a.values);
+                }}
+                isAvatar={isAvatar}
+              >
                 <FullName>{a?.title}</FullName>
                 <Wrapper>
                   <Title>{data?.title}:</Title>
@@ -129,6 +143,7 @@ const MobileTable = ({ data, headertitle, isAvatar }: Props) => {
                     })}
                   </WrapBox>
                 </ModalContent>
+                {footer}
               </FullModal>
             ) : null}
           </>
