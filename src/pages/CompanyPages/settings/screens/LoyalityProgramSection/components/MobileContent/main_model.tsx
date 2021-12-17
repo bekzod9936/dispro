@@ -1,28 +1,33 @@
 import { Controller, useFieldArray, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useRecoilValue } from 'recoil';
+import { useHistory } from 'react-router';
 //actions
 import { addModal, handleClick } from 'services/redux/Slices/settingsSlice';
 //assets and style
 import { ReactComponent as ArrowBack } from 'assets/icons/arrow_left.svg';
+import { Text } from 'styles/CustomStyles';
 import {
   Container,
   Header,
   Body,
   Row,
   Htext,
-  Text,
+  TextStyle,
   Column,
   Footer,
   SubText,
   EText,
+  WrapModalPaygo,
 } from './style';
 import { FormProps } from '../../hooks/types';
 import { Break, SpinnerDiv } from 'pages/CompanyPages/settings/styles';
 //hooks
+import Modal from 'components/Custom/Modal';
 import { useAppSelector, useAppDispatch } from 'services/redux/hooks';
 // import useMobileContent from "./useMobileContent";
 //components
+
 import Checkbox from 'components/Custom/CheckBox';
 import InputFormat from 'components/Custom/InputFormat';
 import Input from 'components/Custom/Input';
@@ -57,12 +62,14 @@ const MainModel = () => {
     checkL,
     setCheckL,
     getValues,
+    payGoModal,
+    setpayGoModal,
   } = useMobileData();
 
   //atoms
   const base_loyality = useRecoilValue(baseLoyalty);
   const useLoyalMain = useRecoilValue(useLoyal);
-
+  const history = useHistory();
   const { fields, append, remove } = useFieldArray<FormProps>({
     control,
     name: 'levels',
@@ -130,7 +137,7 @@ const MainModel = () => {
         <Break height={20} />
         <Htext>Статусы клиентов</Htext>
         <Break height={2} />
-        <Text>Создайте статусы и определите размер скидки</Text>
+        <TextStyle>Создайте статусы и определите размер скидки</TextStyle>
         <Break height={25} />
         <Row>
           <Controller
@@ -157,7 +164,7 @@ const MainModel = () => {
             rules={{
               required: true,
               max: 100,
-              min: 0,
+              min: 1,
             }}
             defaultValue={base_loyality?.base_percent}
             control={control}
@@ -176,7 +183,7 @@ const MainModel = () => {
                   margin={{
                     laptop: '20px 0 0',
                   }}
-                  message={''}
+                  message={t("requiredField")}
                   error={errors.base_percent}
                 />
               );
@@ -231,7 +238,8 @@ const MainModel = () => {
                   rules={{
                     required: true,
                     max: 100,
-                    min: 0,
+                    min:1,
+               
                   }}
                   defaultValue={item.percent}
                   control={control}
@@ -253,8 +261,13 @@ const MainModel = () => {
                         margin={{
                           laptop: '20px 0 0',
                         }}
-                        message={''}
-                        // error={errors.base_percent}
+                        message={t('requiredField')}
+                        error={
+                          errors.levels?.[index]?.percent
+                            ? true
+                            : false
+                        }
+          
                       />
                     );
                   }}
@@ -321,6 +334,8 @@ const MainModel = () => {
             control={control}
             rules={{
               required: true,
+              max:100,
+              min:1
             }}
             defaultValue={base_loyality?.max_percent}
             render={({ field }) => {
@@ -331,7 +346,7 @@ const MainModel = () => {
                   type='string'
                   field={field}
                   message={t('requiredField')}
-                  error={errors.max_percent?.type === 'required'}
+                  error={errors.max_percent? true:false}
                 />
               );
             }}
@@ -406,7 +421,20 @@ const MainModel = () => {
           <SaveButton type='submit' text={t('save')} />
         </Footer>
       </Body>
-
+   
+      <Modal open={payGoModal}>
+                        <WrapModalPaygo>
+                          <Text marginBottom={'25px'}>{t('paygowarning')}</Text>
+                          <Button
+                            onClick={() => {
+                              setpayGoModal(false);
+                              history.push('/support');
+                            }}
+                          >
+                            {t('writetomoderator')}
+                          </Button>
+                        </WrapModalPaygo>
+                      </Modal>
       <SnackBar
         message={alertName}
         status='error'

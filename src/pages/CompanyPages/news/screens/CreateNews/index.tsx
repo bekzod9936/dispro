@@ -305,14 +305,15 @@ const CreateNews = () => {
                 control={control}
                 rules={{
                   required: true,
+                  maxLength:80,
+                
                 }}
                 render={({ field }) => (
                   <Input
-                    error={!!errors.name}
-                    type="text"
-                    message={t("requiredField")}
+                    error={errors.name ? true:false}
+                    message={errors?.name?.type === "required" ? t("requiredField"):t("максимальное число символов 80")}
                     field={field}
-                    maxLength={80}
+                    maxLength={81}
                     label={t("Название")}
                   />
                 )}
@@ -323,13 +324,14 @@ const CreateNews = () => {
                 control={control}
                 rules={{
                   required: true,
+                  maxLength:800,
                 }}
                 render={({ field }) => (
                   <TextArea
-                    maxLength={800}
+                    maxLength={801}
                     {...field}
                     fontSize={width > 1000 ? "15px" : "14px"}
-                    message={t("requiredField")}
+                    message={errors?.description?.type === "required" ? t("requiredField"):t("максимальное число символов 800")}
                     error={!!errors.description}
                     minHeight={"150px"}
                     maxHeight={"300px"}

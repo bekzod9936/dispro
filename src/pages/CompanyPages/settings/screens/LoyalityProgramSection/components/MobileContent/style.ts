@@ -40,6 +40,14 @@ export const Title = styled.h3`
   color: #223367;
 `;
 
+export const TextStyle = styled.p`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 16px;
+  color: #223367;
+`;
 export const Text = styled.p`
   font-family: Roboto;
   font-style: normal;
@@ -180,4 +188,12 @@ export const MainText = styled.p`
   font-size: 14px;
   line-height: 16px;
   color: ${({ disabled = false }: IText) => (disabled ? "#c7c7c7" : "#3492ff")};
+`;
+
+export const WrapModalPaygo = styled.div`
+  padding: 50px 50px 20px 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 `;

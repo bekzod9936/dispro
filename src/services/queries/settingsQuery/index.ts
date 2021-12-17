@@ -11,6 +11,10 @@ export const changeProgramLoyality = ({ bonusType, data }: any) => {
   const response = partnerApi.put(`/bonus/${bonusType}s/active-status`, data);
   return response;
 };
+export const changeProgramLoyalityGlobal=({data}:any)=>{
+ const response=partnerApi.put(`/bonus/pl/switch`,data);
+ return response;
+}
 
 export const loyalitySaveChange = (data: any, active: any) => {
   const response = partnerApi.put(`/bonus/${active}s`, data);
