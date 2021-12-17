@@ -235,6 +235,7 @@ const CreateCashier = ({ openCash }: IProps) => {
 								render={({ field }) => {
 									return (
 										<Input
+											maxLength='100'
 											label={t('comment')}
 											type='string'
 											field={field}
