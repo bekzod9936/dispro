@@ -26,7 +26,8 @@ export const LightToolTip = withStyles(() => ({
         fontSize: 14,
         padding: '11px 12px',
         borderRadius: 14,
-        fontWeight: 300
+        fontWeight: 300,
+        cursor: 'pointer'
     },
     arrow: {
         color: "#fff"

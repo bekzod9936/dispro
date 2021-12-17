@@ -15,10 +15,61 @@ import {
   SectionsIcon,
   ServicesIcon,
 } from "./style";
+import { useCategories } from "pages/CompanyPages/services/hooks";
 
 interface SelectsProps {}
 
 const measurements = [
+  {
+    name: "kg",
+    value: 1,
+    label: "кг",
+  },
+  {
+    name: "gr",
+    value: 2,
+    label: "гр",
+  },
+  {
+    name: "kg",
+    value: 1,
+    label: "кг",
+  },
+  {
+    name: "gr",
+    value: 2,
+    label: "гр",
+  },
+  {
+    name: "kg",
+    value: 1,
+    label: "кг",
+  },
+  {
+    name: "gr",
+    value: 2,
+    label: "гр",
+  },
+  {
+    name: "kg",
+    value: 1,
+    label: "кг",
+  },
+  {
+    name: "gr",
+    value: 2,
+    label: "гр",
+  },
+  {
+    name: "kg",
+    value: 1,
+    label: "кг",
+  },
+  {
+    name: "gr",
+    value: 2,
+    label: "гр",
+  },
   {
     name: "kg",
     value: 1,
@@ -34,6 +85,8 @@ const measurements = [
 export const Selects: React.FC<SelectsProps> = () => {
   const [sectionModal, setSectionModal] = useState(false);
   const { t } = useTranslation();
+
+  const categoryList = useCategories();
 
   const handleOpen = () => {
     setSectionModal(true);
@@ -55,8 +108,8 @@ export const Selects: React.FC<SelectsProps> = () => {
       <Flex>
         <SelectField
           name="service"
-          placeholder="attendance"
-          options={measurements}
+          placeholder="chooseCategory"
+          options={categoryList}
           icon={<ServicesIcon />}
           margin={{ desktop: "0 20px 0 0", laptop: "0 20px 0 0" }}
         />

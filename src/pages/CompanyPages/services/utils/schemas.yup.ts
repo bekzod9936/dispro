@@ -30,6 +30,50 @@ export const sectionsSchema = yup.object().shape({
     })
 })
 
+const variantSchema = yup.object().shape({
+    name: yup.array().of(
+        yup.object().shape({
+            data: yup.string().min(4, 'minAmountOfSymbols').max(28, 'maxAmountOfSymbols').required('requiredField'),
+            lang: yup.string().required()
+        })
+    ),
+
+    amount: yup.string().test('length', 'minAmountOfItems', (text) => {
+        return Number(text) > 4
+    }).required('requiredField'),
+
+    articul: yup.string().required('requiredField'),
+
+    price: yup.string().test('length', 'minPrice', (text) => {
+        return Number(text) >= 5000
+    }).required('requiredField'),
+
+    priceWithSale: yup.string()
+    
+})
+
+const variantSchemaWithSale = yup.object().shape({
+    name: yup.array().of(
+        yup.object().shape({
+            data: yup.string().min(4, 'minAmountOfSymbols').max(28, 'maxAmountOfSymbols').required('requiredField'),
+            lang: yup.string().required()
+        })
+    ),
+
+    amount: yup.string().test('length', 'minAmountOfItems', (text) => {
+        return Number(text) > 4
+    }).required('requiredField'),
+
+    articul: yup.string().required('requiredField'),
+
+    price: yup.string().test('length', 'minPrice', (text) => {
+        return Number(text) >= 5000
+    }).required('requiredField'),
+
+    priceWithSale: yup.number().typeError('requiredField').lessThan(yup.ref('price'), 'priceWithSale must be less than price without sale').required('requiredField')
+    
+})
+
 export const goodsSchema = yup.object().shape({
     titles: yup.array().of(
         yup.object().shape({
@@ -83,27 +127,13 @@ export const goodsSchema = yup.object().shape({
     }),
 
 
-    variants: yup.array().of(
-        yup.object().shape({
-            name: yup.array().of(
-                yup.object().shape({
-                    data: yup.string().min(4, 'minAmountOfSymbols').max(28, 'maxAmountOfSymbols').required('requiredField'),
-                    lang: yup.string().required()
-                })
-            ),
-
-            amount: yup.string().test('length', 'minAmountOfItems', (text) => {
-                return Number(text) > 4
-            }).required('requiredField'),
-
-            articul: yup.string().required('requiredField'),
-
-            price: yup.string().test('length', 'minPrice', (text) => {
-                return Number(text) > 5000
-            }).required('requiredField'),
-
-            priceWithSale: yup.number().lessThan(yup.ref('price'))
-        })
-    )
+    variants: yup.array().when('loyaltyType', {
+        is: (val: number | string) => Number(val) === 1,
+        then: yup.array().of(variantSchemaWithSale),
+        otherwise: yup.array().of(variantSchema)
+    })
 })
+
+
+
 
