@@ -10,6 +10,7 @@ import {
   ICashier,
   ITotal,
   IStore,
+  ISide,
 } from './types';
 
 const initialState: IFinance = {
@@ -38,9 +39,15 @@ const initialState: IFinance = {
       total: 0,
       minus: 0,
       paid: 0,
+      cash: 0,
+      card: 0,
     },
     cashier: [],
     storeIds: [],
+    sidedrawer: {
+      openRow: false,
+      chosenRow: {},
+    },
   },
 };
 
@@ -99,6 +106,9 @@ const financeSlice = createSlice({
     setStoreIdsHistoryFinance: (state, action: PayloadAction<IStore[]>) => {
       state.historyFinance.storeIds = action.payload;
     },
+    setSideDrawer: (state, action: PayloadAction<ISide>) => {
+      state.historyFinance.sidedrawer = action.payload;
+    },
   },
 });
 
@@ -120,5 +130,6 @@ export const {
   setSumHistoryFinance,
   setCashierHistoryFinance,
   setStoreIdsHistoryFinance,
+  setSideDrawer,
 } = financeSlice.actions;
 export default financeSlice.reducer;

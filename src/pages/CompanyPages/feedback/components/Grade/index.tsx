@@ -14,7 +14,7 @@ import {
 
 interface Props {
   title?: string;
-  rate?: { avg?: number; count?: number; downVal?: number; upVal?: number };
+  rate?: any;
   total?: boolean;
 }
 
@@ -22,36 +22,41 @@ const Grade = ({ title, rate, total }: Props) => {
   const { t } = useTranslation();
   const { width } = useWindowWidth();
 
+  const percent = () => {
+    if (rate?.avg !== null) {
+      if (width < 600) {
+        if (!total) {
+          return (
+            <PercentInfo bgcolor={rate?.downVal === 0}>
+              <LineIcon up={rate?.downVal === 0} />
+              {rate?.downVal === 0 ? `+${rate?.upVal}%` : `-${rate?.downVal}%`}
+            </PercentInfo>
+          );
+        }
+      }
+    }
+  };
+
   return (
     <Container>
       <Title>{title}</Title>
-      {rate?.avg !== 0 ||
-      rate?.count !== 0 ||
-      rate?.downVal !== 0 ||
-      rate?.upVal !== 0 ? (
-        width > 600 ? null : total ? null : (
-          <PercentInfo>
-            <LineIcon />
-            {rate?.downVal === 0 ? `+${rate?.upVal}%` : `-${rate?.downVal}%`}
-          </PercentInfo>
-        )
-      ) : null}
-      <Wrapper>
-        {rate?.avg === null || rate?.count === 0 ? (
+      {percent()}
+      <Wrapper total={total}>
+        {rate?.avg === null || rate?.count === undefined ? (
           <Text>{t('nobodydidnotevaluate')}</Text>
         ) : (
           <>
             <PercentWrap total={total}>
-              {rate ? (
-                <PercentNum>{!total ? rate?.avg : rate?.count}</PercentNum>
-              ) : null}
-              {rate && !total ? <PercentDef>/5</PercentDef> : null}
+              <PercentNum>{!total ? rate?.avg : rate?.count}</PercentNum>
+              {!total ? <PercentDef>/5</PercentDef> : null}
             </PercentWrap>
             {width > 600 ? (
               total ? null : (
-                <PercentInfo>
-                  <LineIcon />
-                  {rate?.downVal === 0
+                <PercentInfo bgcolor={rate?.downVal === 0}>
+                  <LineIcon up={rate?.downVal === 0} />
+                  {rate?.downVal === 0 && rate?.upVal === 0
+                    ? '0%'
+                    : rate?.downVal === 0
                     ? `+${rate?.upVal}%`
                     : `-${rate?.downVal}%`}
                 </PercentInfo>

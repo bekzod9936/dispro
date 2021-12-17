@@ -181,6 +181,7 @@ const LoyaltyProgramSection = () => {
               alignItems='flex-start'
             >
               {switchItems.map((item: any) => {
+                
                 return (
                   <Flex
                     key={item.key}
@@ -195,16 +196,11 @@ const LoyaltyProgramSection = () => {
                       alignItems='flex-start'
                       margin='0'
                     >
-                      {infoData=== 2 ? <CustomToggle
+                     <CustomToggle
                         checked={item.key === active.active}
                         disabled={checkedState ? true:item.key === active.active}
                         onChange={(checked: any) => handleChecked(item.key)}
-                      />: <CustomToggle
-                      checked={item.key === active.active}
-                      disabled={item.key === active.active}
-                      onChange={(checked: any) => handleChecked(item.key)}
-                    />}
-                  
+                      />
                     </Flex>
                     <Flex
                       margin='0 0 0 20px'
@@ -545,7 +541,7 @@ const LoyaltyProgramSection = () => {
                                 field={field}
                                 max='100'
                                 message={t('requiredField')}
-                                error={errors.max_percent?.type === 'required'}
+                                error={errors.max_percent? true:false}
                               />
                             );
                           }}

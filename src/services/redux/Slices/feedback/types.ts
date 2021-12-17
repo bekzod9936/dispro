@@ -61,7 +61,7 @@ export interface IChose {
 }
 
 export interface IRating {
-  avg?: number;
+  avg?: number | null;
   count?: number;
   downVal?: number;
   upVal?: number;

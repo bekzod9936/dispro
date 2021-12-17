@@ -15,6 +15,7 @@ import {
 } from 'services/queries/partnerQuery';
 import {
   changeProgramLoyality,
+  changeProgramLoyalityGlobal,
   fetchProgramSettings,
   loyalitySaveChange,
   loyalityNewSaveChange,
@@ -593,9 +594,21 @@ const useLoyality = () => {
   );
 
   //Change program loyality
+  // const loayalityChange = useMutation(
+  //   (data: any) =>
+  //     changeProgramLoyality({ bonusType: data.bonusType, data: data.data }),
+  //   {
+  //     onSuccess: () => {
+  //       refetch();
+  //       refetchcashback();
+  //       refetchdiscount();
+  //       setModified('0');
+  //     },
+  //   }
+  // );
   const loayalityChange = useMutation(
     (data: any) =>
-      changeProgramLoyality({ bonusType: data.bonusType, data: data.data }),
+    changeProgramLoyalityGlobal({ data: data.data }),
     {
       onSuccess: () => {
         refetch();
@@ -605,9 +618,12 @@ const useLoyality = () => {
       },
     }
   );
+  
 
   const handleSwitchChange = (checked: boolean, key: any) => {
     // bonus/cashbacks/active-status
+    console.log('checkedvalueof',checked)
+    console.log('keyxzczxczxczxczxczxczczxczxcxzczxc',key)
     let modifyLoyal = modified === '1' ? false : true;
     if (checked) {
       if (availCheck) {
@@ -616,110 +632,127 @@ const useLoyality = () => {
         setActive({ active: '' });
         setActiveCheck(key);
       }
-      if (key === 'discount') {
-        loayalityChange.mutate({
-          bonusType: 'discount',
-          data: {
-            isActive: true,
-            isMoved: modifyLoyal,
-          },
-        });
-        loayalityChange.mutate({
-          bonusType: 'cashback',
-          data: {
-            isActive: false,
-            isMoved: modifyLoyal,
-          },
-        });
-        loayalityChange.mutate({
-          bonusType: 'bonuspoint',
-          data: {
-            isActive: false,
-            isMoved: modifyLoyal,
-          },
-        });
 
-        setEmptyDiscount({
-          empty: false,
-          type: 'discount',
-        });
-      } else if (key === 'cashback') {
+      if(key){
         loayalityChange.mutate({
-          bonusType: 'cashback',
-          data: {
-            isActive: true,
-            isMoved: modifyLoyal,
-          },
-        });
-        loayalityChange.mutate({
-          bonusType: 'discount',
-          data: {
-            isActive: false,
-            isMoved: modifyLoyal,
-          },
-        });
-        loayalityChange.mutate({
-          bonusType: 'bonuspoint',
-          data: {
-            isActive: false,
-            isMoved: modifyLoyal,
-          },
-        });
-        setEmptyCashback({
-          empty: false,
-          type: 'cashback',
-        });
-      } else if (key === 'bonuspoint') {
-        loayalityChange.mutate({
-          bonusType: 'bonuspoint',
-          data: {
-            isActive: true,
-            isMoved: modifyLoyal,
-          },
-        });
-        loayalityChange.mutate({
-          bonusType: 'discount',
-          data: {
-            isActive: false,
-            isMoved: modifyLoyal,
-          },
-        });
-        loayalityChange.mutate({
-          bonusType: 'cashback',
-          data: {
-            isActive: false,
-            isMoved: modifyLoyal,
-          },
-        });
-
+          data:{
+            isActive:true,
+            isMoved:modifyLoyal,
+            plType:key,
+            turnedOff:checkedState,
+            password:""
+          }
+        })
         setEmptyBonuspoint({
           empty: false,
-          type: 'bonuspoint',
-        });
-      } else if (key === '') {
-        console.log('ishlayabdi shu qism');
-        loayalityChange.mutate({
-          bonusType: 'bonuspoint',
-          data: {
-            isActive: false,
-            isMoved: modifyLoyal,
-          },
-        });
-        loayalityChange.mutate({
-          bonusType: 'discount',
-          data: {
-            isActive: false,
-            isMoved: modifyLoyal,
-          },
-        });
-        loayalityChange.mutate({
-          bonusType: 'cashback',
-          data: {
-            isActive: false,
-            isMoved: modifyLoyal,
-          },
+          type: key,
         });
       }
+      // if (key === 'discount') {
+      //   loayalityChange.mutate({
+      //     bonusType: 'discount',
+      //     data: {
+      //       isActive: true,
+      //       isMoved: modifyLoyal,
+      //     },
+      //   });
+      //   loayalityChange.mutate({
+      //     bonusType: 'cashback',
+      //     data: {
+      //       isActive: false,
+      //       isMoved: modifyLoyal,
+      //     },
+      //   });
+      //   loayalityChange.mutate({
+      //     bonusType: 'bonuspoint',
+      //     data: {
+      //       isActive: false,
+      //       isMoved: modifyLoyal,
+      //     },
+      //   });
+
+      //   setEmptyDiscount({
+      //     empty: false,
+      //     type: 'discount',
+      //   });
+      // } else if (key === 'cashback') {
+      //   loayalityChange.mutate({
+      //     bonusType: 'cashback',
+      //     data: {
+      //       isActive: true,
+      //       isMoved: modifyLoyal,
+      //     },
+      //   });
+      //   loayalityChange.mutate({
+      //     bonusType: 'discount',
+      //     data: {
+      //       isActive: false,
+      //       isMoved: modifyLoyal,
+      //     },
+      //   });
+      //   loayalityChange.mutate({
+      //     bonusType: 'bonuspoint',
+      //     data: {
+      //       isActive: false,
+      //       isMoved: modifyLoyal,
+      //     },
+      //   });
+      //   setEmptyCashback({
+      //     empty: false,
+      //     type: 'cashback',
+      //   });
+      // } else if (key === 'bonuspoint') {
+      //   loayalityChange.mutate({
+      //     bonusType: 'bonuspoint',
+      //     data: {
+      //       isActive: true,
+      //       isMoved: modifyLoyal,
+      //     },
+      //   });
+      //   loayalityChange.mutate({
+      //     bonusType: 'discount',
+      //     data: {
+      //       isActive: false,
+      //       isMoved: modifyLoyal,
+      //     },
+      //   });
+      //   loayalityChange.mutate({
+      //     bonusType: 'cashback',
+      //     data: {
+      //       isActive: false,
+      //       isMoved: modifyLoyal,
+      //     },
+      //   });
+
+      //   setEmptyBonuspoint({
+      //     empty: false,
+      //     type: 'bonuspoint',
+      //   });
+      // } 
+      // else if (key === '') {
+      //   console.log('ishlayabdi shu qism');
+      //   loayalityChange.mutate({
+      //     bonusType: 'bonuspoint',
+      //     data: {
+      //       isActive: false,
+      //       isMoved: modifyLoyal,
+      //     },
+      //   });
+      //   loayalityChange.mutate({
+      //     bonusType: 'discount',
+      //     data: {
+      //       isActive: false,
+      //       isMoved: modifyLoyal,
+      //     },
+      //   });
+      //   loayalityChange.mutate({
+      //     bonusType: 'cashback',
+      //     data: {
+      //       isActive: false,
+      //       isMoved: modifyLoyal,
+      //     },
+      //   });
+      // }
     }
   };
 

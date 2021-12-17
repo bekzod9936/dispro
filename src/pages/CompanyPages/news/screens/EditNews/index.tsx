@@ -387,15 +387,16 @@ const EditNews = () => {
                 control={control}
                 rules={{
                   required: true,
+                  maxLength:80,
                 }}
                 defaultValue={newsById?.data?.title}
                 render={({ field }) => (
                   <Input
                     type="textarea"
-                    error={!!errors.name}
-                    message={t("requiredField")}
+                    error={errors.name ? true:false}
+                    message={errors?.name?.type === "required" ? t("requiredField"):t("максимальное число символов 80")}
                     field={field}
-                    maxLength={80}
+                    maxLength={81}
                     label={t("title")}
                     defaultValue={newsById?.data?.title}
                   />
@@ -407,11 +408,12 @@ const EditNews = () => {
                 control={control}
                 rules={{
                   required: true,
+                  maxLength:800,
                 }}
                 defaultValue={newsById?.data?.description}
                 render={({ field }) => (
                   <TextArea
-                    maxLength={800}
+                    maxLength={801}
                     {...field}
                     defaultValue={newsById?.data?.description}
                     message={t("requiredField")}
