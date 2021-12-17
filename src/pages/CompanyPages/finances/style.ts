@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { ReactComponent as Deposit } from 'assets/icons/SideBar/deposit.svg';
 import { ReactComponent as Shield } from 'assets/icons/SideBar/shield.svg';
+
 import { device } from 'styles/device';
 
 export const DepositIcon = styled(Deposit)`
@@ -10,6 +11,7 @@ export const DepositIcon = styled(Deposit)`
     fill: #606eea;
   }
 `;
+
 export const ShieldIcon = styled(Shield)`
   width: 24px;
   height: 24px;
@@ -244,4 +246,34 @@ export const TitleDef = styled.div`
     word-wrap: break-word;
     text-align: center;
   }
+`;
+
+interface Props {
+  open?: boolean;
+}
+
+export const SideDrawer = styled.div`
+  position: fixed;
+  top: 65px;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 370px;
+  width: 100%;
+  height: calc(100% - 65px);
+  background-color: #ffffff;
+  z-index: 20;
+  transition: 500ms all;
+  box-shadow: -5px 2px 20px rgba(0, 0, 0, 0.06);
+  transform: ${({ open }: Props) =>
+    open ? 'translateX(0)' : 'translateX(100%)'};
+  padding: 15px 0 40px;
+  @media (min-width: ${device.laptop}) {
+    top: 90px;
+    height: calc(100% - 90px);
+  }
+ 
 `;

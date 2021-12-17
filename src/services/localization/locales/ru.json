@@ -587,5 +587,13 @@
   "hours": "часов",
   "minutes": "минут",
   "paygowarning": "Сначала включите Оплату на местах через Модератора",
-  "writetomoderator": "Написать Модератору"
+  "writetomoderator": "Написать Модератору",
+  "addcomment": "Добавить комментарий",
+  "operation": "Операция",
+  "commentoperation": "Комментарий к операции:",
+  "deletecomment": "Удалить комментарий",
+  "addingcomment": "Добавление комментария",
+  "changingcomment": "Редактирование комментария",
+  "paycash/payterminal": "Оплата наличными / терминалом",
+  "paycardapp":"Оплата черезе приложение"
 }
