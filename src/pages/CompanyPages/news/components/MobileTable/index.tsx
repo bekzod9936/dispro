@@ -96,7 +96,7 @@ const MobileTable = ({ refetch, data }: Props) => {
     <Container>
       {data?.map((a: any, i: number) => {
         const info = a.fullData?.data;
-        const weekdays = a.fullData?.data?.settings?.weekDays.map(
+        const weekdays = a.fullData?.data?.settings?.weekDays?.map(
           (label: any) => {
             return {
               item:
