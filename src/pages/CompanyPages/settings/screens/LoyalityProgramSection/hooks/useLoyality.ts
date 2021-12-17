@@ -536,6 +536,7 @@ const useLoyality = () => {
       retry: 0,
       refetchOnWindowFocus: false,
       onSuccess: (data: any) => {
+ 
         if (data?.data?.data === null) {
           setEmptyBonuspoint({
             empty: true,
@@ -592,7 +593,27 @@ const useLoyality = () => {
     (data: any) =>
     changeProgramLoyalityGlobal({ data: data.data }),
     {
-      onSuccess: () => {
+      onSuccess: (data:any) => {
+        if(data?.data?.bonusPoint){
+          if(data?.data?.bonusPoint?.isActive){
+            setAvailCheck(true);
+            setActive({ active: 'bonuspoint' });
+            setSwitchKey('bonuspoint');
+
+            setBaseLoyality({
+              max_percent: data.data.data.maxAmount,
+              base_percent: data.data.data.percent,
+              give_cashback_after: 0,
+              base_name: data.data.data.name,
+            });
+
+            dispatch(setBallCheck(true));
+            setValue('max_percent', data.data.data.maxAmount);
+            setValue('base_name', data.data.data.name);
+            setValue('base_percent', data.data.data.percent);
+            setValue('levels', data.data.data.levels);
+          }
+        }
         refetch();
         refetchcashback();
         refetchdiscount();
@@ -609,7 +630,7 @@ const useLoyality = () => {
       data:{
         isActive:true,
         isMoved:false,
-        plType:'point',
+        plType:'discount',
         turnedOff:checked,
         password:""
       }
