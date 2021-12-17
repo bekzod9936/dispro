@@ -143,7 +143,8 @@ const LoyaltyProgramSection = () => {
   const activeEmpty = active.active === '' && activeCheck === '';
 
   const handleChecked = (key: any) => {
-    console.log(key, 'key that i want');
+    console.log('key that i want',key,);
+
     setSwitchKey(key);
     if (emptyCashback.empty && emptyCashback.type === key) {
       setActiveCheck(key);
@@ -198,7 +199,7 @@ const LoyaltyProgramSection = () => {
                     >
                      <CustomToggle
                         checked={item.key === active.active}
-                        disabled={checkedState ? true:item.key === active.active}
+                        disabled={item.key === active.active}
                         onChange={(checked: any) => handleChecked(item.key)}
                       />
                     </Flex>
@@ -236,6 +237,7 @@ const LoyaltyProgramSection = () => {
                 checked={checkedState}
                 onChange={(e: any) => {
                   handleSwitch(e.target.checked);
+               
                 }}
               />
             

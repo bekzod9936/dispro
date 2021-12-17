@@ -66,7 +66,7 @@ export const Durations: React.FC<DurationsProps> = () => {
                   label="minutes"
                 />
               </GridContainer>
-              {errors.preparationTime && (
+              {Boolean(errors?.preparationTime?.[0]) && (
                 <ErrorMessage>{t("requiredFields")}</ErrorMessage>
               )}
             </>

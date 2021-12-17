@@ -38,7 +38,7 @@ const Create: React.FC<CreateProps> = () => {
   const onSubmit = (data: any) => {
     console.log(data);
   };
-  console.log(form.formState.errors);
+
   return (
     <Wrapper>
       <Header />

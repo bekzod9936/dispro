@@ -1,4 +1,4 @@
-import { sectionDtoType } from "services/queries/servicesQueries/response.types"
+import { ICategory, sectionDtoType } from "services/queries/servicesQueries/response.types"
 import { createSectionFormType } from "../utils/types"
 
 export const fileToBlob = (file: File, id: string) => {
@@ -57,4 +57,15 @@ const sectionFieldToDto = (title: string): sectionDtoType => {
       }
     ]
   }
+}
+
+
+export const responseCategoriesToExactCategories = (allCategories: ICategory[], categoryIds: number[]) => {
+  return allCategories
+    .filter(category => categoryIds.includes(category.id))
+    .map(category => ({
+      name: category.code,
+      label: category.name,
+      value: category.id
+    }))
 }

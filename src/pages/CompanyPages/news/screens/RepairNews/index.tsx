@@ -369,7 +369,7 @@ const RepairNews = () => {
                   error={errors.name ? true:false}
                   message={errors?.name?.type === "required" ? t("requiredField"):t("максимальное число символов 80")}
                     field={field}
-                    maxLength={81}
+                    maxLength={80}
                     label={t("title")}
                     defaultValue={newsById?.data?.title}
                   />
@@ -385,7 +385,7 @@ const RepairNews = () => {
                 defaultValue={newsById?.data?.description}
                 render={({ field }) => (
                   <TextArea
-                    maxLength={801}
+                    maxLength={800}
                     {...field}
                     defaultValue={newsById?.data?.description}
                     message={errors?.description?.type === "required" ? t("requiredField"):t("максимальное число символов 800")}
