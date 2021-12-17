@@ -33,12 +33,10 @@ const handleCheckLabelFields = (arr: any[]) => {
 
 
 export const useSearchBranch = (query: string, arr: any[]) => {
-console.log(`arr`, arr)
 	const branches = useMemo(() => {
 		if(!query) return handleCheckLabelFields(arr);
 		return handleCheckLabelFields(arr).filter(el =>  el.label.toLowerCase().includes(query.toLowerCase()) )
 	}, [query, arr])
-	console.log(`branches`, branches)
 	return branches;
 	
 }
@@ -80,7 +78,6 @@ const useCashiers = ({ page, query, period, storeIdForFilter}: any) => {
       cacheTime: 5000,
       onSuccess: (data) => {
 		  let cashiers = data?.data?.data?.staffs;
-		console.log(`cashiers`, cashiers)
         dispatch(setCashiers(data.data.data.staffs));
 		!storeFilters && dispatch(setStoreFilters(cashiers.map((el: any) => ({value: el.stores[0]?.id, label: el.stores[0]?.address}))))
         dispatch(

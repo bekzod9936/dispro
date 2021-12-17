@@ -56,7 +56,6 @@ const CashierScreen = () => {
 		period,
 		storeIdForFilter,
 	});
-	console.log(`allCashiers`, allCashiers);
 	useEffect(() => {
 		return () => {
 			dispatch(setOpenFilter(false));
@@ -66,8 +65,6 @@ const CashierScreen = () => {
 	const filter = storeFilters?.find(
 		(el: any) => el.value == storeIdForFilter
 	)?.label;
-
-	console.log(filter, storeIdForFilter);
 
 	return (
 		<>

@@ -137,7 +137,6 @@ const CashierFilterBar: React.FC<Props> = ({
 					/>
 				</FilterInputWrap>
 				<FilterList>
-					{console.log(`branchesbranches`, branches)}
 					{branches.length >= 1 ? (
 						<Radio
 							flexDirection='row'
