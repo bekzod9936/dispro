@@ -39,7 +39,7 @@ const initialState: IFeedBack = {
     hasMore: true,
   },
   totalCount: 0,
-  averageRating: { avg: 0, count: 0, downVal: 0, upVal: 0 },
+  averageRating: { avg: null, count: undefined, downVal: 0, upVal: 0 },
   socket: {},
   chosenClient: { data: {}, choose: false },
   chosenListUser: {
