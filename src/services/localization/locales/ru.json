@@ -615,5 +615,9 @@
   "minAmountOfItems": "Минимальное количество: 9",
   "maxPriceOneBillion": "Максимальная сумма: 1 000 000 000 Сум",
   "cost": "Цена",
-  "priceWithSaleMustBeLessThanPriceWithoutSale": "Цена со скидкой не должна превышать основную цену товара"
+  "priceWithSaleMustBeLessThanPriceWithoutSale": "Цена со скидкой не должна превышать основную цену товара",
+  "choosepaymentmethod": "Выберите способ оплаты",
+  "paymentbycash": "Оплата наличными/терминалом",
+  "paymentbyapp": "Оплата через приложение",
+  "bypayment": "По Оплата"
 }

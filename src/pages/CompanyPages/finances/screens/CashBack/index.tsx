@@ -57,9 +57,8 @@ const Payment = () => {
     filterValues: filterValues,
   });
 
-  const handlechangePage = async (e: any) => {
-    await setFilterValues({ ...filterValues, page: e });
-    await response.refetch();
+  const handlechangePage = (e: any) => {
+    setFilterValues({ ...filterValues, page: e });
   };
 
   const contentTable = () => {
@@ -143,9 +142,10 @@ const Payment = () => {
       </RightHeader>
       <Container>
         <DatePcker
-          onChange={async (e: any) => {
-            await setFilterValues({
+          onChange={(e: any) => {
+            setFilterValues({
               ...filterValues,
+              page: 1,
               dateFrom: e.slice(0, e.indexOf(' ~')),
               dateTo: e.slice(e.indexOf('~ ') + 2),
             });
@@ -165,11 +165,13 @@ const Payment = () => {
                 secondWord: t('operations23'),
               })}
             </Info>
-            <NewPagination
-              onChange={handlechangePage}
-              currentPage={Number(filterValues.page)}
-              totalCount={Number(total?.count)}
-            />
+            {!response.isFetching && (
+              <NewPagination
+                onChange={handlechangePage}
+                currentPage={Number(filterValues.page)}
+                totalCount={Number(total?.count)}
+              />
+            )}
           </WrapPag>
         )}
       </Container>

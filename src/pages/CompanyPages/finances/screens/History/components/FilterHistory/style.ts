@@ -90,3 +90,17 @@ export const WrapSelectV = styled.div`
   flex-wrap: wrap;
   grid-gap: 10px;
 `;
+
+export const WrapStatus = styled.div``;
+
+export const WrapCheck = styled.div``;
+
+export const Label = styled.label`
+  font-weight: bold;
+  font-size: 14px;
+  color: #c7c7c7;
+  @media (min-width: ${device.laptop}) {
+    font-size: 16px;
+  }
+  margin-bottom: 5px;
+`;

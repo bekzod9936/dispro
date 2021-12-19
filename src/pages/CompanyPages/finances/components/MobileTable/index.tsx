@@ -21,6 +21,7 @@ import {
   PinkIcon,
   WrapAvatar,
 } from './style';
+import SideDrawer from '../SideDrawer';
 
 interface Props {
   data?: {
@@ -35,16 +36,24 @@ interface Props {
   };
   headertitle?: string;
   isAvatar?: boolean;
-  footer?: any;
+  onAllClose?: () => void;
+  handleEdit?: (e: any) => void;
+  handleDelete?: (e: any) => void;
   onClickRow?: (e: any) => void;
+  disable?: boolean;
+  comment?: boolean;
 }
 
 const MobileTable = ({
   data,
   headertitle,
   isAvatar,
-  footer,
+  onAllClose = () => {},
+  handleEdit = () => {},
+  handleDelete = () => {},
   onClickRow = () => {},
+  disable,
+  comment,
 }: Props) => {
   const [open, setOpen] = useState(false);
   const [id, setId] = useState<any>(null);
@@ -143,7 +152,15 @@ const MobileTable = ({
                     })}
                   </WrapBox>
                 </ModalContent>
-                {footer}
+                {comment ? (
+                  <SideDrawer
+                    onAllClose={onAllClose}
+                    handleEdit={() => handleEdit(a.values.col13)}
+                    handleDelete={() => handleDelete(a.values.id)}
+                    disable={disable}
+                    comment={a.values.col13}
+                  />
+                ) : null}
               </FullModal>
             ) : null}
           </>

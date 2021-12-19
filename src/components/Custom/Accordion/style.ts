@@ -33,7 +33,10 @@ export const Container = styled.div`
   }
   @media (max-width: ${device.mobile}) {
     .MuiAccordionDetails-root {
-      padding: 0 10px 10px 10px !important;
+      padding: 0 15px 15px 15px !important;
+    }
+    .MuiAccordionSummary-root {
+      padding: 0 15px !important;
     }
   }
   .MuiAccordionSummary-root.Mui-expanded {
@@ -61,7 +64,6 @@ export const MAccordionSummary = styled(MuiAccordionSummary)``;
 
 export const MAccordionDetails = styled(MuiAccordionDetails)``;
 
-
 export const Content = styled.div`
   display: flex;
   align-items: center;
@@ -71,7 +73,7 @@ export const Content = styled.div`
   span {
     font-size: 16px;
     line-height: 18.75px;
-    color: #C4C4C4;
+    color: #c4c4c4;
     font-weight: 300;
   }
-`
+`;

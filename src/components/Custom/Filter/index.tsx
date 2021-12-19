@@ -26,7 +26,7 @@ import {
 } from './style';
 
 interface Props {
-  list?: { title: string; content: any, value?: string }[];
+  list?: { title: string; content: any; value?: string }[];
   onSubmit?: () => void;
   onReset?: () => void;
   error?: boolean;
@@ -35,8 +35,8 @@ interface Props {
 
 const Filter = ({
   list,
-  onSubmit = () => { },
-  onReset = () => { },
+  onSubmit = () => {},
+  onReset = () => {},
   error,
   position,
 }: Props) => {
@@ -104,7 +104,7 @@ const Filter = ({
             {t('reset')}
           </Button>
         </Header>
-        <Body className='Bekzod'>
+        <Body>
           <Accordion list={list} />
         </Body>
         <Footer>
@@ -208,7 +208,7 @@ const Filter = ({
                   mobile: 36,
                 },
               }}
-              margin={{ planshet: '0 0 0 20px', }}
+              margin={{ planshet: '0 0 0 20px' }}
               startIcon={<TickIcon />}
               disabled={error}
               onClick={() => {

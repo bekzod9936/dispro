@@ -22,8 +22,6 @@ const useExcel = () => {
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
   const fileExtension = '.xlsx';
 
-  const [excellist, setExcelList] = useState<any[]>([]);
-
   const resExcel = useQuery(
     'fetchPaymentInfoExcel',
     () => {
@@ -52,6 +50,12 @@ const useExcel = () => {
                 number: v.payInfo.amountMinus,
               }),
               [t('paid')]: numberWithNew({ number: v.payInfo.amountPayed }),
+              [t('paycash/payterminal')]: numberWithNew({
+                number: v.payInfo.amountCash,
+              }),
+              [t('paycardapp')]: numberWithNew({
+                number: v.payInfo.amountCard,
+              }),
               [t('customer')]: v.clientName,
               [t('loyaltypercentage')]:
                 v.payInfo.isDiscount ||
@@ -67,6 +71,7 @@ const useExcel = () => {
                 v.payInfo.isCoupon && v.payInfo.valueType === 'amount'
                   ? numberWithNew({ number: v.payInfo.value })
                   : '-',
+              [t('comment')]: v.chequeComment === '' ? '-' : v.chequeComment,
             };
           })
           .concat([
@@ -77,10 +82,13 @@ const useExcel = () => {
               [t('totalsum')]: '',
               [t('discountSum')]: '',
               [t('paid')]: '',
+              [t('paycash/payterminal')]: '',
+              [t('paycardapp')]: '',
               [t('customer')]: '',
               [t('loyaltypercentage')]: '',
               [t('coupon')]: '',
               [t('certificate')]: '',
+              [t('comment')]: '',
             },
             {
               [t('cashier')]: '',
@@ -89,10 +97,13 @@ const useExcel = () => {
               [t('totalsum')]: '',
               [t('discountSum')]: t('total'),
               [t('paid')]: '',
+              [t('paycash/payterminal')]: '',
+              [t('paycardapp')]: '',
               [t('customer')]: '',
               [t('loyaltypercentage')]: '',
               [t('coupon')]: '',
               [t('certificate')]: '',
+              [t('comment')]: '',
             },
             {
               [t('cashier')]: '',
@@ -101,10 +112,13 @@ const useExcel = () => {
               [t('totalsum')]: numberWithNew({ number: sum.total }),
               [t('discountSum')]: numberWithNew({ number: sum.minus }),
               [t('paid')]: numberWithNew({ number: sum.paid }),
+              [t('paycash/payterminal')]: numberWithNew({ number: sum.cash }),
+              [t('paycardapp')]: numberWithNew({ number: sum.card }),
               [t('customer')]: '',
               [t('loyaltypercentage')]: '',
               [t('coupon')]: '',
               [t('certificate')]: '',
+              [t('comment')]: '',
             },
           ]);
 
@@ -125,7 +139,7 @@ const useExcel = () => {
     }
   );
 
-  return { resExcel, excellist, date };
+  return { resExcel };
 };
 
 export default useExcel;
