@@ -252,7 +252,7 @@ const LoyaltyProgramSection = () => {
                     >
                       <div >
                         <Text fontSize='18px' fontWeight={500}>
-                          {'Отключения Программы Лояльности'}
+                          {'Отключения все'}
                         </Text>
                       </div>
                       <div style={{ marginTop: '5px', width: '290px' }}>
