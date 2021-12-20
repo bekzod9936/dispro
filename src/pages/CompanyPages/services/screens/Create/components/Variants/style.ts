@@ -9,5 +9,11 @@ export const Wrapper = styled.div`
 `
 
 export const Item = styled.div`
-    margin-bottom: ${({isLastElem}: Props) => isLastElem ? '' : '40px'}
+    margin-bottom: ${({isLastElem}: Props) => isLastElem ? '' : '40px'};
+`
+
+export const Buttons = styled.div`
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
 `

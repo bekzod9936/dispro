@@ -1,8 +1,13 @@
-import { Variant } from "pages/CompanyPages/services/components/Variant";
-import { SubButton } from "pages/CompanyPages/services/style";
+//packages
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Item, Wrapper } from "./style";
+
+//components
+import { Variant } from "pages/CompanyPages/services/components/Variant";
+import { SubButton } from "pages/CompanyPages/services/style";
+
+//style
+import { Buttons, Item, Wrapper } from "./style";
 
 export const Variants = () => {
   const { control } = useFormContext();
@@ -28,13 +33,7 @@ export const Variants = () => {
       {fields.map((item, index) => (
         <Item isLastElem={index === fields.length - 1} key={item.id}>
           <Variant index={index} />
-          <div
-            style={{
-              display: "flex",
-              width: "100%",
-              justifyContent: "space-between",
-            }}
-          >
+          <Buttons>
             {index === fields.length - 1 && fields.length <= 2 && (
               <SubButton onClick={handleAddVariant}>
                 {t("addVariant")}
@@ -45,7 +44,7 @@ export const Variants = () => {
                 {t("removeVariant")}
               </SubButton>
             )}
-          </div>
+          </Buttons>
         </Item>
       ))}
     </Wrapper>

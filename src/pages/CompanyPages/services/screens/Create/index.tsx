@@ -1,7 +1,6 @@
 //packages
-import { useForm, FormProvider } from "react-hook-form";
+import { FormProvider } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { yupResolver } from "@hookform/resolvers/yup";
 
 //components
 import {
@@ -20,20 +19,14 @@ import {
 import { Wrapper, Form, Container } from "./style";
 
 //other
-import { FormFieldTypes } from "../../utils/types";
-import { createItemDefaultFields } from "../../helpers";
-import { goodsSchema } from "../../utils/schemas.yup";
+import { useCreateItem } from "../../hooks";
 
 interface CreateProps {}
 
 const Create: React.FC<CreateProps> = () => {
   const { t } = useTranslation();
 
-  const form = useForm<FormFieldTypes>({
-    mode: "onChange",
-    defaultValues: createItemDefaultFields,
-    resolver: yupResolver(goodsSchema),
-  });
+  const form = useCreateItem();
 
   const onSubmit = (data: any) => {
     console.log(data);
