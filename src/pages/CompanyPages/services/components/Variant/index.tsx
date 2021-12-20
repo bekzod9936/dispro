@@ -1,14 +1,23 @@
 import { useEffect } from "react";
+
+//packages
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { FormFieldTypes } from "../../utils/types";
-import { DynamicFields } from "../DynamicFields";
-import { Field } from "../Field";
+
+//style
 import { GridContainer, Wrapper } from "./style";
+
+//components
+import { Field } from "../Field";
+import { DynamicFields } from "../DynamicFields";
+
+//other
+import { FormFieldTypes } from "../../utils/types";
 
 interface VariantProps {
   index: number;
 }
+
 export const Variant: React.FC<VariantProps> = ({ index }) => {
   const {
     watch,
@@ -18,6 +27,7 @@ export const Variant: React.FC<VariantProps> = ({ index }) => {
   } = useFormContext<FormFieldTypes>();
   const { t } = useTranslation();
   const error = errors.variants ? errors.variants[index] : undefined;
+
   const isItemWithDisocunt = Number(watch("loyaltyType")) !== 1;
 
   useEffect(() => {

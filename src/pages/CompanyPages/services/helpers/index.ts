@@ -37,6 +37,12 @@ export const createItemDefaultFields = {
     ],
     loyaltyOff: false,
     images: [],
+    preparationTime: false,
+    preparationTimeData: {
+      days: '',
+      hours: '',
+      minutes: ''
+    }
 }
 
 

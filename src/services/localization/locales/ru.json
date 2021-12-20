@@ -619,5 +619,10 @@
   "choosepaymentmethod": "Выберите способ оплаты",
   "paymentbycash": "Оплата наличными/терминалом",
   "paymentbyapp": "Оплата через приложение",
-  "bypayment": "По Оплата"
+  "bypayment": "По Оплата",
+  "maxAmountOfItems": "Максимальное количество: 1 000 000 шт.",
+  "maxAmountOfDays": "Максимальное количество дней: 365",
+  "maxAmountOfHours": "Максимальное количество часов: 24",
+  "maxAmountOfMinutes": "Максимальное количество минут: 60",
+  "atLeastOneFieldRequired": "Заполните хотя бы одно поле"  
 }

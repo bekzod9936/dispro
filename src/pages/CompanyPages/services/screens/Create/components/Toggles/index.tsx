@@ -1,10 +1,20 @@
-import CustomToggle from "components/Custom/CustomToggleSwitch";
+//packages
 import { Controller, useFormContext } from "react-hook-form";
+
+//components
+import CustomToggle from "components/Custom/CustomToggleSwitch";
+
+//style
 import { LightToolTip, QuestionMarkIcon, Wrapper } from "./style";
 
+//other
+import { FormFieldTypes } from "pages/CompanyPages/services/utils/types";
+
 interface TogglesProps {}
+
 export const Toggles: React.FC<TogglesProps> = () => {
-  const { control } = useFormContext();
+  const { control } = useFormContext<FormFieldTypes>();
+
   return (
     <Wrapper>
       <Controller
