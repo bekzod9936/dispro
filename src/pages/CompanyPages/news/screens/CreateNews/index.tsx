@@ -313,7 +313,7 @@ const CreateNews = () => {
                     error={errors.name ? true:false}
                     message={errors?.name?.type === "required" ? t("requiredField"):t("максимальное число символов 80")}
                     field={field}
-                    maxLength='80'
+                    maxLength='79'
                     label={t("Название")}
                   />
                 )}
