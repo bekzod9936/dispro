@@ -50,11 +50,14 @@ export const LeftSide = styled.div`
 export const RightSide = styled.div`
   width: 50%;
   height: 100vh;
+  background: red;
   background-color: #f1f4f6;
   border-top-left-radius: 10%;
   display: flex;
   flex-direction: column;
-
+  @media (max-width: ${device.mobile}) {
+    height: calc(100vh - 60px);
+  }
   @media (max-width: ${device.planshet}) {
     background: white;
     border-top-left-radius: 0;
