@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Item } from "./style";
+import { Item, Wrapper } from "./style";
 
 interface SectionsProps {}
 
@@ -34,7 +34,7 @@ export const Sections: React.FC<SectionsProps> = () => {
   >(null);
 
   return (
-    <div>
+    <Wrapper>
       <Item isSelected={!currentSection}>
         <h4>{t("allGoods")}</h4>
       </Item>
@@ -48,6 +48,6 @@ export const Sections: React.FC<SectionsProps> = () => {
           <div>more</div>
         </Item>
       ))}
-    </div>
+    </Wrapper>
   );
 };

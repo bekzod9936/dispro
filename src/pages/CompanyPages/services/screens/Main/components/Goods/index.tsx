@@ -1,12 +1,12 @@
 import { Sections } from "pages/CompanyPages/services/components/Sections";
 import React from "react";
-
+import { Wrapper } from "./style";
 interface GoodsProps {}
 
 export const Goods: React.FC<GoodsProps> = () => {
   return (
-    <div style={{ width: "100%" }}>
+    <Wrapper>
       <Sections />
-    </div>
+    </Wrapper>
   );
 };
