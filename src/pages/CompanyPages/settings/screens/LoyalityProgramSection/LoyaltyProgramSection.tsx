@@ -250,12 +250,16 @@ const LoyaltyProgramSection = () => {
                       flexDirection='column'
                       alignItems='flex-start'
                     >
-                      <div style={{}}>
+                      <div >
                         <Text fontSize='18px' fontWeight={500}>
-                          {'Отключения Программы Лояльности'}
+                          {'Отключения все'}
                         </Text>
                       </div>
-                     
+                      <div style={{ marginTop: '5px', width: '290px' }}>
+                        <Text fontSize='14px' fontWeight={300}>
+                          {'В данном случае все программы лояльности будут отключены'}
+                        </Text>
+                      </div>
                     </Flex>
                   </Flex>}
           

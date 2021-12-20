@@ -416,7 +416,7 @@ const EditNews = () => {
                   maxLength={800}
                     {...field}
                     defaultValue={newsById?.data?.description}
-                    message={t("requiredField")}
+                    message={errors?.description?.type === "required" ? t("requiredField"):t("максимальное число символов 800")}
                     error={!!errors.description}
                     minHeight={"150px"}
                     fontSize={width > 1000 ? "18px" : "14px"}
