@@ -17,6 +17,7 @@ export const Container = styled.div`
   border-radius: 14px 14px 14px 14px;
   overflow-x: auto;
   width: 100%;
+  padding-bottom: 12px;
   &:hover {
     ::-webkit-scrollbar-thumb {
       background: #606eea;
@@ -184,6 +185,7 @@ export const Tbody = styled.tbody`
   & > tr {
     height: 60px;
   }
+
 `;
 export const TRow = styled.tr`
   border: none;

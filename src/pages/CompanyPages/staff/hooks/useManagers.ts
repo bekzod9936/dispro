@@ -71,7 +71,7 @@ const useManagers = ({ page, query, period }: any) => {
       refetchOnWindowFocus: false,
       cacheTime: 5000,
       onSuccess: (data) => {
-        dispatch(setManagers(data.data.data));
+        dispatch(setManagers(data.data.data.staffs));
 
         dispatch(
           setAllManager(

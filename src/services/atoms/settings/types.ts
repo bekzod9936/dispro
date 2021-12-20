@@ -11,7 +11,7 @@ export interface ILoyality {
 }
 
 export interface IActive {
-  active: "discount" | "cashback" | "bonuspoint" | "";
+  active: "discount" | "cashback" | "bonuspoint" |"";
 }
 
 export interface IECashback {

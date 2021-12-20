@@ -137,14 +137,20 @@ const CashierFilterBar: React.FC<Props> = ({
 					/>
 				</FilterInputWrap>
 				<FilterList>
-					<Radio
-						flexDirection='row'
-						list={branches}
-						value={filterValue}
-						onChange={(e) => setFilterValue(e)}
-					/>
+					{branches.length >= 1 ? (
+						<Radio
+							flexDirection='row'
+							list={branches}
+							value={filterValue}
+							onChange={(e) => setFilterValue(e)}
+						/>
+					) : (
+						'По вашему запросу ничего не найдено...'
+					)}
+
 					{/* {storeIdForFilter && <span>{allCashier.length}</span>} */}
 				</FilterList>
+
 				<DownSide>
 					<CashierRow>
 						{/* <Button
