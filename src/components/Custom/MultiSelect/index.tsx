@@ -80,6 +80,7 @@ const MultiSelect = ({
         {...props.field}
         placeholder={props.placeholder ? props.placeholder : ""}
         menuPortalTarget={document.body}
+      
       />
       {props.error ? (
         <Message isStatic={props.isStatic} labelStyle={props.labelStyle}>
