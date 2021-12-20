@@ -310,7 +310,6 @@ const CreateNews = () => {
                 }}
                 render={({ field }) => (
                   <Input
-                  
                     error={errors.name ? true:false}
                     message={errors?.name?.type === "required" ? t("requiredField"):t("максимальное число символов 80")}
                     field={field}
@@ -319,8 +318,6 @@ const CreateNews = () => {
                   />
                 )}
               /> 
-
-
               <Controller
                 name="description"
                 control={control}
