@@ -619,6 +619,7 @@ const useLoyality = () => {
         password:""
       }
     })
+    if(checked)
     setActive({ active:checked ? "":switchKey })
    
   };
