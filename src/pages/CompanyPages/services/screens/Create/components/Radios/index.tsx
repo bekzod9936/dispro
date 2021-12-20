@@ -1,10 +1,21 @@
-import { RadioFields } from "pages/CompanyPages/services/components/RadioFields";
-import { FormFieldTypes } from "pages/CompanyPages/services/utils/types";
-import React, { useEffect } from "react";
-import { useFormContext } from "react-hook-form";
+//packages
 import { useTranslation } from "react-i18next";
-import { LightToolTip, QuestionMarkIcon } from "./style";
-import { Wrapper, Content, ErrorMessage } from "./style";
+import { useFormContext } from "react-hook-form";
+
+//components
+import { RadioFields } from "pages/CompanyPages/services/components/RadioFields";
+
+//style
+import {
+  Wrapper,
+  Content,
+  ErrorMessage,
+  LightToolTip,
+  QuestionMarkIcon,
+} from "./style";
+
+//other
+import { FormFieldTypes } from "pages/CompanyPages/services/utils/types";
 
 interface RadiosProps {}
 
@@ -12,17 +23,7 @@ export const Radios: React.FC<RadiosProps> = () => {
   const { t } = useTranslation();
   const {
     formState: { errors },
-    getValues,
-    setValue,
   } = useFormContext<FormFieldTypes>();
-
-  const isLoyaltyOff = getValues("loyaltyOff");
-
-  useEffect(() => {
-    if (isLoyaltyOff) {
-      setValue("loyaltyType", undefined);
-    }
-  }, [isLoyaltyOff]);
 
   return (
     <Wrapper>

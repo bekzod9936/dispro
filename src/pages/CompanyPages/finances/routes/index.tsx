@@ -22,7 +22,7 @@ const useFinanceRoute = () => {
     },
     {
       path: '/finances/payment',
-      text: t('p2p'),
+      text: t('operationthroughbank'),
       component: Payment,
     },
     {
@@ -32,7 +32,7 @@ const useFinanceRoute = () => {
     },
     {
       path: '/finances/history',
-      text: t('byCashiers'),
+      text: t('alloperations'),
       component: History,
     },
   ];
