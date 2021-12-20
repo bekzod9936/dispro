@@ -1,9 +1,13 @@
-import InputFormat from "components/Custom/InputFormat";
-import React from "react";
-import { Controller, FieldError, useFormContext } from "react-hook-form";
+//packages
 import { useTranslation } from "react-i18next";
-import { FormFieldTypes } from "../../utils/types";
+import { Controller, FieldError, useFormContext } from "react-hook-form";
+
+//components
+import InputFormat from "components/Custom/InputFormat";
 import Input from "components/Custom/Input";
+
+//other
+import { FormFieldTypes } from "../../utils/types";
 
 interface FieldProps {
   name: `variants.${number}.${
@@ -16,6 +20,7 @@ interface FieldProps {
   error: FieldError | undefined;
   isArticul?: boolean;
 }
+
 export const Field: React.FC<FieldProps> = ({
   name,
   label,

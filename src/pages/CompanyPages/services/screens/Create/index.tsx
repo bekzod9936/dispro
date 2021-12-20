@@ -1,6 +1,7 @@
 //packages
 import { useForm, FormProvider } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 //components
 import {
@@ -21,7 +22,6 @@ import { Wrapper, Form, Container } from "./style";
 //other
 import { FormFieldTypes } from "../../utils/types";
 import { createItemDefaultFields } from "../../helpers";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { goodsSchema } from "../../utils/schemas.yup";
 
 interface CreateProps {}
