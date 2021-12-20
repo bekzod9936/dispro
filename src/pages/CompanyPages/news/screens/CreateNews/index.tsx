@@ -300,7 +300,7 @@ const CreateNews = () => {
                   src={file}
                 />
               )}
-              <Controller
+               <Controller
                 name="name"
                 control={control}
                 rules={{
@@ -317,7 +317,9 @@ const CreateNews = () => {
                     label={t("Название")}
                   />
                 )}
-              />
+              /> 
+ 
+
 
               <Controller
                 name="description"

@@ -37,7 +37,7 @@ export const setActiveM = selector<IActive>({
 });
 
 //active check
-export const activeCheckM = atom<"discount" | "cashback" | "bonuspoint" | "">({
+export const activeCheckM = atom<"discount" | "cashback" | "bonuspoint" |"">({
   key: "activeCheck",
   default: "",
 });
@@ -55,7 +55,9 @@ export const setActiveCheckM = selector<
   },
 });
 
+
 //exmpty states
+
 export const eCashback = atom<IECashback>({
   key: "emptyCashback",
   default: {
@@ -79,6 +81,8 @@ export const eBonuspoint = atom<IEBonuspoint>({
     empty: false,
   },
 });
+
+
 
 export const setECashback = selector<IECashback>({
   key: "setECashback",
