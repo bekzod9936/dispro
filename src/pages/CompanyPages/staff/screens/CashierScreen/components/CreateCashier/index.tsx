@@ -44,7 +44,7 @@ const CreateCashier = ({ openCash }: IProps) => {
 		watch,
 		setValue,
 		getValues,
-		register,
+		setError,
 		formState: { errors, isValid, isSubmitSuccessful },
 	} = useForm<FormProps>({
 		mode: 'onChange',
@@ -62,23 +62,33 @@ const CreateCashier = ({ openCash }: IProps) => {
 
 	const onSave = (data: FormProps) => {
 		console.log(data, 'data');
-		createCash.mutate({
-			comment: data.comment,
-			firstName: data.firstName,
-			lastName: data.lastName,
-			storeIds: [data.storeIds.value],
-			telNumber: `+998${data.telNumber}`,
-			roleId: 3,
-		});
+		createCash.mutate(
+			{
+				comment: data.comment,
+				firstName: data.firstName,
+				lastName: data.lastName,
+				storeIds: [data.storeIds.value],
+				telNumber: `+998${data.telNumber}`,
+				roleId: 3,
+			},
+			{
+				onSuccess: () => {
+					reset(resetData);
+				},
+				onError: () => {
+					setError('telNumber', { message: 'Повторяющаяся запись' });
+				},
+			}
+		);
 	};
 
-	useEffect(() => {
-		if (isSubmitSuccessful) {
-			setTimeout(() => {
-				reset(resetData);
-			}, 4000);
-		}
-	}, [isSubmitSuccessful, reset]);
+	// useEffect(() => {
+	// 	if (isSubmitSuccessful) {
+	// 		setTimeout(() => {
+	// 			reset(resetData);
+	// 		}, 4000);
+	// 	}
+	// }, [isSubmitSuccessful, reset]);
 
 	const tel: any = getValues();
 
@@ -177,7 +187,7 @@ const CreateCashier = ({ openCash }: IProps) => {
 										<Input
 											label={t('phoneNumber')}
 											error={errors.telNumber ? true : false}
-											message={t('requiredField')}
+											message={errors.telNumber?.message}
 											type='string'
 											field={field}
 											fullWidth={true}
