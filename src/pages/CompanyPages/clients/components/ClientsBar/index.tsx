@@ -68,7 +68,7 @@ const modalInfo: any = {
 export const ClientsBar = ({ refetch }: IProps) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const { selectedClients, allClients } = useAppSelector(
+  const { selectedClients, allClients, disableSpecStatus } = useAppSelector(
     (state) => state.clients
   );
   const client = selectedClients[0];
@@ -235,6 +235,7 @@ export const ClientsBar = ({ refetch }: IProps) => {
                     <MToggle>
                       <p>Специальный статус</p>
                       <CustomToggle
+                        disabled={disableSpecStatus}
                         checked={
                           client?.personalLoyaltyInfo?.isActive || vipModal
                         }
@@ -244,6 +245,7 @@ export const ClientsBar = ({ refetch }: IProps) => {
                     </MToggle>
                     {client?.personalLoyaltyInfo?.isActive && (
                       <button
+                        disabled={disableSpecStatus}
                         onClick={() => {
                           setVipModalState("updating");
                           setVipModal(true);
@@ -319,6 +321,7 @@ export const ClientsBar = ({ refetch }: IProps) => {
             <MToggle>
               <p>Специальный статус</p>
               <CustomToggle
+                disabled={disableSpecStatus}
                 checked={
                   selectedClients.every(
                     (client) => client.personalLoyaltyInfo.isActive
@@ -332,6 +335,7 @@ export const ClientsBar = ({ refetch }: IProps) => {
             </MToggle>
             {selectedClients.every((el) => el.personalLoyaltyInfo.isActive) && (
               <button
+                disabled={disableSpecStatus}
                 onClick={() => {
                   setVipModalState("updating");
                   setVipModal(true);

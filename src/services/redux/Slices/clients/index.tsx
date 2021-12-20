@@ -74,6 +74,7 @@ const initialState: IState = {
   client: initialClient,
   allClients: [],
   selectedAllClients: [],
+  disableSpecStatus: false,
 };
 
 const clientsSlice = createSlice({
@@ -205,6 +206,12 @@ const clientsSlice = createSlice({
     setFilials: (state: IState, { payload }: PayloadAction<any[]>) => {
       state.filials = payload;
     },
+    setDisableSpecStatus: (
+      state: IState,
+      { payload }: PayloadAction<boolean>
+    ) => {
+      state.disableSpecStatus = payload;
+    },
   },
 });
 
@@ -227,5 +234,6 @@ export const {
   setClientLevels,
   setFilials,
   removeFilial,
+  setDisableSpecStatus,
 } = clientsSlice.actions;
 export default clientsSlice.reducer;

@@ -57,6 +57,7 @@ const Client = () => {
     period: { endDate, startDate },
     currentClient,
     note,
+    disableSpecStatus,
   } = useAppSelector((state) => state.clients);
   const { id }: any = useParams();
   const [clientId, clientUserId] = id?.toString()?.split("-");
@@ -430,6 +431,7 @@ const Client = () => {
                 {t("substractPoints")}
               </Button>
               <Button
+                disabled={disableSpecStatus}
                 onClick={() => {
                   let res: "updating" | "selecting" = client
                     ?.personalLoyaltyInfo.isActive
