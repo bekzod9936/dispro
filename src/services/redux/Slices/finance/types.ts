@@ -13,6 +13,11 @@ export interface ISuggestion {
   payType: number;
 }
 
+export interface IStore {
+  address: string;
+  id: number;
+  name: string;
+}
 export interface IPayment {
   amount: number;
   amountPartner: number;
@@ -38,6 +43,8 @@ export interface ICashBack {
 }
 
 export interface IPayInfo {
+  amountCard: number;
+  amountCash: number;
   amountMinus: number;
   amountPayed: number;
   amountTotal: number;
@@ -57,6 +64,9 @@ export interface IHistory {
   clientName: string;
   cashierLogo: string;
   payInfo: IPayInfo;
+  chequeComment: string;
+  chequeId: number;
+  store?: IStore;
 }
 
 export interface IPayHeader {
@@ -68,6 +78,8 @@ export interface ISum {
   total: number;
   minus: number;
   paid: number;
+  card: number;
+  cash: number;
 }
 
 export interface ICashier {
@@ -80,6 +92,11 @@ export interface ITotal {
   pages?: number;
 }
 
+export interface ISide {
+  openRow: boolean;
+  chosenRow: any;
+  content?: any;
+}
 export interface IFinance {
   suggestionFinance: {
     data: ISuggestion[];
@@ -104,6 +121,8 @@ export interface IFinance {
     between: string;
     sum: ISum;
     cashier: ICashier[];
+    storeIds: IStore[];
+    sidedrawer: ISide;
   };
 }
 

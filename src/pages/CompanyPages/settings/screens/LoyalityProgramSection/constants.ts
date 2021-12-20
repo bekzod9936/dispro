@@ -24,6 +24,7 @@ export const switchItems = [
     key: "bonuspoint",
   },
  
+  
 ];
 
 export const levelReqs = [

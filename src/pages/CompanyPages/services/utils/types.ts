@@ -1,5 +1,5 @@
 export type createSectionFormType = {
-    sections: { name: string }[]
+    sections: { title: string }[]
 }
 
 
@@ -37,4 +37,5 @@ export interface FormFieldTypes {
   loyaltyOff: boolean,
   variants: variantType[],
   preparationTime: preparationTimeType[]
+  images: string[]
 }

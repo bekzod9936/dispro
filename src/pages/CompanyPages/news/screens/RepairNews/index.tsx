@@ -361,12 +361,13 @@ const RepairNews = () => {
                 control={control}
                 rules={{
                   required: true,
+                  maxLength:80,
                 }}
                 defaultValue={newsById?.data?.title}
                 render={({ field }) => (
                   <Input
-                    error={!!errors.name}
-                    message={t("requiredField")}
+                  error={errors.name ? true:false}
+                  message={errors?.name?.type === "required" ? t("requiredField"):t("максимальное число символов 80")}
                     field={field}
                     maxLength={80}
                     label={t("title")}
@@ -379,6 +380,7 @@ const RepairNews = () => {
                 control={control}
                 rules={{
                   required: true,
+                  maxLength:800,
                 }}
                 defaultValue={newsById?.data?.description}
                 render={({ field }) => (
@@ -386,7 +388,7 @@ const RepairNews = () => {
                     maxLength={800}
                     {...field}
                     defaultValue={newsById?.data?.description}
-                    message={t("requiredField")}
+                    message={errors?.description?.type === "required" ? t("requiredField"):t("максимальное число символов 800")}
                     error={!!errors.description}
                     minHeight={"150px"}
                     maxHeight={"300px"}
@@ -593,11 +595,15 @@ const RepairNews = () => {
                     <Controller
                       control={control}
                       name="timeFrom"
+                      rules={{
+                        required: true,
+                      }}
                       defaultValue={newsById?.data?.settings?.time?.from}
                       render={({ field }) => (
                         <Input
                           margin={{ laptop: "0 25px 0 0" }}
                           type="time"
+                          required={optionalFields.push ? true : false}
                           disabled={checked ?true:false}
                           defaultValue={newsById?.data?.settings?.time?.from}
                           field={field}
@@ -607,12 +613,16 @@ const RepairNews = () => {
                     <Controller
                       control={control}
                       name="timeTo"
+                      rules={{
+                        required: true,
+                      }}
                       defaultValue={newsById?.data?.settings?.time?.to}
                       render={({ field }) => (
                         <Input
                           type="time"
                           field={field}
                           disabled={checked ?true:false}
+                          required={optionalFields.push ? true : false}
                           defaultValue={newsById?.data?.settings?.time?.to}
                         />
                       )}

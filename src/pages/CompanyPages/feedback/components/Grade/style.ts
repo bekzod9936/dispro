@@ -2,6 +2,12 @@ import styled from 'styled-components';
 import { device } from 'styles/device';
 import { ReactComponent as Line } from 'assets/icons/FeedBack/line.svg';
 
+interface Props {
+  up?: boolean;
+  total?: boolean;
+  bgcolor?: boolean;
+}
+
 export const Container = styled.div`
   background: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
@@ -58,10 +64,13 @@ export const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  justify-content: ${({ total }: Props) =>
+    total ? 'center' : 'space-between'};
+  grid-gap: 10px;
 `;
 
 export const PercentInfo = styled.div`
-  background: #38e25d;
+  background: ${({ bgcolor }: Props) => (bgcolor ? '#38e25d' : '#FF5E68')};
   border-radius: 14px;
   font-weight: bold;
   font-size: 16px;
@@ -76,6 +85,7 @@ export const PercentInfo = styled.div`
 
 export const LineIcon = styled(Line)`
   margin-right: 10px;
+  transform: ${({ up }: Props) => (up ? 'rotate(0)' : 'rotateX(180deg)')};
 `;
 
 export const PercentNum = styled.div`
@@ -90,10 +100,6 @@ export const PercentDef = styled.div`
   color: #c4c4c4;
   margin-left: 10px;
 `;
-
-interface Props {
-  total?: boolean;
-}
 
 export const PercentWrap = styled.div`
   display: flex;

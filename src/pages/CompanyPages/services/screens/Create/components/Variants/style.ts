@@ -9,5 +9,5 @@ export const Wrapper = styled.div`
 `
 
 export const Item = styled.div`
-    margin-bottom: ${({isLastElem}: Props) => isLastElem ? '' : '35px'}
+    margin-bottom: ${({isLastElem}: Props) => isLastElem ? '' : '40px'}
 `

@@ -5,7 +5,7 @@ import * as yup from "yup"
 export const sectionsSchema = yup.object().shape({
     sections: yup.array().of(
         yup.object().shape({
-            title: yup.string().max(30, "maxAmountOfCharacters").required('requiredField')
+            title: yup.string().max(30, "maxAmountOfCharacters").required('enterSectionName')
         })
     ).test('unique', 'titlesOfSectionsMustBeUnique', function (array) {
         let res = array?.map(el => el.title);
@@ -29,6 +29,118 @@ export const sectionsSchema = yup.object().shape({
 
     })
 })
+
+const variantSchema = yup.object().shape({
+    name: yup.array().of(
+        yup.object().shape({
+            data: yup.string().max(30, 'maxAmountOfSymbols').required('requiredField'),
+            lang: yup.string().required()
+        })
+    ),
+
+    amount: yup.string().test('length', 'minAmountOfItems', (text) => {
+        return Number(text) > 8
+    }).required('enterAmountOfItem'),
+
+
+
+    articul: yup.string().required('enterArticulOfItem').max(30, 'maxAmountOfSymbols'),
+
+    // price: yup.string().test('length', 'maxPriceOneBillion', (text) => {
+    //     return text?.trim() === '' ? false : Number(text) < 1000000001
+    // }).required('enterPriceOfItem'),
+    price: yup.number().typeError('enterPriceOfItem').max(1000000001, 'maxPriceOneBillion').required('enterPriceOfItem'),
+
+    priceWithSale: yup.string()
+    
+})
+
+const variantSchemaWithSale = yup.object().shape({
+    name: yup.array().of(
+        yup.object().shape({
+            data: yup.string().max(30, 'maxAmountOfSymbols').required('requiredField'),
+            lang: yup.string().required()
+        })
+    ),
+
+    amount: yup.string().test('length', 'minAmountOfItems', (text) => {
+        return Number(text) > 8
+    }).required('enterAmountOfItem'),
+
+
+    articul: yup.string().required('enterArticulOfItem').max(30, 'maxAmountOfSymbols'),
+
+    // price: yup.number().test('length', 'maxPriceOneBillion', (text) => {
+    //     return text?.trim() === '' ? false : Number(text) < 1000000001
+    // }).required('enterPriceOfItem'),
+    price: yup.number().typeError('enterPriceOfItem').max(1000000001, 'maxPriceOneBillion').required('enterPriceOfItem'),
+
+    priceWithSale: yup.number().typeError('requiredField').lessThan(yup.ref('price'), 'priceWithSaleMustBeLessThanPriceWithoutSale').required('enterPriceOfItemWithSale')
+    
+})
+
+export const goodsSchema = yup.object().shape({
+    titles: yup.array().of(
+        yup.object().shape({
+            data: yup.string().max(30, 'maxAmountOfSymbols').required('enterItemOrServiceName'),
+            lang: yup.string().required()
+        })
+    ),
+
+    descriptions: yup.array().of(
+        yup.object().shape({
+            data: yup.string().max(800, 'maxAmountOfSymbolsDesc').required('enterItemOrServiceDescription'),
+            lang: yup.string().required()
+        })
+    ),
+
+    loyaltyOff: yup.boolean(),
+
+    measurement: yup.object().shape({
+        label: yup.string(),
+        name: yup.string(),
+        value: yup.number().required('requiredField')
+    }).required('requiredField'),
+
+    service: yup.object().shape({
+        label: yup.string(),
+        name: yup.string(),
+        value: yup.number().required('requiredField')
+    }).required('requiredField'),
+
+    section: yup.object().shape({
+        label: yup.string(),
+        name: yup.string(),
+        value: yup.number().required('requiredField')
+    }).required('requiredField'),
+
+    loyaltyType: yup.string(),
+
+    images: yup.array().of(
+        yup.string()
+    ).length(1, 'chooseAtLeastOneImage'),
+
+    preparationTime: yup.array().of(
+        yup.object().shape({
+            days: yup.number(),
+            hours: yup.string(),
+            minutes: yup.string()
+        }).test('atLeastOneFieldRequired', 'requiredField', (val) => {
+            const {days, hours, minutes} = val;
+
+            return Boolean(days) || Boolean(minutes) || Boolean(hours)
+        })
+
+    ),
+
+
+    variants: yup.array().when('loyaltyType', {
+        is: (val: number | string) => Number(val) === 1,
+        then: yup.array().of(variantSchemaWithSale),
+        otherwise: yup.array().of(variantSchema)
+    })
+})
+
 
 
 

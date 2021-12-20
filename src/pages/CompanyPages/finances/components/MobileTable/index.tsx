@@ -21,6 +21,7 @@ import {
   PinkIcon,
   WrapAvatar,
 } from './style';
+import SideDrawer from '../SideDrawer';
 
 interface Props {
   data?: {
@@ -29,14 +30,31 @@ interface Props {
       title?: any;
       avatar?: any;
       value?: any;
+      values?: any;
       body?: { title?: any; value?: any }[];
     }[];
   };
   headertitle?: string;
   isAvatar?: boolean;
+  onAllClose?: () => void;
+  handleEdit?: (e: any) => void;
+  handleDelete?: (e: any) => void;
+  onClickRow?: (e: any) => void;
+  disable?: boolean;
+  comment?: boolean;
 }
 
-const MobileTable = ({ data, headertitle, isAvatar }: Props) => {
+const MobileTable = ({
+  data,
+  headertitle,
+  isAvatar,
+  onAllClose = () => {},
+  handleEdit = () => {},
+  handleDelete = () => {},
+  onClickRow = () => {},
+  disable,
+  comment,
+}: Props) => {
   const [open, setOpen] = useState(false);
   const [id, setId] = useState<any>(null);
 
@@ -68,7 +86,12 @@ const MobileTable = ({ data, headertitle, isAvatar }: Props) => {
                   <PinkIcon />
                 )
               ) : null}
-              <WrapMain isAvatar={isAvatar}>
+              <WrapMain
+                onClick={() => {
+                  onClickRow(a.values);
+                }}
+                isAvatar={isAvatar}
+              >
                 <FullName>{a?.title}</FullName>
                 <Wrapper>
                   <Title>{data?.title}:</Title>
@@ -129,6 +152,15 @@ const MobileTable = ({ data, headertitle, isAvatar }: Props) => {
                     })}
                   </WrapBox>
                 </ModalContent>
+                {comment ? (
+                  <SideDrawer
+                    onAllClose={onAllClose}
+                    handleEdit={() => handleEdit(a.values.col13)}
+                    handleDelete={() => handleDelete(a.values.id)}
+                    disable={disable}
+                    comment={a.values.col13}
+                  />
+                ) : null}
               </FullModal>
             ) : null}
           </>

@@ -3,21 +3,26 @@ import { useForm, FormProvider } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
 //components
-import { Header } from "./components/Header";
-import { Button } from "@material-ui/core";
+import {
+  Header,
+  Durations,
+  Fields,
+  Selects,
+  Radios,
+  Toggles,
+  Variants,
+  Photos,
+  Buttons,
+} from "./components";
 
 //style
 import { Wrapper, Form, Container } from "./style";
 
 //other
 import { FormFieldTypes } from "../../utils/types";
-import { Fields } from "./components/Fields";
-import { Selects } from "./components/Selects";
-import { Radios } from "./components/Radios";
-import { Toggles } from "./components/Toggles";
-import { Variants } from "./components/Variants";
-import InputFormat from "components/Custom/InputFormat";
-import { Durations } from "./components/Durations";
+import { createItemDefaultFields } from "../../helpers";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { goodsSchema } from "../../utils/schemas.yup";
 
 interface CreateProps {}
 
@@ -26,20 +31,8 @@ const Create: React.FC<CreateProps> = () => {
 
   const form = useForm<FormFieldTypes>({
     mode: "onChange",
-    defaultValues: {
-      titles: [{ data: "lorem", lang: "(Рус)" }],
-      descriptions: [{ data: "", lang: "(Рус)" }],
-      variants: [
-        {
-          name: [{ data: "", lang: "(Рус)" }],
-          amount: "",
-          price: "",
-          priceWithSale: "",
-          articul: "",
-        },
-      ],
-      loyaltyOff: false,
-    },
+    defaultValues: createItemDefaultFields,
+    resolver: yupResolver(goodsSchema),
   });
 
   const onSubmit = (data: any) => {
@@ -58,9 +51,8 @@ const Create: React.FC<CreateProps> = () => {
             <Toggles />
             <Variants />
             <Durations />
-            <Button variant="contained" type="submit">
-              Submit
-            </Button>
+            <Photos />
+            <Buttons />
           </Container>
         </FormProvider>
       </Form>

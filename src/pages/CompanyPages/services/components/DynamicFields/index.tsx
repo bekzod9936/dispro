@@ -1,27 +1,36 @@
 import { useState } from "react";
 
 //packages
-import { Control, Controller, useFieldArray } from "react-hook-form";
+import {
+  Control,
+  Controller,
+  FieldErrors,
+  useFieldArray,
+} from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
 //components
 import Input from "components/Custom/Input";
-import { Languages } from "pages/CompanyPages/services/components/Modals/Languages";
+import { LanguagesModal } from "pages/CompanyPages/services/components/Modals/Languages";
 
 //styles
-import { ButtonIcon, MockIcon, RemoveInputIcon } from "./style";
+import { ButtonIcon, MockIcon, RemoveInputIcon, useStyles } from "./style";
 import { SubButton } from "pages/CompanyPages/services/style";
 import { Wrapper } from "./style";
 
 //other
 import { FormFieldTypes } from "pages/CompanyPages/services/utils/types";
 
+interface IError extends FieldErrors<FormFieldTypes> {
+  [name: string]: any;
+}
 interface DynamicFieldsProps {
   control: Control<FormFieldTypes>;
   name: "descriptions" | "titles" | `variants.${number}.name`;
   isDescription?: boolean;
   label: string;
   marginBottom?: string;
+  error: IError | undefined;
 }
 
 export const DynamicFields: React.FC<DynamicFieldsProps> = ({
@@ -30,9 +39,11 @@ export const DynamicFields: React.FC<DynamicFieldsProps> = ({
   isDescription,
   label,
   marginBottom,
+  error,
 }) => {
   const { t } = useTranslation();
   const [modal, setModal] = useState(false);
+  const { input } = useStyles();
   const { fields, append, remove } = useFieldArray({
     control,
     name,
@@ -79,16 +90,11 @@ export const DynamicFields: React.FC<DynamicFieldsProps> = ({
                 }
                 label={t(label) + ` ${item.lang}`}
                 multiline={isDescription}
+                message={error ? t(error[index]?.data?.message) : ""}
                 isAbsolute
+                error={error ? Boolean(error[index]) : false}
                 type={isDescription ? "textarea" : ""}
-                inputStyle={
-                  isDescription
-                    ? {
-                        height: { desktop: 124, laptop: 124 },
-                        inpadding: "10px 15px",
-                      }
-                    : undefined
-                }
+                inputStyle={input.style(Boolean(isDescription))}
               />
             )}
           />
@@ -99,7 +105,7 @@ export const DynamicFields: React.FC<DynamicFieldsProps> = ({
           )}
         </div>
       ))}
-      <Languages
+      <LanguagesModal
         open={modal}
         onClose={handleClose}
         onConfirm={handleAddField}

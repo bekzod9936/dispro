@@ -3,14 +3,17 @@ import { Duration } from "pages/CompanyPages/services/components/Duration";
 import { FormFieldTypes } from "pages/CompanyPages/services/utils/types";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Fields, GridContainer, useStyles } from "./style";
+import { ErrorMessage, Fields, GridContainer, useStyles } from "./style";
 
 interface DurationsProps {}
 export const Durations: React.FC<DurationsProps> = () => {
   const { t } = useTranslation();
   const styles = useStyles();
 
-  const { control } = useFormContext<FormFieldTypes>();
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext<FormFieldTypes>();
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -30,7 +33,7 @@ export const Durations: React.FC<DurationsProps> = () => {
   };
 
   return (
-    <div className={styles.wrapper}>
+    <div>
       <FormControlLabel
         classes={{ root: styles.root }}
         onChange={handleChange}
@@ -51,14 +54,22 @@ export const Durations: React.FC<DurationsProps> = () => {
         <Fields>
           <h4>Задайте вашему товару время изготовления</h4>
           {fields.map((item, index) => (
-            <GridContainer key={item.id}>
-              <Duration name={`preparationTime.${index}.days`} label="days" />
-              <Duration name={`preparationTime.${index}.hours`} label="hours" />
-              <Duration
-                name={`preparationTime.${index}.minutes`}
-                label="minutes"
-              />
-            </GridContainer>
+            <>
+              <GridContainer key={item.id}>
+                <Duration name={`preparationTime.${index}.days`} label="days" />
+                <Duration
+                  name={`preparationTime.${index}.hours`}
+                  label="hours"
+                />
+                <Duration
+                  name={`preparationTime.${index}.minutes`}
+                  label="minutes"
+                />
+              </GridContainer>
+              {Boolean(errors?.preparationTime?.[0]) && (
+                <ErrorMessage>{t("requiredFields")}</ErrorMessage>
+              )}
+            </>
           ))}
         </Fields>
       )}

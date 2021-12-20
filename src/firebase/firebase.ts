@@ -1,5 +1,6 @@
 import * as firebase from 'firebase/app';
 import 'firebase/messaging';
+
 const firebaseConfig = firebase.initializeApp({
   apiKey: 'AIzaSyAWYuvkVPG-htfbE1WJf1lWj05XUo2mpm4',
   authDomain: 'dis-count-f5f2a.firebaseapp.com',

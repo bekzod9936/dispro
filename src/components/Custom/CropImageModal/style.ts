@@ -45,7 +45,10 @@ export const Right = styled.div`
     justify-content: center;
     align-items: center;
   }
-
+ 
+  @media (max-width:320px){
+    height: 320px;
+  }
   @media (max-width: ${device.planshet}) {
     width: 100%;
     margin: 0;
@@ -125,6 +128,16 @@ export const LeftRound = styled.div`
   /* border-bottom: 1px solid rgba(96, 110, 234, 0.3); */
   /* box-shadow: 0px -1px 5px rgba(96, 110, 234, 0.25); */
 `;
+
+export const ErrorMessage = styled.div`
+  margin-bottom: 15px;
+  p {
+    color: #FF5E68;
+    font-size: 16;
+    line-height: 18.75px;
+    font-weight: 400;
+  }
+`
 
 export const PreviewDiv = styled.div`
   position: relative;

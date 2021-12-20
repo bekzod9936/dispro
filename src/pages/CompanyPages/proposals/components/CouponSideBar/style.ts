@@ -46,6 +46,7 @@ export const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    box-shadow: -5px 2px 20px rgba(0, 0, 0, 0.06);
     /* justify-content: space-between; */
 `
 

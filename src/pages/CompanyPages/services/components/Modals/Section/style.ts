@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { ReactComponent as ExitSvg } from "assets/icons/exit.svg"
-import { ReactComponent as RemoveInputSvg } from "assets/icons/removeInput.svg"
 import { ReactComponent as CreateSectionSvg } from "assets/icons/createSection.svg"
 import { ReactComponent as CancelSvg } from "assets/icons/cancelButton.svg"
+import { IconButton } from "@material-ui/core";
 
 
 export const Wrapper = styled.form`
@@ -52,25 +52,6 @@ export const Main = styled.div`
         border-radius: 6px 0px 0px 6px;
     }
 `
-export const Field = styled.div`
-    &:not(:last-child) {
-        margin-bottom: 30px;
-    }
-    button.add {
-        outline: none;
-        border: none;
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-        background-color: transparent;
-        color: #3492FF;
-        margin-top: 12px;
-        font-family: Roboto, sans-serif;
-        font-size: 14px;
-        line-height: 16.41px;
-
-    }
-`
 
 export const Footer = styled.div`
     width: 100%;
@@ -78,14 +59,39 @@ export const Footer = styled.div`
     align-items: center;
     justify-content: flex-end;
 `
+
+export const ButtonIcon = styled(IconButton)`
+    margin-right: 5px;
+`
+
+
+export const useStyles = () => {
+    return {
+        modal: {
+            style: {
+                maxwidth: 520,
+                width: "100%",
+              }
+        },
+        cancelButton: {
+            margin: {
+                desktop: "0 15px 0 0",
+                laptop: "0 15px 0 0",
+            },
+            style: {
+                color: "#223367",
+                bgcolor: "#fff",
+                weight: 500
+            }
+        }
+    }
+}
+
+
+
 //icons
 export const CloseIcon = styled(ExitSvg)``
 
 export const CreateSectionIcon = styled(CreateSectionSvg)``
 
 export const CancelIcon = styled(CancelSvg)``
-
-export const RemoveInputIcon = styled(RemoveInputSvg)`
-    margin-right: 15px;
-    cursor: pointer;
-`

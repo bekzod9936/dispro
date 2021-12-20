@@ -1,21 +1,44 @@
 import { RadioFields } from "pages/CompanyPages/services/components/RadioFields";
-import React from "react";
+import { FormFieldTypes } from "pages/CompanyPages/services/utils/types";
+import React, { useEffect } from "react";
+import { useFormContext } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { LightToolTip, QuestionMarkIcon } from "./style";
-import { Wrapper } from "./style";
+import { Wrapper, Content, ErrorMessage } from "./style";
 
 interface RadiosProps {}
 
 export const Radios: React.FC<RadiosProps> = () => {
+  const { t } = useTranslation();
+  const {
+    formState: { errors },
+    getValues,
+    setValue,
+  } = useFormContext<FormFieldTypes>();
+
+  const isLoyaltyOff = getValues("loyaltyOff");
+
+  useEffect(() => {
+    if (isLoyaltyOff) {
+      setValue("loyaltyType", undefined);
+    }
+  }, [isLoyaltyOff]);
+
   return (
     <Wrapper>
-      <RadioFields name="loyaltyType" />
-      <LightToolTip
-        placement="top"
-        arrow
-        title="При заказе этих товаров на их стоимость не будет начислятся cкидка/кешбэк/ баллы, а так же за товар нельзя оплатить баллами"
-      >
-        <QuestionMarkIcon />
-      </LightToolTip>
+      <Content>
+        <RadioFields name="loyaltyType" />
+        <LightToolTip
+          placement="top"
+          arrow
+          title="Товар который можно купить 100% оплатив баллами"
+        >
+          <QuestionMarkIcon />
+        </LightToolTip>
+      </Content>
+      {errors.loyaltyType && (
+        <ErrorMessage>{t(errors?.loyaltyType?.message)}</ErrorMessage>
+      )}
     </Wrapper>
   );
 };

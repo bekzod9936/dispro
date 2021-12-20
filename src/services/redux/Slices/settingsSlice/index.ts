@@ -12,6 +12,7 @@ interface IsettingsSlice {
   openModal: boolean;
   emptyCashback: boolean;
   emptyBall: boolean;
+  offChecked:boolean;
   emptySale: boolean;
   toggleName: IToggle;
   smallI: any;
@@ -37,6 +38,7 @@ const initialState: IsettingsSlice = {
   openModal: false,
   emptyCashback: true,
   emptyBall: true,
+  offChecked:false,
   emptySale: true,
   toggleName: {
     name: "",
@@ -78,6 +80,9 @@ const settingsSlice = createSlice({
     setMEmptyBall: (state, action: PayloadAction<boolean>) => {
       state.emptyBall = action.payload;
     },
+    setOffChecked:(state,action:PayloadAction<boolean>)=>{
+      state.offChecked=action.payload;
+    },
     setMEmptySale: (state, action: PayloadAction<boolean>) => {
       state.emptySale = action.payload;
     },
@@ -96,6 +101,7 @@ export const {
   handleClick,
   addModal,
   setBallCheck,
+  setOffChecked,
   setCashbackCheck,
   setSaleCheck,
   handleModal,

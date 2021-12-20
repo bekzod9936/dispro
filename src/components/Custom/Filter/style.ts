@@ -74,7 +74,7 @@ export const WrapHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 5px 15px;
-  @media (max-width: ${device.planshet}) {
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
     padding: 25px 30px;
   }
 `;

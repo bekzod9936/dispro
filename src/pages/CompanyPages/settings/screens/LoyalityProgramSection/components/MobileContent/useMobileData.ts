@@ -17,15 +17,17 @@ import {
 //utils
 import { parseSimpleString } from "services/utils";
 import { levelReqs } from "../../constants";
-import { notify } from 'services/utils/local_notification';
+import { notifySuccess } from 'services/utils/local_notification';
 //hooks
 import { FormProps } from "../../hooks/types";
 import { handleClick } from "services/redux/Slices/settingsSlice";
 
 const useMobileData = () => {
   const dispatch = useAppDispatch();
+  const payGo = useAppSelector((state) => state.info.payGo);
   //alert error time
   const [checkL, setCheckL] = useState(false);
+  const [payGoModal, setpayGoModal] = useState(false);
   const [alertName, setAlertName] = useState<any>("");
   const emptySale = useAppSelector((state) => state.settings.emptySale);
   const emptyBall = useAppSelector((state) => state.settings.emptyBall);
@@ -107,7 +109,7 @@ const useMobileData = () => {
     },
     {
       onSuccess: () => {
-        notify(t('Сохранено! Данные успешно сохранены'));
+        notifySuccess(t('  Сохранено!  Данные успешно сохранены'));
         refetch();
         refetchdiscount();
         refetchcashback();
@@ -227,6 +229,7 @@ const useMobileData = () => {
   };
 
   const onFormSubmit = async (data: FormProps) => {
+    if(payGo===1){
     if (!checkLevels(data.levels, data.base_name, data.base_percent)) {
       try {
         useProgramSave.mutate({
@@ -327,6 +330,10 @@ const useMobileData = () => {
         // alert(err);s
       }
     }
+  }
+  else {
+    setpayGoModal(true);
+  }
   };
 
   return {
@@ -344,6 +351,8 @@ const useMobileData = () => {
     alertName,
     checkL,
     setCheckL,
+    payGoModal,
+    setpayGoModal,
     getValues,
   };
 };

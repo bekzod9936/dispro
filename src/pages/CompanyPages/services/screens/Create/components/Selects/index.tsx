@@ -1,8 +1,11 @@
+import { useState } from "react";
 //packages
 import { useTranslation } from "react-i18next";
 
 //components
 import { SelectField } from "../../../../components/SelectFields";
+import { SectionModal } from "pages/CompanyPages/services/components/Modals/Section";
+import { SubButton } from "pages/CompanyPages/services/style";
 
 //styles
 import {
@@ -12,7 +15,7 @@ import {
   SectionsIcon,
   ServicesIcon,
 } from "./style";
-import { SubButton } from "pages/CompanyPages/services/style";
+import { useCategories } from "pages/CompanyPages/services/hooks";
 
 interface SelectsProps {}
 
@@ -27,10 +30,72 @@ const measurements = [
     value: 2,
     label: "гр",
   },
+  {
+    name: "kg",
+    value: 1,
+    label: "кг",
+  },
+  {
+    name: "gr",
+    value: 2,
+    label: "гр",
+  },
+  {
+    name: "kg",
+    value: 1,
+    label: "кг",
+  },
+  {
+    name: "gr",
+    value: 2,
+    label: "гр",
+  },
+  {
+    name: "kg",
+    value: 1,
+    label: "кг",
+  },
+  {
+    name: "gr",
+    value: 2,
+    label: "гр",
+  },
+  {
+    name: "kg",
+    value: 1,
+    label: "кг",
+  },
+  {
+    name: "gr",
+    value: 2,
+    label: "гр",
+  },
+  {
+    name: "kg",
+    value: 1,
+    label: "кг",
+  },
+  {
+    name: "gr",
+    value: 2,
+    label: "гр",
+  },
 ];
 
 export const Selects: React.FC<SelectsProps> = () => {
+  const [sectionModal, setSectionModal] = useState(false);
   const { t } = useTranslation();
+
+  const categoryList = useCategories();
+
+  const handleOpen = () => {
+    setSectionModal(true);
+  };
+
+  const handleClose = () => {
+    setSectionModal(false);
+  };
+
   return (
     <div>
       <SelectField
@@ -43,8 +108,8 @@ export const Selects: React.FC<SelectsProps> = () => {
       <Flex>
         <SelectField
           name="service"
-          placeholder="attendance"
-          options={measurements}
+          placeholder="chooseCategory"
+          options={categoryList}
           icon={<ServicesIcon />}
           margin={{ desktop: "0 20px 0 0", laptop: "0 20px 0 0" }}
         />
@@ -55,8 +120,11 @@ export const Selects: React.FC<SelectsProps> = () => {
             icon={<SectionsIcon />}
             placeholder="Выберите раздел"
           />
-          <SubButton>{t("createSection")}</SubButton>
+          <SubButton type="button" onClick={handleOpen}>
+            {t("createSection")}
+          </SubButton>
         </LeftField>
+        <SectionModal isSingle onClose={handleClose} isOpen={sectionModal} />
       </Flex>
     </div>
   );

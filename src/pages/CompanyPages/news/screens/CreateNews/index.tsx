@@ -300,35 +300,40 @@ const CreateNews = () => {
                   src={file}
                 />
               )}
-              <Controller
+               <Controller
                 name="name"
                 control={control}
                 rules={{
                   required: true,
+                  maxLength:80,
+                
                 }}
                 render={({ field }) => (
                   <Input
-                    error={!!errors.name}
-                    message={t("requiredField")}
+                    error={errors.name ? true:false}
+                    message={errors?.name?.type === "required" ? t("requiredField"):t("максимальное число символов 80")}
                     field={field}
                     maxLength={80}
                     label={t("Название")}
                   />
                 )}
-              />
+              /> 
+ 
+
 
               <Controller
                 name="description"
                 control={control}
                 rules={{
                   required: true,
+                  maxLength:800,
                 }}
                 render={({ field }) => (
                   <TextArea
-                    maxLength={800}
+                  maxLength={800}
                     {...field}
                     fontSize={width > 1000 ? "15px" : "14px"}
-                    message={t("requiredField")}
+                    message={errors?.description?.type === "required" ? t("requiredField"):t("максимальное число символов 800")}
                     error={!!errors.description}
                     minHeight={"150px"}
                     maxHeight={"300px"}
@@ -533,6 +538,10 @@ const CreateNews = () => {
                   <div style={{ display: "flex" }}>
                     <Controller
                       control={control}
+                      
+                   rules={{
+                    required: true,
+                  }}
                       name="timeFrom"
                       render={({ field }) => (
                         <Input
@@ -540,15 +549,18 @@ const CreateNews = () => {
                           type="time"  
                           field={field}
                           disabled={checked ?true:false}
-                       
+                          required={optionalFields.push ? true : false}
                         />
                       )}
                     />
                     <Controller
                       control={control}
                       name="timeTo"
+                      rules={{
+                        required: true,
+                      }}
                       render={({ field }) => (
-                        <Input type="time"  disabled={checked ?true:false} field={field} />
+                        <Input type="time"   required={optionalFields.push ? true : false} disabled={checked ?true:false} field={field} />
                       )}
                     />
                   </div>

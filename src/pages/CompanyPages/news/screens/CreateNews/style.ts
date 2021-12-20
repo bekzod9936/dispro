@@ -218,7 +218,7 @@ svg {
 }
 `
 export const DownSide = styled.div`
-    border-top: 1px solid #606EEA;
+    border-top: 1px solid #CFD3F9;
     padding: 25px 0;
     background-color: white;
     width: 100%;

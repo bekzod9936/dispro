@@ -42,7 +42,7 @@ export const Container = styled.div`
         : '40px'} !important;
     margin: ${({ margin }: Props) =>
       margin?.mobile ? margin?.mobile : null} !important;
-    .MuiButtonBase-root {
+    & > button.MuiButtonBase-root {
       padding: ${({ padding }: Props) =>
         padding?.mobile ? padding?.mobile : '0 15px'} !important;
     }
@@ -54,7 +54,7 @@ export const Container = styled.div`
         : '40px'} !important;
     margin: ${({ margin }: Props) =>
       margin?.planshet ? margin?.planshet : null} !important;
-    .MuiButtonBase-root {
+    & > button.MuiButtonBase-root {
       padding: ${({ padding }: Props) =>
         padding?.planshet ? padding?.planshet : '0 15px'} !important;
     }
@@ -66,7 +66,7 @@ export const Container = styled.div`
         : '45px'} !important;
     margin: ${({ margin }: Props) =>
       margin?.laptop ? margin?.laptop : null} !important;
-    .MuiButtonBase-root {
+    & > button.MuiButtonBase-root {
       padding: ${({ padding }: Props) =>
         padding?.laptop ? padding?.laptop : '0 20px'} !important;
     }
@@ -78,7 +78,7 @@ export const Container = styled.div`
         : '50px'} !important;
     margin: ${({ margin }: Props) =>
       margin?.desktop ? margin?.desktop : null} !important;
-    .MuiButtonBase-root {
+    & > button.MuiButtonBase-root {
       padding: ${({ padding }: Props) =>
         padding?.desktop ? padding?.desktop : '0 25px'} !important;
     }

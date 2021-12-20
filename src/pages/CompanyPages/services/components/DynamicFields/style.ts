@@ -14,6 +14,19 @@ export const Wrapper = styled.div`
     gap: 15px;
 `
 
+export const useStyles = () => {
+    return {
+        input: {
+            style(isDescription: boolean) {
+                return isDescription ? {
+                    height: { desktop: 124, laptop: 124 },
+                    inpadding: "10px 15px"
+                } : undefined
+            }
+        }
+    }
+}
+
 
 //icons
 export const RemoveInputIcon = styled(RemoveInputSvg)``

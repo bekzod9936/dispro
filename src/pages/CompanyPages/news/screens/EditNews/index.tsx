@@ -387,13 +387,14 @@ const EditNews = () => {
                 control={control}
                 rules={{
                   required: true,
+                  maxLength:80,
                 }}
                 defaultValue={newsById?.data?.title}
                 render={({ field }) => (
                   <Input
                     type="textarea"
-                    error={!!errors.name}
-                    message={t("requiredField")}
+                    error={errors.name ? true:false}
+                    message={errors?.name?.type === "required" ? t("requiredField"):t("максимальное число символов 80")}
                     field={field}
                     maxLength={80}
                     label={t("title")}
@@ -407,11 +408,12 @@ const EditNews = () => {
                 control={control}
                 rules={{
                   required: true,
+                  maxLength:800,
                 }}
                 defaultValue={newsById?.data?.description}
                 render={({ field }) => (
                   <TextArea
-                    maxLength={800}
+                  maxLength={800}
                     {...field}
                     defaultValue={newsById?.data?.description}
                     message={t("requiredField")}
@@ -637,6 +639,9 @@ const EditNews = () => {
                     <Controller
                       control={control}
                       name="timeFrom"
+                      rules={{
+                        required: true,
+                      }}
                       defaultValue={newsById?.data?.settings?.time?.from}
                       render={({ field }) => (
                         <Input
@@ -644,6 +649,7 @@ const EditNews = () => {
                           type="time"
                           disabled={checked ?true:false}
                           defaultValue={newsById?.data?.settings?.time?.from}
+                          required={optionalFields.push ? true : false}
                           field={field}
                         />
                       )}
@@ -651,11 +657,15 @@ const EditNews = () => {
                     <Controller
                       control={control}
                       name="timeTo"
+                      rules={{
+                        required: true,
+                      }}
                       defaultValue={newsById?.data?.settings?.time?.to}
                       render={({ field }) => (
                         <Input
                           type="time"
                           field={field}
+                          required={optionalFields.push ? true : false}
                           disabled={checked ?true:false}
                           defaultValue={newsById?.data?.settings?.time?.to}
                         />

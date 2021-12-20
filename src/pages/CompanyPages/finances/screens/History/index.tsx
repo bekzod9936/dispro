@@ -1,39 +1,23 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import useHistory from './hook/useHistory';
 import Spinner from 'components/Custom/Spinner';
 import Table from '../../components/Table';
-import { Tr, Th } from '../../components/Table/style';
-import Filter from 'components/Custom/Filter/index';
 import dayjs from 'dayjs';
-import Input from 'components/Custom/Input';
-import MultiSelect from 'components/Custom/MultiSelect';
-import useExcel from './hook/useExcel';
-import Button from 'components/Custom/Button';
-import { useAppSelector } from 'services/redux/hooks';
-import { IconButton } from '@material-ui/core';
+import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import { countPagination, numberWithNew } from 'services/utils';
 import MobileTable from '../../components/MobileTable';
 import useWindowWidth from 'services/hooks/useWindowWidth';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
 import financeCashierDef from '../../../../../assets/images/financeCashierDef.png';
 import { NewPagination } from 'components/Custom/NewPagination';
-import {
-  Container,
-  WrapFilter,
-  WrapInputs,
-  Label1,
-  WrapDate,
-  ButtonKeyWord,
-  DeleteIcon,
-  WrapFilterValues,
-  MoneyIcon,
-  DiscountIcon,
-  PinkIcon,
-  CartIcon,
-  ExcelIcon,
-  WrapSelectV,
-} from './style';
+import FilterHistory from './components/FilterHistory';
+import Button from 'components/Custom/Button';
+import { setSideDrawer } from 'services/redux/Slices/finance';
+import Modal from 'components/Custom/Modal';
+import { IconButton } from '@material-ui/core';
+import { TextArea } from 'components/Custom/TextArea';
+import { intialFilterProps } from './type';
+import SideDrawer from '../../components/SideDrawer';
 import {
   WrapPag,
   Info,
@@ -46,462 +30,180 @@ import {
   WrapDef,
   TitleDef,
 } from '../../style';
-
-interface intialFilterProps {
-  page?: number;
-  perPage?: number;
-  cashierStaffId?: number | string;
-  endDate?: string;
-  startDate?: string;
-}
-
-interface CashProp {
-  value?: number;
-  label?: string;
-}
+import {
+  Container,
+  MoneyIcon,
+  DiscountIcon,
+  CartIcon,
+  CloseIcon,
+  SaveIcon,
+  CancelIcon,
+  WrapButtonsModal,
+  WrapModalComment,
+  WarpBodyComModel,
+  WrapComTitle,
+  LabelCom,
+  CloseWrapBut,
+} from './style';
 
 const Payment = () => {
   const { t } = useTranslation();
   const { width } = useWindowWidth();
-
+  const dispatch = useAppDispatch();
+  const [rowData, setRowData] = useState<any>({});
+  const [comment, setComment] = useState<string>('');
+  const [open, setOpen] = useState(false);
+  const [disable, setDisable] = useState<boolean>(false);
   const data = useAppSelector((state) => state.finance.historyFinance.data);
   const total = useAppSelector((state) => state.finance.historyFinance.total);
   const between = useAppSelector(
     (state) => state.finance.historyFinance.between
   );
-
-  const sum = useAppSelector((state) => state.finance.historyFinance.sum);
-
-  const cashier = useAppSelector(
-    (state) => state.finance.historyFinance.cashier
+  const sidedrawer = useAppSelector(
+    (state) => state.finance.historyFinance.sidedrawer
   );
+  const sum = useAppSelector((state) => state.finance.historyFinance.sum);
 
   const intialFilter = {
     startDate: dayjs().startOf('month').format('YYYY-MM-DD'),
     endDate: dayjs().endOf('month').format('YYYY-MM-DD'),
-    cashierStaffId: 0,
+    cashierStaffId: '',
     page: 1,
     perPage: 5,
+    amountCash: '',
+    amountCard: '',
   };
 
-  const intialDate = {
-    startDate: dayjs().startOf('month').format('YYYY-MM-DD'),
-    endDate: dayjs().endOf('month').format('YYYY-MM-DD'),
-  };
-
-  const [date, setDate] = useState(intialDate);
-  const [dateLimit, setDateLimit] = useState({ startDate: '', endDate: '' });
   const [filterValues, setFilterValues] =
     useState<intialFilterProps>(intialFilter);
-  const [cashierStaffId, setCashierStaffId] = useState<CashProp>();
 
-  const { response } = useHistory({
-    filterValues: filterValues,
-  });
-
-  const { resExcel } = useExcel();
-
-  const listdesktop = data?.map((v: any) => {
-    const date = dayjs(v.chequeDate).format('DD.MM.YYYY');
-    const time = dayjs(v.chequeDate).format('HH:mm:ss');
-    return {
-      col0: v.cashierLogo,
-      col1: v.cashierName === 'No cashier name' ? t('p2p') : v.cashierName,
-      col2: date,
-      col3: time,
-      col4: numberWithNew({ number: v.payInfo.amountTotal }),
-      col5: numberWithNew({ number: v.payInfo.amountMinus }),
-      col6: numberWithNew({ number: v.payInfo.amountPayed }),
-      col7: v.clientName,
-      col8:
-        v.payInfo.isDiscount || v.payInfo.isCashback || v.payInfo.isPoints
-          ? numberWithNew({ number: v.payInfo.value })
-          : '-',
-      col9:
-        v.payInfo.isCoupon && v.payInfo.valueType === 'percent'
-          ? `${numberWithNew({ number: v.payInfo.value })}%`
-          : '-',
-      col10:
-        v.payInfo.isCoupon && v.payInfo.valueType === 'amount'
-          ? numberWithNew({ number: v.payInfo.value })
-          : '-',
-    };
-  });
-
-  const listmobile = data.map((v: any) => {
-    const date = dayjs(v.chequeDate).format('DD.MM.YYYY');
-    const time = dayjs(v.chequeDate).format('HH:mm:ss');
-    return {
-      title: v.cashierName === 'No cashier name' ? t('p2p') : v.cashierName,
-      value: numberWithNew({ number: v.payInfo.amountTotal }),
-      avatar: v.cashierLogo,
-      body: [
-        {
-          title: t('transactiondate'),
-          value: date,
-        },
-        {
-          title: t('transactiontime'),
-          value: time,
-        },
-        {
-          title: t('totalsum'),
-          value: numberWithNew({ number: v.payInfo.amountTotal }),
-        },
-        {
-          title: t('discountSum'),
-          value: numberWithNew({ number: v.payInfo.amountMinus }),
-        },
-        {
-          title: t('paid'),
-          value: numberWithNew({ number: v.payInfo.amountPayed }),
-        },
-        { title: t('customer'), value: v.clientName },
-        {
-          title: t('loyaltypercentage'),
-          value:
-            v.payInfo.isDiscount || v.payInfo.isCashback || v.payInfo.isPoints
-              ? numberWithNew({ number: v.payInfo.value })
-              : '-',
-        },
-        {
-          title: t('coupon'),
-          value:
-            v.payInfo.isCoupon && v.payInfo.valueType === 'percent'
-              ? `${numberWithNew({ number: v.payInfo.value })}%`
-              : '-',
-        },
-        {
-          title: t('certificate'),
-          value:
-            v.payInfo.isCoupon && v.payInfo.valueType === 'amount'
-              ? numberWithNew({ number: v.payInfo.value })
-              : '-',
-        },
-      ],
-    };
-  });
-
-  const columns: any = useMemo(
-    () => [
-      {
-        Header: '',
-        accessor: 'col0',
-        Cell: (props: any) => {
-          return props.value ? (
-            <LazyLoadImage
-              alt='avatar'
-              height='40px'
-              src={props.value}
-              width='40px'
-              effect='blur'
-              style={{ objectFit: 'cover', borderRadius: '14px' }}
-            />
-          ) : (
-            <PinkIcon />
-          );
-        },
-      },
-      {
-        Header: t('cashier'),
-        accessor: 'col1',
-      },
-      {
-        Header: t('transactiondate'),
-        accessor: 'col2',
-      },
-      {
-        Header: t('transactiontime'),
-        accessor: 'col3',
-      },
-      {
-        Header: t('totalsum'),
-        accessor: 'col4',
-      },
-      {
-        Header: t('discountSum'),
-        accessor: 'col5',
-      },
-      {
-        Header: t('paid'),
-        accessor: 'col6',
-      },
-      {
-        Header: t('customer'),
-        accessor: 'col7',
-      },
-      {
-        Header: t('loyaltypercentage'),
-        accessor: 'col8',
-      },
-      {
-        Header: t('coupon'),
-        accessor: 'col9',
-      },
-      {
-        Header: t('certificate'),
-        accessor: 'col10',
-      },
-    ],
-    []
-  );
-
-  const header2 = (
-    <Tr>
-      <Th style={{ textAlign: 'center' }} colSpan={4}>
-        {t('total')}
-      </Th>
-      <Th style={{ textAlign: 'center' }}>
-        {numberWithNew({ number: sum.total })}
-      </Th>
-      <Th style={{ textAlign: 'center' }}>
-        {numberWithNew({ number: sum.minus })}
-      </Th>
-      <Th style={{ textAlign: 'center' }}>
-        {numberWithNew({ number: sum.paid })}
-      </Th>
-    </Tr>
-  );
-
-  const handlechangePage = async (e: any) => {
-    await setFilterValues({ ...filterValues, page: e });
-    await response.refetch();
+  const handleClickCommet = (e: any) => {
+    setOpen(true);
+    setRowData(e);
+    setComment('');
   };
 
-  const filterList = [
-    {
-      title: t('byDate'),
-      content: (
-        <WrapInputs>
-          <Label1>{t('chose_date')}</Label1>
-          <div>
-            <Input
-              type='date'
-              max={dateLimit.endDate}
-              IconStart={<WrapDate>{t('from')}</WrapDate>}
-              inputStyle={{
-                inpadding: '0 10px 0 0',
-              }}
-              width={{
-                width: '50%',
-              }}
-              value={date.startDate}
-              onChange={(e: any) => {
-                const d = new Date(e.target.value);
-                const isafter = dayjs(d).isAfter(dayjs(date.endDate));
-                if (isafter) {
-                  const a: any = dayjs(e.target.value, 'YYYY-MM-DD').add(
-                    1,
-                    'days'
-                  );
-                  let b: any = dayjs(a._d).format('YYYY-MM-DD');
-                  setDate({
-                    endDate: b,
-                    startDate: e.target.value,
-                  });
-                } else {
-                  setDate({ ...date, startDate: e.target.value });
-                }
-
-                setDateLimit({ ...dateLimit, startDate: e.target.value });
-              }}
-            />
-            <Input
-              type='date'
-              margin={{ laptop: '0 0  0 0' }}
-              IconStart={<WrapDate>{t('to')}</WrapDate>}
-              inputStyle={{
-                inpadding: '0 10px 0 0',
-              }}
-              width={{
-                width: '50%',
-              }}
-              min={dateLimit.startDate}
-              value={date.endDate}
-              onChange={(e: any) => {
-                const d = new Date(e.target.value);
-                const isafter = dayjs(d).isBefore(dayjs(date.startDate));
-                if (isafter) {
-                  const a: any = dayjs(e.target.value, 'YYYY-MM-DD').add(
-                    -1,
-                    'days'
-                  );
-                  let b: any = dayjs(a._d).format('YYYY-MM-DD');
-                  setDate({
-                    startDate: b,
-                    endDate: e.target.value,
-                  });
-                } else {
-                  setDate({ ...date, endDate: e.target.value });
-                }
-                setDateLimit({ ...dateLimit, endDate: e.target.value });
-              }}
-            />
-          </div>
-        </WrapInputs>
-      ),
-    },
-    {
-      title: t('bycashier'),
-      content: (
-        <MultiSelect
-          label={t('chose_cashier')}
-          options={cashier}
-          placeholder={t('cashiernotselected')}
-          onChange={(e: any) => setCashierStaffId(e)}
-          value={cashierStaffId}
-        />
-      ),
-    },
-  ];
-
-  const handleFilterSubmit = async ({ startDate = '', endDate = '' }) => {
-    await setFilterValues({
-      ...filterValues,
-      cashierStaffId: cashierStaffId?.value ? cashierStaffId?.value : '',
-      startDate: startDate,
-      endDate: endDate,
+  const { response, resComment, listmobile, listdesktop, header2, columns } =
+    useHistory({
+      filterValues: filterValues,
+      handleClickCommet,
     });
 
-    await response.refetch();
+  const handleAllClose = () => {
+    setOpen(false);
+    setRowData({});
+    setComment('');
+
+    dispatch(
+      setSideDrawer({
+        openRow: false,
+        chosenRow: {},
+        content: null,
+      })
+    );
   };
 
-  const onReset = async () => {
-    await setFilterValues(intialFilter);
-    await setDate(intialDate);
-    await setCashierStaffId({});
-    await setDateLimit({ startDate: '', endDate: '' });
-    await response.refetch();
+  const handleRow = (e: any) => {
+    if (e.col13 !== '') {
+      dispatch(
+        setSideDrawer({
+          openRow: true,
+          chosenRow: e,
+          content: (
+            <SideDrawer
+              onAllClose={handleAllClose}
+              handleEdit={() => handleEdit(e.col13)}
+              handleDelete={() => handleDelete(e.id)}
+              disable={disable}
+              comment={e.col13}
+            />
+          ),
+        })
+      );
+      setRowData(e);
+      setComment(e.col13);
+    } else {
+      dispatch(
+        setSideDrawer({
+          openRow: false,
+          chosenRow: e,
+          content: null,
+        })
+      );
+      setRowData(e);
+      setComment('');
+    }
   };
 
-  const handleClick = () => {
-    resExcel.refetch();
+  const handleEdit = (com: any) => {
+    setOpen(true);
+    setComment(com);
+    dispatch(
+      setSideDrawer({
+        ...sidedrawer,
+        openRow: false,
+      })
+    );
   };
 
-  const filterselectvalue =
-    dateLimit?.startDate !== '' && dateLimit?.endDate !== '' ? (
-      <ButtonKeyWord
-        onClick={async () => {
-          await setFilterValues({
-            ...filterValues,
-            endDate: '',
-            startDate: '',
-          });
-          await setDate(intialDate);
-          await setDateLimit({ startDate: '', endDate: '' });
-          await response.refetch();
-        }}
-      >
-        {`${dayjs(dateLimit?.startDate).format('DD MMMM')}-${dayjs(
-          dateLimit?.endDate
-        ).format('DD MMMM, YYYY')}`}
-        <IconButton>
-          <DeleteIcon />
-        </IconButton>
-      </ButtonKeyWord>
-    ) : null;
+  const handleDelete = (id: any) => {
+    resComment.mutate(
+      {
+        chequeId: id,
+        chequeComment: '',
+      },
+      {
+        onSuccess: () => {
+          handleAllClose();
+          setDisable(false);
+        },
+      }
+    );
+  };
 
-  const filtercash = cashierStaffId?.label ? (
-    <ButtonKeyWord>
-      {cashierStaffId?.label}
-      <IconButton
-        onClick={async () => {
-          await setFilterValues({
-            ...filterValues,
-            cashierStaffId: 0,
-          });
-          await setCashierStaffId({});
-          await response.refetch();
-        }}
-      >
-        <DeleteIcon />
-      </IconButton>
-    </ButtonKeyWord>
-  ) : null;
+  const handleSave = () => {
+    resComment.mutate(
+      {
+        chequeId: rowData?.id,
+        chequeComment: comment,
+      },
+      {
+        onSuccess: () => {
+          handleAllClose();
+        },
+      }
+    );
+  };
 
-  return (
-    <Container>
-      {response.isLoading ? (
-        <Spinner />
-      ) : (
-        <>
-          <WrapFilter>
-            <WrapFilterValues>
-              <Filter
-                onSubmit={() =>
-                  handleFilterSubmit({
-                    startDate: date.startDate,
-                    endDate: date.endDate,
-                  })
-                }
-                onReset={onReset}
-                list={filterList}
-              />
-              {width > 600 ? filterselectvalue : null}
-              {width > 600 ? filtercash : null}
-            </WrapFilterValues>
-            <Button
-              onClick={handleClick}
-              startIcon={<ExcelIcon />}
-              buttonStyle={{
-                bgcolor: '#45A13B',
-                height: {
-                  mobile: 36,
-                },
-              }}
-              margin={{
-                laptop: '0 0 0 10px',
-              }}
-              disabled={resExcel.isLoading || total?.count === 0}
-            >
-              {t('exportexcel')}
-            </Button>
-          </WrapFilter>
-          <WrapSelectV>
-            {width > 600 ? null : <>{filterselectvalue}</>}
-            {width > 600 ? null : <>{filtercash}</>}
-          </WrapSelectV>
-          {width <= 600 ? (
-            <WrapTotal>
-              <WrapTotalSum>
-                <MoneyIcon />
-                <WrapSum>
-                  <Label>{t('totalsum')}</Label>
-                  <TotalSum>
-                    {numberWithNew({ number: sum.total, defaultValue: 0 })}
-                  </TotalSum>
-                </WrapSum>
-              </WrapTotalSum>
-              <WrapTotalSum>
-                <DiscountIcon />
-                <WrapSum>
-                  <Label>{t('sale')}</Label>
-                  <TotalSum>
-                    {numberWithNew({ number: sum.minus, defaultValue: 0 })}
-                  </TotalSum>
-                </WrapSum>
-              </WrapTotalSum>
-              <WrapTotalSum>
-                <CartIcon />
-                <WrapSum>
-                  <Label>{t('paid')}</Label>
-                  <TotalSum>
-                    {numberWithNew({ number: sum.paid, defaultValue: 0 })}
-                  </TotalSum>
-                </WrapSum>
-              </WrapTotalSum>
-            </WrapTotal>
-          ) : null}
-          {response.isLoading || response.isFetching ? (
-            <Spinner />
-          ) : data.length === 0 ? (
-            <WrapDef>
-              <Img src={financeCashierDef} alt='finance' />
-              <TitleDef>{t('therewillbeahistoryofcashiers')}</TitleDef>
-            </WrapDef>
-          ) : width > 600 ? (
-            <Table header2={header2} columns={columns} data={listdesktop} />
-          ) : (
+  const handlechangePage = (e: any) => {
+    setFilterValues({ ...filterValues, page: e });
+  };
+
+  const contentTable = () => {
+    if (response.isLoading || response.isFetching) {
+      return <Spinner />;
+    } else {
+      if (data.length === 0) {
+        return (
+          <WrapDef>
+            <Img src={financeCashierDef} alt='finance' />
+            <TitleDef>{t('therewillbeahistoryofcashiers')}</TitleDef>
+          </WrapDef>
+        );
+      } else {
+        if (width > 600) {
+          return (
+            <Table
+              onClickRow={handleRow}
+              header2={header2}
+              columns={columns}
+              data={listdesktop}
+              idRow={sidedrawer?.chosenRow?.id}
+              cursorRow='pointer'
+            />
+          );
+        } else {
+          return (
             <MobileTable
               data={{
                 title: t('totalsum'),
@@ -509,30 +211,170 @@ const Payment = () => {
               }}
               headertitle={t('byCashiers')}
               isAvatar={true}
+              onAllClose={handleAllClose}
+              handleEdit={(comment: any) => handleEdit(comment)}
+              handleDelete={(id: any) => handleDelete(id)}
+              disable={resComment.isLoading}
+              comment={true}
+              onClickRow={handleRow}
             />
-          )}
-          {data.length === 0 ? null : (
-            <WrapPag>
-              <Info>
-                {t('shown')}
-                <span>{between}</span>
-                {t('from1')} <span>{total.pages}</span>
-                {countPagination({
-                  count: Number(total.pages),
-                  firstWord: t('operations1'),
-                  secondWord: t('operations23'),
-                })}
-              </Info>
-              <NewPagination
-                onChange={handlechangePage}
-                currentPage={Number(filterValues.page)}
-                totalCount={Number(total?.count)}
-              />
-            </WrapPag>
-          )}
-        </>
-      )}
-    </Container>
+          );
+        }
+      }
+    }
+  };
+
+  const headerContentMobile = () => {
+    if (width <= 600) {
+      return (
+        <WrapTotal>
+          <WrapTotalSum>
+            <MoneyIcon />
+            <WrapSum>
+              <Label>{t('totalsum')}</Label>
+              <TotalSum>
+                {numberWithNew({ number: sum.total, defaultValue: 0 })}
+              </TotalSum>
+            </WrapSum>
+          </WrapTotalSum>
+          <WrapTotalSum>
+            <DiscountIcon />
+            <WrapSum>
+              <Label>{t('sale')}</Label>
+              <TotalSum>
+                {numberWithNew({ number: sum.minus, defaultValue: 0 })}
+              </TotalSum>
+            </WrapSum>
+          </WrapTotalSum>
+          <WrapTotalSum>
+            <CartIcon />
+            <WrapSum>
+              <Label>{t('paid')}</Label>
+              <TotalSum>
+                {numberWithNew({ number: sum.paid, defaultValue: 0 })}
+              </TotalSum>
+            </WrapSum>
+          </WrapTotalSum>
+        </WrapTotal>
+      );
+    } else {
+      return null;
+    }
+  };
+
+  return (
+    <>
+      <Container>
+        {response.isLoading ? (
+          <Spinner />
+        ) : (
+          <>
+            <FilterHistory
+              setFilterValues={setFilterValues}
+              filterValues={filterValues}
+              refetch={() => response.refetch()}
+              intialFilter={intialFilter}
+            />
+            {headerContentMobile()}
+            {contentTable()}
+            <Modal open={open}>
+              <WrapModalComment>
+                <WarpBodyComModel>
+                  <WrapComTitle>
+                    <div>
+                      {rowData.col13 !== ''
+                        ? t('changingcomment')
+                        : t('addingcomment')}
+                    </div>
+                    <CloseWrapBut>
+                      <IconButton
+                        onClick={() => {
+                          setOpen(false);
+                          handleAllClose();
+                        }}
+                      >
+                        <CloseIcon />
+                      </IconButton>
+                    </CloseWrapBut>
+                  </WrapComTitle>
+                  <div>
+                    <TextArea
+                      minHeight={'120px'}
+                      maxHeight={'300px'}
+                      resize={'vertical'}
+                      value={comment}
+                      onChange={(e: any) => setComment(e.target.value)}
+                      maxLength={100}
+                      title={
+                        <LabelCom>
+                          <span>{t('commentoperation')}</span>
+                          <span>{comment.length}/100</span>
+                        </LabelCom>
+                      }
+                    />
+                  </div>
+                </WarpBodyComModel>
+                <WrapButtonsModal>
+                  <Button
+                    buttonStyle={{
+                      bgcolor: width > 600 ? 'white' : '#eff0fd',
+                      color: width > 600 ? '#223367' : '#606EEA',
+                      weight: 500,
+                    }}
+                    margin={{
+                      laptop: '0 30px 0 0',
+                      mobile: '0 10px 0 0',
+                    }}
+                    padding={{ mobile: '0 10px' }}
+                    startIcon={width > 600 ? <CancelIcon /> : null}
+                    endIcon={width < 600 ? <CancelIcon /> : null}
+                    onClick={() => {
+                      handleAllClose();
+                    }}
+                  >
+                    {t('cancel')}
+                  </Button>
+                  <Button
+                    buttonStyle={{
+                      color: 'white',
+                      bgcolor: '#606EEA',
+                    }}
+                    padding={{ mobile: '0 10px' }}
+                    startIcon={width > 600 ? <SaveIcon /> : null}
+                    endIcon={width < 600 ? <SaveIcon /> : null}
+                    disabled={resComment.isLoading}
+                    onClick={handleSave}
+                  >
+                    {t('save')}
+                  </Button>
+                </WrapButtonsModal>
+              </WrapModalComment>
+            </Modal>
+            {data.length === 0 ? null : (
+              <WrapPag>
+                <Info>
+                  {t('shown')}
+                  <span>{between}</span>
+                  {t('from1')} <span>{total.pages}</span>
+                  {countPagination({
+                    count: Number(total.pages),
+                    firstWord: t('operations1'),
+                    secondWord: t('operations23'),
+                  })}
+                </Info>
+                {!response.isFetching && (
+                  <NewPagination
+                    onChange={handlechangePage}
+                    currentPage={Number(filterValues.page)}
+                    totalCount={Number(total?.count)}
+                  />
+                )}
+              </WrapPag>
+            )}
+          </>
+        )}
+      </Container>
+    </>
   );
 };
 

@@ -6,28 +6,33 @@ interface Props {
   active?: boolean;
 }
 
+interface TbProps {
+  bgcolor?: string;
+  cursorRow?: string;
+}
+
 export const Container = styled.div`
   background: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
   border-radius: 14px;
-  overflow-x: auto;
+
   margin-top: 20px;
   width: 100%;
-  &:hover {
-    ::-webkit-scrollbar-thumb {
-      background: #606eea;
+  overflow: hidden;
+  & > div {
+    overflow-x: auto;
+    padding-bottom: 7px;
+    ::-webkit-scrollbar {
+      height: 7px;
     }
-  }
-  ::-webkit-scrollbar {
-    height: 7px;
-  }
-  ::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
+    ::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
 
-  &::-webkit-scrollbar-thumb {
-    background: transparent;
-    border-radius: 0 0 14px 14px;
+    &::-webkit-scrollbar-thumb {
+      background: #cfd3f9;
+      border-radius: 14px 14px 0 0;
+    }
   }
 `;
 
@@ -71,7 +76,10 @@ export const Thead = styled.thead`
   }
 `;
 
-export const Tr = styled.tr``;
+export const Tr = styled.tr`
+  background-color: ${({ bgcolor }: TbProps) => (bgcolor ? bgcolor : 'white')};
+  cursor: ${({ cursorRow }: TbProps) => (cursorRow ? cursorRow : 'default')};
+`;
 
 export const Th = styled.th`
   padding: 0 10px;
@@ -91,13 +99,6 @@ export const Th = styled.th`
 `;
 
 export const Tbody = styled.tbody`
-  & > tr:nth-child(odd) {
-    background-color: rgba(96, 110, 234, 0.1);
-  }
-
-  & > tr:nth-child(even) {
-    background-color: white;
-  }
   background-color: white;
   & > tr {
     height: 60px;

@@ -3,12 +3,12 @@ import { useTranslation } from 'react-i18next';
 import usePayment from './usePayment';
 import Spinner from 'components/Custom/Spinner';
 import Table from '../../components/Table';
-import dayjs from 'dayjs';
 import DatePcker from 'components/Custom/DatePicker';
 import { countPagination, numberWithNew } from 'services/utils';
 import { useAppSelector } from 'services/redux/hooks';
 import useWindowWidth from 'services/hooks/useWindowWidth';
 import MobileTable from '../../components/MobileTable';
+import { NewPagination } from 'components/Custom/NewPagination';
 import financeCashierDef from '../../../../../assets/images/financeCashierDef.png';
 import { Container, MoneyIcon, DiscountIcon } from './style';
 import {
@@ -24,7 +24,6 @@ import {
   WrapDef,
   TitleDef,
 } from '../../style';
-import { NewPagination } from 'components/Custom/NewPagination';
 
 interface intialFilterProps {
   page?: number;
@@ -57,160 +56,106 @@ const Payment = () => {
   const [filterValues, setFilterValues] =
     useState<intialFilterProps>(intialFilter);
 
-  const { response } = usePayment({
+  const { response, columns, listmobile, listdesktop } = usePayment({
     filterValues: filterValues,
   });
 
-  const listdesktop = data?.map((v: any) => {
-    const date = dayjs(v?.payDate).format('DD.MM.YYYY HH:mm');
-    const pay: number = v?.amount - v?.amountPartner;
-    return {
-      col1: date,
-      col2: `${v?.firstName}  ${v?.lastName}`,
-      col3: v?.cardNumber,
-      col4: numberWithNew({ number: v?.amount }),
-      col5: `${numberWithNew({ number: v?.amountPartner })} (99%)`,
-      col6: `${numberWithNew({ number: pay })} (1%)`,
-    };
-  });
+  const handlechangePage = (e: any) => {
+    setFilterValues({ ...filterValues, page: e });
+  };
 
-  const listmobile = data.map((v: any) => {
-    const date = dayjs(v?.payDate).format('DD.MM.YYYY HH:mm');
-    const pay: number = v?.amount - v?.amountPartner;
-    return {
-      title: `${v?.firstName}  ${v?.lastName}`,
-      value: numberWithNew({ number: v?.amount }),
-      body: [
-        { title: t('dateandtime'), value: date },
-        {
-          title: t('customer'),
-          value: `${v?.firstName}  ${v?.lastName}`,
-        },
-        {
-          title: t('cardnumber'),
-          value: v?.cardNumber,
-        },
-        {
-          title: t('UZSamount'),
-          value: numberWithNew({ number: v?.amount }),
-        },
-        {
-          title: t('Profit (99%)'),
-          value: `${numberWithNew({ number: v?.amountPartner })} (99%)`,
-        },
-        {
-          title: t('DIS Commission (1%)'),
-          value: `${numberWithNew({ number: pay })} (1%)`,
-        },
-      ],
-    };
-  });
+  const contentTable = () => {
+    if (response.isLoading || response.isFetching) {
+      return <Spinner />;
+    } else {
+      if (data.length === 0) {
+        return (
+          <WrapDef>
+            <Img src={financeCashierDef} alt='finance' />
+            <TitleDef>{t('therewillbeahistoryofpayplace')}</TitleDef>
+          </WrapDef>
+        );
+      } else {
+        if (width > 600) {
+          return <Table columns={columns} data={listdesktop} />;
+        } else {
+          return (
+            <MobileTable
+              data={{
+                title: t('amountofpurchase'),
+                info: listmobile,
+              }}
+              headertitle={t('p2p')}
+            />
+          );
+        }
+      }
+    }
+  };
 
-  const columns: any = useMemo(
-    () => [
-      {
-        Header: t('dateandtime'),
-        accessor: 'col1',
-      },
-      {
-        Header: t('customer'),
-        accessor: 'col2',
-      },
-      {
-        Header: t('cardnumber'),
-        accessor: 'col3',
-      },
-      {
-        Header: t('UZSamount'),
-        accessor: 'col4',
-      },
-      {
-        Header: t('Profit (99%)'),
-        accessor: 'col5',
-      },
-      {
-        Header: t('DIS Commission (1%)'),
-        accessor: 'col6',
-      },
-    ],
-    []
-  );
+  const headerContent = useMemo(() => {
+    return header.map((v: any) => {
+      return (
+        <WrapTotalSum>
+          <Label>{v.title}</Label>
+          <TotalSum>
+            {numberWithNew({
+              number: +v.value,
+              defaultValue: 0,
+            })}
+          </TotalSum>
+        </WrapTotalSum>
+      );
+    });
+  }, [header]);
 
-  const handlechangePage = async (e: any) => {
-    await setFilterValues({ ...filterValues, page: e });
-    await response.refetch();
+  const headerContentMobile = () => {
+    if (width <= 600) {
+      return (
+        <WrapTotal>
+          <WrapTotalSum>
+            <MoneyIcon />
+            <WrapSum>
+              <Label>{header[0]?.title || t('totalpaidbyUZS')}</Label>
+              <TotalSum>
+                {numberWithNew({ number: header[0]?.value, defaultValue: 0 })}
+              </TotalSum>
+            </WrapSum>
+          </WrapTotalSum>
+          <WrapTotalSum>
+            <DiscountIcon />
+            <WrapSum>
+              <Label>{header[1]?.title || t('DISCommission')}</Label>
+              <TotalSum>
+                {numberWithNew({ number: header[1]?.value, defaultValue: 0 })}
+              </TotalSum>
+            </WrapSum>
+          </WrapTotalSum>
+        </WrapTotal>
+      );
+    } else {
+      return null;
+    }
   };
 
   return (
     <>
       <RightHeader>
-        <WrapTotal>
-          {header.map((v: any) => {
-            return (
-              <WrapTotalSum>
-                <Label>{v.title}</Label>
-                <TotalSum>
-                  {numberWithNew({
-                    number: +v.value,
-                    defaultValue: 0,
-                  })}
-                </TotalSum>
-              </WrapTotalSum>
-            );
-          })}
-        </WrapTotal>
+        <WrapTotal>{headerContent}</WrapTotal>
       </RightHeader>
       <Container>
         <DatePcker
-          onChange={async (e: any) => {
-            await setFilterValues({
+          onChange={(e: any) => {
+            setFilterValues({
               ...filterValues,
+              page: 1,
               dateFrom: e.slice(0, e.indexOf(' ~')),
               dateTo: e.slice(e.indexOf('~ ') + 2),
             });
-            await response.refetch();
           }}
         />
-        {width <= 600 ? (
-          <WrapTotal>
-            <WrapTotalSum>
-              <MoneyIcon />
-              <WrapSum>
-                <Label>{header[0]?.title || t('totalpaidbyUZS')}</Label>
-                <TotalSum>
-                  {numberWithNew({ number: header[0]?.value, defaultValue: 0 })}
-                </TotalSum>
-              </WrapSum>
-            </WrapTotalSum>
-            <WrapTotalSum>
-              <DiscountIcon />
-              <WrapSum>
-                <Label>{header[1]?.title || t('DISCommission')}</Label>
-                <TotalSum>
-                  {numberWithNew({ number: header[1]?.value, defaultValue: 0 })}
-                </TotalSum>
-              </WrapSum>
-            </WrapTotalSum>
-          </WrapTotal>
-        ) : null}
-        {response.isLoading || response.isFetching ? (
-          <Spinner />
-        ) : data.length === 0 ? (
-          <WrapDef>
-            <Img src={financeCashierDef} alt='finance' />
-            <TitleDef>{t('therewillbeahistoryofpayplace')}</TitleDef>
-          </WrapDef>
-        ) : width > 600 ? (
-          <Table columns={columns} data={listdesktop} />
-        ) : (
-          <MobileTable
-            data={{
-              title: t('amountofpurchase'),
-              info: listmobile,
-            }}
-            headertitle={t('p2p')}
-          />
-        )}
+        {headerContentMobile()}
+        {contentTable()}
         {data.length === 0 ? null : (
           <WrapPag>
             <Info>
@@ -223,11 +168,13 @@ const Payment = () => {
                 secondWord: t('operations23'),
               })}
             </Info>
-            <NewPagination
-              onChange={handlechangePage}
-              currentPage={Number(filterValues.page)}
-              totalCount={Number(total?.count)}
-            />
+            {!response.isFetching && (
+              <NewPagination
+                onChange={handlechangePage}
+                currentPage={Number(filterValues.page)}
+                totalCount={Number(total?.count)}
+              />
+            )}
           </WrapPag>
         )}
       </Container>
