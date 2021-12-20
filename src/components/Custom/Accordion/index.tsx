@@ -16,14 +16,14 @@ interface Props {
   square?: boolean;
   expandIcon?: any;
   IconButtonProps?: Object;
-  list?: { title?: string; content?: any, value?: any }[];
+  list?: { title?: string; content?: any; value?: any }[];
 }
 
 const Accordion = ({
   defaultExpanded,
   disabled,
   expanded,
-  onChange = () => { },
+  onChange = () => {},
   square,
   expandIcon,
   IconButtonProps,
@@ -44,7 +44,8 @@ const Accordion = ({
             expandIcon={<DownIcon />}
           >
             <Content>
-              <p>{v.title}</p><span>{v.value || ""}</span>
+              <p>{v.title}</p>
+              <span>{v.value || ''}</span>
             </Content>
           </MAccordionSummary>
           <MAccordionDetails>{v.content}</MAccordionDetails>

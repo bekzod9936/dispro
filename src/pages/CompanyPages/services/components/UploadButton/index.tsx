@@ -29,6 +29,7 @@ export const UploadButton: React.FC<UploadButtonProps> = ({
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let files = event.target.files;
+
     let arrayOfFiles: File[] = Array.from(files || []);
 
     if (imagesLimit <= 0) {

@@ -1,7 +1,7 @@
-import { useState } from "react";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import { Container } from "./style";
+import { useState } from 'react';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import { Container } from './style';
 
 interface Props {
   styles?: any;
@@ -13,7 +13,7 @@ interface Props {
   checkedIcon?: any;
   disabled?: boolean;
   required?: boolean;
-  labelPlacement?: "bottom" | "end" | "start" | "top";
+  labelPlacement?: 'bottom' | 'end' | 'start' | 'top';
   value?: any;
   ref?: any;
   icon?: any;
@@ -37,6 +37,7 @@ const CheckBox = ({
       return;
     }
     onChange(e);
+    console.log(e);
     setState(e.target.checked);
   };
 

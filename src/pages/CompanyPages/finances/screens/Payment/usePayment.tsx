@@ -26,7 +26,13 @@ const usePayment = ({ filterValues }: PProps) => {
     ['fetchPaymentInfo', filterValues],
     () => {
       const url = Object.keys(filterValues)
-        .map((v: any) => `${v}=${filterValues[v]}&`)
+        .map((v: any) => {
+          if (filterValues[v] !== '') {
+            return `${v}=${filterValues[v]}&`;
+          } else {
+            return '';
+          }
+        })
         .join('');
       return fetchFinancePayment({
         url: url,

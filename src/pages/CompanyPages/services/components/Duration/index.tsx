@@ -8,6 +8,7 @@ interface DurationProps {
   name: `preparationTime.${number}.${"days" | "hours" | "minutes"}`;
   label: string;
 }
+
 export const Duration: React.FC<DurationProps> = ({ name, label }) => {
   const { control } = useFormContext<FormFieldTypes>();
   const { t } = useTranslation();

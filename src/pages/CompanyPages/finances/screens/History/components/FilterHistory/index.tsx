@@ -9,6 +9,7 @@ import { useAppSelector } from 'services/redux/hooks';
 import { IconButton } from '@material-ui/core';
 import useExcel from '../../hook/useExcel';
 import CustomDatePicker from 'components/Custom/CustomDatePicker';
+import CheckBox from 'components/Custom/CheckBox';
 import {
   WrapFilterValues,
   WrapInputs,
@@ -18,6 +19,9 @@ import {
   DeleteIcon,
   ExcelIcon,
   WrapFilter,
+  WrapStatus,
+  WrapCheck,
+  Label,
 } from './style';
 
 interface CashProp {
@@ -54,11 +58,16 @@ const FilterHistory = ({
     endDate: dayjs().endOf('month').format('YYYY-MM-DD'),
   };
 
+  const intialPayment = {
+    cash: false,
+    app: false,
+  };
+
   const [date, setDate] = useState(intialDate);
   const [dateLimit, setDateLimit] = useState({ startDate: '', endDate: '' });
   const [cashierStaffId, setCashierStaffId] = useState<CashProp>();
   const [storeId, setStoreId] = useState<CashProp>();
-
+  const [payment, setPayment] = useState<any>(intialPayment);
   const storesFilter = stores?.map((v: any) => {
     return {
       value: v.id,
@@ -72,19 +81,21 @@ const FilterHistory = ({
     await setCashierStaffId({});
     await setDateLimit({ startDate: '', endDate: '' });
     await setStoreId({});
+    await setPayment(intialPayment);
     await refetch();
   };
 
-  const handleFilterSubmit = async ({ startDate = '', endDate = '' }) => {
-    await setFilterValues({
+  const handleFilterSubmit = ({ startDate = '', endDate = '' }) => {
+    setFilterValues({
       ...filterValues,
       cashierStaffId: cashierStaffId?.value ? cashierStaffId?.value : '',
       storeId: storeId?.value ? storeId?.value : '',
       startDate: startDate,
       endDate: endDate,
+      amountCash: payment.cash ? 1 : '',
+      amountCard: payment.app ? 1 : '',
+      page: 1,
     });
-
-    await refetch();
   };
 
   const handleClick = () => {
@@ -92,30 +103,31 @@ const FilterHistory = ({
   };
 
   const filterselectvalue =
-    dateLimit?.startDate !== '' && dateLimit?.endDate !== '' ? (
-      <ButtonKeyWord
-        onClick={async () => {
-          await setFilterValues({
-            ...filterValues,
-            page: 1,
-            endDate: '',
-            startDate: '',
-          });
-          await setDate(intialDate);
-          await setDateLimit({ startDate: '', endDate: '' });
-          await refetch();
-        }}
-      >
+    filterValues?.startDate === dateLimit?.startDate &&
+    filterValues?.endDate === dateLimit?.endDate ? (
+      <ButtonKeyWord>
         {`${dayjs(dateLimit?.startDate).format('DD MMMM')}-${dayjs(
           dateLimit?.endDate
         ).format('DD MMMM, YYYY')}`}
-        <IconButton>
+        <IconButton
+          onClick={async () => {
+            await setFilterValues({
+              ...filterValues,
+              page: 1,
+              endDate: intialDate.endDate,
+              startDate: intialDate.startDate,
+            });
+            await setDate(intialDate);
+            await setDateLimit({ startDate: '', endDate: '' });
+            await refetch();
+          }}
+        >
           <DeleteIcon />
         </IconButton>
       </ButtonKeyWord>
     ) : null;
 
-  const filtercash = cashierStaffId?.label ? (
+  const filtercashier = cashierStaffId?.label ? (
     <ButtonKeyWord>
       {`${t('cashier')}: `}
       {cashierStaffId?.label}
@@ -136,7 +148,7 @@ const FilterHistory = ({
   ) : null;
 
   const filterstore =
-    storeId !== undefined ? (
+    storeId?.label !== undefined ? (
       <ButtonKeyWord>
         {`${t('filial')}: `}
         {storeId?.label}
@@ -156,9 +168,57 @@ const FilterHistory = ({
       </ButtonKeyWord>
     ) : null;
 
+  const filtercash =
+    filterValues?.amountCash === 1 ? (
+      <ButtonKeyWord>
+        {`${t('bypayment')}: ${t('paymentbycash')}`}
+        <IconButton
+          onClick={async () => {
+            await setFilterValues({
+              ...filterValues,
+              page: 1,
+              amountCash: '',
+            });
+            await setPayment({ ...payment, cash: false });
+          }}
+        >
+          <DeleteIcon />
+        </IconButton>
+      </ButtonKeyWord>
+    ) : null;
+
+  const filtercard =
+    filterValues?.amountCard === 1 ? (
+      <ButtonKeyWord>
+        {`${t('bypayment')}: ${t('paymentbyapp')}`}
+        <IconButton
+          onClick={async () => {
+            await setFilterValues({
+              ...filterValues,
+              page: 1,
+              amountCard: '',
+            });
+            await setPayment({ ...payment, card: false });
+          }}
+        >
+          <DeleteIcon />
+        </IconButton>
+      </ButtonKeyWord>
+    ) : null;
+
   const filterList = [
     {
       title: t('byDate'),
+      value:
+        filterValues.startDate && filterValues.endDate
+          ? dayjs(filterValues.startDate).format('YYYY.MM.DD') +
+            ' - ' +
+            dayjs(filterValues.endDate).format('YYYY.MM.DD')
+          : filterValues.endDate || filterValues.startDate
+          ? dayjs(filterValues.endDate || filterValues.startDate).format(
+              'YYYY.MM.DD'
+            )
+          : undefined,
       content: (
         <WrapInputs>
           <Label1>{t('chose_date')}</Label1>
@@ -199,6 +259,7 @@ const FilterHistory = ({
     },
     {
       title: t('bycashier'),
+      value: filterValues.cashierStaffId ? cashierStaffId?.label : undefined,
       content: (
         <MultiSelect
           label={t('chose_cashier')}
@@ -211,6 +272,7 @@ const FilterHistory = ({
     },
     {
       title: t('withfilial'),
+      value: filterValues.storeId ? storeId?.label : undefined,
       content: (
         <MultiSelect
           label={t('choosefilial')}
@@ -219,6 +281,40 @@ const FilterHistory = ({
           value={storeId}
           selectStyle={{ bgcolor: '#eff0fd' }}
         />
+      ),
+    },
+    {
+      title: t('bypayment'),
+      value:
+        filterValues.amountCash === 1 && filterValues.amountCard === 1
+          ? '2'
+          : filterValues.amountCash === 1
+          ? '1'
+          : filterValues.amountCard === 1
+          ? '1'
+          : undefined,
+      content: (
+        <WrapStatus>
+          <Label>{t('choosepaymentmethod')}</Label>
+          <WrapCheck>
+            <CheckBox
+              label={t('paymentbycash')}
+              name='amountCash'
+              onChange={(e) => {
+                setPayment({ ...payment, cash: e.target.checked });
+              }}
+              checked={payment?.cash}
+            />
+            <CheckBox
+              label={t('paymentbyapp')}
+              name='amountCard'
+              onChange={(e) => {
+                setPayment({ ...payment, app: e.target.checked });
+              }}
+              checked={payment?.app}
+            />
+          </WrapCheck>
+        </WrapStatus>
       ),
     },
   ];
@@ -237,9 +333,15 @@ const FilterHistory = ({
             onReset={onReset}
             list={filterList}
           />
-          {width > 600 ? filterselectvalue : null}
-          {width > 600 ? filtercash : null}
-          {width > 600 ? filterstore : null}
+          {width > 600 ? (
+            <>
+              {filtercash}
+              {filtercard}
+              {filterselectvalue}
+              {filtercashier}
+              {filterstore}
+            </>
+          ) : null}
         </WrapFilterValues>
         <Button
           onClick={handleClick}
@@ -259,9 +361,15 @@ const FilterHistory = ({
         </Button>
       </WrapFilter>
       <WrapSelectV>
-        {width > 600 ? null : <>{filterselectvalue}</>}
-        {width > 600 ? null : <>{filtercash}</>}
-        {width > 600 ? null : <>{filterstore}</>}
+        {width > 600 ? null : (
+          <>
+            {filtercash}
+            {filtercard}
+            {filterselectvalue}
+            {filtercashier}
+            {filterstore}
+          </>
+        )}
       </WrapSelectV>
     </>
   );

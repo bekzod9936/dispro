@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useTable, useSortBy } from 'react-table';
 import { Container, MTable, Thead, Tr, Th, Tbody, Td, UpIcon } from './style';
 

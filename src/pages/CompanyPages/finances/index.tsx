@@ -1,5 +1,5 @@
 import { useRecoilState } from 'recoil';
-import { Suspense, useEffect, useRef } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Route, Switch } from 'react-router';
 //routes
@@ -34,7 +34,7 @@ const Finance = () => {
   const { menuItems } = useFinanceRoute();
   const companyId = localStorage.getItem('companyId');
   const dispatch = useAppDispatch();
-
+  const [close, setClose] = useState(true);
   const accountsBalance = useRecoilState(mainBalance);
   const accountsLimit = useRecoilState(mainLimit);
   const sidedrawer = useAppSelector(
@@ -46,8 +46,10 @@ const Finance = () => {
   const ref: any = useRef(null);
 
   const handleClickOutside = (event: any) => {
-    if (ref.current && !ref.current.contains(event.target)) {
-      dispatch(setSideDrawer({ openRow: false, chosenRow: {} }));
+    if (sidedrawer.openRow) {
+      if (ref.current && !ref.current.contains(event.target)) {
+        dispatch(setSideDrawer({ openRow: false, chosenRow: {} }));
+      }
     }
   };
 

@@ -250,6 +250,10 @@ export const WrapButtonsModal = styled.div`
 export const WrapModalComment = styled.div`
   padding: 30px;
   width: 500px;
+  @media (max-width: ${device.mobile}) {
+    width: 290px;
+    padding: 15px;
+  }
 `;
 
 export const WarpBodyComModel = styled.div``;
@@ -264,6 +268,11 @@ export const WrapComTitle = styled.div`
     font-size: 22px;
     color: #223367;
   }
+  @media (max-width: ${device.mobile}) {
+    & > div {
+      font-size: 16px;
+    }
+  }
 `;
 
 export const LabelCom = styled.div`
@@ -276,4 +285,10 @@ export const WrapImage = styled.div`
   display: flex;
   align-items: center;
   grid-gap: 15px;
+`;
+
+export const CloseWrapBut = styled.div`
+  @media (max-width: ${device.mobile}) {
+    display: none;
+  }
 `;

@@ -18,12 +18,16 @@ import { numberWithNew } from 'services/utils';
 import { useTranslation } from 'react-i18next';
 import { Tr, Th } from '../../../components/Table/style';
 import { useMemo } from 'react';
-
+import { WrapComment, WrapImage } from '../style';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import Button from 'components/Custom/Button';
+import App from 'assets/icons/StatistisPage/app.svg';
 interface PProps {
   filterValues: any;
+  handleClickCommet: (e: any) => void;
 }
 
-const useHistory = ({ filterValues }: PProps) => {
+const useHistory = ({ filterValues, handleClickCommet }: PProps) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const data = useAppSelector((state) => state.finance.historyFinance.data);
@@ -250,7 +254,193 @@ const useHistory = ({ filterValues }: PProps) => {
     );
   }, [sum]);
 
-  return { response, resComment, listmobile, listdesktop, header2 };
+  const columns: any = useMemo(
+    () => [
+      {
+        Header: t('cashier'),
+        accessor: 'col1',
+        Cell: (props: any) => {
+          if (props.value === 'No cashier name') {
+            return (
+              <WrapImage>
+                <LazyLoadImage
+                  alt='avatar'
+                  height='40px'
+                  src={
+                    props.cell.row.original.col0
+                      ? props.cell.row.original.col0
+                      : App
+                  }
+                  width='40px'
+                  effect='blur'
+                  style={{ objectFit: 'cover', borderRadius: '14px' }}
+                  onError={(e: any) => {
+                    e.target.onerror = null;
+                    e.target.src = App;
+                  }}
+                />
+                {t('p2p')}
+              </WrapImage>
+            );
+          } else {
+            return (
+              <WrapImage>
+                <LazyLoadImage
+                  alt='avatar'
+                  height='40px'
+                  src={
+                    props.cell.row.original.col0
+                      ? props.cell.row.original.col0
+                      : App
+                  }
+                  width='40px'
+                  effect='blur'
+                  style={{ objectFit: 'cover', borderRadius: '14px' }}
+                  onError={(e: any) => {
+                    e.target.onerror = null;
+                    e.target.src = App;
+                  }}
+                />
+                {props.value}
+              </WrapImage>
+            );
+          }
+        },
+      },
+      {
+        Header: t('transactiondate'),
+        accessor: 'col2',
+        Cell: (props: any) => {
+          return dayjs(props.value).format('DD.MM.YYYY');
+        },
+      },
+      {
+        Header: t('transactiontime'),
+        accessor: 'col3',
+        Cell: (props: any) => {
+          return dayjs(props.value).format('HH:mm:ss');
+        },
+      },
+      {
+        Header: t('totalsum'),
+        accessor: 'col4',
+        Cell: (props: any) => {
+          return numberWithNew({ number: props.value });
+        },
+      },
+      {
+        Header: t('discountSum'),
+        accessor: 'col5',
+        Cell: (props: any) => {
+          return numberWithNew({ number: props.value });
+        },
+      },
+      {
+        Header: t('paid'),
+        accessor: 'col6',
+        Cell: (props: any) => {
+          return numberWithNew({ number: props.value });
+        },
+      },
+      {
+        Header: t('paycash/payterminal'),
+        accessor: 'col7',
+        Cell: (props: any) => {
+          return numberWithNew({ number: props.value });
+        },
+      },
+      {
+        Header: t('paycardapp'),
+        accessor: 'col8',
+        Cell: (props: any) => {
+          return numberWithNew({ number: props.value });
+        },
+      },
+      {
+        Header: t('customer'),
+        accessor: 'col9',
+      },
+      {
+        Header: t('loyaltypercentage'),
+        accessor: 'col10',
+        Cell: (props: any) => {
+          if (
+            props.cell.row.original.isDiscount ||
+            props.cell.row.original.isCashback ||
+            props.cell.row.original.isPoints
+          ) {
+            return numberWithNew({ number: props.value });
+          } else {
+            return '-';
+          }
+        },
+      },
+      {
+        Header: t('coupon'),
+        accessor: 'col11',
+        Cell: (props: any) => {
+          if (
+            props.cell.row.original.isCoupon &&
+            props.cell.row.original.valueType === 'percent'
+          ) {
+            return `${numberWithNew({ number: props.value })}%`;
+          } else {
+            return '-';
+          }
+        },
+      },
+      {
+        Header: t('certificate'),
+        accessor: 'col12',
+        Cell: (props: any) => {
+          if (
+            props.cell.row.original.isCoupon &&
+            props.cell.row.original.valueType === 'amount'
+          ) {
+            return numberWithNew({ number: props.value });
+          } else {
+            return '-';
+          }
+        },
+      },
+      {
+        Header: t('comment'),
+        accessor: 'col13',
+        Cell: (props: any) => {
+          if (props.value !== '') {
+            return <WrapComment>{props.value}</WrapComment>;
+          } else {
+            return (
+              <Button
+                buttonStyle={{
+                  bgcolor: '#e1e3fb',
+                  color: '#3492FF',
+                  radius: 12,
+                  weight: 300,
+                  height: {
+                    laptop: 36,
+                    desktop: 36,
+                    planshet: 36,
+                  },
+                  fontSize: {
+                    desktop: 14,
+                    laptop: 14,
+                    planshet: 14,
+                  },
+                }}
+                onClick={() => handleClickCommet(props.cell.row.original)}
+              >
+                {t('addcomment')}
+              </Button>
+            );
+          }
+        },
+      },
+    ],
+    []
+  );
+
+  return { response, resComment, listmobile, listdesktop, header2, columns };
 };
 
 export default useHistory;

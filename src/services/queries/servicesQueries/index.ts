@@ -39,9 +39,11 @@ export const Api = {
 
         return data
     },
-
+    //! todo: rewrite posting of sections name
     async createSection(dto: sectionDtoType) {
-        const response = await partnerApi.post<sectionDtoType, AxiosResponse<{data: any}>>('/core/goodsSection', dto)
+        const response = await partnerApi.post<sectionDtoType, AxiosResponse<{data: any}>>('/core/goods-section', {
+            sections: [dto]
+        })
 
         console.log(response.data);
         
