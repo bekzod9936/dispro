@@ -79,7 +79,7 @@ const MultiSelect = ({
         {...props}
         {...props.field}
         placeholder={props.placeholder ? props.placeholder : ""}
-        menuPortalTarget={document.body}
+        // menuPortalTarget={document.body}
       
       />
       {props.error ? (
