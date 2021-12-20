@@ -310,14 +310,15 @@ const CreateNews = () => {
                 }}
                 render={({ field }) => (
                   <Input
+                  maxLength='79'
                     error={errors.name ? true:false}
                     message={errors?.name?.type === "required" ? t("requiredField"):t("максимальное число символов 80")}
                     field={field}
-                    maxLength='79'
                     label={t("Название")}
                   />
                 )}
               /> 
+             
               <Controller
                 name="description"
                 control={control}
