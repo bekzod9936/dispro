@@ -125,12 +125,15 @@ export const CashierInfo = styled.div`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
   border-radius: 14px;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  align-self: flex-start;
+
+
   width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   grid-auto-rows: minmax(90px, 110px);
-
+//   grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: 135px auto auto auto auto;
   @media (max-width: ${device.mobile}) {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -153,6 +156,7 @@ export const StaffImg = styled.div`
   width: 100px;
   align-items: center;
   justify-content: center;
+  margin-right: 30px;
 `;
 
 export const StaffName = styled.p`

@@ -60,11 +60,6 @@ const CashierBar = () => {
 		(state) => state.staffs.selectedCashiers
 	);
 
-	console.log(
-		`selectedCashiers`,
-		selectedCashiers.map((item: any) => item.id)
-	);
-
 	const staffsDiv = () => {
 		if (selectedCashiers?.length === 1) {
 			return (
