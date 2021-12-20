@@ -147,26 +147,25 @@ const FilterHistory = ({
     </ButtonKeyWord>
   ) : null;
 
-  const filterstore =
-    storeId?.label !== undefined ? (
-      <ButtonKeyWord>
-        {`${t('filial')}: `}
-        {storeId?.label}
-        <IconButton
-          onClick={async () => {
-            await setFilterValues({
-              ...filterValues,
-              page: 1,
-              storeId: '',
-            });
-            await setStoreId({});
-            await refetch();
-          }}
-        >
-          <DeleteIcon />
-        </IconButton>
-      </ButtonKeyWord>
-    ) : null;
+  const filterstore = filterValues.storeId ? (
+    <ButtonKeyWord>
+      {`${t('filial')}: `}
+      {storeId?.label}
+      <IconButton
+        onClick={async () => {
+          await setFilterValues({
+            ...filterValues,
+            page: 1,
+            storeId: '',
+          });
+          await setStoreId({});
+          await refetch();
+        }}
+      >
+        <DeleteIcon />
+      </IconButton>
+    </ButtonKeyWord>
+  ) : null;
 
   const filtercash =
     filterValues?.amountCash === 1 ? (

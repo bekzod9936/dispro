@@ -6,6 +6,8 @@ import { ReactComponent as Excel } from 'assets/icons/FinanceIcons/excel.svg';
 export const WrapFilterValues = styled.div`
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  grid-row-gap: 10px;
   @media (max-width: ${device.mobile}) {
     flex-direction: column;
   }
@@ -80,7 +82,7 @@ export const ExcelIcon = styled(Excel)`
 
 export const WrapFilter = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   width: 100%;
 `;

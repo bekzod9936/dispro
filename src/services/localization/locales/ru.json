@@ -619,5 +619,7 @@
   "choosepaymentmethod": "Выберите способ оплаты",
   "paymentbycash": "Оплата наличными/терминалом",
   "paymentbyapp": "Оплата через приложение",
-  "bypayment": "По Оплата"
+  "bypayment": "По оплате",
+  "operationthroughbank": "Операции через банк",
+  "alloperations": "Все операции"
 }
