@@ -18,7 +18,8 @@ export interface IState {
     selectedAllClients: IClient[],
     client: IClient,
     clientLevels: any[],
-    filials: any[]
+    filials: any[],
+    disableSpecStatus: boolean
 }
 
 interface ISimpleClient {
