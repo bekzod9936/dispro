@@ -5,7 +5,8 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import useLoyality from './hooks/useLoyality';
 import useWindowWidth from 'services/hooks/useWindowWidth';
 //Redux
-import { useAppSelector } from 'services/redux/hooks';
+import { useAppDispatch,useAppSelector } from 'services/redux/hooks';
+
 //styles
 import { Flex } from 'styles/BuildingBlocks';
 import { LargePanel } from '../../styles/SettingStyles';
@@ -82,12 +83,13 @@ const LoyaltyProgramSection = () => {
   const { t } = useTranslation();
   const { width } = useWindowWidth();
   const history = useHistory();
+
   const infoData = useAppSelector((state) => state.info.data?.type);
+  const offChecked=useAppSelector((state)=>state.settings.offChecked);
   const {
     control,
     setValue,
     handleSwitchChange,
-    checkedState,
     handleSwitch,
     handleSubmit,
     dynamicFields,
@@ -125,6 +127,7 @@ const LoyaltyProgramSection = () => {
 
   const emptyCashback = useRecoilValue(eCashback);
   const emptyDiscount = useRecoilValue(eDiscount);
+ 
   const emptyBonuspoint = useRecoilValue(eBonuspoint);
 
   const loading =
@@ -140,8 +143,8 @@ const LoyaltyProgramSection = () => {
     active.active === 'cashback' ||
     activeCheck === 'cashback' ||
     (emptyCashback.empty && emptyCashback.type === activeCheck);
+  // const activeEmpty =offChecked ? true : active.active === '' ? true:false;
   const activeEmpty = active.active === '' && activeCheck === '';
-
   const handleChecked = (key: any) => {
     console.log('key that i want',key,);
 
@@ -158,12 +161,12 @@ const LoyaltyProgramSection = () => {
       setActiveCheck(key);
       setAssertModalVisible(false);
       setActive({ active: key });
-    } else {
+    }else {
       setAssertModalVisible(true);
     }
   };
 
-  console.log('checked',checkedState)
+  
   const content = () => {
     if (width <= 1000) {
       return (
@@ -199,7 +202,7 @@ const LoyaltyProgramSection = () => {
                     >
                      <CustomToggle
                         checked={item.key === active.active}
-                        disabled={item.key === active.active}
+                        disabled={offChecked ?true:item.key === active.active}
                         onChange={(checked: any) => handleChecked(item.key)}
                       />
                     </Flex>
@@ -234,7 +237,7 @@ const LoyaltyProgramSection = () => {
                       margin='0'
                     >
                     <CustomToggle
-                checked={checkedState}
+                checked={offChecked}
                 onChange={(e: any) => {
                   handleSwitch(e.target.checked);
                
@@ -260,7 +263,7 @@ const LoyaltyProgramSection = () => {
             </Flex>
           </LeftGrid>
 
-          { activeEmpty ? (
+          { activeEmpty ?(
             <Grid
               justifyContent='center'
               alignItems='center'
@@ -269,7 +272,7 @@ const LoyaltyProgramSection = () => {
               xs={12}
               sm={7}
             >
-                          {isLoading ? <Spinner />: <EmptySetting />} 
+                          { isLoading ? <Spinner />: <EmptySetting />} 
               <EText>{t('empty_setting_text')}</EText>
             </Grid>
           ) : (
@@ -647,7 +650,7 @@ const LoyaltyProgramSection = () => {
                   </Form>
                 </LargePanel>
               ) : (
-                <Spinner />
+               <Spinner />
               )}
             </RightGrid>
           )}

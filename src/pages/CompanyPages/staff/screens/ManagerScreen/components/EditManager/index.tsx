@@ -76,15 +76,21 @@ const EditManager = ({ openEdit }: IProps) => {
 
 	const storeName = [
 		{
-			label: selectedManagers?.length ? selectedManagers[0].store.name : null,
+			label: selectedManagers?.length
+				? selectedManagers[0]?.stores[0]?.name
+				: null,
+			value: selectedManagers?.length
+				? selectedManagers[0]?.stores[0]?.id
+				: null,
 		},
 	];
 
 	const onSave = (data: FormProps) => {
+		console.log(`data.storeIds[0].value`, data.storeIds);
 		editManager.mutate({
 			logo: logo,
 			id: selectedManagers[0].id,
-			storeId: data.storeId.value,
+			storeIds: [data.storeIds[0].value],
 			firstName: data.firstName,
 			lastName: data.lastName,
 			comment: data.comment,
@@ -100,7 +106,7 @@ const EditManager = ({ openEdit }: IProps) => {
 			setValue('lastName', selectedManagers[0].lastName);
 			setValue('comment', selectedManagers[0].comment);
 			setValue('telNumber', tel);
-			setValue('storeId', storeName);
+			setValue('storeIds', storeName);
 		}
 	}, [selectedManagers]);
 
@@ -290,7 +296,7 @@ const EditManager = ({ openEdit }: IProps) => {
 						<FormRow>
 							<Controller
 								control={control}
-								name='storeId'
+								name='storeIds'
 								rules={{
 									required: true,
 								}}
@@ -318,7 +324,7 @@ const EditManager = ({ openEdit }: IProps) => {
 												laptop: '20px 0 25px',
 											}}
 											message={t('requiredField')}
-											error={errors.storeId ? true : false}
+											error={errors.storeIds ? true : false}
 											field={field}
 											isClearable={false}
 										/>

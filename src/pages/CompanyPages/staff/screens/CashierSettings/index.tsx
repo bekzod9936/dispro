@@ -126,7 +126,9 @@ const CashierSetting = () => {
 			<CashierWrapTitle>
 				<RippleEffect
 					onClick={() => {
-						history.push(prevPage?.prevPage ? prevPage?.prevPage : '/staff');
+						history.push(
+							prevPage?.prevPage ? prevPage?.prevPage : '/staff/cashier'
+						);
 					}}
 				>
 					<ArrowBack />

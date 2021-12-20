@@ -78,6 +78,15 @@ const CreateManager = ({ openManager }: IProps) => {
 		shouldFocusError: true,
 		reValidateMode: 'onChange',
 	});
+	const resetData = {
+		logo: '',
+		comment: '',
+		firstName: '',
+		lastName: '',
+		storeIds: '',
+		telNumber: '+998',
+	};
+
 	const onSave = (data: FormProps) => {
 		console.log(data, 'data');
 		createManager.mutate(
@@ -86,20 +95,13 @@ const CreateManager = ({ openManager }: IProps) => {
 				comment: data.comment,
 				firstName: data.firstName,
 				lastName: data.lastName,
-				storeId: data.storeId?.value,
+				storeId: [data.storeIds?.value],
 				telNumber: `+998${data.telNumber}`,
 				roleId: 2,
 			},
 			{
 				onSuccess: () => {
-					reset({
-						logo: '',
-						comment: '',
-						firstName: '',
-						lastName: '',
-						storeId: '',
-						telNumber: '+998',
-					});
+					reset(resetData);
 				},
 				onError: () => {
 					setError('telNumber', { type: 'duplicate', message: 'duplicate' });
@@ -167,6 +169,7 @@ const CreateManager = ({ openManager }: IProps) => {
 								onClick={() => {
 									dispatch(setOpenManager(false));
 									dispatch(setStepManager(1));
+									reset(resetData);
 								}}
 							>
 								<ExitIcon />
@@ -245,12 +248,16 @@ const CreateManager = ({ openManager }: IProps) => {
 									<Controller
 										control={control}
 										name='firstName'
-										rules={{ required: true }}
+										rules={{ required: true, pattern: /[A-Za-z]{3}/ }}
 										render={({ field }) => (
 											<Input
 												label={t('manager_name')}
 												error={errors.firstName ? true : false}
-												message={t('requiredField')}
+												message={
+													errors.firstName?.type === 'required'
+														? t('requiredField')
+														: 'Вводить только буквы'
+												}
 												type='string'
 												field={field}
 												margin={{
@@ -265,12 +272,16 @@ const CreateManager = ({ openManager }: IProps) => {
 									<Controller
 										control={control}
 										name='lastName'
-										rules={{ required: true }}
+										rules={{ required: true, pattern: /[A-Za-z]{3}/ }}
 										render={({ field }) => (
 											<Input
 												label={t('manager_lastName')}
 												error={errors.lastName ? true : false}
-												message={t('requiredField')}
+												message={
+													errors.lastName?.type === 'required'
+														? t('requiredField')
+														: 'Вводить только буквы'
+												}
 												type='string'
 												field={field}
 												margin={{
@@ -314,7 +325,7 @@ const CreateManager = ({ openManager }: IProps) => {
 							<FormRow>
 								<Controller
 									control={control}
-									name='storeId'
+									name='storeIds'
 									rules={{
 										required: true,
 									}}
@@ -339,7 +350,7 @@ const CreateManager = ({ openManager }: IProps) => {
 													laptop: '20px 0 25px',
 												}}
 												message={t('requiredField')}
-												error={errors.storeId ? true : false}
+												error={errors.storeIds ? true : false}
 												field={field}
 												isClearable={false}
 											/>
@@ -379,6 +390,7 @@ const CreateManager = ({ openManager }: IProps) => {
 								onClick={() => {
 									dispatch(setOpenManager(false));
 									dispatch(setStepManager(1));
+									reset(resetData);
 								}}
 								startIcon={<CancelIcon />}
 							>
@@ -393,7 +405,6 @@ const CreateManager = ({ openManager }: IProps) => {
 								{t('next')}
 							</Button>
 						</ModalAction>
-						;
 					</ModalContent>
 				</Form>
 			)}
