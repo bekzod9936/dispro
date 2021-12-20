@@ -30,7 +30,7 @@ interface IProps {
 }
 
 export const DownBar = ({ open, setModals, setForm, refetch }: IProps) => {
-  const { selectedClients, allClients } = useAppSelector(
+  const { selectedClients, allClients, disableSpecStatus } = useAppSelector(
     (state) => state.clients
   );
   const [resetModal, setResetModal] = useState(false);
@@ -139,10 +139,15 @@ export const DownBar = ({ open, setModals, setForm, refetch }: IProps) => {
           <div className="vipProcent">
             <div className="toggler">
               <h6>Специальный статус</h6>
-              <CustomToggle onChange={handleToggleChange} checked={checked} />
+              <CustomToggle
+                disabled={disableSpecStatus}
+                onChange={handleToggleChange}
+                checked={checked}
+              />
             </div>
             {checked && (
               <Button
+                disabled={disableSpecStatus}
                 onClick={() => setForm({ open: true, action: 3 })}
                 margin={{
                   mobile: "10px 0",
