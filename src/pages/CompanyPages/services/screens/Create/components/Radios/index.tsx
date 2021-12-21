@@ -1,33 +1,24 @@
-import { RadioFields } from "pages/CompanyPages/services/components/RadioFields";
-import { FormFieldTypes } from "pages/CompanyPages/services/utils/types";
-import React, { useEffect } from "react";
-import { useFormContext } from "react-hook-form";
+//packages
 import { useTranslation } from "react-i18next";
-import { LightToolTip, QuestionMarkIcon } from "./style";
-import { Wrapper, Content, ErrorMessage } from "./style";
 
-interface RadiosProps {}
+//components
+import { RadioFields } from "pages/CompanyPages/services/components/RadioFields";
 
-export const Radios: React.FC<RadiosProps> = () => {
+//style
+import { Wrapper, Content, LightToolTip, QuestionMarkIcon } from "./style";
+
+interface RadiosProps {
+  value: number;
+  onChange: (arg: number) => void;
+}
+
+export const Radios: React.FC<RadiosProps> = ({ onChange, value }) => {
   const { t } = useTranslation();
-  const {
-    formState: { errors },
-    getValues,
-    setValue,
-  } = useFormContext<FormFieldTypes>();
-
-  const isLoyaltyOff = getValues("loyaltyOff");
-
-  useEffect(() => {
-    if (isLoyaltyOff) {
-      setValue("loyaltyType", undefined);
-    }
-  }, [isLoyaltyOff]);
 
   return (
     <Wrapper>
       <Content>
-        <RadioFields name="loyaltyType" />
+        <RadioFields value={value} onChange={onChange} />
         <LightToolTip
           placement="top"
           arrow
@@ -36,9 +27,6 @@ export const Radios: React.FC<RadiosProps> = () => {
           <QuestionMarkIcon />
         </LightToolTip>
       </Content>
-      {errors.loyaltyType && (
-        <ErrorMessage>{t(errors?.loyaltyType?.message)}</ErrorMessage>
-      )}
     </Wrapper>
   );
 };

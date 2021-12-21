@@ -595,7 +595,7 @@
   "addingcomment": "Добавление комментария",
   "changingcomment": "Редактирование комментария",
   "paycash/payterminal": "Оплата наличными / терминалом",
-  "paycardapp": "Оплата черезе приложение",
+  "paycardapp": "Оплата через приложение",
   "removeVariant": "Удалить вариант -",
   "leavePage": "Покинуть страницу?",
   "servicesPageQuitModalAlertMessage": "Данные будут утеряны, если вы покинете страницу “Создание товара”",
@@ -619,5 +619,15 @@
   "choosepaymentmethod": "Выберите способ оплаты",
   "paymentbycash": "Оплата наличными/терминалом",
   "paymentbyapp": "Оплата через приложение",
-  "bypayment": "По Оплата"
+  "bypayment": "По Оплата",
+  "maxAmountOfItems": "Максимальное количество: 1 000 000 шт.",
+  "maxAmountOfDays": "Максимальное количество дней: 365",
+  "maxAmountOfHours": "Максимальное количество часов: 24",
+  "maxAmountOfMinutes": "Максимальное количество минут: 60",
+  "atLeastOneFieldRequired": "Заполните хотя бы одно поле",
+  "operationthroughbank": "Операции через банк",
+  "alloperations": "Все операции",
+  "allpurchase": "Кол-во покупок",
+  "period": "Период",
+  "allGoods": "Все товары"
 }

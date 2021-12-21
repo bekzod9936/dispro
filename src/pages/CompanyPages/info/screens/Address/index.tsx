@@ -683,10 +683,11 @@ const Address = () => {
               <Controller
                 name='name'
                 control={control}
-                rules={{ required: true }}
+                rules={{ required: true, maxLength: 30 }}
                 defaultValue=''
                 render={({ field }) => (
                   <Input
+                    maxLength={30}
                     label={t('enterTitle')}
                     error={errors.name ? true : false}
                     message={t('requiredField')}

@@ -1,9 +1,9 @@
-import { Container, NewSelect, DownIcon, Label, Message } from "./style";
-import { components } from "react-select";
+import { Container, NewSelect, DownIcon, Label, Message } from './style';
+import { components } from 'react-select';
 
 //types
-import { Props } from "./type";
-import { customStyle } from "./constants";
+import { Props } from './type';
+import { customStyle } from './constants';
 
 const MultiSelect = ({
   iconmargin,
@@ -29,7 +29,7 @@ const MultiSelect = ({
   const NoOptionsMessage = (props: any) => {
     return (
       <components.NoOptionsMessage data-cy={props.dataCy} {...props}>
-        <span className="custom-css-class">{nooptionsmessage}</span>
+        <span className='custom-css-class'>{nooptionsmessage}</span>
       </components.NoOptionsMessage>
     );
   };
@@ -40,7 +40,7 @@ const MultiSelect = ({
         <components.ValueContainer data-cy={props.dataCy} {...props}>
           {icon && (
             <div
-              style={{ position: "absolute", left: iconleft, right: iconright }}
+              style={{ position: 'absolute', left: iconleft, right: iconright }}
             >
               {icon}
             </div>
@@ -78,8 +78,7 @@ const MultiSelect = ({
         data-cy={props.dataCy}
         {...props}
         {...props.field}
-        placeholder={props.placeholder ? props.placeholder : ""}
-        menuPortalTarget={document.body}
+        placeholder={props.placeholder ? props.placeholder : ''}
       />
       {props.error ? (
         <Message isStatic={props.isStatic} labelStyle={props.labelStyle}>

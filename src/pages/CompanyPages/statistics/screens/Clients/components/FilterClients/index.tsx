@@ -16,8 +16,12 @@ import {
   WrapPlaceHolder,
   WrapInputs,
   WrapFilter,
+  DeleteIcon,
+  ButtonKeyWord,
+  WrapValues,
 } from './style';
 import MultiSelect from 'components/Custom/MultiSelect';
+import { IconButton } from '@material-ui/core';
 
 interface Props {
   response?: any;
@@ -29,6 +33,19 @@ interface Props {
   status?: any;
   setStatus?: any;
   setUsedLevel?: any;
+}
+
+interface VProps {
+  startDate?: string;
+  endDate?: string;
+  regDateFrom?: string;
+  regDateTo?: string;
+  genderTypeId?: string | number;
+  purchaseCountFrom?: string;
+  purchaseCountTo?: string;
+  allPurchaseSum?: string;
+  usedLevelNumber?: string;
+  storeIds?: string;
 }
 
 const FilterClients = ({
@@ -46,47 +63,30 @@ const FilterClients = ({
   const data = useAppSelector((state) => state.statistics.clientStats);
   const [date, setDate] = useState({ startDate: '', endDate: '' });
   const [storeIds, setStoreIds] = useState<any[]>([]);
-  const [values, setValues] = useState({});
-  const allPurchaseSumValue: any = numberWith(
-    String(filterValues.allPurchaseSum),
-    ' ',
-    '-'
-  );
-
-  const genders = [
-    { value: '1', label: `${t('male')}` },
-    { value: '2', label: `${t('female')}` },
-  ];
-
-  const error =
-    !!filterValues.purchaseCountFrom &&
-    !!filterValues.purchaseCountTo &&
-    Number(filterValues.purchaseCountFrom) >
-      Number(filterValues.purchaseCountTo);
+  const [storeId, setStoreId] = useState<any[]>([]);
+  const [values, setValues] = useState<VProps>(intialState);
 
   const handleFilterSubmit = async ({ startDate = '', endDate = '' }) => {
     await setFilterValues({
-      ...filterValues,
+      ...values,
       startDate: startDate,
       endDate: endDate,
     });
-    await response.refetch();
+    await setStoreId(storeIds);
   };
 
   const onReset = async () => {
     await setFilterValues(intialState);
+    await setValues(intialState);
     await setTraffic('');
     await setUsedLevel([]);
+    await setStoreIds([]);
     await response.refetch();
   };
 
-  function capitalize(s: any) {
-    return s[0].toUpperCase() + s.slice(1);
-  }
-
   const handleDataPicker = async (e: any) => {
     await setFilterValues({
-      ...filterValues,
+      ...values,
       startDate: e.slice(0, e.indexOf(' ~')),
       endDate: e.slice(e.indexOf('~ ') + 2),
     });
@@ -96,6 +96,10 @@ const FilterClients = ({
     });
     await response.refetch();
   };
+
+  function capitalize(s: any) {
+    return s[0].toUpperCase() + s.slice(1);
+  }
 
   const radioList = data?.filter?.referal?.map((v: any) => {
     const val = v.refIds
@@ -114,11 +118,27 @@ const FilterClients = ({
     };
   });
 
+  const allPurchaseSumValue: any = numberWith(
+    String(values.allPurchaseSum),
+    ' ',
+    '-'
+  );
+
+  const genders = [
+    { value: '1', label: `${t('male')}` },
+    { value: '2', label: `${t('female')}` },
+  ];
+
+  const error =
+    !!values.purchaseCountFrom &&
+    !!values.purchaseCountTo &&
+    Number(values.purchaseCountFrom) > Number(values.purchaseCountTo);
+
   const filterList = [
     {
       title: t('gender'),
-      value: filterValues.genderTypeId
-        ? Number(filterValues.genderTypeId) === 1
+      value: values.genderTypeId
+        ? Number(values.genderTypeId) === 1
           ? t('male')
           : t('female')
         : undefined,
@@ -127,24 +147,20 @@ const FilterClients = ({
           flexDirection='row'
           list={genders}
           title={t('chose_gender')}
-          onChange={(v: any) =>
-            setFilterValues({ ...filterValues, genderTypeId: v })
-          }
-          value={filterValues.genderTypeId}
+          onChange={(v: any) => setValues({ ...values, genderTypeId: v })}
+          value={values.genderTypeId}
         />
       ),
     },
     {
       title: t('registration_date'),
       value:
-        filterValues.regDateTo && filterValues.regDateFrom
-          ? dayjs(filterValues.regDateFrom).format('YYYY.MM.DD') +
+        values.regDateTo && values.regDateFrom
+          ? dayjs(values.regDateFrom).format('YYYY.MM.DD') +
             ' - ' +
-            dayjs(filterValues.regDateTo).format('YYYY.MM.DD')
-          : filterValues.regDateTo || filterValues.regDateFrom
-          ? dayjs(filterValues.regDateTo || filterValues.regDateFrom).format(
-              'YYYY.MM.DD'
-            )
+            dayjs(values.regDateTo).format('YYYY.MM.DD')
+          : values.regDateTo || values.regDateFrom
+          ? dayjs(values.regDateTo || values.regDateFrom).format('YYYY.MM.DD')
           : undefined,
       content: (
         <WrapInputs>
@@ -156,10 +172,10 @@ const FilterClients = ({
               text={t('from')}
               onChange={(e) => {
                 let date = '' + e.year + '-' + e.month.number + '-' + e.day;
-                setFilterValues({ ...filterValues, regDateFrom: date });
+                setValues({ ...values, regDateFrom: date });
               }}
-              value={filterValues?.regDateFrom}
-              maxDate={filterValues?.regDateTo}
+              value={values?.regDateFrom}
+              maxDate={values?.regDateTo}
             />
             <CustomDatePicker
               margin='0 0 0 0'
@@ -167,10 +183,10 @@ const FilterClients = ({
               text={t('to')}
               onChange={(e) => {
                 let date = '' + e.year + '-' + e.month.number + '-' + e.day;
-                setFilterValues({ ...filterValues, regDateTo: date });
+                setValues({ ...values, regDateTo: date });
               }}
-              value={filterValues?.regDateTo}
-              minDate={filterValues?.regDateFrom}
+              value={values?.regDateTo}
+              minDate={values?.regDateFrom}
             />
           </div>
         </WrapInputs>
@@ -179,16 +195,14 @@ const FilterClients = ({
     {
       title: t('purchuase_amount'),
       value:
-        filterValues.purchaseCountFrom && filterValues.purchaseCountTo
-          ? filterValues.purchaseCountFrom +
-            ' - ' +
-            filterValues.purchaseCountTo
-          : filterValues.purchaseCountFrom || filterValues.purchaseCountTo,
+        values.purchaseCountFrom && values.purchaseCountTo
+          ? values.purchaseCountFrom + ' - ' + values.purchaseCountTo
+          : values.purchaseCountFrom || values.purchaseCountTo,
       content: (
         <>
           <InputFormat
             label={t('enter_number')}
-            value={filterValues.purchaseCountFrom}
+            value={values.purchaseCountFrom}
             IconStart={<WrapPlaceHolder>{t('from')}</WrapPlaceHolder>}
             width={{
               maxwidth: 200,
@@ -199,8 +213,8 @@ const FilterClients = ({
             error={error}
             maxLength={11}
             onChange={(e: any) => {
-              setFilterValues({
-                ...filterValues,
+              setValues({
+                ...values,
                 purchaseCountFrom: e.target.value,
               });
             }}
@@ -218,10 +232,10 @@ const FilterClients = ({
             inputStyle={{
               inpadding: '0 10px',
             }}
-            value={filterValues.purchaseCountTo}
+            value={values.purchaseCountTo}
             onChange={(e: any) =>
-              setFilterValues({
-                ...filterValues,
+              setValues({
+                ...values,
                 purchaseCountTo: e.target.value,
               })
             }
@@ -232,15 +246,15 @@ const FilterClients = ({
     },
     {
       title: t('purchuase_cost'),
-      value: filterValues.allPurchaseSum ? allPurchaseSumValue : undefined,
+      value: values.allPurchaseSum ? allPurchaseSumValue : undefined,
       content: (
         <InputFormat
           placeholder={t('notless')}
           onChange={(e: any) =>
-            setFilterValues({ ...filterValues, allPurchaseSum: e.target.value })
+            setValues({ ...values, allPurchaseSum: e.target.value })
           }
           label={t('enter_amount')}
-          value={filterValues.allPurchaseSum}
+          value={values.allPurchaseSum}
           type='tel'
           maxLength={11}
         />
@@ -254,8 +268,8 @@ const FilterClients = ({
           label={t('choosefilial')}
           options={storesFilter}
           onChange={(e: any) => {
-            setFilterValues({
-              ...filterValues,
+            setValues({
+              ...values,
               storeIds:
                 e.map((v: any) => v.value).length > 0
                   ? `[${e.map((v: any) => v.value).join(',')}]`
@@ -271,6 +285,12 @@ const FilterClients = ({
     },
     {
       title: t('status'),
+      value:
+        status.length > 0
+          ? status.filter((v: any) => v?.[v?.name] === true).length > 0
+            ? status.filter((v: any) => v?.[v?.name] === true).length
+            : undefined
+          : undefined,
       content: (
         <WrapStatus>
           <Label>{t('statuschoose')}</Label>
@@ -297,8 +317,8 @@ const FilterClients = ({
                   });
                   const ad: any = arr.filter((a: any) => a?.[a.name]);
                   const val = ad.map((a: any) => a?.number).join(',');
-                  setFilterValues({
-                    ...filterValues,
+                  setValues({
+                    ...values,
                     usedLevelNumber: val,
                   });
                   setUsedLevel(arr);
@@ -322,6 +342,7 @@ const FilterClients = ({
           title={t('chose_trafic_provider')}
           onChange={(v: any) => {
             setTraffic(v);
+            console.log(v);
           }}
           value={traffic}
         />
@@ -329,21 +350,186 @@ const FilterClients = ({
     },
   ];
 
+  const filterGender =
+    filterValues.genderTypeId !== '' &&
+    filterValues.genderTypeId !== undefined ? (
+      <ButtonKeyWord>
+        {`${t('gender')}: `}
+        {genders.filter((v: any) => v.value === filterValues.genderTypeId)
+          .length > 0
+          ? genders.filter((v: any) => v.value === filterValues.genderTypeId)[0]
+              .label
+          : undefined}
+        <IconButton
+          onClick={async () => {
+            await setFilterValues({
+              ...filterValues,
+              genderTypeId: '',
+            });
+            await setValues({
+              ...values,
+              genderTypeId: '',
+            });
+          }}
+        >
+          <DeleteIcon />
+        </IconButton>
+      </ButtonKeyWord>
+    ) : null;
+
+  const filterStore = (values: any) => {
+    if (values.length > 0) {
+      return values.map((v: any) => {
+        return (
+          <ButtonKeyWord>
+            {`${t('filial')}: `}
+            {v.label}
+            <IconButton
+              onClick={async () => {
+                await setFilterValues({
+                  ...filterValues,
+
+                  storeIds: `[${storeIds
+                    .filter((a: any) => a.value !== v.value)
+                    .map((v: any) => v.value)
+                    .join(',')}]`,
+                });
+                await setStoreIds(
+                  values.filter((a: any) => a.value !== v.value)
+                );
+                await setStoreId(
+                  values.filter((a: any) => a.value !== v.value)
+                );
+                await setValues({
+                  ...values,
+                  storeIds: values.filter((a: any) => a.value !== v.value),
+                });
+              }}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </ButtonKeyWord>
+        );
+      });
+    } else {
+      return;
+    }
+  };
+
+  const filterRegvalue =
+    filterValues?.regDateFrom !== '' && filterValues?.regDateTo !== '' ? (
+      <ButtonKeyWord>
+        {`${t('registration_date')}: ${dayjs(filterValues?.regDateFrom).format(
+          'DD MMMM'
+        )}-${dayjs(filterValues?.regDateTo).format('DD MMMM, YYYY')}`}
+        <IconButton
+          onClick={async () => {
+            await setFilterValues({
+              ...filterValues,
+              regDateFrom: '',
+              regDateTo: '',
+            });
+            await setValues({ ...values, regDateFrom: '', regDateTo: '' });
+          }}
+        >
+          <DeleteIcon />
+        </IconButton>
+      </ButtonKeyWord>
+    ) : null;
+
+  const fiterPurchaseCount =
+    filterValues.purchaseCountFrom !== '' &&
+    filterValues.purchaseCountTo !== '' ? (
+      <ButtonKeyWord>
+        {`${t('allpurchase')}: ${t('from')}: ${numberWith(
+          filterValues.purchaseCountFrom,
+          ''
+        )} ${t('to')}: ${numberWith(filterValues.purchaseCountTo, '')}`}
+        <IconButton
+          onClick={async () => {
+            await setFilterValues({
+              ...filterValues,
+              purchaseCountFrom: '',
+              purchaseCountTo: '',
+            });
+            await setValues({
+              ...values,
+              purchaseCountFrom: '',
+              purchaseCountTo: '',
+            });
+          }}
+        >
+          <DeleteIcon />
+        </IconButton>
+      </ButtonKeyWord>
+    ) : null;
+  const filterAllPurchase =
+    filterValues.allPurchaseSum !== '' ? (
+      <ButtonKeyWord>
+        {`${t('purchuase_cost')}: ${numberWith(
+          filterValues.allPurchaseSum,
+          ''
+        )}`}
+        <IconButton
+          onClick={async () => {
+            await setFilterValues({
+              ...filterValues,
+              allPurchaseSum: '',
+            });
+            await setValues({
+              ...values,
+              allPurchaseSum: '',
+            });
+          }}
+        >
+          <DeleteIcon />
+        </IconButton>
+      </ButtonKeyWord>
+    ) : null;
+  const filterTraffic =
+    traffic !== '' ? (
+      <ButtonKeyWord>
+        {`${t('traffic_provider')}: `}
+        <IconButton
+          onClick={async () => {
+            await setFilterValues({
+              ...filterValues,
+              allPurchaseSum: '',
+            });
+            await setValues({
+              ...values,
+              allPurchaseSum: '',
+            });
+          }}
+        >
+          <DeleteIcon />
+        </IconButton>
+      </ButtonKeyWord>
+    ) : null;
   return (
-    <WrapFilter>
-      <Filter
-        onSubmit={() =>
-          handleFilterSubmit({
-            startDate: date.startDate,
-            endDate: date.endDate,
-          })
-        }
-        error={error}
-        onReset={onReset}
-        list={filterList}
-      />
-      <DatePcker onChange={handleDataPicker} margin='0 0 0 20px' />
-    </WrapFilter>
+    <>
+      <WrapFilter>
+        <Filter
+          onSubmit={() =>
+            handleFilterSubmit({
+              startDate: date.startDate,
+              endDate: date.endDate,
+            })
+          }
+          error={error}
+          onReset={onReset}
+          list={filterList}
+        />
+        <DatePcker onChange={handleDataPicker} margin='0 0 0 20px' />
+      </WrapFilter>
+      <WrapValues>
+        {filterStore(storeId)}
+        {filterGender}
+        {filterRegvalue}
+        {fiterPurchaseCount}
+        {filterAllPurchase}
+      </WrapValues>
+    </>
   );
 };
 

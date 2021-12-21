@@ -1,7 +1,37 @@
+import { AxiosResponse } from "axios";
 import partnerApi from "services/interceptors/partner_interceptor";
 
 interface Props {
   section?: string;
+}
+
+export type BonusResponseType = {
+  data: {
+    companyId: number,
+    description: string,
+    isActive: boolean,
+    levels: any[],
+    maxAmount: number,
+    name: string,
+    percent: number
+  },
+  error: null | any,
+  success: boolean
+}
+
+export type CashbackResponseType = {
+  data: {
+    cashbackReturnedDay: number,
+    companyId: number,
+    description: string,
+    isActive: boolean,
+    levels: any[],
+    maxAmount: number,
+    name: string,
+    percent: number
+  },
+  error: null | any,
+  success: boolean
 }
 
 export const fetchClientsData = ({ section }: Props) => {
@@ -90,3 +120,22 @@ export const fetchAllClients = async (url: string) => {
   const response = await partnerApi(`/core/client/by/company?${url}`);
   return response;
 };
+
+
+export const GetPartnerSettings = {
+  async getBonuses () {
+    const { data } = await partnerApi.get<BonusResponseType>('bonus/bonuspoints');
+    return data
+  },
+
+  async getCashback() {
+    const { data } = await partnerApi.get<CashbackResponseType>('bonus/cashbacks')
+    return data
+  },
+
+  async getDiscount() {
+    const { data } = await partnerApi.get<BonusResponseType>('bonus/discounts')
+    return data
+  
+  } 
+}

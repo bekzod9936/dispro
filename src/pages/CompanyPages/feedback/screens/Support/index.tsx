@@ -541,6 +541,7 @@ const Support = () => {
                   control={control}
                   rules={{
                     required: true,
+                    maxLength: 400,
                   }}
                   defaultValue=''
                   render={({ field }) => (
@@ -548,7 +549,11 @@ const Support = () => {
                       minRows={1}
                       maxRows={6}
                       placeholder={t('writeyoutmessage')}
-                      onChange={(e) => field.onChange(e)}
+                      onChange={(e) => {
+                        if (e.target.value.length <= 400) {
+                          return field.onChange(e);
+                        }
+                      }}
                       value={field.value}
                       style={{
                         maxWidth: '100%',

@@ -503,7 +503,7 @@ const Main = () => {
             <Controller
               name='name'
               control={control}
-              rules={{ required: true }}
+              rules={{ required: true, maxLength: 30 }}
               render={({ field }) => (
                 <Input
                   label={t('title')}

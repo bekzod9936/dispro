@@ -12,7 +12,7 @@ import { NewsBar } from "../../components/NewsBar";
 import { Container, Wrap, Info, WrapPag, WrapSpinner } from "./style";
 import useData from "../useData";
 import useWaiting from "./useWaiting";
-import Pagination from "components/Custom/Pagination";
+
 import { countPagination } from "../../components/utils";
 import useWindowWidth from "services/hooks/useWindowWidth";
 import {
@@ -21,15 +21,15 @@ import {
   setErrorMessage,
 } from "services/redux/Slices/news";
 import { LimitNews } from "../../components/LimitNews";
-import NavBar from "components/Custom/NavBar";
+
 import { FilterNews } from "../../components/FilterNews";
 import { WaitingFilterNews } from "../../components/WaitingFilterNews";
-import useNewsRoute from "../../routes";
+
 import { LaptopFilterNews } from "../../components/LaptopFilterNews";
 import NoNewsLaptop from "../../components/NoNewsLaptop";
-import { Flex } from "../../style";
+
 import { NewPagination } from 'components/Custom/NewPagination';
-import { LeftHeader, WrapMobile, WrapHeader } from "./style";
+
 interface intialFilterProps {
   page?: number;
   perPage?: number;

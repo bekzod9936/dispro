@@ -1,6 +1,6 @@
 import * as yup from "yup"
 
-
+//! refactor: variant fields as each number field can be nullable and can have empty string
 
 export const sectionsSchema = yup.object().shape({
     sections: yup.array().of(
@@ -38,17 +38,15 @@ const variantSchema = yup.object().shape({
         })
     ),
 
-    amount: yup.string().test('length', 'minAmountOfItems', (text) => {
-        return Number(text) > 8
-    }).required('enterAmountOfItem'),
-
-
+    amount: yup
+        .number()
+        .nullable(true)
+        .transform((parsedValue, originalValue) => originalValue === '' ? null : parsedValue)
+        .max(1000001, 'maxAmountOfItems')
+        .required('enterAmountOfItem'),
 
     articul: yup.string().required('enterArticulOfItem').max(30, 'maxAmountOfSymbols'),
 
-    // price: yup.string().test('length', 'maxPriceOneBillion', (text) => {
-    //     return text?.trim() === '' ? false : Number(text) < 1000000001
-    // }).required('enterPriceOfItem'),
     price: yup.number().typeError('enterPriceOfItem').max(1000000001, 'maxPriceOneBillion').required('enterPriceOfItem'),
 
     priceWithSale: yup.string()
@@ -63,21 +61,23 @@ const variantSchemaWithSale = yup.object().shape({
         })
     ),
 
-    amount: yup.string().test('length', 'minAmountOfItems', (text) => {
-        return Number(text) > 8
-    }).required('enterAmountOfItem'),
+    amount: yup
+        .number()
+        .nullable(true)
+        .transform((parsedValue, originalValue) => originalValue === '' ? null : parsedValue)
+        .max(1000001, 'maxAmountOfItems')
+        .required('enterAmountOfItem'),
 
 
     articul: yup.string().required('enterArticulOfItem').max(30, 'maxAmountOfSymbols'),
 
-    // price: yup.number().test('length', 'maxPriceOneBillion', (text) => {
-    //     return text?.trim() === '' ? false : Number(text) < 1000000001
-    // }).required('enterPriceOfItem'),
     price: yup.number().typeError('enterPriceOfItem').max(1000000001, 'maxPriceOneBillion').required('enterPriceOfItem'),
 
-    priceWithSale: yup.number().typeError('requiredField').lessThan(yup.ref('price'), 'priceWithSaleMustBeLessThanPriceWithoutSale').required('enterPriceOfItemWithSale')
+    priceWithSale: yup.number().typeError('enterPriceOfItemWithSale').lessThan(yup.ref('price'), 'priceWithSaleMustBeLessThanPriceWithoutSale').required('enterPriceOfItemWithSale')
     
 })
+
+
 
 export const goodsSchema = yup.object().shape({
     titles: yup.array().of(
@@ -120,19 +120,37 @@ export const goodsSchema = yup.object().shape({
         yup.string()
     ).length(1, 'chooseAtLeastOneImage'),
 
-    preparationTime: yup.array().of(
-        yup.object().shape({
-            days: yup.number(),
-            hours: yup.string(),
-            minutes: yup.string()
-        }).test('atLeastOneFieldRequired', 'requiredField', (val) => {
-            const {days, hours, minutes} = val;
+    preparationTimeData: yup.object().when('preparationTime', {
+        is: true,
+        then: yup.object().shape({
+            days: yup
+                .number()
+                .nullable(true)
+                .max(365, 'maxAmountOfDays')
+                .transform((parsedValue, originalValue) => originalValue === '' ? null : parsedValue),
+            hours: yup
+                .number()
+                .nullable(true)
+                .max(24, 'maxAmountOfHours')
+                .transform((parsedValue, originalValue) => originalValue === '' ? null : parsedValue),
+            minutes: yup
+                .number()
+                .nullable(true)
+                .max(60, 'maxAmountOfMinutes')
+                .transform((parsedValue, originalValue) => originalValue === '' ? null : parsedValue)
+        }).test('checkAllFields', 'atLeastOneFieldRequired', function(obj) {
+            const {createError, path} = this;
 
-            return Boolean(days) || Boolean(minutes) || Boolean(hours)
-        })
+            const isFieldFilled = Object.values(obj).some((fieldValue) => fieldValue)
 
-    ),
+            if (isFieldFilled) return true;
 
+            else throw createError({
+                message: 'atLeastOneFieldRequired',
+                path: `${path}.days`
+            })
+        }),
+    }),
 
     variants: yup.array().when('loyaltyType', {
         is: (val: number | string) => Number(val) === 1,
@@ -140,6 +158,8 @@ export const goodsSchema = yup.object().shape({
         otherwise: yup.array().of(variantSchema)
     })
 })
+
+
 
 
 

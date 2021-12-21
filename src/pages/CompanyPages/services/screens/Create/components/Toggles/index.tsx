@@ -1,17 +1,22 @@
+//components
 import CustomToggle from "components/Custom/CustomToggleSwitch";
-import { Controller, useFormContext } from "react-hook-form";
+
+//style
 import { LightToolTip, QuestionMarkIcon, Wrapper } from "./style";
 
-interface TogglesProps {}
-export const Toggles: React.FC<TogglesProps> = () => {
-  const { control } = useFormContext();
+interface TogglesProps {
+  onChange: (arg: boolean) => void;
+  value: boolean;
+}
+
+export const Toggles: React.FC<TogglesProps> = ({ onChange, value }) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(event.target.checked);
+  };
+
   return (
     <Wrapper>
-      <Controller
-        name="loyaltyOff"
-        control={control}
-        render={({ field }) => <CustomToggle {...field} />}
-      />
+      <CustomToggle checked={value} onChange={handleChange} />
       <p>Не применять программу лояльности</p>
       <LightToolTip
         placement="top"

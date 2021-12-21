@@ -109,6 +109,7 @@ const Chat = ({ value, setCurrentUser }: Props) => {
     },
     {
       refetchOnWindowFocus: false,
+      keepPreviousData: true,
       retry: 0,
       enabled: false,
       onSuccess: (info) => {

@@ -199,6 +199,9 @@ export const WrapList = styled.div`
     justify-content: flex-start;
     align-items: center;
   }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    height: calc(100vh - 170px);
+  }
   @media (min-height: 800px) {
     & > ul:first-child {
       margin-top: 50px;
@@ -256,6 +259,7 @@ export const DesktopDrawer = styled(Drawer)`
     justify-content: space-between;
     margin: 0 15px 0 20px;
   }
+
   @media (max-width: ${device.planshet}) {
     display: none;
   }
