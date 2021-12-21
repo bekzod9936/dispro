@@ -5,7 +5,7 @@ import { categoriesResponseType, sectionDtoType, uploadImageType } from './respo
 import partnerApi from 'services/interceptors/partner_interceptor';
 
 
-export const Api = {
+export const ApiServices = {
     async uploadImage(formData: FormData) {
         const token = localStorage.getItem(PARTNER.COMPANY_TOKEN)
 
@@ -55,6 +55,12 @@ export const Api = {
         if (!data.success) {
             throw new Error('Error during fetching categories, shit!')
         }
+        return data
+    },
+
+    async getSections() {
+        const { data } = await partnerApi.get('/core/goodsSection/by-company')
+
         return data
     }
 

@@ -1,34 +1,24 @@
 //packages
 import { useTranslation } from "react-i18next";
-import { useFormContext } from "react-hook-form";
 
 //components
 import { RadioFields } from "pages/CompanyPages/services/components/RadioFields";
 
 //style
-import {
-  Wrapper,
-  Content,
-  ErrorMessage,
-  LightToolTip,
-  QuestionMarkIcon,
-} from "./style";
+import { Wrapper, Content, LightToolTip, QuestionMarkIcon } from "./style";
 
-//other
-import { FormFieldTypes } from "pages/CompanyPages/services/utils/types";
+interface RadiosProps {
+  value: number;
+  onChange: (arg: number) => void;
+}
 
-interface RadiosProps {}
-
-export const Radios: React.FC<RadiosProps> = () => {
+export const Radios: React.FC<RadiosProps> = ({ onChange, value }) => {
   const { t } = useTranslation();
-  const {
-    formState: { errors },
-  } = useFormContext<FormFieldTypes>();
 
   return (
     <Wrapper>
       <Content>
-        <RadioFields name="loyaltyType" />
+        <RadioFields value={value} onChange={onChange} />
         <LightToolTip
           placement="top"
           arrow
@@ -37,9 +27,6 @@ export const Radios: React.FC<RadiosProps> = () => {
           <QuestionMarkIcon />
         </LightToolTip>
       </Content>
-      {errors.loyaltyType && (
-        <ErrorMessage>{t(errors?.loyaltyType?.message)}</ErrorMessage>
-      )}
     </Wrapper>
   );
 };

@@ -626,5 +626,6 @@
   "maxAmountOfMinutes": "Максимальное количество минут: 60",
   "atLeastOneFieldRequired": "Заполните хотя бы одно поле",  
   "operationthroughbank": "Операции через банк",
-  "alloperations": "Все операции"
+  "alloperations": "Все операции",
+  "allGoods": "Все товары"
 }
