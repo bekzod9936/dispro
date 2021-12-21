@@ -104,7 +104,7 @@ const DatePicker = ({
       />
       {date === '' && notshowvalue ? null : (
         <MobileReset>
-          {date}
+          {`${t('period')}: ${date}`}
           <IconButton onClick={handleClick}>
             <DeleteIcon />
           </IconButton>
