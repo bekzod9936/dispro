@@ -32,11 +32,10 @@ const ManagerScreen = () => {
 		startDate: '',
 		endDate: '',
 	});
-	const [page, setPage] = useState('1');
+	// const [page, setPage] = useState('1');
 	const [debouncedQuery] = useDebounce(query, 300);
 
-	const { response } = useManagers({
-		page: page,
+	const { response, page, setPage } = useManagers({
 		query: debouncedQuery,
 		period,
 	});
@@ -49,6 +48,8 @@ const ManagerScreen = () => {
 				</SpinnerDiv>
 			) : managers?.length > 0 ? (
 				<ManagerTable
+					page={page}
+					setPage={setPage}
 					managers={managers.map((manager: any) => {
 						return {
 							...manager,

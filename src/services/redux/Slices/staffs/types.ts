@@ -20,7 +20,10 @@ export interface staffsState {
   managerId?: any;
   staffData: any;
   pointHistories: any;
-  storeFilters:any
+  storeFilters:any;
+  cashiersTotal: number;
+  managersTotal: number;
+  totalCount: number
 }
 
 

@@ -4,6 +4,8 @@ export interface ITRow {
 }
 export interface IProps {
   cashiers: ICashTable[];
+  page: number;
+  setPage: (arg: number) => void
 }
 
 export type HeadersType = {
@@ -13,7 +15,7 @@ export type HeadersType = {
 export interface ICashTable {
   firstName?: string;
   score: string | number;
-  avgCheque: string | number;
+  avgCheque: string | number
   clients: string | number;
   operations: string | number;
   amountOperation: string | number;

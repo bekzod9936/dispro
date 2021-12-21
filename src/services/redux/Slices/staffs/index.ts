@@ -27,7 +27,10 @@ const initialState: staffsState = {
     totalCount: 0,
     between: '',
   },
-  storeFilters: null
+  storeFilters: null,
+  cashiersTotal: 0,
+  managersTotal: 0,
+  totalCount: 0 
 };
 
 const staffsSlice = createSlice({
@@ -109,11 +112,20 @@ const staffsSlice = createSlice({
 			return acc
 		  }, {})
 		  state.storeFilters = Object.keys(res).map(el => ({value: el, label: res[el]}))
-	  }
-
+	  },
+	  setCashiersTotal: (state, {payload}: PayloadAction<number>) => {
+		state.cashiersTotal = Math.ceil(payload / 10)
+		state.totalCount = payload
+	},
+	  setManagersTotal: (state, {payload}: PayloadAction<number>) => {
+		state.managersTotal = Math.ceil(payload / 10)
+		state.totalCount = payload
+	},
 
   },
+
 });
+
 
 export const {
   setCashiers,
@@ -139,6 +151,8 @@ export const {
   setPointHistoriesBetween,
   setPointHistoriesData,
   setPointHistoriesTotal,
-  setStoreFilters
+  setStoreFilters,
+  setCashiersTotal,
+  setManagersTotal,
   } = staffsSlice.actions;
 export default staffsSlice.reducer;
