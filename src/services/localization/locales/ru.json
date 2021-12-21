@@ -628,5 +628,6 @@
   "operationthroughbank": "Операции через банк",
   "alloperations": "Все операции",
   "allpurchase": "Кол-во покупок",
-  "period":"Период"
+  "period": "Период",
+  "allGoods": "Все товары"
 }

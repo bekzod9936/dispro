@@ -10,14 +10,11 @@ export const fileToBlob = (file: File, id: string) => {
     
 }
 
-
-
 export const filesToBlob = (files: File[]) => {
     const companyId = localStorage.getItem('companyId') || ""
     
     return files.map(file => fileToBlob(file, companyId))
 }
-
 
 export const isFieldLast = (max: number, current: number, length: number): boolean => {
     return length <= max && current === length

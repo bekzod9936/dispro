@@ -1,10 +1,9 @@
-import { Controller, useFormContext } from "react-hook-form";
-import { FormFieldTypes } from "../../utils/types";
 import { FormControlLabel, Radio, RadioGroup } from "@material-ui/core";
 import { useStyles } from "./style";
 
 interface RadioFieldsProps {
-  name: keyof FormFieldTypes;
+  value: number;
+  onChange: (arg: number) => void;
 }
 
 const radioList = [
@@ -18,35 +17,43 @@ const radioList = [
   },
 ];
 
-export const RadioFields: React.FC<RadioFieldsProps> = ({ name }) => {
-  const { control } = useFormContext();
+export const RadioFields: React.FC<RadioFieldsProps> = ({
+  value,
+  onChange,
+}) => {
   const styles = useStyles();
 
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    value: string
+  ) => {
+    onChange(Number(value));
+  };
+
   return (
-    <Controller
-      name={name}
-      control={control}
-      render={({ field }) => (
-        <RadioGroup row aria-label="gender" {...field}>
-          {radioList.map((item) => (
-            <FormControlLabel
-              classes={{ root: styles.label }}
-              value={item.value}
-              control={
-                <Radio
-                  color="default"
-                  disableRipple
-                  checkedIcon={
-                    <span className={`${styles.checkedIcon} ${styles.icon}`} />
-                  }
-                  icon={<span className={styles.icon} />}
-                />
+    <RadioGroup
+      value={String(value)}
+      onChange={handleChange}
+      row
+      aria-label="gender"
+    >
+      {radioList.map((item) => (
+        <FormControlLabel
+          classes={{ root: styles.label }}
+          value={item.value}
+          control={
+            <Radio
+              color="default"
+              disableRipple
+              checkedIcon={
+                <span className={`${styles.checkedIcon} ${styles.icon}`} />
               }
-              label={item.label}
+              icon={<span className={styles.icon} />}
             />
-          ))}
-        </RadioGroup>
-      )}
-    />
+          }
+          label={item.label}
+        />
+      ))}
+    </RadioGroup>
   );
 };

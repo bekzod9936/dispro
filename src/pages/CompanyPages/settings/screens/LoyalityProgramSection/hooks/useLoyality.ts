@@ -55,7 +55,7 @@ import {
 import { setSwitchKeyT } from 'services/atoms/settings/index';
 import { notify } from 'services/utils/local_notification';
 import { Img } from 'components/Layout/Header/style';
-
+import { useLoyal, baseLoyalty } from 'services/atoms/settings/loyality';
 const useLoyality = () => {
   let companyId: any = localStorage.getItem('companyId');
   const { t } = useTranslation();
@@ -65,7 +65,7 @@ const useLoyality = () => {
   //atoms
   const active = useRecoilValue(activeM);
   const activeCheck = useRecoilValue(activeCheckM);
-
+  const useLoyalMain = useRecoilValue(useLoyal);
   const emptyCashback = useRecoilValue(eCashback);
   const emptyDiscount = useRecoilValue(eDiscount);
   const emptyBonuspoint = useRecoilValue(eBonuspoint);
