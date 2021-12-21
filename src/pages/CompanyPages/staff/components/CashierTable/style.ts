@@ -226,3 +226,35 @@ export const WrapIcon = styled.div`
   justify-content: flex-start;
   align-items: center;
 `;
+
+export const Footer = styled.div`
+  margin-top: 20px;
+  @media (max-width: ${device.planshet}) {
+    margin-left: 20px;
+  }
+  @media (max-width: ${device.mobile}) {
+    margin-left: 15px;
+  }
+`
+
+export const WrapPag = styled.div`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin: 20px 0;
+	p {
+		font-size: 18px;
+		color:#223367;
+		span {
+			font-weight: 700;
+		}
+	}
+	@media (max-width: ${device.planshet}) {
+		flex-direction: column-reverse;
+		align-items: flex-start;
+		p {
+			margin-top: 15px;
+			font-size: 14px;
+		}
+	}
+`;

@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
@@ -124,7 +125,7 @@ const LoyaltyProgramSection = () => {
   const switchKey = useRecoilValue(switchKeyT);
   const active = useRecoilValue(activeM);
   const activeCheck = useRecoilValue(activeCheckM);
-
+  console.log('useLoyalMain',useLoyalMain)
   const emptyCashback = useRecoilValue(eCashback);
   const emptyDiscount = useRecoilValue(eDiscount);
  
@@ -166,7 +167,7 @@ const LoyaltyProgramSection = () => {
     }
   };
 
-  
+
   const content = () => {
     if (width <= 1000) {
       return (
@@ -600,13 +601,13 @@ const LoyaltyProgramSection = () => {
                               render={({ field }) => (
                                 <Checkbox
                                   {...field}
+                                  
                                   checked={useLoyalMain.useProgram}
                                   label={t('useLoyaltyProgram')}
                                 />
                               )}
                             />{' '}
                           </div>
-
                           <div>
                             <Controller
                               name='usePoint'
@@ -615,6 +616,7 @@ const LoyaltyProgramSection = () => {
                               render={({ field }) => (
                                 <Checkbox
                                   {...field}
+                                  
                                   checked={useLoyalMain.usePoint}
                                   label={t('substractingPoints')}
                                 />

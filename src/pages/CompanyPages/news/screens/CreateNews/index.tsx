@@ -1,3 +1,4 @@
+import {useState} from 'react';
 import Button from "components/Custom/Button";
 import CustomToggle from "components/Custom/CustomToggleSwitch";
 import Input from "components/Custom/Input";
@@ -77,7 +78,7 @@ const CreateNews = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const history = useHistory();
-
+   const [limit,setLimit]=useState<any>('');
   const { width } = useWindowWidth();
   const { branches } = useStaff();
   const [optionalFields, setOptionalFields] = React.useState<IOptionFields>({
@@ -143,6 +144,8 @@ const CreateNews = () => {
       [action]: e.target.checked,
     }));
   };
+
+ 
 
   const handleDelete = () => {
     setFile("");
@@ -300,6 +303,7 @@ const CreateNews = () => {
                   src={file}
                 />
               )}
+              
                <Controller
                 name="name"
                 control={control}
@@ -310,14 +314,20 @@ const CreateNews = () => {
                 }}
                 render={({ field }) => (
                   <Input
+                   onChange={(e)=>{
+                     if(e.target.value.length <=80){
+                       return field.onChange(e)
+                     }
+                   }}
                     error={errors.name ? true:false}
                     message={errors?.name?.type === "required" ? t("requiredField"):t("максимальное число символов 80")}
-                    field={field}
-                    maxLength={80}
+                    value={field.value}
                     label={t("Название")}
                   />
                 )}
               /> 
+          
+             
               <Controller
                 name="description"
                 control={control}
@@ -328,7 +338,13 @@ const CreateNews = () => {
                 render={({ field }) => (
                   <TextArea
                   maxLength={800}
-                    {...field}
+                    // {...field}
+                    onChange={(e:any)=>{
+                      if(e.target.value.length <=800){
+                        return field.onChange(e)
+                      }
+                    }}
+                    value={field.value}
                     fontSize={width > 1000 ? "15px" : "14px"}
                     message={errors?.description?.type === "required" ? t("requiredField"):t("максимальное число символов 800")}
                     error={!!errors.description}
@@ -488,8 +504,12 @@ const CreateNews = () => {
                    render={({ field }) => (
                      <TextArea
                        maxLength={100}
-                       {...field}
-                      
+                       onChange={(e:any)=>{
+                        if(e.target.value.length<=100){
+                           return field.onChange(e)
+                        }
+                      }}
+                      value={field.value}
                        fontSize={width > 1000 ? "15px" : "14px"}
                        required={optionalFields.push ? true : false}
                        minHeight={"100px"}

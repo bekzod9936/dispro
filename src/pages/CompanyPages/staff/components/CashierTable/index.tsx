@@ -10,6 +10,7 @@ import {
 } from 'services/redux/Slices/staffs';
 //components
 import { cashierHeaders } from './headers';
+import { NewPagination } from 'components/Custom/NewPagination';
 //styles
 import {
 	Tbody,
@@ -24,18 +25,21 @@ import {
 	WrapIcon,
 	Img,
 	ImgDiv,
+	Footer,
+	WrapPag,
 } from './style';
 //types
 import { HeadersType, IProps } from './types';
 //icons
 import LogoDef from 'assets/images/staff_default.png';
 
-const CashierTable = ({ cashiers }: IProps) => {
+const CashierTable = ({ cashiers, setPage, page }: IProps) => {
 	const dispatch = useAppDispatch();
 	const allCashier = useAppSelector((state) => state.staffs.allCashiers);
 	const selectedCashiers = useAppSelector(
 		(state) => state.staffs.selectedCashiers
 	);
+	const { cashiersTotal, totalCount } = useAppSelector((state) => state.staffs);
 	const [checked, setChecked] = useState(false);
 	const [headers, setHeaders] = useState<HeadersType[]>(cashierHeaders);
 
@@ -44,6 +48,10 @@ const CashierTable = ({ cashiers }: IProps) => {
 			dispatch(setSelectedCashiers([]));
 		};
 	}, []);
+
+	const handleChangePage = (int: number) => {
+		setPage(int);
+	};
 
 	const columns: any = useMemo(() => {
 		return headers.map((header) => {
@@ -174,13 +182,21 @@ const CashierTable = ({ cashiers }: IProps) => {
 					</Tbody>
 				</MTable>
 			</Container>
-			{/* <Footer>
+			<WrapPag>
+				<p>
+					Показано{' '}
+					<b>
+						{1 + (page - 1) * 10}-
+						{(page - 1) * 10 + (totalCount > 10 ? 10 : totalCount)}
+					</b>{' '}
+					из <b>{totalCount}</b>
+				</p>
 				<NewPagination
-					onChange={handlechangePage}
-					currentPage={Number(filterValues.page)}
-					totalCount={Number(totalCount)}
+					onChange={handleChangePage}
+					currentPage={page}
+					totalCount={cashiersTotal}
 				/>
-			</Footer> */}
+			</WrapPag>
 		</div>
 	);
 };

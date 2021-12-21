@@ -34,9 +34,9 @@ const useClientsHook = ({ filterValues, traffic }: Props) => {
   const data = useAppSelector((state) => state.statistics.clientStats);
   const [status, setStatus] = useState<any[]>([]);
   const [usedLevel, setUsedLevel] = useState<any[]>([]);
-  console.log(filterValues);
+
   const response = useQuery(
-    'fetchClientsInfo',
+    ['fetchClientsInfo', filterValues],
     () => {
       const url = Object.keys(filterValues)
         .map((v: any) => {

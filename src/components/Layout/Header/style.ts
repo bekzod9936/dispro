@@ -75,22 +75,29 @@ export const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-around;
+
   @media (max-width: ${device.laptop}) {
     justify-content: space-between;
   }
-  @media (max-width: ${device.planshet}) {
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    justify-content: center;
+  }
+  @media (max-width: ${device.mobile}) {
     justify-content: end;
     grid-gap: 20px;
   }
 `;
 
 export const Box1 = styled.div`
-  flex: 1;
   display: flex;
   align-items: center;
   justify-content: space-around;
+
   @media (max-width: ${device.laptop}) {
     justify-content: space-between;
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    width: fit-content;
   }
   @media (max-width: ${device.planshet}) {
     justify-content: end;
@@ -101,10 +108,10 @@ export const Box1 = styled.div`
 export const Container = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
   color: black;
   flex: 1;
   height: 100%;
+  width: 100%;
 `;
 
 export const LogOutWhiteIcon = styled(LogWhite)`
@@ -201,6 +208,7 @@ export const Wrap = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
+
   @media (max-width: ${device.mobile}) {
     display: none;
   }
@@ -235,6 +243,7 @@ export const Content = styled.div`
   align-items: center;
   justify-content: center;
   flex: 1;
+
   height: 100%;
   background: #ffffff;
   border-radius: 14px;

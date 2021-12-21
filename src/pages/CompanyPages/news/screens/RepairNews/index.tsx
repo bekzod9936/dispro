@@ -368,7 +368,12 @@ const RepairNews = () => {
                   <Input
                   error={errors.name ? true:false}
                   message={errors?.name?.type === "required" ? t("requiredField"):t("максимальное число символов 80")}
-                    field={field}
+                  onChange={(e:any)=>{
+                    if(e.target.value.length<=80){
+                       return field.onChange(e)
+                    }
+                  }}
+                  value={field.value}
                     maxLength={80}
                     label={t("title")}
                     defaultValue={newsById?.data?.title}
@@ -386,7 +391,12 @@ const RepairNews = () => {
                 render={({ field }) => (
                   <TextArea
                     maxLength={800}
-                    {...field}
+                    onChange={(e:any)=>{
+                      if(e.target.value.length<=800){
+                         return field.onChange(e)
+                      }
+                    }}
+                    value={field.value}
                     defaultValue={newsById?.data?.description}
                     message={errors?.description?.type === "required" ? t("requiredField"):t("максимальное число символов 800")}
                     error={!!errors.description}
@@ -549,7 +559,12 @@ const RepairNews = () => {
                   render={({ field }) => (
                     <TextArea
                       maxLength={100}
-                      {...field}
+                      onChange={(e:any)=>{
+                        if(e.target.value.length<=100){
+                           return field.onChange(e)
+                        }
+                      }}
+                      value={field.value}
                       defaultValue={newsById?.data?.pushUpTitle}
                       fontSize={width > 1000 ? "15px" : "14px"}
                       required={optionalFields.push ? true : false}

@@ -8,6 +8,7 @@ import { setSelectedManagers } from 'services/redux/Slices/staffs';
 //components
 import { managerHeaders } from './headers';
 import Checkbox from '@material-ui/core/Checkbox';
+import { NewPagination } from 'components/Custom/NewPagination';
 
 //styles
 import {
@@ -23,6 +24,7 @@ import {
 	ManagerTd,
 	DefaultLogo,
 	ManagerLogo,
+	WrapPag,
 } from './style';
 
 //types
@@ -31,10 +33,10 @@ import { HeadersType, IProps } from './types';
 //icons
 import managerDefault from 'assets/images/defaultGreen.png';
 
-const ManagerTable = ({ managers }: IProps) => {
+const ManagerTable = ({ managers, setPage, page }: IProps) => {
 	const dispatch = useAppDispatch();
 	const allManager = useAppSelector((state) => state.staffs.allManagers);
-
+	const { cashiersTotal, totalCount } = useAppSelector((state) => state.staffs);
 	const selectedManagers = useAppSelector(
 		(state) => state.staffs.selectedManagers
 	);
@@ -70,6 +72,10 @@ const ManagerTable = ({ managers }: IProps) => {
 			dispatch(setSelectedManagers([]));
 		};
 	}, []);
+
+	const handleChangePage = (int: number) => {
+		setPage(int);
+	};
 
 	return (
 		<div>
@@ -161,6 +167,21 @@ const ManagerTable = ({ managers }: IProps) => {
 					</Tbody>
 				</MTable>
 			</Container>
+			<WrapPag>
+				<p>
+					Показано{' '}
+					<b>
+						{1 + (page - 1) * 10}-
+						{(page - 1) * 10 + (totalCount > 10 ? 10 : totalCount)}
+					</b>{' '}
+					из <b>{totalCount}</b>
+				</p>
+				<NewPagination
+					onChange={handleChangePage}
+					currentPage={page}
+					totalCount={cashiersTotal}
+				/>
+			</WrapPag>
 		</div>
 	);
 };

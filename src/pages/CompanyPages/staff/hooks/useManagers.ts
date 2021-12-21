@@ -25,13 +25,14 @@ import {
 } from "services/redux/Slices/staffs";
 import { numberWith } from "services/utils";
 
-const useManagers = ({ page, query, period }: any) => {
+const useManagers = ({ query, period }: any) => {
   const dispatch = useAppDispatch();
   const managerId = useAppSelector((state) => state.staffs.managerId);
 
   const [open, setOpen] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [modified, setModified] = useState("1");
+  const [page, setPage] = useState(1)
 
   //edit
   const editManager = useMutation((data: any) => editStaff(data), {
@@ -149,6 +150,8 @@ const useManagers = ({ page, query, period }: any) => {
     editManager,
     openEdit,
     setOpenEdit,
+	page,
+	setPage
   };
 };
 

@@ -10,12 +10,8 @@ import {
   MainWrapper,
   WrapMobile,
   WrapDesktop,
-  ButtonKeyWord,
-  DeleteIcon,
 } from './style';
 import { WrapInfo, Title, Value, Content } from '../../style';
-import { IconButton } from '@material-ui/core';
-import { useTranslation } from 'react-i18next';
 
 interface Props {
   startDate?: string;
@@ -27,6 +23,7 @@ interface Props {
   purchaseCountTo?: string;
   allPurchaseSum?: string;
   usedLevelNumber?: string;
+  storeIds?: string;
 }
 
 const intialState = {

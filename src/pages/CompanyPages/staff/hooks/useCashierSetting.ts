@@ -6,6 +6,7 @@ import { fetchRewards } from "services/queries/partnerQuery";
 import { changeLoyal } from "services/queries/staffQuery";
 import { useAppDispatch } from "services/redux/hooks";
 import { setSummaOperations } from "services/redux/Slices/staffs";
+import { notifySuccess } from 'services/utils/local_notification';
 export interface IForm {
   ballCheck: boolean;
   additionalCheck: boolean;
@@ -43,6 +44,7 @@ const useCashierSetting = () => {
   const changeLoyality = useMutation((data: any) => changeLoyal(data), {
     onSuccess: (data) => {
       console.log(data, "data");
+	  notifySuccess(`Данные успешно сохранены`);
     },
     onError: (error) => {
       console.log(error, "error");

@@ -104,7 +104,10 @@ const CreateManager = ({ openManager }: IProps) => {
 					reset(resetData);
 				},
 				onError: () => {
-					setError('telNumber', { type: 'duplicate', message: 'duplicate' });
+					setError('telNumber', {
+						type: 'duplicate',
+						message: 'Повторяющаяся запись',
+					});
 				},
 			}
 		);
