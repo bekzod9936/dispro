@@ -13,7 +13,7 @@ const useCashierCard = () => {
   const [openQr, setOpenQr] = useState(false);
   const cashierId = useAppSelector((state) => state.staffs.cashierId);
   const dispatch = useAppDispatch();
-  const prevPage: any = state?.prevPage || "/staff";
+  const prevPage: any = state?.prevPage || "/staff/cashier";
   const cashId: any = state?.id;
   const [optionsOpen, setOptionsOpen] = useState<string | number>('');
 
