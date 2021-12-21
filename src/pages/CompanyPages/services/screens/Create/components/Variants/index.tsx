@@ -9,7 +9,11 @@ import { SubButton } from "pages/CompanyPages/services/style";
 //style
 import { Buttons, Item, Wrapper } from "./style";
 
-export const Variants = () => {
+interface VariantsProps {
+  disabled: boolean;
+}
+
+export const Variants: React.FC<VariantsProps> = ({ disabled }) => {
   const { control } = useFormContext();
   const { t } = useTranslation();
 
@@ -32,7 +36,7 @@ export const Variants = () => {
     <Wrapper>
       {fields.map((item, index) => (
         <Item isLastElem={index === fields.length - 1} key={item.id}>
-          <Variant index={index} />
+          <Variant disabled={disabled} index={index} />
           <Buttons>
             {index === fields.length - 1 && fields.length <= 2 && (
               <SubButton onClick={handleAddVariant}>

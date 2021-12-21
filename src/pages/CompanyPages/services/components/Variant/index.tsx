@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 //packages
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -13,26 +11,26 @@ import { DynamicFields } from "../DynamicFields";
 
 //other
 import { FormFieldTypes } from "../../utils/types";
+import { useEffect } from "react";
 
 interface VariantProps {
   index: number;
+  disabled: boolean;
 }
 
-export const Variant: React.FC<VariantProps> = ({ index }) => {
+export const Variant: React.FC<VariantProps> = ({ index, disabled }) => {
   const {
-    watch,
-    control,
     clearErrors,
+    control,
     formState: { errors },
   } = useFormContext<FormFieldTypes>();
+
   const { t } = useTranslation();
   const error = errors.variants ? errors.variants[index] : undefined;
 
-  const isItemWithDisocunt = Number(watch("loyaltyType")) !== 1;
-
   useEffect(() => {
     clearErrors(`variants.${index}.priceWithSale`);
-  }, [isItemWithDisocunt]);
+  }, [disabled]);
 
   return (
     <Wrapper>
@@ -50,7 +48,7 @@ export const Variant: React.FC<VariantProps> = ({ index }) => {
           name={`variants.${index}.price`}
         />
         <Field
-          disabled={isItemWithDisocunt}
+          disabled={disabled}
           error={error?.priceWithSale}
           label={t("priceWithSale")}
           name={`variants.${index}.priceWithSale`}
