@@ -51,8 +51,6 @@ const MultiSelect = ({
     );
   };
 
-  //   console.log(props, "data cy ");
-
   return (
     <Container width={props.width} margin={props.margin}>
       {props.label ? (
@@ -79,6 +77,7 @@ const MultiSelect = ({
         {...props}
         {...props.field}
         placeholder={props.placeholder ? props.placeholder : ''}
+        menuPortalTarget={props.menuPortalTarget}
       />
       {props.error ? (
         <Message isStatic={props.isStatic} labelStyle={props.labelStyle}>

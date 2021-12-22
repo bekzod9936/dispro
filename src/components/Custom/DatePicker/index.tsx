@@ -64,44 +64,46 @@ const DatePicker = ({
   const format = 'YYYY-MM-DD';
 
   return (
-    <Container margin={margin}>
-      <WrapButton>
-        <Button
-          startIcon={<DateIcon />}
-          endIcon={width > 600 ? <DownIcon /> : null}
-          onClick={() => datePickerRef.current.openCalendar()}
-          buttonStyle={{
-            bgcolor: 'white',
-            shadow: '0px 4px 4px rgba(0, 0, 0, 0.04)',
-            color: '#223367',
-            height: height
-              ? height
-              : {
-                  mobile: 36,
-                },
-          }}
-        >
-          <WrapText>
-            <span>{t('datePicker')}</span>
-            <span>{date}</span>
-          </WrapText>
-        </Button>
-        {date === '' ? null : (
-          <IconButton onClick={handleClick}>
-            <ResetIcon />
-          </IconButton>
-        )}
-      </WrapButton>
-      <RDatePicker
-        inputClass='custom-input'
-        ref={datePickerRef}
-        range={true}
-        onChange={handleChange}
-        numberOfMonths={numberofmonths ? numberofmonths : width > 600 ? 2 : 1}
-        value={values}
-        format={format}
-        portal={true}
-      />
+    <>
+      <Container margin={margin}>
+        <WrapButton>
+          <Button
+            startIcon={<DateIcon />}
+            endIcon={width > 600 ? <DownIcon /> : null}
+            onClick={() => datePickerRef.current.openCalendar()}
+            buttonStyle={{
+              bgcolor: 'white',
+              shadow: '0px 4px 4px rgba(0, 0, 0, 0.04)',
+              color: '#223367',
+              height: height
+                ? height
+                : {
+                    mobile: 36,
+                  },
+            }}
+          >
+            <WrapText>
+              <span>{t('datePicker')}</span>
+              <span>{date}</span>
+            </WrapText>
+          </Button>
+          {date === '' ? null : (
+            <IconButton onClick={handleClick}>
+              <ResetIcon />
+            </IconButton>
+          )}
+        </WrapButton>
+        <RDatePicker
+          inputClass='custom-input'
+          ref={datePickerRef}
+          range={true}
+          onChange={handleChange}
+          numberOfMonths={numberofmonths ? numberofmonths : width > 600 ? 2 : 1}
+          value={values}
+          format={format}
+          portal={true}
+        />
+      </Container>
       {date === '' && notshowvalue ? null : (
         <MobileReset>
           {`${t('period')}: ${date}`}
@@ -110,7 +112,7 @@ const DatePicker = ({
           </IconButton>
         </MobileReset>
       )}
-    </Container>
+    </>
   );
 };
 
