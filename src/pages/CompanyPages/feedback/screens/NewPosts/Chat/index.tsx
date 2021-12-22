@@ -160,6 +160,7 @@ const Chat = ({ value, setCurrentUser }: Props) => {
 
   useEffect(() => {
     resChatClientHistory.refetch();
+    setValue('message', '');
   }, [value.page, value.id]);
 
   useEffect(() => {
@@ -330,6 +331,8 @@ const Chat = ({ value, setCurrentUser }: Props) => {
           }
         }
       );
+    } else {
+      setLoading(false);
     }
   };
 

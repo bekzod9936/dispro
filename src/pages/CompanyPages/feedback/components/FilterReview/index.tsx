@@ -133,6 +133,7 @@ const FilterReview = ({
           value={storeIds}
           selectStyle={{ bgcolor: '#eff0fd' }}
           isMulti={true}
+          menuPortalTarget={document.body}
         />
       ),
     },

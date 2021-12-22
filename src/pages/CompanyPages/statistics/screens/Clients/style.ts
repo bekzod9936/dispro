@@ -6,34 +6,30 @@ export const MainWrapper = styled.div`
   flex: 1;
   overflow: hidden;
   flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  ::-webkit-scrollbar {
+    width: 7px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #606eea;
+    border-radius: 14px 0px 0px 14px;
+  }
 `;
 
 export const Container = styled.div`
   display: flex;
   flex: 1;
-  overflow: hidden;
+
+  height: 100%;
+  display: flex;
   flex-direction: column;
-  & > div {
-    overflow-y: auto;
-    overflow-x: hidden;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding-right: 20px;
-
-    ::-webkit-scrollbar {
-      width: 7px;
-    }
-    ::-webkit-scrollbar-track {
-      background-color: transparent;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: #606eea;
-      border-radius: 14px 0px 0px 14px;
-    }
-  }
+  justify-content: space-between;
+  padding-right: 20px;
 `;
 
 export const Wrapper = styled.div`

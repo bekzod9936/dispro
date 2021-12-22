@@ -274,6 +274,7 @@ export const MFilter = () => {
           : undefined,
       content: (
         <MultiSelect
+          menuPortalTarget={document.body}
           isMulti
           label={t("choosefilial")}
           selectStyle={{ bgcolor: "#eff0fd" }}

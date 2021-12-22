@@ -31,11 +31,8 @@ export const Photos: React.FC<PhotosProps> = () => {
 
   const onDelete = (link: string) => {
     imageRef.current = link;
-    deleteImage.mutate(link, {
-      onSuccess() {
-        setLinks((prev) => prev.filter((item) => item !== link));
-      },
-    });
+    setLinks((prev) => prev.filter((item) => item !== link));
+    deleteImage.mutate(link);
   };
 
   return (

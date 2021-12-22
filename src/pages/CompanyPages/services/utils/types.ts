@@ -3,12 +3,12 @@ export type createSectionFormType = {
 }
 
 
-type titleType = {
+export type titleType = {
     data: string;
     lang: string;
 };
 
-type descType = {
+export type descType = {
     lang: string;
     data: string;
 };
@@ -22,9 +22,9 @@ export type variantType = {
 } 
 
 export type preparationTimeType = {
-    days: string,
-    hours: string,
-    minutes: string
+    days: number | null,
+    hours: number | null,
+    minutes: number | null
 
 }
 export interface FormFieldTypes {
@@ -39,4 +39,79 @@ export interface FormFieldTypes {
   preparationTime: boolean,
   images: string[],
   preparationTimeData: preparationTimeType
+}
+
+
+
+export type CreateDtoType = {
+    images: string[],
+    preparationTime: boolean,
+    titles: titleType[],
+    descriptions: descType[],
+    loyaltyOff: boolean,
+    loyaltyType: string,
+    measurement: {
+        label: string,
+        name: string,
+        value: number
+    },
+    preparationTimeData: preparationTimeType,
+    section: {
+        label: string,
+        name: string,
+        value: number
+    },
+    service: {
+        label: string,
+        name: string,
+        value: number
+    },
+    variants: variantType[]
+}
+
+export type PostDtoVariantType = {
+    goodsVariantTranslates: {
+        langId: number,
+        translateName: string
+    }[],
+    price: number,
+    priceWithDiscount: number,
+    count: number,
+    artikulCode: string
+}
+
+export type PostDtoTitleType = {
+    langId: number,
+    translateName: string,
+    translateDesc: string,
+}
+
+export type PostDtoType = {
+    categoryId: number,
+    unitId: number,
+    currencyId: number,
+    goodsSectionId: number,
+    withDiscount: boolean,
+    withPoint: boolean,
+    notUsePl: boolean,
+    price: number,
+    priceWithDiscount: number,
+    count: number,
+    isCountUnlimited: boolean,
+    artikulCode: string,
+    ageUnlimited: boolean,
+    isSetManufacturedTime: boolean,
+    manufacturedAt: {
+        day: number,
+        hour: number,
+        minute: number
+    },
+    positionAt: number,
+    hideInStores: number[],
+    hasGoodsVariant: boolean,
+    goodsVariants: PostDtoVariantType[],
+    goodsTranslates: PostDtoTitleType[],
+    goodsImages: {
+        imageUrl: string
+    }[]
 }
