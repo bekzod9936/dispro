@@ -1,6 +1,6 @@
-import { ICategory, sectionDtoType } from "services/queries/servicesQueries/response.types"
+import { ICategory, ISectionResponse, sectionDtoType } from "services/queries/servicesQueries/response.types"
 import { languageIds } from "../constants"
-import { CreateDtoType, createSectionFormType, descType, PostDtoType, PostDtoVariantType, preparationTimeType, titleType, variantType } from "../utils/types"
+import { CreateDtoType, createSectionFormType, descType, parentSectionType, PostDtoType, PostDtoVariantType, preparationTimeType, titleType, variantType } from "../utils/types"
 
 export const fileToBlob = (file: File, id: string) => {
     let formData = new FormData()
@@ -25,6 +25,7 @@ export const isFieldLast = (max: number, current: number, length: number): boole
 
 
 export const sectionsToSectionArray = (data: createSectionFormType) => {
+
   return data.sections.map(section => sectionFieldToDto(section.title))
 
 }
@@ -138,3 +139,29 @@ export const createServiceHelper = (dto: CreateDtoType): PostDtoType => {
     goodsVariants: isServiceHasVariants ? goodsVariantsToPostEntityForm(dto.variants) : []
   }
 }
+
+
+
+export const sectionsResponseToParentChildObject = (array: ISectionResponse[] | undefined): parentSectionType[] => {
+  if (!array) return []
+
+  const parentSections = array.filter(section => section.parentId === 0);
+
+  return parentSections.map(parentSection => ({
+    ...parentSection,
+    children: array.filter(childSection => childSection.parentId === parentSection.id)
+  }))
+  
+}
+
+
+export const isChildHasActiveParent = (array: parentSectionType[], currentItemId: number | null) => {
+  return array.some((section) =>
+    section.children.some((child) => child.id === currentItemId)
+  ) 
+}
+
+export const isParentHasActiveChild = (item: parentSectionType, currentItemId: number | null) => {
+  return item.children.some(child => child.id === currentItemId)
+}
+

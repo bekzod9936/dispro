@@ -17,6 +17,7 @@ import { responseCategoriesToExactCategories } from "../helpers";
 import { useAppSelector } from "services/redux/hooks";
 import { goodsSchema, sectionsSchema } from "../utils/schemas.yup";
 import { createItemDefaultFields } from "../constants";
+import { useDebounce } from "use-debounce/lib";
 
 
 export const useImage = () => {
@@ -90,8 +91,22 @@ export const useGetSections = () => {
     return useQuery('fetchSections', () => ApiServices.getSections(), {
         refetchOnWindowFocus: false,
         retry: 1,
-        onSuccess: (data) => {
-            console.log(data)
-        }
     })
+}
+
+export const useSearch = () => {
+    const [query, setQuery] = useState('')
+    const [debouncedQuery] = useDebounce(query, 300)
+
+
+    return { value: query, onChange: setQuery, query: debouncedQuery }
+}
+
+
+export const useCurrentSection = () => {
+    const [currentSection, setCurrentSection] = useState<null | number>(null);
+    const [debouncedCurrentSection] = useDebounce(currentSection, 300)
+
+    return { currentSection, setCurrentSection, sectionId: debouncedCurrentSection }
+
 }

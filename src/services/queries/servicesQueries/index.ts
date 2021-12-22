@@ -1,7 +1,7 @@
 import axios, {AxiosResponse} from 'axios'
 import { STORAGE_URL } from "../../constants/config";
 import { PARTNER } from "services/interceptors/partner_interceptor/types";
-import { categoriesResponseType, sectionDtoType, uploadImageType } from './response.types';
+import { categoriesResponseType, sectionDtoType, sectionResponseType, uploadImageType } from './response.types';
 import partnerApi from 'services/interceptors/partner_interceptor';
 import { PostDtoType } from 'pages/CompanyPages/services/utils/types';
 
@@ -64,13 +64,17 @@ export const ApiServices = {
         const {data} = await partnerApi.get<categoriesResponseType>('/directory/category')
 
         if (!data.success) {
-            throw new Error('Error during fetching categories, shit!')
+            throw new Error('Error during fetching categories')
         }
         return data
     },
 
     async getSections() {
-        const { data } = await partnerApi.get('/core/goodsSection/by-company')
+        const { data } = await partnerApi.get<sectionResponseType>('/core/goods-section/by-company')
+
+        if (!data.success) {
+            throw new Error('Error during fetching sections!')
+        }
 
         return data
     }

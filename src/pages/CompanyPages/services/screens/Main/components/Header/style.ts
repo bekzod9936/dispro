@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { ReactComponent as SearchSvg } from 'assets/icons/searchblue.svg';
 
 
+
 export const Wrapper = styled.div`
     
 `
@@ -26,7 +27,25 @@ export const Nav = styled.div`
             font-size: 22px;
         }
     }
+
 `
+
+export const useStyles = () => {
+    return {
+        input: {
+            style: {
+                border: "none",
+                shadow: "0px 4px 4px rgba(0, 0, 0, 0.04)",
+            },
+            margin: {
+                desktop: "0 0 0 24px",
+            },
+            width: {
+                maxwidth: 500,
+            }
+        },
+    }
+}
 
 
 //icons

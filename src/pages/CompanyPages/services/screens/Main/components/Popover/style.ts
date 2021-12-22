@@ -2,7 +2,6 @@ import styled from "styled-components"
 
 import { ReactComponent as CreateSvg } from 'assets/icons/services/create.svg';
 import { ReactComponent as ArrowDownSvg } from 'assets/icons/services/createArrowDown.svg';
-import { MenuList } from "@material-ui/core";
 
 
 export const PopoverList = styled.div`
@@ -25,7 +24,26 @@ export const PopoverItem = styled.div`
     background-color: rgba(96, 110, 234, 0.1);
 }
 `
-
+export const useStyles = () => {
+    return {
+        popover: {
+            button: {
+                style: {
+                    height: {
+                        desktop: 60
+                    },
+                    fontSize: {
+                        desktop: 18
+                    },
+                    weight: 500,
+                    color: "#223367",
+                    bgcolor: "#fff",
+                    shadow: "0px 4px 4px rgba(0, 0, 0, 0.04)"
+                }
+            }
+        }
+    }
+}
 
 //icons
 export const CreateIcon = styled(CreateSvg)``

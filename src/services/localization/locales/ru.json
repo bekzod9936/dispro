@@ -629,5 +629,8 @@
   "alloperations": "Все операции",
   "allpurchase": "Кол-во покупок",
   "period": "Период",
-  "allGoods": "Все товары"
+  "allGoods": "Все товары",
+  "createSubSection": "Создать подраздел",
+  "hideInMobile": "Скрыть в приложении",
+  "showInMobile": "Показать в приложении"
 }
