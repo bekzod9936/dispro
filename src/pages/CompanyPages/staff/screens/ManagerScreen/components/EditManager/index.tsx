@@ -95,6 +95,7 @@ const EditManager = ({ openEdit }: IProps) => {
 			lastName: data.lastName,
 			comment: data.comment,
 			telNumber: data.telNumber,
+			staffRoleId: 2,
 		});
 	};
 
