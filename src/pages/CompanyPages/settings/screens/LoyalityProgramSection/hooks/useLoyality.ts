@@ -579,7 +579,6 @@ const useLoyality = () => {
                 give_cashback_after: 0,
                 base_name: data.data.data.name,
               });
-
               setValue('max_percent', data.data.data.maxAmount);
               setValue('base_name', data.data.data.name);
               setValue('base_percent', data.data.data.percent);

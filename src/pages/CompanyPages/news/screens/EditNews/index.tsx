@@ -392,15 +392,11 @@ const EditNews = () => {
                 defaultValue={newsById?.data?.title}
                 render={({ field }) => (
                   <Input
-                    onChange={(e)=>{
-                      if(e.target.value.length<=80){
-                        return field.onChange(e)
-                      }
-                    }}
-                    value={field.value}
+                  
+                  field={field}
                     error={errors.name ? true:false}
                     message={errors?.name?.type === "required" ? t("requiredField"):t("максимальное число символов 80")}
-                    maxLength={80}
+           
                     label={t("title")}
                     defaultValue={newsById?.data?.title}
                   />
