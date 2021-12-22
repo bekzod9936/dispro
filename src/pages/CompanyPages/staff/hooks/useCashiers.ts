@@ -20,6 +20,7 @@ import {
   setOpenEditCashier,
   setStaffData,
   setStoreFilters,
+  setCashiersTotal,
 } from "services/redux/Slices/staffs";
 import { store } from "services/redux/store";
 import { numberWith } from "services/utils";
@@ -44,13 +45,13 @@ export const useSearchBranch = (query: string, arr: any[]) => {
 
 
 
-const useCashiers = ({ page, query, period, storeIdForFilter}: any) => {
+const useCashiers = ({ query, period, storeIdForFilter}: any) => {
   const history = useHistory();
   const [open, setOpen] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const dispatch = useAppDispatch();
   const { storeFilters} = useAppSelector(state => state.staffs)
-  
+  const [page, setPage] = useState(1)
     //edit
 	const editCashier = useMutation((data: any) => editStaff(data), {
 		onSuccess: () => {
@@ -79,6 +80,8 @@ const useCashiers = ({ page, query, period, storeIdForFilter}: any) => {
       onSuccess: (data) => {
 		  let cashiers = data?.data?.data?.staffs;
         dispatch(setCashiers(data.data.data.staffs));
+		dispatch(setCashiersTotal(data.data.data.totalCount))
+		console.log(data.data.data)
 		!storeFilters && dispatch(setStoreFilters(cashiers.map((el: any) => ({value: el.stores[0]?.id, label: el.stores[0]?.address}))))
         dispatch(
           selectAllCashier(
@@ -133,6 +136,8 @@ const useCashiers = ({ page, query, period, storeIdForFilter}: any) => {
     setOpen,
     createCash,
 	editCashier,
+	page,
+	setPage
   };
 };
 

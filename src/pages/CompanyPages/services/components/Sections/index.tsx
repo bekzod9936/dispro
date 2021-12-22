@@ -33,16 +33,29 @@ export const Sections: React.FC<SectionsProps> = () => {
     null | typeof sections[0]
   >(null);
 
+  const handleClickOnSection = (section: null | typeof sections[0]) => {
+    setCurrentSection(section);
+  };
+
+  console.log(currentSection);
+
   return (
     <Wrapper>
-      <Item isSelected={!currentSection}>
+      <Item
+        onClick={() => handleClickOnSection(null)}
+        isSelected={!currentSection}
+      >
         <h4>{t("allGoods")}</h4>
       </Item>
       {sections.map((item) => (
         <Item
-          isChild={item.parentId === 1}
-          isSelected={currentSection?.id === item.id}
           key={item.id}
+          onClick={() => handleClickOnSection(item)}
+          isChild={item.parentId === 1}
+          isSelected={
+            currentSection?.id === item.id &&
+            currentSection?.parentId === item.parentId
+          }
         >
           <h4>{item.title}</h4>
           <div>more</div>
