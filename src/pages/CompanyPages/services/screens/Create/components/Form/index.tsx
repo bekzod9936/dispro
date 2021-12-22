@@ -12,6 +12,8 @@ import {
   reducer,
 } from "pages/CompanyPages/services/hooks/CreatePageHooks/reducer";
 import { useCreateItem } from "../../../../hooks";
+import { CreateDtoType } from "pages/CompanyPages/services/utils/types";
+import { createServiceHelper } from "pages/CompanyPages/services/helpers";
 
 //components
 import { Fields } from "../Fields";
@@ -21,6 +23,7 @@ import { Durations } from "../Durations";
 import { Photos } from "../Photos";
 import { Buttons } from "../Buttons";
 import { Switches } from "../Switches";
+import { useCreateService } from "pages/CompanyPages/services/hooks/CreatePageHooks/mutations";
 
 interface FormProps {}
 
@@ -28,10 +31,17 @@ export const Form: React.FC<FormProps> = () => {
   const form = useCreateItem();
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const onSubmit = (data: any) => {
-    console.log(data);
-  };
+  const { mutate } = useCreateService();
 
+  const onSubmit = (data: CreateDtoType) => {
+    const transformedData: CreateDtoType = {
+      ...data,
+      loyaltyOff: state.loyaltyOff,
+      loyaltyType: String(state.loyaltyType),
+    };
+
+    mutate(createServiceHelper(transformedData));
+  };
   console.log(form.formState.errors);
 
   return (

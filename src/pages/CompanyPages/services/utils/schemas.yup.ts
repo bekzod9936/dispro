@@ -118,7 +118,7 @@ export const goodsSchema = yup.object().shape({
 
     images: yup.array().of(
         yup.string()
-    ).length(1, 'chooseAtLeastOneImage'),
+    ).min(1, 'chooseAtLeastOneImage'),
 
     preparationTimeData: yup.object().when('preparationTime', {
         is: true,

@@ -81,7 +81,7 @@ const useCashiers = ({ query, period, storeIdForFilter}: any) => {
 		  let cashiers = data?.data?.data?.staffs;
         dispatch(setCashiers(data.data.data.staffs));
 		dispatch(setCashiersTotal(data.data.data.totalCount))
-		console.log(data.data.data)
+		// console.log(data.data.data)
 		!storeFilters && dispatch(setStoreFilters(cashiers.map((el: any) => ({value: el.stores[0]?.id, label: el.stores[0]?.address}))))
         dispatch(
           selectAllCashier(

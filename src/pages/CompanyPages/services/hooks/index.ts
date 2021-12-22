@@ -13,9 +13,10 @@ import { sectionDtoType } from "services/queries/servicesQueries/response.types"
 import { FormFieldTypes } from "../utils/types";
 
 //other
-import { createItemDefaultFields, responseCategoriesToExactCategories } from "../helpers";
+import { responseCategoriesToExactCategories } from "../helpers";
 import { useAppSelector } from "services/redux/hooks";
 import { goodsSchema, sectionsSchema } from "../utils/schemas.yup";
+import { createItemDefaultFields } from "../constants";
 
 
 export const useImage = () => {

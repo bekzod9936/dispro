@@ -1,5 +1,6 @@
 import { ICategory, sectionDtoType } from "services/queries/servicesQueries/response.types"
-import { createSectionFormType } from "../utils/types"
+import { languageIds } from "../constants"
+import { CreateDtoType, createSectionFormType, descType, PostDtoType, PostDtoVariantType, preparationTimeType, titleType, variantType } from "../utils/types"
 
 export const fileToBlob = (file: File, id: string) => {
     let formData = new FormData()
@@ -20,27 +21,7 @@ export const isFieldLast = (max: number, current: number, length: number): boole
     return length <= max && current === length
 }
 
-export const createItemDefaultFields = {
-    titles: [{ data: "", lang: "(Рус)" }],
-    descriptions: [{ data: "", lang: "(Рус)" }],
-    variants: [
-      {
-        name: [{ data: "", lang: "(Рус)" }],
-        amount: "",
-        price: "",
-        priceWithSale: "",
-        articul: "",
-      },
-    ],
-    loyaltyOff: false,
-    images: [],
-    preparationTime: false,
-    preparationTimeData: {
-      days: '',
-      hours: '',
-      minutes: ''
-    }
-}
+
 
 
 export const sectionsToSectionArray = (data: createSectionFormType) => {
@@ -71,4 +52,89 @@ export const responseCategoriesToExactCategories = (allCategories: ICategory[], 
       label: category.name,
       value: category.id
     }))
+}
+
+export const imagesArrayToArrayObjectWithLinks = (images: string[]) => {
+  return images.map(link => ({
+    imageUrl: link
+  }))
+}
+
+export const manufacturedTimeEntityToPostEntityForm = (manufactureTime: preparationTimeType) => {
+  return {
+    day: manufactureTime.days || 0,
+    hour: manufactureTime.hours || 0,
+    minute: manufactureTime.minutes || 0
+  }
+}
+
+
+
+export const arrayToObjectWithLangIdAsKey = (array: titleType[] | descType[]) => {
+  return array.reduce((acc, curr) => {
+    let id = languageIds[curr.lang as keyof typeof languageIds]
+    acc = {
+      ...acc,
+      [id]: curr.data
+    }
+    return acc
+  } , {})
+}
+
+export const goodsTranslatesToPostEntityForm = (titles: titleType[], descriptions: descType[]) => {
+  const titlesObject = arrayToObjectWithLangIdAsKey(titles)
+  const descriptionsObject = arrayToObjectWithLangIdAsKey(descriptions)
+  
+  return Object.values(languageIds).map((id) => ({
+    langId: id,
+    translateName: titlesObject[id as keyof typeof titlesObject] || "",
+    translateDesc: descriptionsObject[id as keyof typeof titlesObject] || ""
+  }))
+
+}
+
+export const goodsVariantsToPostEntityForm = (variants: variantType[]): PostDtoVariantType[] => {
+
+
+  return variants.map(variant => ({
+    artikulCode: variant.articul,
+    count: Number(variant.amount),
+    price: Number(variant.price),
+    priceWithDiscount: Number(variant.priceWithSale) || 0,
+    goodsVariantTranslates: variant.name.map(titleObject => ({
+      langId: languageIds[titleObject.lang as keyof typeof languageIds],
+      translateName: titleObject.data
+    }))
+  }))
+}
+
+
+export const createServiceHelper = (dto: CreateDtoType): PostDtoType => {
+  const firstVariant = dto.variants[0]
+  const isServiceHasVariants = dto.variants.length > 1
+
+
+  return {
+    ageUnlimited: true,
+    artikulCode: firstVariant.articul,
+    categoryId: dto.service.value,
+    count: Number(firstVariant.amount),
+    currencyId: 1,
+    goodsImages: imagesArrayToArrayObjectWithLinks(dto.images),
+    goodsSectionId: 1,
+    hasGoodsVariant: isServiceHasVariants,
+    hideInStores: [],
+    isCountUnlimited: false,
+    withPoint: Number(dto.loyaltyType) === 2,
+    withDiscount: Number(dto.loyaltyType) === 1,
+    isSetManufacturedTime: dto.preparationTime,
+    manufacturedAt: manufacturedTimeEntityToPostEntityForm(dto.preparationTimeData),
+    notUsePl: dto.loyaltyOff,
+    positionAt: 1,
+    price: Number(firstVariant.price),
+    priceWithDiscount: Number(firstVariant.priceWithSale),
+    unitId: 1,
+    goodsTranslates: goodsTranslatesToPostEntityForm(dto.titles, dto.descriptions),
+    goodsVariants: isServiceHasVariants ? goodsVariantsToPostEntityForm(dto.variants) : []
+  }
 }

@@ -65,6 +65,7 @@ const CashierScreen = () => {
 		(el: any) => el.value == storeIdForFilter
 	)?.label;
 
+	console.log(`cashiers`, cashiers);
 	return (
 		<>
 			{filter && (
