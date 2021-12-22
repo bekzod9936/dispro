@@ -310,10 +310,17 @@ const CreateNews = () => {
                 rules={{
                   required: true,
                   maxLength:80,
+                
                 }}
                 render={({ field }) => (
                   <Input
-                   field={field}
+                   onChange={(e)=>{
+                     if(e.target.value.length <=81){
+                       return field.onChange(e)
+                     }
+                   }}
+                   value={field.value}
+                    maxLength={81}
                     error={errors.name ? true:false}
                     message={errors?.name?.type === "required" ? t("requiredField"):t("максимальное число символов 80")}
                     label={t("Название")}
@@ -333,7 +340,12 @@ const CreateNews = () => {
                   <TextArea
                   maxLength={800}
                     // {...field}
-                    field={field}
+                    onChange={(e:any)=>{
+                      if(e.target.value.length <=800){
+                        return field.onChange(e)
+                      }
+                    }}
+                    value={field.value}
                     fontSize={width > 1000 ? "15px" : "14px"}
                     message={errors?.description?.type === "required" ? t("requiredField"):t("максимальное число символов 800")}
                     error={!!errors.description}
