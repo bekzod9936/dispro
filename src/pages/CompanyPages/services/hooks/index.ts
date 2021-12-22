@@ -2,21 +2,21 @@ import { useEffect, useState } from "react";
 
 //packages
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm, useFormContext } from "react-hook-form";
-import { useMutation, useQuery } from "react-query"
+import { useFieldArray, useForm, useFormContext } from "react-hook-form";
+import { useMutation, useQuery, useQueryClient } from "react-query"
 
 //api
 import { ApiServices } from "services/queries/servicesQueries";
 
 //types
 import { sectionDtoType } from "services/queries/servicesQueries/response.types";
-import { FormFieldTypes } from "../utils/types";
+import { FormFieldTypes, SubSectionFormTypes } from "../utils/types";
 
 //other
 import { responseCategoriesToExactCategories } from "../helpers";
 import { useAppSelector } from "services/redux/hooks";
-import { goodsSchema, sectionsSchema } from "../utils/schemas.yup";
-import { createItemDefaultFields } from "../constants";
+import { goodsSchema, sectionsSchema, subSectionSchema } from "../utils/schemas.yup";
+import { createItemDefaultFields, GET_SECTIONS } from "../constants";
 import { useDebounce } from "use-debounce/lib";
 
 
@@ -48,13 +48,21 @@ export const useImage = () => {
 }
 
 export const useSections = () => {
-    return useForm({
+    const form = useForm({
         defaultValues: {
           sections: [{ title: "" }],
         },
         resolver: yupResolver(sectionsSchema),
         mode: "onChange",
       });
+
+    const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: "sections",
+    });
+
+    return {fields, append, remove, form}
+
 }
 
 export const useCreateItem = () => {
@@ -68,13 +76,20 @@ export const useCreateItem = () => {
 
 
 export const usePostSection = () => {
-    return useMutation((dto: sectionDtoType) => ApiServices.createSection(dto))
+    const queryClient = useQueryClient()
+
+    return useMutation((dto: sectionDtoType[]) => ApiServices.createSection(dto), {
+        onSettled: () => {
+            queryClient.invalidateQueries(GET_SECTIONS)
+        }
+    })
 }
 
 
 export const useCategories = () => {
     const { categories } = useAppSelector(state => state.partner.companyInfo);
     const [categoryList, setCategoryList] = useState<{name: string, value: string | number, label: string}[]>([])
+
 
     const _ = useQuery('fetchCategories', () => ApiServices.getCategories(), {
         refetchOnWindowFocus: false,
@@ -88,7 +103,7 @@ export const useCategories = () => {
 }
 
 export const useGetSections = () => {
-    return useQuery('fetchSections', () => ApiServices.getSections(), {
+    return useQuery(GET_SECTIONS, () => ApiServices.getSections(), {
         refetchOnWindowFocus: false,
         retry: 1,
     })
@@ -109,4 +124,12 @@ export const useCurrentSection = () => {
 
     return { currentSection, setCurrentSection, sectionId: debouncedCurrentSection }
 
+}
+
+
+export const useSubSectionForm = () => {
+    return useForm<SubSectionFormTypes>({
+      mode: "onChange",
+      resolver: yupResolver(subSectionSchema),
+    });
 }

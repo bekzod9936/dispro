@@ -122,3 +122,7 @@ export type PostDtoType = {
 export interface parentSectionType extends ISectionResponse {
     children: ISectionResponse[]
 }
+
+export interface SubSectionFormTypes {
+    subSection: string;
+  }

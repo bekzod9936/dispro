@@ -18,12 +18,17 @@ import {
   PopoverItem,
   useStyles,
 } from "./style";
+import { LightToolTip } from "../../../Create/components/Radios/style";
 
 interface MPopoverProps {
   onClick: () => void;
+  isSectionButtonDisabled?: boolean;
 }
 
-const MPopover: React.FC<MPopoverProps> = ({ onClick }) => {
+const MPopover: React.FC<MPopoverProps> = ({
+  onClick,
+  isSectionButtonDisabled,
+}) => {
   const [anchorEl, setAnchorEl] = useState<null | PopupState>(null);
   const styles = useStyles();
 
@@ -36,6 +41,13 @@ const MPopover: React.FC<MPopoverProps> = ({ onClick }) => {
 
   const handleClose = (e: PopupState) => {
     setAnchorEl(e);
+  };
+
+  const onOpenModal = () => {
+    if (isSectionButtonDisabled) return;
+
+    onClick();
+    anchorEl?.close();
   };
 
   return (
@@ -52,17 +64,22 @@ const MPopover: React.FC<MPopoverProps> = ({ onClick }) => {
       onClose={handleClose}
       anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
       transformOrigin={{ horizontal: "left", vertical: "top" }}
-      popoverStyle={{ marginTop: "20px" }}
+      popoverStyle={styles.popover.menu.style}
     >
       <PopoverList>
-        <PopoverItem
-          onClick={() => {
-            onClick();
-            anchorEl?.close();
-          }}
+        <LightToolTip
+          arrow
+          placement="top"
+          title={
+            isSectionButtonDisabled
+              ? "Вы уже создали максимальное количество(20) разделов!"
+              : ""
+          }
         >
-          {t("section")}
-        </PopoverItem>
+          <PopoverItem disabled={isSectionButtonDisabled} onClick={onOpenModal}>
+            {t("section")}
+          </PopoverItem>
+        </LightToolTip>
         <PopoverItem onClick={handlePush}>{t("item")}</PopoverItem>
       </PopoverList>
     </Popover>

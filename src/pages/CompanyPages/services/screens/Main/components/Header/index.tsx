@@ -13,7 +13,9 @@ import Title from "components/Custom/Title";
 //style
 import { Nav, SearchIcon, useStyles, Wrapper } from "./style";
 import { SectionModal } from "pages/CompanyPages/services/components/Modals/Section";
-import Button from "components/Custom/Button";
+import { useGetSections } from "pages/CompanyPages/services/hooks";
+import { getLengthOfParentSections } from "pages/CompanyPages/services/helpers";
+import { SECTIONS_LIMIT } from "pages/CompanyPages/services/constants";
 
 interface HeaderProps {
   value: string;
@@ -24,6 +26,10 @@ export const Header: React.FC<HeaderProps> = ({ value, onChange }) => {
   const { t } = useTranslation();
   const [createSection, setCreateSection] = useState<boolean>(false);
   const styles = useStyles();
+
+  const { data } = useGetSections();
+  const isSectionButtonDisabled =
+    SECTIONS_LIMIT - getLengthOfParentSections(data?.data) === 0;
 
   const handleToggle = (bool: boolean) => {
     return () => {
@@ -45,7 +51,10 @@ export const Header: React.FC<HeaderProps> = ({ value, onChange }) => {
         </p>
       </Nav>
       <Flex>
-        <Popover onClick={handleToggle(true)} />
+        <Popover
+          isSectionButtonDisabled={isSectionButtonDisabled}
+          onClick={handleToggle(true)}
+        />
         <Input
           value={value}
           onChange={handleChange}

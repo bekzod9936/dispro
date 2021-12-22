@@ -632,5 +632,8 @@
   "allGoods": "Все товары",
   "createSubSection": "Создать подраздел",
   "hideInMobile": "Скрыть в приложении",
-  "showInMobile": "Показать в приложении"
+  "showInMobile": "Показать в приложении",
+  "newSubSection": "Новый подраздел",
+  "subSectionName": "Название подраздела",
+  "enterSubSectionName": "Введите название подраздела"
 }

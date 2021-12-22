@@ -25,3 +25,9 @@ export const languageIds = {
     '(Eng)': 2,
     '(Uzb)': 3
   }
+
+
+export const SECTIONS_LIMIT = 20
+
+
+export const GET_SECTIONS = 'getSections'

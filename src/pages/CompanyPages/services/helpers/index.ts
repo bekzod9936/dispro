@@ -18,7 +18,7 @@ export const filesToBlob = (files: File[]) => {
 }
 
 export const isFieldLast = (max: number, current: number, length: number): boolean => {
-    return length <= max && current === length
+    return length < max && current === length
 }
 
 
@@ -30,10 +30,10 @@ export const sectionsToSectionArray = (data: createSectionFormType) => {
 
 }
 
-const sectionFieldToDto = (title: string): sectionDtoType => {
+export const sectionFieldToDto = (title: string, parentId?: number): sectionDtoType => {
   return {
     hideInMobile: false,
-    parentId: 0,
+    parentId: parentId || 0,
     positionAt: 1,
     goodsSectionTranslates: [
       {
@@ -155,9 +155,10 @@ export const sectionsResponseToParentChildObject = (array: ISectionResponse[] | 
 }
 
 
-export const isChildHasActiveParent = (array: parentSectionType[], currentItemId: number | null) => {
-  return array.some((section) =>
-    section.children.some((child) => child.id === currentItemId)
+export const isChildHasActiveParent = (parent: parentSectionType, currentItemId: number | null) => {
+
+  return parent.children.some((section) =>
+    section.id === currentItemId
   ) 
 }
 
@@ -165,3 +166,20 @@ export const isParentHasActiveChild = (item: parentSectionType, currentItemId: n
   return item.children.some(child => child.id === currentItemId)
 }
 
+export const getLengthOfParentSections = (array: ISectionResponse[] | undefined) => {
+  if(!array) return 0
+
+
+  return array.filter(section => section.parentId === 0).length
+}
+
+
+export const sectionsResponseListToOptions = (array: ISectionResponse[] | undefined) => {
+  if (!array) return []
+
+  return array.map(section => ({
+    label: section.goodsSectionTranslates[0].translateName,
+    name: section.goodsSectionTranslates[0].translateName,
+    value: section.id
+  }))
+}

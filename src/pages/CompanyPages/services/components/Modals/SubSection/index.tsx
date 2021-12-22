@@ -1,10 +1,15 @@
+//packages
+import { FormProvider } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { IconButton } from "@material-ui/core";
+
+//components
 import Button from "components/Custom/Button";
 import Modal from "components/Custom/Modal";
-import { FormProvider, useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 import { SubSectionField } from "../../SubSectionField";
+import Spinner from "components/Helpers/Spinner";
 
+//style
 import { Wrapper, Header, Footer } from "./style";
 import {
   CancelIcon,
@@ -13,29 +18,46 @@ import {
   useStyles,
 } from "../Section/style";
 
+//other
+import {
+  usePostSection,
+  useSubSectionForm,
+} from "pages/CompanyPages/services/hooks";
+import { sectionFieldToDto } from "pages/CompanyPages/services/helpers";
+import { SubSectionFormTypes } from "pages/CompanyPages/services/utils/types";
+
 interface SubSectionModalProps {
   open: boolean;
   onClose: () => void;
-}
-
-export interface SubSectionFormTypes {
-  subSection: string;
+  parentId: number;
 }
 
 export const SubSectionModal: React.FC<SubSectionModalProps> = ({
   open,
   onClose,
+  parentId,
 }) => {
   const { t } = useTranslation();
   const styles = useStyles();
 
-  const form = useForm<SubSectionFormTypes>({
-    mode: "onChange",
-  });
+  const { mutate, isLoading } = usePostSection();
+
+  const form = useSubSectionForm();
+
+  const onSubmit = (data: SubSectionFormTypes) => {
+    const subSectionDto = sectionFieldToDto(data.subSection, parentId);
+
+    mutate([subSectionDto], {
+      onSettled: () => {
+        onClose();
+        form.reset();
+      },
+    });
+  };
 
   return (
-    <Modal open={open}>
-      <Wrapper>
+    <Modal width={styles.modal.style} open={open}>
+      <Wrapper onSubmit={form.handleSubmit(onSubmit)}>
         <FormProvider {...form}>
           <Header>
             <div className="nav">
@@ -55,8 +77,13 @@ export const SubSectionModal: React.FC<SubSectionModalProps> = ({
             >
               {t("cancel")}
             </Button>
-            <Button type="submit" startIcon={<CreateSectionIcon />}>
-              {t("create")}
+            <Button
+              disabled={isLoading}
+              width={styles.button.width}
+              type="submit"
+              startIcon={<CreateSectionIcon />}
+            >
+              {isLoading ? <Spinner size={20} /> : t("create")}
             </Button>
           </Footer>
         </FormProvider>

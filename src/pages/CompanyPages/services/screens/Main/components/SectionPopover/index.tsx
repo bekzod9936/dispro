@@ -22,6 +22,7 @@ export const SectionPopover: React.FC<SectionPopoverProps> = ({
   };
 
   const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
     setAnchorEl(event.currentTarget);
   };
 
@@ -42,7 +43,7 @@ export const SectionPopover: React.FC<SectionPopoverProps> = ({
         }}
       >
         {Boolean(isParent) ? (
-          <MenuList>
+          <MenuList onClick={handleClose}>
             <MenuItem onClick={onOpenModal("subSection")}>
               {t("createSubSection")}
             </MenuItem>

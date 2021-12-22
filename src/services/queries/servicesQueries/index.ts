@@ -45,19 +45,15 @@ export const ApiServices = {
     async createService(dto: PostDtoType)  {
         const { data } = await partnerApi.post<PostDtoType, any>('core/goods', dto);
 
-        console.log(data)
     },
 
 
 
     //! todo: rewrite posting of sections name
-    async createSection(dto: sectionDtoType) {
-        const response = await partnerApi.post<sectionDtoType, AxiosResponse<{data: any}>>('/core/goods-section', {
-            sections: [dto]
+    async createSection(dto: sectionDtoType[]) {
+        await partnerApi.post<sectionDtoType[], sectionResponseType>('/core/goods-section', {
+            sections: dto
         })
-
-        console.log(response.data);
-        
     },
 
     async getCategories() {

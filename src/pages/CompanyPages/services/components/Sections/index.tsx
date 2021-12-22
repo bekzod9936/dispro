@@ -1,7 +1,13 @@
+import { useEffect, useRef, useState } from "react";
+
+//packages
 import { useTranslation } from "react-i18next";
+import { IconButton } from "@material-ui/core";
 
 //components
 import Spinner from "components/Helpers/Spinner";
+import { SubSectionModal } from "../Modals/SubSection";
+import { SectionPopover } from "../../screens/Main/components/SectionPopover";
 
 //other
 import {
@@ -13,10 +19,6 @@ import { useGetSections } from "../../hooks";
 
 //style
 import { Item, ItemWrapper, MenuIcon, Wrapper } from "./style";
-import { IconButton } from "@material-ui/core";
-import { SectionPopover } from "../../screens/Main/components/SectionPopover";
-import { SubSectionModal } from "../Modals/SubSection";
-import { useState } from "react";
 
 interface SectionsProps {
   currentSection: number | null;
@@ -28,6 +30,9 @@ export const Sections: React.FC<SectionsProps> = ({
   currentSection,
 }) => {
   const { t } = useTranslation();
+
+  const currentSectionRef = useRef<null | HTMLDivElement>(null);
+
   const [modals, setModals] = useState({
     subSection: false,
   });
@@ -37,7 +42,9 @@ export const Sections: React.FC<SectionsProps> = ({
   const parentSections = sectionsResponseToParentChildObject(data?.data);
 
   const handleClickOnSection = (section: null | number) => {
-    return () => {
+    return (event: React.MouseEvent<HTMLDivElement>) => {
+      currentSectionRef.current = event.currentTarget;
+
       setCurrentSection(section);
     };
   };
@@ -49,6 +56,13 @@ export const Sections: React.FC<SectionsProps> = ({
   const handleOpen = (modal: keyof typeof modals) => {
     return () => setModals((prev) => ({ ...prev, [modal]: true }));
   };
+
+  useEffect(() => {
+    currentSectionRef.current?.scrollIntoView({
+      block: "nearest",
+      behavior: "smooth",
+    });
+  }, [currentSection]);
 
   if (isLoading) {
     return (
@@ -80,7 +94,7 @@ export const Sections: React.FC<SectionsProps> = ({
             />
           </Item>
           {(currentSection === item.id ||
-            isChildHasActiveParent(parentSections, currentSection)) &&
+            isChildHasActiveParent(item, currentSection)) &&
             item.children.map((child) => (
               <Item
                 onClick={handleClickOnSection(child.id)}
@@ -95,6 +109,7 @@ export const Sections: React.FC<SectionsProps> = ({
       ))}
 
       <SubSectionModal
+        parentId={currentSection || 0}
         onClose={handleClose("subSection")}
         open={modals.subSection}
       />

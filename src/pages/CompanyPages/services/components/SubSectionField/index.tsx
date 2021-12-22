@@ -1,8 +1,12 @@
-import React from "react";
+//packages
 import { Controller, useFormContext } from "react-hook-form";
-import Input from "components/Custom/Input";
 import { useTranslation } from "react-i18next";
-import { SubSectionFormTypes } from "../Modals/SubSection";
+
+//components
+import Input from "components/Custom/Input";
+
+//other
+import { SubSectionFormTypes } from "../../utils/types";
 interface SubSectionFieldProps {
   name: "subSection";
 }
@@ -22,9 +26,11 @@ export const SubSectionField: React.FC<SubSectionFieldProps> = ({ name }) => {
       render={({ field }) => (
         <Input
           label={t("subSectionName")}
+          message={t(errors[name]?.message || "")}
           field={field}
           isAbsolute
           error={Boolean(errors[name])}
+          margin={{ desktop: "0 0 20px 0", laptop: "0 0 20px 0" }}
         />
       )}
     />

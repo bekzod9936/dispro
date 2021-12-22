@@ -8,7 +8,7 @@ export const Wrapper = styled.form`
 
 export const Header = styled.div`
     width: 100%;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 
     .nav {
         display: flex;
