@@ -1,12 +1,12 @@
 export interface Props {
-  isStatic?: boolean
+  isStatic?: boolean;
   defaultValue?: any;
   isDisabled?: boolean;
   isLoading?: boolean;
   isClearable?: boolean;
   isSearchable?: boolean;
   name?: string;
-
+  menuPortalTarget?: any;
   options?: { value?: any; label?: any; name?: any }[];
   isMulti?: boolean;
   isBranchHeight?: boolean;

@@ -155,7 +155,7 @@ const Filter = ({
       >
         {t('filters')}
       </Button>
-      <Modal open={open}>
+      <Modal open={open} scroll={'body'}>
         <WrapMain>
           <WrapBody>
             <WrapHeader>

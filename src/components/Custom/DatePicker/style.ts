@@ -85,7 +85,6 @@ export const WrapText = styled.div`
       font-size: 14px;
     }
   }
-
 `;
 
 export const ResetIcon = styled(Reset)``;
@@ -123,10 +122,14 @@ export const MobileReset = styled.div`
     display: none;
   }
 
-  @media (max-width:${device.mobile}){
+  @media (max-width: ${device.mobile}) {
     margin: 10px 0 0px 0px;
     padding: 0 2px 0 12px;
     font-size: 12px;
+    height: 25px;
+    font-weight: 300;
+    font-size: 12px;
+    color: #223367;
   }
 `;
 

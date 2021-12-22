@@ -32,6 +32,8 @@ export const Form: React.FC<FormProps> = () => {
     console.log(data);
   };
 
+  console.log(form.formState.errors);
+
   return (
     <FormStyled onSubmit={form.handleSubmit(onSubmit)}>
       <FormProvider {...form}>

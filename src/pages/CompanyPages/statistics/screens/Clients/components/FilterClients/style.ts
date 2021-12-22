@@ -40,6 +40,15 @@ export const WrapInputs = styled.div`
 export const WrapFilter = styled.div`
   padding-bottom: 20px;
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  grid-gap: 10px;
+  @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
+    width: 60%;
+  }
+  @media (min-width: ${device.laptop}) {
+    width: 70%;
+  }
   @media (max-width: ${device.mobile}) {
     padding-bottom: 15px;
   }
@@ -55,7 +64,7 @@ export const ButtonKeyWord = styled.div`
   font-size: 13px;
   color: #223367;
   padding: 0 5px 0 15px;
-  margin: 0 0 0 10px;
+
   height: 30px;
   .MuiIconButton-root {
     padding: 6px !important;
@@ -66,7 +75,6 @@ export const ButtonKeyWord = styled.div`
     font-weight: 300;
     font-size: 12px;
     color: #223367;
-    margin: 10px 0 0 0;
   }
   @media (min-width: ${device.laptop}) {
     height: 35px;
@@ -83,4 +91,5 @@ export const DeleteIcon = styled(Delete)`
 export const WrapValues = styled.div`
   display: flex;
   flex-wrap: wrap;
+  grid-gap: 10px;
 `;

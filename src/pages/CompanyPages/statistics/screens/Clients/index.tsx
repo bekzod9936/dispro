@@ -24,6 +24,7 @@ interface Props {
   allPurchaseSum?: string;
   usedLevelNumber?: string;
   storeIds?: string;
+  traffic?: string;
 }
 
 const intialState = {
@@ -36,15 +37,15 @@ const intialState = {
   purchaseCountTo: '',
   allPurchaseSum: '',
   usedLevelNumber: '',
+  refIds: '',
 };
 
 const Clients = () => {
   const [filterValues, setFilterValues] = useState<Props>(intialState);
-  const [traffic, setTraffic] = useState('');
-  const { response, list, status, setStatus, setUsedLevel } = useClientsHook({
-    filterValues,
-    traffic,
-  });
+  const { response, list, status, setStatus, setUsedLevel, usedLevel } =
+    useClientsHook({
+      filterValues,
+    });
 
   return (
     <MainWrapper>
@@ -52,12 +53,11 @@ const Clients = () => {
         response={response}
         filterValues={filterValues}
         setFilterValues={setFilterValues}
-        traffic={traffic}
-        setTraffic={setTraffic}
         intialState={intialState}
         status={status}
         setStatus={setStatus}
         setUsedLevel={setUsedLevel}
+        usedLevel={usedLevel}
       />
       <WrapDesktop>
         <Chart />
