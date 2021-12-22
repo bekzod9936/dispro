@@ -65,8 +65,9 @@ const Registrationpanel = () => {
     watch,
     reset,
   } = useForm<FormProps>({
-    mode: 'onBlur',
+    mode: 'onChange',
     shouldFocusError: true,
+    reValidateMode: 'onChange',
   });
 
   useEffect(() => {
@@ -98,7 +99,6 @@ const Registrationpanel = () => {
 
   useEffect(() => {
     const subscription = watch((value) => {
-      console.log(value);
       if (
         value?.companyName !== undefined &&
         value?.companyName !== '' &&
@@ -141,7 +141,7 @@ const Registrationpanel = () => {
       },
     });
   };
-
+  console.log(errors, 'ddgsdgsd');
   return (
     <Container>
       <MainWrap>
@@ -180,34 +180,68 @@ const Registrationpanel = () => {
                 <Controller
                   name='firstName'
                   control={control}
-                  rules={{ required: true }}
+                  rules={{
+                    required: true,
+                    pattern: /[A-Za-z]/,
+                  }}
                   render={({ field }) => (
                     <Input
                       label={t('your_name')}
                       error={errors.firstName ? true : false}
                       type='string'
-                      field={field}
+                      {...field}
+                      onChange={(e) => {
+                        if (e.target.value.length > 1) {
+                          if (/^[a-zA-Z]+$/.test(e.target.value)) {
+                            field.onChange(e.target.value);
+                          }
+                        } else {
+                          field.onChange(e.target.value);
+                        }
+                      }}
+                      value={field.value}
                       margin={{
                         laptop: '20px 0 0',
                       }}
-                      message={t('requiredField')}
+                      message={
+                        errors.firstName?.type === 'required'
+                          ? t('requiredField')
+                          : 'Вводить только буквы'
+                      }
                     />
                   )}
                 />
                 <Controller
                   name='lastName'
                   control={control}
-                  rules={{ required: true }}
+                  rules={{
+                    required: true,
+                    pattern: /[A-Za-z]/,
+                  }}
                   render={({ field }) => (
                     <Input
                       label={t('your_lastName')}
                       error={errors.lastName ? true : false}
                       type='string'
-                      field={field}
+                      {...field}
+                      onChange={(e) => {
+                        if (e.target.value.length > 1) {
+                          if (/^[a-zA-Z]+$/.test(e.target.value)) {
+                            field.onChange(e.target.value);
+                          }
+                        } else {
+                          field.onChange(e.target.value);
+                        }
+                      }}
+                      value={field.value}
                       margin={{
                         laptop: '20px 0 0',
                       }}
-                      message={t('requiredField')}
+                      message={
+                        errors.firstName?.type === 'required'
+                          ? t('requiredField')
+                          : 'Вводить только буквы'
+                      }
                     />
                   )}
                 />
@@ -327,7 +361,12 @@ const Registrationpanel = () => {
                 laptop: '10px 0 30px 0',
               }}
               type='submit'
-              disabled={disable || res.isLoading}
+              disabled={
+                disable ||
+                res.isLoading ||
+                errors.firstName?.type === 'pattern' ||
+                errors.lastName?.type === 'pattern'
+              }
             >
               {step === 0 ? t('next') : t('enter')}
             </Button>
