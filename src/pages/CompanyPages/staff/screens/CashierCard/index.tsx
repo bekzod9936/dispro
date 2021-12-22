@@ -222,7 +222,7 @@ const CashierCard = () => {
 	const handleClose = (e: any) => {
 		setCloseFun(e);
 	};
-
+	console.log(`staffData?.cashierRefLinks`, staffData?.cashierRefLinks);
 	return (
 		<CardContainer className='dsds'>
 			<CashierWrapTitle>
@@ -345,7 +345,7 @@ const CashierCard = () => {
 							closeQr={() => {
 								setOpenQr(false);
 							}}
-							qrLink={staffData?.cashierRefLink || ''}
+							qrLink={staffData?.cashierRefLinks?.[0] || { link: '' }}
 						/>
 					</SideBar>
 				</div>

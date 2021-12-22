@@ -33,7 +33,6 @@ const useCashierCard = () => {
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
       onSuccess: (data) => {
-		  console.log('asdsadsadsad', data?.data?.data)
         if (data?.data?.data?.cashier) {
           dispatch(setStaffData(data.data.data.cashier));
         } else {
