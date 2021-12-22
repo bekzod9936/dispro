@@ -24,10 +24,9 @@ import {
 } from '../../style';
 interface Props {
   filterValues?: any;
-  traffic?: any;
 }
 
-const useClientsHook = ({ filterValues, traffic }: Props) => {
+const useClientsHook = ({ filterValues }: Props) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { width } = useWindowWidth();
@@ -47,7 +46,10 @@ const useClientsHook = ({ filterValues, traffic }: Props) => {
           }
         })
         .join('');
-      return fetchCilentsData({ section: `clients?${url}${traffic}` });
+
+      return fetchCilentsData({
+        section: `clients?${url}`,
+      });
     },
     {
       keepPreviousData: true,
@@ -148,7 +150,7 @@ const useClientsHook = ({ filterValues, traffic }: Props) => {
     },
   ];
 
-  return { response, list, status, setStatus, setUsedLevel };
+  return { response, list, status, setStatus, setUsedLevel, usedLevel };
 };
 
 export default useClientsHook;

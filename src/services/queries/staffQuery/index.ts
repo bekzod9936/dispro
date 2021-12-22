@@ -3,7 +3,7 @@ import partnerApi from "services/interceptors/partner_interceptor";
 //cashiers tab
 export const getCashiers = async (page: number, url: string, storeId?: number | null) => {
   const response = await partnerApi(
-    `/core/staffs/get/cashiers?page=${page}&perPage=5&${url}${storeId ? `storeId=${storeId}` : ""}`
+    `/core/staffs/get/cashiers?page=${page}&perPage=10&${url}${storeId ? `storeId=${storeId}` : ""}`
   );
   return response;
 };
@@ -38,7 +38,7 @@ export const getBranches = () => {
 
 export const getManagers = async (page: number, url: string) => {
   const response = await partnerApi.get(
-    `/core/staffs/get/managers?page=${page}&perPage=5&${url}`
+    `/core/staffs/get/managers?page=${page}&perPage=10&${url}`
   );
   return response;
 };

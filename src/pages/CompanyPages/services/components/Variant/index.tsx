@@ -21,6 +21,7 @@ interface VariantProps {
 export const Variant: React.FC<VariantProps> = ({ index, disabled }) => {
   const {
     clearErrors,
+    setValue,
     control,
     formState: { errors },
   } = useFormContext<FormFieldTypes>();
@@ -30,6 +31,7 @@ export const Variant: React.FC<VariantProps> = ({ index, disabled }) => {
 
   useEffect(() => {
     clearErrors(`variants.${index}.priceWithSale`);
+    setValue(`variants.${index}.priceWithSale`, "");
   }, [disabled]);
 
   return (

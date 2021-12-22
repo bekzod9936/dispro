@@ -67,7 +67,7 @@ const Reviews = () => {
     await setFilterValues({ ...filterValues, page: e });
     await resClients.refetch();
   };
-
+  console.log(inpuSearch.length);
   return (
     <Container>
       <FilterReview
@@ -82,7 +82,9 @@ const Reviews = () => {
       ) : clients.length === 0 ? (
         <WrapDefPhoto>
           <Img src={feedDef} alt='feedback' />
-          <span>{t('feeddef')}</span>
+          <span>
+            {inpuSearch === '' ? t('feeddef') : t('notfoundsearchsetting')}
+          </span>
         </WrapDefPhoto>
       ) : (
         <>

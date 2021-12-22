@@ -41,3 +41,12 @@ export const QrText = styled.p`
   line-height: 21px;
   color: #223367;
 `;
+
+export const CodeText = styled.p`
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 18px;
+	line-height: 21px;
+	margin-top: 27px;
+`;

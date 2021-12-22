@@ -13,7 +13,7 @@ const useCashierCard = () => {
   const [openQr, setOpenQr] = useState(false);
   const cashierId = useAppSelector((state) => state.staffs.cashierId);
   const dispatch = useAppDispatch();
-  const prevPage: any = state?.prevPage || "/staff";
+  const prevPage: any = state?.prevPage || "/staff/cashier";
   const cashId: any = state?.id;
   const [optionsOpen, setOptionsOpen] = useState<string | number>('');
 
@@ -33,7 +33,6 @@ const useCashierCard = () => {
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
       onSuccess: (data) => {
-		  console.log('asdsadsadsad', data?.data?.data)
         if (data?.data?.data?.cashier) {
           dispatch(setStaffData(data.data.data.cashier));
         } else {

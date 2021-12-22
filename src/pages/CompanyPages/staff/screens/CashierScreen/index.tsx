@@ -47,11 +47,10 @@ const CashierScreen = () => {
 		endDate: '',
 	});
 
-	const [page, setPage] = useState('1');
+	// const [page, setPage] = useState(1);
 	const [debouncedQuery] = useDebounce(query, 300);
 	const casierFilterAdress = allCashiers;
-	const { response } = useCashiers({
-		page: page,
+	const { response, page, setPage } = useCashiers({
 		query: debouncedQuery,
 		period,
 		storeIdForFilter,
@@ -66,6 +65,7 @@ const CashierScreen = () => {
 		(el: any) => el.value == storeIdForFilter
 	)?.label;
 
+	console.log(`cashiers`, cashiers);
 	return (
 		<>
 			{filter && (
@@ -91,6 +91,8 @@ const CashierScreen = () => {
 				) : cashiers?.length > 0 ? (
 					<Wrap>
 						<CashierTable
+							page={page}
+							setPage={setPage}
 							cashiers={cashiers.map((cashier: any) => {
 								return {
 									...cashier,

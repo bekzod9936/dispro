@@ -16,7 +16,7 @@ export const Container = styled.div`
   & > div {
     overflow-y: auto;
     overflow-x: hidden;
-    height: 90%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -70,5 +70,3 @@ export const WrapDesktop = styled.div`
     width: 400px;
   }
 `;
-
-
