@@ -3,6 +3,7 @@ import { STORAGE_URL } from "../../constants/config";
 import { PARTNER } from "services/interceptors/partner_interceptor/types";
 import { categoriesResponseType, sectionDtoType, uploadImageType } from './response.types';
 import partnerApi from 'services/interceptors/partner_interceptor';
+import { PostDtoType } from 'pages/CompanyPages/services/utils/types';
 
 
 export const ApiServices = {
@@ -39,6 +40,16 @@ export const ApiServices = {
 
         return data
     },
+
+    //create service
+    async createService(dto: PostDtoType)  {
+        const { data } = await partnerApi.post<PostDtoType, any>('core/goods', dto);
+
+        console.log(data)
+    },
+
+
+
     //! todo: rewrite posting of sections name
     async createSection(dto: sectionDtoType) {
         const response = await partnerApi.post<sectionDtoType, AxiosResponse<{data: any}>>('/core/goods-section', {
