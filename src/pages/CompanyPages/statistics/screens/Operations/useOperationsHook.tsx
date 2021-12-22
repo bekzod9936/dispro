@@ -22,7 +22,7 @@ const useOperationsHook = ({ filterValues }: Props) => {
   const dispatch = useAppDispatch();
 
   const response = useQuery(
-    'fetchOperationsInfo',
+    ['fetchOperationsInfo', filterValues],
     () => {
       const url = Object.keys(filterValues)
         .map((v: any) => {

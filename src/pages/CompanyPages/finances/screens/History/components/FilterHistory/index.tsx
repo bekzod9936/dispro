@@ -279,6 +279,7 @@ const FilterHistory = ({
           onChange={(e: any) => setStoreId(e)}
           value={storeId}
           selectStyle={{ bgcolor: '#eff0fd' }}
+          menuPortalTarget={document.body}
         />
       ),
     },

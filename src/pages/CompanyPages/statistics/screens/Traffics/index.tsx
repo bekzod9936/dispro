@@ -75,7 +75,7 @@ const Traffics = () => {
       ],
     };
   });
-  console.log(data);
+
   const columns: any = useMemo(
     () => [
       {
@@ -125,7 +125,7 @@ const Traffics = () => {
             endDate: e.slice(e.indexOf('~ ') + 2),
           });
         }}
-        margin='0 0 20px 0'
+        margin='0 0 10px 0'
       />
       <Wrapper>
         {response.isLoading || response.isFetching ? (
