@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 interface SectionPopoverProps {
   isParent?: boolean;
   isHiddenInMobile: boolean;
-  onOpenModal: (arg: "subSection") => () => void;
+  onOpenModal: (arg: "subSection" | "editSection") => () => void;
 }
 
 export const SectionPopover: React.FC<SectionPopoverProps> = ({
@@ -47,7 +47,9 @@ export const SectionPopover: React.FC<SectionPopoverProps> = ({
             <MenuItem onClick={onOpenModal("subSection")}>
               {t("createSubSection")}
             </MenuItem>
-            <MenuItem>{t("edit")}</MenuItem>
+            <MenuItem onClick={onOpenModal("editSection")}>
+              {t("edit")}
+            </MenuItem>
             <MenuItem>
               {isHiddenInMobile ? t("showInMobile") : t("hideInMobile")}
             </MenuItem>

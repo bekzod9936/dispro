@@ -19,6 +19,7 @@ import { useGetSections } from "../../hooks";
 
 //style
 import { Item, ItemWrapper, MenuIcon, Wrapper } from "./style";
+import { modalsDefaults } from "../../constants";
 
 interface SectionsProps {
   currentSection: number | null;
@@ -33,9 +34,7 @@ export const Sections: React.FC<SectionsProps> = ({
 
   const currentSectionRef = useRef<null | HTMLDivElement>(null);
 
-  const [modals, setModals] = useState({
-    subSection: false,
-  });
+  const [modals, setModals] = useState(modalsDefaults);
 
   const { data, isLoading } = useGetSections();
 
@@ -77,6 +76,7 @@ export const Sections: React.FC<SectionsProps> = ({
       <Item onClick={handleClickOnSection(null)} isSelected={!currentSection}>
         <h4>{t("allGoods")}</h4>
       </Item>
+
       {parentSections.map((item) => (
         <ItemWrapper>
           <Item
