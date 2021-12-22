@@ -315,13 +315,14 @@ const CreateNews = () => {
                 render={({ field }) => (
                   <Input
                    onChange={(e)=>{
-                     if(e.target.value.length <=80){
+                     if(e.target.value.length <=81){
                        return field.onChange(e)
                      }
                    }}
+                   value={field.value}
+                    maxLength={81}
                     error={errors.name ? true:false}
                     message={errors?.name?.type === "required" ? t("requiredField"):t("максимальное число символов 80")}
-                    value={field.value}
                     label={t("Название")}
                   />
                 )}

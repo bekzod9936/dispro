@@ -49,41 +49,43 @@ const Clients = () => {
 
   return (
     <MainWrapper>
-      <FilterClients
-        response={response}
-        filterValues={filterValues}
-        setFilterValues={setFilterValues}
-        intialState={intialState}
-        status={status}
-        setStatus={setStatus}
-        setUsedLevel={setUsedLevel}
-        usedLevel={usedLevel}
-      />
-      <WrapDesktop>
-        <Chart />
-      </WrapDesktop>
-      <Container>
-        {response.isLoading || response.isFetching ? (
-          <Spinner />
-        ) : (
-          <div>
-            <Wrapper>
-              {list.map((v: any) => (
-                <WrapInfo key={v.title}>
-                  <div>{v.Icon}</div>
-                  <Content>
-                    <Title>{v.title}</Title>
-                    <Value>{numberWithNew({ number: v?.value })}</Value>
-                  </Content>
-                </WrapInfo>
-              ))}
-            </Wrapper>
-            <WrapMobile>
-              <Chart />
-            </WrapMobile>
-          </div>
-        )}
-      </Container>
+      <div>
+        <FilterClients
+          response={response}
+          filterValues={filterValues}
+          setFilterValues={setFilterValues}
+          intialState={intialState}
+          status={status}
+          setStatus={setStatus}
+          setUsedLevel={setUsedLevel}
+          usedLevel={usedLevel}
+        />
+        <WrapDesktop>
+          <Chart />
+        </WrapDesktop>
+        <Container>
+          {response.isLoading || response.isFetching ? (
+            <Spinner />
+          ) : (
+            <>
+              <Wrapper>
+                {list.map((v: any) => (
+                  <WrapInfo key={v.title}>
+                    <div>{v.Icon}</div>
+                    <Content>
+                      <Title>{v.title}</Title>
+                      <Value>{numberWithNew({ number: v?.value })}</Value>
+                    </Content>
+                  </WrapInfo>
+                ))}
+              </Wrapper>
+              <WrapMobile>
+                <Chart />
+              </WrapMobile>
+            </>
+          )}
+        </Container>
+      </div>
     </MainWrapper>
   );
 };

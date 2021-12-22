@@ -73,6 +73,7 @@ const EditCashier = ({ openEdit, refetch }: IProps) => {
 				lastName: data.lastName,
 				comment: data.comment,
 				telNumber: data.telNumber,
+				staffRoleId: 3,
 			});
 		} else {
 			await editCashier.mutate({
@@ -82,6 +83,7 @@ const EditCashier = ({ openEdit, refetch }: IProps) => {
 				lastName: data?.lastName,
 				comment: data?.comment,
 				telNumber: data?.telNumber,
+				staffRoleId: 3,
 			});
 		}
 		refetch &&
