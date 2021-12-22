@@ -54,6 +54,7 @@ export const MobileFilterNews = ({
             </div>
             {filterByDate && (
               <DatePcker
+              showoldvalue={true}
                 onChange={async (e: any) => {
                   filterByDate(e);
                 }}
@@ -133,6 +134,7 @@ export const MobileFilterNews = ({
           >
             {filterByDate && (
               <DatePcker
+              showoldvalue={true}
                 onChange={async (e: any) => {
                   filterByDate(e);
                 }}
