@@ -21,45 +21,45 @@ import 'react-lazy-load-image-component/src/effects/blur.css';
 const queryClient = new QueryClient();
 
 const theme = createTheme({
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 600,
-      md: 1000,
-      lg: 1500,
-      xl: 1920,
-    },
-  },
+	breakpoints: {
+		values: {
+			xs: 0,
+			sm: 600,
+			md: 1000,
+			lg: 1500,
+			xl: 1920,
+		},
+	},
 });
 
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker
-    .register('./firebase-messaging-sw.js')
-    .then(function (registration) {})
-    .catch(function (err) {});
+	navigator.serviceWorker
+		.register('./firebase-messaging-sw.js')
+		.then(function (registration) {})
+		.catch(function (err) {});
 }
 const rootElement = document.getElementById('root');
 
 ReactDOM.render(
-  <React.StrictMode>
-    <RecoilRoot>
-      <I18nextProvider i18n={i18n}>
-        <MuiThemeProvider theme={theme}>
-          <StylesProvider injectFirst>
-            <Provider store={store}>
-              <QueryClientProvider client={queryClient}>
-                <BrowserRouter>
-                  <ErrorBoundary FallbackComponent={ErrorFallback}>
-                    <App />
-                    <ToastContainer />
-                  </ErrorBoundary>
-                </BrowserRouter>
-              </QueryClientProvider>
-            </Provider>
-          </StylesProvider>
-        </MuiThemeProvider>
-      </I18nextProvider>
-    </RecoilRoot>
-  </React.StrictMode>,
-  rootElement
+	<React.StrictMode>
+		<RecoilRoot>
+			<I18nextProvider i18n={i18n}>
+				<MuiThemeProvider theme={theme}>
+					<StylesProvider injectFirst>
+						<Provider store={store}>
+							<QueryClientProvider client={queryClient}>
+								<BrowserRouter>
+									<ErrorBoundary FallbackComponent={ErrorFallback}>
+										<App />
+										<ToastContainer />
+									</ErrorBoundary>
+								</BrowserRouter>
+							</QueryClientProvider>
+						</Provider>
+					</StylesProvider>
+				</MuiThemeProvider>
+			</I18nextProvider>
+		</RecoilRoot>
+	</React.StrictMode>,
+	rootElement
 );

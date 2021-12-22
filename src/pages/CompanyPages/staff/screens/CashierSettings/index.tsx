@@ -69,23 +69,23 @@ const CashierSetting = () => {
 						},
 					],
 				},
-				{
-					isActive: additionalCheck,
-					rewardType: 7,
-					amount: data.referBallUzs?.toString()?.split(' ').join(''),
-					levels: [
-						{
-							requirements: [
-								{
-									type: 1,
-									amount: data.countRefer?.toString()?.split(' ').join(''),
-									unit: 'шт.',
-									condition: 'or',
-								},
-							],
-						},
-					],
-				},
+				// {
+				// 	isActive: additionalCheck,
+				// 	rewardType: 7,
+				// 	amount: data.referBallUzs?.toString()?.split(' ').join(''),
+				// 	levels: [
+				// 		{
+				// 			requirements: [
+				// 				{
+				// 					type: 1,
+				// 					amount: data.countRefer?.toString()?.split(' ').join(''),
+				// 					unit: 'шт.',
+				// 					condition: 'or',
+				// 				},
+				// 			],
+				// 		},
+				// 	],
+				// },
 			],
 		});
 	};
@@ -294,7 +294,7 @@ const CashierSetting = () => {
 						<Break height={35} />
 
 						{/* third  */}
-						<SettingRow>
+						{/* <SettingRow>
 							<SettingCol>
 								<SettingTitle>Баллы за рекомендацию</SettingTitle>
 								<Break height={15} />
@@ -312,8 +312,8 @@ const CashierSetting = () => {
 									}}
 								/>
 							</SettingCol>
-						</SettingRow>
-						<SettingRow>
+						</SettingRow> */}
+						{/* <SettingRow>
 							<SettingCol>
 								<Controller
 									rules={{
@@ -383,7 +383,7 @@ const CashierSetting = () => {
 									}}
 								/>
 							</SettingCol>
-						</SettingRow>
+						</SettingRow> */}
 					</UpSide>
 					<DownSide>
 						<Button type='submit' startIcon={<SaveIcon />}>
