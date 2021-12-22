@@ -149,7 +149,7 @@ const ReferalProgrammSection = () => {
                               ruCount({
                                 count: index,
                                 firstWord: t("people"),
-                                secondWord: t("peopleRu"),
+                                secondWord: t("people"),
                                 thirdWord: t("peopleRu"),
                               })
                             : null
