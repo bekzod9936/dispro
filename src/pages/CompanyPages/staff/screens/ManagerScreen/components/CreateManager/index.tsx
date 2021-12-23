@@ -80,6 +80,7 @@ const CreateManager = ({ openManager }: IProps) => {
 	});
 	const resetData = {
 		logo: '',
+	
 		comment: '',
 		firstName: '',
 		lastName: '',
@@ -140,7 +141,8 @@ const CreateManager = ({ openManager }: IProps) => {
 		} else {
 			setValue('telNumber', checkPhone.newString);
 		}
-	}, [checkPhone.check, watch('telNumber')]);
+	}, [checkPhone.check, watch('telNumber'),]);
+
 
 	const { handleUpload, deleteImage, setLoading, isLoading } = useUploadImage(
 		setLogo,
@@ -158,8 +160,9 @@ const CreateManager = ({ openManager }: IProps) => {
 
 		setValue('logo', '');
 	};
-	console.log(logo);
-	console.log(`file`, file);
+	console.log('logologo',logo);
+	console.log('isLoading',isLoading);
+	console.log(`filelink`, file);
 	return (
 		<Modal open={openManager}>
 			{/* first step */}
@@ -172,6 +175,7 @@ const CreateManager = ({ openManager }: IProps) => {
 								onClick={() => {
 									dispatch(setOpenManager(false));
 									dispatch(setStepManager(1));
+									setLogo('')
 									reset(resetData);
 								}}
 							>
@@ -393,6 +397,7 @@ const CreateManager = ({ openManager }: IProps) => {
 								onClick={() => {
 									dispatch(setOpenManager(false));
 									dispatch(setStepManager(1));
+									setLogo('')
 									reset(resetData);
 								}}
 								startIcon={<CancelIcon />}
