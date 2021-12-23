@@ -22,9 +22,10 @@ import { SECTIONS_LIMIT } from "pages/CompanyPages/services/constants";
 interface HeaderProps {
   value: string;
   onChange: (arg: string) => void;
+  total: number;
 }
 
-export const Header: React.FC<HeaderProps> = ({ value, onChange }) => {
+export const Header: React.FC<HeaderProps> = ({ value, onChange, total }) => {
   const { t } = useTranslation();
   const [createSection, setCreateSection] = useState<boolean>(false);
   const styles = useStyles();
@@ -49,7 +50,9 @@ export const Header: React.FC<HeaderProps> = ({ value, onChange }) => {
         <Title>{t("services")}</Title>
         <p>
           <b>•</b>
-          {t("youDontHaveProducts")}
+          {total > 0
+            ? `${t("totalCountOfGoods")}: ${total}`
+            : t("youDontHaveProducts")}
         </p>
       </Nav>
       <Flex>

@@ -1,4 +1,4 @@
-import { ISectionResponse } from "services/queries/servicesQueries/response.types";
+import { IGoodsResponse, ISectionResponse } from "services/queries/servicesQueries/response.types";
 
 export type createSectionFormType = {
     sections: { title: string }[]
@@ -91,7 +91,8 @@ export type PostDtoTitleType = {
     translateDesc: string,
 }
 
-export type PostDtoType = {
+export interface PostDtoType {
+    artikulCode: string,
     categoryId: number,
     unitId: number,
     currencyId: number,
@@ -103,7 +104,6 @@ export type PostDtoType = {
     priceWithDiscount: number,
     count: number,
     isCountUnlimited: boolean,
-    artikulCode: string,
     ageUnlimited: boolean,
     isSetManufacturedTime?: boolean,
     manufacturedAt?: {
@@ -135,3 +135,11 @@ export interface EditSectionType {
     section: string
 }
 
+
+export interface IGoods {
+    [id: number]: IGoodsResponse[]
+}
+
+export type sectionsObjectType = {
+    [id: number]: string
+}

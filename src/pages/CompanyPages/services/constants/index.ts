@@ -35,6 +35,7 @@ export const SECTIONS_LIMIT = 20
 
 
 export const GET_SECTIONS = 'getSections'
+export const GET_ITEMS = 'getItems'
 
 export const editModalType = {
   'section': {

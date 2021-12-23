@@ -1,36 +1,55 @@
-import { ICategory, ISectionResponse, sectionDtoType } from "services/queries/servicesQueries/response.types"
-import { languageIds } from "../constants"
-import { CreateDtoType, createSectionFormType, descType, parentSectionType, PostDtoType, PostDtoVariantType, preparationTimeType, TitleType, titleType, variantType } from "../utils/types"
+import {
+  ICategory,
+  IGoodsResponse,
+  ISectionResponse,
+  sectionDtoType,
+} from "services/queries/servicesQueries/response.types";
+import { numberWithNew } from "services/utils";
+import { languageIds } from "../constants";
+import {
+  CreateDtoType,
+  createSectionFormType,
+  descType,
+  IGoods,
+  parentSectionType,
+  PostDtoType,
+  PostDtoVariantType,
+  preparationTimeType,
+  TitleType,
+  titleType,
+  variantType,
+} from "../utils/types";
 
 export const fileToBlob = (file: File, id: string) => {
-    let formData = new FormData()
-    formData.append('itemId', id)
-    formData.append('fileType', 'goodsImage')
-    formData.append('file', file)
-    return formData
-    
-}
+  let formData = new FormData();
+  formData.append("itemId", id);
+  formData.append("fileType", "goodsImage");
+  formData.append("file", file);
+  return formData;
+};
 
 export const filesToBlob = (files: File[]) => {
-    const companyId = localStorage.getItem('companyId') || ""
-    
-    return files.map(file => fileToBlob(file, companyId))
-}
+  const companyId = localStorage.getItem("companyId") || "";
 
-export const isFieldLast = (max: number, current: number, length: number): boolean => {
-    return length < max && current === length
-}
+  return files.map((file) => fileToBlob(file, companyId));
+};
 
-
-
+export const isFieldLast = (
+  max: number,
+  current: number,
+  length: number
+): boolean => {
+  return length < max && current === length;
+};
 
 export const sectionsToSectionArray = (data: createSectionFormType) => {
+  return data.sections.map((section) => sectionFieldToDto(section.title));
+};
 
-  return data.sections.map(section => sectionFieldToDto(section.title))
-
-}
-
-export const sectionFieldToDto = (title: string, parentId?: number): sectionDtoType => {
+export const sectionFieldToDto = (
+  title: string,
+  parentId?: number
+): sectionDtoType => {
   return {
     hideInMobile: false,
     parentId: parentId || 0,
@@ -38,94 +57,88 @@ export const sectionFieldToDto = (title: string, parentId?: number): sectionDtoT
     goodsSectionTranslates: [
       {
         langId: 1,
-        translateName: title
-      }
-    ]
-  }
-}
+        translateName: title,
+      },
+    ],
+  };
+};
 
-
-export const responseCategoriesToExactCategories = (allCategories: ICategory[], categoryIds: number[]) => {
+export const responseCategoriesToExactCategories = (
+  allCategories: ICategory[],
+  categoryIds: number[]
+) => {
   return allCategories
-    .filter(category => categoryIds.includes(category.id))
-    .map(category => ({
+    .filter((category) => categoryIds.includes(category.id))
+    .map((category) => ({
       name: category.code,
       label: category.name,
-      value: category.id
-    }))
-}
+      value: category.id,
+    }));
+};
 
 export const imagesArrayToArrayObjectWithLinks = (images: string[]) => {
-  return images.map(link => ({
-    imageUrl: link
-  }))
-}
+  return images.map((link) => ({
+    imageUrl: link,
+  }));
+};
 
-export const manufacturedTimeEntityToPostEntityForm = (manufactureTime: preparationTimeType) => {
-  let constanta = ['day', 'hour', 'minute']
-  
+export const manufacturedTimeEntityToPostEntityForm = (
+  manufactureTime: preparationTimeType
+) => {
+  let constanta = ["day", "hour", "minute"];
+
   let res = constanta.reduce((acc, curr) => {
     if (manufactureTime[curr as keyof preparationTimeType]) {
       acc = {
         ...acc,
-        [curr]: manufactureTime[curr as keyof preparationTimeType]
-      }
+        [curr]: manufactureTime[curr as keyof preparationTimeType],
+      };
     }
-    return acc
-    
-  } , {})
-  
-  return res
-}
+    return acc;
+  }, {});
 
+  return res;
+};
 
-
-export const arrayToObjectWithLangIdAsKey = (array: titleType[] | descType[]) => {
+export const arrayToObjectWithLangIdAsKey = (
+  array: titleType[] | descType[]
+) => {
   return array.reduce((acc, curr) => {
-    let id = languageIds[curr.lang as keyof typeof languageIds]
+    let id = languageIds[curr.lang as keyof typeof languageIds];
     acc = {
       ...acc,
-      [id]: curr.data
-    }
-    return acc
-  } , {})
-}
+      [id]: curr.data,
+    };
+    return acc;
+  }, {});
+};
 
 export const goodsTranslatesToPostEntityForm = (data: TitleType[]) => {
+  return data.map((el) => ({
+    langId: languageIds[el.lang as keyof typeof languageIds],
+    translateName: el.title,
+    translateDesc: el.desc,
+  }));
+};
 
-
-
-  // const titlesObject = arrayToObjectWithLangIdAsKey(titles)
-  // const descriptionsObject = arrayToObjectWithLangIdAsKey(descriptions)
-  
-  // return Object.values(languageIds).map((id) => ({
-  //   langId: id,
-  //   translateName: titlesObject[id as keyof typeof titlesObject] || "",
-  //   translateDesc: descriptionsObject[id as keyof typeof titlesObject] || ""
-  // }))
-  return []
-
-}
-
-export const goodsVariantsToPostEntityForm = (variants: variantType[]): PostDtoVariantType[] => {
-
-
-  return variants.map(variant => ({
+export const goodsVariantsToPostEntityForm = (
+  variants: variantType[]
+): PostDtoVariantType[] => {
+  return variants.map((variant) => ({
     artikulCode: variant.articul,
     count: Number(variant.amount),
     price: Number(variant.price),
     priceWithDiscount: Number(variant.priceWithSale) || 0,
-    goodsVariantTranslates: variant.name.map(titleObject => ({
+    goodsVariantTranslates: variant.name.map((titleObject) => ({
       langId: languageIds[titleObject.lang as keyof typeof languageIds],
-      translateName: titleObject.data
-    }))
-  }))
-}
-
+      translateName: titleObject.data,
+    })),
+  }));
+};
 
 export const createServiceHelper = (dto: CreateDtoType): PostDtoType => {
-  const firstVariant = dto.variants[0]
-  const isServiceHasVariants = dto.variants.length > 1
+  const firstVariant = dto.variants[0];
+  const isServiceHasVariants = dto.variants.length > 1;
 
   const itemDto = {
     ageUnlimited: true,
@@ -146,68 +159,90 @@ export const createServiceHelper = (dto: CreateDtoType): PostDtoType => {
     priceWithDiscount: Number(firstVariant.priceWithSale),
     unitId: 1,
     goodsTranslates: goodsTranslatesToPostEntityForm(dto.titles),
-    goodsVariants: isServiceHasVariants ? goodsVariantsToPostEntityForm(dto.variants) : []
-  }
+    isSetManufacturedTime: dto.preparationTime,
+    goodsVariants: isServiceHasVariants
+      ? goodsVariantsToPostEntityForm(dto.variants)
+      : [],
+  };
 
   if (dto.preparationTime) {
     return {
       ...itemDto,
-      isSetManufacturedTime: dto.preparationTime,
-      manufacturedAt: manufacturedTimeEntityToPostEntityForm(dto.preparationTimeData),
-    }
+      manufacturedAt: manufacturedTimeEntityToPostEntityForm(
+        dto.preparationTimeData
+      ),
+    };
   }
 
-  return itemDto
-}
+  return itemDto;
+};
 
+export const sectionsResponseToParentChildObject = (
+  array: ISectionResponse[] | undefined
+): parentSectionType[] => {
+  if (!array) return [];
 
+  const parentSections = array.filter((section) => section.parentId === 0);
 
-export const sectionsResponseToParentChildObject = (array: ISectionResponse[] | undefined): parentSectionType[] => {
-  if (!array) return []
-
-  const parentSections = array.filter(section => section.parentId === 0);
-
-  return parentSections.map(parentSection => ({
+  return parentSections.map((parentSection) => ({
     ...parentSection,
-    children: array.filter(childSection => childSection.parentId === parentSection.id)
-  }))
-  
-}
+    children: array.filter(
+      (childSection) => childSection.parentId === parentSection.id
+    ),
+  }));
+};
 
+export const isChildHasActiveParent = (
+  parent: parentSectionType,
+  currentItemId: number | undefined
+) => {
+  return parent.children.some((section) => section.id === currentItemId);
+};
 
-export const isChildHasActiveParent = (parent: parentSectionType, currentItemId: number | undefined) => {
+export const isParentHasActiveChild = (
+  item: parentSectionType,
+  currentItemId: number | undefined
+) => {
+  return item.children.some((child) => child.id === currentItemId);
+};
 
-  return parent.children.some((section) =>
-    section.id === currentItemId
-  ) 
-}
+export const getLengthOfParentSections = (
+  array: ISectionResponse[] | undefined
+) => {
+  if (!array) return 0;
 
-export const isParentHasActiveChild = (item: parentSectionType, currentItemId: number | undefined) => {
-  return item.children.some(child => child.id === currentItemId)
-}
+  return array.filter((section) => section.parentId === 0).length;
+};
 
-export const getLengthOfParentSections = (array: ISectionResponse[] | undefined) => {
-  if(!array) return 0
+export const sectionsResponseListToOptions = (
+  array: ISectionResponse[] | undefined
+) => {
+  if (!array) return [];
 
-
-  return array.filter(section => section.parentId === 0).length
-}
-
-
-export const sectionsResponseListToOptions = (array: ISectionResponse[] | undefined) => {
-  if (!array) return []
-
-  return array.map(section => ({
+  return array.map((section) => ({
     label: section.goodsSectionTranslates[0].translateName,
     name: section.goodsSectionTranslates[0].translateName,
-    value: section.id
-  }))
+    value: section.id,
+  }));
+};
+
+export const isSectionParent = (
+  array: ISectionResponse[] | undefined,
+  id: number | undefined
+) => {
+  if (!array || !id) return true;
+
+  return array.find((section) => section.id === id)?.parentId === 0;
+};
+
+
+export const divideGoodsBySections = (goods: IGoodsResponse[]) => {
+  return goods.reduce((acc: IGoods, curr) => {
+    acc[curr.goodsSectionId] = acc[curr.goodsSectionId] ? [...acc[curr.goodsSectionId], curr] : [curr]
+    return acc
+  }, {})
 }
 
-
-export const isSectionParent = (array: ISectionResponse[] | undefined, id: number | undefined) => {
-  if (!array || !id) return true
-
-
-  return array.find(section => section.id === id)?.parentId === 0
+export const thousandsDivider = (value: number) => {
+  return numberWithNew({number: value, replaceValue: " "})
 }

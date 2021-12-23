@@ -1,3 +1,4 @@
+import { PostDtoType } from "pages/CompanyPages/services/utils/types"
 
 export type uploadImageType = {
     data: {
@@ -52,5 +53,24 @@ export interface ISectionResponse {
 export type sectionResponseType = {
     data: ISectionResponse[],
     error: null | any,
+    success: boolean
+}
+
+export interface IGoodsResponse extends PostDtoType {
+    companyId: number,
+    createdAt: string,
+    description: string,
+    id: number,
+    langId: number,
+    name: string,
+    unitCount: number,
+}
+
+export type goodsResponseType = {
+    data: {
+        goodsArr: IGoodsResponse[],
+        totalCount: number
+    },
+    error: null | unknown,
     success: boolean
 }
