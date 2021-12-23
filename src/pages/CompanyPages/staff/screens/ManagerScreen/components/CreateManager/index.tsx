@@ -80,6 +80,7 @@ const CreateManager = ({ openManager }: IProps) => {
 	});
 	const resetData = {
 		logo: '',
+	
 		comment: '',
 		firstName: '',
 		lastName: '',
@@ -140,7 +141,8 @@ const CreateManager = ({ openManager }: IProps) => {
 		} else {
 			setValue('telNumber', checkPhone.newString);
 		}
-	}, [checkPhone.check, watch('telNumber')]);
+	}, [checkPhone.check, watch('telNumber'),]);
+
 
 	const { handleUpload, deleteImage, setLoading, isLoading } = useUploadImage(
 		setLogo,
@@ -158,8 +160,9 @@ const CreateManager = ({ openManager }: IProps) => {
 
 		setValue('logo', '');
 	};
-	console.log(logo);
-	console.log(`file`, file);
+	console.log('logologo',logo);
+	console.log('isLoading',isLoading);
+	console.log(`filelink`, file);
 	return (
 		<Modal open={openManager}>
 			{/* first step */}
@@ -172,6 +175,7 @@ const CreateManager = ({ openManager }: IProps) => {
 								onClick={() => {
 									dispatch(setOpenManager(false));
 									dispatch(setStepManager(1));
+									setLogo('')
 									reset(resetData);
 								}}
 							>
@@ -251,15 +255,15 @@ const CreateManager = ({ openManager }: IProps) => {
 									<Controller
 										control={control}
 										name='firstName'
-										rules={{ required: true, pattern: /[A-Za-z]{3}/ }}
+										rules={{ required: true, pattern: /^[a-zA-Zа-яА-Я]*$/ }}
 										render={({ field }) => (
 											<Input
 												label={t('manager_name')}
 												error={errors.firstName ? true : false}
 												message={
-													errors.firstName?.type === 'required'
-														? t('requiredField')
-														: 'Вводить только буквы'
+													errors.firstName?.type === 'pattern'
+														? 'Вводить только буквы'
+														: t('requiredField')
 												}
 												type='string'
 												field={field}
@@ -275,15 +279,15 @@ const CreateManager = ({ openManager }: IProps) => {
 									<Controller
 										control={control}
 										name='lastName'
-										rules={{ required: true, pattern: /[A-Za-z]{3}/ }}
+										rules={{ required: true, pattern: /^[a-zA-Zа-яА-Я]*$/ }}
 										render={({ field }) => (
 											<Input
 												label={t('manager_lastName')}
 												error={errors.lastName ? true : false}
 												message={
-													errors.lastName?.type === 'required'
-														? t('requiredField')
-														: 'Вводить только буквы'
+													errors.lastName?.type === 'pattern'
+														? 'Вводить только буквы'
+														: t('requiredField')
 												}
 												type='string'
 												field={field}
@@ -393,6 +397,7 @@ const CreateManager = ({ openManager }: IProps) => {
 								onClick={() => {
 									dispatch(setOpenManager(false));
 									dispatch(setStepManager(1));
+									setLogo('')
 									reset(resetData);
 								}}
 								startIcon={<CancelIcon />}

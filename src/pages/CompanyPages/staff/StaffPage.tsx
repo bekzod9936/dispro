@@ -88,7 +88,8 @@ const StaffPage = () => {
 
 			{/* create new cashier  */}
 			<CreateCashier openCash={openCash} />
-			<CreateManager openManager={openManager} />
+			{location.pathname !== '/staff/manager' && 	<CreateManager openManager={openManager} />}
+		
 		</MainWrapper>
 	);
 };

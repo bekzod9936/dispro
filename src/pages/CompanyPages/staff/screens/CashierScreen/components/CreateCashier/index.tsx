@@ -127,7 +127,7 @@ const CreateCashier = ({ openCash }: IProps) => {
 									name='firstName'
 									rules={{
 										required: true,
-										pattern: /[A-Za-z]{3}/,
+										pattern: /^[a-zA-Zа-яА-Я]*$/,
 									}}
 									render={({ field }) => (
 										<Input
@@ -135,9 +135,9 @@ const CreateCashier = ({ openCash }: IProps) => {
 											label={t('cashier_name')}
 											error={errors.firstName ? true : false}
 											message={
-												errors.firstName?.type === 'required'
-													? t('requiredField')
-													: 'Вводить только буквы'
+												errors.firstName?.type === 'pattern'
+													? 'Вводить только буквы'
+													: t('requiredField')
 											}
 											type='string'
 											field={field}
@@ -153,16 +153,16 @@ const CreateCashier = ({ openCash }: IProps) => {
 								<Controller
 									control={control}
 									name='lastName'
-									rules={{ required: true, pattern: /[A-Za-z]{3}/ }}
+									rules={{ required: true, pattern: /^[a-zA-Zа-яА-Я]*$/ }}
 									render={({ field }) => (
 										<Input
 											maxLength='20'
 											label={t('cashier_lastName')}
 											error={errors.lastName ? true : false}
 											message={
-												errors.lastName?.type === 'required'
-													? t('requiredField')
-													: 'Вводить только буквы'
+												errors.lastName?.type === 'pattern'
+													? 'Вводить только буквы'
+													: t('requiredField')
 											}
 											type='string'
 											field={field}

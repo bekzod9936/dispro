@@ -14,7 +14,11 @@ import ManagerBar from './components/ManagerBar';
 import EditManager from './components/EditManager';
 import { setOpenManager } from 'services/redux/Slices/staffs';
 import CreateManager from './components/CreateManager';
-
+import {
+	
+	useLocation,
+	
+} from 'react-router-dom';
 const ManagerScreen = () => {
 	const openManager = useAppSelector((state) => state.staffs.openManager);
 	const query = useAppSelector((state) => state.staffs.query);
@@ -22,7 +26,7 @@ const ManagerScreen = () => {
 	const [isImg, setImg] = useState(false);
 	const dispatch = useAppDispatch();
 	console.log('managers', managers);
-
+	const location = useLocation();
 	const selectedManagers = useAppSelector(
 		(state) => state.staffs.selectedManagers
 	);
@@ -92,8 +96,8 @@ const ManagerScreen = () => {
 			</SideBar>
 
 			{/* create new manager */}
-			<CreateManager openManager={openManager} />
-
+		
+			{location.pathname !== '/staff/cashiers' && <CreateManager openManager={openManager} />}
 			{/* edit manager */}
 			<EditManager openEdit={openEdit} />
 		</ManagerDiv>
