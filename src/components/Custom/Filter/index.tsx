@@ -1,4 +1,4 @@
-import Button from 'components/Custom/Button';
+import Button from 'components/Custom/Buttons/Button';
 import Popover from 'components/Custom/Popover';
 import { useTranslation } from 'react-i18next';
 import Accordion from 'components/Custom/Accordion';

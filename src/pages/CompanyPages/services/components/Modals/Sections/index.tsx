@@ -1,13 +1,13 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from 'react';
 
 //packages
-import { useTranslation } from "react-i18next";
-import { FormProvider } from "react-hook-form";
+import { useTranslation } from 'react-i18next';
+import { FormProvider } from 'react-hook-form';
 
 //components
-import { IconButton } from "@material-ui/core";
-import Modal from "components/Custom/Modal";
-import Button from "components/Custom/Button";
+import { IconButton } from '@material-ui/core';
+import Modal from 'components/Custom/Modal';
+import Button from 'components/Custom/Buttons/Button';
 
 //style
 import {
@@ -19,21 +19,21 @@ import {
   CreateSectionIcon,
   CancelIcon,
   useStyles,
-} from "./style";
+} from './style';
 
 //other
-import { createSectionFormType } from "pages/CompanyPages/services/utils/types";
+import { createSectionFormType } from 'pages/CompanyPages/services/utils/types';
 import {
   useGetSections,
   usePostSection,
   useSections,
-} from "pages/CompanyPages/services/hooks";
-import { SectionField } from "../../SectionField";
+} from 'pages/CompanyPages/services/hooks';
+import { SectionField } from '../../SectionField';
 import {
   getLengthOfParentSections,
   sectionsToSectionArray,
-} from "pages/CompanyPages/services/helpers";
-import { SECTIONS_LIMIT } from "pages/CompanyPages/services/constants";
+} from 'pages/CompanyPages/services/helpers';
+import { SECTIONS_LIMIT } from 'pages/CompanyPages/services/constants';
 
 interface SectionModalProps {
   isOpen: boolean;
@@ -78,7 +78,7 @@ export const SectionModal: React.FC<SectionModalProps> = ({
   };
 
   const handleAddField = () => {
-    append({ title: "" });
+    append({ title: '' });
     //scroll to bottom
     setIsAdded(true);
   };
@@ -92,7 +92,7 @@ export const SectionModal: React.FC<SectionModalProps> = ({
   useEffect(() => {
     if (isAdded) {
       buttonRef.current?.scrollTo({
-        behavior: "smooth",
+        behavior: 'smooth',
         top: buttonRef.current?.scrollHeight,
       });
     }
@@ -104,16 +104,16 @@ export const SectionModal: React.FC<SectionModalProps> = ({
       <FormProvider {...form}>
         <Wrapper onSubmit={form.handleSubmit(onSubmit)}>
           <Header>
-            <div className="nav">
-              <h1>{t("newSection")}</h1>
+            <div className='nav'>
+              <h1>{t('newSection')}</h1>
               <IconButton onClick={handleClose}>
                 <CloseIcon />
               </IconButton>
             </div>
             {!isSingle && fieldsLimit > 0 && (
               <p>
-                Можно добавить еще {fieldsLimit}{" "}
-                {fieldsLimit === 1 ? "раздел" : "разделов"}
+                Можно добавить еще {fieldsLimit}{' '}
+                {fieldsLimit === 1 ? 'раздел' : 'разделов'}
               </p>
             )}
           </Header>
@@ -138,10 +138,10 @@ export const SectionModal: React.FC<SectionModalProps> = ({
               startIcon={<CancelIcon />}
               buttonStyle={styles.cancelButton.style}
             >
-              {t("cancel")}
+              {t('cancel')}
             </Button>
-            <Button type="submit" startIcon={<CreateSectionIcon />}>
-              {t("create")}
+            <Button type='submit' startIcon={<CreateSectionIcon />}>
+              {t('create')}
             </Button>
           </Footer>
         </Wrapper>

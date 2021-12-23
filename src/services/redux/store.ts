@@ -16,6 +16,7 @@ import qrSetting from './Slices/qrSetting';
 import financeSlice from './Slices/finance';
 import firebaseSlice from './Slices/firebase';
 import NewsSlice from './Slices/news';
+import NewsSettingSlice from './Slices/setting';
 
 export const store = configureStore({
   reducer: {
@@ -36,6 +37,7 @@ export const store = configureStore({
     qrSetting: qrSetting,
     finance: financeSlice,
     firebaseSlice: firebaseSlice,
+    newsetting: NewsSettingSlice,
   },
 });
 export type RootState = ReturnType<typeof store.getState>;

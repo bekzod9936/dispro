@@ -1,10 +1,10 @@
-import { IconButton } from "@material-ui/core";
-import Modal from "components/Custom/Modal";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { IconButton } from '@material-ui/core';
+import Modal from 'components/Custom/Modal';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   selectedCompany,
   setSelectCompany,
-} from "services/atoms/admin_companies";
+} from 'services/atoms/admin_companies';
 import {
   ModalContent,
   ModalHead,
@@ -12,11 +12,11 @@ import {
   ModalBody,
   ModalText,
   ModalAction,
-} from "./style";
-import { ReactComponent as Close } from "assets/icons/IconsInfo/close.svg";
-import Button from "components/Custom/Button";
-import { useTranslation } from "react-i18next";
-import useCompany from "./useCompany";
+} from './style';
+import { ReactComponent as Close } from 'assets/icons/IconsInfo/close.svg';
+import Button from 'components/Custom/Buttons/Button';
+import { useTranslation } from 'react-i18next';
+import useCompany from './useCompany';
 
 const CompanyModal = () => {
   const { t } = useTranslation();
@@ -25,7 +25,7 @@ const CompanyModal = () => {
   const { enterCompany } = useCompany();
 
   const handleEnter = () => {
-    console.log(sCompany, "company info");
+    console.log(sCompany, 'company info');
     enterCompany.mutate({
       id: sCompany.id,
       type: sCompany.type,
@@ -49,16 +49,16 @@ const CompanyModal = () => {
         <ModalAction>
           <Button
             buttonStyle={{
-              bgcolor: "#fff",
-              color: "#223367",
+              bgcolor: '#fff',
+              color: '#223367',
             }}
             onClick={() => {
               setCompany({});
             }}
           >
-            {t("cancel")}
+            {t('cancel')}
           </Button>
-          <Button onClick={handleEnter}>{t("enter")}</Button>
+          <Button onClick={handleEnter}>{t('enter')}</Button>
         </ModalAction>
       </ModalContent>
     </Modal>

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import Button from 'components/Custom/Button';
+import Button from 'components/Custom/Buttons/Button';
 import { useTranslation } from 'react-i18next';
 import { IconButton } from '@material-ui/core';
 import useWindowWidth from 'services/hooks/useWindowWidth';

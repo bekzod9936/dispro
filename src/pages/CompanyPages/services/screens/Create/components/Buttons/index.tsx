@@ -1,9 +1,9 @@
-import Button from "components/Custom/Button";
-import { QuitModal } from "pages/CompanyPages/services/components/Modals/Quit";
-import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useHistory } from "react-router-dom";
-import { cancelButtonStyle, CancelIcon, SaveIcon } from "./style";
+import Button from 'components/Custom/Buttons/Button';
+import { QuitModal } from 'pages/CompanyPages/services/components/Modals/Quit';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router-dom';
+import { cancelButtonStyle, CancelIcon, SaveIcon } from './style';
 
 interface ButtonsProps {}
 
@@ -21,7 +21,7 @@ export const Buttons: React.FC<ButtonsProps> = () => {
   };
 
   const handleQuit = () => {
-    history.push("main");
+    history.push('main');
   };
 
   return (
@@ -32,10 +32,10 @@ export const Buttons: React.FC<ButtonsProps> = () => {
         buttonStyle={cancelButtonStyle.button}
         startIcon={<CancelIcon />}
       >
-        {t("cancel")}
+        {t('cancel')}
       </Button>
-      <Button type="submit" startIcon={<SaveIcon />}>
-        {t("save")}
+      <Button type='submit' startIcon={<SaveIcon />}>
+        {t('save')}
       </Button>
 
       <QuitModal onQuit={handleQuit} onStay={handleClose} isOpen={leaveModal} />

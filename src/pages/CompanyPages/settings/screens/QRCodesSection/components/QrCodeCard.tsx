@@ -22,7 +22,7 @@ import { Break } from '../../../styles/index';
 import { OptionsList, OptionsListItem } from 'styles/CustomStyles';
 import { useTranslation } from 'react-i18next';
 import { COLORS } from 'services/Types/enums';
-import Button from 'components/Custom/Button';
+import Button from 'components/Custom/Buttons/Button';
 import { copyToClipboard } from 'services/utils';
 import { IconButton } from '@material-ui/core';
 

@@ -641,5 +641,8 @@
   "editSection": "Редактирование раздела",
   "editSubSection": "Редактирование подраздела",
   "addingTitleAndDescOnAnotherLang": "Добавление названия и описания на другом языке",
-  "addTitleOnAnotherLang": "Добавить назвaние на другом языке"
+  "addTitleOnAnotherLang": "Добавить назвaние на другом языке",
+  "searchbyqrcode": "Поиск по QR",
+  "suspiciouscustomers": "Отслеживать подозрительных клиентов",
+  "toomanypurchases": "Оповестим, если какой-то клиент делает слишком много покупок"
 }

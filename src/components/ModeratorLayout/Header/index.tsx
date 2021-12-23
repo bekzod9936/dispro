@@ -1,19 +1,19 @@
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
-import { useAppDispatch, useAppSelector } from "services/redux/hooks";
-import Button from "../../Custom/Button";
-import { useHistory } from "react-router";
-import Modal from "../../Custom/Modal";
-import LogoDef from "assets/icons/SideBar/logodefault.png";
-import { IconButton } from "@material-ui/core";
+import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
+import Button from '../../Custom/Buttons/Button';
+import { useHistory } from 'react-router';
+import Modal from '../../Custom/Modal';
+import LogoDef from 'assets/icons/SideBar/logodefault.png';
+import { IconButton } from '@material-ui/core';
 
-import Logo from "assets/icons/SideBar/logo.png";
-import { setCompanyInfo } from "services/redux/Slices/partnerSlice";
-import { setInfoData, initialState } from "services/redux/Slices/info/info";
+import Logo from 'assets/icons/SideBar/logo.png';
+import { setCompanyInfo } from 'services/redux/Slices/partnerSlice';
+import { setInfoData, initialState } from 'services/redux/Slices/info/info';
 
-import useWindowWidth from "services/hooks/useWindowWidth";
-import FullModal from "components/Custom/FullModal";
+import useWindowWidth from 'services/hooks/useWindowWidth';
+import FullModal from 'components/Custom/FullModal';
 import {
   Container,
   SearchIcon,
@@ -36,7 +36,7 @@ import {
   WrapClose,
   WrapperIcon,
   Box1,
-} from "./style";
+} from './style';
 
 const Header = () => {
   const { t } = useTranslation();
@@ -53,32 +53,32 @@ const Header = () => {
     <Content>
       <Button
         buttonStyle={{
-          bgcolor: width > 600 ? "white" : "#eff0fd",
-          color: width > 600 ? "#223367" : "#606EEA",
+          bgcolor: width > 600 ? 'white' : '#eff0fd',
+          color: width > 600 ? '#223367' : '#606EEA',
           weight: 500,
         }}
         margin={{
-          laptop: "30px 0 0",
+          laptop: '30px 0 0',
         }}
         onClick={() => setOpen(true)}
       >
-        {t("logout")}
+        {t('logout')}
         <LogOutIcon />
       </Button>
 
       <Modal onClose={(v: boolean) => setOpen(v)} open={open}>
         <ModelContent>
-          <ModelTitle>{t("sureleave")}</ModelTitle>
+          <ModelTitle>{t('sureleave')}</ModelTitle>
           <ModalWrap>
             <Button
               buttonStyle={{
-                bgcolor: width > 600 ? "white" : "#eff0fd",
-                color: width > 600 ? "#223367" : "#606EEA",
+                bgcolor: width > 600 ? 'white' : '#eff0fd',
+                color: width > 600 ? '#223367' : '#606EEA',
                 weight: 500,
               }}
               margin={{
-                laptop: "0 30px 0 0",
-                mobile: "0 10px 0 0",
+                laptop: '0 30px 0 0',
+                mobile: '0 10px 0 0',
               }}
               onClick={() => {
                 setOpen(false);
@@ -86,24 +86,24 @@ const Header = () => {
               startIcon={width > 600 ? <CloseIcon /> : null}
               endIcon={width < 600 ? <CloseIcon /> : null}
             >
-              {t("cancel")}
+              {t('cancel')}
             </Button>
             <Button
               buttonStyle={{
-                color: "white",
-                bgcolor: "#606EEA",
+                color: 'white',
+                bgcolor: '#606EEA',
               }}
               onClick={() => {
                 setOpen(false);
                 setModal(false);
                 localStorage.clear();
-                history.push("/admin");
+                history.push('/admin');
                 dispatch(setCompanyInfo({}));
                 dispatch(setInfoData({ ...initialState?.data }));
               }}
               endIcon={<LogOutWhiteIcon />}
             >
-              {t("logout")}
+              {t('logout')}
             </Button>
           </ModalWrap>
         </ModelContent>
@@ -114,7 +114,7 @@ const Header = () => {
   return (
     <Container>
       <WrapLogo>
-        <LogoIcon src={Logo} alt="logo" />
+        <LogoIcon src={Logo} alt='logo' />
         <TitleLogo>DIS-COUNT (Moderator)</TitleLogo>
       </WrapLogo>
       <Box1>
@@ -127,16 +127,16 @@ const Header = () => {
           <>
             <Button
               buttonStyle={{
-                bgcolor: "transparent",
+                bgcolor: 'transparent',
               }}
               onClick={() => {
                 setModal(true);
               }}
             >
               <Img
-                src={infoData?.logo === "" ? LogoDef : infoData?.logo}
-                size="small"
-                alt="logo"
+                src={infoData?.logo === '' ? LogoDef : infoData?.logo}
+                size='small'
+                alt='logo'
                 onError={(e: any) => {
                   e.target.onerror = null;
                   e.target.src = LogoDef;
@@ -144,7 +144,7 @@ const Header = () => {
               />
               <WrapPop>
                 <Name fontSize={16}>{infoData?.name}</Name>
-                <TextCompany>{t("myCompany")}</TextCompany>
+                <TextCompany>{t('myCompany')}</TextCompany>
               </WrapPop>
               <ArrowIcon marginLeft={true} />
             </Button>

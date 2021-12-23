@@ -1,14 +1,14 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 //packages
-import { FieldArrayWithId } from "react-hook-form";
-import { useTranslation } from "react-i18next";
+import { FieldArrayWithId } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 //components
-import { IconButton } from "@material-ui/core";
-import Button from "components/Custom/Button";
-import Modal from "components/Custom/Modal";
-import MultiSelect from "components/Custom/MultiSelect";
+import { IconButton } from '@material-ui/core';
+import Button from 'components/Custom/Buttons/Button';
+import Modal from 'components/Custom/Modal';
+import MultiSelect from 'components/Custom/MultiSelect';
 
 //style
 import {
@@ -18,17 +18,17 @@ import {
   CancelIcon,
   SaveIcon,
   useStyles,
-} from "./style";
+} from './style';
 
 //other
-import { FormFieldTypes } from "pages/CompanyPages/services/utils/types";
-import { languages } from "pages/CompanyPages/services/constants";
+import { FormFieldTypes } from 'pages/CompanyPages/services/utils/types';
+import { languages } from 'pages/CompanyPages/services/constants';
 
 interface LanguagesProps {
   title: string;
   open: boolean;
   onClose: () => void;
-  fields: FieldArrayWithId<FormFieldTypes, "titles" | "descriptions", "id">[];
+  fields: FieldArrayWithId<FormFieldTypes, 'titles' | 'descriptions', 'id'>[];
   onConfirm: (e: string[]) => void;
 }
 
@@ -65,35 +65,35 @@ export const LanguagesModal: React.FC<LanguagesProps> = ({
   return (
     <Modal width={modal.style} open={open}>
       <Wrapper>
-        <div className="header">
+        <div className='header'>
           <h3>{t(title)}</h3>
           <IconButton onClick={onClose}>
             <CloseIcon />
           </IconButton>
         </div>
-        <div className="main">
+        <div className='main'>
           <MultiSelect
             options={handleSortOptions(languages, fields)}
             value={selectedLanguages}
             onChange={handleChange}
             isMulti
             selectStyle={input.style}
-            iconleft="25px"
+            iconleft='25px'
             icon={<LanguageIcon />}
-            placeholder={t("chooseLanguage")}
+            placeholder={t('chooseLanguage')}
           />
         </div>
-        <div className="footer">
+        <div className='footer'>
           <Button
             onClick={onClose}
             margin={button.margin}
             startIcon={<CancelIcon />}
             buttonStyle={button.style}
           >
-            {t("cancel")}
+            {t('cancel')}
           </Button>
           <Button onClick={handleConfirm} startIcon={<SaveIcon />}>
-            {t("save")}
+            {t('save')}
           </Button>
         </div>
       </Wrapper>
