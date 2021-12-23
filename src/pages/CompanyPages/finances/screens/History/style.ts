@@ -7,7 +7,7 @@ import { ReactComponent as Discount } from 'assets/icons/StatistisPage/discount.
 import { ReactComponent as Pink } from 'assets/icons/StatistisPage/app.svg';
 import { ReactComponent as Excel } from 'assets/icons/FinanceIcons/excel.svg';
 import { ReactComponent as Close } from 'assets/icons/IconsInfo/close.svg';
-import { ReactComponent as Trash } from 'assets/icons/IconsInfo/trash.svg';
+import { ReactComponent as Trash } from 'assets/icons/delete.svg';
 import { ReactComponent as Save } from 'assets/icons/IconsInfo/save.svg';
 import { ReactComponent as Close1 } from 'assets/icons/SideBar/close.svg';
 
@@ -155,6 +155,7 @@ export const WrapSelectV = styled.div`
 
 export const WrapComment = styled.div`
   text-overflow: ellipsis;
+  text-transform: none !important;
   max-width: 200px;
   overflow: hidden;
   font-style: normal;
@@ -291,4 +292,34 @@ export const CloseWrapBut = styled.div`
   @media (max-width: ${device.mobile}) {
     display: none;
   }
+`;
+
+export const WrapDeleteModal = styled.div`
+  padding: 30px;
+
+  @media (max-width: ${device.mobile}) {
+    width: 290px;
+    padding: 15px;
+  }
+`;
+export const WrapDeleteTitle = styled.div`
+  font-weight: bold;
+  font-size: 18px;
+  color: #223367;
+  @media (max-width: ${device.mobile}) {
+    font-size: 16px;
+  }
+`;
+export const WrapDeleteComment = styled.div`
+  font-weight: normal;
+  font-size: 16px;
+  color: #223367;
+  margin: 15px 0;
+  word-break: break-all;
+`;
+
+export const WrapDeleteButtons = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: center;
 `;

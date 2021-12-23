@@ -44,6 +44,11 @@ import {
   WrapComTitle,
   LabelCom,
   CloseWrapBut,
+  DeleteIcon1,
+  WrapDeleteModal,
+  WrapDeleteTitle,
+  WrapDeleteComment,
+  WrapDeleteButtons,
 } from './style';
 
 const Payment = () => {
@@ -53,7 +58,9 @@ const Payment = () => {
   const [rowData, setRowData] = useState<any>({});
   const [comment, setComment] = useState<string>('');
   const [open, setOpen] = useState(false);
-  const [disable, setDisable] = useState<boolean>(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [id, setId] = useState<any>(null);
+
   const data = useAppSelector((state) => state.finance.historyFinance.data);
   const total = useAppSelector((state) => state.finance.historyFinance.total);
   const between = useAppSelector(
@@ -104,6 +111,7 @@ const Payment = () => {
   };
 
   const handleRow = (e: any) => {
+    setId(e.id);
     if (e.col13 !== '') {
       dispatch(
         setSideDrawer({
@@ -113,8 +121,7 @@ const Payment = () => {
             <SideDrawer
               onAllClose={handleAllClose}
               handleEdit={() => handleEdit(e.col13)}
-              handleDelete={() => handleDelete(e.id)}
-              disable={disable}
+              handleDelete={() => handleDelete()}
               comment={e.col13}
             />
           ),
@@ -146,25 +153,14 @@ const Payment = () => {
     );
   };
 
-  const handleDelete = (id: any) => {
-    resComment.mutate(
-      {
-        chequeId: id,
-        chequeComment: '',
-      },
-      {
-        onSuccess: () => {
-          handleAllClose();
-          setDisable(false);
-        },
-      }
-    );
+  const handleDelete = () => {
+    setDeleteOpen(true);
   };
 
   const handleSave = () => {
     resComment.mutate(
       {
-        chequeId: rowData?.id,
+        chequeId: rowData.id,
         chequeComment: comment,
       },
       {
@@ -213,10 +209,11 @@ const Payment = () => {
               isAvatar={true}
               onAllClose={handleAllClose}
               handleEdit={(comment: any) => handleEdit(comment)}
-              handleDelete={(id: any) => handleDelete(id)}
+              handleDelete={(id: any) => handleDelete()}
               disable={resComment.isLoading}
               comment={true}
               onClickRow={handleRow}
+         
             />
           );
         }
@@ -303,7 +300,17 @@ const Payment = () => {
                       maxHeight={'300px'}
                       resize={'vertical'}
                       value={comment}
-                      onChange={(e: any) => setComment(e.target.value)}
+                      onChange={(e: any) => {
+                        if (width > 1000) {
+                          setComment(e.target.value);
+                        } else {
+                          if (e.target.value.length <= 100) {
+                            setComment(e.target.value);
+                          } else {
+                            setComment(e.target.value.substring(0, 100));
+                          }
+                        }
+                      }}
                       maxLength={100}
                       title={
                         <LabelCom>
@@ -349,6 +356,61 @@ const Payment = () => {
                   </Button>
                 </WrapButtonsModal>
               </WrapModalComment>
+            </Modal>
+            <Modal open={deleteOpen}>
+              <WrapDeleteModal>
+                <WrapDeleteTitle>{t('areyousuredelete')}</WrapDeleteTitle>
+                <WrapDeleteComment>{comment}</WrapDeleteComment>
+                <WrapDeleteButtons>
+                  <Button
+                    buttonStyle={{
+                      bgcolor: width > 600 ? 'white' : '#eff0fd',
+                      color: width > 600 ? '#223367' : '#606EEA',
+                      weight: 500,
+                    }}
+                    margin={{
+                      laptop: '0 30px 0 0',
+                      mobile: '0 10px 0 0',
+                    }}
+                    padding={{ mobile: '0 10px' }}
+                    startIcon={width > 600 ? <CancelIcon /> : null}
+                    endIcon={width < 600 ? <CancelIcon /> : null}
+                    onClick={() => {
+                      setDeleteOpen(false);
+                    }}
+                  >
+                    {t('cancel')}
+                  </Button>
+                  <Button
+                    buttonStyle={{
+                      color: 'white',
+                      bgcolor: '#FF5E68',
+                      weight: 500,
+                    }}
+                    padding={{ mobile: '0 10px' }}
+                    startIcon={width > 600 ? <DeleteIcon1 /> : null}
+                    endIcon={width < 600 ? <DeleteIcon1 /> : null}
+                    disabled={resComment.isLoading}
+                    onClick={() => {
+                      resComment.mutate(
+                        {
+                          chequeId: rowData.id,
+                          chequeComment: '',
+                        },
+                        {
+                          onSuccess: () => {
+                            handleAllClose();
+
+                            setDeleteOpen(false);
+                          },
+                        }
+                      );
+                    }}
+                  >
+                    {t('delete')}
+                  </Button>
+                </WrapDeleteButtons>
+              </WrapDeleteModal>
             </Modal>
             {data.length === 0 ? null : (
               <WrapPag>

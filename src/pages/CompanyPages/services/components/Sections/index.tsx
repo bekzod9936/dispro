@@ -1,66 +1,127 @@
-import React, { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
+//packages
 import { useTranslation } from "react-i18next";
-import { Item, Wrapper } from "./style";
+import { IconButton } from "@material-ui/core";
 
-interface SectionsProps {}
+//components
+import Spinner from "components/Helpers/Spinner";
+import { SubSectionModal } from "../Modals/SubSection";
+import { SectionPopover } from "../../screens/Main/components/SectionPopover";
 
-const sections = [
-  {
-    title: "Ракеты",
-    parentId: 0,
-    id: 1,
-  },
-  {
-    title: "Двигатели",
-    parentId: 1,
-    id: 1,
-  },
-  {
-    title: "Космонавты",
-    parentId: 1,
-    id: 2,
-  },
-  {
-    title: "Костюмы",
-    parentId: 1,
-    id: 3,
-  },
-];
+//other
+import {
+  isChildHasActiveParent,
+  isParentHasActiveChild,
+  isSectionParent,
+  sectionsResponseToParentChildObject,
+} from "../../helpers";
+import { useGetSections } from "../../hooks";
 
-export const Sections: React.FC<SectionsProps> = () => {
+//style
+import { Item, ItemWrapper, MenuIcon, Wrapper } from "./style";
+import { modalsDefaults } from "../../constants";
+import { EditSectionModal } from "../Modals/EditModal";
+import { ISectionResponse } from "services/queries/servicesQueries/response.types";
+
+interface SectionsProps {
+  currentSection: null | ISectionResponse;
+  setCurrentSection: (arg: ISectionResponse | null) => void;
+}
+
+export const Sections: React.FC<SectionsProps> = ({
+  setCurrentSection,
+  currentSection,
+}) => {
   const { t } = useTranslation();
-  const [currentSection, setCurrentSection] = useState<
-    null | typeof sections[0]
-  >(null);
 
-  const handleClickOnSection = (section: null | typeof sections[0]) => {
-    setCurrentSection(section);
+  const currentSectionRef = useRef<null | HTMLDivElement>(null);
+
+  const [modals, setModals] = useState(modalsDefaults);
+
+  const { data, isLoading } = useGetSections();
+
+  const parentSections = sectionsResponseToParentChildObject(data?.data);
+
+  const handleClickOnSection = (section: null | ISectionResponse) => {
+    return (event: React.MouseEvent<HTMLDivElement>) => {
+      currentSectionRef.current = event.currentTarget;
+
+      setCurrentSection(section);
+    };
   };
 
-  console.log(currentSection);
+  const handleClose = (modal: keyof typeof modals) => {
+    return () => setModals((prev) => ({ ...prev, [modal]: false }));
+  };
+
+  const handleOpen = (modal: keyof typeof modals) => {
+    return () => setModals((prev) => ({ ...prev, [modal]: true }));
+  };
+
+  useEffect(() => {
+    currentSectionRef.current?.scrollIntoView({
+      block: "nearest",
+      behavior: "smooth",
+    });
+  }, [currentSection]);
+
+  if (isLoading) {
+    return (
+      <Wrapper>
+        <Spinner size={30} />
+      </Wrapper>
+    );
+  }
 
   return (
     <Wrapper>
-      <Item
-        onClick={() => handleClickOnSection(null)}
-        isSelected={!currentSection}
-      >
+      <Item onClick={handleClickOnSection(null)} isSelected={!currentSection}>
         <h4>{t("allGoods")}</h4>
       </Item>
-      {sections.map((item) => (
-        <Item
-          key={item.id}
-          onClick={() => handleClickOnSection(item)}
-          isChild={item.parentId === 1}
-          isSelected={
-            currentSection?.id === item.id &&
-            currentSection?.parentId === item.parentId
-          }
-        >
-          <h4>{item.title}</h4>
-          <div>more</div>
-        </Item>
+
+      {parentSections.map((item) => (
+        <ItemWrapper>
+          <Item
+            onClick={handleClickOnSection(item)}
+            isSelected={
+              currentSection?.id === item.id ||
+              isParentHasActiveChild(item, currentSection?.id)
+            }
+          >
+            <h4>{item.goodsSectionTranslates[0].translateName}</h4>
+            <SectionPopover
+              onOpenModal={handleOpen}
+              isParent
+              isHiddenInMobile={item.hideInMobile}
+            />
+          </Item>
+          {(currentSection?.id === item.id ||
+            isChildHasActiveParent(item, currentSection?.id)) &&
+            item.children.map((child) => (
+              <Item
+                onClick={handleClickOnSection(child)}
+                isSelected={currentSection?.id === child.id}
+                isChild
+              >
+                <h4>{child.goodsSectionTranslates[0].translateName}</h4>
+                <IconButton children={<MenuIcon />} />
+              </Item>
+            ))}
+        </ItemWrapper>
       ))}
+
+      <SubSectionModal
+        parentId={currentSection?.id || 0}
+        onClose={handleClose("subSection")}
+        open={modals.subSection}
+      />
+      <EditSectionModal
+        item={currentSection}
+        open={modals.editSection}
+        onClose={handleClose("editSection")}
+        parent={isSectionParent(data?.data, currentSection?.id)}
+      />
     </Wrapper>
   );
 };

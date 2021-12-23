@@ -161,6 +161,11 @@ export const goodsSchema = yup.object().shape({
 
 
 
+export const subSectionSchema = yup.object().shape({
+    subSection: yup.string().max(30, "maxAmountOfCharacters").required('enterSubSectionName')
+})
 
 
-
+export const editSectionSchema = yup.object().shape({
+    section: yup.string().max(30, "maxAmountOfCharacters").required('requiredField')
+})

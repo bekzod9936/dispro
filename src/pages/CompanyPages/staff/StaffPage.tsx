@@ -31,7 +31,8 @@ const StaffPage = () => {
 	const history = useHistory();
 	const { t } = useTranslation();
 	const { menuItems, staffPath } = useStaffRoute();
-	const { openManager, openCash } = useAppSelector((state) => state.staffs);
+	const { openCash } = useAppSelector((state) => state.staffs);
+	const openManager = useAppSelector((state) => state.staffs.openManager);
 
 	const [closeFun, setCloseFun] = useState<any>();
 	const handleClose = (e: any) => {

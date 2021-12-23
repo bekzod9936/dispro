@@ -22,6 +22,7 @@ import {
 
 //other
 import { FormFieldTypes } from "pages/CompanyPages/services/utils/types";
+import { languages } from "pages/CompanyPages/services/constants";
 
 interface LanguagesProps {
   title: string;
@@ -30,24 +31,6 @@ interface LanguagesProps {
   fields: FieldArrayWithId<FormFieldTypes, "titles" | "descriptions", "id">[];
   onConfirm: (e: string[]) => void;
 }
-
-const languages = [
-  {
-    value: 0,
-    label: "Русский",
-    name: "(Рус)",
-  },
-  {
-    value: 1,
-    label: "Английский",
-    name: "(Eng)",
-  },
-  {
-    value: 2,
-    label: "Узбекский",
-    name: "(Uzb)",
-  },
-];
 
 export const LanguagesModal: React.FC<LanguagesProps> = ({
   title,

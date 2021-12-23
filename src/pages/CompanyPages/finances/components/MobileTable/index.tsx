@@ -52,7 +52,6 @@ const MobileTable = ({
   handleEdit = () => {},
   handleDelete = () => {},
   onClickRow = () => {},
-  disable,
   comment,
 }: Props) => {
   const [open, setOpen] = useState(false);
@@ -157,7 +156,6 @@ const MobileTable = ({
                     onAllClose={onAllClose}
                     handleEdit={() => handleEdit(a.values.col13)}
                     handleDelete={() => handleDelete(a.values.id)}
-                    disable={disable}
                     comment={a.values.col13}
                   />
                 ) : null}

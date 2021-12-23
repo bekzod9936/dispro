@@ -83,6 +83,16 @@ export const useStyles = () => {
                 bgcolor: "#fff",
                 weight: 500
             }
+        },
+        button: {
+            width: {
+                minwidth: 165
+            }
+        },
+        input: {
+            margin: {
+                desktop: "0 0 25px 0", laptop: "0 0 25px 0"
+            }
         }
     }
 }
