@@ -123,7 +123,7 @@ export const MobileReset = styled.div`
   }
 
   @media (max-width: ${device.mobile}) {
-    margin: 10px 0 0px 0px;
+    margin: 10px 0 0 10px;
     padding: 0 2px 0 12px;
     font-size: 12px;
     height: 25px;

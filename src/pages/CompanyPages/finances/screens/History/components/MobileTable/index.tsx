@@ -310,7 +310,9 @@ const MobileTable = ({
                         padding={{ mobile: '0 10px' }}
                         startIcon={width > 600 ? <CancelIcon /> : null}
                         endIcon={width < 600 ? <CancelIcon /> : null}
-                        onClick={() => {}}
+                        onClick={() => {
+                          setDeleteOpen(false);
+                        }}
                       >
                         {t('cancel')}
                       </Button>
