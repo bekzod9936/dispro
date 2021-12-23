@@ -141,7 +141,7 @@ export const goodsSchema = yup.object().shape({
 
             else throw createError({
                 message: 'atLeastOneFieldRequired',
-                path: `${path}.days`
+                path: `${path}.day`
             })
         }),
     }),

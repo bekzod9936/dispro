@@ -641,5 +641,6 @@
   "editSection": "Редактирование раздела",
   "editSubSection": "Редактирование подраздела",
   "addingTitleAndDescOnAnotherLang": "Добавление названия и описания на другом языке",
-  "addTitleOnAnotherLang": "Добавить назвaние на другом языке"
+  "addTitleOnAnotherLang": "Добавить назвaние на другом языке",
+  "totalCountOfGoods": "Всего товаров"
 }

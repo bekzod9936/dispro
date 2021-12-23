@@ -91,7 +91,8 @@ export type PostDtoTitleType = {
     translateDesc: string,
 }
 
-export type PostDtoType = {
+export interface PostDtoType {
+    artikulCode: string,
     categoryId: number,
     unitId: number,
     currencyId: number,
@@ -103,7 +104,6 @@ export type PostDtoType = {
     priceWithDiscount: number,
     count: number,
     isCountUnlimited: boolean,
-    artikulCode: string,
     ageUnlimited: boolean,
     isSetManufacturedTime?: boolean,
     manufacturedAt?: {
