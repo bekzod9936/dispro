@@ -165,13 +165,17 @@ const EditCashier = ({ openEdit, refetch }: IProps) => {
 								<Controller
 									control={control}
 									name='firstName'
-									rules={{ required: true }}
+									rules={{ required: true, pattern: /^[a-zA-Zа-яА-Я]*$/ }}
 									render={({ field }) => (
 										<Input
 											maxLength='20'
 											label={t('cashier_name')}
 											error={errors.firstName ? true : false}
-											message={t('requiredField')}
+											message={
+												errors.firstName?.type === 'pattern'
+													? 'Вводить только буквы'
+													: t('requiredField')
+											}
 											type='string'
 											field={field}
 											margin={{
@@ -186,13 +190,17 @@ const EditCashier = ({ openEdit, refetch }: IProps) => {
 								<Controller
 									control={control}
 									name='lastName'
-									rules={{ required: true }}
+									rules={{ required: true, pattern: /^[a-zA-Zа-яА-Я]*$/ }}
 									render={({ field }) => (
 										<Input
 											maxLength='20'
 											label={t('cashier_lastName')}
 											error={errors.lastName ? true : false}
-											message={t('requiredField')}
+											message={
+												errors.lastName?.type === 'pattern'
+													? 'Вводить только буквы'
+													: t('requiredField')
+											}
 											type='string'
 											field={field}
 											margin={{
