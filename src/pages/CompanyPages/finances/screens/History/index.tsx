@@ -60,7 +60,7 @@ const Payment = () => {
   const [open, setOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [id, setId] = useState<any>(null);
-  const [disable, setDisable] = useState<boolean>(false);
+
   const data = useAppSelector((state) => state.finance.historyFinance.data);
   const total = useAppSelector((state) => state.finance.historyFinance.total);
   const between = useAppSelector(
@@ -122,7 +122,6 @@ const Payment = () => {
               onAllClose={handleAllClose}
               handleEdit={() => handleEdit(e.col13)}
               handleDelete={() => handleDelete()}
-              disable={disable}
               comment={e.col13}
             />
           ),
@@ -161,7 +160,7 @@ const Payment = () => {
   const handleSave = () => {
     resComment.mutate(
       {
-        chequeId: id,
+        chequeId: rowData.id,
         chequeComment: comment,
       },
       {
@@ -214,6 +213,7 @@ const Payment = () => {
               disable={resComment.isLoading}
               comment={true}
               onClickRow={handleRow}
+         
             />
           );
         }
@@ -394,13 +394,13 @@ const Payment = () => {
                     onClick={() => {
                       resComment.mutate(
                         {
-                          chequeId: id,
+                          chequeId: rowData.id,
                           chequeComment: '',
                         },
                         {
                           onSuccess: () => {
                             handleAllClose();
-                            setDisable(false);
+
                             setDeleteOpen(false);
                           },
                         }

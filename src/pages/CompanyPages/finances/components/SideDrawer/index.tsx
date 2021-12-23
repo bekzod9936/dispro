@@ -18,7 +18,7 @@ interface Props {
   handleEdit?: () => void;
   handleDelete?: () => void;
   handleClickCommet?: () => void;
-  disable?: boolean;
+
   comment?: string;
 }
 
@@ -27,7 +27,7 @@ const SideDrawer = ({
   handleEdit = () => {},
   handleDelete = () => {},
   handleClickCommet = () => {},
-  disable,
+
   comment,
 }: Props) => {
   const { t } = useTranslation();
@@ -86,7 +86,6 @@ const SideDrawer = ({
             }}
             margin={{ mobile: '0 0 20px 0' }}
             startIcon={<DeleteIcon1 />}
-            disabled={disable}
             onClick={handleDelete}
           >
             {t('deletecomment')}
