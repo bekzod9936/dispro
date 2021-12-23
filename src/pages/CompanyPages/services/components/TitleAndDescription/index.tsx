@@ -1,13 +1,7 @@
 import { useState } from "react";
 
 //packages
-import {
-  Control,
-  Controller,
-  FieldErrors,
-  useFieldArray,
-  useFormContext,
-} from "react-hook-form";
+import { Controller, useFieldArray, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
 //components
@@ -22,37 +16,28 @@ import { Wrapper } from "./style";
 //other
 import { FormFieldTypes } from "pages/CompanyPages/services/utils/types";
 
-interface IError extends FieldErrors<FormFieldTypes> {
-  [name: string]: any;
-}
-interface DynamicFieldsProps {
-  name: `variants.${number}.name`;
-  marginBottom?: string;
-  error: IError | undefined;
-}
+interface TitleAndDescriptionProps {}
 
-export const DynamicFields: React.FC<DynamicFieldsProps> = ({
-  name,
-  marginBottom,
-  error,
-}) => {
+export const TitleAndDescription: React.FC<TitleAndDescriptionProps> = () => {
   const { t } = useTranslation();
   const [modal, setModal] = useState(false);
-
+  const { input } = useStyles();
   const {
     control,
+    clearErrors,
     formState: { errors },
   } = useFormContext<FormFieldTypes>();
+  const error = errors.titles;
 
-  const { input } = useStyles();
   const { fields, append, remove } = useFieldArray({
     control,
-    name,
+    name: "titles",
   });
 
   const handleAddField = (array: string[]) => {
-    let inputs = array.map((e) => ({ data: "", lang: e }));
+    let inputs = array.map((e) => ({ title: "", desc: "", lang: e }));
     append(inputs);
+    clearErrors("titles");
   };
 
   const handleOpen = () => {
@@ -64,11 +49,12 @@ export const DynamicFields: React.FC<DynamicFieldsProps> = ({
   };
 
   return (
-    <Wrapper marginBottom={marginBottom} isMultiple={fields.length > 1}>
+    <Wrapper isMultiple={fields.length > 1}>
       {fields.map((item, index) => (
         <div key={item.id}>
           <Controller
-            name={`${name}.${index}.data`}
+            control={control}
+            name={`titles.${index}.title`}
             render={({ field }) => (
               <Input
                 field={field}
@@ -82,15 +68,39 @@ export const DynamicFields: React.FC<DynamicFieldsProps> = ({
                   )
                 }
                 label={t("title") + ` ${item.lang}`}
-                message={error ? t(error[index]?.data?.message) : ""}
+                message={error ? t(error[index]?.title?.message || "") : ""}
+                error={error && Boolean(error[index]?.title)}
+                margin={input.margin(Boolean(error))}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name={`titles.${index}.desc`}
+            render={({ field }) => (
+              <Input
+                multiline
                 isAbsolute
-                error={error ? Boolean(error[index]) : false}
+                label={t("description") + ` ${item.lang}`}
+                field={field}
+                inputStyle={input.style(true)}
+                error={error && Boolean(error[index]?.desc)}
+                message={error ? t(error[index]?.desc?.message || "") : ""}
+                labelIcon={
+                  index > 0 ? (
+                    <ButtonIcon onClick={() => remove(index)}>
+                      <RemoveInputIcon />
+                    </ButtonIcon>
+                  ) : (
+                    <MockIcon />
+                  )
+                }
               />
             )}
           />
           {fields.length <= 2 && index === 0 && (
             <SubButton type="button" onClick={handleOpen}>
-              {t("addTitleOnAnotherLang")}
+              {t("addOnAnotherLang")}
             </SubButton>
           )}
         </div>
@@ -100,7 +110,7 @@ export const DynamicFields: React.FC<DynamicFieldsProps> = ({
         onClose={handleClose}
         onConfirm={handleAddField}
         fields={fields}
-        title={"addingTitleOnAnotherLang"}
+        title={"addingTitleAndDescOnAnotherLang"}
       />
     </Wrapper>
   );

@@ -36,7 +36,11 @@ export const Variants: React.FC<VariantsProps> = ({ disabled }) => {
     <Wrapper>
       {fields.map((item, index) => (
         <Item isLastElem={index === fields.length - 1} key={item.id}>
-          <Variant disabled={disabled} index={index} />
+          <Variant
+            isVariantAdded={fields.length > 1}
+            disabled={disabled}
+            index={index}
+          />
           <Buttons>
             {index === fields.length - 1 && fields.length <= 2 && (
               <SubButton onClick={handleAddVariant}>

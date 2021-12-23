@@ -16,13 +16,17 @@ import { useEffect } from "react";
 interface VariantProps {
   index: number;
   disabled: boolean;
+  isVariantAdded?: boolean;
 }
 
-export const Variant: React.FC<VariantProps> = ({ index, disabled }) => {
+export const Variant: React.FC<VariantProps> = ({
+  index,
+  disabled,
+  isVariantAdded,
+}) => {
   const {
     clearErrors,
     setValue,
-    control,
     formState: { errors },
   } = useFormContext<FormFieldTypes>();
 
@@ -34,15 +38,24 @@ export const Variant: React.FC<VariantProps> = ({ index, disabled }) => {
     setValue(`variants.${index}.priceWithSale`, "");
   }, [disabled]);
 
+  //! alert, govno kod
+  useEffect(() => {
+    if (!isVariantAdded) {
+      setValue(`variants.${index}.name`, [{ data: "test", lang: "(Рус)" }]);
+    } else {
+      setValue(`variants.${index}.name`, [{ data: "", lang: "(Рус)" }]);
+    }
+  }, [isVariantAdded]);
+
   return (
     <Wrapper>
-      <DynamicFields
-        error={error?.name}
-        marginBottom="15px"
-        name={`variants.${index}.name`}
-        control={control}
-        label="title"
-      />
+      {Boolean(isVariantAdded) && (
+        <DynamicFields
+          error={error?.name}
+          marginBottom="15px"
+          name={`variants.${index}.name`}
+        />
+      )}
       <GridContainer>
         <Field
           error={error?.price}

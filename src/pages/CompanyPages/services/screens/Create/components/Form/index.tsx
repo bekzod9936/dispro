@@ -16,7 +16,6 @@ import { CreateDtoType } from "pages/CompanyPages/services/utils/types";
 import { createServiceHelper } from "pages/CompanyPages/services/helpers";
 
 //components
-import { Fields } from "../Fields";
 import { Selects } from "../Selects";
 import { Variants } from "../Variants";
 import { Durations } from "../Durations";
@@ -24,6 +23,7 @@ import { Photos } from "../Photos";
 import { Buttons } from "../Buttons";
 import { Switches } from "../Switches";
 import { useCreateService } from "pages/CompanyPages/services/hooks/CreatePageHooks/mutations";
+import { TitleAndDescription } from "pages/CompanyPages/services/components/TitleAndDescription";
 
 interface FormProps {}
 
@@ -42,13 +42,14 @@ export const Form: React.FC<FormProps> = () => {
 
     mutate(createServiceHelper(transformedData));
   };
+
   console.log(form.formState.errors);
 
   return (
     <FormStyled onSubmit={form.handleSubmit(onSubmit)}>
       <FormProvider {...form}>
         <Container>
-          <Fields control={form.control} />
+          <TitleAndDescription />
           <Selects />
           <Switches dispatch={dispatch} state={state} />
           <Variants disabled={state.loyaltyType !== 1} />

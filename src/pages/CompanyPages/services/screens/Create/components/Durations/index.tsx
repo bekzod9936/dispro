@@ -34,7 +34,7 @@ export const Durations: React.FC<DurationsProps> = () => {
 
   useEffect(() => {
     if (isAtLeastOneFieldFilled) {
-      clearErrors("preparationTimeData.days");
+      clearErrors("preparationTimeData.day");
     }
   }, [isAtLeastOneFieldFilled]);
 
@@ -67,18 +67,18 @@ export const Durations: React.FC<DurationsProps> = () => {
           <h4>Задайте вашему товару время изготовления</h4>
           <GridContainer>
             <Duration
-              error={errors.preparationTimeData?.days}
-              name="preparationTimeData.days"
+              error={errors.preparationTimeData?.day}
+              name="preparationTimeData.day"
               label="days"
             />
             <Duration
-              error={errors.preparationTimeData?.hours}
-              name="preparationTimeData.hours"
+              error={errors.preparationTimeData?.hour}
+              name="preparationTimeData.hour"
               label="hours"
             />
             <Duration
-              error={errors.preparationTimeData?.minutes}
-              name="preparationTimeData.minutes"
+              error={errors.preparationTimeData?.minute}
+              name="preparationTimeData.minute"
               label="minutes"
             />
           </GridContainer>

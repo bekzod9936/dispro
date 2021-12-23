@@ -1,6 +1,6 @@
 import { ICategory, ISectionResponse, sectionDtoType } from "services/queries/servicesQueries/response.types"
 import { languageIds } from "../constants"
-import { CreateDtoType, createSectionFormType, descType, parentSectionType, PostDtoType, PostDtoVariantType, preparationTimeType, titleType, variantType } from "../utils/types"
+import { CreateDtoType, createSectionFormType, descType, parentSectionType, PostDtoType, PostDtoVariantType, preparationTimeType, TitleType, titleType, variantType } from "../utils/types"
 
 export const fileToBlob = (file: File, id: string) => {
     let formData = new FormData()
@@ -62,11 +62,20 @@ export const imagesArrayToArrayObjectWithLinks = (images: string[]) => {
 }
 
 export const manufacturedTimeEntityToPostEntityForm = (manufactureTime: preparationTimeType) => {
-  return {
-    day: manufactureTime.days || 0,
-    hour: manufactureTime.hours || 0,
-    minute: manufactureTime.minutes || 0
-  }
+  let constanta = ['day', 'hour', 'minute']
+  
+  let res = constanta.reduce((acc, curr) => {
+    if (manufactureTime[curr as keyof preparationTimeType]) {
+      acc = {
+        ...acc,
+        [curr]: manufactureTime[curr as keyof preparationTimeType]
+      }
+    }
+    return acc
+    
+  } , {})
+  
+  return res
 }
 
 
@@ -82,15 +91,19 @@ export const arrayToObjectWithLangIdAsKey = (array: titleType[] | descType[]) =>
   } , {})
 }
 
-export const goodsTranslatesToPostEntityForm = (titles: titleType[], descriptions: descType[]) => {
-  const titlesObject = arrayToObjectWithLangIdAsKey(titles)
-  const descriptionsObject = arrayToObjectWithLangIdAsKey(descriptions)
+export const goodsTranslatesToPostEntityForm = (data: TitleType[]) => {
+
+
+
+  // const titlesObject = arrayToObjectWithLangIdAsKey(titles)
+  // const descriptionsObject = arrayToObjectWithLangIdAsKey(descriptions)
   
-  return Object.values(languageIds).map((id) => ({
-    langId: id,
-    translateName: titlesObject[id as keyof typeof titlesObject] || "",
-    translateDesc: descriptionsObject[id as keyof typeof titlesObject] || ""
-  }))
+  // return Object.values(languageIds).map((id) => ({
+  //   langId: id,
+  //   translateName: titlesObject[id as keyof typeof titlesObject] || "",
+  //   translateDesc: descriptionsObject[id as keyof typeof titlesObject] || ""
+  // }))
+  return []
 
 }
 
@@ -114,30 +127,37 @@ export const createServiceHelper = (dto: CreateDtoType): PostDtoType => {
   const firstVariant = dto.variants[0]
   const isServiceHasVariants = dto.variants.length > 1
 
-
-  return {
+  const itemDto = {
     ageUnlimited: true,
     artikulCode: firstVariant.articul,
     categoryId: dto.service.value,
     count: Number(firstVariant.amount),
     currencyId: 1,
     goodsImages: imagesArrayToArrayObjectWithLinks(dto.images),
-    goodsSectionId: 1,
+    goodsSectionId: dto.section.value,
     hasGoodsVariant: isServiceHasVariants,
     hideInStores: [],
     isCountUnlimited: false,
     withPoint: Number(dto.loyaltyType) === 2,
     withDiscount: Number(dto.loyaltyType) === 1,
-    isSetManufacturedTime: dto.preparationTime,
-    manufacturedAt: manufacturedTimeEntityToPostEntityForm(dto.preparationTimeData),
     notUsePl: dto.loyaltyOff,
     positionAt: 1,
     price: Number(firstVariant.price),
     priceWithDiscount: Number(firstVariant.priceWithSale),
     unitId: 1,
-    goodsTranslates: goodsTranslatesToPostEntityForm(dto.titles, dto.descriptions),
+    goodsTranslates: goodsTranslatesToPostEntityForm(dto.titles),
     goodsVariants: isServiceHasVariants ? goodsVariantsToPostEntityForm(dto.variants) : []
   }
+
+  if (dto.preparationTime) {
+    return {
+      ...itemDto,
+      isSetManufacturedTime: dto.preparationTime,
+      manufacturedAt: manufacturedTimeEntityToPostEntityForm(dto.preparationTimeData),
+    }
+  }
+
+  return itemDto
 }
 
 

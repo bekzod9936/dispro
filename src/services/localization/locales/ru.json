@@ -568,7 +568,7 @@
   "withfilial": "По филиалам",
   "choosefilial": "Выберите филиал",
   "newItem": "Новый товар",
-  "addTitleOnAnotherLang": "Добавить название на другом языке +",
+  "addOnAnotherLang": "Добавить на другом языке +",
   "addDescOnAnotherLang": "Добавить описание на другом языке +",
   "measurementUnit": "Единица измерения",
   "attendance": "Услуги",
@@ -639,5 +639,7 @@
   "subSectionName": "Название подраздела",
   "enterSubSectionName": "Введите название подраздела",
   "editSection": "Редактирование раздела",
-  "editSubSection": "Редактирование подраздела"
+  "editSubSection": "Редактирование подраздела",
+  "addingTitleAndDescOnAnotherLang": "Добавление названия и описания на другом языке",
+  "addTitleOnAnotherLang": "Добавить назвaние на другом языке"
 }
