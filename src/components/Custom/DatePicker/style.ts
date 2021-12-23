@@ -121,7 +121,9 @@ export const MobileReset = styled.div`
   @media (min-width: ${device.planshet}) {
     display: none;
   }
-
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    margin: 5px 0;
+  }
   @media (max-width: ${device.mobile}) {
     margin: 10px 0 0 10px;
     padding: 0 2px 0 12px;
