@@ -606,8 +606,8 @@
   "requiredFields": "Поля обязательны к заполнению",
   "chooseCategory": "Выберите категорию",
   "enterSectionName": "Введите название раздела",
-  "enterItemOrServiceName": "Введите название товара или услуги",
-  "enterItemOrServiceDescription": "Введите описание товара или услуги",
+  "enterItemOrServiceName": "Введите название",
+  "enterItemOrServiceDescription": "Введите описание",
   "enterPriceOfItem": "Укажите цену товара",
   "enterPriceOfItemWithSale": "Укажите цену товара со скидкой",
   "enterAmountOfItem": "Укажите количество товара",
@@ -642,5 +642,7 @@
   "editSubSection": "Редактирование подраздела",
   "addingTitleAndDescOnAnotherLang": "Добавление названия и описания на другом языке",
   "addTitleOnAnotherLang": "Добавить назвaние на другом языке",
-  "totalCountOfGoods": "Всего товаров"
+  "totalCountOfGoods": "Всего товаров",
+  "itemForPoints": "Товар за баллы",
+  "itemForDiscount": "Товар со скидкой"
 }

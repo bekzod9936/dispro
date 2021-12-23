@@ -1,13 +1,16 @@
 import {
   ICategory,
+  IGoodsResponse,
   ISectionResponse,
   sectionDtoType,
 } from "services/queries/servicesQueries/response.types";
+import { numberWithNew } from "services/utils";
 import { languageIds } from "../constants";
 import {
   CreateDtoType,
   createSectionFormType,
   descType,
+  IGoods,
   parentSectionType,
   PostDtoType,
   PostDtoVariantType,
@@ -231,3 +234,15 @@ export const isSectionParent = (
 
   return array.find((section) => section.id === id)?.parentId === 0;
 };
+
+
+export const divideGoodsBySections = (goods: IGoodsResponse[]) => {
+  return goods.reduce((acc: IGoods, curr) => {
+    acc[curr.goodsSectionId] = acc[curr.goodsSectionId] ? [...acc[curr.goodsSectionId], curr] : [curr]
+    return acc
+  }, {})
+}
+
+export const thousandsDivider = (value: number) => {
+  return numberWithNew({number: value, replaceValue: " "})
+}

@@ -1,4 +1,4 @@
-import { ISectionResponse } from "services/queries/servicesQueries/response.types";
+import { IGoodsResponse, ISectionResponse } from "services/queries/servicesQueries/response.types";
 
 export type createSectionFormType = {
     sections: { title: string }[]
@@ -135,3 +135,11 @@ export interface EditSectionType {
     section: string
 }
 
+
+export interface IGoods {
+    [id: number]: IGoodsResponse[]
+}
+
+export type sectionsObjectType = {
+    [id: number]: string
+}

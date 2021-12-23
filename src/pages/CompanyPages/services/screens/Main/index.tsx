@@ -18,14 +18,16 @@ const Main: React.FC<MainProps> = () => {
   const { query, onChange, value } = useSearch();
   const { currentSection, setCurrentSection } = useCurrentSection();
 
-  const { data } = useGetItems();
-  const total = data?.totalCount || 0;
+  const { total, goods } = useGetItems();
+
+  console.log(goods);
 
   return (
     <Wrapper>
       <Header total={total} value={value} onChange={onChange} />
       <Container>
         <Goods
+          goods={goods}
           currentSection={currentSection}
           setCurrentSection={setCurrentSection}
         />

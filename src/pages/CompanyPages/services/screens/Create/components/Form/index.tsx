@@ -24,12 +24,15 @@ import { Buttons } from "../Buttons";
 import { Switches } from "../Switches";
 import { useCreateService } from "pages/CompanyPages/services/hooks/CreatePageHooks/mutations";
 import { TitleAndDescription } from "pages/CompanyPages/services/components/TitleAndDescription";
+import { useHistory } from "react-router-dom";
 
 interface FormProps {}
 
 export const Form: React.FC<FormProps> = () => {
   const form = useCreateItem();
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  const history = useHistory();
 
   const { mutate } = useCreateService();
 
@@ -40,10 +43,12 @@ export const Form: React.FC<FormProps> = () => {
       loyaltyType: String(state.loyaltyType),
     };
 
-    mutate(createServiceHelper(transformedData));
+    mutate(createServiceHelper(transformedData), {
+      onSuccess: () => {
+        history.push("main");
+      },
+    });
   };
-
-  console.log(form.formState.errors);
 
   return (
     <FormStyled onSubmit={form.handleSubmit(onSubmit)}>
