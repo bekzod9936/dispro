@@ -72,7 +72,6 @@ const Registrationpanel = () => {
 
   useEffect(() => {
     const subscription = watch((value) => {
-      console.log(value);
       if (
         value?.firstName !== undefined &&
         value?.firstName !== '' &&
@@ -141,7 +140,7 @@ const Registrationpanel = () => {
       },
     });
   };
-  console.log(errors, 'ddgsdgsd');
+
   return (
     <Container>
       <MainWrap>
@@ -182,31 +181,21 @@ const Registrationpanel = () => {
                   control={control}
                   rules={{
                     required: true,
-                    pattern: /[A-Za-z]/,
+                    pattern: /^[a-zA-Z]*$/,
                   }}
                   render={({ field }) => (
                     <Input
                       label={t('your_name')}
                       error={errors.firstName ? true : false}
                       type='string'
-                      {...field}
-                      onChange={(e) => {
-                        if (e.target.value.length > 1) {
-                          if (/^[a-zA-Z]+$/.test(e.target.value)) {
-                            field.onChange(e.target.value);
-                          }
-                        } else {
-                          field.onChange(e.target.value);
-                        }
-                      }}
-                      value={field.value}
+                      field={field}
                       margin={{
                         laptop: '20px 0 0',
                       }}
                       message={
                         errors.firstName?.type === 'required'
                           ? t('requiredField')
-                          : 'Вводить только буквы'
+                          : t('onlyletters')
                       }
                     />
                   )}
@@ -216,31 +205,21 @@ const Registrationpanel = () => {
                   control={control}
                   rules={{
                     required: true,
-                    pattern: /[A-Za-z]/,
+                    pattern: /^[a-zA-Z]*$/,
                   }}
                   render={({ field }) => (
                     <Input
                       label={t('your_lastName')}
                       error={errors.lastName ? true : false}
                       type='string'
-                      {...field}
-                      onChange={(e) => {
-                        if (e.target.value.length > 1) {
-                          if (/^[a-zA-Z]+$/.test(e.target.value)) {
-                            field.onChange(e.target.value);
-                          }
-                        } else {
-                          field.onChange(e.target.value);
-                        }
-                      }}
-                      value={field.value}
+                      field={field}
                       margin={{
                         laptop: '20px 0 0',
                       }}
                       message={
                         errors.firstName?.type === 'required'
                           ? t('requiredField')
-                          : 'Вводить только буквы'
+                          : t('onlyletters')
                       }
                     />
                   )}
@@ -248,7 +227,11 @@ const Registrationpanel = () => {
                 <Controller
                   name='email'
                   control={control}
-                  rules={{ required: true }}
+                  rules={{
+                    required: true,
+                    pattern:
+                      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                  }}
                   render={({ field }) => (
                     <Input
                       label={t('email')}
@@ -258,7 +241,11 @@ const Registrationpanel = () => {
                       margin={{
                         laptop: '20px 0 30px',
                       }}
-                      message={t('requiredField')}
+                      message={
+                        errors.firstName?.type === 'required'
+                          ? t('requiredField')
+                          : t('email')
+                      }
                     />
                   )}
                 />
@@ -302,6 +289,7 @@ const Registrationpanel = () => {
                 <Controller
                   name='companyName'
                   control={control}
+                  defaultValue='eeeeeee'
                   rules={{ required: true, minLength: 4 }}
                   render={({ field }) => (
                     <Input
@@ -365,7 +353,8 @@ const Registrationpanel = () => {
                 disable ||
                 res.isLoading ||
                 errors.firstName?.type === 'pattern' ||
-                errors.lastName?.type === 'pattern'
+                errors.lastName?.type === 'pattern' ||
+                errors.email?.type === 'pattern'
               }
             >
               {step === 0 ? t('next') : t('enter')}

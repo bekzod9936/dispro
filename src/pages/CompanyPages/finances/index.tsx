@@ -106,10 +106,10 @@ const Finance = () => {
             </Suspense>
           </Switch>
         </Wrap>
+        <SideDrawer ref={ref} open={sidedrawer.openRow}>
+          {sidedrawer?.content}
+        </SideDrawer>
       </MainWrapper>
-      <SideDrawer ref={ref} open={sidedrawer.openRow}>
-        {sidedrawer?.content}
-      </SideDrawer>
     </>
   );
 };

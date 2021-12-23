@@ -629,5 +629,7 @@
   "alloperations": "Все операции",
   "allpurchase": "Кол-во покупок",
   "period": "Период",
-  "allGoods": "Все товары"
+  "allGoods": "Все товары",
+  "onlyletters": "Вводить только буквы",
+  "areyousuredelete": "Вы уверены что хотите удалить комментарий?"
 }

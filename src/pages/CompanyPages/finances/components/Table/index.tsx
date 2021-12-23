@@ -51,13 +51,15 @@ const Table = ({
                     onClickRow(row.original);
                   }}
                   bgcolor={
-                    idRow === row.original.id && idRow !== undefined
+                    idRow === row.original.id &&
+                    idRow !== undefined &&
+                    row.original.col13 !== ''
                       ? '#cfd3f9'
                       : i % 2 === 0
                       ? 'rgba(96, 110, 234, 0.1)'
                       : 'white'
                   }
-                  cursorRow={cursorRow}
+                  cursorRow={row.original.col13 !== '' ? cursorRow : 'default'}
                 >
                   {row.cells.map((cell: any) => {
                     return (

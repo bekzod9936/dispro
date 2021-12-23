@@ -120,6 +120,7 @@ const useHistory = ({ filterValues, handleClickCommet }: PProps) => {
     return data?.map((v: any) => {
       return {
         col0: v.cashierLogo,
+        filial: v.store.name,
         col1: v.cashierName,
         col2: v.chequeDate,
         col3: v.chequeDate,
@@ -142,7 +143,7 @@ const useHistory = ({ filterValues, handleClickCommet }: PProps) => {
       };
     });
   }, [data]);
-
+  console.log(data);
   const listmobile = useMemo(() => {
     return data.map((v: any) => {
       const date = dayjs(v.chequeDate).format('DD.MM.YYYY');
@@ -153,6 +154,7 @@ const useHistory = ({ filterValues, handleClickCommet }: PProps) => {
         avatar: v.cashierLogo,
         values: {
           col0: v.cashierLogo,
+          filial: v.store.name,
           col1: v.cashierName,
           col2: v.chequeDate,
           col3: v.chequeDate,
@@ -232,7 +234,7 @@ const useHistory = ({ filterValues, handleClickCommet }: PProps) => {
   const header2 = useMemo(() => {
     return (
       <Tr>
-        <Th style={{ textAlign: 'center' }} colSpan={3}>
+        <Th style={{ textAlign: 'center' }} colSpan={4}>
           {t('total')}
         </Th>
         <Th style={{ textAlign: 'center' }}>
@@ -306,6 +308,10 @@ const useHistory = ({ filterValues, handleClickCommet }: PProps) => {
             );
           }
         },
+      },
+      {
+        Header: t('filial'),
+        accessor: 'filial',
       },
       {
         Header: t('transactiondate'),
