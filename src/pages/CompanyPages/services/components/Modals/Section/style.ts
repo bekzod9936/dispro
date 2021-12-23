@@ -83,6 +83,11 @@ export const useStyles = () => {
                 bgcolor: "#fff",
                 weight: 500
             }
+        },
+        button: {
+            width: {
+                minwidth: 165
+            }
         }
     }
 }

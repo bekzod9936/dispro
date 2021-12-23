@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { device } from 'styles/device';
 import { ReactComponent as Close } from 'assets/icons/IconsInfo/close.svg';
-import { ReactComponent as Trash } from 'assets/icons/IconsInfo/trash.svg';
+import { ReactComponent as Trash } from 'assets/icons/delete.svg';
 
 export const WrapSideBody = styled.div`
   display: flex;
@@ -34,6 +34,9 @@ export const WrapSideFooter = styled.div`
   align-items: center;
   justify-content: center;
   grid-gap: 20px;
+  @media (max-width: ${device.planshet}) {
+    grid-gap: 10px;
+  }
 `;
 
 export const BodyTitle = styled.div`
@@ -64,8 +67,10 @@ export const Comment = styled.div`
   }
   & > div {
     height: 100%;
+    word-break: break-all;
     overflow-y: auto;
     overflow-x: hidden;
+    padding-right: 10px;
     ::-webkit-scrollbar {
       width: 7px;
     }

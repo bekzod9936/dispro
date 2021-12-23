@@ -19,6 +19,7 @@ interface SectionFieldProps {
   isSingle: boolean;
   remove: (arg: number) => void;
   append: () => void;
+  limit: number;
 }
 
 export const SectionField: React.FC<SectionFieldProps> = ({
@@ -28,6 +29,7 @@ export const SectionField: React.FC<SectionFieldProps> = ({
   isSingle,
   append,
   remove,
+  limit,
 }) => {
   const { t } = useTranslation();
   const {
@@ -56,7 +58,7 @@ export const SectionField: React.FC<SectionFieldProps> = ({
           />
         )}
       />
-      {!isSingle && isFieldLast(19, index + 1, lengthOfFields) && (
+      {!isSingle && isFieldLast(limit, index + 1, lengthOfFields) && (
         <SubButton type="button" onClick={append}>
           {t("createAnother")}
         </SubButton>

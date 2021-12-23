@@ -266,6 +266,8 @@ const FilterHistory = ({
           placeholder={t('cashiernotselected')}
           onChange={(e: any) => setCashierStaffId(e)}
           value={cashierStaffId}
+          menuPortalTarget={document.body}
+          isBranchHeight={true}
         />
       ),
     },
@@ -280,6 +282,7 @@ const FilterHistory = ({
           value={storeId}
           selectStyle={{ bgcolor: '#eff0fd' }}
           menuPortalTarget={document.body}
+          isBranchHeight={true}
         />
       ),
     },

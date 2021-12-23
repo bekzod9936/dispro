@@ -1,16 +1,38 @@
 import styled from "styled-components";
-
+import { ReactComponent as MenuSvg } from 'assets/icons/FeedBack/dots.svg'
 interface IProps {
     isSelected?: boolean;
     isChild?: boolean;
 }
 
 export const Wrapper = styled.div`
+    max-width: 310px;
+    width: 100%;
+    min-height: 200px;
+    height: calc(100vh - 50%);
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+        width: 2px;
+    }
+    &::-webkit-scrollbar-track {
+        background-color: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #606eea;
+        border-radius: 14px 0px 0px 14px;
+    }
+
+`
+
+export const ItemWrapper = styled.div`
+    max-width: 300px;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    max-width: 300px;
-    width: 100%;
+
 `
 
 export const Item = styled.div`
@@ -32,5 +54,21 @@ export const Item = styled.div`
         font-weight: 400;
         font-size: 18px;
         line-height: 21.09px;
+        text-overflow: ellipsis;
+        max-width: 225px;
+        width: 100%;
+        overflow-x: hidden;
+
+    }
+
+    svg {
+        circle {
+            fill: ${({ isSelected }: IProps) => isSelected ? '#fff' : '#223367'}
+        }
     }
 `
+
+//icons
+export const MenuIcon = styled(MenuSvg)``
+
+

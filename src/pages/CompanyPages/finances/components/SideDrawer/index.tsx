@@ -84,6 +84,7 @@ const SideDrawer = ({
               weight: 500,
               shadow: '0px 4px 9px rgba(255, 94, 104, 0.46)',
             }}
+            margin={{ mobile: '0 0 20px 0' }}
             startIcon={<DeleteIcon1 />}
             disabled={disable}
             onClick={handleDelete}

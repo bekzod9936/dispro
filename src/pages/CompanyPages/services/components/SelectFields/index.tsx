@@ -1,8 +1,12 @@
-import MultiSelect from "components/Custom/MultiSelect";
-import { FormFieldTypes } from "pages/CompanyPages/services/utils/types";
-import { Controller, useFormContext } from "react-hook-form";
+//packages
 import { useTranslation } from "react-i18next";
+import { Controller, useFormContext } from "react-hook-form";
 
+//components
+import MultiSelect from "components/Custom/MultiSelect";
+
+//other
+import { FormFieldTypes } from "pages/CompanyPages/services/utils/types";
 interface SelectFieldProps {
   icon: JSX.Element;
   isMulti?: boolean;

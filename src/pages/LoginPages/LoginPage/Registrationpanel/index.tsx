@@ -65,13 +65,13 @@ const Registrationpanel = () => {
     watch,
     reset,
   } = useForm<FormProps>({
-    mode: 'onBlur',
+    mode: 'onChange',
     shouldFocusError: true,
+    reValidateMode: 'onChange',
   });
 
   useEffect(() => {
     const subscription = watch((value) => {
-      console.log(value);
       if (
         value?.firstName !== undefined &&
         value?.firstName !== '' &&
@@ -98,7 +98,6 @@ const Registrationpanel = () => {
 
   useEffect(() => {
     const subscription = watch((value) => {
-      console.log(value);
       if (
         value?.companyName !== undefined &&
         value?.companyName !== '' &&
@@ -180,7 +179,10 @@ const Registrationpanel = () => {
                 <Controller
                   name='firstName'
                   control={control}
-                  rules={{ required: true }}
+                  rules={{
+                    required: true,
+                    pattern: /^[a-zA-Z]*$/,
+                  }}
                   render={({ field }) => (
                     <Input
                       label={t('your_name')}
@@ -190,14 +192,21 @@ const Registrationpanel = () => {
                       margin={{
                         laptop: '20px 0 0',
                       }}
-                      message={t('requiredField')}
+                      message={
+                        errors.firstName?.type === 'required'
+                          ? t('requiredField')
+                          : t('onlyletters')
+                      }
                     />
                   )}
                 />
                 <Controller
                   name='lastName'
                   control={control}
-                  rules={{ required: true }}
+                  rules={{
+                    required: true,
+                    pattern: /^[a-zA-Z]*$/,
+                  }}
                   render={({ field }) => (
                     <Input
                       label={t('your_lastName')}
@@ -207,14 +216,22 @@ const Registrationpanel = () => {
                       margin={{
                         laptop: '20px 0 0',
                       }}
-                      message={t('requiredField')}
+                      message={
+                        errors.firstName?.type === 'required'
+                          ? t('requiredField')
+                          : t('onlyletters')
+                      }
                     />
                   )}
                 />
                 <Controller
                   name='email'
                   control={control}
-                  rules={{ required: true }}
+                  rules={{
+                    required: true,
+                    pattern:
+                      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                  }}
                   render={({ field }) => (
                     <Input
                       label={t('email')}
@@ -224,7 +241,11 @@ const Registrationpanel = () => {
                       margin={{
                         laptop: '20px 0 30px',
                       }}
-                      message={t('requiredField')}
+                      message={
+                        errors.firstName?.type === 'required'
+                          ? t('requiredField')
+                          : t('email')
+                      }
                     />
                   )}
                 />
@@ -268,6 +289,7 @@ const Registrationpanel = () => {
                 <Controller
                   name='companyName'
                   control={control}
+                  defaultValue='eeeeeee'
                   rules={{ required: true, minLength: 4 }}
                   render={({ field }) => (
                     <Input
@@ -327,7 +349,13 @@ const Registrationpanel = () => {
                 laptop: '10px 0 30px 0',
               }}
               type='submit'
-              disabled={disable || res.isLoading}
+              disabled={
+                disable ||
+                res.isLoading ||
+                errors.firstName?.type === 'pattern' ||
+                errors.lastName?.type === 'pattern' ||
+                errors.email?.type === 'pattern'
+              }
             >
               {step === 0 ? t('next') : t('enter')}
             </Button>

@@ -123,7 +123,7 @@ const CropCustomModal = ({
   console.log(imageUrl);
 
   return (
-    <Modal open={open}>
+    <Modal open={open} scroll={"body"}>
       <Wrapper>
         <div style={{ marginBottom: "10px" }}>
           <Header>

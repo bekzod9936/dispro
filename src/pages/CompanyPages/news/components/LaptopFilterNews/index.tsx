@@ -54,7 +54,7 @@ export const LaptopFilterNews=({handleOpenNews,searchNews,filterByDate}:FilterNe
         {filterByDate &&   <div style={{ width: "20px" }} />}
         <div>
     
-        {filterByDate &&   <DatePcker  margin="0 0 20px 0"
+        {filterByDate &&   <DatePcker       showoldvalue={true} margin="0 0 20px 0"
          height={{
             planshet:45,
          }

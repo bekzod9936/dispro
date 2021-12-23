@@ -1,3 +1,5 @@
+import { ISectionResponse } from "services/queries/servicesQueries/response.types";
+
 export type createSectionFormType = {
     sections: { title: string }[]
 }
@@ -115,3 +117,12 @@ export type PostDtoType = {
         imageUrl: string
     }[]
 }
+
+
+export interface parentSectionType extends ISectionResponse {
+    children: ISectionResponse[]
+}
+
+export interface SubSectionFormTypes {
+    subSection: string;
+  }

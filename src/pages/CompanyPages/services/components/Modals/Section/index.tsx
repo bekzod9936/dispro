@@ -23,9 +23,21 @@ import {
 
 //other
 import { createSectionFormType } from "pages/CompanyPages/services/utils/types";
-import { usePostSection, useSections } from "pages/CompanyPages/services/hooks";
+import {
+  useGetSections,
+  usePostSection,
+  useSections,
+} from "pages/CompanyPages/services/hooks";
 import { SectionField } from "../../SectionField";
-import { sectionsToSectionArray } from "pages/CompanyPages/services/helpers";
+import {
+  getLengthOfParentSections,
+  sectionsToSectionArray,
+} from "pages/CompanyPages/services/helpers";
+import {
+  GET_SECTIONS,
+  SECTIONS_LIMIT,
+} from "pages/CompanyPages/services/constants";
+import { useQueryClient } from "react-query";
 
 interface SectionModalProps {
   isOpen: boolean;
@@ -38,25 +50,29 @@ export const SectionModal: React.FC<SectionModalProps> = ({
   onClose,
   isSingle,
 }) => {
-  const styles = useStyles();
-  const buttonRef = useRef<null | HTMLDivElement>(null);
-  const { t } = useTranslation();
   const [isAdded, setIsAdded] = useState(false);
+  const buttonRef = useRef<null | HTMLDivElement>(null);
 
-  const form = useSections();
+  const styles = useStyles();
 
-  const { fields, append, remove } = useFieldArray({
-    control: form.control,
-    name: "sections",
-  });
+  const { t } = useTranslation();
+
+  const { data } = useGetSections();
+  const limit = SECTIONS_LIMIT - getLengthOfParentSections(data?.data);
+
+  const { fields, append, remove, form } = useSections();
 
   const { mutate } = usePostSection();
 
-  const fieldsLimit = 20 - fields.length;
+  const fieldsLimit = limit - fields.length;
 
   const onSubmit = async (data: createSectionFormType) => {
     const sectionDtos = sectionsToSectionArray(data);
-    mutate(sectionDtos[0]);
+    mutate(sectionDtos, {
+      onSettled: () => {
+        onClose();
+      },
+    });
   };
 
   const handleRemoveField = (index: number) => {
@@ -108,6 +124,7 @@ export const SectionModal: React.FC<SectionModalProps> = ({
           <Main ref={buttonRef}>
             {fields.map((field, index) => (
               <SectionField
+                limit={limit}
                 key={field.id}
                 index={index}
                 name={`sections.${index}.title`}
