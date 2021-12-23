@@ -631,5 +631,11 @@
   "period": "Период",
   "allGoods": "Все товары",
   "onlyletters": "Вводить только буквы",
-  "areyousuredelete": "Вы уверены что хотите удалить комментарий?"
+  "areyousuredelete": "Вы уверены что хотите удалить комментарий?",
+  "createSubSection": "Создать подраздел",
+  "hideInMobile": "Скрыть в приложении",
+  "showInMobile": "Показать в приложении",
+  "newSubSection": "Новый подраздел",
+  "subSectionName": "Название подраздела",
+  "enterSubSectionName": "Введите название подраздела"
 }

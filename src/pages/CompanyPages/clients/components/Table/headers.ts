@@ -11,7 +11,7 @@ export const addedHeaders = [
     { value: "Клиент", label: "fullName" },
     { value: "Сумма скидки", label: "discountSum" },
     { value: "Сумма баллов", label: "pointSum" },
-    { value: "Сумма кешбека", label: "cashbackSum" },
+    { value: "Сумма кешбэка", label: "cashbackSum" },
     { value: "Пол", label: "gender" },
     { value: "Возраст", label: "age" },
 ]

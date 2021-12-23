@@ -1,6 +1,6 @@
-import { ICategory, sectionDtoType } from "services/queries/servicesQueries/response.types"
+import { ICategory, ISectionResponse, sectionDtoType } from "services/queries/servicesQueries/response.types"
 import { languageIds } from "../constants"
-import { CreateDtoType, createSectionFormType, descType, PostDtoType, PostDtoVariantType, preparationTimeType, titleType, variantType } from "../utils/types"
+import { CreateDtoType, createSectionFormType, descType, parentSectionType, PostDtoType, PostDtoVariantType, preparationTimeType, titleType, variantType } from "../utils/types"
 
 export const fileToBlob = (file: File, id: string) => {
     let formData = new FormData()
@@ -18,21 +18,22 @@ export const filesToBlob = (files: File[]) => {
 }
 
 export const isFieldLast = (max: number, current: number, length: number): boolean => {
-    return length <= max && current === length
+    return length < max && current === length
 }
 
 
 
 
 export const sectionsToSectionArray = (data: createSectionFormType) => {
+
   return data.sections.map(section => sectionFieldToDto(section.title))
 
 }
 
-const sectionFieldToDto = (title: string): sectionDtoType => {
+export const sectionFieldToDto = (title: string, parentId?: number): sectionDtoType => {
   return {
     hideInMobile: false,
-    parentId: 0,
+    parentId: parentId || 0,
     positionAt: 1,
     goodsSectionTranslates: [
       {
@@ -137,4 +138,48 @@ export const createServiceHelper = (dto: CreateDtoType): PostDtoType => {
     goodsTranslates: goodsTranslatesToPostEntityForm(dto.titles, dto.descriptions),
     goodsVariants: isServiceHasVariants ? goodsVariantsToPostEntityForm(dto.variants) : []
   }
+}
+
+
+
+export const sectionsResponseToParentChildObject = (array: ISectionResponse[] | undefined): parentSectionType[] => {
+  if (!array) return []
+
+  const parentSections = array.filter(section => section.parentId === 0);
+
+  return parentSections.map(parentSection => ({
+    ...parentSection,
+    children: array.filter(childSection => childSection.parentId === parentSection.id)
+  }))
+  
+}
+
+
+export const isChildHasActiveParent = (parent: parentSectionType, currentItemId: number | null) => {
+
+  return parent.children.some((section) =>
+    section.id === currentItemId
+  ) 
+}
+
+export const isParentHasActiveChild = (item: parentSectionType, currentItemId: number | null) => {
+  return item.children.some(child => child.id === currentItemId)
+}
+
+export const getLengthOfParentSections = (array: ISectionResponse[] | undefined) => {
+  if(!array) return 0
+
+
+  return array.filter(section => section.parentId === 0).length
+}
+
+
+export const sectionsResponseListToOptions = (array: ISectionResponse[] | undefined) => {
+  if (!array) return []
+
+  return array.map(section => ({
+    label: section.goodsSectionTranslates[0].translateName,
+    name: section.goodsSectionTranslates[0].translateName,
+    value: section.id
+  }))
 }

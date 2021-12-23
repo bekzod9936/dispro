@@ -24,4 +24,15 @@ export const languageIds = {
     '(Рус)': 1,
     '(Eng)': 2,
     '(Uzb)': 3
-  }
+}
+
+export const modalsDefaults = {
+  subSection: false,
+  editSection: false,
+}
+
+
+export const SECTIONS_LIMIT = 20
+
+
+export const GET_SECTIONS = 'getSections'

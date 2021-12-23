@@ -6,17 +6,17 @@ import { EmptyPage } from "./components/EmptyPage";
 
 //style
 import { Wrapper, Container } from "./style";
-import { useGetSections } from "../../hooks";
+import { useGetSections, useSearch } from "../../hooks";
 import { Goods } from "./components/Goods";
 
 interface MainProps {}
 
 const Main: React.FC<MainProps> = () => {
-  const _ = useGetSections();
+  const { query, onChange, value } = useSearch();
 
   return (
     <Wrapper>
-      <Header />
+      <Header value={value} onChange={onChange} />
       <Container>
         <Goods />
         {/* <EmptyPage /> */}

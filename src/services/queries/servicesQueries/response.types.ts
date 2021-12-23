@@ -34,3 +34,23 @@ export type categoriesResponseType = {
     error: null | unknown,
     success: boolean
 }
+
+export interface ISectionResponse {
+    companyId: number,
+    createdAt: string,
+    goodsSectionTranslates: {
+        langId: number,
+        translateName: string
+    }[],
+    hideInMobile: boolean,
+    id: number,
+    langId: number,
+    name: string,
+    parentId: number,
+    positionAt: number
+}
+export type sectionResponseType = {
+    data: ISectionResponse[],
+    error: null | any,
+    success: boolean
+}
