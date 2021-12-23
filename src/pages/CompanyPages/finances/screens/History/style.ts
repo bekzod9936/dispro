@@ -315,6 +315,7 @@ export const WrapDeleteComment = styled.div`
   font-size: 16px;
   color: #223367;
   margin: 15px 0;
+  word-break: break-all;
 `;
 
 export const WrapDeleteButtons = styled.div`
