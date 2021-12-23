@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 //components
 import { SelectField } from "../../../../components/SelectFields";
-import { SectionModal } from "pages/CompanyPages/services/components/Modals/Section";
+import { SectionModal } from "pages/CompanyPages/services/components/Modals/Sections";
 import { SubButton } from "pages/CompanyPages/services/style";
 
 //styles

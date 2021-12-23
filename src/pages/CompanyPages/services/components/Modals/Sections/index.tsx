@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 
 //packages
 import { useTranslation } from "react-i18next";
-import { useFieldArray, FormProvider } from "react-hook-form";
+import { FormProvider } from "react-hook-form";
 
 //components
 import { IconButton } from "@material-ui/core";
@@ -33,11 +33,7 @@ import {
   getLengthOfParentSections,
   sectionsToSectionArray,
 } from "pages/CompanyPages/services/helpers";
-import {
-  GET_SECTIONS,
-  SECTIONS_LIMIT,
-} from "pages/CompanyPages/services/constants";
-import { useQueryClient } from "react-query";
+import { SECTIONS_LIMIT } from "pages/CompanyPages/services/constants";
 
 interface SectionModalProps {
   isOpen: boolean;

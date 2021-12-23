@@ -635,5 +635,7 @@
   "showInMobile": "Показать в приложении",
   "newSubSection": "Новый подраздел",
   "subSectionName": "Название подраздела",
-  "enterSubSectionName": "Введите название подраздела"
+  "enterSubSectionName": "Введите название подраздела",
+  "editSection": "Редактирование раздела",
+  "editSubSection": "Редактирование подраздела"
 }

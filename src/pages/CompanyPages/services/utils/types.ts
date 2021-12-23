@@ -126,3 +126,8 @@ export interface parentSectionType extends ISectionResponse {
 export interface SubSectionFormTypes {
     subSection: string;
   }
+
+
+export interface EditSectionType {
+    section: string
+}

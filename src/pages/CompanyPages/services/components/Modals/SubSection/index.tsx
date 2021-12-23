@@ -16,7 +16,7 @@ import {
   CreateSectionIcon,
   CloseIcon,
   useStyles,
-} from "../Section/style";
+} from "../Sections/style";
 
 //other
 import {
