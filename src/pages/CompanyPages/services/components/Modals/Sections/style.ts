@@ -88,6 +88,11 @@ export const useStyles = () => {
             width: {
                 minwidth: 165
             }
+        },
+        input: {
+            margin: {
+                desktop: "0 0 25px 0", laptop: "0 0 25px 0"
+            }
         }
     }
 }

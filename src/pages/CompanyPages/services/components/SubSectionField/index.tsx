@@ -30,7 +30,7 @@ export const SubSectionField: React.FC<SubSectionFieldProps> = ({ name }) => {
           field={field}
           isAbsolute
           error={Boolean(errors[name])}
-          margin={{ desktop: "0 0 20px 0", laptop: "0 0 20px 0" }}
+          margin={{ desktop: "0 0 25px 0", laptop: "0 0 25px 0" }}
         />
       )}
     />

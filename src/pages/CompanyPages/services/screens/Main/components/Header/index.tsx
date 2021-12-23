@@ -9,10 +9,12 @@ import Popover from "../../components/Popover";
 import Input from "components/Custom/Input";
 import { Flex } from "pages/CompanyPages/services/style";
 import Title from "components/Custom/Title";
+import { SectionModal } from "pages/CompanyPages/services/components/Modals/Sections";
 
 //style
 import { Nav, SearchIcon, useStyles, Wrapper } from "./style";
-import { SectionModal } from "pages/CompanyPages/services/components/Modals/Section";
+
+//other
 import { useGetSections } from "pages/CompanyPages/services/hooks";
 import { getLengthOfParentSections } from "pages/CompanyPages/services/helpers";
 import { SECTIONS_LIMIT } from "pages/CompanyPages/services/constants";
