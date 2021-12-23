@@ -1,18 +1,15 @@
-import { useState,useEffect } from "react";
+import { useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { AddIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
+
 import Spinner from "components/Custom/Spinner";
 import Table from "../../components/Table";
-import { Flex } from "../../style";
-import NavBar from "components/Custom/NavBar";
-import { SearchIcon } from "components/Layout/Header/style";
+
 import MobileTable from "../../components/MobileTable";
 import NoNews from "../../components/NoNews";
 import { NewsBar } from "../../components/NewsBar";
 import NoNewsMobile from "../../components/NoNewsMobile";
-import Input from "components/Custom/Input";
-import DatePcker from "components/Custom/DatePicker";
+
 import {
   setQuery,
   setSelectedNews,
@@ -23,17 +20,17 @@ import { useAppSelector, useAppDispatch } from "services/redux/hooks";
 import useData from "../useData";
 import useWindowWidth from "services/hooks/useWindowWidth";
 import { countPagination } from "../../components/utils";
-import Button from "components/Custom/Button";
+
 import { LimitNews } from "../../components/LimitNews";
 import { FilterNews } from "../../components/FilterNews";
 import { LaptopFilterNews } from "../../components/LaptopFilterNews";
 import { MobileFilterNews } from "../../components/MobileFilterNews";
-import { LeftHeader, WrapMobile, WrapHeader } from "./style";
+
 import { Container, Wrap, Info, WrapPag, WrapSpinner } from "./style";
-import useNewsRoute from "../../routes";
+
 import useActive from "./useActive";
 import NoNewsLaptop from "../../components/NoNewsLaptop";
-import Pagination from "components/Custom/Pagination";
+
 import { NewPagination } from 'components/Custom/NewPagination';
 interface intialFilterProps {
   page?: number;
@@ -50,15 +47,15 @@ const Active = () => {
 
   const totalCount = useAppSelector((state) => state.news.NewsInfo.totalCount);
   const between = useAppSelector((state) => state.news.NewsInfo.between);
-  console.log('totalCount',totalCount)
+  
   const errormessage = useAppSelector((state) => state.news.errorMessage);
 
   const totalNewsCount = useAppSelector(
     (state) => state.news.NewsInfo.totalCountNews
   );
-  console.log("totalNewsCount", totalNewsCount);
+
   const selectedNews = useAppSelector((state) => state.news.selectedNews);
-  console.log("selectedNews", selectedNews);
+
   const { t } = useTranslation();
   const handleOpenSetting = () => {
     history.push({

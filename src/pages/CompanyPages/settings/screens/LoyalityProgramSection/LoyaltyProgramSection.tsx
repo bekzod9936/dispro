@@ -167,7 +167,6 @@ const LoyaltyProgramSection = () => {
     }
   };
 
-
   const content = () => {
     if (width <= 1000) {
       return (
