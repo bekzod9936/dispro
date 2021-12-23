@@ -4,7 +4,11 @@ export type createSectionFormType = {
     sections: { title: string }[]
 }
 
-
+export type TitleType = {
+    title: string,
+    desc: string,
+    lang: string
+}
 export type titleType = {
     data: string;
     lang: string;
@@ -24,13 +28,13 @@ export type variantType = {
 } 
 
 export type preparationTimeType = {
-    days: number | null,
-    hours: number | null,
-    minutes: number | null
+    day: number | null,
+    hour: number | null,
+    minute: number | null
 
 }
 export interface FormFieldTypes {
-  titles: titleType[];
+  titles: TitleType[];
   descriptions: descType[];
   measurement: any,
   service: any,
@@ -48,8 +52,7 @@ export interface FormFieldTypes {
 export type CreateDtoType = {
     images: string[],
     preparationTime: boolean,
-    titles: titleType[],
-    descriptions: descType[],
+    titles: TitleType[],
     loyaltyOff: boolean,
     loyaltyType: string,
     measurement: {
@@ -102,11 +105,11 @@ export type PostDtoType = {
     isCountUnlimited: boolean,
     artikulCode: string,
     ageUnlimited: boolean,
-    isSetManufacturedTime: boolean,
-    manufacturedAt: {
-        day: number,
-        hour: number,
-        minute: number
+    isSetManufacturedTime?: boolean,
+    manufacturedAt?: {
+        day?: number,
+        hour?: number,
+        minute?: number
     },
     positionAt: number,
     hideInStores: number[],
@@ -131,3 +134,4 @@ export interface SubSectionFormTypes {
 export interface EditSectionType {
     section: string
 }
+

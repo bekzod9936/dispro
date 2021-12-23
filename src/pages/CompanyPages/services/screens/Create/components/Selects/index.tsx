@@ -98,7 +98,9 @@ export const Selects: React.FC<SelectsProps> = () => {
   const categoryList = useCategories();
 
   const { data } = useGetSections();
-  const limit = Boolean(SECTIONS_LIMIT - getLengthOfParentSections(data?.data));
+  const limit = Boolean(
+    SECTIONS_LIMIT - (getLengthOfParentSections(data?.data) || 20)
+  );
 
   const handleOpen = () => {
     setSectionModal(true);
@@ -109,7 +111,7 @@ export const Selects: React.FC<SelectsProps> = () => {
   };
 
   return (
-    <div>
+    <div style={{ marginBottom: 20 }}>
       <SelectField
         name="measurement"
         placeholder="measurementUnit"
