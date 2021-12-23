@@ -9,13 +9,13 @@ import { useMutation, useQuery, useQueryClient } from "react-query"
 import { ApiServices } from "services/queries/servicesQueries";
 
 //types
-import { sectionDtoType } from "services/queries/servicesQueries/response.types";
-import { FormFieldTypes, SubSectionFormTypes } from "../utils/types";
+import { ISectionResponse, sectionDtoType } from "services/queries/servicesQueries/response.types";
+import { EditSectionType, FormFieldTypes, SubSectionFormTypes } from "../utils/types";
 
 //other
 import { responseCategoriesToExactCategories } from "../helpers";
 import { useAppSelector } from "services/redux/hooks";
-import { goodsSchema, sectionsSchema, subSectionSchema } from "../utils/schemas.yup";
+import { editSectionSchema, goodsSchema, sectionsSchema, subSectionSchema } from "../utils/schemas.yup";
 import { createItemDefaultFields, GET_SECTIONS } from "../constants";
 import { useDebounce } from "use-debounce/lib";
 
@@ -119,10 +119,10 @@ export const useSearch = () => {
 
 
 export const useCurrentSection = () => {
-    const [currentSection, setCurrentSection] = useState<null | number>(null);
+    const [currentSection, setCurrentSection] = useState<null | ISectionResponse>(null);
     const [debouncedCurrentSection] = useDebounce(currentSection, 300)
 
-    return { currentSection, setCurrentSection, sectionId: debouncedCurrentSection }
+    return { currentSection, setCurrentSection, section: debouncedCurrentSection }
 
 }
 
@@ -132,4 +132,21 @@ export const useSubSectionForm = () => {
       mode: "onChange",
       resolver: yupResolver(subSectionSchema),
     });
+}
+
+export const useEditSectionForm = (section: string) => {
+
+    const form = useForm<EditSectionType>({
+        mode: "onChange",
+        resolver: yupResolver(editSectionSchema),
+        defaultValues: {
+            section: section
+        }
+      });
+
+    useEffect(() => {
+        form.reset({section: section})
+    }, [section])
+
+    return form
 }

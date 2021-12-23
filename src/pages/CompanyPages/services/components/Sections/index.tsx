@@ -13,6 +13,7 @@ import { SectionPopover } from "../../screens/Main/components/SectionPopover";
 import {
   isChildHasActiveParent,
   isParentHasActiveChild,
+  isSectionParent,
   sectionsResponseToParentChildObject,
 } from "../../helpers";
 import { useGetSections } from "../../hooks";
@@ -20,10 +21,12 @@ import { useGetSections } from "../../hooks";
 //style
 import { Item, ItemWrapper, MenuIcon, Wrapper } from "./style";
 import { modalsDefaults } from "../../constants";
+import { EditSectionModal } from "../Modals/EditModal";
+import { ISectionResponse } from "services/queries/servicesQueries/response.types";
 
 interface SectionsProps {
-  currentSection: number | null;
-  setCurrentSection: (arg: number | null) => void;
+  currentSection: null | ISectionResponse;
+  setCurrentSection: (arg: ISectionResponse | null) => void;
 }
 
 export const Sections: React.FC<SectionsProps> = ({
@@ -40,7 +43,7 @@ export const Sections: React.FC<SectionsProps> = ({
 
   const parentSections = sectionsResponseToParentChildObject(data?.data);
 
-  const handleClickOnSection = (section: null | number) => {
+  const handleClickOnSection = (section: null | ISectionResponse) => {
     return (event: React.MouseEvent<HTMLDivElement>) => {
       currentSectionRef.current = event.currentTarget;
 
@@ -80,10 +83,10 @@ export const Sections: React.FC<SectionsProps> = ({
       {parentSections.map((item) => (
         <ItemWrapper>
           <Item
-            onClick={handleClickOnSection(item.id)}
+            onClick={handleClickOnSection(item)}
             isSelected={
-              currentSection === item.id ||
-              isParentHasActiveChild(item, currentSection)
+              currentSection?.id === item.id ||
+              isParentHasActiveChild(item, currentSection?.id)
             }
           >
             <h4>{item.goodsSectionTranslates[0].translateName}</h4>
@@ -93,12 +96,12 @@ export const Sections: React.FC<SectionsProps> = ({
               isHiddenInMobile={item.hideInMobile}
             />
           </Item>
-          {(currentSection === item.id ||
-            isChildHasActiveParent(item, currentSection)) &&
+          {(currentSection?.id === item.id ||
+            isChildHasActiveParent(item, currentSection?.id)) &&
             item.children.map((child) => (
               <Item
-                onClick={handleClickOnSection(child.id)}
-                isSelected={currentSection === child.id}
+                onClick={handleClickOnSection(child)}
+                isSelected={currentSection?.id === child.id}
                 isChild
               >
                 <h4>{child.goodsSectionTranslates[0].translateName}</h4>
@@ -109,9 +112,15 @@ export const Sections: React.FC<SectionsProps> = ({
       ))}
 
       <SubSectionModal
-        parentId={currentSection || 0}
+        parentId={currentSection?.id || 0}
         onClose={handleClose("subSection")}
         open={modals.subSection}
+      />
+      <EditSectionModal
+        item={currentSection}
+        open={modals.editSection}
+        onClose={handleClose("editSection")}
+        parent={isSectionParent(data?.data, currentSection?.id)}
       />
     </Wrapper>
   );

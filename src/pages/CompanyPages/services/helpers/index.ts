@@ -155,14 +155,14 @@ export const sectionsResponseToParentChildObject = (array: ISectionResponse[] | 
 }
 
 
-export const isChildHasActiveParent = (parent: parentSectionType, currentItemId: number | null) => {
+export const isChildHasActiveParent = (parent: parentSectionType, currentItemId: number | undefined) => {
 
   return parent.children.some((section) =>
     section.id === currentItemId
   ) 
 }
 
-export const isParentHasActiveChild = (item: parentSectionType, currentItemId: number | null) => {
+export const isParentHasActiveChild = (item: parentSectionType, currentItemId: number | undefined) => {
   return item.children.some(child => child.id === currentItemId)
 }
 
@@ -182,4 +182,12 @@ export const sectionsResponseListToOptions = (array: ISectionResponse[] | undefi
     name: section.goodsSectionTranslates[0].translateName,
     value: section.id
   }))
+}
+
+
+export const isSectionParent = (array: ISectionResponse[] | undefined, id: number | undefined) => {
+  if (!array || !id) return true
+
+
+  return array.find(section => section.id === id)?.parentId === 0
 }

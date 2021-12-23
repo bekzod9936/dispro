@@ -166,3 +166,6 @@ export const subSectionSchema = yup.object().shape({
 })
 
 
+export const editSectionSchema = yup.object().shape({
+    section: yup.string().max(30, "maxAmountOfCharacters").required('requiredField')
+})

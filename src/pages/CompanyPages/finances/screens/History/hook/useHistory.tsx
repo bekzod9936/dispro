@@ -144,92 +144,94 @@ const useHistory = ({ filterValues, handleClickCommet }: PProps) => {
     });
   }, [data]);
   console.log(data);
-  const listmobile = useMemo(() => {
-    return data.map((v: any) => {
-      const date = dayjs(v.chequeDate).format('DD.MM.YYYY');
-      const time = dayjs(v.chequeDate).format('HH:mm:ss');
-      return {
-        title: v.cashierName === 'No cashier name' ? t('p2p') : v.cashierName,
-        value: numberWithNew({ number: v.payInfo.amountTotal }),
-        avatar: v.cashierLogo,
-        values: {
-          col0: v.cashierLogo,
-          filial: v.store.name,
-          col1: v.cashierName,
-          col2: v.chequeDate,
-          col3: v.chequeDate,
-          col4: v.payInfo.amountTotal,
-          col5: v.payInfo.amountMinus,
-          col6: v.payInfo.amountPayed,
-          col7: v.payInfo.amountCash,
-          col8: v.payInfo.amountCard,
-          col9: v.clientName,
-          col10: v.payInfo.value,
-          col11: v.payInfo.value,
-          col12: v.payInfo.value,
-          col13: v.chequeComment,
-          id: v.chequeId,
-          isCashback: v.payInfo.isCashback,
-          isDiscount: v.payInfo.isDiscount,
-          isPoints: v.payInfo.isPoints,
-          isCoupon: v.payInfo.isCoupon,
-          valueType: v.payInfo.valueType,
+  const listmobile = data.map((v: any) => {
+    const date = dayjs(v.chequeDate).format('DD.MM.YYYY');
+    const time = dayjs(v.chequeDate).format('HH:mm:ss');
+    return {
+      title: v.cashierName === 'No cashier name' ? t('p2p') : v.cashierName,
+      value: numberWithNew({ number: v.payInfo.amountTotal }),
+      avatar: v.cashierLogo,
+      values: {
+        col0: v.cashierLogo,
+        filial: v.store.name,
+        col1: v.cashierName,
+        col2: v.chequeDate,
+        col3: v.chequeDate,
+        col4: v.payInfo.amountTotal,
+        col5: v.payInfo.amountMinus,
+        col6: v.payInfo.amountPayed,
+        col7: v.payInfo.amountCash,
+        col8: v.payInfo.amountCard,
+        col9: v.clientName,
+        col10: v.payInfo.value,
+        col11: v.payInfo.value,
+        col12: v.payInfo.value,
+        col13: v.chequeComment,
+        id: v.chequeId,
+        isCashback: v.payInfo.isCashback,
+        isDiscount: v.payInfo.isDiscount,
+        isPoints: v.payInfo.isPoints,
+        isCoupon: v.payInfo.isCoupon,
+        valueType: v.payInfo.valueType,
+      },
+      body: [
+        {
+          title: t('filial'),
+          value: v.store.name,
         },
-        body: [
-          {
-            title: t('transactiondate'),
-            value: date,
-          },
-          {
-            title: t('transactiontime'),
-            value: time,
-          },
-          {
-            title: t('totalsum'),
-            value: numberWithNew({ number: v.payInfo.amountTotal }),
-          },
-          {
-            title: t('discountSum'),
-            value: numberWithNew({ number: v.payInfo.amountMinus }),
-          },
-          {
-            title: t('paid'),
-            value: numberWithNew({ number: v.payInfo.amountPayed }),
-          },
-          {
-            title: t('paycash/payterminal'),
-            value: numberWithNew({ number: v.payInfo.amountCash }),
-          },
-          {
-            title: t('paycardapp'),
-            value: numberWithNew({ number: v.payInfo.amountCard }),
-          },
-          { title: t('customer'), value: v.clientName },
-          {
-            title: t('loyaltypercentage'),
-            value:
-              v.payInfo.isDiscount || v.payInfo.isCashback || v.payInfo.isPoints
-                ? numberWithNew({ number: v.payInfo.value })
-                : '-',
-          },
-          {
-            title: t('coupon'),
-            value:
-              v.payInfo.isCoupon && v.payInfo.valueType === 'percent'
-                ? `${numberWithNew({ number: v.payInfo.value })}%`
-                : '-',
-          },
-          {
-            title: t('certificate'),
-            value:
-              v.payInfo.isCoupon && v.payInfo.valueType === 'amount'
-                ? numberWithNew({ number: v.payInfo.value })
-                : '-',
-          },
-        ],
-      };
-    });
-  }, [data]);
+        {
+          title: t('transactiondate'),
+          value: date,
+        },
+        {
+          title: t('transactiontime'),
+          value: time,
+        },
+        {
+          title: t('totalsum'),
+          value: numberWithNew({ number: v.payInfo.amountTotal }),
+        },
+        {
+          title: t('discountSum'),
+          value: numberWithNew({ number: v.payInfo.amountMinus }),
+        },
+        {
+          title: t('paid'),
+          value: numberWithNew({ number: v.payInfo.amountPayed }),
+        },
+        {
+          title: t('paycash/payterminal'),
+          value: numberWithNew({ number: v.payInfo.amountCash }),
+        },
+        {
+          title: t('paycardapp'),
+          value: numberWithNew({ number: v.payInfo.amountCard }),
+        },
+        { title: t('customer'), value: v.clientName },
+        {
+          title: t('loyaltypercentage'),
+          value:
+            v.payInfo.isDiscount || v.payInfo.isCashback || v.payInfo.isPoints
+              ? numberWithNew({ number: v.payInfo.value })
+              : '-',
+        },
+        {
+          title: t('coupon'),
+          value:
+            v.payInfo.isCoupon && v.payInfo.valueType === 'percent'
+              ? `${numberWithNew({ number: v.payInfo.value })}%`
+              : '-',
+        },
+        {
+          title: t('certificate'),
+          value:
+            v.payInfo.isCoupon && v.payInfo.valueType === 'amount'
+              ? numberWithNew({ number: v.payInfo.value })
+              : '-',
+        },
+      ],
+    };
+  });
 
   const header2 = useMemo(() => {
     return (

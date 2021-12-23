@@ -181,7 +181,7 @@ const Registrationpanel = () => {
                   control={control}
                   rules={{
                     required: true,
-                    pattern: /^[a-zA-Z]*$/,
+                    pattern: /^[a-zA-Zа-яА-Я]*$/,
                   }}
                   render={({ field }) => (
                     <Input
@@ -205,7 +205,7 @@ const Registrationpanel = () => {
                   control={control}
                   rules={{
                     required: true,
-                    pattern: /^[a-zA-Z]*$/,
+                    pattern: /^[a-zA-Zа-яА-Я]*$/,
                   }}
                   render={({ field }) => (
                     <Input
