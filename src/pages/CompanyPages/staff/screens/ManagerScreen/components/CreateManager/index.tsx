@@ -159,7 +159,7 @@ const CreateManager = ({ openManager }: IProps) => {
 		setValue('logo', '');
 	};
 	console.log(logo);
-
+	console.log(`file`, file);
 	return (
 		<Modal open={openManager}>
 			{/* first step */}
@@ -213,7 +213,6 @@ const CreateManager = ({ openManager }: IProps) => {
 														)}
 													</div>
 												)}
-
 												{isLoading && (
 													<div style={{ width: '100%', height: 140 }}>
 														<Spinner size={30} />
@@ -231,6 +230,7 @@ const CreateManager = ({ openManager }: IProps) => {
 														<DeleteIcon onClick={handleDelete} />
 													</ImageBlock>
 												)}
+
 												{file && (
 													<StaffCropCustomModal
 														setIsLoading={setLoading}
