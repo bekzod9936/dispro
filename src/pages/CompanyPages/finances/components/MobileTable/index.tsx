@@ -40,7 +40,6 @@ interface Props {
   handleEdit?: (e: any) => void;
   handleDelete?: (e: any) => void;
   onClickRow?: (e: any) => void;
-  disable?: boolean;
   comment?: boolean;
 }
 
