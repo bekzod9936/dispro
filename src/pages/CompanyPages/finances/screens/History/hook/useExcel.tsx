@@ -43,6 +43,7 @@ const useExcel = () => {
             return {
               [t('cashier')]:
                 v.cashierName === 'No cashier name' ? t('p2p') : v.cashierName,
+              [t('filial')]: v.store.name,
               [t('transactiondate')]: date,
               [t('transactiontime')]: time,
               [t('totalsum')]: numberWithNew({ number: v.payInfo.amountTotal }),
@@ -77,6 +78,7 @@ const useExcel = () => {
           .concat([
             {
               [t('cashier')]: '',
+              [t('filial')]: '',
               [t('transactiondate')]: '',
               [t('transactiontime')]: '',
               [t('totalsum')]: '',
@@ -92,6 +94,7 @@ const useExcel = () => {
             },
             {
               [t('cashier')]: '',
+              [t('filial')]: '',
               [t('transactiondate')]: '',
               [t('transactiontime')]: '',
               [t('totalsum')]: '',
@@ -107,6 +110,7 @@ const useExcel = () => {
             },
             {
               [t('cashier')]: '',
+              [t('filial')]: '',
               [t('transactiondate')]: '',
               [t('transactiontime')]: '',
               [t('totalsum')]: numberWithNew({ number: sum.total }),

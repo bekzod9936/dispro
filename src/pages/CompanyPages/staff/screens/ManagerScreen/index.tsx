@@ -11,9 +11,9 @@ import Spinner from 'components/Helpers/Spinner';
 import Button from 'components/Custom/Button';
 import { SideBar } from '../../components/SideBar';
 import ManagerBar from './components/ManagerBar';
-import CreateManager from './components/CreateManager';
 import EditManager from './components/EditManager';
 import { setOpenManager } from 'services/redux/Slices/staffs';
+import CreateManager from './components/CreateManager';
 
 const ManagerScreen = () => {
 	const openManager = useAppSelector((state) => state.staffs.openManager);
