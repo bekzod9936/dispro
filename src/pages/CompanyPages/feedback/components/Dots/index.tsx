@@ -83,7 +83,6 @@ const Dots = ({ id, setCurrentUser }: Props) => {
         onClose={handleClose}
       >
         <SelectWrap>
-          <Link>{t('sharelink')}</Link>
           <Delete
             onClick={() => {
               setOpenWarning(true);

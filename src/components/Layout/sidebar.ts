@@ -12,6 +12,7 @@ import {
   CoinIcon,
   NotificationIcon,
   InformationIcon,
+  SettingIcon,
 } from "./style";
 
 const sidebar: any = [
@@ -75,6 +76,12 @@ const sidebar: any = [
     path: "info/about",
     permission: [],
   },
+  // {
+  //   Icon: SettingIcon,
+  //   text: "settings",
+  //   path: "newsettings/loyality",
+  //   permission: [],
+  // },
 ];
 
 export const useSideBar = () => {
