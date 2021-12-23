@@ -46,6 +46,9 @@ export const WrapFilter = styled.div`
   @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
     width: 60%;
   }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    grid-gap: 0;
+  }
   @media (min-width: ${device.laptop}) {
     width: 70%;
   }
@@ -75,6 +78,9 @@ export const ButtonKeyWord = styled.div`
     font-weight: 300;
     font-size: 12px;
     color: #223367;
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    margin: 7px 15px 7px 0;
   }
   @media (min-width: ${device.laptop}) {
     height: 35px;

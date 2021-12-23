@@ -6,7 +6,7 @@ import Table from '../../components/Table';
 import dayjs from 'dayjs';
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import { countPagination, numberWithNew } from 'services/utils';
-import MobileTable from '../../components/MobileTable';
+import MobileTable from './components/MobileTable';
 import useWindowWidth from 'services/hooks/useWindowWidth';
 import financeCashierDef from '../../../../../assets/images/financeCashierDef.png';
 import { NewPagination } from 'components/Custom/NewPagination';
@@ -100,17 +100,14 @@ const Payment = () => {
     setOpen(false);
     setRowData({});
     setComment('');
-
-    // dispatch(
-    //   setSideDrawer({
-    //     openRow: false,
-    //     chosenRow: {},
-    //     content: null,
-    //   })
-    // );
+    dispatch(
+      setSideDrawer({
+        openRow: false,
+        chosenRow: {},
+        content: null,
+      })
+    );
   };
-  console.log(sidedrawer);
-  console.log(id);
 
   const handleRow = (e: any) => {
     setId(e.id);
@@ -164,7 +161,6 @@ const Payment = () => {
       {
         onSuccess: () => {
           handleAllClose();
-
           setDeleteOpen(false);
         },
       }
@@ -207,14 +203,140 @@ const Payment = () => {
       } else {
         if (width > 600) {
           return (
-            <Table
-              onClickRow={handleRow}
-              header2={header2}
-              columns={columns}
-              data={listdesktop}
-              idRow={sidedrawer?.chosenRow?.id}
-              cursorRow='pointer'
-            />
+            <>
+              <Table
+                onClickRow={handleRow}
+                header2={header2}
+                columns={columns}
+                data={listdesktop}
+                idRow={sidedrawer?.chosenRow?.id}
+                cursorRow='pointer'
+              />
+              <Modal open={open}>
+                <WrapModalComment>
+                  <WarpBodyComModel>
+                    <WrapComTitle>
+                      <div>
+                        {rowData.col13 !== ''
+                          ? t('changingcomment')
+                          : t('addingcomment')}
+                      </div>
+                      <CloseWrapBut>
+                        <IconButton
+                          onClick={() => {
+                            setOpen(false);
+                            handleAllClose();
+                          }}
+                        >
+                          <CloseIcon />
+                        </IconButton>
+                      </CloseWrapBut>
+                    </WrapComTitle>
+                    <div>
+                      <TextArea
+                        minHeight={'120px'}
+                        maxHeight={'300px'}
+                        resize={'vertical'}
+                        value={comment}
+                        onChange={(e: any) => {
+                          if (width > 1000) {
+                            setComment(e.target.value);
+                          } else {
+                            if (e.target.value.length <= 100) {
+                              setComment(e.target.value);
+                            } else {
+                              setComment(e.target.value.substring(0, 100));
+                            }
+                          }
+                        }}
+                        maxLength={100}
+                        title={
+                          <LabelCom>
+                            <span>{t('commentoperation')}</span>
+                            <span>{comment.length}/100</span>
+                          </LabelCom>
+                        }
+                      />
+                    </div>
+                  </WarpBodyComModel>
+                  <WrapButtonsModal>
+                    <Button
+                      buttonStyle={{
+                        bgcolor: width > 600 ? 'white' : '#eff0fd',
+                        color: width > 600 ? '#223367' : '#606EEA',
+                        weight: 500,
+                      }}
+                      margin={{
+                        laptop: '0 30px 0 0',
+                        mobile: '0 10px 0 0',
+                      }}
+                      padding={{ mobile: '0 10px' }}
+                      startIcon={width > 600 ? <CancelIcon /> : null}
+                      endIcon={width < 600 ? <CancelIcon /> : null}
+                      onClick={() => {
+                        handleAllClose();
+                      }}
+                    >
+                      {t('cancel')}
+                    </Button>
+                    <Button
+                      buttonStyle={{
+                        color: 'white',
+                        bgcolor: '#606EEA',
+                      }}
+                      padding={{ mobile: '0 10px' }}
+                      startIcon={width > 600 ? <SaveIcon /> : null}
+                      endIcon={width < 600 ? <SaveIcon /> : null}
+                      disabled={resComment.isLoading}
+                      onClick={handleSave}
+                    >
+                      {t('save')}
+                    </Button>
+                  </WrapButtonsModal>
+                </WrapModalComment>
+              </Modal>
+              <Modal open={deleteOpen}>
+                <WrapDeleteModal>
+                  <WrapDeleteTitle>{t('areyousuredelete')}</WrapDeleteTitle>
+                  <WrapDeleteComment>{comment}</WrapDeleteComment>
+                  <WrapDeleteButtons>
+                    <Button
+                      buttonStyle={{
+                        bgcolor: width > 600 ? 'white' : '#eff0fd',
+                        color: width > 600 ? '#223367' : '#606EEA',
+                        weight: 500,
+                      }}
+                      margin={{
+                        laptop: '0 30px 0 0',
+                        mobile: '0 10px 0 0',
+                      }}
+                      padding={{ mobile: '0 10px' }}
+                      startIcon={width > 600 ? <CancelIcon /> : null}
+                      endIcon={width < 600 ? <CancelIcon /> : null}
+                      onClick={() => {
+                        setDeleteOpen(false);
+                      }}
+                    >
+                      {t('cancel')}
+                    </Button>
+                    <Button
+                      buttonStyle={{
+                        color: 'white',
+                        bgcolor: '#FF5E68',
+                        weight: 500,
+                      }}
+                      padding={{ mobile: '0 10px' }}
+                      startIcon={width > 600 ? <DeleteIcon1 /> : null}
+                      endIcon={width < 600 ? <DeleteIcon1 /> : null}
+                      disabled={resComment.isLoading}
+                      onClick={handleDeleteCom}
+                    >
+                      {t('delete')}
+                    </Button>
+                  </WrapDeleteButtons>
+                </WrapDeleteModal>
+              </Modal>
+            </>
           );
         } else {
           return (
@@ -228,8 +350,8 @@ const Payment = () => {
               onAllClose={handleAllClose}
               handleEdit={(comment: any) => handleEdit(comment)}
               handleDelete={() => handleDelete()}
-              comment={true}
               onClickRow={handleRow}
+              resComment={resComment}
             />
           );
         }
@@ -290,133 +412,6 @@ const Payment = () => {
             />
             {headerContentMobile()}
             {contentTable()}
-
-            <Modal open={open}>
-              <WrapModalComment>
-                <WarpBodyComModel>
-                  <WrapComTitle>
-                    <div>
-                      {rowData.col13 !== ''
-                        ? t('changingcomment')
-                        : t('addingcomment')}
-                    </div>
-                    <CloseWrapBut>
-                      <IconButton
-                        onClick={() => {
-                          setOpen(false);
-                          handleAllClose();
-                        }}
-                      >
-                        <CloseIcon />
-                      </IconButton>
-                    </CloseWrapBut>
-                  </WrapComTitle>
-                  <div>
-                    <TextArea
-                      minHeight={'120px'}
-                      maxHeight={'300px'}
-                      resize={'vertical'}
-                      value={comment}
-                      onChange={(e: any) => {
-                        if (width > 1000) {
-                          setComment(e.target.value);
-                        } else {
-                          if (e.target.value.length <= 100) {
-                            setComment(e.target.value);
-                          } else {
-                            setComment(e.target.value.substring(0, 100));
-                          }
-                        }
-                      }}
-                      maxLength={100}
-                      title={
-                        <LabelCom>
-                          <span>{t('commentoperation')}</span>
-                          <span>{comment.length}/100</span>
-                        </LabelCom>
-                      }
-                    />
-                  </div>
-                </WarpBodyComModel>
-                <WrapButtonsModal>
-                  <Button
-                    buttonStyle={{
-                      bgcolor: width > 600 ? 'white' : '#eff0fd',
-                      color: width > 600 ? '#223367' : '#606EEA',
-                      weight: 500,
-                    }}
-                    margin={{
-                      laptop: '0 30px 0 0',
-                      mobile: '0 10px 0 0',
-                    }}
-                    padding={{ mobile: '0 10px' }}
-                    startIcon={width > 600 ? <CancelIcon /> : null}
-                    endIcon={width < 600 ? <CancelIcon /> : null}
-                    onClick={() => {
-                      handleAllClose();
-                    }}
-                  >
-                    {t('cancel')}
-                  </Button>
-                  <Button
-                    buttonStyle={{
-                      color: 'white',
-                      bgcolor: '#606EEA',
-                    }}
-                    padding={{ mobile: '0 10px' }}
-                    startIcon={width > 600 ? <SaveIcon /> : null}
-                    endIcon={width < 600 ? <SaveIcon /> : null}
-                    disabled={resComment.isLoading}
-                    onClick={handleSave}
-                  >
-                    {t('save')}
-                  </Button>
-                </WrapButtonsModal>
-              </WrapModalComment>
-            </Modal>
-            {id !== null && (
-              <Modal open={deleteOpen}>
-                <WrapDeleteModal>
-                  <WrapDeleteTitle>{t('areyousuredelete')}</WrapDeleteTitle>
-                  <WrapDeleteComment>{comment}</WrapDeleteComment>
-                  <WrapDeleteButtons>
-                    <Button
-                      buttonStyle={{
-                        bgcolor: width > 600 ? 'white' : '#eff0fd',
-                        color: width > 600 ? '#223367' : '#606EEA',
-                        weight: 500,
-                      }}
-                      margin={{
-                        laptop: '0 30px 0 0',
-                        mobile: '0 10px 0 0',
-                      }}
-                      padding={{ mobile: '0 10px' }}
-                      startIcon={width > 600 ? <CancelIcon /> : null}
-                      endIcon={width < 600 ? <CancelIcon /> : null}
-                      onClick={() => {
-                        setDeleteOpen(false);
-                      }}
-                    >
-                      {t('cancel')}
-                    </Button>
-                    <Button
-                      buttonStyle={{
-                        color: 'white',
-                        bgcolor: '#FF5E68',
-                        weight: 500,
-                      }}
-                      padding={{ mobile: '0 10px' }}
-                      startIcon={width > 600 ? <DeleteIcon1 /> : null}
-                      endIcon={width < 600 ? <DeleteIcon1 /> : null}
-                      disabled={resComment.isLoading}
-                      onClick={handleDeleteCom}
-                    >
-                      {t('delete')}
-                    </Button>
-                  </WrapDeleteButtons>
-                </WrapDeleteModal>
-              </Modal>
-            )}
 
             {data.length === 0 ? null : (
               <WrapPag>

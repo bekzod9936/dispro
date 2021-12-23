@@ -123,6 +123,7 @@ export interface IFinance {
     cashier: ICashier[];
     storeIds: IStore[];
     sidedrawer: ISide;
+    id?: number;
   };
 }
 
