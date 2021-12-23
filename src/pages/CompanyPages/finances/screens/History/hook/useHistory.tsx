@@ -177,6 +177,10 @@ const useHistory = ({ filterValues, handleClickCommet }: PProps) => {
         },
         body: [
           {
+            title: t('filial'),
+            value: v.store.name,
+          },
+          {
             title: t('transactiondate'),
             value: date,
           },
