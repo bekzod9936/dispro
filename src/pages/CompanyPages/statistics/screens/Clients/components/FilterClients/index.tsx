@@ -177,7 +177,7 @@ const FilterClients = ({
                 setValues({ ...values, regDateFrom: date });
               }}
               value={values?.regDateFrom}
-              maxDate={values?.regDateTo}
+              maxDate={values?.regDateTo || new Date()}
             />
             <CustomDatePicker
               margin='0 0 0 0'
@@ -189,6 +189,7 @@ const FilterClients = ({
               }}
               value={values?.regDateTo}
               minDate={values?.regDateFrom}
+              maxDate={new Date()}
             />
           </div>
         </WrapInputs>
@@ -639,7 +640,11 @@ const FilterClients = ({
           onReset={onReset}
           list={filterList}
         />
-        <DatePcker onChange={handleDataPicker} margin='0 10px 5px 15px' />
+        <DatePcker
+          onChange={handleDataPicker}
+          margin='0 10px 5px 15px'
+          maxDate={new Date()}
+        />
         {filterStore(storeId)}
         {filterGender}
         {filterRegvalue}

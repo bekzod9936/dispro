@@ -126,6 +126,7 @@ const Traffics = () => {
           });
         }}
         margin='0 0 10px 0'
+        maxDate={new Date()}
       />
       <Wrapper>
         {response.isLoading || response.isFetching ? (
