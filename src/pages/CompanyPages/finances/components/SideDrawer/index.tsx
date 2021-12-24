@@ -1,5 +1,5 @@
 import { IconButton } from '@material-ui/core';
-import Button from 'components/Custom/Button';
+import Button from 'components/Custom/Buttons/Button';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as EditPen } from 'assets/icons/editpen.svg';
 import {

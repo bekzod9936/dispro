@@ -19,7 +19,7 @@ export const Wrapper = styled.div`
             font-size: 22px;
             font-weight: 25.78px;
             color: #223367;
-            width: 265px;
+            width: 300px;
         }
     }
 

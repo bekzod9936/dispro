@@ -1,9 +1,9 @@
 import partnerApi from "services/interceptors/partner_interceptor";
 
 //cashiers tab
-export const getCashiers = async (page: number, url: string, storeIds?: number | null) => {
+export const getCashiers = async (page: number, url: string, storeId?: number | null) => {
   const response = await partnerApi(
-    `/core/staffs/get/cashiers?page=${page}&perPage=10&${url}${storeIds ? `storeIds=[${storeIds}]` : ""}`
+    `/core/staffs/get/cashiers?page=${page}&perPage=10&${url}${storeId ? `storeId=${storeId}` : ""}`
   );
   return response;
 };

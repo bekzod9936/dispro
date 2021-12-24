@@ -1,18 +1,18 @@
-import { useTranslation } from "react-i18next";
-import { Controller, useFieldArray } from "react-hook-form";
+import { useTranslation } from 'react-i18next';
+import { Controller, useFieldArray } from 'react-hook-form';
 
 //assets and style
-import { ReactComponent as ArrowBack } from "assets/icons/arrow_left.svg";
-import { HBreak, SpinnerDiv } from "../../styles";
-import { SaveIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
+import { ReactComponent as ArrowBack } from 'assets/icons/arrow_left.svg';
+import { HBreak, SpinnerDiv } from '../../styles';
+import { SaveIcon } from 'assets/icons/InfoPageIcons/InfoPageIcons';
 import {
   AddIconSettings,
   XIcon,
-} from "assets/icons/SettingsIcons/SettingsPageIcon";
-import { ThreeHeadIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
-import { COLORS, FONT_SIZE } from "services/Types/enums";
-import { ReferalScroll, SmallPanel } from "../../styles/SettingStyles";
-import { Text } from "styles/CustomStyles";
+} from 'assets/icons/SettingsIcons/SettingsPageIcon';
+import { ThreeHeadIcon } from 'assets/icons/ClientsPageIcons/ClientIcons';
+import { COLORS, FONT_SIZE } from 'services/Types/enums';
+import { ReferalScroll, SmallPanel } from '../../styles/SettingStyles';
+import { Text } from 'styles/CustomStyles';
 import {
   GridContainer,
   LeftGrid,
@@ -38,25 +38,25 @@ import {
   ReferalWrapper,
   Wrapper,
   ActionDiv,
-} from "./styles";
+} from './styles';
 
 //components
-import CancelButton from "../../components/CancelButton";
-import SaveButton from "../../components/SaveButton";
-import CustomToggle from "components/Custom/CustomToggleSwitch";
-import SettingButton from "../../components/SettingButton";
-import InputFormat from "components/Custom/InputFormat";
-import RippleEffect from "components/Custom/RippleEffect";
-import Button from "components/Custom/Button";
-import TwoUsers from "../../components/TwoUsers";
-import { IconButton } from "@material-ui/core";
+import CancelButton from '../../components/CancelButton';
+import SaveButton from '../../components/SaveButton';
+import CustomToggle from 'components/Custom/CustomToggleSwitch';
+import SettingButton from '../../components/SettingButton';
+import InputFormat from 'components/Custom/InputFormat';
+import RippleEffect from 'components/Custom/RippleEffect';
+import Button from 'components/Custom/Buttons/Button';
+import TwoUsers from '../../components/TwoUsers';
+import { IconButton } from '@material-ui/core';
 
 //hooks
-import useReferalData from "./hooks/useReferalData";
-import useWindowWidth from "services/hooks/useWindowWidth";
-import ReferalCard from "./components/ReferalCard";
-import Spinner from "components/Helpers/Spinner";
-import { ruCount } from "services/utils";
+import useReferalData from './hooks/useReferalData';
+import useWindowWidth from 'services/hooks/useWindowWidth';
+import ReferalCard from './components/ReferalCard';
+import Spinner from 'components/Helpers/Spinner';
+import { ruCount } from 'services/utils';
 
 const ReferalProgrammSection = () => {
   const { t } = useTranslation();
@@ -82,14 +82,14 @@ const ReferalProgrammSection = () => {
   //form field array
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "referals",
+    name: 'referals',
   });
 
   const mainContent = () => {
     if (width <= 1000) {
       return (
         <SettingDiv>
-          <SettingButton text={"Настроить"} onClick={handleClick} />
+          <SettingButton text={'Настроить'} onClick={handleClick} />
         </SettingDiv>
       );
     } else {
@@ -125,8 +125,8 @@ const ReferalProgrammSection = () => {
                               disabled={!checkedState}
                               label={`Уровень ${index + 1}`}
                               field={field}
-                              max="100"
-                              message={""}
+                              max='100'
+                              message={''}
                               error={
                                 errors?.referals?.[index]?.percent
                                   ? true
@@ -138,28 +138,28 @@ const ReferalProgrammSection = () => {
                       />
 
                       <TwoUsers
-                        name1="Саша"
-                        name2="Егор"
+                        name1='Саша'
+                        name2='Егор'
                         name3={
                           item.number === 2
-                            ? "Петя"
+                            ? 'Петя'
                             : item.number > 2
                             ? index +
-                              " " +
+                              ' ' +
                               ruCount({
                                 count: index,
-                                firstWord: t("people"),
-                                secondWord: t("people"),
-                                thirdWord: t("peopleRu"),
+                                firstWord: t('people'),
+                                secondWord: t('people'),
+                                thirdWord: t('peopleRu'),
                               })
                             : null
                         }
                       />
                       <TextDiv>
-                        <Text fontSize="14px" fontWeight={300}>
+                        <Text fontSize='14px' fontWeight={300}>
                           1 клиент получает
-                          {" " + item.percent}% с каждой покупки
-                          {" " + +(item.number + 1)} Клиентa
+                          {' ' + item.percent}% с каждой покупки
+                          {' ' + +(item.number + 1)} Клиентa
                         </Text>
                       </TextDiv>
                     </SmallPanel>
@@ -169,7 +169,7 @@ const ReferalProgrammSection = () => {
                           if (checkedState) {
                             remove(index);
                             setValue(
-                              "referals",
+                              'referals',
                               fields.filter((item, ind) => ind !== index)
                             );
                           }
@@ -182,7 +182,7 @@ const ReferalProgrammSection = () => {
                       <ActDiv>
                         <RippleEffect
                           onClick={() => {
-                            console.log(index, "index next");
+                            console.log(index, 'index next');
                             if (checkedState) {
                               remove(index);
                             }
@@ -217,11 +217,11 @@ const ReferalProgrammSection = () => {
           <ReferalBtn>
             <Button
               disabled={saving}
-              loadingColor="#fff"
+              loadingColor='#fff'
               startIcon={<SaveIcon />}
-              type="submit"
+              type='submit'
             >
-              {t("save")}
+              {t('save')}
             </Button>
           </ReferalBtn>
         </ReferalContent>
@@ -232,7 +232,7 @@ const ReferalProgrammSection = () => {
   const removeCard = (index: any) => {
     remove(index);
     setValue(
-      "referals",
+      'referals',
       fields.filter((item, ind) => ind !== index)
     );
   };
@@ -275,16 +275,16 @@ const ReferalProgrammSection = () => {
                     });
                   }}
                   buttonStyle={{
-                    bgcolor: "transparent",
-                    color: "#3492FF",
+                    bgcolor: 'transparent',
+                    color: '#3492FF',
                   }}
                 >
                   Добавить уровень +
                 </Button>
 
                 <ActionDiv>
-                  <CancelButton onClick={handleClick} text={t("cancel")} />
-                  <SaveButton type="submit" text={t("save")} />
+                  <CancelButton onClick={handleClick} text={t('cancel')} />
+                  <SaveButton type='submit' text={t('save')} />
                 </ActionDiv>
               </ReferalWrapper>
             </ReferalBody>
@@ -311,19 +311,19 @@ const ReferalProgrammSection = () => {
           <HeaderReferal>
             <div>
               <div>
-                <Text fontWeight={500} fontSize="18px">
+                <Text fontWeight={500} fontSize='18px'>
                   Реферальная система
                   <br />
                 </Text>
               </div>
-              <div style={{ maxWidth: "370px" }}>
-                <Text fontWeight={300} fontSize="14px">
+              <div style={{ maxWidth: '370px' }}>
+                <Text fontWeight={300} fontSize='14px'>
                   Начисление баллов рекомендателю в размере процента от суммы
                   счета приглашенных друзей
                 </Text>
               </div>
             </div>
-            <div style={{ margin: "10px 0px 10px 20px" }}>
+            <div style={{ margin: '10px 0px 10px 20px' }}>
               <CustomToggle
                 checked={checkedState}
                 onChange={(e: any) => {
@@ -344,7 +344,7 @@ const ReferalProgrammSection = () => {
             <LevelsHead>
               <ThreeHeadIcon />
               <div>
-                <Text marginLeft="15px" fontSize={FONT_SIZE.mediumPlus}>
+                <Text marginLeft='15px' fontSize={FONT_SIZE.mediumPlus}>
                   Клиентов по уровням
                 </Text>
               </div>
@@ -355,7 +355,7 @@ const ReferalProgrammSection = () => {
                   <LevelsRow key={index}>
                     <div>
                       <Text fontSize={FONT_SIZE.smallPlus} fontWeight={400}>
-                        {item.levelNumber} {t("level")}
+                        {item.levelNumber} {t('level')}
                       </Text>
                     </div>
                     <div>

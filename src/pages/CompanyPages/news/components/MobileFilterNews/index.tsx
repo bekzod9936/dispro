@@ -1,12 +1,12 @@
-import { Flex } from "../../style";
-import Button from "components/Custom/Button";
-import { AddMobileIcon } from "assets/icons/news/newsIcons";
-import Input from "components/Custom/Input";
-import DatePcker from "components/Custom/DatePicker";
-import { SearchIcon } from "components/Layout/Header/style";
-import { useTranslation } from "react-i18next";
-import { useAppSelector } from "services/redux/hooks";
-import useWindowWidth from "services/hooks/useWindowWidth";
+import { Flex } from '../../style';
+import Button from 'components/Custom/Buttons/Button';
+import { AddMobileIcon } from 'assets/icons/news/newsIcons';
+import Input from 'components/Custom/Input';
+import DatePcker from 'components/Custom/DatePicker';
+import { SearchIcon } from 'components/Layout/Header/style';
+import { useTranslation } from 'react-i18next';
+import { useAppSelector } from 'services/redux/hooks';
+import useWindowWidth from 'services/hooks/useWindowWidth';
 interface FilterNews {
   handleOpenNews: () => void;
   searchNews: (e: any) => void;
@@ -25,59 +25,59 @@ export const MobileFilterNews = ({
     <>
       {width > 360 ? (
         <Flex
-          width="100%"
-          justifyContent="space-between"
-          alignItems="center"
-          flexDirection="column"
-          margin="0"
+          width='100%'
+          justifyContent='space-between'
+          alignItems='center'
+          flexDirection='column'
+          margin='0'
         >
-           <div style={{width:"100%",display:'flex'}}>
-        <div>
-            <Button
-              onClick={handleOpenNews}
-              buttonStyle={{
-                bgcolor: "#FFFFFF",
-                color: "#223367",
-                weight: 500,
-                height: { desktop: 50, mobile: 36 },
-              }}
-              margin={{
-                desktop: "0 25px 0 0",
-                laptop: "0 25px 0 0",
-                planshet: "0 0 20px 0",
-                mobile: "0 20px 0px 0px",
-              }}
-              startIcon={<AddMobileIcon />}
-            >
-              {t("Создать ")}
-            </Button>
+          <div style={{ width: '100%', display: 'flex' }}>
+            <div>
+              <Button
+                onClick={handleOpenNews}
+                buttonStyle={{
+                  bgcolor: '#FFFFFF',
+                  color: '#223367',
+                  weight: 500,
+                  height: { desktop: 50, mobile: 36 },
+                }}
+                margin={{
+                  desktop: '0 25px 0 0',
+                  laptop: '0 25px 0 0',
+                  planshet: '0 0 20px 0',
+                  mobile: '0 20px 0px 0px',
+                }}
+                startIcon={<AddMobileIcon />}
+              >
+                {t('Создать ')}
+              </Button>
             </div>
             {filterByDate && (
               <DatePcker
-              showoldvalue={true}
+                showoldvalue={true}
                 onChange={async (e: any) => {
                   filterByDate(e);
                 }}
               />
             )}
-  </div>
+          </div>
           <Flex
-            width="100%"
-            justifyContent="center"
-            alignItems="center"
-            margin="13px 0px 0px 0px"
+            width='100%'
+            justifyContent='center'
+            alignItems='center'
+            margin='13px 0px 0px 0px'
           >
             <Input
               inputStyle={{
-                border: "none",
+                border: 'none',
                 height: { desktop: 50, mobile: 36 },
               }}
               margin={{
-                mobile: "0 10px 0 0px",
+                mobile: '0 10px 0 0px',
               }}
               IconStart={<SearchIcon style={{ marginLeft: 20 }} />}
               value={query}
-              placeholder="Поиск "
+              placeholder='Поиск '
               onChange={(e) => searchNews(e)}
               width={{ maxwidth: 500 }}
             />
@@ -85,24 +85,24 @@ export const MobileFilterNews = ({
         </Flex>
       ) : (
         <Flex
-          width="100%"
-          justifyContent="center"
-          alignItems="center"
-          flexDirection="column"
-          margin="0"
+          width='100%'
+          justifyContent='center'
+          alignItems='center'
+          flexDirection='column'
+          margin='0'
         >
-          <Flex width="100%" justifyContent="center" alignItems="center">
+          <Flex width='100%' justifyContent='center' alignItems='center'>
             <Input
               inputStyle={{
-                border: "none",
+                border: 'none',
                 height: { desktop: 50, mobile: 36 },
               }}
               margin={{
-                mobile: "0 10px 0 0px",
+                mobile: '0 10px 0 0px',
               }}
               IconStart={<SearchIcon style={{ marginLeft: 20 }} />}
               value={query}
-              placeholder="Поиск "
+              placeholder='Поиск '
               onChange={(e) => searchNews(e)}
               width={{ maxwidth: 500 }}
             />
@@ -110,31 +110,31 @@ export const MobileFilterNews = ({
             <Button
               onClick={handleOpenNews}
               buttonStyle={{
-                bgcolor: "#FFFFFF",
-                color: "#223367",
+                bgcolor: '#FFFFFF',
+                color: '#223367',
                 weight: 500,
                 height: { desktop: 50, mobile: 36 },
               }}
               margin={{
-                desktop: "0 25px 0 0",
-                laptop: "0 25px 0 0",
-                planshet: "0 0 20px 0",
-                mobile: "0 10px 0 0",
+                desktop: '0 25px 0 0',
+                laptop: '0 25px 0 0',
+                planshet: '0 0 20px 0',
+                mobile: '0 10px 0 0',
               }}
               startIcon={<AddMobileIcon />}
             >
-              {t("Создать ")}
+              {t('Создать ')}
             </Button>
           </Flex>
           <Flex
-            width="100%"
-            justifyContent="flex-start"
-            alignItems="center"
-            margin="13px 0px 0px 0px"
+            width='100%'
+            justifyContent='flex-start'
+            alignItems='center'
+            margin='13px 0px 0px 0px'
           >
             {filterByDate && (
               <DatePcker
-              showoldvalue={true}
+                showoldvalue={true}
                 onChange={async (e: any) => {
                   filterByDate(e);
                 }}

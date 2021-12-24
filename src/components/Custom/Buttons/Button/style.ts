@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { Props } from './index';
+import { Props } from '../type';
 import { Button } from '@material-ui/core';
-import { device } from '../../../styles/device';
+import { device } from '../../../../styles/device';
 
 export const Container = styled.div`
   width: ${({ width, fullWidth }: Props) =>

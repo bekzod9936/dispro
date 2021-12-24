@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IconButton } from '@material-ui/core';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import Button from 'components/Custom/Button';
+import Button from 'components/Custom/Buttons/Button';
 import { Avatar } from '../../style';
 import dayjs from 'dayjs';
 import { useHistory, useLocation } from 'react-router';

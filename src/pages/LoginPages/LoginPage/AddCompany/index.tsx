@@ -1,6 +1,6 @@
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import Button from '../../../../components/Custom/Button';
+import Button from '../../../../components/Custom/Buttons/Button';
 import { useHistory } from 'react-router';
 import Input from '../../../../components/Custom/Input';
 import MultiSelect from 'components/Custom/MultiSelect';
