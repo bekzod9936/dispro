@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 //components
 import Spinner from "components/Helpers/Spinner";
@@ -9,7 +9,10 @@ import { EmptyPage } from "../EmptyPage";
 //other
 import { useSectionsWithIdEntity } from "pages/CompanyPages/services/hooks/MainPageHooks";
 import { IGoods } from "pages/CompanyPages/services/utils/types";
-import { ISectionResponse } from "services/queries/servicesQueries/response.types";
+import {
+  IGoodsResponse,
+  ISectionResponse,
+} from "services/queries/servicesQueries/response.types";
 
 //style
 import { Wrapper, Container } from "./style";
@@ -27,6 +30,8 @@ export const Goods: React.FC<GoodsProps> = ({
   goods,
   isLoading,
 }) => {
+  const [currentItem, setCurrentItem] = useState<IGoodsResponse | null>(null);
+
   const sectionsObject = useSectionsWithIdEntity();
   const isUserhasGoods = useMemo(() => Object.keys(goods).length > 0, [goods]);
   const isPageEmpty = !isUserhasGoods && !isLoading;
@@ -42,6 +47,8 @@ export const Goods: React.FC<GoodsProps> = ({
         {isPageEmpty && <EmptyPage />}
         {Object.keys(goods).map((sectionId) => (
           <ItemGroup
+            currentItem={currentItem}
+            setCurrentItem={setCurrentItem}
             sectionName={sectionsObject?.[Number(sectionId)]}
             goods={goods[Number(sectionId)]}
           />
