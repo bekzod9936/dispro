@@ -82,7 +82,16 @@ const useCashiers = ({ query, period, storeIdForFilter}: any) => {
         dispatch(setCashiers(data.data.data.staffs));
 		dispatch(setCashiersTotal(data.data.data.totalCount))
 		// console.log(data.data.data)
-		!storeFilters && dispatch(setStoreFilters(cashiers.map((el: any) => ({value: el.stores[0]?.id, label: el.stores[0]?.address}))))
+		let res = cashiers.map((el: any) => ([...el.stores.map((e: any) => ({value: e.id, label: e.address}))]))
+		let temp = res.reduce((acc: any, curr: any) => {
+			curr.forEach((el: any )=> {
+				acc.push(el)
+			})
+
+			return acc
+		}, [])
+
+		!storeFilters && dispatch(setStoreFilters(temp))
         dispatch(
           selectAllCashier(
             data?.data?.data?.staffs?.map((cashier: any) => {
