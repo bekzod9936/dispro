@@ -2,6 +2,7 @@ import { useReducer } from "react";
 
 //packages
 import { FormProvider } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 
 //style
 import { Container, FormStyled } from "./style";
@@ -14,6 +15,7 @@ import {
 import { useCreateItem } from "../../../../hooks";
 import { CreateDtoType } from "pages/CompanyPages/services/utils/types";
 import { createServiceHelper } from "pages/CompanyPages/services/helpers";
+import { useCreateService } from "pages/CompanyPages/services/hooks/CreatePageHooks/mutations";
 
 //components
 import { Selects } from "../Selects";
@@ -22,9 +24,7 @@ import { Durations } from "../Durations";
 import { Photos } from "../Photos";
 import { Buttons } from "../Buttons";
 import { Switches } from "../Switches";
-import { useCreateService } from "pages/CompanyPages/services/hooks/CreatePageHooks/mutations";
 import { TitleAndDescription } from "pages/CompanyPages/services/components/TitleAndDescription";
-import { useHistory } from "react-router-dom";
 
 interface FormProps {}
 
@@ -49,8 +49,6 @@ export const Form: React.FC<FormProps> = () => {
       },
     });
   };
-
-  console.log(form.formState.errors);
 
   return (
     <FormStyled onSubmit={form.handleSubmit(onSubmit)}>
