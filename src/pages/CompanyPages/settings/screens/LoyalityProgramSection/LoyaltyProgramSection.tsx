@@ -226,7 +226,7 @@ const LoyaltyProgramSection = () => {
                   </Flex>
                 );
               })}
-              {infoData === 2 && (
+              {/* {infoData === 2 && (
                 <Flex
                   justifyContent='space-between'
                   margin='0px 0px 35px 0px'
@@ -263,7 +263,7 @@ const LoyaltyProgramSection = () => {
                       </div>
                     </Flex>
                   </Flex>}
-          
+           */}
               
             </Flex>
           </LeftGrid>

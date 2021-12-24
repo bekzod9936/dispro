@@ -34,9 +34,9 @@ const Settings = () => {
                 </>
               );
             })}
-            <Route path='*' exact={true}>
+            {/* <Route path='*' exact={true}>
               <Redirect to={menuItems[0].path} />
-            </Route>
+            </Route> */}
           </Suspense>
         </Switch>
       </PageWrapperFlex>
