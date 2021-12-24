@@ -1,5 +1,5 @@
 //react
-import React, { useState } from "react";
+import { useState } from "react";
 
 //packages
 import { useTranslation } from "react-i18next";

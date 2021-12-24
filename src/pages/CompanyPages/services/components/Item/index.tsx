@@ -1,11 +1,13 @@
-import React from "react";
+//packages
 import { useTranslation } from "react-i18next";
-import { IGoodsResponse } from "services/queries/servicesQueries/response.types";
-import { thousandsDivider } from "../../helpers";
-import { Left, Right, Wrapper, PointsIcon, DiscountIcon } from "./style";
-import DEFAULT_IMAGE from "assets/images/staff_default.png";
 
 //style
+import { Left, Right, Wrapper, PointsIcon, DiscountIcon } from "./style";
+
+//other
+import { IGoodsResponse } from "services/queries/servicesQueries/response.types";
+import { thousandsDivider } from "../../helpers";
+import DEFAULT_IMAGE from "assets/images/staff_default.png";
 
 interface ItemProps {
   item: IGoodsResponse;

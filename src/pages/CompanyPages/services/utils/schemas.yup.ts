@@ -1,6 +1,7 @@
 import * as yup from "yup"
 
 //! refactor: variant fields as each number field can be nullable and can have empty string
+// TODO: articul: not required, amount: not required
 
 export const sectionsSchema = yup.object().shape({
     sections: yup.array().of(
@@ -40,6 +41,7 @@ const variantSchema = yup.object().shape({
 
     amount: yup
         .number()
+        .min(1, "minAmoutOfItems")
         .nullable(true)
         .transform((parsedValue, originalValue) => originalValue === '' ? null : parsedValue)
         .max(1000001, 'maxAmountOfItems')
@@ -47,7 +49,7 @@ const variantSchema = yup.object().shape({
 
     articul: yup.string().required('enterArticulOfItem').max(30, 'maxAmountOfSymbols'),
 
-    price: yup.number().typeError('enterPriceOfItem').max(1000000001, 'maxPriceOneBillion').required('enterPriceOfItem'),
+    price: yup.number().min(1000, 'minAmountOfPrice').typeError('enterPriceOfItem').max(1000000001, 'maxPriceOneBillion').required('enterPriceOfItem'),
 
     priceWithSale: yup.string()
     
@@ -64,16 +66,16 @@ const variantSchemaWithSale = yup.object().shape({
     amount: yup
         .number()
         .nullable(true)
+        .min(1, "minAmoutOfItems")
         .transform((parsedValue, originalValue) => originalValue === '' ? null : parsedValue)
         .max(1000001, 'maxAmountOfItems')
         .required('enterAmountOfItem'),
 
-
     articul: yup.string().required('enterArticulOfItem').max(30, 'maxAmountOfSymbols'),
 
-    price: yup.number().typeError('enterPriceOfItem').max(1000000001, 'maxPriceOneBillion').required('enterPriceOfItem'),
+    price: yup.number().min(1000, 'minAmountOfPrice').typeError('enterPriceOfItem').max(1000000001, 'maxPriceOneBillion').required('enterPriceOfItem'),
 
-    priceWithSale: yup.number().typeError('enterPriceOfItemWithSale').lessThan(yup.ref('price'), 'priceWithSaleMustBeLessThanPriceWithoutSale').required('enterPriceOfItemWithSale')
+    priceWithSale: yup.number().min(1000, 'minAmountOfPrice').typeError('enterPriceOfItemWithSale').lessThan(yup.ref('price'), 'priceWithSaleMustBeLessThanPriceWithoutSale').required('enterPriceOfItemWithSale')
     
 })
 
@@ -93,8 +95,8 @@ export const goodsSchema = yup.object().shape({
     measurement: yup.object().shape({
         label: yup.string(),
         name: yup.string(),
-        value: yup.number().required('requiredField')
-    }).required('requiredField'),
+        value: yup.number()
+    }),
 
     service: yup.object().shape({
         label: yup.string(),

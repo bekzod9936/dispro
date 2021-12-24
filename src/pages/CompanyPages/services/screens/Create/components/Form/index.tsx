@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useReducer, useState } from "react";
 
 //packages
 import { FormProvider } from "react-hook-form";
@@ -25,12 +25,14 @@ import { Photos } from "../Photos";
 import { Buttons } from "../Buttons";
 import { Switches } from "../Switches";
 import { TitleAndDescription } from "pages/CompanyPages/services/components/TitleAndDescription";
+import { SectionModal } from "pages/CompanyPages/services/components/Modals/Sections";
 
 interface FormProps {}
 
 export const Form: React.FC<FormProps> = () => {
   const form = useCreateItem();
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [modal, setModal] = useState(false);
 
   const history = useHistory();
 
@@ -50,19 +52,30 @@ export const Form: React.FC<FormProps> = () => {
     });
   };
 
+  const handleClose = () => {
+    setModal(false);
+  };
+
+  const handleOpen = () => {
+    setModal(true);
+  };
+
   return (
-    <FormStyled onSubmit={form.handleSubmit(onSubmit)}>
-      <FormProvider {...form}>
-        <Container>
-          <TitleAndDescription />
-          <Selects />
-          <Switches dispatch={dispatch} state={state} />
-          <Variants disabled={state.loyaltyType !== 1} />
-          <Durations />
-          <Photos />
-          <Buttons isLoading={isLoading} />
-        </Container>
-      </FormProvider>
-    </FormStyled>
+    <>
+      <FormStyled onSubmit={form.handleSubmit(onSubmit)}>
+        <FormProvider {...form}>
+          <Container>
+            <TitleAndDescription />
+            <Selects handleOpen={handleOpen} />
+            <Switches dispatch={dispatch} state={state} />
+            <Variants disabled={state.loyaltyType !== 1} />
+            <Durations />
+            <Photos />
+            <Buttons isLoading={isLoading} />
+          </Container>
+        </FormProvider>
+      </FormStyled>
+      <SectionModal isSingle onClose={handleClose} isOpen={modal} />
+    </>
   );
 };

@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
+
+//packages
 import { IconButton, Popover } from "@material-ui/core";
-import { MenuIcon, MenuItem, MenuList } from "./style";
 import { useTranslation } from "react-i18next";
+
+//style
+import { MenuIcon, MenuItem, MenuList } from "./style";
 
 interface SectionPopoverProps {
   isParent?: boolean;

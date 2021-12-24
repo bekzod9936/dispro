@@ -1,5 +1,5 @@
 //packages
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
 //style
@@ -32,6 +32,15 @@ export const Variant: React.FC<VariantProps> = ({
 
   const { t } = useTranslation();
   const error = errors.variants ? errors.variants[index] : undefined;
+
+  const price = useWatch({ name: `variants.${index}.price` });
+  const priceWithSale = useWatch({ name: `variants.${index}.priceWithSale` });
+
+  useEffect(() => {
+    if (Number(price) > Number(priceWithSale)) {
+      clearErrors(`variants.${index}.priceWithSale`);
+    }
+  }, [price, priceWithSale]);
 
   useEffect(() => {
     clearErrors(`variants.${index}.priceWithSale`);

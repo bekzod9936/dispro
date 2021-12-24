@@ -66,3 +66,67 @@ export const languages = [
     name: "(Uzb)",
   },
 ];
+
+
+export const measurements = [
+  {
+    name: "kg",
+    value: 1,
+    label: "кг",
+  },
+  {
+    name: "gr",
+    value: 2,
+    label: "гр",
+  },
+  {
+    name: "kg",
+    value: 1,
+    label: "кг",
+  },
+  {
+    name: "gr",
+    value: 2,
+    label: "гр",
+  },
+  {
+    name: "kg",
+    value: 1,
+    label: "кг",
+  },
+  {
+    name: "gr",
+    value: 2,
+    label: "гр",
+  },
+  {
+    name: "kg",
+    value: 1,
+    label: "кг",
+  },
+  {
+    name: "gr",
+    value: 2,
+    label: "гр",
+  },
+  {
+    name: "kg",
+    value: 1,
+    label: "кг",
+  },
+  {
+    name: "gr",
+    value: 2,
+    label: "гр",
+  },
+  {
+    name: "kg",
+    value: 1,
+    label: "кг",
+  },
+  {
+    name: "gr",
+    value: 2,
+    label: "гр",
+  },
+];
