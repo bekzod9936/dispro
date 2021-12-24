@@ -226,7 +226,7 @@ const LoyaltyProgramSection = () => {
                   </Flex>
                 );
               })}
-              {infoData === 2 && (
+              {/* {infoData === 2 && (
                 <Flex
                   justifyContent='space-between'
                   margin='0px 0px 35px 0px'
@@ -239,32 +239,32 @@ const LoyaltyProgramSection = () => {
                     margin='0'
                   >
                     <CustomToggle
-                      checked={offChecked}
-                      onChange={(e: any) => {
-                        handleSwitch(e.target.checked);
-                      }}
-                    />
-                  </Flex>
-                  <Flex
-                    margin='0 0 0 20px'
-                    flexDirection='column'
-                    alignItems='flex-start'
-                  >
-                    <div>
-                      <Text fontSize='18px' fontWeight={500}>
-                        {'Отключения все'}
-                      </Text>
-                    </div>
-                    <div style={{ marginTop: '5px', width: '290px' }}>
-                      <Text fontSize='14px' fontWeight={300}>
-                        {
-                          'В данном случае все программы лояльности будут отключены'
-                        }
-                      </Text>
-                    </div>
-                  </Flex>
-                </Flex>
-              )}
+                checked={offChecked}
+                onChange={(e: any) => {
+                  handleSwitch(e.target.checked);
+                }}
+              />
+            
+                    </Flex>
+                    <Flex
+                      margin='0 0 0 20px'
+                      flexDirection='column'
+                      alignItems='flex-start'
+                    >
+                      <div >
+                        <Text fontSize='18px' fontWeight={500}>
+                          {'Отключения все'}
+                        </Text>
+                      </div>
+                      <div style={{ marginTop: '5px', width: '290px' }}>
+                        <Text fontSize='14px' fontWeight={300}>
+                          {'В данном случае все программы лояльности будут отключены'}
+                        </Text>
+                      </div>
+                    </Flex>
+                  </Flex>}
+           */}
+              
             </Flex>
           </LeftGrid>
 

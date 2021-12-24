@@ -1,4 +1,4 @@
 const AwardingSection=()=>{
-    return <div>hi</div>
+    return <div>hello</div>
 }
 export default AwardingSection;

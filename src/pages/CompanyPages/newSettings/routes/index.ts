@@ -1,11 +1,21 @@
 import { lazy } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const Loyalty = lazy(() => import('../screens/Loyalty'));
-const Referal = lazy(() => import('../screens/Referal'));
-const Awarding = lazy(() => import('../screens/Awarding'));
-const Security = lazy(() => import('../screens/Security'));
-const QRCodes = lazy(() => import('../screens/QRCodes'));
+const AwardingSection = lazy(
+    () => import("../screens/Awarding")
+  );
+  const LoyaltyProgramSection = lazy(
+    () => import("../screens/LoyaltyProgramSection")
+  );
+  const QRCodesSection = lazy(
+    () => import("../screens/QRCodes")
+  );
+  const ReferalProgramSection = lazy(
+    () => import("../screens/Referal")
+  );
+  const SecuritySection = lazy(
+    () => import("../screens/Security")
+  );
 
 export interface ISettingsRow {
   path: string;
@@ -19,27 +29,27 @@ const useSettingsRoutes = () => {
     {
       path: '/newsettings/loyality',
       text: t('loyaltyProgram'),
-      component: Loyalty,
+      component: LoyaltyProgramSection,
     },
     {
       path: '/newsettings/referal',
       text: t('referalProgram'),
-      component: Referal,
+      component: ReferalProgramSection,
     },
     {
       path: '/newsettings/awarding',
       text: t('awarding'),
-      component: Awarding,
+      component: AwardingSection,
     },
     {
       path: '/newsettings/security',
       text: t('security'),
-      component: Security,
+      component: SecuritySection,
     },
     {
       path: '/newsettings/qrcodes',
       text: t('qrcodes'),
-      component: QRCodes,
+      component: QRCodesSection,
     },
   ];
   return { menuItems };
