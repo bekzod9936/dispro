@@ -1,4 +1,5 @@
 import { IGoodsResponse } from "services/queries/servicesQueries/response.types";
+import { Modals } from "../../utils/types";
 import { Item } from "../Item";
 import { Wrapper } from "./style";
 interface ItemGroupProps {
@@ -6,6 +7,7 @@ interface ItemGroupProps {
   sectionName: string | undefined;
   currentItem: IGoodsResponse | null;
   setCurrentItem: (arg: IGoodsResponse | null) => void;
+  onOpenModal: (modalName: keyof Modals) => void;
 }
 
 export const ItemGroup: React.FC<ItemGroupProps> = ({
@@ -13,6 +15,7 @@ export const ItemGroup: React.FC<ItemGroupProps> = ({
   sectionName,
   setCurrentItem,
   currentItem,
+  onOpenModal,
 }) => {
   return (
     <Wrapper>
@@ -21,6 +24,7 @@ export const ItemGroup: React.FC<ItemGroupProps> = ({
       </div>
       {goods.map((item, index) => (
         <Item
+          onOpenModal={onOpenModal}
           setCurrentItem={setCurrentItem}
           currentItemId={currentItem?.id}
           isEven={Boolean((index + 1) % 2)}

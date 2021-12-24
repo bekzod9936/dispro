@@ -649,5 +649,8 @@
   "itemForPoints": "Товар за баллы",
   "itemForDiscount": "Товар со скидкой",
   "minAmountOfPrice": "Минимальная сумма: 1 000 Сум",
-  "minAmoutOfItems": "Минимальное количество: 1 шт."
+  "minAmoutOfItems": "Минимальное количество: 1 шт.",
+  "changeAmount": "Изменить количество",
+  "areYouSureToDeleteItem": "Вы действительно хотите удалить товар",
+  "areYouSureToDeleteSection": "Вы действительно хотите удалить раздел"
 }

@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import {ReactComponent as PointsSvg} from 'assets/icons/points_services.svg'
 import {ReactComponent as DiscountSvg} from 'assets/icons/discount_services.svg'
-import { ReactComponent as DotsSvg } from 'assets/icons/FeedBack/dots.svg';
 import { ReactComponent as EyeSvg } from 'newassets/icons/eye.svg'
 import { IconButton } from "@material-ui/core";
 
@@ -96,9 +95,13 @@ export const Wrapper = styled.div`
     }
 
     .icon_menu {
-        .menu {
-            margin-left: 13px;
+        display: flex;
+        align-items: center;
+
+        .mr {
+            margin-right: 13px;
         }
+   
     }
 
 
@@ -126,10 +129,3 @@ export const DiscountIcon = styled(DiscountSvg)`
 `
 
 export const EyeIcon = styled(EyeSvg)``
-
-export const DotsIcon = styled(DotsSvg)`
-    circle {
-        fill: #fff;
-    }
-
-`

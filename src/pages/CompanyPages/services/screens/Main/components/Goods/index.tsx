@@ -8,7 +8,7 @@ import { EmptyPage } from "../EmptyPage";
 
 //other
 import { useSectionsWithIdEntity } from "pages/CompanyPages/services/hooks/MainPageHooks";
-import { IGoods } from "pages/CompanyPages/services/utils/types";
+import { IGoods, Modals } from "pages/CompanyPages/services/utils/types";
 import {
   IGoodsResponse,
   ISectionResponse,
@@ -16,6 +16,7 @@ import {
 
 //style
 import { Wrapper, Container } from "./style";
+import { DeleteModal } from "pages/CompanyPages/services/components/Modals/Delete";
 
 interface GoodsProps {
   currentSection: ISectionResponse | null;
@@ -31,10 +32,22 @@ export const Goods: React.FC<GoodsProps> = ({
   isLoading,
 }) => {
   const [currentItem, setCurrentItem] = useState<IGoodsResponse | null>(null);
+  const [modals, setModals] = useState<Modals>({
+    delete: false,
+    changeAmount: false,
+  });
 
   const sectionsObject = useSectionsWithIdEntity();
   const isUserhasGoods = useMemo(() => Object.keys(goods).length > 0, [goods]);
   const isPageEmpty = !isUserhasGoods && !isLoading;
+
+  const handleOpenModal = (modalName: keyof Modals) => {
+    setModals((prev) => ({ ...prev, [modalName]: true }));
+  };
+
+  const handleCloseModal = (modalName: keyof Modals) => {
+    return () => setModals((prev) => ({ ...prev, [modalName]: false }));
+  };
 
   return (
     <Wrapper>
@@ -47,6 +60,7 @@ export const Goods: React.FC<GoodsProps> = ({
         {isPageEmpty && <EmptyPage />}
         {Object.keys(goods).map((sectionId) => (
           <ItemGroup
+            onOpenModal={handleOpenModal}
             currentItem={currentItem}
             setCurrentItem={setCurrentItem}
             sectionName={sectionsObject?.[Number(sectionId)]}
@@ -54,6 +68,11 @@ export const Goods: React.FC<GoodsProps> = ({
           />
         ))}
       </Container>
+      <DeleteModal
+        onClose={handleCloseModal("delete")}
+        open={modals.delete}
+        name={currentItem?.name}
+      />
     </Wrapper>
   );
 };

@@ -6,7 +6,6 @@ import {
   Wrapper,
   PointsIcon,
   DiscountIcon,
-  DotsIcon,
   ButtonIcon,
   EyeIcon,
 } from "./style";
@@ -15,12 +14,17 @@ import {
 import { IGoodsResponse } from "services/queries/servicesQueries/response.types";
 import { thousandsDivider } from "../../helpers";
 import DEFAULT_IMAGE from "assets/images/staff_default.png";
+import { ItemPopover } from "../ItemPopover";
+import { DeleteModal } from "../Modals/Delete";
+import { useState } from "react";
+import { Modals } from "../../utils/types";
 
 interface ItemProps {
   item: IGoodsResponse;
   isEven: boolean;
   setCurrentItem: (arg: IGoodsResponse | null) => void;
   currentItemId: number | undefined;
+  onOpenModal: (modalName: keyof Modals) => void;
 }
 
 export const Item: React.FC<ItemProps> = ({
@@ -28,6 +32,7 @@ export const Item: React.FC<ItemProps> = ({
   isEven,
   setCurrentItem,
   currentItemId,
+  onOpenModal,
 }) => {
   const { t } = useTranslation();
 
@@ -87,12 +92,10 @@ export const Item: React.FC<ItemProps> = ({
       )}
       {isItCurrentItem && (
         <div className="icon_menu">
-          <ButtonIcon>
+          <ButtonIcon className="mr">
             <EyeIcon />
           </ButtonIcon>
-          <ButtonIcon className="menu">
-            <DotsIcon />
-          </ButtonIcon>
+          <ItemPopover onOpenModal={onOpenModal} />
         </div>
       )}
     </Wrapper>

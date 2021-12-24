@@ -28,7 +28,10 @@ export const languageIds = {
 export const modalsDefaults = {
   subSection: false,
   editSection: false,
+  delete: false
 }
+
+
 
 
 export const SECTIONS_LIMIT = 20
@@ -130,3 +133,7 @@ export const measurements = [
     label: "гр",
   },
 ];
+
+
+export const SECTION_DELETE_MODAL_CONTENT = { title: "areYouSureToDeleteSection", info: "После её удаления вложенные разделы и товары нельзя будет восстановить" }
+export const ITEM_DELETE_MODAL_CONTENT = { title: "areYouSureToDeleteItem", info: "После её удаления вложенные разделы и товары нельзя будет восстановить" }

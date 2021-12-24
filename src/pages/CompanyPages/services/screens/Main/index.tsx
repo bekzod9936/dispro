@@ -1,5 +1,3 @@
-//packages
-
 //components
 import { Header } from "./components/Header";
 import { Goods } from "./components/Goods";
