@@ -16,10 +16,11 @@ export const Item: React.FC<ItemProps> = ({ item, isEven }) => {
   const { t } = useTranslation();
 
   const image = item.goodsImages[0].imageUrl;
-  const isItemHasCount = !item.isCountUnlimited;
   const price = thousandsDivider(item.price);
   const priceWithDiscount = thousandsDivider(item.priceWithDiscount);
   const count = thousandsDivider(item.count);
+
+  const isItemHasCount = !item.isCountUnlimited;
 
   const handleError = (event: React.SyntheticEvent<HTMLImageElement>) => {
     let target = event.target as HTMLImageElement;
