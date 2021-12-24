@@ -15,6 +15,7 @@ import Spinner from 'components/Helpers/Spinner';
 import {
 	Wrapper,
 	CloseIcon,
+	
 	Header,
 	Main,
 	Footer,
