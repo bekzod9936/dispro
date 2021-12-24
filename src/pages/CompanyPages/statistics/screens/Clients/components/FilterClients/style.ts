@@ -38,7 +38,7 @@ export const WrapInputs = styled.div`
 `;
 
 export const WrapFilter = styled.div`
-  padding-bottom: 20px;
+  margin-bottom: 20px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -80,7 +80,7 @@ export const ButtonKeyWord = styled.div`
     color: #223367;
   }
   @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
-    margin: 7px 15px 7px 0;
+    margin: 5px 15px 5px 0;
   }
   @media (min-width: ${device.laptop}) {
     height: 35px;

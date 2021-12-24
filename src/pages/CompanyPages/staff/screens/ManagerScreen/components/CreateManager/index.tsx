@@ -8,20 +8,20 @@ import useStaff from 'pages/CompanyPages/staff/hooks/useStaff';
 import useManagers from 'pages/CompanyPages/staff/hooks/useManagers';
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import { FormProps } from './types';
-import Button from 'components/Custom/Button';
+import Button from 'components/Custom/Buttons/Button';
 import Modal from 'components/Custom/Modal';
 import { CancelIcon } from 'assets/icons/ClientsPageIcons/ClientIcons';
 import {
-	ModalAction,
-	ModalBody,
-	ModalContent,
-	ModalMain,
-	UploadButton,
-	Header,
-	ErrorMessage,
-	ImageBlock,
-	Container,
-	Text,
+  ModalAction,
+  ModalBody,
+  ModalContent,
+  ModalMain,
+  UploadButton,
+  Header,
+  ErrorMessage,
+  ImageBlock,
+  Container,
+  Text,
 } from './style';
 import MultiSelect from 'components/Custom/MultiSelect';
 import { setOpenManager, setStepManager } from 'services/redux/Slices/staffs';
@@ -44,402 +44,401 @@ import StaffCropCustomModal from 'components/Custom/StaffCropImageModal';
 import Spinner from 'components/Helpers/Spinner';
 
 const CreateManager = ({ openManager }: IProps) => {
-	const stepManager = useAppSelector((state) => state.staffs.stepManager);
-	const selectedRole = useAppSelector((state) => state.staffs.selectedRole);
-	const { permissionsRole } = useRoles();
-	const { branches } = useStaff();
-	const [logo, setLogo] = useState('');
-	const [imgError, setImgError] = useState(false);
-	const [file, setFile] = useState('');
-	const parentRef = useRef<any | null>(null);
-	const [isCropVisible, setIsCropVisible] = useState(false);
-	const { saveRoleManager, modified, setModified, createManager } = useManagers(
-		{
-			page: 1,
-			query: '',
-			period: '',
-		}
-	);
+  const stepManager = useAppSelector((state) => state.staffs.stepManager);
+  const selectedRole = useAppSelector((state) => state.staffs.selectedRole);
+  const { permissionsRole } = useRoles();
+  const { branches } = useStaff();
+  const [logo, setLogo] = useState('');
+  const [imgError, setImgError] = useState(false);
+  const [file, setFile] = useState('');
+  const parentRef = useRef<any | null>(null);
+  const [isCropVisible, setIsCropVisible] = useState(false);
+  const { saveRoleManager, modified, setModified, createManager } = useManagers(
+    {
+      page: 1,
+      query: '',
+      period: '',
+    }
+  );
 
-	const dispatch = useAppDispatch();
-	const { t } = useTranslation();
-	const {
-		control,
-		handleSubmit,
-		reset,
-		watch,
-		setValue,
-		getValues,
-		register,
-		setError,
-		formState: { errors, isValid, isSubmitSuccessful },
-	} = useForm<FormProps>({
-		mode: 'onChange',
-		shouldFocusError: true,
-		reValidateMode: 'onChange',
-	});
-	const resetData = {
-		logo: '',
-	
-		comment: '',
-		firstName: '',
-		lastName: '',
-		storeIds: '',
-		telNumber: '+998',
-	};
+  const dispatch = useAppDispatch();
+  const { t } = useTranslation();
+  const {
+    control,
+    handleSubmit,
+    reset,
+    watch,
+    setValue,
+    getValues,
+    register,
+    setError,
+    formState: { errors, isValid, isSubmitSuccessful },
+  } = useForm<FormProps>({
+    mode: 'onChange',
+    shouldFocusError: true,
+    reValidateMode: 'onChange',
+  });
+  const resetData = {
+    logo: '',
 
-	const onSave = (data: FormProps) => {
-		console.log(data, 'data');
-		createManager.mutate(
-			{
-				logo: logo,
-				comment: data.comment,
-				firstName: data.firstName,
-				lastName: data.lastName,
-				storeId: [data.storeIds?.value],
-				telNumber: `+998${data.telNumber}`,
-				roleId: 2,
-			},
-			{
-				onSuccess: () => {
-					reset(resetData);
-				},
-				onError: () => {
-					setError('telNumber', {
-						type: 'duplicate',
-						message: 'Повторяющаяся запись',
-					});
-				},
-			}
-		);
-	};
+    comment: '',
+    firstName: '',
+    lastName: '',
+    storeIds: '',
+    telNumber: '+998',
+  };
 
-	// useEffect(() => {
-	// 	if (isSubmitSuccessful) {
-	// 		setTimeout(() => {
-	// 			reset({
-	// 				logo: '',
-	// 				comment: '',
-	// 				firstName: '',
-	// 				lastName: '',
-	// 				storeId: '',
-	// 				telNumber: '+998',
-	// 			});
-	// 		}, 4000);
-	// 	}
-	// }, [isSubmitSuccessful, reset]);
+  const onSave = (data: FormProps) => {
+    console.log(data, 'data');
+    createManager.mutate(
+      {
+        logo: logo,
+        comment: data.comment,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        storeId: [data.storeIds?.value],
+        telNumber: `+998${data.telNumber}`,
+        roleId: 2,
+      },
+      {
+        onSuccess: () => {
+          reset(resetData);
+        },
+        onError: () => {
+          setError('telNumber', {
+            type: 'duplicate',
+            message: 'Повторяющаяся запись',
+          });
+        },
+      }
+    );
+  };
 
-	const tel: any = getValues();
+  // useEffect(() => {
+  // 	if (isSubmitSuccessful) {
+  // 		setTimeout(() => {
+  // 			reset({
+  // 				logo: '',
+  // 				comment: '',
+  // 				firstName: '',
+  // 				lastName: '',
+  // 				storeId: '',
+  // 				telNumber: '+998',
+  // 			});
+  // 		}, 4000);
+  // 	}
+  // }, [isSubmitSuccessful, reset]);
 
-	let checkPhone = inputPhoneNumber({
-		value: tel?.telNumber,
-	});
+  const tel: any = getValues();
 
-	useEffect(() => {
-		if (getValues('telNumber') === undefined) {
-			setValue('telNumber', '');
-		} else {
-			setValue('telNumber', checkPhone.newString);
-		}
-	}, [checkPhone.check, watch('telNumber'),]);
+  let checkPhone = inputPhoneNumber({
+    value: tel?.telNumber,
+  });
 
+  useEffect(() => {
+    if (getValues('telNumber') === undefined) {
+      setValue('telNumber', '');
+    } else {
+      setValue('telNumber', checkPhone.newString);
+    }
+  }, [checkPhone.check, watch('telNumber')]);
 
-	const { handleUpload, deleteImage, setLoading, isLoading } = useUploadImage(
-		setLogo,
-		setImgError
-	);
+  const { handleUpload, deleteImage, setLoading, isLoading } = useUploadImage(
+    setLogo,
+    setImgError
+  );
 
-	const handleDelete = () => {
-		setFile('');
-		setLogo('');
-		deleteImage(logo);
-	};
-	const handleUploadImg = (data: any) => {
-		setFile(data.target.files[0]);
-		setIsCropVisible(true);
+  const handleDelete = () => {
+    setFile('');
+    setLogo('');
+    deleteImage(logo);
+  };
+  const handleUploadImg = (data: any) => {
+    setFile(data.target.files[0]);
+    setIsCropVisible(true);
 
-		setValue('logo', '');
-	};
-	console.log('logologo',logo);
-	console.log('isLoading',isLoading);
-	console.log(`filelink`, file);
-	return (
-		<Modal open={openManager}>
-			{/* first step */}
-			{stepManager === 1 && (
-				<Form onSubmit={handleSubmit(onSave)}>
-					<ModalContent>
-						<ModalHead>
-							<ModalTitle>{t('adding_manager')}</ModalTitle>
-							<IconButton
-								onClick={() => {
-									dispatch(setOpenManager(false));
-									dispatch(setStepManager(1));
-									setLogo('')
-									reset(resetData);
-								}}
-							>
-								<ExitIcon />
-							</IconButton>
-						</ModalHead>
-						<ModalBody>
-							<FormRow>
-								<FormCol>
-									<Controller
-										control={control}
-										name='logo'
-										rules={{ required: false }}
-										render={({ field }) => (
-											<Container>
-												<Text>Фотографии</Text>
-												{!isLoading && !logo && (
-													<div>
-														<Header>
-															<p>
-																{t(
-																	' Можно загрузить фотографию JPG или PNG, минимальное разрешение 400*400рх, размер не более 3Мбайт.'
-																)}
-															</p>
-														</Header>
-														<UploadButton>
-															<label htmlFor='uploadImg'>Загрузить фото</label>
-															<input
-																accept='image/*'
-																{...register('logo', { required: false })}
-																onChange={handleUploadImg}
-																type='file'
-																id='uploadImg'
-															/>
-															<UploadImage />
-														</UploadButton>
-														{errors.logo && (
-															<ErrorMessage>{t('requiredField')}</ErrorMessage>
-														)}
-													</div>
-												)}
-												{isLoading && (
-													<div style={{ width: '100%', height: 140 }}>
-														<Spinner size={30} />
-													</div>
-												)}
-												{logo && (
-													<ImageBlock>
-														<img
-															src={logo}
-															alt='logo'
-															onError={() => {
-																setImgError(true);
-															}}
-														/>
-														<DeleteIcon onClick={handleDelete} />
-													</ImageBlock>
-												)}
+    setValue('logo', '');
+  };
+  console.log('logologo', logo);
+  console.log('isLoading', isLoading);
+  console.log(`filelink`, file);
+  return (
+    <Modal open={openManager}>
+      {/* first step */}
+      {stepManager === 1 && (
+        <Form onSubmit={handleSubmit(onSave)}>
+          <ModalContent>
+            <ModalHead>
+              <ModalTitle>{t('adding_manager')}</ModalTitle>
+              <IconButton
+                onClick={() => {
+                  dispatch(setOpenManager(false));
+                  dispatch(setStepManager(1));
+                  setLogo('');
+                  reset(resetData);
+                }}
+              >
+                <ExitIcon />
+              </IconButton>
+            </ModalHead>
+            <ModalBody>
+              <FormRow>
+                <FormCol>
+                  <Controller
+                    control={control}
+                    name='logo'
+                    rules={{ required: false }}
+                    render={({ field }) => (
+                      <Container>
+                        <Text>Фотографии</Text>
+                        {!isLoading && !logo && (
+                          <div>
+                            <Header>
+                              <p>
+                                {t(
+                                  ' Можно загрузить фотографию JPG или PNG, минимальное разрешение 400*400рх, размер не более 3Мбайт.'
+                                )}
+                              </p>
+                            </Header>
+                            <UploadButton>
+                              <label htmlFor='uploadImg'>Загрузить фото</label>
+                              <input
+                                accept='image/*'
+                                {...register('logo', { required: false })}
+                                onChange={handleUploadImg}
+                                type='file'
+                                id='uploadImg'
+                              />
+                              <UploadImage />
+                            </UploadButton>
+                            {errors.logo && (
+                              <ErrorMessage>{t('requiredField')}</ErrorMessage>
+                            )}
+                          </div>
+                        )}
+                        {isLoading && (
+                          <div style={{ width: '100%', height: 140 }}>
+                            <Spinner size={30} />
+                          </div>
+                        )}
+                        {logo && (
+                          <ImageBlock>
+                            <img
+                              src={logo}
+                              alt='logo'
+                              onError={() => {
+                                setImgError(true);
+                              }}
+                            />
+                            <DeleteIcon onClick={handleDelete} />
+                          </ImageBlock>
+                        )}
 
-												{file && (
-													<StaffCropCustomModal
-														setIsLoading={setLoading}
-														handleUpload={handleUpload}
-														setFile={setFile}
-														setIsCropVisible={setIsCropVisible}
-														open={isCropVisible}
-														src={file}
-													/>
-												)}
-											</Container>
-										)}
-									/>
-								</FormCol>
-							</FormRow>
-							<FormRow>
-								<FormCol>
-									<Controller
-										control={control}
-										name='firstName'
-										rules={{ required: true, pattern: /^[a-zA-Zа-яА-Я]*$/ }}
-										render={({ field }) => (
-											<Input
-												label={t('manager_name')}
-												error={errors.firstName ? true : false}
-												message={
-													errors.firstName?.type === 'pattern'
-														? 'Вводить только буквы'
-														: t('requiredField')
-												}
-												type='string'
-												field={field}
-												margin={{
-													laptop: '20px 0 25px',
-												}}
-											/>
-										)}
-									/>
-								</FormCol>
-								<Break width={25} />
-								<FormCol>
-									<Controller
-										control={control}
-										name='lastName'
-										rules={{ required: true, pattern: /^[a-zA-Zа-яА-Я]*$/ }}
-										render={({ field }) => (
-											<Input
-												label={t('manager_lastName')}
-												error={errors.lastName ? true : false}
-												message={
-													errors.lastName?.type === 'pattern'
-														? 'Вводить только буквы'
-														: t('requiredField')
-												}
-												type='string'
-												field={field}
-												margin={{
-													laptop: '20px 0 25px',
-												}}
-											/>
-										)}
-									/>
-								</FormCol>
-							</FormRow>
-							<FormRow>
-								<Controller
-									name='telNumber'
-									control={control}
-									defaultValue=''
-									rules={{
-										required: true,
-									}}
-									render={({ field }) => {
-										return (
-											<Input
-												label={t('phoneNumber')}
-												error={errors.telNumber ? true : false}
-												message={
-													errors?.telNumber?.message || t('requiredField')
-												}
-												type='string'
-												field={field}
-												fullWidth={true}
-												margin={{
-													laptop: '20px 0 25px',
-												}}
-												inputStyle={{ inpadding: '0 20px 0 0' }}
-												maxLength={9}
-												IconStart={<div className='inputstyle'>+998</div>}
-											/>
-										);
-									}}
-								/>
-							</FormRow>
-							<FormRow>
-								<Controller
-									control={control}
-									name='storeIds'
-									rules={{
-										required: true,
-									}}
-									render={({ field }) => {
-										return (
-											<MultiSelect
-												icon={<Market />}
-												selectStyle={{
-													bgcolor: '#eff0fd',
-													border: 'none',
-													placeholdercolor: '#223367',
-													inpadding: '2px 10px 2px 60px',
-													placewieght: '500',
-												}}
-												iconleft={'20px'}
-												icondowncolor='#C4C4C4'
-												options={branches}
-												isMulti={false}
-												label={t('choose_branch')}
-												placeholder={t('choose_branch')}
-												margin={{
-													laptop: '20px 0 25px',
-												}}
-												message={t('requiredField')}
-												error={errors.storeIds ? true : false}
-												field={field}
-												isClearable={false}
-											/>
-										);
-									}}
-								/>
-							</FormRow>
-							<FormRow>
-								<Controller
-									control={control}
-									name='comment'
-									render={({ field }) => {
-										return (
-											<Input
-												maxLength='100'
-												label={t('comment')}
-												type='string'
-												field={field}
-												fullWidth={true}
-												minRows={10}
-												multiline={true}
-												margin={{
-													laptop: '20px 0 25px',
-												}}
-											/>
-										);
-									}}
-								/>
-							</FormRow>
-						</ModalBody>
-						<ModalAction>
-							<Button
-								buttonStyle={{
-									bgcolor: 'white',
-									color: '#223367',
-								}}
-								onClick={() => {
-									dispatch(setOpenManager(false));
-									dispatch(setStepManager(1));
-									setLogo('')
-									reset(resetData);
-								}}
-								startIcon={<CancelIcon />}
-							>
-								{t('cancel')}
-							</Button>
+                        {file && (
+                          <StaffCropCustomModal
+                            setIsLoading={setLoading}
+                            handleUpload={handleUpload}
+                            setFile={setFile}
+                            setIsCropVisible={setIsCropVisible}
+                            open={isCropVisible}
+                            src={file}
+                          />
+                        )}
+                      </Container>
+                    )}
+                  />
+                </FormCol>
+              </FormRow>
+              <FormRow>
+                <FormCol>
+                  <Controller
+                    control={control}
+                    name='firstName'
+                    rules={{ required: true, pattern: /^[a-zA-Zа-яА-Я]*$/ }}
+                    render={({ field }) => (
+                      <Input
+                        label={t('manager_name')}
+                        error={errors.firstName ? true : false}
+                        message={
+                          errors.firstName?.type === 'pattern'
+                            ? 'Вводить только буквы'
+                            : t('requiredField')
+                        }
+                        type='string'
+                        field={field}
+                        margin={{
+                          laptop: '20px 0 25px',
+                        }}
+                      />
+                    )}
+                  />
+                </FormCol>
+                <Break width={25} />
+                <FormCol>
+                  <Controller
+                    control={control}
+                    name='lastName'
+                    rules={{ required: true, pattern: /^[a-zA-Zа-яА-Я]*$/ }}
+                    render={({ field }) => (
+                      <Input
+                        label={t('manager_lastName')}
+                        error={errors.lastName ? true : false}
+                        message={
+                          errors.lastName?.type === 'pattern'
+                            ? 'Вводить только буквы'
+                            : t('requiredField')
+                        }
+                        type='string'
+                        field={field}
+                        margin={{
+                          laptop: '20px 0 25px',
+                        }}
+                      />
+                    )}
+                  />
+                </FormCol>
+              </FormRow>
+              <FormRow>
+                <Controller
+                  name='telNumber'
+                  control={control}
+                  defaultValue=''
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field }) => {
+                    return (
+                      <Input
+                        label={t('phoneNumber')}
+                        error={errors.telNumber ? true : false}
+                        message={
+                          errors?.telNumber?.message || t('requiredField')
+                        }
+                        type='string'
+                        field={field}
+                        fullWidth={true}
+                        margin={{
+                          laptop: '20px 0 25px',
+                        }}
+                        inputStyle={{ inpadding: '0 20px 0 0' }}
+                        maxLength={9}
+                        IconStart={<div className='inputstyle'>+998</div>}
+                      />
+                    );
+                  }}
+                />
+              </FormRow>
+              <FormRow>
+                <Controller
+                  control={control}
+                  name='storeIds'
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field }) => {
+                    return (
+                      <MultiSelect
+                        icon={<Market />}
+                        selectStyle={{
+                          bgcolor: '#eff0fd',
+                          border: 'none',
+                          placeholdercolor: '#223367',
+                          inpadding: '2px 10px 2px 60px',
+                          placewieght: '500',
+                        }}
+                        iconleft={'20px'}
+                        icondowncolor='#C4C4C4'
+                        options={branches}
+                        isMulti={false}
+                        label={t('choose_branch')}
+                        placeholder={t('choose_branch')}
+                        margin={{
+                          laptop: '20px 0 25px',
+                        }}
+                        message={t('requiredField')}
+                        error={errors.storeIds ? true : false}
+                        field={field}
+                        isClearable={false}
+                      />
+                    );
+                  }}
+                />
+              </FormRow>
+              <FormRow>
+                <Controller
+                  control={control}
+                  name='comment'
+                  render={({ field }) => {
+                    return (
+                      <Input
+                        maxLength='100'
+                        label={t('comment')}
+                        type='string'
+                        field={field}
+                        fullWidth={true}
+                        minRows={10}
+                        multiline={true}
+                        margin={{
+                          laptop: '20px 0 25px',
+                        }}
+                      />
+                    );
+                  }}
+                />
+              </FormRow>
+            </ModalBody>
+            <ModalAction>
+              <Button
+                buttonStyle={{
+                  bgcolor: 'white',
+                  color: '#223367',
+                }}
+                onClick={() => {
+                  dispatch(setOpenManager(false));
+                  dispatch(setStepManager(1));
+                  setLogo('');
+                  reset(resetData);
+                }}
+                startIcon={<CancelIcon />}
+              >
+                {t('cancel')}
+              </Button>
 
-							<Button
-								disabled={!isValid || createManager.isLoading}
-								type='submit'
-								startIcon={<NextIcon />}
-							>
-								{t('next')}
-							</Button>
-						</ModalAction>
-					</ModalContent>
-				</Form>
-			)}
+              <Button
+                disabled={!isValid || createManager.isLoading}
+                type='submit'
+                startIcon={<NextIcon />}
+              >
+                {t('next')}
+              </Button>
+            </ModalAction>
+          </ModalContent>
+        </Form>
+      )}
 
-			{/* second step */}
-			{stepManager === 2 && (
-				<ModalMain ref={parentRef} style={{ width: '663px' }}>
-					<ModalHead>
-						<ModalTitle>Настройки доступа</ModalTitle>
+      {/* second step */}
+      {stepManager === 2 && (
+        <ModalMain ref={parentRef} style={{ width: '663px' }}>
+          <ModalHead>
+            <ModalTitle>Настройки доступа</ModalTitle>
 
-						<IconButton
-							onClick={() => {
-								dispatch(setOpenManager(false));
-								dispatch(setStepManager(1));
-							}}
-						>
-							<ExitIcon />
-						</IconButton>
-					</ModalHead>
-					<ModalBody>
-						{/* tables  */}
-						<RoleTable parentRef={parentRef?.current} />
-					</ModalBody>
-				</ModalMain>
-			)}
-		</Modal>
-	);
+            <IconButton
+              onClick={() => {
+                dispatch(setOpenManager(false));
+                dispatch(setStepManager(1));
+              }}
+            >
+              <ExitIcon />
+            </IconButton>
+          </ModalHead>
+          <ModalBody>
+            {/* tables  */}
+            <RoleTable parentRef={parentRef?.current} />
+          </ModalBody>
+        </ModalMain>
+      )}
+    </Modal>
+  );
 };
 
 export default CreateManager;

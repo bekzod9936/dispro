@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Title from 'components/Custom/Title';
 import Modal from 'components/Custom/Modal';
-import Button from 'components/Custom/Button';
+import Button from 'components/Custom/Buttons/Button';
 import NavBar from 'components/Custom/NavBar';
 import { useRouteMatch } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks';

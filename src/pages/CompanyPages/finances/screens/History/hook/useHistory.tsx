@@ -20,7 +20,7 @@ import { Tr, Th } from '../../../components/Table/style';
 import { useMemo } from 'react';
 import { WrapComment, WrapImage } from '../style';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import Button from 'components/Custom/Button';
+import Button from 'components/Custom/Buttons/Button';
 import App from 'assets/icons/StatistisPage/app.svg';
 interface PProps {
   filterValues: any;

@@ -1,16 +1,16 @@
-import Modal from "components/Custom/Modal";
-import { Buttons, ClientsInfo, ModalWindow, SubInfo } from "./style";
-import Input from "components/Custom/Input";
-import { TextArea } from "components/Custom/TextArea";
-import Button from "components/Custom/Button";
+import Modal from 'components/Custom/Modal';
+import { Buttons, ClientsInfo, ModalWindow, SubInfo } from './style';
+import Input from 'components/Custom/Input';
+import { TextArea } from 'components/Custom/TextArea';
+import Button from 'components/Custom/Buttons/Button';
 import {
   CancelIcon,
   CoinsIconWhite,
   MinusCoinsIconWhite,
-} from "assets/icons/ClientsPageIcons/ClientIcons";
-import { useMutation } from "react-query";
-import { changeVipPercent } from "../../../../../services/queries/clientsQuery";
-import React from "react";
+} from 'assets/icons/ClientsPageIcons/ClientIcons';
+import { useMutation } from 'react-query';
+import { changeVipPercent } from '../../../../../services/queries/clientsQuery';
+import React from 'react';
 interface IProps {
   open: boolean;
   handleOpen?: any;
@@ -38,10 +38,10 @@ export const MModal = ({
 
   const getIcon = (action: string) => {
     switch (action) {
-      case "addCoins": {
+      case 'addCoins': {
         return <CoinsIconWhite />;
       }
-      case "removeCoins": {
+      case 'removeCoins': {
         return <MinusCoinsIconWhite />;
       }
       default:
@@ -52,8 +52,6 @@ export const MModal = ({
   const handleClose = () => {
     handleOpen(false);
   };
-
-
 
   React.useEffect(() => {
     if (client) {
@@ -68,45 +66,45 @@ export const MModal = ({
   };
 
   return (
-    <Modal open={open} width={{ maxwidth: 520, width: "100%" }}>
+    <Modal open={open} width={{ maxwidth: 520, width: '100%' }}>
       <ModalWindow onSubmit={handleSubmit}>
         <h3>{modalContent.title}</h3>
         {modalContent.info && <SubInfo>{modalContent.info}</SubInfo>}
         <ClientsInfo>
           {clients.length > 1
-            ? "Выбрано клиентов: " + clients.length
-            : clients[0]?.firstName + " " + clients[0]?.lastName}
+            ? 'Выбрано клиентов: ' + clients.length
+            : clients[0]?.firstName + ' ' + clients[0]?.lastName}
         </ClientsInfo>
         <Input
           value={percent}
           onChange={(e) => setPercent(e.target.value)}
           required
-          type="number"
+          type='number'
           label={modalContent.subtitle}
-          margin={{ laptop: "30px 0 25px 0" }}
+          margin={{ laptop: '30px 0 25px 0' }}
         />
-        {modalContent.action !== "vip" && (
+        {modalContent.action !== 'vip' && (
           <TextArea
-            title="Комментарий"
-            container={{ margin: "0 0 25px 0" }}
-            textarea={{ height: "125px" }}
-            label={{ fontSize: "14px" }}
+            title='Комментарий'
+            container={{ margin: '0 0 25px 0' }}
+            textarea={{ height: '125px' }}
+            label={{ fontSize: '14px' }}
           />
         )}
         <Buttons>
           <Button
             onClick={handleClose}
-            margin={{ desktop: "0 20px 0 0" }}
+            margin={{ desktop: '0 20px 0 0' }}
             buttonStyle={{
-              bgcolor: "#ffffff",
-              color: "#223367",
-              weight: "700",
+              bgcolor: '#ffffff',
+              color: '#223367',
+              weight: '700',
             }}
             startIcon={<CancelIcon />}
           >
             Отменить
           </Button>
-          <Button type="submit" startIcon={getIcon(modalContent.action)}>
+          <Button type='submit' startIcon={getIcon(modalContent.action)}>
             {modalContent.btn}
           </Button>
         </Buttons>

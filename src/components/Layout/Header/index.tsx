@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Popover from '../../Custom/Popover';
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
-import Button from '../../Custom/Button';
+import Button from '../../Custom/Buttons/Button';
 import { useHistory } from 'react-router';
 import Modal from '../../Custom/Modal';
 import LogoDef from 'assets/icons/SideBar/logodefault.png';

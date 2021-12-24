@@ -30,7 +30,7 @@ import {
   DeleteIcon1,
   WarpButton,
 } from './style';
-import Button from 'components/Custom/Button';
+import Button from 'components/Custom/Buttons/Button';
 import { useTranslation } from 'react-i18next';
 import Modal from 'components/Custom/Modal';
 import { TextArea } from 'components/Custom/TextArea';

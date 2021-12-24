@@ -1,4 +1,4 @@
-import Button from "components/Custom/Button";
+import Button from "components/Custom/Buttons/Button";
 import Spinner from "components/Helpers/Spinner";
 import { QuitModal } from "pages/CompanyPages/services/components/Modals/Quit";
 import React, { useState } from "react";

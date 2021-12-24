@@ -1,22 +1,22 @@
 import {
   CancelIcon,
   CloseIcon,
-} from "assets/icons/ClientsPageIcons/ClientIcons";
+} from 'assets/icons/ClientsPageIcons/ClientIcons';
 import {
   DeleteIcon,
   EyeIcon,
   PenIcon,
   PublishIcon,
   ReUseIcon,
-} from "assets/icons/proposals/ProposalsIcons";
-import Button from "components/Custom/Button";
-import Modal from "components/Custom/Modal";
-import React from "react";
-import { useMutation } from "react-query";
-import { useHistory } from "react-router";
-import { deleteCoupon, putCoupon } from "services/queries/proposalQuery";
-import { IDeferred } from "services/redux/Slices/proposals/types";
-import { SetDate } from "../../screens/Coupons/components/SetDate";
+} from 'assets/icons/proposals/ProposalsIcons';
+import Button from 'components/Custom/Buttons/Button';
+import Modal from 'components/Custom/Modal';
+import React from 'react';
+import { useMutation } from 'react-query';
+import { useHistory } from 'react-router';
+import { deleteCoupon, putCoupon } from 'services/queries/proposalQuery';
+import { IDeferred } from 'services/redux/Slices/proposals/types';
+import { SetDate } from '../../screens/Coupons/components/SetDate';
 import {
   Wrapper,
   Header,
@@ -24,12 +24,12 @@ import {
   Content,
   Preview,
   PreviewContent,
-} from "./style";
-import iphone from "assets/images/iphone.png";
-import { useAppSelector } from "services/redux/hooks";
-import { RootState } from "services/redux/store";
-import { useTranslation } from "react-i18next";
-import { useFetchCategories } from "../../screens/UpdateCoupon/useFetchCategories";
+} from './style';
+import iphone from 'assets/images/iphone.png';
+import { useAppSelector } from 'services/redux/hooks';
+import { RootState } from 'services/redux/store';
+import { useTranslation } from 'react-i18next';
+import { useFetchCategories } from '../../screens/UpdateCoupon/useFetchCategories';
 interface IProps {
   onClose: (arg: boolean) => void;
   currentCoupon: IDeferred;
@@ -47,7 +47,6 @@ export const CouponBar = ({
   canceled,
   refetch,
 }: IProps) => {
-
   const isCoupon = currentCoupon.type === 2;
   const history = useHistory();
   const { t } = useTranslation();
@@ -65,18 +64,18 @@ export const CouponBar = ({
 
   const handleUpdate = () => {
     if (isCoupon) {
-      history.push("/proposals/update_coupon");
+      history.push('/proposals/update_coupon');
     } else {
-      history.push("/proposals/update_certificate");
+      history.push('/proposals/update_certificate');
     }
   };
   const _ = useFetchCategories(setCategories, currentCoupon.categoryIds);
 
   const handleRePublish = () => {
     if (isCoupon) {
-      history.push("/proposals/create_republishcoupon");
+      history.push('/proposals/create_republishcoupon');
     } else {
-      history.push("/proposals/create_republishcertificate");
+      history.push('/proposals/create_republishcertificate');
     }
   };
 
@@ -90,27 +89,27 @@ export const CouponBar = ({
 
   const handleCheck = () => {
     if (isCoupon) {
-      history.push("check_coupon");
+      history.push('check_coupon');
     } else {
-      history.push("/proposals/check_certificate");
+      history.push('/proposals/check_certificate');
     }
   };
   return (
     <Wrapper>
       <Header>
-        <h6>{isCoupon ? "Купон" : "Сертификат"}</h6>
-        <CloseIcon onClick={handleClose} style={{ cursor: "pointer" }} />
+        <h6>{isCoupon ? 'Купон' : 'Сертификат'}</h6>
+        <CloseIcon onClick={handleClose} style={{ cursor: 'pointer' }} />
       </Header>
       <Preview>
-        <img className="couponImg" src={currentCoupon.image} alt="" />
-        <img className="iphoneImg" width="300" src={iphone} />
+        <img className='couponImg' src={currentCoupon.image} alt='' />
+        <img className='iphoneImg' width='300' src={iphone} />
         <PreviewContent>
           <img src={logo} />
           <span>{name}</span>
-          <p>{isCoupon ? t("coupon") : t("certificate")}</p>
+          <p>{isCoupon ? t('coupon') : t('certificate')}</p>
           {isCoupon ? (
             <h5>
-              <span>{currentCoupon.value} %</span> {t("sale")}
+              <span>{currentCoupon.value} %</span> {t('sale')}
             </h5>
           ) : (
             <h5>
@@ -122,36 +121,36 @@ export const CouponBar = ({
       <Content>
         <h5>Информация</h5>
         <p>
-          {isCoupon ? "Скидка Купона" : "Сумма Сертификата"}:{" "}
-          {currentCoupon.value} {isCoupon ? "%" : "Сум"}
+          {isCoupon ? 'Скидка Купона' : 'Сумма Сертификата'}:{' '}
+          {currentCoupon.value} {isCoupon ? '%' : 'Сум'}
         </p>
         <p>
-          Количество {isCoupon ? "купонов" : "сертификатов"}:{" "}
+          Количество {isCoupon ? 'купонов' : 'сертификатов'}:{' '}
           {currentCoupon.count} шт
         </p>
         <p>
-          Стоимость {isCoupon ? "купона" : "сертификата"}: {currentCoupon.price}{" "}
+          Стоимость {isCoupon ? 'купона' : 'сертификата'}: {currentCoupon.price}{' '}
           Сум
         </p>
         <p>
-          Возрастное ограничение:{" "}
+          Возрастное ограничение:{' '}
           {currentCoupon.ageUnlimited || currentCoupon.ageFrom === 0
-            ? "Нет"
-            : currentCoupon.ageFrom + "+"}
+            ? 'Нет'
+            : currentCoupon.ageFrom + '+'}
         </p>
       </Content>
       <div
         style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "flex-end",
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
         }}
       >
         {disableUpdate ? (
           <Button
             onClick={() => setDeleteOpen(true)}
-            buttonStyle={{ color: "#ffffff", bgcolor: "#FF5E68" }}
+            buttonStyle={{ color: '#ffffff', bgcolor: '#FF5E68' }}
             startIcon={<DeleteIcon />}
           >
             Удалить купон
@@ -161,14 +160,14 @@ export const CouponBar = ({
             <Button
               onClick={handleCheck}
               startIcon={<EyeIcon />}
-              buttonStyle={{ color: "#606EEA", bgcolor: "#ffffff" }}
+              buttonStyle={{ color: '#606EEA', bgcolor: '#ffffff' }}
             >
               Смотреть полностью
             </Button>
             <Button
               onClick={handleRePublish}
               startIcon={<ReUseIcon />}
-              margin={{ laptop: "25px 0" }}
+              margin={{ laptop: '25px 0' }}
             >
               Восстановить
             </Button>
@@ -179,8 +178,8 @@ export const CouponBar = ({
               onClick={handleUpdate}
               startIcon={<PenIcon />}
               buttonStyle={{
-                color: "#606EEA",
-                bgcolor: "rgba(96, 110, 234, 0.1)",
+                color: '#606EEA',
+                bgcolor: 'rgba(96, 110, 234, 0.1)',
               }}
             >
               Редактировать
@@ -188,13 +187,13 @@ export const CouponBar = ({
             <Button
               startIcon={<PublishIcon />}
               onClick={() => setPublisOpen(true)}
-              margin={{ laptop: "25px 0" }}
+              margin={{ laptop: '25px 0' }}
             >
               Опубликовать
             </Button>
             <Button
               onClick={() => setDeleteOpen(true)}
-              buttonStyle={{ color: "#ffffff", bgcolor: "#FF5E68" }}
+              buttonStyle={{ color: '#ffffff', bgcolor: '#FF5E68' }}
               startIcon={<DeleteIcon />}
             >
               Удалить купон
@@ -204,18 +203,21 @@ export const CouponBar = ({
       </div>
       <Modal open={isDeleteOpen}>
         <DeleteModal>
-          <h5>Вы действительно хотите удалить {isCoupon ? t("coupon") : t("certificate")}?</h5>
+          <h5>
+            Вы действительно хотите удалить{' '}
+            {isCoupon ? t('coupon') : t('certificate')}?
+          </h5>
           <p>{currentCoupon.title}</p>
           <Button
-            buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
-            margin={{ laptop: "0 22px 0 0" }}
+            buttonStyle={{ color: '#223367', bgcolor: '#ffffff' }}
+            margin={{ laptop: '0 22px 0 0' }}
             onClick={() => setDeleteOpen(false)}
             startIcon={<CancelIcon />}
           >
             Отмена
           </Button>
           <Button
-            buttonStyle={{ bgcolor: "#FF5E68 " }}
+            buttonStyle={{ bgcolor: '#FF5E68 ' }}
             onClick={onDelete}
             startIcon={<DeleteIcon />}
           >

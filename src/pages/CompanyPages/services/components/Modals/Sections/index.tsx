@@ -7,7 +7,7 @@ import { FormProvider } from "react-hook-form";
 //components
 import { IconButton } from "@material-ui/core";
 import Modal from "components/Custom/Modal";
-import Button from "components/Custom/Button";
+import Button from "components/Custom/Buttons/Button";
 import { SectionField } from "../../SectionField";
 import Spinner from "components/Helpers/Spinner";
 

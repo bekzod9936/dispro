@@ -11,7 +11,7 @@ import useWindowWidth from 'services/hooks/useWindowWidth';
 import financeCashierDef from '../../../../../assets/images/financeCashierDef.png';
 import { NewPagination } from 'components/Custom/NewPagination';
 import FilterHistory from './components/FilterHistory';
-import Button from 'components/Custom/Button';
+import Button from 'components/Custom/Buttons/Button';
 import { setSideDrawer } from 'services/redux/Slices/finance';
 import Modal from 'components/Custom/Modal';
 import { IconButton } from '@material-ui/core';
