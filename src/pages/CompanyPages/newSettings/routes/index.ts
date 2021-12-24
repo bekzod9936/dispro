@@ -11,7 +11,7 @@ const AwardingSection = lazy(
     () => import("../screens/QRCodesSection")
   );
   const ReferalProgramSection = lazy(
-    () => import("../screens/LoyaltyProgramSection")
+    () => import("../screens/ReferalProgram")
   );
   const SecuritySection = lazy(
     () => import("../screens/SecuritySection")

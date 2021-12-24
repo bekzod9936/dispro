@@ -240,7 +240,6 @@ const LoyaltyProgramSection = () => {
                 checked={offChecked}
                 onChange={(e: any) => {
                   handleSwitch(e.target.checked);
-               
                 }}
               />
             

@@ -14,7 +14,7 @@ const Settings = () => {
     return (
       <PageWrapperFlex>
         <WrapperTitle>
-          <Title>{t('settings')}</Title>
+          <Title>{t('Настройки компании ')}</Title>
         </WrapperTitle>
         <WrapperNav>
           <NavBar list={menuItems} margin='20px 0 0' padding='0 10px 0 0' />
