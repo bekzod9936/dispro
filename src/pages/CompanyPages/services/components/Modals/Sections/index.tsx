@@ -8,6 +8,8 @@ import { FormProvider } from "react-hook-form";
 import { IconButton } from "@material-ui/core";
 import Modal from "components/Custom/Modal";
 import Button from "components/Custom/Button";
+import { SectionField } from "../../SectionField";
+import Spinner from "components/Helpers/Spinner";
 
 //style
 import {
@@ -28,7 +30,6 @@ import {
   usePostSection,
   useSections,
 } from "pages/CompanyPages/services/hooks";
-import { SectionField } from "../../SectionField";
 import {
   getLengthOfParentSections,
   sectionsToSectionArray,
@@ -50,16 +51,14 @@ export const SectionModal: React.FC<SectionModalProps> = ({
   const buttonRef = useRef<null | HTMLDivElement>(null);
 
   const styles = useStyles();
-
   const { t } = useTranslation();
-
-  const { data } = useGetSections();
-  const limit = SECTIONS_LIMIT - getLengthOfParentSections(data?.data);
 
   const { fields, append, remove, form } = useSections();
 
-  const { mutate } = usePostSection();
+  const { mutate, isLoading } = usePostSection();
 
+  const { data } = useGetSections();
+  const limit = SECTIONS_LIMIT - getLengthOfParentSections(data?.data);
   const fieldsLimit = limit - fields.length;
 
   const onSubmit = async (data: createSectionFormType) => {
@@ -140,8 +139,13 @@ export const SectionModal: React.FC<SectionModalProps> = ({
             >
               {t("cancel")}
             </Button>
-            <Button type="submit" startIcon={<CreateSectionIcon />}>
-              {t("create")}
+            <Button
+              width={styles.button.width}
+              disabled={isLoading}
+              type="submit"
+              startIcon={<CreateSectionIcon />}
+            >
+              {isLoading ? <Spinner size={20} /> : t("create")}
             </Button>
           </Footer>
         </Wrapper>

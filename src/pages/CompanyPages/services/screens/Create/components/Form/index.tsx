@@ -34,7 +34,7 @@ export const Form: React.FC<FormProps> = () => {
 
   const history = useHistory();
 
-  const { mutate } = useCreateService();
+  const { mutate, isLoading } = useCreateService();
 
   const onSubmit = (data: CreateDtoType) => {
     const transformedData: CreateDtoType = {
@@ -50,6 +50,8 @@ export const Form: React.FC<FormProps> = () => {
     });
   };
 
+  console.log(form.formState.errors);
+
   return (
     <FormStyled onSubmit={form.handleSubmit(onSubmit)}>
       <FormProvider {...form}>
@@ -60,7 +62,7 @@ export const Form: React.FC<FormProps> = () => {
           <Variants disabled={state.loyaltyType !== 1} />
           <Durations />
           <Photos />
-          <Buttons />
+          <Buttons isLoading={isLoading} />
         </Container>
       </FormProvider>
     </FormStyled>
