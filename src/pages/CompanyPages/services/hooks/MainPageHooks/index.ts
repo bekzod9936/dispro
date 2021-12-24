@@ -15,7 +15,7 @@ export const useGetItems = () => {
     const total = data?.totalCount || 0
     const goods = divideGoodsBySections(data?.goodsArr || [])
 
-    return {total, rest, goods}
+    return {total, goods, ...rest}
 }
 
 

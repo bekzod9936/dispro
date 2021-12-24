@@ -1,9 +1,9 @@
 //packages
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 //components
-import Button from 'components/Custom/Buttons/Button';
-import Modal from 'components/Custom/Modal';
+import Button from "components/Custom/Buttons/Button";
+import Modal from "components/Custom/Modal";
 
 //style
 import {
@@ -12,9 +12,10 @@ import {
   Wrapper,
   MobileCancelIcon,
   ExitIcon,
-} from './style';
+} from "./style";
+
 //other
-import useWindowWidth from 'services/hooks/useWindowWidth';
+import useWindowWidth from "services/hooks/useWindowWidth";
 
 interface QuitModalProps {
   isOpen: boolean;
@@ -34,9 +35,9 @@ export const QuitModal: React.FC<QuitModalProps> = ({
   return (
     <Modal open={isOpen}>
       <Wrapper>
-        <h4>{t('leavePage')}</h4>
-        <p>{t('servicesPageQuitModalAlertMessage')}</p>
-        <div className='buttons'>
+        <h4>{t("leavePage")}</h4>
+        <p>{t("servicesPageQuitModalAlertMessage")}</p>
+        <div className="buttons">
           <Button
             onClick={onStay}
             buttonStyle={styles.style}

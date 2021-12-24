@@ -4,6 +4,7 @@ import { useSectionsWithIdEntity } from "pages/CompanyPages/services/hooks/MainP
 import { IGoods } from "pages/CompanyPages/services/utils/types";
 import { ISectionResponse } from "services/queries/servicesQueries/response.types";
 import { Wrapper, Container } from "./style";
+
 interface GoodsProps {
   currentSection: ISectionResponse | null;
   setCurrentSection: (arg: ISectionResponse | null) => void;
@@ -16,8 +17,6 @@ export const Goods: React.FC<GoodsProps> = ({
   goods,
 }) => {
   const sectionsObject = useSectionsWithIdEntity();
-
-  console.log(sectionsObject, goods);
 
   return (
     <Wrapper>
