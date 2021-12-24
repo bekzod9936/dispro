@@ -2,6 +2,7 @@ import { ItemGroup } from "pages/CompanyPages/services/components/ItemGroup";
 import { Sections } from "pages/CompanyPages/services/components/Sections";
 import { useSectionsWithIdEntity } from "pages/CompanyPages/services/hooks/MainPageHooks";
 import { IGoods } from "pages/CompanyPages/services/utils/types";
+
 import { ISectionResponse } from "services/queries/servicesQueries/response.types";
 import { Wrapper, Container } from "./style";
 
