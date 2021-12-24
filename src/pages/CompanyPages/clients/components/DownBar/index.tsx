@@ -5,23 +5,23 @@ import {
   MiniCloseIcon,
   RightArrowIcon,
   VioletCancelIcon,
-} from 'assets/icons/ClientsPageIcons/ClientIcons';
-import Button from 'components/Custom/Buttons/Button';
-import CustomToggle from 'components/Custom/CustomToggleSwitch';
-import FullModal from 'components/Custom/FullModal';
-import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
+} from "assets/icons/ClientsPageIcons/ClientIcons";
+import Button from "components/Custom/Button";
+import CustomToggle from "components/Custom/CustomToggleSwitch";
+import FullModal from "components/Custom/FullModal";
+import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 import {
   selectAll,
   setAllClients,
   setClient,
-} from 'services/redux/Slices/clients';
-import { Content, Footer, Header, Main } from './style';
-import { useEffect } from 'react';
-import { IMobileForm } from '../../screens/ClientsPage/ClientsPage';
-import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
-import { ResetModal } from '../ResetModal';
-import { ViewAll } from '../ViewAll';
+} from "services/redux/Slices/clients";
+import { Content, Footer, Header, Main } from "./style";
+import { useEffect } from "react";
+import { IMobileForm } from "../../screens/ClientsPage/ClientsPage";
+import { useTranslation } from "react-i18next";
+import { useState } from "react";
+import { ResetModal } from "../ResetModal";
+import { ViewAll } from "../ViewAll";
 interface IProps {
   open: boolean;
   setModals: (arg: any) => void;
@@ -38,7 +38,7 @@ export const DownBar = ({ open, setModals, setForm, refetch }: IProps) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const [checkAll, setCheckAll] = useState(false);
-  const [fetchingAllClients, setFetchingAllClients] = useState('');
+  const [fetchingAllClients, setFetchingAllClients] = useState("");
   const checked =
     selectedClients.length > 1
       ? selectedClients.every((el) => el.personalLoyaltyInfo.isActive)
@@ -50,9 +50,9 @@ export const DownBar = ({ open, setModals, setForm, refetch }: IProps) => {
 
   const handleClick = (e: any) => {
     if (allClients.length === 0) {
-      setFetchingAllClients('Подождите, идет загрузка...');
+      setFetchingAllClients("Подождите, идет загрузка...");
     } else {
-      dispatch(setAllClients(e.target.value === 'true'));
+      dispatch(setAllClients(e.target.value === "true"));
     }
   };
 
@@ -76,12 +76,12 @@ export const DownBar = ({ open, setModals, setForm, refetch }: IProps) => {
 
   useEffect(() => {
     if (allClients.length > 0) {
-      setFetchingAllClients('');
+      setFetchingAllClients("");
     }
   }, [allClients.length]);
 
   return (
-    <FullModal direction='down' open={open}>
+    <FullModal direction="down" open={open}>
       {client && (
         <ResetModal
           refetch={refetch}
@@ -115,9 +115,9 @@ export const DownBar = ({ open, setModals, setForm, refetch }: IProps) => {
             ).map((client) => (
               <div
                 onClick={() => handleRemoveClient(client.id)}
-                className='client'
+                className="client"
               >
-                <p>{client.firstName + ' ' + client.lastName}</p>
+                <p>{client.firstName + " " + client.lastName}</p>
                 <MiniCloseIcon />
               </div>
             ))}
@@ -128,16 +128,16 @@ export const DownBar = ({ open, setModals, setForm, refetch }: IProps) => {
             onClick={() => setCheckAll(true)}
             buttonStyle={{
               weight: 300,
-              bgcolor: '#fff',
-              color: '#3492FF',
+              bgcolor: "#fff",
+              color: "#3492FF",
             }}
           >
-            {t('checkAll')}
+            {t("checkAll")}
           </Button>
         )}
         <Footer>
-          <div className='vipProcent'>
-            <div className='toggler'>
+          <div className="vipProcent">
+            <div className="toggler">
               <h6>Специальный статус</h6>
               <CustomToggle
                 disabled={disableSpecStatus}
@@ -150,15 +150,15 @@ export const DownBar = ({ open, setModals, setForm, refetch }: IProps) => {
                 disabled={disableSpecStatus}
                 onClick={() => setForm({ open: true, action: 3 })}
                 margin={{
-                  mobile: '10px 0',
+                  mobile: "10px 0",
                 }}
                 buttonStyle={{
-                  color: '#3492FF',
-                  bgcolor: '#ffffff',
+                  color: "#3492FF",
+                  bgcolor: "#ffffff",
                   weight: 300,
                 }}
               >
-                {t('edit') + ' %'}
+                {t("edit") + " %"}
               </Button>
             )}
           </div>
@@ -184,10 +184,10 @@ export const DownBar = ({ open, setModals, setForm, refetch }: IProps) => {
                     >
                         Списать баллы
                     </Button> */}
-          <button value='true' onClick={handleClick} className='customButton'>
+          <button value="true" onClick={handleClick} className="customButton">
             Выбрать всех клиентов
           </button>
-          <button value='false' onClick={handleClick} className='customButton'>
+          <button value="false" onClick={handleClick} className="customButton">
             Снять выделение
           </button>
         </Footer>

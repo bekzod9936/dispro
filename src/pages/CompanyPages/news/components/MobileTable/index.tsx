@@ -1,28 +1,29 @@
-import { ReactComponent as LeftBack } from 'assets/icons/FinanceIcons/leftback.svg';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { ReactComponent as LeftBack } from "assets/icons/FinanceIcons/leftback.svg";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
-import { useState } from 'react';
-import Button from 'components/Custom/Buttons/Button';
-import { PenIcon } from 'assets/icons/news/newsIcons';
-import { CancelIcon } from 'assets/icons/news/newsIcons';
+import { useState } from "react";
+import Button from "components/Custom/Button";
+import { PenIcon } from "assets/icons/news/newsIcons";
+import { CancelIcon } from "assets/icons/news/newsIcons";
 import {
+
   WhitePublishIcon,
   BluePenIcon,
   RepairNewsIcon,
-} from 'assets/icons/news/newsIcons';
-import { IconButton } from '@material-ui/core';
+} from "assets/icons/news/newsIcons";
+import { IconButton } from "@material-ui/core";
 
-import { useAppDispatch } from 'services/redux/hooks';
-import { deleteNews } from 'services/queries/newPageQuery';
-import { setSelectedNews } from 'services/redux/Slices/news';
-import useWindowWidth from 'services/hooks/useWindowWidth';
-import { DeleteIcon } from 'assets/icons/proposals/ProposalsIcons';
-import { useLocation } from 'react-router-dom';
-import FullModal from 'components/Custom/FullModal';
-import { useTranslation } from 'react-i18next';
-import Modal from 'components/Custom/Modal';
-import { PublicModal } from '../NewsBar/components/PublicModal';
-import { useHistory } from 'react-router-dom';
+import { useAppDispatch } from "services/redux/hooks";
+import { deleteNews } from "services/queries/newPageQuery";
+import { setSelectedNews } from "services/redux/Slices/news";
+import useWindowWidth from "services/hooks/useWindowWidth";
+import { DeleteIcon } from "assets/icons/proposals/ProposalsIcons";
+import { useLocation } from "react-router-dom";
+import FullModal from "components/Custom/FullModal";
+import { useTranslation } from "react-i18next";
+import Modal from "components/Custom/Modal";
+import { PublicModal } from "../NewsBar/components/PublicModal";
+import { useHistory } from "react-router-dom";
 import {
   Container,
   Data,
@@ -44,9 +45,9 @@ import {
   WrapAvatar,
   DeleteModal,
   Buttons,
-} from './style';
-import { WrapperModal, CloseButton } from '../NewsBar/style';
-import { CloseIcon } from 'assets/icons/news/newsIcons';
+} from "./style";
+import { WrapperModal, CloseButton } from "../NewsBar/style";
+import { CloseIcon } from "assets/icons/news/newsIcons";
 interface Props {
   data?: any;
   refetch: any;
@@ -58,7 +59,7 @@ const MobileTable = ({ refetch, data }: Props) => {
   const dispatch = useAppDispatch();
   const history = useHistory();
   const { t } = useTranslation();
-
+  
   const [isDeleteOpen, setDeleteOpen] = useState<boolean>(false);
   const [isPublishOpen, setPublisOpen] = useState<boolean>(false);
   const { width } = useWindowWidth();
@@ -80,14 +81,14 @@ const MobileTable = ({ refetch, data }: Props) => {
   const handleEdit = async (id: any) => {
     await dispatch(setSelectedNews(id));
     if (id) {
-      setTimeout(() => history.push('/news/edit'), 1000);
+      setTimeout(() => history.push("/news/edit"), 1000);
     }
   };
 
   const handleRepair = async (id: any) => {
     await dispatch(setSelectedNews(id));
     if (id) {
-      setTimeout(() => history.push('/news/repair'), 1000);
+      setTimeout(() => history.push("/news/repair"), 1000);
     }
   };
 
@@ -100,18 +101,18 @@ const MobileTable = ({ refetch, data }: Props) => {
             return {
               item:
                 label === 1
-                  ? 'ПН'
+                  ? "ПН"
                   : label === 2
-                  ? 'ВТ'
+                  ? "ВТ"
                   : label === 3
-                  ? 'СР'
+                  ? "СР"
                   : label === 4
-                  ? 'ЧТ'
+                  ? "ЧТ"
                   : label === 5
-                  ? 'ПТ'
+                  ? "ПТ"
                   : label === 6
-                  ? 'СБ'
-                  : 'ВС',
+                  ? "СБ"
+                  : "ВС",
             };
           }
         );
@@ -128,12 +129,12 @@ const MobileTable = ({ refetch, data }: Props) => {
                 info.image ? (
                   <WrapIcon>
                     <LazyLoadImage
-                      alt='avatar'
-                      height='40px'
+                      alt="avatar"
+                      height="40px"
                       src={info.image}
-                      width='40px'
-                      effect='blur'
-                      style={{ objectFit: 'cover', borderRadius: '14px' }}
+                      width="40px"
+                      effect="blur"
+                      style={{ objectFit: "cover", borderRadius: "14px" }}
                     />
                   </WrapIcon>
                 ) : (
@@ -143,20 +144,18 @@ const MobileTable = ({ refetch, data }: Props) => {
               <WrapMain isAvatar={info?.image}>
                 <FullName>
                   {info?.title?.length > 20
-                    ? info?.title?.charAt(0).toUpperCase() +
-                      info?.title?.slice(1, 20) +
-                      '...'
-                    : info?.title?.charAt(0).toUpperCase() +
-                      info?.title?.slice(1)}
+                    ?info?.title?.charAt(0).toUpperCase()+ info?.title?.slice(1, 20) + "..."
+                    :  info?.title?.charAt(0).toUpperCase() +
+                    info?.title?.slice(1)}
+                   
                 </FullName>
                 <Wrapper>
                   <Title>
                     {info?.description?.length > 20
-                      ? info?.description?.charAt(0).toUpperCase() +
-                        info?.description?.slice(1, 20) +
-                        '...'
+                      ? info?.description?.charAt(0).toUpperCase()+ info?.description?.slice(1, 20) + "..."
                       : info?.description?.charAt(0).toUpperCase() +
-                        info?.description?.slice(1)}
+                      info?.description?.slice(1)}
+                    
                   </Title>
                 </Wrapper>
               </WrapMain>
@@ -164,7 +163,7 @@ const MobileTable = ({ refetch, data }: Props) => {
             {id === i ? (
               <FullModal open={open}>
                 <ModalContent
-                  style={{ display: 'flex', flex: 1, flexDirection: 'column' }}
+                  style={{ display: "flex", flex: 1, flexDirection: "column" }}
                 >
                   <div>
                     <Header>
@@ -180,34 +179,33 @@ const MobileTable = ({ refetch, data }: Props) => {
                         <>
                           <WrapIcon>
                             <LazyLoadImage
-                              alt='avatar'
-                              height='50px'
+                              alt="avatar"
+                              height="50px"
                               src={info?.image}
-                              width='50px'
-                              effect='blur'
+                              width="50px"
+                              effect="blur"
                               style={{
-                                objectFit: 'cover',
-                                borderRadius: '14px',
+                                objectFit: "cover",
+                                borderRadius: "14px",
                               }}
                             />
                           </WrapIcon>
-                          <div style={{ display: 'block' }}>
+                          <div style={{ display: "block" }}>
                             <p
                               style={{
-                                whiteSpace: 'pre-wrap',
-                                wordBreak: 'break-all',
-
-                                fontSize: '16px',
-                                color: '#223367',
+                               whiteSpace: "pre-wrap",wordBreak: 'break-all',
+                               
+                                fontSize: "16px",
+                                color: "#223367",
                                 fontWeight: 500,
                               }}
                             >
                               {info?.title}
                             </p>
                             <span
-                              style={{ fontSize: '14px', color: '#223367' }}
+                              style={{ fontSize: "14px", color: "#223367" }}
                             >
-                              {info?.pushUp ? 'Push-up' : ''}
+                              {info?.pushUp? 'Push-up':''}
                             </span>
                           </div>
                         </>
@@ -217,48 +215,36 @@ const MobileTable = ({ refetch, data }: Props) => {
                   <MobileContent>
                     <div>
                       <WrapBox>
-                        <p style={{ color: '#C7C7C7' }}>{t('Описание')}</p>
+                        <p style={{ color: "#C7C7C7" }}>{t("Описание")}</p>
                         <Box>
-                          <BoxInfo>
-                            <p>{info?.description}</p>
+                         <BoxInfo>
+                           
+                              <p>
+                                {info?.description}
+                              </p>
+                           
                           </BoxInfo>
+                        
                         </Box>
                       </WrapBox>
                       <WrapBoxDetail>
-                        <p style={{ color: '#C7C7C7' }}>{t('Информация')}</p>
+                        <p style={{ color: "#C7C7C7" }}>{t('Информация')}</p>
                         <Box>
-                          {console.log(
-                            'a.fullData?.genderType',
-                            a.fullData?.genderType
-                          )}
+                          {console.log('a.fullData?.genderType',a.fullData?.genderType)}
                           <BoxinfoDetail>{`${a.fullData?.genderType}`}</BoxinfoDetail>
                           <BoxinfoDetail>{`Срок публикации: ${a.fullData?.date}`}</BoxinfoDetail>
                           <BoxinfoDetail>{`Возрастное ограничение: ${
-                            info?.ageFrom + '+'
+                            info?.ageFrom + "+"
                           }`}</BoxinfoDetail>
-
+                      
                           {info?.pushUp && (
                             <>
                               <BoxinfoDetail>
-                                {`Дни оповещания Push:  ${
-                                  weekdays[1]?.item ? weekdays[1]?.item : ''
-                                } ${
-                                  weekdays[2]?.item ? weekdays[2]?.item : ''
-                                } ${
-                                  weekdays[3]?.item ? weekdays[3]?.item : ''
-                                } ${
-                                  weekdays[4]?.item ? weekdays[4]?.item : ''
-                                } ${
-                                  weekdays[5]?.item ? weekdays[5]?.item : ''
-                                } ${
-                                  weekdays[6]?.item ? weekdays[6]?.item : ''
-                                } ${
-                                  weekdays[0]?.item ? weekdays[0]?.item : ''
-                                }`}
+                                {`Дни оповещания Push:  ${weekdays[1]?.item ? weekdays[1]?.item:''} ${weekdays[2]?.item ?weekdays[2]?.item:''} ${weekdays[3]?.item?weekdays[3]?.item : '' } ${weekdays[4]?.item ? weekdays[4]?.item:''} ${weekdays[5]?.item ? weekdays[5]?.item:''} ${weekdays[6]?.item ? weekdays[6]?.item:''} ${weekdays[0]?.item ? weekdays[0]?.item:''}`}
                               </BoxinfoDetail>
                               <BoxinfoDetail>{`Часы оповещения Push: ${
                                 info?.settings?.time?.from +
-                                '-' +
+                                "-" +
                                 info?.settings?.time?.to
                               }`}</BoxinfoDetail>
                             </>
@@ -267,48 +253,48 @@ const MobileTable = ({ refetch, data }: Props) => {
                       </WrapBoxDetail>
 
                       <WrapBoxDetail>
-                        <p style={{ color: '#C7C7C7' }}>
-                          {t('Push up статистика')}
-                        </p>
+                        <p style={{ color: "#C7C7C7" }}>{t("Push up статистика")}</p>
                         <Box>
                           <BoxinfoDetail>{`Уведомлений получили: ${info?.stat?.get?.total} чел`}</BoxinfoDetail>
                           <BoxinfoDetail>
                             {`Уведомлений просмотрели:${info?.stat?.view?.total} чел`}
                             <br />
                             <span
-                              style={{ fontSize: '14px', color: '#606EEA' }}
+                              style={{ fontSize: "14px", color: "#606EEA" }}
                             >{`${info?.stat?.view?.male} Муж`}</span>
                             <span
-                              style={{ fontSize: '14px', color: '#FF56BB' }}
+                              style={{ fontSize: "14px", color: "#FF56BB" }}
                             >
-                              {' ' + `${info?.stat?.view?.female} Жен`}
+                              {" " + `${info?.stat?.view?.female} Жен`}
                             </span>
                           </BoxinfoDetail>
                           <BoxinfoDetail>
                             {`Произвели оплату: ${info?.stat?.paid?.total} чел`}
                             <br />
                             <span
-                              style={{ fontSize: '14px', color: '#606EEA' }}
+                              style={{ fontSize: "14px", color: "#606EEA" }}
                             >{`${info?.stat?.paid?.male} Муж`}</span>
                             <span
-                              style={{ fontSize: '14px', color: '#FF56BB' }}
+                              style={{ fontSize: "14px", color: "#FF56BB" }}
                             >
-                              {' ' + `${info?.stat?.paid?.female} Жен`}
+                              {" " + `${info?.stat?.paid?.female} Жен`}
                             </span>
                           </BoxinfoDetail>
                         </Box>
                       </WrapBoxDetail>
+      
+      
                     </div>
                     <div>
-                      {location.pathname === '/news/active' && (
+                      {location.pathname === "/news/active" && (
                         <Buttons>
                           <Button
                             onClick={() => onDeleteOpen()}
-                            margin={{ mobile: '0 8px 0 0' }}
+                            margin={{ mobile: "0 8px 0 0" }}
                             buttonStyle={{
-                              bgcolor: '#FF5E68',
-                              color: '#fff',
-                              weight: '700',
+                              bgcolor: "#FF5E68",
+                              color: "#fff",
+                              weight: "700",
                             }}
                             // startIcon={<DeleteIcon />}
 
@@ -320,15 +306,15 @@ const MobileTable = ({ refetch, data }: Props) => {
                               )
                             }
                           >
-                            {t('Удалить')}
+                           {t('Удалить')} 
                           </Button>
                           <Button
                             onClick={() => handleEdit(a)}
-                            margin={{ desktop: '0 20px 0 20px' }}
+                            margin={{ desktop: "0 20px 0 20px" }}
                             buttonStyle={{
-                              bgcolor: '#606EEA',
-                              color: '#fff',
-                              weight: '500',
+                              bgcolor: "#606EEA",
+                              color: "#fff",
+                              weight: "500",
                             }}
                             endIcon={
                               width > 325 && (
@@ -336,23 +322,23 @@ const MobileTable = ({ refetch, data }: Props) => {
                               )
                             }
                           >
-                            {'Редактировать'}
+                            {"Редактировать"}
                           </Button>
                         </Buttons>
                       )}
-                      {location.pathname === '/news/waiting' && (
+                      {location.pathname === "/news/waiting" && (
                         <>
                           <Buttons>
                             <Button
                               onClick={() => handleEdit(a)}
                               margin={{
-                                desktop: '0 20px 0 20px',
-                                mobile: '0px 10px 10px 10px ',
+                                desktop: "0 20px 0 20px",
+                                mobile: "0px 10px 10px 10px ",
                               }}
                               buttonStyle={{
-                                bgcolor: 'rgba(96, 110, 234, 0.1)',
-                                color: '#606EEA',
-                                weight: '500',
+                                bgcolor: "rgba(96, 110, 234, 0.1)",
+                                color: "#606EEA",
+                                weight: "500",
                               }}
                               endIcon={
                                 width > 325 && (
@@ -362,18 +348,18 @@ const MobileTable = ({ refetch, data }: Props) => {
                                 )
                               }
                             >
-                              {'Редактировать'}
+                              {"Редактировать"}
                             </Button>
                           </Buttons>
                           <Buttons>
                             <Button
                               // onClick={''}
-                              margin={{ mobile: '0 8px 0 0' }}
+                              margin={{ mobile: "0 8px 0 0" }}
                               onClick={() => onDeleteOpen()}
                               buttonStyle={{
-                                bgcolor: '#FF5E68',
-                                color: '#fff',
-                                weight: '700',
+                                bgcolor: "#FF5E68",
+                                color: "#fff",
+                                weight: "700",
                               }}
                               // startIcon={<DeleteIcon />}
 
@@ -389,33 +375,33 @@ const MobileTable = ({ refetch, data }: Props) => {
                             </Button>
                             <Button
                               onClick={() => handlePublic(a)}
-                              margin={{ desktop: '0 20px 0 20px' }}
+                              margin={{ desktop: "0 20px 0 20px" }}
                               buttonStyle={{
-                                bgcolor: '#606EEA',
-                                color: '#fff',
-                                weight: '500',
-                                shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)',
+                                bgcolor: "#606EEA",
+                                color: "#fff",
+                                weight: "500",
+                                shadow:'0px 4px 9px rgba(96, 110, 234, 0.46)'
                               }}
                               //  endIcon={<MobileCancelIcon />}
                               endIcon={width > 325 && <WhitePublishIcon />}
                             >
-                              {t('Опубликовать')}
+                                  {t('Опубликовать')} 
                             </Button>
                           </Buttons>
                         </>
                       )}
                     </div>
                   </MobileContent>
-                  {location.pathname === '/news/archive' && (
+                  {location.pathname === "/news/archive" && (
                     <Buttons>
                       <Button
                         onClick={() => handleRepair(a)}
-                        margin={{ desktop: '0 20px 0 20px' }}
+                        margin={{ desktop: "0 20px 0 20px" }}
                         buttonStyle={{
-                          bgcolor: '#606EEA',
-                          color: '#fff',
-                          weight: '500',
-                          shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)',
+                          bgcolor: "#606EEA",
+                          color: "#fff",
+                          weight: "500",
+                          shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)'
                         }}
                         endIcon={
                           width > 325 && (
@@ -425,7 +411,7 @@ const MobileTable = ({ refetch, data }: Props) => {
                           )
                         }
                       >
-                        {t('Восстановить')}
+                        {t('Восстановить')}   
                       </Button>
                     </Buttons>
                   )}
@@ -436,15 +422,12 @@ const MobileTable = ({ refetch, data }: Props) => {
                     <p>{t('После удаления новости  данные будет утеряны')}</p>
                     <Buttons>
                       <Button
-                        margin={{
-                          desktop: '0 20px 0 20px',
-                          mobile: '0 10px 0 0',
-                        }}
+                        margin={{ desktop: "0 20px 0 20px" ,mobile:"0 10px 0 0"}}
                         onClick={() => setDeleteOpen(false)}
                         buttonStyle={{
-                          bgcolor: 'rgba(96, 110, 234, 0.1)',
-                          color: '#606EEA',
-                          weight: '500',
+                          bgcolor:"rgba(96, 110, 234, 0.1)",
+                          color: "#606EEA",
+                          weight: "500",
                         }}
                         endIcon={
                           width > 325 && (
@@ -456,11 +439,11 @@ const MobileTable = ({ refetch, data }: Props) => {
                       </Button>
                       <Button
                         onClick={() => onDeleteAction(info?.id)}
-                        margin={{ mobile: '0 8px 0 0' }}
+                        margin={{ mobile: "0 8px 0 0" }}
                         buttonStyle={{
-                          bgcolor: '#FF5E68',
-                          color: '#fff',
-                          weight: '700',
+                          bgcolor: "#FF5E68",
+                          color: "#fff",
+                          weight: "700",
                         }}
                         // startIcon={<DeleteIcon />}
 
@@ -470,18 +453,18 @@ const MobileTable = ({ refetch, data }: Props) => {
                           )
                         }
                       >
-                        {t('Удалить')}
+                       {t('Удалить')} 
                       </Button>
                     </Buttons>
                   </DeleteModal>
                 </Modal>
                 {width > 600 && (
-                  <Modal modalStyle={{ bgcolor: '#fff' }} open={isPublishOpen}>
+                  <Modal modalStyle={{ bgcolor: "#fff" }} open={isPublishOpen}>
                     <WrapperModal>
                       <CloseButton onClick={() => setPublisOpen(false)}>
                         <CloseIcon />
                       </CloseButton>
-                      <h3>{t('Выберите дату публикации')}</h3>
+                      <h3>{t("Выберите дату публикации")}</h3>
                       <PublicModal setPublisOpen={setPublisOpen} />
                     </WrapperModal>
                   </Modal>
@@ -489,7 +472,10 @@ const MobileTable = ({ refetch, data }: Props) => {
 
                 {width <= 600 && (
                   <FullModal open={isPublishOpen}>
+            
+
                     <PublicModal setPublisOpen={setPublisOpen} />
+             
                   </FullModal>
                 )}
               </FullModal>

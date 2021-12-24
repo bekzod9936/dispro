@@ -33,7 +33,7 @@ import InputFormat from 'components/Custom/InputFormat';
 import Input from 'components/Custom/Input';
 import { IconButton } from '@material-ui/core';
 import NestedArray from './nested_array';
-import Button from 'components/Custom/Buttons/Button';
+import Button from 'components/Custom/Button';
 import CancelButton from 'pages/CompanyPages/settings/components/CancelButton';
 import SaveButton from 'pages/CompanyPages/settings/components/SaveButton';
 import useMobileData from './useMobileData';
@@ -183,7 +183,7 @@ const MainModel = () => {
                   margin={{
                     laptop: '20px 0 0',
                   }}
-                  message={t('requiredField')}
+                  message={t("requiredField")}
                   error={errors.base_percent}
                 />
               );
@@ -238,7 +238,8 @@ const MainModel = () => {
                   rules={{
                     required: true,
                     max: 100,
-                    min: 1,
+                    min:1,
+               
                   }}
                   defaultValue={item.percent}
                   control={control}
@@ -261,7 +262,12 @@ const MainModel = () => {
                           laptop: '20px 0 0',
                         }}
                         message={t('requiredField')}
-                        error={errors.levels?.[index]?.percent ? true : false}
+                        error={
+                          errors.levels?.[index]?.percent
+                            ? true
+                            : false
+                        }
+          
                       />
                     );
                   }}
@@ -328,8 +334,8 @@ const MainModel = () => {
             control={control}
             rules={{
               required: true,
-              max: 100,
-              min: 1,
+              max:100,
+              min:1
             }}
             defaultValue={base_loyality?.max_percent}
             render={({ field }) => {
@@ -340,7 +346,7 @@ const MainModel = () => {
                   type='string'
                   field={field}
                   message={t('requiredField')}
-                  error={errors.max_percent ? true : false}
+                  error={errors.max_percent? true:false}
                 />
               );
             }}
@@ -415,20 +421,20 @@ const MainModel = () => {
           <SaveButton type='submit' text={t('save')} />
         </Footer>
       </Body>
-
+   
       <Modal open={payGoModal}>
-        <WrapModalPaygo>
-          <Text marginBottom={'25px'}>{t('paygowarning')}</Text>
-          <Button
-            onClick={() => {
-              setpayGoModal(false);
-              history.push('/support');
-            }}
-          >
-            {t('writetomoderator')}
-          </Button>
-        </WrapModalPaygo>
-      </Modal>
+                        <WrapModalPaygo>
+                          <Text marginBottom={'25px'}>{t('paygowarning')}</Text>
+                          <Button
+                            onClick={() => {
+                              setpayGoModal(false);
+                              history.push('/support');
+                            }}
+                          >
+                            {t('writetomoderator')}
+                          </Button>
+                        </WrapModalPaygo>
+                      </Modal>
       <SnackBar
         message={alertName}
         status='error'

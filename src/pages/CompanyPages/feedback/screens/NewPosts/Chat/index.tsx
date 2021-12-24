@@ -8,7 +8,7 @@ import App from 'assets/icons/StatistisPage/app.svg';
 import { Controller, useForm } from 'react-hook-form';
 import Emoji from 'pages/CompanyPages/feedback/components/Emoji';
 import Input from 'components/Custom/Input';
-import Button from 'components/Custom/Buttons/Button';
+import Button from 'components/Custom/Button';
 import { ruCount } from '../../../hooks/format';
 import Spinner from 'components/Custom/Spinner';
 import InfiniteScroll from 'react-infinite-scroll-component';

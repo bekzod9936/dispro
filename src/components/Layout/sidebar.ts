@@ -76,12 +76,12 @@ const sidebar: any = [
     path: "info/about",
     permission: [],
   },
-  {
-    Icon: SettingIcon,
-    text: "settings",
-    path: "newsettings/loyality",
-    permission: [],
-  },
+  // {
+  //   Icon: SettingIcon,
+  //   text: "settings",
+  //   path: "newsettings/loyality",
+  //   permission: [],
+  // },
 ];
 
 export const useSideBar = () => {

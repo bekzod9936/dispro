@@ -5,7 +5,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Popover from 'components/Custom/Popover';
 import Input from 'components/Custom/Input';
-import Button from 'components/Custom/Buttons/Button';
+import Button from 'components/Custom/Button';
 import useWindowWidth from 'services/hooks/useWindowWidth';
 import FullModal from 'components/Custom/FullModal';
 import { IconButton } from '@material-ui/core';

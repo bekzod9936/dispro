@@ -11,7 +11,6 @@ import DatePcker from 'components/Custom/DatePicker';
 import { useAppSelector } from 'services/redux/hooks';
 import MobileTable from '../../components/MobileTable';
 import useWindowWidth from 'services/hooks/useWindowWidth';
-import dayjs from 'dayjs';
 
 const Offers = () => {
   const { t } = useTranslation();
@@ -129,7 +128,6 @@ const Offers = () => {
             endDate: e.slice(e.indexOf('~ ') + 2),
           });
         }}
-        maxDate={new Date()}
         margin='0 0 10px 0'
       />
       <Wrapper>

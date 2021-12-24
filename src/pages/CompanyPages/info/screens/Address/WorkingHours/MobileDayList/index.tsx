@@ -1,4 +1,4 @@
-import Button from 'components/Custom/Buttons/Button';
+import Button from 'components/Custom/Button';
 import { useState } from 'react';
 import {
   Container,

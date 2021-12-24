@@ -2,7 +2,7 @@ import SaveButton from '../../../../../components/Buttons/SaveButton';
 import Input from 'components/Custom/Input';
 import { Checkbox, FormControl, Radio, RadioGroup } from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Button from 'components/Custom/Buttons/Button';
+import Button from 'components/Custom/Button';
 import { useTranslation } from 'react-i18next';
 import { useState, useEffect } from 'react';
 import {

@@ -6,7 +6,6 @@ import {
   Controller,
   FieldErrors,
   useFieldArray,
-  useFormContext,
 } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
@@ -26,29 +25,37 @@ interface IError extends FieldErrors<FormFieldTypes> {
   [name: string]: any;
 }
 interface DynamicFieldsProps {
-  name: `variants.${number}.name`;
+  control: Control<FormFieldTypes>;
+  name: "descriptions" | "titles" | `variants.${number}.name`;
+  isDescription?: boolean;
+  label: string;
   marginBottom?: string;
   error: IError | undefined;
 }
 
 export const DynamicFields: React.FC<DynamicFieldsProps> = ({
+  control,
   name,
+  isDescription,
+  label,
   marginBottom,
   error,
 }) => {
   const { t } = useTranslation();
   const [modal, setModal] = useState(false);
-
-  const {
-    control,
-    formState: { errors },
-  } = useFormContext<FormFieldTypes>();
-
   const { input } = useStyles();
   const { fields, append, remove } = useFieldArray({
     control,
     name,
   });
+
+  const modalTitle = isDescription
+    ? "addingDescOnAnotherLang"
+    : "addingTitleOnAnotherLang";
+
+  const buttonInnerText = isDescription
+    ? "addDescOnAnotherLang"
+    : "addTitleOnAnotherLang";
 
   const handleAddField = (array: string[]) => {
     let inputs = array.map((e) => ({ data: "", lang: e }));
@@ -81,16 +88,19 @@ export const DynamicFields: React.FC<DynamicFieldsProps> = ({
                     <MockIcon />
                   )
                 }
-                label={t("title") + ` ${item.lang}`}
+                label={t(label) + ` ${item.lang}`}
+                multiline={isDescription}
                 message={error ? t(error[index]?.data?.message) : ""}
                 isAbsolute
                 error={error ? Boolean(error[index]) : false}
+                type={isDescription ? "textarea" : ""}
+                inputStyle={input.style(Boolean(isDescription))}
               />
             )}
           />
           {fields.length <= 2 && index === 0 && (
             <SubButton type="button" onClick={handleOpen}>
-              {t("addTitleOnAnotherLang")}
+              {t(buttonInnerText)}
             </SubButton>
           )}
         </div>
@@ -100,7 +110,7 @@ export const DynamicFields: React.FC<DynamicFieldsProps> = ({
         onClose={handleClose}
         onConfirm={handleAddField}
         fields={fields}
-        title={"addingTitleOnAnotherLang"}
+        title={modalTitle}
       />
     </Wrapper>
   );

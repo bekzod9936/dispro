@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import Button from '../../../../components/Custom/Buttons/Button';
+import Button from '../../../../components/Custom/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import { createCompany } from '../../../../services/queries/partnerQuery';
 import { useMutation } from 'react-query';

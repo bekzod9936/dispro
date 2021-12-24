@@ -12,7 +12,7 @@ import { useStyles } from "./style";
 import { FormFieldTypes } from "../../utils/types";
 
 interface DurationProps {
-  name: `preparationTimeData.${"day" | "hour" | "minute"}`;
+  name: `preparationTimeData.${"days" | "hours" | "minutes"}`;
   label: string;
   error: FieldError | undefined;
 }

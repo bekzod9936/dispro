@@ -24,9 +24,11 @@ export const MainWrapper = styled.div`
 export const Container = styled.div`
   display: flex;
   flex: 1;
+
   height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   padding-right: 20px;
 `;
 

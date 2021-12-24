@@ -1,47 +1,47 @@
-import { useState } from 'react';
-import Button from 'components/Custom/Buttons/Button';
-import CustomToggle from 'components/Custom/CustomToggleSwitch';
-import Input from 'components/Custom/Input';
-import { TextArea } from 'components/Custom/TextArea';
-import MultiSelect from 'components/Custom/MultiSelect';
-import Title from 'components/Custom/Title';
-import CheckBox from 'components/Custom/CheckBox';
-import React from 'react';
-import CustomDatePicker from 'components/Custom/CustomDatePicker';
-import { Controller, useForm } from 'react-hook-form';
-import { useHistory } from 'react-router-dom';
-import { CancelIcon } from 'assets/icons/ClientsPageIcons/ClientIcons';
-import Modal from 'components/Custom/Modal';
-import Spinner from 'components/Helpers/Spinner';
-import ImageLazyLoad from 'components/Custom/ImageLazyLoad/ImageLazyLoad';
-import useStaff from '../../hooks/useStaff';
-
-import CropCustomModal from 'components/Custom/CropImageModal/index';
-import { useTranslation } from 'react-i18next';
-import { useMutation } from 'react-query';
-import InputFormat from 'components/Custom/InputFormat';
-
-import { fetchCreateNews } from 'services/queries/newPageQuery';
-import { setErrorMessage } from 'services/redux/Slices/news';
-import { MobileCancelIcon } from 'assets/icons/news/newsIcons';
-import { UploadModal } from './components/UploadModal';
-import { ConfirmModal } from './components/ConfirmModal';
-import { CancelNewsModal } from './components/CancelNewsModal';
+import {useState} from 'react';
+import Button from "components/Custom/Button";
+import CustomToggle from "components/Custom/CustomToggleSwitch";
+import Input from "components/Custom/Input";
+import { TextArea } from "components/Custom/TextArea";
+import MultiSelect from "components/Custom/MultiSelect";
+import Title from "components/Custom/Title";
+import CheckBox from "components/Custom/CheckBox";
+import React from "react";
+import CustomDatePicker from "components/Custom/CustomDatePicker";
+import { Controller, useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
+import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
+import Modal from "components/Custom/Modal";
+import Spinner from "components/Helpers/Spinner";
+import ImageLazyLoad from "components/Custom/ImageLazyLoad/ImageLazyLoad";
+import useStaff from "../../hooks/useStaff";
+import { CloseIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
+import CropCustomModal from "components/Custom/CropImageModal/index";
+import { useTranslation } from "react-i18next";
+import { useMutation } from "react-query";
+import InputFormat from "components/Custom/InputFormat";
+import dayjs from "dayjs";
+import { fetchCreateNews } from "services/queries/newPageQuery";
+import { setErrorMessage } from "services/redux/Slices/news";
+import { MobileCancelIcon } from "assets/icons/news/newsIcons";
+import { UploadModal } from "./components/UploadModal";
+import { ConfirmModal } from "./components/ConfirmModal";
+import { CancelNewsModal } from "./components/CancelNewsModal";
 import {
   Label,
   WrapDate,
   WrapInputs,
   WrapSelect,
-} from '../../components/Header/style';
+} from "../../components/Header/style";
 import {
   DeleteIcon,
   GoBackIcon,
   PlusIcon,
   UploadImage,
-} from 'assets/icons/proposals/ProposalsIcons';
-import { SaveIcon, SaveIconMobile } from 'assets/icons/news/newsIcons';
-import { days, genders, todayDate, nextDay } from './constants';
-import useWindowWidth from 'services/hooks/useWindowWidth';
+} from "assets/icons/proposals/ProposalsIcons";
+import { SaveIcon, SaveIconMobile } from "assets/icons/news/newsIcons";
+import { days, genders, todayDate, nextDay } from "./constants";
+import useWindowWidth from "services/hooks/useWindowWidth";
 import {
   PushBlock,
   PushWrapper,
@@ -54,17 +54,21 @@ import {
   LeftSide,
   RightSide,
   UploadButton,
+  WrapArea,
+  TextAreaIcon,
   UpSide,
   Wrapper,
+  WrapperModal,
+  CloseButton,
   FormRow,
   Buttons,
   MobileHeader,
-} from './style';
-import { useUploadImage } from '../../hooks/useUploadIMage';
+} from "./style";
+import { useUploadImage } from "../../hooks/useUploadIMage";
 
-import { ReactComponent as MarketIcon } from 'assets/icons/SideBar/ilmarket.svg';
+import { ReactComponent as MarketIcon } from "assets/icons/SideBar/ilmarket.svg";
 
-import { useDispatch } from 'react-redux';
+import { useDispatch } from "react-redux";
 
 interface IOptionFields {
   push: boolean;
@@ -74,17 +78,17 @@ const CreateNews = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const history = useHistory();
-
+   const [limit,setLimit]=useState<any>('');
   const { width } = useWindowWidth();
   const { branches } = useStaff();
   const [optionalFields, setOptionalFields] = React.useState<IOptionFields>({
     push: false,
   });
 
-  const [file, setFile] = React.useState<any>('');
+  const [file, setFile] = React.useState<any>("");
   const [checked, setChecked] = React.useState(false);
   const [isCropVisible, setIsCropVisible] = React.useState(false);
-  const [image, setImage] = React.useState('');
+  const [image, setImage] = React.useState("");
   const [submit, setSubmit] = React.useState(false);
   const [formData, setFormData] = React.useState({});
   const [cancel, setCancel] = React.useState(false);
@@ -110,17 +114,17 @@ const CreateNews = () => {
     watch,
     formState: { errors, isValid },
   } = useForm({
-    mode: 'onChange',
+    mode: "onChange",
     shouldFocusError: true,
-    reValidateMode: 'onChange',
+    reValidateMode: "onChange",
   });
 
   const handleUploadImg = (data: any) => {
-    if (data.target.files[0].type == 'image/jpeg') {
+    if (data.target.files[0].type == "image/jpeg") {
       setFile(data.target.files[0]);
       setIsCropVisible(true);
       setErrorFileType(false);
-    } else if (data.target.files[0].type == 'image/png') {
+    } else if (data.target.files[0].type == "image/png") {
       setFile(data.target.files[0]);
       setIsCropVisible(true);
       setErrorFileType(false);
@@ -134,16 +138,18 @@ const CreateNews = () => {
     setErrorFileType(false);
   };
 
-  const handleOpenBlock = (e: any, action: 'push') => {
+  const handleOpenBlock = (e: any, action: "push") => {
     setOptionalFields((prev: IOptionFields) => ({
       ...prev,
       [action]: e.target.checked,
     }));
   };
 
+ 
+
   const handleDelete = () => {
-    setFile('');
-    setImage('');
+    setFile("");
+    setImage("");
     deleteImage(image);
   };
   const cancelNews = () => {
@@ -151,15 +157,14 @@ const CreateNews = () => {
     history.goBack();
   };
   function getValidDate(obj: any) {
-    return '' + obj.year + '-' + obj.month.number + '-' + obj.day;
+    return "" + obj.year + "-" + obj.month.number + "-" + obj.day
   }
 
   const submitNews = (data: any) => {
     let newsData = {
       title: data.name,
-      startLifeTime:
-        width > 1000 ? data.startDate : getValidDate(data.startDate),
-      endLifeTime: width > 1000 ? data.endDate : getValidDate(data.endDate),
+      startLifeTime:width>1000 ? data.startDate: getValidDate(data.startDate) ,
+      endLifeTime:width>1000 ?data.endDate: getValidDate(data.endDate ),
       description: data.description,
       ageFrom: parseInt(data.ageLimit),
       ageTo: 100,
@@ -175,15 +180,15 @@ const CreateNews = () => {
             : [0, 1, 2, 3, 4, 5, 6],
         aroundTheClock: checked ? true : false,
         time: {
-          from: optionalFields.push && data?.timeFrom ? data.timeFrom : '00:00',
-          to: optionalFields.push && data?.timeTo ? data.timeTo : '23:59',
+          from: optionalFields.push && data?.timeFrom ? data.timeFrom : "00:00",
+          to: optionalFields.push && data?.timeTo ? data.timeTo : "23:59",
         },
         stores:
           optionalFields.push && data?.filialID?.length
             ? data.filialID.map((el: any) => el.value)
             : [],
       },
-      pushUpTitle: optionalFields.push ? data.descriptionPush : '',
+      pushUpTitle: optionalFields.push ? data.descriptionPush : "",
     };
     setStartDate(data.startDate);
     setSubmit(true);
@@ -203,20 +208,21 @@ const CreateNews = () => {
   };
   React.useEffect(() => {
     if (checked) {
-      setValue('timeFrom', '00:00');
-      setValue('timeTo', '23:59');
+      setValue("timeFrom",  "00:00");
+      setValue("timeTo",  "23:59");
     }
-  }, [checked]);
+ 
+}, [checked]);
 
   return (
     <Wrapper>
       {width > 1000 && (
         <div
-          style={{ display: 'flex', marginBottom: 30, alignItems: 'center' }}
+          style={{ display: "flex", marginBottom: 30, alignItems: "center" }}
         >
           <GoBackIcon
             onClick={handleBack}
-            style={{ marginRight: '25px', cursor: 'pointer' }}
+            style={{ marginRight: "25px", cursor: "pointer" }}
           />
           <Title>{t('Добавление новости')}</Title>
         </div>
@@ -243,43 +249,47 @@ const CreateNews = () => {
         <UpSide>
           {width <= 1000 && (
             <MobileHeader>
-              <GoBackIcon onClick={handleBack} style={{ cursor: 'pointer' }} />
-              <Title> {t('addingNews')}</Title>
+              <GoBackIcon onClick={handleBack} style={{ cursor: "pointer" }} />
+              <Title> {t("addingNews")}</Title>
             </MobileHeader>
           )}
 
           <Container>
             <LeftSide>
-              <Title>{t('photos')}</Title>
+              <Title>{t("photos")}</Title>
               {!isLoading && !image && (
                 <div style={{ marginBottom: 30 }}>
                   <Header>
-                    <p>{t('uploadPhotoInfo')}</p>
+                    <p>
+                      {t(
+                        "uploadPhotoInfo"
+                      )}
+                    </p>
                   </Header>
                   <UploadButton>
-                    <label htmlFor='uploadImg'>{t('uploadPhoto')}</label>
+                    <label htmlFor="uploadImg">{t("uploadPhoto")}</label>
                     <input
-                      {...register('image', { required: true })}
+                      {...register("image", { required: true })}
                       value={image}
                       onChange={handleUploadImg}
-                      type='file'
-                      id='uploadImg'
+                      type="file"
+                      id="uploadImg"
                     />
                     <UploadImage />
                   </UploadButton>
                   {errors.image && (
-                    <ErrorMessage>{t('requiredField')}</ErrorMessage>
+                    <ErrorMessage>{t("requiredField")}</ErrorMessage>
                   )}
                 </div>
               )}
               {isLoading && (
-                <div style={{ width: '100%', height: 140 }}>
+                <div style={{ width: "100%", height: 140 }}>
                   <Spinner size={30} />
                 </div>
               )}
               {image && (
                 <ImageBlock>
-                  <ImageLazyLoad objectFit='contain' src={image} alt='logo' />
+                  <ImageLazyLoad objectFit="contain" src={image} alt="logo" />
                   <DeleteIcon onClick={handleDelete} />
                 </ImageBlock>
               )}
@@ -293,71 +303,65 @@ const CreateNews = () => {
                   src={file}
                 />
               )}
-
-              <Controller
-                name='name'
+              
+               <Controller
+                name="name"
                 control={control}
                 rules={{
                   required: true,
-                  maxLength: 80,
+                  maxLength:80,
+                
                 }}
                 render={({ field }) => (
                   <Input
-                    onChange={(e) => {
-                      if (e.target.value.length <= 81) {
-                        return field.onChange(e);
-                      }
-                    }}
-                    value={field.value}
+                   onChange={(e)=>{
+                     if(e.target.value.length <=81){
+                       return field.onChange(e)
+                     }
+                   }}
+                   value={field.value}
                     maxLength={81}
-                    error={errors.name ? true : false}
-                    message={
-                      errors?.name?.type === 'required'
-                        ? t('requiredField')
-                        : t('максимальное число символов 80')
-                    }
-                    label={t('Название')}
+                    error={errors.name ? true:false}
+                    message={errors?.name?.type === "required" ? t("requiredField"):t("максимальное число символов 80")}
+                    label={t("Название")}
                   />
                 )}
-              />
-
+              /> 
+          
+             
               <Controller
-                name='description'
+                name="description"
                 control={control}
                 rules={{
                   required: true,
-                  maxLength: 800,
+                  maxLength:800,
                 }}
                 render={({ field }) => (
                   <TextArea
-                    maxLength={800}
+                  maxLength={800}
                     // {...field}
-                    onChange={(e: any) => {
-                      if (e.target.value.length <= 800) {
-                        return field.onChange(e);
+                    onChange={(e:any)=>{
+                      if(e.target.value.length <=800){
+                        return field.onChange(e)
                       }
                     }}
                     value={field.value}
-                    fontSize={width > 1000 ? '15px' : '14px'}
-                    message={
-                      errors?.description?.type === 'required'
-                        ? t('requiredField')
-                        : t('максимальное число символов 800')
-                    }
+                    fontSize={width > 1000 ? "15px" : "14px"}
+                    message={errors?.description?.type === "required" ? t("requiredField"):t("максимальное число символов 800")}
                     error={!!errors.description}
-                    minHeight={'150px'}
-                    maxHeight={'300px'}
-                    resize={'vertical'}
-                    title={t('Описание')}
+                    minHeight={"150px"}
+                    maxHeight={"300px"}
+                    resize={"vertical"}
+                    title={t("Описание")}
                   />
                 )}
               />
               {width > 1000 ? (
                 <WrapInputs>
-                  <Label>{t('chose_date')}</Label>
+                  <Label>{t("chose_date")}</Label>
                   <div>
                     <Controller
-                      name='startDate'
+                      name="startDate"
                       control={control}
                       rules={{
                         required: true,
@@ -365,34 +369,34 @@ const CreateNews = () => {
                       render={({ field }) => (
                         <Input
                           field={field}
-                          type='date'
+                          type="date"
                           min={todayDate}
                           width={{ maxwidth: 600, minwidth: 10 }}
                           error={!!errors.startDate}
-                          IconStart={<WrapDate>{t('from')}</WrapDate>}
+                          IconStart={<WrapDate>{t("from")}</WrapDate>}
                           inputStyle={{
-                            inpadding: '0 10px 0 0',
+                            inpadding: "0 10px 0 0",
                           }}
                         />
                       )}
                     />
                     <Controller
-                      name='endDate'
+                      name="endDate"
                       control={control}
                       rules={{
                         required: true,
                       }}
                       render={({ field }) => (
                         <Input
-                          type='date'
+                          type="date"
                           field={field}
                           width={{ maxwidth: 600, minwidth: 10 }}
                           error={!!errors.endDate}
-                          min={watch('startDate')}
-                          margin={{ laptop: '0 0 0 15px' }}
-                          IconStart={<WrapDate>{t('to')}</WrapDate>}
+                          min={watch("startDate")}
+                          margin={{ laptop: "0 0 0 15px" }}
+                          IconStart={<WrapDate>{t("to")}</WrapDate>}
                           inputStyle={{
-                            inpadding: '0 10px 0 0',
+                            inpadding: "0 10px 0 0",
                           }}
                         />
                       )}
@@ -401,47 +405,47 @@ const CreateNews = () => {
                 </WrapInputs>
               ) : (
                 <WrapInputs>
-                  <div className='startAndEndDate'>
-                    <Controller
-                      name='startDate'
-                      rules={{
-                        required: true,
-                      }}
-                      control={control}
-                      render={({ field }) => (
-                        <CustomDatePicker
-                          text={t('from')}
-                          margin={width > 430 ? '0 10px 0 0' : '0 12px 0 0'}
-                          error={errors.startDate}
-                          minDate={new Date()}
-                          onChange={field.onChange}
-                          value={field.value}
-                        />
-                      )}
-                    />
-                    <Controller
-                      rules={{
-                        required: true,
-                      }}
-                      control={control}
-                      name='endDate'
-                      render={({ field }) => (
-                        <CustomDatePicker
-                          text={t('to')}
-                          error={errors.endDate}
-                          minDate={watch('startDate')}
-                          onChange={field.onChange}
-                          value={field.value}
-                        />
-                      )}
-                    />
-                  </div>
-                </WrapInputs>
+                        <div className="startAndEndDate">
+                <Controller
+                  name="startDate"
+                  rules={{
+                    required: true,
+                  }}
+                  control={control}
+                  render={({ field }) => (
+                    <CustomDatePicker
+                      text={t("from")}
+                      margin={width > 430 ? "0 10px 0 0" : "0 12px 0 0"}
+                      error={errors.startDate}
+                      minDate={new Date()}
+                      onChange={field.onChange}
+                      value={field.value} 
+                      />
+                  )}
+                />
+                <Controller
+                  rules={{
+                    required: true,
+                  }}
+                  control={control}
+                  name="endDate"
+                  render={({ field }) => (
+                    <CustomDatePicker
+                      text={t("to")}
+                      error={errors.endDate}
+                      minDate={watch("startDate")}
+                      onChange={field.onChange}
+                      value={field.value} />
+                  )}
+                />
+          </div>
+         
+              </WrapInputs>
               )}
 
               <WrapSelect>
                 <Controller
-                  name='gender'
+                  name="gender"
                   control={control}
                   rules={{
                     required: true,
@@ -450,32 +454,32 @@ const CreateNews = () => {
                     <MultiSelect
                       isMulti={false}
                       error={!!errors.gender}
-                      message={t('requiredField')}
+                      message={t("requiredField")}
                       field={field}
-                      label={t('chose_gender')}
+                      label={t("chose_gender")}
                       options={genders}
-                      margin={{ laptop: '0 0 35px 0' }}
+                      margin={{ laptop: "0 0 35px 0" }}
                     />
                   )}
                 />
               </WrapSelect>
               <Controller
-                name='ageLimit'
+                name="ageLimit"
                 control={control}
                 render={({ field }) => (
                   <InputFormat
                     field={field}
-                    type='tel'
-                    defaultValue={''}
+                    type="tel"
+                    defaultValue={""}
                     onlyNumber={true}
-                    max='100'
+                    max="100"
                     message={
-                      parseInt(watch('ageLimit')) > 100
-                        ? 'ageLimit: 100'
-                        : t('requiredField')
+                      parseInt(watch("ageLimit")) > 100
+                        ? "ageLimit: 100"
+                        : t("requiredField")
                     }
-                    IconStart={<PlusIcon style={{ marginLeft: '20px' }} />}
-                    label={t('ageLimit')}
+                    IconStart={<PlusIcon style={{ marginLeft: "20px" }} />}
+                    label={t("ageLimit")}
                   />
                 )}
               />
@@ -483,42 +487,46 @@ const CreateNews = () => {
             <RightSide>
               <PushWrapper>
                 <PushBlock>
-                  <h6 style={{ width: '80%' }}>{t('withPushNotification')}</h6>
+                  <h6 style={{ width: "80%" }}>
+                    {t("withPushNotification")}
+                  </h6>
                   <CustomToggle
-                    onChange={(e: any) => handleOpenBlock(e, 'push')}
+                    onChange={(e: any) => handleOpenBlock(e, "push")}
                   />
                 </PushBlock>
                 {optionalFields.push && (
-                  <Controller
-                    name='descriptionPush'
-                    control={control}
-                    rules={{
-                      required: true,
-                    }}
-                    render={({ field }) => (
-                      <TextArea
-                        maxLength={100}
-                        onChange={(e: any) => {
-                          if (e.target.value.length <= 100) {
-                            return field.onChange(e);
-                          }
-                        }}
-                        value={field.value}
-                        fontSize={width > 1000 ? '15px' : '14px'}
-                        required={optionalFields.push ? true : false}
-                        minHeight={'100px'}
-                        maxHeight={'150px'}
-                        resize={'vertical'}
-                        title={t('text_push')}
-                      />
-                    )}
-                  />
+                   <Controller
+                   name="descriptionPush"
+                   control={control}
+
+                   rules={{
+                     required: true,
+                   }}
+                   render={({ field }) => (
+                     <TextArea
+                       maxLength={100}
+                       onChange={(e:any)=>{
+                        if(e.target.value.length<=100){
+                           return field.onChange(e)
+                        }
+                      }}
+                      value={field.value}
+                       fontSize={width > 1000 ? "15px" : "14px"}
+                       required={optionalFields.push ? true : false}
+                       minHeight={"100px"}
+                       maxHeight={"150px"}
+                       resize={"vertical"}
+                       title={t("text_push")}
+                     />
+                   )}
+                 />
+              
                 )}
               </PushWrapper>
               <PushWrapper>
                 {optionalFields.push && (
                   <Controller
-                    name='days'
+                    name="days"
                     control={control}
                     render={({ field }) => (
                       <MultiSelect
@@ -530,51 +538,47 @@ const CreateNews = () => {
                           weight: 300,
                           fontSize: { desktop: 14 },
                         }}
-                        label={t('point_out_days')}
+                        label={t("point_out_days")}
                       />
                     )}
                   />
                 )}
               </PushWrapper>
               <PushWrapper>
-                <div style={{ marginBottom: '10px' }}>
+                <div style={{ marginBottom: "10px" }}>
                   {optionalFields.push && (
                     <Label>
-                      <div>{t('point_out_time')}</div>
+                      <div>{t("point_out_time")}</div>
                     </Label>
                   )}
                 </div>
-                {optionalFields.push && (
-                  <div style={{ display: 'flex' }}>
+                {optionalFields.push &&  (
+                  <div style={{ display: "flex" }}>
                     <Controller
                       control={control}
-                      rules={{
-                        required: true,
-                      }}
-                      name='timeFrom'
+                      
+                   rules={{
+                    required: true,
+                  }}
+                      name="timeFrom"
                       render={({ field }) => (
                         <Input
-                          margin={{ laptop: '0 25px 0 0' }}
-                          type='time'
+                          margin={{ laptop: "0 25px 0 0" }}
+                          type="time"  
                           field={field}
-                          disabled={checked ? true : false}
+                          disabled={checked ?true:false}
                           required={optionalFields.push ? true : false}
                         />
                       )}
                     />
                     <Controller
                       control={control}
-                      name='timeTo'
+                      name="timeTo"
                       rules={{
                         required: true,
                       }}
                       render={({ field }) => (
-                        <Input
-                          type='time'
-                          required={optionalFields.push ? true : false}
-                          disabled={checked ? true : false}
-                          field={field}
-                        />
+                        <Input type="time"   required={optionalFields.push ? true : false} disabled={checked ?true:false} field={field} />
                       )}
                     />
                   </div>
@@ -584,8 +588,8 @@ const CreateNews = () => {
               {optionalFields.push && (
                 <CheckBox
                   checked={checked}
-                  name={'checked'}
-                  label={t('24/7')}
+                  name={"checked"}
+                  label={t("24/7")}
                   onChange={(e: any) => setChecked(e.target.checked)}
                 />
               )}
@@ -593,7 +597,7 @@ const CreateNews = () => {
                 <FormRow>
                   <Controller
                     control={control}
-                    name='filialID'
+                    name="filialID"
                     render={({ field }) => {
                       return (
                         <MultiSelect
@@ -601,21 +605,23 @@ const CreateNews = () => {
                           isMulti={true}
                           isBranchHeight={width < 600 ? true : false}
                           selectStyle={{
-                            bgcolor: '#eff0fd',
-                            border: 'none',
-                            placeholdercolor: '#223367',
-                            inpadding: '2px 10px 2px 60px',
-                            placewieght: '500',
+                            bgcolor: "#eff0fd",
+                            border: "none",
+                            placeholdercolor: "#223367",
+                            inpadding: "2px 10px 2px 60px",
+                            placewieght: "500",
                           }}
-                          placeholder={t('chose_filial')}
+                          placeholder={t("chose_filial")}
                           margin={{
-                            laptop: '20px 0 25px',
+                            laptop: "20px 0 25px",
+
                           }}
+
                           field={field}
                           isClearable={false}
                           icon={<MarketIcon />}
-                          iconleft={'20px'}
-                          icondowncolor='#C4C4C4'
+                          iconleft={"20px"}
+                          icondowncolor="#C4C4C4"
                         />
                       );
                     }}
@@ -624,31 +630,31 @@ const CreateNews = () => {
               )}
               {width <= 600 && (
                 <Buttons>
-                  <div className='upside'>
+                  <div className="upside">
                     <Button
                       onClick={() => setCancel(true)}
                       endIcon={<MobileCancelIcon />}
                       buttonStyle={{
-                        bgcolor: 'rgba(96, 110, 234, 0.1)',
-                        color: '#606EEA',
+                        bgcolor: "rgba(96, 110, 234, 0.1)",
+                        color: "#606EEA",
                       }}
-                      margin={{ mobile: '0 8px 8px 0' }}
+                      margin={{ mobile: "0 8px 8px 0" }}
                     >
-                      {t('cancel')}
+                      {t("cancel")}
                     </Button>
                   </div>
                   <Button
                     onClick={() => setValidation(true)}
-                    type='submit'
+                    type="submit"
                     endIcon={<SaveIconMobile />}
                     buttonStyle={{
-                      bgcolor: '#606EEA',
-                      color: '#fff',
-                      shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)',
+                      bgcolor: "#606EEA",
+                      color: "#fff",
+                      shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
                     }}
-                    margin={{ mobile: '0px 8px  8px  0' }}
+                    margin={{ mobile: "0px 8px  8px  0" }}
                   >
-                    {t('save')}
+                    {t("save")}
                   </Button>
                 </Buttons>
               )}
@@ -661,24 +667,24 @@ const CreateNews = () => {
               onClick={() => setCancel(true)}
               endIcon={<MobileCancelIcon />}
               buttonStyle={{
-                bgcolor: 'rgba(96, 110, 234, 0.1)',
-                color: '#606EEA',
+                bgcolor: "rgba(96, 110, 234, 0.1)",
+                color: "#606EEA",
               }}
             >
-              {t('cancellation')}
+              {t("cancellation")}
             </Button>
             <Button
               onClick={() => setValidation(true)}
-              type='submit'
-              margin={{ laptop: '0 25px' }}
+              type="submit"
+              margin={{ laptop: "0 25px" }}
               endIcon={<SaveIconMobile />}
               buttonStyle={{
-                bgcolor: '#606EEA',
-                color: '#fff',
-                shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)',
+                bgcolor: "#606EEA",
+                color: "#fff",
+                shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
               }}
             >
-              {t('save')}
+              {t("save")}
             </Button>
           </DownSide>
         )}
@@ -687,19 +693,19 @@ const CreateNews = () => {
             <Button
               onClick={() => setCancel(true)}
               startIcon={<CancelIcon />}
-              buttonStyle={{ color: '#223367', bgcolor: '#ffffff' }}
+              buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
             >
-              {t('cancel')}
+              {t("cancel")}
             </Button>
             <Button
-              type='submit'
-              margin={{ laptop: '0 25px' }}
+              type="submit"
+              margin={{ laptop: "0 25px" }}
               startIcon={<SaveIcon />}
               buttonStyle={{
-                shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)',
+                shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
               }}
             >
-              {t('save')}
+              {t("save")}
             </Button>
           </DownSide>
         )}

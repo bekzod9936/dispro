@@ -1,3 +1,6 @@
+import Spinner from "components/Helpers/Spinner";
+import { Container, MButton } from "./style";
+
 export interface Props {
   children?: any;
   disabled?: boolean;
@@ -8,7 +11,7 @@ export interface Props {
   startIcon?: any;
   loadingColor?: string;
   value?: string;
-  type?: 'submit' | 'button' | 'reset';
+  type?: "submit" | "button" | "reset";
   onClick?: (e: any) => void;
   buttonStyle?: {
     color?: string;
@@ -57,3 +60,30 @@ export interface Props {
     desktop?: number;
   };
 }
+const Button = ({ children, ...props }: Props) => {
+  return (
+    <Container
+      margin={props.margin}
+      buttonStyle={props.buttonStyle}
+      disabled={props.disabled}
+      width={props.width}
+      fullWidth={props.fullWidth}
+      padding={props.padding}
+    >
+      <MButton
+        value={props.value}
+        fullWidth={props.fullWidth ? props.fullWidth : true}
+        type={props.type}
+        {...props}
+      >
+        {props.loading ? (
+          <Spinner size={25} color={props.loadingColor} />
+        ) : (
+          children
+        )}
+      </MButton>
+    </Container>
+  );
+};
+
+export default Button;

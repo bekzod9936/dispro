@@ -109,9 +109,6 @@ const financeSlice = createSlice({
     setSideDrawer: (state, action: PayloadAction<ISide>) => {
       state.historyFinance.sidedrawer = action.payload;
     },
-    setId: (state, action: PayloadAction<number>) => {
-      state.historyFinance.id = action.payload;
-    },
   },
 });
 
@@ -134,6 +131,5 @@ export const {
   setCashierHistoryFinance,
   setStoreIdsHistoryFinance,
   setSideDrawer,
-  setId,
 } = financeSlice.actions;
 export default financeSlice.reducer;

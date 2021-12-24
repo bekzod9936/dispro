@@ -9,7 +9,7 @@ export const Wrapper = styled.div`
     max-width: 310px;
     width: 100%;
     min-height: 200px;
-    height: calc(100vh - 41%);
+    height: calc(100vh - 45%);
     overflow-y: auto;
 
     &::-webkit-scrollbar {

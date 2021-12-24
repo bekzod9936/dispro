@@ -40,7 +40,7 @@ const QrForBranch = ({ qrVisible, onSave, closeQr }: IProps) => {
   });
 
   return (
-    <Modal open={qrVisible} scroll={'body'}>
+    <Modal open={qrVisible}>
       <Form onSubmit={handleSubmit(onSave)}>
         <ModalContent>
           <ModalRow jContent='space-between'>
@@ -90,7 +90,6 @@ const QrForBranch = ({ qrVisible, onSave, closeQr }: IProps) => {
                     icondowncolor='#C4C4C4'
                     placeholder={t('choose_branch')}
                     isClearable={false}
-                    menuPortalTarget={document.body}
                   />
                 );
               }}

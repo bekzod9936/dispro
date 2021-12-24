@@ -1,5 +1,6 @@
 export const createItemDefaultFields = {
-    titles: [{ title: "", desc: "", lang: "(Рус)" }],
+    titles: [{ data: "", lang: "(Рус)" }],
+    descriptions: [{ data: "", lang: "(Рус)" }],
     variants: [
       {
         name: [{ data: "", lang: "(Рус)" }],
@@ -13,9 +14,9 @@ export const createItemDefaultFields = {
     images: [],
     preparationTime: false,
     preparationTimeData: {
-      day: null,
-      hour: null,
-      minute: null
+      days: null,
+      hours: null,
+      minutes: null
     }
 }
 
@@ -35,7 +36,6 @@ export const SECTIONS_LIMIT = 20
 
 
 export const GET_SECTIONS = 'getSections'
-export const GET_ITEMS = 'getItems'
 
 export const editModalType = {
   'section': {

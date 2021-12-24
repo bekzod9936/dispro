@@ -1,30 +1,30 @@
 //packages
-import { FormProvider } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
-import { IconButton } from '@material-ui/core';
+import { FormProvider } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { IconButton } from "@material-ui/core";
 
 //components
-import Button from 'components/Custom/Buttons/Button';
-import Modal from 'components/Custom/Modal';
-import { SubSectionField } from '../../SubSectionField';
-import Spinner from 'components/Helpers/Spinner';
+import Button from "components/Custom/Button";
+import Modal from "components/Custom/Modal";
+import { SubSectionField } from "../../SubSectionField";
+import Spinner from "components/Helpers/Spinner";
 
 //style
-import { Wrapper, Header, Footer } from './style';
+import { Wrapper, Header, Footer } from "./style";
 import {
   CancelIcon,
   CreateSectionIcon,
   CloseIcon,
   useStyles,
-} from '../Sections/style';
+} from "../Sections/style";
 
 //other
 import {
   usePostSection,
   useSubSectionForm,
-} from 'pages/CompanyPages/services/hooks';
-import { sectionFieldToDto } from 'pages/CompanyPages/services/helpers';
-import { SubSectionFormTypes } from 'pages/CompanyPages/services/utils/types';
+} from "pages/CompanyPages/services/hooks";
+import { sectionFieldToDto } from "pages/CompanyPages/services/helpers";
+import { SubSectionFormTypes } from "pages/CompanyPages/services/utils/types";
 
 interface SubSectionModalProps {
   open: boolean;
@@ -60,14 +60,14 @@ export const SubSectionModal: React.FC<SubSectionModalProps> = ({
       <Wrapper onSubmit={form.handleSubmit(onSubmit)}>
         <FormProvider {...form}>
           <Header>
-            <div className='nav'>
-              <h1>{t('newSubSection')}</h1>
-              <IconButton type='button' onClick={onClose}>
+            <div className="nav">
+              <h1>{t("newSubSection")}</h1>
+              <IconButton type="button" onClick={onClose}>
                 <CloseIcon />
               </IconButton>
             </div>
           </Header>
-          <SubSectionField name='subSection' />
+          <SubSectionField name="subSection" />
           <Footer>
             <Button
               onClick={onClose}
@@ -75,15 +75,15 @@ export const SubSectionModal: React.FC<SubSectionModalProps> = ({
               startIcon={<CancelIcon />}
               buttonStyle={styles.cancelButton.style}
             >
-              {t('cancel')}
+              {t("cancel")}
             </Button>
             <Button
               disabled={isLoading}
               width={styles.button.width}
-              type='submit'
+              type="submit"
               startIcon={<CreateSectionIcon />}
             >
-              {isLoading ? <Spinner size={20} /> : t('create')}
+              {isLoading ? <Spinner size={20} /> : t("create")}
             </Button>
           </Footer>
         </FormProvider>

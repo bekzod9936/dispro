@@ -1,14 +1,14 @@
 //react
-import { useState } from 'react';
+import { useState } from "react";
 
 //packages
-import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router-dom';
-import { PopupState } from 'material-ui-popup-state/core';
+import { useTranslation } from "react-i18next";
+import { useHistory } from "react-router-dom";
+import { PopupState } from "material-ui-popup-state/core";
 
 //components
-import Popover from 'components/Custom/Popover';
-import Button from 'components/Custom/Buttons/Button';
+import Popover from "components/Custom/Popover";
+import Button from "components/Custom/Button";
 
 //style
 import {
@@ -17,8 +17,8 @@ import {
   PopoverList,
   PopoverItem,
   useStyles,
-} from './style';
-import { LightToolTip } from '../../../Create/components/Radios/style';
+} from "./style";
+import { LightToolTip } from "../../../Create/components/Radios/style";
 
 interface MPopoverProps {
   onClick: () => void;
@@ -36,7 +36,7 @@ const MPopover: React.FC<MPopoverProps> = ({
   const history = useHistory();
 
   const handlePush = () => {
-    history.push('/services/create');
+    history.push("/services/create");
   };
 
   const handleClose = (e: PopupState) => {
@@ -58,29 +58,29 @@ const MPopover: React.FC<MPopoverProps> = ({
           buttonStyle={styles.popover.button.style}
           endIcon={<ArrowDownIcon />}
         >
-          {t('create')}
+          {t("create")}
         </Button>
       }
       onClose={handleClose}
-      anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-      transformOrigin={{ horizontal: 'left', vertical: 'top' }}
+      anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
+      transformOrigin={{ horizontal: "left", vertical: "top" }}
       popoverStyle={styles.popover.menu.style}
     >
       <PopoverList>
         <LightToolTip
           arrow
-          placement='top'
+          placement="top"
           title={
             isSectionButtonDisabled
-              ? 'Вы уже создали максимальное количество(20) разделов!'
-              : ''
+              ? "Вы уже создали максимальное количество(20) разделов!"
+              : ""
           }
         >
           <PopoverItem disabled={isSectionButtonDisabled} onClick={onOpenModal}>
-            {t('section')}
+            {t("section")}
           </PopoverItem>
         </LightToolTip>
-        <PopoverItem onClick={handlePush}>{t('item')}</PopoverItem>
+        <PopoverItem onClick={handlePush}>{t("item")}</PopoverItem>
       </PopoverList>
     </Popover>
   );

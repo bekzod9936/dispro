@@ -1,7 +1,7 @@
 import Highcharts from 'highcharts/highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import useChart from './useChart';
-import Button from 'components/Custom/Buttons/Button';
+import Button from 'components/Custom/Button';
 import Modal from 'components/Custom/Modal';
 import { useState } from 'react';
 import { IconButton } from '@material-ui/core';

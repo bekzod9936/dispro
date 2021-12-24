@@ -82,8 +82,14 @@ const variantSchemaWithSale = yup.object().shape({
 export const goodsSchema = yup.object().shape({
     titles: yup.array().of(
         yup.object().shape({
-            title: yup.string().max(30, 'maxAmountOfSymbols').required('enterItemOrServiceName'),
-            desc: yup.string().max(800, 'maxAmountOfSymbolsDesc').required('enterItemOrServiceDescription'),
+            data: yup.string().max(30, 'maxAmountOfSymbols').required('enterItemOrServiceName'),
+            lang: yup.string().required()
+        })
+    ),
+
+    descriptions: yup.array().of(
+        yup.object().shape({
+            data: yup.string().max(800, 'maxAmountOfSymbolsDesc').required('enterItemOrServiceDescription'),
             lang: yup.string().required()
         })
     ),
@@ -117,17 +123,17 @@ export const goodsSchema = yup.object().shape({
     preparationTimeData: yup.object().when('preparationTime', {
         is: true,
         then: yup.object().shape({
-            day: yup
+            days: yup
                 .number()
                 .nullable(true)
                 .max(365, 'maxAmountOfDays')
                 .transform((parsedValue, originalValue) => originalValue === '' ? null : parsedValue),
-            hour: yup
+            hours: yup
                 .number()
                 .nullable(true)
                 .max(24, 'maxAmountOfHours')
                 .transform((parsedValue, originalValue) => originalValue === '' ? null : parsedValue),
-            minute: yup
+            minutes: yup
                 .number()
                 .nullable(true)
                 .max(60, 'maxAmountOfMinutes')
@@ -141,7 +147,7 @@ export const goodsSchema = yup.object().shape({
 
             else throw createError({
                 message: 'atLeastOneFieldRequired',
-                path: `${path}.day`
+                path: `${path}.days`
             })
         }),
     }),

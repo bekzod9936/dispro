@@ -1,24 +1,24 @@
-import React from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { PeriodWrapper } from '../style';
-import Button from 'components/Custom/Buttons/Button';
-import { useHistory } from 'react-router';
-import { ICoupon } from '..';
-import { CancelIcon } from 'assets/icons/ClientsPageIcons/ClientIcons';
+import React from "react";
+import { Controller, useForm } from "react-hook-form";
+import { PeriodWrapper } from "../style";
+import Button from "components/Custom/Button";
+import { useHistory } from "react-router";
+import { ICoupon } from "..";
+import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import {
   MobileCancelIcon,
   MobileGoBackIcon,
   PublishIcon,
-} from 'assets/icons/proposals/ProposalsIcons';
-import { useMutation } from 'react-query';
-import { postCoupon, putCoupon } from 'services/queries/proposalQuery';
-import dayjs from 'dayjs';
-import Input from 'components/Custom/Input';
-import { useTranslation } from 'react-i18next';
-import useWindowWidth from 'services/hooks/useWindowWidth';
-import DatePicker from 'react-multi-date-picker';
-import CustomDatePicker from 'components/Custom/CustomDatePicker';
-import { IconButton } from '@material-ui/core';
+} from "assets/icons/proposals/ProposalsIcons";
+import { useMutation } from "react-query";
+import { postCoupon, putCoupon } from "services/queries/proposalQuery";
+import dayjs from "dayjs";
+import Input from "components/Custom/Input";
+import { useTranslation } from "react-i18next";
+import useWindowWidth from "services/hooks/useWindowWidth";
+import DatePicker from "react-multi-date-picker";
+import CustomDatePicker from "components/Custom/CustomDatePicker";
+import { IconButton } from "@material-ui/core";
 
 interface IProps {
   handleClose: any;
@@ -40,9 +40,9 @@ export const SetDate = ({
   shouldPublish,
 }: IProps) => {
   const [{ startDate, endDate, publishDate }, setValidDate] = React.useState({
-    startDate: '',
-    endDate: '',
-    publishDate: '',
+    startDate: "",
+    endDate: "",
+    publishDate: "",
   });
   const { t } = useTranslation();
   const { width } = useWindowWidth();
@@ -107,14 +107,14 @@ export const SetDate = ({
   };
 
   function getValidDate(obj: any) {
-    return '' + obj.year + '-' + obj.month.number + '-' + obj.day;
+    return "" + obj.year + "-" + obj.month.number + "-" + obj.day;
   }
 
   return (
-    <form style={{ height: '100%' }} onSubmit={handleSubmit(onPublish)}>
+    <form style={{ height: "100%" }} onSubmit={handleSubmit(onPublish)}>
       <PeriodWrapper>
         <div>
-          <div className='header'>
+          <div className="header">
             {width <= 600 && (
               <IconButton onClick={handleClose}>
                 <MobileGoBackIcon />
@@ -125,37 +125,37 @@ export const SetDate = ({
           <p>Выберите дату публикации</p>
           <Controller
             control={control}
-            name='publishDate'
+            name="publishDate"
             rules={{
               required: true,
             }}
             render={({ field }) => (
               <CustomDatePicker
-                margin='0 0 30px 0'
+                margin="0 0 30px 0"
                 error={errors.publishDate}
                 minDate={new Date()}
-                maxDate={new Date().getFullYear() + 2 + '-01-01'}
+                maxDate={new Date().getFullYear() + 2 + "-01-01"}
                 onChange={field.onChange}
                 value={field.value}
               />
             )}
           />
           <p>Выберите период действия купона</p>
-          <div className='startAndEndDate'>
+          <div className="startAndEndDate">
             <Controller
-              name='startDate'
+              name="startDate"
               rules={{
                 required: true,
               }}
               control={control}
               render={({ field }) => (
                 <CustomDatePicker
-                  disabled={!Boolean(watch('publishDate'))}
-                  text={t('from')}
-                  margin={width > 430 ? '0 10px 0 0' : '0 0 12px 0'}
+                  disabled={!Boolean(watch("publishDate"))}
+                  text={t("from")}
+                  margin={width > 430 ? "0 10px 0 0" : "0 0 12px 0"}
                   error={errors.startDate}
-                  minDate={watch('publishDate')}
-                  maxDate={handleFn(watch('publishDate'))}
+                  minDate={watch("publishDate")}
+                  maxDate={handleFn(watch("publishDate"))}
                   onChange={field.onChange}
                   value={field.value}
                 />
@@ -166,14 +166,14 @@ export const SetDate = ({
                 required: true,
               }}
               control={control}
-              name='endDate'
+              name="endDate"
               render={({ field }) => (
                 <CustomDatePicker
-                  text={t('to')}
-                  disabled={!Boolean(watch('startDate'))}
+                  text={t("to")}
+                  disabled={!Boolean(watch("startDate"))}
                   error={errors.endDate}
-                  minDate={watch('startDate')}
-                  maxDate={handleFn(watch('publishDate'))}
+                  minDate={watch("startDate")}
+                  maxDate={handleFn(watch("publishDate"))}
                   onChange={field.onChange}
                   value={field.value}
                 />
@@ -181,20 +181,20 @@ export const SetDate = ({
             />
           </div>
         </div>
-        <div className='buttonsWrapper'>
+        <div className="buttonsWrapper">
           <Button
             buttonStyle={
               width > 1000
-                ? { color: '#223367', bgcolor: '#ffffff' }
-                : { color: '#606EEA', bgcolor: 'rgba(96, 110, 234, 0.1)' }
+                ? { color: "#223367", bgcolor: "#ffffff" }
+                : { color: "#606EEA", bgcolor: "rgba(96, 110, 234, 0.1)" }
             }
-            margin={{ laptop: '0 20px 0 0', mobile: '0 8px 0 0' }}
+            margin={{ laptop: "0 20px 0 0", mobile: "0 8px 0 0" }}
             startIcon={width > 1000 ? <CancelIcon /> : <MobileCancelIcon />}
             onClick={handleClose}
           >
             Отменить
           </Button>
-          <Button startIcon={width > 335 && <PublishIcon />} type='submit'>
+          <Button startIcon={width > 335 && <PublishIcon />} type="submit">
             Опубликовать
           </Button>
         </div>

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Title, Text } from '../../style';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import Input from 'components/Custom/Input';
-import Button from 'components/Custom/Buttons/Button';
+import Button from 'components/Custom/Button';
 import Spinner from 'components/Custom/Spinner';
 import { IconButton } from '@material-ui/core';
 import WorkingHours from './WorkingHours';

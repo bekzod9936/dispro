@@ -1,6 +1,4 @@
 {
   "i18next.i18nPaths": "/Users/igor/Desktop/WorkPlace/web/src/services/localization/locales",
-  "react-i18n.i18nPaths": "src/services/localization/locales",
-  "editor.bracketPairColorization.enabled": true,
-  "editor.guides.bracketPairs":"active"
+  "react-i18n.i18nPaths": "src/services/localization/locales"
 }

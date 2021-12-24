@@ -1,15 +1,15 @@
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useFieldArray, Controller, useWatch } from 'react-hook-form';
-import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useFieldArray, Controller, useWatch } from "react-hook-form";
+import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 //hooks
-import useDetail from '../../hooks/useDetail';
+import useDetail from "../../hooks/useDetail";
 //actions
 import {
   addModal,
   handleClick,
   setSmallI,
-} from 'services/redux/Slices/settingsSlice';
+} from "services/redux/Slices/settingsSlice";
 //styles
 import {
   Wrapper,
@@ -23,19 +23,19 @@ import {
   DeleteIcon,
   RightLabel,
   MainText,
-} from './style';
+} from "./style";
 //assets
-import { ReactComponent as AddIcon } from 'assets/icons/add.svg';
-import { ReactComponent as RefreshIcon } from 'assets/icons/refresh_page.svg';
+import { ReactComponent as AddIcon } from "assets/icons/add.svg";
+import { ReactComponent as RefreshIcon } from "assets/icons/refresh_page.svg";
 //components
-import InputFormat from 'components/Custom/InputFormat';
-import Modal from 'components/Custom/Modal';
-import CancelButton from 'pages/CompanyPages/settings/components/CancelButton';
-import Button from 'components/Custom/Buttons/Button';
-import MultiSelect from 'components/Custom/MultiSelect';
-import { Break } from 'pages/CompanyPages/settings/styles';
-import { IconButton } from '@material-ui/core';
-import RippleEffect from 'components/Custom/RippleEffect';
+import InputFormat from "components/Custom/InputFormat";
+import Modal from "components/Custom/Modal";
+import CancelButton from "pages/CompanyPages/settings/components/CancelButton";
+import Button from "components/Custom/Button";
+import MultiSelect from "components/Custom/MultiSelect";
+import { Break } from "pages/CompanyPages/settings/styles";
+import { IconButton } from "@material-ui/core";
+import RippleEffect from "components/Custom/RippleEffect";
 
 const NestedArray = ({ index, control, setValue, getValues }: IProps) => {
   const [editLevel, setEditLevel] = useState(false);
@@ -59,12 +59,12 @@ const NestedArray = ({ index, control, setValue, getValues }: IProps) => {
   const smallI = useAppSelector((state) => state.settings.smallI);
 
   const handleEdit = (indexMain: any) => {
-    console.log(indexMain, 'index main NN ==');
+    console.log(indexMain, "index main NN ==");
     setEditLevel(true);
     dispatch(addModal(true));
     dispatch(setSmallI(indexMain));
     const getItem = getValues();
-    console.log(getItem, 'get Item');
+    console.log(getItem, "get Item");
   };
 
   const changeLevelState = (reqType: any, indexN: any) => {
@@ -74,7 +74,7 @@ const NestedArray = ({ index, control, setValue, getValues }: IProps) => {
       if (levelReqs[0] === levelReqs[indexN]) {
         return <SubText>Основное условие</SubText>;
       }
-      if (levelReqs[indexN]?.condition === 'or') {
+      if (levelReqs[indexN]?.condition === "or") {
         return (
           <RippleEffect
             onClick={() => handleEdit(indexN)}
@@ -83,7 +83,7 @@ const NestedArray = ({ index, control, setValue, getValues }: IProps) => {
             <MainText disabled={thirdLevel}>Альтернатива</MainText>
           </RippleEffect>
         );
-      } else if (levelReqs[indexN]?.condition === 'and') {
+      } else if (levelReqs[indexN]?.condition === "and") {
         return (
           <RippleEffect
             onClick={() => handleEdit(indexN)}
@@ -155,12 +155,12 @@ const NestedArray = ({ index, control, setValue, getValues }: IProps) => {
                           `levels.${[index]}.requirements.${[
                             smallIndex,
                           ]}.condition`,
-                          'and'
+                          "and"
                         );
                       }
                     }}
                     // error={errors.companyType ? true : false}
-                    message={t('requiredField')}
+                    message={t("requiredField")}
                   />
                 );
               }}
@@ -174,11 +174,11 @@ const NestedArray = ({ index, control, setValue, getValues }: IProps) => {
                 return (
                   <InputFormat
                     width={{
-                      width: '100%',
+                      width: "100%",
                     }}
-                    label='Больше чем'
+                    label="Больше чем"
                     labelStyle={{
-                      letterSpacing: '0.5',
+                      letterSpacing: "0.5",
                     }}
                     field={field}
                     defaultValue={item.amount}
@@ -193,15 +193,15 @@ const NestedArray = ({ index, control, setValue, getValues }: IProps) => {
         <ModalContent>
           {editLevel ? (
             <>
-              <MRow jContent='flex-start' aContent='center'>
+              <MRow jContent="flex-start" aContent="center">
                 <Title>Выберите параметры условия статуса</Title>
               </MRow>
-              <MRow direction='column' aContent='center'>
+              <MRow direction="column" aContent="center">
                 <Button
                   buttonStyle={{
-                    color: '#606EEA',
-                    bgcolor: '#eff0fd',
-                    weight: '500',
+                    color: "#606EEA",
+                    bgcolor: "#eff0fd",
+                    weight: "500",
                   }}
                   endIcon={<RefreshIcon />}
                   onClick={() => {
@@ -213,9 +213,9 @@ const NestedArray = ({ index, control, setValue, getValues }: IProps) => {
                     // });
                     setValue(
                       `levels.${index}.requirements.${smallI}.condition`,
-                      'or'
+                      "or"
                     );
-                    console.log(levelReqs, 'condition');
+                    console.log(levelReqs, "condition");
 
                     dispatch(addModal(false));
                     setEditLevel(false);
@@ -225,9 +225,9 @@ const NestedArray = ({ index, control, setValue, getValues }: IProps) => {
                 </Button>
                 <Button
                   buttonStyle={{
-                    color: '#606EEA',
-                    bgcolor: '#eff0fd',
-                    weight: '500',
+                    color: "#606EEA",
+                    bgcolor: "#eff0fd",
+                    weight: "500",
                   }}
                   endIcon={<AddIcon />}
                   onClick={() => {
@@ -237,10 +237,10 @@ const NestedArray = ({ index, control, setValue, getValues }: IProps) => {
                     //   condition: "and",
                     //   unit: "шт",
                     // });
-                    console.log(levelReqs, 'condition');
+                    console.log(levelReqs, "condition");
                     setValue(
                       `levels.${index}.requirements.${smallI}.condition`,
-                      'and'
+                      "and"
                     );
                     dispatch(addModal(false));
                     setEditLevel(false);
@@ -249,35 +249,35 @@ const NestedArray = ({ index, control, setValue, getValues }: IProps) => {
                   Дополнительное условие
                 </Button>
               </MRow>
-              <MRow jContent='center' aContent='center'>
+              <MRow jContent="center" aContent="center">
                 <CancelButton
                   onClick={() => {
                     dispatch(addModal(false));
                     setEditLevel(false);
                   }}
-                  text={t('cancel')}
+                  text={t("cancel")}
                 />
               </MRow>
             </>
           ) : (
             <>
-              <MRow jContent='flex-start' aContent='center'>
+              <MRow jContent="flex-start" aContent="center">
                 <Title>Выберите параметры условия статуса</Title>
               </MRow>
-              <MRow direction='column' aContent='center'>
+              <MRow direction="column" aContent="center">
                 <Button
                   buttonStyle={{
-                    color: '#606EEA',
-                    bgcolor: '#eff0fd',
-                    weight: '500',
+                    color: "#606EEA",
+                    bgcolor: "#eff0fd",
+                    weight: "500",
                   }}
                   endIcon={<RefreshIcon />}
                   onClick={() => {
                     append({
                       type: 1,
                       amount: 10,
-                      condition: 'or',
-                      unit: 'шт',
+                      condition: "or",
+                      unit: "шт",
                     });
                     dispatch(addModal(false));
                   }}
@@ -286,17 +286,17 @@ const NestedArray = ({ index, control, setValue, getValues }: IProps) => {
                 </Button>
                 <Button
                   buttonStyle={{
-                    color: '#606EEA',
-                    bgcolor: '#eff0fd',
-                    weight: '500',
+                    color: "#606EEA",
+                    bgcolor: "#eff0fd",
+                    weight: "500",
                   }}
                   endIcon={<AddIcon />}
                   onClick={() => {
                     append({
                       type: 1,
                       amount: 10,
-                      condition: 'and',
-                      unit: 'шт',
+                      condition: "and",
+                      unit: "шт",
                     });
                     dispatch(addModal(false));
                   }}
@@ -304,12 +304,12 @@ const NestedArray = ({ index, control, setValue, getValues }: IProps) => {
                   Дополнительное условие
                 </Button>
               </MRow>
-              <MRow jContent='center' aContent='center'>
+              <MRow jContent="center" aContent="center">
                 <CancelButton
                   onClick={() => {
                     dispatch(addModal(false));
                   }}
-                  text={t('cancel')}
+                  text={t("cancel")}
                 />
               </MRow>
             </>

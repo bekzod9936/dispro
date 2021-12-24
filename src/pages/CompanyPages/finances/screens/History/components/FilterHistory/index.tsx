@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Filter from 'components/Custom/Filter/index';
 import MultiSelect from 'components/Custom/MultiSelect';
-import Button from 'components/Custom/Buttons/Button';
+import Button from 'components/Custom/Button';
 import useWindowWidth from 'services/hooks/useWindowWidth';
 import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useState, useEffect, useRef } from 'react';
 import useNotefications from './useNotefications';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import Button from 'components/Custom/Buttons/Button';
+import Button from 'components/Custom/Button';
 import Spinner from 'components/Custom/Spinner';
 import dayjs from 'dayjs';
 import notification from 'assets/images/notification.png';

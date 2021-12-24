@@ -1,14 +1,10 @@
-import { IGoodsResponse, ISectionResponse } from "services/queries/servicesQueries/response.types";
+import { ISectionResponse } from "services/queries/servicesQueries/response.types";
 
 export type createSectionFormType = {
     sections: { title: string }[]
 }
 
-export type TitleType = {
-    title: string,
-    desc: string,
-    lang: string
-}
+
 export type titleType = {
     data: string;
     lang: string;
@@ -28,13 +24,13 @@ export type variantType = {
 } 
 
 export type preparationTimeType = {
-    day: number | null,
-    hour: number | null,
-    minute: number | null
+    days: number | null,
+    hours: number | null,
+    minutes: number | null
 
 }
 export interface FormFieldTypes {
-  titles: TitleType[];
+  titles: titleType[];
   descriptions: descType[];
   measurement: any,
   service: any,
@@ -52,7 +48,8 @@ export interface FormFieldTypes {
 export type CreateDtoType = {
     images: string[],
     preparationTime: boolean,
-    titles: TitleType[],
+    titles: titleType[],
+    descriptions: descType[],
     loyaltyOff: boolean,
     loyaltyType: string,
     measurement: {
@@ -91,8 +88,7 @@ export type PostDtoTitleType = {
     translateDesc: string,
 }
 
-export interface PostDtoType {
-    artikulCode: string,
+export type PostDtoType = {
     categoryId: number,
     unitId: number,
     currencyId: number,
@@ -104,12 +100,13 @@ export interface PostDtoType {
     priceWithDiscount: number,
     count: number,
     isCountUnlimited: boolean,
+    artikulCode: string,
     ageUnlimited: boolean,
-    isSetManufacturedTime?: boolean,
-    manufacturedAt?: {
-        day?: number,
-        hour?: number,
-        minute?: number
+    isSetManufacturedTime: boolean,
+    manufacturedAt: {
+        day: number,
+        hour: number,
+        minute: number
     },
     positionAt: number,
     hideInStores: number[],
@@ -133,13 +130,4 @@ export interface SubSectionFormTypes {
 
 export interface EditSectionType {
     section: string
-}
-
-
-export interface IGoods {
-    [id: number]: IGoodsResponse[]
-}
-
-export type sectionsObjectType = {
-    [id: number]: string
 }

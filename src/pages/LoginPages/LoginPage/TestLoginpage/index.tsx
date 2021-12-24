@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { LoginPanel } from '../Loginpanel/index';
 import { Left, LeftBack } from 'assets/icons/LoginPage/LoginPageIcons';
-import Button from 'components/Custom/Buttons/Button';
+import Button from 'components/Custom/Button';
 import LangSelect from 'components/LangSelect';
 import Grid from 'components/Custom/Grid';
 import { PARTNER } from 'services/interceptors/partner_interceptor/types';

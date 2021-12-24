@@ -1,27 +1,27 @@
-import { IconButton } from '@material-ui/core';
+import { IconButton } from "@material-ui/core";
 import {
   CancelIcon,
   CloseIcon,
   WhiteEditIcon,
-} from 'assets/icons/ClientsPageIcons/ClientIcons';
-import { PenIcon } from 'assets/icons/proposals/ProposalsIcons';
-import Button from 'components/Custom/Buttons/Button';
-import CustomToggle from 'components/Custom/CustomToggleSwitch';
-import Modal from 'components/Custom/Modal';
-import dayjs from 'dayjs';
-import { MToggle } from 'pages/CompanyPages/clients/components/ClientsBar/style';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useMutation } from 'react-query';
-import { sendNote } from 'services/queries/clientsQuery';
-import { useAppSelector } from 'services/redux/hooks';
-import { IClient } from 'services/redux/Slices/clients/types';
-import { NoteModal } from '../NoteModal';
-import { DownSide, Note, NoteView, UpSide, Wrapper } from './style';
+} from "assets/icons/ClientsPageIcons/ClientIcons";
+import { PenIcon } from "assets/icons/proposals/ProposalsIcons";
+import Button from "components/Custom/Button";
+import CustomToggle from "components/Custom/CustomToggleSwitch";
+import Modal from "components/Custom/Modal";
+import dayjs from "dayjs";
+import { MToggle } from "pages/CompanyPages/clients/components/ClientsBar/style";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useMutation } from "react-query";
+import { sendNote } from "services/queries/clientsQuery";
+import { useAppSelector } from "services/redux/hooks";
+import { IClient } from "services/redux/Slices/clients/types";
+import { NoteModal } from "../NoteModal";
+import { DownSide, Note, NoteView, UpSide, Wrapper } from "./style";
 interface IProps {
   client: IClient | any;
   setVipModal: (arg: boolean) => void;
-  setVipModalState: (arg: 'selecting' | 'updating' | 'removing') => void;
+  setVipModalState: (arg: "selecting" | "updating" | "removing") => void;
   vipModal: boolean;
   referBy: any;
   refetch: () => void;
@@ -32,11 +32,11 @@ interface INote {
 }
 
 const referTypes: any = {
-  1: 'client',
-  2: 'partner_admin',
-  3: 'cashier',
-  4: 'manager',
-  5: 'worker',
+  1: "client",
+  2: "partner_admin",
+  3: "cashier",
+  4: "manager",
+  5: "worker",
 };
 
 export const InfoBlock = ({
@@ -59,9 +59,9 @@ export const InfoBlock = ({
     let checked = e.target.checked;
     setVipModal(true);
     if (checked) {
-      setVipModalState('selecting');
+      setVipModalState("selecting");
     } else {
-      setVipModalState('removing');
+      setVipModalState("removing");
     }
   };
   const mutation = useMutation((data: INote) => sendNote(data));
@@ -81,27 +81,27 @@ export const InfoBlock = ({
     <Wrapper>
       <Modal open={noteView}>
         <NoteView>
-          <div className='header'>
+          <div className="header">
             <h3>Заметка о клиенте</h3>
             <IconButton onClick={() => setNoteView(false)}>
               <CloseIcon />
             </IconButton>
           </div>
           <p>{notes}</p>
-          <div className='buttons'>
+          <div className="buttons">
             <Button
               onClick={() => setNoteView(false)}
-              margin={{ laptop: '0 20px 0 0' }}
-              buttonStyle={{ bgcolor: '#ffffff', color: '#223367' }}
+              margin={{ laptop: "0 20px 0 0" }}
+              buttonStyle={{ bgcolor: "#ffffff", color: "#223367" }}
               startIcon={<CancelIcon />}
             >
-              {t('cancel')}
+              {t("cancel")}
             </Button>
             <Button
               onClick={() => setNote((prev: any) => ({ ...prev, open: true }))}
               startIcon={<WhiteEditIcon />}
             >
-              {t('edit')}
+              {t("edit")}
             </Button>
           </div>
         </NoteView>
@@ -118,30 +118,30 @@ export const InfoBlock = ({
         />
       </Modal>
       <UpSide>
-        <h4>{t('info')}</h4>
+        <h4>{t("info")}</h4>
         <button
           onClick={() => setNote((prev: any) => ({ ...prev, open: true }))}
         >
-          {notes ? t('editNote') : t('addNote') + ' +'}
+          {notes ? t("editNote") : t("addNote") + " +"}
         </button>
       </UpSide>
       <DownSide>
         {referBy?.name && (
           <p>
-            {t('byRecommendation')}: <span>{referBy.name}</span>(
+            {t("byRecommendation")}: <span>{referBy.name}</span>(
             {t(referTypes[referBy.type])})
           </p>
         )}
         <p>
-          {t('lastPurchase')}:{' '}
+          {t("lastPurchase")}:{" "}
           {addInfo?.lastPurchaseDate
-            ? dayjs(addInfo?.lastPurchaseDate).format('DD.MM.YYYY')
-            : '-'}
+            ? dayjs(addInfo?.lastPurchaseDate).format("DD.MM.YYYY")
+            : "-"}
         </p>
         {notes && (
           <Note>
-            {t('note')}:{' '}
-            {notes.length > 15 ? notes.slice(0, 15) + '...' : notes}{' '}
+            {t("note")}:{" "}
+            {notes.length > 15 ? notes.slice(0, 15) + "..." : notes}{" "}
             {notes.length > 15 && (
               <button onClick={() => setNoteView(true)}>
                 Смотреть польностью
@@ -150,7 +150,7 @@ export const InfoBlock = ({
           </Note>
         )}
         {isPlBlocked && <b>Клиент заблокирован</b>}
-        <div className='changeStatus'>
+        <div className="changeStatus">
           <MToggle>
             <p>Специальный статус</p>
             <CustomToggle
@@ -163,15 +163,15 @@ export const InfoBlock = ({
             <Button
               disabled={isPlBlocked || disableSpecStatus}
               onClick={() => {
-                setVipModalState('updating');
+                setVipModalState("updating");
                 setVipModal(true);
               }}
               buttonStyle={{
-                color: '#3492FF',
-                bgcolor: '#ffffff',
-                weight: '300',
+                color: "#3492FF",
+                bgcolor: "#ffffff",
+                weight: "300",
               }}
-              margin={{ laptop: '0 0 0 20px' }}
+              margin={{ laptop: "0 0 0 20px" }}
             >
               Настроить
             </Button>

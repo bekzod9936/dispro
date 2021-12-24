@@ -23,7 +23,7 @@ import logo from 'assets/images/logo.png';
 import Input from 'components/Custom/Input';
 import MultiSelect from 'components/Custom/MultiSelect';
 import SnackBar from 'components/Custom/NewSnack';
-import Button from 'components/Custom/Buttons/Button';
+import Button from 'components/Custom/Button';
 import { PARTNER } from 'services/interceptors/partner_interceptor/types';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 //styles

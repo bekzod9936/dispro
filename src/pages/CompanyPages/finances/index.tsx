@@ -28,7 +28,6 @@ import Spinner from 'components/Custom/Spinner';
 import { mainLimit, mainBalance } from 'services/atoms/info';
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import { setSideDrawer } from 'services/redux/Slices/finance';
-import useWindowWidth from 'services/hooks/useWindowWidth';
 
 const Finance = () => {
   const { t } = useTranslation();
@@ -41,8 +40,6 @@ const Finance = () => {
   const sidedrawer = useAppSelector(
     (state) => state.finance.historyFinance.sidedrawer
   );
-
-  const { width } = useWindowWidth();
 
   const { resLimit } = useLayout({ id: companyId });
 
@@ -57,12 +54,10 @@ const Finance = () => {
   };
 
   useEffect(() => {
-    if (width > 600) {
-      document.addEventListener('click', handleClickOutside, true);
-      return () => {
-        document.removeEventListener('click', handleClickOutside, true);
-      };
-    }
+    document.addEventListener('click', handleClickOutside, true);
+    return () => {
+      document.removeEventListener('click', handleClickOutside, true);
+    };
   });
 
   return (

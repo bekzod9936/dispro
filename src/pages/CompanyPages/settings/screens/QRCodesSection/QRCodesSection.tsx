@@ -5,7 +5,7 @@ import { useAppSelector } from 'services/redux/hooks';
 // assets and styles
 import Input from 'components/Custom/Input';
 import Popover from 'components/Custom/Popover';
-import Button from 'components/Custom/Buttons/Button';
+import Button from 'components/Custom/Button';
 import { Break, SpinnerDiv } from '../../styles';
 import { SearchIcon } from 'assets/icons/ClientsPageIcons/ClientIcons';
 import { FilledAddIcon } from 'assets/icons/SettingsIcons/SettingsPageIcon';

@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
-import Title from 'components/Custom/Title';
-import { deleteNews } from 'services/queries/newPageQuery';
-import { useHistory } from 'react-router-dom';
-import Button from 'components/Custom/Buttons/Button';
-import Modal from 'components/Custom/Modal';
-import dayjs from 'dayjs';
-import { months } from '../../../useData/index';
-import { CancelIcon } from 'assets/icons/news/newsIcons';
-import { PenIcon } from 'assets/icons/news/newsIcons';
-import { DeleteIcon } from 'assets/icons/proposals/ProposalsIcons';
-import useWindowWidth from 'services/hooks/useWindowWidth';
-import { useTranslation } from 'react-i18next';
+import React, { useState } from "react";
+import Title from "components/Custom/Title";
+import { deleteNews } from "services/queries/newPageQuery";
+import { useHistory } from "react-router-dom";
+import Button from "components/Custom/Button";
+import Modal from "components/Custom/Modal";
+import dayjs from "dayjs";
+import { months } from "../../../useData/index";
+import { CancelIcon } from "assets/icons/news/newsIcons";
+import { PenIcon } from "assets/icons/news/newsIcons";
+import { DeleteIcon } from "assets/icons/proposals/ProposalsIcons";
+import useWindowWidth from "services/hooks/useWindowWidth";
+import { useTranslation } from "react-i18next";
 
 import {
   Wrapper,
@@ -24,10 +24,10 @@ import {
   LongDescriptionNews,
   DescriptionNews,
   ContentButton,
-} from './style';
-import { GoBackIcon } from 'assets/icons/proposals/ProposalsIcons';
-import iphone from 'assets/images/iphone.png';
-import { useAppSelector } from 'services/redux/hooks';
+} from "./style";
+import { GoBackIcon } from "assets/icons/proposals/ProposalsIcons";
+import iphone from "assets/images/iphone.png";
+import { useAppSelector } from "services/redux/hooks";
 
 const ShowWaitingNews = () => {
   const history = useHistory();
@@ -46,7 +46,7 @@ const ShowWaitingNews = () => {
     history.goBack();
   };
   const editNews = () => {
-    history.push('/news/edit');
+    history.push("/news/edit");
   };
 
   React.useEffect(() => {
@@ -60,8 +60,8 @@ const ShowWaitingNews = () => {
     history.goBack();
   };
 
-  const startDate = dayjs(newsById?.data?.startLifeTime).format('YYYY-MM-DD');
-  const endDate = dayjs(newsById?.data?.endLifeTime).format('YYYY-MM-DD');
+  const startDate = dayjs(newsById?.data?.startLifeTime).format("YYYY-MM-DD");
+  const endDate = dayjs(newsById?.data?.endLifeTime).format("YYYY-MM-DD");
   const startdates = new Date(startDate);
   const enddates = new Date(endDate);
   const startmonthName = months[startdates.getMonth()];
@@ -72,59 +72,59 @@ const ShowWaitingNews = () => {
 
   const date =
     startDays +
-    ' ' +
+    " " +
     startmonthName +
-    ' - ' +
+    " - " +
     endDays +
-    ' ' +
+    " " +
     endmonthName +
-    '' +
+    "" +
     years;
 
   return (
     <MainWrapper>
-      <div style={{ display: 'flex', marginBottom: 30, alignItems: 'center' }}>
+      <div style={{ display: "flex", marginBottom: 30, alignItems: "center" }}>
         <GoBackIcon
           onClick={handleBack}
-          style={{ marginRight: '25px', cursor: 'pointer' }}
+          style={{ marginRight: "25px", cursor: "pointer" }}
         />
         <Title>
           {newsById?.data?.title?.length > 30
-            ? newsById?.data?.title?.slice(0, 30) + '...'
+            ? newsById?.data?.title?.slice(0, 30) + "..."
             : newsById?.data?.title}
         </Title>
       </div>
       <Wrapper>
         <Preview>
           <img
-            style={{ objectFit: 'fill' }}
-            className='couponImg'
+            style={{ objectFit: "fill" }}
+            className="couponImg"
             src={newsById?.data?.image}
-            alt=''
+            alt=""
           />
-          <img className='iphoneImg' max-width='300px' src={iphone} />
+          <img className="iphoneImg" max-width="300px" src={iphone} />
           <PreviewContent>
             <h5>
               <span>{newsById?.data?.title}</span>
             </h5>
             <p>
               {newsById?.data?.description.length > 250
-                ? newsById?.data?.description?.slice(0, 250) + '...'
+                ? newsById?.data?.description?.slice(0, 250) + "..."
                 : newsById?.data?.description}
             </p>
             <div>
-              <span style={{ color: 'white', fontSize: '12px' }}>
-                {t('Написать нам')}
+              <span style={{ color: "white", fontSize: "12px" }}>
+                {t("Написать нам")}
               </span>
             </div>
           </PreviewContent>
           <div>
             <Content>
               <ContentView>
-                <div style={{ padding: '0 0 0 50px' }}>
-                  <h5>{t('Название новости')}</h5>
+                <div style={{ padding: "0 0 0 50px" }}>
+                  <h5>{t("Название новости")}</h5>
                   <TitleNews>{newsById?.data?.title}</TitleNews>
-                  <h5>{t('Описание новости')}</h5>
+                  <h5>{t("Описание новости")}</h5>
                   {newsById?.data?.description?.length > 790 ? (
                     <LongDescriptionNews>
                       {newsById?.data?.description}
@@ -135,55 +135,55 @@ const ShowWaitingNews = () => {
                     </DescriptionNews>
                   )}
 
-                  <div style={{ display: 'flex' }}>
+                  <div style={{ display: "flex" }}>
                     <ContentButton
                       style={{
-                        paddingRight: '5%',
+                        paddingRight: "5%",
                       }}
                     >
                       <Button
                         onClick={() => editNews()}
                         buttonStyle={{
-                          color: 'white',
-                          bgcolor: '#606EEA',
-                          shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)',
+                          color: "white",
+                          bgcolor: "#606EEA",
+                          shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
                         }}
                         startIcon={<PenIcon />}
                       >
-                        {t('Редактировать')}
+                        {t("Редактировать")}
                       </Button>
                     </ContentButton>
-                    <ContentButton style={{ paddingRight: '50%' }}>
+                    <ContentButton style={{ paddingRight: "50%" }}>
                       <Button
                         onClick={() => setDeleteOpen(true)}
                         buttonStyle={{
-                          color: '#ffffff',
-                          bgcolor: '#FF5E68',
-                          shadow: '0px 4px 9px rgba(255, 94, 104, 0.46)',
+                          color: "#ffffff",
+                          bgcolor: "#FF5E68",
+                          shadow: "0px 4px 9px rgba(255, 94, 104, 0.46)",
                         }}
                         startIcon={<DeleteIcon />}
                       >
-                        {t('Удалить')}
+                        {t("Удалить")}
                       </Button>
                     </ContentButton>
                   </div>
                 </div>
-                <div style={{ padding: '0 20px 0 50px' }}>
-                  {' '}
-                  <h5>{t('Информация')}</h5>
+                <div style={{ padding: "0 20px 0 50px" }}>
+                  {" "}
+                  <h5>{t("Информация")}</h5>
                   <p>
                     {newsById?.data?.genderType === 1
-                      ? 'Только для мужчин'
+                      ? "Только для мужчин"
                       : newsById?.data?.genderType === 2
-                      ? 'Только для женщины'
-                      : 'Для всех'}
+                      ? "Только для женщины"
+                      : "Для всех"}
                   </p>
                   <p>
-                    {t('Срок публикации')}: {date}
+                    {t("Срок публикации")}: {date}
                   </p>
                   <p>
-                    {t('Возрастное ограничение')}:{' '}
-                    {newsById?.data?.ageFrom + '+'}
+                    {t("Возрастное ограничение")}:{" "}
+                    {newsById?.data?.ageFrom + "+"}
                   </p>
                 </div>
               </ContentView>
@@ -192,25 +192,25 @@ const ShowWaitingNews = () => {
         </Preview>
         <Modal open={isDeleteOpen}>
           <DeleteModal>
-            <h5>{t('Вы действительно хотите удалить новость?')}</h5>
-            <p>{t('После удаления новости  данные будет утеряны')}</p>
+            <h5>{t("Вы действительно хотите удалить новость?")}</h5>
+            <p>{t("После удаления новости  данные будет утеряны")}</p>
             <Button
-              buttonStyle={{ color: '#223367', bgcolor: '#ffffff' }}
-              margin={{ laptop: '0 22px 0 0' }}
+              buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
+              margin={{ laptop: "0 22px 0 0" }}
               onClick={() => setDeleteOpen(false)}
               startIcon={<CancelIcon />}
             >
-              {t('Отмена')}
+              {t("Отмена")}
             </Button>
             <Button
               buttonStyle={{
-                bgcolor: '#FF5E68 ',
-                shadow: '0px 4px 9px rgba(255, 94, 104, 0.46)',
+                bgcolor: "#FF5E68 ",
+                shadow: "0px 4px 9px rgba(255, 94, 104, 0.46)",
               }}
               onClick={() => onDelete(newsById?.data?.id)}
               startIcon={<DeleteIcon />}
             >
-              {t('Удалить')}
+              {t("Удалить")}
             </Button>
           </DeleteModal>
         </Modal>

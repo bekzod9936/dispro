@@ -1,48 +1,58 @@
-import { lazy } from 'react';
-import { useTranslation } from 'react-i18next';
+import { lazy } from "react";
+import { useTranslation } from "react-i18next";
 
-const Loyalty = lazy(() => import('../screens/Loyalty'));
-const Referal = lazy(() => import('../screens/Referal'));
-const Awarding = lazy(() => import('../screens/Awarding'));
-const Security = lazy(() => import('../screens/Security'));
-const QRCodes = lazy(() => import('../screens/QRCodes'));
+const AwardingSection = lazy(
+    () => import("../screens/AwardingSection")
+  );
+  const LoyaltyProgramSection = lazy(
+    () => import("../screens/LoyaltyProgramSection")
+  );
+  const QRCodesSection = lazy(
+    () => import("../screens/QRCodesSection")
+  );
+  const ReferalProgramSection = lazy(
+    () => import("../screens/LoyaltyProgramSection")
+  );
+  const SecuritySection = lazy(
+    () => import("../screens/SecuritySection")
+  );
 
-export interface ISettingsRow {
-  path: string;
-  text: string;
-  component: any;
-}
+  export interface ISettingsRow {
+    path: string;
+    text: string;
+    component: any;
+  }
 
-const useSettingsRoutes = () => {
-  const { t } = useTranslation();
-  const menuItems: ISettingsRow[] = [
-    {
-      path: '/newsettings/loyality',
-      text: t('loyaltyProgram'),
-      component: Loyalty,
-    },
-    {
-      path: '/newsettings/referal',
-      text: t('referalProgram'),
-      component: Referal,
-    },
-    {
-      path: '/newsettings/awarding',
-      text: t('awarding'),
-      component: Awarding,
-    },
-    {
-      path: '/newsettings/security',
-      text: t('security'),
-      component: Security,
-    },
-    {
-      path: '/newsettings/qrcodes',
-      text: t('qrcodes'),
-      component: QRCodes,
-    },
-  ];
-  return { menuItems };
-};
+ const useSettingsRoutes=()=>{
+    const { t } = useTranslation();
+    const menuItems:ISettingsRow[]=[
+        {
+            path:'/newsettings/loyality',
+            text:t('loyaltyProgram'),
+            component:LoyaltyProgramSection
+        },
+        {
+            path:'/newsettings/referalProgram',
+            text:t('referalProgram'),
+            component:ReferalProgramSection
+        },
+        {
+            path:'/newsettings/awarding',
+            text:t('awarding'),
+            component:AwardingSection
+        },
+        {
+            path:'/newsettings/security',
+            text:t('security'),
+            component:SecuritySection
+        },
+        {
+           path:'/newsettings/qrcodes',
+           text:t('qrcodes'),
+           component:QRCodesSection
+        }
+    ]
+    return {menuItems}
+ } 
 
-export default useSettingsRoutes;
+ export default useSettingsRoutes;

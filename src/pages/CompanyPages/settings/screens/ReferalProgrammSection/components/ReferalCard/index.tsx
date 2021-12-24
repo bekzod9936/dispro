@@ -1,12 +1,12 @@
-import { IProps } from './type';
-import { Controller } from 'react-hook-form';
-import { Container, HeadText, Header, Body, Text } from './style';
-import TwoUsers from 'pages/CompanyPages/settings/components/TwoUsers';
-import { useTranslation } from 'react-i18next';
-import Button from 'components/Custom/Buttons/Button';
-import InputFormat from 'components/Custom/InputFormat';
-import { Break } from 'pages/CompanyPages/settings/styles';
-import { ruCount } from 'services/utils';
+import { IProps } from "./type";
+import { Controller } from "react-hook-form";
+import { Container, HeadText, Header, Body, Text } from "./style";
+import TwoUsers from "pages/CompanyPages/settings/components/TwoUsers";
+import { useTranslation } from "react-i18next";
+import Button from "components/Custom/Button";
+import InputFormat from "components/Custom/InputFormat";
+import { Break } from "pages/CompanyPages/settings/styles";
+import { ruCount } from "services/utils";
 
 const ReferalCard = ({
   removeCol,
@@ -24,12 +24,12 @@ const ReferalCard = ({
         {index === fields.length - 1 && index !== 0 && (
           <Button
             buttonStyle={{
-              bgcolor: 'transparent',
-              color: '#FF5E68',
+              bgcolor: "transparent",
+              color: "#FF5E68",
             }}
             onClick={removeCol}
           >
-            {t('delete')}
+            {t("delete")}
           </Button>
         )}
       </Header>
@@ -46,12 +46,12 @@ const ReferalCard = ({
             return (
               <InputFormat
                 width={{
-                  width: '100%',
+                  width: "100%",
                 }}
-                label={'Укажите %'}
+                label={"Укажите %"}
                 field={field}
-                max='100'
-                message={''}
+                max="100"
+                message={""}
                 error={errors?.referals?.[index]?.percent ? true : false}
               />
             );
@@ -62,19 +62,19 @@ const ReferalCard = ({
         <Break height={15} />
 
         <TwoUsers
-          name1='Саша'
-          name2='Егор'
+          name1="Саша"
+          name2="Егор"
           name3={
             item.number === 2
-              ? 'Петя'
+              ? "Петя"
               : item.number > 2
               ? index +
-                ' ' +
+                " " +
                 ruCount({
                   count: index,
-                  firstWord: t('people'),
-                  secondWord: t('peopleRu'),
-                  thirdWord: t('peopleRu'),
+                  firstWord: t("people"),
+                  secondWord: t("peopleRu"),
+                  thirdWord: t("peopleRu"),
                 })
               : null
           }
