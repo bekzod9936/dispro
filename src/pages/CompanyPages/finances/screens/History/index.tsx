@@ -101,23 +101,21 @@ const Payment = () => {
     setRowData({});
     setComment('');
 
-    // dispatch(
-    //   setSideDrawer({
-    //     openRow: false,
-    //     chosenRow: {},
-    //     content: null,
-    //   })
-    // );
+    dispatch(
+      setSideDrawer({
+        openRow: false,
+        chosenRow: {},
+        content: null,
+      })
+    );
   };
-  console.log(sidedrawer);
-  console.log(id);
 
   const handleRow = (e: any) => {
     setId(e.id);
     if (e.col13 !== '') {
       dispatch(
         setSideDrawer({
-          openRow: width > 600 ? true : false,
+          openRow: true,
           chosenRow: e,
           content: (
             <SideDrawer
@@ -155,22 +153,6 @@ const Payment = () => {
     );
   };
 
-  const handleDeleteCom = () => {
-    resComment.mutate(
-      {
-        chequeId: id,
-        chequeComment: '',
-      },
-      {
-        onSuccess: () => {
-          handleAllClose();
-
-          setDeleteOpen(false);
-        },
-      }
-    );
-  };
-
   const handleDelete = () => {
     setDeleteOpen(true);
   };
@@ -178,7 +160,7 @@ const Payment = () => {
   const handleSave = () => {
     resComment.mutate(
       {
-        chequeId: id,
+        chequeId: rowData.id,
         chequeComment: comment,
       },
       {
@@ -227,9 +209,11 @@ const Payment = () => {
               isAvatar={true}
               onAllClose={handleAllClose}
               handleEdit={(comment: any) => handleEdit(comment)}
-              handleDelete={() => handleDelete()}
+              handleDelete={(id: any) => handleDelete()}
+              disable={resComment.isLoading}
               comment={true}
               onClickRow={handleRow}
+         
             />
           );
         }
@@ -290,7 +274,6 @@ const Payment = () => {
             />
             {headerContentMobile()}
             {contentTable()}
-
             <Modal open={open}>
               <WrapModalComment>
                 <WarpBodyComModel>
@@ -374,50 +357,61 @@ const Payment = () => {
                 </WrapButtonsModal>
               </WrapModalComment>
             </Modal>
-            {id !== null && (
-              <Modal open={deleteOpen}>
-                <WrapDeleteModal>
-                  <WrapDeleteTitle>{t('areyousuredelete')}</WrapDeleteTitle>
-                  <WrapDeleteComment>{comment}</WrapDeleteComment>
-                  <WrapDeleteButtons>
-                    <Button
-                      buttonStyle={{
-                        bgcolor: width > 600 ? 'white' : '#eff0fd',
-                        color: width > 600 ? '#223367' : '#606EEA',
-                        weight: 500,
-                      }}
-                      margin={{
-                        laptop: '0 30px 0 0',
-                        mobile: '0 10px 0 0',
-                      }}
-                      padding={{ mobile: '0 10px' }}
-                      startIcon={width > 600 ? <CancelIcon /> : null}
-                      endIcon={width < 600 ? <CancelIcon /> : null}
-                      onClick={() => {
-                        setDeleteOpen(false);
-                      }}
-                    >
-                      {t('cancel')}
-                    </Button>
-                    <Button
-                      buttonStyle={{
-                        color: 'white',
-                        bgcolor: '#FF5E68',
-                        weight: 500,
-                      }}
-                      padding={{ mobile: '0 10px' }}
-                      startIcon={width > 600 ? <DeleteIcon1 /> : null}
-                      endIcon={width < 600 ? <DeleteIcon1 /> : null}
-                      disabled={resComment.isLoading}
-                      onClick={handleDeleteCom}
-                    >
-                      {t('delete')}
-                    </Button>
-                  </WrapDeleteButtons>
-                </WrapDeleteModal>
-              </Modal>
-            )}
+            <Modal open={deleteOpen}>
+              <WrapDeleteModal>
+                <WrapDeleteTitle>{t('areyousuredelete')}</WrapDeleteTitle>
+                <WrapDeleteComment>{comment}</WrapDeleteComment>
+                <WrapDeleteButtons>
+                  <Button
+                    buttonStyle={{
+                      bgcolor: width > 600 ? 'white' : '#eff0fd',
+                      color: width > 600 ? '#223367' : '#606EEA',
+                      weight: 500,
+                    }}
+                    margin={{
+                      laptop: '0 30px 0 0',
+                      mobile: '0 10px 0 0',
+                    }}
+                    padding={{ mobile: '0 10px' }}
+                    startIcon={width > 600 ? <CancelIcon /> : null}
+                    endIcon={width < 600 ? <CancelIcon /> : null}
+                    onClick={() => {
+                      setDeleteOpen(false);
+                    }}
+                  >
+                    {t('cancel')}
+                  </Button>
+                  <Button
+                    buttonStyle={{
+                      color: 'white',
+                      bgcolor: '#FF5E68',
+                      weight: 500,
+                    }}
+                    padding={{ mobile: '0 10px' }}
+                    startIcon={width > 600 ? <DeleteIcon1 /> : null}
+                    endIcon={width < 600 ? <DeleteIcon1 /> : null}
+                    disabled={resComment.isLoading}
+                    onClick={() => {
+                      resComment.mutate(
+                        {
+                          chequeId: rowData.id,
+                          chequeComment: '',
+                        },
+                        {
+                          onSuccess: () => {
+                            handleAllClose();
 
+                            setDeleteOpen(false);
+                          },
+                        }
+                      );
+                    }}
+                  >
+                    {t('delete')}
+                  </Button>
+                </WrapDeleteButtons>
+              </WrapDeleteModal>
+            </Modal>
             {data.length === 0 ? null : (
               <WrapPag>
                 <Info>

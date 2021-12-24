@@ -95,7 +95,7 @@ export const ConfirmModal = ({
           buttonStyle={{ shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)" }}
           endIcon={<SaveIconMobile />}
         >
-                {t("Сохранить")}   
+          Сохранить
         </Button>
       </div>):(
           <Buttons>

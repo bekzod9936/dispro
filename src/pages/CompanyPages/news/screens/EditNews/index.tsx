@@ -12,10 +12,10 @@ import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import Spinner from "components/Helpers/Spinner";
 import ImageLazyLoad from "components/Custom/ImageLazyLoad/ImageLazyLoad";
 import useStaff from "../../hooks/useStaff";
-
+import Modal from "components/Custom/Modal";
 import CropCustomModal from "components/Custom/CropImageModal/index";
 import { useTranslation } from "react-i18next";
-import { useMutation, } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import InputFormat from "components/Custom/InputFormat";
 import useWindowWidth from "services/hooks/useWindowWidth";
 import dayjs from "dayjs";
@@ -31,10 +31,10 @@ import {
   WrapSelect,
 } from "../../components/Header/style";
 import {
-
+  DangerIcon,
   DeleteIcon,
   GoBackIcon,
-
+  PhoneIcon,
   PlusIcon,
   UploadImage,
 } from "assets/icons/proposals/ProposalsIcons";
@@ -59,7 +59,7 @@ import {
   Buttons,
 } from "./style";
 import { useUploadImage } from "../../hooks/useUploadIMage";
-import {  useAppSelector } from "services/redux/hooks";
+import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 import { ReactComponent as MarketIcon } from "assets/icons/SideBar/ilmarket.svg";
 
 interface IOptionFields {
@@ -71,7 +71,9 @@ const EditNews = () => {
   const history = useHistory();
 
   const companyId: any = localStorage.getItem("companyId");
- 
+  // const { dataAddress,} = useAddress({
+  //   id: companyId,
+  // });
   const { dataAddress } = useAddress({
     id: companyId,
   });
@@ -102,7 +104,7 @@ const EditNews = () => {
   const [isCropVisible, setIsCropVisible] = React.useState(false);
   const [image, setImage] = React.useState(newsById?.data?.image);
   const [errorFileType, setErrorFileType] = React.useState<any>(false);
-
+  const [leave, setLeave] = React.useState<boolean>(false);
   const handleBack = () => {
     history.goBack();
   };

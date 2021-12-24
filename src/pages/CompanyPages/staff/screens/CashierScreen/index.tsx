@@ -65,7 +65,7 @@ const CashierScreen = () => {
 		(el: any) => el.value == storeIdForFilter
 	)?.label;
 
-	console.log(`cashiers`, cashiers);
+	console.log(`filterfilter`, filter);
 	return (
 		<>
 			{filter && (
@@ -96,7 +96,10 @@ const CashierScreen = () => {
 							cashiers={cashiers.map((cashier: any) => {
 								return {
 									...cashier,
-									storeName: cashier?.stores[0]?.name,
+									storeName: storeIdForFilter
+										? cashier?.stores.find((e: any) => e.id == storeIdForFilter)
+												.name
+										: cashier?.stores[0].name,
 									firstName: cashier?.firstName + ' ' + cashier?.lastName,
 									score: numberWith(cashier?.addInfo?.avgRating, ' '),
 									avgCheque: numberWith(cashier?.addInfo?.avgCheque, ' '),

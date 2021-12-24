@@ -80,6 +80,15 @@ const CashierTable = ({ cashiers, setPage, page }: IProps) => {
 						);
 					},
 				};
+			} else if (header.label === 'storeName') {
+				return {
+					Header: header.value,
+					accessor: header.label,
+					Cell: (props: any) => {
+						console.log(props.value);
+						return <div>{props.value}</div>;
+					},
+				};
 			}
 			return {
 				Header: header.value,

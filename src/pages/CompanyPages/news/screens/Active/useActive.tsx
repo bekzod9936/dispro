@@ -2,14 +2,14 @@ import { useQuery } from "react-query";
 import {
   fetchActivenews,
   searchActiveNews,
-
+  setPeriodActiveNews,
 } from "services/queries/newPageQuery";
 import {
   setNewsData,
   setNewsTotal,
   setNewsBetween,
   setNewsTotalCount,
-
+  setErrorMessage,
 } from "services/redux/Slices/news";
 import { formatPagination } from "services/utils/formatPagination";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";

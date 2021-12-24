@@ -13,7 +13,10 @@ import Spinner from "components/Helpers/Spinner";
 import ImageLazyLoad from "components/Custom/ImageLazyLoad/ImageLazyLoad";
 import useStaff from "../../hooks/useStaff";
 import {
-
+  WatchIcons,
+  WatchIconsWhite,
+  PublishIcon,
+  WhitePublishIcon,
   RepairNewsIcon,
 } from "assets/icons/news/newsIcons";
 import { SaveIcon, SaveIconMobile } from "assets/icons/news/newsIcons";
@@ -24,21 +27,21 @@ import CustomDatePicker from "components/Custom/CustomDatePicker";
 import InputFormat from "components/Custom/InputFormat";
 import useWindowWidth from "services/hooks/useWindowWidth";
 import { MobileCancelIcon } from "assets/icons/proposals/ProposalsIcons";
-
+import dayjs from "dayjs";
 import { fetchCreateNews } from "services/queries/newPageQuery";
 import useAddress from "../../../info/screens/Address/useAddress";
 import {
   Label,
   WrapDate,
-
+  WrapInputsMobile,
   WrapInputs,
   WrapSelect,
 } from "../../components/Header/style";
 import {
- 
+  DangerIcon,
   DeleteIcon,
   GoBackIcon,
- 
+  PhoneIcon,
   PlusIcon,
   UploadImage,
 } from "assets/icons/proposals/ProposalsIcons";
@@ -56,11 +59,12 @@ import {
   LeftSide,
   RightSide,
   UploadButton,
-  
+  WrapArea,
+  TextAreaIcon,
   Wrapper,
   FormRow,
   Buttons,
-
+  Message,
   MobileHeader,
 } from "./style";
 import { useUploadImage } from "../../hooks/useUploadIMage";

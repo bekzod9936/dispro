@@ -15,12 +15,12 @@ import Modal from "components/Custom/Modal";
 import Spinner from "components/Helpers/Spinner";
 import ImageLazyLoad from "components/Custom/ImageLazyLoad/ImageLazyLoad";
 import useStaff from "../../hooks/useStaff";
-
+import { CloseIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
 import CropCustomModal from "components/Custom/CropImageModal/index";
 import { useTranslation } from "react-i18next";
 import { useMutation } from "react-query";
 import InputFormat from "components/Custom/InputFormat";
-
+import dayjs from "dayjs";
 import { fetchCreateNews } from "services/queries/newPageQuery";
 import { setErrorMessage } from "services/redux/Slices/news";
 import { MobileCancelIcon } from "assets/icons/news/newsIcons";
@@ -54,10 +54,12 @@ import {
   LeftSide,
   RightSide,
   UploadButton,
-  
+  WrapArea,
+  TextAreaIcon,
   UpSide,
   Wrapper,
-
+  WrapperModal,
+  CloseButton,
   FormRow,
   Buttons,
   MobileHeader,
@@ -76,7 +78,7 @@ const CreateNews = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const history = useHistory();
-
+   const [limit,setLimit]=useState<any>('');
   const { width } = useWindowWidth();
   const { branches } = useStaff();
   const [optionalFields, setOptionalFields] = React.useState<IOptionFields>({
