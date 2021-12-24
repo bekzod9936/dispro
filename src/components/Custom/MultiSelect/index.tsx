@@ -4,6 +4,7 @@ import { components } from 'react-select';
 //types
 import { Props } from './type';
 import { customStyle } from './constants';
+import useWindowWidth from 'services/hooks/useWindowWidth';
 
 const MultiSelect = ({
   iconmargin,
@@ -14,6 +15,8 @@ const MultiSelect = ({
   icondowncolor,
   ...props
 }: Props) => {
+  const { width } = useWindowWidth();
+
   const DropdownIndicator = (props: any) => {
     return (
       <components.DropdownIndicator data-cy={props.dataCy} {...props}>
@@ -74,6 +77,7 @@ const MultiSelect = ({
         isOptionDisabled={props.isOptionDisabled}
         value={props.defaultValue}
         data-cy={props.dataCy}
+        isSearchable={width > 1000 ? props.isSearchable : false}
         {...props}
         {...props.field}
         placeholder={props.placeholder ? props.placeholder : ''}

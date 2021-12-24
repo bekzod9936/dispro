@@ -121,6 +121,7 @@ const useCashiers = ({ query, period, storeIdForFilter}: any) => {
 
   const createCash = useMutation((data: any) => createCashier(data), {
     onSuccess: (data) => {
+	console.log(`data`, data)
       response.refetch();
       setOpen(false);
       dispatch(setSelectedCashiers([]));

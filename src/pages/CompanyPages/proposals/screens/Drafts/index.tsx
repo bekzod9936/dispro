@@ -1,7 +1,7 @@
 import React from 'react';
 import { SearchIcon } from 'assets/icons/ClientsPageIcons/ClientIcons';
 import { AddIcon } from 'assets/icons/InfoPageIcons/InfoPageIcons';
-import Button from 'components/Custom/Button';
+import Button from 'components/Custom/Buttons/Button';
 import Input from 'components/Custom/Input';
 import Spinner from 'components/Helpers/Spinner';
 import { SideBar } from 'pages/CompanyPages/clients/components/SideBar';
@@ -70,10 +70,10 @@ const Drafts = () => {
           price={el.price}
           value={el.value}
           count={el.count}
-          isSelected={currentCoupon.id === el.id} />
-      ))
-    }
-    else if (width > 600) {
+          isSelected={currentCoupon.id === el.id}
+        />
+      ));
+    } else if (width > 600) {
       return drafts.map((el: IDeferred) => (
         <CouponCard
           isSelected={currentCoupon.id === el.id}
@@ -154,7 +154,13 @@ const Drafts = () => {
         />
       </SearchBar>
       <Container isFullScreen={isFetching || drafts.length === 0}>
-        {isFetching ? <Spinner /> : drafts.length === 0 ? <EmptyPage /> : coupons()}
+        {isFetching ? (
+          <Spinner />
+        ) : drafts.length === 0 ? (
+          <EmptyPage />
+        ) : (
+          coupons()
+        )}
       </Container>
       <MModal setOpen={setOpen} open={isOpen} />
     </Wrapper>

@@ -254,12 +254,12 @@ const FilterClients = ({
               inpadding: '0 10px',
             }}
             value={values.purchaseCountTo}
-            onChange={(e: any) =>
+            onChange={(e: any) => {
               setValues({
                 ...values,
                 purchaseCountTo: e.target.value,
-              })
-            }
+              });
+            }}
             type='tel'
           />
         </>
@@ -359,7 +359,9 @@ const FilterClients = ({
       title: t('traffic_provider'),
       value:
         values.refIds !== '' && values.refIds !== undefined
-          ? radioList?.find((v: any) => values?.refIds === v?.value)?.label
+          ? capitalize(
+              radioList?.find((v: any) => values?.refIds === v?.value)?.label
+            )
           : undefined,
       content: (
         <Radio
@@ -381,7 +383,11 @@ const FilterClients = ({
         return (
           <ButtonKeyWord>
             {`${t('status')}: `}
-            {v.label}
+            {v.label === 'BLOCKED'
+              ? t('BLOCKED')
+              : v.label === 'VIP'
+              ? t('VIP')
+              : v.label}
             <IconButton
               onClick={async () => {
                 const arr = await status?.map((i: any) => {
@@ -529,9 +535,9 @@ const FilterClients = ({
   const filterTraffic =
     filterValues.refIds !== '' && filterValues.refIds !== undefined ? (
       <ButtonKeyWord>
-        {`${t('traffic_provider')}: ${
-          radioList?.find((v: any) => v.value === values.refIds)?.label
-        }`}
+        {`${t('traffic_provider')}: ${capitalize(
+          radioList?.find((v: any) => values?.refIds === v?.value)?.label
+        )}`}
         <IconButton
           onClick={async () => {
             await setFilterValues({
@@ -580,7 +586,7 @@ const FilterClients = ({
     if (values.length > 0) {
       return values.map((v: any) => {
         return (
-          <ButtonKeyWord>
+          <ButtonKeyWord className='filter'>
             {`${t('filial')}: `}
             {v.label}
             <IconButton
@@ -633,7 +639,7 @@ const FilterClients = ({
           onReset={onReset}
           list={filterList}
         />
-        <DatePcker onChange={handleDataPicker} margin='0 0 0 10px' />
+        <DatePcker onChange={handleDataPicker} margin='0 10px 5px 15px' />
         {filterStore(storeId)}
         {filterGender}
         {filterRegvalue}

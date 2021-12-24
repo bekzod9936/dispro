@@ -1,11 +1,11 @@
 import { Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import NavBar from 'components/Custom/NavBar';
 import Spinner from 'components/Custom/Spinner';
 import Title from 'components/Custom/Title';
 import useSettingsRoutes from './routes';
-import {PageWrapperFlex, SpinnerDiv, WrapperNav, WrapperTitle } from './styles';
+import { PageWrapperFlex, SpinnerDiv, WrapperNav, WrapperTitle } from './style';
 
 const Settings = () => {
     const { t } = useTranslation();

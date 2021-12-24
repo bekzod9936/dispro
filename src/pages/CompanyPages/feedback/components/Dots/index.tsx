@@ -1,4 +1,4 @@
-import Button from 'components/Custom/Button';
+import Button from 'components/Custom/Buttons/Button';
 import Modal from 'components/Custom/Modal';
 import Popover from 'components/Custom/Popover';
 import { useState } from 'react';

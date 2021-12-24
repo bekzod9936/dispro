@@ -6,7 +6,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import useLoyality from './hooks/useLoyality';
 import useWindowWidth from 'services/hooks/useWindowWidth';
 //Redux
-import { useAppDispatch,useAppSelector } from 'services/redux/hooks';
+import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 
 //styles
 import { Flex } from 'styles/BuildingBlocks';
@@ -52,7 +52,7 @@ import Input from 'components/Custom/Input';
 import { Grid, IconButton } from '@material-ui/core';
 import CustomToggle from 'components/Custom/CustomToggleSwitch';
 import Spinner from 'components/Helpers/Spinner';
-import Button from 'components/Custom/Button';
+import Button from 'components/Custom/Buttons/Button';
 import RippleEffect from 'components/Custom/RippleEffect';
 import Modal from 'components/Custom/Modal';
 import Radio from 'components/Custom/Radio';
@@ -86,7 +86,7 @@ const LoyaltyProgramSection = () => {
   const history = useHistory();
 
   const infoData = useAppSelector((state) => state.info.data?.type);
-  const offChecked=useAppSelector((state)=>state.settings.offChecked);
+  const offChecked = useAppSelector((state) => state.settings.offChecked);
   const {
     control,
     setValue,
@@ -125,10 +125,10 @@ const LoyaltyProgramSection = () => {
   const switchKey = useRecoilValue(switchKeyT);
   const active = useRecoilValue(activeM);
   const activeCheck = useRecoilValue(activeCheckM);
-  console.log('useLoyalMain',useLoyalMain)
+  console.log('useLoyalMain', useLoyalMain);
   const emptyCashback = useRecoilValue(eCashback);
   const emptyDiscount = useRecoilValue(eDiscount);
- 
+
   const emptyBonuspoint = useRecoilValue(eBonuspoint);
 
   const loading =
@@ -147,7 +147,7 @@ const LoyaltyProgramSection = () => {
   // const activeEmpty =offChecked ? true : active.active === '' ? true:false;
   const activeEmpty = active.active === '' && activeCheck === '';
   const handleChecked = (key: any) => {
-    console.log('key that i want',key,);
+    console.log('key that i want', key);
 
     setSwitchKey(key);
     if (emptyCashback.empty && emptyCashback.type === key) {
@@ -162,11 +162,10 @@ const LoyaltyProgramSection = () => {
       setActiveCheck(key);
       setAssertModalVisible(false);
       setActive({ active: key });
-    }else {
+    } else {
       setAssertModalVisible(true);
     }
   };
-
 
   const content = () => {
     if (width <= 1000) {
@@ -186,7 +185,6 @@ const LoyaltyProgramSection = () => {
               alignItems='flex-start'
             >
               {switchItems.map((item: any) => {
-                
                 return (
                   <Flex
                     key={item.key}
@@ -201,9 +199,11 @@ const LoyaltyProgramSection = () => {
                       alignItems='flex-start'
                       margin='0'
                     >
-                     <CustomToggle
+                      <CustomToggle
                         checked={item.key === active.active}
-                        disabled={offChecked ?true:item.key === active.active}
+                        disabled={
+                          offChecked ? true : item.key === active.active
+                        }
                         onChange={(checked: any) => handleChecked(item.key)}
                       />
                     </Flex>
@@ -226,17 +226,18 @@ const LoyaltyProgramSection = () => {
                   </Flex>
                 );
               })}
-              {infoData ===2 && <Flex
-                    justifyContent='space-between'
-                    margin='0px 0px 35px 0px'
+              {infoData === 2 && (
+                <Flex
+                  justifyContent='space-between'
+                  margin='0px 0px 35px 0px'
+                  alignItems='flex-start'
+                >
+                  <Flex
+                    flexDirection={'column'}
+                    justifyContent='start'
                     alignItems='flex-start'
+                    margin='0'
                   >
-                    <Flex
-                      flexDirection={'column'}
-                      justifyContent='start'
-                      alignItems='flex-start'
-                      margin='0'
-                    >
                     <CustomToggle
                 checked={offChecked}
                 onChange={(e: any) => {
@@ -267,7 +268,7 @@ const LoyaltyProgramSection = () => {
             </Flex>
           </LeftGrid>
 
-          { activeEmpty ?(
+          {activeEmpty ? (
             <Grid
               justifyContent='center'
               alignItems='center'
@@ -276,7 +277,7 @@ const LoyaltyProgramSection = () => {
               xs={12}
               sm={7}
             >
-                          { isLoading ? <Spinner />: <EmptySetting />} 
+              {isLoading ? <Spinner /> : <EmptySetting />}
               <EText>{t('empty_setting_text')}</EText>
             </Grid>
           ) : (
@@ -550,7 +551,7 @@ const LoyaltyProgramSection = () => {
                                 field={field}
                                 max='100'
                                 message={t('requiredField')}
-                                error={errors.max_percent? true:false}
+                                error={errors.max_percent ? true : false}
                               />
                             );
                           }}
@@ -600,7 +601,6 @@ const LoyaltyProgramSection = () => {
                               render={({ field }) => (
                                 <Checkbox
                                   {...field}
-                                  
                                   checked={useLoyalMain.useProgram}
                                   label={t('useLoyaltyProgram')}
                                 />
@@ -615,7 +615,6 @@ const LoyaltyProgramSection = () => {
                               render={({ field }) => (
                                 <Checkbox
                                   {...field}
-                                  
                                   checked={useLoyalMain.usePoint}
                                   label={t('substractingPoints')}
                                 />
@@ -655,7 +654,7 @@ const LoyaltyProgramSection = () => {
                   </Form>
                 </LargePanel>
               ) : (
-               <Spinner />
+                <Spinner />
               )}
             </RightGrid>
           )}

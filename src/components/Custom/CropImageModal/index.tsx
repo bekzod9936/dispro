@@ -1,15 +1,15 @@
-import React from "react";
-import Modal from "components/Custom/Modal";
-import iphone from "assets/images/iphone.png";
-import ReactCrop from "react-image-crop";
-import Button from "components/Custom/Button";
+import React from 'react';
+import Modal from 'components/Custom/Modal';
+import iphone from 'assets/images/iphone.png';
+import ReactCrop from 'react-image-crop';
+import Button from 'components/Custom/Buttons/Button';
 import {
   CancelIcon,
   CloseIcon,
-} from "assets/icons/ClientsPageIcons/ClientIcons";
-import { SaveIconMobile } from "assets/icons/news/newsIcons";
-import { SaveIcon } from "assets/icons/InfoPageIcons/InfoPageIcons";
-import "react-image-crop/dist/ReactCrop.css";
+} from 'assets/icons/ClientsPageIcons/ClientIcons';
+import { SaveIconMobile } from 'assets/icons/news/newsIcons';
+import { SaveIcon } from 'assets/icons/InfoPageIcons/InfoPageIcons';
+import 'react-image-crop/dist/ReactCrop.css';
 import {
   Header,
   Left,
@@ -22,12 +22,12 @@ import {
   Right,
   Wrapper,
   ErrorMessage,
-} from "./style";
-import { useAppSelector } from "services/redux/hooks";
-import { RootState } from "services/redux/store";
-import { useTranslation } from "react-i18next";
-import useWindowWidth from "services/hooks/useWindowWidth";
-import { MobileUploadPhotoIcon } from "assets/icons/proposals/ProposalsIcons";
+} from './style';
+import { useAppSelector } from 'services/redux/hooks';
+import { RootState } from 'services/redux/store';
+import { useTranslation } from 'react-i18next';
+import useWindowWidth from 'services/hooks/useWindowWidth';
+import { MobileUploadPhotoIcon } from 'assets/icons/proposals/ProposalsIcons';
 interface IProps {
   open: boolean;
   src?: any;
@@ -57,7 +57,7 @@ const CropCustomModal = ({
   const { t } = useTranslation();
   const { width } = useWindowWidth();
   const [crop, setCrop] = React.useState<any>({
-    unit: "%",
+    unit: '%',
     width: 40,
     aspect: 16 / 9,
   });
@@ -90,19 +90,19 @@ const CropCustomModal = ({
 
   const getCroppedImage = () => {
     if (image) {
-      const canvas = document.createElement("canvas");
+      const canvas = document.createElement('canvas');
       const scaleX = image.naturalWidth / image.width;
       const scaleY = image.naturalHeight / image.height;
       canvas.width = crop.width;
       canvas.height = crop.height;
-      const ctx = canvas.getContext("2d");
+      const ctx = canvas.getContext('2d');
 
       const pixelRatio = window.devicePixelRatio;
       canvas.width = crop.width * pixelRatio;
       canvas.height = crop.height * pixelRatio;
       ctx?.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
       if (ctx) {
-        ctx.imageSmoothingQuality = "high";
+        ctx.imageSmoothingQuality = 'high';
       }
 
       ctx?.drawImage(
@@ -116,23 +116,23 @@ const CropCustomModal = ({
         crop.width,
         crop.height
       );
-      let base64 = canvas.toDataURL("image/png", "high");
+      let base64 = canvas.toDataURL('image/png', 'high');
       setImageUrl(base64);
     }
   };
   console.log(imageUrl);
 
   return (
-    <Modal open={open} scroll={"body"}>
+    <Modal open={open} scroll={'body'}>
       <Wrapper>
-        <div style={{ marginBottom: "10px" }}>
+        <div style={{ marginBottom: '10px' }}>
           <Header>
             <h4>Выберите нужную область</h4>
             <CloseIcon onClick={handleClose} />
           </Header>
-          <div style={{ display: "flex" }}>
+          <div style={{ display: 'flex' }}>
             <Right>
-              <div className="cropBlock">
+              <div className='cropBlock'>
                 <ReactCrop
                   maxWidth={400}
                   src={srcUrl}
@@ -147,19 +147,19 @@ const CropCustomModal = ({
               <Left>
                 <h4>Превью купона в приложении</h4>
                 <PreviewDiv>
-                  {imageUrl?.length > 6 && <PreviewBg src={imageUrl} alt="" />}
+                  {imageUrl?.length > 6 && <PreviewBg src={imageUrl} alt='' />}
                   <img
                     src={iphone}
-                    style={{ zIndex: 20, position: "relative" }}
-                    width="300"
+                    style={{ zIndex: 20, position: 'relative' }}
+                    width='300'
                     // height="400"
-                    alt=""
+                    alt=''
                   />
                   <PreviewContent>
-                    <img src={logo} alt="logo" />
+                    <img src={logo} alt='logo' />
                     <p>{name}</p>
                     {isCoupon && (
-                      <span>{isCoupon ? t("coupon") : t("certificate")}</span>
+                      <span>{isCoupon ? t('coupon') : t('certificate')}</span>
                     )}
                   </PreviewContent>
                 </PreviewDiv>
@@ -169,14 +169,14 @@ const CropCustomModal = ({
                 <h4>Превью новости в приложении</h4>
                 <PreviewDivNews>
                   {imageUrl?.length > 6 && (
-                    <PreviewBgNews src={imageUrl} alt="" />
+                    <PreviewBgNews src={imageUrl} alt='' />
                   )}
                   {/* : <PreviewBgNews src={srcUrl} alt="" /> */}
                   <img
-                    style={{ zIndex: 20, position: "relative" }}
-                    width="320"
-                    height="180"
-                    alt=""
+                    style={{ zIndex: 20, position: 'relative' }}
+                    width='320'
+                    height='180'
+                    alt=''
                   />
                 </PreviewDivNews>
 
@@ -199,11 +199,11 @@ const CropCustomModal = ({
             <Button
               onClick={handleClose}
               startIcon={width > 329 && <CancelIcon />}
-              margin={{ laptop: "0 25px 0 0", mobile: "0 8px 0 0" }}
+              margin={{ laptop: '0 25px 0 0', mobile: '0 8px 0 0' }}
               buttonStyle={{
-                bgcolor: "#FFFFFF",
-                color: "#223367",
-                weight: "500",
+                bgcolor: '#FFFFFF',
+                color: '#223367',
+                weight: '500',
               }}
             >
               Отмена
@@ -219,15 +219,15 @@ const CropCustomModal = ({
             </Button>
           </div>
         ) : width > 600 ? (
-          <div style={{ display: "flex", justifyContent: "center" }}>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
             <Button
               onClick={handleClose}
               endIcon={width > 329 && <CancelIcon />}
-              margin={{ laptop: "0 25px 0 50px", mobile: "0 8px 0 0" }}
+              margin={{ laptop: '0 25px 0 50px', mobile: '0 8px 0 0' }}
               buttonStyle={{
-                bgcolor: "rgba(96, 110, 234, 0.1)",
-                color: "#606EEA",
-                weight: "500",
+                bgcolor: 'rgba(96, 110, 234, 0.1)',
+                color: '#606EEA',
+                weight: '500',
               }}
             >
               Отмена
@@ -242,22 +242,22 @@ const CropCustomModal = ({
           </div>
         ) : (
           <div
-            style={{ width: "100%", display: "flex", justifyContent: "center",}}
+            style={{ width: '100%', display: 'flex', justifyContent: 'center' }}
           >
             <Button
               onClick={handleClose}
               endIcon={width > 329 && <CancelIcon />}
-              margin={{ laptop: "0 25px 0 50px", mobile: "0 8px 0 0" }}
+              margin={{ laptop: '0 25px 0 50px', mobile: '0 8px 0 0' }}
               buttonStyle={{
-                bgcolor: "rgba(96, 110, 234, 0.1)",
-                color: "#606EEA",
-                weight: "500",
+                bgcolor: 'rgba(96, 110, 234, 0.1)',
+                color: '#606EEA',
+                weight: '500',
               }}
             >
               Отмена
             </Button>
             <Button
-              disabled={imageUrl?.length < 8  }
+              disabled={imageUrl?.length < 8}
               onClick={handleSave}
               endIcon={width > 1000 ? <SaveIcon /> : <MobileUploadPhotoIcon />}
             >

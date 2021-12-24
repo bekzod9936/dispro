@@ -1,4 +1,4 @@
-import Button from 'components/Custom/Button';
+import Button from 'components/Custom/Buttons/Button';
 import { CancelIcon } from './style';
 import { useTranslation } from 'react-i18next';
 import useWindowWidth from 'services/hooks/useWindowWidth';

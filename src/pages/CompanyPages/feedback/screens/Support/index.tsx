@@ -5,7 +5,7 @@ import { useForm, Controller } from 'react-hook-form';
 import useWindowWidth from 'services/hooks/useWindowWidth';
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import Button from 'components/Custom/Button';
+import Button from 'components/Custom/Buttons/Button';
 import Input from 'components/Custom/Input';
 import { IconButton } from '@material-ui/core';
 import useSupportChat from './useSupportChat';

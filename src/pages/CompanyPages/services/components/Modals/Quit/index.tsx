@@ -2,7 +2,7 @@
 import { useTranslation } from "react-i18next";
 
 //components
-import Button from "components/Custom/Button";
+import Button from "components/Custom/Buttons/Button";
 import Modal from "components/Custom/Modal";
 
 //style
@@ -13,6 +13,7 @@ import {
   MobileCancelIcon,
   ExitIcon,
 } from "./style";
+
 //other
 import useWindowWidth from "services/hooks/useWindowWidth";
 

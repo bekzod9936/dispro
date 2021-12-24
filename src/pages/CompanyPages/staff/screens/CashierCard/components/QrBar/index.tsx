@@ -1,4 +1,4 @@
-import Button from 'components/Custom/Button';
+import Button from 'components/Custom/Buttons/Button';
 import QRCode from 'qrcode.react';
 import { useTranslation } from 'react-i18next';
 
@@ -13,60 +13,60 @@ import { Break } from '../../style';
 import { DownloadIcon } from 'assets/icons/SettingsIcons/SettingsPageIcon';
 import { ReactComponent as ExitIcon } from 'assets/icons/exit.svg';
 interface IProps {
-	qrLink: { link: string; code: string };
-	closeQr: any;
+  qrLink: { link: string; code: string };
+  closeQr: any;
 }
 
 const QrBar = ({ qrLink, closeQr }: IProps) => {
-	console.log(`qrLink`, qrLink?.code);
-	const { t } = useTranslation();
-	const downloadQR = () => {
-		const canvas = document.getElementById(
-			`referral-qr-code`
-		) as HTMLCanvasElement;
-		const pngUrl = canvas
-			?.toDataURL('image/png')
-			.replace('image/png', 'image/octet-stream');
-		let downloadLink = document.createElement('a');
-		downloadLink.href = pngUrl;
-		downloadLink.download = 'qr-code.png';
-		document.body.appendChild(downloadLink);
-		downloadLink.click();
-		document.body.removeChild(downloadLink);
-	};
+  console.log(`qrLink`, qrLink?.code);
+  const { t } = useTranslation();
+  const downloadQR = () => {
+    const canvas = document.getElementById(
+      `referral-qr-code`
+    ) as HTMLCanvasElement;
+    const pngUrl = canvas
+      ?.toDataURL('image/png')
+      .replace('image/png', 'image/octet-stream');
+    let downloadLink = document.createElement('a');
+    downloadLink.href = pngUrl;
+    downloadLink.download = 'qr-code.png';
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+  };
 
-	return (
-		<QrDiv>
-			<UpSide>
-				<QrRow>
-					<QrText>Код приглашения</QrText>
-					<IconButton onClick={closeQr}>
-						<ExitIcon />
-					</IconButton>
-				</QrRow>
-				<Break height={70} />
+  return (
+    <QrDiv>
+      <UpSide>
+        <QrRow>
+          <QrText>Код приглашения</QrText>
+          <IconButton onClick={closeQr}>
+            <ExitIcon />
+          </IconButton>
+        </QrRow>
+        <Break height={70} />
 
-				<QRCode
-					id={`referral-qr-code`}
-					value={qrLink?.link || ''}
-					size={200}
-					bgColor='#FFFFFF'
-					fgColor='#000000'
-					level={'H'}
-				/>
+        <QRCode
+          id={`referral-qr-code`}
+          value={qrLink?.link || ''}
+          size={200}
+          bgColor='#FFFFFF'
+          fgColor='#000000'
+          level={'H'}
+        />
 
-				<CodeText>{qrLink?.code}</CodeText>
-			</UpSide>
+        <CodeText>{qrLink?.code}</CodeText>
+      </UpSide>
 
-			{/* Down Side  */}
-			<DownSide>
-				<Break height={10} />
-				<Button onClick={() => downloadQR()} startIcon={<DownloadIcon />}>
-					{t('downloadPNG')}
-				</Button>
-			</DownSide>
-		</QrDiv>
-	);
+      {/* Down Side  */}
+      <DownSide>
+        <Break height={10} />
+        <Button onClick={() => downloadQR()} startIcon={<DownloadIcon />}>
+          {t('downloadPNG')}
+        </Button>
+      </DownSide>
+    </QrDiv>
+  );
 };
 
 export default QrBar;
