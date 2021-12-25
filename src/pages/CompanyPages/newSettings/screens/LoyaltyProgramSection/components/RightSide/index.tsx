@@ -4,7 +4,8 @@ import Input from "components/Custom/Input";
 import Checkbox from 'components/Custom/CheckBox';
 import { ReactComponent as PercentIcon } from "assets/icons/percent_icon.svg";
 import InputFormat from "components/Custom/InputFormat";
-import { PlusIcon, DeleteIcon } from "newassets/icons/icons";
+import { PlusIcon } from "newassets/icons/icons";
+
 import { Controller, useForm, useFieldArray } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { SaveButton } from 'components/Custom/Buttons/Save';
@@ -17,6 +18,7 @@ import {
   IconStyle,
   TitleFormChild,
   LocalyPayment,
+  DeleteIcon,
   SubmitButton,
 } from "../../style";
 
