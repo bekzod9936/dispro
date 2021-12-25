@@ -156,7 +156,7 @@ export const Td = styled.td`
   color: #223367;
   cursor: pointer;
   &:nth-child(1) {
-	padding-left: 10px
+	padding-left: 10px;
 	width: 10px;
   }
   @media (max-width: ${device.planshet}) {
