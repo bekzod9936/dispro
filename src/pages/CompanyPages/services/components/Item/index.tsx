@@ -1,5 +1,6 @@
 //packages
 import { useTranslation } from "react-i18next";
+import { Draggable } from "react-beautiful-dnd";
 
 //components
 import { ItemPopover } from "../ItemPopover";
@@ -18,8 +19,6 @@ import { IGoodsResponse } from "services/queries/servicesQueries/response.types"
 import { thousandsDivider } from "../../helpers";
 import DEFAULT_IMAGE from "assets/images/staff_default.png";
 import { Modals } from "../../utils/types";
-import { Draggable } from "react-beautiful-dnd";
-
 interface ItemProps {
   item: IGoodsResponse;
   isEven: boolean;
