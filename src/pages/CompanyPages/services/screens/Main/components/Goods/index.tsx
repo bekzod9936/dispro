@@ -43,10 +43,12 @@ export const Goods: React.FC<GoodsProps> = ({ goods, isLoading }) => {
       {isPageEmpty && <EmptyPage />}
       {Object.keys(goods).map((sectionId) => (
         <ItemGroup
+          key={sectionId}
           onOpenModal={handleOpenModal}
           currentItem={currentItem}
           setCurrentItem={setCurrentItem}
           sectionName={sectionsObject?.[Number(sectionId)]}
+          sectionId={sectionId}
           goods={goods[Number(sectionId)]}
         />
       ))}
