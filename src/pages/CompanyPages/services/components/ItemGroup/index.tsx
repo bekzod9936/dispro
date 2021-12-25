@@ -1,3 +1,6 @@
+//packages
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
+
 //components
 import { Item } from "../Item";
 
@@ -7,8 +10,9 @@ import { IGoodsResponse } from "services/queries/servicesQueries/response.types"
 
 //style
 import { Wrapper } from "./style";
-import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
-import { useState } from "react";
+
+//other
+import { useDragNDrop } from "../../hooks/MainPageHooks";
 
 interface ItemGroupProps {
   goods: IGoodsResponse[];
@@ -27,32 +31,7 @@ export const ItemGroup: React.FC<ItemGroupProps> = ({
   onOpenModal,
   sectionId,
 }) => {
-  const [state, setState] = useState(goods);
-
-  const onDragEnd = (result: DropResult) => {
-    const { destination, source, draggableId } = result;
-
-    if (!destination) {
-      return;
-    }
-
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    ) {
-      return;
-    }
-
-    const newGoods = [...state];
-    newGoods.splice(source.index, 1);
-    const draggedItem = state.find((item) => item.id === Number(draggableId));
-
-    if (draggedItem) {
-      newGoods.splice(destination.index, 0, draggedItem);
-    }
-
-    setState(newGoods);
-  };
+  const { items, onDragEnd } = useDragNDrop(goods);
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -63,7 +42,7 @@ export const ItemGroup: React.FC<ItemGroupProps> = ({
         <Droppable droppableId={sectionId}>
           {(provided) => (
             <div ref={provided.innerRef} {...provided.droppableProps}>
-              {state.map((item, index) => (
+              {items.map((item, index) => (
                 <Item
                   key={item.id}
                   index={index}
