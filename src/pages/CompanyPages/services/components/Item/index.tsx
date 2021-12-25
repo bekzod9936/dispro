@@ -1,6 +1,9 @@
 //packages
 import { useTranslation } from "react-i18next";
 
+//components
+import { ItemPopover } from "../ItemPopover";
+
 //style
 import {
   Wrapper,
@@ -14,10 +17,8 @@ import {
 import { IGoodsResponse } from "services/queries/servicesQueries/response.types";
 import { thousandsDivider } from "../../helpers";
 import DEFAULT_IMAGE from "assets/images/staff_default.png";
-import { ItemPopover } from "../ItemPopover";
-import { DeleteModal } from "../Modals/Delete";
-import { useState } from "react";
 import { Modals } from "../../utils/types";
+import { Draggable } from "react-beautiful-dnd";
 
 interface ItemProps {
   item: IGoodsResponse;
@@ -25,6 +26,7 @@ interface ItemProps {
   setCurrentItem: (arg: IGoodsResponse | null) => void;
   currentItemId: number | undefined;
   onOpenModal: (modalName: keyof Modals) => void;
+  index: number;
 }
 
 export const Item: React.FC<ItemProps> = ({
@@ -33,6 +35,7 @@ export const Item: React.FC<ItemProps> = ({
   setCurrentItem,
   currentItemId,
   onOpenModal,
+  index,
 }) => {
   const { t } = useTranslation();
 
@@ -56,48 +59,57 @@ export const Item: React.FC<ItemProps> = ({
   };
 
   return (
-    <Wrapper
-      isItCurrentItem={isItCurrentItem}
-      onClick={handleClick}
-      isEven={isEven}
-    >
-      <div className="left">
-        <img src={image} alt="itemImage" onError={handleError} />
-        <div className="title">
-          <h5>{item.name}</h5>
-          {isItemHasCount && (
-            <p className={item.count === 0 ? "zeroCount" : ""}>{count} шт.</p>
-          )}
-        </div>
-        <div className="info">
-          {item.withPoint && (
-            <div className="info_child">
-              <PointsIcon isItCurrentItem={isItCurrentItem} />
-              <p>{t("itemForPoints")}</p>
+    <Draggable draggableId={String(item.id)} index={index}>
+      {(provided) => (
+        <Wrapper
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          isItCurrentItem={isItCurrentItem}
+          onClick={handleClick}
+          isEven={isEven}
+        >
+          <div className="left">
+            <img src={image} alt="itemImage" onError={handleError} />
+            <div className="title">
+              <h5>{item.name}</h5>
+              {isItemHasCount && (
+                <p className={item.count === 0 ? "zeroCount" : ""}>
+                  {count} шт.
+                </p>
+              )}
+            </div>
+            <div className="info">
+              {item.withPoint && (
+                <div className="info_child">
+                  <PointsIcon isItCurrentItem={isItCurrentItem} />
+                  <p>{t("itemForPoints")}</p>
+                </div>
+              )}
+              {item.withDiscount && (
+                <div className="info_child">
+                  <DiscountIcon isItCurrentItem={isItCurrentItem} />
+                  <p>{t("itemForDiscount")}</p>
+                </div>
+              )}
+            </div>
+          </div>
+          {!isItCurrentItem && (
+            <div className="right">
+              <p>{price} UZS</p>
+              {item.withDiscount && <span>{priceWithDiscount} UZS</span>}
             </div>
           )}
-          {item.withDiscount && (
-            <div className="info_child">
-              <DiscountIcon isItCurrentItem={isItCurrentItem} />
-              <p>{t("itemForDiscount")}</p>
+          {isItCurrentItem && (
+            <div className="icon_menu">
+              <ButtonIcon className="mr">
+                <EyeIcon />
+              </ButtonIcon>
+              <ItemPopover onOpenModal={onOpenModal} />
             </div>
           )}
-        </div>
-      </div>
-      {!isItCurrentItem && (
-        <div className="right">
-          <p>{price} UZS</p>
-          {item.withDiscount && <span>{priceWithDiscount} UZS</span>}
-        </div>
+        </Wrapper>
       )}
-      {isItCurrentItem && (
-        <div className="icon_menu">
-          <ButtonIcon className="mr">
-            <EyeIcon />
-          </ButtonIcon>
-          <ItemPopover onOpenModal={onOpenModal} />
-        </div>
-      )}
-    </Wrapper>
+    </Draggable>
   );
 };

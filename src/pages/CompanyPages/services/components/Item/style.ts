@@ -11,13 +11,12 @@ interface IProps {
 
 export const Wrapper = styled.div`
     padding: 10px 35px 10px 18px;
-    background-color: ${({isEven, isItCurrentItem}: IProps) => isItCurrentItem ? "rgba(96, 110, 234, 0.88)" : isEven ? "rgba(96, 110, 234, 0.1)" : ""};
+    background-color: ${({isEven, isItCurrentItem}: IProps) => isItCurrentItem ? "rgba(96, 110, 234, 0.88)" : isEven ? "rgba(96, 110, 234, 0.1)" : "#fff"};
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
-    transition: 200ms all;
 
     .left {
         display: flex;

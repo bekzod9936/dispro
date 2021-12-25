@@ -8,6 +8,7 @@ import { useGetItems } from "../../hooks/MainPageHooks";
 
 //style
 import { Wrapper, Container } from "./style";
+import { Sections } from "../../components/Sections";
 
 interface MainProps {}
 
@@ -21,12 +22,11 @@ const Main: React.FC<MainProps> = () => {
     <Wrapper>
       <Header total={total} value={value} onChange={onChange} />
       <Container>
-        <Goods
-          isLoading={isLoading}
-          goods={goods}
+        <Sections
           currentSection={currentSection}
           setCurrentSection={setCurrentSection}
         />
+        <Goods isLoading={isLoading} goods={goods} />
       </Container>
     </Wrapper>
   );
