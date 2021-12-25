@@ -143,3 +143,14 @@ export interface IGoods {
 export type sectionsObjectType = {
     [id: number]: string
 }
+
+export interface Modals {
+    delete: boolean,
+    changeAmount: boolean
+}
+
+export type SectionModalsType = {
+  subSection: boolean,
+  editSection: boolean,
+  delete: boolean
+}

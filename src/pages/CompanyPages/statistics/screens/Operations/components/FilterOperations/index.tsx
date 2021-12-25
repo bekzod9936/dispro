@@ -119,7 +119,11 @@ const FilterOperations = ({
         {filterGender}
       </WrapVal>
       <WrapVal>
-        <DatePcker onChange={handleDataPicker} margin='0 0 0 20px' />
+        <DatePcker
+          onChange={handleDataPicker}
+          margin='0 0 0 20px'
+          maxDate={new Date()}
+        />
       </WrapVal>
     </WrapFilter>
   );

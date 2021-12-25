@@ -1,25 +1,49 @@
-import React from "react";
+//packages
 import { useTranslation } from "react-i18next";
-import { IGoodsResponse } from "services/queries/servicesQueries/response.types";
-import { thousandsDivider } from "../../helpers";
-import { Left, Right, Wrapper, PointsIcon, DiscountIcon } from "./style";
-import DEFAULT_IMAGE from "assets/images/staff_default.png";
 
 //style
+import {
+  Wrapper,
+  PointsIcon,
+  DiscountIcon,
+  ButtonIcon,
+  EyeIcon,
+} from "./style";
+
+//other
+import { IGoodsResponse } from "services/queries/servicesQueries/response.types";
+import { thousandsDivider } from "../../helpers";
+import DEFAULT_IMAGE from "assets/images/staff_default.png";
+import { ItemPopover } from "../ItemPopover";
+import { DeleteModal } from "../Modals/Delete";
+import { useState } from "react";
+import { Modals } from "../../utils/types";
 
 interface ItemProps {
   item: IGoodsResponse;
   isEven: boolean;
+  setCurrentItem: (arg: IGoodsResponse | null) => void;
+  currentItemId: number | undefined;
+  onOpenModal: (modalName: keyof Modals) => void;
 }
 
-export const Item: React.FC<ItemProps> = ({ item, isEven }) => {
+export const Item: React.FC<ItemProps> = ({
+  item,
+  isEven,
+  setCurrentItem,
+  currentItemId,
+  onOpenModal,
+}) => {
   const { t } = useTranslation();
 
   const image = item.goodsImages[0].imageUrl;
-  const isItemHasCount = !item.isCountUnlimited;
   const price = thousandsDivider(item.price);
   const priceWithDiscount = thousandsDivider(item.priceWithDiscount);
   const count = thousandsDivider(item.count);
+
+  const isItCurrentItem = currentItemId === item.id;
+
+  const isItemHasCount = !item.isCountUnlimited;
 
   const handleError = (event: React.SyntheticEvent<HTMLImageElement>) => {
     let target = event.target as HTMLImageElement;
@@ -27,9 +51,17 @@ export const Item: React.FC<ItemProps> = ({ item, isEven }) => {
     target.src = DEFAULT_IMAGE;
   };
 
+  const handleClick = () => {
+    setCurrentItem(item);
+  };
+
   return (
-    <Wrapper isEven={isEven}>
-      <Left>
+    <Wrapper
+      isItCurrentItem={isItCurrentItem}
+      onClick={handleClick}
+      isEven={isEven}
+    >
+      <div className="left">
         <img src={image} alt="itemImage" onError={handleError} />
         <div className="title">
           <h5>{item.name}</h5>
@@ -40,22 +72,32 @@ export const Item: React.FC<ItemProps> = ({ item, isEven }) => {
         <div className="info">
           {item.withPoint && (
             <div className="info_child">
-              <PointsIcon />
+              <PointsIcon isItCurrentItem={isItCurrentItem} />
               <p>{t("itemForPoints")}</p>
             </div>
           )}
           {item.withDiscount && (
             <div className="info_child">
-              <DiscountIcon />
+              <DiscountIcon isItCurrentItem={isItCurrentItem} />
               <p>{t("itemForDiscount")}</p>
             </div>
           )}
         </div>
-      </Left>
-      <Right>
-        <p>{price} UZS</p>
-        {item.withDiscount && <span>{priceWithDiscount} UZS</span>}
-      </Right>
+      </div>
+      {!isItCurrentItem && (
+        <div className="right">
+          <p>{price} UZS</p>
+          {item.withDiscount && <span>{priceWithDiscount} UZS</span>}
+        </div>
+      )}
+      {isItCurrentItem && (
+        <div className="icon_menu">
+          <ButtonIcon className="mr">
+            <EyeIcon />
+          </ButtonIcon>
+          <ItemPopover onOpenModal={onOpenModal} />
+        </div>
+      )}
     </Wrapper>
   );
 };

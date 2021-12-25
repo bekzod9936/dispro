@@ -109,7 +109,7 @@ export const MobileReset = styled.div`
   border-radius: 15px;
   font-weight: 300;
   font-size: 14px;
-  color: #a5a5a5;
+  color: #223367;
   padding: 0 5px 0 15px;
   height: 30px;
   margin: 10px 0;
