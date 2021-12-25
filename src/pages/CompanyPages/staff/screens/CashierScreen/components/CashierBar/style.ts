@@ -161,7 +161,7 @@ export const ButtonKeyWord = styled.div`
   border-radius: 46px;
   font-weight: 300;
   font-size: 14px;
-  color: red;
+  color: #223367;
   padding: 0 5px 0 15px;
   margin: 10px 10px 0 0;
   height: 35px;
@@ -175,4 +175,30 @@ export const ButtonKeyWord = styled.div`
     font-size: 12px;
     color: #223367;
   }
+`;
+
+export const CashierCollection = styled.div`
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  max-height: 400px;
+  max-width: 450px;
+  overflow-y: scroll;
+  margin-top: 15px;
+  scroll-behavior: auto;
+  padding: 0;
+  width: 100%;
+  color: #223367;
+  ::-webkit-scrollbar {
+    width: 7px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #606eea;
+    border-radius: 14px 0px 0px 14px;
+  }
+  /* justify-content: space-between; */
 `;
