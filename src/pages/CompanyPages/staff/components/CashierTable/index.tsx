@@ -6,6 +6,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import {
 	setOpenFilter,
+	setPage,
 	setSelectedCashiers,
 } from 'services/redux/Slices/staffs';
 //components
@@ -32,14 +33,17 @@ import {
 import { HeadersType, IProps } from './types';
 //icons
 import LogoDef from 'assets/images/staff_default.png';
+import { formatPagination } from 'services/utils/formatPagination';
 
-const CashierTable = ({ cashiers, setPage, page }: IProps) => {
+const CashierTable = ({ cashiers }: IProps) => {
 	const dispatch = useAppDispatch();
 	const allCashier = useAppSelector((state) => state.staffs.allCashiers);
 	const selectedCashiers = useAppSelector(
 		(state) => state.staffs.selectedCashiers
 	);
-	const { cashiersTotal, totalCount } = useAppSelector((state) => state.staffs);
+	const { cashiersTotal, totalCount, page } = useAppSelector(
+		(state) => state.staffs
+	);
 	const [checked, setChecked] = useState(false);
 	const [headers, setHeaders] = useState<HeadersType[]>(cashierHeaders);
 
@@ -50,7 +54,7 @@ const CashierTable = ({ cashiers, setPage, page }: IProps) => {
 	}, []);
 
 	const handleChangePage = (int: number) => {
-		setPage(int);
+		dispatch(setPage({ type: 'cashiers', page: int }));
 	};
 
 	const columns: any = useMemo(() => {
@@ -185,15 +189,28 @@ const CashierTable = ({ cashiers, setPage, page }: IProps) => {
 			<WrapPag>
 				<p>
 					Показано{' '}
+					<span>
+						{formatPagination({
+							page: page.cashiers,
+							perPage: 10,
+							total: totalCount,
+						})}
+					</span>{' '}
+					из <span>{totalCount}</span>{' '}
+					{totalCount === 1 ? 'кассира' : 'кассиров'}
+				</p>{' '}
+				<p></p>
+				{/* <p>
+					Показано{' '}
 					<b>
 						{1 + (page - 1) * 10}-
 						{(page - 1) * 10 + (totalCount > 10 ? 10 : totalCount)}
 					</b>{' '}
 					из <b>{totalCount}</b>
-				</p>
+				</p> */}
 				<NewPagination
 					onChange={handleChangePage}
-					currentPage={page}
+					currentPage={page.cashiers}
 					totalCount={cashiersTotal}
 				/>
 			</WrapPag>

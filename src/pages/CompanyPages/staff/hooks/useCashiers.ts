@@ -46,12 +46,15 @@ export const useSearchBranch = (query: string, arr: any[]) => {
 
 
 const useCashiers = ({ query, period, storeIdForFilter}: any) => {
+	const {page} = useAppSelector(state => state.staffs)
+
+
   const history = useHistory();
   const [open, setOpen] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const dispatch = useAppDispatch();
   const { storeFilters} = useAppSelector(state => state.staffs)
-  const [page, setPage] = useState(1)
+
     //edit
 	const editCashier = useMutation((data: any) => editStaff(data), {
 		onSuccess: () => {
@@ -62,7 +65,7 @@ const useCashiers = ({ query, period, storeIdForFilter}: any) => {
 	  });
 
   const response = useQuery(
-    ["cashiers", page, query, period, storeIdForFilter],
+    ["cashiers", page.cashiers, query, period, storeIdForFilter],
     () => {
       if (query !== "") {
         return searchCashiers(query);
@@ -71,7 +74,7 @@ const useCashiers = ({ query, period, storeIdForFilter}: any) => {
         .map((e: string) => `${e}=${period[e]}&`)
         .join("");
 	
-      return getCashiers(page, url, storeIdForFilter);
+      return getCashiers(page.cashiers, url, storeIdForFilter);
     },
     {
       retry: 0,
@@ -145,8 +148,6 @@ const useCashiers = ({ query, period, storeIdForFilter}: any) => {
     setOpen,
     createCash,
 	editCashier,
-	page,
-	setPage
   };
 };
 
