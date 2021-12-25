@@ -279,7 +279,15 @@ export const PreviewContent = styled.div`
   }
 `;
 
-
+export const ErrorMessage = styled.div`
+  margin-bottom: 15px;
+  p {
+    color: #FF5E68;
+    font-size: 16;
+    line-height: 18.75px;
+    font-weight: 400;
+  }
+`
 
 export const MobileWrapper = styled.div`
 
