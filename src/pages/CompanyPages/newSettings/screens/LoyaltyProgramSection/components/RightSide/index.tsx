@@ -9,6 +9,8 @@ import { PlusIcon } from "newassets/icons/icons";
 import { Controller, useForm, useFieldArray } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { SaveButton } from 'components/Custom/Buttons/Save';
+import MultiSelect from "components/Custom/MultiSelect";
+
 import {
 
   Form,
@@ -164,6 +166,13 @@ const Right=()=>{
                 <DeleteIcon />
               </div>
             </IconStyle>
+            {/* {subs.map((sub,i)=>(
+              // <>
+              // <MultiSelect>
+
+              // </MultiSelect>
+              // </>
+            ))} */}
           </TitleFormChild>
         ))}
           <TitleForm>
