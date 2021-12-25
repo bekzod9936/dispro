@@ -154,3 +154,5 @@ export type SectionModalsType = {
   editSection: boolean,
   delete: boolean
 }
+
+export type ChangeAmountFormType = Pick<PostDtoType, 'isCountUnlimited' | 'count'>

@@ -37,7 +37,7 @@ export const useGetCompanySettings = () => {
 
     useEffect(() => {
         if (state.length === 3) {
-            let isSpecStatusDisabled = state.every(item => !(item.isActive))
+            let isSpecStatusDisabled = state.every(item => !(item?.isActive))
             
             dispatch(setDisableSpecStatus(isSpecStatusDisabled))
         }
