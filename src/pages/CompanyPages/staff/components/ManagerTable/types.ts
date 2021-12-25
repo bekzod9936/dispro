@@ -4,8 +4,6 @@ export interface ITRow {
 }
 export interface IProps {
   managers: IManageTable[];
-  page: number;
-  setPage: (arg: number) => void;
 }
 
 export type HeadersType = {

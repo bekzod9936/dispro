@@ -38,7 +38,7 @@ const CashierScreen = () => {
 	);
 
 	const openEdit = useAppSelector((state) => state.staffs.openEditCashier);
-	const { openFilter, allCashiers, storeFilters } = useAppSelector(
+	const { openFilter, allCashiers, storeFilters, page } = useAppSelector(
 		(state) => state.staffs
 	);
 	const [filterValue, setFilterValue] = useState<null | number>(null);
@@ -50,7 +50,7 @@ const CashierScreen = () => {
 	// const [page, setPage] = useState(1);
 	const [debouncedQuery] = useDebounce(query, 300);
 	const casierFilterAdress = allCashiers;
-	const { response, page, setPage } = useCashiers({
+	const { response } = useCashiers({
 		query: debouncedQuery,
 		period,
 		storeIdForFilter,
@@ -91,8 +91,6 @@ const CashierScreen = () => {
 				) : cashiers?.length > 0 ? (
 					<Wrap>
 						<CashierTable
-							page={page}
-							setPage={setPage}
 							cashiers={cashiers.map((cashier: any) => {
 								return {
 									...cashier,

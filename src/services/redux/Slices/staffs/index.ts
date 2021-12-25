@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { staffsState, ICashiers, IManagers, IPointHistories} from "./types";
+import { staffsState, ICashiers, IManagers, IPointHistories, PagePayload} from "./types";
 
 const initialState: staffsState = {
   cashiers: [],
@@ -30,7 +30,11 @@ const initialState: staffsState = {
   storeFilters: null,
   cashiersTotal: 0,
   managersTotal: 0,
-  totalCount: 0 
+  totalCount: 0,
+  page: {
+	  managers: 1, 
+	  cashiers: 1
+  }
 };
 
 const staffsSlice = createSlice({
@@ -121,6 +125,9 @@ const staffsSlice = createSlice({
 		state.managersTotal = Math.ceil(payload / 10)
 		state.totalCount = payload
 	},
+	setPage: (state, { payload }: PayloadAction<PagePayload>) => {
+		state.page = {...state.page, [payload.type]: payload.page}
+	}
 
   },
 
@@ -154,5 +161,6 @@ export const {
   setStoreFilters,
   setCashiersTotal,
   setManagersTotal,
+  setPage
   } = staffsSlice.actions;
 export default staffsSlice.reducer;

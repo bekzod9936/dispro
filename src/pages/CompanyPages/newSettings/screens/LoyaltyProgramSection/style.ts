@@ -1,6 +1,19 @@
 import styled from "styled-components";
 import { device } from "styles/device";
 import { ReactComponent as DeleteSvg } from "newassets/icons/delete.svg";
+import { ReactComponent as Plus } from 'newassets/icons/plus.svg';
+import {ReactComponent as Close} from 'newassets/icons/close.svg';
+
+export const CloseIcon=styled(Close)`
+& path {
+    fill: #3492FF;
+  }
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background: rgba(96, 110, 234, 0.1);
+`;
+
 
 export const DeleteIcon = styled(DeleteSvg)`
   & path {
@@ -9,6 +22,12 @@ export const DeleteIcon = styled(DeleteSvg)`
   width:32px;
   height:34px;
 `;
+export const LittlePlus=styled(Plus)`
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background: rgba(96, 110, 234, 0.1);
+`
 export const Container = styled.div`
   padding: 10px 0px;
   display: flex;
@@ -123,10 +142,17 @@ export const TitleForm = styled.div`
 export const TitleFormChild = styled.div`
   padding: 10px 0px;
   display: flex;
-  justify-content: flex-start;
+  justify-content: baseline;
   align-items: center;
   height: 100%;
 `;
+export const TitleInsideFormChild=styled.div`
+  padding: 10px 0px;
+  display: flex;
+  justify-content: baseline;
+  align-items: center;
+  height: 100%;
+`
 export const PercentDiv = styled.div`
   padding-right: 10px;
 `;
@@ -140,3 +166,19 @@ export const LocalyPayment = styled.div`
 export const SubmitButton = styled.div`
   padding-top: 25px;
 `;
+export const MainDynamicGroup=styled.div`
+padding-left:80px;
+display:flex;
+justify-content:center;
+align-content:'center';
+`
+export const DynamicGroup=styled.div`
+display:flex;
+justify-content:center;
+align-content:'center';
+`
+export const DynamicLabel=styled.div`
+font-size:16px;
+color:#A5A5A5;
+padding:15px 10px 0px 10px;
+`
