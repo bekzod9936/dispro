@@ -108,6 +108,7 @@ const CreateManager = ({ openManager }: IProps) => {
 			{
 				onSuccess: (data: any) => {
 					setManagerId(data.data.data.id);
+					setLogo('');
 					reset(resetData);
 				},
 				onError: () => {
