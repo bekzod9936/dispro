@@ -32,7 +32,10 @@ export const modalsDefaults = {
 }
 
 
-
+export const goodsModalsDefaults = {
+  delete: false,
+  changeAmount: false
+}
 
 export const SECTIONS_LIMIT = 20
 

@@ -165,3 +165,18 @@ export const subSectionSchema = yup.object().shape({
 export const editSectionSchema = yup.object().shape({
     section: yup.string().max(30, "maxAmountOfCharacters").required('requiredField')
 })
+
+export const changeAmountSchema = yup.object().shape({
+    isCountUnlimited: yup.boolean(),
+    count: yup.number().when('isCountUnlimited', {
+        is: (val: any) => Boolean(val),
+        then: yup.number().nullable(true).transform((parsedValue, originalValue) => originalValue === '' ? null : parsedValue),
+        otherwise: yup
+            .number()
+            .nullable(true)
+            .transform((parsedValue, originalValue) => originalValue === '' ? null : parsedValue)
+            .min(1, 'minAmoutOfItems')
+            .max(1000001, 'maxAmountOfItems')
+            .required('enterAmountOfItem')
+    })
+})

@@ -10,12 +10,12 @@ import { ApiServices } from "services/queries/servicesQueries";
 
 //types
 import { ISectionResponse, sectionDtoType } from "services/queries/servicesQueries/response.types";
-import { EditSectionType, FormFieldTypes, SubSectionFormTypes } from "../utils/types";
+import { ChangeAmountFormType, EditSectionType, FormFieldTypes, SubSectionFormTypes } from "../utils/types";
 
 //other
 import { responseCategoriesToExactCategories } from "../helpers";
 import { useAppSelector } from "services/redux/hooks";
-import { editSectionSchema, goodsSchema, sectionsSchema, subSectionSchema } from "../utils/schemas.yup";
+import { changeAmountSchema, editSectionSchema, goodsSchema, sectionsSchema, subSectionSchema } from "../utils/schemas.yup";
 import { createItemDefaultFields, GET_SECTIONS } from "../constants";
 import { useDebounce } from "use-debounce/lib";
 
@@ -147,6 +147,20 @@ export const useEditSectionForm = (section: string) => {
     useEffect(() => {
         form.reset({section: section})
     }, [section])
+
+    return form
+}
+
+
+export const useChangeAmount = (defaultValue?: number) => {
+    const form = useForm<ChangeAmountFormType>({
+        mode: "onChange",
+        resolver: yupResolver(changeAmountSchema)
+    })
+
+    useEffect(() => {
+        form.reset({count: defaultValue})
+    }, [defaultValue])
 
     return form
 }

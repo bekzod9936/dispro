@@ -1,7 +1,13 @@
-import { IGoodsResponse } from "services/queries/servicesQueries/response.types";
-import { Modals } from "../../utils/types";
+//components
 import { Item } from "../Item";
+
+//other
+import { Modals } from "../../utils/types";
+import { IGoodsResponse } from "services/queries/servicesQueries/response.types";
+
+//style
 import { Wrapper } from "./style";
+
 interface ItemGroupProps {
   goods: IGoodsResponse[];
   sectionName: string | undefined;

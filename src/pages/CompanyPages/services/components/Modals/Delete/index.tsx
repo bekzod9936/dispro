@@ -1,11 +1,17 @@
+//packages
+import { useTranslation } from "react-i18next";
+
+//component
 import Button from "components/Custom/Buttons/Button";
 import Modal from "components/Custom/Modal";
+
+//other
 import {
   ITEM_DELETE_MODAL_CONTENT,
   SECTION_DELETE_MODAL_CONTENT,
 } from "pages/CompanyPages/services/constants";
-import React, { useEffect } from "react";
-import { useTranslation } from "react-i18next";
+
+//style
 import { CancelIcon, DeleteIcon, styles, Wrapper } from "./style";
 
 interface DeleteModalProps {

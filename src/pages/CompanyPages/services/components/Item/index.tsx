@@ -1,6 +1,9 @@
 //packages
 import { useTranslation } from "react-i18next";
 
+//components
+import { ItemPopover } from "../ItemPopover";
+
 //style
 import {
   Wrapper,
@@ -14,9 +17,6 @@ import {
 import { IGoodsResponse } from "services/queries/servicesQueries/response.types";
 import { thousandsDivider } from "../../helpers";
 import DEFAULT_IMAGE from "assets/images/staff_default.png";
-import { ItemPopover } from "../ItemPopover";
-import { DeleteModal } from "../Modals/Delete";
-import { useState } from "react";
 import { Modals } from "../../utils/types";
 
 interface ItemProps {
