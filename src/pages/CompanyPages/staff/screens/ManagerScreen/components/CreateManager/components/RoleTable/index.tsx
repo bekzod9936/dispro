@@ -26,18 +26,18 @@ import { CancelIcon } from 'assets/icons/ClientsPageIcons/ClientIcons';
 import { MRadio as Radio } from './style';
 
 const permissionsRole: any = {
-	statistics: [],
-	clients: [],
-	orders: [],
-	services: [],
-	feedback: [],
+	info: [],
 	news: [],
 	staff: [],
-	proposals: [],
+	orders: [],
+	clients: [],
+	feedback: [],
 	finances: [],
-	notifications: [],
-	info: [],
+	services: [],
 	settings: [],
+	proposals: [],
+	statistics: [],
+	notifications: [],
 	// support: [],
 };
 
