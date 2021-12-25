@@ -1,5 +1,6 @@
 export interface IProps {
-	parentRef: any
+	parentRef: any,
+	handleClose: () => void
 }
 
 export interface ITRow {

@@ -52,14 +52,19 @@ const CreateManager = ({ openManager }: IProps) => {
 	const [imgError, setImgError] = useState(false);
 	const [file, setFile] = useState('');
 	const parentRef = useRef<any | null>(null);
+	const [managerId, setManagerId] = useState<null | number>(null);
 	const [isCropVisible, setIsCropVisible] = useState(false);
-	const { saveRoleManager, modified, setModified, createManager } = useManagers(
-		{
-			page: 1,
-			query: '',
-			period: '',
-		}
-	);
+	const {
+		saveRoleManager,
+		modified,
+		setModified,
+		createManager,
+		deleteManager,
+	} = useManagers({
+		page: 1,
+		query: '',
+		period: '',
+	});
 
 	const dispatch = useAppDispatch();
 	const { t } = useTranslation();
@@ -96,12 +101,13 @@ const CreateManager = ({ openManager }: IProps) => {
 				comment: data.comment,
 				firstName: data.firstName,
 				lastName: data.lastName,
-				storeId: [data.storeIds?.value],
+				storeIds: [data.storeIds?.value],
 				telNumber: `+998${data.telNumber}`,
 				roleId: 2,
 			},
 			{
-				onSuccess: () => {
+				onSuccess: (data: any) => {
+					setManagerId(data.data.data.id);
 					reset(resetData);
 				},
 				onError: () => {
@@ -114,6 +120,11 @@ const CreateManager = ({ openManager }: IProps) => {
 		);
 	};
 
+	const handleClose = () => {
+		dispatch(setOpenManager(false));
+		dispatch(setStepManager(1));
+		deleteManager.mutate(managerId);
+	};
 	// useEffect(() => {
 	// 	if (isSubmitSuccessful) {
 	// 		setTimeout(() => {
@@ -159,9 +170,7 @@ const CreateManager = ({ openManager }: IProps) => {
 
 		setValue('logo', '');
 	};
-	console.log('logologo', logo);
-	console.log('isLoading', isLoading);
-	console.log(`filelink`, file);
+
 	return (
 		<Modal open={openManager}>
 			{/* first step */}
@@ -422,18 +431,16 @@ const CreateManager = ({ openManager }: IProps) => {
 					<ModalHead>
 						<ModalTitle>Настройки доступа</ModalTitle>
 
-						<IconButton
-							onClick={() => {
-								dispatch(setOpenManager(false));
-								dispatch(setStepManager(1));
-							}}
-						>
+						<IconButton onClick={handleClose}>
 							<ExitIcon />
 						</IconButton>
 					</ModalHead>
 					<ModalBody>
 						{/* tables  */}
-						<RoleTable parentRef={parentRef?.current} />
+						<RoleTable
+							handleClose={handleClose}
+							parentRef={parentRef?.current}
+						/>
 					</ModalBody>
 				</ModalMain>
 			)}
