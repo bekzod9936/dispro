@@ -7,6 +7,7 @@ import { ReactComponent as Search } from 'newassets/icons/search.svg';
 import { ReactComponent as Dots } from 'newassets/icons/dots.svg';
 import { ReactComponent as Save } from 'newassets/icons/save.svg';
 import {ReactComponent as Delete} from 'newassets/icons/delete.svg';
+
 export const SquarePlusIcon = styled(SquarePlus)``;
 export const PlusIcon=styled(Plus)``;
 export const DownIcon = styled(Down)``;
