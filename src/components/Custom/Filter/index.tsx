@@ -171,7 +171,6 @@ const Filter = ({
               <Accordion list={list} />
             </BoxWrap>
           </WrapBody>
-
           <FooterModel>
             <Button
               buttonStyle={{

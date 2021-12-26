@@ -1,4 +1,5 @@
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+import App from 'assets/icons/StatistisPage/app.svg';
 import {
   Data,
   WrapIcon,
@@ -45,6 +46,10 @@ const Info = ({
             width='40px'
             effect='blur'
             style={{ objectFit: 'cover', borderRadius: '14px' }}
+            onError={(e: any) => {
+              e.target.onerror = null;
+              e.target.src = App;
+            }}
           />
         </WrapIcon>
       ) : (

@@ -4,20 +4,21 @@ import FullModal from 'components/Custom/FullModal';
 import { useState } from 'react';
 import { IconButton } from '@material-ui/core';
 import { ReactComponent as EditPen } from 'assets/icons/editpen.svg';
+import useWindowWidth from 'services/hooks/useWindowWidth';
+import Info from './info';
+import Button from 'components/Custom/Buttons/Button';
+import { useTranslation } from 'react-i18next';
+import Modal from 'components/Custom/Modal';
+import { TextArea } from 'components/Custom/TextArea';
+import App from 'assets/icons/StatistisPage/app.svg';
 import {
   Container,
-  Data,
-  FullName,
-  Title,
-  Amount,
-  Wrapper,
   Header,
   ModalContent,
   WrapBox,
   Box,
   BoxTitle,
   BoxInfo,
-  WrapMain,
   WrapIcon,
   PinkIcon,
   WrapAvatar,
@@ -30,10 +31,6 @@ import {
   DeleteIcon1,
   WarpButton,
 } from './style';
-import Button from 'components/Custom/Buttons/Button';
-import { useTranslation } from 'react-i18next';
-import Modal from 'components/Custom/Modal';
-import { TextArea } from 'components/Custom/TextArea';
 import {
   SaveIcon,
   CancelIcon,
@@ -48,8 +45,6 @@ import {
   WrapDeleteComment,
   WrapDeleteButtons,
 } from '../../style';
-import useWindowWidth from 'services/hooks/useWindowWidth';
-import Info from './info';
 
 interface Props {
   data?: {
@@ -103,7 +98,6 @@ const MobileTable = ({
           />
         );
       })}
-
       {select !== null ? (
         <FullModal open={open}>
           <ModalContent>
@@ -130,6 +124,10 @@ const MobileTable = ({
                           style={{
                             objectFit: 'cover',
                             borderRadius: '14px',
+                          }}
+                          onError={(e: any) => {
+                            e.target.onerror = null;
+                            e.target.src = App;
                           }}
                         />
                       </WrapIcon>
@@ -297,19 +295,21 @@ const MobileTable = ({
                   startIcon={width > 600 ? <SaveIcon /> : null}
                   endIcon={width < 600 ? <SaveIcon /> : null}
                   disabled={resComment.isLoading}
-                  onClick={() =>
-                    resComment.mutate(
-                      {
-                        chequeId: select.id,
-                        chequeComment: comment,
-                      },
-                      {
-                        onSuccess: () => {
-                          setDeleteOpen(false);
+                  onClick={() => {
+                    if (comment.length > 0 && comment.match(/\S/) !== null) {
+                      resComment.mutate(
+                        {
+                          chequeId: select.id,
+                          chequeComment: comment,
                         },
-                      }
-                    )
-                  }
+                        {
+                          onSuccess: () => {
+                            setDeleteOpen(false);
+                          },
+                        }
+                      );
+                    }
+                  }}
                 >
                   {t('save')}
                 </Button>
