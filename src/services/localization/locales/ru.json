@@ -661,5 +661,10 @@
   "automaticscoring": "Автоматическое начисление баллов клиенту ко дню его рождения",
   "vippoints": "VIP баллы",
   "increaseloyalty": "Баллы, которые можно добавить постоянным пользователям для повышения лояльности.",
-  "numberdaysbirthday": "Количество дней до дня рождения"
+  "numberdaysbirthday": "Количество дней до дня рождения",
+  "changeAmount": "Изменить количество",
+  "areYouSureToDeleteItem": "Вы действительно хотите удалить товар",
+  "areYouSureToDeleteSection": "Вы действительно хотите удалить раздел",
+  "amountOfItemInCompany": "Количество товара в компании",
+  "unlimited": "Не ограничено"
 }

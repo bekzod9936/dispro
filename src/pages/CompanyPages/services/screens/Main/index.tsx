@@ -1,5 +1,3 @@
-//packages
-
 //components
 import { Header } from "./components/Header";
 import { Goods } from "./components/Goods";
@@ -10,6 +8,7 @@ import { useGetItems } from "../../hooks/MainPageHooks";
 
 //style
 import { Wrapper, Container } from "./style";
+import { Sections } from "../../components/Sections";
 
 interface MainProps {}
 
@@ -17,18 +16,22 @@ const Main: React.FC<MainProps> = () => {
   const { query, onChange, value } = useSearch();
   const { currentSection, setCurrentSection } = useCurrentSection();
 
-  const { total, goods, isLoading } = useGetItems();
+  const { total, goods, isLoading } = useGetItems(query);
 
   return (
     <Wrapper>
-      <Header total={total} value={value} onChange={onChange} />
+      <Header
+        isLoading={isLoading}
+        total={total}
+        value={value}
+        onChange={onChange}
+      />
       <Container>
-        <Goods
-          isLoading={isLoading}
-          goods={goods}
+        <Sections
           currentSection={currentSection}
           setCurrentSection={setCurrentSection}
         />
+        <Goods isLoading={isLoading} goods={goods} />
       </Container>
     </Wrapper>
   );

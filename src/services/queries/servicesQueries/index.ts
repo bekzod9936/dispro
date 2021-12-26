@@ -75,8 +75,9 @@ export const ApiServices = {
         return data
     },
 
-    async getItems() {
-        const { data } = await partnerApi.get<goodsResponseType>('core/goods/by-company')
+    async getItems(query?: string) {
+        const url = `core/goods/by-company${query ? '?key=' + query : ''}`
+        const { data } = await partnerApi.get<goodsResponseType>(url)
 
         if (!data.success) {
             throw new Error('Error during fetching goods!')
@@ -84,5 +85,4 @@ export const ApiServices = {
 
         return data.data
     } ,
-
 }

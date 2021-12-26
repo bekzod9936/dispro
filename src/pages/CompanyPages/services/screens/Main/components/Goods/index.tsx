@@ -1,52 +1,68 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 //components
 import Spinner from "components/Helpers/Spinner";
 import { ItemGroup } from "pages/CompanyPages/services/components/ItemGroup";
-import { Sections } from "pages/CompanyPages/services/components/Sections";
 import { EmptyPage } from "../EmptyPage";
+import { ChangeAmountModal } from "pages/CompanyPages/services/components/Modals/ChangeAmount";
+import { DeleteModal } from "pages/CompanyPages/services/components/Modals/Delete";
 
 //other
 import { useSectionsWithIdEntity } from "pages/CompanyPages/services/hooks/MainPageHooks";
-import { IGoods } from "pages/CompanyPages/services/utils/types";
-import { ISectionResponse } from "services/queries/servicesQueries/response.types";
+import { IGoods, Modals } from "pages/CompanyPages/services/utils/types";
+import { IGoodsResponse } from "services/queries/servicesQueries/response.types";
+import { goodsModalsDefaults } from "pages/CompanyPages/services/constants";
 
 //style
-import { Wrapper, Container } from "./style";
+import { Wrapper } from "./style";
 
 interface GoodsProps {
-  currentSection: ISectionResponse | null;
-  setCurrentSection: (arg: ISectionResponse | null) => void;
   goods: IGoods;
   isLoading: boolean;
 }
 
-export const Goods: React.FC<GoodsProps> = ({
-  currentSection,
-  setCurrentSection,
-  goods,
-  isLoading,
-}) => {
+export const Goods: React.FC<GoodsProps> = ({ goods, isLoading }) => {
+  const [currentItem, setCurrentItem] = useState<IGoodsResponse | null>(null);
+  const [modals, setModals] = useState<Modals>(goodsModalsDefaults);
+
   const sectionsObject = useSectionsWithIdEntity();
   const isUserhasGoods = useMemo(() => Object.keys(goods).length > 0, [goods]);
   const isPageEmpty = !isUserhasGoods && !isLoading;
 
+  const handleOpenModal = (modalName: keyof Modals) => {
+    setModals((prev) => ({ ...prev, [modalName]: true }));
+  };
+
+  const handleCloseModal = (modalName: keyof Modals) => {
+    return () => setModals((prev) => ({ ...prev, [modalName]: false }));
+  };
+
   return (
     <Wrapper>
-      <Sections
-        currentSection={currentSection}
-        setCurrentSection={setCurrentSection}
+      {isLoading && <Spinner size={35} />}
+      {isPageEmpty && <EmptyPage />}
+      {Object.keys(goods).map((sectionId) => (
+        <ItemGroup
+          key={sectionId}
+          onOpenModal={handleOpenModal}
+          currentItem={currentItem}
+          setCurrentItem={setCurrentItem}
+          sectionName={sectionsObject?.[Number(sectionId)]}
+          sectionId={sectionId}
+          goods={goods[Number(sectionId)]}
+        />
+      ))}
+      <ChangeAmountModal
+        open={modals.changeAmount}
+        label={currentItem?.name}
+        onClose={handleCloseModal("changeAmount")}
+        count={currentItem?.count}
       />
-      <Container>
-        {isLoading && <Spinner size={35} />}
-        {isPageEmpty && <EmptyPage />}
-        {Object.keys(goods).map((sectionId) => (
-          <ItemGroup
-            sectionName={sectionsObject?.[Number(sectionId)]}
-            goods={goods[Number(sectionId)]}
-          />
-        ))}
-      </Container>
+      <DeleteModal
+        onClose={handleCloseModal("delete")}
+        open={modals.delete}
+        name={currentItem?.name}
+      />
     </Wrapper>
   );
 };

@@ -16,7 +16,24 @@ export const AddIconSettings = () => {
     </svg>
   );
 };
-
+export const Plus = () => {
+  return (
+    <svg
+      width="26"
+      height="26"
+      viewBox="0 0 26 26"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M13 24V13M13 13V2M13 13H24M13 13H2"
+        stroke="#606EEA"
+        stroke-width="2.8"
+        stroke-linecap="round"
+      />
+    </svg>
+  );
+};
 export const DeleteIcon = () => {
   return (
     <svg

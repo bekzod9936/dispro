@@ -22,17 +22,19 @@ import {
   setManagerId,
   setSelectedManagers,
   setOpenEditManager,
+  setManagersTotal,
 } from "services/redux/Slices/staffs";
 import { numberWith } from "services/utils";
 
 const useManagers = ({ query, period }: any) => {
+	const {page} = useAppSelector(state => state.staffs)
+
   const dispatch = useAppDispatch();
   const managerId = useAppSelector((state) => state.staffs.managerId);
 
   const [open, setOpen] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [modified, setModified] = useState("1");
-  const [page, setPage] = useState(1)
 
   //edit
   const editManager = useMutation((data: any) => editStaff(data), {
@@ -57,7 +59,7 @@ const useManagers = ({ query, period }: any) => {
   );
 
   const response = useQuery(
-    ["managersStaff", page, query, period],
+    ["managersStaff", page.managers, query, period],
     () => {
       if (query !== "") {
         return searchManagers(query);
@@ -65,7 +67,7 @@ const useManagers = ({ query, period }: any) => {
       const url = Object.keys(period)
         .map((e: string) => `${e}=${period[e]}&`)
         .join("");
-      return getManagers(page, url);
+      return getManagers(page.managers, url);
     },
     {
       retry: 0,
@@ -73,7 +75,7 @@ const useManagers = ({ query, period }: any) => {
       cacheTime: 5000,
       onSuccess: (data) => {
         dispatch(setManagers(data.data.data.staffs));
-
+		dispatch(setManagersTotal(data.data.data.totalCount))
         dispatch(
           setAllManager(
             data?.data?.data?.staffs?.map((manager: any) => {
@@ -150,8 +152,7 @@ const useManagers = ({ query, period }: any) => {
     editManager,
     openEdit,
     setOpenEdit,
-	page,
-	setPage
+	
   };
 };
 

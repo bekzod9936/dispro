@@ -6,11 +6,13 @@ import { useTranslation } from "react-i18next";
 
 //style
 import { MenuIcon, MenuItem, MenuList } from "./style";
+import { SectionModalsType } from "pages/CompanyPages/services/utils/types";
 
+//other
 interface SectionPopoverProps {
   isParent?: boolean;
   isHiddenInMobile: boolean;
-  onOpenModal: (arg: "subSection" | "editSection") => () => void;
+  onOpenModal: (arg: keyof SectionModalsType) => () => void;
 }
 
 export const SectionPopover: React.FC<SectionPopoverProps> = ({
@@ -57,7 +59,9 @@ export const SectionPopover: React.FC<SectionPopoverProps> = ({
             <MenuItem>
               {isHiddenInMobile ? t("showInMobile") : t("hideInMobile")}
             </MenuItem>
-            <MenuItem isDeleteButton>{t("delete")}</MenuItem>
+            <MenuItem onClick={onOpenModal("delete")} isDeleteButton>
+              {t("delete")}
+            </MenuItem>
           </MenuList>
         ) : null}
       </Popover>

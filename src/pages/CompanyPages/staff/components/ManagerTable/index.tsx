@@ -3,7 +3,7 @@ import { useSortBy, useTable } from 'react-table';
 
 //helpers
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
-import { setSelectedManagers } from 'services/redux/Slices/staffs';
+import { setSelectedManagers, setPage } from 'services/redux/Slices/staffs';
 
 //components
 import { managerHeaders } from './headers';
@@ -32,11 +32,14 @@ import { HeadersType, IProps } from './types';
 
 //icons
 import managerDefault from 'assets/images/defaultGreen.png';
+import { formatPagination } from 'services/utils/formatPagination';
 
-const ManagerTable = ({ managers, setPage, page }: IProps) => {
+const ManagerTable = ({ managers }: IProps) => {
 	const dispatch = useAppDispatch();
 	const allManager = useAppSelector((state) => state.staffs.allManagers);
-	const { cashiersTotal, totalCount } = useAppSelector((state) => state.staffs);
+	const { managersTotal, totalCount, page } = useAppSelector(
+		(state) => state.staffs
+	);
 	const selectedManagers = useAppSelector(
 		(state) => state.staffs.selectedManagers
 	);
@@ -74,7 +77,7 @@ const ManagerTable = ({ managers, setPage, page }: IProps) => {
 	}, []);
 
 	const handleChangePage = (int: number) => {
-		setPage(int);
+		dispatch(setPage({ type: 'managers', page: int }));
 	};
 
 	return (
@@ -169,17 +172,28 @@ const ManagerTable = ({ managers, setPage, page }: IProps) => {
 			</Container>
 			<WrapPag>
 				<p>
-					Показано{' '}
-					<b>
+					Показано
+					<span>
+						{formatPagination({
+							page: page.managers,
+							perPage: 10,
+							total: totalCount,
+						})}
+					</span>
+					из <span>{totalCount}</span>
+					{totalCount === 1 ? 'кассира' : 'кассиров'}
+				</p>
+				<p></p>
+				{/* <b>
 						{1 + (page - 1) * 10}-
 						{(page - 1) * 10 + (totalCount > 10 ? 10 : totalCount)}
 					</b>{' '}
 					из <b>{totalCount}</b>
-				</p>
+				</p>*/}
 				<NewPagination
 					onChange={handleChangePage}
-					currentPage={page}
-					totalCount={cashiersTotal}
+					currentPage={page.managers}
+					totalCount={managersTotal}
 				/>
 			</WrapPag>
 		</div>

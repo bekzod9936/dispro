@@ -4,8 +4,7 @@ export interface ITRow {
 }
 export interface IProps {
   cashiers: ICashTable[];
-  page: number;
-  setPage: (arg: number) => void
+
 }
 
 export type HeadersType = {

@@ -21,8 +21,10 @@ import { useGetSections } from "../../hooks";
 //style
 import { Item, ItemWrapper, MenuIcon, Wrapper } from "./style";
 import { modalsDefaults } from "../../constants";
-import { EditSectionModal } from "../Modals/EditModal";
+import { EditSectionModal } from "../Modals/Edit";
 import { ISectionResponse } from "services/queries/servicesQueries/response.types";
+import { DeleteModal } from "../Modals/Delete";
+import { SectionModalsType } from "../../utils/types";
 
 interface SectionsProps {
   currentSection: null | ISectionResponse;
@@ -34,10 +36,12 @@ export const Sections: React.FC<SectionsProps> = ({
   currentSection,
 }) => {
   const { t } = useTranslation();
+  const currentSectionName =
+    currentSection?.goodsSectionTranslates[0].translateName;
 
   const currentSectionRef = useRef<null | HTMLDivElement>(null);
 
-  const [modals, setModals] = useState(modalsDefaults);
+  const [modals, setModals] = useState<SectionModalsType>(modalsDefaults);
 
   const { data, isLoading } = useGetSections();
 
@@ -51,11 +55,11 @@ export const Sections: React.FC<SectionsProps> = ({
     };
   };
 
-  const handleClose = (modal: keyof typeof modals) => {
+  const handleClose = (modal: keyof SectionModalsType) => {
     return () => setModals((prev) => ({ ...prev, [modal]: false }));
   };
 
-  const handleOpen = (modal: keyof typeof modals) => {
+  const handleOpen = (modal: keyof SectionModalsType) => {
     return () => setModals((prev) => ({ ...prev, [modal]: true }));
   };
 
@@ -121,6 +125,12 @@ export const Sections: React.FC<SectionsProps> = ({
         open={modals.editSection}
         onClose={handleClose("editSection")}
         parent={isSectionParent(data?.data, currentSection?.id)}
+      />
+      <DeleteModal
+        isSection
+        open={modals.delete}
+        name={currentSectionName}
+        onClose={handleClose("delete")}
       />
     </Wrapper>
   );

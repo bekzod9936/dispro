@@ -23,7 +23,16 @@ export interface staffsState {
   storeFilters:any;
   cashiersTotal: number;
   managersTotal: number;
-  totalCount: number
+  totalCount: number,
+  page: {
+	  cashiers: number,
+	  managers: number
+  }
+}
+
+export type PagePayload = {
+	type: 'cashiers' | 'managers',
+	page: number
 }
 
 

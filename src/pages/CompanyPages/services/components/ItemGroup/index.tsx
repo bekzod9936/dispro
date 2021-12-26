@@ -1,20 +1,63 @@
-import { IGoodsResponse } from "services/queries/servicesQueries/response.types";
+//packages
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
+
+//components
 import { Item } from "../Item";
+
+//other
+import { Modals } from "../../utils/types";
+import { IGoodsResponse } from "services/queries/servicesQueries/response.types";
+
+//style
 import { Wrapper } from "./style";
+
+//other
+import { useDragNDrop } from "../../hooks/MainPageHooks";
+
 interface ItemGroupProps {
   goods: IGoodsResponse[];
   sectionName: string | undefined;
+  currentItem: IGoodsResponse | null;
+  setCurrentItem: (arg: IGoodsResponse | null) => void;
+  onOpenModal: (modalName: keyof Modals) => void;
+  sectionId: string;
 }
 
-export const ItemGroup: React.FC<ItemGroupProps> = ({ goods, sectionName }) => {
+export const ItemGroup: React.FC<ItemGroupProps> = ({
+  goods,
+  sectionName,
+  setCurrentItem,
+  currentItem,
+  onOpenModal,
+  sectionId,
+}) => {
+  const { items, onDragEnd } = useDragNDrop(goods);
+
   return (
-    <Wrapper>
-      <div className="header">
-        <h4>{sectionName || "Section Name"}</h4>
-      </div>
-      {goods.map((item, index) => (
-        <Item isEven={Boolean((index + 1) % 2)} item={item} />
-      ))}
-    </Wrapper>
+    <DragDropContext onDragEnd={onDragEnd}>
+      <Wrapper>
+        <div className="header">
+          <h4>{sectionName || "Section Name"}</h4>
+        </div>
+        <Droppable droppableId={sectionId}>
+          {(provided) => (
+            <div ref={provided.innerRef} {...provided.droppableProps}>
+              {items.map((item, index) => (
+                <Item
+                  key={item.id}
+                  index={index}
+                  onOpenModal={onOpenModal}
+                  setCurrentItem={setCurrentItem}
+                  currentItemId={currentItem?.id}
+                  isEven={Boolean((index + 1) % 2)}
+                  item={item}
+                />
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </Wrapper>
+    </DragDropContext>
   );
 };

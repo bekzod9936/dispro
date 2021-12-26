@@ -1,4 +1,5 @@
 import Spinner from 'components/Helpers/Spinner';
+import { useTranslation } from 'react-i18next';
 import { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import { numberWith } from 'services/utils';
@@ -11,7 +12,7 @@ import { SpinnerDiv, EmptyContainer, EmptyLeft, EmptyRight } from '../../style';
 import CashierBar from './components/CashierBar';
 import { ReactComponent as EmptyCashier } from 'assets/images/staffs_empty.svg';
 import { ReactComponent as AddCashier } from 'assets/icons/add_cashier.svg';
-import { ReactComponent as DeleteIcon } from 'assets/icons/delete_setting.svg';
+import notfoundsearch from 'assets/images/notfoundsearch.png';
 import {
 	CashierDiv,
 	Text,
@@ -20,7 +21,9 @@ import {
 	DeleteIc,
 	CashierFilterWrap,
 	Wrap,
-	NText,
+	WrapDef,
+	ImgDef,
+	DefDiv,
 } from './style';
 import { setOpenCash, setOpenFilter } from 'services/redux/Slices/staffs';
 import EditCashier from './components/EditCashier';
@@ -29,6 +32,7 @@ import { IconButton } from '@material-ui/core';
 
 const CashierScreen = () => {
 	const dispatch = useAppDispatch();
+	const { t } = useTranslation();
 	const open = useAppSelector((state) => state.staffs.openFilter);
 	const query = useAppSelector((state) => state.staffs.query);
 	const cashiers = useAppSelector((state) => state.staffs.cashiers);
@@ -38,7 +42,7 @@ const CashierScreen = () => {
 	);
 
 	const openEdit = useAppSelector((state) => state.staffs.openEditCashier);
-	const { openFilter, allCashiers, storeFilters } = useAppSelector(
+	const { openFilter, allCashiers, storeFilters, page } = useAppSelector(
 		(state) => state.staffs
 	);
 	const [filterValue, setFilterValue] = useState<null | number>(null);
@@ -50,7 +54,7 @@ const CashierScreen = () => {
 	// const [page, setPage] = useState(1);
 	const [debouncedQuery] = useDebounce(query, 300);
 	const casierFilterAdress = allCashiers;
-	const { response, page, setPage } = useCashiers({
+	const { response } = useCashiers({
 		query: debouncedQuery,
 		period,
 		storeIdForFilter,
@@ -91,8 +95,6 @@ const CashierScreen = () => {
 				) : cashiers?.length > 0 ? (
 					<Wrap>
 						<CashierTable
-							page={page}
-							setPage={setPage}
 							cashiers={cashiers.map((cashier: any) => {
 								return {
 									...cashier,
@@ -116,13 +118,17 @@ const CashierScreen = () => {
 						/>
 					</Wrap>
 				) : debouncedQuery?.length !== 0 ? (
-					<EmptyContainer>
-						<EmptyRight>
-							<Text>По вашему запросу ничего не найдено...</Text>
-							<Break />
-						</EmptyRight>
-					</EmptyContainer>
+					<WrapDef>
+						<ImgDef src={notfoundsearch} alt='defimage' />
+						<DefDiv>По вашему запросу ничего не найдено...</DefDiv>
+					</WrapDef>
 				) : (
+					// <EmptyContainer>
+					// 	<EmptyRight>
+					// 		<Text>По вашему запросу ничего не найдено...</Text>
+					// 		<Break />
+					// 	</EmptyRight>
+					// </EmptyContainer>
 					<EmptyContainer>
 						<EmptyLeft>
 							<EmptyCashier />
