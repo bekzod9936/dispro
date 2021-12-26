@@ -140,7 +140,7 @@ const Registrationpanel = () => {
       },
     });
   };
-
+  console.log(errors, 'sjsjjs');
   return (
     <Container>
       <MainWrap>
@@ -181,7 +181,7 @@ const Registrationpanel = () => {
                   control={control}
                   rules={{
                     required: true,
-                    pattern: /^[a-zA-Zа-яА-Я]*$/,
+                    pattern: /^[a-zA-Zа-яА-Я-ёЁ]*$/,
                   }}
                   render={({ field }) => (
                     <Input
@@ -205,7 +205,7 @@ const Registrationpanel = () => {
                   control={control}
                   rules={{
                     required: true,
-                    pattern: /^[a-zA-Zа-яА-Я]*$/,
+                    pattern: /^[a-zA-Zа-яА-Я-ёЁ]*$/,
                   }}
                   render={({ field }) => (
                     <Input
@@ -289,7 +289,6 @@ const Registrationpanel = () => {
                 <Controller
                   name='companyName'
                   control={control}
-                  defaultValue='eeeeeee'
                   rules={{ required: true, minLength: 4 }}
                   render={({ field }) => (
                     <Input
@@ -300,7 +299,11 @@ const Registrationpanel = () => {
                       margin={{
                         laptop: '20px 0 25px',
                       }}
-                      message={t('requiredField')}
+                      message={
+                        errors.companyName?.type === 'minLength'
+                          ? t('minValue4')
+                          : t('requiredField')
+                      }
                     />
                   )}
                 />
