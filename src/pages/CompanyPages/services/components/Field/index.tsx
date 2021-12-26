@@ -5,9 +5,13 @@ import { Controller, FieldError, useFormContext } from "react-hook-form";
 //components
 import InputFormat from "components/Custom/InputFormat";
 import Input from "components/Custom/Input";
+import { LightToolTip } from "../../screens/Create/components/Radios/style";
 
 //other
 import { FormFieldTypes } from "../../utils/types";
+
+//style
+import { NotRequiredIcon } from "./style";
 
 interface FieldProps {
   name: `variants.${number}.${
@@ -31,6 +35,12 @@ export const Field: React.FC<FieldProps> = ({
   const { control } = useFormContext<FormFieldTypes>();
   const { t } = useTranslation();
 
+  const notRequiredTooltip = name.includes("amount") && (
+    <LightToolTip arrow title={t("notRequiredField") || ""} placement="top">
+      <NotRequiredIcon>*</NotRequiredIcon>
+    </LightToolTip>
+  );
+
   return (
     <Controller
       control={control}
@@ -39,6 +49,7 @@ export const Field: React.FC<FieldProps> = ({
         if (isArticul) {
           return (
             <Input
+              labelIcon={notRequiredTooltip}
               field={field}
               label={label}
               isAbsolute
@@ -51,6 +62,7 @@ export const Field: React.FC<FieldProps> = ({
           return (
             <InputFormat
               isAbsolute
+              labelIcon={notRequiredTooltip}
               disabled={disabled}
               error={Boolean(error)}
               message={t(error?.message || "")}

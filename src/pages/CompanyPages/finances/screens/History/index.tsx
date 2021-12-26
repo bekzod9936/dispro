@@ -169,20 +169,28 @@ const Payment = () => {
 
   const handleDelete = () => {
     setDeleteOpen(true);
+    dispatch(
+      setSideDrawer({
+        ...sidedrawer,
+        openRow: false,
+      })
+    );
   };
 
   const handleSave = () => {
-    resComment.mutate(
-      {
-        chequeId: id,
-        chequeComment: comment,
-      },
-      {
-        onSuccess: () => {
-          handleAllClose();
+    if (comment.length > 0 && comment.match(/\S/) !== null) {
+      resComment.mutate(
+        {
+          chequeId: id,
+          chequeComment: comment,
         },
-      }
-    );
+        {
+          onSuccess: () => {
+            handleAllClose();
+          },
+        }
+      );
+    }
   };
 
   const handlechangePage = (e: any) => {

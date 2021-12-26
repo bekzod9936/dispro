@@ -151,6 +151,8 @@ const useHistory = ({ filterValues, handleClickCommet }: PProps) => {
       title: v.cashierName === 'No cashier name' ? t('p2p') : v.cashierName,
       value: numberWithNew({ number: v.payInfo.amountTotal }),
       avatar: v.cashierLogo,
+      id: v.chequeId,
+      comment: v.chequeComment,
       values: {
         col0: v.cashierLogo,
         filial: v.store.name,

@@ -1,5 +1,5 @@
 //react
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 //packages
 import { useTranslation } from "react-i18next";
@@ -39,7 +39,7 @@ export const Header: React.FC<HeaderProps> = ({
   const { data } = useGetSections();
   const goodsNotFound = total === 0 && value !== "" && !isLoading;
   const isSectionButtonDisabled =
-    SECTIONS_LIMIT - getLengthOfParentSections(data?.data) === 0;
+    isLoading || SECTIONS_LIMIT - getLengthOfParentSections(data?.data) <= 0;
 
   const handleToggle = (bool: boolean) => {
     return () => {
