@@ -2,8 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from 'react-query';
 import { useAppDispatch } from 'services/redux/hooks';
 import { setReward } from 'services/redux/Slices/setting';
-import { fetchRewards } from 'services/queries/partnerQuery';
-import { saveBonusRewards } from 'services/queries/awardingSettingsQuery';
+import { fetchRewards, postRewards } from 'services/queries/newSettingQueries';
 import { notify } from 'services/utils/local_notification';
 
 const useReward = () => {
@@ -43,19 +42,12 @@ const useReward = () => {
     },
   });
 
-  const postReward = useMutation(
-    (data: any) =>
-      saveBonusRewards({
-        companyId: data.companyId,
-        rewards: data.rewards,
-      }),
-    {
-      onSuccess: () => {
-        response.refetch();
-        notify(t('saved'));
-      },
-    }
-  );
+  const postReward = useMutation((data: any) => postRewards(data), {
+    onSuccess: () => {
+      response.refetch();
+      notify(t('saved'));
+    },
+  });
   return { response, postReward };
 };
 

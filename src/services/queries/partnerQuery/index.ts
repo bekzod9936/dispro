@@ -201,10 +201,7 @@ export const fetchRewards = () => {
   const response = partnerApi.get('/bonus/rewards');
   return response;
 };
-export const fetchSafeties = () => {
-  const response = partnerApi.get('/core/company-safeties');
-  return response;
-};
+
 export const fetchQRCodes = () => {
   const response = partnerApi.get('/core/ref');
   return response;

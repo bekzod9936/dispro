@@ -9,6 +9,7 @@ import Modal from "components/Custom/Modal";
 import {
   ITEM_DELETE_MODAL_CONTENT,
   SECTION_DELETE_MODAL_CONTENT,
+  SUBSECTION_DELETE_MODAL_CONTENT,
 } from "pages/CompanyPages/services/constants";
 
 //style
@@ -19,6 +20,7 @@ interface DeleteModalProps {
   name: string | undefined;
   isSection?: boolean;
   onClose: () => void;
+  isItem?: boolean;
 }
 
 export const DeleteModal: React.FC<DeleteModalProps> = ({
@@ -26,11 +28,14 @@ export const DeleteModal: React.FC<DeleteModalProps> = ({
   name,
   isSection,
   onClose,
+  isItem,
 }) => {
   const { t } = useTranslation();
-  const alertMessage = isSection
+  const alertMessage = isItem
+    ? ITEM_DELETE_MODAL_CONTENT
+    : isSection
     ? SECTION_DELETE_MODAL_CONTENT
-    : ITEM_DELETE_MODAL_CONTENT;
+    : SUBSECTION_DELETE_MODAL_CONTENT;
 
   const handleSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault();

@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { DropResult } from "react-beautiful-dnd"
 import { useQuery } from "react-query"
 import { ApiServices } from "services/queries/servicesQueries"
-import { IGoodsResponse } from "services/queries/servicesQueries/response.types"
+import { IGoodsResponse, ISectionResponse } from "services/queries/servicesQueries/response.types"
 import { useGetSections } from ".."
 import { GET_ITEMS } from "../../constants"
 import { divideGoodsBySections } from "../../helpers"
@@ -65,15 +65,27 @@ export const useDragNDrop = (goods: IGoodsResponse[]) => {
       setItems(newGoods);
     };
   
-    useEffect(() => {
-      if (items.length !== goods.length) {
-        setItems(goods);
-      }
-    }, [goods, items]);
+  useEffect(() => {
+    if (items.length !== goods.length) {
+      setItems(goods);
+    }
+  }, [goods, items]);
   
-    return {
-      items,
-      onDragEnd,
-    };
+  return {
+    items,
+    onDragEnd,
   };
-  
+};
+
+export const useScrollToCurrentSection = (currentSection: ISectionResponse | null) => {
+  const sectionRef = useRef<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    sectionRef.current?.scrollIntoView({
+      block: "nearest",
+      behavior: "smooth",
+    })
+  }, [currentSection])
+
+  return sectionRef
+}

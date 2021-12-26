@@ -166,6 +166,19 @@ export const StaffName = styled.p`
   font-size: 22px;
   line-height: 26px;
   color: #223367;
+
+	text-overflow: ellipsis;
+	width: 180px;
+	white-space: nowrap;
+	overflow:hidden;
+`;
+
+export const CommentText = styled.p`
+	text-overflow: ellipsis;
+	width: 234px;
+	overflow:hidden;
+	line-clamp: 2;
+	box-orient: vertical;
 `;
 
 export const StaffText = styled.p`

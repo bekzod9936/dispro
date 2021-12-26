@@ -79,7 +79,7 @@ const CashierTable = ({ cashiers }: IProps) => {
 										height='100%'
 									/>
 								</ImgDiv>
-								{props.value}
+								<p>{props.value}</p>
 							</WrapIcon>
 						);
 					},
