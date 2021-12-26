@@ -48,7 +48,7 @@ export const Container = styled.div`
 `;
 export const RightSide = styled.div`
   display: flex;
-  margin: 10px 40px;
+  margin: 10px 20px;
   height: 100%;
   flex-grow: 1;
   flex-direction: column;
@@ -73,7 +73,7 @@ export const RightSide = styled.div`
 export const LeftSide = styled.div`
   padding: 10px 10px;
   border-right: 3px solid rgba(96, 110, 234, 0.3);
-  min-width: 500px;
+  min-width: 400px;
   height: 100%;
 `;
 export const GroupToggle = styled.div`
@@ -148,6 +148,14 @@ export const TitleFormChild = styled.div`
 `;
 export const TitleInsideFormChild=styled.div`
   padding: 10px 0px;
+  display: flex;
+
+  justify-content: baseline;
+  align-items: center;
+  height: 100%;
+`
+export const TitleInsideFormChildMore=styled.div`
+padding: 10px 0px;
   display: flex;
   justify-content: baseline;
   align-items: center;
