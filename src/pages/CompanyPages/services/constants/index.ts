@@ -138,5 +138,6 @@ export const measurements = [
 ];
 
 
-export const SECTION_DELETE_MODAL_CONTENT = { title: "areYouSureToDeleteSection", info: "После её удаления вложенные разделы и товары нельзя будет восстановить" }
-export const ITEM_DELETE_MODAL_CONTENT = { title: "areYouSureToDeleteItem", info: "После её удаления вложенные разделы и товары нельзя будет восстановить" }
+export const SECTION_DELETE_MODAL_CONTENT = { title: "areYouSureToDeleteSection", info: "После удаления, вложенные разделы и товары нельзя будет восстановить" }
+export const ITEM_DELETE_MODAL_CONTENT = { title: "areYouSureToDeleteItem", info: "После удаления, товар нельзя будет восстановить" }
+export const SUBSECTION_DELETE_MODAL_CONTENT = { title: "areYouSureToDeleteSubSection", info: 'После удаления, вложенные товары нельзя будет восстановить' }

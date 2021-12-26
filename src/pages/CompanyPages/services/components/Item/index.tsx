@@ -19,9 +19,9 @@ import { IGoodsResponse } from "services/queries/servicesQueries/response.types"
 import { thousandsDivider } from "../../helpers";
 import DEFAULT_IMAGE from "assets/images/staff_default.png";
 import { Modals } from "../../utils/types";
+
 interface ItemProps {
   item: IGoodsResponse;
-  isEven: boolean;
   setCurrentItem: (arg: IGoodsResponse | null) => void;
   currentItemId: number | undefined;
   onOpenModal: (modalName: keyof Modals) => void;
@@ -30,7 +30,6 @@ interface ItemProps {
 
 export const Item: React.FC<ItemProps> = ({
   item,
-  isEven,
   setCurrentItem,
   currentItemId,
   onOpenModal,
@@ -54,6 +53,10 @@ export const Item: React.FC<ItemProps> = ({
   };
 
   const handleClick = () => {
+    if (item.id === currentItemId) {
+      setCurrentItem(null);
+      return;
+    }
     setCurrentItem(item);
   };
 
@@ -65,40 +68,41 @@ export const Item: React.FC<ItemProps> = ({
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           isItCurrentItem={isItCurrentItem}
-          onClick={handleClick}
-          isEven={isEven}
+          isEven={Boolean((index + 1) % 2)}
         >
-          <div className="left">
-            <img src={image} alt="itemImage" onError={handleError} />
-            <div className="title">
-              <h5>{item.name}</h5>
-              {isItemHasCount && (
-                <p className={item.count === 0 ? "zeroCount" : ""}>
-                  {count} шт.
-                </p>
-              )}
+          <div onClick={handleClick} className="item">
+            <div className="left">
+              <img src={image} alt="itemImage" onError={handleError} />
+              <div className="title">
+                <h5>{item.name}</h5>
+                {isItemHasCount && (
+                  <p className={item.count === 0 ? "zeroCount" : ""}>
+                    {count} шт.
+                  </p>
+                )}
+              </div>
+              <div className="info">
+                {item.withPoint && (
+                  <div className="info_child">
+                    <PointsIcon isItCurrentItem={isItCurrentItem} />
+                    <p>{t("itemForPoints")}</p>
+                  </div>
+                )}
+                {item.withDiscount && (
+                  <div className="info_child">
+                    <DiscountIcon isItCurrentItem={isItCurrentItem} />
+                    <p>{t("itemForDiscount")}</p>
+                  </div>
+                )}
+              </div>
             </div>
-            <div className="info">
-              {item.withPoint && (
-                <div className="info_child">
-                  <PointsIcon isItCurrentItem={isItCurrentItem} />
-                  <p>{t("itemForPoints")}</p>
-                </div>
-              )}
-              {item.withDiscount && (
-                <div className="info_child">
-                  <DiscountIcon isItCurrentItem={isItCurrentItem} />
-                  <p>{t("itemForDiscount")}</p>
-                </div>
-              )}
-            </div>
+            {!isItCurrentItem && (
+              <div className="right">
+                <p>{price} UZS</p>
+                {item.withDiscount && <span>{priceWithDiscount} UZS</span>}
+              </div>
+            )}
           </div>
-          {!isItCurrentItem && (
-            <div className="right">
-              <p>{price} UZS</p>
-              {item.withDiscount && <span>{priceWithDiscount} UZS</span>}
-            </div>
-          )}
           {isItCurrentItem && (
             <div className="icon_menu">
               <ButtonIcon className="mr">

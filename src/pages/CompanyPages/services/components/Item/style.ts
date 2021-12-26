@@ -10,15 +10,21 @@ interface IProps {
 }
 
 export const Wrapper = styled.div`
-    padding: 10px 35px 10px 18px;
     background-color: ${({isEven, isItCurrentItem}: IProps) => isItCurrentItem ? "rgba(96, 110, 234, 0.88)" : isEven ? "rgba(96, 110, 234, 0.1)" : "#fff"};
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    cursor: pointer;
+    cursor: pointer !important;
 
-    .left {
+    .item {
+        padding: 12px 35px 12px 18px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+
+        .left {
         display: flex;
         align-items: center;
 
@@ -41,6 +47,9 @@ export const Wrapper = styled.div`
                 line-height: 21.09px;
                 color: ${({ isItCurrentItem }: IProps) => isItCurrentItem ? "#fff" : "#223367"};
                 font-weight: 500;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow-x: hidden;
             }
 
             p {
@@ -92,10 +101,13 @@ export const Wrapper = styled.div`
             margin-top: 4px;
         }
     }
+    }
+    
 
     .icon_menu {
         display: flex;
         align-items: center;
+        margin-right: 35px;
 
         .mr {
             margin-right: 13px;
