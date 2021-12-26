@@ -1,5 +1,5 @@
 //react
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 //packages
 import { useTranslation } from "react-i18next";
@@ -23,14 +23,21 @@ interface HeaderProps {
   value: string;
   onChange: (arg: string) => void;
   total: number;
+  isLoading: boolean;
 }
 
-export const Header: React.FC<HeaderProps> = ({ value, onChange, total }) => {
+export const Header: React.FC<HeaderProps> = ({
+  value,
+  onChange,
+  total,
+  isLoading,
+}) => {
   const { t } = useTranslation();
   const [createSection, setCreateSection] = useState<boolean>(false);
   const styles = useStyles();
 
   const { data } = useGetSections();
+  const goodsNotFound = total === 0 && value !== "" && !isLoading;
   const isSectionButtonDisabled =
     SECTIONS_LIMIT - getLengthOfParentSections(data?.data) === 0;
 
@@ -61,6 +68,8 @@ export const Header: React.FC<HeaderProps> = ({ value, onChange, total }) => {
           onClick={handleToggle(true)}
         />
         <Input
+          error={goodsNotFound}
+          message={t("notfinduser")}
           value={value}
           onChange={handleChange}
           margin={styles.input.margin}

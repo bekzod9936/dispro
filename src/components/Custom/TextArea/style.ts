@@ -83,10 +83,7 @@ export const MTextArea = styled.textarea`
   &::-webkit-scrollbar {
     width: 20px;
   }
-  /* &:focus {
-        border: ${({ focus }: ITextAreaProps) =>
-    focus?.border || '1px solid #C2C2C2;'};
-    } */
+
 `;
 
 export const Wrapper = styled.div`

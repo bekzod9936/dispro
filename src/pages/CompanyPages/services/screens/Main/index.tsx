@@ -16,11 +16,16 @@ const Main: React.FC<MainProps> = () => {
   const { query, onChange, value } = useSearch();
   const { currentSection, setCurrentSection } = useCurrentSection();
 
-  const { total, goods, isLoading } = useGetItems();
+  const { total, goods, isLoading } = useGetItems(query);
 
   return (
     <Wrapper>
-      <Header total={total} value={value} onChange={onChange} />
+      <Header
+        isLoading={isLoading}
+        total={total}
+        value={value}
+        onChange={onChange}
+      />
       <Container>
         <Sections
           currentSection={currentSection}

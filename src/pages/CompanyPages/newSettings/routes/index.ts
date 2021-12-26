@@ -1,21 +1,13 @@
 import { lazy } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const AwardingSection = lazy(
-    () => import("../screens/Awarding")
-  );
-  const LoyaltyProgramSection = lazy(
-    () => import("../screens/LoyaltyProgramSection")
-  );
-  const QRCodesSection = lazy(
-    () => import("../screens/QRCodes")
-  );
-  const ReferalProgramSection = lazy(
-    () => import("../screens/Referal")
-  );
-  const SecuritySection = lazy(
-    () => import("../screens/Security")
-  );
+const AwardingSection = lazy(() => import('../screens/Rewarding'));
+const LoyaltyProgramSection = lazy(
+  () => import('../screens/LoyaltyProgramSection')
+);
+const QRCodesSection = lazy(() => import('../screens/QRCodes'));
+const ReferalProgramSection = lazy(() => import('../screens/Referal'));
+const SecuritySection = lazy(() => import('../screens/Security'));
 
 export interface ISettingsRow {
   path: string;
@@ -37,7 +29,7 @@ const useSettingsRoutes = () => {
       component: ReferalProgramSection,
     },
     {
-      path: '/newsettings/awarding',
+      path: '/newsettings/rewarding',
       text: t('awarding'),
       component: AwardingSection,
     },

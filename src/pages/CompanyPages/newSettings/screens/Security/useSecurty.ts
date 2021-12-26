@@ -18,7 +18,6 @@ const useSecurty = () => {
 
   const putSecurity = useMutation(
     (data) => {
-      console.log(data);
       return changeCompanySecurity(data);
     },
     {

@@ -108,12 +108,13 @@ const CreateManager = ({ openManager }: IProps) => {
 			{
 				onSuccess: (data: any) => {
 					setManagerId(data.data.data.id);
+					setLogo('');
 					reset(resetData);
 				},
 				onError: () => {
 					setError('telNumber', {
 						type: 'duplicate',
-						message: 'Повторяющаяся запись',
+						message: 'Менеджер с таким номером уже существует',
 					});
 				},
 			}
@@ -266,6 +267,7 @@ const CreateManager = ({ openManager }: IProps) => {
 										rules={{ required: true, pattern: /^[a-zA-Zа-яА-Я-ёЁ]*$/ }}
 										render={({ field }) => (
 											<Input
+												maxLength='20'
 												label={t('manager_name')}
 												error={errors.firstName ? true : false}
 												message={
@@ -290,6 +292,7 @@ const CreateManager = ({ openManager }: IProps) => {
 										rules={{ required: true, pattern: /^[a-zA-Zа-яА-Я-ёЁ]*$/ }}
 										render={({ field }) => (
 											<Input
+												maxLength='20'
 												label={t('manager_lastName')}
 												error={errors.lastName ? true : false}
 												message={

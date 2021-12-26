@@ -5,9 +5,8 @@ import useSecurty from './useSecurty';
 import { Container, Form, WrapSwitch, Title, Text } from './style';
 import { useAppSelector } from 'services/redux/hooks';
 import InputFormat from 'components/Custom/InputFormat';
-import { Controller, useForm } from 'react-hook-form';
-import { useEffect, useState } from 'react';
-
+import { Controller, useForm, useWatch } from 'react-hook-form';
+import { useEffect } from 'react';
 
 interface IForm {
   enablepurchase?: boolean;
@@ -17,22 +16,11 @@ interface IForm {
 const Security = () => {
   const { t } = useTranslation();
   const { response, putSecurity } = useSecurty();
-  const { control, handleSubmit, setValue, getValues, watch } =
-    useForm<IForm>();
-  const [showSwitch, setShowSwitch] = useState(false);
+  const { control, handleSubmit, setValue, getValues } = useForm<IForm>();
+
+  const showSwitch = useWatch({ control, name: 'enablepurchase' });
 
   const data = useAppSelector((state) => state.newsetting);
-
-  useEffect(() => {
-    const subscription = watch((value) => {
-      if (value.enablepurchase) {
-        setShowSwitch(true);
-      } else {
-        setShowSwitch(false);
-      }
-    });
-    return () => subscription.unsubscribe();
-  }, [watch(['enablepurchase'])]);
 
   useEffect(() => {
     setValue('enablepurchase', data.security?.isEnabledPurchaseLimit);
@@ -67,7 +55,7 @@ const Security = () => {
             />
           </WrapSwitch>
           <Text>{t('toomanypurchases')}</Text>
-          {showSwitch ? (
+          {showSwitch && (
             <Controller
               name='limit'
               control={control}
@@ -82,7 +70,7 @@ const Security = () => {
                 );
               }}
             />
-          ) : null}
+          )}
         </div>
         <SaveButton disabled={putSecurity.isLoading || response.isLoading} />
       </Form>

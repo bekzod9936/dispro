@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ManagerDiv, Text, Break } from './style';
+import { ManagerDiv, Text, Break, WrapDef, ImgDef, DefDiv } from './style';
 import { ReactComponent as EmptyManager } from 'assets/icons/manager_empty.svg';
 import { ReactComponent as AddManager } from 'assets/icons/add_manager.svg';
 import ManagerTable from '../../components/ManagerTable';
@@ -15,6 +15,8 @@ import EditManager from './components/EditManager';
 import { setOpenManager } from 'services/redux/Slices/staffs';
 import CreateManager from './components/CreateManager';
 import { useLocation } from 'react-router-dom';
+import notfoundsearch from 'assets/images/notfoundsearch.png';
+
 const ManagerScreen = () => {
 	const openManager = useAppSelector((state) => state.staffs.openManager);
 	const query = useAppSelector((state) => state.staffs.query);
@@ -55,13 +57,17 @@ const ManagerScreen = () => {
 					})}
 				/>
 			) : debouncedQuery?.length !== 0 ? (
-				<EmptyContainer>
-					<EmptyRight>
-						<Text>По вашему запросу ничего не найдено...</Text>
-						<Break />
-					</EmptyRight>
-				</EmptyContainer>
+				<WrapDef>
+					<ImgDef src={notfoundsearch} alt='defimage' />
+					<DefDiv>По вашему запросу ничего не найдено...</DefDiv>
+				</WrapDef>
 			) : (
+				// <EmptyContainer>
+				// 	<EmptyRight>
+				// 		<Text>По вашему запросу ничего не найдено...</Text>
+				// 		<Break />
+				// 	</EmptyRight>
+				// </EmptyContainer>
 				<EmptyContainer>
 					<EmptyLeft>
 						<EmptyManager />
