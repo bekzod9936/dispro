@@ -1,28 +1,27 @@
+import { Suspense } from "react";
+
+//packages
 import { Route, Switch } from "react-router";
-import { Suspense } from "react"
+
+//components
 import Spinner from "components/Helpers/Spinner";
+
+//routes
 import { getRoutes } from "./routes";
 
-interface ServicesPageProps {
-
-}
-
-
-const ServicesPage: React.FC<ServicesPageProps> = () => {
-    const routes = getRoutes()
-    return (
-        <div style={{ height: '100%' }}>
-            <Switch>
-                <Suspense fallback={<Spinner />}>
-                    {
-                        routes.map(({ component, path }) => (
-                            <Route component={component} path={path} exact />
-                        ))
-                    }
-                </Suspense>
-            </Switch>
-        </div>
-    );
-}
+const ServicesPage: React.FC = () => {
+  const routes = getRoutes();
+  return (
+    <div style={{ height: "100%" }}>
+      <Switch>
+        <Suspense fallback={<Spinner />}>
+          {routes.map(({ component, path }) => (
+            <Route component={component} path={path} exact />
+          ))}
+        </Suspense>
+      </Switch>
+    </div>
+  );
+};
 
 export default ServicesPage;
