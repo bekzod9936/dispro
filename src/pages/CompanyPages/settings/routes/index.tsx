@@ -1,21 +1,17 @@
-import { lazy } from "react";
-import { useTranslation } from "react-i18next";
+import { lazy } from 'react';
+import { useTranslation } from 'react-i18next';
 
-const AwardingSection = lazy(
-  () => import("../screens/AwardingSection/AwardingSection")
-);
+const AwardingSection = lazy(() => import('../screens/AwardingSection'));
 const LoyaltyProgramSection = lazy(
-  () => import("../screens/LoyalityProgramSection/LoyaltyProgramSection")
+  () => import('../screens/LoyalityProgramSection/LoyaltyProgramSection')
 );
 const QRCodesSection = lazy(
-  () => import("../screens/QRCodesSection/QRCodesSection")
+  () => import('../screens/QRCodesSection/QRCodesSection')
 );
 const ReferalProgrammSection = lazy(
-  () => import("../screens/ReferalProgrammSection/ReferalProgrammSection")
+  () => import('../screens/ReferalProgrammSection/ReferalProgrammSection')
 );
-const SecuritySection = lazy(
-  () => import("../screens/SecuritySection/SecuritySection")
-);
+const SecuritySection = lazy(() => import('../screens/SecuritySection'));
 
 export interface ISettingsRow {
   path: string;
@@ -27,28 +23,28 @@ const useSettingsRoute = () => {
   const { t } = useTranslation();
   const menuItems: ISettingsRow[] = [
     {
-      path: "/settings/loyality",
-      text: t("loyaltyProgram"),
+      path: '/settings/loyality',
+      text: t('loyaltyProgram'),
       component: LoyaltyProgramSection,
     },
     {
-      path: "/settings/referalProgram",
-      text: t("referalProgram"),
+      path: '/settings/referalProgram',
+      text: t('referalProgram'),
       component: ReferalProgrammSection,
     },
     {
-      path: "/settings/awarding",
-      text: t("awarding"),
+      path: '/settings/awarding',
+      text: t('awarding'),
       component: AwardingSection,
     },
     {
-      path: "/settings/security",
-      text: t("security"),
+      path: '/settings/security',
+      text: t('security'),
       component: SecuritySection,
     },
     {
-      path: "/settings/qrcodes",
-      text: t("qrcodes"),
+      path: '/settings/qrcodes',
+      text: t('qrcodes'),
       component: QRCodesSection,
     },
   ];
