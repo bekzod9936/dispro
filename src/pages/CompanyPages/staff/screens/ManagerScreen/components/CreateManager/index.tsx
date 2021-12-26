@@ -114,7 +114,7 @@ const CreateManager = ({ openManager }: IProps) => {
 				onError: () => {
 					setError('telNumber', {
 						type: 'duplicate',
-						message: 'Повторяющаяся запись',
+						message: 'Менеджер с таким номером уже существует',
 					});
 				},
 			}

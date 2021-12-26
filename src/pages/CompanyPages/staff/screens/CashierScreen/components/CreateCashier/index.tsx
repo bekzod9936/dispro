@@ -76,7 +76,9 @@ const CreateCashier = ({ openCash }: IProps) => {
 					reset(resetData);
 				},
 				onError: () => {
-					setError('telNumber', { message: 'Повторяющаяся запись' });
+					setError('telNumber', {
+						message: 'Кассир с таким номером уже существует',
+					});
 				},
 			}
 		);
