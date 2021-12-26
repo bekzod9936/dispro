@@ -93,6 +93,15 @@ export const Thead = styled.thead`
 
 
 export const Th = styled.th`
+&: nth-child(2){
+	color: red;
+	text-align: left;
+	padding-left: 55px;
+}    
+&: nth-child(3){
+	text-align: left;
+	padding-left: 10px;
+}    
   padding: 0 10px;
   font-weight: normal;
   cursor: pointer;
@@ -112,6 +121,7 @@ export const Th = styled.th`
       }
     }
   }
+	
 `;
 
 export const UpIcon = styled(Up)`
@@ -158,20 +168,33 @@ export const THead = styled.thead`
 `;
 
 export const Td = styled.td`
+	padding: 0 10px;
+	text-align: center;
+	&: nth-child(2){
+		padding: 0 30px 0 0;
+	}
+	&: nth-child(3){
+		text-align: left;
+	}
+		p{
+			text-align: left;
+			text-transform: capitalize;
+			font-weight: normal;
+			font-size: 16px;
+			color: #223367;
+			cursor: pointer;
 
-  text-align: center;
-  text-transform: capitalize;
-  font-weight: normal;
-  font-size: 16px;
-  color: #223367;
-  cursor: pointer;
+			text-overflow: ellipsis;
+			width: 120px;
+			white-space: nowrap;
+			overflow:hidden;
+		}
+		
   @media (max-width: ${device.planshet}) {
     font-size: 14px;
     padding: 6px;
   }
-  &: nth-child(2){
-	padding: 0 30px 0 0;
-  }
+ 
 `;
 
 export const Tbody = styled.tbody`

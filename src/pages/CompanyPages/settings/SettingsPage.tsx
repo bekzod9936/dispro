@@ -30,15 +30,8 @@ const SettingsPage = () => {
           }
         >
           {menuItems.map((item, i) => {
-            return (
-              <>
-                <Route exact path={item.path} component={item.component} />
-              </>
-            );
+            return <Route exact path={item.path} component={item.component} />;
           })}
-          <Route path='*' exact={true}>
-            <Redirect to={menuItems[0].path} />
-          </Route>
         </Suspense>
       </Switch>
     </PageWrapperFlex>

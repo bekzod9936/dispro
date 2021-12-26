@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 //styles
 import { device } from "styles/device";
@@ -76,24 +77,36 @@ export const Thead = styled.thead`
 
 
 export const Th = styled.th`
-text-align: left;
-//   padding: 0 10px;
+text-align: center;
+  padding: 0 10px;
   font-weight: normal;
   cursor: pointer;
   font-size: 16px;
+
   &:nth-child(1) {
 	padding-left: 10px;
 	width: 10px;
   }
   &:nth-child(2) {
-	padding-left: 55px;
+		color: red;
+		text-align: left;
+		padding-left: 55px;
   }
+	&: nth-child(3){
+		text-align: left;
+	} 
+  }
+	&: nth-child(5){
+		text-align: right;
+		padding-right: 45px
+	} 
   @media (max-width: ${device.planshet}) {
     font-size: 14px;
     padding: 6px;
   }
   color: ${({ active }: ITh) => (active ? "#223367" : "#a5a5a5")}!important;
   border-radius: 14px 14px 0 0;
+	
   :hover {
     color: ${({ active }: ITh) => (active ? null : "#3492FF")}!important;
     & > svg {
@@ -150,11 +163,35 @@ export const THead = styled.thead`
 `;
 
 export const Td = styled.td`
-  text-transform: capitalize;
-  font-weight: normal;
-  font-size: 16px;
-  color: #223367;
-  cursor: pointer;
+	padding: 0 10px;
+	text-align: center;
+
+	&: nth-child(2){
+		padding: 0 30px 0 0;
+	}
+
+	&: nth-child(3){
+		text-align: left;
+	}
+
+	&: nth-child(5){
+		text-align: right;
+		padding-right: 63px
+	} 
+	p{
+		text-align: left;
+		text-transform: capitalize;
+		font-weight: normal;
+		font-size: 16px;
+		color: #223367;
+		cursor: pointer;
+
+		text-overflow: ellipsis;
+		width: 120px;
+		white-space: nowrap;
+		overflow:hidden;
+	}
+
   &:nth-child(1) {
 	padding-left: 10px;
 	width: 10px;
@@ -163,15 +200,15 @@ export const Td = styled.td`
     font-size: 14px;
     padding: 6px;
   }
-  &:last-child{
-	margin: 0;
-    -webkit-line-clamp: 2;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    overflow: hidden; 
-	width: 140px;
-    white-space: pre-wrap;
-  }
+  // &:last-child{
+	// margin: 0;
+  //   -webkit-line-clamp: 2;
+  //   display: -webkit-box;
+  //   -webkit-box-orient: vertical;
+  //   overflow: hidden; 
+	// width: 140px;
+  //   white-space: pre-wrap;
+  // }
 `;
 export const Tbody = styled.tbody`
   & > tr:nth-child(odd) {
@@ -259,4 +296,32 @@ export const WrapPag = styled.div`
 			font-size: 14px;
 		}
 	}
+`;
+
+export const Img = styled(LazyLoadImage)`
+  /* width: 100%;
+  height: 100%; */
+  object-fit: contain;
+  /* .lazy-load-image-background {
+    height: 100% !important;
+  } */
+`;
+
+export const ImgDiv = styled.div`
+  border-radius: 10px;
+  overflow: hidden;
+  object-fit: contain;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+`;
+
+export const WrapIcon = styled.div`
+  display: flex;
+  flex: 1;
+  justify-content: flex-start;
+  align-items: center;
 `;
