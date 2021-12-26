@@ -15,7 +15,7 @@ export const Form = styled.form`
   background: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
   border-radius: 14px;
-  padding: 40px 0 40px 60px;
+  padding: 40px;
 `;
 
 export const WrapSwitch = styled.div`
