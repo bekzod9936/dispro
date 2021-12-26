@@ -48,22 +48,22 @@ export const SectionPopover: React.FC<SectionPopoverProps> = ({
           horizontal: "left",
         }}
       >
-        {Boolean(isParent) ? (
-          <MenuList onClick={handleClose}>
+        <MenuList onClick={handleClose}>
+          {Boolean(isParent) ? (
             <MenuItem onClick={onOpenModal("subSection")}>
               {t("createSubSection")}
             </MenuItem>
-            <MenuItem onClick={onOpenModal("editSection")}>
-              {t("edit")}
-            </MenuItem>
-            <MenuItem>
-              {isHiddenInMobile ? t("showInMobile") : t("hideInMobile")}
-            </MenuItem>
-            <MenuItem onClick={onOpenModal("delete")} isDeleteButton>
-              {t("delete")}
-            </MenuItem>
-          </MenuList>
-        ) : null}
+          ) : (
+            <MenuItem>{t("move")}</MenuItem>
+          )}
+          <MenuItem onClick={onOpenModal("editSection")}>{t("edit")}</MenuItem>
+          <MenuItem>
+            {isHiddenInMobile ? t("showInMobile") : t("hideInMobile")}
+          </MenuItem>
+          <MenuItem onClick={onOpenModal("delete")} isDeleteButton>
+            {t("delete")}
+          </MenuItem>
+        </MenuList>
       </Popover>
     </div>
   );

@@ -51,7 +51,7 @@ const InputFormat = ({ onChange = () => {}, ...props }: Props) => {
           disabled={props.disabled}
           lmargin={props.lmargin}
         >
-          {props.label}
+          {props.label} {props.labelIcon}
         </Label>
       ) : null}
       <MInput
@@ -112,6 +112,7 @@ export default InputFormat;
 
 export interface Props {
   isAbsolute?: boolean;
+  labelIcon?: JSX.Element | boolean;
   field?: any;
   onlyNumber?: boolean;
   autoComplete?: string;

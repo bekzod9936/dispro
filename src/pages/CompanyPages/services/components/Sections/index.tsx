@@ -2,12 +2,13 @@ import { useEffect, useRef, useState } from "react";
 
 //packages
 import { useTranslation } from "react-i18next";
-import { IconButton } from "@material-ui/core";
 
 //components
 import Spinner from "components/Helpers/Spinner";
 import { SubSectionModal } from "../Modals/SubSection";
 import { SectionPopover } from "../../screens/Main/components/SectionPopover";
+import { DeleteModal } from "../Modals/Delete";
+import { EditSectionModal } from "../Modals/Edit";
 
 //other
 import {
@@ -17,14 +18,13 @@ import {
   sectionsResponseToParentChildObject,
 } from "../../helpers";
 import { useGetSections } from "../../hooks";
+import { modalsDefaults } from "../../constants";
+import { ISectionResponse } from "services/queries/servicesQueries/response.types";
+import { SectionModalsType } from "../../utils/types";
 
 //style
-import { Item, ItemWrapper, MenuIcon, Wrapper } from "./style";
-import { modalsDefaults } from "../../constants";
-import { EditSectionModal } from "../Modals/Edit";
-import { ISectionResponse } from "services/queries/servicesQueries/response.types";
-import { DeleteModal } from "../Modals/Delete";
-import { SectionModalsType } from "../../utils/types";
+import { Item, ItemWrapper, Wrapper } from "./style";
+import { useScrollToCurrentSection } from "../../hooks/MainPageHooks";
 
 interface SectionsProps {
   currentSection: null | ISectionResponse;
@@ -39,7 +39,7 @@ export const Sections: React.FC<SectionsProps> = ({
   const currentSectionName =
     currentSection?.goodsSectionTranslates[0].translateName;
 
-  const currentSectionRef = useRef<null | HTMLDivElement>(null);
+  const currentSectionRef = useScrollToCurrentSection(currentSection);
 
   const [modals, setModals] = useState<SectionModalsType>(modalsDefaults);
 
@@ -62,13 +62,6 @@ export const Sections: React.FC<SectionsProps> = ({
   const handleOpen = (modal: keyof SectionModalsType) => {
     return () => setModals((prev) => ({ ...prev, [modal]: true }));
   };
-
-  useEffect(() => {
-    currentSectionRef.current?.scrollIntoView({
-      block: "nearest",
-      behavior: "smooth",
-    });
-  }, [currentSection]);
 
   if (isLoading) {
     return (
@@ -109,7 +102,10 @@ export const Sections: React.FC<SectionsProps> = ({
                 isChild
               >
                 <h4>{child.goodsSectionTranslates[0].translateName}</h4>
-                <IconButton children={<MenuIcon />} />
+                <SectionPopover
+                  onOpenModal={handleOpen}
+                  isHiddenInMobile={item.hideInMobile}
+                />
               </Item>
             ))}
         </ItemWrapper>
@@ -127,7 +123,7 @@ export const Sections: React.FC<SectionsProps> = ({
         parent={isSectionParent(data?.data, currentSection?.id)}
       />
       <DeleteModal
-        isSection
+        isSection={currentSection?.parentId === 0}
         open={modals.delete}
         name={currentSectionName}
         onClose={handleClose("delete")}

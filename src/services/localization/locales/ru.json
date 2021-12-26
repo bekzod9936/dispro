@@ -654,5 +654,7 @@
   "areYouSureToDeleteItem": "Вы действительно хотите удалить товар",
   "areYouSureToDeleteSection": "Вы действительно хотите удалить раздел",
   "amountOfItemInCompany": "Количество товара в компании",
-  "unlimited": "Не ограничено"
+  "unlimited": "Не ограничено",
+  "move": "Переместить",
+  "areYouSureToDeleteSubSection": "Вы действительно хотите удалить подраздел"
 }
