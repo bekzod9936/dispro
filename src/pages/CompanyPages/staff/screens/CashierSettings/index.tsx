@@ -50,19 +50,20 @@ const CashierSetting = () => {
 				{
 					isActive: ballCheck,
 					rewardType: 5,
-					amount: data.ballPoint,
+					amount: data.ballPoint || 0,
 					levels: [],
 				},
 				{
 					isActive: additionalCheck,
 					rewardType: 6,
-					amount: data.ballUzs,
+					amount: data.ballUzs || 0,
 					levels: [
 						{
 							requirements: [
 								{
 									type: 1,
-									amount: data.summaOperations?.toString()?.split(' ').join(''),
+									amount:
+										data.summaOperations?.toString()?.split(' ').join('') || 0,
 									unit: 'UZS',
 									condition: 'or',
 								},
