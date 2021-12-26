@@ -392,7 +392,11 @@ const CashierSetting = () => {
 						</SettingRow> */}
 					</UpSide>
 					<DownSide>
-						<Button type='submit' startIcon={<SaveIcon />}>
+						<Button
+							disabled={!additionalCheck && !ballCheck}
+							type='submit'
+							startIcon={<SaveIcon />}
+						>
 							{t('save')}
 						</Button>
 					</DownSide>
