@@ -10,7 +10,7 @@ export const conditonTypes = [
       value: "Посещения",
     },
     {
-        id: 0,
+        id: 3,
         label: "Рекомендации",
         value: "Рекомендации",
       },
@@ -35,7 +35,7 @@ export const Or=[
         value:'и'
     },
     {
-        id:0,
+        id:2,
         label:'или',
         value:'или'
     }

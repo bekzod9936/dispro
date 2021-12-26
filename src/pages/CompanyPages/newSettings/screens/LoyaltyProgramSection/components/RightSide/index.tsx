@@ -6,6 +6,7 @@ import Checkbox from "components/Custom/CheckBox";
 import { ReactComponent as PercentIcon } from "assets/icons/percent_icon.svg";
 import InputFormat from "components/Custom/InputFormat";
 import { PlusIcon } from "newassets/icons/icons";
+import { numberWithNew } from 'services/utils';
 import { Controller, useForm,FormProvider, useFieldArray } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { SaveButton } from "components/Custom/Buttons/Save";
@@ -25,6 +26,8 @@ import {
   DynamicGroup,
   DynamicLabel,
   MainDynamicGroup,
+  ContentVariant,
+  ContentGroup,
   TitleInsideFormChildMore,
   CloseIcon,
   TitleInsideFormChild,
@@ -56,19 +59,7 @@ const Right = () => {
     setValue,
     watch,
     formState: { errors, isValid },}=methods;
-  
-  // const {
-  //   control,
-  //   handleSubmit,
-  //   register,
-  //   setValue,
-  //   watch,
-  //   formState: { errors, isValid },
-  // } = useForm({
-  //   resolver:yupResolver(fieldsSchema),
-  //   mode: "onChange"
-    
-  // });
+
   const {
     fields: mainfields,
     remove: mainremove,
@@ -97,15 +88,22 @@ const Right = () => {
 
   const validateee=watchFields2&& watchFields1 >=watchFields2 ? true:false;
   let mainselect:any[]=[];
-  let childselect:any[]=[];
- let globalselect:any[]=[];
-  let childConditions=Object.values(conditonTypes);
- 
-  childConditions.map((item)=>{
-    if(childselect){
 
+  let childselect:any[]=[];
+  let globalselect:any[]=[];
+  let childConditions=Object.values(conditonTypes);
+  let datacheck=data?.insideconditions?.[1]?.when?.id
+  let selectedValue:any[]=[];
+  childConditions.map((item)=>{
+    if(item.id ! ==data?.сonditions?.[0]?.when?.id && data?.insideconditions?.[0]?.when?.id){
+      globalselect.push(item) 
     }
-    if(item.id !==data?.сonditions?.[0]?.when.id){
+   if(datacheck){
+     if(item.id !==data?.сonditions?.[0]?.when.id &&datacheck){
+      mainselect.push(item)
+     }
+   }
+    if(!datacheck && item.id !==data?.сonditions?.[0]?.when.id ){
       mainselect.push(item)
     }
   })
@@ -115,10 +113,12 @@ const Right = () => {
       childselect.push(item)
     }
   })
-
+  console.log('selectedValue',selectedValue)
+  
+  let newdata:any[]=[]
+  newdata.push(mainselect?.[0])
   console.log('childselect',childselect)
-  // console.log('watchMainSelect',watch(`сonditions.${0}.when.id`))
-// console.log('watchMainSelect',watchMainSelect)
+  console.log('newdata',newdata)
   return (
     <FormProvider {...methods}>
     <Form onSubmit={handleSubmit(submitSettings)}>
@@ -149,6 +149,7 @@ const Right = () => {
           control={control}
           render={({ field }) => (
             <InputFormat
+            autoComplete={'off'}
               label={""}
               type="string"
               defaultValue={""}
@@ -215,6 +216,7 @@ const Right = () => {
              
                 <InputFormat
                   label={""}
+                  autoComplete={'off'}
                   type="string"
                   defaultValue={setCfghf(validateee|| watch(`сonditions[${index-1}].percentage`)>watch(`сonditions[${index}].percentage`)? true:false)}
                   field={field}
@@ -261,7 +263,7 @@ const Right = () => {
                     error={errors.сonditions?.[index]?.when}
                     message={t("requiredField")}
                     field={field}
-                    options={conditonTypes}
+                    options={globalselect?.length>0 ? globalselect:conditonTypes}
                     selectStyle={{
                       radius: 0,
                       borderbottom: "1px solid #606EEA",
@@ -287,6 +289,7 @@ const Right = () => {
                 render={({ field }) => (
                   <InputFormat
                     defaultValue={""}
+                    autoComplete={'off'}
                     variant="standard"
                     IconEnd={<div>{"uzs"}</div>}
                     maxLength={11}
@@ -363,7 +366,7 @@ const Right = () => {
                         error={errors.when}
                         message={t("requiredField")}
                         field={field}
-                        options={childselect ? childselect:mainselect}
+                        options={newdata?.length>0 && newdata || childselect ? childselect:mainselect}
                         selectStyle={{
                           radius: 0,
                           borderbottom: "1px solid #606EEA",
@@ -389,6 +392,7 @@ const Right = () => {
                     render={({ field }) => (
                       <InputFormat
                         defaultValue={""}
+                        autoComplete={'off'}
                         variant="standard"
                         IconEnd={<p style={{fontSize:'12px'}}>{"шт"}</p>}
                         maxLength={11}
@@ -424,6 +428,23 @@ const Right = () => {
           ))}
         </>
       ))}
+      {data?.сonditions?.[0]?.more ? 
+      <ContentGroup>
+        <ContentVariant>
+           <h5>Вариант №1</h5> 
+           <p>{data?.сonditions?.[0]?.when?.label}<span>{' : '+ numberWithNew({number:Number(data?.сonditions?.[0]?.more),defaultValue:0})}</span></p>        
+           <p>{data?.insideconditions?.[0]?.when?.label && data?.insideconditions?.[0]?.when?.label}<span>{data?.insideconditions?.[0]?.more && ' : '+data?.insideconditions?.[0]?.more}</span></p>
+           <p>{data?.insideconditions?.[1]?.when?.label &&data?.insideconditions?.[1]?.when?.label}<span>{data?.insideconditions?.[1]?.more && ' : '+data?.insideconditions?.[1]?.more}</span></p>
+        </ContentVariant>
+        <ContentVariant>
+           <h5>Вариант №2</h5> 
+           <p>{data?.сonditions?.[0]?.when?.label}<span>{' : '+ numberWithNew({number:Number(data?.сonditions?.[0]?.more),defaultValue:0})}</span></p>        
+           <p>{data?.insideconditions?.[0]?.when?.label && data?.insideconditions?.[0]?.when?.label}<span>{data?.insideconditions?.[0]?.more && ' : '+data?.insideconditions?.[0]?.more}</span></p>
+           <p>{data?.insideconditions?.[1]?.when?.label &&data?.insideconditions?.[1]?.when?.label}<span>{data?.insideconditions?.[1]?.more && ' : '+data?.insideconditions?.[1]?.more}</span></p>
+        </ContentVariant>
+        </ContentGroup>
+        :'' }
+     
       <TitleForm>
         <Controller
           name={`how_much_percentage`}
