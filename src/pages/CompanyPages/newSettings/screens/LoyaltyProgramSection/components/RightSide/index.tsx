@@ -6,12 +6,11 @@ import Checkbox from "components/Custom/CheckBox";
 import { ReactComponent as PercentIcon } from "assets/icons/percent_icon.svg";
 import InputFormat from "components/Custom/InputFormat";
 import { PlusIcon } from "newassets/icons/icons";
-
-import { Controller, useForm, useFieldArray } from "react-hook-form";
+import { Controller, useForm,FormProvider, useFieldArray } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { SaveButton } from "components/Custom/Buttons/Save";
 import MultiSelect from "components/Custom/MultiSelect";
-import { conditonTypes,Or } from "./utils";
+import { conditonTypes, Or,mainconditionTypes } from "./utils";
 import {
   Form,
   Title,
@@ -26,9 +25,11 @@ import {
   DynamicGroup,
   DynamicLabel,
   MainDynamicGroup,
+  TitleInsideFormChildMore,
   CloseIcon,
   TitleInsideFormChild,
 } from "../../style";
+import { object } from "yup/lib/locale";
 
 const Right = () => {
   const { t } = useTranslation();
@@ -39,27 +40,35 @@ const Right = () => {
     if (unit === "UZS") return <div>{t("uzs")}</div>;
     else if (unit === "шт") return <div>{t("quantity")}</div>;
   };
+  const [changesd,setCfghf]=useState<boolean>(false)
 
-  const schema = yup
-    .object({
-      base_name: yup.string().required(),
-      base_percent: yup.number().positive().integer().required(),
-    })
-    .required();
-
-  const {
-    control,
-    handleSubmit,
+  const fieldsSchema = yup.object().shape({
+    base_name: yup.string().required("form.required_message"),
+    base_percent: yup.number().min(1, 'Min value 1.')
+    .max(100, 'Max value 30.').required("form.required_message")
+    
+  });
+  const methods=useForm({ resolver:yupResolver(fieldsSchema),
+      mode: "onChange"});
+  const {   handleSubmit,
     register,
+    control,
     setValue,
     watch,
-    formState: { errors, isValid },
-  } = useForm({
-    // resolver:yupResolver(schema)
-    mode: "onChange",
-    shouldFocusError: true,
-    reValidateMode: "onChange",
-  });
+    formState: { errors, isValid },}=methods;
+  
+  // const {
+  //   control,
+  //   handleSubmit,
+  //   register,
+  //   setValue,
+  //   watch,
+  //   formState: { errors, isValid },
+  // } = useForm({
+  //   resolver:yupResolver(fieldsSchema),
+  //   mode: "onChange"
+    
+  // });
   const {
     fields: mainfields,
     remove: mainremove,
@@ -76,16 +85,42 @@ const Right = () => {
     control,
     name: "insideconditions",
   });
+ 
   const submitSettings = (data: any) => {
-    console.log("data", data);
-  };
-  {
-    console.log("mainfields", mainfields);
-  }
-  {
-    console.log("smallfields", smallfields);
-  }
+  console.log(data)
+  
+};
+  let data=watch()
+ 
+  let watchFields1 = watch("base_percent"); 
+  let watchFields2=watch(`сonditions.${0}.percentage`);
+
+  const validateee=watchFields2&& watchFields1 >=watchFields2 ? true:false;
+  let mainselect:any[]=[];
+  let childselect:any[]=[];
+ let globalselect:any[]=[];
+  let childConditions=Object.values(conditonTypes);
+ 
+  childConditions.map((item)=>{
+    if(childselect){
+
+    }
+    if(item.id !==data?.сonditions?.[0]?.when.id){
+      mainselect.push(item)
+    }
+  })
+  
+  mainselect?.map((item)=>{
+    if(item.id !== (data?.сonditions?.[0]?.when?.id && data?.insideconditions?.[0]?.when?.id)){
+      childselect.push(item)
+    }
+  })
+
+  console.log('childselect',childselect)
+  // console.log('watchMainSelect',watch(`сonditions.${0}.when.id`))
+// console.log('watchMainSelect',watchMainSelect)
   return (
+    <FormProvider {...methods}>
     <Form onSubmit={handleSubmit(submitSettings)}>
       <Title>
         <h5>Статусы клиентов</h5>
@@ -94,9 +129,6 @@ const Right = () => {
       <TitleForm>
         <Controller
           name={`base_name`}
-          rules={{
-            required: true,
-          }}
           control={control}
           render={({ field }) => (
             <Input
@@ -110,13 +142,9 @@ const Right = () => {
             />
           )}
         />
+      
         <Controller
           name={`base_percent`}
-          rules={{
-            required: true,
-            max: 100,
-            min: 1,
-          }}
           defaultValue={""}
           control={control}
           render={({ field }) => (
@@ -138,7 +166,7 @@ const Right = () => {
                   <PercentIcon />
                 </PercentDiv>
               }
-              message={""}
+              message={t("requiredField")}
               error={errors.base_percent}
             />
           )}
@@ -152,6 +180,7 @@ const Right = () => {
 
       {mainfields.map(({ id }, index) => (
         <>
+      
           <TitleFormChild key={id}>
             <Controller
               rules={{
@@ -173,18 +202,21 @@ const Right = () => {
             />
             <Controller
               name={`сonditions[${index}].percentage`}
+              
               rules={{
                 required: true,
                 max: 100,
                 min: 1,
               }}
               defaultValue={""}
+            
               control={control}
-              render={({ field }) => (
+              render={({ field, }) => (
+             
                 <InputFormat
                   label={""}
                   type="string"
-                  defaultValue={""}
+                  defaultValue={setCfghf(validateee|| watch(`сonditions[${index-1}].percentage`)>watch(`сonditions[${index}].percentage`)? true:false)}
                   field={field}
                   maxLength={3}
                   max="100"
@@ -199,7 +231,8 @@ const Right = () => {
                       <PercentIcon />
                     </PercentDiv>
                   }
-                  error={errors.сonditions?.[index]?.percentage}
+               
+                  error={errors.сonditions?.[index]?.percentage ||  validateee|| watch(`сonditions[${index-1}].percentage`)>watch(`сonditions[${index}].percentage`)? true :false}
                 />
               )}
             />
@@ -209,8 +242,7 @@ const Right = () => {
               </div>
             </IconStyle>
           </TitleFormChild>
-          {/* {smallfields.map(({ id }, index) => (
-            <> */}
+         
           <TitleInsideFormChild key={id}>
             <DynamicGroup>
               <DynamicLabel>когда</DynamicLabel>
@@ -224,7 +256,6 @@ const Right = () => {
                 render={({ field }) => (
                   <MultiSelect
                     isMulti={false}
-              
                     width={{ minwidth: 200 }}
                     defaultValue={"Требование"}
                     error={errors.сonditions?.[index]?.when}
@@ -276,17 +307,17 @@ const Right = () => {
               />
             </DynamicGroup>
             <IconStyle>
-              <div onClick={() =>smallfields.length <= 2 && smallappend({})}>
-               {smallfields.length <= 1 && <LittlePlus />} 
+              <div onClick={() => smallfields.length <= 2 && smallappend({})}>
+                {smallfields.length <= 1 && <LittlePlus />}
               </div>
             </IconStyle>
           </TitleInsideFormChild>
-            
+
           {smallfields.map(({ id }, index) => (
             <>
-              <TitleInsideFormChild key={id}>
-              <DynamicGroup>
-              <Controller
+              <TitleInsideFormChildMore key={id}>
+                <DynamicGroup>
+                  <Controller
                     name={`insideconditions[${index}].or`}
                     defaultValue={"Требование"}
                     control={control}
@@ -296,7 +327,7 @@ const Right = () => {
                     render={({ field }) => (
                       <MultiSelect
                         isMulti={false}
-                        width={{ maxwidth: 100,minwidth:50, }}
+                        width={{ maxwidth: 150, minwidth: 100 }}
                         defaultValue={"Требование"}
                         error={errors.insideconditions?.[index]?.or}
                         message={t("requiredField")}
@@ -332,7 +363,7 @@ const Right = () => {
                         error={errors.when}
                         message={t("requiredField")}
                         field={field}
-                        options={conditonTypes}
+                        options={childselect ? childselect:mainselect}
                         selectStyle={{
                           radius: 0,
                           borderbottom: "1px solid #606EEA",
@@ -359,7 +390,7 @@ const Right = () => {
                       <InputFormat
                         defaultValue={""}
                         variant="standard"
-                        IconEnd={<div>{"uzs"}</div>}
+                        IconEnd={<p style={{fontSize:'12px'}}>{"шт"}</p>}
                         maxLength={11}
                         width={{
                           maxwidth: 150,
@@ -379,8 +410,7 @@ const Right = () => {
                 </DynamicGroup>
                 <IconStyle>
                   {smallfields.length <= 0 ? (
-                    <div onClick={() => smallappend({})}
-                    >
+                    <div onClick={() => smallappend({})}>
                       <LittlePlus />
                     </div>
                   ) : (
@@ -389,7 +419,7 @@ const Right = () => {
                     </div>
                   )}
                 </IconStyle>
-              </TitleInsideFormChild>
+              </TitleInsideFormChildMore>
             </>
           ))}
         </>
@@ -443,10 +473,11 @@ const Right = () => {
           )}
         />
         <SubmitButton>
-          <SaveButton />
+          <SaveButton disabled={changesd}/>
         </SubmitButton>
       </LocalyPayment>
     </Form>
+    </FormProvider>
   );
 };
 export default Right;
