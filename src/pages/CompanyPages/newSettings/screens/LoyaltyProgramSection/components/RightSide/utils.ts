@@ -15,6 +15,19 @@ export const conditonTypes = [
         value: "Рекомендации",
       },
   ];
+export const mainconditionTypes=[
+  {
+    id: 1,
+    label: "Сумма покупок",
+    value: "Сумма покупок",
+  },
+  {
+    id: 2,
+    label: "Посещения",
+    value: "Посещения",
+  },
+  
+]
 export const Or=[
     {
         id:1,

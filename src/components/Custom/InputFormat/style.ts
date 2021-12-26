@@ -1,12 +1,12 @@
-import styled from "styled-components";
-import { Props } from "./types";
-import { device } from "../../../styles/device";
-import { TextField, InputLabel, InputAdornment } from "@material-ui/core";
-import dateicon from "assets/icons/date.png";
+import styled from 'styled-components';
+import { Props } from './types';
+import { device } from '../../../styles/device';
+import { TextField, InputLabel, InputAdornment } from '@material-ui/core';
+import dateicon from 'assets/icons/date.png';
 
 export const Container = styled.div`
   width: ${({ width }: Props) =>
-    width?.width ? width?.width : "100%"} !important;
+    width?.width ? width?.width : '100%'} !important;
   min-width: ${({ width }: Props) => `${width?.minwidth}px`} !important;
   max-width: ${({ width }: Props) => `${width?.maxwidth}px`} !important;
   position: relative;
@@ -27,7 +27,7 @@ export const Container = styled.div`
     position: static !important;
     transform: none !important;
   }
-  input[type="date"]::-webkit-calendar-picker-indicator {
+  input[type='date']::-webkit-calendar-picker-indicator {
     background: url(${dateicon}) no-repeat;
     width: 20px;
     height: 20px;
@@ -43,25 +43,25 @@ export const MInput = styled(TextField)`
   }
   background-color: ${({ inputStyle, disabled }: Props) =>
     disabled
-      ? "lightgray"
+      ? 'lightgray'
       : inputStyle?.bgcolor
       ? inputStyle?.bgcolor
-      : "white"} !important;
+      : 'white'} !important;
   border-radius: ${({ inputStyle }: Props) =>
     inputStyle?.radius === 0
       ? 0
       : inputStyle?.radius
       ? `${inputStyle?.radius}px`
-      : "14px"} !important;
+      : '14px'} !important;
   border: ${({ inputStyle, error }: Props) =>
     error
-      ? "1px solid #FF5E68"
+      ? '1px solid #FF5E68'
       : inputStyle?.border
       ? inputStyle?.border
-      : "1px solid #C2C2C2"} !important;
+      : '1px solid #C2C2C2'} !important;
   border-bottom: ${({ inputStyle, error }: Props) =>
     error
-      ? "1px solid #FF5E68"
+      ? '1px solid #FF5E68'
       : inputStyle?.borderbottom
       ? inputStyle?.borderbottom
       : null} !important;
@@ -79,72 +79,72 @@ export const MInput = styled(TextField)`
   }
   .MuiInputBase-input {
     border-radius: ${({ inputStyle }: Props) =>
-      inputStyle?.radius ? `${inputStyle?.radius}px` : "14px"} !important;
+      inputStyle?.radius ? `${inputStyle?.radius}px` : '14px'} !important;
     height: ${({ inputStyle }: Props) =>
       inputStyle?.fitheight
-        ? "fit-content"
+        ? 'fit-content'
         : inputStyle?.height?.laptop
         ? `${inputStyle?.height?.laptop}px`
-        : "50px"} !important;
+        : '50px'} !important;
 
     font-size: ${({ inputStyle }: Props) =>
       inputStyle?.fontSize?.laptop
         ? `${inputStyle?.fontSize?.laptop}px`
-        : "16px"} !important;
+        : '16px'} !important;
     font-weight: ${({ inputStyle }: Props) =>
-      inputStyle?.weight ? inputStyle?.weight : "500"} !important;
+      inputStyle?.weight ? inputStyle?.weight : '500'} !important;
     color: ${({ inputStyle }: Props) =>
-      inputStyle?.color ? inputStyle?.color : "#223367"} !important;
+      inputStyle?.color ? inputStyle?.color : '#223367'} !important;
     padding: ${({ inputStyle }: Props) =>
-      inputStyle?.inpadding ? inputStyle?.inpadding : "0 20px"} !important;
+      inputStyle?.inpadding ? inputStyle?.inpadding : '0 20px'} !important;
 
     @media (max-width: ${device.mobile}) {
       font-size: ${({ inputStyle }: Props) =>
         inputStyle?.fontSize?.mobile
           ? `${inputStyle?.fontSize?.mobile}px`
-          : "14px"} !important;
+          : '14px'} !important;
       height: ${({ inputStyle }: Props) =>
         inputStyle?.fitheight
-          ? "fit-content"
+          ? 'fit-content'
           : inputStyle?.height?.mobile
           ? `${inputStyle?.height?.mobile}px`
-          : "45px"} !important;
+          : '45px'} !important;
     }
     @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
       font-size: ${({ inputStyle }: Props) =>
         inputStyle?.fontSize?.planshet
           ? `${inputStyle?.fontSize?.planshet}px`
-          : "14px"} !important;
+          : '14px'} !important;
       height: ${({ inputStyle }: Props) =>
         inputStyle?.fitheight
-          ? "fit-content"
+          ? 'fit-content'
           : inputStyle?.height?.planshet
           ? `${inputStyle?.height?.planshet}px`
-          : "45px"} !important;
+          : '45px'} !important;
     }
     @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
       font-size: ${({ inputStyle }: Props) =>
         inputStyle?.fontSize?.laptop
           ? `${inputStyle?.fontSize?.laptop}px`
-          : "15px"} !important;
+          : '15px'} !important;
       height: ${({ inputStyle }: Props) =>
         inputStyle?.fitheight
-          ? "fit-content"
+          ? 'fit-content'
           : inputStyle?.height?.laptop
           ? `${inputStyle?.height?.laptop}px`
-          : "50px"} !important;
+          : '50px'} !important;
     }
     @media (min-width: ${device.laptop}) {
       font-size: ${({ inputStyle }: Props) =>
         inputStyle?.fontSize?.desktop
           ? `${inputStyle?.fontSize?.desktop}px`
-          : "16px"} !important;
+          : '16px'} !important;
       height: ${({ inputStyle }: Props) =>
         inputStyle?.fitheight
-          ? "fit-content"
+          ? 'fit-content'
           : inputStyle?.height?.desktop
           ? `${inputStyle?.height?.desktop}px`
-          : "60px"} !important;
+          : '60px'} !important;
     }
   }
 `;
@@ -152,50 +152,50 @@ export const MInput = styled(TextField)`
 export const Label = styled(InputLabel)`
   width: fit-content;
   user-select: none;
-
+  white-space: nowrap;
   letter-spacing: ${({ labelStyle }: Props) =>
-    labelStyle?.letterSpacing + "px"} !important;
+    labelStyle?.letterSpacing + 'px'} !important;
   color: ${({ labelStyle }: Props) =>
-    labelStyle?.color ? labelStyle?.color : "#C7C7C7"} !important;
+    labelStyle?.color ? labelStyle?.color : '#C7C7C7'} !important;
   font-weight: ${({ labelStyle }: Props) =>
-    labelStyle?.weight ? labelStyle?.weight : "bold"} !important;
+    labelStyle?.weight ? labelStyle?.weight : 'bold'} !important;
   font-size: ${({ labelStyle }: Props) =>
     labelStyle?.fontSize?.laptop
       ? `${labelStyle?.fontSize?.laptop}px`
-      : "15px"} !important;
+      : '15px'} !important;
   margin-bottom: ${({ lmargin }: Props) =>
-    lmargin?.laptop ? `${lmargin?.laptop}px` : "7px"}!important;
+    lmargin?.laptop ? `${lmargin?.laptop}px` : '7px'}!important;
   @media (max-width: ${device.mobile}) {
     font-size: ${({ labelStyle }: Props) =>
       labelStyle?.fontSize?.mobile
         ? `${labelStyle?.fontSize?.mobile}px`
-        : "14px"} !important;
+        : '14px'} !important;
     margin-bottom: ${({ lmargin }: Props) =>
-      lmargin?.mobile ? `${lmargin?.mobile}px` : "5px"}!important;
+      lmargin?.mobile ? `${lmargin?.mobile}px` : '5px'}!important;
   }
   @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
     font-size: ${({ labelStyle }: Props) =>
       labelStyle?.fontSize?.planshet
         ? `${labelStyle?.fontSize?.planshet}px`
-        : "14px"} !important;
+        : '14px'} !important;
     margin-bottom: ${({ lmargin }: Props) =>
-      lmargin?.planshet ? `${lmargin?.planshet}px` : "6px"}!important;
+      lmargin?.planshet ? `${lmargin?.planshet}px` : '6px'}!important;
   }
   @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
     font-size: ${({ labelStyle }: Props) =>
       labelStyle?.fontSize?.laptop
         ? `${labelStyle?.fontSize?.laptop}px`
-        : "15px"} !important;
+        : '15px'} !important;
     margin-bottom: ${({ lmargin }: Props) =>
-      lmargin?.laptop ? `${lmargin?.laptop}px` : "7px"}!important;
+      lmargin?.laptop ? `${lmargin?.laptop}px` : '7px'}!important;
   }
   @media (min-width: ${device.laptop}) {
     font-size: ${({ labelStyle }: Props) =>
       labelStyle?.fontSize?.desktop
         ? `${labelStyle?.fontSize?.desktop}px`
-        : "16px"} !important;
+        : '16px'} !important;
     margin-bottom: ${({ lmargin }: Props) =>
-      lmargin?.desktop ? `${lmargin?.desktop}px` : "10px"}!important;
+      lmargin?.desktop ? `${lmargin?.desktop}px` : '10px'}!important;
   }
 `;
 
@@ -204,7 +204,7 @@ export const Adornment = styled(InputAdornment)`
 `;
 
 export const Message = styled.div`
-  position: ${({isAbsolute}: Props) => !isAbsolute ? 'absolute': 'static'};
+  position: ${({ isAbsolute }: Props) => (!isAbsolute ? 'absolute' : 'static')};
   top: 100%;
   font-weight: 300;
   color: #ff5e68;
@@ -215,27 +215,27 @@ export const Message = styled.div`
   font-size: ${({ labelStyle }: Props) =>
     labelStyle?.fontSize?.laptop
       ? `${labelStyle?.fontSize?.laptop}px`
-      : "14px"} !important;
+      : '14px'} !important;
 
   @media (max-width: ${device.mobile}) {
     font-size: ${({ labelStyle }: Props) =>
       labelStyle?.fontSize?.mobile
         ? `${labelStyle?.fontSize?.mobile}px`
-        : "14px"} !important;
+        : '14px'} !important;
     margin-top: 3px;
   }
   @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
     font-size: ${({ labelStyle }: Props) =>
       labelStyle?.fontSize?.planshet
         ? `${labelStyle?.fontSize?.planshet}px`
-        : "14px"} !important;
+        : '14px'} !important;
     margin-top: 3px;
   }
   @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
     font-size: ${({ labelStyle }: Props) =>
       labelStyle?.fontSize?.laptop
         ? `${labelStyle?.fontSize?.laptop}px`
-        : "14px"} !important;
+        : '14px'} !important;
     flex-direction: column;
     margin-top: 3px;
   }
@@ -243,7 +243,7 @@ export const Message = styled.div`
     font-size: ${({ labelStyle }: Props) =>
       labelStyle?.fontSize?.desktop
         ? `${labelStyle?.fontSize?.desktop}px`
-        : "16px"} !important;
+        : '16px'} !important;
     margin-top: 5px;
   }
 `;

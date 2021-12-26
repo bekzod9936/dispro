@@ -1,5 +1,5 @@
-import { Container, MInput, Label, Adornment, Message } from "./style";
-import NumberFormat from "react-number-format";
+import { Container, MInput, Label, Adornment, Message } from './style';
+import NumberFormat from 'react-number-format';
 
 function NumberFormatCustom(props: any) {
   const { inputRef, onChange, ...other } = props;
@@ -24,17 +24,17 @@ function NumberFormatCustom(props: any) {
         }
       }}
       isAllowed={(values) => {
-        if (values.value.length > 1 && values.value.startsWith("0"))
+        if (values.value.length > 1 && values.value.startsWith('0'))
           return false;
         else return true;
       }}
-      thousandSeparator=" "
-      prefix=""
-      decimalSeparator={other.onlyNumber ? false : ","}
+      thousandSeparator=' '
+      prefix=''
+      decimalSeparator={other.onlyNumber ? false : ','}
       allowEmptyFormatting={false}
       allowNegative={false}
       allowLeadingZeros={false}
-      allowedDecimalSeparators={[" "]}
+      allowedDecimalSeparators={[' ']}
     />
   );
 }
@@ -88,10 +88,10 @@ const InputFormat = ({ onChange = () => {}, ...props }: Props) => {
           inputComponent: NumberFormatCustom,
           maxVal: props.maxNumber,
           startAdornment: props.IconStart ? (
-            <Adornment position="start">{props.IconStart}</Adornment>
+            <Adornment position='start'>{props.IconStart}</Adornment>
           ) : null,
           endAdornment: props.IconEnd ? (
-            <Adornment position="end">{props.IconEnd}</Adornment>
+            <Adornment position='end'>{props.IconEnd}</Adornment>
           ) : null,
         }}
         inputStyle={props.inputStyle}
@@ -126,7 +126,7 @@ export interface Props {
   minRows?: number | string;
   multiline?: boolean;
   name?: string;
-  variant?: "filled" | "standard" | "outlined" | undefined;
+  variant?: 'filled' | 'standard' | 'outlined' | undefined;
   onChange?: (e: any) => void;
   placeholder?: string;
   required?: boolean;
