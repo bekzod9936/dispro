@@ -58,6 +58,7 @@ export const Item = styled.div`
         max-width: 225px;
         width: 100%;
         overflow-x: hidden;
+        white-space: nowrap;
 
     }
 

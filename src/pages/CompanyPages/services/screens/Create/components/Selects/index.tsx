@@ -37,11 +37,9 @@ export const Selects: React.FC<SelectsProps> = ({ handleOpen }) => {
 
   const categoryList = useCategories();
 
-  const { data } = useGetSections();
-  const limit = Boolean(
-    SECTIONS_LIMIT - (getLengthOfParentSections(data?.data) || 20)
-  );
-
+  const { data, isLoading } = useGetSections();
+  const isSectionButtonEnabled =
+    isLoading || SECTIONS_LIMIT - getLengthOfParentSections(data?.data) > 0;
   return (
     <div style={{ marginBottom: 20 }}>
       <SelectField
@@ -66,7 +64,7 @@ export const Selects: React.FC<SelectsProps> = ({ handleOpen }) => {
             icon={<SectionsIcon />}
             placeholder="Выберите раздел"
           />
-          {limit && (
+          {isSectionButtonEnabled && (
             <SubButton type="button" onClick={handleOpen}>
               {t("createSection")}
             </SubButton>
