@@ -25,6 +25,9 @@ import {
 	DefaultLogo,
 	ManagerLogo,
 	WrapPag,
+	WrapIcon,
+	ImgDiv,
+	Img,
 } from './style';
 
 //types
@@ -46,10 +49,38 @@ const ManagerTable = ({ managers }: IProps) => {
 	const [headers, setHeaders] = useState<HeadersType[]>(managerHeaders);
 
 	const columns: any = useMemo(() => {
-		return headers.map((header) => ({
-			Header: header.value,
-			accessor: header.label,
-		}));
+		return headers.map((header) => {
+			if (header.label === 'firstName') {
+				return {
+					Header: header.value,
+					accessor: header.label,
+					Cell: (props: any) => {
+						return (
+							<WrapIcon>
+								<ImgDiv>
+									<Img
+										src={
+											props.cell.row.original.logo === ''
+												? managerDefault
+												: props.cell.row.original.logo
+										}
+										alt='coupon'
+										effect='blur'
+										width='100%'
+										height='100%'
+									/>
+								</ImgDiv>
+								<p>{props.value}</p>
+							</WrapIcon>
+						);
+					},
+				};
+			}
+			return {
+				Header: header.value,
+				accessor: header.label,
+			};
+		});
 	}, [headers]);
 
 	const handleAddClientByClick = (e: any, row: any) => {
@@ -138,31 +169,9 @@ const ManagerTable = ({ managers }: IProps) => {
 										</MCheckbox>
 									</Td>
 									{row.cells.map((cell: any) => {
-										if (cell.column.Header === 'Менеджер') {
-											let src = cell?.row?.original?.logo;
-											return (
-												<Td {...cell.getCellProps()}>
-													<ManagerTd>
-														{src ? (
-															<ManagerLogo
-																src={src}
-																onError={(e: any) => {
-																	e.target.onerror = null;
-																	e.target.src = managerDefault;
-																}}
-															/>
-														) : (
-															<DefaultLogo />
-														)}
-														{cell.render('Cell')}
-													</ManagerTd>
-												</Td>
-											);
-										} else {
-											return (
-												<Td {...cell.getCellProps()}>{cell.render('Cell')}</Td>
-											);
-										}
+										return (
+											<Td {...cell.getCellProps()}>{cell.render('Cell')}</Td>
+										);
 									})}
 								</TRow>
 							);
