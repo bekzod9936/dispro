@@ -10,7 +10,7 @@ import { ReactComponent as Up } from "assets/icons/up.svg";
 export const ImgDiv = styled.div`
   border-radius: 10px;
   overflow: hidden;
-  object-fit: contain;
+  object-fit: cover;
   width: 40px;
   height: 40px;
   display: flex;
@@ -22,7 +22,7 @@ export const ImgDiv = styled.div`
 export const Img = styled(LazyLoadImage)`
   /* width: 100%;
   height: 100%; */
-  object-fit: contain;
+  object-fit: cover;
   /* .lazy-load-image-background {
     height: 100% !important;
   } */
