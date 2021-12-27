@@ -310,7 +310,7 @@ export const Img = styled(LazyLoadImage)`
 export const ImgDiv = styled.div`
   border-radius: 10px;
   overflow: hidden;
-  object-fit: contain;
+  object-fit: cover;
   width: 40px;
   height: 40px;
   display: flex;

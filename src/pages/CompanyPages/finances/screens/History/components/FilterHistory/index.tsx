@@ -9,7 +9,7 @@ import { useAppSelector } from 'services/redux/hooks';
 import { IconButton } from '@material-ui/core';
 import useExcel from '../../hook/useExcel';
 import CustomDatePicker from 'components/Custom/CustomDatePicker';
-import CheckBox from 'components/Custom/CheckBox';
+import Radio from 'components/Custom/Radio';
 import {
   WrapFilterValues,
   WrapInputs,
@@ -58,16 +58,11 @@ const FilterHistory = ({
     endDate: dayjs().endOf('month').format('YYYY-MM-DD'),
   };
 
-  const intialPayment = {
-    cash: false,
-    app: false,
-  };
-
   const [date, setDate] = useState(intialDate);
   const [dateLimit, setDateLimit] = useState({ startDate: '', endDate: '' });
   const [cashierStaffId, setCashierStaffId] = useState<CashProp>();
   const [storeId, setStoreId] = useState<CashProp>();
-  const [payment, setPayment] = useState<any>(intialPayment);
+  const [paymentType, setPaymentType] = useState<string>('');
   const storesFilter = stores?.map((v: any) => {
     return {
       value: v.id,
@@ -81,7 +76,7 @@ const FilterHistory = ({
     await setCashierStaffId({});
     await setDateLimit({ startDate: '', endDate: '' });
     await setStoreId({});
-    await setPayment(intialPayment);
+    await setPaymentType('');
     await refetch();
   };
 
@@ -92,8 +87,8 @@ const FilterHistory = ({
       storeId: storeId?.value ? storeId?.value : '',
       startDate: startDate,
       endDate: endDate,
-      amountCash: payment.cash ? 1 : '',
-      amountCard: payment.app ? 1 : '',
+      amountCash: paymentType === 'terminal' ? 1 : '',
+      amountCard: paymentType === 'app' ? 1 : '',
       page: 1,
     });
   };
@@ -167,18 +162,21 @@ const FilterHistory = ({
     </ButtonKeyWord>
   ) : null;
 
-  const filtercash =
-    filterValues?.amountCash === 1 ? (
+  const filterType =
+    filterValues?.amountCash === 1 || filterValues?.amountCard === 1 ? (
       <ButtonKeyWord>
-        {`${t('bypayment')}: ${t('paymentbycash')}`}
+        {`${t('typeofpayment')}: ${
+          filterValues?.amountCash === 1 ? t('terminal') : t('throughtheapp')
+        }`}
         <IconButton
           onClick={async () => {
             await setFilterValues({
               ...filterValues,
               page: 1,
               amountCash: '',
+              amountCard: '',
             });
-            await setPayment({ ...payment, cash: false });
+            await setPaymentType('');
           }}
         >
           <DeleteIcon />
@@ -186,24 +184,10 @@ const FilterHistory = ({
       </ButtonKeyWord>
     ) : null;
 
-  const filtercard =
-    filterValues?.amountCard === 1 ? (
-      <ButtonKeyWord>
-        {`${t('bypayment')}: ${t('paymentbyapp')}`}
-        <IconButton
-          onClick={async () => {
-            await setFilterValues({
-              ...filterValues,
-              page: 1,
-              amountCard: '',
-            });
-            await setPayment({ ...payment, card: false });
-          }}
-        >
-          <DeleteIcon />
-        </IconButton>
-      </ButtonKeyWord>
-    ) : null;
+  const paymentTypes = [
+    { value: 'terminal', label: `${t('terminal')}` },
+    { value: 'app', label: `${t('throughtheapp')}` },
+  ];
 
   const filterList = [
     {
@@ -287,37 +271,23 @@ const FilterHistory = ({
       ),
     },
     {
-      title: t('bypayment'),
+      title: t('typeofpayment'),
       value:
-        filterValues.amountCash === 1 && filterValues.amountCard === 1
-          ? '2'
-          : filterValues.amountCash === 1
-          ? '1'
-          : filterValues.amountCard === 1
-          ? '1'
+        paymentType !== '' && paymentType !== undefined
+          ? paymentType === 'terminal'
+            ? t('terminal')
+            : paymentType === 'app'
+            ? t('throughtheapp')
+            : undefined
           : undefined,
       content: (
-        <WrapStatus>
-          <Label>{t('choosepaymentmethod')}</Label>
-          <WrapCheck>
-            <CheckBox
-              label={t('paymentbycash')}
-              name='amountCash'
-              onChange={(e) => {
-                setPayment({ ...payment, cash: e.target.checked });
-              }}
-              checked={payment?.cash}
-            />
-            <CheckBox
-              label={t('paymentbyapp')}
-              name='amountCard'
-              onChange={(e) => {
-                setPayment({ ...payment, app: e.target.checked });
-              }}
-              checked={payment?.app}
-            />
-          </WrapCheck>
-        </WrapStatus>
+        <Radio
+          flexDirection='row'
+          list={paymentTypes}
+          title={t('choosetypepayment')}
+          onChange={(v: any) => setPaymentType(v)}
+          value={paymentType}
+        />
       ),
     },
   ];
@@ -338,8 +308,7 @@ const FilterHistory = ({
           />
           {width > 600 ? (
             <>
-              {filtercash}
-              {filtercard}
+              {filterType}
               {filterselectvalue}
               {filtercashier}
               {filterstore}
@@ -366,8 +335,7 @@ const FilterHistory = ({
       <WrapSelectV>
         {width > 600 ? null : (
           <>
-            {filtercash}
-            {filtercard}
+            {filterType}
             {filterselectvalue}
             {filtercashier}
             {filterstore}

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { device } from "styles/device";
 
 export const Wrapper = styled.div`
     width: 100%;
@@ -17,5 +18,18 @@ export const Wrapper = styled.div`
     &::-webkit-scrollbar-thumb {
         background: #606eea;
         border-radius: 14px 0px 0px 14px;
+    }
+
+    @media (max-width: ${device.laptop}) {
+        margin-left: 30px;
+        padding-right: 20px;
+    }
+
+    @media (max-height: 820px) and (min-width: ${device.laptop}) {
+        height: calc(100vh - 51%);
+    }
+
+    @media (max-width: ${device.laptop}) and (min-height: 700px) {
+        height: calc(100vh - 35%);
     }
 `

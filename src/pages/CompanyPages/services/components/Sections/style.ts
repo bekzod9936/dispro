@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import { ReactComponent as MenuSvg } from 'assets/icons/FeedBack/dots.svg'
+import { device } from "styles/device";
+
 interface IProps {
     isSelected?: boolean;
     isChild?: boolean;
@@ -24,6 +26,18 @@ export const Wrapper = styled.div`
         border-radius: 14px 0px 0px 14px;
     }
 
+    @media (max-height: 820px) and (min-width: ${device.laptop}) {
+        height: calc(100vh - 51%);
+    }
+
+    @media (max-width: ${device.laptop}) and (min-height: 700px) {
+        height: calc(100vh - 35%);
+    }
+
+    @media (max-width: ${device.laptop}) {
+        max-width: 285px;
+    }
+
 `
 
 export const ItemWrapper = styled.div`
@@ -32,6 +46,10 @@ export const ItemWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+
+    @media (max-width: ${device.laptop}) {
+        max-width: 270px;
+    }
 
 `
 
@@ -65,6 +83,17 @@ export const Item = styled.div`
     svg {
         circle {
             fill: ${({ isSelected }: IProps) => isSelected ? '#fff' : '#223367'}
+        }
+    }
+
+    @media (max-width: ${device.laptop}) {
+        max-width: ${({isChild}: IProps) => isChild ? '250px' : '270px'};
+        height: 45px;
+
+        h4 {
+            font-size: 16px;
+            line-height: 18.75px;
+            max-width: 200px;
         }
     }
 `

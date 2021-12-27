@@ -11,7 +11,6 @@ import { useDragNDrop } from "../../hooks/MainPageHooks";
 
 //style
 import { Wrapper } from "./style";
-import React, { useCallback, useEffect, useRef } from "react";
 
 interface ItemGroupProps {
   goods: IGoodsResponse[];
@@ -31,25 +30,6 @@ export const ItemGroup: React.FC<ItemGroupProps> = ({
   sectionId,
 }) => {
   const { items, onDragEnd } = useDragNDrop(goods);
-  // const parentRef = useRef<null | HTMLDivElement>(null);
-
-  // const handleOutsideClick = useCallback((event: MouseEvent) => {
-  //   if (event && parentRef) {
-  //     const el = parentRef.current;
-
-  //     if (!el || el.contains(event.target as Node)) {
-  //       setCurrentItem(null);
-  //     }
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   window.addEventListener("click", handleOutsideClick);
-
-  //   return () => {
-  //     window.removeEventListener("click", handleOutsideClick);
-  //   };
-  // }, []);
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>

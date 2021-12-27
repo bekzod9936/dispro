@@ -24,3 +24,11 @@ export const postSecurity = (data: any) => {
 
   return response;
 };
+
+
+//qrcodes
+
+export const fetchQRCodes = () => {
+  const response = partnerApi.get('/core/ref');
+  return response;
+};
