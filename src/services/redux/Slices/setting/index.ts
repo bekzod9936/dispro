@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ISecurty, IReward } from './type';
+import { ISecurty, IReward, IRefQrcodes } from './type';
 
 interface ISettings {
   security?: ISecurty;
   reward?: IReward;
+  refQrcodes?: IRefQrcodes[];
 }
 const initialState: ISettings = {
   security: {
@@ -11,6 +12,7 @@ const initialState: ISettings = {
     isEnabledPurchaseLimit: false,
   },
   reward: {},
+  refQrcodes: [],
 };
 
 const qrSettingsSlice = createSlice({
@@ -23,8 +25,11 @@ const qrSettingsSlice = createSlice({
     setReward: (state, action: PayloadAction<IReward>) => {
       state.reward = action.payload;
     },
+    setRefQrcodes: (state, action: PayloadAction<IRefQrcodes[]>) => {
+      state.refQrcodes = action.payload;
+    },
   },
 });
 
-export const { setSecurty, setReward } = qrSettingsSlice.actions;
+export const { setSecurty, setReward, setRefQrcodes } = qrSettingsSlice.actions;
 export default qrSettingsSlice.reducer;
