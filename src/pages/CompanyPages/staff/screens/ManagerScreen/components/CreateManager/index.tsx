@@ -124,7 +124,7 @@ const CreateManager = ({ openManager }: IProps) => {
 	const handleClose = () => {
 		dispatch(setOpenManager(false));
 		dispatch(setStepManager(1));
-		deleteManager.mutate(managerId);
+		// deleteManager.mutate(managerId);
 	};
 	// useEffect(() => {
 	// 	if (isSubmitSuccessful) {
