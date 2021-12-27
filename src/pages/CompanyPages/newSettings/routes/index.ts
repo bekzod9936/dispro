@@ -6,9 +6,14 @@ const LoyaltyProgramSection = lazy(
   () => import('../screens/LoyaltyProgramSection')
 );
 const QRCodesSection = lazy(() => import('../screens/QRCodes'));
-const ReferalProgramSection = lazy(() => import('../screens/Referal'));
+// const ReferalProgramSection = lazy(() => import('../screens/Referal'));
 const SecuritySection = lazy(() => import('../screens/Security'));
-
+// const ReferalProgrammSection = lazy(
+//   () => import('../screens/ReferalProgrammSection/ReferalProgrammSection')
+// );
+const ReferalProgrammSection = lazy(
+  () => import('../../settings/screens/ReferalProgrammSection/ReferalProgrammSection')
+);
 export interface ISettingsRow {
   path: string;
   text: string;
@@ -26,7 +31,7 @@ const useSettingsRoutes = () => {
     {
       path: '/newsettings/referal',
       text: t('referalProgram'),
-      component: ReferalProgramSection,
+      component: ReferalProgrammSection,
     },
     {
       path: '/newsettings/rewarding',

@@ -669,5 +669,10 @@
   "unlimited": "Не ограничено",
   "move": "Переместить",
   "areYouSureToDeleteSubSection": "Вы действительно хотите удалить подраздел",
-  "minValue4": "Минимальное количество символов: 4"
+  "minValue4": "Минимальное количество символов: 4",
+  "qrtype": "По типу QR",
+  "forpayment": "Для оплаты",
+  "formarketing":"Для рекламы",
+  "createqrforcompany":"QR для подписки на компанию"
+
 }

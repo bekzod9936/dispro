@@ -10,6 +10,9 @@ const useReward = () => {
   const dispatch = useAppDispatch();
 
   const response = useQuery('rewardFetch', fetchRewards, {
+    keepPreviousData: true,
+    refetchOnWindowFocus: false,
+    retry: 0,
     onSuccess: (data) => {
       const arr1 = Array(4).fill(1);
       const arr2 = arr1.map((v: any, i: any) => {

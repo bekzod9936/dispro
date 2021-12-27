@@ -13,6 +13,9 @@ const useSecurty = () => {
   const dispatch = useAppDispatch();
 
   const response = useQuery('securtyFetch', fetchSecurity, {
+    keepPreviousData: true,
+    refetchOnWindowFocus: false,
+    retry: 0,
     onSuccess: (data) => {
       dispatch(setSecurty(data.data.data));
     },
