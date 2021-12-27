@@ -18,6 +18,7 @@ import { Nav, SearchIcon, useStyles, Wrapper } from "./style";
 import { useGetSections } from "pages/CompanyPages/services/hooks";
 import { getLengthOfParentSections } from "pages/CompanyPages/services/helpers";
 import { SECTIONS_LIMIT } from "pages/CompanyPages/services/constants";
+import { useGetTotalCountTitle } from "pages/CompanyPages/services/hooks/MainPageHooks";
 
 interface HeaderProps {
   value: string;
@@ -38,6 +39,7 @@ export const Header: React.FC<HeaderProps> = ({
 
   const { data } = useGetSections();
   const goodsNotFound = total === 0 && value !== "" && !isLoading;
+  const totalCountTitle = useGetTotalCountTitle(isLoading, total);
   const isSectionButtonDisabled =
     isLoading || SECTIONS_LIMIT - getLengthOfParentSections(data?.data) <= 0;
 
@@ -57,9 +59,7 @@ export const Header: React.FC<HeaderProps> = ({
         <Title>{t("services")}</Title>
         <p>
           <b>•</b>
-          {total > 0
-            ? `${t("totalCountOfGoods")}: ${total}`
-            : t("youDontHaveProducts")}
+          {totalCountTitle}
         </p>
       </Nav>
       <Flex>

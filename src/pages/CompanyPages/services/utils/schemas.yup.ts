@@ -2,6 +2,7 @@ import * as yup from "yup"
 
 //! refactor: variant fields as each number field can be nullable and can have empty string
 // TODO: articul: not required, amount: not required
+//* is it real to save uniqless of sections' name?
 
 export const sectionsSchema = yup.object().shape({
     sections: yup.array().of(

@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import {
   ICategory,
   IGoodsResponse,
@@ -246,3 +247,4 @@ export const divideGoodsBySections = (goods: IGoodsResponse[]) => {
 export const thousandsDivider = (value: number) => {
   return numberWithNew({number: value, replaceValue: " "})
 }
+
