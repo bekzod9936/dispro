@@ -181,19 +181,19 @@ const ManagerTable = ({ managers }: IProps) => {
 			</Container>
 			<WrapPag>
 				<p>
-					Показано
+					Показано{' '}
 					<span>
 						{formatPagination({
 							page: page.managers,
 							perPage: 10,
 							total: totalCount,
 						})}
-					</span>
-					из <span>{totalCount}</span>
+					</span>{' '}
+					из <span>{totalCount}</span>{' '}
 					{totalCount.toString().endsWith('1') && totalCount !== 11
 						? 'менеджера'
 						: 'менеджеров'}
-				</p>
+				</p>{' '}
 				<p></p>
 				{/* <b>
 						{1 + (page - 1) * 10}-
