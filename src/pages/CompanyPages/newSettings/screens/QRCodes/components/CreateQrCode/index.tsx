@@ -1,13 +1,27 @@
 import Button from 'components/Custom/Buttons/Button';
 import Popover from 'components/Custom/Popover';
 import Modal from 'components/Custom/Modal';
+import MultiSelect from 'components/Custom/MultiSelect';
 import Input from 'components/Custom/Input';
-import { SquarePlusIcon, DownIcon } from 'newassets/icons/icons';
+import {
+  SquarePlusIcon,
+  DownIcon,
+  CloseIcon,
+  StoreIcon,
+} from 'newassets/icons/icons';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { WrapList } from '../../style';
 import { CancelButton } from 'components/Custom/Buttons/Cancel';
 import { SaveButton } from 'components/Custom/Buttons/Save';
+import {
+  ModalText,
+  ModalWrap,
+  ModalHeader,
+  ModalButtons,
+  ModalTitle,
+} from '../../style';
+import { IconButton } from '@material-ui/core';
 
 const CreateQrCode = () => {
   const { t } = useTranslation();
@@ -64,13 +78,61 @@ const CreateQrCode = () => {
           </ul>
         </WrapList>
       </Popover>
-      <Modal open={openSubscribe}>
-        <div>{(t('createqrforcompany'), t('forcomfortqrcodeplace'))}</div>
-        <Input label={t('enterNewName')} />
-        <CancelButton />
-        <SaveButton />
+      <Modal open={openSubscribe || openPayment}>
+        <ModalWrap>
+          <ModalHeader>
+            <ModalTitle>
+              {openSubscribe && !openPayment
+                ? t('createqrforcompany')
+                : t('qrforpaymentplace')}
+            </ModalTitle>
+            <IconButton
+              onClick={() => {
+                setOpenSubscribe(false);
+                setOpenPayment(false);
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
+          </ModalHeader>
+          <ModalText>
+            {openSubscribe && !openPayment
+              ? t('forcomfortqrcodeplace')
+              : t('choosefilialqrcodesetting')}
+          </ModalText>
+          {openSubscribe && !openPayment ? (
+            <Input margin={{ desktop: '30px 0' }} label={t('enterNewName')} />
+          ) : (
+            <MultiSelect
+              isMulti={false}
+              margin={{ laptop: '30px 0' }}
+              icon={<StoreIcon />}
+              selectStyle={{
+                bgcolor: '#eff0fd',
+                border: 'none',
+                placeholdercolor: '#223367',
+                inpadding: '2px 10px 2px 60px',
+                placewieght: '500',
+              }}
+              iconleft={'20px'}
+              icondowncolor='#C4C4C4'
+              placeholder={t('choose_branch')}
+              isClearable={false}
+              menuPortalTarget={document.body}
+            />
+          )}
+          <ModalButtons>
+            <CancelButton
+              onClick={() => {
+                setOpenSubscribe(false);
+                setOpenPayment(false);
+              }}
+              margin={{ laptop: '0 15px 0 0' }}
+            />
+            <SaveButton />
+          </ModalButtons>
+        </ModalWrap>
       </Modal>
-      <Modal open={openPayment}></Modal>
     </>
   );
 };

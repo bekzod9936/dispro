@@ -673,10 +673,13 @@
   "loading": "Идет загрузка",
   "qrtype": "По типу QR",
   "forpayment": "Для оплаты",
-  "formarketing":"Для рекламы",
-  "createqrforcompany":"QR для подписки на компанию",
+  "formarketing": "Для рекламы",
+  "createqrforcompany": "QR для подписки на компанию",
   "typeofpayment": "По типу оплаты",
   "terminal": "Нал/терминал",
   "throughtheapp": "Через приложение",
-  "choosetypepayment":"Выберите тип оплаты"
+  "choosetypepayment": "Выберите тип оплаты",
+  "qrforpaymentplace": "QR для оплаты на местах",
+  "editqrcode": "Редактирование QR",
+  "changenameqrcode":"Вы можете поменять название, промокода"
 }
