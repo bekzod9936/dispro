@@ -101,7 +101,7 @@ export const Item: React.FC<ItemProps> = ({
                 {item.withDiscount ? (
                   <p>{priceWithDiscount} UZS</p>
                 ) : (
-                  <p>{price}</p>
+                  <p>{price} UZS</p>
                 )}
                 {item.withDiscount && <span>{price} UZS</span>}
               </div>
