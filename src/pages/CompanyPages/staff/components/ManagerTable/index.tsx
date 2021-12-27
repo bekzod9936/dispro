@@ -190,7 +190,9 @@ const ManagerTable = ({ managers }: IProps) => {
 						})}
 					</span>
 					из <span>{totalCount}</span>
-					{totalCount === 1 ? 'кассира' : 'кассиров'}
+					{totalCount.toString().endsWith('1') && totalCount !== 11
+						? 'менеджера'
+						: 'менеджеров'}
 				</p>
 				<p></p>
 				{/* <b>
