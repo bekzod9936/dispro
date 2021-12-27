@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { device } from "styles/device";
 
 export const Wrapper = styled.div`
     background-color: #fff;
@@ -20,6 +21,12 @@ export const Wrapper = styled.div`
             line-height: 21.09px;
             color: #A3A3A3;
             font-weight: 500;
+        }
+    }
+
+    @media (max-width: ${device.laptop}) {
+        .header {
+            padding-left: 15px;
         }
     }
 `

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import { DropResult } from "react-beautiful-dnd"
+import { useTranslation } from "react-i18next"
 import { useQuery } from "react-query"
 import { ApiServices } from "services/queries/servicesQueries"
 import { IGoodsResponse, ISectionResponse } from "services/queries/servicesQueries/response.types"
@@ -88,4 +89,13 @@ export const useScrollToCurrentSection = (currentSection: ISectionResponse | nul
   }, [currentSection])
 
   return sectionRef
+}
+
+export const useGetTotalCountTitle = (isLoading: boolean, total: number) => {
+  const {t} = useTranslation()
+  return isLoading
+  ? t("loading")
+  : total > 0
+  ? `${t("totalCountOfGoods")}: ${total}`
+  : t("youDontHaveProducts")
 }

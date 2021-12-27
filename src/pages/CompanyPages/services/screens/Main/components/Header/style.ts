@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 import { ReactComponent as SearchSvg } from 'assets/icons/searchblue.svg';
+import { device } from "styles/device";
 
 
 
@@ -28,6 +29,10 @@ export const Nav = styled.div`
         }
     }
 
+    @media (max-width: ${device.laptop}) {
+        margin-bottom: 20px;
+    }
+
 `
 
 export const useStyles = () => {
@@ -36,9 +41,12 @@ export const useStyles = () => {
             style: {
                 border: "none",
                 shadow: "0px 4px 4px rgba(0, 0, 0, 0.04)",
+                height: {
+                    laptop: 45
+                }
             },
             margin: {
-                desktop: "0 0 0 24px",
+                desktop: "0 0 0 24px", laptop: '0 0 0 20px'
             },
             width: {
                 maxwidth: 500,

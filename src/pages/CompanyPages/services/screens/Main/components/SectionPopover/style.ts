@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { ReactComponent as MenuSvg } from 'assets/icons/FeedBack/dots.svg'
+import { device } from "styles/device";
 
 interface IProps {
     isDeleteButton?: boolean
@@ -11,6 +12,10 @@ export const MenuList = styled.div`
     border-radius: 14px;
     width: 300px;
     box-shadow: 0px 1px 28px rgba(0, 0, 0, 0.12);
+
+    @media (max-width: ${device.laptop}) {
+        padding: 10px 0;
+    }
 
 `
 
@@ -24,10 +29,11 @@ export const MenuItem = styled.div`
   
     &:hover {
         background-color: rgba(96, 110, 234, 0.1);
-
     }
 
-
+    @media (max-width: ${device.laptop}) {
+        padding: 10px 0 10px 15px;
+    }
 
 `
 
