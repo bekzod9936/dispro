@@ -40,3 +40,11 @@ export const Or=[
         value:'или'
     }
 ]
+export const OnlyOneOr=[
+  {
+      id:1,
+      label:'и',
+      value:'и'
+  },
+
+]
