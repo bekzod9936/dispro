@@ -5,8 +5,6 @@ export interface ISecurty {
   safeties?: { daily_purchase_limit?: number; pay_sum_limit?: number };
 }
 
-export interface ILevels {}
-
 export interface IRewards {
   amount?: number;
   companyId?: number;
@@ -20,3 +18,14 @@ export interface IReward {
   companyId?: number;
   rewards?: IRewards[];
 }
+
+export interface IRefQrcodes {
+  companyId?: number;
+  dynLinkToken?: string;
+  id?: number;
+  referType?: number;
+  source?: string;
+  token?: string;
+  userId?: number;
+}
+

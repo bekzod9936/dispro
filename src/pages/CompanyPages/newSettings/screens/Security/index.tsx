@@ -20,20 +20,20 @@ const Security = () => {
 
   const showSwitch = useWatch({ control, name: 'enablepurchase' });
 
-  const data = useAppSelector((state) => state.newsetting);
+  const data = useAppSelector((state) => state.newsetting.security);
 
   useEffect(() => {
-    setValue('enablepurchase', data.security?.isEnabledPurchaseLimit);
-    setValue('limit', data.security?.safeties?.daily_purchase_limit);
+    setValue('enablepurchase', data?.isEnabledPurchaseLimit);
+    setValue('limit', data?.safeties?.daily_purchase_limit);
   }, [data]);
 
   const handleSave = () => {
     const values: any = {
-      isEnabledPaySumLimit: data.security?.isEnabledPaySumLimit,
+      isEnabledPaySumLimit: data?.isEnabledPaySumLimit,
       isEnabledPurchaseLimit: getValues('enablepurchase'),
       safeties: {
         daily_purchase_limit: Number(getValues('limit')),
-        pay_sum_limit: data.security?.safeties?.pay_sum_limit,
+        pay_sum_limit: data?.safeties?.pay_sum_limit,
       },
     };
     putSecurity.mutate(values);
@@ -48,7 +48,6 @@ const Security = () => {
             <Controller
               name='enablepurchase'
               control={control}
-              defaultValue={data.security?.isEnabledPurchaseLimit}
               render={({ field }) => {
                 return <CustomToggle checked={field.value} {...field} />;
               }}

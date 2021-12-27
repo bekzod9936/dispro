@@ -6,12 +6,25 @@ import { ReactComponent as Down } from 'newassets/icons/down.svg';
 import { ReactComponent as Search } from 'newassets/icons/search.svg';
 import { ReactComponent as Dots } from 'newassets/icons/dots.svg';
 import { ReactComponent as Save } from 'newassets/icons/save.svg';
-import {ReactComponent as Delete} from 'newassets/icons/delete.svg';
+import { ReactComponent as Delete } from 'newassets/icons/delete.svg';
+import { ReactComponent as DownLoad } from 'newassets/icons/download.svg';
+import { ReactComponent as Chain } from 'newassets/icons/chain.svg';
+import { ReactComponent as CancelSvg } from 'newassets/icons/cancel.svg';
+
+export const CancelIcon = styled(CancelSvg)``;
 
 export const SquarePlusIcon = styled(SquarePlus)``;
-export const PlusIcon=styled(Plus)``;
+
+export const DownLoadIcon = styled(DownLoad)``;
+
+export const ChainIcon = styled(Chain)``;
+
+export const PlusIcon = styled(Plus)``;
+
 export const DownIcon = styled(Down)``;
-export const DeleteIcon=styled(Delete)``;
+
+export const DeleteIcon = styled(Delete)``;
+
 export const SaveIcon = styled(Save)`
   width: 24px;
   height: 24px;
