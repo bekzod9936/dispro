@@ -10,6 +10,12 @@ import { ReactComponent as Delete } from 'newassets/icons/delete.svg';
 import { ReactComponent as DownLoad } from 'newassets/icons/download.svg';
 import { ReactComponent as Chain } from 'newassets/icons/chain.svg';
 import { ReactComponent as CancelSvg } from 'newassets/icons/cancel.svg';
+import { ReactComponent as CloseSvg } from 'newassets/icons/close.svg';
+import { ReactComponent as Store } from 'newassets/icons/store.svg';
+
+export const CloseIcon = styled(CloseSvg)``;
+
+export const StoreIcon = styled(Store)``;
 
 export const CancelIcon = styled(CancelSvg)``;
 

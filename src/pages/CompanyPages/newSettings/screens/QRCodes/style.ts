@@ -51,3 +51,35 @@ export const WrapList = styled.div`
     }
   }
 `;
+
+
+export const ModalTitle = styled.div`
+  font-weight: bold;
+  font-size: 22px;
+  color: #223367;
+`;
+
+export const ModalText = styled.div`
+  font-weight: normal;
+  font-size: 18px;
+  color: #223367;
+  max-width: 410px;
+  word-break: break-word;
+  margin-top: 15px;
+`;
+
+export const ModalWrap = styled.div`
+  padding: 30px;
+`;
+
+export const ModalHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-width: 500px;
+`;
+
+export const ModalButtons = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;

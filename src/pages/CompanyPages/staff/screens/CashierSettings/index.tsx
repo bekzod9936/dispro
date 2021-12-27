@@ -54,7 +54,7 @@ const CashierSetting = () => {
 					levels: [],
 				},
 				{
-					isActive: additionalCheck,
+					isActive: additionalCheck || false,
 					rewardType: 6,
 					amount: data.ballUzs || 0,
 					levels: [
@@ -393,11 +393,7 @@ const CashierSetting = () => {
 						</SettingRow> */}
 					</UpSide>
 					<DownSide>
-						<Button
-							disabled={!additionalCheck && !ballCheck}
-							type='submit'
-							startIcon={<SaveIcon />}
-						>
+						<Button type='submit' startIcon={<SaveIcon />}>
 							{t('save')}
 						</Button>
 					</DownSide>
