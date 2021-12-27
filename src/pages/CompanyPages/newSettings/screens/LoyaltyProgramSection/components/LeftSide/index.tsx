@@ -6,9 +6,23 @@ import { GroupToggle, ToggleInfo } from "../../style";
 const Left = () => {
   const [discounts, setDiscounts] = useState(false);
 
-
+  const [cashback, setCashback] = useState(false);
+  const [points, setPoints] = useState(false);
   const handleChangeDiscount = (e: any) => {
-    setDiscounts(e.target.checked);
+
+      setDiscounts(e.target.checked);
+
+
+  };
+  const handleChangeCashback = (e: any) => {
+   
+      setCashback(e.target.checked);
+  };
+  const handleChangePoints = (e: any) => {
+
+      setPoints(e.target.checked);
+    
+
   };
   return (
     <>
@@ -22,7 +36,7 @@ const Left = () => {
         </ToggleInfo>
       </GroupToggle>
       <GroupToggle>
-        <CustomToggle checked={discounts} onChange={handleChangeDiscount} />
+        <CustomToggle checked={cashback} onChange={handleChangeCashback} />
         <ToggleInfo>
           <h5>Предоставление кешбэка</h5>
           <p>
@@ -31,7 +45,7 @@ const Left = () => {
         </ToggleInfo>
       </GroupToggle>
       <GroupToggle>
-        <CustomToggle checked={discounts} onChange={handleChangeDiscount} />
+        <CustomToggle checked={points} onChange={handleChangePoints} />
         <ToggleInfo>
           <h5>Предоставление баллов</h5>
           <p>
