@@ -267,10 +267,10 @@ export const resetDefaultValues = (data: IGoodsResponse): FormFieldTypes => {
     preparationTimeData: {day: data.manufacturedAt?.day || null, hour: data.manufacturedAt?.hour || null, minute: data.manufacturedAt?.minute || null},
     loyaltyOff: true,
     loyaltyType: data.withDiscount ? 1 : 2,
-    measurement: 1,
+    measurement: {value: 1, name: 'шт.', label: 'шт.'},
     images: data.goodsImages.map(image => image.imageUrl),
     section: 1,
-    service: 1,
+    service: {},
     variants: data.hasGoodsVariant ? data.goodsVariants.map(variant => ({
       amount: String(variant.count),
       articul: variant.artikulCode,

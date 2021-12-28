@@ -35,7 +35,6 @@ export const Variants: React.FC<VariantsProps> = ({ disabled }) => {
       {fields.map((item, index) => (
         <Item isLastElem={index === fields.length - 1} key={item.id}>
           <Variant
-            defaultValues={item}
             isVariantAdded={fields.length > 1}
             disabled={disabled}
             index={index}

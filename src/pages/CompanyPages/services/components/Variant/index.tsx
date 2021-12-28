@@ -18,14 +18,12 @@ interface VariantProps {
   index: number;
   disabled: boolean;
   isVariantAdded?: boolean;
-  defaultValues: any;
 }
 
 export const Variant: React.FC<VariantProps> = ({
   index,
   disabled,
   isVariantAdded,
-  defaultValues,
 }) => {
   const {
     clearErrors,
@@ -35,31 +33,33 @@ export const Variant: React.FC<VariantProps> = ({
 
   const { t } = useTranslation();
   const error = errors.variants ? errors.variants[index] : undefined;
-  // const { pathname } = useLocation();
-  // const isEditMode = pathname.includes("edit");
+  const { pathname } = useLocation();
+  const isEditMode = pathname.includes("edit");
 
-  // const price = useWatch({ name: `variants.${index}.price` });
-  // const priceWithSale = useWatch({ name: `variants.${index}.priceWithSale` });
+  const price = useWatch({ name: `variants.${index}.price` });
+  const priceWithSale = useWatch({ name: `variants.${index}.priceWithSale` });
 
-  // useEffect(() => {
-  //   if (Number(price) > Number(priceWithSale)) {
-  //     clearErrors(`variants.${index}.priceWithSale`);
-  //   }
-  // }, [price, priceWithSale]);
+  useEffect(() => {
+    if (Number(price) > Number(priceWithSale)) {
+      clearErrors(`variants.${index}.priceWithSale`);
+    }
+  }, [price, priceWithSale]);
 
-  // useEffect(() => {
-  //   clearErrors(`variants.${index}.priceWithSale`);
-  //   setValue(`variants.${index}.priceWithSale`, "");
-  // }, [disabled]);
+  useEffect(() => {
+    if (disabled) {
+      setValue(`variants.${index}.priceWithSale`, "");
+    }
+    clearErrors(`variants.${index}.priceWithSale`);
+  }, [disabled]);
 
-  // //! alert, govno kod
-  // useEffect(() => {
-  //   if (!isVariantAdded) {
-  //     setValue(`variants.${index}.name`, [{ data: "test", lang: "(Рус)" }]);
-  //   } else if (!isEditMode) {
-  //     setValue(`variants.${index}.name`, [{ data: "", lang: "(Рус)" }]);
-  //   }
-  // }, [isVariantAdded]);
+  //! alert, govno kod
+  useEffect(() => {
+    if (!isVariantAdded) {
+      setValue(`variants.${index}.name`, [{ data: "test", lang: "(Рус)" }]);
+    } else if (!isEditMode) {
+      setValue(`variants.${index}.name`, [{ data: "", lang: "(Рус)" }]);
+    }
+  }, [isVariantAdded]);
 
   return (
     <Wrapper>
