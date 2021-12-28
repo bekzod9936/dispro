@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { device } from 'styles/device';
+import styled from "styled-components";
+import { device } from "styles/device";
 
 export const Box = styled.div`
   background: #ffffff;
@@ -51,4 +51,9 @@ export const WrapButtons = styled.div`
   flex-direction: column;
   grid-gap: 15px;
   margin-left: 30px;
+`;
+
+export const WrapButtonsDelete = styled.div`
+  display: flex;
+  justify-content: center;
 `;

@@ -7,28 +7,36 @@ import { useTranslation } from "react-i18next";
 //style
 import { MenuIcon, MenuItem, MenuList } from "./style";
 import { SectionModalsType } from "pages/CompanyPages/services/utils/types";
+import { useGetSections } from "pages/CompanyPages/services/hooks";
+import { SUBSECTIONS_LIMIT } from "pages/CompanyPages/services/constants";
+import { getSubSectionsLength } from "pages/CompanyPages/services/helpers";
+import { LightToolTip } from "../../../Create/components/Radios/style";
 
 //other
 interface SectionPopoverProps {
   isParent?: boolean;
   isHiddenInMobile: boolean;
   onOpenModal: (arg: keyof SectionModalsType) => () => void;
+  parentId?: number;
 }
 
 export const SectionPopover: React.FC<SectionPopoverProps> = ({
   isParent,
   isHiddenInMobile,
   onOpenModal,
+  parentId = 0,
 }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLButtonElement>(null);
   const { t } = useTranslation();
+
+  const { data } = useGetSections();
+  const limit = SUBSECTIONS_LIMIT - getSubSectionsLength(data?.data, parentId);
 
   const handleClose = () => {
     setAnchorEl(null);
   };
 
   const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.stopPropagation();
     setAnchorEl(event.currentTarget);
   };
 
@@ -50,9 +58,22 @@ export const SectionPopover: React.FC<SectionPopoverProps> = ({
       >
         <MenuList onClick={handleClose}>
           {Boolean(isParent) ? (
-            <MenuItem onClick={onOpenModal("subSection")}>
-              {t("createSubSection")}
-            </MenuItem>
+            <LightToolTip
+              placement="top"
+              arrow
+              title={
+                limit <= 0
+                  ? "Вы уже создали максимальное количество(10) подразделов"
+                  : ""
+              }
+            >
+              <MenuItem
+                disabled={limit <= 0}
+                onClick={onOpenModal("subSection")}
+              >
+                {t("createSubSection")}
+              </MenuItem>
+            </LightToolTip>
           ) : (
             <MenuItem>{t("move")}</MenuItem>
           )}

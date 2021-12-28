@@ -1,8 +1,12 @@
 import styled from "styled-components";
 import { device } from "styles/device";
+import {ReactComponent as PhotoSvg} from 'assets/icons/IconsInfo/photo.svg'
 
 export const ManagerDiv = styled.div``;
 
+interface IProps {
+	isLoading: boolean
+}
 interface IBreak {
   width?: number;
   height?: number;
@@ -69,7 +73,7 @@ export const UploadButton = styled.div`
     input {
         display: none;
     }
-    padding: 14px 25px;
+    // padding: 14px 25px;
     cursor: pointer;
     width: max-content;
     display: flex;
@@ -78,13 +82,33 @@ export const UploadButton = styled.div`
     border-radius: 14px;
     margin-bottom: 10px;
     label {
-        font-size: 18px;
-        font-weight: 500;
-        cursor: pointer;
-        margin-right: 10px;
-        color: #606EEA;
+			background-color: rgba(96,110,234,0.1);
+			border-radius: 14px;
+			height: 50px;
+			width: 220px;
+			display: -webkit-box;
+			display: -webkit-flex;
+			display: -ms-flexbox;
+			display: flex;
+			-webkit-align-items: center;
+			-webkit-box-align: center;
+			-ms-flex-align: center;
+			align-items: center;
+			-webkit-box-pack: center;
+			-webkit-justify-content: center;
+			-ms-flex-pack: center;
+			justify-content: center;
+			cursor: pointer;
 
-    }`
+    }
+		span {
+			font-size: 18px;
+			font-weight: 500;
+			line-height: 21.09px;
+			margin-right: 10px;
+			color: #606EEA
+	}
+		`
 
 	export const ModalMain = styled.div`
   padding: 30px 40px;
@@ -244,3 +268,27 @@ export const Text = styled.h3`
 	line-height: 19px;
 	font-style: normal;
  `
+
+
+
+
+
+
+export const Button = styled.label`
+    background-color: ${({isLoading}: IProps) => isLoading ? 'rgba(199, 199, 199, 0.7)' : 'rgba(96, 110, 234, 0.1)'};
+    border-radius: 14px;
+    height: 50px;
+    width: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: ${({isLoading}: IProps) => isLoading ? 'wait' : 'pointer'};
+    
+    span {
+        font-size: 18px;
+        font-weight: 500;
+        line-height: 21.09px;
+        margin-right: 10px;
+        color: #606EEA
+    }
+`

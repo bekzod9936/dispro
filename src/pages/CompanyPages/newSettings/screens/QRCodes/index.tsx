@@ -1,4 +1,5 @@
 import Input from 'components/Custom/Input';
+import Spinner from 'components/Custom/Spinner';
 import { useTranslation } from 'react-i18next';
 import { SearchIcon } from 'newassets/icons/icons';
 import { Container, Header, Body } from './style';
@@ -10,7 +11,8 @@ import CreateQrCode from './components/CreateQrCode';
 
 const QrCodes = () => {
   const { t } = useTranslation();
-  useQrcode();
+
+  const { response } = useQrcode();
 
   const data = useAppSelector((state) => state.newsetting.refQrcodes);
 
@@ -34,12 +36,16 @@ const QrCodes = () => {
         />
       </Header>
       <Body>
-        <div>
-          {data?.map((v: any) => (
-            <BoxQr key={v.id} value={v} />
-          ))}
-          <div style={{ height: '5px', width: '100%' }} />
-        </div>
+        {response.isLoading ? (
+          <Spinner />
+        ) : (
+          <div>
+            {data?.map((v: any) => (
+              <BoxQr key={v.id} value={v} />
+            ))}
+            <div style={{ height: '5px', width: '100%' }} />
+          </div>
+        )}
       </Body>
     </Container>
   );

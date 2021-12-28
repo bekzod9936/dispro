@@ -1,7 +1,7 @@
 import { useReducer, useState } from "react";
 
 //packages
-import { FormProvider } from "react-hook-form";
+import { FormProvider, UseFormReturn } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 
 //style
@@ -12,8 +12,10 @@ import {
   initialState,
   reducer,
 } from "pages/CompanyPages/services/hooks/CreatePageHooks/reducer";
-import { useCreateItem } from "../../../../hooks";
-import { CreateDtoType } from "pages/CompanyPages/services/utils/types";
+import {
+  CreateDtoType,
+  FormFieldTypes,
+} from "pages/CompanyPages/services/utils/types";
 import { createServiceHelper } from "pages/CompanyPages/services/helpers";
 import { useCreateService } from "pages/CompanyPages/services/hooks/CreatePageHooks/mutations";
 
@@ -27,10 +29,11 @@ import { Switches } from "../Switches";
 import { TitleAndDescription } from "pages/CompanyPages/services/components/TitleAndDescription";
 import { SectionModal } from "pages/CompanyPages/services/components/Modals/Sections";
 
-interface FormProps {}
+interface FormProps {
+  form: UseFormReturn<FormFieldTypes>;
+}
 
-export const Form: React.FC<FormProps> = () => {
-  const form = useCreateItem();
+export const Form: React.FC<FormProps> = ({ form }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [modal, setModal] = useState(false);
 
@@ -62,7 +65,7 @@ export const Form: React.FC<FormProps> = () => {
 
   return (
     <>
-      <FormStyled onSubmit={form.handleSubmit(onSubmit)}>
+      <FormStyled autoComplete="off" onSubmit={form.handleSubmit(onSubmit)}>
         <FormProvider {...form}>
           <Container>
             <TitleAndDescription />

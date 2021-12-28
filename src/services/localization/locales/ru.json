@@ -533,7 +533,7 @@
   "limitfeedback": "Вы можете написать еще {{limit1}}",
   "exitpageaddress": " На странице есть несохраненные элементы.",
   "areyousureleave": "Все равно выйти?",
-  "youDontHaveProducts": "У вас нет созданых продуктов",
+  "youDontHaveProducts": "У вас нет созданных продуктов",
   "youDontHaveProductsYet": "У вас пока что нет товаров",
   "section": "Раздел",
   "item": "Товар",
@@ -673,10 +673,15 @@
   "loading": "Идет загрузка",
   "qrtype": "По типу QR",
   "forpayment": "Для оплаты",
-  "formarketing":"Для рекламы",
-  "createqrforcompany":"QR для подписки на компанию",
+  "formarketing": "Для рекламы",
+  "createqrforcompany": "QR для подписки на компанию",
   "typeofpayment": "По типу оплаты",
   "terminal": "Нал/терминал",
   "throughtheapp": "Через приложение",
-  "choosetypepayment":"Выберите тип оплаты"
+  "choosetypepayment": "Выберите тип оплаты",
+  "qrforpaymentplace": "QR для оплаты на местах",
+  "editqrcode": "Редактирование QR",
+  "changenameqrcode": "Вы можете поменять название, промокода",
+  "wantdeleteqrcode": "Вы действительно хотите удалить промокод?",
+  "minvalue": "Минимальное значение: {{value}}"
 }

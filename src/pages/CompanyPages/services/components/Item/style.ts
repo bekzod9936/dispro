@@ -2,6 +2,7 @@ import styled from "styled-components";
 import {ReactComponent as PointsSvg} from 'assets/icons/points_services.svg'
 import {ReactComponent as DiscountSvg} from 'assets/icons/discount_services.svg'
 import { ReactComponent as EyeSvg } from 'newassets/icons/eye.svg'
+import { ReactComponent as ScrollTopSvg } from 'newassets/icons/scroll_top.svg'
 import { IconButton } from "@material-ui/core";
 import { device } from "styles/device";
 
@@ -199,3 +200,4 @@ export const DiscountIcon = styled(DiscountSvg)`
 `
 
 export const EyeIcon = styled(EyeSvg)``
+export const ScrollToTopIcon = styled(ScrollTopSvg)``

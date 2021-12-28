@@ -1,4 +1,4 @@
-import feedDef from 'assets/images/feedback.png';
+import feedDef from 'assets/images/ratingStaff.svg';
 import User from '../../components/User';
 import Grade from '../../components/Grade';
 import { useTranslation } from 'react-i18next';
