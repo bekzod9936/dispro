@@ -211,7 +211,10 @@ const CreateManager = ({ openManager }: IProps) => {
 															</p>
 														</Header>
 														<UploadButton>
-															<label htmlFor='uploadImg'>Загрузить фото</label>
+															<label htmlFor='uploadImg'>
+																<span>Загрузить фото</span>
+																<UploadImage />
+															</label>
 															<input
 																accept='image/*'
 																{...register('logo', { required: false })}
@@ -219,7 +222,6 @@ const CreateManager = ({ openManager }: IProps) => {
 																type='file'
 																id='uploadImg'
 															/>
-															<UploadImage />
 														</UploadButton>
 														{errors.logo && (
 															<ErrorMessage>{t('requiredField')}</ErrorMessage>

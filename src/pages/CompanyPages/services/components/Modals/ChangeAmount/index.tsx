@@ -1,13 +1,20 @@
-import { Checkbox, FormControlLabel, IconButton } from "@material-ui/core";
-import { useChangeAmount } from "pages/CompanyPages/services/hooks";
+//packages
 import { Controller, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Wrapper, CloseIcon, buttonStyles, CancelIcon } from "./style";
-import { useStyles } from "pages/CompanyPages/services/screens/Create/components/Durations/style";
+
+//components
+import { Checkbox, FormControlLabel, IconButton } from "@material-ui/core";
 import Button from "components/Custom/Buttons/Button";
 import { SaveButton } from "components/Custom/Buttons/Save";
 import Modal from "components/Custom/Modal";
 import InputFormat from "components/Custom/InputFormat";
+
+//style
+import { Wrapper, CloseIcon, buttonStyles, CancelIcon } from "./style";
+import { useStyles } from "pages/CompanyPages/services/screens/Create/components/Durations/style";
+
+//other
+import { useChangeAmount } from "pages/CompanyPages/services/hooks";
 import { ChangeAmountFormType } from "pages/CompanyPages/services/utils/types";
 
 interface ChangeAmountModalProps {
@@ -37,7 +44,6 @@ export const ChangeAmountModal: React.FC<ChangeAmountModalProps> = ({
     console.log(data);
   };
 
-  console.log(errors);
   return (
     <Modal width={buttonStyles.modal.width} open={open}>
       <Wrapper>

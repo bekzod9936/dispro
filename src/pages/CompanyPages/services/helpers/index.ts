@@ -248,3 +248,9 @@ export const thousandsDivider = (value: number) => {
   return numberWithNew({number: value, replaceValue: " "})
 }
 
+export const getSubSectionsLength = (sections: ISectionResponse[] | undefined, parentId: number) => {
+  if (!sections) return 0;
+
+  return sections.filter(section => section.parentId === parentId).length
+}
+
