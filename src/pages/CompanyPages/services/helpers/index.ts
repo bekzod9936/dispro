@@ -6,11 +6,12 @@ import {
   sectionDtoType,
 } from "services/queries/servicesQueries/response.types";
 import { numberWithNew } from "services/utils";
-import { languageIds } from "../constants";
+import { languageIds, languageLabels } from "../constants";
 import {
   CreateDtoType,
   createSectionFormType,
   descType,
+  FormFieldTypes,
   IGoods,
   parentSectionType,
   PostDtoType,
@@ -254,3 +255,12 @@ export const getSubSectionsLength = (sections: ISectionResponse[] | undefined, p
   return sections.filter(section => section.parentId === parentId).length
 }
 
+export const resetDefaultValues = (data: IGoodsResponse) => {
+  return {
+    titles: data.goodsTranslates.map(translate => ({
+      title: translate.translateName,
+      desc: translate.translateDesc,
+      lang: languageLabels[translate.langId as keyof typeof languageLabels]
+    }))
+  }
+}

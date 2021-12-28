@@ -5,7 +5,7 @@ import { Controller, FieldError, useFormContext } from "react-hook-form";
 //components
 import InputFormat from "components/Custom/InputFormat";
 import Input from "components/Custom/Input";
-import { LightToolTip } from "../../screens/Create/components/Radios/style";
+import { LightToolTip } from "../../screens/Services/components/Radios/style";
 
 //other
 import { FormFieldTypes } from "../../utils/types";

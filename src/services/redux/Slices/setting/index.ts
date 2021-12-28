@@ -1,10 +1,11 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ISecurty, IReward, IRefQrcodes } from './type';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ISecurty, IReward, IRefQrcodes, IBranchQrcodes } from "./type";
 
 interface ISettings {
   security?: ISecurty;
   reward?: IReward;
   refQrcodes?: IRefQrcodes[];
+  branchQrcodes?: IBranchQrcodes[];
 }
 const initialState: ISettings = {
   security: {
@@ -13,10 +14,11 @@ const initialState: ISettings = {
   },
   reward: {},
   refQrcodes: [],
+  branchQrcodes: [],
 };
 
 const qrSettingsSlice = createSlice({
-  name: 'settingnew',
+  name: "settingnew",
   initialState,
   reducers: {
     setSecurty: (state, action: PayloadAction<ISecurty>) => {
@@ -28,8 +30,12 @@ const qrSettingsSlice = createSlice({
     setRefQrcodes: (state, action: PayloadAction<IRefQrcodes[]>) => {
       state.refQrcodes = action.payload;
     },
+    setBranchQrCodes: (state, action: PayloadAction<IBranchQrcodes[]>) => {
+      state.branchQrcodes = action.payload;
+    },
   },
 });
 
-export const { setSecurty, setReward, setRefQrcodes } = qrSettingsSlice.actions;
+export const { setSecurty, setReward, setRefQrcodes, setBranchQrCodes } =
+  qrSettingsSlice.actions;
 export default qrSettingsSlice.reducer;

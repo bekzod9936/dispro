@@ -66,7 +66,22 @@ const CashierBar = () => {
 			return (
 				<CashierCard>
 					<UpSide>
-						<CashierRow justifyContent='center'>
+						<CashierRow>
+							<CashierCol>
+								<BarNormalText>Кассир</BarNormalText>
+							</CashierCol>
+
+							<CashierCol>
+								<RippleEffect
+									onClick={() => {
+										dispatch(setSelectedCashiers([]));
+									}}
+								>
+									<ExitIcon />
+								</RippleEffect>
+							</CashierCol>
+						</CashierRow>
+						<CashierRow justifyContent='flex-start' marginTop='15px'>
 							<CashierCol>
 								<ImageWrap>
 									{selectedCashiers[0].logo !== '' ? (
@@ -180,6 +195,7 @@ const CashierBar = () => {
 									Выбрано {selectedCashiers?.length}
 								</BarNormalText>
 							</CashierCol>
+
 							<CashierCol>
 								<RippleEffect
 									onClick={() => {

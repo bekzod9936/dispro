@@ -29,3 +29,11 @@ export interface IRefQrcodes {
   userId?: number;
 }
 
+export interface IBranchQrcodes {
+  active: boolean;
+  companyId: number;
+  dynLink: string;
+  id: number;
+  name: string;
+  qrCode: string;
+}

@@ -20,7 +20,7 @@ import { IGoodsResponse } from "services/queries/servicesQueries/response.types"
 import { thousandsDivider } from "../../helpers";
 import DEFAULT_IMAGE from "assets/images/staff_default.png";
 import { Modals } from "../../utils/types";
-import { LightToolTip } from "../../screens/Create/components/Radios/style";
+import { LightToolTip } from "../../screens/Services/components/Radios/style";
 
 interface ItemProps {
   item: IGoodsResponse;
@@ -138,7 +138,7 @@ export const Item: React.FC<ItemProps> = ({
                 <ButtonIcon className="mr">
                   <EyeIcon />
                 </ButtonIcon>
-                <ItemPopover onOpenModal={onOpenModal} />
+                <ItemPopover itemId={item.id} onOpenModal={onOpenModal} />
               </div>
             )}
           </Wrapper>

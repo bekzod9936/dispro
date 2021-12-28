@@ -74,3 +74,9 @@ export type goodsResponseType = {
     error: null | unknown,
     success: boolean
 }
+
+export type goodResponseType = {
+    data: IGoodsResponse,
+    error: null | unknown,
+    success: boolean
+}
