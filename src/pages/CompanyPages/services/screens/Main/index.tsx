@@ -18,6 +18,7 @@ const Main: React.FC<MainProps> = () => {
 
   const { total, goods, isLoading } = useGetItems(query);
 
+  console.log("mount main");
   return (
     <Wrapper>
       <Header

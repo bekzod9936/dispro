@@ -1,7 +1,5 @@
-import { TextField } from "@material-ui/core";
 import { SectionModal } from "pages/CompanyPages/services/components/Modals/Sections";
 import { TitleAndDescription } from "pages/CompanyPages/services/components/TitleAndDescription";
-import { resetDefaultValues } from "pages/CompanyPages/services/helpers";
 import {
   initialState,
   reducer,
@@ -10,8 +8,9 @@ import {
   useEditItem,
   useGetItemById,
 } from "pages/CompanyPages/services/hooks/EditPageHooks";
-import { useEffect, useReducer, useState } from "react";
-import { Controller, FormProvider, useFieldArray } from "react-hook-form";
+import { useReducer, useState } from "react";
+import { FormProvider } from "react-hook-form";
+import { useParams } from "react-router-dom";
 import {
   Buttons,
   Durations,
@@ -28,7 +27,9 @@ export const Form: React.FC = () => {
 
   const form = useEditItem();
 
-  const onSubmit = (data: any) => {};
+  const onSubmit = (data: any) => {
+    console.log(data);
+  };
 
   const handleOpen = () => {
     setModal(true);
@@ -36,6 +37,8 @@ export const Form: React.FC = () => {
   const handleClose = () => {
     setModal(false);
   };
+
+  console.log(form.watch());
 
   return (
     <>

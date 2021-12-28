@@ -66,12 +66,13 @@ export const DynamicFields: React.FC<DynamicFieldsProps> = ({
   return (
     <Wrapper marginBottom={marginBottom} isMultiple={fields.length > 1}>
       {fields.map((item, index) => (
-        <div key={item.id}>
+        <div>
           <Controller
             name={`${name}.${index}.data`}
             render={({ field }) => (
               <Input
                 field={field}
+                defaultValue={item.data}
                 labelIcon={
                   index > 0 ? (
                     <ButtonIcon onClick={() => remove(index)}>

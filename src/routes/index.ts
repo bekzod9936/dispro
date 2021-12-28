@@ -96,6 +96,11 @@ export const privateCompanyRoutes: IPrivateRoute[] = [
     component: ServicesPage,
   },
   {
+    path: "/services/edit/:params",
+    layout: DefaultLayoutAdmin,
+    component: ServicesPage,
+  },
+  {
     path: "/orders",
     layout: DefaultLayoutAdmin,
     component: OrdersPage,

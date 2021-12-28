@@ -24,7 +24,7 @@ export const Buttons: React.FC<ButtonsProps> = ({ isLoading }) => {
   };
 
   const handleQuit = () => {
-    history.push("main");
+    history.push("/services/main");
   };
 
   return (

@@ -35,7 +35,6 @@ export type preparationTimeType = {
 }
 export interface FormFieldTypes {
   titles: TitleType[];
-  descriptions: descType[];
   measurement: any,
   service: any,
   section: any,

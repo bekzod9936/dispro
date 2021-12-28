@@ -6,6 +6,7 @@ import {
   sectionDtoType,
 } from "services/queries/servicesQueries/response.types";
 import { numberWithNew } from "services/utils";
+import { Variant } from "../components/Variant";
 import { languageIds, languageLabels } from "../constants";
 import {
   CreateDtoType,
@@ -255,12 +256,34 @@ export const getSubSectionsLength = (sections: ISectionResponse[] | undefined, p
   return sections.filter(section => section.parentId === parentId).length
 }
 
-export const resetDefaultValues = (data: IGoodsResponse) => {
+export const resetDefaultValues = (data: IGoodsResponse): FormFieldTypes => {
   return {
     titles: data.goodsTranslates.map(translate => ({
       title: translate.translateName,
       desc: translate.translateDesc,
       lang: languageLabels[translate.langId as keyof typeof languageLabels]
-    }))
+    })),
+    preparationTime: Boolean(data.isSetManufacturedTime),
+    preparationTimeData: {day: data.manufacturedAt?.day || null, hour: data.manufacturedAt?.hour || null, minute: data.manufacturedAt?.minute || null},
+    loyaltyOff: true,
+    loyaltyType: data.withDiscount ? 1 : 2,
+    measurement: 1,
+    images: data.goodsImages.map(image => image.imageUrl),
+    section: 1,
+    service: 1,
+    variants: data.hasGoodsVariant ? data.goodsVariants.map(variant => ({
+      amount: String(variant.count),
+      articul: variant.artikulCode,
+      name: variant.goodsVariantTranslates.map(translate => ({data: translate.translateName, lang: languageLabels[translate.langId as keyof typeof languageLabels]})),
+      price: String(variant.price),
+      priceWithSale: String(variant.priceWithDiscount)
+    })) : [{
+      name: [{data: 'test', lang: '(Рус)'}],
+      amount: String(data.count),
+      price: String(data.price),
+      articul: String(data.artikulCode),
+      priceWithSale: String(data.priceWithDiscount)
+    }]
+
   }
 }
