@@ -71,7 +71,21 @@ const ManagerBar: React.FC<any> = ({}) => {
 			return (
 				<ManagerCard>
 					<UpSide>
-						<ManagerRow justifyContent='center'>
+						<ManagerRow>
+							<ManagerCol>
+								<BarNormalText>Менеджер</BarNormalText>
+							</ManagerCol>
+							<ManagerCol>
+								<RippleEffect
+									onClick={() => {
+										dispatch(setSelectedManagers([]));
+									}}
+								>
+									<ExitIcon />
+								</RippleEffect>
+							</ManagerCol>
+						</ManagerRow>
+						<ManagerRow justifyContent='flex-start' marginTop='15px'>
 							<ManagerCol>
 								<ImageWrap>
 									{selectedManagers[0].logo.startsWith('https://') ? (

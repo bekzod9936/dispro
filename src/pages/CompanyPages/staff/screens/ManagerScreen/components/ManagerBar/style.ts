@@ -5,6 +5,7 @@ import { ReactComponent as Delete } from "assets/icons/IconsInfo/delete.svg";
 
 export interface ICashierRow {
   justifyContent?: "space-between" | "center" | "flex-start" | "flex-end";
+	marginTop?: string;
 }
 
 export interface IBreakH {
@@ -60,6 +61,9 @@ export const ManagerRow = styled.div`
   flex-direction: row;
   justify-content: ${({ justifyContent = "space-between" }: ICashierRow) =>
     justifyContent};
+  flex-direction: row;
+  margin-top: ${({ marginTop = "15px" }: ICashierRow) =>
+	marginTop};
   align-items: center;
   flex-wrap: nowrap;
 `;
@@ -240,4 +244,6 @@ export const DeleteIc = styled(Delete)`
 
 export const ImageWrap = styled.div`
  	margin-right: 20px;
+ 	margin-left: 3px;
+
 `;
