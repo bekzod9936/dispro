@@ -200,7 +200,7 @@ const CreateManager = ({ openManager }: IProps) => {
 										rules={{ required: false }}
 										render={({ field }) => (
 											<Container>
-												<Text>Фотографии</Text>
+												<Text>Фотография</Text>
 												{!isLoading && !logo && (
 													<div>
 														<Header>
