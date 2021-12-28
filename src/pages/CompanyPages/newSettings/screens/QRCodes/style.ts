@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { device } from 'styles/device';
+import styled from "styled-components";
+import { device } from "styles/device";
 
 export const Container = styled.div`
   display: flex;
@@ -52,11 +52,11 @@ export const WrapList = styled.div`
   }
 `;
 
-
 export const ModalTitle = styled.div`
   font-weight: bold;
   font-size: 22px;
   color: #223367;
+  max-width: 400px;
 `;
 
 export const ModalText = styled.div`

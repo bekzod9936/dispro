@@ -52,6 +52,7 @@ export const WrapDefPhoto = styled.div`
 `;
 
 export const Img = styled.img`
+	object-fit: contain;
   width: 40%;
   height: 50%;
   margin-bottom: 20px;
