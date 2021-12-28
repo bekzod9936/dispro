@@ -48,31 +48,36 @@ export const TitleAndDescription: React.FC<TitleAndDescriptionProps> = () => {
     setModal(false);
   };
 
+  console.log(fields);
+
   return (
     <Wrapper isMultiple={fields.length > 1}>
       {fields.map((item, index) => (
-        <div key={item.id}>
+        <div>
           <Controller
             control={control}
             name={`titles.${index}.title`}
-            render={({ field }) => (
-              <Input
-                field={field}
-                labelIcon={
-                  index > 0 ? (
-                    <ButtonIcon onClick={() => remove(index)}>
-                      <RemoveInputIcon />
-                    </ButtonIcon>
-                  ) : (
-                    <MockIcon />
-                  )
-                }
-                label={t("title") + ` ${item.lang}`}
-                message={error ? t(error[index]?.title?.message || "") : ""}
-                error={error && Boolean(error[index]?.title)}
-                margin={input.margin(Boolean(error))}
-              />
-            )}
+            render={({ field }) => {
+              console.log(field);
+              return (
+                <Input
+                  {...field}
+                  labelIcon={
+                    index > 0 ? (
+                      <ButtonIcon onClick={() => remove(index)}>
+                        <RemoveInputIcon />
+                      </ButtonIcon>
+                    ) : (
+                      <MockIcon />
+                    )
+                  }
+                  label={t("title") + ` ${item.lang}`}
+                  message={error ? t(error[index]?.title?.message || "") : ""}
+                  error={error && Boolean(error[index]?.title)}
+                  margin={input.margin(Boolean(error))}
+                />
+              );
+            }}
           />
           <Controller
             control={control}

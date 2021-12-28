@@ -31,12 +31,7 @@ export const RadioFields: React.FC<RadioFieldsProps> = ({
   };
 
   return (
-    <RadioGroup
-      value={String(value)}
-      onChange={handleChange}
-      row
-      aria-label="gender"
-    >
+    <RadioGroup value={String(value)} onChange={handleChange} row>
       {radioList.map((item) => (
         <FormControlLabel
           classes={{ root: styles.label }}

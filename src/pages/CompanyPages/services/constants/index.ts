@@ -25,6 +25,12 @@ export const languageIds = {
     '(Uzb)': 3
 }
 
+export const languageLabels = {
+  1: '(Рус)',
+  2: '(Eng)',
+  3: '(Uzb)'
+}
+
 export const modalsDefaults = {
   subSection: false,
   editSection: false,
@@ -43,6 +49,7 @@ export const SUBSECTIONS_LIMIT = 10
 
 export const GET_SECTIONS = 'getSections'
 export const GET_ITEMS = 'getItems'
+export const GET_ITEM = 'getItem'
 
 export const editModalType = {
   'section': {

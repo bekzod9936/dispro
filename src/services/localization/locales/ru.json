@@ -686,5 +686,6 @@
   "minvalue": "Минимальное значение: {{value}}",
   "qrcodeforpayment": "(QR-код для оплаты)",
   "cannotchoosebranch": "Для начала создайте филиал в Адресах",
-  "maxcharacters": "Максимальное количество символов: {{value}}"
+  "maxcharacters": "Максимальное количество символов: {{value}}",
+  "editItem": "Редактирование товара"
 }

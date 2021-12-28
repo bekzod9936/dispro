@@ -1,7 +1,7 @@
 import { useReducer, useState } from "react";
 
 //packages
-import { FormProvider, UseFormReturn } from "react-hook-form";
+import { Controller, FormProvider } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 
 //style
@@ -12,30 +12,30 @@ import {
   initialState,
   reducer,
 } from "pages/CompanyPages/services/hooks/CreatePageHooks/reducer";
-import {
-  CreateDtoType,
-  FormFieldTypes,
-} from "pages/CompanyPages/services/utils/types";
+import { CreateDtoType } from "pages/CompanyPages/services/utils/types";
 import { createServiceHelper } from "pages/CompanyPages/services/helpers";
 import { useCreateService } from "pages/CompanyPages/services/hooks/CreatePageHooks/mutations";
+import { useCreateItem } from "pages/CompanyPages/services/hooks";
 
 //components
-import { Selects } from "../Selects";
-import { Variants } from "../Variants";
-import { Durations } from "../Durations";
-import { Photos } from "../Photos";
-import { Buttons } from "../Buttons";
-import { Switches } from "../Switches";
+import {
+  Buttons,
+  Durations,
+  Photos,
+  Selects,
+  Switches,
+  Variants,
+} from "../../components";
 import { TitleAndDescription } from "pages/CompanyPages/services/components/TitleAndDescription";
 import { SectionModal } from "pages/CompanyPages/services/components/Modals/Sections";
 
-interface FormProps {
-  form: UseFormReturn<FormFieldTypes>;
-}
+interface FormProps {}
 
-export const Form: React.FC<FormProps> = ({ form }) => {
+export const Form: React.FC<FormProps> = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [modal, setModal] = useState(false);
+
+  const form = useCreateItem();
 
   const history = useHistory();
 

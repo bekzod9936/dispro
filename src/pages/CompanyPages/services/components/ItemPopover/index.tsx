@@ -1,17 +1,23 @@
 import { Popover } from "@material-ui/core";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useHistory } from "react-router-dom";
 import { Modals } from "../../utils/types";
 import { ButtonIcon } from "../Item/style";
 import { MenuIcon, MenuItem, MenuList, paperStyle } from "./style";
 
 interface ItemPopoverProps {
   onOpenModal: (modalName: keyof Modals) => void;
+  itemId?: number;
 }
 
-export const ItemPopover: React.FC<ItemPopoverProps> = ({ onOpenModal }) => {
+export const ItemPopover: React.FC<ItemPopoverProps> = ({
+  onOpenModal,
+  itemId,
+}) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const { t } = useTranslation();
+  const history = useHistory();
 
   const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
@@ -28,6 +34,10 @@ export const ItemPopover: React.FC<ItemPopoverProps> = ({ onOpenModal }) => {
 
   const handleDelete = () => {
     onOpenModal("delete");
+  };
+
+  const handleEdit = () => {
+    history.push(`${itemId}`);
   };
 
   return (
@@ -51,6 +61,7 @@ export const ItemPopover: React.FC<ItemPopoverProps> = ({ onOpenModal }) => {
       >
         <MenuList onClick={handleClose}>
           <MenuItem onClick={handleChangeAmount}>{t("changeAmount")}</MenuItem>
+          <MenuItem onClick={handleEdit}>{t("edit")}</MenuItem>
           <MenuItem onClick={handleDelete} isDeleteButton>
             {t("delete")}
           </MenuItem>
