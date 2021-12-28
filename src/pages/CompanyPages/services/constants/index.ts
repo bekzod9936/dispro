@@ -38,6 +38,7 @@ export const goodsModalsDefaults = {
 }
 
 export const SECTIONS_LIMIT = 20
+export const SUBSECTIONS_LIMIT = 10
 
 
 export const GET_SECTIONS = 'getSections'

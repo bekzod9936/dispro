@@ -22,6 +22,7 @@ export const Header = styled.div`
             font-size: 22px;
             line-height: 25.78px;
         }
+        
     }
 
     p {

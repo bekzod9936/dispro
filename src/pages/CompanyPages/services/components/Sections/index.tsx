@@ -91,6 +91,7 @@ export const Sections: React.FC<SectionsProps> = ({
               onOpenModal={handleOpen}
               isParent
               isHiddenInMobile={item.hideInMobile}
+              parentId={currentSection?.id}
             />
           </Item>
           {(currentSection?.id === item.id ||

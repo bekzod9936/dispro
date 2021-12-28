@@ -4,6 +4,7 @@ import { device } from "styles/device";
 
 interface IProps {
     isDeleteButton?: boolean
+    disabled?: boolean
 }
 
 
@@ -25,10 +26,11 @@ export const MenuItem = styled.div`
     line-height: 18.75px;
     color: ${({isDeleteButton}: IProps) => isDeleteButton ? "#FF5E68" : "#223367"};
     transition: 200ms all;
-    cursor: pointer;
+    cursor: ${({disabled}: IProps) => disabled ? 'not-allowed' : 'pointer'};
+    background-color: ${({disabled}: IProps) => disabled ? '#c7c7c7' : ''};
   
     &:hover {
-        background-color: rgba(96, 110, 234, 0.1);
+        background-color: ${({disabled}: IProps) => disabled ? '#c7c7c7' : 'rgba(96, 110, 234, 0.1)'};
     }
 
     @media (max-width: ${device.laptop}) {
