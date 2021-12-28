@@ -681,5 +681,6 @@
   "choosetypepayment": "Выберите тип оплаты",
   "qrforpaymentplace": "QR для оплаты на местах",
   "editqrcode": "Редактирование QR",
-  "changenameqrcode":"Вы можете поменять название, промокода"
+  "changenameqrcode":"Вы можете поменять название, промокода",
+  "wantdeleteqrcode":"Вы действительно хотите удалить промокод?"
 }
