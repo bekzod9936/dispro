@@ -8,6 +8,7 @@ export const Box = styled.div`
   padding: 8px 8px 20px 20px;
   width: fit-content;
   max-width: 490px;
+  max-height: 200px;
 `;
 
 export const BoxTitle = styled.div`
