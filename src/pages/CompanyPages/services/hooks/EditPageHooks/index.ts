@@ -18,25 +18,25 @@ type ParamTypes = {
 export const useEditItem = () => {
     const { id } = useParams<ParamTypes>()
 
-    const { data, isFetched } = useQuery(GET_ITEM, () => ApiServices.getItemById(Number(id)), {
+    const { data, isFetched } = useQuery([GET_ITEM, id], () => ApiServices.getItemById(Number(id)), {
         refetchOnWindowFocus: false,
         retry: 0,
     })
 
     const form = useForm<FormFieldTypes>({
         mode: 'onChange',
-        // resolver: yupResolver(goodsSchema),
+        resolver: yupResolver(goodsSchema),
     })
 
-    // useEffect(() => {
-    //     if (data) {
-    //       const defaultValues = resetDefaultValues(data);
-    //         console.log('reset', defaultValues)
+    useEffect(() => {
+        if (data) {
+          const defaultValues = resetDefaultValues(data);
+            console.log('reset', defaultValues)
 
-    //       form.reset(defaultValues);
-    //     }
+          form.reset(defaultValues);
+        }
 
-    //   }, [isFetched]);
+      }, [isFetched]);
 
     return form
 }

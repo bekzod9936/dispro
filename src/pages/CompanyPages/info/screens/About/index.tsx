@@ -1,25 +1,25 @@
-import { useEffect, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
-import Input from 'components/Custom/Input';
-import Links from './Links';
-import Spinner from 'components/Custom/Spinner';
-import { Text, Title } from '../../style';
-import MultiSelect from 'components/Custom/MultiSelect';
-import { useHistory } from 'react-router';
-import useLayout from '../../../../../components/Layout/useLayout';
-import { IconButton } from '@material-ui/core';
-import useInfoPage from '../useInfoPage';
-import useAbout from './useAbout';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
-import { inputPhoneNumber } from 'utilities/inputFormat';
-import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
-import SaveButton from '../../components/Buttons/SaveButton';
-import ExitButton from '../../components/Buttons/ExitButton';
-import LogoDef from 'assets/icons/SideBar/logodefault.png';
-import { setExitModal } from 'services/redux/Slices/info/info';
-import { TextArea } from 'components/Custom/TextArea';
-import useWindowWidth from 'services/hooks/useWindowWidth';
+import { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import Input from "components/Custom/Input";
+import Links from "./Links";
+import Spinner from "components/Custom/Spinner";
+import { Text, Title } from "../../style";
+import MultiSelect from "components/Custom/MultiSelect";
+import { useHistory } from "react-router";
+import useLayout from "../../../../../components/Layout/useLayout";
+import { IconButton } from "@material-ui/core";
+import useInfoPage from "../useInfoPage";
+import useAbout from "./useAbout";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import { inputPhoneNumber } from "utilities/inputFormat";
+import { useAppDispatch, useAppSelector } from "services/redux/hooks";
+import SaveButton from "../../components/Buttons/SaveButton";
+import ExitButton from "../../components/Buttons/ExitButton";
+import LogoDef from "assets/icons/SideBar/logodefault.png";
+import { setExitModal } from "services/redux/Slices/info/info";
+import { TextArea } from "components/Custom/TextArea";
+import useWindowWidth from "services/hooks/useWindowWidth";
 import {
   Container,
   UpSide,
@@ -46,7 +46,7 @@ import {
   Message,
   ForExample,
   WrapPhoto,
-} from './style';
+} from "./style";
 
 interface FormProps {
   telNumber?: string;
@@ -73,7 +73,7 @@ const Main = () => {
   const { width } = useWindowWidth();
 
   const { response, data } = useInfoPage();
-  const companyId: any = localStorage.getItem('companyId');
+  const companyId: any = localStorage.getItem("companyId");
   const {
     resCategory,
     resDelete,
@@ -91,7 +91,7 @@ const Main = () => {
   const [errorLogo, setErrorLogo] = useState(false);
   const [defMulti, setDefMulti] = useState<any>([]);
   const [categories, setCategories] = useState<any>([]);
-  const [logo, setLogo] = useState<any>('');
+  const [logo, setLogo] = useState<any>("");
   const [web, setWeb] = useState<any>([]);
   const [option, setOption] = useState<any[]>([]);
   const [keywords, setKeywords] = useState<any[]>([]);
@@ -122,17 +122,17 @@ const Main = () => {
         return def;
       }
     });
-    setValue('categories', newArr);
+    setValue("categories", newArr);
     setOption(newArr);
   }, [defMulti, categories]);
 
   useEffect(() => {
     setLogo(upload);
-    setValue('logo', upload);
+    setValue("logo", upload);
   }, [upload]);
 
   useEffect(() => {
-    if (logo !== '') {
+    if (logo !== "") {
       setErrorLogo(false);
     }
   }, [logo]);
@@ -140,16 +140,16 @@ const Main = () => {
   useEffect(() => {
     const tel: string = String(data?.telNumber).slice(4);
 
-    setValue('annotation', data.annotation);
-    setValue('description', data.description);
-    setValue('logo', data.logo);
-    setValue('telNumber', tel);
-    setValue('socialLinks', data.socialLinks);
-    setValue('name', data.name);
+    setValue("annotation", data.annotation);
+    setValue("description", data.description);
+    setValue("logo", data.logo);
+    setValue("telNumber", tel);
+    setValue("socialLinks", data.socialLinks);
+    setValue("name", data.name);
     setLogo(data.logo);
     setWeb(data.links);
-    if (data?.keyWords !== '') {
-      const keys: any = data?.keyWords?.split(',');
+    if (data?.keyWords !== "") {
+      const keys: any = data?.keyWords?.split(",");
       setKeywords(keys);
     } else {
       setKeywords([]);
@@ -158,19 +158,19 @@ const Main = () => {
       const link = data?.socialLinks?.find((i: any) => i.name === v.name);
       return {
         name: v.name,
-        value: link?.value || '',
+        value: link?.value || "",
       };
     });
     const newSocial = social.map((v: any) => {
       const link = data?.socialLinks?.find((i: any) => i.name === v.name);
       return {
         ...v,
-        value: link?.value || '',
+        value: link?.value || "",
       };
     });
     setLinks(newLinks);
     setSocial(newSocial);
-    setValue('socialLinks', newLinks);
+    setValue("socialLinks", newLinks);
   }, [data]);
 
   const {
@@ -183,7 +183,7 @@ const Main = () => {
     watch,
     clearErrors,
   } = useForm<FormProps>({
-    mode: 'onBlur',
+    mode: "onBlur",
     shouldFocusError: true,
   });
 
@@ -194,33 +194,33 @@ const Main = () => {
   });
 
   useEffect(() => {
-    if (getValues('telNumber') === undefined) {
-      setValue('telNumber', '');
+    if (getValues("telNumber") === undefined) {
+      setValue("telNumber", "");
     } else {
-      setValue('telNumber', checkPhone.newString);
+      setValue("telNumber", checkPhone.newString);
     }
-  }, [checkPhone.check, watch('telNumber')]);
+  }, [checkPhone.check, watch("telNumber")]);
 
   useEffect(() => {
     const subscription = watch((value: any) => {
       setOption(value.categories);
     });
     return () => subscription.unsubscribe();
-  }, [watch(['categories'])]);
+  }, [watch(["categories"])]);
 
   const handleInfoSubmit = (v: any) => {
     const category = v.categories.map((v: any) => v.value);
-    if (logo !== '') {
+    if (logo !== "") {
       resinfoSubData.mutate(
         {
           ...data,
           annotation: v.annotation,
           categories: category,
           companyId: +companyId,
-          currencyId: '1',
+          currencyId: "1",
           description: v.description,
           isHalol: true,
-          keyWords: keywords.join(','),
+          keyWords: keywords.join(","),
           linkEnable: false,
           links: web,
           logo: logo,
@@ -234,7 +234,7 @@ const Main = () => {
             resHeader.refetch();
             response.refetch();
             if (!infoData?.filledAddress || !regFilled?.filledAddress) {
-              history.push('/info/address');
+              history.push("/info/address");
             }
           },
         }
@@ -265,54 +265,58 @@ const Main = () => {
   };
 
   const handleWebLink = () => {
-    if (getValues('companyLink') === '') {
-      setError('companyLink', { shouldFocus: true });
+    if (getValues("companyLink") === "") {
+      setError("companyLink", {}, { shouldFocus: true });
     } else {
-      clearErrors('companyLink');
+      clearErrors("companyLink");
     }
     if (
-      getValues('link') === '' ||
-      !getValues('link')?.startsWith('https://') ||
-      !getValues('link')?.startsWith('http://') ||
-      !getValues('link')?.startsWith('wwww.')
+      getValues("link") === "" ||
+      !getValues("link")?.startsWith("https://") ||
+      !getValues("link")?.startsWith("http://") ||
+      !getValues("link")?.startsWith("wwww.")
     ) {
-      if (getValues('link') === '') {
-        setError('link', { shouldFocus: true, message: t('requiredField') });
+      if (getValues("link") === "") {
+        setError(
+          "link",
+          { message: t("requiredField") },
+          { shouldFocus: true }
+        );
       } else {
-        setError('link', { shouldFocus: true, message: 'Неверная ссылка' });
+        setError("link", { message: "Неверная ссылка" }, { shouldFocus: true });
       }
     } else {
-      clearErrors('link');
+      clearErrors("link");
     }
     if (
-      getValues('companyLink') !== '' &&
-      getValues('link') !== '' &&
-      (getValues('link')?.startsWith('https://') ||
-        getValues('link')?.startsWith('http://') ||
-        getValues('link')?.startsWith('wwww.'))
+      getValues("companyLink") !== "" &&
+      getValues("link") !== "" &&
+      (getValues("link")?.startsWith("https://") ||
+        getValues("link")?.startsWith("http://") ||
+        getValues("link")?.startsWith("wwww."))
     ) {
       setWeb([
         ...web,
         {
-          name: getValues('companyLink'),
-          address: getValues('link'),
+          name: getValues("companyLink"),
+          address: getValues("link"),
           enable: false,
         },
       ]);
-      setValue('link', '');
-      setValue('companyLink', '');
-      clearErrors('link');
-      clearErrors('companyLink');
+      setValue("link", "");
+      setValue("companyLink", "");
+      clearErrors("link");
+      clearErrors("companyLink");
     }
   };
 
   const handleKeywords = () => {
-    if (getValues('keywords') === '') {
-      setError('keywords', { shouldFocus: true });
+    if (getValues("keywords") === "") {
+      setError("keywords", {}, { shouldFocus: true });
     } else {
-      clearErrors('keywords');
-      setKeywords([...keywords, getValues('keywords')]);
-      setValue('keywords', '');
+      clearErrors("keywords");
+      setKeywords([...keywords, getValues("keywords")]);
+      setValue("keywords", "");
     }
   };
 
@@ -333,7 +337,7 @@ const Main = () => {
     });
     setLinks(newLinks);
     setSocial(newSocial);
-    setValue('socialLinks', newLinks);
+    setValue("socialLinks", newLinks);
   };
 
   const handleSocialDelete = (name: any) => {
@@ -341,7 +345,7 @@ const Main = () => {
       if (v.name !== name) {
         return v;
       } else {
-        return { ...v, value: '' };
+        return { ...v, value: "" };
       }
     });
     console.log(newLinks);
@@ -349,18 +353,18 @@ const Main = () => {
       if (v.name !== name) {
         return v;
       } else {
-        return { ...v, value: '' };
+        return { ...v, value: "" };
       }
     });
     setLinks(newLinks);
     setSocial(newSocial);
-    setValue('socialLinks', newLinks);
+    setValue("socialLinks", newLinks);
   };
 
   const selectAndKeywords = (
     <>
       <Controller
-        name='categories'
+        name="categories"
         control={control}
         rules={{ required: true }}
         render={({ field }) => (
@@ -368,44 +372,44 @@ const Main = () => {
             isLoading={resCategory.isLoading || response.isLoading}
             options={option?.length < 2 ? category : []}
             isMulti={true}
-            label={t('chose_categories')}
+            label={t("chose_categories")}
             margin={{
-              laptop: '20px 0 25px',
+              laptop: "20px 0 25px",
             }}
-            message={t('requiredField')}
+            message={t("requiredField")}
             error={errors.categories ? true : false}
             field={field}
             isClearable={false}
-            nooptionsmessage={t('noOptionMessage')}
+            nooptionsmessage={t("noOptionMessage")}
           />
         )}
       />
       <Controller
-        name='keywords'
+        name="keywords"
         control={control}
         rules={{ required: keywords?.length === 0 ? true : false }}
-        defaultValue=''
+        defaultValue=""
         render={({ field }) => (
           <Input
-            label={t('keywords')}
+            label={t("keywords")}
             error={errors.keywords ? true : false}
-            message={t('requiredField')}
-            type='string'
+            message={t("requiredField")}
+            type="string"
             field={field}
             margin={{
-              laptop: '20px 0 15px',
+              laptop: "20px 0 15px",
             }}
             inputStyle={{
               border:
-                getValues('keywords') !== ''
-                  ? '1px solid #606EEA'
-                  : '1px solid #C2C2C2',
+                getValues("keywords") !== ""
+                  ? "1px solid #606EEA"
+                  : "1px solid #C2C2C2",
             }}
             IconEnd={
               <WrapArrow
                 onClick={handleKeywords}
-                bgcolor={getValues('keywords') !== ''}
-                style={{ cursor: 'pointer' }}
+                bgcolor={getValues("keywords") !== ""}
+                style={{ cursor: "pointer" }}
               >
                 <ArrowIcon />
               </WrapArrow>
@@ -419,7 +423,7 @@ const Main = () => {
             <ButtonKeyWord>
               {v}
               <IconButton onClick={() => handleKeyDelete(v)}>
-                <DeleteIcon color='#C4C4C4' />
+                <DeleteIcon color="#C4C4C4" />
               </IconButton>
             </ButtonKeyWord>
           );
@@ -438,18 +442,18 @@ const Main = () => {
         <Container>
           <LeftSide>
             <WrapHeader>
-              <Title>{t('logo')}</Title>
+              <Title>{t("logo")}</Title>
               <WrapLoading>
                 {logo ? null : (
-                  <Text weight='normal' color='#C4C4C4'>
-                    {t('logo_text')}
+                  <Text weight="normal" color="#C4C4C4">
+                    {t("logo_text")}
                   </Text>
                 )}
                 <input
-                  accept='image/*'
-                  style={{ display: 'none' }}
-                  id='logo1'
-                  type='file'
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  id="logo1"
+                  type="file"
                   onChange={handleUpload}
                 />
                 {response.isLoading ? (
@@ -457,28 +461,28 @@ const Main = () => {
                 ) : logo ? (
                   resDelete.isLoading ? (
                     <Spinner />
-                  ) : resDelete.isSuccess && logo === '' ? (
-                    <LabelLoading htmlFor='logo1'>
-                      {t('upload_photo')} <PhotoLoadingIcon />
+                  ) : resDelete.isSuccess && logo === "" ? (
+                    <LabelLoading htmlFor="logo1">
+                      {t("upload_photo")} <PhotoLoadingIcon />
                     </LabelLoading>
                   ) : (
                     <WrapPhoto>
                       <PhotoWrap
                         onClick={async () => {
                           await handlePhotoDelete();
-                          await setLogo('');
+                          await setLogo("");
                         }}
                       >
                         <LazyLoadImage
-                          alt='image'
+                          alt="image"
                           src={logo}
-                          height='100%'
-                          width='100%'
+                          height="100%"
+                          width="100%"
                           style={{
-                            objectFit: 'scale-down',
-                            borderRadius: '14px',
+                            objectFit: "scale-down",
+                            borderRadius: "14px",
                           }}
-                          effect='blur'
+                          effect="blur"
                           onError={(e: any) => {
                             e.target.onerror = null;
                             e.target.src = LogoDef;
@@ -493,141 +497,141 @@ const Main = () => {
                 ) : resUpLoad.isLoading ? (
                   <Spinner />
                 ) : (
-                  <LabelLoading htmlFor='logo1'>
-                    {t('upload_photo')} <PhotoLoadingIcon />
+                  <LabelLoading htmlFor="logo1">
+                    {t("upload_photo")} <PhotoLoadingIcon />
                   </LabelLoading>
                 )}
               </WrapLoading>
-              {errorLogo ? <Message>{t('addinfologo')}</Message> : null}
+              {errorLogo ? <Message>{t("addinfologo")}</Message> : null}
             </WrapHeader>
             <Controller
-              name='name'
+              name="name"
               control={control}
               rules={{ required: true, maxLength: 30 }}
               render={({ field }) => (
                 <Input
-                  label={t('title')}
+                  label={t("title")}
                   error={errors.name ? true : false}
-                  message={t('requiredField')}
-                  type='string'
+                  message={t("requiredField")}
+                  type="string"
                   field={field}
                   margin={{
-                    laptop: '20px 0 25px',
+                    laptop: "20px 0 25px",
                   }}
                   maxLength={30}
                 />
               )}
             />
             <Controller
-              name='annotation'
+              name="annotation"
               control={control}
               rules={{ required: true }}
               render={({ field }) => (
                 <Input
-                  label={t('company_direction')}
+                  label={t("company_direction")}
                   error={errors.annotation ? true : false}
-                  message={t('requiredField')}
-                  type='string'
+                  message={t("requiredField")}
+                  type="string"
                   field={field}
                   margin={{
-                    laptop: '20px 0 25px',
+                    laptop: "20px 0 25px",
                   }}
                 />
               )}
             />
             <Controller
-              name='description'
+              name="description"
               control={control}
               rules={{ required: true }}
               render={({ field }) => (
                 <TextArea
                   {...field}
-                  message={t('requiredField')}
+                  message={t("requiredField")}
                   error={errors.description ? true : false}
-                  minHeight={'120px'}
-                  maxHeight={'300px'}
-                  resize={'vertical'}
-                  title={t('description')}
+                  minHeight={"120px"}
+                  maxHeight={"300px"}
+                  resize={"vertical"}
+                  title={t("description")}
                 />
               )}
             />
             <WrapCurrency>
-              <span>{t('currency')}</span>
+              <span>{t("currency")}</span>
               <div>UZS (Uzbekistan sum)</div>
             </WrapCurrency>
             {width > 1000 ? selectAndKeywords : null}
           </LeftSide>
           <RightSide>
             {width <= 1000 ? selectAndKeywords : null}
-            <Title>{t('phone')}</Title>
-            <Text>{t('maincompanynumber')}</Text>
+            <Title>{t("phone")}</Title>
+            <Text>{t("maincompanynumber")}</Text>
             <Controller
-              name='telNumber'
+              name="telNumber"
               control={control}
               rules={{ required: true, maxLength: 9, minLength: 9 }}
-              defaultValue=''
+              defaultValue=""
               render={({ field }) => (
                 <Input
-                  label={t('phoneNumber')}
+                  label={t("phoneNumber")}
                   error={errors.telNumber ? true : false}
-                  message={t('requiredField')}
-                  type='tel'
+                  message={t("requiredField")}
+                  type="tel"
                   field={field}
                   margin={{
-                    laptop: '20px 0 25px',
+                    laptop: "20px 0 25px",
                   }}
-                  inputStyle={{ inpadding: '0 20px 0 0' }}
+                  inputStyle={{ inpadding: "0 20px 0 0" }}
                   maxLength={9}
-                  IconStart={<div className='inputstyle'>+998</div>}
+                  IconStart={<div className="inputstyle">+998</div>}
                 />
               )}
             />
-            <Title>{t('companyLink')}</Title>
-            <Text>{t('companyLink_text')}</Text>
+            <Title>{t("companyLink")}</Title>
+            <Text>{t("companyLink_text")}</Text>
             <Controller
-              name='companyLink'
+              name="companyLink"
               control={control}
               rules={{ required: false }}
-              defaultValue=''
+              defaultValue=""
               render={({ field }) => (
                 <Input
-                  message={t('requiredField')}
+                  message={t("requiredField")}
                   error={errors.companyLink ? true : false}
-                  label={t('linkName')}
-                  type='string'
+                  label={t("linkName")}
+                  type="string"
                   field={field}
                   margin={{
-                    laptop: '20px 0 25px',
+                    laptop: "20px 0 25px",
                   }}
                 />
               )}
             />
             <Controller
-              name='link'
+              name="link"
               control={control}
               rules={{ required: false }}
-              defaultValue=''
+              defaultValue=""
               render={({ field }) => (
                 <Input
-                  label={t('link')}
-                  type='string'
+                  label={t("link")}
+                  type="string"
                   field={field}
                   margin={{
-                    laptop: '20px 0 25px',
+                    laptop: "20px 0 25px",
                   }}
                   inputStyle={{
                     border:
-                      getValues('link') !== ''
-                        ? '1px solid #606EEA'
-                        : '1px solid #C2C2C2',
+                      getValues("link") !== ""
+                        ? "1px solid #606EEA"
+                        : "1px solid #C2C2C2",
                   }}
                   message={errors?.link?.message}
                   error={errors.link ? true : false}
                   IconEnd={
                     <WrapArrow
-                      style={{ cursor: 'pointer' }}
+                      style={{ cursor: "pointer" }}
                       onClick={handleWebLink}
-                      bgcolor={getValues('link') !== ''}
+                      bgcolor={getValues("link") !== ""}
                     >
                       <ArrowIcon />
                     </WrapArrow>
@@ -635,14 +639,14 @@ const Main = () => {
                 />
               )}
             />
-            <ForExample>{t('forexample')}: https://dis-count.app/</ForExample>
-            {web?.length > 0 ? <Title>{t('companyLink')}</Title> : null}
+            <ForExample>{t("forexample")}: https://dis-count.app/</ForExample>
+            {web?.length > 0 ? <Title>{t("companyLink")}</Title> : null}
             {web?.map((v: any) => (
               <>
                 <WrapWebLink key={v.address}>
                   <WebLink>{v?.name}</WebLink>
                   <WebValue>
-                    <a href={v?.address} target='_blank'>
+                    <a href={v?.address} target="_blank">
                       ({v?.address})
                     </a>
                     <IconButton onClick={() => handleWebDelete(v)}>
@@ -652,8 +656,8 @@ const Main = () => {
                 </WrapWebLink>
               </>
             ))}
-            <Title>{t('socialLinks')}</Title>
-            <div style={{ display: 'block' }}>
+            <Title>{t("socialLinks")}</Title>
+            <div style={{ display: "block" }}>
               {social?.map((v: any) => (
                 <Links
                   key={v.name}
@@ -673,17 +677,17 @@ const Main = () => {
               onClick={() => dispatch(setExitModal(true))}
               mobile={true}
               margin={{
-                laptop: '0 10px 0 0',
+                laptop: "0 10px 0 0",
               }}
             />
           )}
           <SaveButton
             onClick={() => {
-              if (logo === '') {
+              if (logo === "") {
                 setErrorLogo(true);
               }
             }}
-            margin={{ laptop: '0' }}
+            margin={{ laptop: "0" }}
           />
         </div>
       </DownSide>

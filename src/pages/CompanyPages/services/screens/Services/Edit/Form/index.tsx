@@ -28,38 +28,11 @@ export const Form: React.FC = () => {
   const [modal, setModal] = useState(false);
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  // const form = useEditItem();
-
-  const form = useForm({
-    mode: "onChange",
-    defaultValues: {
-      loyaltyType: "aadadvdva",
-      titles: [
-        {
-          title: "test",
-          desc: "reavdav",
-          lang: "avafv",
-        },
-      ],
-    },
-  });
-  const { fields } = useFieldArray({
-    control: form.control,
-    name: "titles",
-  });
+  const form = useEditItem();
 
   const onSubmit = (data: any) => {
     console.log(data);
   };
-
-  useEffect(() => {
-    setTimeout(() => {
-      form.setValue("titles", [
-        { title: "test", desc: "desc", lang: "reus" },
-        { title: "test", desc: "desc", lang: "reus" },
-      ]);
-    }, 5000);
-  }, []);
 
   const handleOpen = () => {
     setModal(true);
@@ -68,37 +41,23 @@ export const Form: React.FC = () => {
     setModal(false);
   };
 
+  console.log(form.formState.errors);
+
   return (
     <div>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <Container>
-          {fields.map((item, index) => (
-            <div key={item.id}>
-              <Controller
-                name={`titles.${index}.title`}
-                control={form.control}
-                render={({ field }) => <input {...field} />}
-              />
-              <Controller
-                name={`titles.${index}.desc`}
-                control={form.control}
-                render={({ field }) => <input {...field} />}
-              />
-            </div>
-          ))}
-          <Controller
-            name={"loyaltyType"}
-            control={form.control}
-            render={({ field }) => <input {...field} />}
-          />
-          {/* <Selects handleOpen={handleOpen} />
+      <FormProvider {...form}>
+        <FormStyled onSubmit={form.handleSubmit(onSubmit)}>
+          <Container>
+            <TitleAndDescription />
+            <Selects handleOpen={handleOpen} />
             <Switches dispatch={dispatch} state={state} />
-            <Variants disabled={state.loyaltyType !== 1} /> */}
-          {/* <Durations /> */}
-          {/* <Photos /> */}
-          {/* <Buttons isLoading={false} /> */}
-        </Container>
-      </form>
+            <Variants disabled={state.loyaltyType !== 1} />
+            {/* <Durations /> */}
+            {/* <Photos /> */}
+            <Buttons isLoading={false} />
+          </Container>
+        </FormStyled>
+      </FormProvider>
       {/* <SectionModal isSingle onClose={handleClose} isOpen={modal} /> */}
     </div>
   );
