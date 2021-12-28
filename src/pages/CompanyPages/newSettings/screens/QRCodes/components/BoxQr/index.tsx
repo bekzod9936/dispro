@@ -33,37 +33,82 @@ import {
   WrapList,
   WrapButtons,
 } from "./style";
+import useQrcode from "../../useQrcode";
+import { Controller, useForm } from "react-hook-form";
 interface Props {
-  value?: {
-    companyId?: number;
-    dynLinkToken?: any;
-    id?: number;
-    referType?: number;
-    source?: string;
-    token?: string;
-    userId?: number;
-  };
+  link?: string;
+  name?: string;
+  id?: number;
+  branch?: boolean;
 }
 
-const BoxQr = ({ value }: Props) => {
+interface IForm {
+  source?: string;
+}
+
+const BoxQr = ({ link, name, id, branch }: Props) => {
   const { t } = useTranslation();
   const [closeFun, setCloseFun] = useState<any>(null);
+
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<IForm>({
+    mode: "onChange",
+  });
+
+  const { putBranches, deleteRef, putRef } = useQrcode();
 
   const [openEdit, setOpenEdit] = useState<boolean>(false);
   const [openDelete, setOpenDelete] = useState<boolean>(false);
 
   const downloadQrCode = () => {
     const canvas = document.getElementById(
-      `referral-qr-code-${value?.id}`
+      `referral-qr-code-${id}`
     ) as HTMLCanvasElement;
     downloadQR(canvas);
+  };
+
+  const handleDelete = () => {
+    if (branch) {
+      putBranches.mutate(
+        { storeId: id, activeQr: false },
+        {
+          onSuccess: () => {
+            setOpenDelete(false);
+          },
+        }
+      );
+    } else {
+      deleteRef.mutate(
+        { data: { id } },
+        {
+          onSuccess: () => {
+            setOpenDelete(false);
+          },
+        }
+      );
+    }
+  };
+
+  const handleEditRef = (e: any) => {
+    putRef.mutate(
+      { id, source: e.source },
+      {
+        onSuccess: () => {
+          setOpenEdit(false);
+        },
+      }
+    );
   };
 
   return (
     <>
       <Box>
         <BoxHeader>
-          <BoxTitle>{value?.source}</BoxTitle>
+          <BoxTitle>{name}</BoxTitle>
           <Popover
             click={
               <IconButton>
@@ -77,14 +122,17 @@ const BoxQr = ({ value }: Props) => {
           >
             <WrapList>
               <ul>
-                <li
-                  onClick={() => {
-                    setOpenEdit(true);
-                    closeFun.close();
-                  }}
-                >
-                  {t("edit")}
-                </li>
+                {branch === true ? null : (
+                  <li
+                    onClick={() => {
+                      setOpenEdit(true);
+                      closeFun.close();
+                      setValue("source", name);
+                    }}
+                  >
+                    {t("edit")}
+                  </li>
+                )}
                 <li
                   onClick={() => {
                     setOpenDelete(true);
@@ -100,8 +148,8 @@ const BoxQr = ({ value }: Props) => {
         </BoxHeader>
         <BoxBody>
           <QRCode
-            id={`referral-qr-code-${value?.id}`}
-            value={value?.dynLinkToken}
+            id={`referral-qr-code-${id}`}
+            value={link!}
             size={120}
             fgColor={"#223367"}
             level={"L"}
@@ -116,7 +164,7 @@ const BoxQr = ({ value }: Props) => {
             </Button>
             <Button
               endIcon={<ChainIcon />}
-              onClick={() => copyToClipboard(value?.dynLinkToken)}
+              onClick={() => copyToClipboard(link!)}
               buttonStyle={{ bgcolor: "#eff0fd", color: " #606EEA" }}
               margin={{ laptop: "0 30px 0 0" }}
             >
@@ -126,29 +174,47 @@ const BoxQr = ({ value }: Props) => {
         </BoxBody>
       </Box>
       <Modal open={openEdit}>
-        <ModalWrap>
-          <ModalHeader>
-            <ModalTitle>{t("editqrcode")}</ModalTitle>
-            <IconButton
-              onClick={() => {
-                setOpenEdit(false);
+        <form onSubmit={handleSubmit(handleEditRef)}>
+          <ModalWrap>
+            <ModalHeader>
+              <ModalTitle>{t("editqrcode")}</ModalTitle>
+              <IconButton
+                onClick={() => {
+                  setOpenEdit(false);
+                }}
+              >
+                <CloseIcon />
+              </IconButton>
+            </ModalHeader>
+            <ModalText>{t("changenameqrcode")}</ModalText>
+            <Controller
+              rules={{ required: true }}
+              control={control}
+              name="source"
+              render={({ field }) => {
+                return (
+                  <Input
+                    label={t("enterNewName")}
+                    field={field}
+                    error={errors.source ? true : false}
+                    message={t("requiredField")}
+                    margin={{ desktop: "30px 0" }}
+                  />
+                );
               }}
-            >
-              <CloseIcon />
-            </IconButton>
-          </ModalHeader>
-          <ModalText>{t("changenameqrcode")}</ModalText>
-          <Input margin={{ desktop: "30px 0" }} label={t("enterNewName")} />
-          <ModalButtons>
-            <CancelButton
-              onClick={() => {
-                setOpenEdit(false);
-              }}
-              margin={{ laptop: "0 15px 0 0" }}
             />
-            <SaveButton />
-          </ModalButtons>
-        </ModalWrap>
+
+            <ModalButtons>
+              <CancelButton
+                onClick={() => {
+                  setOpenEdit(false);
+                }}
+                margin={{ laptop: "0 15px 0 0" }}
+              />
+              <SaveButton disabled={putRef.isLoading} />
+            </ModalButtons>
+          </ModalWrap>
+        </form>
       </Modal>
       <Modal open={openDelete}>
         <ModalWrap>
@@ -163,7 +229,11 @@ const BoxQr = ({ value }: Props) => {
               margin={{ laptop: "30px 15px 0 0" }}
             />
 
-            <DeleteButton margin={{ laptop: "30px 0 0 0" }} />
+            <DeleteButton
+              onClick={handleDelete}
+              disabled={putBranches.isLoading || deleteRef.isLoading}
+              margin={{ laptop: "30px 0 0 0" }}
+            />
           </WrapButtonsDelete>
         </ModalWrap>
       </Modal>

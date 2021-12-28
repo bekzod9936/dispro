@@ -29,12 +29,12 @@ export const ItemGroup: React.FC<ItemGroupProps> = ({
   onOpenModal,
   sectionId,
 }) => {
-  const { items, onDragEnd } = useDragNDrop(goods);
+  const { items, onDragEnd, onGoToTop, scrollRef } = useDragNDrop(goods);
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Wrapper>
-        <div className="header">
+        <div ref={scrollRef} className="header">
           <h4>{sectionName || "Section Name"}</h4>
         </div>
         <Droppable droppableId={sectionId}>
@@ -44,6 +44,7 @@ export const ItemGroup: React.FC<ItemGroupProps> = ({
                 <Item
                   key={item.id}
                   index={index}
+                  onGoToTop={onGoToTop}
                   onOpenModal={onOpenModal}
                   setCurrentItem={setCurrentItem}
                   currentItemId={currentItem?.id}

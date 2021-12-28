@@ -50,7 +50,13 @@ const variantSchema = yup.object().shape({
 
     articul: yup.string().required('enterArticulOfItem').max(30, 'maxAmountOfSymbols'),
 
-    price: yup.number().min(1000, 'minAmountOfPrice').typeError('enterPriceOfItem').max(1000000001, 'maxPriceOneBillion').required('enterPriceOfItem'),
+    price: yup
+        .number()
+        .min(1000, 'minAmountOfPrice')
+        .nullable(true)
+        .transform((parsedValue, originalValue) => originalValue === '' ? null : parsedValue)
+        .max(1000000001, 'maxPriceOneBillion')
+        .required('enterPriceOfItem'),
 
     priceWithSale: yup.string()
     
@@ -74,9 +80,21 @@ const variantSchemaWithSale = yup.object().shape({
 
     articul: yup.string().required('enterArticulOfItem').max(30, 'maxAmountOfSymbols'),
 
-    price: yup.number().min(1000, 'minAmountOfPrice').typeError('enterPriceOfItem').max(1000000001, 'maxPriceOneBillion').required('enterPriceOfItem'),
+    price: yup
+        .number()
+        .nullable(true)
+        .transform((parsedValue, originalValue) => originalValue === '' ? null : parsedValue)
+        .min(1000, 'minAmountOfPrice')
+        .max(1000000001, 'maxPriceOneBillion')
+        .required('enterPriceOfItem'),
 
-    priceWithSale: yup.number().min(1000, 'minAmountOfPrice').typeError('enterPriceOfItemWithSale').lessThan(yup.ref('price'), 'priceWithSaleMustBeLessThanPriceWithoutSale').required('enterPriceOfItemWithSale')
+    priceWithSale: yup
+        .number()
+        .min(1000, 'minAmountOfPrice')
+        .nullable(true)
+        .transform((parsedValue, originalValue) => originalValue === '' ? null : parsedValue)
+        .lessThan(yup.ref('price'), 'priceWithSaleMustBeLessThanPriceWithoutSale')
+        .required('enterPriceOfItemWithSale')
     
 })
 

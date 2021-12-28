@@ -40,6 +40,8 @@ export const useSectionsWithIdEntity = () => {
 
 export const useDragNDrop = (goods: IGoodsResponse[]) => {
     const [items, setItems] = useState(goods);
+    const [scrollState, setScrollState] = useState(false)
+    const scrollRef = useRef<HTMLDivElement | null>(null)
   
     const onDragEnd = (result: DropResult) => {
       const { destination, source, draggableId } = result;
@@ -65,16 +67,37 @@ export const useDragNDrop = (goods: IGoodsResponse[]) => {
   
       setItems(newGoods);
     };
+
+    const onGoToTop = (id: number) => {
+      const currentItem = items.find(item => item.id === id);
+      const newItems = items.filter(item => item.id !== id);
+
+      setItems([currentItem!, ...newItems]);
+      setScrollState(true)
+    }
   
   useEffect(() => {
     if (items.length !== goods.length) {
       setItems(goods);
     }
   }, [goods, items]);
+
+  useEffect(() => {
+    if (scrollState && scrollRef.current) {
+      scrollRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest'
+      })
+      setScrollState(false)
+    }
+  }, [scrollState, setScrollState])
+
   
   return {
     items,
     onDragEnd,
+    onGoToTop,
+    scrollRef
   };
 };
 
