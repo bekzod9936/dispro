@@ -8,23 +8,42 @@ import BoxQr from "./components/BoxQr";
 import useQrcode from "./useQrcode";
 import { useAppSelector } from "services/redux/hooks";
 import CreateQrCode from "./components/CreateQrCode";
+import { useState } from "react";
 
 const QrCodes = () => {
   const { t } = useTranslation();
 
   const { resRefQrCodes, resBranchesQrCodes } = useQrcode();
 
+  const [filterType, setFilterType] = useState(null);
   const data = useAppSelector((state) => state.newsetting.refQrcodes);
 
   const dataBranchQrcodes = useAppSelector(
     (state) => state.newsetting.branchQrcodes
   );
 
+  const [searchResRef, setSearchResRef] = useState<any>([]);
+  const [searchResBranches, setSearchResRefBranches] = useState<any>([]);
+  const [inpuSearch, setInpuSearch] = useState<string>("");
+  const [searchFocus, setSearchFocus] = useState<boolean>(false);
+
+  const handleSearch = (e: any) => {
+    setInpuSearch(e.target.value);
+    const searchResultRef = data?.filter((v: any) => {
+      return v.source.toLowerCase().includes(e.target.value?.toLowerCase());
+    });
+    const searchResultBranches = dataBranchQrcodes?.filter((v: any) => {
+      return v.name.toLowerCase().includes(e.target.value?.toLowerCase());
+    });
+    setSearchResRefBranches(searchResultBranches);
+    setSearchResRef(searchResultRef);
+  };
+
   return (
     <Container>
       <Header>
         <CreateQrCode />
-        <FilterQr />
+        <FilterQr filterType={filterType} setFilterType={setFilterType} />
         <Input
           IconStart={<SearchIcon />}
           inputStyle={{
@@ -33,10 +52,14 @@ const QrCodes = () => {
             outpadding: "0 0 0 20px",
             height: { desktop: 50, laptop: 45 },
           }}
-          type="search"
           placeholder={t("searchbyqrcode")}
           margin={{ laptop: "0 0 0 20px", mobile: "0 20px" }}
           width={{ maxwidth: 500 }}
+          onChange={handleSearch}
+          type="search"
+          onFocus={() => setSearchFocus(true)}
+          onBlur={() => (inpuSearch === "" ? setSearchFocus(false) : null)}
+          value={inpuSearch}
         />
       </Header>
       <Body>
@@ -44,29 +67,59 @@ const QrCodes = () => {
           <Spinner />
         ) : (
           <div>
-            {data?.map((v: any) => (
-              <BoxQr
-                key={v.id}
-                link={v.dynLinkToken}
-                name={v.source}
-                id={v.id}
-              />
-            ))}
-            {dataBranchQrcodes?.map((v: any) => {
-              if (v.active) {
-                return (
+            {filterType === "ref"
+              ? null
+              : !searchFocus || inpuSearch === ""
+              ? data?.map((v: any) => (
                   <BoxQr
                     key={v.id}
-                    link={v.dynLink}
-                    name={v.name}
+                    link={v.dynLinkToken}
+                    name={v.source}
                     id={v.id}
-                    branch={true}
                   />
-                );
-              } else {
-                return null;
-              }
-            })}
+                ))
+              : searchResRef?.map((v: any) => (
+                  <BoxQr
+                    key={v.id}
+                    link={v.dynLinkToken}
+                    name={v.source}
+                    id={v.id}
+                  />
+                ))}
+
+            {filterType === "branches"
+              ? null
+              : !searchFocus || inpuSearch === ""
+              ? dataBranchQrcodes?.map((v: any) => {
+                  if (v.active) {
+                    return (
+                      <BoxQr
+                        key={v.id}
+                        link={v.dynLink}
+                        name={v.name}
+                        id={v.id}
+                        branch={true}
+                      />
+                    );
+                  } else {
+                    return null;
+                  }
+                })
+              : searchResBranches?.map((v: any) => {
+                  if (v.active) {
+                    return (
+                      <BoxQr
+                        key={v.id}
+                        link={v.dynLink}
+                        name={v.name}
+                        id={v.id}
+                        branch={true}
+                      />
+                    );
+                  } else {
+                    return null;
+                  }
+                })}
             <div style={{ height: "5px", width: "100%" }} />
           </div>
         )}

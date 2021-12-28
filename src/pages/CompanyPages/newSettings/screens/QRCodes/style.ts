@@ -32,6 +32,7 @@ export const Body = styled.div`
     display: flex;
     flex-wrap: wrap;
     grid-gap: 25px;
+    height: fit-content;
   }
 `;
 
