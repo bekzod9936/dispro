@@ -37,7 +37,7 @@ export const ItemPopover: React.FC<ItemPopoverProps> = ({
   };
 
   const handleEdit = () => {
-    history.push(`${itemId}`);
+    history.push(`edit/${itemId}`);
   };
 
   return (

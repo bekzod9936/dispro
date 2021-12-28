@@ -91,9 +91,9 @@ const variantSchemaWithSale = yup.object().shape({
     priceWithSale: yup
         .number()
         .min(1000, 'minAmountOfPrice')
+        .lessThan(yup.ref('price'), 'priceWithSaleMustBeLessThanPriceWithoutSale')
         .nullable(true)
         .transform((parsedValue, originalValue) => originalValue === '' ? null : parsedValue)
-        .lessThan(yup.ref('price'), 'priceWithSaleMustBeLessThanPriceWithoutSale')
         .required('enterPriceOfItemWithSale')
     
 })

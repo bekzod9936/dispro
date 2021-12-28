@@ -48,8 +48,6 @@ export const TitleAndDescription: React.FC<TitleAndDescriptionProps> = () => {
     setModal(false);
   };
 
-  console.log(fields);
-
   return (
     <Wrapper isMultiple={fields.length > 1}>
       {fields.map((item, index) => (
@@ -57,27 +55,25 @@ export const TitleAndDescription: React.FC<TitleAndDescriptionProps> = () => {
           <Controller
             control={control}
             name={`titles.${index}.title`}
-            render={({ field }) => {
-              console.log(field);
-              return (
-                <Input
-                  {...field}
-                  labelIcon={
-                    index > 0 ? (
-                      <ButtonIcon onClick={() => remove(index)}>
-                        <RemoveInputIcon />
-                      </ButtonIcon>
-                    ) : (
-                      <MockIcon />
-                    )
-                  }
-                  label={t("title") + ` ${item.lang}`}
-                  message={error ? t(error[index]?.title?.message || "") : ""}
-                  error={error && Boolean(error[index]?.title)}
-                  margin={input.margin(Boolean(error))}
-                />
-              );
-            }}
+            render={({ field }) => (
+              <Input
+                field={field}
+                defaultValue={item.title}
+                labelIcon={
+                  index > 0 ? (
+                    <ButtonIcon onClick={() => remove(index)}>
+                      <RemoveInputIcon />
+                    </ButtonIcon>
+                  ) : (
+                    <MockIcon />
+                  )
+                }
+                label={t("title") + ` ${item.lang}`}
+                message={error ? t(error[index]?.title?.message || "") : ""}
+                error={error && Boolean(error[index]?.title)}
+                margin={input.margin(Boolean(error))}
+              />
+            )}
           />
           <Controller
             control={control}
@@ -86,6 +82,7 @@ export const TitleAndDescription: React.FC<TitleAndDescriptionProps> = () => {
               <Input
                 multiline
                 isAbsolute
+                defaultValue={item.desc}
                 label={t("description") + ` ${item.lang}`}
                 field={field}
                 inputStyle={input.style(true)}

@@ -16,7 +16,7 @@ export const getRoutes = () => {
             component: CreatePage
         },
         {
-            path: "/services/:id",
+            path: "/services/edit/:id",
             component: EditPage
         }
     ]
