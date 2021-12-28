@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { device } from 'styles/device';
+import styled from "styled-components";
+import { device } from "styles/device";
 
 export const Container = styled.div`
   display: flex;
@@ -82,7 +82,7 @@ export const Text = styled.div`
   font-weight: 300;
   font-size: 14px;
   color: #223367;
-  word-break: break-all;
+  word-break: break-word;
   margin: 10px 0 15px 0;
   width: calc(100% - 50px);
 `;
