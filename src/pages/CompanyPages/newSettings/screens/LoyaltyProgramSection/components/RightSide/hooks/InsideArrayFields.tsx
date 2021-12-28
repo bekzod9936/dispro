@@ -1,3 +1,4 @@
+import { useFieldArray } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import {
     Controller,
@@ -13,6 +14,8 @@ import {
 import {Or} from "../utils";
 import InputFormat from "components/Custom/InputFormat";
 import MultiSelect from "components/Custom/MultiSelect";
+
+
 
 interface ArrayProps {
     fields:any[];
@@ -35,17 +38,29 @@ interface ArrayProps {
     SecondVariantNumber:number|string;
     ThirdVariantLabel:string;
     OrVariant:any;
+  
 } 
 
-const InsideArrayFields=({...PropsArrayField}:ArrayProps)=>{
+const InsideArrayFields=( {nestedIndex}:any,{...PropsArrayField}:ArrayProps)=>{
+    
+const {
+    fields: smallfields,
+    remove: smallremove,
+    append: smallappend,
+  } = useFieldArray({
+    control: PropsArrayField.control,
+    name: `insideconditions.${nestedIndex}.nestedArray`,
+  });
     const { t } = useTranslation();
     return (
         <>
-               {PropsArrayField.smallfields.map(({ id }:any, childindex:any) => (
+        
+               {smallfields.map(({ id }:any, childindex:any) => (
                 <>
                   <TitleInsideFormChildMore key={id}>
                     <DynamicGroup>
                       <Controller
+                    
                         name={`insideconditions[${childindex}].or`}
                         defaultValue={"Требование"}
                         control={PropsArrayField.control}
@@ -77,7 +92,7 @@ const InsideArrayFields=({...PropsArrayField}:ArrayProps)=>{
                     <DynamicGroup>
                       <DynamicLabel>когда</DynamicLabel>
                       <Controller
-                        name={`insideconditions[${childindex}].when`}
+                        name={`insideconditions.${nestedIndex}.nestedArray.${childindex}.when`}
                         defaultValue={"Требование"}
                         control={PropsArrayField.control}
                         rules={{
@@ -113,7 +128,7 @@ const InsideArrayFields=({...PropsArrayField}:ArrayProps)=>{
                     <DynamicGroup>
                       <DynamicLabel>{t('больше')}</DynamicLabel>
                       <Controller
-                        name={`insideconditions[${childindex}].more`}
+                        name={`insideconditions.${nestedIndex}.nestedArray.${childindex}.more`}
                         control={PropsArrayField.control}
                         rules={{
                           required: true,

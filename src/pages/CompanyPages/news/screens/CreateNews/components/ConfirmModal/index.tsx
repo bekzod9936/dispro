@@ -69,7 +69,7 @@ export const ConfirmModal = ({
               Отмена
             </Button>
             <Button
-              type='submit'
+              // type='submit'
               margin={{ laptop: '0 22px 0 0' }}
               onClick={submitData}
               buttonStyle={{ shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)' }}
@@ -92,7 +92,7 @@ export const ConfirmModal = ({
               {t('cancellation')}
             </Button>
             <Button
-              type='submit'
+              // type='submit'
               margin={{ laptop: '0 22px 0 0' }}
               onClick={submitData}
               buttonStyle={{ shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)' }}
@@ -118,7 +118,7 @@ export const ConfirmModal = ({
             </div>
             <Button
               onClick={submitData}
-              type='submit'
+              // type='submit'
               endIcon={<SaveIconMobile />}
               buttonStyle={{
                 bgcolor: '#606EEA',

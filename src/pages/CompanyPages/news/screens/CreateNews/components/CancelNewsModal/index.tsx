@@ -60,7 +60,7 @@ export const CancelNewsModal = ({
             </div>
             <Button
               onClick={cancelNews}
-              type='submit'
+              // type='submit'
               endIcon={<SaveIconMobile />}
               buttonStyle={{
                 bgcolor: '#606EEA',

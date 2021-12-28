@@ -187,8 +187,8 @@ interface ArrayProps {
                   </div>
                 </IconStyle>
               </TitleInsideFormChild>
-              <InsideArrayFields {...PropsArrayField}/>
-              <ContentGroup>
+              <InsideArrayFields nestedIndex={index} {...PropsArrayField}/>
+              {/* <ContentGroup>
             <ContentVariant>
               <h5>{t('Вариант №1')}</h5>
               <p>
@@ -246,7 +246,7 @@ interface ArrayProps {
                 </p>
               </ContentVariant>
             )}
-          </ContentGroup>
+          </ContentGroup> */}
             </>
           ))}
             {/* {PropsArrayField.FirstVariantNumber ? ( */}
