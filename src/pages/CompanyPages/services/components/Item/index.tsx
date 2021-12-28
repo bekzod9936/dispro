@@ -98,8 +98,12 @@ export const Item: React.FC<ItemProps> = ({
             </div>
             {!isItCurrentItem && (
               <div className="right">
-                <p>{price} UZS</p>
-                {item.withDiscount && <span>{priceWithDiscount} UZS</span>}
+                {item.withDiscount ? (
+                  <p>{priceWithDiscount} UZS</p>
+                ) : (
+                  <p>{price} UZS</p>
+                )}
+                {item.withDiscount && <span>{price} UZS</span>}
               </div>
             )}
           </div>

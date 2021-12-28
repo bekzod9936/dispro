@@ -52,3 +52,4 @@ export const WrapButtons = styled.div`
   grid-gap: 15px;
   margin-left: 30px;
 `;
+

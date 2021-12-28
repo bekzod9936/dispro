@@ -109,10 +109,14 @@ const Right = () => {
   const SecondVariantNumber = data?.insideconditions?.[0]?.more;
   const ThirdVariantLabel = data?.insideconditions?.[1]?.when?.label;
   const ThirdVariantNumber = data?.insideconditions?.[1]?.more;
-  const CheckOrVariant=data?.insideconditions?.[0]?.id === 2 ||data?.insideconditions?.[0]?.id === 2 ? false:true
+  const checkVariant=data?.insideconditions?.[0];
+  const checkVariantLast=data?.insideconditions?.[1];
+
+  console.log('checkVariant',checkVariant?.or?.id)
+  console.log('checkVariantLast',checkVariantLast?.or?.id)
   let OneOr: any = {};
-console.log('CheckOrVariant',CheckOrVariant)
-console.log('change',data?.insideconditions)
+
+
   childConditions.map((item) => {
     if (
       item.id! == data?.сonditions?.[0]?.when?.id &&
@@ -145,13 +149,13 @@ console.log('change',data?.insideconditions)
     }
   });
 
- 
-
+  
   let newdata: any[] = [];
 
   newdata.push(mainselect?.[0]);
 
-
+  const CheckOrVariant=data?.insideconditions?.[0]?.label==='или' ? true:false;
+  console.log('CheckOrVariant',CheckOrVariant)
   return (
     <FormProvider {...methods}>
       <Form onSubmit={handleSubmit(submitSettings)}>
@@ -481,7 +485,7 @@ console.log('change',data?.insideconditions)
             <ContentVariant>
               <h5>Вариант №1</h5>
               <p>
-                {FirstVariantLabel}
+                {FirstVariantLabel&& FirstVariantLabel}
                 <span>
                   {" : " +
                     numberWithNew({
@@ -490,46 +494,50 @@ console.log('change',data?.insideconditions)
                     })}
                 </span>
               </p>
-              <p>
-                {CheckOrVariant&&SecondVariantLabel && SecondVariantLabel}
-                <span>
-                  {CheckOrVariant&&SecondVariantNumber &&
-                    " : " +
-                      numberWithNew({
-                        number: Number(SecondVariantNumber),
-                        defaultValue: 0,
-                      })}
-                </span>
-              </p>
-              <p>
-                {CheckOrVariant&&ThirdVariantLabel && ThirdVariantLabel}
-                <span>
-                  {CheckOrVariant&&ThirdVariantNumber &&
-                    " : " +
-                      numberWithNew({
-                        number: Number(ThirdVariantNumber),
-                        defaultValue: 0,
-                      })}
-                </span>
-              </p>
+          
+                  <p>
+                
+                  { SecondVariantLabel && SecondVariantLabel}
+                  <span>
+                    {SecondVariantNumber &&
+                      " : " +
+                        numberWithNew({
+                          number: Number(SecondVariantNumber),
+                          defaultValue: 0,
+                        })}
+                  </span>
+                </p>
+
+           <p>
+                  {ThirdVariantLabel && ThirdVariantLabel}
+                  <span>
+                    { ThirdVariantNumber &&
+                      " : " +
+                        numberWithNew({
+                          number: Number(ThirdVariantNumber),
+                          defaultValue: 0,
+                        })}
+                  </span>
+                </p>
+          
             </ContentVariant>
             {OrVariant.length > 0 && (
               <ContentVariant>
                 <h5>Вариант №2</h5>
                 <p>
-                  {FirstVariantLabel}
+                  {SecondVariantLabel}
                   <span>
                     {" : " +
                       numberWithNew({
-                        number: Number(FirstVariantNumber),
+                        number: Number(SecondVariantNumber),
                         defaultValue: 0,
                       })}
                   </span>
                 </p>
                 <p>
-                  {SecondVariantLabel && SecondVariantLabel}
+                  {ThirdVariantLabel && ThirdVariantLabel}
                   <span>
-                    {SecondVariantNumber && " : " + SecondVariantNumber}
+                    {ThirdVariantNumber && " : " + ThirdVariantNumber}
                   </span>
                 </p>
               </ContentVariant>
