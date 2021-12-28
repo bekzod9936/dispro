@@ -6,7 +6,8 @@ import Checkbox from "components/Custom/CheckBox";
 import { ReactComponent as PercentIcon } from "assets/icons/percent_icon.svg";
 import InputFormat from "components/Custom/InputFormat";
 import { PlusIcon } from "newassets/icons/icons";
-import { numberWithNew } from "services/utils";
+
+import ArrayFields from './hooks/ArrayFields';
 import {
   Controller,
   useForm,
@@ -15,7 +16,7 @@ import {
 } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { SaveButton } from "components/Custom/Buttons/Save";
-import MultiSelect from "components/Custom/MultiSelect";
+
 import { conditonTypes, Or, OnlyOneOr, mainconditionTypes } from "./utils";
 import {
   Form,
@@ -23,32 +24,20 @@ import {
   TitleForm,
   PercentDiv,
   IconStyle,
-  TitleFormChild,
   LocalyPayment,
-  DeleteIcon,
-  LittlePlus,
   SubmitButton,
-  DynamicGroup,
-  DynamicLabel,
-  MainDynamicGroup,
-  ContentVariant,
-  ContentGroup,
-  TitleInsideFormChildMore,
-  CloseIcon,
-  TitleInsideFormChild,
 } from "../../style";
-import { object } from "yup/lib/locale";
 
 const Right = () => {
   const { t } = useTranslation();
   const [localyPaymentfirst, setLocalPaymentFirst] = useState(false);
   const [localyPaymentsecond, setLocalPaymentSecond] = useState(false);
   const subs = [{ name: "Math" }, { name: "english" }];
+
   const unitIcon = (unit: string | number) => {
     if (unit === "UZS") return <div>{t("uzs")}</div>;
     else if (unit === "шт") return <div>{t("quantity")}</div>;
   };
-  const [changesd, setCfghf] = useState<boolean>(false);
 
   const fieldsSchema = yup.object().shape({
     base_name: yup.string().required("form.required_message"),
@@ -64,9 +53,7 @@ const Right = () => {
   });
   const {
     handleSubmit,
-    register,
     control,
-    setValue,
     watch,
     formState: { errors, isValid },
   } = methods;
@@ -88,6 +75,7 @@ const Right = () => {
     name: "insideconditions",
   });
 
+
   const submitSettings = (data: any) => {
     console.log(data);
   };
@@ -96,7 +84,7 @@ const Right = () => {
   const watchFields1 = watch("base_percent");
   const watchFields2 = watch(`сonditions.${0}.percentage`);
 
-  const validateee = watchFields2 && watchFields1 >= watchFields2 ? true : false;
+
   const mainselect: any[] = [];
   const childselect: any[] = [];
   const globalselect: any[] = [];
@@ -112,8 +100,7 @@ const Right = () => {
   const checkVariant=data?.insideconditions?.[0];
   const checkVariantLast=data?.insideconditions?.[1];
 
-  console.log('checkVariant',checkVariant?.or?.id)
-  console.log('checkVariantLast',checkVariantLast?.or?.id)
+ 
   let OneOr: any = {};
 
 
@@ -155,13 +142,39 @@ const Right = () => {
   newdata.push(mainselect?.[0]);
 
   const CheckOrVariant=data?.insideconditions?.[0]?.label==='или' ? true:false;
-  console.log('CheckOrVariant',CheckOrVariant)
+
+
+  const PropsArrayField={
+    fields:mainfields,
+    OrVariant:OrVariant,
+    ThirdVariantNumber:ThirdVariantNumber,
+    ThirdVariantLabel:ThirdVariantLabel,
+    SecondVariantNumber:SecondVariantNumber,
+    SecondVariantLabel:SecondVariantLabel,
+    checkVariant:checkVariant,
+    FirstVariantLabel:FirstVariantLabel,
+    FirstVariantNumber:FirstVariantNumber,
+    OneOr:OneOr,
+    smallappend:smallappend,
+    smallfields:smallfields,
+    globalselect:globalselect,
+    control:control,
+    newdata:newdata,
+    smallremove:smallremove,
+    mainselect:mainselect,
+    errors:errors,
+    childselect:childselect,
+    remove:mainremove,
+    
+  }
+  
   return (
     <FormProvider {...methods}>
+
       <Form onSubmit={handleSubmit(submitSettings)}>
         <Title>
-          <h5>Статусы клиентов</h5>
-          <p>Создайте статусы и определите размер скидки</p>
+          <h5>{t('Статусы клиентов')}</h5>
+          <p>{t('Создайте статусы и определите размер скидки')}</p>
         </Title>
         <TitleForm>
           <Controller
@@ -180,7 +193,6 @@ const Right = () => {
               />
             )}
           />
-
           <Controller
             name={`base_percent`}
             defaultValue={""}
@@ -215,338 +227,8 @@ const Right = () => {
               <PlusIcon />
             </div>
           </IconStyle>
-        </TitleForm>
-
-        {mainfields.map(({ id }, index) => (
-          <>
-            <TitleFormChild key={id}>
-              <Controller
-                rules={{
-                  required: true,
-                }}
-                name={`сonditions[${index}].name`}
-                control={control}
-                render={({ field }) => (
-                  <Input
-                    label={t("status_name")}
-                    type="string"
-                    autoComplete={"off"}
-                    width={{ width: "400px" }}
-                    margin={{ desktop: "0px 20px 0px 0px" }}
-                    field={field}
-                    error={errors.сonditions?.[index]?.name}
-                    message={t("requiredField")}
-                  />
-                )}
-              />
-              <Controller
-                name={`сonditions[${index}].percentage`}
-                rules={{
-                  required: true,
-                  max: 100,
-                  min: 1,
-                }}
-                defaultValue={""}
-                control={control}
-                render={({ field }) => (
-                  <InputFormat
-                    label={""}
-                    autoComplete={"off"}
-                    type="string"
-                    // defaultValue={setCfghf(
-                    //   validateee ||
-                    //     watch(`сonditions[${index - 1}].percentage`) >
-                    //       watch(`сonditions[${index}].percentage`)
-                    //     ? true
-                    //     : false
-                    // )}
-                    field={field}
-                    maxLength={3}
-                    max="100"
-                    width={{
-                      width: "106px",
-                    }}
-                    margin={{
-                      laptop: "25px 0 0",
-                    }}
-                    IconEnd={
-                      <PercentDiv>
-                        <PercentIcon />
-                      </PercentDiv>
-                    }
-                    error={
-                      errors.сonditions?.[index]?.percentage 
-                      // ||
-                      // validateee ||
-                      // watch(`сonditions[${index - 1}].percentage`) >
-                      //   watch(`сonditions[${index}].percentage`)
-                      //   ? true
-                      //   : false
-                    }
-                  />
-                )}
-              />
-              <IconStyle>
-                <div onClick={() => mainremove(index)}>
-                  <DeleteIcon />
-                </div>
-              </IconStyle>
-            </TitleFormChild>
-            <TitleInsideFormChild key={id}>
-              <DynamicGroup>
-                <DynamicLabel>когда</DynamicLabel>
-                <Controller
-                  name={`сonditions[${index}].when`}
-                  defaultValue={"Требование"}
-                  control={control}
-                  rules={{
-                    required: true,
-                  }}
-                  render={({ field }) => (
-                    <MultiSelect
-                      isMulti={false}
-                      width={{ minwidth: 200 }}
-                      defaultValue={"Требование"}
-                      error={errors.сonditions?.[index]?.when}
-                      message={t("requiredField")}
-                      field={field}
-                      options={
-                        globalselect?.length > 0 ? globalselect : conditonTypes
-                      }
-                      selectStyle={{
-                        radius: 0,
-                        borderbottom: "1px solid #606EEA",
-                        border: "transparent",
-                        bgcolor: "transparent",
-                        height: {
-                          desktop: 10,
-                        },
-                      }}
-                    />
-                  )}
-                />
-              </DynamicGroup>
-              <DynamicGroup>
-                <DynamicLabel>больше</DynamicLabel>
-                <Controller
-                  name={`сonditions[${index}].more`}
-                  control={control}
-                  rules={{
-                    required: true,
-                  }}
-                  render={({ field }) => (
-                    <InputFormat
-                      defaultValue={""}
-                      autoComplete={"off"}
-                      variant="standard"
-                      IconEnd={<div>{"uzs"}</div>}
-                      maxLength={11}
-                      width={{
-                        maxwidth: 150,
-                      }}
-                      field={field}
-                      inputStyle={{
-                        inpadding: "10px 10px 5px 2px",
-                        border: "none",
-                        borderbottom: "1px solid #606EEA",
-                        bgcolor: "transparent",
-                        radius: 0,
-                        fitheight: true,
-                      }}
-                    />
-                  )}
-                />
-              </DynamicGroup>
-              <IconStyle>
-                <div onClick={() => smallfields.length <= 2 && smallappend({})}>
-                  {smallfields.length <= 1 && <LittlePlus />}
-                </div>
-              </IconStyle>
-            </TitleInsideFormChild>
-
-            {smallfields.map(({ id }, index) => (
-              <>
-                <TitleInsideFormChildMore key={id}>
-                  <DynamicGroup>
-                    <Controller
-                      name={`insideconditions[${index}].or`}
-                      defaultValue={"Требование"}
-                      control={control}
-                      rules={{
-                        required: true,
-                      }}
-                      render={({ field }) => (
-                        <MultiSelect
-                          isMulti={false}
-                          width={{ maxwidth: 150, minwidth: 100 }}
-                          defaultValue={"Требование"}
-                          error={errors.insideconditions?.[index]?.or}
-                          message={t("requiredField")}
-                          field={field}
-                          options={OneOr.length > 0 ? OneOr : Or}
-                          selectStyle={{
-                            radius: 0,
-                            borderbottom: "1px solid #606EEA",
-                            border: "transparent",
-                            bgcolor: "transparent",
-                            height: {
-                              desktop: 10,
-                            },
-                          }}
-                        />
-                      )}
-                    />
-                  </DynamicGroup>
-                  <DynamicGroup>
-                    <DynamicLabel>когда</DynamicLabel>
-                    <Controller
-                      name={`insideconditions[${index}].when`}
-                      defaultValue={"Требование"}
-                      control={control}
-                      rules={{
-                        required: true,
-                      }}
-                      render={({ field }) => (
-                        <MultiSelect
-                          isMulti={false}
-                          width={{ minwidth: 200 }}
-                          defaultValue={"Требование"}
-                          error={errors.when}
-                          message={t("requiredField")}
-                          field={field}
-                          options={
-                            (newdata?.length > 0 && newdata) || childselect
-                              ? childselect
-                              : mainselect
-                          }
-                          selectStyle={{
-                            radius: 0,
-                            borderbottom: "1px solid #606EEA",
-                            border: "transparent",
-                            bgcolor: "transparent",
-
-                            height: {
-                              desktop: 10,
-                            },
-                          }}
-                        />
-                      )}
-                    />
-                  </DynamicGroup>
-                  <DynamicGroup>
-                    <DynamicLabel>больше</DynamicLabel>
-                    <Controller
-                      name={`insideconditions[${index}].more`}
-                      control={control}
-                      rules={{
-                        required: true,
-                      }}
-                      render={({ field }) => (
-                        <InputFormat
-                          defaultValue={""}
-                          autoComplete={"off"}
-                          variant="standard"
-                          IconEnd={<p style={{ fontSize: "12px" }}>{"шт"}</p>}
-                          maxLength={11}
-                          width={{
-                            maxwidth: 150,
-                          }}
-                          field={field}
-                          inputStyle={{
-                            inpadding: "10px 10px 5px 2px",
-                            border: "none",
-                            borderbottom: "1px solid #606EEA",
-                            bgcolor: "transparent",
-                            radius: 0,
-                            fitheight: true,
-                          }}
-                        />
-                      )}
-                    />
-                  </DynamicGroup>
-                  <IconStyle>
-                    {smallfields.length <= 0 ? (
-                      <div onClick={() => smallappend({})}>
-                        <LittlePlus />
-                      </div>
-                    ) : (
-                      <div onClick={() => smallremove(index)}>
-                        <CloseIcon />
-                      </div>
-                    )}
-                  </IconStyle>
-                </TitleInsideFormChildMore>
-              </>
-            ))}
-          </>
-        ))}
-        {FirstVariantNumber ? (
-          <ContentGroup>
-            <ContentVariant>
-              <h5>Вариант №1</h5>
-              <p>
-                {FirstVariantLabel&& FirstVariantLabel}
-                <span>
-                  {" : " +
-                    numberWithNew({
-                      number: Number(FirstVariantNumber),
-                      defaultValue: 0,
-                    })}
-                </span>
-              </p>
-          
-                  <p>
-                
-                  { SecondVariantLabel && SecondVariantLabel}
-                  <span>
-                    {SecondVariantNumber &&
-                      " : " +
-                        numberWithNew({
-                          number: Number(SecondVariantNumber),
-                          defaultValue: 0,
-                        })}
-                  </span>
-                </p>
-
-           <p>
-                  {ThirdVariantLabel && ThirdVariantLabel}
-                  <span>
-                    { ThirdVariantNumber &&
-                      " : " +
-                        numberWithNew({
-                          number: Number(ThirdVariantNumber),
-                          defaultValue: 0,
-                        })}
-                  </span>
-                </p>
-          
-            </ContentVariant>
-            {OrVariant.length > 0 && (
-              <ContentVariant>
-                <h5>Вариант №2</h5>
-                <p>
-                  {SecondVariantLabel}
-                  <span>
-                    {" : " +
-                      numberWithNew({
-                        number: Number(SecondVariantNumber),
-                        defaultValue: 0,
-                      })}
-                  </span>
-                </p>
-                <p>
-                  {ThirdVariantLabel && ThirdVariantLabel}
-                  <span>
-                    {ThirdVariantNumber && " : " + ThirdVariantNumber}
-                  </span>
-                </p>
-              </ContentVariant>
-            )}
-          </ContentGroup>
-        ) : (
-          ""
-        )}
-
+        </TitleForm> 
+        <ArrayFields {...PropsArrayField}/>
         <TitleForm>
           <Controller
             name={`how_much_percentage`}
@@ -570,7 +252,7 @@ const Right = () => {
         </TitleForm>
         <LocalyPayment>
           <Title>
-            <h5>Оплата на местах</h5>
+            <h5>{t('Оплата на местах')}</h5>
           </Title>
           <Controller
             name="useProgram"
