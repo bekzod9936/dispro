@@ -54,6 +54,7 @@ const BoxQr = ({ link, name, id, branch }: Props) => {
     control,
     handleSubmit,
     setValue,
+    reset,
     formState: { errors },
   } = useForm<IForm>({
     mode: "onChange",
@@ -99,6 +100,7 @@ const BoxQr = ({ link, name, id, branch }: Props) => {
       {
         onSuccess: () => {
           setOpenEdit(false);
+          reset();
         },
       }
     );
@@ -108,7 +110,10 @@ const BoxQr = ({ link, name, id, branch }: Props) => {
     <>
       <Box>
         <BoxHeader>
-          <BoxTitle>{name}</BoxTitle>
+          <BoxTitle>
+            <span>{name}</span>
+            {branch ? <span>{t("qrcodeforpayment")}</span> : null}
+          </BoxTitle>
           <Popover
             click={
               <IconButton>
@@ -181,6 +186,7 @@ const BoxQr = ({ link, name, id, branch }: Props) => {
               <IconButton
                 onClick={() => {
                   setOpenEdit(false);
+                  reset();
                 }}
               >
                 <CloseIcon />
@@ -188,7 +194,7 @@ const BoxQr = ({ link, name, id, branch }: Props) => {
             </ModalHeader>
             <ModalText>{t("changenameqrcode")}</ModalText>
             <Controller
-              rules={{ required: true }}
+              rules={{ required: true, maxLength: 30 }}
               control={control}
               name="source"
               render={({ field }) => {
@@ -197,8 +203,12 @@ const BoxQr = ({ link, name, id, branch }: Props) => {
                     label={t("enterNewName")}
                     field={field}
                     error={errors.source ? true : false}
-                    message={t("requiredField")}
-                    margin={{ desktop: "30px 0" }}
+                    message={
+                      errors.source?.type === "maxLength"
+                        ? t("maxcharacters", { value: 30 })
+                        : t("requiredField")
+                    }
+                    margin={{ laptop: "30px 0" }}
                   />
                 );
               }}
@@ -208,6 +218,7 @@ const BoxQr = ({ link, name, id, branch }: Props) => {
               <CancelButton
                 onClick={() => {
                   setOpenEdit(false);
+                  reset();
                 }}
                 margin={{ laptop: "0 15px 0 0" }}
               />
@@ -225,6 +236,7 @@ const BoxQr = ({ link, name, id, branch }: Props) => {
             <CancelButton
               onClick={() => {
                 setOpenDelete(false);
+                reset();
               }}
               margin={{ laptop: "30px 15px 0 0" }}
             />

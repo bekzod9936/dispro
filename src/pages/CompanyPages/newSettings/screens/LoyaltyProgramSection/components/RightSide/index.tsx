@@ -112,8 +112,7 @@ const Right = () => {
   const checkVariant=data?.insideconditions?.[0];
   const checkVariantLast=data?.insideconditions?.[1];
 
-  console.log('checkVariant',checkVariant?.or?.id)
-  console.log('checkVariantLast',checkVariantLast?.or?.id)
+  
   let OneOr: any = {};
 
 

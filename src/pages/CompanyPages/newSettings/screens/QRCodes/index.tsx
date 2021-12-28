@@ -40,7 +40,7 @@ const QrCodes = () => {
         />
       </Header>
       <Body>
-        {resRefQrCodes.isLoading && resBranchesQrCodes.isLoading ? (
+        {resRefQrCodes.isLoading || resBranchesQrCodes.isLoading ? (
           <Spinner />
         ) : (
           <div>

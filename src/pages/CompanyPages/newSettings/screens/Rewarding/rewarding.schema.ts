@@ -117,6 +117,7 @@ export const rewardingSchema = yup.object().shape({
       is: true,
       then: yup
         .string()
+        .max(800, "maxcharacters")
         .nullable(true)
         .transform((parsedValue, originalValue) =>
           originalValue === "" ? null : parsedValue

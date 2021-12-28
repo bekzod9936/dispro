@@ -7,12 +7,20 @@ export const Box = styled.div`
   border-radius: 14px;
   padding: 8px 8px 20px 20px;
   width: fit-content;
+  max-width: 490px;
 `;
 
 export const BoxTitle = styled.div`
   font-weight: 500;
   font-size: 18px;
   color: #223367;
+  display: flex;
+  flex-wrap: wrap;
+  word-break: break-word;
+  padding: 10px 0;
+  span {
+    margin-right: 10px;
+  }
 `;
 
 export const BoxHeader = styled.div`
@@ -49,6 +57,7 @@ export const WrapList = styled.div`
 export const WrapButtons = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
   grid-gap: 15px;
   margin-left: 30px;
 `;

@@ -44,7 +44,7 @@ const Rewarding = () => {
   const switch2 = useWatch({ control, name: "rewardType2" });
   const switch3 = useWatch({ control, name: "rewardType3" });
   const switch4 = useWatch({ control, name: "rewardType4" });
-
+  console.log(errors, "fjjfjfj");
   useEffect(() => {
     data?.rewards?.forEach((v: any) => {
       if (v?.rewardType === 1) {
@@ -242,7 +242,9 @@ const Rewarding = () => {
                     render={({ field }) => (
                       <TextArea
                         {...field}
-                        message={t(`${errors.congratulationText?.message}`)}
+                        message={t(`${errors.congratulationText?.message}`, {
+                          value: 800,
+                        })}
                         error={
                           errors.congratulationText?.message !== undefined
                             ? true

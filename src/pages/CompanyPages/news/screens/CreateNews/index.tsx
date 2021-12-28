@@ -41,6 +41,7 @@ import {
 } from 'assets/icons/proposals/ProposalsIcons';
 import { SaveIcon, SaveIconMobile } from 'assets/icons/news/newsIcons';
 import { days, genders, todayDate, nextDay } from './constants';
+
 import useWindowWidth from 'services/hooks/useWindowWidth';
 import {
   PushBlock,
@@ -69,6 +70,7 @@ import { useDispatch } from 'react-redux';
 interface IOptionFields {
   push: boolean;
 }
+
 
 const CreateNews = () => {
   const { t } = useTranslation();
@@ -198,7 +200,6 @@ const CreateNews = () => {
   };
   const submitData = () => {
     mutate(formData);
-
     setTimeout(() => history.goBack(), 1000);
   };
   React.useEffect(() => {
@@ -207,6 +208,8 @@ const CreateNews = () => {
       setValue('timeTo', '23:59');
     }
   }, [checked]);
+
+
 
   return (
     <Wrapper>
