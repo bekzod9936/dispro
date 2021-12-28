@@ -18,7 +18,7 @@ import {
   PopoverItem,
   useStyles,
 } from "./style";
-import { LightToolTip } from "../../../Create/components/Radios/style";
+import { LightToolTip } from "../../../Services/components/Radios/style";
 
 interface MPopoverProps {
   onClick: () => void;

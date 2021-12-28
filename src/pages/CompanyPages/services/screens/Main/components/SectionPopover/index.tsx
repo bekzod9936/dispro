@@ -10,7 +10,7 @@ import { SectionModalsType } from "pages/CompanyPages/services/utils/types";
 import { useGetSections } from "pages/CompanyPages/services/hooks";
 import { SUBSECTIONS_LIMIT } from "pages/CompanyPages/services/constants";
 import { getSubSectionsLength } from "pages/CompanyPages/services/helpers";
-import { LightToolTip } from "../../../Create/components/Radios/style";
+import { LightToolTip } from "../../../Services/components/Radios/style";
 
 //other
 interface SectionPopoverProps {

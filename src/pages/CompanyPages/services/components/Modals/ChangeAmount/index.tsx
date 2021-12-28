@@ -11,7 +11,7 @@ import InputFormat from "components/Custom/InputFormat";
 
 //style
 import { Wrapper, CloseIcon, buttonStyles, CancelIcon } from "./style";
-import { useStyles } from "pages/CompanyPages/services/screens/Create/components/Durations/style";
+import { useStyles } from "pages/CompanyPages/services/screens/Services/components/Durations/style";
 
 //other
 import { useChangeAmount } from "pages/CompanyPages/services/hooks";

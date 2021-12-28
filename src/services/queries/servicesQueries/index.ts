@@ -1,7 +1,7 @@
 import axios, {AxiosResponse} from 'axios'
 import { STORAGE_URL } from "../../constants/config";
 import { PARTNER } from "services/interceptors/partner_interceptor/types";
-import { categoriesResponseType, goodsResponseType, sectionDtoType, sectionResponseType, uploadImageType } from './response.types';
+import { categoriesResponseType, goodResponseType, goodsResponseType, IGoodsResponse, sectionDtoType, sectionResponseType, uploadImageType } from './response.types';
 import partnerApi from 'services/interceptors/partner_interceptor';
 import { PostDtoType } from 'pages/CompanyPages/services/utils/types';
 
@@ -84,5 +84,15 @@ export const ApiServices = {
         }
 
         return data.data
-    } ,
+    },
+
+    async getItemById(id: number) {
+        const { data } = await partnerApi.get<goodResponseType>(`core/goods/${id}`)
+        
+        if(!data.success) {
+            throw new Error('Error during fetching item by id!')
+        }
+
+        return data.data
+    }
 }
