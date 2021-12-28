@@ -1,18 +1,19 @@
-import { useQuery, useMutation } from 'react-query';
-import { useAppDispatch } from 'services/redux/hooks';
-import { setSecurty } from 'services/redux/Slices/setting';
-import { notify } from 'services/utils/local_notification';
-import { useTranslation } from 'react-i18next';
+import { useQuery, useMutation } from "react-query";
+import { useAppDispatch } from "services/redux/hooks";
+import { setSecurty } from "services/redux/Slices/setting";
+import { notify } from "services/utils/local_notification";
+import { useTranslation } from "react-i18next";
 import {
   fetchSecurity,
   postSecurity,
-} from 'services/queries/newSettingQueries';
+} from "services/queries/newSettingQueries";
+import { IForm } from "./security.schema";
 
 const useSecurty = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
-  const response = useQuery('securtyFetch', fetchSecurity, {
+  const response = useQuery("securtyFetch", fetchSecurity, {
     keepPreviousData: true,
     refetchOnWindowFocus: false,
     retry: 0,
@@ -28,12 +29,24 @@ const useSecurty = () => {
     {
       onSuccess: () => {
         response.refetch();
-        notify(t('saved'));
+        notify(t("saved"));
       },
     }
   );
 
-  return { response, putSecurity };
+  const handleSave = (e: IForm) => {
+    const values: any = {
+      isEnabledPaySumLimit: e.data?.isEnabledPaySumLimit,
+      isEnabledPurchaseLimit: e.enablepurchase,
+      safeties: {
+        daily_purchase_limit: e.enablepurchase ? e.limit : "",
+        pay_sum_limit: e.data?.pay_sum_limit,
+      },
+    };
+    putSecurity.mutate(values);
+  };
+
+  return { response, putSecurity, handleSave };
 };
 
 export default useSecurty;

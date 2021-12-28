@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { device } from 'styles/device';
+import styled from "styled-components";
+import { device } from "styles/device";
 
 export const Container = styled.div`
   display: flex;
@@ -16,10 +16,15 @@ export const Form = styled.form`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
   border-radius: 14px;
   padding: 40px;
+  div.switchWrap {
+    width: 31%;
+  }
 `;
 
 export const WrapSwitch = styled.div`
   display: flex;
+  width: 100%;
+  justify-content: space-between;
 `;
 
 export const Title = styled.div`
@@ -39,6 +44,6 @@ export const Text = styled.div`
   font-weight: 300;
   font-size: 14px;
   color: #223367;
-  max-width: 280px;
+  width: calc(100% - 50px);
   margin: 10px 0 15px 0;
 `;
