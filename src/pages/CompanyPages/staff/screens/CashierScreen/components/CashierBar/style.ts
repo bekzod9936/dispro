@@ -2,8 +2,10 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import styled from "styled-components";
 import { device } from "styles/device";
 import { ReactComponent as Delete } from "assets/icons/IconsInfo/delete.svg";
+import { number } from "yup/lib/locale";
 export interface ICashierRow {
-  justifyContent?: "space-between" | "center";
+  justifyContent?: "space-between" | "center" | "flex-start";
+	marginTop?: string;
 }
 
 export interface IBreakH {
@@ -33,6 +35,9 @@ export const CashierRow = styled.div`
   flex-direction: row;
   justify-content: ${({ justifyContent = "space-between" }: ICashierRow) =>
     justifyContent};
+  flex-direction: row;
+  margin-top: ${({ marginTop = "15px" }: ICashierRow) =>
+	marginTop};
   align-items: center;
 `;
 
@@ -140,6 +145,7 @@ export const DownSide = styled.div`
 
 export const ImageWrap = styled.div`
  	margin-right: 20px;
+ 	margin-left: 3px;
 `;
 
 interface ButtonProps {
