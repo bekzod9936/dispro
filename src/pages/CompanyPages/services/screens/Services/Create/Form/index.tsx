@@ -63,6 +63,8 @@ export const Form: React.FC<FormProps> = () => {
     setModal(true);
   };
 
+  console.log(form.formState.errors);
+
   return (
     <>
       <FormStyled autoComplete="off" onSubmit={form.handleSubmit(onSubmit)}>

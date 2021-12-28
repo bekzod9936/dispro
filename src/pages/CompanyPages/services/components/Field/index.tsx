@@ -23,7 +23,6 @@ interface FieldProps {
   disabled?: boolean;
   error: FieldError | undefined;
   isArticul?: boolean;
-  defaultValue: string | number;
 }
 
 export const Field: React.FC<FieldProps> = ({
@@ -32,7 +31,6 @@ export const Field: React.FC<FieldProps> = ({
   error,
   disabled,
   isArticul,
-  defaultValue,
 }) => {
   const { control } = useFormContext<FormFieldTypes>();
   const { t } = useTranslation();
@@ -51,7 +49,6 @@ export const Field: React.FC<FieldProps> = ({
         if (isArticul) {
           return (
             <Input
-              defaultValue={defaultValue}
               labelIcon={notRequiredTooltip}
               field={field}
               label={label}
@@ -65,7 +62,6 @@ export const Field: React.FC<FieldProps> = ({
           return (
             <InputFormat
               isAbsolute
-              defaultValue={defaultValue}
               labelIcon={notRequiredTooltip}
               disabled={disabled}
               error={Boolean(error)}

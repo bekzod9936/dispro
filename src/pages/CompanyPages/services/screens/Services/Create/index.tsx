@@ -8,7 +8,6 @@ import { Wrapper } from "./style";
 interface CreateProps {}
 
 const Create: React.FC<CreateProps> = () => {
-  console.log("mount create");
   return (
     <Wrapper>
       <Header />

@@ -14,11 +14,9 @@ interface VariantsProps {
 }
 
 export const Variants: React.FC<VariantsProps> = ({ disabled }) => {
-  const { control } = useFormContext();
   const { t } = useTranslation();
 
   const { fields, append, remove } = useFieldArray({
-    control,
     name: "variants",
   });
 

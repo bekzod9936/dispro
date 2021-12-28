@@ -51,7 +51,7 @@ export const TitleAndDescription: React.FC<TitleAndDescriptionProps> = () => {
   return (
     <Wrapper isMultiple={fields.length > 1}>
       {fields.map((item, index) => (
-        <div>
+        <div key={item.id}>
           <Controller
             control={control}
             name={`titles.${index}.title`}
