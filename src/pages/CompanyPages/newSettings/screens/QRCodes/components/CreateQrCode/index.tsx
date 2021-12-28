@@ -46,6 +46,7 @@ const CreateQrCode = () => {
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<IForm>({
     mode: "onChange",
@@ -70,6 +71,7 @@ const CreateQrCode = () => {
       {
         onSuccess: () => {
           setOpenPayment(false);
+          reset();
         },
       }
     );
@@ -81,6 +83,7 @@ const CreateQrCode = () => {
       {
         onSuccess: () => {
           setOpenSubscribe(false);
+          reset();
         },
       }
     );
@@ -143,6 +146,7 @@ const CreateQrCode = () => {
               <IconButton
                 onClick={() => {
                   setOpenSubscribe(false);
+                  reset();
                 }}
               >
                 <CloseIcon />
@@ -150,7 +154,7 @@ const CreateQrCode = () => {
             </ModalHeader>
             <ModalText>{t("forcomfortqrcodeplace")}</ModalText>
             <Controller
-              rules={{ required: true }}
+              rules={{ required: true, maxLength: 30 }}
               control={control}
               name="source"
               render={({ field }) => {
@@ -159,8 +163,12 @@ const CreateQrCode = () => {
                     label={t("enterNewName")}
                     field={field}
                     error={errors.source ? true : false}
-                    message={t("requiredField")}
-                    margin={{ desktop: "30px 0" }}
+                    message={
+                      errors.source?.type === "maxLength"
+                        ? t("maxcharacters", { value: 30 })
+                        : t("requiredField")
+                    }
+                    margin={{ laptop: "30px 0" }}
                   />
                 );
               }}
@@ -169,6 +177,7 @@ const CreateQrCode = () => {
               <CancelButton
                 onClick={() => {
                   setOpenSubscribe(false);
+                  reset();
                 }}
                 margin={{ laptop: "0 15px 0 0" }}
               />
@@ -185,6 +194,7 @@ const CreateQrCode = () => {
               <IconButton
                 onClick={() => {
                   setOpenPayment(false);
+                  reset();
                 }}
               >
                 <CloseIcon />
@@ -205,20 +215,25 @@ const CreateQrCode = () => {
                     margin={{ laptop: "30px 0" }}
                     icon={<StoreIcon />}
                     selectStyle={{
-                      bgcolor: "#eff0fd",
+                      bgcolor: stores.length === 0 ? "#d3d3d3" : "#eff0fd",
                       border: "none",
                       placeholdercolor: "#223367",
                       inpadding: "2px 10px 2px 60px",
                       placewieght: "500",
                     }}
+                    isDisabled={stores.length === 0}
                     options={stores}
                     iconleft={"20px"}
                     icondowncolor="#C4C4C4"
                     placeholder={t("choose_branch")}
                     isClearable={false}
                     menuPortalTarget={document.body}
-                    error={errors.branch ? true : false}
-                    message={t("requiredField")}
+                    error={errors.branch || stores.length === 0 ? true : false}
+                    message={
+                      stores.length === 0
+                        ? t("cannotchoosebranch")
+                        : t("requiredField")
+                    }
                   />
                 );
               }}
@@ -227,6 +242,7 @@ const CreateQrCode = () => {
               <CancelButton
                 onClick={() => {
                   setOpenPayment(false);
+                  reset();
                 }}
                 margin={{ laptop: "0 15px 0 0" }}
               />

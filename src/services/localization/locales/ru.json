@@ -683,5 +683,8 @@
   "editqrcode": "Редактирование QR",
   "changenameqrcode": "Вы можете поменять название, промокода",
   "wantdeleteqrcode": "Вы действительно хотите удалить промокод?",
-  "minvalue": "Минимальное значение: {{value}}"
+  "minvalue": "Минимальное значение: {{value}}",
+  "qrcodeforpayment": "(QR-код для оплаты)",
+  "cannotchoosebranch": "Для начала создайте филиал в Адресах",
+  "maxcharacters": "Максимальное количество символов: {{value}}"
 }
