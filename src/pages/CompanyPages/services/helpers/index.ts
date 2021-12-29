@@ -4,6 +4,7 @@ import {
   IGoodsResponse,
   ISectionResponse,
   sectionDtoType,
+  sectionResponseType,
 } from "services/queries/servicesQueries/response.types";
 import { numberWithNew } from "services/utils";
 import { Variant } from "../components/Variant";
@@ -285,5 +286,16 @@ export const resetDefaultValues = (data: IGoodsResponse): FormFieldTypes => {
       priceWithSale: String(data.priceWithDiscount)
     }]
 
+  }
+}
+
+export const getSectionOfItem = (sections: sectionResponseType | undefined, sectionId: number) => {
+  if (!sections) return 0
+  const section = sections.data.find(s => s.id === sectionId)
+
+  return {
+    value: section?.id,
+    name: section?.goodsSectionTranslates[0].translateName,
+    label: section?.goodsSectionTranslates[0].translateName,
   }
 }
