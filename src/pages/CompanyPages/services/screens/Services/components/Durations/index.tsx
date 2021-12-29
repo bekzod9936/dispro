@@ -46,7 +46,8 @@ export const Durations: React.FC<DurationsProps> = () => {
         render={({ field }) => (
           <FormControlLabel
             classes={{ root: styles.root }}
-            {...field}
+            checked={field.value}
+            onChange={field.onChange}
             control={
               <Checkbox
                 className={styles.checkbox}

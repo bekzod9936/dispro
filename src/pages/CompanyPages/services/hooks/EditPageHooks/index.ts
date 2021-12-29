@@ -40,10 +40,8 @@ export const useEditItem = () => {
           let section: any = sections?.data.find(el => el.id === data.goodsSectionId)
           section = {value: section?.id, name: section?.goodsSectionTranslates[0].translateName!, label: section?.goodsSectionTranslates[0].translateName}
           
-          console.log(section)
           dispatch({type: ActionTypes.CHANGE_LOYALTY_TYPE, payload: defaultValues.loyaltyType})
           dispatch({type: ActionTypes.CHANGE_LOYALTY_OFF, payload: defaultValues.loyaltyOff})
-
           form.reset({...defaultValues, service: category, section: section});
         }
 

@@ -128,7 +128,7 @@ export const goodsVariantsToPostEntityForm = (
   variants: variantType[]
 ): PostDtoVariantType[] => {
   return variants.map((variant) => ({
-    artikulCode: variant.articul,
+    articulCode: variant.articul,
     count: Number(variant.amount),
     price: Number(variant.price),
     priceWithDiscount: Number(variant.priceWithSale) || 0,
@@ -265,15 +265,15 @@ export const resetDefaultValues = (data: IGoodsResponse): FormFieldTypes => {
     })),
     preparationTime: Boolean(data.isSetManufacturedTime),
     preparationTimeData: {day: data.manufacturedAt?.day || null, hour: data.manufacturedAt?.hour || null, minute: data.manufacturedAt?.minute || null},
-    loyaltyOff: true,
-    loyaltyType: data.withDiscount ? 1 : 2,
+    loyaltyOff: data.notUsePl,
+    loyaltyType: data.withDiscount ? 1 : data.notUsePl ? 0 : data.withPoint ? 2 : 0,
     measurement: {value: 1, name: 'шт.', label: 'шт.'},
     images: data.goodsImages.map(image => image.imageUrl),
     section: 1,
     service: {},
     variants: data.hasGoodsVariant ? data.goodsVariants.map(variant => ({
       amount: String(variant.count),
-      articul: variant.artikulCode,
+      articul: String(variant.articulCode),
       name: variant.goodsVariantTranslates.map(translate => ({data: translate.translateName, lang: languageLabels[translate.langId as keyof typeof languageLabels]})),
       price: String(variant.price),
       priceWithSale: String(variant.priceWithDiscount)
