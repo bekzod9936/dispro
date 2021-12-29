@@ -4,6 +4,7 @@ import {
   IGoodsResponse,
   ISectionResponse,
   sectionDtoType,
+  sectionResponseType,
 } from "services/queries/servicesQueries/response.types";
 import { numberWithNew } from "services/utils";
 import { Variant } from "../components/Variant";
@@ -128,7 +129,7 @@ export const goodsVariantsToPostEntityForm = (
   variants: variantType[]
 ): PostDtoVariantType[] => {
   return variants.map((variant) => ({
-    artikulCode: variant.articul,
+    articulCode: variant.articul,
     count: Number(variant.amount),
     price: Number(variant.price),
     priceWithDiscount: Number(variant.priceWithSale) || 0,
@@ -265,15 +266,15 @@ export const resetDefaultValues = (data: IGoodsResponse): FormFieldTypes => {
     })),
     preparationTime: Boolean(data.isSetManufacturedTime),
     preparationTimeData: {day: data.manufacturedAt?.day || null, hour: data.manufacturedAt?.hour || null, minute: data.manufacturedAt?.minute || null},
-    loyaltyOff: true,
-    loyaltyType: data.withDiscount ? 1 : 2,
+    loyaltyOff: data.notUsePl,
+    loyaltyType: data.withDiscount ? 1 : data.notUsePl ? 0 : data.withPoint ? 2 : 0,
     measurement: {value: 1, name: 'шт.', label: 'шт.'},
     images: data.goodsImages.map(image => image.imageUrl),
     section: 1,
     service: {},
     variants: data.hasGoodsVariant ? data.goodsVariants.map(variant => ({
       amount: String(variant.count),
-      articul: variant.artikulCode,
+      articul: String(variant.articulCode),
       name: variant.goodsVariantTranslates.map(translate => ({data: translate.translateName, lang: languageLabels[translate.langId as keyof typeof languageLabels]})),
       price: String(variant.price),
       priceWithSale: String(variant.priceWithDiscount)
@@ -285,5 +286,16 @@ export const resetDefaultValues = (data: IGoodsResponse): FormFieldTypes => {
       priceWithSale: String(data.priceWithDiscount)
     }]
 
+  }
+}
+
+export const getSectionOfItem = (sections: sectionResponseType | undefined, sectionId: number) => {
+  if (!sections) return 0
+  const section = sections.data.find(s => s.id === sectionId)
+
+  return {
+    value: section?.id,
+    name: section?.goodsSectionTranslates[0].translateName,
+    label: section?.goodsSectionTranslates[0].translateName,
   }
 }

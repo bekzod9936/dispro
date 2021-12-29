@@ -33,19 +33,22 @@ export const reducer = (state: IState, action: ActionType): IState => {
 
     switch (type) {
         case ActionTypes.CHANGE_LOYALTY_TYPE: {
-            if (payload === 2) {
+            if (typeof payload === 'number') {
+                if (payload === 2) {
+                    return {
+                        ...state,
+                        loyaltyType: payload,
+                        loyaltyOff: false
+                    }
+                }
+    
                 return {
                     ...state,
-                    loyaltyType: payload,
-                    loyaltyOff: false
+                    loyaltyType: payload
                 }
             }
 
-
-            return {
-                ...state,
-                loyaltyType: 1
-            }
+            return state
         }
         case ActionTypes.CHANGE_LOYALTY_OFF: {
 

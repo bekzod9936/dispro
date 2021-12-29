@@ -31,12 +31,14 @@ export const SectionPopover: React.FC<SectionPopoverProps> = ({
 
   const { data } = useGetSections();
   const limit = SUBSECTIONS_LIMIT - getSubSectionsLength(data?.data, parentId);
+  const subSectionModalDisabled = limit <= 0;
 
   const handleClose = () => {
     setAnchorEl(null);
   };
 
   const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
     setAnchorEl(event.currentTarget);
   };
 
@@ -68,8 +70,12 @@ export const SectionPopover: React.FC<SectionPopoverProps> = ({
               }
             >
               <MenuItem
-                disabled={limit <= 0}
-                onClick={onOpenModal("subSection")}
+                disabled={subSectionModalDisabled}
+                onClick={
+                  subSectionModalDisabled
+                    ? undefined
+                    : onOpenModal("subSection")
+                }
               >
                 {t("createSubSection")}
               </MenuItem>
