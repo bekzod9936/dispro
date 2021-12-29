@@ -26,14 +26,9 @@ const FilterQr = ({ filterType, setFilterType }: Props) => {
   const filterList = [
     {
       title: t("qrtype"),
-      value:
-        type !== null && type !== undefined
-          ? type === "ref"
-            ? t("forpayment")
-            : type === "branches"
-            ? t("formarketing")
-            : undefined
-          : undefined,
+      value: Boolean(type)
+        ? types.find((v: any) => v.value === type)?.label
+        : undefined,
       content: (
         <Radio
           flexDirection="row"
@@ -55,10 +50,10 @@ const FilterQr = ({ filterType, setFilterType }: Props) => {
         onReset={onReset}
         list={filterList}
       />
-      {filterType !== null && filterType !== "" && filterType !== undefined ? (
+      {Boolean(filterType) ? (
         <FilterButton onClick={onReset}>
           {`${t("qrtype")} :  ${
-            types.find((v: any) => filterType === v.value)?.label
+            types.find((v: any) => v.value === filterType)?.label
           }
 `}
         </FilterButton>
