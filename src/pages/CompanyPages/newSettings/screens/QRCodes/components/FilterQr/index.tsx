@@ -2,7 +2,8 @@ import { useTranslation } from "react-i18next";
 import Filter from "components/Custom/Filter/index";
 import Radio from "components/Custom/Radio";
 import { useState } from "react";
-
+import { FilterButton } from "components/Custom/Buttons/Filter";
+import { WrapFilter } from "./style";
 interface Props {
   filterType: any;
   setFilterType: any;
@@ -46,13 +47,23 @@ const FilterQr = ({ filterType, setFilterType }: Props) => {
   ];
 
   return (
-    <Filter
-      onSubmit={() => {
-        setFilterType(type);
-      }}
-      onReset={onReset}
-      list={filterList}
-    />
+    <WrapFilter>
+      <Filter
+        onSubmit={() => {
+          setFilterType(type);
+        }}
+        onReset={onReset}
+        list={filterList}
+      />
+      {filterType !== null && filterType !== "" && filterType !== undefined ? (
+        <FilterButton onClick={onReset}>
+          {`${t("qrtype")} :  ${
+            types.find((v: any) => filterType === v.value)?.label
+          }
+`}
+        </FilterButton>
+      ) : null}
+    </WrapFilter>
   );
 };
 
