@@ -1,7 +1,7 @@
 import { SaveButton } from "components/Custom/Buttons/Save";
 import CustomToggle from "components/Custom/CustomToggleSwitch";
 import InputFormat from "components/Custom/InputFormat";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -28,7 +28,11 @@ import {
 const Rewarding = () => {
   const { t } = useTranslation();
   const { response, postReward, handleSave } = useReward();
-
+  const [scroll, setScroll] = useState<any>({
+    scrollHeight: 0,
+    scrollTop: 0,
+    clientHeight: 0,
+  });
   const {
     control,
     handleSubmit,
@@ -78,11 +82,19 @@ const Rewarding = () => {
     Object.assign(newValues, { values: data });
     reset(newValues);
   }, [data]);
-
+  console.log(scroll, "scroll");
   return (
     <Container>
       <Form onSubmit={handleSubmit(handleSave)}>
-        <Wrap>
+        <Wrap
+          onScroll={(e: any) =>
+            setScroll({
+              scrollHeight: e?.target?.scrollHeight,
+              scrollTop: e?.target?.scrollTop,
+              clientHeight: e?.target?.clientHeight,
+            })
+          }
+        >
           <LeftSide>
             <Box>
               <WrapSwitch>

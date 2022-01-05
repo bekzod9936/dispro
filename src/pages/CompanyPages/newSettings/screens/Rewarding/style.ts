@@ -32,6 +32,7 @@ export const Wrap = styled.div`
   overflow-x: hidden;
   scroll-behavior: auto;
   padding: 0 40px 0;
+
   ::-webkit-scrollbar {
     width: 7px;
   }
