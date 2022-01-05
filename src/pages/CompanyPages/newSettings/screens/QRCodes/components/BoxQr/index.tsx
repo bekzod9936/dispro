@@ -56,6 +56,8 @@ const BoxQr = ({ link, name, id, branch }: Props) => {
     setValue,
     reset,
     formState: { errors },
+    setError,
+    clearErrors,
   } = useForm<IForm>({
     mode: "onChange",
   });
@@ -95,15 +97,20 @@ const BoxQr = ({ link, name, id, branch }: Props) => {
   };
 
   const handleEditRef = (e: any) => {
-    putRef.mutate(
-      { id, source: e.source },
-      {
-        onSuccess: () => {
-          setOpenEdit(false);
-          reset();
-        },
-      }
-    );
+    if (e.source.match(/\S/) !== null) {
+      clearErrors("source");
+      putRef.mutate(
+        { id, source: e.source },
+        {
+          onSuccess: () => {
+            setOpenEdit(false);
+            reset();
+          },
+        }
+      );
+    } else {
+      setError("source", { type: "required" }, { shouldFocus: true });
+    }
   };
 
   return (

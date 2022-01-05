@@ -20,7 +20,7 @@ const FilterQr = ({ filterType, setFilterType }: Props) => {
 
   const onReset = () => {
     setType(null);
-    setFilterType(null);
+    setFilterType({ type: "filter", payload: "" });
   };
 
   const filterList = [
@@ -45,7 +45,7 @@ const FilterQr = ({ filterType, setFilterType }: Props) => {
     <WrapFilter>
       <Filter
         onSubmit={() => {
-          setFilterType(type);
+          setFilterType({ type: "filter", payload: type });
         }}
         onReset={onReset}
         list={filterList}
