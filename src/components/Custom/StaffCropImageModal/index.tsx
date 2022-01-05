@@ -45,7 +45,7 @@ const StaffCropCustomModal = ({
 	const [crop, setCrop] = React.useState<any>({
 		unit: '%',
 		width: 20,
-		aspect: 2 / 2,
+		aspect: 4 / 4,
 	});
 
 	React.useEffect(() => {
