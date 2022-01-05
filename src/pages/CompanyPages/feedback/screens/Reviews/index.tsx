@@ -1,16 +1,16 @@
-import FilterReview from '../../components/FilterReview';
-import { useState } from 'react';
-import { useAppSelector } from 'services/redux/hooks';
-import { useTranslation } from 'react-i18next';
-import { formatPagination } from '../../utils';
-import feedDef from 'assets/images/feedback.png';
-import User from '../../components/User';
-import Spinner from 'components/Custom/Spinner';
-import useFeedBack from '../../hooks/useFeedBack';
-import { NewPagination } from 'components/Custom/NewPagination';
-import useWindowWidth from 'services/hooks/useWindowWidth';
-import Stars from '../../components/Stars';
-import { useDebounce } from 'use-debounce/lib';
+import FilterReview from "../../components/FilterReview";
+import { useState } from "react";
+import { useAppSelector } from "services/redux/hooks";
+import { useTranslation } from "react-i18next";
+import { formatPagination } from "../../utils";
+import feedDef from "assets/images/feedback.png";
+import User from "../../components/User";
+import Spinner from "components/Custom/Spinner";
+import useFeedBack from "../../hooks/useFeedBack";
+import { NewPagination } from "components/Custom/NewPagination";
+import useWindowWidth from "services/hooks/useWindowWidth";
+import Stars from "../../components/Stars";
+import { useDebounce } from "use-debounce/lib";
 import {
   WrapPag,
   Info,
@@ -20,7 +20,7 @@ import {
   NoResult,
   Container,
   Mas,
-} from './style';
+} from "./style";
 
 interface intialFilterProps {
   page?: number;
@@ -37,17 +37,17 @@ const Reviews = () => {
 
   const intialFilter = {
     page: 1,
-    cashierIds: '',
+    cashierIds: "",
     perPage: 6,
-    rating: '',
-    key: '',
-    storeIds: '',
+    rating: "",
+    key: "",
+    storeIds: "",
   };
 
   const [filterValues, setFilterValues] =
     useState<intialFilterProps>(intialFilter);
 
-  const [inpuSearch, setInpuSearch] = useState<string>('');
+  const [inpuSearch, setInpuSearch] = useState<string>("");
   const [debouncedQuery] = useDebounce(inpuSearch, 300);
 
   const clients: any = useAppSelector((state) => state.feedbackPost.clients);
@@ -66,7 +66,7 @@ const Reviews = () => {
     await setFilterValues({ ...filterValues, page: e });
     await resClients.refetch();
   };
-  console.log(inpuSearch.length);
+
   return (
     <Container>
       <FilterReview
@@ -80,9 +80,9 @@ const Reviews = () => {
         <Spinner />
       ) : clients.length === 0 ? (
         <WrapDefPhoto>
-          <Img src={feedDef} alt='feedback' />
+          <Img src={feedDef} alt="feedback" />
           <span>
-            {inpuSearch === '' ? t('feeddef') : t('notfoundsearchsetting')}
+            {inpuSearch === "" ? t("feeddef") : t("notfoundsearchsetting")}
           </span>
         </WrapDefPhoto>
       ) : (
@@ -91,7 +91,7 @@ const Reviews = () => {
           <Content>
             <Mas>
               {clients.length === 0 ? (
-                <NoResult>{t('noresult')}</NoResult>
+                <NoResult>{t("noresult")}</NoResult>
               ) : (
                 clients?.map((v: any) => <User value={v} />)
               )}
@@ -99,13 +99,13 @@ const Reviews = () => {
             {clients.length > 0 ? (
               <WrapPag>
                 <Info>
-                  {t('shown')}
+                  {t("shown")}
                   <span>{between}</span>
-                  {t('from1')} <span>{totalCount}</span>
+                  {t("from1")} <span>{totalCount}</span>
                   {formatPagination({
                     count: totalCount,
-                    firstWord: t('review1'),
-                    secondWord: t('review23'),
+                    firstWord: t("review1"),
+                    secondWord: t("review23"),
                   })}
                 </Info>
                 <NewPagination
