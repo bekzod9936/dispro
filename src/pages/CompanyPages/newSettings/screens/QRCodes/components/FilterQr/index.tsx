@@ -33,7 +33,7 @@ const FilterQr = ({ filterType, setFilterType }: Props) => {
         <Radio
           flexDirection="row"
           list={types}
-          title={t("chose_gender")}
+          title={t("chooseqrcode")}
           onChange={(v: any) => setType(v)}
           value={type}
         />
