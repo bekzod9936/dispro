@@ -1,5 +1,5 @@
 //packages
-import { useFieldArray, useFormContext } from "react-hook-form";
+import { useFieldArray } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
 //components
@@ -10,15 +10,17 @@ import { SubButton } from "pages/CompanyPages/services/style";
 import { Buttons, Item, Wrapper } from "./style";
 import { useState } from "react";
 
+//other
+import { VariantAddingType } from "pages/CompanyPages/services/utils/types";
+
 interface VariantsProps {
   disabled: boolean;
 }
 
 export const Variants: React.FC<VariantsProps> = ({ disabled }) => {
   const { t } = useTranslation();
-  const [isVariantAdded, setIsVariantAdded] = useState<
-    "append" | "remove" | "reset"
-  >("reset");
+  const [isVariantAdded, setIsVariantAdded] =
+    useState<VariantAddingType>("reset");
 
   const { fields, append, remove } = useFieldArray({
     name: "variants",

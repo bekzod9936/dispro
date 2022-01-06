@@ -94,5 +94,33 @@ export const ApiServices = {
         }
 
         return data.data
+    },
+
+    async getItemsBySectionId(id: number | undefined, query?: string) {
+        //! add search feature
+        const url = `core/goods/by-section/${id}`
+        const { data } = await partnerApi.get<goodsResponseType>(url)
+
+        if (!data.success) {
+            throw new Error('Error during fetching goods!')
+        }
+
+        return data.data
+    },
+
+    async deleteSection(id: number) {
+        const _ = await partnerApi.delete(`core/goods-section/${id}`)
+    },
+
+    async moveSection(id: number, parentId: number) {
+        const _ = await partnerApi.put(`core/goods-section/move/${id}`, {
+            parentId
+        })
+    },
+
+    async hideSection(id: number, action: boolean) {
+        const _ = await partnerApi.put(`core/goods-section/hide/${id}`, {
+            hideInMobile: action
+        })
     }
 }

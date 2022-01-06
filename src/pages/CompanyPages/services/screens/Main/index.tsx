@@ -16,9 +16,8 @@ const Main: React.FC<MainProps> = () => {
   const { query, onChange, value } = useSearch();
   const { currentSection, setCurrentSection } = useCurrentSection();
 
-  const { total, goods, isLoading } = useGetItems(query);
+  const { total, goods, isLoading } = useGetItems(currentSection?.id, query);
 
-  console.log("mount main");
   return (
     <Wrapper>
       <Header

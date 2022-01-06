@@ -299,3 +299,8 @@ export const getSectionOfItem = (sections: sectionResponseType | undefined, sect
     label: section?.goodsSectionTranslates[0].translateName,
   }
 }
+
+export const getParentSections = (sections: ISectionResponse[] | undefined) => {
+  if (!sections) return 
+  return sections.filter(section => section.parentId === 0)
+}

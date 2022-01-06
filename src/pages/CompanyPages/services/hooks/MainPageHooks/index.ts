@@ -1,16 +1,22 @@
 import { useEffect, useRef, useState } from "react"
 import { DropResult } from "react-beautiful-dnd"
 import { useTranslation } from "react-i18next"
-import { useQuery } from "react-query"
+import { useMutation, useQuery, useQueryClient } from "react-query"
 import { ApiServices } from "services/queries/servicesQueries"
 import { IGoodsResponse, ISectionResponse } from "services/queries/servicesQueries/response.types"
 import { useGetSections } from ".."
-import { GET_ITEMS } from "../../constants"
+import { GET_ITEMS, GET_SECTIONS } from "../../constants"
 import { divideGoodsBySections } from "../../helpers"
-import {sectionsObjectType} from '../../utils/types'
+import {hideSectionPostType, moveSectionPostType, sectionsObjectType} from '../../utils/types'
 
-export const useGetItems = (query?: string) => {
-    const { data, ...rest } = useQuery([GET_ITEMS, query], () => ApiServices.getItems(query),
+export const useGetItems = (id: number | undefined, query?: string) => {
+    const { data, ...rest } = useQuery([GET_ITEMS, query, id], () => {
+      if (id !== undefined) {
+        return ApiServices.getItemsBySectionId(id)
+
+      }
+      return ApiServices.getItems(query)
+    },
     {
         refetchOnWindowFocus: false,
         retry: 1
@@ -19,7 +25,7 @@ export const useGetItems = (query?: string) => {
     const total = data?.totalCount || 0
     const goods = divideGoodsBySections(data?.goodsArr || [])
 
-    return {total, goods, ...rest}
+    return { total, goods, ...rest }
 }
 
 
@@ -115,10 +121,39 @@ export const useScrollToCurrentSection = (currentSection: ISectionResponse | nul
 }
 
 export const useGetTotalCountTitle = (isLoading: boolean, total: number) => {
-  const {t} = useTranslation()
+  const { t } = useTranslation()
   return isLoading
-  ? t("loading")
-  : total > 0
-  ? `${t("totalCountOfGoods")}: ${total}`
-  : t("youDontHaveProducts")
+    ? t("loading")
+    : total > 0
+    ? `${t("totalCountOfGoods")}: ${total}`
+    : t("youDontHaveProducts")
+}
+
+export const useDeleteSection = () => {
+  const queryClient = useQueryClient()
+  return useMutation((id: number) => ApiServices.deleteSection(id), {
+    onSettled() {
+      queryClient.invalidateQueries(GET_SECTIONS)
+    }
+  })
+}
+
+export const useMoveSection = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation(({ id, parentId }: moveSectionPostType) => ApiServices.moveSection(id, parentId), {
+    onSettled() {
+      queryClient.invalidateQueries(GET_SECTIONS)
+    }
+  })
+}
+
+export const useHideSection = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation(({id, action}: hideSectionPostType) => ApiServices.hideSection(id, action), {
+    onSettled() {
+      queryClient.invalidateQueries(GET_SECTIONS)
+    }
+  })
 }

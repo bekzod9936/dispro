@@ -2,7 +2,7 @@ export const createItemDefaultFields = {
     titles: [{ title: "", desc: "", lang: "(Рус)" }],
     variants: [
       {
-        name: [{ data: "", lang: "(Рус)" }],
+        name: [{ data: "test", lang: "(Рус)" }],
         amount: "",
         price: "",
         priceWithSale: "",
@@ -34,7 +34,9 @@ export const languageLabels = {
 export const modalsDefaults = {
   subSection: false,
   editSection: false,
-  delete: false
+  delete: false,
+  move: false,
+  hide: false
 }
 
 
