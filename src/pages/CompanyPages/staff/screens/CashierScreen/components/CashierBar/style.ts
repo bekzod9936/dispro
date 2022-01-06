@@ -64,6 +64,10 @@ export const BarTitle = styled.p`
 	font-size: 18px;
 	line-height: 26px;
  	 margin-bottom: 5px;
+		text-overflow: ellipsis;
+    width: 175px;
+    white-space: nowrap;
+    overflow: hidden;
 `;
 
 export const BarText = styled.p`
