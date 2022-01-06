@@ -32,7 +32,7 @@ const useHistory = ({ filterValues, handleClickCommet }: PProps) => {
   const dispatch = useAppDispatch();
   const data = useAppSelector((state) => state.finance.historyFinance.data);
   const sum = useAppSelector((state) => state.finance.historyFinance.sum);
-
+  console.log(filterValues, "filterValues");
   const response = useQuery(
     ["fetchPaymentInfo", filterValues],
     () => {
@@ -88,18 +88,19 @@ const useHistory = ({ filterValues, handleClickCommet }: PProps) => {
             data.data.data.cashierHistories.filter.stores
           )
         );
+        const cashierFilter =
+          data.data.data.cashierHistories.filter.cashierStaffs.map((v: any) => {
+            return {
+              value: v.id,
+              label: v.name,
+            };
+          });
 
         dispatch(
-          setCashierHistoryFinance(
-            data.data.data.cashierHistories.filter.cashierStaffs.map(
-              (v: any) => {
-                return {
-                  value: v.id,
-                  label: v.name,
-                };
-              }
-            )
-          )
+          setCashierHistoryFinance([
+            { value: 0, label: t("p2p") },
+            ...cashierFilter,
+          ])
         );
       },
     }

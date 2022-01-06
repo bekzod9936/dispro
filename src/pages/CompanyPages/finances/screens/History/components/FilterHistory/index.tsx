@@ -82,7 +82,7 @@ const FilterHistory = ({
   const handleFilterSubmit = ({ startDate = "", endDate = "" }) => {
     setFilterValues({
       ...filterValues,
-      cashierStaffId: cashierStaffId?.value ? cashierStaffId?.value : "",
+      cashierStaffId: cashierStaffId?.value ?? "",
       storeId: storeId?.value ? storeId?.value : "",
       startDate: startDate,
       endDate: endDate,
@@ -295,12 +295,19 @@ const FilterHistory = ({
             list={filterList}
           />
           {width >= 1000 ? (
-            <>
+            <div
+              style={{
+                gap: "10px",
+                display: "flex",
+                flexWrap: "wrap",
+                marginLeft: "10px",
+              }}
+            >
               {filterType}
               {filterselectvalue}
               {filtercashier}
               {filterstore}
-            </>
+            </div>
           ) : null}
         </WrapFilterValues>
         <Button
