@@ -1,17 +1,17 @@
-import { useState } from 'react';
-import Spinner from 'components/Custom/Spinner';
-import useClientsHook from './useClientsHook';
-import { numberWithNew } from 'services/utils';
-import Chart from './components/Chart';
-import FilterClients from './components/FilterClients';
+import { useState } from "react";
+import Spinner from "components/Custom/Spinner";
+import useClientsHook from "./useClientsHook";
+import { numberWithNew } from "services/utils";
+import Chart from "./components/Chart";
+import FilterClients from "./components/FilterClients";
 import {
   Container,
   Wrapper,
   MainWrapper,
   WrapMobile,
   WrapDesktop,
-} from './style';
-import { WrapInfo, Title, Value, Content } from '../../style';
+} from "./style";
+import { WrapInfo, Title, Value, Content } from "../../style";
 
 interface Props {
   startDate?: string;
@@ -28,16 +28,16 @@ interface Props {
 }
 
 const intialState = {
-  startDate: '',
-  endDate: '',
-  regDateFrom: '',
-  regDateTo: '',
-  genderTypeId: '',
-  purchaseCountFrom: '',
-  purchaseCountTo: '',
-  allPurchaseSum: '',
-  usedLevelNumber: '',
-  refIds: '',
+  startDate: "",
+  endDate: "",
+  regDateFrom: "",
+  regDateTo: "",
+  genderTypeId: "",
+  purchaseCountFrom: "",
+  purchaseCountTo: "",
+  allPurchaseSum: "",
+  usedLevelNumber: "",
+  refIds: "",
 };
 
 const Clients = () => {
@@ -69,12 +69,12 @@ const Clients = () => {
           ) : (
             <>
               <Wrapper>
-                {list.map((v: any) => (
-                  <WrapInfo key={v.title}>
-                    <div>{v.Icon}</div>
+                {list.map(({ title, Icon, value }: any) => (
+                  <WrapInfo key={title}>
+                    <div>{Icon}</div>
                     <Content>
-                      <Title>{v.title}</Title>
-                      <Value>{numberWithNew({ number: v?.value })}</Value>
+                      <Title>{title}</Title>
+                      <Value>{numberWithNew({ number: value })}</Value>
                     </Content>
                   </WrapInfo>
                 ))}
