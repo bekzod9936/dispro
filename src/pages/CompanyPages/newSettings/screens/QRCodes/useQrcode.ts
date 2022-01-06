@@ -28,7 +28,6 @@ const useQrcode = () => {
       refetchOnWindowFocus: false,
       retry: 0,
       onSuccess: (data) => {
-        console.log(data);
         dispatch(setBranchQrCodes(data.data.data));
       },
     }

@@ -14,31 +14,34 @@ const useReward = () => {
     keepPreviousData: true,
     refetchOnWindowFocus: false,
     retry: 0,
-    onSuccess: (data) => {
-      const arr1 = Array(4).fill(1);
-      const arr2 = arr1.map((v: any, i: any) => {
-        return {
-          amount: 0,
-          companyId: data.data.data?.companyId,
-          isActive: false,
-          levels: [],
-          rewardType: i + 1,
-          userType: 1,
-        };
-      });
-      const value = arr2.map((a: any) => {
-        const arr: any = data.data.data?.rewards.find(
+    select: (data) => {
+      const newdata: any = [data.data.data?.companyId, data.data.data?.rewards];
+      return newdata;
+    },
+    onSuccess: (data: any) => {
+      const [companyId, rewards] = data;
+      const arr1 = Array(4)
+        .fill(1)
+        .map((v: any, i: any) => {
+          return {
+            amount: 0,
+            companyId: companyId,
+            isActive: false,
+            levels: [],
+            rewardType: i + 1,
+            userType: 1,
+          };
+        });
+
+      const value = arr1.map((a: any) => {
+        const arr: any = rewards.find(
           (v: any) => v?.rewardType === a.rewardType && v.userType === 1
         );
-        if (arr === undefined) {
-          return a;
-        } else {
-          return arr;
-        }
+        return arr ?? a;
       });
 
       const arrNew = {
-        companyId: data.data.data?.companyId,
+        companyId: companyId,
         rewards: value,
       };
 
@@ -59,20 +62,20 @@ const useReward = () => {
         return {
           ...v,
           isActive: e?.rewardType1,
-          amount: e?.amountType1 === null ? 0 : e?.amountType1,
+          amount: e?.amountType1 ?? 0,
         };
       } else if (v?.rewardType === 2) {
         return {
           ...v,
           isActive: e?.rewardType2,
-          amount: e?.amountType2 === null ? 0 : e?.amountType2,
+          amount: e?.amountType2 ?? 0,
           levels: [{ limitCountReward: e?.limitCountReward }],
         };
       } else if (v?.rewardType === 3) {
         return {
           ...v,
           isActive: e?.rewardType3,
-          amount: e?.amountType3 === null ? 0 : e?.amountType3,
+          amount: e?.amountType3 ?? 0,
           levels: [
             {
               beforeDay: e?.beforeDay,
@@ -84,7 +87,7 @@ const useReward = () => {
         return {
           ...v,
           isActive: e?.rewardType4,
-          amount: e?.amountType4 === null ? 0 : e?.amountType4,
+          amount: e?.amountType4 ?? 0,
           levels: [
             {
               requirements: [
