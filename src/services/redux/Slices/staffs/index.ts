@@ -30,7 +30,10 @@ const initialState: staffsState = {
   storeFilters: null,
   cashiersTotal: 0,
   managersTotal: 0,
-  totalCount: 0,
+  totalCount: {
+		managers: 0, 
+	  cashiers: 0
+	},
   page: {
 	  managers: 1, 
 	  cashiers: 1
@@ -119,11 +122,11 @@ const staffsSlice = createSlice({
 	  },
 	  setCashiersTotal: (state, {payload}: PayloadAction<number>) => {
 		state.cashiersTotal = Math.ceil(payload / 10)
-		state.totalCount = payload
+		state.totalCount.cashiers = payload
 	},
 	  setManagersTotal: (state, {payload}: PayloadAction<number>) => {
 		state.managersTotal = Math.ceil(payload / 10)
-		state.totalCount = payload
+		state.totalCount.managers = payload
 	},
 	setPage: (state, { payload }: PayloadAction<PagePayload>) => {
 		state.page = {...state.page, [payload.type]: payload.page}
