@@ -118,22 +118,25 @@ const FilterHistory = ({
       </FilterButton>
     ) : null;
 
-  const filtercashier = cashierStaffId?.label ? (
-    <FilterButton
-      onClick={async () => {
-        await setFilterValues({
-          ...filterValues,
-          cashierStaffId: "",
-          page: 1,
-        });
-        await setCashierStaffId({});
-        await refetch();
-      }}
-    >
-      {`${t("cashier")}: `}
-      {cashierStaffId?.label}
-    </FilterButton>
-  ) : null;
+  const filtercashier =
+    filterValues.cashierStaffId !== "" &&
+    filterValues.cashierStaffId !== null &&
+    filterValues.cashierStaffId !== undefined ? (
+      <FilterButton
+        onClick={async () => {
+          await setFilterValues({
+            ...filterValues,
+            cashierStaffId: "",
+            page: 1,
+          });
+          await setCashierStaffId({});
+          await refetch();
+        }}
+      >
+        {`${t("cashier")}: `}
+        {cashierStaffId?.label}
+      </FilterButton>
+    ) : null;
 
   const filterstore = filterValues.storeId ? (
     <FilterButton
