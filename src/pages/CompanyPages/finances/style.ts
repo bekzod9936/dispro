@@ -284,6 +284,9 @@ export const SideDrawer = styled.div`
   transform: ${({ open }: Props) =>
     open ? "translateX(0)" : "translateX(100%)"};
   padding: 15px 0 40px;
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    max-width: 300px;
+  }
   @media (min-width: ${device.laptop}) {
     top: 90px;
     height: calc(100% - 90px);
