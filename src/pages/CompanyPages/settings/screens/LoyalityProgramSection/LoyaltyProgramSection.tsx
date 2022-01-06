@@ -148,7 +148,7 @@ const LoyaltyProgramSection = () => {
   const activeEmpty = active.active === '' && activeCheck === '';
   const handleChecked = (key: any) => {
     console.log('key that i want', key);
-
+  
     setSwitchKey(key);
     if (emptyCashback.empty && emptyCashback.type === key) {
       setActiveCheck(key);
@@ -637,7 +637,7 @@ const LoyaltyProgramSection = () => {
                           </Button>
                         </div>
                       </HeaderGrid>
-                      <Modal open={payGoModal}>
+                      {/* <Modal open={payGoModal}>
                         <WrapModalPaygo>
                           <Text marginBottom={'25px'}>{t('paygowarning')}</Text>
                           <Button
@@ -649,7 +649,7 @@ const LoyaltyProgramSection = () => {
                             {t('writetomoderator')}
                           </Button>
                         </WrapModalPaygo>
-                      </Modal>
+                      </Modal> */}
                     </BottomSide>
                   </Form>
                 </LargePanel>

@@ -10,14 +10,15 @@ import {
 const LoyaltyProgramSection = () => {
 
   return (
-    <Container>
-      <LeftSide>
-         <Left/>
-      </LeftSide>
-      <RightSide>
+    // <Container>
+    //   <LeftSide>
+    //      <Left/>
+    //   </LeftSide>
+    //   <RightSide>
       <Right/>
-      </RightSide>
-    </Container>
+    //   </RightSide>
+      
+    // </Container>
   );
 };
 export default LoyaltyProgramSection;
