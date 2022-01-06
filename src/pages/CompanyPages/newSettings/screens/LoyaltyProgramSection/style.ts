@@ -54,9 +54,10 @@ export const ContentVariant = styled.div`
   background: #f0f1fd;
   border-radius: 12px;
   max-width: 350px;
-  min-width:300px;
+  min-width:250px;
+
   padding: 20px;
-  margin: 20px 50px 0px 0px;
+  margin: 20px 30px 0px 0px;
   h5 {
     font-size: 16px;
     font-weight: 700;
@@ -170,6 +171,14 @@ export const TitleForm = styled.div`
   align-items: center;
   height: 100%;
 `;
+export const NestedTitleForm = styled.div`
+  padding: 10px 0px;
+  display: flex;
+  
+  justify-content: flex-start;
+  align-items: center;
+  height: 100%;
+`;
 export const TitleFormChild = styled.div`
   padding: 10px 0px;
   display: flex;
@@ -178,17 +187,19 @@ export const TitleFormChild = styled.div`
   height: 100%;
 `;
 export const TitleInsideFormChild = styled.div`
-  padding: 10px 0px;
-  display: flex;
-
-  justify-content: baseline;
-  align-items: center;
+  padding: 10px 0px 10px 0px;
+  justify-content: flex-end;
   height: 100%;
+  align-items: center;
+  display:flex;
+  width:580px;
+  flex-wrap: wrap;
+     
 `;
 export const TitleInsideFormChildMore = styled.div`
   padding: 10px 0px;
-  display: flex;
-  justify-content: baseline;
+  display:flex;
+  /* flex-basis: 50%; */
   align-items: center;
   height: 100%;
 `;
@@ -220,4 +231,69 @@ export const DynamicLabel = styled.div`
   font-size: 16px;
   color: #a5a5a5;
   padding: 15px 10px 0px 10px;
+`;
+export const ModalTitle = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+export const ModalBody = styled.div`
+  text-align: left;
+  margin-top: 20px;
+  margin-bottom: 15px;
+`;
+
+export const LoyalDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 25px;
+
+  span.MuiTypography-body1 {
+    font-weight: normal !important;
+    font-size: 14px !important;
+    color: #223367 !important;
+    text-transform: none;
+  }
+`;
+export const BtnContainer = styled.div`
+  display: flex;
+  margin-top: 20px;
+  justify-content: flex-end;
+  width: 100%;
+  align-items: center;
+`;
+
+export const WrapSpinner = styled.div`
+  overflow-y: auto;
+  position: relative;
+  overflow-x: hidden;
+  margin-top: 200px;
+  @media (min-width:${device.mobile})and (max-width: ${device.planshet}) {
+    padding: 200px 0 0 10px;
+  }
+  @media (max-width: ${device.mobile}) {
+    padding: 150px 0 0 10px;
+  }
+  &::-webkit-scrollbar {
+    appearance: none;
+    display: none;
+  }
+  &::-webkit-scrollbar-thumb {
+    appearance: none;
+    display: none;
+  }
+
+  &::-webkit-scrollbar-track {
+    appearance: none;
+    display: none;
+  }
+`;
+
+export const WrapModalPaygo = styled.div`
+  padding: 50px 50px 20px 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 `;

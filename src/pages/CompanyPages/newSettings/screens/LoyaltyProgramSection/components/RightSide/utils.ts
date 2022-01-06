@@ -6,23 +6,42 @@ export const conditonTypes = [
     },
     {
       id: 2,
+      label: "Рекомендации",
+      value: "Рекомендации",
+    },
+    {
+      id: 3,
       label: "Посещения",
       value: "Посещения",
     },
-    {
-        id: 3,
-        label: "Рекомендации",
-        value: "Рекомендации",
-      },
+  
   ];
-export const mainconditionTypes=[
+export const FirstconditonTypes = [
+    {
+      id: 1,
+      label: "Сумма покупок",
+      value: "Сумма покупок",
+    },
+    {
+      id: 2,
+      label: "Рекомендации",
+      value: "Рекомендации",
+    },
+    {
+      id: 3,
+      label: "Посещения",
+      value: "Посещения",
+    },
+   
+  ];
+export const MainconditionTypes=[
   {
     id: 1,
     label: "Сумма покупок",
     value: "Сумма покупок",
   },
   {
-    id: 2,
+    id: 3,
     label: "Посещения",
     value: "Посещения",
   },
@@ -30,21 +49,28 @@ export const mainconditionTypes=[
 ]
 export const Or=[
     {
-        id:1,
+       
         label:'и',
         value:'и'
     },
     {
-        id:2,
+     
         label:'или',
         value:'или'
     }
 ]
 export const OnlyOneOr=[
   {
-      id:1,
+     
       label:'и',
       value:'и'
   },
 
+]
+export const DefaultOr=[
+  {
+
+    label:'или',
+    value:'или'
+}
 ]
