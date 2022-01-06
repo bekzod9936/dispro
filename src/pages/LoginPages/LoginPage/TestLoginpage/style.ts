@@ -1,6 +1,6 @@
-import styled, { css } from 'styled-components';
-import { device } from '../../../../styles/device';
-import IconButton from '@material-ui/core/IconButton';
+import styled, { css } from "styled-components";
+import { device } from "../../../../styles/device";
+import IconButton from "@material-ui/core/IconButton";
 
 interface textProps {
   fontSize?: number;
@@ -76,7 +76,7 @@ export const Img = styled.div`
 export const Wrapper = styled.div`
   height: 100vh;
   padding: 60px;
-  display: ${({ display }: WrapProps) => (display ? 'none' : 'flex')};
+  display: ${({ display }: WrapProps) => (display ? "none" : "flex")};
   ${({ display }: WrapProps) => (display ? null : common)}
   transition: 1s all linear;
   -webkit-animation-name: fade;
@@ -113,7 +113,7 @@ export const Wrapper = styled.div`
 
 export const Text = styled.p`
   font-weight: normal;
-  font-size: ${({ fontSize }: textProps) => `${fontSize}px` || '16px'};
+  font-size: ${({ fontSize }: textProps) => `${fontSize}px` || "16px"};
   font-weight: ${({ weight }: textProps) => weight || null};
   color: #ffffff;
   display: flex;
@@ -136,10 +136,14 @@ export const TextWrap = styled.div`
 export const WrapSelect = styled.div`
   display: flex;
   justify-content: ${({ justify }: SelectProps) =>
-    justify ? 'space-between' : 'flex-end'};
+    justify ? "space-between" : "flex-end"};
   align-items: center;
   flex-shrink: 1;
   padding: 15px;
+
+  @media (min-width: ${device.laptop}) {
+    margin-left: 20px;
+  }
 
   @media (max-width: ${device.planshet}) {
     width: 100%;
@@ -150,7 +154,7 @@ export const WrapSelect = styled.div`
     padding: 15px;
   }
   @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
-    padding: ${({ justify }: SelectProps) => (justify ? '15px 20px' : '40px')};
+    padding: ${({ justify }: SelectProps) => (justify ? "15px 20px" : "40px")};
   }
 `;
 
