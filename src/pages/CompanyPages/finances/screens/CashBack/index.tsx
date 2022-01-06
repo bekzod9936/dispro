@@ -107,7 +107,7 @@ const Payment = () => {
   }, [header]);
 
   const headerContentMobile = () => {
-    if (width <= 600) {
+    if (width <= 1000) {
       return (
         <WrapTotal>
           <WrapTotalSum>

@@ -172,7 +172,7 @@ export const WrapHeader = styled.div`
 export const RightHeader = styled.div`
   position: absolute;
   right: 25px;
-  top: 0;
+  top: -20px;
   @media (max-width: ${device.planshet}) {
     display: none;
   }
