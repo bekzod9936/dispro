@@ -257,11 +257,18 @@ export const WrapButtonsModal = styled.div`
   display: flex;
   width: 100%;
   justify-content: flex-end;
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    justify-content: center;
+  }
 `;
 
 export const WrapModalComment = styled.div`
   padding: 30px;
   width: 500px;
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    width: 400px;
+    padding: 20px;
+  }
   @media (max-width: ${device.mobile}) {
     width: 290px;
     padding: 15px;
@@ -283,6 +290,11 @@ export const WrapComTitle = styled.div`
   @media (max-width: ${device.mobile}) {
     & > div {
       font-size: 16px;
+    }
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    & > div {
+      font-size: 18px;
     }
   }
 `;
@@ -307,7 +319,10 @@ export const CloseWrapBut = styled.div`
 
 export const WrapDeleteModal = styled.div`
   padding: 30px;
-
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    width: 400px;
+    padding: 20px;
+  }
   @media (max-width: ${device.mobile}) {
     width: 290px;
     padding: 15px;

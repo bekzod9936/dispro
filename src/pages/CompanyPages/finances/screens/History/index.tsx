@@ -18,6 +18,8 @@ import { IconButton } from "@material-ui/core";
 import { TextArea } from "components/Custom/TextArea";
 import { intialFilterProps } from "./type";
 import SideDrawer from "../../components/SideDrawer";
+import { CancelButton } from "components/Custom/Buttons/Cancel";
+import { SaveButton } from "components/Custom/Buttons/Save";
 import {
   WrapPag,
   Info,
@@ -268,38 +270,22 @@ const Payment = () => {
                     </div>
                   </WarpBodyComModel>
                   <WrapButtonsModal>
-                    <Button
-                      buttonStyle={{
-                        bgcolor: width > 600 ? "white" : "#eff0fd",
-                        color: width > 600 ? "#223367" : "#606EEA",
-                        weight: 500,
-                      }}
+                    <CancelButton
                       margin={{
                         laptop: "0 30px 0 0",
                         mobile: "0 10px 0 0",
                       }}
                       padding={{ mobile: "0 10px" }}
-                      startIcon={width > 600 ? <CancelIcon /> : null}
-                      endIcon={width < 600 ? <CancelIcon /> : null}
                       onClick={() => {
                         handleAllClose();
                       }}
-                    >
-                      {t("cancel")}
-                    </Button>
-                    <Button
-                      buttonStyle={{
-                        color: "white",
-                        bgcolor: "#606EEA",
-                      }}
-                      padding={{ mobile: "0 10px" }}
-                      startIcon={width > 600 ? <SaveIcon /> : null}
-                      endIcon={width < 600 ? <SaveIcon /> : null}
+                    />
+                    <SaveButton
+                      type="button"
                       disabled={resComment.isLoading}
                       onClick={handleSave}
-                    >
-                      {t("save")}
-                    </Button>
+                      padding={{ mobile: "0 10px" }}
+                    />
                   </WrapButtonsModal>
                 </WrapModalComment>
               </Modal>
@@ -308,25 +294,16 @@ const Payment = () => {
                   <WrapDeleteTitle>{t("areyousuredelete")}</WrapDeleteTitle>
                   <WrapDeleteComment>{comment}</WrapDeleteComment>
                   <WrapDeleteButtons>
-                    <Button
-                      buttonStyle={{
-                        bgcolor: width > 600 ? "white" : "#eff0fd",
-                        color: width > 600 ? "#223367" : "#606EEA",
-                        weight: 500,
-                      }}
+                    <CancelButton
                       margin={{
                         laptop: "0 30px 0 0",
                         mobile: "0 10px 0 0",
                       }}
                       padding={{ mobile: "0 10px" }}
-                      startIcon={width > 600 ? <CancelIcon /> : null}
-                      endIcon={width < 600 ? <CancelIcon /> : null}
                       onClick={() => {
                         setDeleteOpen(false);
                       }}
-                    >
-                      {t("cancel")}
-                    </Button>
+                    />
                     <Button
                       buttonStyle={{
                         color: "white",
@@ -334,8 +311,8 @@ const Payment = () => {
                         weight: 500,
                       }}
                       padding={{ mobile: "0 10px" }}
-                      startIcon={width > 600 ? <DeleteIcon1 /> : null}
-                      endIcon={width < 600 ? <DeleteIcon1 /> : null}
+                      startIcon={width > 1000 ? <DeleteIcon1 /> : null}
+                      endIcon={width <= 1000 ? <DeleteIcon1 /> : null}
                       disabled={resComment.isLoading}
                       onClick={handleDeleteCom}
                     >
