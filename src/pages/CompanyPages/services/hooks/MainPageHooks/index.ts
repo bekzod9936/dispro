@@ -7,7 +7,7 @@ import { IGoodsResponse, ISectionResponse } from "services/queries/servicesQueri
 import { useGetSections } from ".."
 import { GET_ITEMS, GET_SECTIONS } from "../../constants"
 import { divideGoodsBySections } from "../../helpers"
-import {hideSectionPostType, moveSectionPostType, sectionsObjectType} from '../../utils/types'
+import {editSectionPostType, hideSectionPostType, moveSectionPostType, sectionsObjectType} from '../../utils/types'
 
 export const useGetItems = (id: number | undefined, query?: string) => {
     const { data, ...rest } = useQuery([GET_ITEMS, query, id], () => {
@@ -152,6 +152,16 @@ export const useHideSection = () => {
   const queryClient = useQueryClient()
 
   return useMutation(({id, action}: hideSectionPostType) => ApiServices.hideSection(id, action), {
+    onSettled() {
+      queryClient.invalidateQueries(GET_SECTIONS)
+    }
+  })
+}
+
+export const useEditSection = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation(({id, section}: editSectionPostType) => ApiServices.editSection(id, section), {
     onSettled() {
       queryClient.invalidateQueries(GET_SECTIONS)
     }

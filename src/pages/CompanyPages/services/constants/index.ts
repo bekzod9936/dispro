@@ -151,3 +151,6 @@ export const measurements = [
 export const SECTION_DELETE_MODAL_CONTENT = { title: "areYouSureToDeleteSection", info: "После удаления, вложенные разделы и товары нельзя будет восстановить" }
 export const ITEM_DELETE_MODAL_CONTENT = { title: "areYouSureToDeleteItem", info: "После удаления, товар нельзя будет восстановить" }
 export const SUBSECTION_DELETE_MODAL_CONTENT = { title: "areYouSureToDeleteSubSection", info: 'После удаления, вложенные товары нельзя будет восстановить' }
+
+export const SECTION_HIDE_MODAL_CONTENT = { title: "areYouSureToHideSection", info: "После скрытия, вложенные разделы и товары не будут видны в мобильном приложении" }
+export const SUBSECTION_HIDE_MODAL_CONTENT = { title: "areYouSureToHideSubSection", info: "После скрытия, вложенные товары не будут видны в мобильном приложении" }

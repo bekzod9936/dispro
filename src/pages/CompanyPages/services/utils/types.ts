@@ -73,6 +73,11 @@ export type CreateDtoType = {
     variants: variantType[]
 }
 
+export type sectionEditNameType = {
+    langId: number,
+    translateName: string
+}
+
 export type PostDtoVariantType = {
     goodsVariantTranslates: {
         langId: number,
@@ -174,4 +179,9 @@ export type moveSectionPostType = {
 export type hideSectionPostType = {
     id: number,
     action: boolean
+}
+
+export type editSectionPostType = {
+    id: number,
+    section: sectionEditNameType
 }

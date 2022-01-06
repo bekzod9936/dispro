@@ -3,7 +3,7 @@ import { STORAGE_URL } from "../../constants/config";
 import { PARTNER } from "services/interceptors/partner_interceptor/types";
 import { categoriesResponseType, goodResponseType, goodsResponseType, IGoodsResponse, sectionDtoType, sectionResponseType, uploadImageType } from './response.types';
 import partnerApi from 'services/interceptors/partner_interceptor';
-import { PostDtoType } from 'pages/CompanyPages/services/utils/types';
+import { PostDtoType, sectionEditNameType } from 'pages/CompanyPages/services/utils/types';
 
 
 export const ApiServices = {
@@ -121,6 +121,12 @@ export const ApiServices = {
     async hideSection(id: number, action: boolean) {
         const _ = await partnerApi.put(`core/goods-section/hide/${id}`, {
             hideInMobile: action
+        })
+    },
+
+    async editSection(id: number, section: sectionEditNameType) {
+        const _ = await partnerApi.put(`core/goods-section/name/${id}`, {
+            goodsSectionTranslates: [section]
         })
     }
 }
