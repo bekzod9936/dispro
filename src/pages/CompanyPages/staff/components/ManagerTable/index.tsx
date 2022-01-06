@@ -76,6 +76,15 @@ const ManagerTable = ({ managers }: IProps) => {
 					},
 				};
 			}
+			if (header.label === 'comment') {
+				return {
+					Header: header.value,
+					accessor: header.label,
+					Cell: (props: any) => {
+						return <p>{props.value}</p>;
+					},
+				};
+			}
 			return {
 				Header: header.value,
 				accessor: header.label,
