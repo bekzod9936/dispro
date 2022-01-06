@@ -1,9 +1,9 @@
-import styled from 'styled-components';
-import { device } from 'styles/device';
-import { ReactComponent as Filter } from 'assets/icons/StatistisPage/filter.svg';
-import { ReactComponent as Reset } from 'assets/icons/StatistisPage/reset.svg';
-import { ReactComponent as Tick } from 'assets/icons/tick.svg';
-import { ReactComponent as Close } from 'assets/icons/IconsInfo/close.svg';
+import styled from "styled-components";
+import { device } from "styles/device";
+import { ReactComponent as Filter } from "assets/icons/StatistisPage/filter.svg";
+import { ReactComponent as Reset } from "assets/icons/StatistisPage/reset.svg";
+import { ReactComponent as Tick } from "assets/icons/tick.svg";
+import { ReactComponent as Close } from "assets/icons/IconsInfo/close.svg";
 
 export const FilterIcon = styled(Filter)`
   @media (max-width: ${device.mobile}) {
@@ -75,7 +75,7 @@ export const WrapHeader = styled.div`
   align-items: center;
   padding: 5px 15px;
   @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
-    padding: 25px 30px;
+    padding: 15px 25px;
   }
 `;
 

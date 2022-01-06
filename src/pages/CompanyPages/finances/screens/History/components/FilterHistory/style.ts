@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import { device } from 'styles/device';
-import { ReactComponent as Delete } from 'assets/icons/IconsInfo/delete.svg';
-import { ReactComponent as Excel } from 'assets/icons/FinanceIcons/excel.svg';
+import styled from "styled-components";
+import { device } from "styles/device";
+import { ReactComponent as Delete } from "assets/icons/IconsInfo/delete.svg";
+import { ReactComponent as Excel } from "assets/icons/FinanceIcons/excel.svg";
 
 export const WrapFilterValues = styled.div`
   display: flex;
@@ -85,6 +85,9 @@ export const WrapFilter = styled.div`
   align-items: flex-start;
   justify-content: space-between;
   width: 100%;
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    justify-content: start;
+  }
 `;
 
 export const WrapSelectV = styled.div`
@@ -105,4 +108,11 @@ export const Label = styled.label`
     font-size: 16px;
   }
   margin-bottom: 5px;
+`;
+
+export const WrapFilterButtons = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  gap: 10px;
 `;

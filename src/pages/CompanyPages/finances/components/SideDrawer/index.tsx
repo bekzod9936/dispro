@@ -1,7 +1,7 @@
-import { IconButton } from '@material-ui/core';
-import Button from 'components/Custom/Buttons/Button';
-import { useTranslation } from 'react-i18next';
-import { ReactComponent as EditPen } from 'assets/icons/editpen.svg';
+import { IconButton } from "@material-ui/core";
+import Button from "components/Custom/Buttons/Button";
+import { useTranslation } from "react-i18next";
+import { ReactComponent as EditPen } from "assets/icons/editpen.svg";
 import {
   WrapSideBody,
   WrapSideHeader,
@@ -11,7 +11,8 @@ import {
   CloseIcon,
   DeleteIcon1,
   WarpButton,
-} from './style';
+} from "./style";
+import useWindowWidth from "services/hooks/useWindowWidth";
 
 interface Props {
   onAllClose?: () => void;
@@ -31,13 +32,14 @@ const SideDrawer = ({
   comment,
 }: Props) => {
   const { t } = useTranslation();
-  if (comment === '') {
+  const { width } = useWindowWidth();
+  if (comment === "") {
     return (
       <WarpButton>
         <Button
           buttonStyle={{
-            bgcolor: '#e1e3fb',
-            color: '#3492FF',
+            bgcolor: "#e1e3fb",
+            color: "#3492FF",
             radius: 12,
             weight: 300,
             height: {
@@ -54,7 +56,7 @@ const SideDrawer = ({
           }}
           onClick={handleEdit}
         >
-          {t('addcomment')}
+          {t("addcomment")}
         </Button>
       </WarpButton>
     );
@@ -63,32 +65,37 @@ const SideDrawer = ({
       <>
         <WrapSideBody>
           <WrapSideHeader>
-            {t('operation')}
+            {t("operation")}
             <IconButton onClick={() => onAllClose()}>
               <CloseIcon />
             </IconButton>
           </WrapSideHeader>
-          <BodyTitle>{t('commentoperation')}</BodyTitle>
+          <BodyTitle>{t("commentoperation")}</BodyTitle>
           <Comment>
             <div>{comment}</div>
           </Comment>
         </WrapSideBody>
         <WrapSideFooter>
-          <Button startIcon={<EditPen />} onClick={handleEdit}>
-            {t('edit')}
+          <Button
+            startIcon={width > 1000 ? <EditPen /> : null}
+            endIcon={width <= 1000 ? <EditPen /> : null}
+            onClick={handleEdit}
+          >
+            {t("edit")}
           </Button>
           <Button
             buttonStyle={{
-              color: 'white',
-              bgcolor: '#FF5E68',
+              color: "white",
+              bgcolor: "#FF5E68",
               weight: 500,
-              shadow: '0px 4px 9px rgba(255, 94, 104, 0.46)',
+              shadow: "0px 4px 9px rgba(255, 94, 104, 0.46)",
             }}
-            margin={{ mobile: '0 0 20px 0' }}
-            startIcon={<DeleteIcon1 />}
+            margin={{ mobile: "0 0 20px 0" }}
+            startIcon={width > 1000 ? <DeleteIcon1 /> : null}
+            endIcon={width <= 1000 ? <DeleteIcon1 /> : null}
             onClick={handleDelete}
           >
-            {t('deletecomment')}
+            {t("deletecomment")}
           </Button>
         </WrapSideFooter>
       </>

@@ -1,15 +1,16 @@
-import { useState } from 'react';
-import Filter from 'components/Custom/Filter/index';
-import MultiSelect from 'components/Custom/MultiSelect';
-import Button from 'components/Custom/Buttons/Button';
-import useWindowWidth from 'services/hooks/useWindowWidth';
-import { useTranslation } from 'react-i18next';
-import dayjs from 'dayjs';
-import { useAppSelector } from 'services/redux/hooks';
-import { IconButton } from '@material-ui/core';
-import useExcel from '../../hook/useExcel';
-import CustomDatePicker from 'components/Custom/CustomDatePicker';
-import Radio from 'components/Custom/Radio';
+import { useState } from "react";
+import Filter from "components/Custom/Filter/index";
+import MultiSelect from "components/Custom/MultiSelect";
+import Button from "components/Custom/Buttons/Button";
+import useWindowWidth from "services/hooks/useWindowWidth";
+import { useTranslation } from "react-i18next";
+import dayjs from "dayjs";
+import { useAppSelector } from "services/redux/hooks";
+import { IconButton } from "@material-ui/core";
+import useExcel from "../../hook/useExcel";
+import CustomDatePicker from "components/Custom/CustomDatePicker";
+import Radio from "components/Custom/Radio";
+import { FilterButton } from "components/Custom/Buttons/Filter";
 import {
   WrapFilterValues,
   WrapInputs,
@@ -19,10 +20,8 @@ import {
   DeleteIcon,
   ExcelIcon,
   WrapFilter,
-  WrapStatus,
-  WrapCheck,
-  Label,
-} from './style';
+  WrapFilterButtons,
+} from "./style";
 
 interface CashProp {
   value?: number;
@@ -54,15 +53,15 @@ const FilterHistory = ({
     (state) => state.finance.historyFinance.storeIds
   );
   const intialDate = {
-    startDate: dayjs().startOf('month').format('YYYY-MM-DD'),
-    endDate: dayjs().endOf('month').format('YYYY-MM-DD'),
+    startDate: dayjs().startOf("month").format("YYYY-MM-DD"),
+    endDate: dayjs().endOf("month").format("YYYY-MM-DD"),
   };
 
   const [date, setDate] = useState(intialDate);
-  const [dateLimit, setDateLimit] = useState({ startDate: '', endDate: '' });
+  const [dateLimit, setDateLimit] = useState({ startDate: "", endDate: "" });
   const [cashierStaffId, setCashierStaffId] = useState<CashProp>();
   const [storeId, setStoreId] = useState<CashProp>();
-  const [paymentType, setPaymentType] = useState<string>('');
+  const [paymentType, setPaymentType] = useState<string>("");
   const storesFilter = stores?.map((v: any) => {
     return {
       value: v.id,
@@ -74,21 +73,21 @@ const FilterHistory = ({
     await setFilterValues(intialFilter);
     await setDate(intialDate);
     await setCashierStaffId({});
-    await setDateLimit({ startDate: '', endDate: '' });
+    await setDateLimit({ startDate: "", endDate: "" });
     await setStoreId({});
-    await setPaymentType('');
+    await setPaymentType("");
     await refetch();
   };
 
-  const handleFilterSubmit = ({ startDate = '', endDate = '' }) => {
+  const handleFilterSubmit = ({ startDate = "", endDate = "" }) => {
     setFilterValues({
       ...filterValues,
-      cashierStaffId: cashierStaffId?.value ? cashierStaffId?.value : '',
-      storeId: storeId?.value ? storeId?.value : '',
+      cashierStaffId: cashierStaffId?.value ? cashierStaffId?.value : "",
+      storeId: storeId?.value ? storeId?.value : "",
       startDate: startDate,
       endDate: endDate,
-      amountCash: paymentType === 'terminal' ? 1 : '',
-      amountCard: paymentType === 'app' ? 1 : '',
+      amountCash: paymentType === "terminal" ? 1 : "",
+      amountCard: paymentType === "app" ? 1 : "",
       page: 1,
     });
   };
@@ -100,118 +99,104 @@ const FilterHistory = ({
   const filterselectvalue =
     filterValues?.startDate === dateLimit?.startDate &&
     filterValues?.endDate === dateLimit?.endDate ? (
-      <ButtonKeyWord>
-        {`${dayjs(dateLimit?.startDate).format('DD MMMM')}-${dayjs(
+      <FilterButton
+        onClick={async () => {
+          await setFilterValues({
+            ...filterValues,
+            page: 1,
+            endDate: intialDate.endDate,
+            startDate: intialDate.startDate,
+          });
+          await setDate(intialDate);
+          await setDateLimit({ startDate: "", endDate: "" });
+          await refetch();
+        }}
+      >
+        {`${dayjs(dateLimit?.startDate).format("DD MMMM")}-${dayjs(
           dateLimit?.endDate
-        ).format('DD MMMM, YYYY')}`}
-        <IconButton
-          onClick={async () => {
-            await setFilterValues({
-              ...filterValues,
-              page: 1,
-              endDate: intialDate.endDate,
-              startDate: intialDate.startDate,
-            });
-            await setDate(intialDate);
-            await setDateLimit({ startDate: '', endDate: '' });
-            await refetch();
-          }}
-        >
-          <DeleteIcon />
-        </IconButton>
-      </ButtonKeyWord>
+        ).format("DD MMMM, YYYY")}`}
+      </FilterButton>
     ) : null;
 
   const filtercashier = cashierStaffId?.label ? (
-    <ButtonKeyWord>
-      {`${t('cashier')}: `}
+    <FilterButton
+      onClick={async () => {
+        await setFilterValues({
+          ...filterValues,
+          cashierStaffId: "",
+          page: 1,
+        });
+        await setCashierStaffId({});
+        await refetch();
+      }}
+    >
+      {`${t("cashier")}: `}
       {cashierStaffId?.label}
-      <IconButton
-        onClick={async () => {
-          await setFilterValues({
-            ...filterValues,
-            cashierStaffId: '',
-            page: 1,
-          });
-          await setCashierStaffId({});
-          await refetch();
-        }}
-      >
-        <DeleteIcon />
-      </IconButton>
-    </ButtonKeyWord>
+    </FilterButton>
   ) : null;
 
   const filterstore = filterValues.storeId ? (
-    <ButtonKeyWord>
-      {`${t('filial')}: `}
+    <FilterButton
+      onClick={async () => {
+        await setFilterValues({
+          ...filterValues,
+          page: 1,
+          storeId: "",
+        });
+        await setStoreId({});
+        await refetch();
+      }}
+    >
+      {`${t("filial")}: `}
       {storeId?.label}
-      <IconButton
-        onClick={async () => {
-          await setFilterValues({
-            ...filterValues,
-            page: 1,
-            storeId: '',
-          });
-          await setStoreId({});
-          await refetch();
-        }}
-      >
-        <DeleteIcon />
-      </IconButton>
-    </ButtonKeyWord>
+    </FilterButton>
   ) : null;
 
   const filterType =
     filterValues?.amountCash === 1 || filterValues?.amountCard === 1 ? (
-      <ButtonKeyWord>
-        {`${t('typeofpayment')}: ${
-          filterValues?.amountCash === 1 ? t('terminal') : t('throughtheapp')
-        }`}
-        <IconButton
-          onClick={async () => {
-            await setFilterValues({
-              ...filterValues,
-              page: 1,
-              amountCash: '',
-              amountCard: '',
-            });
-            await setPaymentType('');
-          }}
-        >
-          <DeleteIcon />
-        </IconButton>
-      </ButtonKeyWord>
+      <FilterButton
+        onClick={async () => {
+          await setFilterValues({
+            ...filterValues,
+            page: 1,
+            amountCash: "",
+            amountCard: "",
+          });
+          await setPaymentType("");
+        }}
+      >{`${t("typeofpayment")}: ${
+        filterValues?.amountCash === 1 ? t("terminal") : t("throughtheapp")
+      }`}</FilterButton>
     ) : null;
 
   const paymentTypes = [
-    { value: 'terminal', label: `${t('terminal')}` },
-    { value: 'app', label: `${t('throughtheapp')}` },
+    { value: "terminal", label: `${t("terminal")}` },
+    { value: "app", label: `${t("throughtheapp")}` },
   ];
 
   const filterList = [
     {
-      title: t('byDate'),
+      title: t("byDate"),
       value:
         filterValues.startDate && filterValues.endDate
-          ? dayjs(filterValues.startDate).format('YYYY.MM.DD') +
-            ' - ' +
-            dayjs(filterValues.endDate).format('YYYY.MM.DD')
+          ? dayjs(filterValues.startDate).format("YYYY.MM.DD") +
+            " - " +
+            dayjs(filterValues.endDate).format("YYYY.MM.DD")
           : filterValues.endDate || filterValues.startDate
           ? dayjs(filterValues.endDate || filterValues.startDate).format(
-              'YYYY.MM.DD'
+              "YYYY.MM.DD"
             )
           : undefined,
       content: (
         <WrapInputs>
-          <Label1>{t('chose_date')}</Label1>
+          <Label1>{t("chose_date")}</Label1>
           <div>
             <CustomDatePicker
-              margin='0 15px 0 0'
+              margin="0 15px 0 0"
               isFilter
-              text={t('from')}
+              text={t("from")}
               onChange={(e) => {
-                let date1 = '' + e.year + '-' + e.month.number + '-' + e.day;
+                let date1 = "" + e.year + "-" + e.month.number + "-" + e.day;
                 setDate({
                   ...date,
                   startDate: date1,
@@ -222,11 +207,11 @@ const FilterHistory = ({
               maxDate={date?.endDate}
             />
             <CustomDatePicker
-              margin='0 0 0 0'
+              margin="0 0 0 0"
               isFilter
-              text={t('to')}
+              text={t("to")}
               onChange={(e) => {
-                let date1 = '' + e.year + '-' + e.month.number + '-' + e.day;
+                let date1 = "" + e.year + "-" + e.month.number + "-" + e.day;
                 setDate({
                   ...date,
                   endDate: date1,
@@ -241,13 +226,13 @@ const FilterHistory = ({
       ),
     },
     {
-      title: t('bycashier'),
+      title: t("bycashier"),
       value: filterValues.cashierStaffId ? cashierStaffId?.label : undefined,
       content: (
         <MultiSelect
-          label={t('chose_cashier')}
+          label={t("chose_cashier")}
           options={cashier}
-          placeholder={t('cashiernotselected')}
+          placeholder={t("cashiernotselected")}
           onChange={(e: any) => setCashierStaffId(e)}
           value={cashierStaffId}
           menuPortalTarget={document.body}
@@ -256,35 +241,35 @@ const FilterHistory = ({
       ),
     },
     {
-      title: t('withfilial'),
+      title: t("withfilial"),
       value: filterValues.storeId ? storeId?.label : undefined,
       content: (
         <MultiSelect
-          label={t('choosefilial')}
+          label={t("choosefilial")}
           options={storesFilter}
           onChange={(e: any) => setStoreId(e)}
           value={storeId}
-          selectStyle={{ bgcolor: '#eff0fd' }}
+          selectStyle={{ bgcolor: "#eff0fd" }}
           menuPortalTarget={document.body}
           isBranchHeight={true}
         />
       ),
     },
     {
-      title: t('typeofpayment'),
+      title: t("typeofpayment"),
       value:
-        paymentType !== '' && paymentType !== undefined
-          ? paymentType === 'terminal'
-            ? t('terminal')
-            : paymentType === 'app'
-            ? t('throughtheapp')
+        paymentType !== "" && paymentType !== undefined
+          ? paymentType === "terminal"
+            ? t("terminal")
+            : paymentType === "app"
+            ? t("throughtheapp")
             : undefined
           : undefined,
       content: (
         <Radio
-          flexDirection='row'
+          flexDirection="row"
           list={paymentTypes}
-          title={t('choosetypepayment')}
+          title={t("choosetypepayment")}
           onChange={(v: any) => setPaymentType(v)}
           value={paymentType}
         />
@@ -306,7 +291,7 @@ const FilterHistory = ({
             onReset={onReset}
             list={filterList}
           />
-          {width > 600 ? (
+          {width >= 1000 ? (
             <>
               {filterType}
               {filterselectvalue}
@@ -319,27 +304,28 @@ const FilterHistory = ({
           onClick={handleClick}
           startIcon={<ExcelIcon />}
           buttonStyle={{
-            bgcolor: '#45A13B',
+            bgcolor: "#45A13B",
             height: {
               mobile: 36,
             },
           }}
           margin={{
-            laptop: '0 0 0 10px',
+            laptop: "0 0 0 10px",
+            planshet: "0 0 0 20px",
           }}
           disabled={resExcel.isLoading}
         >
-          {t('exportexcel')}
+          {t("exportexcel")}
         </Button>
       </WrapFilter>
       <WrapSelectV>
-        {width > 600 ? null : (
-          <>
+        {width > 1000 ? null : (
+          <WrapFilterButtons>
             {filterType}
             {filterselectvalue}
             {filtercashier}
             {filterstore}
-          </>
+          </WrapFilterButtons>
         )}
       </WrapSelectV>
     </>
