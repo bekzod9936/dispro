@@ -1,8 +1,8 @@
-import styled from 'styled-components';
-import { ReactComponent as Deposit } from 'assets/icons/SideBar/deposit.svg';
-import { ReactComponent as Shield } from 'assets/icons/SideBar/shield.svg';
+import styled from "styled-components";
+import { ReactComponent as Deposit } from "assets/icons/SideBar/deposit.svg";
+import { ReactComponent as Shield } from "assets/icons/SideBar/shield.svg";
 
-import { device } from 'styles/device';
+import { device } from "styles/device";
 
 export const DepositIcon = styled(Deposit)`
   width: 24px;
@@ -92,7 +92,7 @@ export const Wrap = styled.div`
 `;
 
 export const WrapTotalSum = styled.div`
-  @media (max-width: ${device.mobile}) {
+  @media (max-width: ${device.planshet}) {
     width: 100%;
     display: flex;
     flex: 1;
@@ -119,7 +119,7 @@ export const TotalSum = styled.div`
     height: 50px;
     font-size: 28px;
   }
-  @media (max-width: ${device.mobile}) {
+  @media (max-width: ${device.planshet}) {
     background: transparent;
     box-shadow: none;
     border-radius: 0;
@@ -139,7 +139,7 @@ export const Label = styled.div`
   @media (min-width: ${device.laptop}) {
     font-size: 16px;
   }
-  @media (max-width: ${device.mobile}) {
+  @media (max-width: ${device.planshet}) {
     font-weight: 500;
     font-size: 13px;
     color: #223367;
@@ -148,14 +148,18 @@ export const Label = styled.div`
 `;
 
 export const WrapTotal = styled.div`
+  margin-top: 15px;
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    display: flex;
+    width: fit-content;
+    gap: 50px;
+  }
   @media (max-width: ${device.mobile}) {
     display: grid;
-    width: 100%;
-    align-items: center;
-    flex: 1;
-    grid-gap: 10px;
     grid-template-columns: 1fr 1fr;
-    margin-top: 15px;
+    grid-column-gap: 10px;
+    align-items: center;
+    width: 100%;
   }
 `;
 
@@ -169,7 +173,7 @@ export const RightHeader = styled.div`
   position: absolute;
   right: 25px;
   top: 0;
-  @media (max-width: ${device.mobile}) {
+  @media (max-width: ${device.planshet}) {
     display: none;
   }
 `;
@@ -208,7 +212,7 @@ export const Info = styled.div`
 `;
 
 export const WrapSum = styled.div`
-  @media (max-width: ${device.mobile}) {
+  @media (max-width: ${device.planshet}) {
     margin-left: 10px;
     white-space: nowrap;
   }
@@ -230,6 +234,15 @@ export const Img = styled.img`
   width: 8%;
   height: 12%;
   margin: 5% 0 2% 0;
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    min-width: 140px;
+    max-width: 160px;
+    min-height: 300px;
+    max-height: 340px;
+    width: 20%;
+    height: 50%;
+    margin: 15% 0 2% 0;
+  }
   @media (max-width: ${device.mobile}) {
     margin: 10% 0 5% 0;
   }
@@ -269,11 +282,10 @@ export const SideDrawer = styled.div`
   transition: 500ms all;
   box-shadow: -5px 2px 20px rgba(0, 0, 0, 0.06);
   transform: ${({ open }: Props) =>
-    open ? 'translateX(0)' : 'translateX(100%)'};
+    open ? "translateX(0)" : "translateX(100%)"};
   padding: 15px 0 40px;
   @media (min-width: ${device.laptop}) {
     top: 90px;
     height: calc(100% - 90px);
   }
- 
 `;
