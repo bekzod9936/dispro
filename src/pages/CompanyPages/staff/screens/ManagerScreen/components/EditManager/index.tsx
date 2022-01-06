@@ -348,6 +348,9 @@ const EditManager = ({ openEdit }: IProps) => {
 								render={({ field }) => {
 									return (
 										<Input
+											inputStyle={{
+												inpadding: '15px 25px',
+											}}
 											maxLength='100'
 											label={t('comment')}
 											type='string'

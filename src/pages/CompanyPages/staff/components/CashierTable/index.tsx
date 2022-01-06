@@ -193,11 +193,12 @@ const CashierTable = ({ cashiers }: IProps) => {
 						{formatPagination({
 							page: page.cashiers,
 							perPage: 10,
-							total: totalCount,
+							total: totalCount.cashiers,
 						})}
 					</span>{' '}
-					из <span>{totalCount}</span>{' '}
-					{totalCount.toString().endsWith('1') && totalCount !== 11
+					из <span>{totalCount.cashiers}</span>{' '}
+					{totalCount.cashiers.toString().endsWith('1') &&
+					totalCount.cashiers !== 11
 						? 'кассира'
 						: 'кассиров'}
 				</p>{' '}

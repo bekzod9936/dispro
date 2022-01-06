@@ -23,7 +23,10 @@ export interface staffsState {
   storeFilters:any;
   cashiersTotal: number;
   managersTotal: number;
-  totalCount: number,
+  totalCount: {
+		cashiers: number,
+	  managers: number
+	},
   page: {
 	  cashiers: number,
 	  managers: number
