@@ -2,7 +2,6 @@ import { useQuery } from "react-query";
 import {
   fetchActivenews,
   searchActiveNews,
-
 } from "services/queries/newPageQuery";
 import {
   setNewsData,

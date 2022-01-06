@@ -272,7 +272,7 @@ const useLoyality = () => {
   };
 
   const onFormSubmit = async (data: FormProps) => {
-    if (payGo === 1) {
+    if (payGo === 1 ) {
       if (!checkLevels(data.levels, data.base_name, data.base_percent)) {
         setActiveCheck(switchKey);
         try {
@@ -620,9 +620,7 @@ const useLoyality = () => {
     })
     if(checked){
       setActive({ active:''})
-    }
-
-   
+    }   
   };
 
 
