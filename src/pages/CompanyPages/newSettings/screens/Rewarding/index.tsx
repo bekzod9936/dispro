@@ -1,7 +1,7 @@
 import { SaveButton } from "components/Custom/Buttons/Save";
 import CustomToggle from "components/Custom/CustomToggleSwitch";
 import InputFormat from "components/Custom/InputFormat";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -24,11 +24,16 @@ import {
   IconWord,
   WrapDesc,
 } from "./style";
+import useWindowWidth from "services/hooks/useWindowWidth";
 
 const Rewarding = () => {
   const { t } = useTranslation();
   const { response, postReward, handleSave } = useReward();
-
+  const { width } = useWindowWidth();
+  const [scroll, setScroll] = useState<any>({
+    scrollHeight: 0,
+    clientHeight: 0,
+  });
   const {
     control,
     handleSubmit,
@@ -79,10 +84,26 @@ const Rewarding = () => {
     reset(newValues);
   }, [data]);
 
+  const ref: any = useRef(null);
+
+  useEffect(() => {
+    if (ref.current.scrollHeight !== scroll.scrollHeight) {
+      setScroll({
+        scrollHeight: ref.current.scrollHeight,
+        clientHeight: ref.current.clientHeight,
+      });
+    }
+  });
+
+  console.log(scroll, "askdaksmdka");
+
   return (
-    <Container>
-      <Form onSubmit={handleSubmit(handleSave)}>
-        <Wrap>
+    <Container isScroll={scroll.scrollHeight > scroll.clientHeight}>
+      <Form
+        isScroll={scroll.scrollHeight > scroll.clientHeight}
+        onSubmit={handleSubmit(handleSave)}
+      >
+        <Wrap ref={ref} id="wrapdiv">
           <LeftSide>
             <Box>
               <WrapSwitch>
@@ -171,6 +192,7 @@ const Rewarding = () => {
                           message={t(`${errors.limitCountReward?.message}`, {
                             value: 1,
                           })}
+                          margin={{ laptop: "0 0 20px 0" }}
                           error={
                             errors.limitCountReward?.message !== undefined
                               ? true
@@ -336,8 +358,10 @@ const Rewarding = () => {
             </Box>
           </RightSide>
         </Wrap>
-        <DownSide>
-          <SaveButton disabled={response.isLoading || postReward.isLoading} />
+        <DownSide isScroll={scroll.scrollHeight > scroll.clientHeight}>
+          <div>
+            <SaveButton disabled={response.isLoading || postReward.isLoading} />
+          </div>
         </DownSide>
       </Form>
     </Container>

@@ -1,6 +1,6 @@
-import { useReducer } from "react";
-import Input from "components/Custom/Input";
+import { useEffect, useReducer } from "react";
 import { useTranslation } from "react-i18next";
+import Input from "components/Custom/Input";
 import { SearchIcon } from "newassets/icons/icons";
 import { Container, Header, Body } from "./style";
 import FilterQr from "./components/FilterQr";
@@ -20,18 +20,22 @@ const QrCodes = () => {
     (state) => state.newsetting.branchQrcodes
   )?.filter((v: any) => v.active);
 
-  const handleSearch = (e: any) => {
-    dispatchReducer({ type: "change", payload: e.target.value });
-
+  const handleSearch = (value: any) => {
     const searchResultRef = dataPayments?.filter((v: any) => {
-      return v.source.toLowerCase().includes(e.target.value?.toLowerCase());
+      return v.source.toLowerCase().includes(value?.toLowerCase());
     });
     const searchResultBranches = dataBranchQrcodes?.filter((v: any) => {
-      return v.name.toLowerCase().includes(e.target.value?.toLowerCase());
+      return v.name.toLowerCase().includes(value?.toLowerCase());
     });
     dispatchReducer({ type: "setRef", payload: searchResultRef });
     dispatchReducer({ type: "setBranches", payload: searchResultBranches });
   };
+
+  useEffect(() => {
+    if (state.inpuSearch !== "") {
+      handleSearch(state.inpuSearch);
+    }
+  }, [dataPayments, dataBranchQrcodes]);
 
   return (
     <Container>
@@ -52,7 +56,10 @@ const QrCodes = () => {
           placeholder={t("searchbyqrcode")}
           margin={{ laptop: "0 0 0 20px", mobile: "0 20px" }}
           width={{ maxwidth: 500 }}
-          onChange={handleSearch}
+          onChange={(e) => {
+            dispatchReducer({ type: "change", payload: e.target.value });
+            handleSearch(e.target.value);
+          }}
           type="search"
           value={state.inpuSearch}
         />
