@@ -8,6 +8,7 @@ import { SubButton } from "pages/CompanyPages/services/style";
 
 //style
 import { Buttons, Item, Wrapper } from "./style";
+import { useState } from "react";
 
 interface VariantsProps {
   disabled: boolean;
@@ -15,6 +16,9 @@ interface VariantsProps {
 
 export const Variants: React.FC<VariantsProps> = ({ disabled }) => {
   const { t } = useTranslation();
+  const [isVariantAdded, setIsVariantAdded] = useState<
+    "append" | "remove" | "reset"
+  >("reset");
 
   const { fields, append, remove } = useFieldArray({
     name: "variants",
@@ -28,6 +32,12 @@ export const Variants: React.FC<VariantsProps> = ({ disabled }) => {
       priceWithSale: "",
       articul: "",
     });
+    setIsVariantAdded("append");
+  };
+
+  const handleRemoveVariant = (index: number) => {
+    remove(index);
+    setIsVariantAdded("remove");
   };
 
   return (
@@ -35,8 +45,8 @@ export const Variants: React.FC<VariantsProps> = ({ disabled }) => {
       {fields.map((item, index) => (
         <Item isLastElem={index === fields.length - 1} key={item.id}>
           <Variant
-            defaultValues={item}
-            isVariantAdded={fields.length > 1}
+            isFieldsMultiple={fields.length > 1}
+            isVariantAdded={isVariantAdded}
             disabled={disabled}
             index={index}
           />
@@ -47,7 +57,10 @@ export const Variants: React.FC<VariantsProps> = ({ disabled }) => {
               </SubButton>
             )}
             {index === fields.length - 1 && fields.length > 1 && (
-              <SubButton deleteButton onClick={() => remove(index)}>
+              <SubButton
+                deleteButton
+                onClick={() => handleRemoveVariant(index)}
+              >
                 {t("removeVariant")}
               </SubButton>
             )}

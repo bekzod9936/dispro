@@ -52,7 +52,7 @@ export const Center = styled.div`
   }
   .ReactCrop {
 	  div{
-		  height: 375px;
+		  // height: 375px;
 	  }
   }
   @media (max-width: ${device.mobile}) {

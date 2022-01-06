@@ -12,20 +12,19 @@ import { DynamicFields } from "../DynamicFields";
 //other
 import { FormFieldTypes } from "../../utils/types";
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
 
 interface VariantProps {
   index: number;
   disabled: boolean;
-  isVariantAdded?: boolean;
-  defaultValues: any;
+  isVariantAdded?: "append" | "reset" | "remove";
+  isFieldsMultiple: boolean;
 }
 
 export const Variant: React.FC<VariantProps> = ({
   index,
   disabled,
   isVariantAdded,
-  defaultValues,
+  isFieldsMultiple,
 }) => {
   const {
     clearErrors,
@@ -35,35 +34,35 @@ export const Variant: React.FC<VariantProps> = ({
 
   const { t } = useTranslation();
   const error = errors.variants ? errors.variants[index] : undefined;
-  // const { pathname } = useLocation();
-  // const isEditMode = pathname.includes("edit");
 
-  // const price = useWatch({ name: `variants.${index}.price` });
-  // const priceWithSale = useWatch({ name: `variants.${index}.priceWithSale` });
+  const price = useWatch({ name: `variants.${index}.price` });
+  const priceWithSale = useWatch({ name: `variants.${index}.priceWithSale` });
 
-  // useEffect(() => {
-  //   if (Number(price) > Number(priceWithSale)) {
-  //     clearErrors(`variants.${index}.priceWithSale`);
-  //   }
-  // }, [price, priceWithSale]);
+  useEffect(() => {
+    if (Number(price) > Number(priceWithSale)) {
+      clearErrors(`variants.${index}.priceWithSale`);
+    }
+  }, [price, priceWithSale]);
 
-  // useEffect(() => {
-  //   clearErrors(`variants.${index}.priceWithSale`);
-  //   setValue(`variants.${index}.priceWithSale`, "");
-  // }, [disabled]);
+  useEffect(() => {
+    if (disabled) {
+      setValue(`variants.${index}.priceWithSale`, "");
+    }
+    clearErrors(`variants.${index}.priceWithSale`);
+  }, [disabled]);
 
-  // //! alert, govno kod
-  // useEffect(() => {
-  //   if (!isVariantAdded) {
-  //     setValue(`variants.${index}.name`, [{ data: "test", lang: "(Рус)" }]);
-  //   } else if (!isEditMode) {
-  //     setValue(`variants.${index}.name`, [{ data: "", lang: "(Рус)" }]);
-  //   }
-  // }, [isVariantAdded]);
+  //! alert, govno kod
+  useEffect(() => {
+    if (isVariantAdded === "append") {
+      setValue(`variants.${index}.name`, [{ data: "", lang: "(Рус)" }]);
+    } else if (isVariantAdded === "remove") {
+      setValue(`variants.${index}.name`, [{ data: "test", lang: "(Рус)" }]);
+    }
+  }, [isVariantAdded]);
 
   return (
     <Wrapper>
-      {Boolean(isVariantAdded) && (
+      {isFieldsMultiple && (
         <DynamicFields
           error={error?.name}
           marginBottom="15px"

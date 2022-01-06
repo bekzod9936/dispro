@@ -1,17 +1,11 @@
+import { useState } from "react";
+
+//packages
+import { FormProvider } from "react-hook-form";
+
+//components
 import { SectionModal } from "pages/CompanyPages/services/components/Modals/Sections";
 import { TitleAndDescription } from "pages/CompanyPages/services/components/TitleAndDescription";
-import {
-  initialState,
-  reducer,
-} from "pages/CompanyPages/services/hooks/CreatePageHooks/reducer";
-import { useEditItem } from "pages/CompanyPages/services/hooks/EditPageHooks";
-import { useEffect, useReducer, useState } from "react";
-import {
-  Controller,
-  FormProvider,
-  useFieldArray,
-  useForm,
-} from "react-hook-form";
 import {
   Buttons,
   Durations,
@@ -20,15 +14,18 @@ import {
   Switches,
   Variants,
 } from "../../components";
+
+//style
 import { FormStyled, Container } from "./style";
-import { TextField } from "@material-ui/core";
-import Input from "components/Custom/Input";
+
+//other
+import { useEditItem } from "pages/CompanyPages/services/hooks/EditPageHooks";
+import Spinner from "components/Helpers/Spinner";
 
 export const Form: React.FC = () => {
   const [modal, setModal] = useState(false);
-  const [state, dispatch] = useReducer(reducer, initialState);
 
-  const form = useEditItem();
+  const { form, dispatch, state, isLoaded } = useEditItem();
 
   const onSubmit = (data: any) => {
     console.log(data);
@@ -37,11 +34,14 @@ export const Form: React.FC = () => {
   const handleOpen = () => {
     setModal(true);
   };
+
   const handleClose = () => {
     setModal(false);
   };
 
-  console.log(form.formState.errors);
+  if (!isLoaded) {
+    return <Spinner />;
+  }
 
   return (
     <div>
@@ -52,13 +52,13 @@ export const Form: React.FC = () => {
             <Selects handleOpen={handleOpen} />
             <Switches dispatch={dispatch} state={state} />
             <Variants disabled={state.loyaltyType !== 1} />
-            {/* <Durations /> */}
-            {/* <Photos /> */}
+            <Durations />
+            <Photos />
             <Buttons isLoading={false} />
           </Container>
         </FormStyled>
       </FormProvider>
-      {/* <SectionModal isSingle onClose={handleClose} isOpen={modal} /> */}
+      <SectionModal isSingle onClose={handleClose} isOpen={modal} />
     </div>
   );
 };

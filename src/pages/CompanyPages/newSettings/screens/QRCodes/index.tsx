@@ -1,49 +1,50 @@
-import Input from "components/Custom/Input";
-import Spinner from "components/Custom/Spinner";
+import { useEffect, useReducer } from "react";
 import { useTranslation } from "react-i18next";
+import Input from "components/Custom/Input";
 import { SearchIcon } from "newassets/icons/icons";
 import { Container, Header, Body } from "./style";
 import FilterQr from "./components/FilterQr";
-import BoxQr from "./components/BoxQr";
-import useQrcode from "./useQrcode";
 import { useAppSelector } from "services/redux/hooks";
 import CreateQrCode from "./components/CreateQrCode";
-import { useState } from "react";
+import { reducerQr, initialState } from "./reducer";
+import RenderBody from "./components/RenderBody";
 
 const QrCodes = () => {
   const { t } = useTranslation();
 
-  const { resRefQrCodes, resBranchesQrCodes } = useQrcode();
+  const [state, dispatchReducer] = useReducer(reducerQr, initialState);
 
-  const [filterType, setFilterType] = useState(null);
-  const data = useAppSelector((state) => state.newsetting.refQrcodes);
+  const dataPayments = useAppSelector((state) => state.newsetting.refQrcodes);
 
   const dataBranchQrcodes = useAppSelector(
     (state) => state.newsetting.branchQrcodes
-  );
+  )?.filter((v: any) => v.active);
 
-  const [searchResRef, setSearchResRef] = useState<any>([]);
-  const [searchResBranches, setSearchResRefBranches] = useState<any>([]);
-  const [inpuSearch, setInpuSearch] = useState<string>("");
-  const [searchFocus, setSearchFocus] = useState<boolean>(false);
-
-  const handleSearch = (e: any) => {
-    setInpuSearch(e.target.value);
-    const searchResultRef = data?.filter((v: any) => {
-      return v.source.toLowerCase().includes(e.target.value?.toLowerCase());
+  const handleSearch = (value: any) => {
+    const searchResultRef = dataPayments?.filter((v: any) => {
+      return v.source.toLowerCase().includes(value?.toLowerCase());
     });
     const searchResultBranches = dataBranchQrcodes?.filter((v: any) => {
-      return v.name.toLowerCase().includes(e.target.value?.toLowerCase());
+      return v.name.toLowerCase().includes(value?.toLowerCase());
     });
-    setSearchResRefBranches(searchResultBranches);
-    setSearchResRef(searchResultRef);
+    dispatchReducer({ type: "setRef", payload: searchResultRef });
+    dispatchReducer({ type: "setBranches", payload: searchResultBranches });
   };
+
+  useEffect(() => {
+    if (state.inpuSearch !== "") {
+      handleSearch(state.inpuSearch);
+    }
+  }, [dataPayments, dataBranchQrcodes]);
 
   return (
     <Container>
       <Header>
         <CreateQrCode />
-        <FilterQr filterType={filterType} setFilterType={setFilterType} />
+        <FilterQr
+          filterType={state.filterType}
+          setFilterType={dispatchReducer}
+        />
         <Input
           IconStart={<SearchIcon />}
           inputStyle={{
@@ -55,74 +56,16 @@ const QrCodes = () => {
           placeholder={t("searchbyqrcode")}
           margin={{ laptop: "0 0 0 20px", mobile: "0 20px" }}
           width={{ maxwidth: 500 }}
-          onChange={handleSearch}
+          onChange={(e) => {
+            dispatchReducer({ type: "change", payload: e.target.value });
+            handleSearch(e.target.value);
+          }}
           type="search"
-          onFocus={() => setSearchFocus(true)}
-          onBlur={() => (inpuSearch === "" ? setSearchFocus(false) : null)}
-          value={inpuSearch}
+          value={state.inpuSearch}
         />
       </Header>
       <Body>
-        {resRefQrCodes.isLoading || resBranchesQrCodes.isLoading ? (
-          <Spinner />
-        ) : (
-          <div>
-            {filterType === "ref"
-              ? null
-              : !searchFocus || inpuSearch === ""
-              ? data?.map((v: any) => (
-                  <BoxQr
-                    key={v.id}
-                    link={v.dynLinkToken}
-                    name={v.source}
-                    id={v.id}
-                  />
-                ))
-              : searchResRef?.map((v: any) => (
-                  <BoxQr
-                    key={v.id}
-                    link={v.dynLinkToken}
-                    name={v.source}
-                    id={v.id}
-                  />
-                ))}
-
-            {filterType === "branches"
-              ? null
-              : !searchFocus || inpuSearch === ""
-              ? dataBranchQrcodes?.map((v: any) => {
-                  if (v.active) {
-                    return (
-                      <BoxQr
-                        key={v.id}
-                        link={v.dynLink}
-                        name={v.name}
-                        id={v.id}
-                        branch={true}
-                      />
-                    );
-                  } else {
-                    return null;
-                  }
-                })
-              : searchResBranches?.map((v: any) => {
-                  if (v.active) {
-                    return (
-                      <BoxQr
-                        key={v.id}
-                        link={v.dynLink}
-                        name={v.name}
-                        id={v.id}
-                        branch={true}
-                      />
-                    );
-                  } else {
-                    return null;
-                  }
-                })}
-            <div style={{ height: "5px", width: "100%" }} />
-          </div>
-        )}
+        <RenderBody state={state} />
       </Body>
     </Container>
   );

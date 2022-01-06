@@ -3,17 +3,21 @@ import Popover from "components/Custom/Popover";
 import Modal from "components/Custom/Modal";
 import MultiSelect from "components/Custom/MultiSelect";
 import Input from "components/Custom/Input";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { WrapList } from "../../style";
+import { CancelButton } from "components/Custom/Buttons/Cancel";
+import { SaveButton } from "components/Custom/Buttons/Save";
+import { IconButton } from "@material-ui/core";
+import { useAppSelector } from "services/redux/hooks";
+import { Controller, useForm } from "react-hook-form";
+import useQrcode from "../../useQrcode";
 import {
   SquarePlusIcon,
   DownIcon,
   CloseIcon,
   StoreIcon,
 } from "newassets/icons/icons";
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { WrapList } from "../../style";
-import { CancelButton } from "components/Custom/Buttons/Cancel";
-import { SaveButton } from "components/Custom/Buttons/Save";
 import {
   ModalText,
   ModalWrap,
@@ -21,10 +25,6 @@ import {
   ModalButtons,
   ModalTitle,
 } from "../../style";
-import { IconButton } from "@material-ui/core";
-import { useAppSelector } from "services/redux/hooks";
-import { Controller, useForm } from "react-hook-form";
-import useQrcode from "../../useQrcode";
 
 interface IStore {
   lable: string;
@@ -48,6 +48,8 @@ const CreateQrCode = () => {
     handleSubmit,
     reset,
     formState: { errors },
+    setError,
+    clearErrors,
   } = useForm<IForm>({
     mode: "onChange",
   });
@@ -78,15 +80,20 @@ const CreateQrCode = () => {
   };
 
   const handleSaveRef = (e: any) => {
-    postRef.mutate(
-      { id: "", source: e.source },
-      {
-        onSuccess: () => {
-          setOpenSubscribe(false);
-          reset();
-        },
-      }
-    );
+    if (e.source.match(/\S/) !== null) {
+      clearErrors("source");
+      postRef.mutate(
+        { id: "", source: e.source },
+        {
+          onSuccess: () => {
+            setOpenSubscribe(false);
+            reset();
+          },
+        }
+      );
+    } else {
+      setError("source", { type: "required" }, { shouldFocus: true });
+    }
   };
 
   return (

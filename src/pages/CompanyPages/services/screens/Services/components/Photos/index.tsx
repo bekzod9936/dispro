@@ -21,7 +21,7 @@ export const Photos: React.FC<PhotosProps> = () => {
 
   const { links, uploadImage, deleteImage, setLinks, errors } = useImage();
 
-  const imageLimit = 5 - links.length;
+  const imageLimit = 5 - links?.length;
 
   const onUpload = (formDatas: FormData[]) => {
     formDatas.forEach((formData) => {
@@ -39,7 +39,7 @@ export const Photos: React.FC<PhotosProps> = () => {
     <div>
       <Header>
         <h5>{t("photos")}</h5>
-        {links.length < 5 && (
+        {links?.length < 5 && (
           <>
             <p>
               Можно загрузить еще {imageLimit}{" "}

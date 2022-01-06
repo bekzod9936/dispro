@@ -75,7 +75,10 @@ export const SubSectionModal: React.FC<SubSectionModalProps> = ({
                 <CloseIcon />
               </IconButton>
             </div>
-            <p>Можно добавить еще {limit} подразделов</p>
+            <p>
+              Можно добавить еще {limit}{" "}
+              {limit === 1 ? "подраздел" : "подразделов"}
+            </p>
           </Header>
           <SubSectionField name="subSection" />
           <Footer>

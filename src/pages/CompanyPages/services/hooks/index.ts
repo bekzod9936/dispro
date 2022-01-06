@@ -22,8 +22,8 @@ import { useDebounce } from "use-debounce/lib";
 
 export const useImage = () => {
     const { getValues, setValue, formState: { errors }, clearErrors } = useFormContext<FormFieldTypes>()
-
-    const [links, setLinks] = useState(getValues('images'))
+    const images = getValues('images')
+    const [links, setLinks] = useState(images)
 
     const uploadImage = useMutation((formData: FormData) => ApiServices.uploadImage(formData), {
         onSuccess: (data) => {
@@ -41,6 +41,12 @@ export const useImage = () => {
     useEffect(() => {
         setValue('images', [...links])
     }, [links])
+
+    useEffect(() => {
+        if (links.length === 0) {
+            setLinks(images)
+        }
+    }, [images])
 
     return {
         uploadImage, deleteImage, links, setLinks, errors

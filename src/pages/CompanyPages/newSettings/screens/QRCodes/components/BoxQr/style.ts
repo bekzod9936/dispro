@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { device } from "styles/device";
 
 export const Box = styled.div`
   background: #ffffff;
@@ -8,7 +7,10 @@ export const Box = styled.div`
   padding: 8px 8px 20px 20px;
   width: fit-content;
   max-width: 490px;
-  max-height: 200px;
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 export const BoxTitle = styled.div`

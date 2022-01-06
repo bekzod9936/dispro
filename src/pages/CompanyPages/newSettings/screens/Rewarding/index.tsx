@@ -1,7 +1,7 @@
 import { SaveButton } from "components/Custom/Buttons/Save";
 import CustomToggle from "components/Custom/CustomToggleSwitch";
 import InputFormat from "components/Custom/InputFormat";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -24,15 +24,20 @@ import {
   IconWord,
   WrapDesc,
 } from "./style";
+import useWindowWidth from "services/hooks/useWindowWidth";
 
 const Rewarding = () => {
   const { t } = useTranslation();
   const { response, postReward, handleSave } = useReward();
-
+  const { width } = useWindowWidth();
+  const [scroll, setScroll] = useState<any>({
+    scrollHeight: 0,
+    clientHeight: 0,
+  });
   const {
     control,
     handleSubmit,
-    setValue,
+    reset,
     formState: { errors },
   } = useForm<IForm>({
     resolver: yupResolver(rewardingSchema),
@@ -40,38 +45,65 @@ const Rewarding = () => {
   });
 
   const data: any = useAppSelector((state) => state.newsetting.reward);
+
   const switch1 = useWatch({ control, name: "rewardType1" });
   const switch2 = useWatch({ control, name: "rewardType2" });
   const switch3 = useWatch({ control, name: "rewardType3" });
   const switch4 = useWatch({ control, name: "rewardType4" });
-  console.log(errors, "fjjfjfj");
+
   useEffect(() => {
+    let newValues = {};
     data?.rewards?.forEach((v: any) => {
       if (v?.rewardType === 1) {
-        setValue("rewardType1", v?.isActive);
-        setValue("amountType1", v?.amount === 0 ? null : v?.amount);
+        Object.assign(newValues, {
+          rewardType1: v?.isActive,
+          amountType1: v?.amount || null,
+        });
       } else if (v?.rewardType === 2) {
-        setValue("rewardType2", v?.isActive);
-        setValue("amountType2", v?.amount === 0 ? null : v?.amount);
-        setValue("limitCountReward", v?.levels[0]?.limitCountReward);
+        Object.assign(newValues, {
+          rewardType2: v?.isActive,
+          amountType2: v?.amount || null,
+          limitCountReward: v?.levels[0]?.limitCountReward,
+        });
       } else if (v?.rewardType === 3) {
-        setValue("rewardType3", v?.isActive);
-        setValue("amountType3", v?.amount === 0 ? null : v?.amount);
-        setValue("beforeDay", v?.levels[0]?.beforeDay);
-        setValue("congratulationText", v?.levels[0]?.congratulationText);
+        Object.assign(newValues, {
+          rewardType3: v?.isActive,
+          amountType3: v?.amount || null,
+          beforeDay: v?.levels[0]?.beforeDay,
+          congratulationText: v?.levels[0]?.congratulationText,
+        });
       } else if (v?.rewardType === 4) {
-        setValue("rewardType4", v?.isActive);
-        setValue("amountType4", v?.amount === 0 ? null : v?.amount);
-        setValue("amountRequirements", v?.levels[0]?.requirements[0]?.amount);
+        Object.assign(newValues, {
+          rewardType4: v?.isActive,
+          amountType4: v?.amount || null,
+          amountRequirements: v?.levels[0]?.requirements[0]?.amount,
+        });
       }
     });
-    setValue("values", data);
+    Object.assign(newValues, { values: data });
+    reset(newValues);
   }, [data]);
 
+  const ref: any = useRef(null);
+
+  useEffect(() => {
+    if (ref.current.scrollHeight !== scroll.scrollHeight) {
+      setScroll({
+        scrollHeight: ref.current.scrollHeight,
+        clientHeight: ref.current.clientHeight,
+      });
+    }
+  });
+
+  console.log(scroll, "askdaksmdka");
+
   return (
-    <Container>
-      <Form onSubmit={handleSubmit(handleSave)}>
-        <Wrap>
+    <Container isScroll={scroll.scrollHeight > scroll.clientHeight}>
+      <Form
+        isScroll={scroll.scrollHeight > scroll.clientHeight}
+        onSubmit={handleSubmit(handleSave)}
+      >
+        <Wrap ref={ref} id="wrapdiv">
           <LeftSide>
             <Box>
               <WrapSwitch>
@@ -160,6 +192,7 @@ const Rewarding = () => {
                           message={t(`${errors.limitCountReward?.message}`, {
                             value: 1,
                           })}
+                          margin={{ laptop: "0 0 20px 0" }}
                           error={
                             errors.limitCountReward?.message !== undefined
                               ? true
@@ -325,8 +358,10 @@ const Rewarding = () => {
             </Box>
           </RightSide>
         </Wrap>
-        <DownSide>
-          <SaveButton disabled={response.isLoading || postReward.isLoading} />
+        <DownSide isScroll={scroll.scrollHeight > scroll.clientHeight}>
+          <div>
+            <SaveButton disabled={response.isLoading || postReward.isLoading} />
+          </div>
         </DownSide>
       </Form>
     </Container>

@@ -1,9 +1,14 @@
 import styled from "styled-components";
 import { device } from "styles/device";
 
+interface PRops {
+  isScroll?: boolean;
+}
+
 export const Container = styled.div`
   display: flex;
-  padding: 5px 20px 0 0;
+  padding: ${({ isScroll }: PRops) =>
+    isScroll ? "5px 20px 0 0" : "5px 20px 25px 0"};
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -18,7 +23,8 @@ export const Form = styled.form`
   justify-content: space-between;
   background: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
-  border-radius: 14px 14px 0 0;
+  border-radius: ${({ isScroll }: PRops) =>
+    isScroll ? "14px 14px 0 0" : "14px"};
   overflow: hidden;
   padding-top: 40px;
 `;
@@ -31,7 +37,8 @@ export const Wrap = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
   scroll-behavior: auto;
-  padding: 0 40px 0;
+  padding: 0 40px;
+
   ::-webkit-scrollbar {
     width: 7px;
   }
@@ -98,15 +105,21 @@ export const Box = styled.div`
 `;
 
 export const DownSide = styled.div`
-  display: flex;
-  align-items: center;
-  min-height: 90px;
   padding: 0 40px;
+  & > div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: ${({ isScroll }: PRops) => (isScroll ? "25px 0" : "0 0 40px")};
+    border-top: ${({ isScroll }: PRops) =>
+      isScroll ? "1px solid #d0d4f9" : "none"};
+  }
 `;
 
 export const WrapperVip = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
+  margin-bottom: 20px;
 `;
 
 export const IconWord = styled.div`

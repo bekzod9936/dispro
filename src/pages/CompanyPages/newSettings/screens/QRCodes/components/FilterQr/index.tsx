@@ -2,7 +2,8 @@ import { useTranslation } from "react-i18next";
 import Filter from "components/Custom/Filter/index";
 import Radio from "components/Custom/Radio";
 import { useState } from "react";
-
+import { FilterButton } from "components/Custom/Buttons/Filter";
+import { WrapFilter } from "./style";
 interface Props {
   filterType: any;
   setFilterType: any;
@@ -19,25 +20,20 @@ const FilterQr = ({ filterType, setFilterType }: Props) => {
 
   const onReset = () => {
     setType(null);
-    setFilterType(null);
+    setFilterType({ type: "filter", payload: "" });
   };
 
   const filterList = [
     {
       title: t("qrtype"),
-      value:
-        type !== null && type !== undefined
-          ? type === "ref"
-            ? t("forpayment")
-            : type === "branches"
-            ? t("formarketing")
-            : undefined
-          : undefined,
+      value: Boolean(type)
+        ? types.find((v: any) => v.value === type)?.label
+        : undefined,
       content: (
         <Radio
           flexDirection="row"
           list={types}
-          title={t("chose_gender")}
+          title={t("chooseqrcode")}
           onChange={(v: any) => setType(v)}
           value={type}
         />
@@ -46,13 +42,23 @@ const FilterQr = ({ filterType, setFilterType }: Props) => {
   ];
 
   return (
-    <Filter
-      onSubmit={() => {
-        setFilterType(type);
-      }}
-      onReset={onReset}
-      list={filterList}
-    />
+    <WrapFilter>
+      <Filter
+        onSubmit={() => {
+          setFilterType({ type: "filter", payload: type });
+        }}
+        onReset={onReset}
+        list={filterList}
+      />
+      {Boolean(filterType) ? (
+        <FilterButton onClick={onReset}>
+          {`${t("qrtype")} :  ${
+            types.find((v: any) => v.value === filterType)?.label
+          }
+`}
+        </FilterButton>
+      ) : null}
+    </WrapFilter>
   );
 };
 

@@ -38,6 +38,7 @@ export const Sections: React.FC<SectionsProps> = ({
   const { t } = useTranslation();
   const currentSectionName =
     currentSection?.goodsSectionTranslates[0].translateName;
+  const parentId = currentSection?.parentId || currentSection?.id;
 
   const currentSectionRef = useScrollToCurrentSection(currentSection);
 
@@ -87,12 +88,15 @@ export const Sections: React.FC<SectionsProps> = ({
             }
           >
             <h4>{item.goodsSectionTranslates[0].translateName}</h4>
-            <SectionPopover
-              onOpenModal={handleOpen}
-              isParent
-              isHiddenInMobile={item.hideInMobile}
-              parentId={currentSection?.id}
-            />
+            {(currentSection?.id === item.id ||
+              isParentHasActiveChild(item, currentSection?.id)) && (
+              <SectionPopover
+                onOpenModal={handleOpen}
+                isParent
+                isHiddenInMobile={item.hideInMobile}
+                parentId={parentId}
+              />
+            )}
           </Item>
           {(currentSection?.id === item.id ||
             isChildHasActiveParent(item, currentSection?.id)) &&
@@ -103,10 +107,12 @@ export const Sections: React.FC<SectionsProps> = ({
                 isChild
               >
                 <h4>{child.goodsSectionTranslates[0].translateName}</h4>
-                <SectionPopover
-                  onOpenModal={handleOpen}
-                  isHiddenInMobile={item.hideInMobile}
-                />
+                {currentSection?.id === child.id && (
+                  <SectionPopover
+                    onOpenModal={handleOpen}
+                    isHiddenInMobile={item.hideInMobile}
+                  />
+                )}
               </Item>
             ))}
         </ItemWrapper>
