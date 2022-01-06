@@ -1,12 +1,12 @@
-import Button from 'components/Custom/Buttons/Button';
-import Popover from 'components/Custom/Popover';
-import { useTranslation } from 'react-i18next';
-import Accordion from 'components/Custom/Accordion';
-import { useState } from 'react';
-import useWindowWidth from 'services/hooks/useWindowWidth';
-import FullModal from 'components/Custom/FullModal';
-import Modal from 'components/Custom/Modal';
-import { IconButton } from '@material-ui/core';
+import Button from "components/Custom/Buttons/Button";
+import Popover from "components/Custom/Popover";
+import { useTranslation } from "react-i18next";
+import Accordion from "components/Custom/Accordion";
+import { useState } from "react";
+import useWindowWidth from "services/hooks/useWindowWidth";
+import FullModal from "components/Custom/FullModal";
+import Modal from "components/Custom/Modal";
+import { IconButton } from "@material-ui/core";
 import {
   FilterIcon,
   ResetIcon,
@@ -23,7 +23,7 @@ import {
   FooterModel,
   WrapMain,
   WrapBody,
-} from './style';
+} from "./style";
 
 interface Props {
   list?: { title: string; content: any; value?: string }[];
@@ -55,9 +55,9 @@ const Filter = ({
       click={
         <Button
           buttonStyle={{
-            shadow: '0px 4px 4px rgba(0, 0, 0, 0.04)',
-            bgcolor: 'white',
-            color: '#223367',
+            shadow: "0px 4px 4px rgba(0, 0, 0, 0.04)",
+            bgcolor: "white",
+            color: "#223367",
             weight: 500,
             fontSize: {
               mobile: 14,
@@ -70,21 +70,21 @@ const Filter = ({
           }}
           startIcon={<FilterIcon />}
         >
-          {t('filters')}
+          {t("filters")}
         </Button>
       }
-      anchorOrigin={{ horizontal: 'left', vertical: position || 'bottom' }}
-      transformOrigin={{ horizontal: 'left', vertical: 'top' }}
-      popoverStyle={{ marginTop: '20px' }}
+      anchorOrigin={{ horizontal: "left", vertical: position || "bottom" }}
+      transformOrigin={{ horizontal: "left", vertical: "top" }}
+      popoverStyle={{ marginTop: "20px" }}
       onClose={handleClose}
     >
       <Content>
         <Header>
-          {t('filters')}
+          {t("filters")}
           <Button
             buttonStyle={{
-              bgcolor: 'white',
-              color: '#606EEA',
+              bgcolor: "white",
+              color: "#606EEA",
               weight: 500,
               fontSize: {
                 mobile: 14,
@@ -101,7 +101,7 @@ const Filter = ({
               onReset();
             }}
           >
-            {t('reset')}
+            {t("reset")}
           </Button>
         </Header>
         <Body>
@@ -111,7 +111,7 @@ const Filter = ({
           <Button
             buttonStyle={{
               weight: 500,
-              shadow: ' 0px 4px 9px rgba(96, 110, 234, 0.46)',
+              shadow: " 0px 4px 9px rgba(96, 110, 234, 0.46)",
               fontSize: {
                 mobile: 14,
                 desktop: 18,
@@ -128,7 +128,7 @@ const Filter = ({
               onSubmit();
             }}
           >
-            {t('apply')}
+            {t("apply")}
           </Button>
         </Footer>
       </Content>
@@ -137,9 +137,9 @@ const Filter = ({
     <Container>
       <Button
         buttonStyle={{
-          shadow: '0px 4px 4px rgba(0, 0, 0, 0.04)',
-          bgcolor: 'white',
-          color: '#223367',
+          shadow: "0px 4px 4px rgba(0, 0, 0, 0.04)",
+          bgcolor: "white",
+          color: "#223367",
           weight: 500,
           fontSize: {
             mobile: 14,
@@ -153,15 +153,15 @@ const Filter = ({
         startIcon={<FilterIcon />}
         onClick={() => setOpen(true)}
       >
-        {t('filters')}
+        {t("filters")}
       </Button>
-      <Modal open={open} scroll={'body'}>
+      <Modal open={open} scroll={"body"}>
         <WrapMain>
           <WrapBody>
             <WrapHeader>
-              <WrapTitle>{t('filters')}</WrapTitle>
+              <WrapTitle>{t("filters")}</WrapTitle>
               <IconButton
-                style={{ marginRight: '-12px' }}
+                style={{ marginRight: "-12px" }}
                 onClick={() => setOpen(false)}
               >
                 <CloseIcon />
@@ -174,8 +174,8 @@ const Filter = ({
           <FooterModel>
             <Button
               buttonStyle={{
-                bgcolor: '#F0F1FD',
-                color: '#606EEA',
+                bgcolor: "#F0F1FD",
+                color: "#606EEA",
                 weight: 500,
                 fontSize: {
                   mobile: 14,
@@ -192,12 +192,12 @@ const Filter = ({
                 onReset();
               }}
             >
-              {t('reset')}
+              {t("reset")}
             </Button>
             <Button
               buttonStyle={{
                 weight: 500,
-                shadow: ' 0px 4px 9px rgba(96, 110, 234, 0.46)',
+                shadow: " 0px 4px 9px rgba(96, 110, 234, 0.46)",
                 fontSize: {
                   mobile: 14,
                   desktop: 18,
@@ -207,15 +207,15 @@ const Filter = ({
                   mobile: 36,
                 },
               }}
-              margin={{ planshet: '0 0 0 20px' }}
-              startIcon={<TickIcon />}
+              margin={{ planshet: "0 0 0 20px" }}
+              endIcon={<TickIcon />}
               disabled={error}
               onClick={() => {
                 setOpen(false);
                 onSubmit();
               }}
             >
-              {t('apply')}
+              {t("apply")}
             </Button>
           </FooterModel>
         </WrapMain>
@@ -225,9 +225,9 @@ const Filter = ({
     <Container>
       <Button
         buttonStyle={{
-          shadow: '0px 4px 4px rgba(0, 0, 0, 0.04)',
-          bgcolor: 'white',
-          color: '#223367',
+          shadow: "0px 4px 4px rgba(0, 0, 0, 0.04)",
+          bgcolor: "white",
+          color: "#223367",
           weight: 500,
           fontSize: {
             mobile: 14,
@@ -241,15 +241,15 @@ const Filter = ({
         startIcon={<FilterIcon />}
         onClick={() => setOpen(true)}
       >
-        {t('filters')}
+        {t("filters")}
       </Button>
       <FullModal open={open}>
         <WrapMain>
           <WrapBody>
             <WrapHeader>
-              <WrapTitle>{t('filters')}</WrapTitle>
+              <WrapTitle>{t("filters")}</WrapTitle>
               <IconButton
-                style={{ marginRight: '-12px' }}
+                style={{ marginRight: "-12px" }}
                 onClick={() => setOpen(false)}
               >
                 <CloseIcon />
@@ -263,8 +263,8 @@ const Filter = ({
           <FooterModel>
             <Button
               buttonStyle={{
-                bgcolor: '#F0F1FD',
-                color: '#606EEA',
+                bgcolor: "#F0F1FD",
+                color: "#606EEA",
                 weight: 500,
                 fontSize: {
                   mobile: 14,
@@ -281,12 +281,12 @@ const Filter = ({
                 onReset();
               }}
             >
-              {t('reset')}
+              {t("reset")}
             </Button>
             <Button
               buttonStyle={{
                 weight: 500,
-                shadow: ' 0px 4px 9px rgba(96, 110, 234, 0.46)',
+                shadow: " 0px 4px 9px rgba(96, 110, 234, 0.46)",
                 fontSize: {
                   mobile: 14,
                   desktop: 18,
@@ -296,7 +296,7 @@ const Filter = ({
                   mobile: 36,
                 },
               }}
-              margin={{ mobile: '0 0 0 20px' }}
+              margin={{ mobile: "0 0 0 20px" }}
               startIcon={<TickIcon />}
               disabled={error}
               onClick={() => {
@@ -304,7 +304,7 @@ const Filter = ({
                 onSubmit();
               }}
             >
-              {t('apply')}
+              {t("apply")}
             </Button>
           </FooterModel>
         </WrapMain>
