@@ -1,16 +1,16 @@
-import { useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import usePayment from './usePayment';
-import Spinner from 'components/Custom/Spinner';
-import Table from '../../components/Table';
-import DatePcker from 'components/Custom/DatePicker';
-import { countPagination, numberWithNew } from 'services/utils';
-import { useAppSelector } from 'services/redux/hooks';
-import useWindowWidth from 'services/hooks/useWindowWidth';
-import MobileTable from '../../components/MobileTable';
-import { NewPagination } from 'components/Custom/NewPagination';
-import financeCashierDef from '../../../../../assets/images/financeCashierDef.png';
-import { Container, MoneyIcon, DiscountIcon } from './style';
+import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import usePayment from "./usePayment";
+import Spinner from "components/Custom/Spinner";
+import Table from "../../components/Table";
+import DatePcker from "components/Custom/DatePicker";
+import { countPagination, numberWithNew } from "services/utils";
+import { useAppSelector } from "services/redux/hooks";
+import useWindowWidth from "services/hooks/useWindowWidth";
+import MobileTable from "../../components/MobileTable";
+import { NewPagination } from "components/Custom/NewPagination";
+import financeCashierDef from "../../../../../assets/images/financeCashierDef.png";
+import { Container, MoneyIcon, DiscountIcon } from "./style";
 import {
   Label,
   RightHeader,
@@ -23,7 +23,7 @@ import {
   Img,
   WrapDef,
   TitleDef,
-} from '../../style';
+} from "../../style";
 
 interface intialFilterProps {
   page?: number;
@@ -43,14 +43,14 @@ const Payment = () => {
   );
   const header = useAppSelector((state) => state.finance.paymentFinance.header);
 
-  const companyId = localStorage.getItem('companyId');
+  const companyId = localStorage.getItem("companyId");
 
   const intialFilter = {
     companyId: companyId,
     page: 1,
-    perPage: 5,
-    dateFrom: '',
-    dateTo: '',
+    perPage: width > 600 && width <= 1000 ? 10 : 5,
+    dateFrom: "",
+    dateTo: "",
   };
 
   const [filterValues, setFilterValues] =
@@ -71,8 +71,8 @@ const Payment = () => {
       if (data.length === 0) {
         return (
           <WrapDef>
-            <Img src={financeCashierDef} alt='finance' />
-            <TitleDef>{t('therewillbeahistoryofpayplace')}</TitleDef>
+            <Img src={financeCashierDef} alt="finance" />
+            <TitleDef>{t("therewillbeahistoryofpayplace")}</TitleDef>
           </WrapDef>
         );
       } else {
@@ -82,10 +82,10 @@ const Payment = () => {
           return (
             <MobileTable
               data={{
-                title: t('amountofpurchase'),
+                title: t("amountofpurchase"),
                 info: listmobile,
               }}
-              headertitle={t('p2p')}
+              headertitle={t("p2p")}
             />
           );
         }
@@ -110,13 +110,13 @@ const Payment = () => {
   }, [header]);
 
   const headerContentMobile = () => {
-    if (width <= 600) {
+    if (width <= 1000) {
       return (
         <WrapTotal>
           <WrapTotalSum>
             <MoneyIcon />
             <WrapSum>
-              <Label>{header[0]?.title || t('totalpaidbyUZS')}</Label>
+              <Label>{header[0]?.title || t("totalpaidbyUZS")}</Label>
               <TotalSum>
                 {numberWithNew({ number: header[0]?.value, defaultValue: 0 })}
               </TotalSum>
@@ -125,7 +125,7 @@ const Payment = () => {
           <WrapTotalSum>
             <DiscountIcon />
             <WrapSum>
-              <Label>{header[1]?.title || t('DISCommission')}</Label>
+              <Label>{header[1]?.title || t("DISCommission")}</Label>
               <TotalSum>
                 {numberWithNew({ number: header[1]?.value, defaultValue: 0 })}
               </TotalSum>
@@ -149,8 +149,8 @@ const Payment = () => {
             setFilterValues({
               ...filterValues,
               page: 1,
-              dateFrom: e.slice(0, e.indexOf(' ~')),
-              dateTo: e.slice(e.indexOf('~ ') + 2),
+              dateFrom: e.slice(0, e.indexOf(" ~")),
+              dateTo: e.slice(e.indexOf("~ ") + 2),
             });
           }}
         />
@@ -159,13 +159,13 @@ const Payment = () => {
         {data.length === 0 ? null : (
           <WrapPag>
             <Info>
-              {t('shown')}
+              {t("shown")}
               <span>{between}</span>
-              {t('from1')} <span>{total.pages}</span>
+              {t("from1")} <span>{total.pages}</span>
               {countPagination({
                 count: Number(total.pages),
-                firstWord: t('operations1'),
-                secondWord: t('operations23'),
+                firstWord: t("operations1"),
+                secondWord: t("operations23"),
               })}
             </Info>
             {!response.isFetching && (

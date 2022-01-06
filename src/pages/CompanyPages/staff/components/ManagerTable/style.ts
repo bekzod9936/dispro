@@ -175,8 +175,16 @@ export const Td = styled.td`
 	}
 
 	&: nth-child(5){
-		text-align: right;
-		padding-right: 63px
+		width: 238px;
+		padding: 0 45px 0 10px;
+		p{
+			text-align: right;
+			
+			width: 238px;
+			white-space: nowrap;
+			overflow: hidden;
+		}
+	
 	} 
 	p{
 		text-align: left;

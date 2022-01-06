@@ -76,6 +76,15 @@ const ManagerTable = ({ managers }: IProps) => {
 					},
 				};
 			}
+			if (header.label === 'comment') {
+				return {
+					Header: header.value,
+					accessor: header.label,
+					Cell: (props: any) => {
+						return <p>{props.value}</p>;
+					},
+				};
+			}
 			return {
 				Header: header.value,
 				accessor: header.label,
@@ -186,11 +195,12 @@ const ManagerTable = ({ managers }: IProps) => {
 						{formatPagination({
 							page: page.managers,
 							perPage: 10,
-							total: totalCount,
+							total: totalCount.managers,
 						})}
 					</span>{' '}
-					из <span>{totalCount}</span>{' '}
-					{totalCount.toString().endsWith('1') && totalCount !== 11
+					из <span>{totalCount.managers}</span>{' '}
+					{totalCount.managers.toString().endsWith('1') &&
+					totalCount.managers !== 11
 						? 'менеджера'
 						: 'менеджеров'}
 				</p>{' '}

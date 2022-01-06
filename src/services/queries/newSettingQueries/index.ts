@@ -46,8 +46,8 @@ export const postRefQuery = async (data: any) => {
   return response;
 };
 
-export const refDeleteQrCode = async (data: any) => {
-  const response = await partnerApi.delete("/core/ref", data);
+export const refDeleteQrCode = async (id: any) => {
+  const response = await partnerApi.delete(`/core/ref/${id}`);
   return response;
 };
 

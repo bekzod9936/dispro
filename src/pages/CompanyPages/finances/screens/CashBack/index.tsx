@@ -47,7 +47,7 @@ const Payment = () => {
 
   const intialFilter = {
     page: 1,
-    perPage: 5,
+    perPage: width > 600 && width <= 1000 ? 10 : 5,
   };
 
   const [filterValues, setFilterValues] =
@@ -107,7 +107,7 @@ const Payment = () => {
   }, [header]);
 
   const headerContentMobile = () => {
-    if (width <= 600) {
+    if (width <= 1000) {
       return (
         <WrapTotal>
           <WrapTotalSum>

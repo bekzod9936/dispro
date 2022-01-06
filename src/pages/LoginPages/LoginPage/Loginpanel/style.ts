@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { device } from '../../../../styles/device';
+import styled from "styled-components";
+import { device } from "../../../../styles/device";
 
 interface TimeProp {
   time?: number;
@@ -149,7 +149,7 @@ export const Message = styled.div`
 export const WrapTime = styled.div`
   margin-right: 8px;
   background: ${({ time }: TimeProp) =>
-    time === 0 ? 'rgba(185, 185, 185, 0.5)' : ' rgba(96, 110, 234, 0.5)'};
+    time === 0 ? "rgba(185, 185, 185, 0.5)" : " rgba(96, 110, 234, 0.5)"};
   border-radius: 14px;
   width: 44px;
   height: 44px;
@@ -167,7 +167,7 @@ export const WrapTime = styled.div`
 `;
 export const Time = styled.div`
   background: ${({ time }: TimeProp) =>
-    time === 0 ? 'rgba(185, 185, 185, 0.7)' : ' rgba(96, 110, 234, 0.5)'};
+    time === 0 ? "rgba(185, 185, 185, 0.7)" : " rgba(96, 110, 234, 0.5)"};
   border-radius: 8px;
   width: 30px;
   height: 30px;
@@ -196,7 +196,7 @@ export const SmsNumber = styled.div`
   font-size: 16px;
   color: #c2c2c2;
   margin-top: 5px;
-  display: ${({ time }: TimeProp) => (time === 0 ? 'none' : 'block')};
+  display: ${({ time }: TimeProp) => (time === 0 ? "none" : "block")};
   @media (max-width: ${device.planshet}) {
     font-size: 14px;
   }
@@ -204,6 +204,9 @@ export const SmsNumber = styled.div`
 
 export const Content = styled.div`
   height: fit-content;
+  @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
+    margin-bottom: 20px;
+  }
 `;
 
 export const WrapContent = styled.div`

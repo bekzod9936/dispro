@@ -1,31 +1,31 @@
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router';
-import { useMutation } from 'react-query';
-import { useForm, Controller } from 'react-hook-form';
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useHistory } from "react-router";
+import { useMutation } from "react-query";
+import { useForm, Controller } from "react-hook-form";
 //utilities
-import { inputPhoneNumber, inputSms } from 'utilities/inputFormat';
+import { inputPhoneNumber, inputSms } from "utilities/inputFormat";
 //types
-import { USERTYPE, FormProps, PropLog, PropSign } from './types';
+import { USERTYPE, FormProps, PropLog, PropSign } from "./types";
 //queries
-import { logIn, signIn } from 'services/queries/loginQuery';
+import { logIn, signIn } from "services/queries/loginQuery";
 //hooks
-import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
+import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 //actions
 import {
   setCompanyState,
   setLogIn,
   setProceedAuth,
-} from 'services/redux/Slices/authSlice';
+} from "services/redux/Slices/authSlice";
 //assets
-import logo from 'assets/images/logo.png';
+import logo from "assets/images/logo.png";
 //components
-import Input from 'components/Custom/Input';
-import MultiSelect from 'components/Custom/MultiSelect';
-import SnackBar from 'components/Custom/NewSnack';
-import Button from 'components/Custom/Buttons/Button';
-import { PARTNER } from 'services/interceptors/partner_interceptor/types';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
+import Input from "components/Custom/Input";
+import MultiSelect from "components/Custom/MultiSelect";
+import SnackBar from "components/Custom/NewSnack";
+import Button from "components/Custom/Buttons/Button";
+import { PARTNER } from "services/interceptors/partner_interceptor/types";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 //styles
 import {
   Container,
@@ -47,7 +47,7 @@ import {
   MText,
   SText,
   WrapImg,
-} from './style';
+} from "./style";
 
 export const LoginPanel = () => {
   const { t } = useTranslation();
@@ -62,13 +62,13 @@ export const LoginPanel = () => {
   });
 
   const dispatch = useAppDispatch();
-  const [phone, setPhone] = useState('');
+  const [phone, setPhone] = useState("");
   const history = useHistory();
   const [time, setTime] = useState(60);
   const [fetch, setFetch] = useState(false);
   const [errorOpen, setErrorOpen] = useState<boolean>(false);
   const [errorSms, setErrorSms] = useState<boolean>(false);
-  const [errorM, seterrorM] = useState('');
+  const [errorM, seterrorM] = useState("");
   const [errorCount, setErrorCount] = useState(3);
   const {
     control,
@@ -80,7 +80,7 @@ export const LoginPanel = () => {
     watch,
     reset,
   } = useForm<FormProps>({
-    mode: 'onBlur',
+    mode: "onBlur",
     shouldFocusError: true,
   });
 
@@ -111,16 +111,16 @@ export const LoginPanel = () => {
 
   useEffect(() => {
     if (values?.phoneNumber === undefined) {
-      setValue('phoneNumber', '');
+      setValue("phoneNumber", "");
     } else {
-      if (checkPhone.newString !== '') {
-        setValue('phoneNumber', checkPhone.newString);
+      if (checkPhone.newString !== "") {
+        setValue("phoneNumber", checkPhone.newString);
       } else {
-        setValue('phoneNumber', checkPhone.newString);
+        setValue("phoneNumber", checkPhone.newString);
         setDisable(true);
       }
     }
-  }, [checkPhone.check, watch('phoneNumber')]);
+  }, [checkPhone.check, watch("phoneNumber")]);
 
   let checkSms = inputSms({
     value: values?.smsCode,
@@ -128,19 +128,19 @@ export const LoginPanel = () => {
 
   useEffect(() => {
     if (values?.smsCode === undefined) {
-      setValue('smsCode', '');
+      setValue("smsCode", "");
     } else {
-      setValue('smsCode', checkSms.newString);
+      setValue("smsCode", checkSms.newString);
     }
-  }, [checkSms.check, watch('smsCode')]);
+  }, [checkSms.check, watch("smsCode")]);
 
-  watch(['role', 'phoneNumber']);
+  watch(["role", "phoneNumber"]);
 
   useEffect(() => {
     const subscription = watch((value) => {
       if (
         value?.role?.value !== undefined &&
-        value?.role?.value !== '' &&
+        value?.role?.value !== "" &&
         value?.phoneNumber?.length === 9
       ) {
         setDisable(false);
@@ -149,7 +149,7 @@ export const LoginPanel = () => {
       }
     });
     return () => subscription.unsubscribe();
-  }, [watch(['role', 'phoneNumber'])]);
+  }, [watch(["role", "phoneNumber"])]);
 
   const logRes = useMutation((values: PropSign) =>
     signIn({
@@ -196,19 +196,19 @@ export const LoginPanel = () => {
         refetchList();
         dispatch(setCompanyState(res.status));
 
-        if (res.status === 'old') {
-          history.push('/partner/company');
+        if (res.status === "old") {
+          history.push("/partner/company");
         } else {
-          history.push('/partner/registration');
+          history.push("/partner/registration");
         }
       },
       onError: (error: any) => {
         setErrorSms(true);
         setErrorCount(errorCount - 1);
         seterrorM(
-          error?.response?.data?.error?.errMsg === t('warningsms')
-            ? t('warningsms')
-            : `${t('errorsmscode')}${errorCount - 1}`
+          error?.response?.data?.error?.errMsg === t("warningsms")
+            ? t("warningsms")
+            : `${t("errorsmscode")}${errorCount - 1}`
         );
       },
     });
@@ -218,13 +218,13 @@ export const LoginPanel = () => {
     dispatch(setProceedAuth(false));
     setTime(60);
     setFetch(false);
-    setValue('phoneNumber', '');
-    setValue('role', { value: '' });
-    setValue('smsCode', '');
+    setValue("phoneNumber", "");
+    setValue("role", { value: "" });
+    setValue("smsCode", "");
     setDisable(true);
-    setError('smsCode', {
-      message: t('requiredField'),
-      type: 'required',
+    setError("smsCode", {
+      message: t("requiredField"),
+      type: "required",
     });
     reset();
     localStorage.removeItem(PARTNER.ACCESS_TOKEN);
@@ -264,18 +264,18 @@ export const LoginPanel = () => {
             <WrapImg>
               <LazyLoadImage
                 src={logo}
-                alt='logo'
-                effect='blur'
-                width='100%'
-                height='100%'
+                alt="logo"
+                effect="blur"
+                width="100%"
+                height="100%"
               />
             </WrapImg>
-            {proceedAuth ? t('disadmin') : t('discount')}
+            {proceedAuth ? t("disadmin") : t("discount")}
           </Title>
         </Header>
         <Body>
-          <MText>{proceedAuth ? t('enterAssertCode') : t('welcome')}</MText>
-          {!proceedAuth && <SText> {t('enterData')}</SText>}
+          <MText>{proceedAuth ? t("enterAssertCode") : t("welcome")}</MText>
+          {!proceedAuth && <SText> {t("enterData")}</SText>}
           <Form
             onSubmit={
               proceedAuth ? handleSubmit(onSubmitSms) : handleSubmit(onSubmit)
@@ -285,17 +285,17 @@ export const LoginPanel = () => {
               <WrapContent>
                 <Content>
                   <Controller
-                    name='smsCode'
+                    name="smsCode"
                     control={control}
                     rules={{
                       required: true,
                       maxLength: 4,
                       minLength: 4,
                     }}
-                    defaultValue=''
+                    defaultValue=""
                     render={({ field }) => (
                       <Input
-                        label={t('assertCode')}
+                        label={t("assertCode")}
                         error={
                           errorSms || errors.smsCode || time === 0
                             ? true
@@ -303,9 +303,9 @@ export const LoginPanel = () => {
                         }
                         field={field}
                         margin={{
-                          laptop: '20px 0 0',
+                          laptop: "20px 0 0",
                         }}
-                        type='tel'
+                        type="tel"
                         IconEnd={
                           <WrapTime time={time}>
                             <Time time={time}>{time}</Time>
@@ -316,41 +316,41 @@ export const LoginPanel = () => {
                       />
                     )}
                   />
-                  {errors.smsCode && <Message>{t('requiredField')}</Message>}
-                  {time === 0 && <Message>{t('wrongsmscode')}</Message>}
+                  {errors.smsCode && <Message>{t("requiredField")}</Message>}
+                  {time === 0 && <Message>{t("wrongsmscode")}</Message>}
                   {time === 0 && (
                     <Button
                       buttonStyle={{
-                        color: '#3492FF',
-                        bgcolor: 'transparent',
+                        color: "#3492FF",
+                        bgcolor: "transparent",
                       }}
-                      padding={{ laptop: '0' }}
+                      padding={{ laptop: "0" }}
                       onClick={handleReSend}
                       disabled={logRes.isLoading}
                     >
-                      {t('resend')}
+                      {t("resend")}
                     </Button>
                   )}
                   <SmsNumber time={time}>
-                    {t('smsphone')}
+                    {t("smsphone")}
                     {phone}
                   </SmsNumber>
                   <SnackBar
                     message={errorM}
-                    status='error'
+                    status="error"
                     open={errorSms}
                     onClose={(e: any) => setErrorSms(e)}
-                    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                    anchorOrigin={{ vertical: "top", horizontal: "right" }}
                   />
                   {errorSms || (smsRes.isError && time !== 0) ? (
-                    <Message>{t('errorsms')}</Message>
+                    <Message>{t("errorsms")}</Message>
                   ) : null}
                 </Content>
                 <Content>
                   <WrapButton>
                     <Button
                       buttonStyle={{
-                        shadow: '0px 19px 30px rgba(96, 110, 234, 0.35)',
+                        shadow: "0px 19px 30px rgba(96, 110, 234, 0.35)",
                         radius: 12,
                         fontSize: {
                           laptop: 17,
@@ -365,18 +365,18 @@ export const LoginPanel = () => {
                           desktop: 60,
                         },
                       }}
-                      type='submit'
-                      data-cy='login'
+                      type="submit"
+                      data-cy="login"
                       disabled={smsRes.isLoading}
                       fullWidth={true}
                     >
-                      {t('enter')}
+                      {t("enter")}
                     </Button>
                   </WrapButton>
                   <Button
                     buttonStyle={{
-                      bgcolor: 'transparent',
-                      color: '#606EEA',
+                      bgcolor: "transparent",
+                      color: "#606EEA",
                       fontSize: {
                         laptop: 17,
                         desktop: 18,
@@ -385,9 +385,9 @@ export const LoginPanel = () => {
                       },
                     }}
                     onClick={handleBack}
-                    width={{ width: '100%' }}
+                    width={{ width: "100%" }}
                   >
-                    {t('back')}
+                    {t("back")}
                   </Button>
                 </Content>
               </WrapContent>
@@ -395,53 +395,53 @@ export const LoginPanel = () => {
               <LogInWrap>
                 <LogInContentWrap>
                   <Controller
-                    name='role'
+                    name="role"
                     control={control}
-                    defaultValue={{ value: USERTYPE.ADMIN, label: t('admin') }}
+                    defaultValue={{ value: USERTYPE.ADMIN, label: t("admin") }}
                     rules={{ required: true }}
                     render={({ field }) => (
                       <MultiSelect
-                        label={t('staffRole')}
-                        dataCy='staffRole'
+                        label={t("staffRole")}
+                        dataCy="staffRole"
                         defaultValue={USERTYPE.ADMIN}
                         options={[
-                          { value: USERTYPE.ADMIN, label: t('admin') },
-                          { value: USERTYPE.MANAGER, label: t('manager') },
+                          { value: USERTYPE.ADMIN, label: t("admin") },
+                          { value: USERTYPE.MANAGER, label: t("manager") },
                         ]}
                         field={field}
                         error={errors.role ? true : false}
-                        message={t('requiredField')}
-                        placeholder=''
+                        message={t("requiredField")}
+                        placeholder=""
                         isSearchable={false}
                       />
                     )}
                   />
                   <Controller
-                    name='phoneNumber'
+                    name="phoneNumber"
                     control={control}
                     rules={{ required: true, maxLength: 9 }}
-                    defaultValue=''
+                    defaultValue=""
                     render={({ field }) => (
                       <Input
-                        label={t('phoneNumber')}
+                        label={t("phoneNumber")}
                         error={errors.phoneNumber ? true : false}
                         message={
                           <Message>
-                            <div>{t('phoneLength')}</div>
-                            <div>{t('tryagain')}</div>
+                            <div>{t("phoneLength")}</div>
+                            <div>{t("tryagain")}</div>
                           </Message>
                         }
-                        data-cy='phoneNumber'
-                        type='tel'
+                        data-cy="phoneNumber"
+                        type="tel"
                         field={field}
                         margin={{
-                          planshet: '20px 0 0',
-                          laptop: '20px 0 0',
-                          desktop: '20px 0 40px',
+                          planshet: "20px 0 0",
+                          laptop: "20px 0 0",
+                          desktop: "20px 0 40px",
                         }}
                         maxLength={9}
-                        inputStyle={{ inpadding: '0 20px 0 0' }}
-                        IconStart={<div className='inputstyle'>+998</div>}
+                        inputStyle={{ inpadding: "0 20px 0 0" }}
+                        IconStart={<div className="inputstyle">+998</div>}
                       />
                     )}
                   />
@@ -455,7 +455,7 @@ export const LoginPanel = () => {
                       mobile: 16,
                       planshet: 16,
                     },
-                    shadow: '0px 19px 30px rgba(96, 110, 234, 0.35)',
+                    shadow: "0px 19px 30px rgba(96, 110, 234, 0.35)",
                     height: {
                       mobile: 45,
                       planshet: 45,
@@ -463,12 +463,12 @@ export const LoginPanel = () => {
                       desktop: 60,
                     },
                   }}
-                  type='submit'
-                  data-cy='sign-up'
+                  type="submit"
+                  data-cy="sign-up"
                   disabled={disable || logRes.isLoading}
-                  width={{ width: '100%' }}
+                  width={{ width: "100%" }}
                 >
-                  {t('next')}
+                  {t("next")}
                 </Button>
               </LogInWrap>
             )}
@@ -476,11 +476,11 @@ export const LoginPanel = () => {
         </Body>
       </MainWrap>
       <SnackBar
-        message={t('usernotfind')}
-        status='error'
+        message={t("usernotfind")}
+        status="error"
         open={errorOpen}
         onClose={(e: any) => setErrorOpen(e)}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
       />
     </Container>
   );

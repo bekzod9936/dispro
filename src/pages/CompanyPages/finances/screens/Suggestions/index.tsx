@@ -1,17 +1,17 @@
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import useSuggestion from './useSuggestions';
-import Spinner from 'components/Custom/Spinner';
-import Table from '../../components/Table';
-import { Container } from './style';
-import DatePcker from 'components/Custom/DatePicker';
-import { useAppSelector } from 'services/redux/hooks';
-import { countPagination } from 'services/utils';
-import useWindowWidth from 'services/hooks/useWindowWidth';
-import MobileTable from '../../components/MobileTable';
-import { NewPagination } from 'components/Custom/NewPagination';
-import financeCashierDef from '../../../../../assets/images/financeCashierDef.png';
-import { Info, WrapPag, Img, WrapDef, TitleDef } from '../../style';
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import useSuggestion from "./useSuggestions";
+import Spinner from "components/Custom/Spinner";
+import Table from "../../components/Table";
+import { Container } from "./style";
+import DatePcker from "components/Custom/DatePicker";
+import { useAppSelector } from "services/redux/hooks";
+import { countPagination } from "services/utils";
+import useWindowWidth from "services/hooks/useWindowWidth";
+import MobileTable from "../../components/MobileTable";
+import { NewPagination } from "components/Custom/NewPagination";
+import financeCashierDef from "../../../../../assets/images/financeCashierDef.png";
+import { Info, WrapPag, Img, WrapDef, TitleDef } from "../../style";
 
 interface intialFilterProps {
   page?: number;
@@ -24,7 +24,7 @@ const Suggestions = () => {
   const { t } = useTranslation();
   const { width } = useWindowWidth();
 
-  const companyId = localStorage.getItem('companyId');
+  const companyId = localStorage.getItem("companyId");
   const data = useAppSelector((state) => state.finance.suggestionFinance.data);
   const total = useAppSelector(
     (state) => state.finance.suggestionFinance.total
@@ -36,9 +36,9 @@ const Suggestions = () => {
   const intialFilter = {
     companyId: companyId,
     page: 1,
-    perPage: 5,
-    dateFrom: '',
-    dateTo: '',
+    perPage: width > 600 && width <= 1000 ? 10 : 5,
+    dateFrom: "",
+    dateTo: "",
   };
 
   const [filterValues, setFilterValues] =
@@ -59,8 +59,8 @@ const Suggestions = () => {
       if (data.length === 0) {
         return (
           <WrapDef>
-            <Img src={financeCashierDef} alt='finance' />
-            <TitleDef>{t('therewillbeahistoryofsuggestions')}</TitleDef>
+            <Img src={financeCashierDef} alt="finance" />
+            <TitleDef>{t("therewillbeahistoryofsuggestions")}</TitleDef>
           </WrapDef>
         );
       } else {
@@ -70,10 +70,10 @@ const Suggestions = () => {
           return (
             <MobileTable
               data={{
-                title: t('amountofpurchase'),
+                title: t("amountofpurchase"),
                 info: listmobile,
               }}
-              headertitle={t('proposals')}
+              headertitle={t("proposals")}
             />
           );
         }
@@ -88,8 +88,8 @@ const Suggestions = () => {
           setFilterValues({
             ...filterValues,
             page: 1,
-            dateFrom: e.slice(0, e.indexOf(' ~')),
-            dateTo: e.slice(e.indexOf('~ ') + 2),
+            dateFrom: e.slice(0, e.indexOf(" ~")),
+            dateTo: e.slice(e.indexOf("~ ") + 2),
           });
         }}
       />
@@ -97,13 +97,13 @@ const Suggestions = () => {
       {data.length === 0 ? null : (
         <WrapPag>
           <Info>
-            {t('shown')}
+            {t("shown")}
             <span>{between}</span>
-            {t('from1')} <span>{total.pages}</span>
+            {t("from1")} <span>{total.pages}</span>
             {countPagination({
               count: Number(total.pages),
-              firstWord: t('operations1'),
-              secondWord: t('operations23'),
+              firstWord: t("operations1"),
+              secondWord: t("operations23"),
             })}
           </Info>
           {!response.isFetching && (

@@ -1,15 +1,15 @@
-import styled from 'styled-components';
-import { device } from 'styles/device';
-import { ReactComponent as Delete } from 'assets/icons/IconsInfo/delete.svg';
-import { ReactComponent as Money } from 'assets/icons/StatistisPage/money.svg';
-import { ReactComponent as Cart } from 'assets/icons/StatistisPage/cart.svg';
-import { ReactComponent as Discount } from 'assets/icons/StatistisPage/discount.svg';
-import { ReactComponent as Pink } from 'assets/icons/StatistisPage/app.svg';
-import { ReactComponent as Excel } from 'assets/icons/FinanceIcons/excel.svg';
-import { ReactComponent as Close } from 'assets/icons/IconsInfo/close.svg';
-import { ReactComponent as Trash } from 'assets/icons/delete.svg';
-import { ReactComponent as Save } from 'assets/icons/IconsInfo/save.svg';
-import { ReactComponent as Close1 } from 'assets/icons/SideBar/close.svg';
+import styled from "styled-components";
+import { device } from "styles/device";
+import { ReactComponent as Delete } from "assets/icons/IconsInfo/delete.svg";
+import { ReactComponent as Money } from "assets/icons/StatistisPage/money.svg";
+import { ReactComponent as Cart } from "assets/icons/StatistisPage/cart.svg";
+import { ReactComponent as Discount } from "assets/icons/StatistisPage/discount.svg";
+import { ReactComponent as Pink } from "assets/icons/StatistisPage/app.svg";
+import { ReactComponent as Excel } from "assets/icons/FinanceIcons/excel.svg";
+import { ReactComponent as Close } from "assets/icons/IconsInfo/close.svg";
+import { ReactComponent as Trash } from "assets/icons/delete.svg";
+import { ReactComponent as Save } from "assets/icons/IconsInfo/save.svg";
+import { ReactComponent as Close1 } from "assets/icons/SideBar/close.svg";
 
 export const Container = styled.div`
   overflow: hidden;
@@ -58,6 +58,10 @@ export const ExcelIcon = styled(Excel)`
 export const CartIcon = styled(Cart)`
   width: 20px;
   height: 20px;
+  @media (min-width: ${device.mobile}) {
+    width: 24px;
+    height: 24px;
+  }
 `;
 
 export const DeleteIcon = styled(Delete)`
@@ -134,15 +138,22 @@ export const WrapFilterValues = styled.div`
   display: flex;
   align-items: center;
 `;
-
 export const MoneyIcon = styled(Money)`
   width: 17px;
   height: 20px;
+  @media (min-width: ${device.mobile}) {
+    width: 20px;
+    height: 25px;
+  }
 `;
 
 export const DiscountIcon = styled(Discount)`
   width: 20px;
   height: 20px;
+  @media (min-width: ${device.mobile}) {
+    width: 24px;
+    height: 24px;
+  }
 `;
 
 export const PinkIcon = styled(Pink)``;
@@ -246,11 +257,18 @@ export const WrapButtonsModal = styled.div`
   display: flex;
   width: 100%;
   justify-content: flex-end;
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    justify-content: center;
+  }
 `;
 
 export const WrapModalComment = styled.div`
   padding: 30px;
   width: 500px;
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    width: 400px;
+    padding: 20px;
+  }
   @media (max-width: ${device.mobile}) {
     width: 290px;
     padding: 15px;
@@ -272,6 +290,11 @@ export const WrapComTitle = styled.div`
   @media (max-width: ${device.mobile}) {
     & > div {
       font-size: 16px;
+    }
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    & > div {
+      font-size: 18px;
     }
   }
 `;
@@ -296,7 +319,10 @@ export const CloseWrapBut = styled.div`
 
 export const WrapDeleteModal = styled.div`
   padding: 30px;
-
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    width: 400px;
+    padding: 20px;
+  }
   @media (max-width: ${device.mobile}) {
     width: 290px;
     padding: 15px;
