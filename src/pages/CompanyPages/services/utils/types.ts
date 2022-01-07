@@ -86,7 +86,7 @@ export type PostDtoVariantType = {
     price: number,
     priceWithDiscount: number,
     count: number,
-    articulCode: string
+    artikulCode: string
 }
 
 export type PostDtoTitleType = {

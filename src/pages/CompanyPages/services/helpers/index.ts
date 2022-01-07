@@ -1,4 +1,3 @@
-import { useTranslation } from "react-i18next";
 import {
   ICategory,
   IGoodsResponse,
@@ -7,7 +6,6 @@ import {
   sectionResponseType,
 } from "services/queries/servicesQueries/response.types";
 import { numberWithNew } from "services/utils";
-import { Variant } from "../components/Variant";
 import { languageIds, languageLabels } from "../constants";
 import {
   CreateDtoType,
@@ -129,7 +127,7 @@ export const goodsVariantsToPostEntityForm = (
   variants: variantType[]
 ): PostDtoVariantType[] => {
   return variants.map((variant) => ({
-    articulCode: variant.articul,
+    artikulCode: variant.articul,
     count: Number(variant.amount),
     price: Number(variant.price),
     priceWithDiscount: Number(variant.priceWithSale) || 0,
@@ -274,7 +272,7 @@ export const resetDefaultValues = (data: IGoodsResponse): FormFieldTypes => {
     service: {},
     variants: data.hasGoodsVariant ? data.goodsVariants.map(variant => ({
       amount: String(variant.count),
-      articul: String(variant.articulCode),
+      articul: String(variant.artikulCode),
       name: variant.goodsVariantTranslates.map(translate => ({data: translate.translateName, lang: languageLabels[translate.langId as keyof typeof languageLabels]})),
       price: String(variant.price),
       priceWithSale: String(variant.priceWithDiscount)
