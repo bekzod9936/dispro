@@ -1,10 +1,10 @@
-import { useRecoilState } from 'recoil';
-import { Suspense, useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Route, Switch } from 'react-router';
+import { useRecoilState } from "recoil";
+import { Suspense, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Route, Switch } from "react-router";
 //routes
-import useFinanceRoute from './routes';
-import useLayout from 'components/Layout/useLayout';
+import useFinanceRoute from "./routes";
+import useLayout from "components/Layout/useLayout";
 //styles
 import {
   MainWrapper,
@@ -18,24 +18,24 @@ import {
   WrapLimit,
   MainLimit,
   SideDrawer,
-} from './style';
-import { numberWithNew } from 'services/utils';
+} from "./style";
+import { numberWithNew } from "services/utils";
 //components
-import NavBar from 'components/Custom/NavBar';
-import Title from 'components/Custom/Title';
-import Spinner from 'components/Custom/Spinner';
+import NavBar from "components/Custom/NavBar";
+import Title from "components/Custom/Title";
+import Spinner from "components/Custom/Spinner";
 //atoms
-import { mainLimit, mainBalance } from 'services/atoms/info';
-import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
-import { setSideDrawer } from 'services/redux/Slices/finance';
-import useWindowWidth from 'services/hooks/useWindowWidth';
+import { mainLimit, mainBalance } from "services/atoms/info";
+import { useAppDispatch, useAppSelector } from "services/redux/hooks";
+import { setSideDrawer } from "services/redux/Slices/finance";
+import useWindowWidth from "services/hooks/useWindowWidth";
 
 const Finance = () => {
   const { t } = useTranslation();
   const { menuItems } = useFinanceRoute();
-  const companyId = localStorage.getItem('companyId');
+  const companyId = localStorage.getItem("companyId");
   const dispatch = useAppDispatch();
-  const [close, setClose] = useState(true);
+
   const accountsBalance = useRecoilState(mainBalance);
   const accountsLimit = useRecoilState(mainLimit);
   const sidedrawer = useAppSelector(
@@ -44,7 +44,7 @@ const Finance = () => {
 
   const { width } = useWindowWidth();
 
-  const { resLimit } = useLayout({ id: companyId });
+  useLayout({ id: companyId });
 
   const ref: any = useRef(null);
 
@@ -58,9 +58,9 @@ const Finance = () => {
 
   useEffect(() => {
     if (width > 600) {
-      document.addEventListener('click', handleClickOutside, true);
+      document.addEventListener("click", handleClickOutside, true);
       return () => {
-        document.removeEventListener('click', handleClickOutside, true);
+        document.removeEventListener("click", handleClickOutside, true);
       };
     }
   });
@@ -71,12 +71,12 @@ const Finance = () => {
         <Wrap>
           <WrapHeader>
             <LeftHeader>
-              <Title>{t('finances')}</Title>
+              <Title padding={{ planshet: "0" }}>{t("finances")}</Title>
               <MainLimit>
                 <WrapLimit>
                   <DepositIcon />
                   <TitleLimit>
-                    {t('deposit')}
+                    {t("deposit")}
                     <TextLimit>
                       {`${numberWithNew({
                         number: accountsBalance[0].balance,
@@ -88,7 +88,7 @@ const Finance = () => {
                 <WrapLimit>
                   <ShieldIcon />
                   <TitleLimit>
-                    {t('limit')}
+                    {t("limit")}
                     <TextLimit>
                       {`${numberWithNew({
                         number: accountsLimit[0].limit,
@@ -98,7 +98,7 @@ const Finance = () => {
                   </TitleLimit>
                 </WrapLimit>
               </MainLimit>
-              <NavBar list={menuItems} padding='0 15px 0 0' margin='10px 0' />
+              <NavBar list={menuItems} padding="0 15px 0 0" margin="10px 0" />
             </LeftHeader>
           </WrapHeader>
           <Switch>

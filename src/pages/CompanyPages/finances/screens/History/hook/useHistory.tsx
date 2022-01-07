@@ -1,10 +1,10 @@
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery } from "react-query";
 import {
   fetchComment,
   fetchFinanceHistory,
-} from 'services/queries/financeQuery';
-import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
-import { formatPagination } from 'services/utils/formatPagination';
+} from "services/queries/financeQuery";
+import { useAppDispatch, useAppSelector } from "services/redux/hooks";
+import { formatPagination } from "services/utils/formatPagination";
 import {
   setCashierHistoryFinance,
   setHistoryFinanceBetween,
@@ -12,16 +12,16 @@ import {
   setHistoryFinanceTotal,
   setStoreIdsHistoryFinance,
   setSumHistoryFinance,
-} from 'services/redux/Slices/finance';
-import dayjs from 'dayjs';
-import { numberWithNew } from 'services/utils';
-import { useTranslation } from 'react-i18next';
-import { Tr, Th } from '../../../components/Table/style';
-import { useMemo } from 'react';
-import { WrapComment, WrapImage } from '../style';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
-import Button from 'components/Custom/Buttons/Button';
-import App from 'assets/icons/StatistisPage/app.svg';
+} from "services/redux/Slices/finance";
+import dayjs from "dayjs";
+import { numberWithNew } from "services/utils";
+import { useTranslation } from "react-i18next";
+import { Tr, Th } from "../../../components/Table/style";
+import { useMemo } from "react";
+import { WrapComment, WrapImage } from "../style";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import Button from "components/Custom/Buttons/Button";
+import App from "assets/icons/StatistisPage/app.svg";
 interface PProps {
   filterValues: any;
   handleClickCommet: (e: any) => void;
@@ -32,19 +32,19 @@ const useHistory = ({ filterValues, handleClickCommet }: PProps) => {
   const dispatch = useAppDispatch();
   const data = useAppSelector((state) => state.finance.historyFinance.data);
   const sum = useAppSelector((state) => state.finance.historyFinance.sum);
-
+  console.log(filterValues, "filterValues");
   const response = useQuery(
-    ['fetchPaymentInfo', filterValues],
+    ["fetchPaymentInfo", filterValues],
     () => {
       const url = Object.keys(filterValues)
         .map((v: any) => {
-          if (filterValues[v] !== '') {
+          if (filterValues[v] !== "") {
             return `${v}=${filterValues[v]}&`;
           } else {
-            return '';
+            return "";
           }
         })
-        .join('');
+        .join("");
 
       return fetchFinanceHistory({
         url: url,
@@ -88,18 +88,19 @@ const useHistory = ({ filterValues, handleClickCommet }: PProps) => {
             data.data.data.cashierHistories.filter.stores
           )
         );
+        const cashierFilter =
+          data.data.data.cashierHistories.filter.cashierStaffs.map((v: any) => {
+            return {
+              value: v.id,
+              label: v.name,
+            };
+          });
 
         dispatch(
-          setCashierHistoryFinance(
-            data.data.data.cashierHistories.filter.cashierStaffs.map(
-              (v: any) => {
-                return {
-                  value: v.id,
-                  label: v.name,
-                };
-              }
-            )
-          )
+          setCashierHistoryFinance([
+            { value: 0, label: t("p2p") },
+            ...cashierFilter,
+          ])
         );
       },
     }
@@ -145,10 +146,10 @@ const useHistory = ({ filterValues, handleClickCommet }: PProps) => {
   }, [data]);
   console.log(data);
   const listmobile = data.map((v: any) => {
-    const date = dayjs(v.chequeDate).format('DD.MM.YYYY');
-    const time = dayjs(v.chequeDate).format('HH:mm:ss');
+    const date = dayjs(v.chequeDate).format("DD.MM.YYYY");
+    const time = dayjs(v.chequeDate).format("HH:mm:ss");
     return {
-      title: v.cashierName === 'No cashier name' ? t('p2p') : v.cashierName,
+      title: v.cashierName === "No cashier name" ? t("p2p") : v.cashierName,
       value: numberWithNew({ number: v.payInfo.amountTotal }),
       avatar: v.cashierLogo,
       id: v.chequeId,
@@ -178,58 +179,58 @@ const useHistory = ({ filterValues, handleClickCommet }: PProps) => {
       },
       body: [
         {
-          title: t('filial'),
+          title: t("filial"),
           value: v.store.name,
         },
         {
-          title: t('transactiondate'),
+          title: t("transactiondate"),
           value: date,
         },
         {
-          title: t('transactiontime'),
+          title: t("transactiontime"),
           value: time,
         },
         {
-          title: t('totalsum'),
+          title: t("totalsum"),
           value: numberWithNew({ number: v.payInfo.amountTotal }),
         },
         {
-          title: t('discountSum'),
+          title: t("discountSum"),
           value: numberWithNew({ number: v.payInfo.amountMinus }),
         },
         {
-          title: t('paid'),
+          title: t("paid"),
           value: numberWithNew({ number: v.payInfo.amountPayed }),
         },
         {
-          title: t('paycash/payterminal'),
+          title: t("paycash/payterminal"),
           value: numberWithNew({ number: v.payInfo.amountCash }),
         },
         {
-          title: t('paycardapp'),
+          title: t("paycardapp"),
           value: numberWithNew({ number: v.payInfo.amountCard }),
         },
-        { title: t('customer'), value: v.clientName },
+        { title: t("customer"), value: v.clientName },
         {
-          title: t('loyaltypercentage'),
+          title: t("loyaltypercentage"),
           value:
             v.payInfo.isDiscount || v.payInfo.isCashback || v.payInfo.isPoints
               ? numberWithNew({ number: v.payInfo.value })
-              : '-',
+              : "-",
         },
         {
-          title: t('coupon'),
+          title: t("coupon"),
           value:
-            v.payInfo.isCoupon && v.payInfo.valueType === 'percent'
+            v.payInfo.isCoupon && v.payInfo.valueType === "percent"
               ? `${numberWithNew({ number: v.payInfo.value })}%`
-              : '-',
+              : "-",
         },
         {
-          title: t('certificate'),
+          title: t("certificate"),
           value:
-            v.payInfo.isCoupon && v.payInfo.valueType === 'amount'
+            v.payInfo.isCoupon && v.payInfo.valueType === "amount"
               ? numberWithNew({ number: v.payInfo.value })
-              : '-',
+              : "-",
         },
       ],
     };
@@ -238,22 +239,22 @@ const useHistory = ({ filterValues, handleClickCommet }: PProps) => {
   const header2 = useMemo(() => {
     return (
       <Tr>
-        <Th style={{ textAlign: 'center' }} colSpan={4}>
-          {t('total')}
+        <Th style={{ textAlign: "center" }} colSpan={4}>
+          {t("total")}
         </Th>
-        <Th style={{ textAlign: 'center' }}>
+        <Th style={{ textAlign: "center" }}>
           {numberWithNew({ number: sum.total })}
         </Th>
-        <Th style={{ textAlign: 'center' }}>
+        <Th style={{ textAlign: "center" }}>
           {numberWithNew({ number: sum.minus })}
         </Th>
-        <Th style={{ textAlign: 'center' }}>
+        <Th style={{ textAlign: "center" }}>
           {numberWithNew({ number: sum.paid })}
         </Th>
-        <Th style={{ textAlign: 'center' }}>
+        <Th style={{ textAlign: "center" }}>
           {numberWithNew({ number: sum.cash })}
         </Th>
-        <Th style={{ textAlign: 'center' }}>
+        <Th style={{ textAlign: "center" }}>
           {numberWithNew({ number: sum.card })}
         </Th>
       </Tr>
@@ -263,45 +264,45 @@ const useHistory = ({ filterValues, handleClickCommet }: PProps) => {
   const columns: any = useMemo(
     () => [
       {
-        Header: t('cashier'),
-        accessor: 'col1',
+        Header: t("cashier"),
+        accessor: "col1",
         Cell: (props: any) => {
-          if (props.value === 'No cashier name') {
+          if (props.value === "No cashier name") {
             return (
               <WrapImage>
                 <LazyLoadImage
-                  alt='avatar'
-                  height='40px'
+                  alt="avatar"
+                  height="40px"
                   src={
                     props.cell.row.original.col0
                       ? props.cell.row.original.col0
                       : App
                   }
-                  width='40px'
-                  effect='blur'
-                  style={{ objectFit: 'cover', borderRadius: '14px' }}
+                  width="40px"
+                  effect="blur"
+                  style={{ objectFit: "cover", borderRadius: "14px" }}
                   onError={(e: any) => {
                     e.target.onerror = null;
                     e.target.src = App;
                   }}
                 />
-                {t('p2p')}
+                {t("p2p")}
               </WrapImage>
             );
           } else {
             return (
               <WrapImage>
                 <LazyLoadImage
-                  alt='avatar'
-                  height='40px'
+                  alt="avatar"
+                  height="40px"
                   src={
                     props.cell.row.original.col0
                       ? props.cell.row.original.col0
                       : App
                   }
-                  width='40px'
-                  effect='blur'
-                  style={{ objectFit: 'cover', borderRadius: '14px' }}
+                  width="40px"
+                  effect="blur"
+                  style={{ objectFit: "cover", borderRadius: "14px" }}
                   onError={(e: any) => {
                     e.target.onerror = null;
                     e.target.src = App;
@@ -314,65 +315,65 @@ const useHistory = ({ filterValues, handleClickCommet }: PProps) => {
         },
       },
       {
-        Header: t('filial'),
-        accessor: 'filial',
+        Header: t("filial"),
+        accessor: "filial",
       },
       {
-        Header: t('transactiondate'),
-        accessor: 'col2',
+        Header: t("transactiondate"),
+        accessor: "col2",
         Cell: (props: any) => {
-          return dayjs(props.value).format('DD.MM.YYYY');
+          return dayjs(props.value).format("DD.MM.YYYY");
         },
       },
       {
-        Header: t('transactiontime'),
-        accessor: 'col3',
+        Header: t("transactiontime"),
+        accessor: "col3",
         Cell: (props: any) => {
-          return dayjs(props.value).format('HH:mm:ss');
+          return dayjs(props.value).format("HH:mm:ss");
         },
       },
       {
-        Header: t('totalsum'),
-        accessor: 'col4',
-        Cell: (props: any) => {
-          return numberWithNew({ number: props.value });
-        },
-      },
-      {
-        Header: t('discountSum'),
-        accessor: 'col5',
+        Header: t("totalsum"),
+        accessor: "col4",
         Cell: (props: any) => {
           return numberWithNew({ number: props.value });
         },
       },
       {
-        Header: t('paid'),
-        accessor: 'col6',
+        Header: t("discountSum"),
+        accessor: "col5",
         Cell: (props: any) => {
           return numberWithNew({ number: props.value });
         },
       },
       {
-        Header: t('paycash/payterminal'),
-        accessor: 'col7',
+        Header: t("paid"),
+        accessor: "col6",
         Cell: (props: any) => {
           return numberWithNew({ number: props.value });
         },
       },
       {
-        Header: t('paycardapp'),
-        accessor: 'col8',
+        Header: t("paycash/payterminal"),
+        accessor: "col7",
         Cell: (props: any) => {
           return numberWithNew({ number: props.value });
         },
       },
       {
-        Header: t('customer'),
-        accessor: 'col9',
+        Header: t("paycardapp"),
+        accessor: "col8",
+        Cell: (props: any) => {
+          return numberWithNew({ number: props.value });
+        },
       },
       {
-        Header: t('loyaltypercentage'),
-        accessor: 'col10',
+        Header: t("customer"),
+        accessor: "col9",
+      },
+      {
+        Header: t("loyaltypercentage"),
+        accessor: "col10",
         Cell: (props: any) => {
           if (
             props.cell.row.original.isDiscount ||
@@ -381,50 +382,50 @@ const useHistory = ({ filterValues, handleClickCommet }: PProps) => {
           ) {
             return numberWithNew({ number: props.value });
           } else {
-            return '-';
+            return "-";
           }
         },
       },
       {
-        Header: t('coupon'),
-        accessor: 'col11',
+        Header: t("coupon"),
+        accessor: "col11",
         Cell: (props: any) => {
           if (
             props.cell.row.original.isCoupon &&
-            props.cell.row.original.valueType === 'percent'
+            props.cell.row.original.valueType === "percent"
           ) {
             return `${numberWithNew({ number: props.value })}%`;
           } else {
-            return '-';
+            return "-";
           }
         },
       },
       {
-        Header: t('certificate'),
-        accessor: 'col12',
+        Header: t("certificate"),
+        accessor: "col12",
         Cell: (props: any) => {
           if (
             props.cell.row.original.isCoupon &&
-            props.cell.row.original.valueType === 'amount'
+            props.cell.row.original.valueType === "amount"
           ) {
             return numberWithNew({ number: props.value });
           } else {
-            return '-';
+            return "-";
           }
         },
       },
       {
-        Header: t('comment'),
-        accessor: 'col13',
+        Header: t("comment"),
+        accessor: "col13",
         Cell: (props: any) => {
-          if (props.value !== '') {
+          if (props.value !== "") {
             return <WrapComment>{props.value}</WrapComment>;
           } else {
             return (
               <Button
                 buttonStyle={{
-                  bgcolor: '#e1e3fb',
-                  color: '#3492FF',
+                  bgcolor: "#e1e3fb",
+                  color: "#3492FF",
                   radius: 12,
                   weight: 300,
                   height: {
@@ -440,7 +441,7 @@ const useHistory = ({ filterValues, handleClickCommet }: PProps) => {
                 }}
                 onClick={() => handleClickCommet(props.cell.row.original)}
               >
-                {t('addcomment')}
+                {t("addcomment")}
               </Button>
             );
           }

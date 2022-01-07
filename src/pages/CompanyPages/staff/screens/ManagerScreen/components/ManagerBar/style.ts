@@ -94,6 +94,10 @@ font-size: 18px;
 line-height: 21px;
   color: #223367;
   margin-bottom: 5px;
+	text-overflow: ellipsis;
+    width: 175px;
+    white-space: nowrap;
+    overflow: hidden;
 `;
 
 export const BarText = styled.p`

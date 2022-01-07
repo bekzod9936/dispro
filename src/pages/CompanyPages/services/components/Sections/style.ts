@@ -1,10 +1,12 @@
 import styled from "styled-components";
 import { ReactComponent as MenuSvg } from 'assets/icons/FeedBack/dots.svg'
+import { ReactComponent as HideSvg } from 'newassets/icons/hide.svg'
 import { device } from "styles/device";
 
 interface IProps {
     isSelected?: boolean;
     isChild?: boolean;
+    isItemHidden?: boolean
 }
 
 export const Wrapper = styled.div`
@@ -68,7 +70,7 @@ export const Item = styled.div`
     box-shadow: ${({isSelected}: IProps) => isSelected ? '0px 4px 9px rgba(96, 110, 234, 0.46)' : '0px 4px 4px rgba(0, 0, 0, 0.04)'};
 
     h4 {
-        color: ${({isSelected}: IProps) => isSelected ? '#fff' : '#223367'};
+        color: ${({isSelected, isItemHidden}: IProps) => isItemHidden ? '#C4C4C4' :isSelected ? '#fff' : '#223367'};
         font-weight: 400;
         font-size: 18px;
         line-height: 21.09px;
@@ -83,6 +85,10 @@ export const Item = styled.div`
     svg {
         circle {
             fill: ${({ isSelected }: IProps) => isSelected ? '#fff' : '#223367'}
+        }
+
+        path {
+            fill: ${({isSelected}: IProps) => isSelected ? '#fff' : ''};
         }
     }
 
@@ -100,5 +106,9 @@ export const Item = styled.div`
 
 //icons
 export const MenuIcon = styled(MenuSvg)``
+export const HideIcon = styled(HideSvg)`
+    width: 35px;
+    margin-right: 5px;
+`
 
 

@@ -14,6 +14,7 @@ import {
 
 //style
 import { CancelIcon, DeleteIcon, styles, Wrapper } from "./style";
+import { useDeleteSection } from "pages/CompanyPages/services/hooks/MainPageHooks";
 
 interface DeleteModalProps {
   open: boolean;
@@ -21,6 +22,7 @@ interface DeleteModalProps {
   isSection?: boolean;
   onClose: () => void;
   isItem?: boolean;
+  id: number;
 }
 
 export const DeleteModal: React.FC<DeleteModalProps> = ({
@@ -29,6 +31,7 @@ export const DeleteModal: React.FC<DeleteModalProps> = ({
   isSection,
   onClose,
   isItem,
+  id,
 }) => {
   const { t } = useTranslation();
   const alertMessage = isItem
@@ -37,9 +40,15 @@ export const DeleteModal: React.FC<DeleteModalProps> = ({
     ? SECTION_DELETE_MODAL_CONTENT
     : SUBSECTION_DELETE_MODAL_CONTENT;
 
+  const { mutate, isLoading } = useDeleteSection();
+
   const handleSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault();
-    console.log("submit");
+    mutate(id, {
+      onSettled() {
+        onClose();
+      },
+    });
   };
 
   return (

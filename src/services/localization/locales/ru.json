@@ -690,5 +690,10 @@
   "qrcodeforpayment": "(QR-код для оплаты)",
   "cannotchoosebranch": "Для начала создайте филиал в Адресах",
   "maxcharacters": "Максимальное количество символов: {{value}}",
-  "editItem": "Редактирование товара"
+  "editItem": "Редактирование товара",
+  "moveSubSection": "Перемещение подраздела",
+  "moveToSection": "Разместить в разделе",
+  "hide": "Скрыть",
+  "areYouSureToHideSection": "Вы действительно хотите скрыть раздел",
+  "areYouSureToHideSubSection": "Вы действительно хотите скрыть подраздел"
 }

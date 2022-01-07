@@ -1,23 +1,25 @@
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import useHistory from './hook/useHistory';
-import Spinner from 'components/Custom/Spinner';
-import Table from '../../components/Table';
-import dayjs from 'dayjs';
-import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
-import { countPagination, numberWithNew } from 'services/utils';
-import MobileTable from './components/MobileTable';
-import useWindowWidth from 'services/hooks/useWindowWidth';
-import financeCashierDef from '../../../../../assets/images/financeCashierDef.png';
-import { NewPagination } from 'components/Custom/NewPagination';
-import FilterHistory from './components/FilterHistory';
-import Button from 'components/Custom/Buttons/Button';
-import { setSideDrawer } from 'services/redux/Slices/finance';
-import Modal from 'components/Custom/Modal';
-import { IconButton } from '@material-ui/core';
-import { TextArea } from 'components/Custom/TextArea';
-import { intialFilterProps } from './type';
-import SideDrawer from '../../components/SideDrawer';
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import useHistory from "./hook/useHistory";
+import Spinner from "components/Custom/Spinner";
+import Table from "../../components/Table";
+import dayjs from "dayjs";
+import { useAppDispatch, useAppSelector } from "services/redux/hooks";
+import { countPagination, numberWithNew } from "services/utils";
+import MobileTable from "./components/MobileTable";
+import useWindowWidth from "services/hooks/useWindowWidth";
+import financeCashierDef from "../../../../../assets/images/financeCashierDef.png";
+import { NewPagination } from "components/Custom/NewPagination";
+import FilterHistory from "./components/FilterHistory";
+import Button from "components/Custom/Buttons/Button";
+import { setSideDrawer } from "services/redux/Slices/finance";
+import Modal from "components/Custom/Modal";
+import { IconButton } from "@material-ui/core";
+import { TextArea } from "components/Custom/TextArea";
+import { intialFilterProps } from "./type";
+import SideDrawer from "../../components/SideDrawer";
+import { CancelButton } from "components/Custom/Buttons/Cancel";
+import { SaveButton } from "components/Custom/Buttons/Save";
 import {
   WrapPag,
   Info,
@@ -29,7 +31,7 @@ import {
   Img,
   WrapDef,
   TitleDef,
-} from '../../style';
+} from "../../style";
 import {
   Container,
   MoneyIcon,
@@ -49,14 +51,14 @@ import {
   WrapDeleteTitle,
   WrapDeleteComment,
   WrapDeleteButtons,
-} from './style';
+} from "./style";
 
 const Payment = () => {
   const { t } = useTranslation();
   const { width } = useWindowWidth();
   const dispatch = useAppDispatch();
   const [rowData, setRowData] = useState<any>({});
-  const [comment, setComment] = useState<string>('');
+  const [comment, setComment] = useState<string>("");
   const [open, setOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [id, setId] = useState<any>(null);
@@ -72,13 +74,13 @@ const Payment = () => {
   const sum = useAppSelector((state) => state.finance.historyFinance.sum);
 
   const intialFilter = {
-    startDate: dayjs().startOf('month').format('YYYY-MM-DD'),
-    endDate: dayjs().endOf('month').format('YYYY-MM-DD'),
-    cashierStaffId: '',
+    startDate: dayjs().startOf("month").format("YYYY-MM-DD"),
+    endDate: dayjs().endOf("month").format("YYYY-MM-DD"),
+    cashierStaffId: "",
     page: 1,
-    perPage: 5,
-    amountCash: '',
-    amountCard: '',
+    perPage: width > 600 && width <= 1000 ? 10 : 5,
+    amountCash: "",
+    amountCard: "",
   };
 
   const [filterValues, setFilterValues] =
@@ -87,7 +89,7 @@ const Payment = () => {
   const handleClickCommet = (e: any) => {
     setOpen(true);
     setRowData(e);
-    setComment('');
+    setComment("");
   };
 
   const { response, resComment, listmobile, listdesktop, header2, columns } =
@@ -99,7 +101,7 @@ const Payment = () => {
   const handleAllClose = () => {
     setOpen(false);
     setRowData({});
-    setComment('');
+    setComment("");
     dispatch(
       setSideDrawer({
         openRow: false,
@@ -111,7 +113,7 @@ const Payment = () => {
 
   const handleRow = (e: any) => {
     setId(e.id);
-    if (e.col13 !== '') {
+    if (e.col13 !== "") {
       dispatch(
         setSideDrawer({
           openRow: width > 600 ? true : false,
@@ -137,7 +139,7 @@ const Payment = () => {
         })
       );
       setRowData(e);
-      setComment('');
+      setComment("");
     }
   };
 
@@ -156,7 +158,7 @@ const Payment = () => {
     resComment.mutate(
       {
         chequeId: id,
-        chequeComment: '',
+        chequeComment: "",
       },
       {
         onSuccess: () => {
@@ -204,8 +206,8 @@ const Payment = () => {
       if (data.length === 0) {
         return (
           <WrapDef>
-            <Img src={financeCashierDef} alt='finance' />
-            <TitleDef>{t('therewillbeahistoryofcashiers')}</TitleDef>
+            <Img src={financeCashierDef} alt="finance" />
+            <TitleDef>{t("therewillbeahistoryofcashiers")}</TitleDef>
           </WrapDef>
         );
       } else {
@@ -218,16 +220,16 @@ const Payment = () => {
                 columns={columns}
                 data={listdesktop}
                 idRow={sidedrawer?.chosenRow?.id}
-                cursorRow='pointer'
+                cursorRow="pointer"
               />
               <Modal open={open}>
                 <WrapModalComment>
                   <WarpBodyComModel>
                     <WrapComTitle>
                       <div>
-                        {rowData.col13 !== ''
-                          ? t('changingcomment')
-                          : t('addingcomment')}
+                        {rowData.col13 !== ""
+                          ? t("changingcomment")
+                          : t("addingcomment")}
                       </div>
                       <CloseWrapBut>
                         <IconButton
@@ -242,9 +244,9 @@ const Payment = () => {
                     </WrapComTitle>
                     <div>
                       <TextArea
-                        minHeight={'120px'}
-                        maxHeight={'300px'}
-                        resize={'vertical'}
+                        minHeight={"120px"}
+                        maxHeight={"300px"}
+                        resize={"vertical"}
                         value={comment}
                         onChange={(e: any) => {
                           if (width > 1000) {
@@ -260,7 +262,7 @@ const Payment = () => {
                         maxLength={100}
                         title={
                           <LabelCom>
-                            <span>{t('commentoperation')}</span>
+                            <span>{t("commentoperation")}</span>
                             <span>{comment.length}/100</span>
                           </LabelCom>
                         }
@@ -268,78 +270,53 @@ const Payment = () => {
                     </div>
                   </WarpBodyComModel>
                   <WrapButtonsModal>
-                    <Button
-                      buttonStyle={{
-                        bgcolor: width > 600 ? 'white' : '#eff0fd',
-                        color: width > 600 ? '#223367' : '#606EEA',
-                        weight: 500,
-                      }}
+                    <CancelButton
                       margin={{
-                        laptop: '0 30px 0 0',
-                        mobile: '0 10px 0 0',
+                        laptop: "0 30px 0 0",
+                        mobile: "0 10px 0 0",
                       }}
-                      padding={{ mobile: '0 10px' }}
-                      startIcon={width > 600 ? <CancelIcon /> : null}
-                      endIcon={width < 600 ? <CancelIcon /> : null}
+                      padding={{ mobile: "0 10px" }}
                       onClick={() => {
                         handleAllClose();
                       }}
-                    >
-                      {t('cancel')}
-                    </Button>
-                    <Button
-                      buttonStyle={{
-                        color: 'white',
-                        bgcolor: '#606EEA',
-                      }}
-                      padding={{ mobile: '0 10px' }}
-                      startIcon={width > 600 ? <SaveIcon /> : null}
-                      endIcon={width < 600 ? <SaveIcon /> : null}
+                    />
+                    <SaveButton
+                      type="button"
                       disabled={resComment.isLoading}
                       onClick={handleSave}
-                    >
-                      {t('save')}
-                    </Button>
+                      padding={{ mobile: "0 10px" }}
+                    />
                   </WrapButtonsModal>
                 </WrapModalComment>
               </Modal>
               <Modal open={deleteOpen}>
                 <WrapDeleteModal>
-                  <WrapDeleteTitle>{t('areyousuredelete')}</WrapDeleteTitle>
+                  <WrapDeleteTitle>{t("areyousuredelete")}</WrapDeleteTitle>
                   <WrapDeleteComment>{comment}</WrapDeleteComment>
                   <WrapDeleteButtons>
-                    <Button
-                      buttonStyle={{
-                        bgcolor: width > 600 ? 'white' : '#eff0fd',
-                        color: width > 600 ? '#223367' : '#606EEA',
-                        weight: 500,
-                      }}
+                    <CancelButton
                       margin={{
-                        laptop: '0 30px 0 0',
-                        mobile: '0 10px 0 0',
+                        laptop: "0 30px 0 0",
+                        mobile: "0 10px 0 0",
                       }}
-                      padding={{ mobile: '0 10px' }}
-                      startIcon={width > 600 ? <CancelIcon /> : null}
-                      endIcon={width < 600 ? <CancelIcon /> : null}
+                      padding={{ mobile: "0 10px" }}
                       onClick={() => {
                         setDeleteOpen(false);
                       }}
-                    >
-                      {t('cancel')}
-                    </Button>
+                    />
                     <Button
                       buttonStyle={{
-                        color: 'white',
-                        bgcolor: '#FF5E68',
+                        color: "white",
+                        bgcolor: "#FF5E68",
                         weight: 500,
                       }}
-                      padding={{ mobile: '0 10px' }}
-                      startIcon={width > 600 ? <DeleteIcon1 /> : null}
-                      endIcon={width < 600 ? <DeleteIcon1 /> : null}
+                      padding={{ mobile: "0 10px" }}
+                      startIcon={width > 1000 ? <DeleteIcon1 /> : null}
+                      endIcon={width <= 1000 ? <DeleteIcon1 /> : null}
                       disabled={resComment.isLoading}
                       onClick={handleDeleteCom}
                     >
-                      {t('delete')}
+                      {t("delete")}
                     </Button>
                   </WrapDeleteButtons>
                 </WrapDeleteModal>
@@ -350,10 +327,10 @@ const Payment = () => {
           return (
             <MobileTable
               data={{
-                title: t('totalsum'),
+                title: t("totalsum"),
                 info: listmobile,
               }}
-              headertitle={t('byCashiers')}
+              headertitle={t("byCashiers")}
               isAvatar={true}
               onAllClose={handleAllClose}
               handleEdit={(comment: any) => handleEdit(comment)}
@@ -368,13 +345,13 @@ const Payment = () => {
   };
 
   const headerContentMobile = () => {
-    if (width <= 600) {
+    if (width <= 1000) {
       return (
         <WrapTotal>
           <WrapTotalSum>
             <MoneyIcon />
             <WrapSum>
-              <Label>{t('totalsum')}</Label>
+              <Label>{t("totalsum")}</Label>
               <TotalSum>
                 {numberWithNew({ number: sum.total, defaultValue: 0 })}
               </TotalSum>
@@ -383,7 +360,7 @@ const Payment = () => {
           <WrapTotalSum>
             <DiscountIcon />
             <WrapSum>
-              <Label>{t('sale')}</Label>
+              <Label>{t("sale")}</Label>
               <TotalSum>
                 {numberWithNew({ number: sum.minus, defaultValue: 0 })}
               </TotalSum>
@@ -392,7 +369,7 @@ const Payment = () => {
           <WrapTotalSum>
             <CartIcon />
             <WrapSum>
-              <Label>{t('paid')}</Label>
+              <Label>{t("paid")}</Label>
               <TotalSum>
                 {numberWithNew({ number: sum.paid, defaultValue: 0 })}
               </TotalSum>
@@ -420,17 +397,16 @@ const Payment = () => {
             />
             {headerContentMobile()}
             {contentTable()}
-
             {data.length === 0 ? null : (
               <WrapPag>
                 <Info>
-                  {t('shown')}
+                  {t("shown")}
                   <span>{between}</span>
-                  {t('from1')} <span>{total.pages}</span>
+                  {t("from1")} <span>{total.pages}</span>
                   {countPagination({
                     count: Number(total.pages),
-                    firstWord: t('operations1'),
-                    secondWord: t('operations23'),
+                    firstWord: t("operations1"),
+                    secondWord: t("operations23"),
                   })}
                 </Info>
                 {!response.isFetching && (

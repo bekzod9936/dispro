@@ -85,14 +85,11 @@ const BoxQr = ({ link, name, id, branch }: Props) => {
         }
       );
     } else {
-      deleteRef.mutate(
-        { data: { id } },
-        {
-          onSuccess: () => {
-            setOpenDelete(false);
-          },
-        }
-      );
+      deleteRef.mutate(id, {
+        onSuccess: () => {
+          setOpenDelete(false);
+        },
+      });
     }
   };
 
