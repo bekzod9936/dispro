@@ -3,12 +3,14 @@ import {ReactComponent as PointsSvg} from 'assets/icons/points_services.svg'
 import {ReactComponent as DiscountSvg} from 'assets/icons/discount_services.svg'
 import { ReactComponent as EyeSvg } from 'newassets/icons/eye.svg'
 import { ReactComponent as ScrollTopSvg } from 'newassets/icons/scroll_top.svg'
+import { ReactComponent as ShowSvg } from 'newassets/icons/show.svg'
 import { IconButton } from "@material-ui/core";
 import { device } from "styles/device";
 
 interface IProps {
     isEven?: boolean
-    isItCurrentItem?: boolean
+    isItCurrentItem?: boolean,
+    isHiddenItem?: boolean
 }
 
 export const Wrapper = styled.div`
@@ -47,7 +49,7 @@ export const Wrapper = styled.div`
                 h5 {
                     font-size: 18px;
                     line-height: 21.09px;
-                    color: ${({ isItCurrentItem }: IProps) => isItCurrentItem ? "#fff" : "#223367"};
+                    color: ${({ isItCurrentItem, isHiddenItem }: IProps) => isItCurrentItem ? "#fff" : isHiddenItem ? "#C4C4C4" :"#223367"};
                     font-weight: 500;
                     text-overflow: ellipsis;
                     white-space: nowrap;
@@ -57,7 +59,7 @@ export const Wrapper = styled.div`
                 p {
                     font-size: 16px;
                     line-height: 18.75px;
-                    color: ${({ isItCurrentItem }: IProps) => isItCurrentItem ? "#fff" : "#8F8F8F"};
+                    color: ${({ isItCurrentItem, isHiddenItem }: IProps) => isItCurrentItem ? "#fff" : isHiddenItem ? "#C4C4C4" : "#8F8F8F"};
                     font-weight: 300;
                     margin-top: 6px;
                 }
@@ -79,6 +81,24 @@ export const Wrapper = styled.div`
                             margin-left: 10px;
                         }
                 }
+                 
+                &_hide {
+                    display: flex;
+                    align-items: center;
+
+                    svg {
+                        path {
+                            fill: ${({isItCurrentItem}: IProps) => isItCurrentItem ? "#fff" : "#A3A3A3"}
+                        }
+                    }
+
+                    p {
+                        font-size: 16px;
+                        font-weight: 18.75px;
+                        color: ${({ isItCurrentItem }: IProps) => isItCurrentItem ? "#fff" : "#A3A3A3"};
+                        margin-left: 10px;
+                    }
+                }
             }
     }
 
@@ -91,11 +111,11 @@ export const Wrapper = styled.div`
                 font-size: 22px;
                 line-height: 25.78px;
                 font-weight: 300;
-                color: #1F1A3E;
+                color: ${({isHiddenItem}: IProps) => isHiddenItem ? "#C4C4C4" : "#1F1A3E"};
             }
 
             span {
-                color: #1F1A3E;
+                color: ${({isHiddenItem}: IProps) => isHiddenItem ? "#C4C4C4" : "#1F1A3E"};
                 font-weight: 300;
                 font-size: 16px;
                 line-height: 18.75px;
@@ -201,3 +221,4 @@ export const DiscountIcon = styled(DiscountSvg)`
 
 export const EyeIcon = styled(EyeSvg)``
 export const ScrollToTopIcon = styled(ScrollTopSvg)``
+export const ShowIcon = styled(ShowSvg)``

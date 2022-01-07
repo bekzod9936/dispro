@@ -110,6 +110,7 @@ export interface PostDtoType {
     isCountUnlimited: boolean,
     ageUnlimited: boolean,
     isSetManufacturedTime?: boolean,
+    hideInMobile: boolean,
     manufacturedAt?: {
         day?: number,
         hour?: number,
@@ -150,7 +151,8 @@ export type sectionsObjectType = {
 
 export interface Modals {
     delete: boolean,
-    changeAmount: boolean
+    changeAmount: boolean,
+    hide: boolean
 }
 
 export type SectionModalsType = {

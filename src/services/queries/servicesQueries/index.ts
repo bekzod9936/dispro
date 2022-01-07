@@ -128,5 +128,15 @@ export const ApiServices = {
         const _ = await partnerApi.put(`core/goods-section/name/${id}`, {
             goodsSectionTranslates: [section]
         })
+    },
+
+    async deleteItem(id: number) {
+        const _ = await partnerApi.delete(`core/goods/${id}`)
+    },
+
+    async hideItem(id: number, action: boolean) {
+        const _ = await partnerApi.put(`core/goods/hide/${id}`, {
+            hideInMobile: action
+        }) 
     }
 }

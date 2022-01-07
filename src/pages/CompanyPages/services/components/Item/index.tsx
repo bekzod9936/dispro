@@ -13,6 +13,7 @@ import {
   ButtonIcon,
   EyeIcon,
   ScrollToTopIcon,
+  ShowIcon,
 } from "./style";
 
 //other
@@ -21,6 +22,7 @@ import { thousandsDivider } from "../../helpers";
 import DEFAULT_IMAGE from "assets/images/staff_default.png";
 import { Modals } from "../../utils/types";
 import { LightToolTip } from "../../screens/Services/components/Radios/style";
+import { useHideItem } from "../../hooks/MainPageHooks";
 
 interface ItemProps {
   item: IGoodsResponse;
@@ -45,6 +47,7 @@ export const Item: React.FC<ItemProps> = ({
   const price = thousandsDivider(item.price);
   const priceWithDiscount = thousandsDivider(item.priceWithDiscount);
   const count = thousandsDivider(item.count);
+  const hideInMobile = item.hideInMobile;
 
   const isItCurrentItem = currentItemId === item.id;
 
@@ -69,6 +72,16 @@ export const Item: React.FC<ItemProps> = ({
     onGoToTop(item.id);
   };
 
+  const { mutate: showItem } = useHideItem();
+
+  const handleHide = () => {
+    if (hideInMobile) {
+      showItem({ id: item.id, action: false });
+    } else {
+      onOpenModal("hide");
+    }
+  };
+
   return (
     <Draggable draggableId={String(item.id)} index={index}>
       {(provided) => (
@@ -85,6 +98,7 @@ export const Item: React.FC<ItemProps> = ({
             {...provided.dragHandleProps}
             isItCurrentItem={isItCurrentItem}
             isEven={Boolean((index + 1) % 2)}
+            isHiddenItem={hideInMobile}
           >
             <div onClick={handleClick} className="item">
               <div className="left">
@@ -98,17 +112,27 @@ export const Item: React.FC<ItemProps> = ({
                   )}
                 </div>
                 <div className="info">
-                  {item.withPoint && (
-                    <div className="info_child">
-                      <PointsIcon isItCurrentItem={isItCurrentItem} />
-                      <p>{t("itemForPoints")}</p>
+                  {item.hideInMobile && (
+                    <div className="info_hide">
+                      <EyeIcon />
+                      <p>{t("hiddenItem")}</p>
                     </div>
                   )}
-                  {item.withDiscount && (
-                    <div className="info_child">
-                      <DiscountIcon isItCurrentItem={isItCurrentItem} />
-                      <p>{t("itemForDiscount")}</p>
-                    </div>
+                  {!item.hideInMobile && (
+                    <>
+                      {item.withPoint && (
+                        <div className="info_child">
+                          <PointsIcon isItCurrentItem={isItCurrentItem} />
+                          <p>{t("itemForPoints")}</p>
+                        </div>
+                      )}
+                      {item.withDiscount && (
+                        <div className="info_child">
+                          <DiscountIcon isItCurrentItem={isItCurrentItem} />
+                          <p>{t("itemForDiscount")}</p>
+                        </div>
+                      )}
+                    </>
                   )}
                 </div>
               </div>
@@ -135,8 +159,8 @@ export const Item: React.FC<ItemProps> = ({
                     <ScrollToTopIcon />
                   </ButtonIcon>
                 </LightToolTip>
-                <ButtonIcon className="mr">
-                  <EyeIcon />
+                <ButtonIcon onClick={handleHide} className="mr">
+                  {hideInMobile ? <ShowIcon /> : <EyeIcon />}
                 </ButtonIcon>
                 <ItemPopover itemId={item.id} onOpenModal={onOpenModal} />
               </div>

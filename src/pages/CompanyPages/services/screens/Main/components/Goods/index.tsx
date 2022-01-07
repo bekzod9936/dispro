@@ -15,6 +15,7 @@ import { goodsModalsDefaults } from "pages/CompanyPages/services/constants";
 
 //style
 import { Wrapper } from "./style";
+import { HideModal } from "pages/CompanyPages/services/components/Modals/Hide";
 
 interface GoodsProps {
   goods: IGoods;
@@ -64,6 +65,13 @@ export const Goods: React.FC<GoodsProps> = ({ goods, isLoading }) => {
         onClose={handleCloseModal("delete")}
         open={modals.delete}
         name={currentItem?.name}
+      />
+      <HideModal
+        isItem
+        id={currentItem?.id || 0}
+        onClose={handleCloseModal("hide")}
+        open={modals.hide}
+        name={currentItem?.goodsTranslates[0].translateName || ""}
       />
     </Wrapper>
   );

@@ -161,6 +161,7 @@ export const createServiceHelper = (dto: CreateDtoType): PostDtoType => {
     priceWithDiscount: Number(firstVariant.priceWithSale),
     unitId: 1,
     goodsTranslates: goodsTranslatesToPostEntityForm(dto.titles),
+    hideInMobile: false,
     isSetManufacturedTime: dto.preparationTime,
     goodsVariants: isServiceHasVariants
       ? goodsVariantsToPostEntityForm(dto.variants)

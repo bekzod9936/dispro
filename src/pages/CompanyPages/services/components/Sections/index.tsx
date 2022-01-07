@@ -143,6 +143,7 @@ export const Sections: React.FC<SectionsProps> = ({
         open={modals.delete}
         name={currentSectionName}
         onClose={handleClose("delete")}
+        setCurrentSection={setCurrentSection}
       />
       <MoveModal
         id={currentSection?.id || 0}
@@ -150,7 +151,9 @@ export const Sections: React.FC<SectionsProps> = ({
         open={modals.move}
       />
       <HideModal
-        item={currentSection}
+        isSection={currentSection?.parentId === 0}
+        id={currentSection?.id || 0}
+        name={currentSection?.goodsSectionTranslates[0].translateName || ""}
         open={modals.hide}
         onClose={handleClose("hide")}
       />
