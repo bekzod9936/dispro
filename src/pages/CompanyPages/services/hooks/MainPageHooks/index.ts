@@ -7,7 +7,7 @@ import { IGoodsResponse, ISectionResponse } from "services/queries/servicesQueri
 import { useGetSections } from ".."
 import { GET_ITEMS, GET_SECTIONS } from "../../constants"
 import { divideGoodsBySections } from "../../helpers"
-import {hideSectionPostType, moveSectionPostType, sectionsObjectType} from '../../utils/types'
+import {editSectionPostType, hideSectionPostType, moveSectionPostType, sectionsObjectType} from '../../utils/types'
 
 export const useGetItems = (id: number | undefined, query?: string) => {
     const { data, ...rest } = useQuery([GET_ITEMS, query, id], () => {
@@ -83,10 +83,11 @@ export const useDragNDrop = (goods: IGoodsResponse[]) => {
     }
   
   useEffect(() => {
-    if (items.length !== goods.length) {
-      setItems(goods);
-    }
-  }, [goods, items]);
+    // if (items.length !== goods.length) {
+    //   setItems(goods);
+    // }
+    setItems(goods);
+  }, [goods]);
 
   useEffect(() => {
     if (scrollState && scrollRef.current) {
@@ -134,6 +135,7 @@ export const useDeleteSection = () => {
   return useMutation((id: number) => ApiServices.deleteSection(id), {
     onSettled() {
       queryClient.invalidateQueries(GET_SECTIONS)
+      queryClient.invalidateQueries(GET_ITEMS)
     }
   })
 }
@@ -154,6 +156,36 @@ export const useHideSection = () => {
   return useMutation(({id, action}: hideSectionPostType) => ApiServices.hideSection(id, action), {
     onSettled() {
       queryClient.invalidateQueries(GET_SECTIONS)
+    }
+  })
+}
+
+export const useEditSection = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation(({id, section}: editSectionPostType) => ApiServices.editSection(id, section), {
+    onSettled() {
+      queryClient.invalidateQueries(GET_SECTIONS)
+    }
+  })
+}
+
+export const useDeleteItem = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation((id: number) => ApiServices.deleteItem(id), {
+    onSettled() {
+      queryClient.invalidateQueries(GET_ITEMS)
+    }
+  })
+}
+
+export const useHideItem = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation(({id, action}: hideSectionPostType) => ApiServices.hideItem(id, action), {
+    onSettled() {
+      queryClient.invalidateQueries(GET_ITEMS)
     }
   })
 }

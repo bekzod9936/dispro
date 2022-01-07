@@ -42,7 +42,8 @@ export const modalsDefaults = {
 
 export const goodsModalsDefaults = {
   delete: false,
-  changeAmount: false
+  changeAmount: false,
+  hide: false
 }
 
 export const SECTIONS_LIMIT = 20
@@ -151,3 +152,7 @@ export const measurements = [
 export const SECTION_DELETE_MODAL_CONTENT = { title: "areYouSureToDeleteSection", info: "После удаления, вложенные разделы и товары нельзя будет восстановить" }
 export const ITEM_DELETE_MODAL_CONTENT = { title: "areYouSureToDeleteItem", info: "После удаления, товар нельзя будет восстановить" }
 export const SUBSECTION_DELETE_MODAL_CONTENT = { title: "areYouSureToDeleteSubSection", info: 'После удаления, вложенные товары нельзя будет восстановить' }
+
+export const SECTION_HIDE_MODAL_CONTENT = { title: "areYouSureToHideSection", info: "После скрытия, вложенные разделы и товары не будут отображаться в мобильном приложении" }
+export const SUBSECTION_HIDE_MODAL_CONTENT = { title: "areYouSureToHideSubSection", info: "После скрытия, вложенные товары не будут отображаться в мобильном приложении" }
+export const ITEM_HIDE_MODAL_CONTENT = { title: "areYouSureToHideItem", info: "После скрытия, товар не будет отображаться в мобильном приложении"}

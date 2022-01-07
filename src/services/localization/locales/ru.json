@@ -693,5 +693,10 @@
   "maxcharacters": "Максимальное количество символов: {{value}}",
   "editItem": "Редактирование товара",
   "moveSubSection": "Перемещение подраздела",
-  "moveToSection": "Разместить в разделе"
+  "moveToSection": "Разместить в разделе",
+  "hide": "Скрыть",
+  "areYouSureToHideSection": "Вы действительно хотите скрыть раздел",
+  "areYouSureToHideSubSection": "Вы действительно хотите скрыть подраздел",
+  "areYouSureToHideItem": "Вы действительно хотите скрыть товар",
+  "hiddenItem": "Товар скрыт"
 }

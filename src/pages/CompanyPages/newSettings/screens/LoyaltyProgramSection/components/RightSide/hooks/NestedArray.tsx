@@ -15,7 +15,7 @@ const NestedArray = ({
   nestIndex,
   control,
   watch,
-
+  errors,
 }: any) => {
   const { fields, remove, append } = useFieldArray({
     control,
@@ -56,14 +56,16 @@ const NestedArray = ({
                   <MultiSelect
                     isMulti={false}
                     options={watch(`levels.[${nestIndex}].requirements.[${k}].type.value`)=='Рекомендации' ? OnlyOneOr:Or}
-                    width={{ maxwidth: 100, minwidth: 100 }}
+                    width={{ maxwidth: 100,width:'fit-content',minwidth:80 }}
                     {...field}
+                    error={!!errors?.levels?.[nestIndex]?.requirements?.[k]?.condition}
                     // value={watch(`levels.[${nestIndex}].requirements.[${k}].type`)==3 ? OnlyOneOr:Or}
                     selectStyle={{
-                      radius: 0,
-                      borderbottom: "1px solid #606EEA",
+                      radius: !!errors?.levels?.[nestIndex]?.requirements?.[k]?.condition ? 14:0,
+                      borderbottom:!!errors?.levels?.[nestIndex]?.requirements?.[k]?.condition ? " 1px solid #FF5E68" :"1px solid #606EEA",
                       border: "transparent",
                       bgcolor: "transparent",
+                      inpadding:'0 20px 0 0',
                       height: {
                         desktop: 10,
                       },
@@ -87,16 +89,18 @@ const NestedArray = ({
                     options={
                      thirdconditionFilter
                     }
-                    width={{ minwidth: 190,maxwidth:200 }}
+                
+                    width={{ minwidth: 170,width:'fit-content',maxwidth:200 }}
                     // field={field}
                     {...field}
-                    isDisabled={thirdconditionFilter?.length>0 ?false:true}
-                
+                    // isDisabled={thirdconditionFilter?.length>0 ?false:true}
+                    error={!!errors?.levels?.[nestIndex]?.requirements?.[k]?.type}
                     selectStyle={{
-                      radius: 0,
-                      borderbottom: "1px solid #606EEA",
+                      radius:!!errors?.levels?.[nestIndex]?.requirements?.[k]?.type ? 14: 0,
+                      borderbottom: !!errors?.levels?.[nestIndex]?.requirements?.[k]?.type ? " 1px solid #FF5E68" :"1px solid #606EEA",
                       border: "transparent",
                       bgcolor: "transparent",
+                      inpadding:'2px 20px 2px 0',
                       height: {
                         desktop: 10,
                       },
@@ -109,7 +113,6 @@ const NestedArray = ({
               <DynamicLabel>больше</DynamicLabel>
               <Controller
                 name={`levels.[${nestIndex}].requirements.[${k}].amount`}
-               
                 control={control}
                 rules={{
                   required: true,
@@ -122,15 +125,16 @@ const NestedArray = ({
                     IconEnd={watch(`levels.[${nestIndex}].requirements.[${k}].type.id`) !==1 ?<p style={{ fontSize: "12px" }}>{"шт"}</p>:<div>{"uzs"}</div>}
                     maxLength={11}
                     width={{
-                      minwidth: 130 ,maxwidth:130
+                      minwidth: 130 ,maxwidth:140
                     }}
                     field={field}
+                    error={!!errors.levels?.[nestIndex]?.requirements?.[k]?.amount}
                     inputStyle={{
                       inpadding: "10px 10px 5px 2px",
                       border: "none",
-                      borderbottom: "1px solid #606EEA",
+                      borderbottom:!!errors.levels?.[nestIndex]?.requirements?.[k]?.amount ? " 1px solid #FF5E68": "1px solid #606EEA",
                       bgcolor: "transparent",
-                      radius: 0,
+                      radius:!!errors.levels?.[nestIndex]?.requirements?.[k]?.amount ? 14: 0,
                       fitheight: true,
                     }}
                   />

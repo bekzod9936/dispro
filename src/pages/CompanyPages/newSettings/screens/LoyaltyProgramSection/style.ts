@@ -54,7 +54,7 @@ export const ContentVariant = styled.div`
   background: #f0f1fd;
   border-radius: 12px;
   max-width: 350px;
-  min-width:250px;
+  min-width:280px;
 
   padding: 20px;
   margin: 20px 30px 0px 0px;
@@ -79,7 +79,7 @@ export const ContentVariant = styled.div`
 `;
 export const RightSide = styled.div`
   display: flex;
-  margin: 10px 20px;
+  margin: 10px 10px 10px 20px;
   height: 100%;
   flex-grow: 1;
   flex-direction: column;
@@ -296,4 +296,14 @@ export const WrapModalPaygo = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+`;
+export const EText = styled.p`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 150%;
+  color: #223367;
+  margin-top: 40px;
+  text-align: center;
 `;
