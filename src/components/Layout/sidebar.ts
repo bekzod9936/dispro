@@ -30,7 +30,7 @@ const sidebar: any = [
   },
   {
     Icon: ConversationIcon,
-    text: "feedbackPage",
+    text: "feedback",
     path: "feedback/reviews",
     permission: [],
   },
@@ -90,7 +90,7 @@ export const useSideBar = () => {
   const sideMe: any = useCallback(() => {
     for (let i in permissions) {
       for (let j of sidebar) {
-        if (i === j.text) {
+        if (i.toLowerCase() === j.text.toLowerCase()) {
           j.permission = permissions[i];
         }
       }
