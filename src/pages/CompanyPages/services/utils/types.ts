@@ -151,7 +151,27 @@ export interface Modals {
 export type SectionModalsType = {
   subSection: boolean,
   editSection: boolean,
-  delete: boolean
+  delete: boolean,
+  move: boolean,
+  hide: boolean
 }
 
 export type ChangeAmountFormType = Pick<PostDtoType, 'isCountUnlimited' | 'count'>
+
+export type VariantAddingType = "append" | "remove" | "reset"
+
+export type sectionOptionType = {
+    label: string,
+    name: string,
+    value: number
+}
+
+export type moveSectionPostType = {
+    id: number,
+    parentId: number
+}
+
+export type hideSectionPostType = {
+    id: number,
+    action: boolean
+}

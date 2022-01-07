@@ -11,6 +11,8 @@ import { useGetSections } from "pages/CompanyPages/services/hooks";
 import { SUBSECTIONS_LIMIT } from "pages/CompanyPages/services/constants";
 import { getSubSectionsLength } from "pages/CompanyPages/services/helpers";
 import { LightToolTip } from "../../../Services/components/Radios/style";
+import { ISectionResponse } from "services/queries/servicesQueries/response.types";
+import { useHideSection } from "pages/CompanyPages/services/hooks/MainPageHooks";
 
 //other
 interface SectionPopoverProps {
@@ -18,6 +20,7 @@ interface SectionPopoverProps {
   isHiddenInMobile: boolean;
   onOpenModal: (arg: keyof SectionModalsType) => () => void;
   parentId?: number;
+  section: ISectionResponse | null;
 }
 
 export const SectionPopover: React.FC<SectionPopoverProps> = ({
@@ -25,6 +28,7 @@ export const SectionPopover: React.FC<SectionPopoverProps> = ({
   isHiddenInMobile,
   onOpenModal,
   parentId = 0,
+  section,
 }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLButtonElement>(null);
   const { t } = useTranslation();
@@ -40,6 +44,17 @@ export const SectionPopover: React.FC<SectionPopoverProps> = ({
   const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
     setAnchorEl(event.currentTarget);
+  };
+
+  const { mutate } = useHideSection();
+
+  const handleHide = () => {
+    if (isHiddenInMobile) {
+      mutate({ id: section?.id || 0, action: false });
+    } else {
+      console.log("avafvafv");
+      onOpenModal("hide")();
+    }
   };
 
   return (
@@ -81,10 +96,10 @@ export const SectionPopover: React.FC<SectionPopoverProps> = ({
               </MenuItem>
             </LightToolTip>
           ) : (
-            <MenuItem>{t("move")}</MenuItem>
+            <MenuItem onClick={onOpenModal("move")}>{t("move")}</MenuItem>
           )}
           <MenuItem onClick={onOpenModal("editSection")}>{t("edit")}</MenuItem>
-          <MenuItem>
+          <MenuItem onClick={handleHide}>
             {isHiddenInMobile ? t("showInMobile") : t("hideInMobile")}
           </MenuItem>
           <MenuItem onClick={onOpenModal("delete")} isDeleteButton>
