@@ -24,12 +24,11 @@ import {
   IconWord,
   WrapDesc,
 } from "./style";
-import useWindowWidth from "services/hooks/useWindowWidth";
 
 const Rewarding = () => {
   const { t } = useTranslation();
+  const ref: any = useRef(null);
   const { response, postReward, handleSave } = useReward();
-  const { width } = useWindowWidth();
   const [scroll, setScroll] = useState<any>({
     scrollHeight: 0,
     clientHeight: 0,
@@ -84,8 +83,6 @@ const Rewarding = () => {
     reset(newValues);
   }, [data]);
 
-  const ref: any = useRef(null);
-
   useEffect(() => {
     if (ref.current.scrollHeight !== scroll.scrollHeight) {
       setScroll({
@@ -94,8 +91,6 @@ const Rewarding = () => {
       });
     }
   });
-
-  console.log(scroll, "askdaksmdka");
 
   return (
     <Container isScroll={scroll.scrollHeight > scroll.clientHeight}>

@@ -35,12 +35,13 @@ const useSecurty = () => {
   );
 
   const handleSave = (e: IForm) => {
+    console.log(e, "sfjsdiof");
     const values: any = {
-      isEnabledPaySumLimit: e.data?.isEnabledPaySumLimit,
-      isEnabledPurchaseLimit: e.enablepurchase,
+      isEnabledPaySumLimit: e.data?.isEnabledPaySumLimit ?? false,
+      isEnabledPurchaseLimit: e.enablepurchase ?? false,
       safeties: {
         daily_purchase_limit: e.enablepurchase ? e.limit : "",
-        pay_sum_limit: e.data?.pay_sum_limit,
+        pay_sum_limit: e.data?.pay_sum_limit ?? "",
       },
     };
     putSecurity.mutate(values);
