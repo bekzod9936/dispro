@@ -455,6 +455,7 @@ const f = (array: any) => {
       ? true
       : false;
 
+  console.log('CheckPercentage',CheckPercentage)
   
  let isEmpty=disCount?.isActive ||cashBack?.isActive||bonusPoint?.isActive;
  let checkEmpty=isEmpty==false ||typePark;
@@ -822,7 +823,7 @@ const f = (array: any) => {
                           minwidth: 130 ,maxwidth:140
                         }}
                         field={field}
-                        error={!!errors.levels?.[index]?.amount}
+                        error={!!errors.levels?.[index]?.amount ||CheckPercentage}
                         inputStyle={{
                           inpadding: "10px 10px 5px 2px",
                           border: "none",
