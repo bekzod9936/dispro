@@ -52,13 +52,13 @@ export const Variant: React.FC<VariantProps> = ({
   }, [disabled]);
 
   //! alert, govno kod
-  useEffect(() => {
-    if (isVariantAdded === "append") {
-      setValue(`variants.${index}.name`, [{ data: "", lang: "(Рус)" }]);
-    } else if (isVariantAdded === "remove") {
-      setValue(`variants.${index}.name`, [{ data: "test", lang: "(Рус)" }]);
-    }
-  }, [isVariantAdded]);
+  // useEffect(() => {
+  //   if (isVariantAdded === "append") {
+  //     setValue(`variants.${index}.name`, [{ data: "", lang: "(Рус)" }]);
+  //   } else if (isVariantAdded === "remove" && !isFieldsMultiple) {
+  //     setValue(`variants.${index}.name`, [{ data: "test", lang: "(Рус)" }]);
+  //   }
+  // }, [isVariantAdded]);
 
   return (
     <Wrapper>

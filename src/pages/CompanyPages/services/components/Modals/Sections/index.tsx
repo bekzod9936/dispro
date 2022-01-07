@@ -61,11 +61,18 @@ export const SectionModal: React.FC<SectionModalProps> = ({
   const limit = SECTIONS_LIMIT - getLengthOfParentSections(data?.data);
   const fieldsLimit = limit - fields.length;
 
+  const handleClose = () => {
+    onClose();
+    form.reset({
+      sections: [{ title: "" }],
+    });
+  };
+
   const onSubmit = async (data: createSectionFormType) => {
     const sectionDtos = sectionsToSectionArray(data);
     mutate(sectionDtos, {
       onSettled: () => {
-        onClose();
+        handleClose();
       },
     });
   };
@@ -80,11 +87,6 @@ export const SectionModal: React.FC<SectionModalProps> = ({
     append({ title: "" });
     //scroll to bottom
     setIsAdded(true);
-  };
-
-  const handleClose = () => {
-    form.clearErrors();
-    onClose();
   };
 
   //if field was added, effect scrolls to the last field

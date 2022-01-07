@@ -14,6 +14,11 @@ import {
 
 //style
 import { CancelIcon, DeleteIcon, styles, Wrapper } from "./style";
+import {
+  useDeleteItem,
+  useDeleteSection,
+} from "pages/CompanyPages/services/hooks/MainPageHooks";
+import { ISectionResponse } from "services/queries/servicesQueries/response.types";
 
 interface DeleteModalProps {
   open: boolean;
@@ -21,6 +26,8 @@ interface DeleteModalProps {
   isSection?: boolean;
   onClose: () => void;
   isItem?: boolean;
+  id: number;
+  setCurrentSection?: (arg: null | ISectionResponse) => void;
 }
 
 export const DeleteModal: React.FC<DeleteModalProps> = ({
@@ -29,6 +36,8 @@ export const DeleteModal: React.FC<DeleteModalProps> = ({
   isSection,
   onClose,
   isItem,
+  id,
+  setCurrentSection,
 }) => {
   const { t } = useTranslation();
   const alertMessage = isItem
@@ -37,9 +46,26 @@ export const DeleteModal: React.FC<DeleteModalProps> = ({
     ? SECTION_DELETE_MODAL_CONTENT
     : SUBSECTION_DELETE_MODAL_CONTENT;
 
+  const { mutate: deleteSection } = useDeleteSection();
+  const { mutate: deleteItem } = useDeleteItem();
+
   const handleSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault();
-    console.log("submit");
+
+    if (isItem) {
+      deleteItem(id, {
+        onSettled() {
+          onClose();
+        },
+      });
+    } else {
+      deleteSection(id, {
+        onSettled() {
+          onClose();
+          setCurrentSection && setCurrentSection(null);
+        },
+      });
+    }
   };
 
   return (

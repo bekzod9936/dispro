@@ -82,7 +82,7 @@ const FilterHistory = ({
   const handleFilterSubmit = ({ startDate = "", endDate = "" }) => {
     setFilterValues({
       ...filterValues,
-      cashierStaffId: cashierStaffId?.value ? cashierStaffId?.value : "",
+      cashierStaffId: cashierStaffId?.value ?? "",
       storeId: storeId?.value ? storeId?.value : "",
       startDate: startDate,
       endDate: endDate,
@@ -118,22 +118,25 @@ const FilterHistory = ({
       </FilterButton>
     ) : null;
 
-  const filtercashier = cashierStaffId?.label ? (
-    <FilterButton
-      onClick={async () => {
-        await setFilterValues({
-          ...filterValues,
-          cashierStaffId: "",
-          page: 1,
-        });
-        await setCashierStaffId({});
-        await refetch();
-      }}
-    >
-      {`${t("cashier")}: `}
-      {cashierStaffId?.label}
-    </FilterButton>
-  ) : null;
+  const filtercashier =
+    filterValues.cashierStaffId !== "" &&
+    filterValues.cashierStaffId !== null &&
+    filterValues.cashierStaffId !== undefined ? (
+      <FilterButton
+        onClick={async () => {
+          await setFilterValues({
+            ...filterValues,
+            cashierStaffId: "",
+            page: 1,
+          });
+          await setCashierStaffId({});
+          await refetch();
+        }}
+      >
+        {`${t("cashier")}: `}
+        {cashierStaffId?.label}
+      </FilterButton>
+    ) : null;
 
   const filterstore = filterValues.storeId ? (
     <FilterButton
@@ -292,12 +295,19 @@ const FilterHistory = ({
             list={filterList}
           />
           {width >= 1000 ? (
-            <>
+            <div
+              style={{
+                gap: "10px",
+                display: "flex",
+                flexWrap: "wrap",
+                marginLeft: "10px",
+              }}
+            >
               {filterType}
               {filterselectvalue}
               {filtercashier}
               {filterstore}
-            </>
+            </div>
           ) : null}
         </WrapFilterValues>
         <Button

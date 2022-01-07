@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
 //packages
 import { useTranslation } from "react-i18next";
@@ -9,6 +9,8 @@ import { SubSectionModal } from "../Modals/SubSection";
 import { SectionPopover } from "../../screens/Main/components/SectionPopover";
 import { DeleteModal } from "../Modals/Delete";
 import { EditSectionModal } from "../Modals/Edit";
+import { MoveModal } from "../Modals/Move";
+import { HideModal } from "../Modals/Hide";
 
 //other
 import {
@@ -21,10 +23,10 @@ import { useGetSections } from "../../hooks";
 import { modalsDefaults } from "../../constants";
 import { ISectionResponse } from "services/queries/servicesQueries/response.types";
 import { SectionModalsType } from "../../utils/types";
+import { useScrollToCurrentSection } from "../../hooks/MainPageHooks";
 
 //style
-import { Item, ItemWrapper, Wrapper } from "./style";
-import { useScrollToCurrentSection } from "../../hooks/MainPageHooks";
+import { HideIcon, Item, ItemWrapper, Wrapper } from "./style";
 
 interface SectionsProps {
   currentSection: null | ISectionResponse;
@@ -81,6 +83,7 @@ export const Sections: React.FC<SectionsProps> = ({
       {parentSections.map((item) => (
         <ItemWrapper>
           <Item
+            isItemHidden={item.hideInMobile}
             onClick={handleClickOnSection(item)}
             isSelected={
               currentSection?.id === item.id ||
@@ -88,9 +91,11 @@ export const Sections: React.FC<SectionsProps> = ({
             }
           >
             <h4>{item.goodsSectionTranslates[0].translateName}</h4>
+            {item.hideInMobile && <HideIcon />}
             {(currentSection?.id === item.id ||
               isParentHasActiveChild(item, currentSection?.id)) && (
               <SectionPopover
+                section={currentSection}
                 onOpenModal={handleOpen}
                 isParent
                 isHiddenInMobile={item.hideInMobile}
@@ -102,15 +107,18 @@ export const Sections: React.FC<SectionsProps> = ({
             isChildHasActiveParent(item, currentSection?.id)) &&
             item.children.map((child) => (
               <Item
+                isItemHidden={child.hideInMobile}
                 onClick={handleClickOnSection(child)}
                 isSelected={currentSection?.id === child.id}
                 isChild
               >
                 <h4>{child.goodsSectionTranslates[0].translateName}</h4>
+                {child.hideInMobile && <HideIcon />}
                 {currentSection?.id === child.id && (
                   <SectionPopover
+                    section={currentSection}
                     onOpenModal={handleOpen}
-                    isHiddenInMobile={item.hideInMobile}
+                    isHiddenInMobile={child.hideInMobile}
                   />
                 )}
               </Item>
@@ -130,10 +138,24 @@ export const Sections: React.FC<SectionsProps> = ({
         parent={isSectionParent(data?.data, currentSection?.id)}
       />
       <DeleteModal
+        id={currentSection?.id || 0}
         isSection={currentSection?.parentId === 0}
         open={modals.delete}
         name={currentSectionName}
         onClose={handleClose("delete")}
+        setCurrentSection={setCurrentSection}
+      />
+      <MoveModal
+        id={currentSection?.id || 0}
+        onClose={handleClose("move")}
+        open={modals.move}
+      />
+      <HideModal
+        isSection={currentSection?.parentId === 0}
+        id={currentSection?.id || 0}
+        name={currentSection?.goodsSectionTranslates[0].translateName || ""}
+        open={modals.hide}
+        onClose={handleClose("hide")}
       />
     </Wrapper>
   );

@@ -1,21 +1,21 @@
-import { useState } from 'react';
-import { LoginPanel } from '../Loginpanel/index';
-import { Left, LeftBack } from 'assets/icons/LoginPage/LoginPageIcons';
-import Button from 'components/Custom/Buttons/Button';
-import LangSelect from 'components/LangSelect';
-import Grid from 'components/Custom/Grid';
-import { PARTNER } from 'services/interceptors/partner_interceptor/types';
-import { useTranslation } from 'react-i18next';
-import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
-import { useHistory, useRouteMatch } from 'react-router';
+import { useState } from "react";
+import { LoginPanel } from "../Loginpanel/index";
+import { Left, LeftBack } from "assets/icons/LoginPage/LoginPageIcons";
+import Button from "components/Custom/Buttons/Button";
+import LangSelect from "components/LangSelect";
+import Grid from "components/Custom/Grid";
+import { PARTNER } from "services/interceptors/partner_interceptor/types";
+import { useTranslation } from "react-i18next";
+import { useAppDispatch, useAppSelector } from "services/redux/hooks";
+import { useHistory, useRouteMatch } from "react-router";
 import {
   setProceedAuth,
   setBackAddCompany,
-} from 'services/redux/Slices/authSlice';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
-import SamWalton from 'assets/images/SamWalton.png';
-import jackMa from 'assets/images/JackMa.png';
-import logo from 'assets/images/logo.png';
+} from "services/redux/Slices/authSlice";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import SamWalton from "assets/images/SamWalton.png";
+import jackMa from "assets/images/JackMa.png";
+import logo from "assets/images/logo.png";
 import {
   Container,
   LeftSide,
@@ -30,7 +30,7 @@ import {
   WrapButton,
   WButton,
   WLogo,
-} from './style';
+} from "./style";
 
 const TestLoginpage = ({ children }: any) => {
   const { t } = useTranslation();
@@ -47,20 +47,20 @@ const TestLoginpage = ({ children }: any) => {
   const handleLogout = () => {
     localStorage.removeItem(PARTNER.ACCESS_TOKEN);
     localStorage.removeItem(PARTNER.REFRESH_TOKEN);
-    history.push('/');
+    history.push("/");
   };
 
   const handleBack = () => {
     if (backAddCompany) {
       dispatch(setBackAddCompany(false));
     } else {
-      if (match.path.includes('/partner/company')) {
+      if (match.path.includes("/partner/company")) {
         handleLogout();
       }
       if (proceedAuth) {
         dispatch(setProceedAuth(false));
       }
-      if (match.path.includes('/partner/registration')) {
+      if (match.path.includes("/partner/registration")) {
         handleLogout();
       }
     }
@@ -75,22 +75,22 @@ const TestLoginpage = ({ children }: any) => {
           <Img>
             <LazyLoadImage
               src={jackMa}
-              alt='JackMa'
-              width='100%'
-              height='100%'
-              effect='blur'
-              style={{ borderRadius: '50%' }}
+              alt="JackMa"
+              width="100%"
+              height="100%"
+              effect="blur"
+              style={{ borderRadius: "50%" }}
             />
           </Img>
-          <Text fontSize={25}>{t('JackMaWords')}</Text>
+          <Text fontSize={25}>{t("JackMaWords")}</Text>
           <TextWrap>
             <div>
-              <Text fontSize={18} weight='bold'>
-                &mdash; {t('JackMa')}
+              <Text fontSize={18} weight="bold">
+                &mdash; {t("JackMa")}
               </Text>
             </div>
             <div>
-              <Text weight='300'>{t('JackMaInfo')}</Text>
+              <Text weight="300">{t("JackMaInfo")}</Text>
             </div>
           </TextWrap>
         </Wrapper>
@@ -98,28 +98,28 @@ const TestLoginpage = ({ children }: any) => {
           <Img>
             <LazyLoadImage
               src={SamWalton}
-              alt='SamWalton'
-              width='100%'
-              height='100%'
-              effect='blur'
-              style={{ borderRadius: '50%' }}
+              alt="SamWalton"
+              width="100%"
+              height="100%"
+              effect="blur"
+              style={{ borderRadius: "50%" }}
             />
           </Img>
-          <Text fontSize={25}>{t('SamWaltonWords')}</Text>
+          <Text fontSize={25}>{t("SamWaltonWords")}</Text>
           <TextWrap>
             <div>
-              <Text fontSize={18} weight='bold'>
-                &mdash; {t('SamWalton')}
+              <Text fontSize={18} weight="bold">
+                &mdash; {t("SamWalton")}
               </Text>
             </div>
             <div>
-              <Text weight='300'>{t('SamWaltonInfo')}</Text>
+              <Text weight="300">{t("SamWaltonInfo")}</Text>
             </div>
           </TextWrap>
         </Wrapper>
       </LeftSide>
       <RightSide>
-        <Grid style={{ width: '100%' }}>
+        <Grid style={{ width: "100%" }}>
           <WrapSelect justify={accessToken ? true : false}>
             <WLogo>
               {accessToken !== null && (
@@ -131,13 +131,13 @@ const TestLoginpage = ({ children }: any) => {
                     <Button
                       onClick={handleBack}
                       buttonStyle={{
-                        color: '#223367',
-                        radius: '70px 14px 14px 14px',
+                        color: "#223367",
+                        radius: "70px 14px 14px 14px",
                         weight: 500,
-                        bgcolor: 'rgba(96, 110, 234, 0.1)',
+                        bgcolor: "rgba(96, 110, 234, 0.1)",
                       }}
                     >
-                      <Left /> {t('back')}
+                      <Left /> {t("back")}
                     </Button>
                   </WrapButton>
                 </>
@@ -146,13 +146,13 @@ const TestLoginpage = ({ children }: any) => {
                 <ImgLogo>
                   <LazyLoadImage
                     src={logo}
-                    alt='logo'
-                    width='100%'
-                    height='100%'
-                    effect='blur'
+                    alt="logo"
+                    width="100%"
+                    height="100%"
+                    effect="blur"
                   />
                 </ImgLogo>
-                {t('discount')}
+                {t("discount")}
               </Title>
             </WLogo>
             <LangSelect />

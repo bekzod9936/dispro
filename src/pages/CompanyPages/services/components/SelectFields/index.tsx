@@ -7,6 +7,7 @@ import MultiSelect from "components/Custom/MultiSelect";
 
 //other
 import { FormFieldTypes } from "pages/CompanyPages/services/utils/types";
+
 interface SelectFieldProps {
   icon: JSX.Element;
   isMulti?: boolean;

@@ -1,6 +1,19 @@
 import { ContentGroup, ContentVariant } from "../../../style";
 import { numberWith } from "services/utils";
 const Condition = ({ watch, index }: any) => {
+
+  let condition=watch(`levels.[${index}].type.label`);
+  let amount=watch(`levels.[${index}].amount`);
+  let conditionFirstValue=watch(`levels.[${index}].requirements[${0}].condition.value`);
+  let conditionFirstTypeValue=watch(`levels.[${index}].requirements[${0}].type.value`);
+  let conditionFirstTypeLabel=watch(`levels.[${index}].requirements[${0}].type.label`);
+  let conditionFirstTypeAmount=watch(`levels.[${index}].requirements[${0}].amount`);
+
+  let conditionSecondValue=watch(`levels.[${index}].requirements[${1}].condition.value`);
+  let conditionSecondTypeValue=watch(`levels.[${index}].requirements[${1}].type.value`);
+  let conditionSecondTypeLabel=watch(`levels.[${index}].requirements[${1}].type.label`);
+  let conditionSecondTypeAmount=watch(`levels.[${index}].requirements[${1}].amount`);
+
   return (
     <>
       {" "}
@@ -9,57 +22,57 @@ const Condition = ({ watch, index }: any) => {
           <ContentVariant>
             <h5>Условия статуса №1</h5>
             <p>
-              {watch(`levels.[${index}].type.label`) + ":"}
-              {numberWith(watch(`levels.[${index}].amount`), " ")}
+              {condition + ":"}
+              {numberWith(amount, " ")}
             </p>
-            {watch(`levels.[${index}].requirements[${0}].condition.value`) ==
+            {conditionFirstValue ==
               "и" &&
-              watch(`levels.[${index}].requirements[${0}].type.value`) && (
+              conditionFirstTypeValue && (
                 <p>
-                  {watch(`levels.[${index}].requirements[${0}].type.label`) +
+                  {conditionFirstTypeLabel +
                     ":"}
                   {numberWith(
-                    watch(`levels.[${index}].requirements[${0}].amount`),
+                    conditionFirstTypeAmount,
                     " "
                   )}
                 </p>
               )}
-            {watch(`levels.[${index}].requirements[${1}].condition.value`) ==
+            {conditionSecondValue ==
               "и" &&
-              watch(`levels.[${index}].requirements[${1}].type.value`) && (
+              conditionSecondTypeValue && (
                 <p>
-                  {watch(`levels.[${index}].requirements[${1}].type.label`) +
+                  {conditionSecondTypeLabel +
                     ":"}
                   {numberWith(
-                    watch(`levels.[${index}].requirements[${1}].amount`),
+                    conditionSecondTypeAmount,
                     " "
                   )}
                 </p>
               )}
           </ContentVariant>
 
-          {watch(`levels.[${index}].requirements[${0}].condition.value`) ==
+          {conditionFirstValue ==
             "или" ||
-          watch(`levels.[${index}].requirements[${1}].condition.value`) ==
+            conditionSecondValue ==
             "или" ? (
             <ContentVariant>
               <h5>Условия статуса №2</h5>
-              {watch(`levels.[${index}].requirements[${0}].type.label`) && (
+              {conditionFirstTypeLabel && (
                 <p>
-                  {watch(`levels.[${index}].requirements[${0}].type.label`) +
+                  {conditionFirstTypeLabel +
                     ":"}
                   {numberWith(
-                    watch(`levels.[${index}].requirements[${0}].amount`),
+                    conditionFirstTypeAmount,
                     " "
                   )}
                 </p>
               )}
-              {watch(`levels.[${index}].requirements[${1}].type.label`) && (
+              {conditionSecondTypeLabel && (
                 <p>
-                  {watch(`levels.[${index}].requirements[${1}].type.label`) +
+                  {conditionSecondTypeLabel +
                     ":"}
                   {numberWith(
-                    watch(`levels.[${index}].requirements[${1}].amount`),
+                    conditionSecondTypeAmount,
                     " "
                   )}
                 </p>

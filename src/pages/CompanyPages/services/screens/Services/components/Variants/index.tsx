@@ -8,7 +8,13 @@ import { SubButton } from "pages/CompanyPages/services/style";
 
 //style
 import { Buttons, Item, Wrapper } from "./style";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+//other
+import {
+  FormFieldTypes,
+  VariantAddingType,
+} from "pages/CompanyPages/services/utils/types";
 
 interface VariantsProps {
   disabled: boolean;
@@ -16,9 +22,9 @@ interface VariantsProps {
 
 export const Variants: React.FC<VariantsProps> = ({ disabled }) => {
   const { t } = useTranslation();
-  const [isVariantAdded, setIsVariantAdded] = useState<
-    "append" | "remove" | "reset"
-  >("reset");
+  const { setValue } = useFormContext<FormFieldTypes>();
+  const [isVariantAdded, setIsVariantAdded] =
+    useState<VariantAddingType>("reset");
 
   const { fields, append, remove } = useFieldArray({
     name: "variants",
@@ -39,6 +45,14 @@ export const Variants: React.FC<VariantsProps> = ({ disabled }) => {
     remove(index);
     setIsVariantAdded("remove");
   };
+
+  useEffect(() => {
+    if (fields.length === 1) {
+      setValue(`variants.0.name`, [{ data: "test", lang: "(Рус)" }]);
+    } else if (fields.length === 2 && isVariantAdded !== "reset") {
+      setValue(`variants.0.name`, [{ data: "", lang: "(Рус)" }]);
+    }
+  }, [fields]);
 
   return (
     <Wrapper>
