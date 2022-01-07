@@ -684,7 +684,7 @@
   "throughtheapp": "Через приложение",
   "choosetypepayment": "Выберите тип оплаты",
   "qrforpaymentplace": "QR-код для оплаты на местах",
-  "editqrcode": "Редактирование QR",
+  "editqrcode": "Редактирование QR-код",
   "changenameqrcode": "Вы можете поменять название, промокода",
   "wantdeleteqrcode": "Вы действительно хотите удалить QR-код?",
   "minvalue": "Минимальное значение: {{value}}",
