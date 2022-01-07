@@ -213,7 +213,7 @@ const Rewarding = () => {
                   }}
                 />
               </WrapSwitch>
-              <Text className="textswitch">{t("creditingofpoints")}</Text>
+              <Text className="textswitch">{t("birthdaytext")}</Text>
               {switch3 && (
                 <WrapDesc>
                   <div>
