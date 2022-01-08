@@ -28,7 +28,7 @@ export const LittlePlus = styled(Plus)`
   background: rgba(96, 110, 234, 0.1);
 `;
 export const Container = styled.div`
-  padding: 10px 0px;
+  padding: 10px 0px 30px 0px;
   display: flex;
   height: auto;
   overflow-y: hidden;
@@ -79,15 +79,15 @@ export const ContentVariant = styled.div`
 `;
 export const RightSide = styled.div`
   display: flex;
-  margin: 10px 10px 10px 20px;
+  /* margin: 0px 10px 20px 20px; */
   height: 100%;
   flex-grow: 1;
   flex-direction: column;
   justify-content: space-between;
-  background: #ffffff;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
+  /* background: #ffffff; */
+  /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04); */
   border-radius: 14px;
-  padding: 20px 40px 40px 40px;
+  padding: 0px 20px;
   height: 100%;
   overflow-y: auto;
   overflow-x:hidden;
@@ -102,10 +102,27 @@ export const RightSide = styled.div`
     border-radius: 14px 0px 0px 14px;
   }
 `;
+export const RightSideContent=styled.div`
+  display: flex;
+  margin: 0px 10px 0px 0px;
+  height: 100%;
+  flex-grow: 1;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #ffffff;
+  /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04); */
+  border-radius: 14px;
+
+  height: 100%;
+
+
+`
 export const LeftSide = styled.div`
-  padding: 10px 10px;
+  padding: 0px 10px;
   border-right: 3px solid rgba(96, 110, 234, 0.3);
   min-width: 400px;
+  width: 500px;
+  max-width: 700px;
   height: 100%;
 `;
 export const GroupToggle = styled.div`
@@ -142,7 +159,7 @@ export const Form = styled.form`
   flex-direction: column;
   justify-content: space-between;
   background: #ffffff;
-
+  padding: 10px 20px 10px 30px;
   border-radius: 14px;
 `;
 export const Title = styled.div`
@@ -165,7 +182,7 @@ export const Title = styled.div`
   }
 `;
 export const TitleForm = styled.div`
-  padding: 10px 0px;
+  padding: 10px 0px 12px 0px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -306,4 +323,11 @@ export const EText = styled.p`
   color: #223367;
   margin-top: 40px;
   text-align: center;
+`;
+
+export const IconWord = styled.div`
+  font-weight: bold;
+  font-size: 16px;
+  color: #c7c7c7;
+  padding-right: 20px;
 `;

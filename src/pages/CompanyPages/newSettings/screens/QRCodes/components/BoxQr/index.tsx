@@ -17,6 +17,7 @@ import { CancelButton } from "components/Custom/Buttons/Cancel";
 import { SaveButton } from "components/Custom/Buttons/Save";
 import { DeleteButton } from "components/Custom/Buttons/Delete";
 import Button from "components/Custom/Buttons/Button";
+import SnackBar from "components/Custom/NewSnack";
 import {
   ModalText,
   ModalWrap,
@@ -35,6 +36,7 @@ import {
 } from "./style";
 import useQrcode from "../../useQrcode";
 import { Controller, useForm } from "react-hook-form";
+
 interface Props {
   link?: string;
   name?: string;
@@ -66,6 +68,7 @@ const BoxQr = ({ link, name, id, branch }: Props) => {
 
   const [openEdit, setOpenEdit] = useState<boolean>(false);
   const [openDelete, setOpenDelete] = useState<boolean>(false);
+  const [openSnack, setOpenSnack] = useState<boolean>(false);
 
   const downloadQrCode = () => {
     const canvas = document.getElementById(
@@ -173,12 +176,25 @@ const BoxQr = ({ link, name, id, branch }: Props) => {
             </Button>
             <Button
               endIcon={<ChainIcon />}
-              onClick={() => copyToClipboard(link!)}
+              onClick={async () => {
+                await copyToClipboard(link!);
+                await setOpenSnack(true);
+                await setTimeout(() => {
+                  setOpenSnack(false);
+                }, 500);
+              }}
               buttonStyle={{ bgcolor: "#eff0fd", color: " #606EEA" }}
               margin={{ laptop: "0 30px 0 0" }}
             >
               {t("copyLink")}
             </Button>
+            <SnackBar
+              message={t("copylinksuccess")}
+              status="success"
+              open={openSnack}
+              anchorOrigin={{ vertical: "top", horizontal: "center" }}
+              iconclose={false}
+            />
           </WrapButtons>
         </BoxBody>
       </Box>
