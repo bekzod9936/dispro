@@ -45,7 +45,7 @@ export const useImage = () => {
         if (links.length === 0) {
             setLinks(images)
         }
-    }, [images])
+    }, [images.length])
 
     return {
         uploadImage, deleteImage, links, setLinks, errors
@@ -70,13 +70,16 @@ export const useSections = () => {
 
 }
 
-export const useCreateItem = () => {
+export const useCreateItem = (length: number) => {
 
-    return useForm<FormFieldTypes>({
+    const form = useForm<FormFieldTypes>({
         mode: "onChange",
         defaultValues: createItemDefaultFields,
         resolver: yupResolver(goodsSchema),
+        context: { length }
     });
+
+    return form
 }
 
 

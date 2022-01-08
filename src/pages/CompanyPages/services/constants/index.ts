@@ -2,7 +2,7 @@ export const createItemDefaultFields = {
     titles: [{ title: "", desc: "", lang: "(Рус)" }],
     variants: [
       {
-        name: [{ data: "test", lang: "(Рус)" }],
+        name: [{ data: "", lang: "(Рус)" }],
         amount: "",
         price: "",
         priceWithSale: "",

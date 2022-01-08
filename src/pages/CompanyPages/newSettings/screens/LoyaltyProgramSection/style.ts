@@ -204,7 +204,7 @@ export const TitleFormChild = styled.div`
   height: 100%;
 `;
 export const TitleInsideFormChild = styled.div`
-  padding: 10px 0px 10px 0px;
+  padding: 15px 0px 10px 0px;
   justify-content: flex-end;
   height: 100%;
   align-items: center;

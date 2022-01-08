@@ -7,18 +7,18 @@ import {
   MinusCoinsIcon,
   PointActionsIcon,
   UnBlockIcon,
-} from 'assets/icons/ClientsPageIcons/ClientIcons';
-import NavBar from 'components/Custom/NavBar';
-import Spinner from 'components/Helpers/Spinner';
-import { Suspense, useState, useEffect } from 'react';
-import { Route, Switch, useHistory, useParams } from 'react-router';
-import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
-import { useClientRoutes } from '../../routes';
-import { ClientBlock } from './components/ClientBlock';
-import clientDefault from 'assets/images/staff_default.png';
-import { InfoBlock } from './components/InfoBlock';
-import { Recommendation } from './components/Recommendations';
-import { StatsCard } from './components/StatsCard';
+} from "assets/icons/ClientsPageIcons/ClientIcons";
+import NavBar from "components/Custom/NavBar";
+import Spinner from "components/Helpers/Spinner";
+import { Suspense, useState, useEffect } from "react";
+import { Route, Switch, useHistory, useParams } from "react-router";
+import { useAppDispatch, useAppSelector } from "services/redux/hooks";
+import { useClientRoutes } from "../../routes";
+import { ClientBlock } from "./components/ClientBlock";
+import clientDefault from "assets/images/staff_default.png";
+import { InfoBlock } from "./components/InfoBlock";
+import { Recommendation } from "./components/Recommendations";
+import { StatsCard } from "./components/StatsCard";
 import {
   DownSide,
   Flex,
@@ -33,20 +33,20 @@ import {
   SpinnerWrapper,
   UpSide,
   Wrapper,
-} from './style';
-import { useWindowSize } from '../../hooks/useWindowSize';
-import { useTranslation } from 'react-i18next';
-import Button from 'components/Custom/Buttons/Button';
-import { DownModal } from './components/DownModal';
-import { selectAll, setCurrentClient } from 'services/redux/Slices/clients';
-import { useMutation, useQuery } from 'react-query';
-import { blockClient, fetchPersonalInfo } from 'services/queries/clientsQuery';
-import { BlockModal } from '../../components/BlockModal';
-import { VipModal } from '../../components/ClientsBar/components/VipModal';
-import Modal from 'components/Custom/Modal';
-import { getClientStatistics } from '../../utils/getSelectedFilters';
-import { MobileForm } from '../../components/Form';
-import { IconButton } from '@material-ui/core';
+} from "./style";
+import { useWindowSize } from "../../hooks/useWindowSize";
+import { useTranslation } from "react-i18next";
+import Button from "components/Custom/Buttons/Button";
+import { DownModal } from "./components/DownModal";
+import { selectAll, setCurrentClient } from "services/redux/Slices/clients";
+import { useMutation, useQuery } from "react-query";
+import { blockClient, fetchPersonalInfo } from "services/queries/clientsQuery";
+import { BlockModal } from "../../components/BlockModal";
+import { VipModal } from "../../components/ClientsBar/components/VipModal";
+import Modal from "components/Custom/Modal";
+import { getClientStatistics } from "../../utils/getSelectedFilters";
+import { MobileForm } from "../../components/Form";
+import { IconButton } from "@material-ui/core";
 
 interface IForm {
   open: boolean;
@@ -60,7 +60,7 @@ const Client = () => {
     disableSpecStatus,
   } = useAppSelector((state) => state.clients);
   const { id }: any = useParams();
-  const [clientId, clientUserId] = id?.toString()?.split('-');
+  const [clientId, clientUserId] = id?.toString()?.split("-");
   const client = currentClient?.clientInfo;
   const history = useHistory();
   const { routes } = useClientRoutes();
@@ -68,8 +68,8 @@ const Client = () => {
   const { t } = useTranslation();
   const [vipModal, setVipModal] = useState(false);
   const [vipModalState, setVipModalState] = useState<
-    'selecting' | 'updating' | 'removing'
-  >('selecting');
+    "selecting" | "updating" | "removing"
+  >("selecting");
   const [blockModal, setBlockModal] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [form, setForm] = useState<IForm>({
@@ -84,13 +84,13 @@ const Client = () => {
       ? client.addInfo.status
       : client?.obtainProgramLoyalty.levelName,
   };
-  const [modalContent, setModalContent] = useState<'points' | 'other'>(
-    'points'
+  const [modalContent, setModalContent] = useState<"points" | "other">(
+    "points"
   );
 
   const dispatch = useAppDispatch();
   const { refetch, isLoading } = useQuery(
-    ['fetch', note],
+    ["fetch", note],
     () =>
       fetchPersonalInfo({
         clientUserId,
@@ -111,7 +111,7 @@ const Client = () => {
 
   const handleClose = () => {
     dispatch(selectAll(false));
-    history.push('/clients');
+    history.push("/clients");
   };
 
   const handlePointsAction = (action: 1 | 2 | 3 | 4) => {
@@ -126,7 +126,7 @@ const Client = () => {
     if (client?.isPlBlocked) {
       mutate({
         isPlBlocked: false,
-        reason: '',
+        reason: "",
         clientId: client.id,
       });
       refetch();
@@ -135,7 +135,7 @@ const Client = () => {
     }
   };
 
-  const handleDownModal = (e: any, action: 'other' | 'points') => {
+  const handleDownModal = (e: any, action: "other" | "points") => {
     e.stopPropagation();
     setModalContent(action);
     setIsOpen(true);
@@ -161,18 +161,18 @@ const Client = () => {
               isBlocked: client?.isPlBlocked || false,
               name:
                 currentClient?.clientInfo.firstName +
-                ' ' +
+                " " +
                 currentClient?.clientInfo.lastName,
               prevPercent:
-                currentClient?.clientInfo?.obtainProgramLoyalty?.percent + '',
+                currentClient?.clientInfo?.obtainProgramLoyalty?.percent + "",
               prevStatus:
-                currentClient?.clientInfo?.obtainProgramLoyalty?.levelName + '',
+                currentClient?.clientInfo?.obtainProgramLoyalty?.levelName + "",
               status: currentClient?.clientInfo.personalLoyaltyInfo.isActive
-                ? currentClient?.clientInfo.addInfo.status + ''
-                : currentClient?.clientInfo.obtainProgramLoyalty.levelName + '',
+                ? currentClient?.clientInfo.addInfo.status + ""
+                : currentClient?.clientInfo.obtainProgramLoyalty.levelName + "",
               value: currentClient?.clientInfo.personalLoyaltyInfo.percent
-                ? currentClient?.clientInfo?.personalLoyaltyInfo?.percent + ''
-                : currentClient?.clientInfo.obtainProgramLoyalty.percent + '',
+                ? currentClient?.clientInfo?.personalLoyaltyInfo?.percent + ""
+                : currentClient?.clientInfo.obtainProgramLoyalty.percent + "",
             }}
             id={client?.id || 0}
             refetch={refetch}
@@ -238,9 +238,9 @@ const Client = () => {
             action={form.action}
             client={{
               isBlocked: client.isPlBlocked,
-              currentStatus: status + '',
+              currentStatus: status + "",
               id: client.id,
-              name: client.firstName + ' ' + client.lastName,
+              name: client.firstName + " " + client.lastName,
               points: client.addInfo.pointSum,
               percent: percent || 0,
               prevPercent: client.obtainProgramLoyalty.percent,
@@ -263,47 +263,47 @@ const Client = () => {
           <MNav>
             <IconButton onClick={handleClose}>
               <GoBackIcon
-                style={{ width: 10, height: 15, cursor: 'pointer' }}
+                style={{ width: 10, height: 15, cursor: "pointer" }}
               />
             </IconButton>
             <MClientInfo>
-              <div className='planshetHeader'>
+              <div className="planshetHeader">
                 {client?.image ? (
-                  <div className='image'>
+                  <div className="image">
                     <img
                       src={client.image}
                       onError={(e: any) => {
                         e.target.onerror = null;
                         e.target.src = clientDefault;
                       }}
-                      alt='imgAvatart'
+                      alt="imgAvatart"
                     />
                     {client.isPlBlocked && (
-                      <div className='block'>{<BlockIcon />}</div>
+                      <div className="block">{<BlockIcon />}</div>
                     )}
                   </div>
                 ) : (
                   <MDefaultImage>
                     {client?.isPlBlocked && (
-                      <div className='block'>{<BlockIcon />}</div>
+                      <div className="block">{<BlockIcon />}</div>
                     )}
                   </MDefaultImage>
                 )}
                 <div>
-                  <h6>{client?.firstName + ' ' + client?.lastName}</h6>
+                  <h6>{client?.firstName + " " + client?.lastName}</h6>
                   {width <= 1000 && width > 600 && (
-                    <span className='clientInfo'>
-                      {t(client?.genderTypeId === 1 ? 'man' : 'woman')}
+                    <span className="clientInfo">
+                      {t(client?.genderTypeId === 1 ? "man" : "woman")}
                       <b> </b>
-                      {t('status')}:{' '}
+                      {t("status")}:{" "}
                       {client?.isPlBlocked
-                        ? t('blocked')
+                        ? t("blocked")
                         : (client?.personalLoyaltyInfo.isActive
-                            ? 'Спец'
+                            ? "Спец"
                             : status) +
-                          ' ' +
+                          " " +
                           percent +
-                          ' %'}
+                          " %"}
                     </span>
                   )}
                 </div>
@@ -317,25 +317,25 @@ const Client = () => {
                       isBlocked: client?.isPlBlocked || false,
                       name:
                         currentClient?.clientInfo.firstName +
-                        ' ' +
+                        " " +
                         currentClient?.clientInfo.lastName,
                       prevPercent:
                         currentClient?.clientInfo?.obtainProgramLoyalty
-                          ?.percent + '',
+                          ?.percent + "",
                       prevStatus:
                         currentClient?.clientInfo?.obtainProgramLoyalty
-                          ?.levelName + '',
+                          ?.levelName + "",
                       status: currentClient?.clientInfo.personalLoyaltyInfo
                         .isActive
-                        ? currentClient?.clientInfo.addInfo.status + ''
+                        ? currentClient?.clientInfo.addInfo.status + ""
                         : currentClient?.clientInfo.obtainProgramLoyalty
-                            .levelName + '',
+                            .levelName + "",
                       value: currentClient?.clientInfo.personalLoyaltyInfo
                         .percent
                         ? currentClient?.clientInfo?.personalLoyaltyInfo
-                            ?.percent + ''
+                            ?.percent + ""
                         : currentClient?.clientInfo.obtainProgramLoyalty
-                            .percent + '',
+                            .percent + "",
                     }}
                     state={vipModalState}
                     handleClose={() => setVipModal(false)}
@@ -358,12 +358,12 @@ const Client = () => {
                       fontSize: {
                         planshet: 17,
                       },
-                      bgcolor: 'rgba(15, 207, 11, 0.1)',
-                      color: '#0FCF0B',
+                      bgcolor: "rgba(15, 207, 11, 0.1)",
+                      color: "#0FCF0B",
                       weight: 500,
                     }}
                   >
-                    {t('unBlocking')}
+                    {t("unBlocking")}
                   </Button>
                 ) : (
                   <Button
@@ -373,12 +373,12 @@ const Client = () => {
                       fontSize: {
                         planshet: 17,
                       },
-                      bgcolor: 'rgba(255, 94, 104, 0.1)',
-                      color: '#FF5E68',
+                      bgcolor: "rgba(255, 94, 104, 0.1)",
+                      color: "#FF5E68",
                       weight: 500,
                     }}
                   >
-                    {t('block')}
+                    {t("block")}
                   </Button>
                 )}
               </>
@@ -386,17 +386,17 @@ const Client = () => {
           </MNav>
           {!(width <= 1000 && width > 600) ? (
             <MAddInfo>
-              <p className='gender'>
-                {t(client?.genderTypeId === 1 ? 'man' : 'woman')}
+              <p className="gender">
+                {t(client?.genderTypeId === 1 ? "man" : "woman")}
               </p>
               <p>
-                {t('status')}:{' '}
+                {t("status")}:{" "}
                 {client?.isPlBlocked
-                  ? t('blocked')
-                  : (client?.personalLoyaltyInfo.isActive ? 'Спец' : status) +
-                    ' ' +
+                  ? t("blocked")
+                  : (client?.personalLoyaltyInfo.isActive ? "Спец" : status) +
+                    " " +
                     percent +
-                    ' %'}
+                    " %"}
               </p>
             </MAddInfo>
           ) : (
@@ -404,39 +404,39 @@ const Client = () => {
               <Button
                 endIcon={<CoinsIcon style={{ width: 20, height: 20 }} />}
                 buttonStyle={{
-                  bgcolor: 'rgba(96, 110, 234, 0.1)',
-                  color: '#606EEA',
+                  bgcolor: "rgba(96, 110, 234, 0.1)",
+                  color: "#606EEA",
                   weight: 500,
                   fontSize: {
                     planshet: 17,
                   },
                 }}
               >
-                {t('accurePoints')}
+                {t("accurePoints")}
               </Button>
               <Button
                 margin={{
-                  planshet: '0 15px',
+                  planshet: "0 15px",
                 }}
                 endIcon={<MinusCoinsIcon style={{ width: 20, height: 20 }} />}
                 buttonStyle={{
-                  bgcolor: 'rgba(96, 110, 234, 0.1)',
-                  color: '#606EEA',
+                  bgcolor: "rgba(96, 110, 234, 0.1)",
+                  color: "#606EEA",
                   weight: 500,
                   fontSize: {
                     planshet: 17,
                   },
                 }}
               >
-                {t('substractPoints')}
+                {t("substractPoints")}
               </Button>
               <Button
                 disabled={disableSpecStatus}
                 onClick={() => {
-                  let res: 'updating' | 'selecting' = client
+                  let res: "updating" | "selecting" = client
                     ?.personalLoyaltyInfo.isActive
-                    ? 'updating'
-                    : 'selecting';
+                    ? "updating"
+                    : "selecting";
                   setVipModalState(res);
                   setVipModal(true);
                 }}
@@ -446,38 +446,38 @@ const Client = () => {
                   ) : undefined
                 }
                 buttonStyle={{
-                  bgcolor: 'rgba(96, 110, 234, 0.1)',
-                  color: '#606EEA',
+                  bgcolor: "rgba(96, 110, 234, 0.1)",
+                  color: "#606EEA",
                   weight: 500,
                   fontSize: {
                     planshet: 17,
                   },
                 }}
               >
-                {t('changeStatus')}
+                {t("changeStatus")}
               </Button>
             </Flex>
           )}
           {width <= 600 && (
             <MButtons>
               <Button
-                onClick={(e) => handleDownModal(e, 'points')}
-                margin={{ mobile: '0 8px 0 0' }}
+                onClick={(e) => handleDownModal(e, "points")}
+                margin={{ mobile: "0 8px 0 0" }}
                 endIcon={<PointActionsIcon />}
                 buttonStyle={{
-                  weight: '500',
-                  bgcolor: 'rgba(96, 110, 234, 0.1)',
-                  color: '#606EEA',
+                  weight: "500",
+                  bgcolor: "rgba(96, 110, 234, 0.1)",
+                  color: "#606EEA",
                 }}
               >
                 Действия с баллами
               </Button>
               <Button
-                onClick={(e) => handleDownModal(e, 'other')}
+                onClick={(e) => handleDownModal(e, "other")}
                 buttonStyle={{
-                  bgcolor: '#fff',
-                  color: '#606EEA',
-                  weight: '500',
+                  bgcolor: "#fff",
+                  color: "#606EEA",
+                  weight: "500",
                 }}
                 endIcon={<DownIcon />}
               >

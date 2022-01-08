@@ -26,12 +26,13 @@ export const UpSide = styled.div`
     width: 100%;
     height: 100%;
     align-items: center;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     margin-bottom: 15px;
     .imageBlock {
         position: relative;
         width: 100px;
         height: 100px;
+        margin-right: 20px;
         img {
             width: 100px;
             height: 100px;
@@ -112,4 +113,9 @@ export const StyledToolTip = styled(Tooltip)`
 
 export const MIconButton = styled(IconButton)`
   border-radius: 8px;
+  svg {
+      path {
+          fill: ${({disabled}: any) => disabled ? "#C7C7C7" : ""}
+      }
+  }
 `

@@ -26,7 +26,7 @@ export const useGetItemById = () => {
 }
 
 
-export const useEditItem = () => {
+export const useEditItem = (length: number) => {
     const [state, dispatch] = useReducer(reducer, initialState);
 
     const categoryList = useCategories()
@@ -38,7 +38,8 @@ export const useEditItem = () => {
     const form = useForm<FormFieldTypes>({
         mode: 'onChange',
         resolver: yupResolver(goodsSchema),
-        defaultValues: createItemDefaultFields
+        defaultValues: createItemDefaultFields,
+        context: { length }
     })
 
     useEffect(() => {

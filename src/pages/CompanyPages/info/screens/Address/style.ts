@@ -89,7 +89,7 @@ export const Container = styled.div`
   display: flex;
   justify-content: space-between;
   @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
-    padding: 0 20px;
+    padding-left: 20px;
   }
 `;
 
@@ -106,7 +106,9 @@ export const Form = styled.form`
     padding: 0;
     box-shadow: none;
     border-radius: 0;
+    height: calc(100% - 65px) !important;
   }
+
   @media (max-width: ${device.mobile}) {
     width: 100%;
     padding: 0 0 65px 0;
@@ -175,6 +177,21 @@ export const Rightside = styled.div`
   background-color: white;
   @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
     background-color: transparent;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 20px;
+    height: calc(100% - 65px);
+    ::-webkit-scrollbar {
+      width: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #606eea;
+      border-radius: 14px 0px 0px 14px;
+    }
   }
   @media (max-width: ${device.mobile}) {
     display: none;
@@ -220,6 +237,9 @@ export const WrapClose = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    padding: 0 0 20px 10%;
+  }
   @media (max-width: ${device.mobile}) {
     display: none;
   }
@@ -432,7 +452,6 @@ export const DownSide = styled.div`
   @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
     display: flex;
     background-color: white;
-    min-height: 65px;
     border-top: 1px solid rgba(96, 110, 234, 0.3);
     position: fixed;
     bottom: 0;
@@ -441,13 +460,12 @@ export const DownSide = styled.div`
     & > div {
       display: flex;
       width: 100%;
-      align-items: center;
       height: 100%;
+      align-items: center;
       justify-content: center;
-      grid-gap: 10px;
+      gap: 10px;
       overflow: hidden !important;
       min-height: 65px;
-      padding: 0 15px;
     }
   }
   @media (max-width: ${device.mobile}) {
