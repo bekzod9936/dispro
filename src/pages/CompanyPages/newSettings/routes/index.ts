@@ -8,12 +8,12 @@ const LoyaltyProgramSection = lazy(
 const QRCodesSection = lazy(() => import('../screens/QRCodes'));
 // const ReferalProgramSection = lazy(() => import('../screens/Referal'));
 const SecuritySection = lazy(() => import('../screens/Security'));
-// const ReferalProgrammSection = lazy(
-//   () => import('../screens/ReferalProgrammSection/ReferalProgrammSection')
-// );
 const ReferalProgrammSection = lazy(
-  () => import('../../settings/screens/ReferalProgrammSection/ReferalProgrammSection')
+  () => import('../screens/ReferalProgrammSection/ReferalProgrammSection')
 );
+// const ReferalProgrammSection = lazy(
+//   () => import('../../settings/screens/ReferalProgrammSection/ReferalProgrammSection')
+// );
 export interface ISettingsRow {
   path: string;
   text: string;

@@ -59,8 +59,10 @@ import {
   Container,
   LeftSide,
   RightSide,
+  RightSideContent,
   WrapSpinner,
   EText,
+  IconWord,
   WrapModalPaygo,
 } from "../../style";
 
@@ -127,9 +129,9 @@ const Right = () => {
   const [localyPaymentsecond, setLocalPaymentSecond] = useState(programSettingsUsePoint);
 
   console.log('typePark',typePark)
-  console.log('discounts',disCount?.isActive)
-  console.log('cashback',cashBack?.isActive)
-  console.log('points',bonusPoint?.isActive)
+  
+  console.log('cashback2',cashback)
+ 
  
   const methods = useForm({
     mode: "onChange",
@@ -217,7 +219,6 @@ const handleChangePark=(e:any)=>{
   })
 }
 
-
 const handleSwitchPush=()=>{
   let modifyLoyal = modified === '1' ? false : true;
   loayalityChange.mutate({
@@ -286,7 +287,7 @@ const loyalityPut = useMutation(
       responseDiscount.refetch();
       responseCashback.refetch();
       responseProgramSettings.refetch();
-      notifySuccess(t('save'));
+      notifySuccess(t('Данные успешно сохранены'));
     },
   }
 );
@@ -372,7 +373,7 @@ const f = (array: any) => {
  let newarray={amount:'',type:{value:''}}
 
   const FormSettings =async (data: any) => {
-  
+  console.log('datadata',data)
     let checking=!localyPaymentfirst ?'yes':'no';
     let checking2=!localyPaymentsecond ? 'yes':'no';
     let globalChecking=checking=='yes' && checking2=='yes';
@@ -384,7 +385,7 @@ const f = (array: any) => {
       }
       let arraynew=[newarray]
       let requirements=[...arraynew,item.requirements[0],item.requirements[1]].filter((item:any)=> item !==undefined);
-
+       
       if(requirements.length>0){
         return {
           name: item.name,
@@ -393,7 +394,7 @@ const f = (array: any) => {
             return {
               type:reqItem?.type?.value=='Рекомендации' ? 2:reqItem?.type?.value=='Посещения' ? 3 :reqItem?.type?.value=='Сумма покупок' ? 1:0 ,
               amount: Number(reqItem?.amount),
-              unit: reqItem?.type=='Сумма покупок' ? "UZS":"шт.",
+              unit: reqItem?.type.value=='Сумма покупок' ? "UZS":"шт.",
               condition: reqItem?.condition?.value=='или' ? 'or':reqItem?.condition?.value=='и' ?'and':'',
             };
           }),
@@ -410,7 +411,7 @@ const f = (array: any) => {
             usePoint: localyPaymentsecond ? true:false,
           });
           loyalityPut.mutate({
-            cashbackReturnedDay:data?.cashbackReturnedDay ? Number(data.cashbackReturnedDay):'',
+            cashbackReturnedDay:data?.cashbackReturnedDay ? Number(data?.cashbackReturnedDay):'',
             description: '',
             isActive: true,
             companyId: parseInt(companyId),
@@ -438,7 +439,10 @@ const f = (array: any) => {
       setValue('maxAmount', defaultValue?.maxAmount);
       setValue('name', defaultValue?.name);
       setValue('percent', defaultValue?.percent);
-      setValue('cashbackReturnedDay',defaultValue?.cashbackReturnedDay);
+      if(defaultValue?.cashbackReturnedDay){
+        setValue('cashbackReturnedDay',defaultValue?.cashbackReturnedDay);
+      }
+
     }
  
     if(convertedValue?.length>0){
@@ -451,19 +455,15 @@ const f = (array: any) => {
 
   let CheckPercentage =
     Number(watch(`levels.${0}.percent`)) &&
-    Number(watch("base_percent")) >= Number(watch(`levels.${0}.percent`))
+    Number(watch("percent")) >= Number(watch(`levels.${0}.percent`))
       ? true
       : false;
 
-  console.log('CheckPercentage',CheckPercentage)
+
   
  let isEmpty=disCount?.isActive ||cashBack?.isActive||bonusPoint?.isActive;
  let checkEmpty=isEmpty==false ||typePark;
  
- console.log('isEmpty',isEmpty==false);
- console.log('typePark',typePark);
-
- console.log('checkEmpty',checkEmpty);
 
   return (
     <Container>
@@ -612,6 +612,7 @@ const f = (array: any) => {
             </Grid>
           ):
     <RightSide>
+        <RightSideContent>
     { isFetching ? (
             <WrapSpinner>
               <Spinner />
@@ -626,7 +627,6 @@ const f = (array: any) => {
         <Controller
           name={`name`}
           control={control}
-          // defaultValue={}
           rules={{ required: true }}
           render={({ field }) => (
             <Input
@@ -638,15 +638,14 @@ const f = (array: any) => {
               margin={{ laptop: "0px 20px 0px 0px" }}
               field={field}
               error={!!errors.name}
-              // message={t("requiredField")}
+              message={t("requiredField")}
             />
           )}
         />
         <Controller
           name={`percent`}
-          
           control={control}
-          rules={{ required: true }}
+          rules={{ required: true,min:1 }}
           render={({ field }) => (
             <InputFormat
               autoComplete={"off"}
@@ -654,6 +653,7 @@ const f = (array: any) => {
               type="string"
               field={field}
               maxLength={3}
+              
               max="100"
               width={{
                 width: "106px",
@@ -666,8 +666,8 @@ const f = (array: any) => {
                   <PercentIcon />
                 </PercentDiv>
               }
-              // message={t("requiredField")}
-              error={!!errors.base_percent}
+              message={t("requiredField")}
+              error={!!errors.percent}
             />
           )}
         />
@@ -698,6 +698,7 @@ const f = (array: any) => {
                       margin={{ laptop: "0px 20px 0px 0px" }}
                       field={field}
                       error={!!errors.levels?.[index]?.name}
+                      message={t("requiredField")}
                     />
                   )}
                 />
@@ -726,7 +727,7 @@ const f = (array: any) => {
                       }}
                       // message={t("requiredField")}
                       error={
-                        !!errors.levels?.[index]?.percent 
+                        !!errors.levels?.[index]?.percent ||CheckPercentage
                         // CheckPercentage ||
                         // Number(
                         //   watch(`levels[${Number(index - 1)}].percent`)
@@ -813,9 +814,9 @@ const f = (array: any) => {
                         variant="standard"
                         IconEnd={
                           watch(`levels[${index}].type.id`) == 1 ? (
-                            <div>{"uzs"}</div>
+                            watch(`levels[${index}].type`)&&  <div>{"uzs"}</div>
                           ) : (
-                            <p style={{ fontSize: "12px" }}>{"шт"}</p>
+                            watch(`levels[${index}].type`)&& <p style={{ fontSize: "12px" }}>{"шт"}</p>
                           )
                         }
                         maxLength={11}
@@ -823,7 +824,7 @@ const f = (array: any) => {
                           minwidth: 130 ,maxwidth:140
                         }}
                         field={field}
-                        error={!!errors.levels?.[index]?.amount ||CheckPercentage}
+                        error={!!errors.levels?.[index]?.amount }
                         inputStyle={{
                           inpadding: "10px 10px 5px 2px",
                           border: "none",
@@ -860,37 +861,41 @@ const f = (array: any) => {
           name={`maxAmount`}
           rules={{
             required: true,
+            min:1,
           }}
           control={control}
           render={({ field }) => (
-            <Input
+            <InputFormat
               label={t("Какой процент счета можно оплатить баллами?")}
-              type="string"
+              type='tel'
               autoComplete={"off"}
               width={width>1550 ? { maxwidth:500, minwidth: 300}:{ maxwidth:350, minwidth: 300}}
               margin={{ laptop: "0px 20px 0px 0px" }}
               field={field}
               error={errors.maxAmount}
-              // message={t("requiredField")}
+              message={t("requiredField")}
             />
           )}
         />
       </TitleForm>
-      {cashback&&<TitleForm>
+      {cashback && <TitleForm>
                             <Controller
                               name='cashbackReturnedDay'
                               control={control}
                               rules={{
-                                required: modalcashback ? true:false,
+                                required: cashBack?.isActive,
+                                min: cashBack?.isActive ? 1:0
                               }}
                               // defaultValue={give_cashback_after}
                               render={({ field }) => {
                                 return (
                                   <InputFormat
                                     field={field}
+                     
                                     label={t('give_cashback_after')}
                                     width={width>1550 ? { maxwidth:500, minwidth: 300}:{ maxwidth:350, minwidth: 300}}
                                     margin={{ laptop: "0px 20px 0px 0px" }}
+                                    IconEnd={<IconWord>{t('дней')}</IconWord>}
                                     // defaultValue={
                                     //   base_loyality?.give_cashback_after
                                     // }
@@ -898,7 +903,7 @@ const f = (array: any) => {
                                     //   errors.cashbackReturnedDay?.type ===
                                     //   'required'
                                     // }
-                                    error={errors.cashbackReturnedDay}
+                                    error={!!errors.cashbackReturnedDay }
                                     message={t('requiredField')}
                                   />
                                 );
@@ -926,6 +931,7 @@ const f = (array: any) => {
       </LocalyPayment>
     </Form>
 }
+</RightSideContent>
     </RightSide>}
     
   </Container>

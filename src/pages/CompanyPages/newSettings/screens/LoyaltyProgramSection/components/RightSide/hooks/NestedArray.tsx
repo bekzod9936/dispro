@@ -87,7 +87,7 @@ const NestedArray = ({
                   <MultiSelect
                     isMulti={false}
                     options={
-                     thirdconditionFilter
+                      watch(`levels.[${nestIndex}].requirements.[${k}].condition.value`)=='или' ? thirdconditionFilter.filter((item)=>item.value=='Посещения'):thirdconditionFilter
                     }
                 
                     width={{ minwidth: 170,width:'fit-content',maxwidth:200 }}
@@ -122,7 +122,7 @@ const NestedArray = ({
                     defaultValue={''}
                     autoComplete={"off"}
                     variant="standard"
-                    IconEnd={watch(`levels.[${nestIndex}].requirements.[${k}].type.id`) !==1 ?<p style={{ fontSize: "12px" }}>{"шт"}</p>:<div>{"uzs"}</div>}
+                    IconEnd={watch(`levels.[${nestIndex}].requirements.[${k}].type.id`) !==1 ? watch(`levels.[${nestIndex}].requirements.[${k}].type`) && <p style={{ fontSize: "12px" }}>{"шт"}</p>:watch(`levels.[${nestIndex}].requirements.[${k}].type`) &&<div>{"uzs"}</div>}
                     maxLength={11}
                     width={{
                       minwidth: 130 ,maxwidth:140

@@ -22,7 +22,7 @@ export const SmallPanel = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 10px;
+  margin-bottom: 10px;
 `;
 
 export const SettingsWrapper = styled.div`
@@ -46,7 +46,7 @@ export const ReferalScroll = styled.div`
   scroll-behavior: auto;
 
   ::-webkit-scrollbar {
-    width: 7px;
+    width: 2px;
   }
   ::-webkit-scrollbar-track {
     background-color: transparent;
@@ -54,6 +54,6 @@ export const ReferalScroll = styled.div`
 
   ::-webkit-scrollbar-thumb {
     background: #606eea;
-    border-radius: 14px 0px 0px 14px;
+    border-radius: 2px 0px 0px 2px;
   }
 `;
