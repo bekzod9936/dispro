@@ -34,7 +34,7 @@ const Notifications = () => {
       </Title>
       {response.isLoading || response.isFetching ? (
         <Spinner />
-      ) : data.length > 0 ? (
+      ) : 0 > 0 ? (
         <Wrap>
           <WrapperCard>
             {data.map((v: any) => {

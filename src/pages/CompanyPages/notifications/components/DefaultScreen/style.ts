@@ -23,6 +23,11 @@ export const WrapDefault = styled.div`
     color: #223367;
     text-align: center;
   }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    & > span {
+      width: 70%;
+    }
+  }
   @media (max-width: ${device.mobile}) {
     & > img {
       width: 50%;
