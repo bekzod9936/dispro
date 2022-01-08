@@ -30,7 +30,7 @@ export const SideImgWrap = styled.div`
     height: 300px;
   }
   @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
-    height: 380px;
+    height: 400px;
   }
   @media (max-width: ${device.mobile}) {
     height: 180px;

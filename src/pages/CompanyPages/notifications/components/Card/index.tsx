@@ -38,6 +38,10 @@ const Card = ({ onClick = () => {}, value, state }: Props) => {
             userSelect: "none",
           }}
           effect="blur"
+          onError={(e: any) => {
+            e.target.onerror = null;
+            e.target.src = notificationDef;
+          }}
         />
       </CardImg>
       <CardBody open={state.open && id === state.id}>

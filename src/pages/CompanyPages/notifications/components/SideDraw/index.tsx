@@ -48,6 +48,10 @@ const SideDraw = ({ value, onClick = () => {} }: Props) => {
             objectFit: "fill",
             userSelect: "none",
           }}
+          onError={(e: any) => {
+            e.target.onerror = null;
+            e.target.src = notificationDef;
+          }}
         />
       </SideImgWrap>
       <WrapScroll>
