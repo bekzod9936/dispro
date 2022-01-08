@@ -34,7 +34,9 @@ const Notifications = () => {
       </Title>
       {response.isLoading || response.isFetching ? (
         <Spinner />
-      ) : 0 > 0 ? (
+      ) : data.length === 0 ? (
+        <DefaultScreen />
+      ) : (
         <Wrap>
           <WrapperCard>
             {data.map((v: any) => {
@@ -66,8 +68,6 @@ const Notifications = () => {
             />
           </WrapPag>
         </Wrap>
-      ) : (
-        <DefaultScreen />
       )}
       <SideContent
         onClick={() => onClick({ value: {}, open: false })}
