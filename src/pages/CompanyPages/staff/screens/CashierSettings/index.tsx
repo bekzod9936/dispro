@@ -61,7 +61,7 @@ const CashierSetting = () => {
 						{
 							requirements: [
 								{
-									type: 1,
+									type: 3,
 									amount:
 										data.summaOperations?.toString()?.split(' ').join('') || 0,
 									unit: 'UZS',
