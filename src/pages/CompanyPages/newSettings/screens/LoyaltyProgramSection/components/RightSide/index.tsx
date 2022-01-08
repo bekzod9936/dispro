@@ -723,7 +723,7 @@ const f = (array: any) => {
                         width: "106px",
                       }}
                       margin={{
-                        laptop: "25px 0 0",
+                        laptop: "25px 0 10px 0px",
                       }}
                       // message={t("requiredField")}
                       error={
