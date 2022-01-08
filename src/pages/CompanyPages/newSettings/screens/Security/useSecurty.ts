@@ -1,7 +1,7 @@
 import { useQuery, useMutation } from "react-query";
 import { useAppDispatch } from "services/redux/hooks";
 import { setSecurty } from "services/redux/Slices/setting";
-import { notify } from "services/utils/local_notification";
+import { notifySuccess } from "services/utils/local_notification";
 import { useTranslation } from "react-i18next";
 import {
   fetchSecurity,
@@ -29,13 +29,12 @@ const useSecurty = () => {
     {
       onSuccess: () => {
         response.refetch();
-        notify(t("saved"));
+        notifySuccess(t("saved"));
       },
     }
   );
 
   const handleSave = (e: IForm) => {
-    console.log(e, "sfjsdiof");
     const values: any = {
       isEnabledPaySumLimit: e.data?.isEnabledPaySumLimit ?? false,
       isEnabledPurchaseLimit: e.enablepurchase ?? false,

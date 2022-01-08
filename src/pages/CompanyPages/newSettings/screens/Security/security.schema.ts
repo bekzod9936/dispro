@@ -18,6 +18,7 @@ export const securitySchema = yup.object().shape({
       is: true,
       then: yup
         .number()
+        .typeError("typenumber")
         .min(1, "minvalue")
         .nullable(true)
         .transform((parsedValue, originalValue) =>

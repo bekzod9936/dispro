@@ -1,10 +1,10 @@
-import styled from 'styled-components';
-import { device } from 'styles/device';
-import { ReactComponent as Plus } from 'assets/icons/IconsInfo/plus.svg';
-import { ReactComponent as Search } from 'assets/icons/SideBar/search.svg';
-import { ReactComponent as Close } from 'assets/icons/IconsInfo/close.svg';
-import { ReactComponent as Delete } from 'assets/icons/IconsInfo/deleteword.svg';
-import { ReactComponent as LeftBack } from 'assets/icons/FinanceIcons/leftback.svg';
+import styled from "styled-components";
+import { device } from "styles/device";
+import { ReactComponent as Plus } from "assets/icons/IconsInfo/plus.svg";
+import { ReactComponent as Search } from "assets/icons/SideBar/search.svg";
+import { ReactComponent as Close } from "assets/icons/IconsInfo/close.svg";
+import { ReactComponent as Delete } from "assets/icons/IconsInfo/deleteword.svg";
+import { ReactComponent as LeftBack } from "assets/icons/FinanceIcons/leftback.svg";
 
 interface Props {
   visable?: boolean;
@@ -33,7 +33,7 @@ export const Ul = styled.ul`
   width: 100%;
   border-radius: 10px;
   border: 1px solid lightgray;
-  display: ${({ visable }: Props) => (visable ? 'block' : 'none')};
+  display: ${({ visable }: Props) => (visable ? "block" : "none")};
 `;
 
 export const Li = styled.li`
@@ -102,6 +102,11 @@ export const Form = styled.form`
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    padding: 0;
+    box-shadow: none;
+    border-radius: 0;
+  }
   @media (max-width: ${device.mobile}) {
     width: 100%;
     padding: 0 0 65px 0;
@@ -168,6 +173,9 @@ export const Rightside = styled.div`
   height: 95%;
   border-radius: 14px !important;
   background-color: white;
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    background-color: transparent;
+  }
   @media (max-width: ${device.mobile}) {
     display: none;
   }
@@ -182,10 +190,13 @@ export const YandexContainer = styled.div`
   height: 100%;
   border-radius: 14px;
   border: ${({ bcolor }: YProps) =>
-    bcolor ? '2px solid #FF5E68' : '1px solid #c4c4c4'};
+    bcolor ? "2px solid #FF5E68" : "1px solid #c4c4c4"};
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.04));
   overflow: hidden;
   position: relative;
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    height: 50%;
+  }
 `;
 
 export const MobileMap = styled.div`
@@ -364,14 +375,8 @@ export const AddWrap = styled.div`
 
 export const ButtonsWrap = styled.div`
   display: flex;
-
   background-color: white;
-  @media (max-width: ${device.mobile}) {
-    align-items: center;
-    justify-content: center;
-    border-top: 1px solid rgba(96, 110, 234, 0.3);
-    margin-top: 20px;
-    max-height: 65px;
+  @media (max-width: ${device.planshet}) {
     display: none;
   }
 `;
@@ -424,6 +429,27 @@ export const Message = styled.div`
 
 export const DownSide = styled.div`
   display: none;
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    display: flex;
+    background-color: white;
+    min-height: 65px;
+    border-top: 1px solid rgba(96, 110, 234, 0.3);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    & > div {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      height: 100%;
+      justify-content: center;
+      grid-gap: 10px;
+      overflow: hidden !important;
+      min-height: 65px;
+      padding: 0 15px;
+    }
+  }
   @media (max-width: ${device.mobile}) {
     display: flex;
     background-color: white;
@@ -484,5 +510,20 @@ export const PlanshetHeader = styled.div`
   @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
     display: flex;
     padding: 0 20px 20px 20px;
+  }
+`;
+
+export const PlanshetWrapWorking = styled.div`
+  @media (max-width: ${device.mobile}) {
+    display: none;
+  }
+  @media (min-width: ${device.planshet}) {
+    display: none;
+  }
+`;
+
+export const WrapWorking = styled.div`
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    display: none;
   }
 `;
