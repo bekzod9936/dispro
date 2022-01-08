@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../store";
 interface partnerState {
   currentPage: string;
   company: object;
@@ -14,6 +15,7 @@ interface partnerState {
     telNumber: string;
     links: { address: string; enable: boolean; name: string; id: number }[];
     categories?: any;
+    staffId: number
   };
 }
 const initialState: partnerState = {
@@ -31,6 +33,7 @@ const initialState: partnerState = {
     telNumber: "",
     links: [{ address: "", enable: false, name: "", id: 0 }],
     categories: [1, 2],
+    staffId: 0
   },
 };
 
@@ -53,3 +56,5 @@ const partnerSlice = createSlice({
 export const { setCurrentPage, setCompany, setCompanyInfo } =
   partnerSlice.actions;
 export default partnerSlice.reducer;
+
+export const staffIdSelector = (state: RootState) => state.partner.companyInfo.staffId

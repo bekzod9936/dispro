@@ -26,6 +26,7 @@ import { DownBarViewer } from "../../components/DownBarViewer";
 import { MobileForm } from "../../components/Form";
 import { setAllClientsData } from "services/redux/Slices/clients";
 import Modal from "components/Custom/Modal";
+import { usePermissions } from "services/hooks/usePermissions";
 export interface IMobileForm {
   open: boolean;
   action: 1 | 2 | 3;
