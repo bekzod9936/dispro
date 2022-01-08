@@ -30,6 +30,7 @@ export const rewardingSchema = yup.object().shape({
       is: true,
       then: yup
         .number()
+        .typeError("minvalue")
         .min(1000, "minvalue")
         .nullable(true)
         .transform((parsedValue, originalValue) =>
@@ -49,6 +50,7 @@ export const rewardingSchema = yup.object().shape({
       is: true,
       then: yup
         .number()
+        .typeError("minvalue")
         .min(1000, "minvalue")
         .nullable(true)
         .transform((parsedValue, originalValue) =>
@@ -66,6 +68,7 @@ export const rewardingSchema = yup.object().shape({
       is: true,
       then: yup
         .number()
+        .typeError("minvalue")
         .min(1, "minvalue")
         .nullable(true)
         .transform((parsedValue, originalValue) =>
@@ -84,6 +87,7 @@ export const rewardingSchema = yup.object().shape({
       is: true,
       then: yup
         .number()
+        .typeError("minvalue")
         .min(1000, "minvalue")
         .nullable(true)
         .transform((parsedValue, originalValue) =>
@@ -135,6 +139,7 @@ export const rewardingSchema = yup.object().shape({
       is: true,
       then: yup
         .number()
+        .typeError("minvalue")
         .min(1000, "minvalue")
         .nullable(true)
         .transform((parsedValue, originalValue) =>
@@ -152,6 +157,7 @@ export const rewardingSchema = yup.object().shape({
       is: true,
       then: yup
         .number()
+        .typeError("minvalue")
         .min(1000, "minvalue")
         .nullable(true)
         .transform((parsedValue, originalValue) =>
