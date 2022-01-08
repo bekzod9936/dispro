@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 //packages
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useDebounce } from "use-debounce/lib";
 import { useFieldArray, useForm, useFormContext } from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "react-query"
 
@@ -17,8 +18,6 @@ import { responseCategoriesToExactCategories } from "../helpers";
 import { useAppSelector } from "services/redux/hooks";
 import { changeAmountSchema, editSectionSchema, goodsSchema, sectionsSchema, subSectionSchema } from "../utils/schemas.yup";
 import { createItemDefaultFields, GET_SECTIONS } from "../constants";
-import { useDebounce } from "use-debounce/lib";
-
 
 export const useImage = () => {
     const { getValues, setValue, formState: { errors }, clearErrors } = useFormContext<FormFieldTypes>()

@@ -3,9 +3,12 @@ import { CancelButton } from "components/Custom/Buttons/Cancel";
 import Modal from "components/Custom/Modal";
 import { useTranslation } from "react-i18next";
 import { styles, Wrapper, HideIcon } from "./style";
-import { useHideSection } from "pages/CompanyPages/services/hooks/MainPageHooks";
-import { ISectionResponse } from "services/queries/servicesQueries/response.types";
 import {
+  useHideItem,
+  useHideSection,
+} from "pages/CompanyPages/services/hooks/MainPageHooks";
+import {
+  ITEM_HIDE_MODAL_CONTENT,
   SECTION_HIDE_MODAL_CONTENT,
   SUBSECTION_HIDE_MODAL_CONTENT,
 } from "pages/CompanyPages/services/constants";
@@ -13,37 +16,57 @@ import {
 interface HideModalProps {
   open: boolean;
   onClose: () => void;
-  item: ISectionResponse | null;
+  id: number;
+  name: string;
+  isSection?: boolean;
+  isItem?: boolean;
 }
 
 export const HideModal: React.FC<HideModalProps> = ({
   open,
   onClose,
-  item,
+  id,
+  isSection,
+  name,
+  isItem,
 }) => {
   const { t } = useTranslation();
-  const id = item?.id || 0;
-  const isSection = item?.parentId === 0;
-  const name = item?.goodsSectionTranslates[0].translateName;
 
-  const alertMessage = isSection
+  const alertMessage = isItem
+    ? ITEM_HIDE_MODAL_CONTENT
+    : isSection
     ? SECTION_HIDE_MODAL_CONTENT
     : SUBSECTION_HIDE_MODAL_CONTENT;
 
-  const { mutate } = useHideSection();
+  const { mutate: hideSection } = useHideSection();
+  const { mutate: hideItem } = useHideItem();
 
   const handleHide = () => {
-    mutate(
-      {
-        id,
-        action: !item?.hideInMobile,
-      },
-      {
-        onSettled() {
-          onClose();
+    if (isItem) {
+      hideItem(
+        {
+          id,
+          action: true,
         },
-      }
-    );
+        {
+          onSettled() {
+            onClose();
+          },
+        }
+      );
+    } else {
+      hideSection(
+        {
+          id,
+          action: true,
+        },
+        {
+          onSettled() {
+            onClose();
+          },
+        }
+      );
+    }
   };
 
   return (

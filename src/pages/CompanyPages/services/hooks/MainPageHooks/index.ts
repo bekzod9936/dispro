@@ -83,10 +83,11 @@ export const useDragNDrop = (goods: IGoodsResponse[]) => {
     }
   
   useEffect(() => {
-    if (items.length !== goods.length) {
-      setItems(goods);
-    }
-  }, [goods, items]);
+    // if (items.length !== goods.length) {
+    //   setItems(goods);
+    // }
+    setItems(goods);
+  }, [goods]);
 
   useEffect(() => {
     if (scrollState && scrollRef.current) {
@@ -134,6 +135,7 @@ export const useDeleteSection = () => {
   return useMutation((id: number) => ApiServices.deleteSection(id), {
     onSettled() {
       queryClient.invalidateQueries(GET_SECTIONS)
+      queryClient.invalidateQueries(GET_ITEMS)
     }
   })
 }
@@ -164,6 +166,26 @@ export const useEditSection = () => {
   return useMutation(({id, section}: editSectionPostType) => ApiServices.editSection(id, section), {
     onSettled() {
       queryClient.invalidateQueries(GET_SECTIONS)
+    }
+  })
+}
+
+export const useDeleteItem = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation((id: number) => ApiServices.deleteItem(id), {
+    onSettled() {
+      queryClient.invalidateQueries(GET_ITEMS)
+    }
+  })
+}
+
+export const useHideItem = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation(({id, action}: hideSectionPostType) => ApiServices.hideItem(id, action), {
+    onSettled() {
+      queryClient.invalidateQueries(GET_ITEMS)
     }
   })
 }
