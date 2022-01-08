@@ -84,6 +84,7 @@ const useReward = () => {
           ],
         };
       } else if (v?.rewardType === 4) {
+        console.log(v?.levels[0]?.requirements[0]);
         return {
           ...v,
           isActive: e?.rewardType4,
@@ -92,8 +93,11 @@ const useReward = () => {
             {
               requirements: [
                 {
-                  ...v?.levels[0]?.requirements[0],
-                  amount: e?.amountRequirements,
+                  id: 1,
+                  condition: "",
+                  type: 1,
+                  unit: "UZS",
+                  amount: Number(e?.amountRequirements),
                 },
               ],
             },
