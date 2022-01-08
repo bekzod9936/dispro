@@ -1,6 +1,10 @@
 import styled from "styled-components"
 import { device } from "styles/device"
 
+interface IProps {
+    disabled?: boolean
+}
+
 export const Text = styled.p`
     font-size: 18px;
     line-height: 21px;
@@ -166,12 +170,12 @@ export const Buttons = styled.div`
     button.updatePercent {
         font-size: 16px;
         line-height: 18.75px;
-        color: #3492FF;
+        color: ${({disabled}: IProps) => disabled ? "#C7C7C7" : "#3492FF"};
         background: transparent;
         margin-top: 15px;
         border: 0;
         outline: 0;
-        cursor: pointer;
+        cursor: ${({disabled}: IProps) => disabled ? "not-allowed" : "pointer"};
         font-family: "Roboto", sans-serif;
         font-weight: 300;
     }

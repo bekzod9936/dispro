@@ -1,7 +1,7 @@
-import { MButton } from './components/Button';
-import { VipModal } from './components/VipModal';
-import Button from 'components/Custom/Buttons/Button';
-import dayjs from 'dayjs';
+import { MButton } from "./components/Button";
+import { VipModal } from "./components/VipModal";
+import Button from "components/Custom/Buttons/Button";
+import dayjs from "dayjs";
 import {
   CloseIcon,
   CoinsIcon,
@@ -9,17 +9,17 @@ import {
   MinusCoinsIcon,
   ProfileIcon,
   UnBlockIconBlue,
-} from 'assets/icons/ClientsPageIcons/ClientIcons';
-import { CancelButton } from '../QrCodeBar/style';
+} from "assets/icons/ClientsPageIcons/ClientIcons";
+import { CancelButton } from "../QrCodeBar/style";
 import {
   selectAll,
   setAllClients,
   setClient,
-} from 'services/redux/Slices/clients';
-import { MModal } from '../Modal';
-import { useState, useEffect } from 'react';
-import { useHistory } from 'react-router';
-import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
+} from "services/redux/Slices/clients";
+import { MModal } from "../Modal";
+import { useState, useEffect } from "react";
+import { useHistory } from "react-router";
+import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 import {
   AddInfo,
   Buttons,
@@ -33,41 +33,44 @@ import {
   Text,
   Wrapper,
   WrapperContent,
-} from './style';
-import CustomToggle from 'components/Custom/CustomToggleSwitch';
-import { BlockModal } from '../BlockModal';
-import Modal from 'components/Custom/Modal';
-import clientDefaultImage from 'assets/images/staff_default.png';
-import { numberWith } from 'services/utils';
-import FullModal from 'components/Custom/FullModal';
-import { ViewAll } from '../ViewAll';
-import { useTranslation } from 'react-i18next';
-import { useMutation } from 'react-query';
-import { blockClient } from 'services/queries/clientsQuery';
-import useWindowWidth from 'services/hooks/useWindowWidth';
+} from "./style";
+import CustomToggle from "components/Custom/CustomToggleSwitch";
+import { BlockModal } from "../BlockModal";
+import Modal from "components/Custom/Modal";
+import clientDefaultImage from "assets/images/staff_default.png";
+import { numberWith } from "services/utils";
+import FullModal from "components/Custom/FullModal";
+import { ViewAll } from "../ViewAll";
+import { useTranslation } from "react-i18next";
+import { useMutation } from "react-query";
+import { blockClient } from "services/queries/clientsQuery";
+import useWindowWidth from "services/hooks/useWindowWidth";
+import { usePermissions } from "services/hooks/usePermissions";
 interface IProps {
   refetch: any;
 }
 
 const modalInfo: any = {
   addCoins: {
-    title: 'Начисление баллов',
-    subtitle: 'Количество баллов',
-    btn: 'Начислить',
-    action: 'addCoins',
+    title: "Начисление баллов",
+    subtitle: "Количество баллов",
+    btn: "Начислить",
+    action: "addCoins",
   },
   removeCoins: {
-    title: 'Списание баллов',
-    subtitle: 'Количество баллов',
-    info: 'Клиент будет проинформирован о списании баллов push-уведомлением',
-    btn: 'Списать',
-    action: 'removeCoins',
+    title: "Списание баллов",
+    subtitle: "Количество баллов",
+    info: "Клиент будет проинформирован о списании баллов push-уведомлением",
+    btn: "Списать",
+    action: "removeCoins",
   },
 };
 
 export const ClientsBar = ({ refetch }: IProps) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
+  const isEditable = usePermissions("clients");
+
   const { selectedClients, allClients, disableSpecStatus } = useAppSelector(
     (state) => state.clients
   );
@@ -79,9 +82,9 @@ export const ClientsBar = ({ refetch }: IProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState<any>({});
   const [vipModalState, setVipModalState] = useState<
-    'selecting' | 'updating' | 'removing'
-  >('selecting');
-  const [fetchingAllClients, setFetchingAllClients] = useState('');
+    "selecting" | "updating" | "removing"
+  >("selecting");
+  const [fetchingAllClients, setFetchingAllClients] = useState("");
   const { width } = useWindowWidth();
   const handleOpen = (action: string) => {
     setIsModalOpen(true);
@@ -90,7 +93,7 @@ export const ClientsBar = ({ refetch }: IProps) => {
 
   const handleAddAll = (action: boolean) => {
     if (allClients.length === 0) {
-      setFetchingAllClients('Подождите несколько минут...');
+      setFetchingAllClients("Подождите несколько минут...");
     } else {
       dispatch(setAllClients(action));
     }
@@ -101,7 +104,7 @@ export const ClientsBar = ({ refetch }: IProps) => {
   };
 
   const handleClient = () => {
-    const path = width > 1000 ? 'operations' : 'information';
+    const path = width > 1000 ? "operations" : "information";
     history.push(`/clients/${client.id}-${client.userId}/${path}`);
   };
 
@@ -109,16 +112,16 @@ export const ClientsBar = ({ refetch }: IProps) => {
     let checked = e.target.checked;
     if (checked) {
       setVipModal(true);
-      setVipModalState('selecting');
+      setVipModalState("selecting");
     } else {
       setVipModal(true);
-      setVipModalState('removing');
+      setVipModalState("removing");
     }
   };
 
   useEffect(() => {
     if (allClients.length > 0) {
-      setFetchingAllClients('');
+      setFetchingAllClients("");
     }
   }, [allClients]);
   const { mutate } = useMutation((data: any) => blockClient(data));
@@ -127,7 +130,7 @@ export const ClientsBar = ({ refetch }: IProps) => {
     mutate({
       clientId: client.id,
       isPlBlocked: false,
-      reason: '',
+      reason: "",
     });
     refetch();
   };
@@ -145,7 +148,7 @@ export const ClientsBar = ({ refetch }: IProps) => {
         <VipModal
           clientInfo={{
             isBlocked: client?.isPlBlocked,
-            name: client?.firstName + ' ' + client?.lastName,
+            name: client?.firstName + " " + client?.lastName,
             prevStatus: client?.obtainProgramLoyalty?.levelName,
             prevPercent: client?.obtainProgramLoyalty?.percent,
             value:
@@ -175,7 +178,7 @@ export const ClientsBar = ({ refetch }: IProps) => {
                     e.target.onerror = null;
                     e.target.src = clientDefaultImage;
                   }}
-                  alt='clientAvatar'
+                  alt="clientAvatar"
                 />
               ) : (
                 <DefaultImage />
@@ -185,10 +188,10 @@ export const ClientsBar = ({ refetch }: IProps) => {
                   {client.firstName} {client.lastName}
                 </p>
                 <span>
-                  Статус:{' '}
+                  Статус:{" "}
                   {client.personalLoyaltyInfo.isActive
-                    ? 'Спец'
-                    : client.obtainProgramLoyalty.levelName}{' '}
+                    ? "Спец"
+                    : client.obtainProgramLoyalty.levelName}{" "}
                   {client.personalLoyaltyInfo.isActive
                     ? client.personalLoyaltyInfo.percent
                     : client.obtainProgramLoyalty.percent}
@@ -198,24 +201,25 @@ export const ClientsBar = ({ refetch }: IProps) => {
             </Content>
             <SubContent>
               <p>
-                Последняя покупка:{' '}
+                Последняя покупка:{" "}
                 {client.addInfo.lastPurchaseDate
-                  ? dayjs(client.addInfo.lastPurchaseDate).format('DD.MM.YYYY')
-                  : '-'}
+                  ? dayjs(client.addInfo.lastPurchaseDate).format("DD.MM.YYYY")
+                  : "-"}
               </p>
-              <Buttons>
+              <Buttons disabled={!isEditable}>
                 {client.isPlBlocked ? (
-                  <div className='blockedContent'>
+                  <div className="blockedContent">
                     <p>Клиент заблокирован</p>
                     {client.blockedReason && (
                       <span>{client.blockedReason}</span>
                     )}
                     <Button
+                      disabled={!isEditable}
                       onClick={handleUnblock}
-                      margin={{ laptop: '20px 0' }}
+                      margin={{ laptop: "20px 0" }}
                       buttonStyle={{
-                        color: '#606EEA',
-                        bgcolor: 'rgba(96, 110, 234, 0.1)',
+                        color: "#606EEA",
+                        bgcolor: "rgba(96, 110, 234, 0.1)",
                       }}
                       endIcon={<UnBlockIconBlue />}
                     >
@@ -235,7 +239,7 @@ export const ClientsBar = ({ refetch }: IProps) => {
                     <MToggle>
                       <p>Специальный статус</p>
                       <CustomToggle
-                        disabled={disableSpecStatus}
+                        disabled={!isEditable || disableSpecStatus}
                         checked={
                           client?.personalLoyaltyInfo?.isActive || vipModal
                         }
@@ -245,12 +249,12 @@ export const ClientsBar = ({ refetch }: IProps) => {
                     </MToggle>
                     {client?.personalLoyaltyInfo?.isActive && (
                       <button
-                        disabled={disableSpecStatus}
+                        disabled={!isEditable || disableSpecStatus}
                         onClick={() => {
-                          setVipModalState('updating');
+                          setVipModalState("updating");
                           setVipModal(true);
                         }}
-                        className='updatePercent'
+                        className="updatePercent"
                       >
                         Настроить специальный статус
                       </button>
@@ -262,13 +266,13 @@ export const ClientsBar = ({ refetch }: IProps) => {
                 <div>
                   <p>Общая сумма покупок</p>
                   <span>
-                    {numberWith(client.addInfo.amountOperation + '', ' ')}
+                    {numberWith(client.addInfo.amountOperation + "", " ")}
                   </span>
                 </div>
                 <div>
                   <p>Количество посещений</p>
                   <span>
-                    {numberWith(client.addInfo.countOperation + '', ' ')}
+                    {numberWith(client.addInfo.countOperation + "", " ")}
                   </span>
                 </div>
               </AddInfo>
@@ -282,12 +286,12 @@ export const ClientsBar = ({ refetch }: IProps) => {
         <div>
           <Text>Выбрано: {selectedClients.length}</Text>
           {fetchingAllClients ? (
-            <div className='loadingText'>{fetchingAllClients}</div>
+            <div className="loadingText">{fetchingAllClients}</div>
           ) : (
             <SelectedClients>
               {selectedClients.map((client) => (
-                <div className='client'>
-                  <span>{client.firstName + ' ' + client.lastName}</span>
+                <div className="client">
+                  <span>{client.firstName + " " + client.lastName}</span>
                   <MiniCloseIcon
                     onClick={() => dispatch(setClient(client.id))}
                   />
@@ -295,33 +299,33 @@ export const ClientsBar = ({ refetch }: IProps) => {
               ))}
             </SelectedClients>
           )}
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div style={{ display: "flex", justifyContent: "center" }}>
             <Button
               onClick={() => setCheckAll(true)}
               margin={{
-                laptop: '5px auto',
+                laptop: "5px auto",
               }}
               buttonStyle={{
-                color: '#3492FF',
-                bgcolor: '#fff',
+                color: "#3492FF",
+                bgcolor: "#fff",
               }}
             >
-              {t('checkSelected')}
+              {t("checkSelected")}
             </Button>
           </div>
-          <Buttons>
-            <MButton onClick={() => handleOpen('addCoins')}>
+          <Buttons disabled={!isEditable}>
+            {/* <MButton onClick={() => handleOpen("addCoins")}>
               Начислить баллы
               <CoinsIcon style={{ marginLeft: 10 }} />
             </MButton>
-            <MButton onClick={() => handleOpen('removeCoins')}>
+            <MButton onClick={() => handleOpen("removeCoins")}>
               Списать баллы
               <MinusCoinsIcon style={{ marginLeft: 10 }} />
-            </MButton>
+            </MButton> */}
             <MToggle>
               <p>Специальный статус</p>
               <CustomToggle
-                disabled={disableSpecStatus}
+                disabled={!isEditable || disableSpecStatus}
                 checked={
                   selectedClients.every(
                     (client) => client.personalLoyaltyInfo.isActive
@@ -335,12 +339,12 @@ export const ClientsBar = ({ refetch }: IProps) => {
             </MToggle>
             {selectedClients.every((el) => el.personalLoyaltyInfo.isActive) && (
               <button
-                disabled={disableSpecStatus}
+                disabled={!isEditable || disableSpecStatus}
                 onClick={() => {
-                  setVipModalState('updating');
+                  setVipModalState("updating");
                   setVipModal(true);
                 }}
-                className='updatePercent'
+                className="updatePercent"
               >
                 Настроить специальный статус
               </button>

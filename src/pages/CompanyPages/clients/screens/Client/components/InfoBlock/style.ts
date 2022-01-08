@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+interface IProps {
+    disabled?: boolean
+}
+
 export const Wrapper = styled.div`
     max-width: 460px;
     width: 100%;
@@ -26,13 +30,13 @@ export const UpSide = styled.div`
     button {
         outline: none;
         border: none;
-        color: #3492FF;
+        color: ${({disabled}: IProps) => disabled ? "#C7C7C7" : "#3492FF"};
         font-weight: 300;
         font-size: 16px;
         line-height: 18.75px;
         background: transparent;
         font-family: "Roboto", sans-serif;
-        cursor: pointer;
+        cursor: ${({disabled}: IProps) => disabled ? "not-allowed" : "pointer"};
     }
 `
 

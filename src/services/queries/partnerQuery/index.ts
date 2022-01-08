@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import partnerApi from 'services/interceptors/partner_interceptor';
 import { URL } from 'services/constants/config';
+import { permissionsType } from 'services/redux/Slices/permissions';
 
 export const fetchClientStatistics = async (
   section: string,
@@ -228,3 +229,25 @@ export const fetchPayGoGet = () => {
   const response = partnerApi.get('/directory/company/settings/get/pay-go');
   return response;
 };
+
+export type permissionsDataResponse = {
+  permissions: permissionsType,
+  staffId: number
+}
+
+export type permissionsResponse = {
+  data: permissionsDataResponse,
+  error: null | unknown,
+  success: boolean
+}
+
+export const getPermissionByStaffId = async(id: number) => {
+  const { data } = await partnerApi.get<permissionsResponse>(`core/staffs/permissions/new/${id}`)
+
+  if (!data.success) {
+    alert('error during fetching manager permission')
+  }
+
+  return data.data
+
+}

@@ -17,6 +17,7 @@ import financeSlice from './Slices/finance';
 import firebaseSlice from './Slices/firebase';
 import NewsSlice from './Slices/news';
 import NewsSettingSlice from './Slices/setting';
+import { permissionsSlice } from './Slices/permissions';
 
 export const store = configureStore({
   reducer: {
@@ -38,6 +39,7 @@ export const store = configureStore({
     finance: financeSlice,
     firebaseSlice: firebaseSlice,
     newsetting: NewsSettingSlice,
+    permissions: permissionsSlice.reducer
   },
 });
 export type RootState = ReturnType<typeof store.getState>;
