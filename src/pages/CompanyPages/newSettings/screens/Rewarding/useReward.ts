@@ -3,7 +3,7 @@ import { useMutation, useQuery } from "react-query";
 import { useAppDispatch } from "services/redux/hooks";
 import { setReward } from "services/redux/Slices/setting";
 import { fetchRewards, postRewards } from "services/queries/newSettingQueries";
-import { notify } from "services/utils/local_notification";
+import { notifySuccess } from "services/utils/local_notification";
 import { IForm } from "./rewarding.schema";
 
 const useReward = () => {
@@ -52,7 +52,7 @@ const useReward = () => {
   const postReward = useMutation((data: any) => postRewards(data), {
     onSuccess: () => {
       response.refetch();
-      notify(t("saved"));
+      notifySuccess(t("saved"));
     },
   });
 

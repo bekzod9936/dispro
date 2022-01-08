@@ -63,6 +63,18 @@ export const WrapButtons = styled.div`
   justify-content: flex-end;
   grid-gap: 15px;
   margin-left: 30px;
+  position: relative;
+  .MuiSnackbar-root {
+    position: absolute;
+    top: 0;
+    position: 3000 !important;
+  }
+  .MuiSnackbar-anchorOriginTopCenter {
+    min-width: 400px !important;
+  }
+  .MuiAlert-icon {
+    align-items: center;
+  }
 `;
 
 export const WrapButtonsDelete = styled.div`
