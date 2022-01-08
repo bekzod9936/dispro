@@ -11,6 +11,7 @@ import {
 	DisabledText,
 	DisabledWrap,
 	SelectedUser,
+	WrapperScroll,
 } from './style';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector, useAppDispatch } from 'services/redux/hooks';
@@ -41,14 +42,16 @@ const permissionsRole: any = {
 	// support: [],
 };
 
-const RoleTable = ({ parentRef, handleClose }: IProps) => {
+const RoleTable = ({ handleClose }: IProps) => {
 	const dispatch = useAppDispatch();
 	const { t } = useTranslation();
 	const errorRef = useRef<null | HTMLSpanElement>(null);
 	const permissions = useAppSelector((state) => state.staffs.permissions);
 	const { managers } = useAppSelector((state) => state.staffs);
 	const [state, setState] = useState<any>({});
+	const [managerName, setManagerName] = useState<any>();
 	const managerId = useAppSelector((state) => state.staffs.managerId);
+	const parentRef = useRef<any | null>(null);
 	const { saveRoleManager } = useManagers({
 		page: 1,
 		query: '',
@@ -65,20 +68,20 @@ const RoleTable = ({ parentRef, handleClose }: IProps) => {
 			refetchOnWindowFocus: false,
 			onSuccess: (data) => {
 				let res = null;
+				let mName = `${data.data.data.firstName} ${data.data.data.lastName}`;
 				if (data.data.data.permissions) {
 					res = { ...data.data.data.permissions };
 					delete res.support;
 				}
-
+				setManagerName(mName);
 				setState(res || permissionsRole);
 			},
 		}
 	);
-
 	useEffect(() => {
 		let res = Object.keys(state).every((el) => state[el].join('') == '');
 		if (res) {
-			parentRef?.scrollTo({
+			parentRef?.current?.scrollTo({
 				top: 0,
 				behavior: 'smooth',
 			});
@@ -89,122 +92,120 @@ const RoleTable = ({ parentRef, handleClose }: IProps) => {
 		saveRoleManager.mutate({ state, id: managerId });
 	};
 
-	console.log(state);
-
 	if (isFetching) {
 		return <Spinner />;
 	}
+
 	return (
 		<>
-			<SelectedUser>
-				{userName?.firstName + ' ' + userName?.lastName}
-			</SelectedUser>
-
-			{Object.keys(state).every((el) => state[el].join('') === '') ? (
-				<DisabledWrap>
-					<DisableBtn />
-					<DisabledText ref={errorRef}>
-						Менеджеру нельзя отключить доступ по всем пунктам
-					</DisabledText>
-				</DisabledWrap>
-			) : null}
-			<Container>
-				<Table>
-					<tr>
-						<TableTh></TableTh>
-						<TableTh>
-							Полный доступ
-							<WrapRadio>
-								<Radio
-									color='secondary'
-									onChange={() =>
-										setState({
-											info: [1],
-											news: [1],
-											staff: [1],
-											orders: [1],
-											clients: [1],
-											feedback: [1],
-											finances: [1],
-											services: [1],
-											settings: [1],
-											proposals: [1],
-											statistics: [1],
-											notifications: [1],
-										})
-									}
-									checked={Object.keys(state).every(
-										(el) => state[el].join('') == 1
-									)}
-								/>
-							</WrapRadio>
-						</TableTh>
-						<TableTh>
-							Только просмотр
-							<WrapRadio>
-								<Radio
-									onChange={() =>
-										setState({
-											info: [2],
-											news: [2],
-											staff: [2],
-											orders: [2],
-											clients: [2],
-											feedback: [2],
-											finances: [2],
-											services: [2],
-											settings: [2],
-											proposals: [2],
-											statistics: [2],
-											notifications: [2],
-										})
-									}
-									checked={Object.keys(state).every(
-										(el) => state[el].join('') == 2
-									)}
-								/>
-							</WrapRadio>
-						</TableTh>
-						<TableTh>Без доступа</TableTh>
-					</tr>
-					<tbody>
-						{Object.keys(state).map((el) => (
-							<TableTr>
-								<TableTd>{t(el)}</TableTd>
-								<TableTd>
+			<SelectedUser>{managerName}</SelectedUser>
+			<WrapperScroll ref={parentRef}>
+				{Object.keys(state).every((el) => state[el].join('') === '') ? (
+					<DisabledWrap>
+						<DisableBtn />
+						<DisabledText ref={errorRef}>
+							Менеджеру нельзя отключить доступ по всем пунктам
+						</DisabledText>
+					</DisabledWrap>
+				) : null}
+				<Container>
+					<Table>
+						<tr>
+							<TableTh></TableTh>
+							<TableTh>
+								Полный доступ
+								<WrapRadio>
+									<Radio
+										color='secondary'
+										onChange={() =>
+											setState({
+												info: [1],
+												news: [1],
+												staff: [1],
+												orders: [1],
+												clients: [1],
+												feedback: [1],
+												finances: [1],
+												services: [1],
+												settings: [1],
+												proposals: [1],
+												statistics: [1],
+												notifications: [1],
+											})
+										}
+										checked={Object.keys(state).every(
+											(el) => state[el].join('') == 1
+										)}
+									/>
+								</WrapRadio>
+							</TableTh>
+							<TableTh>
+								Только просмотр
+								<WrapRadio>
 									<Radio
 										onChange={() =>
-											setState((prev: any) => ({ ...prev, [el]: [1] }))
+											setState({
+												info: [2],
+												news: [2],
+												staff: [2],
+												orders: [2],
+												clients: [2],
+												feedback: [2],
+												finances: [2],
+												services: [2],
+												settings: [2],
+												proposals: [2],
+												statistics: [2],
+												notifications: [2],
+											})
 										}
-										checked={state[el].join('') == 1}
+										checked={Object.keys(state).every(
+											(el) => state[el].join('') == 2
+										)}
 									/>
-								</TableTd>
-								<TableTd>
-									<WrapRadio>
+								</WrapRadio>
+							</TableTh>
+							<TableTh>Без доступа</TableTh>
+						</tr>
+						<tbody>
+							{Object.keys(state).map((el) => (
+								<TableTr>
+									<TableTd>{t(el)}</TableTd>
+									<TableTd>
 										<Radio
 											onChange={() =>
-												setState((prev: any) => ({ ...prev, [el]: [2] }))
+												setState((prev: any) => ({ ...prev, [el]: [1] }))
 											}
-											checked={state[el].join('') == 2}
+											checked={state[el].join('') == 1}
 										/>
-									</WrapRadio>
-								</TableTd>
-								<TableTd>
-									<WrapRadio>
-										<Radio
-											color='primary'
-											onChange={() =>
-												setState((prev: any) => ({ ...prev, [el]: [] }))
-											}
-											checked={state[el].join('') == ''}
-										/>
-									</WrapRadio>
-								</TableTd>
-							</TableTr>
-						))}
-					</tbody>
-				</Table>
-			</Container>
+									</TableTd>
+									<TableTd>
+										<WrapRadio>
+											<Radio
+												onChange={() =>
+													setState((prev: any) => ({ ...prev, [el]: [2] }))
+												}
+												checked={state[el].join('') == 2}
+											/>
+										</WrapRadio>
+									</TableTd>
+									<TableTd>
+										<WrapRadio>
+											<Radio
+												color='primary'
+												onChange={() =>
+													setState((prev: any) => ({ ...prev, [el]: [] }))
+												}
+												checked={state[el].join('') == ''}
+											/>
+										</WrapRadio>
+									</TableTd>
+								</TableTr>
+							))}
+						</tbody>
+					</Table>
+				</Container>
+			</WrapperScroll>
 			<ModalAction justifyContent='center' mTop={25}>
 				<Button
 					buttonStyle={{

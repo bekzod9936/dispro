@@ -24,8 +24,9 @@ import Spinner from "components/Helpers/Spinner";
 
 export const Form: React.FC = () => {
   const [modal, setModal] = useState(false);
+  const [variantsLength, setVariantsLength] = useState(1);
 
-  const { form, dispatch, state, isLoaded } = useEditItem();
+  const { form, dispatch, state, isLoaded } = useEditItem(variantsLength);
 
   const onSubmit = (data: any) => {
     console.log(data);
@@ -43,6 +44,8 @@ export const Form: React.FC = () => {
     return <Spinner />;
   }
 
+  console.log(form.formState.errors);
+
   return (
     <div>
       <FormProvider {...form}>
@@ -51,7 +54,10 @@ export const Form: React.FC = () => {
             <TitleAndDescription />
             <Selects handleOpen={handleOpen} />
             <Switches dispatch={dispatch} state={state} />
-            <Variants disabled={state.loyaltyType !== 1} />
+            <Variants
+              setVariantsLength={setVariantsLength}
+              disabled={state.loyaltyType !== 1}
+            />
             <Durations />
             <Photos />
             <Buttons isLoading={false} />

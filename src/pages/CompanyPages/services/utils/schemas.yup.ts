@@ -35,7 +35,11 @@ export const sectionsSchema = yup.object().shape({
 const variantSchema = yup.object().shape({
     name: yup.array().of(
         yup.object().shape({
-            data: yup.string().max(30, 'maxAmountOfSymbols').required('requiredField'),
+            data: yup.string().when('$length', {
+                is: (val: number) => val > 1,
+                then: yup.string().max(30, 'maxAmountOfSymbols').required('requiredField'),
+                otherwise: yup.string()
+            }),
             lang: yup.string().required()
         })
     ),
@@ -65,7 +69,11 @@ const variantSchema = yup.object().shape({
 const variantSchemaWithSale = yup.object().shape({
     name: yup.array().of(
         yup.object().shape({
-            data: yup.string().max(30, 'maxAmountOfSymbols').required('requiredField'),
+            data: yup.string().when('$length', {
+                is: (val: number) => val > 1,
+                then: yup.string().max(30, 'maxAmountOfSymbols').required('requiredField'),
+                otherwise: yup.string()
+            }),
             lang: yup.string().required()
         })
     ),

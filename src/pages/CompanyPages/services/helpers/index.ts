@@ -278,7 +278,7 @@ export const resetDefaultValues = (data: IGoodsResponse): FormFieldTypes => {
       price: String(variant.price),
       priceWithSale: String(variant.priceWithDiscount)
     })) : [{
-      name: [{data: 'test', lang: '(Рус)'}],
+      name: [{data: '', lang: '(Рус)'}],
       amount: String(data.count),
       price: String(data.price),
       articul: String(data.artikulCode),
