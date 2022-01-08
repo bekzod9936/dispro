@@ -8,7 +8,9 @@ export const Container = styled.div`
   background: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
   overflow-x: auto;
+	max-width: 580px;
   width: 100%;
+	
   &:hover {
     ::-webkit-scrollbar-thumb {
       background: #606eea;
@@ -25,6 +27,8 @@ export const Container = styled.div`
     background: transparent;
     border-radius: 0 0 14px 14px;
   }
+	
+    
 `;
 
 //Table styles
@@ -36,13 +40,13 @@ export const Table = styled.table`
 
 export const TableTd = styled.td`
 	border: 1px solid #D0D4F9;
-	padding: 20px 0 20px 0;
+	padding: 6px 0 6px 0;
 	text-align: center;
 	color: #223367;
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: bold;
-	font-size: 16px;
+	font-size: 15px;
 	line-height: 19px;
 	vertical-align: middle;
 `;
@@ -56,7 +60,7 @@ export const TableTr = styled.tr`
 export const TableTh = styled.th`
 	white-space: nowrap;
 	border: 1px solid #D0D4F9;
-	padding: 20px 10px 20px 10px;
+	padding: 3px 10px 5px 10px;
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;
@@ -116,7 +120,7 @@ export const DisabledWrap = styled.span`
     width: 100%;
     align-items: center;
     height: 34px;
-	margin-bottom: 33px;
+	margin-bottom: 15px;
 `
 
 export const SelectedUser = styled.h3`
@@ -126,4 +130,25 @@ export const SelectedUser = styled.h3`
 	font-size: 14px;
 	line-height: 16px;
 	margin-bottom: 20px;
+`
+export const WrapperScroll = styled.h3`
+	width: 100%;
+	height: 611px;
+	overflow-y: auto;
+	scroll-behavior: auto;
+
+::-webkit-scrollbar {
+	width: 7px;
+}
+::-webkit-scrollbar-track {
+	background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #606eea;
+	border-radius: 14px 0px 0px 14px;
+}
+@media (max-width: ${device.laptop}) {
+	height: 400px;
+}
 `
