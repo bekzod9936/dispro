@@ -699,5 +699,6 @@
   "areYouSureToHideSubSection": "Вы действительно хотите скрыть подраздел",
   "areYouSureToHideItem": "Вы действительно хотите скрыть товар",
   "hiddenItem": "Товар скрыт",
-  "copylinksuccess": "Ссылка скопирована в буфер обмена"
+  "copylinksuccess": "Ссылка скопирована в буфер обмена",
+  "typenumber": "Введите число"
 }
