@@ -65,13 +65,13 @@ export const Thead = styled.thead`
   & > tr:first-child {
     & > th {
       border-bottom: ${({ header2 }: Props) =>
-        header2 ? "1px solid rgba(96, 110, 234, 0.3)" : null};
+        header2 ? "1px solid #d0d4f9" : null};
     }
   }
   & > tr:last-child {
     & > th:first-child {
       border-right: ${({ header2 }: Props) =>
-        header2 ? "1px solid rgba(96, 110, 234, 0.3)" : null};
+        header2 ? "1px solid #d0d4f9" : null};
     }
   }
 
