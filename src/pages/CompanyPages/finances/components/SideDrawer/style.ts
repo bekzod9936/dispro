@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import { device } from 'styles/device';
-import { ReactComponent as Close } from 'assets/icons/IconsInfo/close.svg';
-import { ReactComponent as Trash } from 'assets/icons/delete.svg';
+import styled from "styled-components";
+import { device } from "styles/device";
+import { ReactComponent as Close } from "assets/icons/IconsInfo/close.svg";
+import { ReactComponent as Trash } from "assets/icons/delete.svg";
 
 export const WrapSideBody = styled.div`
   display: flex;
@@ -35,7 +35,7 @@ export const WrapSideFooter = styled.div`
   justify-content: center;
   grid-gap: 20px;
   @media (max-width: ${device.planshet}) {
-    grid-gap: 10px;
+    grid-gap: 0;
   }
 `;
 

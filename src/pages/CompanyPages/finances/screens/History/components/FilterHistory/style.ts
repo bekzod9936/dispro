@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { device } from "styles/device";
-import { ReactComponent as Delete } from "assets/icons/IconsInfo/delete.svg";
 import { ReactComponent as Excel } from "assets/icons/FinanceIcons/excel.svg";
 
 export const WrapFilterValues = styled.div`
@@ -40,41 +39,6 @@ export const WrapDate = styled.div`
   padding-left: 15px;
 `;
 
-export const ButtonKeyWord = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #c4c4c4;
-  border-radius: 46px;
-  font-weight: 300;
-  font-size: 13px;
-  color: #223367;
-  padding: 0 5px 0 15px;
-  margin: 0 0 0 10px;
-  height: 30px;
-  .MuiIconButton-root {
-    padding: 6px !important;
-    margin-left: 5px;
-  }
-  @media (max-width: ${device.mobile}) {
-    height: 25px;
-    font-weight: 300;
-    font-size: 12px;
-    color: #223367;
-    margin: 10px 0 0 0;
-  }
-  @media (min-width: ${device.laptop}) {
-    height: 35px;
-    font-size: 14px;
-  }
-`;
-
-export const DeleteIcon = styled(Delete)`
-  & > path {
-    fill: #c4c4c4;
-  }
-`;
-
 export const ExcelIcon = styled(Excel)`
   width: 18px;
   height: 18px;
@@ -96,7 +60,12 @@ export const WrapSelectV = styled.div`
   grid-gap: 10px;
 `;
 
-export const WrapStatus = styled.div``;
+export const WrapStatus = styled.div`
+  display: flex;
+  grid-column-gap: 10px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+`;
 
 export const WrapCheck = styled.div``;
 
