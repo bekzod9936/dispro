@@ -152,7 +152,7 @@ export const createServiceHelper = (dto: CreateDtoType): PostDtoType => {
     goodsSectionId: dto.section.value,
     hasGoodsVariant: isServiceHasVariants,
     hideInStores: [],
-    isCountUnlimited: false,
+    isCountUnlimited: Number(firstVariant.amount) === 0,
     withPoint: Number(dto.loyaltyType) === 2,
     withDiscount: Number(dto.loyaltyType) === 1,
     notUsePl: dto.loyaltyOff,
@@ -272,14 +272,14 @@ export const resetDefaultValues = (data: IGoodsResponse): FormFieldTypes => {
     section: 1,
     service: {},
     variants: data.hasGoodsVariant ? data.goodsVariants.map(variant => ({
-      amount: String(variant.count),
+      amount: variant.count > 0 ? String(variant.count) : "",
       articul: String(variant.artikulCode),
       name: variant.goodsVariantTranslates.map(translate => ({data: translate.translateName, lang: languageLabels[translate.langId as keyof typeof languageLabels]})),
       price: String(variant.price),
       priceWithSale: String(variant.priceWithDiscount)
     })) : [{
-      name: [{data: 'test', lang: '(Рус)'}],
-      amount: String(data.count),
+      name: [{data: '', lang: '(Рус)'}],
+      amount: data.count > 0 ? String(data.count) : "",
       price: String(data.price),
       articul: String(data.artikulCode),
       priceWithSale: String(data.priceWithDiscount)
@@ -302,4 +302,11 @@ export const getSectionOfItem = (sections: sectionResponseType | undefined, sect
 export const getParentSections = (sections: ISectionResponse[] | undefined) => {
   if (!sections) return 
   return sections.filter(section => section.parentId === 0)
+}
+
+export const changeAmountToPutDto = (count: number, isUnlimited: boolean) => {
+  return {
+    isCountUnlimited: isUnlimited,
+    count: isUnlimited ? 0 : count
+  }
 }

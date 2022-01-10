@@ -1,7 +1,7 @@
 import * as yup from "yup"
 
 //! refactor: variant fields as each number field can be nullable and can have empty string
-// TODO: articul: not required, amount: not required
+// TODO: amount: not required
 //* is it real to save uniqless of sections' name?
 
 export const sectionsSchema = yup.object().shape({
@@ -35,7 +35,11 @@ export const sectionsSchema = yup.object().shape({
 const variantSchema = yup.object().shape({
     name: yup.array().of(
         yup.object().shape({
-            data: yup.string().max(30, 'maxAmountOfSymbols').required('requiredField'),
+            data: yup.string().when('$length', {
+                is: (val: number) => val > 1,
+                then: yup.string().max(30, 'maxAmountOfSymbols').required('requiredField'),
+                otherwise: yup.string()
+            }),
             lang: yup.string().required()
         })
     ),
@@ -45,8 +49,7 @@ const variantSchema = yup.object().shape({
         .min(1, "minAmoutOfItems")
         .nullable(true)
         .transform((parsedValue, originalValue) => originalValue === '' ? null : parsedValue)
-        .max(1000001, 'maxAmountOfItems')
-        .required('enterAmountOfItem'),
+        .max(1000001, 'maxAmountOfItems'),
 
     articul: yup.string().required('enterArticulOfItem').max(30, 'maxAmountOfSymbols'),
 
@@ -65,7 +68,11 @@ const variantSchema = yup.object().shape({
 const variantSchemaWithSale = yup.object().shape({
     name: yup.array().of(
         yup.object().shape({
-            data: yup.string().max(30, 'maxAmountOfSymbols').required('requiredField'),
+            data: yup.string().when('$length', {
+                is: (val: number) => val > 1,
+                then: yup.string().max(30, 'maxAmountOfSymbols').required('requiredField'),
+                otherwise: yup.string()
+            }),
             lang: yup.string().required()
         })
     ),
@@ -75,8 +82,7 @@ const variantSchemaWithSale = yup.object().shape({
         .nullable(true)
         .min(1, "minAmoutOfItems")
         .transform((parsedValue, originalValue) => originalValue === '' ? null : parsedValue)
-        .max(1000001, 'maxAmountOfItems')
-        .required('enterAmountOfItem'),
+        .max(1000001, 'maxAmountOfItems'),
 
     articul: yup.string().required('enterArticulOfItem').max(30, 'maxAmountOfSymbols'),
 

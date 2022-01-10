@@ -57,7 +57,7 @@ const BoxQr = ({ link, name, id, branch }: Props) => {
     handleSubmit,
     setValue,
     reset,
-    formState: { errors },
+    formState: { errors, isDirty },
     setError,
     clearErrors,
   } = useForm<IForm>({
@@ -242,7 +242,7 @@ const BoxQr = ({ link, name, id, branch }: Props) => {
                 }}
                 margin={{ laptop: "0 15px 0 0" }}
               />
-              <SaveButton disabled={putRef.isLoading} />
+              <SaveButton disabled={putRef.isLoading || !isDirty} />
             </ModalButtons>
           </ModalWrap>
         </form>

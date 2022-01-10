@@ -111,11 +111,11 @@ export const UploadButton = styled.div`
 		`
 
 	export const ModalMain = styled.div`
-  padding: 30px 40px;
-  overflow-y: auto;
+  padding: 25px 0 25px 40px;
+  /* overflow-y: auto; */
   width: 580px;
 
-  scroll-behavior: auto;
+  /* scroll-behavior: auto;
 
   ::-webkit-scrollbar {
     width: 7px;
@@ -127,7 +127,7 @@ export const UploadButton = styled.div`
   ::-webkit-scrollbar-thumb {
     background: #606eea;
     border-radius: 14px 0px 0px 14px;
-  }
+  } */
 `;
 
 export const ModalContent = styled.div`
@@ -291,4 +291,8 @@ export const Button = styled.label`
         margin-right: 10px;
         color: #606EEA
     }
+`
+
+export const ButtonWrap = styled.div`
+	margin-right: 32px;
 `

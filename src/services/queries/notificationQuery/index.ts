@@ -1,12 +1,13 @@
 import partnerApi from "../../interceptors/partner_interceptor";
 
 interface Props {
-  url: any;
+  page: number;
+  perPage: number;
 }
 
-export const fetchNotifactions = ({ url }: Props) => {
+export const fetchNotifactions = ({ page, perPage }: Props) => {
   const response = partnerApi.get(
-    `/directory/announcements/for/partner?${url}`
+    `/directory/announcements/for/partner?perPage=${perPage}&page=${page}`
   );
   return response;
 };

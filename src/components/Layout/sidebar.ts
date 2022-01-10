@@ -1,6 +1,7 @@
 import { useCallback, useRef, useEffect } from "react";
 import { useRecoilValue } from "recoil";
 import { permissionList } from "services/atoms/permissions";
+import { useAppSelector } from "services/redux/hooks";
 import {
   StatisticsIcon,
   ClientIcon,
@@ -86,7 +87,9 @@ const sidebar: any = [
 
 export const useSideBar = () => {
   const { permissions } = useRecoilValue(permissionList);
+  const isPark = useAppSelector((state) => state.info.data?.type)
   const sideList: any = useRef(sidebar);
+
   const sideMe: any = useCallback(() => {
     for (let i in permissions) {
       for (let j of sidebar) {
@@ -107,8 +110,9 @@ export const useSideBar = () => {
   // // console.log(handlePermision(), "permit");
   // const sideList = useMemo(() => handlePermision(), [handlePermision]);
 
+
   return {
-    sideList,
+    sideList: Number(isPark) === 2 ? sideList.current.filter((el: any) => el.text !== 'proposals') : sideList.current,
   };
 };
 

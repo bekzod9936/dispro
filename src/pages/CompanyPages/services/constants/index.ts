@@ -1,13 +1,15 @@
+export const defaultVariant = {
+  name: [{ data: "", lang: "(Рус)" }],
+  amount: "",
+  price: "",
+  priceWithSale: "",
+  articul: "",
+}
+
 export const createItemDefaultFields = {
     titles: [{ title: "", desc: "", lang: "(Рус)" }],
     variants: [
-      {
-        name: [{ data: "test", lang: "(Рус)" }],
-        amount: "",
-        price: "",
-        priceWithSale: "",
-        articul: "",
-      },
+      defaultVariant,
     ],
     loyaltyOff: false,
     images: [],
@@ -149,6 +151,7 @@ export const measurements = [
 ];
 
 
+
 export const SECTION_DELETE_MODAL_CONTENT = { title: "areYouSureToDeleteSection", info: "После удаления, вложенные разделы и товары нельзя будет восстановить" }
 export const ITEM_DELETE_MODAL_CONTENT = { title: "areYouSureToDeleteItem", info: "После удаления, товар нельзя будет восстановить" }
 export const SUBSECTION_DELETE_MODAL_CONTENT = { title: "areYouSureToDeleteSubSection", info: 'После удаления, вложенные товары нельзя будет восстановить' }
@@ -156,3 +159,6 @@ export const SUBSECTION_DELETE_MODAL_CONTENT = { title: "areYouSureToDeleteSubSe
 export const SECTION_HIDE_MODAL_CONTENT = { title: "areYouSureToHideSection", info: "После скрытия, вложенные разделы и товары не будут отображаться в мобильном приложении" }
 export const SUBSECTION_HIDE_MODAL_CONTENT = { title: "areYouSureToHideSubSection", info: "После скрытия, вложенные товары не будут отображаться в мобильном приложении" }
 export const ITEM_HIDE_MODAL_CONTENT = { title: "areYouSureToHideItem", info: "После скрытия, товар не будет отображаться в мобильном приложении"}
+
+export const CREATE_ITEM_QUIT_MODAL_CONTENT = "servicesPageQuitModalAlertMessage";
+export const EDIT_ITEM_QUIT_MODAL_CONTENT = "servicesPageEditModalAlertMessage";

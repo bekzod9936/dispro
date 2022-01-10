@@ -22,6 +22,7 @@ import {
 	ImageBlock,
 	Container,
 	Text,
+	ButtonWrap,
 } from './style';
 import MultiSelect from 'components/Custom/MultiSelect';
 import { setOpenManager, setStepManager } from 'services/redux/Slices/staffs';
@@ -51,7 +52,7 @@ const CreateManager = ({ openManager }: IProps) => {
 	const [logo, setLogo] = useState('');
 	const [imgError, setImgError] = useState(false);
 	const [file, setFile] = useState('');
-	const parentRef = useRef<any | null>(null);
+
 	const [managerId, setManagerId] = useState<null | number>(null);
 	const [isCropVisible, setIsCropVisible] = useState(false);
 	const {
@@ -435,20 +436,18 @@ const CreateManager = ({ openManager }: IProps) => {
 
 			{/* second step */}
 			{stepManager === 2 && (
-				<ModalMain ref={parentRef} style={{ width: '663px' }}>
+				<ModalMain style={{ width: '663px' }}>
 					<ModalHead>
 						<ModalTitle>Настройки доступа</ModalTitle>
-
-						<IconButton onClick={handleClose}>
-							<ExitIcon />
-						</IconButton>
+						<ButtonWrap>
+							<IconButton onClick={handleClose}>
+								<ExitIcon />
+							</IconButton>
+						</ButtonWrap>
 					</ModalHead>
 					<ModalBody>
 						{/* tables  */}
-						<RoleTable
-							handleClose={handleClose}
-							parentRef={parentRef?.current}
-						/>
+						<RoleTable handleClose={handleClose} />
 					</ModalBody>
 				</ModalMain>
 			)}

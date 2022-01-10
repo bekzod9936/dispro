@@ -59,7 +59,7 @@ export const SectionPopover: React.FC<SectionPopoverProps> = ({
 
   return (
     <div>
-      <IconButton onClick={handleOpen} children={<MenuIcon />} />
+      <IconButton disabled onClick={handleOpen} children={<MenuIcon />} />
       <Popover
         open={Boolean(anchorEl)}
         anchorEl={anchorEl}

@@ -19,16 +19,30 @@ import {
 import { FormStyled, Container } from "./style";
 
 //other
-import { useEditItem } from "pages/CompanyPages/services/hooks/EditPageHooks";
+import {
+  useEditItem,
+  useEditService,
+} from "pages/CompanyPages/services/hooks/EditPageHooks";
 import Spinner from "components/Helpers/Spinner";
+import { CreateDtoType } from "pages/CompanyPages/services/utils/types";
+import { createServiceHelper } from "pages/CompanyPages/services/helpers";
 
 export const Form: React.FC = () => {
   const [modal, setModal] = useState(false);
+  const [variantsLength, setVariantsLength] = useState(1);
 
-  const { form, dispatch, state, isLoaded } = useEditItem();
+  const { form, dispatch, state, isLoaded } = useEditItem(variantsLength);
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const { mutate } = useEditService();
+
+  const onSubmit = (data: CreateDtoType) => {
+    const transformedData: CreateDtoType = {
+      ...data,
+      loyaltyOff: state.loyaltyOff,
+      loyaltyType: String(state.loyaltyType),
+    };
+
+    mutate(createServiceHelper(transformedData));
   };
 
   const handleOpen = () => {
@@ -43,6 +57,8 @@ export const Form: React.FC = () => {
     return <Spinner />;
   }
 
+  console.log(form.formState.errors);
+
   return (
     <div>
       <FormProvider {...form}>
@@ -51,7 +67,10 @@ export const Form: React.FC = () => {
             <TitleAndDescription />
             <Selects handleOpen={handleOpen} />
             <Switches dispatch={dispatch} state={state} />
-            <Variants disabled={state.loyaltyType !== 1} />
+            <Variants
+              setVariantsLength={setVariantsLength}
+              disabled={state.loyaltyType !== 1}
+            />
             <Durations />
             <Photos />
             <Buttons isLoading={false} />

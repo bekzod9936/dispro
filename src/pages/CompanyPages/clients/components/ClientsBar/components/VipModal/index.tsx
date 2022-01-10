@@ -3,21 +3,21 @@ import {
   CloseIcon,
   DoneIcon,
   RightArrowIcon,
-} from 'assets/icons/ClientsPageIcons/ClientIcons';
-import Button from 'components/Custom/Buttons/Button';
-import Input from 'components/Custom/Input';
-import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
-import { useMutation, useQueryClient } from 'react-query';
-import { changeVipPercent } from 'services/queries/clientsQuery';
-import { useAppSelector } from 'services/redux/hooks';
-import { Status, Wrapper } from './style';
-import useWindowWidth from 'services/hooks/useWindowWidth';
-import { MobileCancelIcon } from 'assets/icons/proposals/ProposalsIcons';
+} from "assets/icons/ClientsPageIcons/ClientIcons";
+import Button from "components/Custom/Buttons/Button";
+import Input from "components/Custom/Input";
+import { useTranslation } from "react-i18next";
+import { useState } from "react";
+import { useMutation, useQueryClient } from "react-query";
+import { changeVipPercent } from "services/queries/clientsQuery";
+import { useAppSelector } from "services/redux/hooks";
+import { Status, Wrapper } from "./style";
+import useWindowWidth from "services/hooks/useWindowWidth";
+import { MobileCancelIcon } from "assets/icons/proposals/ProposalsIcons";
 interface IProps {
   handleClose: () => void;
   refetch?: any;
-  state: 'selecting' | 'updating' | 'removing';
+  state: "selecting" | "updating" | "removing";
   id: number;
   clientInfo: {
     value: number | string;
@@ -36,7 +36,7 @@ export const VipModal = ({
   clientInfo,
 }: IProps) => {
   const { t } = useTranslation();
-  const [percent, setPercent] = useState('');
+  const [percent, setPercent] = useState("");
   const [error, setError] = useState(false);
   const { selectedClients } = useAppSelector((state) => state.clients);
   const client = selectedClients[0];
@@ -46,7 +46,7 @@ export const VipModal = ({
   const mutation = useMutation((data: any) => changeVipPercent(data), {
     onSuccess: () => {
       if (selectedClients.length > 5) {
-        queryClient.invalidateQueries('fetchAllClients');
+        queryClient.invalidateQueries("fetchAllClients");
       }
       handleClose();
       refetch();
@@ -55,8 +55,8 @@ export const VipModal = ({
 
   const onSubmit = (e: any) => {
     e.preventDefault();
-    if (Number(percent) < 1 && state !== 'removing') return;
-    if (state === 'removing' && selectedClients.length > 1) {
+    if (Number(percent) < 1 && state !== "removing") return;
+    if (state === "removing" && selectedClients.length > 1) {
       let ids = selectedClients.map((el) => el.id);
       mutation.mutate({
         percent: 0,
@@ -72,9 +72,9 @@ export const VipModal = ({
       });
     } else {
       mutation.mutate({
-        percent: state !== 'removing' ? percent : 0,
+        percent: state !== "removing" ? percent : 0,
         clientIds: [id],
-        isActive: state !== 'removing',
+        isActive: state !== "removing",
       });
     }
   };
@@ -84,11 +84,11 @@ export const VipModal = ({
     if (!currPercent) {
       setError(true);
     }
-    if (currPercent.toString().startsWith('0')) {
-      setPercent('');
+    if (currPercent.toString().startsWith("0")) {
+      setPercent("");
     } else if (currPercent <= 100) {
       setPercent(currPercent.trim());
-    } else if (currPercent > 100) setPercent('100');
+    } else if (currPercent > 100) setPercent("100");
     else {
       setPercent(percent.trim());
     }
@@ -98,53 +98,53 @@ export const VipModal = ({
   //     setPercent(value.toString())
   // }, [value])
 
-  if (state === 'selecting') {
+  if (state === "selecting") {
     return (
       <Wrapper onSubmit={onSubmit}>
-        <div className='header'>
-          <h3>{t('individualStatus')} %</h3>
+        <div className="header">
+          <h3>{t("individualStatus")} %</h3>
           <CloseIcon onClick={handleClose} />
         </div>
         {selectedClients.length > 1 ? (
-          <div className='content'>
+          <div className="content">
             <h5>Выбрано клиентов: {selectedClients.length}</h5>
           </div>
         ) : (
-          <div className='content'>
-            <p className='client'>
+          <div className="content">
+            <p className="client">
               {clientInfo.name}
               <b>•</b>
-              <span>Статус: {clientInfo.status + ' ' + clientInfo.value}%</span>
+              <span>Статус: {clientInfo.status + " " + clientInfo.value}%</span>
             </p>
           </div>
         )}
         <Input
-          type='tel'
+          type="tel"
           message={
             clientInfo.isBlocked || selectedClients.some((el) => el.isPlBlocked)
-              ? 'Один или несколько клиентов заблокированы. Начислить спец статус можно только незаблокированным клиентам'
+              ? "Один или несколько клиентов заблокированы. Начислить спец статус можно только незаблокированным клиентам"
               : Number(percent) < 1
-              ? t('requiredField')
-              : 'Минимальный процент: 1'
+              ? t("requiredField")
+              : "Минимальный процент: 1"
           }
           error={
             (error && Number(percent) < 1) ||
             clientInfo.isBlocked ||
             selectedClients.some((el) => el.isPlBlocked)
           }
-          margin={{ laptop: '0 0 55px 0' }}
+          margin={{ laptop: "0 0 55px 0" }}
           value={percent}
           onChange={handleChange}
         />
-        <div className='buttons'>
+        <div className="buttons">
           <Button
             onClick={handleClose}
             buttonStyle={
               width > 1000
-                ? { bgcolor: '#ffffff', color: '#223367' }
-                : { color: '#606EEA', bgcolor: 'rgba(96, 110, 234, 0.1)' }
+                ? { bgcolor: "#ffffff", color: "#223367" }
+                : { color: "#606EEA", bgcolor: "rgba(96, 110, 234, 0.1)" }
             }
-            margin={{ laptop: '0 25px 0 0' }}
+            margin={{ laptop: "0 25px 0 0" }}
             startIcon={width > 1000 ? <CancelIcon /> : <MobileCancelIcon />}
           >
             Отменить
@@ -152,11 +152,11 @@ export const VipModal = ({
           <Button
             disabled={
               mutation.isLoading ||
-              client.isPlBlocked ||
+              client?.isPlBlocked ||
               selectedClients.some((el) => el.isPlBlocked) ||
               clientInfo.isBlocked
             }
-            type='submit'
+            type="submit"
             startIcon={<DoneIcon />}
           >
             Готово
@@ -164,54 +164,54 @@ export const VipModal = ({
         </div>
       </Wrapper>
     );
-  } else if (state === 'updating') {
+  } else if (state === "updating") {
     return (
       <Wrapper onSubmit={onSubmit}>
-        <div className='header'>
+        <div className="header">
           <h3>Настройка специального %</h3>
           <CloseIcon onClick={handleClose} />
         </div>
-        <div className='content'>
+        <div className="content">
           {selectedClients.length > 1 ? (
-            <p className='client'>
-              {'Выбрано клиентов: ' + selectedClients.length}
+            <p className="client">
+              {"Выбрано клиентов: " + selectedClients.length}
             </p>
           ) : (
-            <p className='client'>
+            <p className="client">
               {clientInfo.name}
               <b>•</b>
-              <span>Статус: {'Спец' + ' ' + clientInfo.value}%</span>
+              <span>Статус: {"Спец" + " " + clientInfo.value}%</span>
             </p>
           )}
         </div>
         <Input
-          type='tel'
+          type="tel"
           message={
             clientInfo.isBlocked || selectedClients.some((el) => el.isPlBlocked)
-              ? 'Один или несколько клиентов заблокированы. Начислить спец статус можно только незаблокированным клиентам'
+              ? "Один или несколько клиентов заблокированы. Начислить спец статус можно только незаблокированным клиентам"
               : Number(percent) < 1
-              ? t('requiredField')
-              : 'Минимальный процент: 1'
+              ? t("requiredField")
+              : "Минимальный процент: 1"
           }
           error={
             Number(percent) < 1 ||
             clientInfo.isBlocked ||
             selectedClients.some((el) => el.isPlBlocked)
           }
-          margin={{ laptop: '0 0 50px 0' }}
+          margin={{ laptop: "0 0 50px 0" }}
           value={percent}
           defaultValue={clientInfo.value?.toString()}
           onChange={handleChange}
         />
-        <div className='buttons'>
+        <div className="buttons">
           <Button
             onClick={handleClose}
             buttonStyle={
               width > 1000
-                ? { bgcolor: '#ffffff', color: '#223367' }
-                : { color: '#606EEA', bgcolor: 'rgba(96, 110, 234, 0.1)' }
+                ? { bgcolor: "#ffffff", color: "#223367" }
+                : { color: "#606EEA", bgcolor: "rgba(96, 110, 234, 0.1)" }
             }
-            margin={{ laptop: '0 25px 0 0' }}
+            margin={{ laptop: "0 25px 0 0" }}
             startIcon={width > 1000 ? <CancelIcon /> : <MobileCancelIcon />}
           >
             Отменить
@@ -219,11 +219,11 @@ export const VipModal = ({
           <Button
             disabled={
               mutation.isLoading ||
-              client.isPlBlocked ||
+              client?.isPlBlocked ||
               selectedClients.some((el) => el.isPlBlocked) ||
               clientInfo.isBlocked
             }
-            type='submit'
+            type="submit"
             startIcon={<DoneIcon />}
           >
             Готово
@@ -234,56 +234,56 @@ export const VipModal = ({
   } else {
     return (
       <Wrapper onSubmit={onSubmit}>
-        <div className='header'>
+        <div className="header">
           <h3>Вы действительно хотите отключить специальный статус?</h3>
           <CloseIcon onClick={handleClose} />
         </div>
-        <div className='content'>
+        <div className="content">
           {selectedClients.length > 1 && (
-            <p className='info amount'>
+            <p className="info amount">
               Выбрано клиентов: {selectedClients.length}
             </p>
           )}
-          <p className='info'>
+          <p className="info">
             При отключении специальный статус сменится на стандартный статус
             согласно программе лояльности
           </p>
         </div>
         <Status>
-          <div className='old child'>
+          <div className="old child">
             <p>Текущий статус</p>
             <b>
-              {selectedClients.length > 1 ? 'Специальный' : 'Спец'}{' '}
-              {!(selectedClients.length > 1) && clientInfo.value + '%'}
+              {selectedClients.length > 1 ? "Специальный" : "Спец"}{" "}
+              {!(selectedClients.length > 1) && clientInfo.value + "%"}
             </b>
           </div>
           <RightArrowIcon />
-          <div className='new child'>
+          <div className="new child">
             <p>Стандартный статус</p>
             <b>
               {selectedClients.length > 1
-                ? 'Стандартный'
-                : clientInfo.prevStatus}{' '}
-              {!(selectedClients.length > 1) && clientInfo.prevPercent + '%'}
+                ? "Стандартный"
+                : clientInfo.prevStatus}{" "}
+              {!(selectedClients.length > 1) && clientInfo.prevPercent + "%"}
             </b>
           </div>
         </Status>
-        <div className='buttons'>
+        <div className="buttons">
           <Button
             onClick={handleClose}
             buttonStyle={
               width > 1000
-                ? { bgcolor: '#ffffff', color: '#223367' }
-                : { color: '#606EEA', bgcolor: 'rgba(96, 110, 234, 0.1)' }
+                ? { bgcolor: "#ffffff", color: "#223367" }
+                : { color: "#606EEA", bgcolor: "rgba(96, 110, 234, 0.1)" }
             }
-            margin={{ laptop: '0 25px 0 0' }}
+            margin={{ laptop: "0 25px 0 0" }}
             startIcon={width > 1000 ? <CancelIcon /> : <MobileCancelIcon />}
           >
             Отменить
           </Button>
           <Button
             disabled={mutation.isLoading}
-            type='submit'
+            type="submit"
             startIcon={<DoneIcon />}
           >
             Применить

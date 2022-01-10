@@ -34,8 +34,9 @@ interface FormProps {}
 export const Form: React.FC<FormProps> = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [modal, setModal] = useState(false);
+  const [variantsLength, setVariantsLength] = useState(1);
 
-  const form = useCreateItem();
+  const form = useCreateItem(variantsLength);
 
   const history = useHistory();
 
@@ -53,7 +54,8 @@ export const Form: React.FC<FormProps> = () => {
         history.push("main");
       },
     });
-    console.log(createServiceHelper(transformedData));
+
+    // console.log(createServiceHelper(transformedData));
   };
 
   const handleClose = () => {
@@ -74,7 +76,10 @@ export const Form: React.FC<FormProps> = () => {
             <TitleAndDescription />
             <Selects handleOpen={handleOpen} />
             <Switches dispatch={dispatch} state={state} />
-            <Variants disabled={state.loyaltyType !== 1} />
+            <Variants
+              setVariantsLength={setVariantsLength}
+              disabled={state.loyaltyType !== 1}
+            />
             <Durations />
             <Photos />
             <Buttons isLoading={isLoading} />

@@ -33,7 +33,7 @@ const MenuList = () => {
   return (
     <WrapList>
       <List>
-        {sidebar?.current?.map(({ Icon, text, path, permission }: any) => {
+        {sidebar?.map(({ Icon, text, path, permission }: any) => {
           let currentpath = path.split("/");
 
           if (

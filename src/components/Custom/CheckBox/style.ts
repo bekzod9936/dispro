@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { device } from '../../../styles/device';
+import styled from "styled-components";
+import { device } from "../../../styles/device";
 
 export const Container = styled.div`
   span.MuiCheckbox-colorSecondary.Mui-checked {
@@ -21,7 +21,6 @@ export const Container = styled.div`
   @media (max-width: ${device.mobile}) {
     span.MuiTypography-body1 {
       font-size: 14px !important ;
-      font-weight: 400 !important ;
     }
   }
 `;

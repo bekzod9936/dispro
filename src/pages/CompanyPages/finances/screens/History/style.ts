@@ -308,7 +308,9 @@ export const LabelCom = styled.div`
 export const WrapImage = styled.div`
   display: flex;
   align-items: center;
-  grid-gap: 15px;
+  & > span.textth {
+    margin-left: 15px;
+  }
 `;
 
 export const CloseWrapBut = styled.div`

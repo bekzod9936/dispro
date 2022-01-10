@@ -46,7 +46,7 @@ export const Item: React.FC<ItemProps> = ({
   const image = item.goodsImages[0].imageUrl;
   const price = thousandsDivider(item.price);
   const priceWithDiscount = thousandsDivider(item.priceWithDiscount);
-  const count = thousandsDivider(item.count);
+  const count = item.count > 0 ? thousandsDivider(item.count) : item.count;
   const hideInMobile = item.hideInMobile;
 
   const isItCurrentItem = currentItemId === item.id;
