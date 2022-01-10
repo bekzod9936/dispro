@@ -2,10 +2,10 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import { useEffect, useReducer } from "react"
 import { useForm } from "react-hook-form"
 import { useQuery } from "react-query"
-import { useParams } from "react-router-dom"
+import { useLocation, useParams } from "react-router-dom"
 import { ApiServices } from "services/queries/servicesQueries"
 import { useCategories, useGetSections } from ".."
-import { createItemDefaultFields, GET_ITEM } from "../../constants"
+import { createItemDefaultFields, CREATE_ITEM_QUIT_MODAL_CONTENT, EDIT_ITEM_QUIT_MODAL_CONTENT, GET_ITEM } from "../../constants"
 import { getSectionOfItem, resetDefaultValues } from "../../helpers"
 import { goodsSchema } from "../../utils/schemas.yup"
 import { FormFieldTypes } from "../../utils/types"
@@ -23,6 +23,16 @@ export const useGetItemById = () => {
         retry: 0,
     })
 
+}
+
+
+export const useQuitModalContent = () => {
+    const location = useLocation()
+    const isCreatePage = location.pathname.includes('create')
+
+    const content = isCreatePage ? CREATE_ITEM_QUIT_MODAL_CONTENT : EDIT_ITEM_QUIT_MODAL_CONTENT
+
+    return content
 }
 
 

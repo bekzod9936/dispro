@@ -38,8 +38,6 @@ import {
   DiscountIcon,
   CartIcon,
   CloseIcon,
-  SaveIcon,
-  CancelIcon,
   WrapButtonsModal,
   WrapModalComment,
   WarpBodyComModel,
@@ -78,7 +76,7 @@ const Payment = () => {
     endDate: dayjs().endOf("month").format("YYYY-MM-DD"),
     cashierStaffId: "",
     page: 1,
-    perPage: width > 600 && width <= 1000 ? 10 : 5,
+    perPage: width > 600 && width <= 1000 ? 6 : 5,
     amountCash: "",
     amountCard: "",
   };
@@ -347,7 +345,7 @@ const Payment = () => {
   const headerContentMobile = () => {
     if (width <= 1000) {
       return (
-        <WrapTotal>
+        <WrapTotal marginTop="0">
           <WrapTotalSum>
             <MoneyIcon />
             <WrapSum>

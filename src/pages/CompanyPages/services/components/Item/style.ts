@@ -65,7 +65,7 @@ export const Wrapper = styled.div`
                 }
 
                 p.zeroCount {
-                    color: #FF5E68 !important;
+                    color: ${({ isItCurrentItem, isHiddenItem }: IProps) => isItCurrentItem ? '#fff' : isHiddenItem ? "#C4C4C4" : "#FF5E68"};
                 }
             }
 

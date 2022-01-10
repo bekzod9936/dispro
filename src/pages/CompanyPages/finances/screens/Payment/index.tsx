@@ -153,6 +153,7 @@ const Payment = () => {
               dateTo: e.slice(e.indexOf("~ ") + 2),
             });
           }}
+          margin="0 0 10px 0"
         />
         {headerContentMobile()}
         {contentTable()}

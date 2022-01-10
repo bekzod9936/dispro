@@ -272,14 +272,14 @@ export const resetDefaultValues = (data: IGoodsResponse): FormFieldTypes => {
     section: 1,
     service: {},
     variants: data.hasGoodsVariant ? data.goodsVariants.map(variant => ({
-      amount: String(variant.count),
+      amount: variant.count > 0 ? String(variant.count) : "",
       articul: String(variant.artikulCode),
       name: variant.goodsVariantTranslates.map(translate => ({data: translate.translateName, lang: languageLabels[translate.langId as keyof typeof languageLabels]})),
       price: String(variant.price),
       priceWithSale: String(variant.priceWithDiscount)
     })) : [{
       name: [{data: '', lang: '(Рус)'}],
-      amount: String(data.count),
+      amount: data.count > 0 ? String(data.count) : "",
       price: String(data.price),
       articul: String(data.artikulCode),
       priceWithSale: String(data.priceWithDiscount)

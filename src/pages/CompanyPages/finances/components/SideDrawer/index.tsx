@@ -80,6 +80,7 @@ const SideDrawer = ({
             startIcon={width > 1000 ? <EditPen /> : null}
             endIcon={width <= 1000 ? <EditPen /> : null}
             onClick={handleEdit}
+            margin={{ planshet: "0 0 20px 0" }}
           >
             {t("edit")}
           </Button>

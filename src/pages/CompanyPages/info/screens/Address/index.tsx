@@ -171,7 +171,7 @@ const Address = () => {
   const fetchYandexAddressName = (lat: any, lon: any) => {
     axios
       .get(
-        `https://geocode-maps.yandex.ru/1.x?apikey=6f33a62b-bf0f-4218-9613-374e77d830ab&lang=ru-RU&format=json&geocode=${lat},${lon}`
+        `https://geocode-maps.yandex.ru/1.x?apikey=fd83ecfe-efaa-4ff2-b7ce-1bd8cac8f127&lang=ru-RU&format=json&geocode=${lat},${lon}`
       )
       .then((res) => {
         setMapAddress({
@@ -213,7 +213,7 @@ const Address = () => {
   const fetchYandexAddressSearch = (searchName: any) => {
     axios
       .get(
-        `https://geocode-maps.yandex.ru/1.x?apikey=6f33a62b-bf0f-4218-9613-374e77d830ab&lang=ru-RU&format=json&geocode=${searchName}`
+        `https://geocode-maps.yandex.ru/1.x?apikey=fd83ecfe-efaa-4ff2-b7ce-1bd8cac8f127&lang=ru-RU&format=json&geocode=${searchName}`
       )
       .then((res) => {
         setSearchaddressList(

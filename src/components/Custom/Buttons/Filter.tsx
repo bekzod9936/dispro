@@ -10,7 +10,7 @@ interface Props {
 
 export const FilterButton = ({ children, onClick = () => {} }: Props) => {
   return (
-    <ButtonKeyWord>
+    <ButtonKeyWord className="buttonkey">
       {children}
       <IconButton onClick={onClick}>
         <XIcon />

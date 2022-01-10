@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { ReactComponent as Up } from 'assets/icons/up.svg';
+import styled from "styled-components";
+import { ReactComponent as Up } from "assets/icons/up.svg";
 
 interface Props {
   up?: boolean;
@@ -15,7 +15,6 @@ export const Container = styled.div`
   background: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
   border-radius: 14px;
-
   margin-top: 20px;
   width: 100%;
   overflow: hidden;
@@ -63,36 +62,41 @@ export const Thead = styled.thead`
   background: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
   border-radius: 14px 14px 0 0;
-  & > tr:last-child {
-    border-top: ${({ header2 }: Props) =>
-      header2 ? '1px solid rgba(96, 110, 234, 0.3)' : null};
-    & > th:first-child {
-      border-right: ${({ header2 }: Props) =>
-        header2 ? '1px solid rgba(96, 110, 234, 0.3)' : null};
+  & > tr:first-child {
+    & > th {
+      border-bottom: ${({ header2 }: Props) =>
+        header2 ? "1px solid #d0d4f9" : null};
     }
   }
+  & > tr:last-child {
+    & > th:first-child {
+      border-right: ${({ header2 }: Props) =>
+        header2 ? "1px solid #d0d4f9" : null};
+    }
+  }
+
   & > tr {
     height: 65px;
   }
 `;
 
 export const Tr = styled.tr`
-  background-color: ${({ bgcolor }: TbProps) => (bgcolor ? bgcolor : 'white')};
-  cursor: ${({ cursorRow }: TbProps) => (cursorRow ? cursorRow : 'default')};
+  background-color: ${({ bgcolor }: TbProps) => (bgcolor ? bgcolor : "white")};
+  cursor: ${({ cursorRow }: TbProps) => (cursorRow ? cursorRow : "default")};
 `;
 
 export const Th = styled.th`
   padding: 0 10px;
   font-weight: normal;
   font-size: 16px;
-  color: ${({ active }: Props) => (active ? '#223367' : '#a5a5a5')}!important;
+  color: ${({ active }: Props) => (active ? "#223367" : "#a5a5a5")}!important;
   border-radius: 14px 14px 0 0;
   :hover {
-    color: ${({ active }: Props) => (active ? null : '#3492FF')}!important;
+    color: ${({ active }: Props) => (active ? null : "#3492FF")}!important;
     & > svg {
       & > path {
         fill: ${({ active }: Props) =>
-          active ? '#223367' : '#8f8f8f'}!important;
+          active ? "#223367" : "#8f8f8f"}!important;
       }
     }
   }
@@ -115,9 +119,9 @@ export const Td = styled.td`
 `;
 
 export const UpIcon = styled(Up)`
-  transform: ${({ up }: Props) => (up ? 'rotate(-180deg)' : 'rotate(0)')};
+  transform: ${({ up }: Props) => (up ? "rotate(-180deg)" : "rotate(0)")};
   margin-left: 5px;
   & > path {
-    fill: ${({ active }: Props) => (active ? '#223367' : 'transparent')};
+    fill: ${({ active }: Props) => (active ? "#223367" : "transparent")};
   }
 `;

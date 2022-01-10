@@ -1,4 +1,4 @@
-import { YMaps, ZoomControl, Placemark, Map } from 'react-yandex-maps';
+import { YMaps, ZoomControl, Placemark, Map } from "react-yandex-maps";
 
 interface Props {
   onBoundsChange?: any;
@@ -25,15 +25,15 @@ const YandexMap = ({
   return (
     <YMaps
       query={{
-        ns: 'use-load-option',
-        apikey: '6f33a62b-bf0f-4218-9613-374e77d830ab',
-        load: 'Map,control.GeolocationControl,control.FullscreenControl',
+        ns: "use-load-option",
+        apikey: "fd83ecfe-efaa-4ff2-b7ce-1bd8cac8f127",
+        load: "Map,control.GeolocationControl,control.FullscreenControl",
       }}
     >
       <Map
         style={{
-          width: '100%',
-          height: '100%',
+          width: "100%",
+          height: "100%",
         }}
         defaultState={{
           center: defaultToshkentAddress,
@@ -49,7 +49,7 @@ const YandexMap = ({
           <Placemark
             geometry={place}
             options={{
-              iconColor: '#606EEA',
+              iconColor: "#606EEA",
             }}
           />
         ) : (
@@ -61,15 +61,15 @@ const YandexMap = ({
                   balloonContent: v.address,
                   id: v.lat,
                 }}
-                modules={['geoObject.addon.balloon']}
+                modules={["geoObject.addon.balloon"]}
                 options={{
-                  iconColor: '#606EEA',
+                  iconColor: "#606EEA",
                 }}
               />
             );
           })
         )}
-        <ZoomControl options={{ float: 'right' }} />
+        <ZoomControl options={{ float: "right" }} />
       </Map>
     </YMaps>
   );

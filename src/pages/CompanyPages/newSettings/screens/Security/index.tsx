@@ -17,7 +17,7 @@ const Security = () => {
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty },
     reset,
   } = useForm<IForm>({
     resolver: yupResolver(securitySchema),
@@ -74,7 +74,9 @@ const Security = () => {
             />
           )}
         </div>
-        <SaveButton disabled={putSecurity.isLoading || response.isLoading} />
+        <SaveButton
+          disabled={putSecurity.isLoading || response.isLoading || !isDirty}
+        />
       </Form>
     </Container>
   );

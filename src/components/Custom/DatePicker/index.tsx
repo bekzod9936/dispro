@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
-import Button from 'components/Custom/Buttons/Button';
-import { useTranslation } from 'react-i18next';
-import { IconButton } from '@material-ui/core';
-import useWindowWidth from 'services/hooks/useWindowWidth';
+import { useEffect, useRef, useState } from "react";
+import Button from "components/Custom/Buttons/Button";
+import { useTranslation } from "react-i18next";
+import { IconButton } from "@material-ui/core";
+import useWindowWidth from "services/hooks/useWindowWidth";
 import {
   Container,
   RDatePicker,
@@ -13,7 +13,7 @@ import {
   DateIcon,
   MobileReset,
   DeleteIcon,
-} from './style';
+} from "./style";
 
 interface Props {
   onChange?: (e: any) => void;
@@ -35,7 +35,7 @@ interface Props {
 const DatePicker = ({
   onChange = () => {},
   margin,
-  defaultValue = [''],
+  defaultValue = [""],
   numberofmonths,
   height,
   showoldvalue,
@@ -48,7 +48,7 @@ const DatePicker = ({
 
   const [values, setValues] = useState<any>(defaultValue);
 
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState("");
   const handleChange = (e: any) => {
     setValues(e);
   };
@@ -61,12 +61,12 @@ const DatePicker = ({
   }, [datePickerRef?.current?.childNodes[0]?.attributes?.value?.value, values]);
 
   const handleClick = () => {
-    setDate('');
-    setValues('');
-    onChange('');
+    setDate("");
+    setValues("");
+    onChange("");
   };
 
-  const format = 'YYYY-MM-DD';
+  const format = "YYYY-MM-DD";
   if (showoldvalue) {
     return (
       <Container margin={margin}>
@@ -76,9 +76,9 @@ const DatePicker = ({
             endIcon={width > 600 ? <DownIcon /> : null}
             onClick={() => datePickerRef.current.openCalendar()}
             buttonStyle={{
-              bgcolor: 'white',
-              shadow: '0px 4px 4px rgba(0, 0, 0, 0.04)',
-              color: '#223367',
+              bgcolor: "white",
+              shadow: "0px 4px 4px rgba(0, 0, 0, 0.04)",
+              color: "#223367",
               height: height
                 ? height
                 : {
@@ -87,18 +87,18 @@ const DatePicker = ({
             }}
           >
             <WrapText>
-              <span>{t('datePicker')}</span>
+              <span>{t("datePicker")}</span>
               <span>{date}</span>
             </WrapText>
           </Button>
-          {date === '' ? null : (
+          {date === "" ? null : (
             <IconButton onClick={handleClick}>
               <ResetIcon />
             </IconButton>
           )}
         </WrapButton>
         <RDatePicker
-          inputClass='custom-input'
+          inputClass="custom-input"
           ref={datePickerRef}
           range={true}
           onChange={handleChange}
@@ -108,7 +108,7 @@ const DatePicker = ({
           portal={true}
           maxDate={maxDate}
         />
-        {date === '' && notshowvalue ? null : (
+        {date === "" && notshowvalue ? null : (
           <MobileReset>
             {` ${date}`}
             <IconButton onClick={handleClick}>
@@ -128,9 +128,9 @@ const DatePicker = ({
             endIcon={width > 600 ? <DownIcon /> : null}
             onClick={() => datePickerRef.current.openCalendar()}
             buttonStyle={{
-              bgcolor: 'white',
-              shadow: '0px 4px 4px rgba(0, 0, 0, 0.04)',
-              color: '#223367',
+              bgcolor: "white",
+              shadow: "0px 4px 4px rgba(0, 0, 0, 0.04)",
+              color: "#223367",
               height: height
                 ? height
                 : {
@@ -139,18 +139,18 @@ const DatePicker = ({
             }}
           >
             <WrapText>
-              <span>{t('datePicker')}</span>
+              <span>{t("datePicker")}</span>
               <span>{date}</span>
             </WrapText>
           </Button>
-          {date === '' ? null : (
+          {date === "" ? null : (
             <IconButton onClick={handleClick}>
               <ResetIcon />
             </IconButton>
           )}
         </WrapButton>
         <RDatePicker
-          inputClass='custom-input'
+          inputClass="custom-input"
           ref={datePickerRef}
           range={true}
           onChange={handleChange}
@@ -162,9 +162,9 @@ const DatePicker = ({
         />
       </Container>
 
-      {date === '' && notshowvalue ? null : (
+      {date === "" && notshowvalue ? null : (
         <MobileReset>
-          {`${t('period')}: ${date}`}
+          {`${t("period")}: ${date}`}
           <IconButton onClick={handleClick}>
             <DeleteIcon />
           </IconButton>
