@@ -161,15 +161,15 @@ export const useEditSectionForm = (section: string) => {
 }
 
 
-export const useChangeAmount = (defaultValue?: number) => {
+export const useChangeAmount = (defaultValue?: number, isUnlimited?: boolean) => {
     const form = useForm<ChangeAmountFormType>({
         mode: "onChange",
         resolver: yupResolver(changeAmountSchema)
     })
 
     useEffect(() => {
-        form.reset({count: defaultValue})
-    }, [defaultValue])
+        form.reset({ count: defaultValue, isCountUnlimited: isUnlimited })
+    }, [defaultValue, isUnlimited])
 
     return form
 }

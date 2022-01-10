@@ -3,6 +3,7 @@ import { STORAGE_URL } from "../../constants/config";
 import { PARTNER } from "services/interceptors/partner_interceptor/types";
 import { 
     categoriesResponseType, 
+    editAmountPutType, 
     editServicePostType, 
     goodResponseType, 
     goodsResponseType, 
@@ -149,5 +150,9 @@ export const ApiServices = {
 
     async editService({id, dto}: editServicePostType) {
         const _ = await partnerApi.put(`core/goods/${id}`, dto)
+    },
+
+    async editAmount({id, dto}: editAmountPutType) {
+        await partnerApi.put(`core/goods/count/${id}`, dto)
     }
 }

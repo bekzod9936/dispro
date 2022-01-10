@@ -152,7 +152,7 @@ export const createServiceHelper = (dto: CreateDtoType): PostDtoType => {
     goodsSectionId: dto.section.value,
     hasGoodsVariant: isServiceHasVariants,
     hideInStores: [],
-    isCountUnlimited: false,
+    isCountUnlimited: Number(firstVariant.amount) === 0,
     withPoint: Number(dto.loyaltyType) === 2,
     withDiscount: Number(dto.loyaltyType) === 1,
     notUsePl: dto.loyaltyOff,
@@ -302,4 +302,11 @@ export const getSectionOfItem = (sections: sectionResponseType | undefined, sect
 export const getParentSections = (sections: ISectionResponse[] | undefined) => {
   if (!sections) return 
   return sections.filter(section => section.parentId === 0)
+}
+
+export const changeAmountToPutDto = (count: number, isUnlimited: boolean) => {
+  return {
+    isCountUnlimited: isUnlimited,
+    count: isUnlimited ? 0 : count
+  }
 }

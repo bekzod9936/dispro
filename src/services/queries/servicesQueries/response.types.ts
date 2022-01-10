@@ -85,3 +85,8 @@ export type editServicePostType = {
     id: number,
     dto: PostDtoType
 }
+
+export type editAmountPutType = {
+    id: number,
+    dto: Pick<PostDtoType, "isCountUnlimited" | "count">
+}

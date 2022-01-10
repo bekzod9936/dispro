@@ -16,32 +16,49 @@ import { useStyles } from "pages/CompanyPages/services/screens/Services/componen
 //other
 import { useChangeAmount } from "pages/CompanyPages/services/hooks";
 import { ChangeAmountFormType } from "pages/CompanyPages/services/utils/types";
+import { useEditAmount } from "pages/CompanyPages/services/hooks/MainPageHooks";
+import { changeAmountToPutDto } from "pages/CompanyPages/services/helpers";
+import { IGoodsResponse } from "services/queries/servicesQueries/response.types";
 
 interface ChangeAmountModalProps {
-  count?: number;
-  label: string | undefined;
   onClose: () => void;
   open: boolean;
+  item: IGoodsResponse | null;
 }
 
 export const ChangeAmountModal: React.FC<ChangeAmountModalProps> = ({
-  count,
-  label,
   onClose,
   open,
+  item,
 }) => {
   const { t } = useTranslation();
+  const count = item?.count || 0;
+  const isUnlimited = Boolean(item?.isCountUnlimited);
+  const label = item?.name;
+  const id = item?.id || 0;
+
   const {
     handleSubmit,
     control,
     formState: { errors },
-  } = useChangeAmount(count);
+  } = useChangeAmount(count, isUnlimited);
   const isCountUnlimited = useWatch({ control, name: "isCountUnlimited" });
 
   const styles = useStyles();
 
+  const { mutate, isLoading } = useEditAmount();
+
   const onSubmit = (data: ChangeAmountFormType) => {
-    console.log(data);
+    const dto = changeAmountToPutDto(data.count, data.isCountUnlimited);
+
+    mutate(
+      { id, dto },
+      {
+        onSettled: () => {
+          onClose();
+        },
+      }
+    );
   };
 
   return (
@@ -60,7 +77,8 @@ export const ChangeAmountModal: React.FC<ChangeAmountModalProps> = ({
             render={({ field }) => (
               <FormControlLabel
                 classes={{ root: styles.root }}
-                {...field}
+                checked={field.value}
+                onChange={field.onChange}
                 control={
                   <Checkbox
                     className={styles.checkbox}
@@ -105,7 +123,7 @@ export const ChangeAmountModal: React.FC<ChangeAmountModalProps> = ({
             >
               {t("cancel")}
             </Button>
-            <SaveButton />
+            <SaveButton disabled={isLoading} />
           </div>
         </form>
       </Wrapper>
