@@ -1,13 +1,15 @@
+export const defaultVariant = {
+  name: [{ data: "", lang: "(Рус)" }],
+  amount: "",
+  price: "",
+  priceWithSale: "",
+  articul: "",
+}
+
 export const createItemDefaultFields = {
     titles: [{ title: "", desc: "", lang: "(Рус)" }],
     variants: [
-      {
-        name: [{ data: "", lang: "(Рус)" }],
-        amount: "",
-        price: "",
-        priceWithSale: "",
-        articul: "",
-      },
+      defaultVariant,
     ],
     loyaltyOff: false,
     images: [],
@@ -147,6 +149,7 @@ export const measurements = [
     label: "гр",
   },
 ];
+
 
 
 export const SECTION_DELETE_MODAL_CONTENT = { title: "areYouSureToDeleteSection", info: "После удаления, вложенные разделы и товары нельзя будет восстановить" }

@@ -80,3 +80,8 @@ export type goodResponseType = {
     error: null | unknown,
     success: boolean
 }
+
+export type editServicePostType = {
+    id: number,
+    dto: PostDtoType
+}

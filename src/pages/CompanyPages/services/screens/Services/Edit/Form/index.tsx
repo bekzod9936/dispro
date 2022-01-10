@@ -19,8 +19,13 @@ import {
 import { FormStyled, Container } from "./style";
 
 //other
-import { useEditItem } from "pages/CompanyPages/services/hooks/EditPageHooks";
+import {
+  useEditItem,
+  useEditService,
+} from "pages/CompanyPages/services/hooks/EditPageHooks";
 import Spinner from "components/Helpers/Spinner";
+import { CreateDtoType } from "pages/CompanyPages/services/utils/types";
+import { createServiceHelper } from "pages/CompanyPages/services/helpers";
 
 export const Form: React.FC = () => {
   const [modal, setModal] = useState(false);
@@ -28,8 +33,16 @@ export const Form: React.FC = () => {
 
   const { form, dispatch, state, isLoaded } = useEditItem(variantsLength);
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const { mutate } = useEditService();
+
+  const onSubmit = (data: CreateDtoType) => {
+    const transformedData: CreateDtoType = {
+      ...data,
+      loyaltyOff: state.loyaltyOff,
+      loyaltyType: String(state.loyaltyType),
+    };
+
+    mutate(createServiceHelper(transformedData));
   };
 
   const handleOpen = () => {
