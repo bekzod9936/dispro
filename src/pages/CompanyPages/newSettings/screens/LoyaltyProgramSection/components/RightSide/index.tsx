@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { useMutation } from 'react-query';
-import {  useAppSelector } from 'services/redux/hooks';
+import React, {useState } from "react";
+import {useMutation } from 'react-query';
+import {useAppSelector } from 'services/redux/hooks';
 import CheckBox from 'components/Custom/CheckBox';
 import { useHistory } from 'react-router';
 import useWindowWidth from 'services/hooks/useWindowWidth';
@@ -20,8 +20,8 @@ import { useTranslation } from "react-i18next";
 import { SaveButton } from "components/Custom/Buttons/Save";
 import MultiSelect from "components/Custom/MultiSelect";
 import Spinner from "components/Custom/Spinner";
-import { MainconditionTypes } from "./utils";
-import { notify,notifyError,notifySuccess} from 'services/utils/local_notification';
+import {MainconditionTypes} from "./utils";
+import {notifyError,notifySuccess} from 'services/utils/local_notification';
 import CustomToggle from "components/Custom/CustomToggleSwitch";
 import { GroupToggle, ToggleInfo,ModalTitle,ModalBody ,LoyalDiv,BtnContainer} from "../../style";
 import Modal from 'components/Custom/Modal';
@@ -36,7 +36,7 @@ import RippleEffect from 'components/Custom/RippleEffect';
 import Button from 'components/Custom/Buttons/Button';
 import { SyncIcon } from 'assets/icons/FeedBackIcons.tsx/FeedbackIcons';
 import Condition from './hooks/Condition';
-
+import typeParkImage from 'assets/images/typePark.png';
 import {
   loyalityNewSaveChange,
   changeProgramLoyalityGlobal,
@@ -83,7 +83,6 @@ const Right = () => {
 
   let programSettingsUsePoint=responseProgramSettings?.data?.data?.data?.usePoint;
   let programSettingsUseProgram=responseProgramSettings?.data?.data?.data?.useProgram;
-
   let isFetching=responseBonusPoint.isLoading  || responseBonusPoint.isFetching || responseDiscount.isLoading ||responseDiscount.isFetching ||responseDiscount.isLoading || responseCashback.isFetching;
 
   // let levels:any=[];
@@ -106,43 +105,44 @@ const Right = () => {
       amount:String(amount?.[0]?.amount),
       name:String(item?.name),
       percent:String(item?.percent),
-      condition:{id:id,label:id==2 ? 'Посещения' :id==1? 'Сумма покупок':id==2 ? 'Рекомендации':'',value:id==3 ? 'Посещения' :id==1? 'Сумма покупок':id==2 ? 'Рекомендации':''},
-      type:{id:id,label:id==2 ? 'Посещения' :id==1? 'Сумма покупок':id==2 ? 'Рекомендации':'',value:id==3 ? 'Посещения' :id==1? 'Сумма покупок':id==2 ? 'Рекомендации':''},
+      condition:{id:id,label:id==3 ? 'Посещения' :id==1? 'Сумма покупок':id==2 ? 'Рекомендации':'',value:id==3 ? 'Посещения' :id==1? 'Сумма покупок':id==2 ? 'Рекомендации':''},
+      type:{id:id,label:id==3 ? 'Посещения' :id==1? 'Сумма покупок':id==2 ? 'Рекомендации':'',value:id==3 ? 'Посещения' :id==1? 'Сумма покупок':id==2 ? 'Рекомендации':''},
       requirements:requirements
     }
   });
 
   const { t } = useTranslation();
-  
+  let checkTypePark=(Boolean(disCount?.isActive) ||Boolean(cashBack?.isActive)||Boolean(bonusPoint?.isActive));
+  console.log('text checkingpark',checkTypePark) 
   let companyId: any = localStorage.getItem('companyId');
   const [modified,setModified]=useState('0')
   const [modaldiscount,setModalDiscount]=useState(false);
   const [modalcashback,setModalCashback]=useState(false);
   const [modalpoints,setModalPoints]=useState(false);
-  const [discounts, setDiscounts] = useState(disCount?.isActive);
-  const [cashback, setCashback] = useState(cashBack?.isActive);
-  const [points, setPoints] = useState(bonusPoint?.isActive);
+
+  const [discounts, setDiscounts] = useState(disCount?.isActive ? true:false);
+  const [cashback, setCashback] = useState(cashBack?.isActive ? true:false);
+  const [points, setPoints] = useState(bonusPoint?.isActive ? true:false);
   const [typePark,setTypePark]=useState(false);
+
+
+
   const [payGoModal, setpayGoModal] = useState(false);
  
   const [localyPaymentfirst, setLocalPaymentFirst] = useState(programSettingsUseProgram);
   const [localyPaymentsecond, setLocalPaymentSecond] = useState(programSettingsUsePoint);
 
-  console.log('typePark',typePark)
-  
-  console.log('cashback2',cashback)
- 
- 
   const methods = useForm({
+   
     mode: "onChange",
     shouldFocusError: true,
     reValidateMode: "onChange",
   });
   const {
     handleSubmit,
-    register,
     control,
     setValue,
+    reset,
     watch,
     formState: { errors, isValid },
   } = methods;
@@ -158,31 +158,71 @@ const Right = () => {
 );
 
 const handleChangeDiscount = () => {
-  setModalDiscount(disCount?.name ? true:false);
+  setModalDiscount(Boolean(disCount?.name));
   if(!disCount?.name){
   setDiscounts(true);
   setCashback(false );
   setPoints(false );
-  setTypePark(false)
+  setTypePark(false);
+  // responseDiscount.refetch();
+  // responseBonusPoint.refetch();
+  // responseCashback.refetch();
+  // responseProgramSettings.refetch();
+  loayalityChange.mutate({
+    data:{
+      isActive:true,
+      isMoved:false,
+      plType:'discount',
+      turnedOff:Boolean(typePark),
+      password:""
+    }
+  })
   }
 };
 const handleChangeCashback = () => {
-    setModalCashback(cashBack?.name? true:false);
+    setModalCashback(Boolean(cashBack?.name));
     if(!cashBack?.name){
+      
     setCashback(true );
     setDiscounts(false);
     setPoints(false );
-    setTypePark(false)
+    setTypePark(false);
+    // responseCashback.refetch();
+    // responseBonusPoint.refetch();
+    //   responseDiscount.refetch();
+    //   responseProgramSettings.refetch();
+      loayalityChange.mutate({
+        data:{
+          isActive:true,
+          isMoved:false,
+          plType:'cashback',
+          turnedOff:Boolean(typePark),
+          password:""
+        }
+      })
     }
     
 };
 const handleChangePoints = () => {
-    setModalPoints(bonusPoint?.name ? true:false);
+    setModalPoints(Boolean(bonusPoint?.name));
     if(!bonusPoint?.name){
     setPoints(true);
     setDiscounts(false);
     setCashback(false );
-    setTypePark(false)
+    setTypePark(false);
+    // responseBonusPoint.refetch();
+    //   responseDiscount.refetch();
+    //   responseCashback.refetch();
+    //   responseProgramSettings.refetch();
+      loayalityChange.mutate({
+        data:{
+          isActive:true,
+          isMoved:false,
+          plType:'point',
+          turnedOff:Boolean(typePark),
+          password:""
+        }
+      })
     }
 };
 
@@ -201,7 +241,7 @@ const loayalityChange = useMutation(
 );
 
 const handleChangePark=(e:any)=>{
-  setTypePark(e.target.checked);
+  setTypePark(true);
   if(e.target.checked){
     setPoints(false);
     setDiscounts(false);
@@ -213,7 +253,7 @@ const handleChangePark=(e:any)=>{
       isActive:true,
       isMoved:false,
       plType:discounts ? 'discount' :cashback ? 'cashback':points ? 'point':'discount',
-      turnedOff:e.target.checked,
+      turnedOff:true,
       password:""
     }
   })
@@ -269,7 +309,7 @@ const loyalityPut = useMutation(
           points ? 'bonuspoint':'' 
         )
       }
-      return loyalityNewSaveChange(
+      else return loyalityNewSaveChange(
         data,
         points ? 'bonuspoint':''
       );
@@ -318,12 +358,10 @@ const f = (array: any) => {
   })
 
 }
-  
- const checkValidation=(levels:any)=>{
 
+
+ const checkValidation=(levels:any,name:any)=>{
   
- 
-   console.log('levelsValue',levels)
    for (let i=0;i<levels?.length;i++){
      //pre curr values
 
@@ -333,7 +371,7 @@ const f = (array: any) => {
      let currFilterPercent=curr?.percent;
      let checkPercent=Number(prevFilterPercent)>Number(currFilterPercent);
 
-     console.log('checkPercentcheckPercent',checkPercent)
+ 
      //case 1
      let prevFilterFirstRequirments=prev?.requirements?.find((item:any)=>item.type==1);
      let currFilterFirstRequirments=curr?.requirements?.find((item:any)=>item.type==1);
@@ -350,49 +388,51 @@ const f = (array: any) => {
      let checkFilterThirdOne=prevFilterThirdRequirments?.amount >=currFilterThirdRequirments?.amount;
     
     if(checkPercent){
-      return notifyError(t(`percent в  ${curr?.name} должна бить болше чем percent в ${prev?.name}`));
+      
+     return notifyError(t(`percent в  ${curr?.name} должна бить болше чем percent в ${prev?.name}`));
     }
 
      if(checkFilterFirstOne){
+      
       return notifyError(t(`Cумма покупок в  ${curr?.name} должна бить болше чем Cумма покупок в ${prev?.name}`));
      }
 
      if(checkFilterSecondOne){
-      return notifyError(t(`Рекомендации в  ${curr?.name} должна бить болше чем Рекомендации в ${prev?.name}`));
+    
+      return  notifyError(t(`Рекомендации в  ${curr?.name} должна бить болше чем Рекомендации в ${prev?.name}`));
      }
 
      if(checkFilterThirdOne){
+     
       return notifyError(t(`Посещения в  ${curr?.name} должна бить болше чем Посещения в ${prev?.name}`));
      }
 
    }
+ return name;
 
-   return levels;
  }
 
  let newarray={amount:'',type:{value:''}}
 
   const FormSettings =async (data: any) => {
-  console.log('datadata',data)
+    console.log('data',data)
     let checking=!localyPaymentfirst ?'yes':'no';
     let checking2=!localyPaymentsecond ? 'yes':'no';
     let globalChecking=checking=='yes' && checking2=='yes';
- 
     let checkinglevels=data?.levels?.map((item: any) => {
       if(item?.type){
         newarray.amount=item?.amount
         newarray.type.value=item?.type?.value;
       }
       let arraynew=[newarray]
-      let requirements=[...arraynew,item.requirements[0],item.requirements[1]].filter((item:any)=> item !==undefined);
-       
-      if(requirements.length>0){
+      let requirements=[...arraynew,item?.requirements?.[0],item?.requirements?.[1]].filter((item:any)=> item !==undefined);
+      if(requirements?.length>0){
         return {
           name: item.name,
           percent: item.percent,
-          requirements: requirements.map((reqItem: any) => {
+          requirements: requirements?.map((reqItem: any) => {
             return {
-              type:reqItem?.type?.value=='Рекомендации' ? 2:reqItem?.type?.value=='Посещения' ? 3 :reqItem?.type?.value=='Сумма покупок' ? 1:0 ,
+              type:reqItem.type.value=='Рекомендации' ? 2:reqItem.type.value=='Посещения' ? 3 :reqItem.type.value=='Сумма покупок' ? 1:0 ,
               amount: Number(reqItem?.amount),
               unit: reqItem?.type.value=='Сумма покупок' ? "UZS":"шт.",
               condition: reqItem?.condition?.value=='или' ? 'or':reqItem?.condition?.value=='и' ?'and':'',
@@ -404,7 +444,7 @@ const f = (array: any) => {
           )
         
      if(globalChecking ? true :payGo==1) {
-      if(checkValidation(checkinglevels)){
+      if(checkValidation(checkinglevels,data?.name)){
         try{
           useProgramSave.mutate({
             useProgram: localyPaymentfirst ? true:false,
@@ -416,88 +456,113 @@ const f = (array: any) => {
             isActive: true,
             companyId: parseInt(companyId),
             levels:checkinglevels,
-            maxAmount: Number(data.maxAmount),
-            name: data.name,
-            percent: Number(data.percent),
+            maxAmount: Number(data?.maxAmount),
+            name: data?.name,
+            percent: Number(data?.percent),
           })
         }
         catch (e){
           console.log(e)
         }
-      
     }
   }
       else {
         setpayGoModal(true);
       }
-   
-  
   };
+ 
+
 
   React.useEffect(() => {
-    if(defaultValue){
+  
+
+    if(Boolean(bonusPoint)){
+        if(convertedValue?.length>0){
+          setValue(`levels`, convertedValue );
+        }
+        if(convertedValue?.length==0 ||convertedValue==undefined){
+          reset({requirments:''})
+      } 
+    }
+
+    if(Boolean(disCount)){
+        if(convertedValue?.length>0){
+          setValue(`levels`, convertedValue );
+        }
+        if(convertedValue?.length==0 ||convertedValue==undefined){
+          reset({requirments:''})
+      } 
+    }
+
+    if(Boolean(cashBack)){
+        if(convertedValue?.length>0){
+          setValue(`levels`, convertedValue );
+        }
+        if(convertedValue?.length==0 ||convertedValue==undefined){
+          reset({requirments:''})
+      } 
+    }
+      if(defaultValue?.maxAmount){
       setValue('maxAmount', defaultValue?.maxAmount);
       setValue('name', defaultValue?.name);
       setValue('percent', defaultValue?.percent);
       if(defaultValue?.cashbackReturnedDay){
         setValue('cashbackReturnedDay',defaultValue?.cashbackReturnedDay);
       }
-
     }
- 
-    if(convertedValue?.length>0){
-      setValue(`levels`, convertedValue );
-    }
-    
-  }, [defaultValue?.maxAmount]);
- 
+  }, [defaultValue?.maxAmount,convertedValue?.length,Boolean(bonusPoint),Boolean(disCount),Boolean(cashBack)]);
 
 
+
+  
+
+
+  
   let CheckPercentage =
     Number(watch(`levels.${0}.percent`)) &&
     Number(watch("percent")) >= Number(watch(`levels.${0}.percent`))
       ? true
       : false;
 
-
-  
- let isEmpty=disCount?.isActive ||cashBack?.isActive||bonusPoint?.isActive;
- let checkEmpty=isEmpty==false ||typePark;
+ let isEmpty=disCount?.isActive ||cashBack?.isActive||bonusPoint?.isActive ||discounts||cashback||points;
+ let checkEmpty=isEmpty==false ||isEmpty==undefined ;
  
+
+
+
 
   return (
     <Container>
     <LeftSide>
     <GroupToggle>
-        <CustomToggle checked={discounts ? discounts:disCount?.isActive} onChange={handleChangeDiscount} />
+        <CustomToggle checked={discounts ? discounts:cashback||points ? false:disCount?.isActive} onChange={handleChangeDiscount} />
         <ToggleInfo>
           <h5>Предоставление скидки</h5>
           <p>
-            Клиент получает скидку при каждой покупке в размере определенного %
+           {infoData==2 ? 'Клиент получает скидку при каждом пополнении карты папка в размере определенного %':'Клиент получает скидку при каждой покупке в размере определенного %'}
           </p>
         </ToggleInfo>
       </GroupToggle>
       <GroupToggle>
-        <CustomToggle checked={cashback ? cashback:cashBack?.isActive} onChange={handleChangeCashback} />
+        <CustomToggle checked={cashback ? cashback:discounts||points ? false:cashBack?.isActive} onChange={handleChangeCashback} />
         <ToggleInfo>
           <h5>Предоставление кешбэка</h5>
           <p>
-            Клиент получает кешбэк в виде реальных денег после каждой покупки
+          {infoData==2 ?'Клиент получает кешбэк в виде реальных денег после каждого пополнения карты парка' :  'Клиент получает кешбэк в виде реальных денег после каждой покупки'}
           </p>
         </ToggleInfo>
       </GroupToggle>
       <GroupToggle>
-        <CustomToggle checked={points ? points :bonusPoint?.isActive} onChange={handleChangePoints} />
+        <CustomToggle checked={points ? points :discounts||cashback ? false:bonusPoint?.isActive} onChange={handleChangePoints} />
         <ToggleInfo>
           <h5>Предоставление баллов</h5>
           <p>
-            Клиент получает баллы после каждой покупки которые может потратить
-            только у вас в компании
+          {infoData==2 ? 'Клиент получает баллы после каждого пополнения карты парка, которые  может потратить только у вас в компании':'Клиент получает баллы после каждой покупки которые может потратить только у вас в компании'}  
           </p>
         </ToggleInfo>
       </GroupToggle>
       {infoData===2 &&  <GroupToggle>
-        <CustomToggle checked={typePark} onChange={handleChangePark} />
+        <CustomToggle checked={typePark ||checkTypePark==false} onChange={handleChangePark} />
         <ToggleInfo>
           <h5>Отключить все</h5>
           <p>
@@ -598,7 +663,7 @@ const f = (array: any) => {
                           </Button>
                         </WrapModalPaygo>
    </Modal>
-   {checkEmpty ? (
+   {   checkEmpty ? (
             <Grid
               justifyContent='center'
               alignItems='center'
@@ -607,10 +672,13 @@ const f = (array: any) => {
               xs={12}
               sm={7}
             >
-              <EmptySetting />
+            { infoData==2 && checkTypePark==false ? <div >
+            <img src={typeParkImage} />
+          </div>: <EmptySetting />}
               <EText>{t('empty_setting_text')}</EText>
             </Grid>
           ):
+       
     <RightSide>
         <RightSideContent>
     { isFetching ? (
@@ -634,7 +702,7 @@ const f = (array: any) => {
               type="string"
               autoComplete={"off"}
               defaultValue={defaultValue?.name}
-              width={width>1550 ? { maxwidth:500, minwidth: 300}:{ maxwidth:350, minwidth: 300}}
+              width={width>1550 ? { maxwidth:500, minwidth: 300}:{ maxwidth:350, minwidth: 250}}
               margin={{ laptop: "0px 20px 0px 0px" }}
               field={field}
               error={!!errors.name}
@@ -657,6 +725,7 @@ const f = (array: any) => {
               max="100"
               width={{
                 width: "106px",
+                minwidth:100,
               }}
               margin={{
                 laptop: "25px 0 0",
@@ -666,7 +735,7 @@ const f = (array: any) => {
                   <PercentIcon />
                 </PercentDiv>
               }
-              message={t("requiredField")}
+              // message={t("requiredField")}
               error={!!errors.percent}
             />
           )}
@@ -694,7 +763,7 @@ const f = (array: any) => {
                       label={t("status_name")}
                       type="string"
                       autoComplete={"off"}
-                      width={width>1550 ? { maxwidth:500, minwidth: 300}:{ maxwidth:350, minwidth: 300}}
+                      width={width>1550 ? { maxwidth:500, minwidth: 300}:{ maxwidth:350, minwidth: 250}}
                       margin={{ laptop: "0px 20px 0px 0px" }}
                       field={field}
                       error={!!errors.levels?.[index]?.name}
@@ -841,7 +910,7 @@ const f = (array: any) => {
                   nestIndex={index}
                   watch={watch}
                   setValue={setValue}
-                  convertedValue={convertedValue}
+              
                   data={data}
                   errors={errors}
                   control={control}
@@ -878,20 +947,20 @@ const f = (array: any) => {
           )}
         />
       </TitleForm>
-      {cashback && <TitleForm>
+      {Boolean(cashBack?.isActive) && <TitleForm>
                             <Controller
                               name='cashbackReturnedDay'
                               control={control}
                               rules={{
-                                required: cashBack?.isActive,
-                                min: cashBack?.isActive ? 1:0
+                                required: Boolean(cashBack?.isActive),
+                                max: Boolean(cashBack?.isActive) ? 30:0
                               }}
                               // defaultValue={give_cashback_after}
                               render={({ field }) => {
                                 return (
                                   <InputFormat
                                     field={field}
-                     
+                                    defaultValue={console.log('test cashback',errors)}
                                     label={t('give_cashback_after')}
                                     width={width>1550 ? { maxwidth:500, minwidth: 300}:{ maxwidth:350, minwidth: 300}}
                                     margin={{ laptop: "0px 20px 0px 0px" }}
@@ -904,13 +973,14 @@ const f = (array: any) => {
                                     //   'required'
                                     // }
                                     error={!!errors.cashbackReturnedDay }
-                                    message={t('requiredField')}
+                                    message={errors.cashbackReturnedDay?.type=='required' ? t('requiredField'):t('maxcharactersdays',{value:30})}
                                   />
                                 );
                               }}
                             />
                           </TitleForm>}
       <LocalyPayment>
+      {infoData !==2 && <div>
         <Title>
           <h5>Оплата на местах</h5>
         </Title>
@@ -925,6 +995,7 @@ const f = (array: any) => {
                   name={'localyPaymentsecond'}
                   label={t('substractingPoints')}
                   onChange={(e: any) => setLocalPaymentSecond(e.target.checked)}/>
+                  </div>}
         <SubmitButton>
           <SaveButton />
         </SubmitButton>
