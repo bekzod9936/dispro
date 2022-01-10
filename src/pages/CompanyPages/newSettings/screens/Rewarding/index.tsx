@@ -37,12 +37,12 @@ const Rewarding = () => {
     control,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm<IForm>({
     resolver: yupResolver(rewardingSchema),
     mode: "onChange",
   });
-
+  console.log(isDirty, "sjsjs");
   const data: any = useAppSelector((state) => state.newsetting.reward);
   const type = useAppSelector((state) => state.info.data?.type);
 
@@ -358,7 +358,9 @@ const Rewarding = () => {
         </Wrap>
         <DownSide isScroll={scroll.scrollHeight > scroll.clientHeight}>
           <div>
-            <SaveButton disabled={response.isLoading || postReward.isLoading} />
+            <SaveButton
+              disabled={response.isLoading || postReward.isLoading || !isDirty}
+            />
           </div>
         </DownSide>
       </Form>
