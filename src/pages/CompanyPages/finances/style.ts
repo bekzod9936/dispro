@@ -1,8 +1,12 @@
 import styled from "styled-components";
+import { device } from "styles/device";
 import { ReactComponent as Deposit } from "assets/icons/SideBar/deposit.svg";
 import { ReactComponent as Shield } from "assets/icons/SideBar/shield.svg";
 
-import { device } from "styles/device";
+interface Props {
+  open?: boolean;
+  marginTop?: string;
+}
 
 export const DepositIcon = styled(Deposit)`
   width: 24px;
@@ -152,7 +156,7 @@ export const WrapTotal = styled.div`
   @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
     display: flex;
     width: fit-content;
-    margin-top: 0;
+    margin-top: ${({ marginTop }: Props) => (marginTop ? marginTop : "15px")};
   }
   @media (max-width: ${device.mobile}) {
     display: grid;
@@ -260,10 +264,6 @@ export const TitleDef = styled.div`
     text-align: center;
   }
 `;
-
-interface Props {
-  open?: boolean;
-}
 
 export const SideDrawer = styled.div`
   position: fixed;
