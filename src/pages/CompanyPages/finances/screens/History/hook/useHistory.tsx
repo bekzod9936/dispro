@@ -290,7 +290,7 @@ const useHistory = ({ filterValues, handleClickCommet }: PProps) => {
                     e.target.src = App;
                   }}
                 />
-                {t("p2p")}
+                <span className="textth">{t("p2p")}</span>
               </WrapImage>
             );
           } else {
@@ -306,13 +306,16 @@ const useHistory = ({ filterValues, handleClickCommet }: PProps) => {
                   }
                   width="40px"
                   effect="blur"
-                  style={{ objectFit: "cover", borderRadius: "14px" }}
+                  style={{
+                    objectFit: "cover",
+                    borderRadius: "14px",
+                  }}
                   onError={(e: any) => {
                     e.target.onerror = null;
                     e.target.src = App;
                   }}
                 />
-                {props.value}
+                <span className="textth">{props.value}</span>
               </WrapImage>
             );
           }
