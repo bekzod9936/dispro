@@ -152,6 +152,7 @@ export const WrapTotal = styled.div`
   @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
     display: flex;
     width: fit-content;
+    margin-top: 0;
   }
   @media (max-width: ${device.mobile}) {
     display: grid;

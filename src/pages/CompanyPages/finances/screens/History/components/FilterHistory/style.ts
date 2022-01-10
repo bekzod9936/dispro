@@ -88,6 +88,7 @@ export const WrapFilterButtons = styled.div`
     gap: 0;
     .buttonkey {
       margin-right: 15px;
+      margin-bottom: 15px;
     }
   }
 `;
