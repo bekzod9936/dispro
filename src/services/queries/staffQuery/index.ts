@@ -120,3 +120,38 @@ export const getPointHistories = async ({ id, url }: Props) => {
 
   return response;
 };
+
+export type CashierRatingResponse = {
+	amountReturned: number
+	cashierId: number
+	clientFirstName: string
+	clientGenderTypeId: number
+	clientId: number
+	clientImage: string
+	clientLastName: string
+	createdAt: string
+	firstName: string
+	lastName: string
+	obtainProgramLoyalty: {levelName: string, percent: number}
+	payDate: string
+	rating: number
+	review: string
+	storeName: string
+	totalAmount: number
+	usedPointAmount: number
+}
+export interface CashierRatingsResponse {
+	data: CashierRatingResponse[],
+	error: null | unknown,
+	success: boolean
+}
+
+
+//cashier rating-review
+export const getCashierRatingReview = async (id: number) => {
+  const {data} = await partnerApi.get<CashierRatingsResponse>(
+    `/core/cashier/rating-review/${id}`
+  );
+
+  return data.data;
+};

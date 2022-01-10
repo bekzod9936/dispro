@@ -4,8 +4,19 @@ import { useQuery, useMutation } from "react-query";
 
 //helpers
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
-import { getStaffData, resetPoints } from "services/queries/staffQuery";
+import { getCashierRatingReview, getStaffData, resetPoints } from "services/queries/staffQuery";
 import { setCashierId, setStaffData } from "services/redux/Slices/staffs";
+
+
+const GET_RATINGS = 'getRatings'
+
+export const useGetRatings = (id: number) => {
+	return useQuery([GET_RATINGS, id], () => getCashierRatingReview(id), {
+		retry: 1,
+		refetchOnWindowFocus: false
+	})
+}
+
 
 const useCashierCard = () => {
   const history = useHistory();
