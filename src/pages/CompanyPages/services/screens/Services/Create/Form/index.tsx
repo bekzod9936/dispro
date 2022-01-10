@@ -54,6 +54,8 @@ export const Form: React.FC<FormProps> = () => {
         history.push("main");
       },
     });
+
+    // console.log(createServiceHelper(transformedData));
   };
 
   const handleClose = () => {

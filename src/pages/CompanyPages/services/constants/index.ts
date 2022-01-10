@@ -156,3 +156,6 @@ export const SUBSECTION_DELETE_MODAL_CONTENT = { title: "areYouSureToDeleteSubSe
 export const SECTION_HIDE_MODAL_CONTENT = { title: "areYouSureToHideSection", info: "После скрытия, вложенные разделы и товары не будут отображаться в мобильном приложении" }
 export const SUBSECTION_HIDE_MODAL_CONTENT = { title: "areYouSureToHideSubSection", info: "После скрытия, вложенные товары не будут отображаться в мобильном приложении" }
 export const ITEM_HIDE_MODAL_CONTENT = { title: "areYouSureToHideItem", info: "После скрытия, товар не будет отображаться в мобильном приложении"}
+
+export const CREATE_ITEM_QUIT_MODAL_CONTENT = "servicesPageQuitModalAlertMessage";
+export const EDIT_ITEM_QUIT_MODAL_CONTENT = "servicesPageEditModalAlertMessage";
