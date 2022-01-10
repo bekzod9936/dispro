@@ -84,4 +84,10 @@ export const WrapFilterButtons = styled.div`
   flex-wrap: wrap;
   margin-top: 20px;
   gap: 10px;
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    gap: 0;
+    .buttonkey {
+      margin-right: 15px;
+    }
+  }
 `;
