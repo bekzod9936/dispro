@@ -57,7 +57,6 @@ const QrCodes = () => {
             height: { desktop: 50, laptop: 45 },
           }}
           placeholder={t("searchbyqrcode")}
-          margin={{ laptop: "0 0 0 20px", mobile: "0 20px" }}
           width={{ maxwidth: 500 }}
           onChange={(e) => {
             dispatchReducer({ type: "change", payload: e.target.value });
