@@ -16,6 +16,7 @@ import {
 
 //other
 import useWindowWidth from "services/hooks/useWindowWidth";
+import { useQuitModalContent } from "pages/CompanyPages/services/hooks/EditPageHooks";
 
 interface QuitModalProps {
   isOpen: boolean;
@@ -30,13 +31,16 @@ export const QuitModal: React.FC<QuitModalProps> = ({
 }) => {
   const { t } = useTranslation();
   const { width } = useWindowWidth();
+
+  const content = useQuitModalContent();
+
   const styles = useButtonStyle();
 
   return (
     <Modal open={isOpen}>
       <Wrapper>
         <h4>{t("leavePage")}</h4>
-        <p>{t("servicesPageQuitModalAlertMessage")}</p>
+        <p>{t(content)}</p>
         <div className="buttons">
           <Button
             onClick={onStay}
