@@ -1,10 +1,10 @@
-import styled from 'styled-components';
-import DatePicker from 'react-multi-date-picker';
-import { ReactComponent as Down } from 'assets/icons/down.svg';
-import { device } from '../../../styles/device';
-import { ReactComponent as Reset } from 'assets/icons/StatistisPage/reset.svg';
-import { ReactComponent as Date } from 'assets/icons/date.svg';
-import { ReactComponent as Delete } from 'assets/icons/IconsInfo/delete.svg';
+import styled from "styled-components";
+import DatePicker from "react-multi-date-picker";
+import { ReactComponent as Down } from "assets/icons/down.svg";
+import { device } from "../../../styles/device";
+import { ReactComponent as Reset } from "assets/icons/StatistisPage/reset.svg";
+import { ReactComponent as Date } from "assets/icons/date.svg";
+import { ReactComponent as Delete } from "assets/icons/IconsInfo/delete.svg";
 
 interface Props {
   margin?: string;
