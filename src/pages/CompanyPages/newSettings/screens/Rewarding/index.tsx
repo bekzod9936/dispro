@@ -44,6 +44,7 @@ const Rewarding = () => {
   });
 
   const data: any = useAppSelector((state) => state.newsetting.reward);
+  const type = useAppSelector((state) => state.info.data?.type);
 
   const switch1 = useWatch({ control, name: "rewardType1" });
   const switch2 = useWatch({ control, name: "rewardType2" });
@@ -332,7 +333,9 @@ const Rewarding = () => {
                       return (
                         <InputFormat
                           field={field}
-                          label={t("ifMoreThan")}
+                          label={
+                            type === 2 ? t("typeparkvipball") : t("ifMoreThan")
+                          }
                           maxLength={11}
                           width={{ width: "calc(100% - 50px)" }}
                           IconEnd={<IconWord>UZS</IconWord>}

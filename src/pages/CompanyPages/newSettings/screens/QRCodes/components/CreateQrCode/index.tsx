@@ -57,6 +57,7 @@ const CreateQrCode = () => {
   const { putBranches, postRef } = useQrcode();
 
   const data = useAppSelector((state) => state.newsetting.branchQrcodes);
+  const type = useAppSelector((state) => state.info.data?.type);
 
   useEffect(() => {
     const newarr: any = data
@@ -134,14 +135,16 @@ const CreateQrCode = () => {
             >
               {t("forDownload")}
             </li>
-            <li
-              onClick={() => {
-                closeFun.close();
-                setOpenPayment(true);
-              }}
-            >
-              {t("forP2p")}
-            </li>
+            {type === 1 && (
+              <li
+                onClick={() => {
+                  closeFun.close();
+                  setOpenPayment(true);
+                }}
+              >
+                {t("forP2p")}
+              </li>
+            )}
           </ul>
         </WrapList>
       </Popover>
