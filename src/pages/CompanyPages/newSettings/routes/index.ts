@@ -1,15 +1,16 @@
-import { lazy } from 'react';
-import { useTranslation } from 'react-i18next';
+import { lazy } from "react";
+import { useTranslation } from "react-i18next";
+import { useAppSelector } from "services/redux/hooks";
 
-const AwardingSection = lazy(() => import('../screens/Rewarding'));
+const AwardingSection = lazy(() => import("../screens/Rewarding"));
 const LoyaltyProgramSection = lazy(
-  () => import('../screens/LoyaltyProgramSection')
+  () => import("../screens/LoyaltyProgramSection")
 );
-const QRCodesSection = lazy(() => import('../screens/QRCodes'));
+const QRCodesSection = lazy(() => import("../screens/QRCodes"));
 // const ReferalProgramSection = lazy(() => import('../screens/Referal'));
-const SecuritySection = lazy(() => import('../screens/Security'));
+const SecuritySection = lazy(() => import("../screens/Security"));
 const ReferalProgrammSection = lazy(
-  () => import('../screens/ReferalProgrammSection/ReferalProgrammSection')
+  () => import("../screens/ReferalProgrammSection/ReferalProgrammSection")
 );
 // const ReferalProgrammSection = lazy(
 //   () => import('../../settings/screens/ReferalProgrammSection/ReferalProgrammSection')
@@ -22,33 +23,45 @@ export interface ISettingsRow {
 
 const useSettingsRoutes = () => {
   const { t } = useTranslation();
+  const type = useAppSelector((state) => state.info.data?.type);
+
   const menuItems: ISettingsRow[] = [
     {
-      path: '/newsettings/loyality',
-      text: t('loyaltyProgram'),
+      path: "/newsettings/loyality",
+      text: t("loyaltyProgram"),
       component: LoyaltyProgramSection,
     },
     {
-      path: '/newsettings/referal',
-      text: t('referalProgram'),
+      path: "/newsettings/referal",
+      text: t("referalProgram"),
       component: ReferalProgrammSection,
     },
     {
-      path: '/newsettings/rewarding',
-      text: t('awarding'),
+      path: "/newsettings/rewarding",
+      text: t("awarding"),
       component: AwardingSection,
     },
+
     {
-      path: '/newsettings/security',
-      text: t('security'),
+      path: "/newsettings/security",
+      text: t("security"),
       component: SecuritySection,
     },
     {
-      path: '/newsettings/qrcodes',
-      text: t('qrcodes'),
+      path: "/newsettings/qrcodes",
+      text: t("qrcodes"),
       component: QRCodesSection,
     },
-  ];
+  ].filter((v: any) => {
+    if (v.path === "/newsettings/security") {
+      if (type === 1) {
+        return v;
+      } else {
+        return null;
+      }
+    }
+    return v;
+  });
   return { menuItems };
 };
 

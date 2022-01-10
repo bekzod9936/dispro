@@ -15,6 +15,7 @@ const QrCodes = () => {
   const [state, dispatchReducer] = useReducer(reducerQr, initialState);
 
   const dataPayments = useAppSelector((state) => state.newsetting.refQrcodes);
+  const type = useAppSelector((state) => state.info.data?.type);
 
   const dataBranchQrcodes = useAppSelector(
     (state) => state.newsetting.branchQrcodes
@@ -41,10 +42,12 @@ const QrCodes = () => {
     <Container>
       <Header>
         <CreateQrCode />
-        <FilterQr
-          filterType={state.filterType}
-          setFilterType={dispatchReducer}
-        />
+        {type === 1 && (
+          <FilterQr
+            filterType={state.filterType}
+            setFilterType={dispatchReducer}
+          />
+        )}
         <Input
           IconStart={<SearchIcon />}
           inputStyle={{
@@ -54,7 +57,6 @@ const QrCodes = () => {
             height: { desktop: 50, laptop: 45 },
           }}
           placeholder={t("searchbyqrcode")}
-          margin={{ laptop: "0 0 0 20px", mobile: "0 20px" }}
           width={{ maxwidth: 500 }}
           onChange={(e) => {
             dispatchReducer({ type: "change", payload: e.target.value });

@@ -1,8 +1,12 @@
 import styled from "styled-components";
+import { device } from "styles/device";
 import { ReactComponent as Deposit } from "assets/icons/SideBar/deposit.svg";
 import { ReactComponent as Shield } from "assets/icons/SideBar/shield.svg";
 
-import { device } from "styles/device";
+interface Props {
+  open?: boolean;
+  marginTop?: string;
+}
 
 export const DepositIcon = styled(Deposit)`
   width: 24px;
@@ -97,6 +101,7 @@ export const WrapTotalSum = styled.div`
     display: flex;
     flex: 1;
     align-items: center;
+    margin-right: 50px;
   }
 `;
 
@@ -141,7 +146,6 @@ export const Label = styled.div`
   }
   @media (max-width: ${device.planshet}) {
     font-weight: 500;
-    font-size: 13px;
     color: #223367;
     width: fit-content;
   }
@@ -152,7 +156,7 @@ export const WrapTotal = styled.div`
   @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
     display: flex;
     width: fit-content;
-    gap: 50px;
+    margin-top: ${({ marginTop }: Props) => (marginTop ? marginTop : "15px")};
   }
   @media (max-width: ${device.mobile}) {
     display: grid;
@@ -260,10 +264,6 @@ export const TitleDef = styled.div`
     text-align: center;
   }
 `;
-
-interface Props {
-  open?: boolean;
-}
 
 export const SideDrawer = styled.div`
   position: fixed;

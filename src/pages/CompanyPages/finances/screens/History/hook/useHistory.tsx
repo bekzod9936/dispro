@@ -32,7 +32,7 @@ const useHistory = ({ filterValues, handleClickCommet }: PProps) => {
   const dispatch = useAppDispatch();
   const data = useAppSelector((state) => state.finance.historyFinance.data);
   const sum = useAppSelector((state) => state.finance.historyFinance.sum);
-  console.log(filterValues, "filterValues");
+
   const response = useQuery(
     ["fetchPaymentInfo", filterValues],
     () => {
@@ -280,13 +280,17 @@ const useHistory = ({ filterValues, handleClickCommet }: PProps) => {
                   }
                   width="40px"
                   effect="blur"
-                  style={{ objectFit: "cover", borderRadius: "14px" }}
+                  style={{
+                    objectFit: "cover",
+                    borderRadius: "14px",
+                    marginRight: "15px",
+                  }}
                   onError={(e: any) => {
                     e.target.onerror = null;
                     e.target.src = App;
                   }}
                 />
-                {t("p2p")}
+                <span className="textth">{t("p2p")}</span>
               </WrapImage>
             );
           } else {
@@ -302,13 +306,16 @@ const useHistory = ({ filterValues, handleClickCommet }: PProps) => {
                   }
                   width="40px"
                   effect="blur"
-                  style={{ objectFit: "cover", borderRadius: "14px" }}
+                  style={{
+                    objectFit: "cover",
+                    borderRadius: "14px",
+                  }}
                   onError={(e: any) => {
                     e.target.onerror = null;
                     e.target.src = App;
                   }}
                 />
-                {props.value}
+                <span className="textth">{props.value}</span>
               </WrapImage>
             );
           }

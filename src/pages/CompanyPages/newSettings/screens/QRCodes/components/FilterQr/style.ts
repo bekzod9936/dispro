@@ -4,4 +4,5 @@ export const WrapFilter = styled.div`
   display: flex;
   align-items: center;
   grid-gap: 15px;
+  margin-right: 20px;
 `;
