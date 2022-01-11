@@ -692,9 +692,10 @@ const Address = () => {
                     label={t("enterTitle")}
                     error={errors.name ? true : false}
                     message={t("requiredField")}
+                    isAbsolute={true}
                     field={field}
                     margin={{
-                      laptop: "20px 0 25px",
+                      laptop: "20px 0 0",
                     }}
                   />
                 )}
@@ -724,8 +725,9 @@ const Address = () => {
                         }}
                         maskPhone={true}
                         margin={{
-                          laptop: "20px 0 10px",
+                          laptop: "20px 0 0",
                         }}
+                        isAbsolute={true}
                         message={t("requiredField")}
                         inputStyle={{ inpadding: "0 20px 0 0" }}
                         error={
@@ -825,6 +827,7 @@ const Address = () => {
               onClick={() => dispatch(setExitModal(true))}
               margin={{
                 laptop: "20px 10px 0",
+                planshet: "0 10px 0",
                 mobile: "0",
               }}
               mobile={true}
