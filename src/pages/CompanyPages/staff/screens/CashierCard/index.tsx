@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { lazy, useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { Popover } from '@material-ui/core';
 
 //helpers
 import { useAppSelector, useAppDispatch } from 'services/redux/hooks';
@@ -13,6 +14,7 @@ import { numberWith } from 'services/utils';
 import useStaff from '../../hooks/useStaff';
 import useCashiers from '../../hooks/useCashiers';
 import { setOpenEditCashier } from 'services/redux/Slices/staffs';
+import { usePermissions } from 'services/hooks/usePermissions';
 
 //components
 import IconButton from '@material-ui/core/IconButton';
@@ -23,7 +25,7 @@ import Button from 'components/Custom/Buttons/Button';
 import { SideBar } from 'pages/CompanyPages/staff/components/SideBar';
 import QrBar from './components/QrBar';
 import BallTable from './components/BallTable';
-import Popover from 'components/Custom/Popover';
+// import Popover from 'components/Custom/Popover';
 import Modal from 'components/Custom/Modal';
 
 //styles
@@ -93,6 +95,8 @@ const CashierCard = () => {
 	const cashierId: any = state?.id;
 	const [closeFun, setCloseFun] = useState<any>();
 	const openEdit = useAppSelector((state) => state.staffs.openEditCashier);
+	const isEditable = usePermissions('staff');
+	const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
 	const { deleteCashier, open, setOpen } = useCashiers({
 		page: 1,
@@ -220,10 +224,17 @@ const CashierCard = () => {
 		return '';
 	};
 
-	const handleClose = (e: any) => {
-		setCloseFun(e);
-	};
-	console.log(`staffData?.cashierRefLinks`, staffData?.cashierRefLinks);
+	const handleClose = useCallback(() => {
+		setAnchorEl(null);
+	}, []);
+
+	const handleOpen = useCallback(
+		(event: React.MouseEvent<HTMLButtonElement>) => {
+			setAnchorEl(event.currentTarget);
+		},
+		[]
+	);
+
 	return (
 		<CardContainer className='dsds'>
 			<CashierWrapTitle>
@@ -287,7 +298,53 @@ const CashierCard = () => {
 									<QRIcon />
 								</Button>
 							</StaffCol>
+
 							<StaffAction>
+								<IconButton
+									size='small'
+									disabled={!isEditable}
+									onClick={handleOpen}
+								>
+									<DotsWrap>
+										<DotsIcon />
+									</DotsWrap>
+								</IconButton>
+
+								<Popover
+									open={Boolean(anchorEl)}
+									onClose={handleClose}
+									anchorEl={anchorEl}
+									anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+									transformOrigin={{ horizontal: 'left', vertical: 'top' }}
+									PaperProps={{
+										style: {
+											marginTop: 10,
+										},
+									}}
+								>
+									<SelectWrap>
+										<Edit
+											onClick={() => {
+												dispatch(setOpenEditCashier(true));
+												handleClose();
+											}}
+										>
+											{t('edit')}
+										</Edit>
+
+										<Delete
+											onClick={() => {
+												setOpen(true);
+												handleClose();
+											}}
+										>
+											{t('delete')}
+										</Delete>
+									</SelectWrap>
+								</Popover>
+							</StaffAction>
+
+							{/* <StaffAction>
 								<Popover
 									click={
 										<DotsWrap>
@@ -312,6 +369,7 @@ const CashierCard = () => {
 										>
 											{t('edit')}
 										</Edit>
+
 										<Delete
 											onClick={() => {
 												setOpen(true);
@@ -322,7 +380,7 @@ const CashierCard = () => {
 										</Delete>
 									</SelectWrap>
 								</Popover>
-							</StaffAction>
+							</StaffAction> */}
 						</CashierInfo>
 					)}
 					<Flex>

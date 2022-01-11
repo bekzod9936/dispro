@@ -1,7 +1,16 @@
-import axios, {AxiosResponse} from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { STORAGE_URL } from "../../constants/config";
 import { PARTNER } from "services/interceptors/partner_interceptor/types";
-import { categoriesResponseType, goodResponseType, goodsResponseType, IGoodsResponse, sectionDtoType, sectionResponseType, uploadImageType } from './response.types';
+import { 
+    categoriesResponseType, 
+    editAmountPutType, 
+    editServicePostType, 
+    goodResponseType, 
+    goodsResponseType, 
+    sectionDtoType, 
+    sectionResponseType, 
+    uploadImageType 
+} from './response.types';
 import partnerApi from 'services/interceptors/partner_interceptor';
 import { PostDtoType, sectionEditNameType } from 'pages/CompanyPages/services/utils/types';
 
@@ -46,7 +55,6 @@ export const ApiServices = {
         const { data } = await partnerApi.post<PostDtoType, any>('core/goods', dto);
 
     },
-
 
 
     //! todo: return data.data not data
@@ -138,5 +146,13 @@ export const ApiServices = {
         const _ = await partnerApi.put(`core/goods/hide/${id}`, {
             hideInMobile: action
         }) 
+    },
+
+    async editService({id, dto}: editServicePostType) {
+        const _ = await partnerApi.put(`core/goods/${id}`, dto)
+    },
+
+    async editAmount({id, dto}: editAmountPutType) {
+        await partnerApi.put(`core/goods/count/${id}`, dto)
     }
 }

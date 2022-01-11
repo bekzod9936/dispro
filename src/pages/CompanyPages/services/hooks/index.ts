@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 //packages
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useDebounce } from "use-debounce/lib";
-import { useFieldArray, useForm, useFormContext } from "react-hook-form";
+import { useFieldArray, useForm, useFormContext, useWatch } from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "react-query"
 
 //api
@@ -20,13 +20,18 @@ import { changeAmountSchema, editSectionSchema, goodsSchema, sectionsSchema, sub
 import { createItemDefaultFields, GET_SECTIONS } from "../constants";
 
 export const useImage = () => {
-    const { getValues, setValue, formState: { errors }, clearErrors } = useFormContext<FormFieldTypes>()
-    const images = getValues('images')
-    const [links, setLinks] = useState(images)
+    const { getValues, setValue, formState: { errors }, clearErrors, control } = useFormContext<FormFieldTypes>()
+    // const images = useWatch({name: 'images', control})
+    const { fields, append, remove } = useFieldArray({
+        control,
+        name: 'images'
+    })
+    // const [links, setLinks] = useState(images)
 
     const uploadImage = useMutation((formData: FormData) => ApiServices.uploadImage(formData), {
         onSuccess: (data) => {
-            setLinks(prev => ([...prev, data.data.link]))
+            // setLinks(prev => ([...prev, data.data.link]))
+            append({ url: data.data.link })
             clearErrors('images')
         },
         onError: (error) => {
@@ -37,18 +42,26 @@ export const useImage = () => {
 
     const deleteImage = useMutation((link: string) => ApiServices.deleteImage(link))
 
-    useEffect(() => {
-        setValue('images', [...links])
-    }, [links])
+    const handleRemove = useCallback((index: number) => {
+        remove(index)
+    }, [])
 
-    useEffect(() => {
-        if (links.length === 0) {
-            setLinks(images)
-        }
-    }, [images.length])
+    // useEffect(() => {
+    //     setValue('images', [...links])
+    // }, [links])
 
+
+    // useEffect(() => {
+    //     if (links.length === 0) {
+    //         setLinks(images)
+    //     }
+    // }, [images.length])
+
+    // return {
+    //     uploadImage, deleteImage, links, setLinks, errors
+    // }
     return {
-        uploadImage, deleteImage, links, setLinks, errors
+        uploadImage, deleteImage, images: fields, errors, handleRemove
     }
 }
 
@@ -160,15 +173,15 @@ export const useEditSectionForm = (section: string) => {
 }
 
 
-export const useChangeAmount = (defaultValue?: number) => {
+export const useChangeAmount = (defaultValue?: number, isUnlimited?: boolean) => {
     const form = useForm<ChangeAmountFormType>({
         mode: "onChange",
         resolver: yupResolver(changeAmountSchema)
     })
 
     useEffect(() => {
-        form.reset({count: defaultValue})
-    }, [defaultValue])
+        form.reset({ count: defaultValue, isCountUnlimited: isUnlimited })
+    }, [defaultValue, isUnlimited])
 
     return form
 }

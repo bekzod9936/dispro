@@ -68,7 +68,6 @@ export const UploadButton: React.FC<UploadButtonProps> = ({
       <input
         disabled={isLoading}
         ref={inputRef}
-        multiple
         style={{ display: "none" }}
         id="uploadFile"
         type="file"

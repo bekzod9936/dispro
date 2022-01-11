@@ -1,35 +1,34 @@
 import * as yup from "yup"
 
-//! refactor: variant fields as each number field can be nullable and can have empty string
-// TODO: amount: not required
-//* is it real to save uniqless of sections' name?
 
 export const sectionsSchema = yup.object().shape({
     sections: yup.array().of(
         yup.object().shape({
             title: yup.string().max(30, "maxAmountOfCharacters").required('enterSectionName')
         })
-    ).test('unique', 'titlesOfSectionsMustBeUnique', function (array) {
-        let res = array?.map(el => el.title);
-        const { createError, path } = this;
-        if (res?.length === new Set(res).size) return true;
-        else {
-            if (array?.some(e => !(e.title))) return true
-            let index = 0;
-            let uniqueArray: string[] = [];
-            array?.forEach((el: any, indx: number) => {
-                if (!uniqueArray.includes(el.title)) {
-                    uniqueArray.push(el.title)
-                } else index = indx
-            })
+    )
+    //* awesome peace of code
+    // .test('unique', 'titlesOfSectionsMustBeUnique', function (array) {
+    //     let res = array?.map(el => el.title);
+    //     const { createError, path } = this;
+    //     if (res?.length === new Set(res).size) return true;
+    //     else {
+    //         if (array?.some(e => !(e.title))) return true
+    //         let index = 0;
+    //         let uniqueArray: string[] = [];
+    //         array?.forEach((el: any, indx: number) => {
+    //             if (!uniqueArray.includes(el.title)) {
+    //                 uniqueArray.push(el.title)
+    //             } else index = indx
+    //         })
 
-            throw createError({
-                message: "titlesOfSectionsMustBeUnique",
-                path: `${path}.${index}.title`
-            })
-        }
+    //         throw createError({
+    //             message: "titlesOfSectionsMustBeUnique",
+    //             path: `${path}.${index}.title`
+    //         })
+    //     }
 
-    })
+    // })
 })
 
 const variantSchema = yup.object().shape({
@@ -138,7 +137,9 @@ export const goodsSchema = yup.object().shape({
     loyaltyType: yup.string(),
 
     images: yup.array().of(
-        yup.string()
+        yup.object().shape({
+            url: yup.string()
+        })
     ).min(1, 'chooseAtLeastOneImage'),
 
     preparationTimeData: yup.object().when('preparationTime', {

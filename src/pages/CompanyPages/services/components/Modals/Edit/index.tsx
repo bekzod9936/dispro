@@ -47,9 +47,9 @@ export const EditSectionModal: React.FC<EditSectionModalProps> = ({
   const defaultTitle = item?.goodsSectionTranslates[0].translateName || "";
 
   const form = useEditSectionForm(defaultTitle);
-  const isLoading = false;
+  // const isLoading = false;
 
-  const { mutate } = useEditSection();
+  const { mutate, isLoading } = useEditSection();
 
   const onSubmit = (data: EditSectionType) => {
     mutate(

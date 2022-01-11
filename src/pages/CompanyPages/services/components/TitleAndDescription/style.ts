@@ -24,7 +24,7 @@ export const useStyles = () => {
                 } : undefined
             },
             margin: (error: boolean) => {
-                return error ? {desctop: '0 0 35px 0', laptop: '0 0 35px 0'} : {desctop: '0 0 25px 0', laptop: '0 0 25px 0'}
+                return error ? {desktop: '0 0 45px 0', laptop: '0 0 35px 0'} : {desktop: '0 0 25px 0', laptop: '0 0 25px 0'}
             }
         }
     }

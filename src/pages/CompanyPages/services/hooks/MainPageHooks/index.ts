@@ -3,7 +3,7 @@ import { DropResult } from "react-beautiful-dnd"
 import { useTranslation } from "react-i18next"
 import { useMutation, useQuery, useQueryClient } from "react-query"
 import { ApiServices } from "services/queries/servicesQueries"
-import { IGoodsResponse, ISectionResponse } from "services/queries/servicesQueries/response.types"
+import { editAmountPutType, IGoodsResponse, ISectionResponse } from "services/queries/servicesQueries/response.types"
 import { useGetSections } from ".."
 import { GET_ITEMS, GET_SECTIONS } from "../../constants"
 import { divideGoodsBySections } from "../../helpers"
@@ -184,6 +184,16 @@ export const useHideItem = () => {
   const queryClient = useQueryClient()
 
   return useMutation(({id, action}: hideSectionPostType) => ApiServices.hideItem(id, action), {
+    onSettled() {
+      queryClient.invalidateQueries(GET_ITEMS)
+    }
+  })
+}
+
+export const useEditAmount = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation((dto: editAmountPutType) => ApiServices.editAmount(dto), {
     onSettled() {
       queryClient.invalidateQueries(GET_ITEMS)
     }

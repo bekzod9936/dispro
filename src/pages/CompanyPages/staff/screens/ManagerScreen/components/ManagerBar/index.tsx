@@ -32,7 +32,7 @@ import { ReactComponent as DeleteWhiteIcon } from 'assets/icons/trash_white.svg'
 import { ReactComponent as ExitIcon } from 'assets/icons/exit.svg';
 import { ReactComponent as RoleIcon } from 'assets/icons/role_icon.svg';
 import NoPhoto from 'assets/images/NoPhotos.png';
-
+import { usePermissions } from 'services/hooks/usePermissions';
 import { CancelIcon } from 'assets/icons/ClientsPageIcons/ClientIcons';
 import Button from 'components/Custom/Buttons/Button';
 import Modal from 'components/Custom/Modal';
@@ -54,6 +54,7 @@ const ManagerBar: React.FC<any> = ({}) => {
 	const dispatch = useAppDispatch();
 	const { t } = useTranslation();
 	const [imgError, setImgError] = useState(false);
+	const isEditable = usePermissions('staff');
 
 	const { roleManager, deleteManager, open, setOpen } = useManagers({
 		page: 1,
@@ -122,6 +123,7 @@ const ManagerBar: React.FC<any> = ({}) => {
 						<ManagerRow justifyContent='center'>
 							<ManagerCol>
 								<Button
+									disabled={!isEditable}
 									endIcon={<EditIcon />}
 									buttonStyle={{
 										bgcolor: 'transparent',
@@ -138,6 +140,7 @@ const ManagerBar: React.FC<any> = ({}) => {
 						<Break height={21} />
 						<ManagerRow justifyContent='center'>
 							<Button
+								disabled={!isEditable}
 								buttonStyle={{
 									bgcolor: 'rgba(96, 110, 234, 0.1)',
 									color: '#606EEA',
@@ -158,6 +161,7 @@ const ManagerBar: React.FC<any> = ({}) => {
 					<DownSide>
 						<ManagerRow justifyContent='space-between'>
 							<Button
+								disabled={!isEditable}
 								buttonStyle={{
 									bgcolor: '#fff',
 									color: '#FF5E68',

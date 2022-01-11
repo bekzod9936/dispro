@@ -18,6 +18,8 @@ import {
 	WrapStartT,
 	RateText,
 } from './style';
+import { useGetRatings } from '../../hooks/useCashierCard';
+import Spinner from 'components/Helpers/Spinner';
 interface IRatings {
 	rating: number;
 	percentage: number;
@@ -26,6 +28,8 @@ interface IRatings {
 
 const CashierFeedback = () => {
 	const { t } = useTranslation();
+	const cashierId = useAppSelector((state) => state.staffs.cashierId);
+	const { data: ratingReviews, isLoading } = useGetRatings(cashierId);
 
 	const staffData = useAppSelector(
 		(state) => state.staffs.staffData.ratingAndReviews
@@ -54,10 +58,14 @@ const CashierFeedback = () => {
 	};
 	console.log('ratings', helper(ratings));
 
+	if (isLoading) {
+		return <Spinner />;
+	}
+
 	return (
 		<Wrapper>
 			<Left>
-				{staffData?.length === 0 ? (
+				{/* {staffData?.length === 0 ? (
 					<WrapDefPhoto>
 						<Img src={feedDef} alt='feedback' />
 						{t('feeddef')}
@@ -67,6 +75,20 @@ const CashierFeedback = () => {
 						<WrapDef>
 							{staffData?.map((v: any) => (
 								<User value={v} />
+							))}
+						</WrapDef>
+					</Content>
+				)} */}
+				{ratingReviews?.length === 0 ? (
+					<WrapDefPhoto>
+						<Img src={feedDef} alt='feedback' />
+						{t('feeddef')}
+					</WrapDefPhoto>
+				) : (
+					<Content>
+						<WrapDef>
+							{ratingReviews?.map((rating) => (
+								<User ratingInfo={rating} />
 							))}
 						</WrapDef>
 					</Content>

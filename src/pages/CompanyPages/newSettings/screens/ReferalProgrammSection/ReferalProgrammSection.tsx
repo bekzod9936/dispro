@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { Controller, useFieldArray } from 'react-hook-form';
-
+import {useAppSelector } from 'services/redux/hooks';
 //assets and style
 import { ReactComponent as ArrowBack } from 'assets/icons/arrow_left.svg';
 import { HBreak, SpinnerDiv } from '../../style';
@@ -79,6 +79,7 @@ const ReferalProgrammSection = () => {
     isFetching,
   } = useReferalData();
 
+  const infoData = useAppSelector((state) => state.info.data?.type);
   //form field array
   const { fields, append, remove } = useFieldArray({
     control,
@@ -115,6 +116,8 @@ const ReferalProgrammSection = () => {
                         defaultValue={item?.percent}
                         rules={{
                           required: true,
+                          min:1,
+                          max:100,
                         }}
                         render={({ field }) => {
                           return (
@@ -125,7 +128,7 @@ const ReferalProgrammSection = () => {
                               disabled={!checkedState}
                               label={`Уровень ${index + 1}`}
                               field={field}
-                              max='100'
+                              
                               message={''}
                               error={
                                 errors?.referals?.[index]?.percent
@@ -156,11 +159,16 @@ const ReferalProgrammSection = () => {
                         }
                       />
                       <TextDiv>
-                        <Text fontSize='14px' fontWeight={300}>
+                        {infoData==2 ?  <Text fontSize='14px' fontWeight={300}>
+                          1 клиент получает
+                          {' ' + item.percent}% с каждым пополнением карты парка 
+                          {' ' + +(item.number + 1)} Клиентa
+                        </Text>:  <Text fontSize='14px' fontWeight={300}>
                           1 клиент получает
                           {' ' + item.percent}% с каждой покупки
                           {' ' + +(item.number + 1)} Клиентa
-                        </Text>
+                        </Text>}
+                      
                       </TextDiv>
                     </SmallPanel>
                     {index === fields.length - 2 && index !== 0 && (
@@ -178,12 +186,12 @@ const ReferalProgrammSection = () => {
                         <XIcon />
                       </RippleEffect>
                     )}
+                    
                     {index === fields.length - 1 && (
                       <ActDiv>
                         <RippleEffect
                           onClick={() => {
-                            console.log(index, 'index next');
-                            if (checkedState) {
+                            if (checkedState && index !==0) {
                               remove(index);
                             }
                           }}

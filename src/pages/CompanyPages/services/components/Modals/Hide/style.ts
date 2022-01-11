@@ -47,6 +47,9 @@ export const styles = {
         margin: {
             desktop: '0 20px 0 0', laptop: '0 20px 0 0'
         }
+    },
+    button: {
+        minwidth: 150
     }
 }
 

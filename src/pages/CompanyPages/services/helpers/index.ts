@@ -13,6 +13,7 @@ import {
   descType,
   FormFieldTypes,
   IGoods,
+  imageType,
   parentSectionType,
   PostDtoType,
   PostDtoVariantType,
@@ -78,9 +79,9 @@ export const responseCategoriesToExactCategories = (
     }));
 };
 
-export const imagesArrayToArrayObjectWithLinks = (images: string[]) => {
+export const imagesArrayToArrayObjectWithLinks = (images: imageType[]) => {
   return images.map((link) => ({
-    imageUrl: link,
+    imageUrl: link.url,
   }));
 };
 
@@ -152,7 +153,7 @@ export const createServiceHelper = (dto: CreateDtoType): PostDtoType => {
     goodsSectionId: dto.section.value,
     hasGoodsVariant: isServiceHasVariants,
     hideInStores: [],
-    isCountUnlimited: false,
+    isCountUnlimited: Number(firstVariant.amount) === 0,
     withPoint: Number(dto.loyaltyType) === 2,
     withDiscount: Number(dto.loyaltyType) === 1,
     notUsePl: dto.loyaltyOff,
@@ -268,7 +269,7 @@ export const resetDefaultValues = (data: IGoodsResponse): FormFieldTypes => {
     loyaltyOff: data.notUsePl,
     loyaltyType: data.withDiscount ? 1 : data.notUsePl ? 0 : data.withPoint ? 2 : 0,
     measurement: {value: 1, name: 'шт.', label: 'шт.'},
-    images: data.goodsImages.map(image => image.imageUrl),
+    images: data.goodsImages.map(image => ({url: image.imageUrl})),
     section: 1,
     service: {},
     variants: data.hasGoodsVariant ? data.goodsVariants.map(variant => ({
@@ -302,4 +303,11 @@ export const getSectionOfItem = (sections: sectionResponseType | undefined, sect
 export const getParentSections = (sections: ISectionResponse[] | undefined) => {
   if (!sections) return 
   return sections.filter(section => section.parentId === 0)
+}
+
+export const changeAmountToPutDto = (count: number, isUnlimited: boolean) => {
+  return {
+    isCountUnlimited: isUnlimited,
+    count: isUnlimited ? 0 : count
+  }
 }

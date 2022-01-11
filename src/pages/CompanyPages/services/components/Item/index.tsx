@@ -23,6 +23,7 @@ import DEFAULT_IMAGE from "assets/images/staff_default.png";
 import { Modals } from "../../utils/types";
 import { LightToolTip } from "../../screens/Services/components/Radios/style";
 import { useHideItem } from "../../hooks/MainPageHooks";
+import Spinner from "components/Helpers/Spinner";
 
 interface ItemProps {
   item: IGoodsResponse;
@@ -72,7 +73,7 @@ export const Item: React.FC<ItemProps> = ({
     onGoToTop(item.id);
   };
 
-  const { mutate: showItem } = useHideItem();
+  const { mutate: showItem, isLoading: hideIsLoading } = useHideItem();
 
   const handleHide = () => {
     if (hideInMobile) {
@@ -160,7 +161,13 @@ export const Item: React.FC<ItemProps> = ({
                   </ButtonIcon>
                 </LightToolTip>
                 <ButtonIcon onClick={handleHide} className="mr">
-                  {hideInMobile ? <ShowIcon /> : <EyeIcon />}
+                  {hideIsLoading ? (
+                    <Spinner color="#fff" size={20} />
+                  ) : hideInMobile ? (
+                    <ShowIcon />
+                  ) : (
+                    <EyeIcon />
+                  )}
                 </ButtonIcon>
                 <ItemPopover itemId={item.id} onOpenModal={onOpenModal} />
               </div>
