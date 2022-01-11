@@ -26,10 +26,8 @@ import CustomToggle from "components/Custom/CustomToggleSwitch";
 import { GroupToggle, ToggleInfo,ModalTitle,ModalBody ,LoyalDiv,BtnContainer} from "../../style";
 import Modal from 'components/Custom/Modal';
 import Radio from 'components/Custom/Radio';
-import { ReactComponent as Remove } from "assets/icons/exit_mini.svg";
 import { CustomButton, ModalComponent, Text } from 'styles/CustomStyles';
 import { FONT_SIZE, FONT_WEIGHT } from 'services/Types/enums';
-import { ReactComponent as Plus } from "assets/icons/plus_mini.svg";
 import { CancelIcon } from 'assets/icons/ClientsPageIcons/ClientIcons';
 import { ReactComponent as Close } from 'assets/icons/IconsInfo/close.svg';
 import RippleEffect from 'components/Custom/RippleEffect';
@@ -122,16 +120,11 @@ const Right = () => {
   const [modaldiscount,setModalDiscount]=useState(false);
   const [modalcashback,setModalCashback]=useState(false);
   const [modalpoints,setModalPoints]=useState(false);
-
   const [discounts, setDiscounts] = useState(disCount?.isActive ? true:false);
   const [cashback, setCashback] = useState(cashBack?.isActive ? true:false);
   const [points, setPoints] = useState(bonusPoint?.isActive ? true:false);
   const [typePark,setTypePark]=useState(false);
-
-
-
   const [payGoModal, setpayGoModal] = useState(false);
- 
   const [localyPaymentfirst, setLocalPaymentFirst] = useState(programSettingsUseProgram);
   const [localyPaymentsecond, setLocalPaymentSecond] = useState(programSettingsUsePoint);
 
@@ -139,7 +132,6 @@ const Right = () => {
    
     mode: "onChange",
     shouldFocusError: true,
-    shouldUnregister: false,
     reValidateMode: "onChange",
   });
   const {
@@ -164,6 +156,7 @@ const Right = () => {
 const handleChangeDiscount = () => {
   setModalDiscount(Boolean(disCount?.name));
   if(!disCount?.name){
+    
   setDiscounts(true);
   setCashback(false );
   setPoints(false );
@@ -178,12 +171,20 @@ const handleChangeDiscount = () => {
       password:""
     }
   })
+if(!disCount?.name){
+  // reset({name:''})
+  reset({maxAmount:''})
+  reset({percent:''})
+  reset({cashbackReturnedDay:''})
+}
+  
   }
 };
 const handleChangeCashback = () => {
     setModalCashback(Boolean(cashBack?.name));
     if(!cashBack?.name){
-      
+ 
+    
     setCashback(true );
     setDiscounts(false);
     setPoints(false );
@@ -198,12 +199,20 @@ const handleChangeCashback = () => {
           password:""
         }
       })
+      if(!cashBack?.name){
+        // reset({name:''})
+        reset({maxAmount:''})
+        reset({percent:''})
+        reset({cashbackReturnedDay:''})
+      }
+    
     }
     
 };
 const handleChangePoints = () => {
     setModalPoints(Boolean(bonusPoint?.name));
     if(!bonusPoint?.name){
+     
     setPoints(true);
     setDiscounts(false);
     setCashback(false );
@@ -218,6 +227,11 @@ const handleChangePoints = () => {
           password:""
         }
       })
+      if(!bonusPoint?.name)
+      // reset({name:''})
+      reset({maxAmount:''})
+      reset({percent:''})
+      reset({cashbackReturnedDay:''})
     }
 };
 
@@ -327,32 +341,32 @@ const loyalityPut = useMutation(
   }
 );
 
-const obj = {
-  1: 'Cумма покупок',
-  2: 'Рекомендации',
-  3: 'Посещения'
-}
+// const obj = {
+//   1: 'Cумма покупок',
+//   2: 'Рекомендации',
+//   3: 'Посещения'
+// }
 
-const f = (array: any) => {
-  const types = [1, 2, 3];
-  // let error=false;
-  array.forEach((e: any, index: number) => {
-    let prev = array[index - 1]
-    let curr = e
+// const f = (array: any) => {
+//   const types = [1, 2, 3];
+//   // let error=false;
+//   array.forEach((e: any, index: number) => {
+//     let prev = array[index - 1]
+//     let curr = e
     
-    for (let t of types) {
-      let prevReq = prev?.requirements.find((i: any)=> i.type == t)
-      let currReq = curr.requirements.find((i: any)=> i.type == t)
+//     for (let t of types) {
+//       let prevReq = prev?.requirements.find((i: any)=> i.type == t)
+//       let currReq = curr.requirements.find((i: any)=> i.type == t)
       
-      if (prevReq?.amount > currReq?.amount) {
-        // error==true;
-        notifyError(`${obj[t as keyof typeof obj]} в  ${curr?.name} должна бить болше чем ${obj[t as keyof typeof obj]} в ${prev?.name}`)
-        return
-      }
-    }
-  })
+//       if (prevReq?.amount > currReq?.amount) {
+//         // error==true;
+//         notifyError(`${obj[t as keyof typeof obj]} в  ${curr?.name} должна бить болше чем ${obj[t as keyof typeof obj]} в ${prev?.name}`)
+//         return
+//       }
+//     }
+//   })
 
-}
+// }
 
 
  const checkValidation=(levels:any,name:any)=>{
@@ -496,6 +510,7 @@ const f = (array: any) => {
         if(convertedValue?.length==0 ||convertedValue==undefined){
           reset({requirments:''})
       } 
+     
     }
 
     if(Boolean(disCount)){
@@ -505,6 +520,7 @@ const f = (array: any) => {
         if(convertedValue?.length==0 ||convertedValue==undefined){
           reset({requirments:''})
       } 
+  
     }
 
     if(Boolean(cashBack)){
@@ -515,6 +531,7 @@ const f = (array: any) => {
           reset({requirments:''})
       } 
     }
+    
     if(defaultValue?.maxAmount){
       setValue('maxAmount', defaultValue?.maxAmount);
       setValue('name', defaultValue?.name);
@@ -524,10 +541,11 @@ const f = (array: any) => {
       }
     }
  
-  }, [defaultValue,convertedValue?.length,Boolean(bonusPoint),Boolean(disCount),Boolean(cashBack)]);
+  }, [defaultValue,disCount?.name,convertedValue?.length,Boolean(bonusPoint),Boolean(disCount),Boolean(cashBack)]);
 
   React.useEffect(()=>{
-    if(defaultValue==null){
+    
+    if(Boolean(defaultValue)==false){
       reset({name:''})
       reset({maxAmount:''})
       reset({percent:''})
@@ -535,7 +553,7 @@ const f = (array: any) => {
     }
   },[defaultValue])
 
-console.log('defaultValue',defaultValue)
+console.log('defaultValue',defaultValue,Boolean(bonusPoint),Boolean(disCount),Boolean(cashBack))
   
   let CheckPercentage =
     Number(watch(`levels.${0}.percent`)) &&
@@ -547,8 +565,7 @@ console.log('defaultValue',defaultValue)
  let checkEmpty=isEmpty==false ||isEmpty==undefined ;
  
 
-
-
+ console.log('cashbackcashback',cashback)
 
   return (
     <Container>
@@ -558,7 +575,7 @@ console.log('defaultValue',defaultValue)
         <ToggleInfo>
           <h5>Предоставление скидки</h5>
           <p>
-           {infoData==2 ? 'Клиент получает скидку при каждом пополнении карты папка в размере определенного %':'Клиент получает скидку при каждой покупке в размере определенного %'}
+           {infoData==2 ? 'Клиент получает скидку при каждом пополнении карты парка в размере определенного %':'Клиент получает скидку при каждой покупке в размере определенного %'}
           </p>
         </ToggleInfo>
       </GroupToggle>
@@ -720,7 +737,7 @@ console.log('defaultValue',defaultValue)
               label={t("status_name")}
               type="string"
               autoComplete={"off"}
-              defaultValue={defaultValue?.name}
+
               width={width>1550 ? { maxwidth:500, minwidth: 300}:{ maxwidth:350, minwidth: 250}}
               margin={{ laptop: "0px 20px 0px 0px" }}
               field={field}
@@ -963,6 +980,7 @@ console.log('defaultValue',defaultValue)
             <InputFormat
               label={t("Какой процент счета можно оплатить баллами?")}
               type='tel'
+              max='100'
               autoComplete={"off"}
               width={width>1550 ? { maxwidth:500, minwidth: 300}:{ maxwidth:350, minwidth: 300}}
               margin={{ laptop: "0px 20px 0px 0px" }}
@@ -973,20 +991,21 @@ console.log('defaultValue',defaultValue)
           )}
         />
       </TitleForm>
-      {Boolean(cashBack?.isActive) && <TitleForm>
+      {Boolean(cashBack?.isActive) ||cashback && <TitleForm>
                             <Controller
                               name='cashbackReturnedDay'
                               control={control}
                               rules={{
                                 required: Boolean(cashBack?.isActive),
-                                max: Boolean(cashBack?.isActive) ? 30:0
+                           
                               }}
                               // defaultValue={give_cashback_after}
                               render={({ field }) => {
                                 return (
                                   <InputFormat
                                     field={field}
-                                    defaultValue={console.log('test cashback',errors)}
+                                    max='30'
+                               
                                     label={t('give_cashback_after')}
                                     width={width>1550 ? { maxwidth:500, minwidth: 300}:{ maxwidth:350, minwidth: 300}}
                                     margin={{ laptop: "0px 20px 0px 0px" }}
