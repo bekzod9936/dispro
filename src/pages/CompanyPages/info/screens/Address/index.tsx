@@ -838,6 +838,7 @@ const Address = () => {
             margin={{
               laptop: "20px 0 0",
               mobile: "0 0 0 0",
+              planshet: "0",
             }}
           />
           {isMain || edit ? null : (
@@ -847,10 +848,14 @@ const Address = () => {
                 weight: "500",
                 bgcolor: "#FF5E68",
                 color: "#FFFFFF",
+                height: {
+                  planshet: 45,
+                },
               }}
               margin={{
                 laptop: "20px 0 0 20px",
                 mobile: "0",
+                planshet: "0 0 0 20px",
               }}
               disabled={addressDelete.isLoading}
               type="button"
@@ -875,7 +880,6 @@ const Address = () => {
                 color: "#223367",
                 weight: 500,
                 shadow: "0px 4px 4px rgba(0, 0, 0, 0.04)",
-
                 fontSize: {
                   mobile: 14,
                   laptop: 16,

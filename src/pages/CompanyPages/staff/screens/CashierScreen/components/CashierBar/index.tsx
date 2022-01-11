@@ -44,12 +44,14 @@ import {
 	setCashierId,
 	setSelectedCashiers,
 } from 'services/redux/Slices/staffs';
+import { usePermissions } from 'services/hooks/usePermissions';
 
 const CashierBar = () => {
 	const history = useHistory();
 	const location = useLocation();
 	const dispatch = useAppDispatch();
 	const { t } = useTranslation();
+	const isEditable = usePermissions('staff');
 	const { deleteCashier, open, setOpen } = useCashiers({
 		page: 1,
 		query: '',
@@ -130,6 +132,7 @@ const CashierBar = () => {
 						<Break />
 						<CashierRow justifyContent='center'>
 							<Button
+								disabled={!isEditable}
 								onClick={() => {
 									dispatch(setOpenEditCashier(true));
 								}}
@@ -170,6 +173,7 @@ const CashierBar = () => {
 						</CashierRow>
 						<CashierRow justifyContent='space-between'>
 							<Button
+								disabled={!isEditable}
 								buttonStyle={{
 									bgcolor: '#fff',
 									color: '#FF5E68',

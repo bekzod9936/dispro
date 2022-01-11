@@ -9,6 +9,7 @@ import { IconButton } from '@material-ui/core';
 import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
 import { setChosenClientChat } from 'services/redux/Slices/feedback';
 import { setCashierId } from 'services/redux/Slices/staffs';
+import { usePermissions } from 'services/hooks/usePermissions';
 
 //components
 import Button from 'components/Custom/Buttons/Button';
@@ -59,6 +60,7 @@ const User = ({ ratingInfo }: Props) => {
 	const history = useHistory();
 	const dispatch = useAppDispatch();
 	const location = useLocation();
+	const isEditable = usePermissions('staff');
 	const status = {
 		levelName: ratingInfo.obtainProgramLoyalty.levelName,
 		percent: ratingInfo.obtainProgramLoyalty.percent,
@@ -208,6 +210,7 @@ const User = ({ ratingInfo }: Props) => {
 							</WrapMoney>
 
 							<Button
+								disabled={!isEditable}
 								margin={{ laptop: '20px 0 0 0' }}
 								startIcon={<MessageIcon />}
 								onClick={() => {
