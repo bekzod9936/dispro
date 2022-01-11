@@ -80,3 +80,13 @@ export type goodResponseType = {
     error: null | unknown,
     success: boolean
 }
+
+export type editServicePostType = {
+    id: number,
+    dto: PostDtoType
+}
+
+export type editAmountPutType = {
+    id: number,
+    dto: Pick<PostDtoType, "isCountUnlimited" | "count">
+}

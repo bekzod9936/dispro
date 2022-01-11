@@ -112,8 +112,9 @@ export const RightSideContent=styled.div`
   background: #ffffff;
   /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04); */
   border-radius: 14px;
-
-  height: 100%;
+  /* @media (min-width: ${device.laptop}) {
+    width: 95%;
+  } */
 
 
 `
@@ -154,7 +155,7 @@ export const ToggleInfo = styled.div`
 `;
 export const Form = styled.form`
   display: flex;
-
+  
   flex-grow: 1;
   flex-direction: column;
   justify-content: space-between;

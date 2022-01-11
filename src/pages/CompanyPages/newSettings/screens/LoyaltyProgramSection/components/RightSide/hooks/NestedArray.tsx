@@ -1,8 +1,8 @@
-import React,{useEffect} from "react";
+import {useAppSelector } from 'services/redux/hooks';
 import { useFieldArray, Controller } from "react-hook-form";
 import InputFormat from "components/Custom/InputFormat";
 import MultiSelect from "components/Custom/MultiSelect";
-import {OnlyOneOr,DefaultOr,conditonTypes,Or} from '../utils';
+import {OnlyOneOr,TypeParkConditionTypes,conditonTypes,Or} from '../utils';
 import {
   IconStyle,
   LittlePlus,
@@ -21,10 +21,10 @@ const NestedArray = ({
     control,
     name: `levels.[${nestIndex}].requirements`,
   });
- 
+  const infoData = useAppSelector((state) => state.info.data?.type);
   let selectedItem=watch(`levels.[${nestIndex}].type.id`);
   
-  let conditionFilter=conditonTypes.filter((item)=> selectedItem !==item.id)
+  let conditionFilter=infoData==2 ? TypeParkConditionTypes.filter((item)=> selectedItem !==item.id):conditonTypes.filter((item)=> selectedItem !==item.id)
   let secondconditionFilter=conditionFilter.filter((item)=> item.value !==watch(`levels.[${nestIndex}].requirements.[${0}].type.value`))
   let thirdconditionFilter=secondconditionFilter.filter((item)=>item.value !==watch(`levels.[${nestIndex}].requirements.[${1}].type.value`))
 
@@ -89,11 +89,8 @@ const NestedArray = ({
                     options={
                       watch(`levels.[${nestIndex}].requirements.[${k}].condition.value`)=='или' ? thirdconditionFilter.filter((item)=>item.value=='Посещения'):thirdconditionFilter
                     }
-                
-                    width={{ minwidth: 170,width:'fit-content',maxwidth:200 }}
-                    // field={field}
+                    width={{ minwidth: 170,width:'fit-content',maxwidth:170 }}
                     {...field}
-                    // isDisabled={thirdconditionFilter?.length>0 ?false:true}
                     error={!!errors?.levels?.[nestIndex]?.requirements?.[k]?.type}
                     selectStyle={{
                       radius:!!errors?.levels?.[nestIndex]?.requirements?.[k]?.type ? 14: 0,

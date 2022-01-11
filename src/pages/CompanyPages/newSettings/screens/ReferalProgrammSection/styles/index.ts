@@ -151,12 +151,13 @@ export const ReferalContent = styled.div`
 `;
 
 export const ReferalContainer = styled.div`
-  height: 80%;
+  height: 70%;
   flex: 1;
 `;
 
 export const ReferalBtn = styled.div`
-  height: 20%;
+  height: 30%;
+  margin-bottom:10px;
   display: flex;
   align-items: center;
 `;

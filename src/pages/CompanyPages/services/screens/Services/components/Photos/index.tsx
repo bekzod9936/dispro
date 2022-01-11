@@ -19,9 +19,10 @@ export const Photos: React.FC<PhotosProps> = () => {
   const { t } = useTranslation();
   const imageRef = useRef<null | string>(null);
 
-  const { links, uploadImage, deleteImage, setLinks, errors } = useImage();
+  // const { links, uploadImage, deleteImage, setLinks, errors } = useImage();
+  const { images, uploadImage, deleteImage, errors, handleRemove } = useImage();
 
-  const imageLimit = 5 - links?.length;
+  const imageLimit = 5 - images?.length;
 
   const onUpload = (formDatas: FormData[]) => {
     formDatas.forEach((formData) => {
@@ -29,17 +30,18 @@ export const Photos: React.FC<PhotosProps> = () => {
     });
   };
 
-  const onDelete = (link: string) => {
-    imageRef.current = link;
-    setLinks((prev) => prev.filter((item) => item !== link));
-    deleteImage.mutate(link);
+  const onDelete = (index: number, id: string) => {
+    imageRef.current = id;
+    handleRemove(index);
+    // setLinks((prev) => prev.filter((item) => item !== link));
+    // deleteImage.mutate(link);
   };
 
   return (
     <div>
       <Header>
         <h5>{t("photos")}</h5>
-        {links?.length < 5 && (
+        {images?.length < 5 && (
           <>
             <p>
               Можно загрузить еще {imageLimit}{" "}
@@ -49,7 +51,7 @@ export const Photos: React.FC<PhotosProps> = () => {
             <UploadButton
               isLoading={uploadImage.isLoading}
               handleUpload={onUpload}
-              imagesLength={links.length}
+              imagesLength={images.length}
             />
             {errors.images && (
               <ErrorMessage>{t("chooseAtLeastOneImage")}</ErrorMessage>
@@ -58,13 +60,13 @@ export const Photos: React.FC<PhotosProps> = () => {
         )}
       </Header>
       <GridContainer>
-        {links.map((link, index) => (
+        {images.map((link, index) => (
           <PhotoItem
-            isCurrentItem={imageRef.current === link}
-            onDelete={onDelete}
+            isCurrentItem={imageRef.current === link.url}
+            onDelete={() => onDelete(index, link.id)}
             isLoading={deleteImage.isLoading}
-            link={link}
-            key={index}
+            link={link.url}
+            key={link.id}
           />
         ))}
       </GridContainer>

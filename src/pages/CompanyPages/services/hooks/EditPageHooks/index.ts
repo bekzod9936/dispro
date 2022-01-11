@@ -1,14 +1,14 @@
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useEffect, useReducer } from "react"
 import { useForm } from "react-hook-form"
-import { useQuery } from "react-query"
+import { useMutation, useQuery } from "react-query"
 import { useLocation, useParams } from "react-router-dom"
 import { ApiServices } from "services/queries/servicesQueries"
 import { useCategories, useGetSections } from ".."
 import { createItemDefaultFields, CREATE_ITEM_QUIT_MODAL_CONTENT, EDIT_ITEM_QUIT_MODAL_CONTENT, GET_ITEM } from "../../constants"
 import { getSectionOfItem, resetDefaultValues } from "../../helpers"
 import { goodsSchema } from "../../utils/schemas.yup"
-import { FormFieldTypes } from "../../utils/types"
+import { FormFieldTypes, PostDtoType } from "../../utils/types"
 import { ActionTypes, initialState, reducer } from "../CreatePageHooks/reducer"
 
 type ParamTypes = {
@@ -64,7 +64,16 @@ export const useEditItem = (length: number) => {
           form.reset({...defaultValues, service: category, section: section});
         }
 
-      }, [isLoaded]);
+      }, [isLoaded, categoryList]);
 
     return {form, state, dispatch, isLoaded}
+}
+
+type IParams = {
+    id: string
+}
+
+export const useEditService = () => {
+    const { id }: IParams = useParams()
+    return useMutation((dto: PostDtoType) => ApiServices.editService({id: Number(id) || 0, dto}))
 }

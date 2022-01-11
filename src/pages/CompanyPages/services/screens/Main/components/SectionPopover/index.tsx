@@ -52,7 +52,6 @@ export const SectionPopover: React.FC<SectionPopoverProps> = ({
     if (isHiddenInMobile) {
       mutate({ id: section?.id || 0, action: false });
     } else {
-      console.log("avafvafv");
       onOpenModal("hide")();
     }
   };

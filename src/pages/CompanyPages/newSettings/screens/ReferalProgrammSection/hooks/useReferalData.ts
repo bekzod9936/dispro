@@ -12,7 +12,7 @@ import {
   setNewReferal,
   setReferalActive,
 } from "services/queries/referalProgramQuery";
-import { notify } from "services/utils/local_notification";
+import { notify ,notifySuccess} from "services/utils/local_notification";
 //types
 interface FormProps {
   referals?: any;
@@ -123,7 +123,7 @@ const useReferalData = () => {
         refetchLevel();
         setNewState("old");
         handleClick();
-        notify(t("saved"));
+        notifySuccess(t('Данные успешно сохранены'));
       },
     }
   );
@@ -139,7 +139,7 @@ const useReferalData = () => {
       onSuccess: () => {
         refetch();
         refetchLevel();
-        notify(t("saved"));
+        notifySuccess(t('Данные успешно сохранены'));
       },
     }
   );
@@ -153,12 +153,17 @@ const useReferalData = () => {
       for (let i = 0; i <= levels?.length; i++) {
         if (
           levels[i - 1]?.percent &&
-          parseInt(levels[i]?.percent) > parseInt(levels[i - 1]?.percent)
+          parseInt(levels[i]?.percent) >= parseInt(levels[i - 1]?.percent)
         ) {
+          // notify(
+          //   `${t("percentage_in")} "${levels[i]?.number} ${t("level")}" ${t(
+          //     "must_be_more_than"
+          //   )}"${levels[i - 1]?.number} ${t("level")}"`
+          // );
           notify(
-            `${t("percentage_in")} "${levels[i]?.number} ${t("level")}" ${t(
+            `${t("percentage_in")} "${levels[i-1]?.number} ${t("level")}" ${t(
               "must_be_more_than"
-            )}"${levels[i - 1]?.number} ${t("level")}"`
+            )}"${levels[i]?.number} ${t("level")}"`
           );
           setSaving(false);
           return;

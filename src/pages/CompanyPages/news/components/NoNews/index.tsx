@@ -2,14 +2,14 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { IProps } from '../Header/types';
 //icons
-import { CreateNewsIcon } from '../../../../../assets/icons/NewsIcons/NewsIcons';
+import { CreateNewsIcon } from 'assets/icons/NewsIcons/NewsIcons';
 import { FONT_SIZE } from '../../../../../services/Types/enums';
 //custom
 import Button from 'components/Custom/Buttons/Button';
 //styles
 import { Flex } from '../../../../../styles/BuildingBlocks';
 import { Text } from '../../../../../styles/CustomStyles';
-import noPending from '../../../../../assets/images/nopending.png';
+import noPending from 'assets/images/nopending.png';
 
 const NoNews: React.FC<IProps> = ({ handleOpenSetting }) => {
   const { t } = useTranslation();

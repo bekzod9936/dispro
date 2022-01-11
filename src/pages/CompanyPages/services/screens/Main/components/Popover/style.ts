@@ -55,6 +55,9 @@ export const useStyles = () => {
                 style: {
                     marginTop: "20px"
                 }
+            },
+            style: {
+                marginTop: 10
             }
         }
     }

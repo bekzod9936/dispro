@@ -54,10 +54,9 @@ export const Goods: React.FC<GoodsProps> = ({ goods, isLoading }) => {
         />
       ))}
       <ChangeAmountModal
+        item={currentItem}
         open={modals.changeAmount}
-        label={currentItem?.name}
         onClose={handleCloseModal("changeAmount")}
-        count={currentItem?.count}
       />
       <DeleteModal
         isItem

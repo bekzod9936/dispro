@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 //packages
 import { useFieldArray } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -8,7 +10,9 @@ import { SubButton } from "pages/CompanyPages/services/style";
 
 //style
 import { Buttons, Item, Wrapper } from "./style";
-import { useEffect } from "react";
+
+//other
+import { defaultVariant } from "pages/CompanyPages/services/constants";
 
 interface VariantsProps {
   disabled: boolean;
@@ -26,13 +30,7 @@ export const Variants: React.FC<VariantsProps> = ({
   });
 
   const handleAddVariant = () => {
-    append({
-      name: [{ data: "", lang: "(Рус)" }],
-      amount: "",
-      price: "",
-      priceWithSale: "",
-      articul: "",
-    });
+    append(defaultVariant);
   };
 
   const handleRemoveVariant = (index: number) => {

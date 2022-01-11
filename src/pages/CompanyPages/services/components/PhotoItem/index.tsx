@@ -7,7 +7,7 @@ import { SpinnerWrapper, TrashIcon, TrashIconWrapper, Wrapper } from "./style";
 
 interface PhotoItemProps {
   link: string;
-  onDelete: (arg: string) => void;
+  onDelete: () => void;
   isLoading: boolean;
   isCurrentItem: boolean;
 }
@@ -19,10 +19,7 @@ export const PhotoItem: React.FC<PhotoItemProps> = ({
   onDelete,
 }) => {
   return (
-    <Wrapper
-      isLoading={isLoading && isCurrentItem}
-      onClick={() => onDelete(link)}
-    >
+    <Wrapper isLoading={isLoading && isCurrentItem} onClick={onDelete}>
       <ImageLazyLoad src={link} objectFit="cover" alt="imageItem" />
       {!isLoading && (
         <TrashIconWrapper>
