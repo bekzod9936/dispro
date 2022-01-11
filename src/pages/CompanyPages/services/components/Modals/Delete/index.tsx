@@ -19,6 +19,7 @@ import {
   useDeleteSection,
 } from "pages/CompanyPages/services/hooks/MainPageHooks";
 import { ISectionResponse } from "services/queries/servicesQueries/response.types";
+import Spinner from "components/Helpers/Spinner";
 
 interface DeleteModalProps {
   open: boolean;
@@ -46,8 +47,10 @@ export const DeleteModal: React.FC<DeleteModalProps> = ({
     ? SECTION_DELETE_MODAL_CONTENT
     : SUBSECTION_DELETE_MODAL_CONTENT;
 
-  const { mutate: deleteSection } = useDeleteSection();
-  const { mutate: deleteItem } = useDeleteItem();
+  const { mutate: deleteSection, isLoading: sectionIsLoading } =
+    useDeleteSection();
+  const { mutate: deleteItem, isLoading: itemIsLoading } = useDeleteItem();
+  const isLoading = sectionIsLoading || itemIsLoading;
 
   const handleSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault();
@@ -87,11 +90,13 @@ export const DeleteModal: React.FC<DeleteModalProps> = ({
             {t("cancel")}
           </Button>
           <Button
+            disabled={isLoading}
             type="submit"
             buttonStyle={styles.button.delete.style}
+            width={styles.button.delete.width}
             startIcon={<DeleteIcon />}
           >
-            {t("delete")}
+            {isLoading ? <Spinner size={25} /> : t("delete")}
           </Button>
         </div>
       </Wrapper>
