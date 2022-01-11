@@ -20,7 +20,7 @@ import { useTranslation } from "react-i18next";
 import { SaveButton } from "components/Custom/Buttons/Save";
 import MultiSelect from "components/Custom/MultiSelect";
 import Spinner from "components/Custom/Spinner";
-import {MainconditionTypes} from "./utils";
+import {MainconditionTypes,TypeParkMainconditionTypes} from "./utils";
 import {notifyError,notifySuccess} from 'services/utils/local_notification';
 import CustomToggle from "components/Custom/CustomToggleSwitch";
 import { GroupToggle, ToggleInfo,ModalTitle,ModalBody ,LoyalDiv,BtnContainer} from "../../style";
@@ -92,11 +92,14 @@ const Right = () => {
     let amount=item?.requirements?.filter((item:any)=> item?.condition =='')
     let id=amount?.[0]?.type==3 ? 3:amount?.[0]?.type==2 ? 2:amount?.[0]?.type==1 ? 1:0;
     let requirements=item?.requirements?.filter((item:any)=>item?.condition !=='')?.map((childItem:any)=>{
+      
+    
         return {
            amount:String(childItem?.amount),
            type:{
-            label:childItem?.type==2 ? 'Рекомендации' :childItem?.type==3 ? 'Посещения' :childItem?.type==1 ? 'Сумма покупок':'',
-            value:childItem?.type==2 ? 'Рекомендации':childItem?.type==3 ? 'Посещения' :childItem?.type==1 ? 'Сумма покупок':'',
+             id:childItem?.type,
+            label:childItem?.type==2 ? 'Рекомендации' :childItem?.type==3 ? 'Посещения' :childItem?.type==1 && infoData !==2 ? 'Сумма покупок':childItem?.type==1 && infoData ==2 ?'Сумма пополнения карты парка':'',
+            value:childItem?.type==2 ? 'Рекомендации':childItem?.type==3 ? 'Посещения' :childItem?.type==1 && infoData !==2 ? 'Сумма покупок':childItem?.type==1 && infoData ==2 ?'Сумма пополнения карты парка':'',
            },
            condition:{label:String(childItem?.condition)=='or' ? 'или':'и',value:String(childItem?.condition)=='or' ? 'или':'и',},         
         }
@@ -105,8 +108,8 @@ const Right = () => {
       amount:String(amount?.[0]?.amount),
       name:String(item?.name),
       percent:String(item?.percent),
-      condition:{id:id,label:id==3 ? 'Посещения' :id==1? 'Сумма покупок':id==2 ? 'Рекомендации':'',value:id==3 ? 'Посещения' :id==1? 'Сумма покупок':id==2 ? 'Рекомендации':''},
-      type:{id:id,label:id==3 ? 'Посещения' :id==1? 'Сумма покупок':id==2 ? 'Рекомендации':'',value:id==3 ? 'Посещения' :id==1? 'Сумма покупок':id==2 ? 'Рекомендации':''},
+      condition:{id:id,label:id==3 ? 'Посещения' :id==1 && infoData !==2 ? 'Сумма покупок':id==1 && infoData ==2 ? 'Сумма пополнения карты парка':id==2 ? 'Рекомендации':'',value:id==3 ? 'Посещения' :id==1 && infoData !==2 ? 'Сумма покупок':id==1 && infoData ==2 ? 'Сумма пополнения карты парка':id==2 ? 'Рекомендации':''},
+      type:{id:id,label:id==3 ? 'Посещения' :id==1 && infoData !==2 ? 'Сумма покупок':id==1 && infoData ==2 ? 'Сумма пополнения карты парка':id==2 ? 'Рекомендации':'',value:id==3 ? 'Посещения' :id==1 && infoData !==2 ? 'Сумма покупок':id==1 && infoData ==2 ? 'Сумма пополнения карты парка':id==2 ? 'Рекомендации':''},
       requirements:requirements
     }
   });
@@ -136,6 +139,7 @@ const Right = () => {
    
     mode: "onChange",
     shouldFocusError: true,
+    shouldUnregister: false,
     reValidateMode: "onChange",
   });
   const {
@@ -348,7 +352,7 @@ const f = (array: any) => {
     for (let t of types) {
       let prevReq = prev?.requirements.find((i: any)=> i.type == t)
       let currReq = curr.requirements.find((i: any)=> i.type == t)
-
+      
       if (prevReq?.amount > currReq?.amount) {
         // error==true;
         notifyError(`${obj[t as keyof typeof obj]} в  ${curr?.name} должна бить болше чем ${obj[t as keyof typeof obj]} в ${prev?.name}`)
@@ -364,15 +368,19 @@ const f = (array: any) => {
   
    for (let i=0;i<levels?.length;i++){
      //pre curr values
-
+     console.log('levelssss',levels)
      let prev=levels[i-1];
      let curr=levels[i];
      let prevFilterPercent=prev?.percent;
      let currFilterPercent=curr?.percent;
      let checkPercent=Number(prevFilterPercent)>Number(currFilterPercent);
 
- 
-     //case 1
+
+     let hasSometype3=curr?.requirements?.filter((item:any)=>item.type==3);
+     let hasSometype2=curr?.requirements?.filter((item:any)=>item.type==2);
+     let hasSometype1=curr?.requirements?.filter((item:any)=>item.type==1);
+
+     //case 1  
      let prevFilterFirstRequirments=prev?.requirements?.find((item:any)=>item.type==1);
      let currFilterFirstRequirments=curr?.requirements?.find((item:any)=>item.type==1);
      let checkFilterFirstOne=prevFilterFirstRequirments?.amount >=currFilterFirstRequirments?.amount;
@@ -387,24 +395,36 @@ const f = (array: any) => {
      let currFilterThirdRequirments=curr?.requirements?.find((item:any)=>item.type==3);
      let checkFilterThirdOne=prevFilterThirdRequirments?.amount >=currFilterThirdRequirments?.amount;
     
+     if(hasSometype3?.length>1){
+    return notifyError(t(` "Посещения" не должны дублироваться в "${curr?.name}" `));
+     }
+
+     if(hasSometype2?.length>1){
+    return notifyError(t(` "Рекомендации" не должны дублироваться в "${curr?.name}" `));
+    }
+
+    if(hasSometype1?.length>1){
+    return notifyError(t(` "Cумма покупок" не должны дублироваться в "${curr?.name}" `));
+   }
+
     if(checkPercent){
       
-     return notifyError(t(`percent в  ${curr?.name} должна бить болше чем percent в ${prev?.name}`));
+     return notifyError(t(`Процсент в  "${curr?.name}" должен быть больше чем  "${prev?.name}" `));
     }
 
      if(checkFilterFirstOne){
       
-      return notifyError(t(`Cумма покупок в  ${curr?.name} должна бить болше чем Cумма покупок в ${prev?.name}`));
+      return notifyError(t(`Количество "Cумма покупок" в  "${curr?.name}" должен быть больше чем  "${prev?.name}" `));
      }
 
      if(checkFilterSecondOne){
     
-      return  notifyError(t(`Рекомендации в  ${curr?.name} должна бить болше чем Рекомендации в ${prev?.name}`));
+      return  notifyError(t(`Количество Рекомендации в  "${curr?.name}" должен бить болше чем ${prev?.name}`));
      }
 
      if(checkFilterThirdOne){
      
-      return notifyError(t(`Посещения в  ${curr?.name} должна бить болше чем Посещения в ${prev?.name}`));
+      return notifyError(t(`Количество Посещения в  "${curr?.name}" должен бить болше чем ${prev?.name}`));
      }
 
    }
@@ -412,7 +432,7 @@ const f = (array: any) => {
 
  }
 
- let newarray={amount:'',type:{value:''}}
+ let newarray={amount:'',type:{id:0}}
 
   const FormSettings =async (data: any) => {
     console.log('data',data)
@@ -422,19 +442,20 @@ const f = (array: any) => {
     let checkinglevels=data?.levels?.map((item: any) => {
       if(item?.type){
         newarray.amount=item?.amount
-        newarray.type.value=item?.type?.value;
+        newarray.type.id=item?.type.id;
       }
       let arraynew=[newarray]
       let requirements=[...arraynew,item?.requirements?.[0],item?.requirements?.[1]].filter((item:any)=> item !==undefined);
+      console.log('requirements',requirements)
       if(requirements?.length>0){
         return {
           name: item.name,
           percent: item.percent,
           requirements: requirements?.map((reqItem: any) => {
             return {
-              type:reqItem.type.value=='Рекомендации' ? 2:reqItem.type.value=='Посещения' ? 3 :reqItem.type.value=='Сумма покупок' ? 1:0 ,
+              type:Number(reqItem.type.id),
               amount: Number(reqItem?.amount),
-              unit: reqItem?.type.value=='Сумма покупок' ? "UZS":"шт.",
+              unit: Number(reqItem?.type.id)==1 ? "UZS":"шт.",
               condition: reqItem?.condition?.value=='или' ? 'or':reqItem?.condition?.value=='и' ?'and':'',
             };
           }),
@@ -445,6 +466,7 @@ const f = (array: any) => {
         
      if(globalChecking ? true :payGo==1) {
       if(checkValidation(checkinglevels,data?.name)){
+        console.log('hi')
         try{
           useProgramSave.mutate({
             useProgram: localyPaymentfirst ? true:false,
@@ -502,7 +524,7 @@ const f = (array: any) => {
           reset({requirments:''})
       } 
     }
-      if(defaultValue?.maxAmount){
+    if(defaultValue?.maxAmount){
       setValue('maxAmount', defaultValue?.maxAmount);
       setValue('name', defaultValue?.name);
       setValue('percent', defaultValue?.percent);
@@ -510,13 +532,19 @@ const f = (array: any) => {
         setValue('cashbackReturnedDay',defaultValue?.cashbackReturnedDay);
       }
     }
-  }, [defaultValue?.maxAmount,convertedValue?.length,Boolean(bonusPoint),Boolean(disCount),Boolean(cashBack)]);
+ 
+  }, [defaultValue,convertedValue?.length,Boolean(bonusPoint),Boolean(disCount),Boolean(cashBack)]);
 
+  React.useEffect(()=>{
+    if(defaultValue==null){
+      reset({name:''})
+      reset({maxAmount:''})
+      reset({percent:''})
+      reset({cashbackReturnedDay:''})
+    }
+  },[defaultValue])
 
-
-  
-
-
+console.log('defaultValue',defaultValue)
   
   let CheckPercentage =
     Number(watch(`levels.${0}.percent`)) &&
@@ -840,18 +868,25 @@ const f = (array: any) => {
                     render={({ field }) => (
                       <MultiSelect
                         isMulti={false}
-                        width={{ minwidth: 170,width:'fit-content',maxwidth:200 }}
+                        width={{ minwidth: 170,width:'fit-content',maxwidth:170 }}
                         error={!!errors.levels?.[index]?.type}
-                        // message={t("requiredField")}
                         {...field}
-                        options={
-                          watch(`levels[${index}].type.id`)
-                            ? MainconditionTypes.filter(
-                                (item) =>
-                                  item.id ===
-                                  watch(`levels[${index}].type.id`)
-                              )
-                            : MainconditionTypes
+                        options={ infoData==2 ? 
+                        //    watch(`levels[${index}].type.id`)
+                        // ? TypeParkMainconditionTypes.filter(
+                        //     (item) =>
+                        //       item.id ===
+                        //       watch(`levels[${index}].type.id`)
+                        //   )
+                        // : 
+                         TypeParkMainconditionTypes:MainconditionTypes
+                          // watch(`levels[${index}].type.id`)
+                          //   ? MainconditionTypes.filter(
+                          //       (item) =>
+                          //         item.id ===
+                          //         watch(`levels[${index}].type.id`)
+                          //     )
+                          //   : MainconditionTypes
                         }
                         selectStyle={{
                           radius: !!errors.levels?.[index]?.type ? 14:0,
