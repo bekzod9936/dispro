@@ -10,7 +10,6 @@ import { FormFieldTypes } from "pages/CompanyPages/services/utils/types";
 
 interface SelectFieldProps {
   icon: JSX.Element;
-  isMulti?: boolean;
   name: keyof FormFieldTypes;
   placeholder: string;
   options: {
@@ -30,7 +29,6 @@ export const SelectField: React.FC<SelectFieldProps> = ({
   icon,
   options,
   margin,
-  isMulti,
   name,
   placeholder,
 }) => {
@@ -47,7 +45,8 @@ export const SelectField: React.FC<SelectFieldProps> = ({
       render={({ field }) => (
         <MultiSelect
           isStatic
-          field={field}
+          value={field.value}
+          onChange={field.onChange}
           error={Boolean(errors[name]?.value)}
           message={t(errors[name]?.value?.message)}
           margin={margin}
@@ -64,7 +63,6 @@ export const SelectField: React.FC<SelectFieldProps> = ({
           }}
           iconleft="25px"
           icon={icon}
-          isMulti={isMulti}
           options={options}
           placeholder={t(placeholder)}
         />

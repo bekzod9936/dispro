@@ -89,64 +89,14 @@ export const languages = [
 
 export const measurements = [
   {
-    name: "kg",
+    name: "item",
     value: 1,
-    label: "кг",
+    label: "шт",
   },
   {
-    name: "gr",
+    name: "m",
     value: 2,
-    label: "гр",
-  },
-  {
-    name: "kg",
-    value: 1,
-    label: "кг",
-  },
-  {
-    name: "gr",
-    value: 2,
-    label: "гр",
-  },
-  {
-    name: "kg",
-    value: 1,
-    label: "кг",
-  },
-  {
-    name: "gr",
-    value: 2,
-    label: "гр",
-  },
-  {
-    name: "kg",
-    value: 1,
-    label: "кг",
-  },
-  {
-    name: "gr",
-    value: 2,
-    label: "гр",
-  },
-  {
-    name: "kg",
-    value: 1,
-    label: "кг",
-  },
-  {
-    name: "gr",
-    value: 2,
-    label: "гр",
-  },
-  {
-    name: "kg",
-    value: 1,
-    label: "кг",
-  },
-  {
-    name: "gr",
-    value: 2,
-    label: "гр",
+    label: "метр",
   },
 ];
 

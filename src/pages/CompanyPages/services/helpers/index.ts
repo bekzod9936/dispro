@@ -6,7 +6,7 @@ import {
   sectionResponseType,
 } from "services/queries/servicesQueries/response.types";
 import { numberWithNew } from "services/utils";
-import { languageIds, languageLabels } from "../constants";
+import { languageIds, languageLabels, measurements } from "../constants";
 import {
   CreateDtoType,
   createSectionFormType,
@@ -160,7 +160,7 @@ export const createServiceHelper = (dto: CreateDtoType): PostDtoType => {
     positionAt: 1,
     price: Number(firstVariant.price),
     priceWithDiscount: Number(firstVariant.priceWithSale),
-    unitId: 1,
+    unitId: dto.measurement.value,
     goodsTranslates: goodsTranslatesToPostEntityForm(dto.titles),
     hideInMobile: false,
     isSetManufacturedTime: dto.preparationTime,
@@ -268,7 +268,7 @@ export const resetDefaultValues = (data: IGoodsResponse): FormFieldTypes => {
     preparationTimeData: {day: data.manufacturedAt?.day || null, hour: data.manufacturedAt?.hour || null, minute: data.manufacturedAt?.minute || null},
     loyaltyOff: data.notUsePl,
     loyaltyType: data.withDiscount ? 1 : data.notUsePl ? 0 : data.withPoint ? 2 : 0,
-    measurement: {value: 1, name: 'шт.', label: 'шт.'},
+    measurement: null,
     images: data.goodsImages.map(image => ({url: image.imageUrl})),
     section: 1,
     service: {},
