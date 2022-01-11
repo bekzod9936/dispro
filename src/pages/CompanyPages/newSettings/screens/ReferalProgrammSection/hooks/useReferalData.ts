@@ -12,7 +12,8 @@ import {
   setNewReferal,
   setReferalActive,
 } from "services/queries/referalProgramQuery";
-import { notify ,notifySuccess} from "services/utils/local_notification";
+
+import {notifyError,notifySuccess} from 'services/utils/local_notification';
 //types
 interface FormProps {
   referals?: any;
@@ -155,15 +156,11 @@ const useReferalData = () => {
           levels[i - 1]?.percent &&
           parseInt(levels[i]?.percent) >= parseInt(levels[i - 1]?.percent)
         ) {
-          // notify(
-          //   `${t("percentage_in")} "${levels[i]?.number} ${t("level")}" ${t(
-          //     "must_be_more_than"
-          //   )}"${levels[i - 1]?.number} ${t("level")}"`
-          // );
-          notify(
-            `${t("percentage_in")} "${levels[i-1]?.number} ${t("level")}" ${t(
+         
+          notifyError(
+            `${t("percentage_in")} "${levels[i-1]?.number} ${t("level")}"  ${t(
               "must_be_more_than"
-            )}"${levels[i]?.number} ${t("level")}"`
+            )}  "${levels[i]?.number} ${t("level")}"`
           );
           setSaving(false);
           return;
