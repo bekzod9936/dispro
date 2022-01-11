@@ -332,3 +332,17 @@ export const IconWord = styled.div`
   color: #c7c7c7;
   padding-right: 20px;
 `;
+
+export const IconHover=styled.div`
+width: 20px;
+height: 20px;
+position:relative;
+border-radius:50%;
+background:rgba(96, 110, 234, 0.1);
+`
+export const IconHoverElement=styled.div`
+height:100%;
+display:flex;
+justify-content:center;
+align-Items:center;
+`

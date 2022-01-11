@@ -26,10 +26,10 @@ import CustomToggle from "components/Custom/CustomToggleSwitch";
 import { GroupToggle, ToggleInfo,ModalTitle,ModalBody ,LoyalDiv,BtnContainer} from "../../style";
 import Modal from 'components/Custom/Modal';
 import Radio from 'components/Custom/Radio';
-
+import { ReactComponent as Remove } from "assets/icons/exit_mini.svg";
 import { CustomButton, ModalComponent, Text } from 'styles/CustomStyles';
 import { FONT_SIZE, FONT_WEIGHT } from 'services/Types/enums';
-
+import { ReactComponent as Plus } from "assets/icons/plus_mini.svg";
 import { CancelIcon } from 'assets/icons/ClientsPageIcons/ClientIcons';
 import { ReactComponent as Close } from 'assets/icons/IconsInfo/close.svg';
 import RippleEffect from 'components/Custom/RippleEffect';
@@ -168,10 +168,7 @@ const handleChangeDiscount = () => {
   setCashback(false );
   setPoints(false );
   setTypePark(false);
-  // responseDiscount.refetch();
-  // responseBonusPoint.refetch();
-  // responseCashback.refetch();
-  // responseProgramSettings.refetch();
+
   loayalityChange.mutate({
     data:{
       isActive:true,
@@ -191,10 +188,7 @@ const handleChangeCashback = () => {
     setDiscounts(false);
     setPoints(false );
     setTypePark(false);
-    // responseCashback.refetch();
-    // responseBonusPoint.refetch();
-    //   responseDiscount.refetch();
-    //   responseProgramSettings.refetch();
+  
       loayalityChange.mutate({
         data:{
           isActive:true,
@@ -214,10 +208,7 @@ const handleChangePoints = () => {
     setDiscounts(false);
     setCashback(false );
     setTypePark(false);
-    // responseBonusPoint.refetch();
-    //   responseDiscount.refetch();
-    //   responseCashback.refetch();
-    //   responseProgramSettings.refetch();
+    
       loayalityChange.mutate({
         data:{
           isActive:true,
