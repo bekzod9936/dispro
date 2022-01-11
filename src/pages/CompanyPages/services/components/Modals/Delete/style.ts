@@ -52,6 +52,9 @@ export const styles = {
             style: {
                 color: '#fff',
                 bgcolor: '#FF5E68'
+            },
+            width: {
+                minwidth: 163
             }
         }
     },

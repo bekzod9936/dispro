@@ -52,14 +52,13 @@ export const SectionPopover: React.FC<SectionPopoverProps> = ({
     if (isHiddenInMobile) {
       mutate({ id: section?.id || 0, action: false });
     } else {
-      console.log("avafvafv");
       onOpenModal("hide")();
     }
   };
 
   return (
     <div>
-      <IconButton disabled onClick={handleOpen} children={<MenuIcon />} />
+      <IconButton onClick={handleOpen} children={<MenuIcon />} />
       <Popover
         open={Boolean(anchorEl)}
         anchorEl={anchorEl}

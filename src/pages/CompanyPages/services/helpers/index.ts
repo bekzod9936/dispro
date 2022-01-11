@@ -13,6 +13,7 @@ import {
   descType,
   FormFieldTypes,
   IGoods,
+  imageType,
   parentSectionType,
   PostDtoType,
   PostDtoVariantType,
@@ -78,9 +79,9 @@ export const responseCategoriesToExactCategories = (
     }));
 };
 
-export const imagesArrayToArrayObjectWithLinks = (images: string[]) => {
+export const imagesArrayToArrayObjectWithLinks = (images: imageType[]) => {
   return images.map((link) => ({
-    imageUrl: link,
+    imageUrl: link.url,
   }));
 };
 
@@ -268,7 +269,7 @@ export const resetDefaultValues = (data: IGoodsResponse): FormFieldTypes => {
     loyaltyOff: data.notUsePl,
     loyaltyType: data.withDiscount ? 1 : data.notUsePl ? 0 : data.withPoint ? 2 : 0,
     measurement: {value: 1, name: 'шт.', label: 'шт.'},
-    images: data.goodsImages.map(image => image.imageUrl),
+    images: data.goodsImages.map(image => ({url: image.imageUrl})),
     section: 1,
     service: {},
     variants: data.hasGoodsVariant ? data.goodsVariants.map(variant => ({

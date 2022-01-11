@@ -122,6 +122,18 @@ export const Wrapper = styled.div`
                 text-decoration: line-through;
                 margin-top: 4px;
             }
+
+            @media (max-width: ${device.laptop}) {
+                p {
+                    font-size: 20px;
+                    line-height: 100%;
+                }
+
+                span {
+                    font-size: 15px;
+                    line-height: 16px;
+                }
+            }
         }
     }
     

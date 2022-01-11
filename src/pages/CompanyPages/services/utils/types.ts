@@ -33,6 +33,10 @@ export type preparationTimeType = {
     minute: number | null
 
 }
+
+export type imageType = {
+    url: string
+}
 export interface FormFieldTypes {
   titles: TitleType[];
   measurement: any,
@@ -43,13 +47,13 @@ export interface FormFieldTypes {
   variants: variantType[],
   preparationTime: boolean,
   preparationTimeData: preparationTimeType
-  images: string[],
+  images: imageType[],
 }
 
 
 
 export type CreateDtoType = {
-    images: string[],
+    images: imageType[],
     preparationTime: boolean,
     titles: TitleType[],
     loyaltyOff: boolean,

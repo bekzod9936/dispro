@@ -12,6 +12,7 @@ import {
   SECTION_HIDE_MODAL_CONTENT,
   SUBSECTION_HIDE_MODAL_CONTENT,
 } from "pages/CompanyPages/services/constants";
+import Spinner from "components/Helpers/Spinner";
 
 interface HideModalProps {
   open: boolean;
@@ -38,8 +39,9 @@ export const HideModal: React.FC<HideModalProps> = ({
     ? SECTION_HIDE_MODAL_CONTENT
     : SUBSECTION_HIDE_MODAL_CONTENT;
 
-  const { mutate: hideSection } = useHideSection();
-  const { mutate: hideItem } = useHideItem();
+  const { mutate: hideSection, isLoading: sectionIsLoading } = useHideSection();
+  const { mutate: hideItem, isLoading: itemIsLoading } = useHideItem();
+  const isLoading = sectionIsLoading || itemIsLoading;
 
   const handleHide = () => {
     if (isItem) {
@@ -82,8 +84,13 @@ export const HideModal: React.FC<HideModalProps> = ({
               margin={styles.cancelButton.margin}
               onClick={onClose}
             />
-            <Button startIcon={<HideIcon />} onClick={handleHide}>
-              {t("hide")}
+            <Button
+              disabled={isLoading}
+              startIcon={<HideIcon />}
+              onClick={handleHide}
+              width={styles.button}
+            >
+              {isLoading ? <Spinner size={25} /> : t("hide")}
             </Button>
           </div>
         </div>

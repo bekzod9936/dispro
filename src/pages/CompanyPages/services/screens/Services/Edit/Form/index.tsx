@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 //packages
 import { FormProvider } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 
 //components
 import { SectionModal } from "pages/CompanyPages/services/components/Modals/Sections";
@@ -14,6 +15,7 @@ import {
   Switches,
   Variants,
 } from "../../components";
+import Spinner from "components/Helpers/Spinner";
 
 //style
 import { FormStyled, Container } from "./style";
@@ -23,7 +25,6 @@ import {
   useEditItem,
   useEditService,
 } from "pages/CompanyPages/services/hooks/EditPageHooks";
-import Spinner from "components/Helpers/Spinner";
 import { CreateDtoType } from "pages/CompanyPages/services/utils/types";
 import { createServiceHelper } from "pages/CompanyPages/services/helpers";
 
@@ -31,9 +32,11 @@ export const Form: React.FC = () => {
   const [modal, setModal] = useState(false);
   const [variantsLength, setVariantsLength] = useState(1);
 
+  const history = useHistory();
+
   const { form, dispatch, state, isLoaded } = useEditItem(variantsLength);
 
-  const { mutate } = useEditService();
+  const { mutate, isLoading } = useEditService();
 
   const onSubmit = (data: CreateDtoType) => {
     const transformedData: CreateDtoType = {
@@ -42,12 +45,16 @@ export const Form: React.FC = () => {
       loyaltyType: String(state.loyaltyType),
     };
 
-    mutate(createServiceHelper(transformedData));
+    mutate(createServiceHelper(transformedData), {
+      onSettled() {
+        history.push("/services/main");
+      },
+    });
   };
 
-  const handleOpen = () => {
+  const handleOpen = useCallback(() => {
     setModal(true);
-  };
+  }, []);
 
   const handleClose = () => {
     setModal(false);
@@ -73,7 +80,7 @@ export const Form: React.FC = () => {
             />
             <Durations />
             <Photos />
-            <Buttons isLoading={false} />
+            <Buttons isLoading={isLoading} />
           </Container>
         </FormStyled>
       </FormProvider>

@@ -64,7 +64,7 @@ export const useEditItem = (length: number) => {
           form.reset({...defaultValues, service: category, section: section});
         }
 
-      }, [isLoaded]);
+      }, [isLoaded, categoryList]);
 
     return {form, state, dispatch, isLoaded}
 }
