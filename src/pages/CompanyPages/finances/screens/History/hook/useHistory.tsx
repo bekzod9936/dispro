@@ -54,15 +54,17 @@ const useHistory = ({ filterValues, handleClickCommet }: PProps) => {
       keepPreviousData: true,
       refetchOnWindowFocus: false,
       retry: 0,
-      onSuccess: (data) => {
-        dispatch(
-          setHistoryFinanceData(data.data.data.cashierHistories.histories)
-        );
+      select: (data) => {
+        return data.data.data;
+      },
+      onSuccess: (data: any) => {
+        console.log(data, "sksksk");
+        dispatch(setHistoryFinanceData(data?.cashierHistories.histories));
 
         dispatch(
           setHistoryFinanceTotal({
-            count: Math.ceil(data.data.data.totalCount / filterValues?.perPage),
-            pages: data.data.data.totalCount,
+            count: Math.ceil(data?.totalCount / filterValues?.perPage),
+            pages: data?.totalCount,
           })
         );
         dispatch(
@@ -70,31 +72,30 @@ const useHistory = ({ filterValues, handleClickCommet }: PProps) => {
             formatPagination({
               page: filterValues?.page,
               perPage: filterValues?.perPage,
-              total: data.data.data.totalCount,
+              total: data.totalCount,
             })
           )
         );
         dispatch(
           setSumHistoryFinance({
-            total: data.data.data.amountTotal,
-            minus: data.data.data.amountMinus,
-            paid: data.data.data.amountPayed,
-            cash: data.data.data.amountCash,
-            card: data.data.data.amountCard,
+            total: data.amountTotal,
+            minus: data.amountMinus,
+            paid: data.amountPayed,
+            cash: data.amountCash,
+            card: data.amountCard,
           })
         );
         dispatch(
-          setStoreIdsHistoryFinance(
-            data.data.data.cashierHistories.filter.stores
-          )
+          setStoreIdsHistoryFinance(data.cashierHistories.filter.stores)
         );
-        const cashierFilter =
-          data.data.data.cashierHistories.filter.cashierStaffs.map((v: any) => {
+        const cashierFilter = data.cashierHistories.filter.cashierStaffs.map(
+          (v: any) => {
             return {
               value: v.id,
               label: v.name,
             };
-          });
+          }
+        );
 
         dispatch(
           setCashierHistoryFinance([
@@ -144,7 +145,7 @@ const useHistory = ({ filterValues, handleClickCommet }: PProps) => {
       };
     });
   }, [data]);
-  console.log(data);
+
   const listmobile = data.map((v: any) => {
     const date = dayjs(v.chequeDate).format("DD.MM.YYYY");
     const time = dayjs(v.chequeDate).format("HH:mm:ss");

@@ -392,6 +392,7 @@ const Payment = () => {
               filterValues={filterValues}
               refetch={() => response.refetch()}
               intialFilter={intialFilter}
+              length={response.data?.totalCount}
             />
             {headerContentMobile()}
             {contentTable()}

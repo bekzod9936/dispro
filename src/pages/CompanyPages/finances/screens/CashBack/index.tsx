@@ -151,6 +151,7 @@ const Payment = () => {
             });
           }}
           margin="0 0 10px 0"
+          maxDate={new Date()}
         />
         {headerContentMobile()}
         {contentTable()}

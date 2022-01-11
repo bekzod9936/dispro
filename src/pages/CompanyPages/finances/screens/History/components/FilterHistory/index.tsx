@@ -32,6 +32,7 @@ interface Props {
   setFilterValues?: any;
   filterValues?: any;
   intialFilter?: any;
+  length: number;
 }
 
 const FilterHistory = ({
@@ -39,6 +40,7 @@ const FilterHistory = ({
   setFilterValues,
   filterValues,
   intialFilter,
+  length,
 }: Props) => {
   const { t } = useTranslation();
   const { width } = useWindowWidth();
@@ -185,7 +187,7 @@ const FilterHistory = ({
             page: 1,
             amountCard: "",
           });
-          await setPayment({ ...payment, card: false });
+          await setPayment({ ...payment, app: false });
         }}
       >
         {`${t("typeofpayment")}: ${t("throughtheapp")}`}
@@ -326,30 +328,31 @@ const FilterHistory = ({
             >
               {filtercash}
               {filtercard}
-
               {filterselectvalue}
               {filtercashier}
               {filterstore}
             </div>
           ) : null}
         </WrapFilterValues>
-        <Button
-          onClick={handleClick}
-          startIcon={<ExcelIcon />}
-          buttonStyle={{
-            bgcolor: "#45A13B",
-            height: {
-              mobile: 36,
-            },
-          }}
-          margin={{
-            laptop: "0 0 0 10px",
-            planshet: "0 0 0 20px",
-          }}
-          disabled={resExcel.isLoading}
-        >
-          {t("exportexcel")}
-        </Button>
+        {length === 0 ? null : (
+          <Button
+            onClick={handleClick}
+            startIcon={<ExcelIcon />}
+            buttonStyle={{
+              bgcolor: "#45A13B",
+              height: {
+                mobile: 36,
+              },
+            }}
+            margin={{
+              laptop: "0 0 0 10px",
+              planshet: "0 0 0 20px",
+            }}
+            disabled={resExcel.isLoading}
+          >
+            {t("exportexcel")}
+          </Button>
+        )}
       </WrapFilter>
       <WrapSelectV>
         {width > 1000 ? null : (
