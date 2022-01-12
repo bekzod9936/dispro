@@ -13,10 +13,10 @@ export const RenderAllRoutes: React.FC = () => {
     <Fragment>
       {AuthRoutes()}
       <Suspense fallback={<FallbackOnLazyLoad />}>
-        {Boolean(companyId) ? (
-          <DefaultLayoutAdmin>{PrivateRoutes()}</DefaultLayoutAdmin>
-        ) : (
+        {companyId === null ? (
           <TestLoginpage>{PrivateRoutes()}</TestLoginpage>
+        ) : (
+          <DefaultLayoutAdmin>{PrivateRoutes()}</DefaultLayoutAdmin>
         )}
       </Suspense>
     </Fragment>
