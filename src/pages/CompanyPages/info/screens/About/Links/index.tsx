@@ -96,6 +96,7 @@ const Links = ({
                 });
                 setInputValue(item === "" ? inputValue : item);
               }}
+              margin={{ laptop: "0 0 0 20px" }}
             />
           </ModalWrap>
         </ModelContent>
