@@ -52,7 +52,7 @@ const Photos = () => {
             <Text maxwidth="500px" align="center">
               {t("infouploadphotos1")}
               <span>
-                <span> {count} </span>
+                <span>{count}</span>
                 {ruCount({
                   count: count,
                   firstWord: "фотографию",
