@@ -1,15 +1,13 @@
 import { Redirect, Route } from "react-router-dom";
-import { IDefaultLayout } from "components/Layout/DefaultLayoutAdmin";
 import { PARTNER } from "services/interceptors/partner_interceptor/types";
 
 interface IProps {
-  Layout: React.FC<IDefaultLayout>;
   Component: React.LazyExoticComponent<React.ComponentType<any>>;
   // rest?: Object,
   path: string;
 }
 
-const PrivateRoute: React.FC<IProps> = ({ Layout, Component, ...rest }) => {
+const PrivateRoute: React.FC<IProps> = ({ Component, ...rest }) => {
   return (
     <Route
       {...rest}
@@ -20,22 +18,14 @@ const PrivateRoute: React.FC<IProps> = ({ Layout, Component, ...rest }) => {
         const path = props.match.path;
 
         if (path.includes("admin")) {
-          return (
-            <Layout>
-              <Component {...props} />
-            </Layout>
-          );
+          return <Component {...props} />;
         }
 
         if (
           (accessToken && path.includes("partner")) ||
           (companyToken && !path.includes("partner"))
         ) {
-          return (
-            <Layout>
-              <Component {...props} />
-            </Layout>
-          );
+          return <Component {...props} />;
         } else if (!companyToken && !path.includes("company")) {
           return <Redirect from="*" to="/partner/company" />;
         } else {

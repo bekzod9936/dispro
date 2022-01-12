@@ -20,7 +20,7 @@ const PrivateRoutes = () => {
 
   // const checkToken =
   //   (accessToken && refreshToken) ||
-  
+
   //   mAccessToken ||
   //   mRefreshToken ||
   //   successLogin;
@@ -36,7 +36,6 @@ const PrivateRoutes = () => {
         <PrivateRoute
           key={item.path}
           path={item.path}
-          Layout={item.layout}
           Component={item.component}
         />
       );
@@ -47,7 +46,6 @@ const PrivateRoutes = () => {
           <PrivateRoute
             key={item.path}
             path={item.path}
-            Layout={item.layout}
             Component={item.component}
           />
         );

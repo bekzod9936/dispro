@@ -1,8 +1,5 @@
-import { IDefaultLayout } from "../components/Layout/DefaultLayoutAdmin";
-
 export interface IPrivateRoute {
   path: string;
-  layout: React.FC<IDefaultLayout> | any;
   component: any;
 }
 
