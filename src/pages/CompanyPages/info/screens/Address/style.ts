@@ -213,6 +213,7 @@ export const YandexContainer = styled.div`
   position: relative;
   @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
     height: 50%;
+    min-height: 330px;
   }
 `;
 
@@ -457,13 +458,14 @@ export const DownSide = styled.div`
     bottom: 0;
     left: 0;
     width: 100%;
+    z-index: 9000;
     & > div {
       display: flex;
       width: 100%;
       height: 100%;
       align-items: center;
       justify-content: center;
-      gap: 10px;
+
       overflow: hidden !important;
       min-height: 65px;
     }

@@ -161,7 +161,7 @@ const ReferalProgrammSection = () => {
                       <TextDiv>
                         {infoData==2 ?  <Text fontSize='14px' fontWeight={300}>
                           1 клиент получает
-                          {' ' + item.percent}% с каждым пополнением карты парка 
+                          {' ' + item.percent}% с каждого пополнения карты парка 
                           {' ' + +(item.number + 1)} Клиентa
                         </Text>:  <Text fontSize='14px' fontWeight={300}>
                           1 клиент получает
