@@ -77,6 +77,8 @@ const ReferalProgrammSection = () => {
     loadingReferal,
     fetchingReferal,
     isFetching,
+    disableButton,
+    watch,
   } = useReferalData();
 
   const infoData = useAppSelector((state) => state.info.data?.type);
@@ -85,6 +87,8 @@ const ReferalProgrammSection = () => {
     control,
     name: 'referals',
   });
+ 
+ console.log('disableButtondisableButton',disableButton)
 
   const mainContent = () => {
     if (width <= 1000) {
@@ -226,7 +230,7 @@ const ReferalProgrammSection = () => {
 
           <ReferalBtn>
             <Button
-              disabled={checkedState==false}
+              disabled={(checkedState==false && disableButton==false) ? true:false}
               loadingColor='#fff'
               startIcon={<SaveIcon />}
               type='submit'

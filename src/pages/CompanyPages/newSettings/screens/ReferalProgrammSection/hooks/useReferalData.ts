@@ -28,10 +28,12 @@ const useReferalData = () => {
   const [newState, setNewState] = useState<string>("old");
   const [checkedState, setCheckedState] = useState<boolean>(false);
   const [levelsRef, setLevelsRef] = useState<IReferal[]>([]);
+  const [disableButton,setDisableButton]=useState<Boolean>(false);
   const {
     control,
     setValue,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<FormProps>({
     mode: "onChange",
@@ -81,6 +83,7 @@ const useReferalData = () => {
       onSuccess: (data: any) => {
         console.log(data?.data?.data, "referal program");
         setCheckedState(data?.data?.data?.isActive);
+        setDisableButton(data?.data?.data?.isActive);
 
         if (data.data.data?.levels) {
           setValue(
@@ -217,6 +220,8 @@ const useReferalData = () => {
     isLoading,
     fetchingReferal,
     isFetching,
+    disableButton,
+    watch,
   };
 };
 
