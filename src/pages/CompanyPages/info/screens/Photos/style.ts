@@ -55,6 +55,10 @@ export const Text = styled.div`
   max-width: ${({ maxwidth }: Props) => (maxwidth ? maxwidth : "fit-content")};
   text-align: ${({ align }: Props) => (align ? align : "left")};
 
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    margin-bottom: 20px;
+    max-width: ${({ align }: Props) => (align ? "340px" : "unset")};
+  }
   @media (max-width: ${device.mobile}) {
     font-size: 14px;
   }
@@ -123,6 +127,9 @@ export const WrapNoPhoto = styled.div`
   flex-direction: column;
   flex: 1;
   height: 100%;
+  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
+    margin-top: 20%;
+  }
 `;
 
 export const Wrpaper = styled.div``;
@@ -149,5 +156,6 @@ export const DownSide = styled.div`
     left: 0;
     width: 100%;
     min-height: 65px;
+    border-top: 1px solid #c6ccf3;
   }
 `;

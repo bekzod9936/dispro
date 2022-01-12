@@ -20,11 +20,11 @@ export const CashBackIcon = styled(CashBack)`
   & path {
     fill: ${({ mobile }: CashProps) => (mobile ? "#C4C4C4" : "#606EEA")};
   }
-  width: 30px;
-  height: 30px;
-  @media (max-width: ${device.mobile}) {
-    width: 21px;
-    height: 21px;
+  width: 20px;
+  height: 20px;
+  @media (min-width: ${device.mobile}) {
+    width: 24px;
+    height: 24px;
   }
 `;
 export const WalletIcon = styled(Wallet)`
@@ -44,10 +44,10 @@ export const WrapIcon = styled.div`
 `;
 
 export const DiscountIcon = styled(Discount)`
-  width: 30px;
-  height: 30px;
-  @media (max-width: ${device.mobile}) {
-    width: 20px;
-    height: 20px;
+  width: 20px;
+  height: 20px;
+  @media (min-width: ${device.mobile}) {
+    width: 24px;
+    height: 24px;
   }
 `;

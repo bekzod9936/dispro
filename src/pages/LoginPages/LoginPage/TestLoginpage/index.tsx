@@ -7,7 +7,7 @@ import Grid from "components/Custom/Grid";
 import { PARTNER } from "services/interceptors/partner_interceptor/types";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
-import { useHistory, useRouteMatch } from "react-router";
+import { useHistory, useLocation } from "react-router";
 import {
   setProceedAuth,
   setBackAddCompany,
@@ -35,7 +35,8 @@ import {
 const TestLoginpage = ({ children }: any) => {
   const { t } = useTranslation();
   const accessToken = localStorage.getItem(PARTNER.ACCESS_TOKEN);
-  const match = useRouteMatch();
+
+  const location = useLocation();
   const history = useHistory();
   const proceedAuth = useAppSelector((state) => state.auth.proceedAuth);
   const backAddCompany = useAppSelector((state) => {
@@ -54,13 +55,13 @@ const TestLoginpage = ({ children }: any) => {
     if (backAddCompany) {
       dispatch(setBackAddCompany(false));
     } else {
-      if (match.path.includes("/partner/company")) {
+      if (location.pathname.includes("/partner/company")) {
         handleLogout();
       }
       if (proceedAuth) {
         dispatch(setProceedAuth(false));
       }
-      if (match.path.includes("/partner/registration")) {
+      if (location.pathname.includes("/partner/registration")) {
         handleLogout();
       }
     }

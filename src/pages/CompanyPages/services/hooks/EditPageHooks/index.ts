@@ -5,7 +5,7 @@ import { useMutation, useQuery } from "react-query"
 import { useLocation, useParams } from "react-router-dom"
 import { ApiServices } from "services/queries/servicesQueries"
 import { useCategories, useGetSections } from ".."
-import { createItemDefaultFields, CREATE_ITEM_QUIT_MODAL_CONTENT, EDIT_ITEM_QUIT_MODAL_CONTENT, GET_ITEM } from "../../constants"
+import { createItemDefaultFields, CREATE_ITEM_QUIT_MODAL_CONTENT, EDIT_ITEM_QUIT_MODAL_CONTENT, GET_ITEM, measurements } from "../../constants"
 import { getSectionOfItem, resetDefaultValues } from "../../helpers"
 import { goodsSchema } from "../../utils/schemas.yup"
 import { FormFieldTypes, PostDtoType } from "../../utils/types"
@@ -57,14 +57,15 @@ export const useEditItem = (length: number) => {
           const defaultValues = resetDefaultValues(data);
           const category = categoryList.find(el => el.value === data.categoryId)
           const section = getSectionOfItem(sections, data.goodsSectionId)
-          
+          const measurement = measurements.find(m => m.value === data.unitId)
           dispatch({type: ActionTypes.CHANGE_LOYALTY_TYPE, payload: defaultValues.loyaltyType})
           dispatch({type: ActionTypes.CHANGE_LOYALTY_OFF, payload: defaultValues.loyaltyOff})
 
-          form.reset({...defaultValues, service: category, section: section});
+          form.reset({...defaultValues, service: category, section, measurement});
+          form.setValue('measurement', measurement)
         }
 
-      }, [isLoaded, categoryList]);
+      }, [isLoaded, categoryList, data]);
 
     return {form, state, dispatch, isLoaded}
 }
