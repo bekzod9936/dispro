@@ -556,10 +556,10 @@ const loyalityPut = useMutation(
  let isEmpty=disCount?.isActive ||cashBack?.isActive||bonusPoint?.isActive ||discounts||cashback||points;
  let checkEmpty=isEmpty==false ||isEmpty==undefined ;
  
- console.log('cashbackcashback',cashback)
- console.log('pointspoints',points)
- console.log('discountsdiscounts',discounts)
-
+//  console.log('cashbackcashback',cashback)
+//  console.log('pointspoints',points)
+//  console.log('discountsdiscounts',discounts)
+ console.log(errors,'testttt')
   return (
     <Container>
     <LeftSide>
@@ -725,7 +725,7 @@ const loyalityPut = useMutation(
         <Controller
           name={`name`}
           control={control}
-          rules={{ required: true }}
+          rules={{ required: true ,pattern:/\S/}}
           render={({ field }) => (
             <Input
               label={t("status_name")}
@@ -735,15 +735,16 @@ const loyalityPut = useMutation(
               width={width>1550 ? { maxwidth:500, minwidth: 300}:{ maxwidth:350, minwidth: 250}}
               margin={{ laptop: "0px 20px 0px 0px" }}
               field={field}
+
               error={!!errors.name}
               message={t("requiredField")}
             />
           )}
         />
-        
+
         <Controller
           name={`percent`}
-          rules={{ required: true,min:1 }}
+          rules={{ required: true,pattern:/\S/,min:1 }}
           control={control}
        
           render={({ field }) => (
@@ -786,6 +787,7 @@ const loyalityPut = useMutation(
                 <Controller
                   rules={{
                     required: true,
+                    pattern:/\S/,
                   }}
                   name={`levels.[${index}].name`}
              
@@ -810,6 +812,7 @@ const loyalityPut = useMutation(
                     required: true,
                     max: 100,
                     min: 1,
+              
                   }}
                 
                   control={control}
