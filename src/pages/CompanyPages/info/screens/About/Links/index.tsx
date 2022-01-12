@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import Button from 'components/Custom/Buttons/Button';
-import Input from 'components/Custom/Input';
-import Modal from 'components/Custom/Modal';
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import Button from "components/Custom/Buttons/Button";
+import Input from "components/Custom/Input";
+import Modal from "components/Custom/Modal";
 import {
   Container,
   WrapLinkIcon,
@@ -12,9 +12,9 @@ import {
   ModalWrap,
   DeleteIcon,
   ValueStyle,
-} from './style';
-import SaveButton from 'pages/CompanyPages/info/components/Buttons/SaveButton';
-import CancelButton from 'pages/CompanyPages/info/components/Buttons/CancelButton';
+} from "./style";
+import { SaveButton } from "components/Custom/Buttons/Save";
+import { CancelButton } from "components/Custom/Buttons/Cancel";
 
 interface Props {
   Icon?: any;
@@ -34,8 +34,8 @@ const Links = ({
   const { t } = useTranslation();
 
   const [open, setOpen] = useState(false);
-  const [inputValue, setInputValue] = useState('');
-  const [item, setItem] = useState('');
+  const [inputValue, setInputValue] = useState("");
+  const [item, setItem] = useState("");
 
   useEffect(() => {
     setInputValue(value);
@@ -53,8 +53,8 @@ const Links = ({
         {inputValue ? (
           <Button
             buttonStyle={{
-              color: value ? '#223367' : '#3492FF',
-              bgcolor: 'transparent',
+              color: value ? "#223367" : "#3492FF",
+              bgcolor: "transparent",
             }}
             onClick={() => onDelete(name)}
           >
@@ -64,12 +64,12 @@ const Links = ({
         ) : (
           <Button
             buttonStyle={{
-              color: value ? '#223367' : '#3492FF',
-              bgcolor: 'transparent',
+              color: value ? "#223367" : "#3492FF",
+              bgcolor: "transparent",
             }}
             onClick={() => setOpen(true)}
           >
-            {t('connect')}
+            {t("connect")}
           </Button>
         )}
       </WrapSocial>
@@ -78,7 +78,7 @@ const Links = ({
           <Input
             defaultValue={inputValue}
             label={name}
-            type='string'
+            type="string"
             onChange={(e: any) => {
               setItem(e.target.value);
             }}
@@ -87,14 +87,14 @@ const Links = ({
           <ModalWrap>
             <CancelButton onClick={() => setOpen(false)} />
             <SaveButton
-              type='button'
+              type="button"
               onClick={() => {
                 setOpen(false);
                 onChange({
                   name: name,
-                  value: item === '' ? inputValue : item,
+                  value: item === "" ? inputValue : item,
                 });
-                setInputValue(item === '' ? inputValue : item);
+                setInputValue(item === "" ? inputValue : item);
               }}
             />
           </ModalWrap>

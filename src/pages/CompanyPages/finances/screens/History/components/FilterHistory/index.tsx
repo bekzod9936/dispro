@@ -20,7 +20,9 @@ import {
   WrapFilterButtons,
   Label,
   WrapStatus,
+  WrapExpo,
 } from "./style";
+import Modal from "components/Custom/Modal";
 
 interface CashProp {
   value?: number;
@@ -42,7 +44,7 @@ const FilterHistory = ({
 }: Props) => {
   const { t } = useTranslation();
   const { width } = useWindowWidth();
-  const { resExcel } = useExcel();
+  const { resExcel, openModal, setOpenModal } = useExcel();
 
   const cashier = useAppSelector(
     (state) => state.finance.historyFinance.cashier
@@ -185,7 +187,7 @@ const FilterHistory = ({
             page: 1,
             amountCard: "",
           });
-          await setPayment({ ...payment, card: false });
+          await setPayment({ ...payment, app: false });
         }}
       >
         {`${t("typeofpayment")}: ${t("throughtheapp")}`}
@@ -326,7 +328,6 @@ const FilterHistory = ({
             >
               {filtercash}
               {filtercard}
-
               {filterselectvalue}
               {filtercashier}
               {filterstore}
@@ -356,12 +357,17 @@ const FilterHistory = ({
           <WrapFilterButtons>
             {filtercash}
             {filtercard}
-
             {filterselectvalue}
             {filtercashier}
             {filterstore}
           </WrapFilterButtons>
         )}
+        <Modal open={openModal}>
+          <WrapExpo>
+            <div>{t("exportvalidation")}</div>
+            <Button onClick={() => setOpenModal(false)}>Ok</Button>
+          </WrapExpo>
+        </Modal>
       </WrapSelectV>
     </>
   );

@@ -1,8 +1,8 @@
-import styled from 'styled-components';
-import { ReactComponent as CashBack } from 'assets/icons/FinanceIcons/cashback.svg';
-import { ReactComponent as Wallet } from 'assets/icons/FinanceIcons/wallet.svg';
-import { ReactComponent as Discount } from 'assets/icons/StatistisPage/discount.svg';
-import { device } from 'styles/device';
+import styled from "styled-components";
+import { ReactComponent as CashBack } from "assets/icons/FinanceIcons/cashback.svg";
+import { ReactComponent as Wallet } from "assets/icons/FinanceIcons/wallet.svg";
+import { ReactComponent as Discount } from "assets/icons/StatistisPage/discount.svg";
+import { device } from "styles/device";
 
 export const Container = styled.div`
   overflow: hidden;
@@ -16,9 +16,9 @@ interface CashProps {
 }
 
 export const CashBackIcon = styled(CashBack)`
-  margin-right: ${({ mobile }: CashProps) => (mobile ? '0' : '15px')};
+  margin-right: ${({ mobile }: CashProps) => (mobile ? "0" : "15px")};
   & path {
-    fill: ${({ mobile }: CashProps) => (mobile ? '#C4C4C4' : '#606EEA')};
+    fill: ${({ mobile }: CashProps) => (mobile ? "#C4C4C4" : "#606EEA")};
   }
   width: 30px;
   height: 30px;
@@ -44,6 +44,10 @@ export const WrapIcon = styled.div`
 `;
 
 export const DiscountIcon = styled(Discount)`
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
+  @media (max-width: ${device.mobile}) {
+    width: 20px;
+    height: 20px;
+  }
 `;
