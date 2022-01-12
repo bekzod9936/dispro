@@ -93,6 +93,7 @@ const Suggestions = () => {
           });
         }}
         margin="0 0 10px 0"
+        maxDate={new Date()}
       />
       {contentTable()}
       {data.length === 0 ? null : (

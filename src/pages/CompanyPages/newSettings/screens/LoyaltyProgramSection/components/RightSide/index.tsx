@@ -528,7 +528,7 @@ const loyalityPut = useMutation(
       setValue('maxAmount', defaultValue?.maxAmount);
       setValue('name', defaultValue?.name);
       setValue('percent', defaultValue?.percent);
-      if(defaultValue?.cashbackReturnedDay){
+      if(defaultValue?.cashbackReturnedDay==0 || defaultValue?.cashbackReturnedDay>0){
         setValue('cashbackReturnedDay',defaultValue?.cashbackReturnedDay);
       }
     }
@@ -974,6 +974,7 @@ const loyalityPut = useMutation(
                                 return (
                                   <InputFormat
                                     field={field}
+                                    autoComplete={"off"}
                                     label={t('give_cashback_after')}
                                     width={width>1550 ? { maxwidth:500, minwidth: 300}:{ maxwidth:350, minwidth: 300}}
                                     margin={{ laptop: "0px 20px 0px 0px" }}

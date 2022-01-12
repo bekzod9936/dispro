@@ -131,9 +131,9 @@ export const SelectedUser = styled.h3`
 	line-height: 16px;
 	margin-bottom: 20px;
 `
-export const WrapperScroll = styled.h3`
+export const WrapperScroll = styled.div`
 	width: 100%;
-	height: 611px;
+	height: 580px;
 	overflow-y: auto;
 	scroll-behavior: auto;
 
@@ -148,7 +148,8 @@ export const WrapperScroll = styled.h3`
 	background: #606eea;
 	border-radius: 14px 0px 0px 14px;
 }
-@media (max-width: ${device.laptop}) {
+
+@media (max-width: 1400px) {
 	height: 400px;
-}
+} 
 `

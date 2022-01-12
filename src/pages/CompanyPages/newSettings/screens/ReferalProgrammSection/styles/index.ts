@@ -34,7 +34,7 @@ export const RightGrid = styled.div`
   justify-content: center;
   align-items: flex-start;
   overflow-y: auto !important;
-
+  padding-bottom:20px;
   ::-webkit-scrollbar {
     width: 5px;
   }
@@ -75,6 +75,7 @@ export const LevelsColumn = styled.div`
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
+ 
 `;
 
 export const LevelsRow = styled.div`

@@ -92,3 +92,18 @@ export const WrapFilterButtons = styled.div`
     }
   }
 `;
+
+export const WrapExpo = styled.div`
+  min-width: 200px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  & > div:first-child {
+    margin-bottom: 20px;
+    font-weight: 500;
+    font-size: 18px;
+    color: #223367;
+  }
+`;

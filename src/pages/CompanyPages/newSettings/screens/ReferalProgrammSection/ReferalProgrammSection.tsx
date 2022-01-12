@@ -77,6 +77,8 @@ const ReferalProgrammSection = () => {
     loadingReferal,
     fetchingReferal,
     isFetching,
+    disableButton,
+    watch,
   } = useReferalData();
 
   const infoData = useAppSelector((state) => state.info.data?.type);
@@ -85,6 +87,8 @@ const ReferalProgrammSection = () => {
     control,
     name: 'referals',
   });
+ 
+ console.log('disableButtondisableButton',disableButton)
 
   const mainContent = () => {
     if (width <= 1000) {
@@ -128,7 +132,9 @@ const ReferalProgrammSection = () => {
                               disabled={!checkedState}
                               label={`Уровень ${index + 1}`}
                               field={field}
-                              
+                               maxLength={3}
+                               max='100'
+                              // defaultValue={ console.log('test',errors?.referals?.[index]) }
                               message={''}
                               error={
                                 errors?.referals?.[index]?.percent
@@ -139,7 +145,7 @@ const ReferalProgrammSection = () => {
                           );
                         }}
                       />
-
+               
                       <TwoUsers
                         name1='Саша'
                         name2='Егор'
@@ -162,11 +168,11 @@ const ReferalProgrammSection = () => {
                         {infoData==2 ?  <Text fontSize='14px' fontWeight={300}>
                           1 клиент получает
                           {' ' + item.percent}% с каждого пополнения карты парка 
-                          {' ' + +(item.number + 1)} Клиентa
+                          {' ' + +(item.number + 1)} клиентa
                         </Text>:  <Text fontSize='14px' fontWeight={300}>
                           1 клиент получает
                           {' ' + item.percent}% с каждой покупки
-                          {' ' + +(item.number + 1)} Клиентa
+                          {' ' + +(item.number + 1)} клиентa
                         </Text>}
                       
                       </TextDiv>
@@ -224,7 +230,7 @@ const ReferalProgrammSection = () => {
 
           <ReferalBtn>
             <Button
-              disabled={saving}
+              disabled={(checkedState==false && disableButton==false) ? true:false}
               loadingColor='#fff'
               startIcon={<SaveIcon />}
               type='submit'
@@ -292,7 +298,7 @@ const ReferalProgrammSection = () => {
 
                 <ActionDiv>
                   <CancelButton onClick={handleClick} text={t('cancel')} />
-                  <SaveButton type='submit' text={t('save')} />
+                  <SaveButton type='submit' text={t('save')}  />
                 </ActionDiv>
               </ReferalWrapper>
             </ReferalBody>
