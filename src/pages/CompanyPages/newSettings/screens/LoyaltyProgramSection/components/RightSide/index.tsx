@@ -705,7 +705,7 @@ const loyalityPut = useMutation(
             { infoData==2 && checkTypePark==false ? <div >
             <img src={typeParkImage} />
           </div>: <EmptySetting />}
-              <EText>{t('empty_setting_text')}</EText>
+          {infoData ==2 ? <EText>{t('Программа лояльности отключена')}</EText>: <EText>{t('empty_setting_text')}</EText>}
             </Grid>
           ):
        
@@ -731,7 +731,7 @@ const loyalityPut = useMutation(
               label={t("status_name")}
               type="string"
               autoComplete={"off"}
-              maxLength={40}
+              maxLength={30}
               width={width>1550 ? { maxwidth:500, minwidth: 300}:{ maxwidth:350, minwidth: 250}}
               margin={{ laptop: "0px 20px 0px 0px" }}
               field={field}
@@ -795,7 +795,7 @@ const loyalityPut = useMutation(
                       label={t("status_name")}
                       type="string"
                       autoComplete={"off"}
-                      maxLength={40}
+                      maxLength={30}
                       width={width>1550 ? { maxwidth:500, minwidth: 300}:{ maxwidth:350, minwidth: 250}}
                       margin={{ laptop: "0px 20px 0px 0px" }}
                       field={field}

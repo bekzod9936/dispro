@@ -22,7 +22,7 @@ const Condition = ({ watch, index }: any) => {
           <ContentVariant>
             <h5>Условия статуса №1</h5>
             <p>
-              {condition + ":"}
+              {condition + ": "}
               {numberWith(amount, " ")}
             </p>
             {conditionFirstValue ==
@@ -30,7 +30,7 @@ const Condition = ({ watch, index }: any) => {
               conditionFirstTypeValue && (
                 <p>
                   {conditionFirstTypeLabel +
-                    ":"}
+                    ": "}
                   {numberWith(
                     conditionFirstTypeAmount,
                     " "
@@ -42,7 +42,7 @@ const Condition = ({ watch, index }: any) => {
               conditionSecondTypeValue && (
                 <p>
                   {conditionSecondTypeLabel +
-                    ":"}
+                    ": "}
                   {numberWith(
                     conditionSecondTypeAmount,
                     " "
@@ -60,7 +60,7 @@ const Condition = ({ watch, index }: any) => {
               {conditionFirstTypeLabel && (
                 <p>
                   {conditionFirstTypeLabel +
-                    ":"}
+                    ": "}
                   {numberWith(
                     conditionFirstTypeAmount,
                     " "
@@ -70,7 +70,7 @@ const Condition = ({ watch, index }: any) => {
               {conditionSecondTypeLabel && (
                 <p>
                   {conditionSecondTypeLabel +
-                    ":"}
+                    ": "}
                   {numberWith(
                     conditionSecondTypeAmount,
                     " "
