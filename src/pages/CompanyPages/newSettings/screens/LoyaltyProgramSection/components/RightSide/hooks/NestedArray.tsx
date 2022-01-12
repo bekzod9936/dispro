@@ -2,7 +2,10 @@ import {useAppSelector } from 'services/redux/hooks';
 import { useFieldArray, Controller } from "react-hook-form";
 import InputFormat from "components/Custom/InputFormat";
 import MultiSelect from "components/Custom/MultiSelect";
+import { ReactComponent as Remove } from "assets/icons/exit_mini.svg";
 import {OnlyOneOr,TypeParkConditionTypes,conditonTypes,Or} from '../utils';
+import { PlusIcon } from "newassets/icons/icons";
+import { ReactComponent as Plus } from "assets/icons/plus_mini.svg";
 import {
   IconStyle,
   LittlePlus,
@@ -10,6 +13,8 @@ import {
   DynamicLabel,
   TitleInsideFormChildMore,
   CloseIcon,
+  IconHover,
+  IconHoverElement,
 } from "../../../style";
 const NestedArray = ({
   nestIndex,
@@ -32,12 +37,14 @@ const NestedArray = ({
     <>
       <IconStyle>
         {fields.length <= 1 ? (
-          <div onClick={() => append({})}>
-            <LittlePlus />
-          </div>
-        ) : (
-          <div onClick={() => remove()}>
-       <CloseIcon />
+            <IconHover>
+          <IconHoverElement  onClick={() => append({})}>
+            <Plus />
+          </IconHoverElement>
+          </IconHover>
+        ) 
+        : (
+          <div style={{width:'20px'}}>
           </div>
         )}
       </IconStyle>
@@ -139,10 +146,12 @@ const NestedArray = ({
               />
             </DynamicGroup>
             <IconStyle>
-              <div onClick={() => remove(k)}>
-                <CloseIcon />
-              </div>
-            </IconStyle>
+            <IconHover>
+          <IconHoverElement onClick={() => remove(nestIndex)}>
+       <Remove />
+          </IconHoverElement>
+          </IconHover>
+          </IconStyle>
           </TitleInsideFormChildMore>
         </>
       ))}

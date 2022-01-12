@@ -122,8 +122,8 @@ export const LeftSide = styled.div`
   padding: 0px 10px;
   border-right: 3px solid rgba(96, 110, 234, 0.3);
   min-width: 400px;
-  width: 500px;
-  max-width: 700px;
+  width: 470px;
+  max-width: 600px;
   height: 100%;
 `;
 export const GroupToggle = styled.div`
@@ -132,7 +132,7 @@ export const GroupToggle = styled.div`
 `;
 export const ToggleInfo = styled.div`
   padding: 0px 20px;
-
+  width: 380px;
   h5 {
     font-weight: 500;
     font-size: 18px;
@@ -225,9 +225,13 @@ export const PercentDiv = styled.div`
   padding-right: 10px;
 `;
 export const IconStyle = styled.div`
-  margin: 20px 0px 0px 30px;
+  margin: 20px 0px 0px 25px;
   cursor: pointer;
 `;
+export const IconStyleMain=styled.div`
+margin: 20px 0px 0px 20px;
+  cursor: pointer;
+`
 export const LocalyPayment = styled.div`
   padding: 10px 0px;
 `;
@@ -332,3 +336,30 @@ export const IconWord = styled.div`
   color: #c7c7c7;
   padding-right: 20px;
 `;
+
+export const IconHover=styled.div`
+width: 20px;
+height: 20px;
+position:relative;
+border-radius:50%;
+background:rgba(96, 110, 234, 0.1);
+`
+export const IconHoverElement=styled.div`
+height:100%;
+display:flex;
+justify-content:center;
+align-Items:center;
+`
+
+export const HoverMainAdd=styled.div`
+width: 46px;
+height: 46px;
+background: rgba(96, 110, 234, 0.1);
+border-radius: 8px;
+`
+export const HoverMainIcon=styled.div`
+display:flex;
+justify-content:center;
+align-items:center;
+height:100%;
+`

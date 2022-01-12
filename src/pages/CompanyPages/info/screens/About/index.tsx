@@ -210,38 +210,79 @@ const Main = () => {
 
   const handleInfoSubmit = (v: any) => {
     const category = v.categories.map((v: any) => v.value);
-    if (logo !== "") {
-      resinfoSubData.mutate(
-        {
-          ...data,
-          annotation: v.annotation,
-          categories: category,
-          companyId: +companyId,
-          currencyId: "1",
-          description: v.description,
-          isHalol: true,
-          keyWords: keywords.join(","),
-          linkEnable: false,
-          links: web,
-          logo: logo,
-          name: v.name,
-          socialLinks: links,
-          telNumber: `+998${v.telNumber}`,
-          isKosher: false,
-        },
-        {
-          onSuccess: () => {
-            resHeader.refetch();
-            response.refetch();
-            if (!infoData?.filledAddress || !regFilled?.filledAddress) {
-              history.push("/info/address");
+    if (getValues("companyLink") === "" && getValues("link") === "") {
+      if (getValues("keywords") === "") {
+        if (logo !== "") {
+          resinfoSubData.mutate(
+            {
+              ...data,
+              annotation: v.annotation,
+              categories: category,
+              companyId: +companyId,
+              currencyId: "1",
+              description: v.description,
+              isHalol: true,
+              keyWords: keywords.join(","),
+              linkEnable: false,
+              links: web,
+              logo: logo,
+              name: v.name,
+              socialLinks: links,
+              telNumber: `+998${v.telNumber}`,
+              isKosher: false,
+            },
+            {
+              onSuccess: () => {
+                resHeader.refetch();
+                response.refetch();
+                if (!infoData?.filledAddress || !regFilled?.filledAddress) {
+                  history.push("/info/address");
+                }
+              },
             }
-          },
+          );
         }
-      );
+      } else {
+        setError(
+          "keywords",
+          { type: "value", message: t("shouldsavekeyword") },
+          { shouldFocus: true }
+        );
+      }
+    } else {
+      if (getValues("companyLink") === "") {
+        setError("companyLink", {}, { shouldFocus: true });
+      }
+      if (getValues("link") === "") {
+        setError(
+          "link",
+          { type: "value", message: t("requiredField") },
+          { shouldFocus: true }
+        );
+      } else {
+        if (getValues("link") !== "") {
+          if (
+            getValues("link")?.startsWith("https://") ||
+            getValues("link")?.startsWith("http://") ||
+            getValues("link")?.startsWith("wwww.")
+          ) {
+            setError(
+              "link",
+              { type: "value", message: t("shouldsavelink") },
+              { shouldFocus: true }
+            );
+          } else {
+            setError(
+              "link",
+              { message: "Неверная ссылка" },
+              { shouldFocus: true }
+            );
+          }
+        }
+      }
     }
   };
-
+  console.log(errors);
   const handleWebDelete = (v: any) => {
     const newArr = web.filter((i: any) => {
       if (i.address === v.address && i.name === v.name) {
@@ -254,13 +295,7 @@ const Main = () => {
   };
 
   const handleKeyDelete = (v: any) => {
-    const newArr = keywords.filter((i: any) => {
-      if (i === v) {
-        return;
-      } else {
-        return i;
-      }
-    });
+    const newArr = keywords.filter((i: any) => i !== v);
     setKeywords(newArr);
   };
 
@@ -283,7 +318,18 @@ const Main = () => {
           { shouldFocus: true }
         );
       } else {
-        setError("link", { message: "Неверная ссылка" }, { shouldFocus: true });
+        if (
+          getValues("link")?.startsWith("https://") ||
+          getValues("link")?.startsWith("http://") ||
+          getValues("link")?.startsWith("wwww.")
+        ) {
+        } else {
+          setError(
+            "link",
+            { message: "Неверная ссылка" },
+            { shouldFocus: true }
+          );
+        }
       }
     } else {
       clearErrors("link");
@@ -322,7 +368,7 @@ const Main = () => {
 
   const handleSocialChange = ({ name, value }: socialProps) => {
     const newLinks = links?.map((v: any) => {
-      const a = name === v?.name ? true : false;
+      const a = name === v?.name;
       return {
         ...v,
         value: a ? value : v?.value,
@@ -387,18 +433,23 @@ const Main = () => {
       <Controller
         name="keywords"
         control={control}
-        rules={{ required: keywords?.length === 0 ? true : false }}
+        rules={{ required: keywords?.length === 0 }}
         defaultValue=""
         render={({ field }) => (
           <Input
             label={t("keywords")}
             error={errors.keywords ? true : false}
-            message={t("requiredField")}
+            message={
+              errors.keywords?.type === "value"
+                ? errors.keywords.message
+                : t("requiredField")
+            }
             type="string"
             field={field}
             margin={{
-              laptop: "20px 0 15px",
+              laptop: "20px 0 0",
             }}
+            isAbsolute={true}
             inputStyle={{
               border:
                 getValues("keywords") !== ""
@@ -617,7 +668,7 @@ const Main = () => {
                   type="string"
                   field={field}
                   margin={{
-                    laptop: "20px 0 25px",
+                    laptop: "20px 0 0",
                   }}
                   inputStyle={{
                     border:
@@ -625,6 +676,7 @@ const Main = () => {
                         ? "1px solid #606EEA"
                         : "1px solid #C2C2C2",
                   }}
+                  isAbsolute={true}
                   message={errors?.link?.message}
                   error={errors.link ? true : false}
                   IconEnd={
