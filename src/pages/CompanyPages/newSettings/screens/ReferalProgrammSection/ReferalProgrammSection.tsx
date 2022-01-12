@@ -226,7 +226,7 @@ const ReferalProgrammSection = () => {
 
           <ReferalBtn>
             <Button
-              disabled={saving}
+              disabled={checkedState==false}
               loadingColor='#fff'
               startIcon={<SaveIcon />}
               type='submit'
@@ -294,7 +294,7 @@ const ReferalProgrammSection = () => {
 
                 <ActionDiv>
                   <CancelButton onClick={handleClick} text={t('cancel')} />
-                  <SaveButton type='submit' text={t('save')} />
+                  <SaveButton type='submit' text={t('save')}  />
                 </ActionDiv>
               </ReferalWrapper>
             </ReferalBody>
