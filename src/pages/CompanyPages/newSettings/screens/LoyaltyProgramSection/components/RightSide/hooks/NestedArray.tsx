@@ -58,6 +58,7 @@ const NestedArray = ({
                 control={control}
                 rules={{
                   required: true,
+                  
                 }}
                 render={({ field }) => (
                   <MultiSelect
