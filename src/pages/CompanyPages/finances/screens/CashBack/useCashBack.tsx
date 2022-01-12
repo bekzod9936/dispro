@@ -138,7 +138,6 @@ const useCashBack = ({ filterValues }: PProps) => {
         Header: t("commission/top-upamount"),
         accessor: "col4",
         Cell: (props: any) => {
-          console.log(props.row.original.col1, "sdkfmsdi");
           if (props.row.original.col1 === "cashback_account_top_up") {
             return "-";
           } else {
