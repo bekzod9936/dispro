@@ -61,10 +61,14 @@ import {
   WrapSpinner,
   EText,
   IconWord,
+  HoverMainAdd,
+  HoverMainIcon,
   WrapModalPaygo,
+  IconStyleMain,
 } from "../../style";
 
 
+let counter=0;
 const Right = () => {
   const payGo = useAppSelector((state) => state.info.payGo);
   const infoData = useAppSelector((state) => state.info.data?.type);
@@ -156,12 +160,10 @@ const Right = () => {
 const handleChangeDiscount = () => {
   setModalDiscount(Boolean(disCount?.name));
   if(!disCount?.name){
-    
   setDiscounts(true);
   setCashback(false );
   setPoints(false );
   setTypePark(false);
-
   loayalityChange.mutate({
     data:{
       isActive:true,
@@ -172,24 +174,19 @@ const handleChangeDiscount = () => {
     }
   })
 if(!disCount?.name){
-  // reset({name:''})
+  reset({name:''})
   reset({maxAmount:''})
-  reset({percent:''})
-  reset({cashbackReturnedDay:''})
+  reset({percent:undefined})
 }
-  
   }
 };
 const handleChangeCashback = () => {
     setModalCashback(Boolean(cashBack?.name));
     if(!cashBack?.name){
- 
-    
     setCashback(true );
     setDiscounts(false);
     setPoints(false );
     setTypePark(false);
-  
       loayalityChange.mutate({
         data:{
           isActive:true,
@@ -200,24 +197,20 @@ const handleChangeCashback = () => {
         }
       })
       if(!cashBack?.name){
-        // reset({name:''})
+        reset({name:''})
         reset({maxAmount:''})
-        reset({percent:''})
-        reset({cashbackReturnedDay:''})
+        reset({percent:undefined})
+        // reset({cashbackReturnedDay:''})
       }
-    
     }
-    
 };
 const handleChangePoints = () => {
     setModalPoints(Boolean(bonusPoint?.name));
     if(!bonusPoint?.name){
-     
     setPoints(true);
     setDiscounts(false);
     setCashback(false );
     setTypePark(false);
-    
       loayalityChange.mutate({
         data:{
           isActive:true,
@@ -228,10 +221,9 @@ const handleChangePoints = () => {
         }
       })
       if(!bonusPoint?.name)
-      // reset({name:''})
+      reset({name:''})
       reset({maxAmount:''})
-      reset({percent:''})
-      reset({cashbackReturnedDay:''})
+      reset({percent:undefined})
     }
 };
 
@@ -541,21 +533,21 @@ const loyalityPut = useMutation(
       }
     }
  
-  }, [defaultValue,disCount?.name,convertedValue?.length,Boolean(bonusPoint),Boolean(disCount),Boolean(cashBack)]);
+  }, [defaultValue?.maxAmount,disCount?.name,defaultValue?.percent,defaultValue?.cashbackReturnedDay,convertedValue?.length,Boolean(bonusPoint),Boolean(disCount),Boolean(cashBack),Boolean(cashBack?.isActive),Boolean(disCount?.isActive),Boolean(bonusPoint?.isActive)]);
 
   React.useEffect(()=>{
     
     if(Boolean(defaultValue)==false){
       reset({name:''})
       reset({maxAmount:''})
-      reset({percent:''})
-      reset({cashbackReturnedDay:''})
-    }
-  },[defaultValue])
-
-console.log('defaultValue',defaultValue,Boolean(bonusPoint),Boolean(disCount),Boolean(cashBack))
+      reset({percent:undefined})
   
-  let CheckPercentage =
+    }
+  },[defaultValue?.name,defaultValue?.percent,defaultValue?.maxAmount,Boolean(cashBack?.isActive)])
+
+
+  
+  let checkPercentage =
     Number(watch(`levels.${0}.percent`)) &&
     Number(watch("percent")) >= Number(watch(`levels.${0}.percent`))
       ? true
@@ -564,8 +556,9 @@ console.log('defaultValue',defaultValue,Boolean(bonusPoint),Boolean(disCount),Bo
  let isEmpty=disCount?.isActive ||cashBack?.isActive||bonusPoint?.isActive ||discounts||cashback||points;
  let checkEmpty=isEmpty==false ||isEmpty==undefined ;
  
-
  console.log('cashbackcashback',cashback)
+ console.log('pointspoints',points)
+ console.log('discountsdiscounts',discounts)
 
   return (
     <Container>
@@ -598,7 +591,8 @@ console.log('defaultValue',defaultValue,Boolean(bonusPoint),Boolean(disCount),Bo
         </ToggleInfo>
       </GroupToggle>
       {infoData===2 &&  <GroupToggle>
-        <CustomToggle checked={typePark ||checkTypePark==false} onChange={handleChangePark} />
+      <CustomToggle checked={isEmpty==true ? false:typePark || checkTypePark==false} onChange={handleChangePark} />
+        {/* <CustomToggle checked={isEmpty !==true && (typePark ||checkTypePark==false) } onChange={handleChangePark} /> */}
         <ToggleInfo>
           <h5>Отключить все</h5>
           <p>
@@ -699,7 +693,7 @@ console.log('defaultValue',defaultValue,Boolean(bonusPoint),Boolean(disCount),Bo
                           </Button>
                         </WrapModalPaygo>
    </Modal>
-   {   checkEmpty ? (
+   {checkEmpty ? (
             <Grid
               justifyContent='center'
               alignItems='center'
@@ -737,7 +731,7 @@ console.log('defaultValue',defaultValue,Boolean(bonusPoint),Boolean(disCount),Bo
               label={t("status_name")}
               type="string"
               autoComplete={"off"}
-
+              maxLength={40}
               width={width>1550 ? { maxwidth:500, minwidth: 300}:{ maxwidth:350, minwidth: 250}}
               margin={{ laptop: "0px 20px 0px 0px" }}
               field={field}
@@ -746,18 +740,17 @@ console.log('defaultValue',defaultValue,Boolean(bonusPoint),Boolean(disCount),Bo
             />
           )}
         />
+        
         <Controller
           name={`percent`}
-          control={control}
           rules={{ required: true,min:1 }}
+          control={control}
+       
           render={({ field }) => (
             <InputFormat
               autoComplete={"off"}
-              label={""}
+              // label={}
               type="string"
-              field={field}
-              maxLength={3}
-              
               max="100"
               width={{
                 width: "106px",
@@ -771,16 +764,19 @@ console.log('defaultValue',defaultValue,Boolean(bonusPoint),Boolean(disCount),Bo
                   <PercentIcon />
                 </PercentDiv>
               }
+              field={field}
               // message={t("requiredField")}
-              error={!!errors.percent}
+              error={errors.percent}
             />
           )}
         />
-        <IconStyle>
-          <div onClick={() => append({ name: "" })}>
+        <IconStyleMain>
+          <HoverMainAdd>
+          <HoverMainIcon onClick={() => append({ name: "" })}>
             <PlusIcon />
-          </div>
-        </IconStyle>
+          </HoverMainIcon>
+          </HoverMainAdd>
+        </IconStyleMain>
       </TitleForm>
       <div>
         {fields.map(({ id }, index: any) => (
@@ -799,6 +795,7 @@ console.log('defaultValue',defaultValue,Boolean(bonusPoint),Boolean(disCount),Bo
                       label={t("status_name")}
                       type="string"
                       autoComplete={"off"}
+                      maxLength={40}
                       width={width>1550 ? { maxwidth:500, minwidth: 300}:{ maxwidth:350, minwidth: 250}}
                       margin={{ laptop: "0px 20px 0px 0px" }}
                       field={field}
@@ -830,18 +827,10 @@ console.log('defaultValue',defaultValue,Boolean(bonusPoint),Boolean(disCount),Bo
                       margin={{
                         laptop: "25px 0 0",
                       }}
-                      // message={t("requiredField")}
+                    
                       error={
-                        !!errors.levels?.[index]?.percent ||CheckPercentage
-                        // CheckPercentage ||
-                        // Number(
-                        //   watch(`levels[${Number(index - 1)}].percent`)
-                        // ) >=
-                        //   Number(
-                        //     watch(`levels[${Number(index)}].percent`)
-                        //   )
-                        //   ? true
-                        //   : false
+                        !!errors.levels?.[index]?.percent ||checkPercentage
+                     
                       }
                       IconEnd={
                         <PercentDiv>
@@ -851,7 +840,7 @@ console.log('defaultValue',defaultValue,Boolean(bonusPoint),Boolean(disCount),Bo
                     />
                   )}
                 />
-                <IconStyle>
+                <IconStyle style={{marginLeft:'30px'}}>
           <div onClick={() => append({ name: "" })}>
             <PlusIcon />
           </div>
@@ -880,21 +869,7 @@ console.log('defaultValue',defaultValue,Boolean(bonusPoint),Boolean(disCount),Bo
                         error={!!errors.levels?.[index]?.type}
                         {...field}
                         options={ infoData==2 ? 
-                        //    watch(`levels[${index}].type.id`)
-                        // ? TypeParkMainconditionTypes.filter(
-                        //     (item) =>
-                        //       item.id ===
-                        //       watch(`levels[${index}].type.id`)
-                        //   )
-                        // : 
                          TypeParkMainconditionTypes:MainconditionTypes
-                          // watch(`levels[${index}].type.id`)
-                          //   ? MainconditionTypes.filter(
-                          //       (item) =>
-                          //         item.id ===
-                          //         watch(`levels[${index}].type.id`)
-                          //     )
-                          //   : MainconditionTypes
                         }
                         selectStyle={{
                           radius: !!errors.levels?.[index]?.type ? 14:0,
@@ -953,16 +928,12 @@ console.log('defaultValue',defaultValue,Boolean(bonusPoint),Boolean(disCount),Bo
                   nestIndex={index}
                   watch={watch}
                   setValue={setValue}
-              
                   data={data}
                   errors={errors}
                   control={control}
                 />
               </TitleInsideFormChild>
-              
               <Condition watch={watch} index={index}/>
-
-             
             </div>
           </>
         ))}
@@ -991,39 +962,29 @@ console.log('defaultValue',defaultValue,Boolean(bonusPoint),Boolean(disCount),Bo
           )}
         />
       </TitleForm>
-      {Boolean(cashBack?.isActive) ||cashback && <TitleForm>
+      {cashback || Boolean(cashBack?.isActive) ? <TitleForm>
                             <Controller
                               name='cashbackReturnedDay'
                               control={control}
                               rules={{
-                                required: Boolean(cashBack?.isActive),
-                           
+                                required: Boolean(cashBack?.isActive) ||cashback,
+                                max:Boolean(cashBack?.isActive) ||cashback ? 30:0,
                               }}
-                              // defaultValue={give_cashback_after}
                               render={({ field }) => {
                                 return (
                                   <InputFormat
                                     field={field}
-                                    max='30'
-                               
                                     label={t('give_cashback_after')}
                                     width={width>1550 ? { maxwidth:500, minwidth: 300}:{ maxwidth:350, minwidth: 300}}
                                     margin={{ laptop: "0px 20px 0px 0px" }}
                                     IconEnd={<IconWord>{t('дней')}</IconWord>}
-                                    // defaultValue={
-                                    //   base_loyality?.give_cashback_after
-                                    // }
-                                    // error={
-                                    //   errors.cashbackReturnedDay?.type ===
-                                    //   'required'
-                                    // }
                                     error={!!errors.cashbackReturnedDay }
                                     message={errors.cashbackReturnedDay?.type=='required' ? t('requiredField'):t('maxcharactersdays',{value:30})}
                                   />
                                 );
                               }}
                             />
-                          </TitleForm>}
+                          </TitleForm>:''}
       <LocalyPayment>
       {infoData !==2 && <div>
         <Title>
