@@ -128,7 +128,9 @@ const ReferalProgrammSection = () => {
                               disabled={!checkedState}
                               label={`Уровень ${index + 1}`}
                               field={field}
-                              
+                               maxLength={3}
+                               max='100'
+                              // defaultValue={ console.log('test',errors?.referals?.[index]) }
                               message={''}
                               error={
                                 errors?.referals?.[index]?.percent
@@ -139,7 +141,7 @@ const ReferalProgrammSection = () => {
                           );
                         }}
                       />
-
+               
                       <TwoUsers
                         name1='Саша'
                         name2='Егор'
@@ -162,11 +164,11 @@ const ReferalProgrammSection = () => {
                         {infoData==2 ?  <Text fontSize='14px' fontWeight={300}>
                           1 клиент получает
                           {' ' + item.percent}% с каждого пополнения карты парка 
-                          {' ' + +(item.number + 1)} Клиентa
+                          {' ' + +(item.number + 1)} клиентa
                         </Text>:  <Text fontSize='14px' fontWeight={300}>
                           1 клиент получает
                           {' ' + item.percent}% с каждой покупки
-                          {' ' + +(item.number + 1)} Клиентa
+                          {' ' + +(item.number + 1)} клиентa
                         </Text>}
                       
                       </TextDiv>
