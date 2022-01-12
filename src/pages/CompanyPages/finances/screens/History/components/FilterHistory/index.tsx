@@ -20,7 +20,9 @@ import {
   WrapFilterButtons,
   Label,
   WrapStatus,
+  WrapExpo,
 } from "./style";
+import Modal from "components/Custom/Modal";
 
 interface CashProp {
   value?: number;
@@ -32,7 +34,6 @@ interface Props {
   setFilterValues?: any;
   filterValues?: any;
   intialFilter?: any;
-  length: number;
 }
 
 const FilterHistory = ({
@@ -40,11 +41,10 @@ const FilterHistory = ({
   setFilterValues,
   filterValues,
   intialFilter,
-  length,
 }: Props) => {
   const { t } = useTranslation();
   const { width } = useWindowWidth();
-  const { resExcel } = useExcel();
+  const { resExcel, openModal, setOpenModal } = useExcel();
 
   const cashier = useAppSelector(
     (state) => state.finance.historyFinance.cashier
@@ -334,37 +334,40 @@ const FilterHistory = ({
             </div>
           ) : null}
         </WrapFilterValues>
-        {length === 0 ? null : (
-          <Button
-            onClick={handleClick}
-            startIcon={<ExcelIcon />}
-            buttonStyle={{
-              bgcolor: "#45A13B",
-              height: {
-                mobile: 36,
-              },
-            }}
-            margin={{
-              laptop: "0 0 0 10px",
-              planshet: "0 0 0 20px",
-            }}
-            disabled={resExcel.isLoading}
-          >
-            {t("exportexcel")}
-          </Button>
-        )}
+        <Button
+          onClick={handleClick}
+          startIcon={<ExcelIcon />}
+          buttonStyle={{
+            bgcolor: "#45A13B",
+            height: {
+              mobile: 36,
+            },
+          }}
+          margin={{
+            laptop: "0 0 0 10px",
+            planshet: "0 0 0 20px",
+          }}
+          disabled={resExcel.isLoading}
+        >
+          {t("exportexcel")}
+        </Button>
       </WrapFilter>
       <WrapSelectV>
         {width > 1000 ? null : (
           <WrapFilterButtons>
             {filtercash}
             {filtercard}
-
             {filterselectvalue}
             {filtercashier}
             {filterstore}
           </WrapFilterButtons>
         )}
+        <Modal open={openModal}>
+          <WrapExpo>
+            <div>{t("exportvalidation")}</div>
+            <Button onClick={() => setOpenModal(false)}>Ok</Button>
+          </WrapExpo>
+        </Modal>
       </WrapSelectV>
     </>
   );
