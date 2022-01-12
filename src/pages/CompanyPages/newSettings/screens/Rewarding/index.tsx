@@ -149,7 +149,9 @@ const Rewarding = () => {
                   }}
                 />
               </WrapSwitch>
-              <Text>{t("pointsforfriend")}</Text>
+              <Text>
+                {type === 2 ? t("parkpointsforfriends") : t("pointsforfriend")}
+              </Text>
               {switch2 && (
                 <>
                   <Controller
