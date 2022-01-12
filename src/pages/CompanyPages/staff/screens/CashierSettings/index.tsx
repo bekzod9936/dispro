@@ -45,25 +45,26 @@ const CashierSetting = () => {
 
 	const onSave = (data: IForm) => {
 		changeLoyality.mutate({
-			companyId: companyId,
+			companyId: ~~companyId,
 			rewards: [
 				{
 					isActive: ballCheck,
 					rewardType: 5,
-					amount: data.ballPoint || 0,
+					amount: ~~data.ballPoint || 0,
 					levels: [],
 				},
 				{
 					isActive: additionalCheck || false,
 					rewardType: 6,
-					amount: data.ballUzs || 0,
+					amount: ~~data.ballUzs || 0,
 					levels: [
 						{
 							requirements: [
 								{
 									type: 3,
 									amount:
-										data.summaOperations?.toString()?.split(' ').join('') || 0,
+										~~data.summaOperations?.toString()?.split(' ').join('') ||
+										0,
 									unit: 'UZS',
 									condition: 'or',
 								},
