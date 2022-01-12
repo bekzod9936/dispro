@@ -36,7 +36,7 @@ const variantSchema = yup.object().shape({
         yup.object().shape({
             data: yup.string().when('$length', {
                 is: (val: number) => val > 1,
-                then: yup.string().max(30, 'maxAmountOfSymbols').required('requiredField'),
+                then: yup.string().max(30, 'maxAmountOfSymbols').transform((value) => value.trim()).required('requiredField'),
                 otherwise: yup.string()
             }),
             lang: yup.string().required()
@@ -47,16 +47,16 @@ const variantSchema = yup.object().shape({
         .number()
         .min(1, "minAmoutOfItems")
         .nullable(true)
-        .transform((parsedValue, originalValue) => originalValue === '' ? null : parsedValue)
+        .transform((parsedValue, originalValue) => originalValue === '' || originalValue === '.' ? null : parsedValue)
         .max(1000001, 'maxAmountOfItems'),
 
-    articul: yup.string().required('enterArticulOfItem').max(30, 'maxAmountOfSymbols'),
+    articul: yup.string().required('enterArticulOfItem').transform((value) => value.trim()).max(30, 'maxAmountOfSymbols'),
 
     price: yup
         .number()
         .min(1000, 'minAmountOfPrice')
         .nullable(true)
-        .transform((parsedValue, originalValue) => originalValue === '' ? null : parsedValue)
+        .transform((parsedValue, originalValue) => originalValue === '' || originalValue === '.' ? null : parsedValue)
         .max(1000000001, 'maxPriceOneBillion')
         .required('enterPriceOfItem'),
 
@@ -69,7 +69,7 @@ const variantSchemaWithSale = yup.object().shape({
         yup.object().shape({
             data: yup.string().when('$length', {
                 is: (val: number) => val > 1,
-                then: yup.string().max(30, 'maxAmountOfSymbols').required('requiredField'),
+                then: yup.string().max(30, 'maxAmountOfSymbols').transform((value) => value.trim()).required('requiredField'),
                 otherwise: yup.string()
             }),
             lang: yup.string().required()
@@ -80,15 +80,15 @@ const variantSchemaWithSale = yup.object().shape({
         .number()
         .nullable(true)
         .min(1, "minAmoutOfItems")
-        .transform((parsedValue, originalValue) => originalValue === '' ? null : parsedValue)
+        .transform((parsedValue, originalValue) => originalValue === '' || originalValue === '.' ? null : parsedValue)
         .max(1000001, 'maxAmountOfItems'),
 
-    articul: yup.string().required('enterArticulOfItem').max(30, 'maxAmountOfSymbols'),
+    articul: yup.string().required('enterArticulOfItem').transform((value) => value.trim()).max(30, 'maxAmountOfSymbols'),
 
     price: yup
         .number()
         .nullable(true)
-        .transform((parsedValue, originalValue) => originalValue === '' ? null : parsedValue)
+        .transform((parsedValue, originalValue) => originalValue === '' || originalValue === '.' ? null : parsedValue)
         .min(1000, 'minAmountOfPrice')
         .max(1000000001, 'maxPriceOneBillion')
         .required('enterPriceOfItem'),
@@ -98,7 +98,7 @@ const variantSchemaWithSale = yup.object().shape({
         .min(1000, 'minAmountOfPrice')
         .lessThan(yup.ref('price'), 'priceWithSaleMustBeLessThanPriceWithoutSale')
         .nullable(true)
-        .transform((parsedValue, originalValue) => originalValue === '' ? null : parsedValue)
+        .transform((parsedValue, originalValue) => originalValue === '' || originalValue === '.' ? null : parsedValue)
         .required('enterPriceOfItemWithSale')
     
 })
@@ -108,8 +108,8 @@ const variantSchemaWithSale = yup.object().shape({
 export const goodsSchema = yup.object().shape({
     titles: yup.array().of(
         yup.object().shape({
-            title: yup.string().max(30, 'maxAmountOfSymbols').required('enterItemOrServiceName'),
-            desc: yup.string().max(800, 'maxAmountOfSymbolsDesc').required('enterItemOrServiceDescription'),
+            title: yup.string().max(30, 'maxAmountOfSymbols').transform((value) => value.trim()).required('enterItemOrServiceName'),
+            desc: yup.string().max(800, 'maxAmountOfSymbolsDesc').transform((value) => value.trim()).required('enterItemOrServiceDescription'),
             lang: yup.string().required()
         })
     ),
