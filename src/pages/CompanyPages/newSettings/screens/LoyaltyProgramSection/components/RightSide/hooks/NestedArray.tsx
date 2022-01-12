@@ -148,8 +148,8 @@ const NestedArray = ({
             </DynamicGroup>
             <IconStyle>
             <IconHover>
-          <IconHoverElement onClick={() => remove(nestIndex)}>
-       <Remove />
+          <IconHoverElement onClick={() => remove(k)}>
+            <Remove />
           </IconHoverElement>
           </IconHover>
           </IconStyle>

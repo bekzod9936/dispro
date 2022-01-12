@@ -81,15 +81,17 @@ const ReferalProgrammSection = () => {
     watch,
   } = useReferalData();
 
+
+ 
+
   const infoData = useAppSelector((state) => state.info.data?.type);
   //form field array
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'referals',
   });
- 
- console.log('disableButtondisableButton',disableButton)
 
+  console.log('levelsReflevelsRef',levelsRef)
   const mainContent = () => {
     if (width <= 1000) {
       return (

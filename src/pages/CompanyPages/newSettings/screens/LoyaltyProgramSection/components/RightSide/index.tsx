@@ -1,6 +1,7 @@
-import React, {useState } from "react";
+import React, {useEffect, useState } from "react";
+
+import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 import {useMutation } from 'react-query';
-import {useAppSelector } from 'services/redux/hooks';
 import CheckBox from 'components/Custom/CheckBox';
 import { useHistory } from 'react-router';
 import useWindowWidth from 'services/hooks/useWindowWidth';
@@ -8,6 +9,7 @@ import useBonusPoints from './hooks/useBonusPoint';
 import useDiscounts from './hooks/useDiscount';
 import useCashback from './hooks/useCashback';
 import useProgramSettings from './hooks/useProgramSettings';
+import usePayGo from './hooks/usePayGo';
 import Input from "components/Custom/Input";
 import { Grid, IconButton } from '@material-ui/core';
 import { ReactComponent as PercentIcon } from "assets/icons/percent_icon.svg";
@@ -70,12 +72,16 @@ import {
 
 let counter=0;
 const Right = () => {
+  usePayGo()
+
+
   const payGo = useAppSelector((state) => state.info.payGo);
   const infoData = useAppSelector((state) => state.info.data?.type);
   const {responseBonusPoint}=useBonusPoints();
   const {responseDiscount}=useDiscounts();
   const {responseCashback}=useCashback();
   const {responseProgramSettings}=useProgramSettings();
+
   const history = useHistory();
   const { width } = useWindowWidth();
 
@@ -164,20 +170,7 @@ const handleChangeDiscount = () => {
   setCashback(false );
   setPoints(false );
   setTypePark(false);
-  loayalityChange.mutate({
-    data:{
-      isActive:true,
-      isMoved:false,
-      plType:'discount',
-      turnedOff:Boolean(typePark),
-      password:""
-    }
-  })
-if(!disCount?.name){
-  reset({name:''})
-  reset({maxAmount:''})
-  reset({percent:undefined})
-}
+
   }
 };
 const handleChangeCashback = () => {
@@ -187,21 +180,7 @@ const handleChangeCashback = () => {
     setDiscounts(false);
     setPoints(false );
     setTypePark(false);
-      loayalityChange.mutate({
-        data:{
-          isActive:true,
-          isMoved:false,
-          plType:'cashback',
-          turnedOff:Boolean(typePark),
-          password:""
-        }
-      })
-      if(!cashBack?.name){
-        reset({name:''})
-        reset({maxAmount:''})
-        reset({percent:undefined})
-        // reset({cashbackReturnedDay:''})
-      }
+    
     }
 };
 const handleChangePoints = () => {
@@ -211,19 +190,7 @@ const handleChangePoints = () => {
     setDiscounts(false);
     setCashback(false );
     setTypePark(false);
-      loayalityChange.mutate({
-        data:{
-          isActive:true,
-          isMoved:false,
-          plType:'point',
-          turnedOff:Boolean(typePark),
-          password:""
-        }
-      })
-      if(!bonusPoint?.name)
-      reset({name:''})
-      reset({maxAmount:''})
-      reset({percent:undefined})
+      
     }
 };
 
@@ -470,7 +437,7 @@ const loyalityPut = useMutation(
             usePoint: localyPaymentsecond ? true:false,
           });
           loyalityPut.mutate({
-            cashbackReturnedDay:data?.cashbackReturnedDay ? Number(data?.cashbackReturnedDay):'',
+            cashbackReturnedDay:data?.cashbackReturnedDay>=0 ? Number(data?.cashbackReturnedDay):'',
             description: '',
             isActive: true,
             companyId: parseInt(companyId),
@@ -490,63 +457,143 @@ const loyalityPut = useMutation(
       }
   };
  
-
-
   React.useEffect(() => {
-  
-
+    
     if(Boolean(bonusPoint)){
+
+      console.log('bonusPointtt',bonusPoint)
+   
+      if(defaultValue?.cashbackReturnedDay==0 || defaultValue?.cashbackReturnedDay>0){
+        setValue('cashbackReturnedDay',defaultValue?.cashbackReturnedDay);
+      }
         if(convertedValue?.length>0){
           setValue(`levels`, convertedValue );
         }
         if(convertedValue?.length==0 ||convertedValue==undefined){
           reset({requirments:''})
       } 
+      setValue('maxAmount', defaultValue?.maxAmount);
+      setValue('name', defaultValue?.name);
+      setValue('percent', defaultValue?.percent);
      
     }
 
     if(Boolean(disCount)){
+  
+ 
+      if(defaultValue?.cashbackReturnedDay==0 || defaultValue?.cashbackReturnedDay>0){
+        setValue('cashbackReturnedDay',defaultValue?.cashbackReturnedDay);
+      }
         if(convertedValue?.length>0){
           setValue(`levels`, convertedValue );
         }
         if(convertedValue?.length==0 ||convertedValue==undefined){
           reset({requirments:''})
       } 
+      setValue('maxAmount', defaultValue?.maxAmount);
+      setValue('name', defaultValue?.name);
+      setValue('percent', defaultValue?.percent);
   
     }
 
     if(Boolean(cashBack)){
+     
+    
+      if(defaultValue?.cashbackReturnedDay==0 || defaultValue?.cashbackReturnedDay>0){
+        setValue('cashbackReturnedDay',defaultValue?.cashbackReturnedDay);
+      }
+      console.log('cashBackcashBackcashBack',cashBack)
         if(convertedValue?.length>0){
           setValue(`levels`, convertedValue );
         }
         if(convertedValue?.length==0 ||convertedValue==undefined){
           reset({requirments:''})
       } 
-    }
-    
-    if(defaultValue?.maxAmount){
       setValue('maxAmount', defaultValue?.maxAmount);
       setValue('name', defaultValue?.name);
       setValue('percent', defaultValue?.percent);
-      if(defaultValue?.cashbackReturnedDay==0 || defaultValue?.cashbackReturnedDay>0){
-        setValue('cashbackReturnedDay',defaultValue?.cashbackReturnedDay);
-      }
     }
- 
-  }, [defaultValue?.maxAmount,disCount?.name,defaultValue?.percent,defaultValue?.cashbackReturnedDay,convertedValue?.length,Boolean(bonusPoint),Boolean(disCount),Boolean(cashBack),Boolean(cashBack?.isActive),Boolean(disCount?.isActive),Boolean(bonusPoint?.isActive)]);
-
-  React.useEffect(()=>{
-    
-    if(Boolean(defaultValue)==false){
+    if(cashback){
+      responseCashback.refetch();
+        if(cashBack){
+          console.log('hi it is cashBack ')
+          setValue('maxAmount', defaultValue?.maxAmount);
+          setValue('name', defaultValue?.name);
+          setValue('percent', defaultValue?.percent);
+          if(defaultValue?.cashbackReturnedDay==0 || defaultValue?.cashbackReturnedDay>0){
+            setValue('cashbackReturnedDay',defaultValue?.cashbackReturnedDay);
+          }
+        }
+     else {
+      if(convertedValue?.length==0 ||convertedValue==undefined){
+        reset({requirments:''})
+    } 
       reset({name:''})
       reset({maxAmount:''})
       reset({percent:undefined})
-  
+     }
     }
-  },[defaultValue?.name,defaultValue?.percent,defaultValue?.maxAmount,Boolean(cashBack?.isActive)])
+    if(discounts){
+      responseDiscount.refetch();
+      if(disCount){
+        console.log('hi it is disCount')
+        setValue('maxAmount', defaultValue?.maxAmount);
+        setValue('name', defaultValue?.name);
+        setValue('percent', defaultValue?.percent);
+        if(defaultValue?.cashbackReturnedDay==0 || defaultValue?.cashbackReturnedDay>0){
+          setValue('cashbackReturnedDay',defaultValue?.cashbackReturnedDay);
+        }
+      }
+    
+    else {
+      if(convertedValue?.length==0 ||convertedValue==undefined){
+        reset({requirments:''})
+    } 
+      reset({name:''})
+      reset({maxAmount:''})
+      reset({percent:undefined})
+     }
+    }
+    if(points){
+      responseBonusPoint.refetch();
+      if(bonusPoint){
+        console.log('hi it is bonus point')
+          setValue('maxAmount', defaultValue?.maxAmount);
+          setValue('name', defaultValue?.name);
+          setValue('percent', defaultValue?.percent);
+          if(defaultValue?.cashbackReturnedDay==0 || defaultValue?.cashbackReturnedDay>0){
+            setValue('cashbackReturnedDay',defaultValue?.cashbackReturnedDay);
+          }
+        
+      }
+      else {
+        if(convertedValue?.length==0 ||convertedValue==undefined){
+          reset({requirments:''})
+      } 
+        reset({name:''})
+        reset({maxAmount:''})
+        reset({percent:undefined})
+       }
+    }
+   
+ 
+  }, [points,discounts,cashback,defaultValue?.maxAmount,disCount?.name,defaultValue?.percent,defaultValue?.cashbackReturnedDay,convertedValue?.length,Boolean(bonusPoint),Boolean(disCount),Boolean(cashBack),Boolean(cashBack?.isActive),Boolean(disCount?.isActive),Boolean(bonusPoint?.isActive)]);
 
+  // React.useEffect(()=>{
+  //   if(Boolean(defaultValue)==false){
+  //     reset({name:''})
+  //     reset({maxAmount:''})
+  //     reset({percent:undefined})
+  //   }
+  // },[defaultValue?.name,defaultValue?.percent,defaultValue?.maxAmount,Boolean(cashBack?.isActive)])
+// console.log('test cashback',cashback)
+// console.log('test points',points)
+// console.log('test discount',discounts)
 
-  
+console.log('test cashback',cashback)
+console.log('test points',points)
+console.log('test discount',discounts)
+
   let checkPercentage =
     Number(watch(`levels.${0}.percent`)) &&
     Number(watch("percent")) >= Number(watch(`levels.${0}.percent`))
@@ -556,15 +603,13 @@ const loyalityPut = useMutation(
  let isEmpty=disCount?.isActive ||cashBack?.isActive||bonusPoint?.isActive ||discounts||cashback||points;
  let checkEmpty=isEmpty==false ||isEmpty==undefined ;
  
-//  console.log('cashbackcashback',cashback)
-//  console.log('pointspoints',points)
-//  console.log('discountsdiscounts',discounts)
- console.log(errors,'testttt')
+
   return (
     <Container>
     <LeftSide>
     <GroupToggle>
-        <CustomToggle checked={discounts ? discounts:cashback||points ? false:disCount?.isActive} onChange={handleChangeDiscount} />
+    <CustomToggle checked={(points || cashback)==true ? false : (discounts ||disCount?.isActive)} onChange={handleChangeDiscount} />
+        {/* <CustomToggle checked={discounts ? discounts:cashback||points ? false:disCount?.isActive} onChange={handleChangeDiscount} /> */}
         <ToggleInfo>
           <h5>Предоставление скидки</h5>
           <p>
@@ -573,7 +618,8 @@ const loyalityPut = useMutation(
         </ToggleInfo>
       </GroupToggle>
       <GroupToggle>
-        <CustomToggle checked={cashback ? cashback:discounts||points ? false:cashBack?.isActive} onChange={handleChangeCashback} />
+      <CustomToggle checked={(points || discounts)==true ? false: (cashback || cashBack?.isActive)} onChange={handleChangeCashback} />
+        {/* <CustomToggle checked={cashback ? cashback:discounts||points ? false:cashBack?.isActive} onChange={handleChangeCashback} /> */}
         <ToggleInfo>
           <h5>Предоставление кешбэка</h5>
           <p>
@@ -582,7 +628,8 @@ const loyalityPut = useMutation(
         </ToggleInfo>
       </GroupToggle>
       <GroupToggle>
-        <CustomToggle checked={points ? points :discounts||cashback ? false:bonusPoint?.isActive} onChange={handleChangePoints} />
+      <CustomToggle checked={(cashback || discounts)==true ? false: (points ||bonusPoint?.isActive)} onChange={handleChangePoints} />
+        {/* <CustomToggle checked={points ? points :discounts||cashback ? false:bonusPoint?.isActive} onChange={handleChangePoints} /> */}
         <ToggleInfo>
           <h5>Предоставление баллов</h5>
           <p>
@@ -965,13 +1012,14 @@ const loyalityPut = useMutation(
           )}
         />
       </TitleForm>
-      {cashback || Boolean(cashBack?.isActive) ? <TitleForm>
+      {cashback ? <TitleForm>
                             <Controller
                               name='cashbackReturnedDay'
                               control={control}
                               rules={{
-                                required: Boolean(cashBack?.isActive) ||cashback,
-                                max:Boolean(cashBack?.isActive) ||cashback ? 30:0,
+                                required: cashback,
+                                max:cashback ? 30:0,
+                              
                               }}
                               render={({ field }) => {
                                 return (
