@@ -343,7 +343,7 @@ const handleChangePoints = () => {
 
     if(checkPercent){
       
-     return notifyError(t(`Процсент в  "${curr?.name}" должен быть больше чем  "${prev?.name}" `));
+     return notifyError(t(`Процент в  "${curr?.name}" должен быть больше чем  "${prev?.name}" `));
     }
 
      if(checkFilterFirstOne){
@@ -434,8 +434,6 @@ const handleChangePoints = () => {
     if(Boolean(responseCashback?.data?.data?.data?.isActive)){
       setCashback(Boolean(responseCashback?.data?.data?.data?.isActive))
     }
-  
- 
   },[responseCashback?.data?.data?.data?.isActive,Boolean(cashBack)])
  
   React.useEffect(()=>{
@@ -456,7 +454,6 @@ const handleChangePoints = () => {
 
   React.useEffect(() => {
 
-  
     if(discounts){
       responseDiscount.refetch();
       if(Boolean(disCount)){
@@ -470,7 +467,7 @@ const handleChangePoints = () => {
         if(convertedValue?.length==0 ||convertedValue==undefined||convertedValue==null){
           reset({requirments:''})
       } 
-      setValue('maxAmount', defaultValue?.maxAmount);
+    setValue('maxAmount', defaultValue?.maxAmount);
     setValue('name', defaultValue?.name);
     setValue('percent', defaultValue?.percent);
     if(defaultValue?.cashbackReturnedDay){
