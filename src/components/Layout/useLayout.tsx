@@ -82,13 +82,9 @@ const useLayout = ({ id }: LProps) => {
     retry: 0,
   });
 
-  const payGoResponse = useQuery("payGoGetFetch", () => fetchPayGoGet(), {
-    onSuccess: (data) => {
-      dispatch(setPayGo(data.data.data.payGo));
-    },
-  });
 
-  return { resHeader, headerData, resLimit, resBadge, payGoResponse };
+
+  return { resHeader, headerData, resLimit, resBadge };
 };
 
 export default useLayout;
