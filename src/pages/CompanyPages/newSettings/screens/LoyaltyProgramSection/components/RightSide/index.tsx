@@ -70,10 +70,8 @@ import {
 } from "../../style";
 
 
-let counter=0;
 const Right = () => {
   usePayGo()
-
 
   const payGo = useAppSelector((state) => state.info.payGo);
   const infoData = useAppSelector((state) => state.info.data?.type);
@@ -93,15 +91,28 @@ const Right = () => {
   let programSettingsUseProgram=responseProgramSettings?.data?.data?.data?.useProgram;
   let isFetching=responseBonusPoint.isLoading  || responseBonusPoint.isFetching || responseDiscount.isLoading ||responseDiscount.isFetching ||responseDiscount.isLoading || responseCashback.isFetching;
 
-  // let levels:any=[];
-  let defaultValue=bonusPoint?.isActive ? bonusPoint:disCount?.isActive ? disCount:cashBack?.isActive ?cashBack:null;
+  const { t } = useTranslation();
+  let checkTypePark=(Boolean(disCount?.isActive) ||Boolean(cashBack?.isActive)||Boolean(bonusPoint?.isActive));
+
+  let companyId: any = localStorage.getItem('companyId');
+  const [modified,setModified]=useState('0')
+  const [modaldiscount,setModalDiscount]=useState(false);
+  const [modalcashback,setModalCashback]=useState(false);
+  const [modalpoints,setModalPoints]=useState(false);
+  const [discounts, setDiscounts] = useState(false);
+  const [cashback, setCashback] = useState(false);
+  const [points, setPoints] = useState(false);
+  const [typePark,setTypePark]=useState(false);
+  const [payGoModal, setpayGoModal] = useState(false);
+  const [localyPaymentfirst, setLocalPaymentFirst] = useState(programSettingsUseProgram);
+  const [localyPaymentsecond, setLocalPaymentSecond] = useState(programSettingsUsePoint);
+
+  let defaultValue=points ? bonusPoint:discounts? disCount:cashback ? cashBack:null;
 
   let convertedValue=defaultValue?.levels?.map((item:any)=>{
     let amount=item?.requirements?.filter((item:any)=> item?.condition =='')
     let id=amount?.[0]?.type==3 ? 3:amount?.[0]?.type==2 ? 2:amount?.[0]?.type==1 ? 1:0;
     let requirements=item?.requirements?.filter((item:any)=>item?.condition !=='')?.map((childItem:any)=>{
-      
-    
         return {
            amount:String(childItem?.amount),
            type:{
@@ -122,21 +133,6 @@ const Right = () => {
     }
   });
 
-  const { t } = useTranslation();
-  let checkTypePark=(Boolean(disCount?.isActive) ||Boolean(cashBack?.isActive)||Boolean(bonusPoint?.isActive));
-  console.log('text checkingpark',checkTypePark) 
-  let companyId: any = localStorage.getItem('companyId');
-  const [modified,setModified]=useState('0')
-  const [modaldiscount,setModalDiscount]=useState(false);
-  const [modalcashback,setModalCashback]=useState(false);
-  const [modalpoints,setModalPoints]=useState(false);
-  const [discounts, setDiscounts] = useState(disCount?.isActive ? true:false);
-  const [cashback, setCashback] = useState(cashBack?.isActive ? true:false);
-  const [points, setPoints] = useState(bonusPoint?.isActive ? true:false);
-  const [typePark,setTypePark]=useState(false);
-  const [payGoModal, setpayGoModal] = useState(false);
-  const [localyPaymentfirst, setLocalPaymentFirst] = useState(programSettingsUseProgram);
-  const [localyPaymentsecond, setLocalPaymentSecond] = useState(programSettingsUsePoint);
 
   const methods = useForm({
    
@@ -163,36 +159,7 @@ const Right = () => {
   saveUseProgramLoyality(data)
 );
 
-const handleChangeDiscount = () => {
-  setModalDiscount(Boolean(disCount?.name));
-  if(!disCount?.name){
-  setDiscounts(true);
-  setCashback(false );
-  setPoints(false );
-  setTypePark(false);
-
-  }
-};
-const handleChangeCashback = () => {
-    setModalCashback(Boolean(cashBack?.name));
-    if(!cashBack?.name){
-    setCashback(true );
-    setDiscounts(false);
-    setPoints(false );
-    setTypePark(false);
-    
-    }
-};
-const handleChangePoints = () => {
-    setModalPoints(Boolean(bonusPoint?.name));
-    if(!bonusPoint?.name){
-    setPoints(true);
-    setDiscounts(false);
-    setCashback(false );
-    setTypePark(false);
-      
-    }
-};
+console.log('datadata',data)
 
 const loayalityChange = useMutation(
   (data: any) =>
@@ -244,7 +211,6 @@ const handleSwitchPush=()=>{
   setPoints(modalpoints )
   setTypePark(false)
 }
-
 
 const loyalityPut = useMutation(
   (data: any) => {
@@ -300,39 +266,43 @@ const loyalityPut = useMutation(
   }
 );
 
-// const obj = {
-//   1: 'Cумма покупок',
-//   2: 'Рекомендации',
-//   3: 'Посещения'
-// }
+const handleChangeDiscount = () => {
+  setModalDiscount(Boolean(disCount?.name));
+  if(!disCount?.name){
+  setDiscounts(true);
+  setCashback(false );
+  setPoints(false );
+  setTypePark(false);
 
-// const f = (array: any) => {
-//   const types = [1, 2, 3];
-//   // let error=false;
-//   array.forEach((e: any, index: number) => {
-//     let prev = array[index - 1]
-//     let curr = e
+  }
+};
+const handleChangeCashback = () => {
+    setModalCashback(Boolean(cashBack?.name));
+    if(!cashBack?.name){
+    setCashback(true );
+    setDiscounts(false);
+    setPoints(false );
+    setTypePark(false);
     
-//     for (let t of types) {
-//       let prevReq = prev?.requirements.find((i: any)=> i.type == t)
-//       let currReq = curr.requirements.find((i: any)=> i.type == t)
+    }
+};
+const handleChangePoints = () => {
+    setModalPoints(Boolean(bonusPoint?.name));
+    if(!bonusPoint?.name){
+    setPoints(true);
+    setDiscounts(false);
+    setCashback(false );
+    setTypePark(false);
       
-//       if (prevReq?.amount > currReq?.amount) {
-//         // error==true;
-//         notifyError(`${obj[t as keyof typeof obj]} в  ${curr?.name} должна бить болше чем ${obj[t as keyof typeof obj]} в ${prev?.name}`)
-//         return
-//       }
-//     }
-//   })
-
-// }
+    }
+};
 
 
  const checkValidation=(levels:any,name:any)=>{
   
    for (let i=0;i<levels?.length;i++){
      //pre curr values
-     console.log('levelssss',levels)
+     
      let prev=levels[i-1];
      let curr=levels[i];
      let prevFilterPercent=prev?.percent;
@@ -399,7 +369,7 @@ const loyalityPut = useMutation(
  let newarray={amount:'',type:{id:0}}
 
   const FormSettings =async (data: any) => {
-    console.log('data',data)
+    
     let checking=!localyPaymentfirst ?'yes':'no';
     let checking2=!localyPaymentsecond ? 'yes':'no';
     let globalChecking=checking=='yes' && checking2=='yes';
@@ -410,7 +380,7 @@ const loyalityPut = useMutation(
       }
       let arraynew=[newarray]
       let requirements=[...arraynew,item?.requirements?.[0],item?.requirements?.[1]].filter((item:any)=> item !==undefined);
-      console.log('requirements',requirements)
+  
       if(requirements?.length>0){
         return {
           name: item.name,
@@ -430,7 +400,7 @@ const loyalityPut = useMutation(
         
      if(globalChecking ? true :payGo==1) {
       if(checkValidation(checkinglevels,data?.name)){
-        console.log('hi')
+
         try{
           useProgramSave.mutate({
             useProgram: localyPaymentfirst ? true:false,
@@ -439,7 +409,7 @@ const loyalityPut = useMutation(
           loyalityPut.mutate({
             cashbackReturnedDay:data?.cashbackReturnedDay>=0 ? Number(data?.cashbackReturnedDay):'',
             description: '',
-            isActive: true,
+            isActive: false,
             companyId: parseInt(companyId),
             levels:checkinglevels,
             maxAmount: Number(data?.maxAmount),
@@ -457,142 +427,117 @@ const loyalityPut = useMutation(
       }
   };
  
-  React.useEffect(() => {
-    
-    if(Boolean(bonusPoint)){
 
-      console.log('bonusPointtt',bonusPoint)
-   
-      if(defaultValue?.cashbackReturnedDay==0 || defaultValue?.cashbackReturnedDay>0){
-        setValue('cashbackReturnedDay',defaultValue?.cashbackReturnedDay);
-      }
-        if(convertedValue?.length>0){
-          setValue(`levels`, convertedValue );
-        }
-        if(convertedValue?.length==0 ||convertedValue==undefined){
-          reset({requirments:''})
-      } 
-      setValue('maxAmount', defaultValue?.maxAmount);
-      setValue('name', defaultValue?.name);
-      setValue('percent', defaultValue?.percent);
-     
+ 
+
+  React.useEffect(()=>{
+    if(Boolean(responseCashback?.data?.data?.data?.isActive)){
+      setCashback(Boolean(responseCashback?.data?.data?.data?.isActive))
     }
-
-    if(Boolean(disCount)){
   
  
-      if(defaultValue?.cashbackReturnedDay==0 || defaultValue?.cashbackReturnedDay>0){
-        setValue('cashbackReturnedDay',defaultValue?.cashbackReturnedDay);
-      }
-        if(convertedValue?.length>0){
-          setValue(`levels`, convertedValue );
-        }
-        if(convertedValue?.length==0 ||convertedValue==undefined){
-          reset({requirments:''})
-      } 
-      setValue('maxAmount', defaultValue?.maxAmount);
-      setValue('name', defaultValue?.name);
-      setValue('percent', defaultValue?.percent);
-  
-    }
+  },[responseCashback?.data?.data?.data?.isActive,Boolean(cashBack)])
+ 
+  React.useEffect(()=>{
+   if(Boolean(responseDiscount?.data?.data?.data?.isActive)){
+    setDiscounts(Boolean(responseDiscount?.data?.data?.data?.isActive))
+   }
 
-    if(Boolean(cashBack)){
-     
+  },[responseDiscount?.data?.data?.data?.isActive,Boolean(disCount)])
+
+  React.useEffect(()=>{
+    if(Boolean(responseBonusPoint?.data?.data?.data?.isActive)){
+      setPoints(Boolean(responseBonusPoint?.data?.data?.data?.isActive))
+    }
     
-      if(defaultValue?.cashbackReturnedDay==0 || defaultValue?.cashbackReturnedDay>0){
-        setValue('cashbackReturnedDay',defaultValue?.cashbackReturnedDay);
-      }
-      console.log('cashBackcashBackcashBack',cashBack)
-        if(convertedValue?.length>0){
-          setValue(`levels`, convertedValue );
-        }
-        if(convertedValue?.length==0 ||convertedValue==undefined){
-          reset({requirments:''})
-      } 
-      setValue('maxAmount', defaultValue?.maxAmount);
-      setValue('name', defaultValue?.name);
-      setValue('percent', defaultValue?.percent);
-    }
-    if(cashback){
-      responseCashback.refetch();
-        if(cashBack){
-          console.log('hi it is cashBack ')
-          setValue('maxAmount', defaultValue?.maxAmount);
-          setValue('name', defaultValue?.name);
-          setValue('percent', defaultValue?.percent);
-          if(defaultValue?.cashbackReturnedDay==0 || defaultValue?.cashbackReturnedDay>0){
-            setValue('cashbackReturnedDay',defaultValue?.cashbackReturnedDay);
-          }
-        }
-     else {
-      if(convertedValue?.length==0 ||convertedValue==undefined){
-        reset({requirments:''})
-    } 
-      reset({name:''})
-      reset({maxAmount:''})
-      reset({percent:undefined})
-     }
-    }
+  },[responseBonusPoint?.data?.data?.data?.isActive,Boolean(bonusPoint)])
+ 
+
+
+  React.useEffect(() => {
+
+  
     if(discounts){
       responseDiscount.refetch();
-      if(disCount){
-        console.log('hi it is disCount')
-        setValue('maxAmount', defaultValue?.maxAmount);
-        setValue('name', defaultValue?.name);
-        setValue('percent', defaultValue?.percent);
+      if(Boolean(disCount)){
+    
         if(defaultValue?.cashbackReturnedDay==0 || defaultValue?.cashbackReturnedDay>0){
           setValue('cashbackReturnedDay',defaultValue?.cashbackReturnedDay);
         }
-      }
-    
-    else {
-      if(convertedValue?.length==0 ||convertedValue==undefined){
-        reset({requirments:''})
-    } 
-      reset({name:''})
-      reset({maxAmount:''})
-      reset({percent:undefined})
-     }
+        if(convertedValue?.length>0){
+          setValue(`levels`, convertedValue );
+        }
+        if(convertedValue?.length==0 ||convertedValue==undefined||convertedValue==null){
+          reset({requirments:''})
+      } 
+      setValue('maxAmount', defaultValue?.maxAmount);
+    setValue('name', defaultValue?.name);
+    setValue('percent', defaultValue?.percent);
+    if(defaultValue?.cashbackReturnedDay){
+      setValue('cashbackReturnedDay', defaultValue.cashbackReturnedDay);
     }
-    if(points){
-      responseBonusPoint.refetch();
-      if(bonusPoint){
-        console.log('hi it is bonus point')
-          setValue('maxAmount', defaultValue?.maxAmount);
-          setValue('name', defaultValue?.name);
-          setValue('percent', defaultValue?.percent);
+      }
+      if(convertedValue==undefined || convertedValue==null ){
+        reset({percent:undefined})
+        reset({maxAmount:''})
+        // reset({cashbackReturnedDay:0})
+      }
+     }
+
+    if(cashback){
+      responseCashback.refetch();
+        if(Boolean(cashBack)){
           if(defaultValue?.cashbackReturnedDay==0 || defaultValue?.cashbackReturnedDay>0){
             setValue('cashbackReturnedDay',defaultValue?.cashbackReturnedDay);
           }
-        
-      }
-      else {
-        if(convertedValue?.length==0 ||convertedValue==undefined){
-          reset({requirments:''})
-      } 
-        reset({name:''})
-        reset({maxAmount:''})
-        reset({percent:undefined})
-       }
+          if(convertedValue?.length>0){
+            setValue(`levels`, convertedValue );
+          }
+          if(convertedValue?.length==0 ||convertedValue==undefined|| convertedValue==null){
+            reset({requirments:''})
+        }
+        setValue('maxAmount', defaultValue?.maxAmount);
+        setValue('name', defaultValue?.name);
+        setValue('percent', defaultValue?.percent);
+        if(defaultValue?.cashbackReturnedDay){
+          setValue('cashbackReturnedDay', defaultValue.cashbackReturnedDay);
+        }
+    }  
+    if(convertedValue==undefined || convertedValue==null ){
+      reset({percent:undefined})
+      reset({maxAmount:''})
+      // reset({cashbackReturnedDay:0})
     }
-   
- 
-  }, [points,discounts,cashback,defaultValue?.maxAmount,disCount?.name,defaultValue?.percent,defaultValue?.cashbackReturnedDay,convertedValue?.length,Boolean(bonusPoint),Boolean(disCount),Boolean(cashBack),Boolean(cashBack?.isActive),Boolean(disCount?.isActive),Boolean(bonusPoint?.isActive)]);
+  }    
 
-  // React.useEffect(()=>{
-  //   if(Boolean(defaultValue)==false){
-  //     reset({name:''})
-  //     reset({maxAmount:''})
-  //     reset({percent:undefined})
-  //   }
-  // },[defaultValue?.name,defaultValue?.percent,defaultValue?.maxAmount,Boolean(cashBack?.isActive)])
-// console.log('test cashback',cashback)
-// console.log('test points',points)
-// console.log('test discount',discounts)
+    if(points){
+      responseBonusPoint.refetch();
+      if(Boolean(bonusPoint)){
+          if(defaultValue?.cashbackReturnedDay==0 || defaultValue?.cashbackReturnedDay>0){
+            setValue('cashbackReturnedDay',defaultValue?.cashbackReturnedDay);
+          }
+          if(convertedValue?.length>0){
+            setValue(`levels`, convertedValue );
+          }
+          if(convertedValue?.length==0 ||convertedValue==undefined ||convertedValue==null){
+            reset({requirments:''})
+        } 
+        setValue('maxAmount', defaultValue?.maxAmount);
+        setValue('name', defaultValue?.name);
+        setValue('percent', defaultValue?.percent);
+        if(defaultValue?.cashbackReturnedDay){
+          setValue('cashbackReturnedDay', defaultValue.cashbackReturnedDay);
+        }
+      }
+    if(convertedValue==undefined || convertedValue==null ){
+      reset({percent:undefined})
+      reset({maxAmount:''})
+      // reset({cashbackReturnedDay:0})
+    }
+    }
+  }, [Boolean(defaultValue),points,discounts,cashback,Boolean(cashBack),Boolean(bonusPoint),Boolean(disCount)]);
 
-console.log('test cashback',cashback)
-console.log('test points',points)
-console.log('test discount',discounts)
+
 
   let checkPercentage =
     Number(watch(`levels.${0}.percent`)) &&
@@ -608,8 +553,8 @@ console.log('test discount',discounts)
     <Container>
     <LeftSide>
     <GroupToggle>
-    <CustomToggle checked={(points || cashback)==true ? false : (discounts ||disCount?.isActive)} onChange={handleChangeDiscount} />
-        {/* <CustomToggle checked={discounts ? discounts:cashback||points ? false:disCount?.isActive} onChange={handleChangeDiscount} /> */}
+    <CustomToggle checked={discounts} onChange={handleChangeDiscount} />
+    
         <ToggleInfo>
           <h5>Предоставление скидки</h5>
           <p>
@@ -618,8 +563,8 @@ console.log('test discount',discounts)
         </ToggleInfo>
       </GroupToggle>
       <GroupToggle>
-      <CustomToggle checked={(points || discounts)==true ? false: (cashback || cashBack?.isActive)} onChange={handleChangeCashback} />
-        {/* <CustomToggle checked={cashback ? cashback:discounts||points ? false:cashBack?.isActive} onChange={handleChangeCashback} /> */}
+      <CustomToggle checked={cashback} onChange={handleChangeCashback} />
+      
         <ToggleInfo>
           <h5>Предоставление кешбэка</h5>
           <p>
@@ -628,8 +573,8 @@ console.log('test discount',discounts)
         </ToggleInfo>
       </GroupToggle>
       <GroupToggle>
-      <CustomToggle checked={(cashback || discounts)==true ? false: (points ||bonusPoint?.isActive)} onChange={handleChangePoints} />
-        {/* <CustomToggle checked={points ? points :discounts||cashback ? false:bonusPoint?.isActive} onChange={handleChangePoints} /> */}
+      <CustomToggle checked={points} onChange={handleChangePoints} />
+      
         <ToggleInfo>
           <h5>Предоставление баллов</h5>
           <p>
@@ -639,7 +584,6 @@ console.log('test discount',discounts)
       </GroupToggle>
       {infoData===2 &&  <GroupToggle>
       <CustomToggle checked={isEmpty==true ? false:typePark || checkTypePark==false} onChange={handleChangePark} />
-        {/* <CustomToggle checked={isEmpty !==true && (typePark ||checkTypePark==false) } onChange={handleChangePark} /> */}
         <ToggleInfo>
           <h5>Отключить все</h5>
           <p>
@@ -827,10 +771,10 @@ console.log('test discount',discounts)
         </IconStyleMain>
       </TitleForm>
       <div>
-        {fields.map(({ id }, index: any) => (
+        {fields.map((item, index) => (
           <>
-            <div>
-              <TitleFormChild key={id}>
+            <div key={item.id}>
+              <TitleFormChild >
                 <Controller
                   rules={{
                     required: true,
@@ -1012,13 +956,13 @@ console.log('test discount',discounts)
           )}
         />
       </TitleForm>
-      {cashback ? <TitleForm>
+      {cashback && <TitleForm>
                             <Controller
                               name='cashbackReturnedDay'
                               control={control}
                               rules={{
                                 required: cashback,
-                                max:cashback ? 30:0,
+                                max:cashback && 30,
                               
                               }}
                               render={({ field }) => {
@@ -1036,7 +980,7 @@ console.log('test discount',discounts)
                                 );
                               }}
                             />
-                          </TitleForm>:''}
+                          </TitleForm>}
       <LocalyPayment>
       {infoData !==2 && <div>
         <Title>

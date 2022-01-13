@@ -4,15 +4,12 @@ import InputFormat from "components/Custom/InputFormat";
 import MultiSelect from "components/Custom/MultiSelect";
 import { ReactComponent as Remove } from "assets/icons/exit_mini.svg";
 import {OnlyOneOr,TypeParkConditionTypes,conditonTypes,Or} from '../utils';
-import { PlusIcon } from "newassets/icons/icons";
 import { ReactComponent as Plus } from "assets/icons/plus_mini.svg";
 import {
   IconStyle,
-  LittlePlus,
   DynamicGroup,
   DynamicLabel,
   TitleInsideFormChildMore,
-  CloseIcon,
   IconHover,
   IconHoverElement,
 } from "../../../style";
