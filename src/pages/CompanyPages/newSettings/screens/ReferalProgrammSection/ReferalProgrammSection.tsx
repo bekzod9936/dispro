@@ -179,7 +179,7 @@ const ReferalProgrammSection = () => {
                       
                       </TextDiv>
                     </SmallPanel>
-                    {index === fields.length - 2 && index !== 0 && (
+                    {/* {index === fields.length - 2 && index !== 0 && (
                       <RippleEffect
                         onClick={() => {
                           if (checkedState) {
@@ -193,7 +193,7 @@ const ReferalProgrammSection = () => {
                       >
                         <XIcon />
                       </RippleEffect>
-                    )}
+                    )} */}
                     
                     {index === fields.length - 1 && (
                       <ActDiv>
