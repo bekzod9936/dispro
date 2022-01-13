@@ -1,5 +1,56 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { device } from "styles/device";
+import { ReactComponent as Arrow } from "assets/icons/IconsInfo/arrowright.svg";
+import { ReactComponent as Facebook } from "assets/icons/IconsInfo/facebook.svg";
+import { ReactComponent as Instagram } from "assets/icons/IconsInfo/instagram.svg";
+import { ReactComponent as Telegram } from "assets/icons/IconsInfo/telegram.svg";
+import { ReactComponent as Twitter } from "assets/icons/IconsInfo/twitter.svg";
+import { ReactComponent as VK } from "assets/icons/IconsInfo/vk.svg";
+import { ReactComponent as WhatsApp } from "assets/icons/IconsInfo/whatsapp.svg";
+import { ReactComponent as Viber } from "assets/icons/IconsInfo/viber.svg";
+import { ReactComponent as Delete } from "assets/icons/IconsInfo/delete.svg";
+
+interface Props {
+  bgcolor?: any;
+}
+
+const iconcommon = css`
+  width: 24px;
+  height: 24px;
+  @media (max-width: ${device.mobile}) {
+    width: 20px;
+    height: 20px;
+  }
+`;
+
+export const FIcon = styled(Facebook)`
+  ${iconcommon}
+`;
+export const IIcon = styled(Instagram)`
+  ${iconcommon}
+`;
+export const TIcon = styled(Telegram)`
+  ${iconcommon}
+`;
+export const TWIcon = styled(Twitter)`
+  ${iconcommon}
+`;
+export const VKIcon = styled(VK)`
+  ${iconcommon}
+`;
+export const WTIcon = styled(WhatsApp)`
+  ${iconcommon}
+`;
+export const VIcon = styled(Viber)`
+  ${iconcommon}
+`;
+
+export const ArrowIcon = styled(Arrow)``;
+
+export const DeleteIcon = styled(Delete)`
+  width: 20px;
+  height: 25px;
+`;
 
 export const Form = styled.form`
   border-radius: 14px 14px 0 0;
@@ -92,5 +143,27 @@ export const Wrap = styled.div`
   width: 40%;
   @media (max-width: ${device.mobile}) {
     width: 100%;
+  }
+`;
+
+export const WrapArrow = styled.div`
+  background-color: ${({ bgcolor }: Props) =>
+    bgcolor ? "#606EEA" : "#C2C2C2"};
+  cursor: ${({ bgcolor }: Props) => (bgcolor ? "pointer" : "not-allowed")};
+  height: 50px;
+  width: 55px;
+  border-radius: 0 14px 14px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media (max-width: ${device.planshet}) {
+    height: 45px;
+    width: 45px;
+  }
+
+  @media (min-width: ${device.laptop}) {
+    height: 60px;
+    width: 65px;
   }
 `;

@@ -15,16 +15,16 @@ interface IInfoRow {
 const useInfoRoute = () => {
   const { t } = useTranslation();
   const menuItems: IInfoRow[] = [
-    {
-      path: "/info/about",
-      text: t("aboutCompany"),
-      component: NewAbout,
-    },
     // {
     //   path: "/info/newabout",
     //   text: t("aboutCompany"),
-    //   component: About,
+    //   component: NewAbout,
     // },
+    {
+      path: "/info/about",
+      text: t("aboutCompany"),
+      component: About,
+    },
     {
       path: "/info/address",
       text: t("address"),

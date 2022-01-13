@@ -1,11 +1,6 @@
-import { useState } from "react";
 import Resizer from "react-image-file-resizer";
-import { useMutation } from "react-query";
-import { deletePhoto, uploadPhoto } from "services/queries/InfoQuery";
 
 const usePhoto = () => {
-  const [upload, setUpload] = useState("");
-
   const dataURIToBlob = (dataURI: any) => {
     const splitDataURI = dataURI.split(",");
     const byteString =
@@ -39,37 +34,7 @@ const usePhoto = () => {
       );
     });
 
-  const resUpLoad = useMutation((v: any) => uploadPhoto({ body: v }), {
-    retry: 1,
-  });
-
-  const handleUpload = async (e: any) => {
-    const file = e.target.files[0];
-    const image = await resizeFile(file);
-    const newFile = await dataURIToBlob(image);
-    const formData = new FormData();
-    await formData.append("itemId", `${localStorage.getItem("companyId")}`);
-    await formData.append("fileType", "companyLogo");
-    await formData.append("file", newFile, "logo.png");
-    await resUpLoad.mutate(formData, {
-      onSuccess: (data) => {
-        setUpload(data?.data?.data?.link);
-      },
-      onError: (error) => console.log(error),
-    });
-  };
-
-  const resDelete = useMutation((value: string) => {
-    setUpload("");
-    resUpLoad.reset();
-    return deletePhoto({ body: value });
-  });
-
-  const handlePhotoDelete = (value: string) => {
-    resDelete.mutate(value);
-  };
-
-  return { handleUpload, handlePhotoDelete };
+  return { resizeFile, dataURIToBlob };
 };
 
 export default usePhoto;
