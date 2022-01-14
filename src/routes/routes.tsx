@@ -7,7 +7,7 @@ import AuthRoutes from "./AuthRoutes/index";
 import PrivateRoutes from "./PrivateRoutes/index";
 
 export const RenderAllRoutes: React.FC = () => {
-  const companyId = localStorage.getItem("companyId");
+  const companyId = sessionStorage.getItem("companyId");
 
   return (
     <Fragment>

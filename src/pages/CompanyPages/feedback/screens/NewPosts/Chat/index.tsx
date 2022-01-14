@@ -1,28 +1,28 @@
-import { useState, useRef, useEffect } from 'react';
-import Dots from 'pages/CompanyPages/feedback/components/Dots';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
-import { useTranslation } from 'react-i18next';
-import defuserman from 'assets/icons/defuserman.png';
-import defuserwoman from 'assets/icons/defuserwoman.png';
-import App from 'assets/icons/StatistisPage/app.svg';
-import { Controller, useForm } from 'react-hook-form';
-import Emoji from 'pages/CompanyPages/feedback/components/Emoji';
-import Input from 'components/Custom/Input';
-import Button from 'components/Custom/Buttons/Button';
-import { ruCount } from '../../../hooks/format';
-import Spinner from 'components/Custom/Spinner';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import useWindowWidth from 'services/hooks/useWindowWidth';
-import { IconButton } from '@material-ui/core';
-import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
-import { USER_TYPES } from 'services/constants/chat';
-import { useQuery } from 'react-query';
-import { fetchChatClientHistory } from 'services/queries/feedbackQuery';
-import { setChosenClientChat, setUsers } from 'services/redux/Slices/feedback';
-import useLayout from 'components/Layout/useLayout';
-import useRead from '../../../hooks/useRead';
-import { CHAT_TYPES, SOCKET_EVENT } from 'services/constants/chat';
-import dayjs from 'dayjs';
+import { useState, useRef, useEffect } from "react";
+import Dots from "pages/CompanyPages/feedback/components/Dots";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import { useTranslation } from "react-i18next";
+import defuserman from "assets/icons/defuserman.png";
+import defuserwoman from "assets/icons/defuserwoman.png";
+import App from "assets/icons/StatistisPage/app.svg";
+import { Controller, useForm } from "react-hook-form";
+import Emoji from "pages/CompanyPages/feedback/components/Emoji";
+import Input from "components/Custom/Input";
+import Button from "components/Custom/Buttons/Button";
+import { ruCount } from "../../../hooks/format";
+import Spinner from "components/Custom/Spinner";
+import InfiniteScroll from "react-infinite-scroll-component";
+import useWindowWidth from "services/hooks/useWindowWidth";
+import { IconButton } from "@material-ui/core";
+import { useAppDispatch, useAppSelector } from "services/redux/hooks";
+import { USER_TYPES } from "services/constants/chat";
+import { useQuery } from "react-query";
+import { fetchChatClientHistory } from "services/queries/feedbackQuery";
+import { setChosenClientChat, setUsers } from "services/redux/Slices/feedback";
+import useLayout from "components/Layout/useLayout";
+import useRead from "../../../hooks/useRead";
+import { CHAT_TYPES, SOCKET_EVENT } from "services/constants/chat";
+import dayjs from "dayjs";
 import {
   Container,
   WrapUserInfo,
@@ -41,8 +41,8 @@ import {
   MessageText,
   MessageDate,
   Divider,
-} from './style';
-import { Header } from '../style';
+} from "./style";
+import { Header } from "../style";
 import {
   Status,
   Avatar,
@@ -53,8 +53,8 @@ import {
   SendIcon,
   OneCheckIcon,
   DoubleCheckIcoon,
-} from '../../../style';
-import useUsers from '../useUsers';
+} from "../../../style";
+import useUsers from "../useUsers";
 
 interface Props {
   value?: any;
@@ -74,7 +74,7 @@ const Chat = ({ value, setCurrentUser }: Props) => {
   const [limit, setLimit] = useState(words);
   const [scrollHeight, setScrollHeight] = useState(0);
   const [showEmoji, setShowEmoji] = useState<boolean>(false);
-  const [lastdate, setLastdate] = useState<any>('');
+  const [lastdate, setLastdate] = useState<any>("");
   const [newMassage, setNewMassage] = useState<any>({});
   const [noValue, setNoValue] = useState(false);
   const socket = useAppSelector((state) => state.feedbackPost.socket);
@@ -82,26 +82,26 @@ const Chat = ({ value, setCurrentUser }: Props) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesStartRef = useRef<HTMLDivElement>(null);
   const staffId = useAppSelector((state) => state.auth.staffId);
-  const companyId: any = localStorage.getItem('companyId');
+  const companyId: any = sessionStorage.getItem("companyId");
   const users: any = useAppSelector((state) => state.feedbackPost.users);
   const { resBadge } = useLayout({ id: companyId });
   const { readChat } = useRead();
   const { resChatClients } = useUsers();
   const scrollToTop = () => {
     messagesStartRef?.current?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'end',
+      behavior: "smooth",
+      block: "end",
     });
   };
   const { control, handleSubmit, setValue, getValues, watch } =
     useForm<FormProps>({
-      mode: 'onBlur',
+      mode: "onBlur",
       shouldFocusError: true,
     });
   const values = getValues();
 
   const resChatClientHistory = useQuery(
-    ['getClientChatHistory', value.page],
+    ["getClientChatHistory", value.page],
     () => {
       return fetchChatClientHistory({
         url: `withUserType=${USER_TYPES.CUSTOMER}&withId=${value.id}&page=${value.page}&perPage=15`,
@@ -160,20 +160,20 @@ const Chat = ({ value, setCurrentUser }: Props) => {
 
   useEffect(() => {
     resChatClientHistory.refetch();
-    setValue('message', '');
+    setValue("message", "");
   }, [value.page, value.id]);
 
   useEffect(() => {
     if (values?.message !== undefined) {
       setLimit(words - values?.message?.length);
     }
-  }, [watch('message')]);
+  }, [watch("message")]);
 
   const avatar = (
     <Avatar big={true}>
       <LazyLoadImage
-        alt='image'
-        height='100%'
+        alt="image"
+        height="100%"
         src={
           value?.info?.image
             ? value?.info?.image
@@ -183,9 +183,9 @@ const Chat = ({ value, setCurrentUser }: Props) => {
             ? defuserwoman
             : App
         }
-        width='100%'
-        effect='blur'
-        style={{ objectFit: 'cover' }}
+        width="100%"
+        effect="blur"
+        style={{ objectFit: "cover" }}
         onError={(e: any) => {
           e.target.onerror = null;
           e.target.src = App;
@@ -196,13 +196,13 @@ const Chat = ({ value, setCurrentUser }: Props) => {
 
   const limitwords = (
     <>
-      {t('limitfeedback')}
+      {t("limitfeedback")}
 
       {` ${limit} ${ruCount({
         count: limit,
-        firstWord: 'символ',
-        secondWord: 'символа',
-        thirdWord: 'символов',
+        firstWord: "символ",
+        secondWord: "символа",
+        thirdWord: "символов",
       })}`}
     </>
   );
@@ -215,7 +215,7 @@ const Chat = ({ value, setCurrentUser }: Props) => {
   }, [value]);
 
   const status = (
-    <Status main={true}>{`${t('status')}: ${
+    <Status main={true}>{`${t("status")}: ${
       value?.info?.obtainProgramLoyalty?.levelName
     } ${value?.info?.obtainProgramLoyalty?.percent}%`}</Status>
   );
@@ -276,7 +276,7 @@ const Chat = ({ value, setCurrentUser }: Props) => {
         });
       }
     }
-    if (2 === newMassage?.chatType && newMassage.msg !== '') {
+    if (2 === newMassage?.chatType && newMassage.msg !== "") {
       const newArray = users.map((v: any) => {
         if (value?.id === v.id) {
           const messages = [newMassage, ...v.messages];
@@ -299,7 +299,7 @@ const Chat = ({ value, setCurrentUser }: Props) => {
     setLoading(true);
     if (e.message.length > 0 && e?.message.match(/\S/) !== null) {
       socket.emit(
-        'chat_to_server',
+        "chat_to_server",
         {
           langId: 1,
           chatType: 2,
@@ -312,7 +312,7 @@ const Chat = ({ value, setCurrentUser }: Props) => {
         },
         (res: any) => {
           if (res.success) {
-            setValue('message', '');
+            setValue("message", "");
             setLoading(false);
             setNoValue(false);
             dispatch(setChosenClientChat({ data: undefined, choose: false }));
@@ -393,14 +393,14 @@ const Chat = ({ value, setCurrentUser }: Props) => {
           ) : noValue ? (
             <div
               style={{
-                display: 'flex',
+                display: "flex",
                 flex: 1,
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '20px',
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "20px",
               }}
             >
-              {t('thereisnomessage')}
+              {t("thereisnomessage")}
             </div>
           ) : (
             <>
@@ -411,34 +411,34 @@ const Chat = ({ value, setCurrentUser }: Props) => {
                   </WrapDown>
                 </WrapDownIcon>
               ) : null}
-              <Messages id='scrollableDiv' onScroll={findScrollHeight}>
+              <Messages id="scrollableDiv" onScroll={findScrollHeight}>
                 <div ref={messagesStartRef} />
                 <InfiniteScroll
                   dataLength={value.messages.length}
                   next={fetchHisFetchData}
                   style={{
-                    display: 'flex',
-                    flexDirection: 'column-reverse',
-                    overflow: 'hidden',
+                    display: "flex",
+                    flexDirection: "column-reverse",
+                    overflow: "hidden",
                   }}
                   inverse={true}
-                  scrollThreshold='-1000px'
+                  scrollThreshold="-1000px"
                   hasMore={value?.hasMore}
                   loader={
                     <div
                       style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        width: '100%',
+                        display: "flex",
+                        justifyContent: "center",
+                        width: "100%",
                       }}
                     >
                       <Spinner />
                     </div>
                   }
-                  scrollableTarget='scrollableDiv'
+                  scrollableTarget="scrollableDiv"
                   endMessage={
                     <Divider>
-                      <div>{dayjs(lastdate).format('DD MMMM YYYY')}</div>
+                      <div>{dayjs(lastdate).format("DD MMMM YYYY")}</div>
                     </Divider>
                   }
                 >
@@ -458,12 +458,12 @@ const Chat = ({ value, setCurrentUser }: Props) => {
                                   : App
                                 : companyInfo.logo
                             }
-                            alt='user'
+                            alt="user"
                             style={{
-                              objectFit: 'cover',
+                              objectFit: "cover",
                             }}
-                            height='100%'
-                            width='100%'
+                            height="100%"
+                            width="100%"
                             onError={(e: any) => {
                               e.target.onerror = null;
                               e.target.src = App;
@@ -473,7 +473,7 @@ const Chat = ({ value, setCurrentUser }: Props) => {
                         <Message type={v.chatType}>
                           <WrapDateMessage>
                             <MessageDate type={v.chatType}>
-                              {dayjs(v.createdAt).format('HH:mm')}
+                              {dayjs(v.createdAt).format("HH:mm")}
                             </MessageDate>
                             {v.chatType === 2 ? check(v.status) : null}
                           </WrapDateMessage>
@@ -490,21 +490,21 @@ const Chat = ({ value, setCurrentUser }: Props) => {
         </ChatPlace1>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Controller
-            name='message'
+            name="message"
             control={control}
             rules={{
               required: true,
               maxLength: 400,
             }}
-            defaultValue=''
+            defaultValue=""
             render={({ field }) => (
               <Input
                 fullWidth={true}
                 multiline={true}
-                placeholder={t('writeyoutmessage')}
+                placeholder={t("writeyoutmessage")}
                 inputStyle={{
-                  border: 'none',
-                  inpadding: width > 1500 ? '10px 20px' : '',
+                  border: "none",
+                  inpadding: width > 1500 ? "10px 20px" : "",
                 }}
                 field={field}
                 maxLength={400}
@@ -517,8 +517,8 @@ const Chat = ({ value, setCurrentUser }: Props) => {
               <IconButton onClick={handleShowEmoji}>
                 <SmileIcon />
               </IconButton>
-              <Button type='submit' disabled={loading} startIcon={<SendIcon />}>
-                {t('send')}
+              <Button type="submit" disabled={loading} startIcon={<SendIcon />}>
+                {t("send")}
               </Button>
             </WrapIcons>
           </InputDown>
@@ -526,8 +526,8 @@ const Chat = ({ value, setCurrentUser }: Props) => {
       </Body>
       {showEmoji ? (
         <Emoji
-          value={getValues('message')}
-          onSelect={(e) => setValue('message', e)}
+          value={getValues("message")}
+          onSelect={(e) => setValue("message", e)}
           onBlur={() => setShowEmoji(false)}
         />
       ) : null}

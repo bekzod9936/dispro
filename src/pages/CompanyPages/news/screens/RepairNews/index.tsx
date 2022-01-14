@@ -1,43 +1,43 @@
-import Button from 'components/Custom/Buttons/Button';
-import CustomToggle from 'components/Custom/CustomToggleSwitch';
-import Input from 'components/Custom/Input';
-import MultiSelect from 'components/Custom/MultiSelect';
-import Title from 'components/Custom/Title';
-import { TextArea } from 'components/Custom/TextArea';
-import CheckBox from 'components/Custom/CheckBox';
-import React from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { useHistory } from 'react-router-dom';
-import { CancelIcon } from 'assets/icons/ClientsPageIcons/ClientIcons';
-import Spinner from 'components/Helpers/Spinner';
-import ImageLazyLoad from 'components/Custom/ImageLazyLoad/ImageLazyLoad';
-import useStaff from '../../hooks/useStaff';
-import { RepairNewsIcon } from 'assets/icons/news/newsIcons';
-import { SaveIcon, SaveIconMobile } from 'assets/icons/news/newsIcons';
-import CropCustomModal from 'components/Custom/CropImageModal/index';
-import { useTranslation } from 'react-i18next';
-import { useMutation, useQuery } from 'react-query';
-import CustomDatePicker from 'components/Custom/CustomDatePicker';
-import InputFormat from 'components/Custom/InputFormat';
-import useWindowWidth from 'services/hooks/useWindowWidth';
-import { MobileCancelIcon } from 'assets/icons/proposals/ProposalsIcons';
+import Button from "components/Custom/Buttons/Button";
+import CustomToggle from "components/Custom/CustomToggleSwitch";
+import Input from "components/Custom/Input";
+import MultiSelect from "components/Custom/MultiSelect";
+import Title from "components/Custom/Title";
+import { TextArea } from "components/Custom/TextArea";
+import CheckBox from "components/Custom/CheckBox";
+import React from "react";
+import { Controller, useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
+import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
+import Spinner from "components/Helpers/Spinner";
+import ImageLazyLoad from "components/Custom/ImageLazyLoad/ImageLazyLoad";
+import useStaff from "../../hooks/useStaff";
+import { RepairNewsIcon } from "assets/icons/news/newsIcons";
+import { SaveIcon, SaveIconMobile } from "assets/icons/news/newsIcons";
+import CropCustomModal from "components/Custom/CropImageModal/index";
+import { useTranslation } from "react-i18next";
+import { useMutation, useQuery } from "react-query";
+import CustomDatePicker from "components/Custom/CustomDatePicker";
+import InputFormat from "components/Custom/InputFormat";
+import useWindowWidth from "services/hooks/useWindowWidth";
+import { MobileCancelIcon } from "assets/icons/proposals/ProposalsIcons";
 
-import { fetchCreateNews } from 'services/queries/newPageQuery';
-import useAddress from '../../../info/screens/Address/useAddress';
+import { fetchCreateNews } from "services/queries/newPageQuery";
+import useAddress from "../../../info/screens/Address/useAddress";
 import {
   Label,
   WrapDate,
   WrapInputs,
   WrapSelect,
-} from '../../components/Header/style';
+} from "../../components/Header/style";
 import {
   DeleteIcon,
   GoBackIcon,
   PlusIcon,
   UploadImage,
-} from 'assets/icons/proposals/ProposalsIcons';
-import { UpSide } from '../CreateNews/style';
-import { days, genders, todayDate } from '../CreateNews/constants';
+} from "assets/icons/proposals/ProposalsIcons";
+import { UpSide } from "../CreateNews/style";
+import { days, genders, todayDate } from "../CreateNews/constants";
 import {
   PushBlock,
   PushWrapper,
@@ -54,11 +54,11 @@ import {
   FormRow,
   Buttons,
   MobileHeader,
-} from './style';
-import { useUploadImage } from '../../hooks/useUploadIMage';
-import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
-import { ReactComponent as MarketIcon } from 'assets/icons/SideBar/ilmarket.svg';
-import { UploadModal } from '../CreateNews/components/UploadModal';
+} from "./style";
+import { useUploadImage } from "../../hooks/useUploadIMage";
+import { useAppDispatch, useAppSelector } from "services/redux/hooks";
+import { ReactComponent as MarketIcon } from "assets/icons/SideBar/ilmarket.svg";
+import { UploadModal } from "../CreateNews/components/UploadModal";
 interface IOptionFields {
   push: boolean;
 }
@@ -67,7 +67,7 @@ const RepairNews = () => {
   const { t } = useTranslation();
   const history = useHistory();
 
-  const companyId: any = localStorage.getItem('companyId');
+  const companyId: any = sessionStorage.getItem("companyId");
   const { dataAddress } = useAddress({
     id: companyId,
   });
@@ -81,7 +81,7 @@ const RepairNews = () => {
     push: newsById?.data?.pushUp,
   });
 
-  const [file, setFile] = React.useState('');
+  const [file, setFile] = React.useState("");
   const [checked, setChecked] = React.useState(
     newsById?.data?.settings?.aroundTheClock
   );
@@ -96,7 +96,7 @@ const RepairNews = () => {
     useUploadImage(setImage);
 
   const { mutate } = useMutation((data: any) => fetchCreateNews(data));
-  console.log('newsById', newsById?.data);
+  console.log("newsById", newsById?.data);
   const {
     control,
     handleSubmit,
@@ -105,17 +105,17 @@ const RepairNews = () => {
     setValue,
     formState: { errors, isValid },
   } = useForm({
-    mode: 'onChange',
+    mode: "onChange",
     shouldFocusError: true,
-    reValidateMode: 'onChange',
+    reValidateMode: "onChange",
   });
 
   const handleUploadImg = (data: any) => {
-    if (data.target.files[0].type == 'image/jpeg') {
+    if (data.target.files[0].type == "image/jpeg") {
       setFile(data.target.files[0]);
       setIsCropVisible(true);
       setErrorFileType(false);
-    } else if (data.target.files[0].type == 'image/png') {
+    } else if (data.target.files[0].type == "image/png") {
       setFile(data.target.files[0]);
       setIsCropVisible(true);
       setErrorFileType(false);
@@ -129,7 +129,7 @@ const RepairNews = () => {
     setErrorFileType(false);
   };
 
-  const handleOpenBlock = (e: any, action: 'push') => {
+  const handleOpenBlock = (e: any, action: "push") => {
     setOptionalFields((prev: IOptionFields) => ({
       ...prev,
       [action]: e.target.checked,
@@ -137,8 +137,8 @@ const RepairNews = () => {
   };
 
   const handleDelete = () => {
-    setFile('');
-    setImage('');
+    setFile("");
+    setImage("");
     deleteImage(image);
   };
 
@@ -154,7 +154,7 @@ const RepairNews = () => {
     );
   });
   function getValidDate(obj: any) {
-    return '' + obj.year + '-' + obj.month.number + '-' + obj.day;
+    return "" + obj.year + "-" + obj.month.number + "-" + obj.day;
   }
 
   const submitNews = (data: any) => {
@@ -183,8 +183,8 @@ const RepairNews = () => {
             : [0, 1, 2, 3, 4, 5, 6],
         aroundTheClock: checked ? true : false,
         time: {
-          from: optionalFields.push && data?.timeFrom ? data.timeFrom : '00:00',
-          to: optionalFields.push && data?.timeTo ? data.timeTo : '23:59',
+          from: optionalFields.push && data?.timeFrom ? data.timeFrom : "00:00",
+          to: optionalFields.push && data?.timeTo ? data.timeTo : "23:59",
         },
         stores:
           optionalFields.push && data?.filialID?.length
@@ -195,19 +195,19 @@ const RepairNews = () => {
     };
 
     mutate(newsBody);
-    setTimeout(() => history.push('/news/active'), 1000);
+    setTimeout(() => history.push("/news/active"), 1000);
   };
 
   const genderType = [
     {
       label:
         newsById?.data?.genderType === 1
-          ? 'Для мужчин'
+          ? "Для мужчин"
           : newsById?.data?.genderType === 2
-          ? 'Для женщин'
+          ? "Для женщин"
           : newsById?.data?.genderType === 0
-          ? 'Для всех'
-          : '',
+          ? "Для всех"
+          : "",
     },
   ];
 
@@ -215,18 +215,18 @@ const RepairNews = () => {
     return {
       label:
         el == 0
-          ? 'Воскресенье'
+          ? "Воскресенье"
           : el == 1
-          ? 'Понедельник'
+          ? "Понедельник"
           : el == 2
-          ? 'Вторник'
+          ? "Вторник"
           : el == 3
-          ? 'Среда'
+          ? "Среда"
           : el == 4
-          ? 'Четверг'
+          ? "Четверг"
           : el == 5
-          ? 'Пятница'
-          : 'Суббота',
+          ? "Пятница"
+          : "Суббота",
       id:
         el == 0
           ? 0
@@ -253,7 +253,7 @@ const RepairNews = () => {
   });
 
   React.useEffect(() => {
-    setValue('filialID', mergedBranches);
+    setValue("filialID", mergedBranches);
   }, [mergedBranches]);
   React.useEffect(() => {
     if (newsId === undefined) {
@@ -263,8 +263,8 @@ const RepairNews = () => {
 
   React.useEffect(() => {
     if (checked) {
-      setValue('timeFrom', '00:00');
-      setValue('timeTo', '23:59');
+      setValue("timeFrom", "00:00");
+      setValue("timeTo", "23:59");
     }
   }, [checked]);
 
@@ -272,13 +272,13 @@ const RepairNews = () => {
     <Wrapper>
       {width > 1000 && (
         <div
-          style={{ display: 'flex', marginBottom: 30, alignItems: 'center' }}
+          style={{ display: "flex", marginBottom: 30, alignItems: "center" }}
         >
           <GoBackIcon
             onClick={handleBack}
-            style={{ marginRight: '25px', cursor: 'pointer' }}
+            style={{ marginRight: "25px", cursor: "pointer" }}
           />
-          <Title>{t('resetingNews')}</Title>
+          <Title>{t("resetingNews")}</Title>
         </div>
       )}
 
@@ -291,42 +291,42 @@ const RepairNews = () => {
         <UpSide>
           {width <= 1000 && (
             <MobileHeader>
-              <GoBackIcon onClick={handleBack} style={{ cursor: 'pointer' }} />
-              <Title> {t('resetingNews')}</Title>
+              <GoBackIcon onClick={handleBack} style={{ cursor: "pointer" }} />
+              <Title> {t("resetingNews")}</Title>
             </MobileHeader>
           )}
           <Container>
             <LeftSide>
-              <Title>{t('photos')}</Title>
+              <Title>{t("photos")}</Title>
               {!isLoading && !image && (
                 <div style={{ marginBottom: 30 }}>
                   <Header>
-                    <p>{t('logo_text')}</p>
+                    <p>{t("logo_text")}</p>
                   </Header>
                   <UploadButton>
-                    <label htmlFor='uploadImg'>{t('uploadPhoto')}</label>
+                    <label htmlFor="uploadImg">{t("uploadPhoto")}</label>
                     <input
-                      {...register('image', { required: true })}
+                      {...register("image", { required: true })}
                       onChange={handleUploadImg}
-                      type='file'
-                      id='uploadImg'
+                      type="file"
+                      id="uploadImg"
                     />
                     <UploadImage />
                   </UploadButton>
                   {errors.image && (
-                    <ErrorMessage>{t('requiredField')}</ErrorMessage>
+                    <ErrorMessage>{t("requiredField")}</ErrorMessage>
                   )}
                 </div>
               )}
               {isLoading && (
-                <div style={{ width: '100%', height: 140 }}>
+                <div style={{ width: "100%", height: 140 }}>
                   <Spinner size={30} />
                 </div>
               )}
               {image && (
                 <ImageBlock>
-                  <div style={{ filter: 'brightness(50%)' }}>
-                    <ImageLazyLoad objectFit='contain' src={image} alt='logo' />
+                  <div style={{ filter: "brightness(50%)" }}>
+                    <ImageLazyLoad objectFit="contain" src={image} alt="logo" />
                   </div>
                   <DeleteIcon onClick={handleDelete} />
                 </ImageBlock>
@@ -342,7 +342,7 @@ const RepairNews = () => {
                 />
               )}
               <Controller
-                name='name'
+                name="name"
                 control={control}
                 rules={{
                   required: true,
@@ -360,17 +360,17 @@ const RepairNews = () => {
                     maxLength={81}
                     error={errors.name ? true : false}
                     message={
-                      errors?.name?.type === 'required'
-                        ? t('requiredField')
-                        : t('максимальное число символов 80')
+                      errors?.name?.type === "required"
+                        ? t("requiredField")
+                        : t("максимальное число символов 80")
                     }
-                    label={t('title')}
+                    label={t("title")}
                     defaultValue={newsById?.data?.title}
                   />
                 )}
               />
               <Controller
-                name='description'
+                name="description"
                 control={control}
                 rules={{
                   required: true,
@@ -388,24 +388,24 @@ const RepairNews = () => {
                     value={field.value}
                     defaultValue={newsById?.data?.description}
                     message={
-                      errors?.description?.type === 'required'
-                        ? t('requiredField')
-                        : t('максимальное число символов 800')
+                      errors?.description?.type === "required"
+                        ? t("requiredField")
+                        : t("максимальное число символов 800")
                     }
                     error={!!errors.description}
-                    minHeight={'150px'}
-                    maxHeight={'300px'}
-                    resize={'vertical'}
-                    title={'description'}
+                    minHeight={"150px"}
+                    maxHeight={"300px"}
+                    resize={"vertical"}
+                    title={"description"}
                   />
                 )}
               />
               {width > 1000 ? (
                 <WrapInputs>
-                  <Label>{t('chose_date')}</Label>
+                  <Label>{t("chose_date")}</Label>
                   <div>
                     <Controller
-                      name='startDate'
+                      name="startDate"
                       control={control}
                       rules={{
                         required: true,
@@ -414,34 +414,34 @@ const RepairNews = () => {
                         <Input
                           field={field}
                           width={{ maxwidth: 600, minwidth: 100 }}
-                          type='date'
+                          type="date"
                           min={todayDate}
                           error={!!errors.startDate}
-                          IconStart={<WrapDate>{t('from')}</WrapDate>}
+                          IconStart={<WrapDate>{t("from")}</WrapDate>}
                           inputStyle={{
-                            inpadding: '0 10px 0 0',
+                            inpadding: "0 10px 0 0",
                           }}
                         />
                       )}
                     />
 
                     <Controller
-                      name='endDate'
+                      name="endDate"
                       control={control}
                       rules={{
                         required: true,
                       }}
                       render={({ field }) => (
                         <Input
-                          type='date'
+                          type="date"
                           field={field}
                           width={{ maxwidth: 600, minwidth: 100 }}
                           error={!!errors.endDate}
-                          min={watch('startDate')}
-                          margin={{ laptop: '0 0 0 15px' }}
-                          IconStart={<WrapDate>{t('to')}</WrapDate>}
+                          min={watch("startDate")}
+                          margin={{ laptop: "0 0 0 15px" }}
+                          IconStart={<WrapDate>{t("to")}</WrapDate>}
                           inputStyle={{
-                            inpadding: '0 10px 0 0',
+                            inpadding: "0 10px 0 0",
                           }}
                         />
                       )}
@@ -450,17 +450,17 @@ const RepairNews = () => {
                 </WrapInputs>
               ) : (
                 <WrapInputs>
-                  <div className='startAndEndDate'>
+                  <div className="startAndEndDate">
                     <Controller
-                      name='startDate'
+                      name="startDate"
                       rules={{
                         required: true,
                       }}
                       control={control}
                       render={({ field }) => (
                         <CustomDatePicker
-                          text={t('from')}
-                          margin={width > 430 ? '0 10px 0 0' : '0 12px 0 0'}
+                          text={t("from")}
+                          margin={width > 430 ? "0 10px 0 0" : "0 12px 0 0"}
                           error={errors.startDate}
                           minDate={new Date()}
                           onChange={field.onChange}
@@ -474,12 +474,12 @@ const RepairNews = () => {
                         required: true,
                       }}
                       control={control}
-                      name='endDate'
+                      name="endDate"
                       render={({ field }) => (
                         <CustomDatePicker
-                          text={t('to')}
+                          text={t("to")}
                           error={errors.endDate}
-                          minDate={watch('startDate')}
+                          minDate={watch("startDate")}
                           onChange={field.onChange}
                           value={field.value}
                         />
@@ -491,7 +491,7 @@ const RepairNews = () => {
               <br />
               <WrapSelect>
                 <Controller
-                  name='gender'
+                  name="gender"
                   control={control}
                   rules={{
                     required: true,
@@ -501,31 +501,31 @@ const RepairNews = () => {
                     <MultiSelect
                       isMulti={false}
                       error={!!errors.gender}
-                      message={t('requiredField')}
+                      message={t("requiredField")}
                       field={field}
-                      label={t('chose_gender')}
+                      label={t("chose_gender")}
                       defaultValue={genderType}
                       options={genders}
-                      margin={{ laptop: '0 0 35px 0' }}
+                      margin={{ laptop: "0 0 35px 0" }}
                     />
                   )}
                 />
               </WrapSelect>
               <Controller
-                name='ageLimit'
+                name="ageLimit"
                 control={control}
                 defaultValue={newsById?.data?.ageFrom}
                 render={({ field }) => (
                   <InputFormat
                     field={field}
-                    type='tel'
+                    type="tel"
                     onlyNumber={true}
                     defaultValue={newsById?.data?.ageFrom}
-                    max='100'
-                    message={parseInt(watch('ageLimit'))}
+                    max="100"
+                    message={parseInt(watch("ageLimit"))}
                     error={!!errors.ageLimit}
-                    IconStart={<PlusIcon style={{ marginLeft: '20px' }} />}
-                    label={t('ageLimit')}
+                    IconStart={<PlusIcon style={{ marginLeft: "20px" }} />}
+                    label={t("ageLimit")}
                   />
                 )}
               />
@@ -533,15 +533,15 @@ const RepairNews = () => {
             <RightSide>
               <PushWrapper>
                 <PushBlock>
-                  <h6 style={{ width: '80%' }}>{t('withPushNotification')}</h6>
+                  <h6 style={{ width: "80%" }}>{t("withPushNotification")}</h6>
                   <CustomToggle
                     defaultChecked={newsById?.data?.pushUp}
-                    onChange={(e: any) => handleOpenBlock(e, 'push')}
+                    onChange={(e: any) => handleOpenBlock(e, "push")}
                   />
                 </PushBlock>
                 {optionalFields.push && (
                   <Controller
-                    name='descriptionPush'
+                    name="descriptionPush"
                     control={control}
                     defaultValue={newsById?.data?.pushUpTitle}
                     rules={{
@@ -557,12 +557,12 @@ const RepairNews = () => {
                         }}
                         value={field.value}
                         defaultValue={newsById?.data?.pushUpTitle}
-                        fontSize={width > 1000 ? '15px' : '14px'}
+                        fontSize={width > 1000 ? "15px" : "14px"}
                         required={optionalFields.push ? true : false}
-                        minHeight={'100px'}
-                        maxHeight={'150px'}
-                        resize={'vertical'}
-                        title={t('text_push')}
+                        minHeight={"100px"}
+                        maxHeight={"150px"}
+                        resize={"vertical"}
+                        title={t("text_push")}
                       />
                     )}
                   />
@@ -571,7 +571,7 @@ const RepairNews = () => {
               <PushWrapper>
                 {optionalFields.push && (
                   <Controller
-                    name='days'
+                    name="days"
                     control={control}
                     defaultValue={weekDays}
                     render={({ field }) => (
@@ -580,7 +580,7 @@ const RepairNews = () => {
                         isClearable={false}
                         isMulti={true}
                         options={days}
-                        label='Укажите дни'
+                        label="Укажите дни"
                         defaultValue={weekDays}
                       />
                     )}
@@ -588,26 +588,26 @@ const RepairNews = () => {
                 )}
               </PushWrapper>
               <PushWrapper>
-                <div style={{ marginBottom: '10px' }}>
+                <div style={{ marginBottom: "10px" }}>
                   {optionalFields.push && (
                     <Label>
-                      <div>{t('Укажите временной промежуток')}</div>
+                      <div>{t("Укажите временной промежуток")}</div>
                     </Label>
                   )}
                 </div>
                 {optionalFields.push && (
-                  <div style={{ display: 'flex' }}>
+                  <div style={{ display: "flex" }}>
                     <Controller
                       control={control}
-                      name='timeFrom'
+                      name="timeFrom"
                       rules={{
                         required: true,
                       }}
                       defaultValue={newsById?.data?.settings?.time?.from}
                       render={({ field }) => (
                         <Input
-                          margin={{ laptop: '0 25px 0 0' }}
-                          type='time'
+                          margin={{ laptop: "0 25px 0 0" }}
+                          type="time"
                           required={optionalFields.push ? true : false}
                           disabled={checked ? true : false}
                           defaultValue={newsById?.data?.settings?.time?.from}
@@ -617,14 +617,14 @@ const RepairNews = () => {
                     />
                     <Controller
                       control={control}
-                      name='timeTo'
+                      name="timeTo"
                       rules={{
                         required: true,
                       }}
                       defaultValue={newsById?.data?.settings?.time?.to}
                       render={({ field }) => (
                         <Input
-                          type='time'
+                          type="time"
                           field={field}
                           disabled={checked ? true : false}
                           required={optionalFields.push ? true : false}
@@ -639,8 +639,8 @@ const RepairNews = () => {
               {optionalFields.push && (
                 <CheckBox
                   checked={checked}
-                  name={'checked'}
-                  label={'Круглосуточно'}
+                  name={"checked"}
+                  label={"Круглосуточно"}
                   onChange={(e: any) => setChecked(e.target.checked)}
                 />
               )}
@@ -649,8 +649,8 @@ const RepairNews = () => {
                 <FormRow>
                   <Controller
                     control={control}
-                    name='filialID'
-                    defaultValue={mergedBranches ? mergedBranches : ''}
+                    name="filialID"
+                    defaultValue={mergedBranches ? mergedBranches : ""}
                     render={({ field }) => {
                       return (
                         <MultiSelect
@@ -658,21 +658,21 @@ const RepairNews = () => {
                           isMulti={true}
                           isBranchHeight={width < 600 ? true : false}
                           selectStyle={{
-                            bgcolor: '#eff0fd',
-                            border: 'none',
-                            placeholdercolor: '#223367',
-                            inpadding: '2px 10px 2px 60px',
-                            placewieght: '500',
+                            bgcolor: "#eff0fd",
+                            border: "none",
+                            placeholdercolor: "#223367",
+                            inpadding: "2px 10px 2px 60px",
+                            placewieght: "500",
                           }}
-                          placeholder={t('choose_branch')}
+                          placeholder={t("choose_branch")}
                           margin={{
-                            laptop: '20px 0 25px',
+                            laptop: "20px 0 25px",
                           }}
                           field={field}
                           isClearable={false}
                           icon={<MarketIcon />}
-                          iconleft={'20px'}
-                          icondowncolor='#C4C4C4'
+                          iconleft={"20px"}
+                          icondowncolor="#C4C4C4"
                         />
                       );
                     }}
@@ -688,23 +688,23 @@ const RepairNews = () => {
               onClick={handleBack}
               endIcon={<MobileCancelIcon />}
               buttonStyle={{
-                bgcolor: 'rgba(96, 110, 234, 0.1)',
-                color: '#606EEA',
+                bgcolor: "rgba(96, 110, 234, 0.1)",
+                color: "#606EEA",
               }}
             >
-              {t('Отмена')}
+              {t("Отмена")}
             </Button>
             <Button
-              type='submit'
-              margin={{ laptop: '0 25px' }}
+              type="submit"
+              margin={{ laptop: "0 25px" }}
               endIcon={<RepairNewsIcon />}
               buttonStyle={{
-                bgcolor: '#606EEA',
-                color: '#fff',
-                shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)',
+                bgcolor: "#606EEA",
+                color: "#fff",
+                shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
               }}
             >
-              {t('Восстановить')}
+              {t("Восстановить")}
             </Button>
           </DownSide>
         )}
@@ -714,47 +714,47 @@ const RepairNews = () => {
             <Button
               onClick={handleBack}
               startIcon={<CancelIcon />}
-              buttonStyle={{ color: '#223367', bgcolor: '#ffffff' }}
+              buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
             >
-              {t('Отменить')}
+              {t("Отменить")}
             </Button>
             <Button
-              type='submit'
-              margin={{ laptop: '0 25px', mobile: '0 10px' }}
+              type="submit"
+              margin={{ laptop: "0 25px", mobile: "0 10px" }}
               endIcon={<RepairNewsIcon />}
-              buttonStyle={{ shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)' }}
+              buttonStyle={{ shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)" }}
             >
-              {t('Восстановить')}
+              {t("Восстановить")}
             </Button>
           </DownSide>
         )}
 
         {width <= 600 && (
           <Buttons>
-            <div className='upside'>
+            <div className="upside">
               <Button
                 onClick={handleBack}
                 endIcon={<MobileCancelIcon />}
                 buttonStyle={{
-                  bgcolor: 'rgba(96, 110, 234, 0.1)',
-                  color: '#606EEA',
+                  bgcolor: "rgba(96, 110, 234, 0.1)",
+                  color: "#606EEA",
                 }}
-                margin={{ mobile: '0 8px 8px 0' }}
+                margin={{ mobile: "0 8px 8px 0" }}
               >
-                {t('cancel')}
+                {t("cancel")}
               </Button>
             </div>
             <Button
-              type='submit'
+              type="submit"
               endIcon={<SaveIconMobile />}
               buttonStyle={{
-                bgcolor: '#606EEA',
-                color: '#fff',
-                shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)',
+                bgcolor: "#606EEA",
+                color: "#fff",
+                shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
               }}
-              margin={{ mobile: '0px 8px  8px  0' }}
+              margin={{ mobile: "0px 8px  8px  0" }}
             >
-              {t('Сохранить')}
+              {t("Сохранить")}
             </Button>
           </Buttons>
         )}

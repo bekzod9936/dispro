@@ -43,7 +43,7 @@ const Payment = () => {
   );
   const header = useAppSelector((state) => state.finance.paymentFinance.header);
 
-  const companyId = localStorage.getItem("companyId");
+  const companyId = sessionStorage.getItem("companyId");
 
   const intialFilter = {
     companyId: companyId,

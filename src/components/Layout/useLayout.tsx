@@ -33,7 +33,7 @@ interface LProps {
 }
 const useLayout = ({ id }: LProps) => {
   const dispatch = useAppDispatch();
-  const companyId = localStorage.getItem("companyId");
+  const companyId = sessionStorage.getItem("companyId");
 
   const setLimit = useSetRecoilState(setLimitAccounts);
   const setBalance = useSetRecoilState(setBalanceAccounts);
@@ -81,8 +81,6 @@ const useLayout = ({ id }: LProps) => {
     refetchOnWindowFocus: false,
     retry: 0,
   });
-
-
 
   return { resHeader, headerData, resLimit, resBadge };
 };

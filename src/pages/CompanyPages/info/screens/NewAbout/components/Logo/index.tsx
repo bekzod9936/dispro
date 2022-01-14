@@ -18,7 +18,7 @@ const Logo = () => {
   const { t } = useTranslation();
   const ref: any = useRef();
   const logo = useWatch({ name: "logo" });
-  const companyId: any = localStorage.getItem("companyId");
+  const companyId: any = sessionStorage.getItem("companyId");
   const { resizeFile, dataURIToBlob } = usePhoto();
   const { getValues, setValue } = useFormContext();
 

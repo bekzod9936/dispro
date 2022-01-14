@@ -32,7 +32,7 @@ export const fileToBlob = (file: File, id: string) => {
 };
 
 export const filesToBlob = (files: File[]) => {
-  const companyId = localStorage.getItem("companyId") || "";
+  const companyId = sessionStorage.getItem("companyId") || "";
 
   return files.map((file) => fileToBlob(file, companyId));
 };
@@ -239,75 +239,100 @@ export const isSectionParent = (
   return array.find((section) => section.id === id)?.parentId === 0;
 };
 
-
 export const divideGoodsBySections = (goods: IGoodsResponse[]) => {
   return goods.reduce((acc: IGoods, curr) => {
-    acc[curr.goodsSectionId] = acc[curr.goodsSectionId] ? [...acc[curr.goodsSectionId], curr] : [curr]
-    return acc
-  }, {})
-}
+    acc[curr.goodsSectionId] = acc[curr.goodsSectionId]
+      ? [...acc[curr.goodsSectionId], curr]
+      : [curr];
+    return acc;
+  }, {});
+};
 
 export const thousandsDivider = (value: number) => {
-  return numberWithNew({number: value, replaceValue: " "})
-}
+  return numberWithNew({ number: value, replaceValue: " " });
+};
 
-export const getSubSectionsLength = (sections: ISectionResponse[] | undefined, parentId: number) => {
+export const getSubSectionsLength = (
+  sections: ISectionResponse[] | undefined,
+  parentId: number
+) => {
   if (!sections) return 0;
 
-  return sections.filter(section => section.parentId === parentId).length
-}
+  return sections.filter((section) => section.parentId === parentId).length;
+};
 
 export const resetDefaultValues = (data: IGoodsResponse): FormFieldTypes => {
   return {
-    titles: data.goodsTranslates.map(translate => ({
+    titles: data.goodsTranslates.map((translate) => ({
       title: translate.translateName,
       desc: translate.translateDesc,
-      lang: languageLabels[translate.langId as keyof typeof languageLabels]
+      lang: languageLabels[translate.langId as keyof typeof languageLabels],
     })),
     preparationTime: Boolean(data.isSetManufacturedTime),
-    preparationTimeData: {day: data.manufacturedAt?.day || null, hour: data.manufacturedAt?.hour || null, minute: data.manufacturedAt?.minute || null},
+    preparationTimeData: {
+      day: data.manufacturedAt?.day || null,
+      hour: data.manufacturedAt?.hour || null,
+      minute: data.manufacturedAt?.minute || null,
+    },
     loyaltyOff: data.notUsePl,
-    loyaltyType: data.withDiscount ? 1 : data.notUsePl ? 0 : data.withPoint ? 2 : 0,
+    loyaltyType: data.withDiscount
+      ? 1
+      : data.notUsePl
+      ? 0
+      : data.withPoint
+      ? 2
+      : 0,
     measurement: null,
-    images: data.goodsImages.map(image => ({url: image.imageUrl})),
+    images: data.goodsImages.map((image) => ({ url: image.imageUrl })),
     section: 1,
     service: {},
-    variants: data.hasGoodsVariant ? data.goodsVariants.map(variant => ({
-      amount: variant.count > 0 ? String(variant.count) : "",
-      articul: String(variant.artikulCode),
-      name: variant.goodsVariantTranslates.map(translate => ({data: translate.translateName, lang: languageLabels[translate.langId as keyof typeof languageLabels]})),
-      price: String(variant.price),
-      priceWithSale: String(variant.priceWithDiscount)
-    })) : [{
-      name: [{data: '', lang: '(Рус)'}],
-      amount: data.count > 0 ? String(data.count) : "",
-      price: String(data.price),
-      articul: String(data.artikulCode),
-      priceWithSale: String(data.priceWithDiscount)
-    }]
+    variants: data.hasGoodsVariant
+      ? data.goodsVariants.map((variant) => ({
+          amount: variant.count > 0 ? String(variant.count) : "",
+          articul: String(variant.artikulCode),
+          name: variant.goodsVariantTranslates.map((translate) => ({
+            data: translate.translateName,
+            lang: languageLabels[
+              translate.langId as keyof typeof languageLabels
+            ],
+          })),
+          price: String(variant.price),
+          priceWithSale: String(variant.priceWithDiscount),
+        }))
+      : [
+          {
+            name: [{ data: "", lang: "(Рус)" }],
+            amount: data.count > 0 ? String(data.count) : "",
+            price: String(data.price),
+            articul: String(data.artikulCode),
+            priceWithSale: String(data.priceWithDiscount),
+          },
+        ],
+  };
+};
 
-  }
-}
-
-export const getSectionOfItem = (sections: sectionResponseType | undefined, sectionId: number) => {
-  if (!sections) return 0
-  const section = sections.data.find(s => s.id === sectionId)
+export const getSectionOfItem = (
+  sections: sectionResponseType | undefined,
+  sectionId: number
+) => {
+  if (!sections) return 0;
+  const section = sections.data.find((s) => s.id === sectionId);
 
   return {
     value: section?.id,
     name: section?.goodsSectionTranslates[0].translateName,
     label: section?.goodsSectionTranslates[0].translateName,
-  }
-}
+  };
+};
 
 export const getParentSections = (sections: ISectionResponse[] | undefined) => {
-  if (!sections) return 
-  return sections.filter(section => section.parentId === 0)
-}
+  if (!sections) return;
+  return sections.filter((section) => section.parentId === 0);
+};
 
 export const changeAmountToPutDto = (count: number, isUnlimited: boolean) => {
   return {
     isCountUnlimited: isUnlimited,
-    count: isUnlimited ? 0 : count
-  }
-}
+    count: isUnlimited ? 0 : count,
+  };
+};

@@ -13,7 +13,7 @@ import {
   setReferalActive,
 } from "services/queries/referalProgramQuery";
 
-import {notifyError,notifySuccess} from 'services/utils/local_notification';
+import { notifyError, notifySuccess } from "services/utils/local_notification";
 //types
 interface FormProps {
   referals?: any;
@@ -23,12 +23,12 @@ const useReferalData = () => {
   const referalRef = useRef<null | HTMLDivElement>(null);
 
   const { t } = useTranslation();
-  const companyId = localStorage.getItem("companyId");
+  const companyId = sessionStorage.getItem("companyId");
   const [saving, setSaving] = useState(false);
   const [newState, setNewState] = useState<string>("old");
   const [checkedState, setCheckedState] = useState<boolean>(false);
   const [levelsRef, setLevelsRef] = useState<IReferal[]>([]);
-  const [disableButton,setDisableButton]=useState<Boolean>(false);
+  const [disableButton, setDisableButton] = useState<Boolean>(false);
   const {
     control,
     setValue,
@@ -127,7 +127,7 @@ const useReferalData = () => {
         refetchLevel();
         setNewState("old");
         handleClick();
-        notifySuccess(t('Данные успешно сохранены'));
+        notifySuccess(t("Данные успешно сохранены"));
       },
     }
   );
@@ -143,7 +143,7 @@ const useReferalData = () => {
       onSuccess: () => {
         refetch();
         refetchLevel();
-        notifySuccess(t('Данные успешно сохранены'));
+        notifySuccess(t("Данные успешно сохранены"));
       },
     }
   );
@@ -159,11 +159,12 @@ const useReferalData = () => {
           levels[i - 1]?.percent &&
           parseInt(levels[i]?.percent) >= parseInt(levels[i - 1]?.percent)
         ) {
-         
           notifyError(
-            `${t("percentage_in")} "${levels[i-1]?.number} ${t("level")}"  ${t(
-              "must_be_more_than"
-            )}  "${levels[i]?.number} ${t("level")}"`
+            `${t("percentage_in")} "${levels[i - 1]?.number} ${t(
+              "level"
+            )}"  ${t("must_be_more_than")}  "${levels[i]?.number} ${t(
+              "level"
+            )}"`
           );
           setSaving(false);
           return;

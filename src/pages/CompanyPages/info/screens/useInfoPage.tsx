@@ -43,7 +43,7 @@ const useInfoPage = () => {
   const response = useQuery(
     "fetchInfoCompanyid123",
     () => {
-      return fetchInfo(localStorage.getItem("companyId"));
+      return fetchInfo(sessionStorage.getItem("companyId"));
     },
     {
       keepPreviousData: true,

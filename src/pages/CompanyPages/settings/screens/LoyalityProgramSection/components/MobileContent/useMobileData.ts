@@ -17,7 +17,7 @@ import {
 //utils
 import { parseSimpleString } from "services/utils";
 import { levelReqs } from "../../constants";
-import { notifySuccess } from 'services/utils/local_notification';
+import { notifySuccess } from "services/utils/local_notification";
 //hooks
 import { FormProps } from "../../hooks/types";
 import { handleClick } from "services/redux/Slices/settingsSlice";
@@ -34,7 +34,7 @@ const useMobileData = () => {
   const emptyCashback = useAppSelector((state) => state.settings.emptyCashback);
   const { t } = useTranslation();
   const openCashback = useAppSelector((state) => state.settings.openState);
-  let companyId: any = localStorage.getItem("companyId");
+  let companyId: any = sessionStorage.getItem("companyId");
 
   //form data
   const {
@@ -109,7 +109,7 @@ const useMobileData = () => {
     },
     {
       onSuccess: () => {
-        notifySuccess(t('  Сохранено!  Данные успешно сохранены'));
+        notifySuccess(t("  Сохранено!  Данные успешно сохранены"));
         refetch();
         refetchdiscount();
         refetchcashback();
@@ -229,111 +229,110 @@ const useMobileData = () => {
   };
 
   const onFormSubmit = async (data: FormProps) => {
-    if(payGo===1){
-    if (!checkLevels(data.levels, data.base_name, data.base_percent)) {
-      try {
-        useProgramSave.mutate({
-          useProgram: data.useProgram,
-          usePoint: data.usePoint,
-        });
+    if (payGo === 1) {
+      if (!checkLevels(data.levels, data.base_name, data.base_percent)) {
+        try {
+          useProgramSave.mutate({
+            useProgram: data.useProgram,
+            usePoint: data.usePoint,
+          });
 
-        if (openCashback.type === "discount") {
-          loayalityPut.mutate({
-            cashbackReturnedDay: 0,
-            description: "",
-            isActive: true,
-            companyId: parseInt(companyId),
-            levels:
-              data?.levels?.length > 0
-                ? data?.levels?.map((item: any) => {
-                    return {
-                      name: item.name,
-                      percent: item.percent,
-                      requirements: item.requirements.map((reqItem: any) => {
-                        return {
-                          amount: parseSimpleString(
-                            reqItem?.amount?.toString()
-                          ),
-                          condition: reqItem?.condition,
-                          type: reqItem?.type,
-                          unit: reqItem?.unit,
-                        };
-                      }),
-                    };
-                  })
-                : [],
-            maxAmount: data.max_percent,
-            name: data.base_name,
-            percent: data.base_percent,
-          });
-        } else if (openCashback.type === "cashback") {
-          loayalityPut.mutate({
-            cashbackReturnedDay: data.give_cashback_after || 0,
-            description: "",
-            isActive: true,
-            companyId: parseInt(companyId),
-            levels:
-              data?.levels?.length > 0
-                ? data.levels.map((item: any) => {
-                    return {
-                      name: item.name,
-                      percent: item.percent,
-                      requirements: item.requirements.map((reqItem: any) => {
-                        return {
-                          amount: parseSimpleString(
-                            reqItem?.amount?.toString()
-                          ),
-                          condition: reqItem?.condition,
-                          type: reqItem?.type,
-                          unit: reqItem?.unit,
-                        };
-                      }),
-                    };
-                  })
-                : [],
-            maxAmount: data.max_percent,
-            name: data.base_name,
-            percent: data.base_percent,
-          });
-        } else if (openCashback.type === "bonuspoint") {
-          loayalityPut.mutate({
-            cashbackReturnedDay: 0,
-            description: "",
-            isActive: true,
-            companyId: parseInt(companyId),
-            levels:
-              data?.levels?.length > 0
-                ? data.levels.map((item: any) => {
-                    return {
-                      name: item.name,
-                      percent: item.percent,
-                      requirements: item.requirements.map((reqItem: any) => {
-                        return {
-                          amount: parseSimpleString(
-                            reqItem?.amount?.toString()
-                          ),
-                          condition: reqItem?.condition,
-                          type: reqItem?.type,
-                          unit: reqItem?.unit,
-                        };
-                      }),
-                    };
-                  })
-                : [],
-            maxAmount: data.max_percent,
-            name: data.base_name,
-            percent: data.base_percent,
-          });
+          if (openCashback.type === "discount") {
+            loayalityPut.mutate({
+              cashbackReturnedDay: 0,
+              description: "",
+              isActive: true,
+              companyId: parseInt(companyId),
+              levels:
+                data?.levels?.length > 0
+                  ? data?.levels?.map((item: any) => {
+                      return {
+                        name: item.name,
+                        percent: item.percent,
+                        requirements: item.requirements.map((reqItem: any) => {
+                          return {
+                            amount: parseSimpleString(
+                              reqItem?.amount?.toString()
+                            ),
+                            condition: reqItem?.condition,
+                            type: reqItem?.type,
+                            unit: reqItem?.unit,
+                          };
+                        }),
+                      };
+                    })
+                  : [],
+              maxAmount: data.max_percent,
+              name: data.base_name,
+              percent: data.base_percent,
+            });
+          } else if (openCashback.type === "cashback") {
+            loayalityPut.mutate({
+              cashbackReturnedDay: data.give_cashback_after || 0,
+              description: "",
+              isActive: true,
+              companyId: parseInt(companyId),
+              levels:
+                data?.levels?.length > 0
+                  ? data.levels.map((item: any) => {
+                      return {
+                        name: item.name,
+                        percent: item.percent,
+                        requirements: item.requirements.map((reqItem: any) => {
+                          return {
+                            amount: parseSimpleString(
+                              reqItem?.amount?.toString()
+                            ),
+                            condition: reqItem?.condition,
+                            type: reqItem?.type,
+                            unit: reqItem?.unit,
+                          };
+                        }),
+                      };
+                    })
+                  : [],
+              maxAmount: data.max_percent,
+              name: data.base_name,
+              percent: data.base_percent,
+            });
+          } else if (openCashback.type === "bonuspoint") {
+            loayalityPut.mutate({
+              cashbackReturnedDay: 0,
+              description: "",
+              isActive: true,
+              companyId: parseInt(companyId),
+              levels:
+                data?.levels?.length > 0
+                  ? data.levels.map((item: any) => {
+                      return {
+                        name: item.name,
+                        percent: item.percent,
+                        requirements: item.requirements.map((reqItem: any) => {
+                          return {
+                            amount: parseSimpleString(
+                              reqItem?.amount?.toString()
+                            ),
+                            condition: reqItem?.condition,
+                            type: reqItem?.type,
+                            unit: reqItem?.unit,
+                          };
+                        }),
+                      };
+                    })
+                  : [],
+              maxAmount: data.max_percent,
+              name: data.base_name,
+              percent: data.base_percent,
+            });
+          }
+        } catch (err) {
+          console.log(err, "error");
+          // alert(err);s
         }
-      } catch (err) {
-        console.log(err, "error");
-        // alert(err);s
       }
+    } else {
+      setpayGoModal(true);
     }
-  }
-  else {
-    setpayGoModal(true);
-  }
   };
 
   return {
