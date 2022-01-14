@@ -27,33 +27,33 @@ const useSettingsRoutes = () => {
 
   const menuItems: ISettingsRow[] = [
     {
-      path: "/newsettings/loyality",
+      path: "/settings/loyality",
       text: t("loyaltyProgram"),
       component: LoyaltyProgramSection,
     },
     {
-      path: "/newsettings/referal",
+      path: "/settings/referal",
       text: t("referalProgram"),
       component: ReferalProgrammSection,
     },
     {
-      path: "/newsettings/rewarding",
+      path: "/settings/rewarding",
       text: t("awarding"),
       component: AwardingSection,
     },
 
     {
-      path: "/newsettings/security",
+      path: "/settings/security",
       text: t("security"),
       component: SecuritySection,
     },
     {
-      path: "/newsettings/qrcodes",
+      path: "/settings/qrcodes",
       text: t("qrcodes"),
       component: QRCodesSection,
     },
   ].filter((v: any) => {
-    if (v.path === "/newsettings/security") {
+    if (v.path === "/settings/security") {
       if (type === 1) {
         return v;
       } else {

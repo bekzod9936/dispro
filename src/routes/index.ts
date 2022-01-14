@@ -95,7 +95,7 @@ export const privateCompanyRoutes: IPrivateRoute[] = [
     component: ProposalsPage,
   },
   {
-    path: "/newsettings/:params",
+    path: "/settings/:params",
     component: NewSettingsPage,
   },
   {
