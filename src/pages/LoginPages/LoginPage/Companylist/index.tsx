@@ -83,7 +83,7 @@ const Companylist = () => {
         await permissions.mutate(refData.staffId);
         await localStorage.setItem("staffId", refData.staffId);
       }
-      await localStorage.setItem("companyId", refData.companyId);
+      await sessionStorage.setItem("companyId", refData.companyId);
       await localStorage.setItem("companyToken", refData.accessToken);
       if (regFilled?.filled && regFilled.filledAddress) {
         await history.push("/statistics/clients");

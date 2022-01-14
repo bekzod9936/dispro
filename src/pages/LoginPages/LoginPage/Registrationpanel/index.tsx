@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
-import Button from '../../../../components/Custom/Buttons/Button';
-import Checkbox from '@material-ui/core/Checkbox';
-import { createCompany } from '../../../../services/queries/partnerQuery';
-import { useMutation } from 'react-query';
-import { useAppSelector } from '../../../../services/redux/hooks';
-import { useHistory } from 'react-router';
-import Input from '../../../../components/Custom/Input';
-import logo from 'assets/images/logo.png';
+import { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import Button from "../../../../components/Custom/Buttons/Button";
+import Checkbox from "@material-ui/core/Checkbox";
+import { createCompany } from "../../../../services/queries/partnerQuery";
+import { useMutation } from "react-query";
+import { useAppSelector } from "../../../../services/redux/hooks";
+import { useHistory } from "react-router";
+import Input from "../../../../components/Custom/Input";
+import logo from "assets/images/logo.png";
 import {
   Container,
   Header,
@@ -27,9 +27,9 @@ import {
   WrapCheck,
   CountryWrap,
   WrapImg,
-} from './style';
-import MultiSelect from '../../../../components/Custom/MultiSelect';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
+} from "./style";
+import MultiSelect from "../../../../components/Custom/MultiSelect";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 interface FormProps {
   email: string;
@@ -50,9 +50,9 @@ const Registrationpanel = () => {
   const { t } = useTranslation();
   const [step, setStep] = useState(0);
   const [step1, setStep1Values] = useState({
-    email: '',
-    firstName: '',
-    lastName: '',
+    email: "",
+    firstName: "",
+    lastName: "",
   });
   const [disable, setDisable] = useState(true);
   const history = useHistory();
@@ -65,20 +65,20 @@ const Registrationpanel = () => {
     watch,
     reset,
   } = useForm<FormProps>({
-    mode: 'onChange',
+    mode: "onChange",
     shouldFocusError: true,
-    reValidateMode: 'onChange',
+    reValidateMode: "onChange",
   });
 
   useEffect(() => {
     const subscription = watch((value) => {
       if (
         value?.firstName !== undefined &&
-        value?.firstName !== '' &&
+        value?.firstName !== "" &&
         value?.lastName !== undefined &&
-        value?.lastName !== '' &&
+        value?.lastName !== "" &&
         value?.email !== undefined &&
-        value?.email !== '' &&
+        value?.email !== "" &&
         value?.readPolice === true &&
         value?.applicationOnConditions === true
       ) {
@@ -89,18 +89,18 @@ const Registrationpanel = () => {
     });
     return () => subscription.unsubscribe();
   }, [
-    watch('firstName'),
-    watch('lastName'),
-    watch('readPolice'),
-    watch('applicationOnConditions'),
-    watch('email'),
+    watch("firstName"),
+    watch("lastName"),
+    watch("readPolice"),
+    watch("applicationOnConditions"),
+    watch("email"),
   ]);
 
   useEffect(() => {
     const subscription = watch((value) => {
       if (
         value?.companyName !== undefined &&
-        value?.companyName !== '' &&
+        value?.companyName !== "" &&
         value?.companyType !== undefined
       ) {
         setDisable(false);
@@ -109,7 +109,7 @@ const Registrationpanel = () => {
       }
     });
     return () => subscription.unsubscribe();
-  }, [watch('companyName'), watch('companyType')]);
+  }, [watch("companyName"), watch("companyType")]);
 
   const onSubmitStep1 = (v: any) => {
     setStep1Values(v);
@@ -134,13 +134,13 @@ const Registrationpanel = () => {
   const onSubmitStep2 = (values: any) => {
     res.mutate(values, {
       onSuccess: (data) => {
-        localStorage.setItem('companyId', data.data.data.companyId);
-        localStorage.setItem('companyToken', data.data.data.accessToken);
-        history.push('/info/about');
+        sessionStorage.setItem("companyId", data.data.data.companyId);
+        localStorage.setItem("companyToken", data.data.data.accessToken);
+        history.push("/info/about");
       },
     });
   };
-  console.log(errors, 'sjsjjs');
+  console.log(errors, "sjsjjs");
   return (
     <Container>
       <MainWrap>
@@ -150,13 +150,13 @@ const Registrationpanel = () => {
             <WrapImg>
               <LazyLoadImage
                 src={logo}
-                alt='logo'
-                effect='blur'
-                width='100%'
-                height='100%'
+                alt="logo"
+                effect="blur"
+                width="100%"
+                height="100%"
               />
             </WrapImg>
-            {t('disadmin')}
+            {t("disadmin")}
           </Title>
         </Header>
         <WrapGrid>
@@ -167,8 +167,8 @@ const Registrationpanel = () => {
               </MStep>
             ))}
           </WrapStep>
-          <Title>{t('registration')}</Title>
-          <Text> {t('fillAllPlease')}</Text>
+          <Title>{t("registration")}</Title>
+          <Text> {t("fillAllPlease")}</Text>
         </WrapGrid>
         <Content>
           <Form
@@ -177,7 +177,7 @@ const Registrationpanel = () => {
             {step === 0 ? (
               <div>
                 <Controller
-                  name='firstName'
+                  name="firstName"
                   control={control}
                   rules={{
                     required: true,
@@ -185,23 +185,23 @@ const Registrationpanel = () => {
                   }}
                   render={({ field }) => (
                     <Input
-                      label={t('your_name')}
+                      label={t("your_name")}
                       error={errors.firstName ? true : false}
-                      type='string'
+                      type="string"
                       field={field}
                       margin={{
-                        laptop: '20px 0 0',
+                        laptop: "20px 0 0",
                       }}
                       message={
-                        errors.firstName?.type === 'required'
-                          ? t('requiredField')
-                          : t('onlyletters')
+                        errors.firstName?.type === "required"
+                          ? t("requiredField")
+                          : t("onlyletters")
                       }
                     />
                   )}
                 />
                 <Controller
-                  name='lastName'
+                  name="lastName"
                   control={control}
                   rules={{
                     required: true,
@@ -209,23 +209,23 @@ const Registrationpanel = () => {
                   }}
                   render={({ field }) => (
                     <Input
-                      label={t('your_lastName')}
+                      label={t("your_lastName")}
                       error={errors.lastName ? true : false}
-                      type='string'
+                      type="string"
                       field={field}
                       margin={{
-                        laptop: '20px 0 0',
+                        laptop: "20px 0 0",
                       }}
                       message={
-                        errors.firstName?.type === 'required'
-                          ? t('requiredField')
-                          : t('onlyletters')
+                        errors.firstName?.type === "required"
+                          ? t("requiredField")
+                          : t("onlyletters")
                       }
                     />
                   )}
                 />
                 <Controller
-                  name='email'
+                  name="email"
                   control={control}
                   rules={{
                     required: true,
@@ -234,17 +234,17 @@ const Registrationpanel = () => {
                   }}
                   render={({ field }) => (
                     <Input
-                      label={t('email')}
+                      label={t("email")}
                       error={errors.email ? true : false}
-                      type='email'
+                      type="email"
                       field={field}
                       margin={{
-                        laptop: '20px 0 30px',
+                        laptop: "20px 0 30px",
                       }}
                       message={
-                        errors.firstName?.type === 'required'
-                          ? t('requiredField')
-                          : t('email')
+                        errors.firstName?.type === "required"
+                          ? t("requiredField")
+                          : t("email")
                       }
                     />
                   )}
@@ -252,34 +252,34 @@ const Registrationpanel = () => {
 
                 <WrapCheck>
                   <Controller
-                    name='readPolice'
+                    name="readPolice"
                     rules={{ required: true }}
                     control={control}
                     render={({ field }) => (
-                      <Checkbox {...field} color='primary' />
+                      <Checkbox {...field} color="primary" />
                     )}
                   />
-                  <Label htmlFor='readPolice'>
-                    {t('read')}
-                    <RLink href='/privacy-policy' target='_blank'>
-                      {t('policy', { policy: 'Политику' })}
+                  <Label htmlFor="readPolice">
+                    {t("read")}
+                    <RLink href="/privacy-policy" target="_blank">
+                      {t("policy", { policy: "Политику" })}
                     </RLink>
-                    {t('agree')}
+                    {t("agree")}
                   </Label>
                 </WrapCheck>
                 <WrapCheck>
                   <Controller
-                    name='applicationOnConditions'
+                    name="applicationOnConditions"
                     rules={{ required: true }}
                     control={control}
                     render={({ field }) => (
-                      <Checkbox {...field} color='primary' />
+                      <Checkbox {...field} color="primary" />
                     )}
                   />
                   <Label>
-                    {t('applicationApply')}
-                    <RLink href='/terms-and-conditions' target='_blank'>
-                      {t('conditions')}
+                    {t("applicationApply")}
+                    <RLink href="/terms-and-conditions" target="_blank">
+                      {t("conditions")}
                     </RLink>
                   </Label>
                 </WrapCheck>
@@ -287,46 +287,46 @@ const Registrationpanel = () => {
             ) : (
               <div>
                 <Controller
-                  name='companyName'
+                  name="companyName"
                   control={control}
                   rules={{ required: true, minLength: 4 }}
                   render={({ field }) => (
                     <Input
-                      label={t('companyName')}
+                      label={t("companyName")}
                       error={errors.companyName ? true : false}
-                      type='string'
+                      type="string"
                       field={field}
                       margin={{
-                        laptop: '20px 0 25px',
+                        laptop: "20px 0 25px",
                       }}
                       message={
-                        errors.companyName?.type === 'minLength'
-                          ? t('minValue4')
-                          : t('requiredField')
+                        errors.companyName?.type === "minLength"
+                          ? t("minValue4")
+                          : t("requiredField")
                       }
                     />
                   )}
                 />
                 <Controller
-                  name='companyType'
+                  name="companyType"
                   control={control}
                   rules={{ required: true }}
                   render={({ field }) => (
                     <MultiSelect
-                      label={t('companyType')}
+                      label={t("companyType")}
                       options={[
-                        { value: 1, label: t('Other') },
-                        { value: 2, label: t('park') },
+                        { value: 1, label: t("Other") },
+                        { value: 2, label: t("park") },
                       ]}
                       field={field}
                       error={errors.companyType ? true : false}
-                      message={t('requiredField')}
+                      message={t("requiredField")}
                     />
                   )}
                 />
                 <CountryWrap>
-                  <span>{t('arrivalCountry')}</span>
-                  <div>{t('Uzbekistan')}</div>
+                  <span>{t("arrivalCountry")}</span>
+                  <div>{t("Uzbekistan")}</div>
                 </CountryWrap>
               </div>
             )}
@@ -340,7 +340,7 @@ const Registrationpanel = () => {
                   mobile: 16,
                   planshet: 16,
                 },
-                shadow: '0px 19px 30px rgba(96, 110, 234, 0.35)',
+                shadow: "0px 19px 30px rgba(96, 110, 234, 0.35)",
                 height: {
                   mobile: 45,
                   planshet: 45,
@@ -349,18 +349,18 @@ const Registrationpanel = () => {
                 },
               }}
               margin={{
-                laptop: '10px 0 30px 0',
+                laptop: "10px 0 30px 0",
               }}
-              type='submit'
+              type="submit"
               disabled={
                 disable ||
                 res.isLoading ||
-                errors.firstName?.type === 'pattern' ||
-                errors.lastName?.type === 'pattern' ||
-                errors.email?.type === 'pattern'
+                errors.firstName?.type === "pattern" ||
+                errors.lastName?.type === "pattern" ||
+                errors.email?.type === "pattern"
               }
             >
-              {step === 0 ? t('next') : t('enter')}
+              {step === 0 ? t("next") : t("enter")}
             </Button>
           </Form>
         </Content>

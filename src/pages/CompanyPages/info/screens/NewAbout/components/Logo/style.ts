@@ -52,25 +52,10 @@ export const Message = styled.div`
   font-weight: 300;
   color: #ff5e68;
   overflow-wrap: normal;
-  margin-top: 5px;
   font-size: 14px;
-
-  @media (max-width: ${device.mobile}) {
-    font-size: 14px;
-    margin-top: 3px;
-  }
-  @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
-    font-size: 14px;
-    margin-top: 3px;
-  }
-  @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
-    font-size: 14px;
-
-    margin-top: 3px;
-  }
+  margin-top: 5px;
   @media (min-width: ${device.laptop}) {
     font-size: 16px;
-    margin-top: 5px;
   }
 `;
 
@@ -78,7 +63,7 @@ export const PhotoWrap = styled.div`
   position: relative;
   width: 100px;
   height: 100px;
-  margin: 20px 0;
+  margin: 20px 0 0;
   user-select: none;
   .lazy-load-image-background.blur.lazy-load-image-loaded {
     filter: blur(0);

@@ -12,7 +12,7 @@ import { setBranchList, setStores } from "services/redux/Slices/qrSetting";
 
 const useQrCode = () => {
   const dispatch = useAppDispatch();
-  const companyId: any = localStorage.getItem("companyId");
+  const companyId: any = sessionStorage.getItem("companyId");
   const [searchQR, setSearchQR] = useState("");
   const [optionsOpen, setOptionsOpen] = useState<string | number>("");
   const [optionsListOpen, setOptionsListOpen] = useState(false);

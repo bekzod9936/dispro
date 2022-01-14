@@ -10,6 +10,8 @@ import { SaveButton } from "components/Custom/Buttons/Save";
 import ExitButton from "../../components/Buttons/ExitButton";
 import { setExitModal } from "services/redux/Slices/info/info";
 import { Form, UpSide, DownSide, Container, Wrap } from "./style";
+import { aboutSchema } from "./about.schema";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 interface FormProps {
   logo: string;
@@ -24,10 +26,13 @@ interface FormProps {
 }
 
 const NewAbout = () => {
-  const methods = useForm<FormProps>();
+  const methods = useForm<FormProps>({
+    resolver: yupResolver(aboutSchema),
+  });
+
   const dispatch = useAppDispatch();
 
-  const companyId: any = localStorage.getItem("companyId");
+  const companyId: any = sessionStorage.getItem("companyId");
   const { resHeader } = useLayout({ id: companyId });
   const { resCategory, defSocial } = useNewAbout();
 

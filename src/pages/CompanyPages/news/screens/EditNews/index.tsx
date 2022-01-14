@@ -1,44 +1,44 @@
-import Button from 'components/Custom/Buttons/Button';
-import CustomToggle from 'components/Custom/CustomToggleSwitch';
-import Input from 'components/Custom/Input';
-import { TextArea } from 'components/Custom/TextArea';
-import MultiSelect from 'components/Custom/MultiSelect';
-import Title from 'components/Custom/Title';
-import CheckBox from 'components/Custom/CheckBox';
-import React from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { useHistory } from 'react-router-dom';
-import { CancelIcon } from 'assets/icons/ClientsPageIcons/ClientIcons';
-import Spinner from 'components/Helpers/Spinner';
-import ImageLazyLoad from 'components/Custom/ImageLazyLoad/ImageLazyLoad';
-import useStaff from '../../hooks/useStaff';
+import Button from "components/Custom/Buttons/Button";
+import CustomToggle from "components/Custom/CustomToggleSwitch";
+import Input from "components/Custom/Input";
+import { TextArea } from "components/Custom/TextArea";
+import MultiSelect from "components/Custom/MultiSelect";
+import Title from "components/Custom/Title";
+import CheckBox from "components/Custom/CheckBox";
+import React from "react";
+import { Controller, useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
+import { CancelIcon } from "assets/icons/ClientsPageIcons/ClientIcons";
+import Spinner from "components/Helpers/Spinner";
+import ImageLazyLoad from "components/Custom/ImageLazyLoad/ImageLazyLoad";
+import useStaff from "../../hooks/useStaff";
 
-import CropCustomModal from 'components/Custom/CropImageModal/index';
-import { useTranslation } from 'react-i18next';
-import { useMutation } from 'react-query';
-import InputFormat from 'components/Custom/InputFormat';
-import useWindowWidth from 'services/hooks/useWindowWidth';
-import dayjs from 'dayjs';
-import { fetchUpdateNews } from 'services/queries/newPageQuery';
-import { UploadModal } from '../CreateNews/components/UploadModal';
-import useAddress from '../../../info/screens/Address/useAddress';
-import CustomDatePicker from 'components/Custom/CustomDatePicker';
-import { MobileCancelIcon } from 'assets/icons/proposals/ProposalsIcons';
+import CropCustomModal from "components/Custom/CropImageModal/index";
+import { useTranslation } from "react-i18next";
+import { useMutation } from "react-query";
+import InputFormat from "components/Custom/InputFormat";
+import useWindowWidth from "services/hooks/useWindowWidth";
+import dayjs from "dayjs";
+import { fetchUpdateNews } from "services/queries/newPageQuery";
+import { UploadModal } from "../CreateNews/components/UploadModal";
+import useAddress from "../../../info/screens/Address/useAddress";
+import CustomDatePicker from "components/Custom/CustomDatePicker";
+import { MobileCancelIcon } from "assets/icons/proposals/ProposalsIcons";
 import {
   Label,
   WrapDate,
   WrapInputs,
   WrapSelect,
-} from '../../components/Header/style';
+} from "../../components/Header/style";
 import {
   DeleteIcon,
   GoBackIcon,
   PlusIcon,
   UploadImage,
-} from 'assets/icons/proposals/ProposalsIcons';
-import { UpSide } from '../CreateNews/style';
-import { SaveIcon, SaveIconMobile } from 'assets/icons/news/newsIcons';
-import { days, genders, todayDate } from '../CreateNews/constants';
+} from "assets/icons/proposals/ProposalsIcons";
+import { UpSide } from "../CreateNews/style";
+import { SaveIcon, SaveIconMobile } from "assets/icons/news/newsIcons";
+import { days, genders, todayDate } from "../CreateNews/constants";
 import {
   PushBlock,
   PushWrapper,
@@ -55,10 +55,10 @@ import {
   MobileHeader,
   FormRow,
   Buttons,
-} from './style';
-import { useUploadImage } from '../../hooks/useUploadIMage';
-import { useAppSelector } from 'services/redux/hooks';
-import { ReactComponent as MarketIcon } from 'assets/icons/SideBar/ilmarket.svg';
+} from "./style";
+import { useUploadImage } from "../../hooks/useUploadIMage";
+import { useAppSelector } from "services/redux/hooks";
+import { ReactComponent as MarketIcon } from "assets/icons/SideBar/ilmarket.svg";
 
 interface IOptionFields {
   push: boolean;
@@ -68,7 +68,7 @@ const EditNews = () => {
   const { t } = useTranslation();
   const history = useHistory();
 
-  const companyId: any = localStorage.getItem('companyId');
+  const companyId: any = sessionStorage.getItem("companyId");
 
   const { dataAddress } = useAddress({
     id: companyId,
@@ -76,8 +76,8 @@ const EditNews = () => {
 
   const selectedNews = useAppSelector((state) => state.news.selectedNews);
   const newsById = selectedNews?.fullData;
-  const startDate = dayjs(newsById?.data?.startLifeTime).format('YYYY-MM-DD');
-  const endDate = dayjs(newsById?.data?.endLifeTime).format('YYYY-MM-DD');
+  const startDate = dayjs(newsById?.data?.startLifeTime).format("YYYY-MM-DD");
+  const endDate = dayjs(newsById?.data?.endLifeTime).format("YYYY-MM-DD");
   const [filter, setFilter] = React.useState<any>({
     regDate: {
       regDateFrom: startDate,
@@ -88,12 +88,12 @@ const EditNews = () => {
   const { branches } = useStaff();
 
   const { width } = useWindowWidth();
-  console.log('filter', filter);
+  console.log("filter", filter);
   const [optionalFields, setOptionalFields] = React.useState<IOptionFields>({
     push: newsById?.data?.pushUp,
   });
 
-  const [file, setFile] = React.useState('');
+  const [file, setFile] = React.useState("");
   const [checked, setChecked] = React.useState(
     newsById?.data?.settings?.aroundTheClock
   );
@@ -108,7 +108,7 @@ const EditNews = () => {
     useUploadImage(setImage);
 
   const { mutate } = useMutation((data: any) => fetchUpdateNews(data));
-  console.log('newsById', newsById?.data);
+  console.log("newsById", newsById?.data);
   const {
     control,
     handleSubmit,
@@ -117,17 +117,17 @@ const EditNews = () => {
     setValue,
     formState: { errors, isValid },
   } = useForm({
-    mode: 'onChange',
+    mode: "onChange",
     shouldFocusError: true,
-    reValidateMode: 'onChange',
+    reValidateMode: "onChange",
   });
 
   const handleUploadImg = (data: any) => {
-    if (data.target.files[0].type == 'image/jpeg') {
+    if (data.target.files[0].type == "image/jpeg") {
       setFile(data.target.files[0]);
       setIsCropVisible(true);
       setErrorFileType(false);
-    } else if (data.target.files[0].type == 'image/png') {
+    } else if (data.target.files[0].type == "image/png") {
       setFile(data.target.files[0]);
       setIsCropVisible(true);
       setErrorFileType(false);
@@ -141,7 +141,7 @@ const EditNews = () => {
     setErrorFileType(false);
   };
 
-  const handleOpenBlock = (e: any, action: 'push') => {
+  const handleOpenBlock = (e: any, action: "push") => {
     setOptionalFields((prev: IOptionFields) => ({
       ...prev,
       [action]: e.target.checked,
@@ -149,15 +149,15 @@ const EditNews = () => {
   };
 
   const handleDelete = () => {
-    setFile('');
-    setImage('');
+    setFile("");
+    setImage("");
     deleteImage(image);
   };
 
   const newsId = newsById?.data?.id;
   const allFilials = dataAddress;
   const filials = newsById?.data?.settings?.stores;
-  console.log('newsId id', newsId);
+  console.log("newsId id", newsId);
   let filteredArray = allFilials?.filter(function (array_el: any) {
     return (
       filials?.filter(function (item: any) {
@@ -192,8 +192,8 @@ const EditNews = () => {
             : [0, 1, 2, 3, 4, 5, 6],
         aroundTheClock: checked ? true : false,
         time: {
-          from: optionalFields.push && data?.timeFrom ? data.timeFrom : '00:00',
-          to: optionalFields.push && data?.timeTo ? data.timeTo : '23:59',
+          from: optionalFields.push && data?.timeFrom ? data.timeFrom : "00:00",
+          to: optionalFields.push && data?.timeTo ? data.timeTo : "23:59",
         },
         stores:
           optionalFields.push && data?.filialID?.length
@@ -206,7 +206,7 @@ const EditNews = () => {
     let newsInfo = { newsBody, newsId };
     if (width > 1000) {
       mutate(newsInfo);
-      setTimeout(() => history.push('/news/active'), 1000);
+      setTimeout(() => history.push("/news/active"), 1000);
     }
     if (width <= 1000) {
       if (
@@ -215,7 +215,7 @@ const EditNews = () => {
         filter?.regDate?.regDateTo
       ) {
         mutate(newsInfo);
-        setTimeout(() => history.push('/news/active'), 1000);
+        setTimeout(() => history.push("/news/active"), 1000);
       }
     }
   };
@@ -224,12 +224,12 @@ const EditNews = () => {
     {
       label:
         newsById?.data?.genderType === 1
-          ? 'Для мужчин'
+          ? "Для мужчин"
           : newsById?.data?.genderType === 2
-          ? 'Для женщин'
+          ? "Для женщин"
           : newsById?.data?.genderType === 0
-          ? 'Для всех'
-          : '',
+          ? "Для всех"
+          : "",
       id:
         newsById?.data?.genderType === 1
           ? 1
@@ -240,24 +240,24 @@ const EditNews = () => {
           : 0,
     },
   ];
-  console.log('genderType', genderType);
+  console.log("genderType", genderType);
 
   const weekDays = newsById?.data?.settings?.weekDays?.map((el: any) => {
     return {
       label:
         el == 0
-          ? 'Воскресенье'
+          ? "Воскресенье"
           : el == 1
-          ? 'Понедельник'
+          ? "Понедельник"
           : el == 2
-          ? 'Вторник'
+          ? "Вторник"
           : el == 3
-          ? 'Среда'
+          ? "Среда"
           : el == 4
-          ? 'Четверг'
+          ? "Четверг"
           : el == 5
-          ? 'Пятница'
-          : 'Суббота',
+          ? "Пятница"
+          : "Суббота",
       id:
         el == 0
           ? 0
@@ -284,7 +284,7 @@ const EditNews = () => {
   });
 
   React.useEffect(() => {
-    setValue('filialID', mergedBranches);
+    setValue("filialID", mergedBranches);
   }, [mergedBranches, newsById?.data?.pushUp]);
 
   React.useEffect(() => {
@@ -295,8 +295,8 @@ const EditNews = () => {
 
   React.useEffect(() => {
     if (checked) {
-      setValue('timeFrom', '00:00');
-      setValue('timeTo', '23:59');
+      setValue("timeFrom", "00:00");
+      setValue("timeTo", "23:59");
     }
   }, [checked]);
 
@@ -304,13 +304,13 @@ const EditNews = () => {
     <Wrapper>
       {width > 1000 && (
         <div
-          style={{ display: 'flex', marginBottom: 30, alignItems: 'center' }}
+          style={{ display: "flex", marginBottom: 30, alignItems: "center" }}
         >
           <GoBackIcon
             onClick={handleBack}
-            style={{ marginRight: '25px', cursor: 'pointer' }}
+            style={{ marginRight: "25px", cursor: "pointer" }}
           />
-          <Title>{t('editingNews')}</Title>
+          <Title>{t("editingNews")}</Title>
         </div>
       )}
 
@@ -324,43 +324,43 @@ const EditNews = () => {
         <UpSide>
           {width <= 1000 && (
             <MobileHeader>
-              <GoBackIcon onClick={handleBack} style={{ cursor: 'pointer' }} />
-              <Title>{t('editingNews')}</Title>
+              <GoBackIcon onClick={handleBack} style={{ cursor: "pointer" }} />
+              <Title>{t("editingNews")}</Title>
             </MobileHeader>
           )}
           <Container>
             <LeftSide>
-              <Title>{t('photos')}</Title>
+              <Title>{t("photos")}</Title>
               {!isLoading && !image && (
                 <div style={{ marginBottom: 30 }}>
                   <Header>
-                    <p>{t('logo_text')}</p>
+                    <p>{t("logo_text")}</p>
                   </Header>
                   <UploadButton>
-                    <label htmlFor='uploadImg'>{t('uploadPhoto')}</label>
+                    <label htmlFor="uploadImg">{t("uploadPhoto")}</label>
                     <input
-                      {...register('image', { required: true })}
+                      {...register("image", { required: true })}
                       onChange={handleUploadImg}
                       value={image}
-                      type='file'
-                      id='uploadImg'
+                      type="file"
+                      id="uploadImg"
                     />
                     <UploadImage />
                   </UploadButton>
                   {errors.image && (
-                    <ErrorMessage>{t('requiredField')}</ErrorMessage>
+                    <ErrorMessage>{t("requiredField")}</ErrorMessage>
                   )}
                 </div>
               )}
               {isLoading && (
-                <div style={{ width: '100%', height: 140 }}>
+                <div style={{ width: "100%", height: 140 }}>
                   <Spinner size={30} />
                 </div>
               )}
               {image && (
                 <ImageBlock>
-                  <div style={{ filter: 'brightness(50%)' }}>
-                    <ImageLazyLoad objectFit='contain' src={image} alt='logo' />
+                  <div style={{ filter: "brightness(50%)" }}>
+                    <ImageLazyLoad objectFit="contain" src={image} alt="logo" />
                   </div>
                   <DeleteIcon onClick={handleDelete} />
                 </ImageBlock>
@@ -376,7 +376,7 @@ const EditNews = () => {
                 />
               )}
               <Controller
-                name='name'
+                name="name"
                 control={control}
                 rules={{
                   required: true,
@@ -394,18 +394,18 @@ const EditNews = () => {
                     maxLength={81}
                     error={errors.name ? true : false}
                     message={
-                      errors?.name?.type === 'required'
-                        ? t('requiredField')
-                        : t('максимальное число символов 80')
+                      errors?.name?.type === "required"
+                        ? t("requiredField")
+                        : t("максимальное число символов 80")
                     }
-                    label={t('title')}
+                    label={t("title")}
                     defaultValue={newsById?.data?.title}
                   />
                 )}
               />
 
               <Controller
-                name='description'
+                name="description"
                 control={control}
                 rules={{
                   required: true,
@@ -424,25 +424,25 @@ const EditNews = () => {
                     // {...field}
                     defaultValue={newsById?.data?.description}
                     message={
-                      errors?.description?.type === 'required'
-                        ? t('requiredField')
-                        : t('максимальное число символов 800')
+                      errors?.description?.type === "required"
+                        ? t("requiredField")
+                        : t("максимальное число символов 800")
                     }
                     error={!!errors.description}
-                    minHeight={'150px'}
-                    fontSize={width > 1000 ? '18px' : '14px'}
-                    maxHeight={'300px'}
-                    resize={'vertical'}
-                    title={t('description')}
+                    minHeight={"150px"}
+                    fontSize={width > 1000 ? "18px" : "14px"}
+                    maxHeight={"300px"}
+                    resize={"vertical"}
+                    title={t("description")}
                   />
                 )}
               />
               {width > 1000 ? (
                 <WrapInputs>
-                  <Label>{t('chose_date')}</Label>
+                  <Label>{t("chose_date")}</Label>
                   <div>
                     <Controller
-                      name='startDate'
+                      name="startDate"
                       control={control}
                       rules={{
                         required: true,
@@ -451,20 +451,20 @@ const EditNews = () => {
                       render={({ field }) => (
                         <Input
                           field={field}
-                          type='date'
+                          type="date"
                           width={{ maxwidth: 600, minwidth: 10 }}
                           min={todayDate}
                           defaultValue={startDate}
                           error={!!errors.startDate}
-                          IconStart={<WrapDate>{t('from')}</WrapDate>}
+                          IconStart={<WrapDate>{t("from")}</WrapDate>}
                           inputStyle={{
-                            inpadding: '0 10px 0 0',
+                            inpadding: "0 10px 0 0",
                           }}
                         />
                       )}
                     />
                     <Controller
-                      name='endDate'
+                      name="endDate"
                       control={control}
                       rules={{
                         required: true,
@@ -472,16 +472,16 @@ const EditNews = () => {
                       defaultValue={endDate}
                       render={({ field }) => (
                         <Input
-                          type='date'
+                          type="date"
                           field={field}
                           error={!!errors.endDate}
                           defaultValue={endDate}
-                          min={watch('startDate')}
+                          min={watch("startDate")}
                           width={{ maxwidth: 600, minwidth: 10 }}
-                          margin={{ laptop: '0 0 0 15px' }}
-                          IconStart={<WrapDate>{t('to')}</WrapDate>}
+                          margin={{ laptop: "0 0 0 15px" }}
+                          IconStart={<WrapDate>{t("to")}</WrapDate>}
                           inputStyle={{
-                            inpadding: '0 10px 0 0',
+                            inpadding: "0 10px 0 0",
                           }}
                         />
                       )}
@@ -490,12 +490,12 @@ const EditNews = () => {
                 </WrapInputs>
               ) : (
                 <WrapInputs>
-                  <Label>{t('chose_date')}</Label>
+                  <Label>{t("chose_date")}</Label>
                   <div>
                     <CustomDatePicker
-                      margin='0 15px 0 0'
+                      margin="0 15px 0 0"
                       isFilter
-                      text={t('from')}
+                      text={t("from")}
                       error={
                         validation && !filter?.regDate?.regDateFrom
                           ? true
@@ -505,12 +505,12 @@ const EditNews = () => {
                       maxDate={filter?.regDate?.regDateTo}
                       onChange={(e) => {
                         let date =
-                          '' + e.year + '-' + e.month.number + '-' + e.day;
+                          "" + e.year + "-" + e.month.number + "-" + e.day;
                         setFilter((prev: any) => ({
                           ...prev,
 
                           regDate: {
-                            ...prev['regDate'],
+                            ...prev["regDate"],
                             regDateFrom: date,
                           },
                         }));
@@ -523,15 +523,15 @@ const EditNews = () => {
                       error={
                         validation && !filter?.regDate?.regDateTo ? true : false
                       }
-                      text={t('to')}
+                      text={t("to")}
                       minDate={filter?.regDate?.regDateFrom}
                       onChange={(e) => {
                         let date =
-                          '' + e.year + '-' + e.month.number + '-' + e.day;
+                          "" + e.year + "-" + e.month.number + "-" + e.day;
                         setFilter((prev: any) => ({
                           ...prev,
                           regDate: {
-                            ...prev['regDate'],
+                            ...prev["regDate"],
                             regDateTo: date,
                           },
                         }));
@@ -543,7 +543,7 @@ const EditNews = () => {
               )}
               <WrapSelect>
                 <Controller
-                  name='gender'
+                  name="gender"
                   control={control}
                   rules={{
                     required: true,
@@ -553,31 +553,31 @@ const EditNews = () => {
                     <MultiSelect
                       isMulti={false}
                       error={!!errors.gender}
-                      message={t('requiredField')}
+                      message={t("requiredField")}
                       field={field}
-                      label={t('chose_gender')}
+                      label={t("chose_gender")}
                       defaultValue={genderType}
                       options={genders}
-                      margin={{ laptop: '0 0 35px 0' }}
+                      margin={{ laptop: "0 0 35px 0" }}
                     />
                   )}
                 />
               </WrapSelect>
               <Controller
-                name='ageLimit'
+                name="ageLimit"
                 control={control}
                 defaultValue={newsById?.data?.ageFrom}
                 render={({ field }) => (
                   <InputFormat
                     field={field}
                     defaultValue={newsById?.data?.ageFrom}
-                    max='100'
-                    type='tel'
+                    max="100"
+                    type="tel"
                     onlyNumber={true}
-                    message={parseInt(watch('ageLimit'))}
+                    message={parseInt(watch("ageLimit"))}
                     error={!!errors.ageLimit}
-                    IconStart={<PlusIcon style={{ marginLeft: '20px' }} />}
-                    label={t('ageLimit')}
+                    IconStart={<PlusIcon style={{ marginLeft: "20px" }} />}
+                    label={t("ageLimit")}
                   />
                 )}
               />
@@ -585,15 +585,15 @@ const EditNews = () => {
             <RightSide>
               <PushWrapper>
                 <PushBlock>
-                  <h6 style={{ width: '80%' }}>{t('withPushNotification')}</h6>
+                  <h6 style={{ width: "80%" }}>{t("withPushNotification")}</h6>
                   <CustomToggle
                     defaultChecked={newsById?.data?.pushUp}
-                    onChange={(e: any) => handleOpenBlock(e, 'push')}
+                    onChange={(e: any) => handleOpenBlock(e, "push")}
                   />
                 </PushBlock>
                 {optionalFields.push && (
                   <Controller
-                    name='descriptionPush'
+                    name="descriptionPush"
                     control={control}
                     defaultValue={newsById?.data?.pushUpTitle}
                     rules={{
@@ -609,12 +609,12 @@ const EditNews = () => {
                         }}
                         value={field.value}
                         defaultValue={newsById?.data?.pushUpTitle}
-                        fontSize={width > 1000 ? '15px' : '14px'}
+                        fontSize={width > 1000 ? "15px" : "14px"}
                         required={optionalFields.push ? true : false}
-                        minHeight={'100px'}
-                        maxHeight={'150px'}
-                        resize={'vertical'}
-                        title={t('text_push')}
+                        minHeight={"100px"}
+                        maxHeight={"150px"}
+                        resize={"vertical"}
+                        title={t("text_push")}
                       />
                     )}
                   />
@@ -623,7 +623,7 @@ const EditNews = () => {
               <PushWrapper>
                 {optionalFields.push && (
                   <Controller
-                    name='days'
+                    name="days"
                     control={control}
                     defaultValue={weekDays}
                     render={({ field }) => (
@@ -632,7 +632,7 @@ const EditNews = () => {
                         isClearable={false}
                         isMulti={true}
                         options={days}
-                        label={t('point_out_days')}
+                        label={t("point_out_days")}
                         defaultValue={weekDays}
                       />
                     )}
@@ -640,26 +640,26 @@ const EditNews = () => {
                 )}
               </PushWrapper>
               <PushWrapper>
-                <div style={{ marginBottom: '10px' }}>
+                <div style={{ marginBottom: "10px" }}>
                   {optionalFields.push && (
                     <Label>
-                      <div>{t('point_out_time')}</div>
+                      <div>{t("point_out_time")}</div>
                     </Label>
                   )}
                 </div>
                 {optionalFields.push && (
-                  <div style={{ display: 'flex' }}>
+                  <div style={{ display: "flex" }}>
                     <Controller
                       control={control}
-                      name='timeFrom'
+                      name="timeFrom"
                       rules={{
                         required: true,
                       }}
                       defaultValue={newsById?.data?.settings?.time?.from}
                       render={({ field }) => (
                         <Input
-                          margin={{ laptop: '0 25px 0 0' }}
-                          type='time'
+                          margin={{ laptop: "0 25px 0 0" }}
+                          type="time"
                           disabled={checked ? true : false}
                           defaultValue={newsById?.data?.settings?.time?.from}
                           required={optionalFields.push ? true : false}
@@ -669,14 +669,14 @@ const EditNews = () => {
                     />
                     <Controller
                       control={control}
-                      name='timeTo'
+                      name="timeTo"
                       rules={{
                         required: true,
                       }}
                       defaultValue={newsById?.data?.settings?.time?.to}
                       render={({ field }) => (
                         <Input
-                          type='time'
+                          type="time"
                           field={field}
                           required={optionalFields.push ? true : false}
                           disabled={checked ? true : false}
@@ -691,8 +691,8 @@ const EditNews = () => {
               {optionalFields.push && (
                 <CheckBox
                   checked={checked}
-                  name={'checked'}
-                  label={t('24/7')}
+                  name={"checked"}
+                  label={t("24/7")}
                   onChange={(e: any) => setChecked(e.target.checked)}
                 />
               )}
@@ -701,8 +701,8 @@ const EditNews = () => {
                 <FormRow>
                   <Controller
                     control={control}
-                    name='filialID'
-                    defaultValue={mergedBranches ? mergedBranches : ''}
+                    name="filialID"
+                    defaultValue={mergedBranches ? mergedBranches : ""}
                     render={({ field }) => {
                       return (
                         <MultiSelect
@@ -710,21 +710,21 @@ const EditNews = () => {
                           isMulti={true}
                           isBranchHeight={width < 600 ? true : false}
                           selectStyle={{
-                            bgcolor: '#eff0fd',
-                            border: 'none',
-                            placeholdercolor: '#223367',
-                            inpadding: '2px 10px 2px 60px',
-                            placewieght: '500',
+                            bgcolor: "#eff0fd",
+                            border: "none",
+                            placeholdercolor: "#223367",
+                            inpadding: "2px 10px 2px 60px",
+                            placewieght: "500",
                           }}
-                          placeholder={t('choose_branch')}
+                          placeholder={t("choose_branch")}
                           margin={{
-                            laptop: '20px 0 25px',
+                            laptop: "20px 0 25px",
                           }}
                           field={field}
                           isClearable={false}
                           icon={<MarketIcon />}
-                          iconleft={'20px'}
-                          icondowncolor='#C4C4C4'
+                          iconleft={"20px"}
+                          icondowncolor="#C4C4C4"
                         />
                       );
                     }}
@@ -740,24 +740,24 @@ const EditNews = () => {
               onClick={handleBack}
               endIcon={<MobileCancelIcon />}
               buttonStyle={{
-                bgcolor: 'rgba(96, 110, 234, 0.1)',
-                color: '#606EEA',
+                bgcolor: "rgba(96, 110, 234, 0.1)",
+                color: "#606EEA",
               }}
             >
-              {t('cancellation')}
+              {t("cancellation")}
             </Button>
             <Button
               onClick={() => setValidation(true)}
-              type='submit'
-              margin={{ laptop: '0 25px' }}
+              type="submit"
+              margin={{ laptop: "0 25px" }}
               endIcon={<SaveIconMobile />}
               buttonStyle={{
-                bgcolor: '#606EEA',
-                color: '#fff',
-                shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)',
+                bgcolor: "#606EEA",
+                color: "#fff",
+                shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
               }}
             >
-              {t('save')}
+              {t("save")}
             </Button>
           </DownSide>
         )}
@@ -766,48 +766,48 @@ const EditNews = () => {
             <Button
               onClick={handleBack}
               startIcon={<CancelIcon />}
-              buttonStyle={{ color: '#223367', bgcolor: '#ffffff' }}
+              buttonStyle={{ color: "#223367", bgcolor: "#ffffff" }}
             >
-              {t('cancel')}
+              {t("cancel")}
             </Button>
             <Button
-              type='submit'
-              margin={{ laptop: '0 25px' }}
+              type="submit"
+              margin={{ laptop: "0 25px" }}
               startIcon={<SaveIcon />}
-              buttonStyle={{ shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)' }}
+              buttonStyle={{ shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)" }}
             >
-              {t('save')}
+              {t("save")}
             </Button>
           </DownSide>
         )}
 
         {width <= 600 && (
           <Buttons>
-            <div className='upside'>
+            <div className="upside">
               <Button
                 onClick={handleBack}
                 endIcon={<MobileCancelIcon />}
                 buttonStyle={{
-                  bgcolor: 'rgba(96, 110, 234, 0.1)',
-                  color: '#606EEA',
+                  bgcolor: "rgba(96, 110, 234, 0.1)",
+                  color: "#606EEA",
                 }}
-                margin={{ mobile: '0 8px 8px 0' }}
+                margin={{ mobile: "0 8px 8px 0" }}
               >
-                {t('cancel')}
+                {t("cancel")}
               </Button>
             </div>
             <Button
               onClick={() => setValidation(true)}
-              type='submit'
+              type="submit"
               endIcon={<SaveIconMobile />}
               buttonStyle={{
-                bgcolor: '#606EEA',
-                color: '#fff',
-                shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)',
+                bgcolor: "#606EEA",
+                color: "#fff",
+                shadow: "0px 4px 9px rgba(96, 110, 234, 0.46)",
               }}
-              margin={{ mobile: '0px 8px  8px  0' }}
+              margin={{ mobile: "0px 8px  8px  0" }}
             >
-              {t('save')}
+              {t("save")}
             </Button>
           </Buttons>
         )}

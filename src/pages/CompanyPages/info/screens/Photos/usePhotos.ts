@@ -5,7 +5,7 @@ import { uploadPhoto } from "services/queries/InfoQuery";
 import partnerApi from "services/interceptors/partner_interceptor";
 
 const usePhotos = () => {
-  const companyId: any = localStorage.getItem("companyId");
+  const companyId: any = sessionStorage.getItem("companyId");
   const companyInfo = useAppSelector((state) => state.partner.companyInfo);
   const [images, setImages] = useState(companyInfo.images);
 
