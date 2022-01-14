@@ -31,9 +31,6 @@ const OrdersPage = lazy(
   () => import("../pages/CompanyPages/orders/OrdersPage")
 );
 const ProposalsPage = lazy(() => import("../pages/CompanyPages/proposals"));
-const SettingsPage = lazy(
-  () => import("../pages/CompanyPages/settings/SettingsPage")
-);
 const NewSettingsPage = lazy(() => import("../pages/CompanyPages/newSettings"));
 const ServicesPage = lazy(() => import("../pages/CompanyPages/services"));
 const ClientsPage = lazy(() => import("../pages/CompanyPages/clients"));
@@ -96,10 +93,6 @@ export const privateCompanyRoutes: IPrivateRoute[] = [
   {
     path: "/proposals/:params",
     component: ProposalsPage,
-  },
-  {
-    path: "/settings/:params",
-    component: SettingsPage,
   },
   {
     path: "/newsettings/:params",

@@ -74,7 +74,7 @@ const MenuList = () => {
             button
             key="settings"
             onClick={() => {
-              history.push(`/settings/loyality`);
+              history.push(`/newsettings/loyality`);
               dispatch(setCurrentPage("settings"));
               setCurrentP({ currentPage: "settings" });
             }}
