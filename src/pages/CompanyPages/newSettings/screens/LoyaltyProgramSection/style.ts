@@ -4,6 +4,80 @@ import { ReactComponent as DeleteSvg } from "newassets/icons/delete.svg";
 import { ReactComponent as Plus } from "newassets/icons/plus.svg";
 import { ReactComponent as Close } from "newassets/icons/close.svg";
 
+export interface IText {
+  lineHeight?: string;
+  fontSize?: string;
+  fontWeight?: 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
+  color?: string;
+  marginLeft?: string;
+  marginRight?: string;
+  marginBottom?: string;
+  fontFamily?: string;
+  width?:string;
+}
+
+
+export const Text = styled.span<IText>`
+ width:${(props:IText)=>props.width ? props.width:'100%'}
+  font-size: ${(props: IText) =>
+    props.fontSize ? props.fontSize : "16px"} !important;
+  font-family: ${(props: IText) =>
+    props.fontFamily ? props.fontFamily : "Roboto"};
+  margin-right: ${(props: IText) =>
+    props.marginRight ? props.marginRight : "0px"};
+  color: ${(props: IText) => props.color || "#223367"};
+  //position: relative;
+  margin-left: ${(props: IText) => (props.marginLeft ? props.marginLeft : "0")};
+  margin-bottom: ${(props: IText) =>
+    props.marginBottom ? props.marginBottom : "0"};
+  font-weight: ${(props: IText) => (props.fontWeight ? props.fontWeight : 700)};
+
+  @media (max-width: ${device.mobile}) {
+    font-size: 16px;
+  }
+
+  @media (min-width: ${device.mobile}) and (max-width: ${device.laptop}) {
+    font-size: 15px;
+  }
+`;
+
+export const WrapperModal = styled.div`
+  padding: 25px 45px;
+  width: 500px;
+  position: relative;
+  a {
+    text-decoration: none;
+  }
+  h3 {
+    font-size: 22px;
+    line-height: 26px;
+    margin-bottom: 10px;
+    color: #223367;
+  }
+  p {
+    font-size: 18px;
+    font-weight: 300;
+    color: #223367;
+    margin-bottom: 25px;
+  }
+  @media (max-width: ${device.mobile}) {
+    max-width: 300px;
+    padding: 20px 12px;
+    h3 {
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 10px;
+      color: #223367;
+    }
+    p {
+      width: 250px;
+      font-size: 14px;
+      color: #223367;
+      font-weight: 300;
+    }
+  }
+`;
+
 export const CloseIcon = styled(Close)`
   & path {
     fill: #3492ff;
@@ -313,7 +387,7 @@ export const WrapSpinner = styled.div`
 `;
 
 export const WrapModalPaygo = styled.div`
-  padding: 50px 50px 20px 50px;
+  padding: 30px 50px 20px 50px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -362,4 +436,20 @@ display:flex;
 justify-content:center;
 align-items:center;
 height:100%;
+`
+
+export const Buttons = styled.div`
+  margin-top: 20px;
+  display: flex;
+  justify-content:center;
+
+  align-items: center;
+  .upside {
+    @media (max-width: 347px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+  }
+  }
 `
