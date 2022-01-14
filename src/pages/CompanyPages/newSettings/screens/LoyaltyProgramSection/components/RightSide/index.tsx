@@ -1115,10 +1115,10 @@ const saveActiveHandle=()=>{
               max='100'
               autoComplete={"off"}
               width={width>1550 ? { maxwidth:500, minwidth: 300}:{ maxwidth:350, minwidth: 300}}
-              margin={{ laptop: "0px 20px 0px 0px" }}
+              margin={{ laptop: "0px 20px 5px 0px" }}
               field={field}
               error={errors.maxAmount}
-              message={t("requiredField")}
+              message={errors.maxAmount?.type=='required' ? t("requiredField"):t('minvalue',{value:1})}
             />
           )}
         />
