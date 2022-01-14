@@ -4,39 +4,39 @@ import { FilterButton } from "components/Custom/Buttons/Filter";
 import Input from "components/Custom/Input";
 import { useTranslation } from "react-i18next";
 import { WrapArrow, ArrowIcon } from "../../style";
+import { useAppSelector } from "services/redux/hooks";
+import { useEffect, useState } from "react";
 
 const KeyWords = () => {
   const { t } = useTranslation();
-
+  const data = useAppSelector((state) => state.info.data);
+  const [options, setOptions] = useState<any>([]);
   const keywordsValue = useWatch({ name: "keywordsValue" });
-  const keyWords = useWatch({ name: "keyWords" });
 
   const {
     control,
     formState: { errors },
     getValues,
     setValue,
-    setError,
-    clearErrors,
   } = useFormContext();
+
+  useEffect(() => {
+    const arr: any = Boolean(data?.keyWords) ? data?.keyWords?.split(",") : [];
+    setOptions(arr);
+  }, [data]);
 
   const handleKeywords = () => {
     if (Boolean(keywordsValue)) {
-      clearErrors("keywordsValue");
-      setValue("keyWords", [
-        ...getValues("keyWords"),
-        getValues("keywordsValue"),
-      ]);
+      setOptions([...options, getValues("keywordsValue")]);
       setValue("keywordsValue", "");
-    } else {
-      setError("keywordsValue", {}, { shouldFocus: true });
     }
   };
 
   const handleDelete = (value: any) => {
-    const newKeys = keyWords.filter(
+    const newKeys = options.filter(
       (a: any, j: any) => value.v !== a && value.i !== j
     );
+    setOptions(newKeys);
   };
 
   return (
@@ -78,7 +78,7 @@ const KeyWords = () => {
         )}
       />
       <WrapKeyWords>
-        {keyWords?.map((v: any, i: any) => {
+        {options?.map((v: any, i: any) => {
           return (
             <FilterButton onClick={() => handleDelete({ v, i })}>
               {v}
