@@ -96,7 +96,7 @@ const Right = () => {
   const { t } = useTranslation();
   let checkTypePark=(Boolean(disCount?.isActive) ||Boolean(cashBack?.isActive)||Boolean(bonusPoint?.isActive));
 
-  let companyId: any = localStorage.getItem('companyId');
+  let companyId: any = sessionStorage.getItem('companyId');
   const [modified,setModified]=useState('0')
   const [modaldiscount,setModalDiscount]=useState(false);
   const [modalcashback,setModalCashback]=useState(false);
@@ -1111,6 +1111,7 @@ const saveActiveHandle=()=>{
             <InputFormat
               label={t("Какой процент счета можно оплатить баллами?")}
               type='tel'
+              defaultValue={console.log('errors.maxAmount',errors.maxAmount)}
               max='100'
               autoComplete={"off"}
               width={width>1550 ? { maxwidth:500, minwidth: 300}:{ maxwidth:350, minwidth: 300}}
