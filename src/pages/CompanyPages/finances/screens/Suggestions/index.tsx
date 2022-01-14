@@ -24,7 +24,7 @@ const Suggestions = () => {
   const { t } = useTranslation();
   const { width } = useWindowWidth();
 
-  const companyId = localStorage.getItem("companyId");
+  const companyId = sessionStorage.getItem("companyId");
   const data = useAppSelector((state) => state.finance.suggestionFinance.data);
   const total = useAppSelector(
     (state) => state.finance.suggestionFinance.total

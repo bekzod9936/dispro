@@ -22,7 +22,7 @@ const useReferalData = () => {
   const referalRef = useRef<null | HTMLDivElement>(null);
 
   const { t } = useTranslation();
-  const companyId = localStorage.getItem("companyId");
+  const companyId = sessionStorage.getItem("companyId");
   const [saving, setSaving] = useState(false);
   const [newState, setNewState] = useState<string>("old");
   const [checkedState, setCheckedState] = useState<boolean>(false);

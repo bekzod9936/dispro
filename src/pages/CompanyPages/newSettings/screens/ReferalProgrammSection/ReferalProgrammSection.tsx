@@ -78,11 +78,8 @@ const ReferalProgrammSection = () => {
     fetchingReferal,
     isFetching,
     disableButton,
-    watch,
   } = useReferalData();
 
-
- 
 
   const infoData = useAppSelector((state) => state.info.data?.type);
   //form field array
@@ -90,7 +87,7 @@ const ReferalProgrammSection = () => {
     control,
     name: 'referals',
   });
-
+  
   console.log('levelsReflevelsRef',levelsRef)
   const mainContent = () => {
     if (width <= 1000) {

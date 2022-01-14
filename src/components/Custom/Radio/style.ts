@@ -36,12 +36,12 @@ export const Container = styled.div`
     flex-direction: ${({ flexDirection = 'row' }: RProps) =>
       flexDirection} !important;
   }
-  @media (min-width: ${device.laptop}) {
+  @media (max-width: ${device.laptop}) {
     legend.MuiFormLabel-root {
-      font-size: 16px !important;
+      font-size: 12px !important;
     }
     span.MuiTypography-body1 {
-      font-size: 18px !important;
+      font-size: 14px !important;
     }
   }
   @media (max-width: ${device.planshet}) {
