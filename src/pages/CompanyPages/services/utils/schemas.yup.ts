@@ -4,7 +4,7 @@ import * as yup from "yup"
 export const sectionsSchema = yup.object().shape({
     sections: yup.array().of(
         yup.object().shape({
-            title: yup.string().max(30, "maxAmountOfCharacters").required('enterSectionName')
+            title: yup.string().transform((value) => value.trim()).max(30, "maxAmountOfCharacters").required('enterSectionName')
         })
     )
     //* awesome peace of code
@@ -184,12 +184,12 @@ export const goodsSchema = yup.object().shape({
 
 
 export const subSectionSchema = yup.object().shape({
-    subSection: yup.string().max(30, "maxAmountOfCharacters").required('enterSubSectionName')
+    subSection: yup.string().max(30, "maxAmountOfCharacters").transform((value) => value.trim()).required('enterSubSectionName')
 })
 
 
 export const editSectionSchema = yup.object().shape({
-    section: yup.string().max(30, "maxAmountOfCharacters").required('requiredField')
+    section: yup.string().transform((value) => value.trim()).max(30, "maxAmountOfCharacters").required('requiredField')
 })
 
 export const changeAmountSchema = yup.object().shape({
