@@ -149,7 +149,7 @@ export const WrapperScroll = styled.div`
 	border-radius: 14px 0px 0px 14px;
 }
 
-@media (max-width: 1600px) {
-	height: 400px;
+@media (max-width: 1600px ) and (max-height: 700px) {
+	height: 380px;
 } 
 `

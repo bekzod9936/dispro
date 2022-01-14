@@ -19,10 +19,11 @@ interface FormProps {
   deletelogo: string;
   options: any[];
   category: any[];
-  keyWords: any[];
   keywordsValue: string;
   telNumber: string;
   links: any[];
+  companyLink: string;
+  link: string;
 }
 
 const NewAbout = () => {
@@ -34,9 +35,7 @@ const NewAbout = () => {
 
   const companyId: any = sessionStorage.getItem("companyId");
   const { resHeader } = useLayout({ id: companyId });
-  const { resCategory, defSocial } = useNewAbout();
-
-  const [social, setSocial] = useState(defSocial);
+  const { resCategory } = useNewAbout();
 
   const data = useAppSelector((state) => state.info.data);
 
@@ -49,21 +48,11 @@ const NewAbout = () => {
     (regFilled?.filled && regFilled?.filledAddress);
 
   useEffect(() => {
-    const tel: string = String(data?.telNumber).slice(4);
     methods.reset({
       ...data,
       deletelogo: data?.logo,
-      keyWords: Boolean(data?.keyWords) ? data?.keyWords?.split(",") : [],
-      telNumber: tel,
+      telNumber: String(data?.telNumber).slice(4),
     });
-    const newSocial: any = social.map((v: any) => {
-      const link = data?.socialLinks?.find((i: any) => i.name === v.name);
-      return {
-        ...v,
-        value: link?.value || "",
-      };
-    });
-    setSocial(newSocial);
   }, [data]);
 
   useEffect(() => {
@@ -89,7 +78,7 @@ const NewAbout = () => {
               <LeftSide />
             </Wrap>
             <Wrap>
-              <RightSide social={social} />
+              <RightSide />
             </Wrap>
           </Container>
         </UpSide>

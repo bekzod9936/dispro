@@ -1,5 +1,12 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { device } from "styles/device";
+import { ReactComponent as Facebook } from "assets/icons/IconsInfo/facebook.svg";
+import { ReactComponent as Instagram } from "assets/icons/IconsInfo/instagram.svg";
+import { ReactComponent as Telegram } from "assets/icons/IconsInfo/telegram.svg";
+import { ReactComponent as Twitter } from "assets/icons/IconsInfo/twitter.svg";
+import { ReactComponent as VK } from "assets/icons/IconsInfo/vk.svg";
+import { ReactComponent as WhatsApp } from "assets/icons/IconsInfo/whatsapp.svg";
+import { ReactComponent as Viber } from "assets/icons/IconsInfo/viber.svg";
 import { ReactComponent as Close } from "assets/icons/SideBar/close.svg";
 import { ReactComponent as EditPen } from "assets/icons/editpen.svg";
 
@@ -113,4 +120,43 @@ export const ModalHeader = styled.div`
 export const ModalButtons = styled.div`
   display: flex;
   justify-content: flex-end;
+`;
+
+const iconcommon = css`
+  width: 24px;
+  height: 24px;
+  @media (max-width: ${device.mobile}) {
+    width: 20px;
+    height: 20px;
+  }
+`;
+
+export const FIcon = styled(Facebook)`
+  ${iconcommon}
+`;
+export const IIcon = styled(Instagram)`
+  ${iconcommon}
+`;
+export const TIcon = styled(Telegram)`
+  ${iconcommon}
+`;
+export const TWIcon = styled(Twitter)`
+  ${iconcommon}
+`;
+export const VKIcon = styled(VK)`
+  ${iconcommon}
+`;
+export const WTIcon = styled(WhatsApp)`
+  ${iconcommon}
+`;
+export const VIcon = styled(Viber)`
+  ${iconcommon}
+`;
+
+export const WrapDeleteComment = styled.div`
+  font-weight: normal;
+  font-size: 16px;
+  color: #223367;
+  margin: 15px 0;
+  word-break: break-all;
 `;

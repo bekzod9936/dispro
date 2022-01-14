@@ -1,22 +1,37 @@
-import { Controller, useFormContext } from "react-hook-form";
+import { Controller, useFormContext, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Text, Title } from "../../../../style";
 import Input from "components/Custom/Input";
 import CompanyLink from "../CompanyLink";
 import SocialLinks from "../SocialLinks";
-interface Props {
-  social: any[];
-}
-const RightSide = ({ social }: Props) => {
+import { useEffect } from "react";
+
+import { inputPhoneNumber } from "utilities/inputFormat";
+
+const RightSide = () => {
   const { t } = useTranslation();
+
+  const telNumber = useWatch({ name: "telNumber" });
 
   const {
     control,
     formState: { errors },
+    watch,
+    getValues,
+    setValue,
   } = useFormContext();
 
-  const handleSocialChange = () => {};
-  const handleSocialDelete = () => {};
+  const checkPhone = inputPhoneNumber({
+    value: telNumber,
+  });
+
+  useEffect(() => {
+    if (getValues("telNumber")) {
+      setValue("telNumber", checkPhone.newString);
+    } else {
+      setValue("telNumber", "");
+    }
+  }, [checkPhone.check, watch("telNumber")]);
 
   return (
     <div>
@@ -44,17 +59,7 @@ const RightSide = ({ social }: Props) => {
         )}
       />
       <CompanyLink />
-      {social?.length > 0 ? <Title>{t("companyLink")}</Title> : null}
-      <div>
-        {social?.map((v: any) => (
-          <SocialLinks
-            key={v.name}
-            {...v}
-            onChange={handleSocialChange}
-            onDelete={handleSocialDelete}
-          />
-        ))}
-      </div>
+      <SocialLinks />
     </div>
   );
 };
