@@ -113,21 +113,11 @@ export const UploadButton = styled.div`
 	export const ModalMain = styled.div`
   padding: 25px 0 25px 40px;
   /* overflow-y: auto; */
-  width: 580px;
-
-  /* scroll-behavior: auto;
-
-  ::-webkit-scrollbar {
-    width: 7px;
-  }
-  ::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: #606eea;
-    border-radius: 14px 0px 0px 14px;
-  } */
+  width: 660px;
+	@media (max-width: 1600px ) and (max-height: 700px) {
+		padding: 20px 0 20px 30px;
+		width: 640px;
+} 
 `;
 
 export const ModalContent = styled.div`

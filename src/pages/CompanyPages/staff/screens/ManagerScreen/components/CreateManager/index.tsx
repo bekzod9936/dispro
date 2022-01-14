@@ -436,7 +436,7 @@ const CreateManager = ({ openManager }: IProps) => {
 
 			{/* second step */}
 			{stepManager === 2 && (
-				<ModalMain style={{ width: '663px' }}>
+				<ModalMain>
 					<ModalHead>
 						<ModalTitle>Настройки доступа</ModalTitle>
 						<ButtonWrap>
