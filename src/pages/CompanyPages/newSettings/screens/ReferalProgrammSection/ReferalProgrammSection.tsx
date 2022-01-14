@@ -78,11 +78,8 @@ const ReferalProgrammSection = () => {
     fetchingReferal,
     isFetching,
     disableButton,
-    watch,
   } = useReferalData();
 
-
- 
 
   const infoData = useAppSelector((state) => state.info.data?.type);
   //form field array
@@ -90,7 +87,7 @@ const ReferalProgrammSection = () => {
     control,
     name: 'referals',
   });
-
+  
   console.log('levelsReflevelsRef',levelsRef)
   const mainContent = () => {
     if (width <= 1000) {
@@ -179,7 +176,7 @@ const ReferalProgrammSection = () => {
                       
                       </TextDiv>
                     </SmallPanel>
-                    {index === fields.length - 2 && index !== 0 && (
+                    {/* {index === fields.length - 2 && index !== 0 && (
                       <RippleEffect
                         onClick={() => {
                           if (checkedState) {
@@ -193,7 +190,7 @@ const ReferalProgrammSection = () => {
                       >
                         <XIcon />
                       </RippleEffect>
-                    )}
+                    )} */}
                     
                     {index === fields.length - 1 && (
                       <ActDiv>

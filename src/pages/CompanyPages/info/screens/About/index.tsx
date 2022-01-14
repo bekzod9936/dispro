@@ -73,7 +73,7 @@ const Main = () => {
   const { width } = useWindowWidth();
 
   const { response, data } = useInfoPage();
-  const companyId: any = localStorage.getItem("companyId");
+  const companyId: any = sessionStorage.getItem("companyId");
   const {
     resCategory,
     resDelete,

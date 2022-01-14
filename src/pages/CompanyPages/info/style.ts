@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import { device } from '../../../styles/device';
-import { ReactComponent as LogWhite } from '../../../assets/icons/SideBar/logoutwhite.svg';
-import { ReactComponent as Close } from '../../../assets/icons/SideBar/close.svg';
+import styled from "styled-components";
+import { device } from "styles/device";
+import { ReactComponent as LogWhite } from "assets/icons/SideBar/logoutwhite.svg";
+import { ReactComponent as Close } from "assets/icons/SideBar/close.svg";
 
 interface ButtonProps {
   mobile?: boolean;
@@ -32,27 +32,27 @@ export const Title = styled.div`
   user-select: none;
   @media (max-width: ${device.mobile}) {
     font-size: ${({ fontSize }: TProps) =>
-      fontSize?.mobile ? `${fontSize?.mobile}px` : '14px'};
+      fontSize?.mobile ? `${fontSize?.mobile}px` : "14px"};
   }
   @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
     font-size: ${({ fontSize }: TProps) =>
-      fontSize?.planshet ? `${fontSize?.planshet}px` : '14px'};
+      fontSize?.planshet ? `${fontSize?.planshet}px` : "14px"};
   }
   @media (min-width: ${device.planshet}) and (max-width: ${device.laptop}) {
     font-size: ${({ fontSize }: TProps) =>
-      fontSize?.laptop ? `${fontSize?.laptop}px` : '15px'};
+      fontSize?.laptop ? `${fontSize?.laptop}px` : "15px"};
   }
   @media (min-width: ${device.laptop}) {
     font-size: ${({ fontSize }: TProps) =>
-      fontSize?.desktop ? `${fontSize?.desktop}px` : '16px'};
+      fontSize?.desktop ? `${fontSize?.desktop}px` : "16px"};
   }
 `;
 
 export const Text = styled.div`
   font-style: normal;
   font-size: 14px;
-  color: ${({ color }: TProps) => (color ? color : '#223367')};
-  font-weight: ${({ weight }: TProps) => (weight ? weight : '300')};
+  color: ${({ color }: TProps) => (color ? color : "#223367")};
+  font-weight: ${({ weight }: TProps) => (weight ? weight : "300")};
   user-select: none;
 `;
 
@@ -61,16 +61,16 @@ export const Container = styled.div`
   height: 100%;
   flex-direction: column;
   padding: ${({ photosectionpadding }: CProps) =>
-    photosectionpadding ? '0' : '0 50px 0 0'};
+    photosectionpadding ? "0" : "0 50px 0 0"};
   position: relative;
 
   @media (min-width: ${device.mobile}) and (max-width: ${device.laptop}) {
     padding: ${({ photosectionpadding }: CProps) =>
-      photosectionpadding ? '25px 0 0 30px' : '25px 40px 0 30px'};
+      photosectionpadding ? "25px 0 0 30px" : "25px 40px 0 30px"};
   }
   @media (min-width: ${device.laptop}) {
     padding: ${({ photosectionpadding }: CProps) =>
-      photosectionpadding ? '30px 0 0 35px' : '30px 50px 0 35px'};
+      photosectionpadding ? "30px 0 0 35px" : "30px 50px 0 35px"};
   }
   @media (max-width: ${device.planshet}) {
     padding: 15px 0 0;
@@ -92,10 +92,10 @@ export const LogOutIcon = styled(LogWhite)`
 `;
 
 export const CloseIcon = styled(Close)`
-  margin-right: ${({ mobile }: ButtonProps) => (mobile ? null : '15px')};
-  margin-left: ${({ mobile }: ButtonProps) => (mobile ? '15px' : null)};
+  margin-right: ${({ mobile }: ButtonProps) => (mobile ? null : "15px")};
+  margin-left: ${({ mobile }: ButtonProps) => (mobile ? "15px" : null)};
   & > path {
-    fill: ${({ mobile }: ButtonProps) => (mobile ? '#606EEA' : '#223367')};
+    fill: ${({ mobile }: ButtonProps) => (mobile ? "#606EEA" : "#223367")};
   }
 `;
 

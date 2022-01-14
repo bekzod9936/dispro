@@ -1,6 +1,6 @@
-import React, {useEffect, useState } from "react";
+import React, {useState } from "react";
 
-import { useAppDispatch, useAppSelector } from "services/redux/hooks";
+import { useAppSelector } from "services/redux/hooks";
 import {useMutation } from 'react-query';
 import CheckBox from 'components/Custom/CheckBox';
 import { useHistory } from 'react-router';
@@ -37,6 +37,7 @@ import Button from 'components/Custom/Buttons/Button';
 import { SyncIcon } from 'assets/icons/FeedBackIcons.tsx/FeedbackIcons';
 import Condition from './hooks/Condition';
 import typeParkImage from 'assets/images/typePark.png';
+import { SendIcon, MobileCancelIcon,SaveIcon,NewSaveIcon} from 'assets/icons/news/newsIcons';
 import {
   loyalityNewSaveChange,
   changeProgramLoyalityGlobal,
@@ -67,6 +68,7 @@ import {
   HoverMainIcon,
   WrapModalPaygo,
   IconStyleMain,
+  WrapperModal,
 } from "../../style";
 
 
@@ -94,7 +96,7 @@ const Right = () => {
   const { t } = useTranslation();
   let checkTypePark=(Boolean(disCount?.isActive) ||Boolean(cashBack?.isActive)||Boolean(bonusPoint?.isActive));
 
-  let companyId: any = localStorage.getItem('companyId');
+  let companyId: any = sessionStorage.getItem('companyId');
   const [modified,setModified]=useState('0')
   const [modaldiscount,setModalDiscount]=useState(false);
   const [modalcashback,setModalCashback]=useState(false);
@@ -106,6 +108,11 @@ const Right = () => {
   const [payGoModal, setpayGoModal] = useState(false);
   const [localyPaymentfirst, setLocalPaymentFirst] = useState(programSettingsUseProgram);
   const [localyPaymentsecond, setLocalPaymentSecond] = useState(programSettingsUsePoint);
+  const [modalActive, setModalForActive]=useState(false);
+
+  const [makeActive,setMakeActive]=useState(false);
+  const [requestprogram,setRequestProgram]=useState<any>()
+  const [loyalityProgram,setLoyalityProgram]=useState<any>()
 
   let defaultValue=points ? bonusPoint:discounts? disCount:cashback ? cashBack:null;
 
@@ -212,6 +219,22 @@ const handleSwitchPush=()=>{
   setTypePark(false)
 }
 
+const InitialhandleSwitchPush=()=>{
+
+  loayalityChange.mutate({
+    data:{
+      isActive:true,
+      isMoved:true,
+      plType:discounts ? 'discount' :cashback ? 'cashback':points ? 'point':'discount',
+      turnedOff:false,
+      password:""
+    }
+  })
+  setTypePark(false)
+  setModified('0');
+}
+
+
 const loyalityPut = useMutation(
   (data: any) => {
     if (discounts) {
@@ -268,6 +291,7 @@ const loyalityPut = useMutation(
 
 const handleChangeDiscount = () => {
   setModalDiscount(Boolean(disCount?.name));
+  setModified('0');
   if(!disCount?.name){
   setDiscounts(true);
   setCashback(false );
@@ -278,6 +302,7 @@ const handleChangeDiscount = () => {
 };
 const handleChangeCashback = () => {
     setModalCashback(Boolean(cashBack?.name));
+    setModified('0');
     if(!cashBack?.name){
     setCashback(true );
     setDiscounts(false);
@@ -288,6 +313,7 @@ const handleChangeCashback = () => {
 };
 const handleChangePoints = () => {
     setModalPoints(Boolean(bonusPoint?.name));
+    setModified('0');
     if(!bonusPoint?.name){
     setPoints(true);
     setDiscounts(false);
@@ -296,6 +322,9 @@ const handleChangePoints = () => {
       
     }
 };
+
+
+
 
 
  const checkValidation=(levels:any,name:any)=>{
@@ -366,10 +395,11 @@ const handleChangePoints = () => {
 
  }
 
+
  let newarray={amount:'',type:{id:0}}
 
-  const FormSettings =async (data: any) => {
-    
+  const FormSettings = (data: any) => {
+   
     let checking=!localyPaymentfirst ?'yes':'no';
     let checking2=!localyPaymentsecond ? 'yes':'no';
     let globalChecking=checking=='yes' && checking2=='yes';
@@ -400,8 +430,26 @@ const handleChangePoints = () => {
         
      if(globalChecking ? true :payGo==1) {
       if(checkValidation(checkinglevels,data?.name)){
-
-        try{
+      
+        if(discounts && Boolean(disCount?.isActive)){
+          setModalForActive(false);
+            useProgramSave.mutate({
+            useProgram: localyPaymentfirst ? true:false,
+            usePoint: localyPaymentsecond ? true:false,
+          });
+          loyalityPut.mutate({
+            cashbackReturnedDay:data?.cashbackReturnedDay>=0 ? Number(data?.cashbackReturnedDay):'',
+            description: '',
+            isActive: false,
+            companyId: parseInt(companyId),
+            levels:checkinglevels,
+            maxAmount: Number(data?.maxAmount),
+            name: data?.name,
+            percent: Number(data?.percent),
+          });
+        }
+       else if(cashback && Boolean(cashBack?.isActive)){
+          setModalForActive(false);
           useProgramSave.mutate({
             useProgram: localyPaymentfirst ? true:false,
             usePoint: localyPaymentsecond ? true:false,
@@ -415,13 +463,46 @@ const handleChangePoints = () => {
             maxAmount: Number(data?.maxAmount),
             name: data?.name,
             percent: Number(data?.percent),
-          })
+          });
         }
-        catch (e){
-          console.log(e)
+       else if(points && Boolean(bonusPoint?.isActive)){
+          setModalForActive(false);
+          useProgramSave.mutate({
+            useProgram: localyPaymentfirst ? true:false,
+            usePoint: localyPaymentsecond ? true:false,
+          });
+          loyalityPut.mutate({
+            cashbackReturnedDay:data?.cashbackReturnedDay>=0 ? Number(data?.cashbackReturnedDay):'',
+            description: '',
+            isActive: false,
+            companyId: parseInt(companyId),
+            levels:checkinglevels,
+            maxAmount: Number(data?.maxAmount),
+            name: data?.name,
+            percent: Number(data?.percent),
+          });
         }
+        else {
+        setModalForActive(true);
+        let dataProgram={
+          useProgram: localyPaymentfirst ? true:false,
+          usePoint: localyPaymentsecond ? true:false,
+        }
+        let dataLoyality={
+          cashbackReturnedDay:data?.cashbackReturnedDay>=0 ? Number(data?.cashbackReturnedDay):'',
+          description: '',
+          isActive: false,
+          companyId: parseInt(companyId),
+          levels:checkinglevels,
+          maxAmount: Number(data?.maxAmount),
+          name: data?.name,
+          percent: Number(data?.percent),
+        }
+        setRequestProgram(dataProgram);
+        setLoyalityProgram(dataLoyality);
     }
   }
+}
       else {
         setpayGoModal(true);
       }
@@ -545,6 +626,24 @@ const handleChangePoints = () => {
  let isEmpty=disCount?.isActive ||cashBack?.isActive||bonusPoint?.isActive ||discounts||cashback||points;
  let checkEmpty=isEmpty==false ||isEmpty==undefined ;
  
+const saveHandle=() => {
+                      loyalityPut.mutate(loyalityProgram)
+                      useProgramSave.mutate(requestprogram)
+                      setModalForActive(false)
+          }
+const saveActiveHandle=()=>{
+        loyalityPut.mutate(loyalityProgram,
+          {
+            onSuccess: (res) => {
+                InitialhandleSwitchPush()
+                setModalForActive(false);
+              }
+          })
+  useProgramSave.mutate(requestprogram)
+  setModalForActive(false)
+}
+
+
 
   return (
     <Container>
@@ -668,19 +767,77 @@ const handleChangePoints = () => {
             </ModalComponent>
           </Modal>
     </LeftSide>
+   
    <Modal open={payGoModal}>
-                        <WrapModalPaygo>
-                          <Text marginBottom={'25px'}>{t('paygowarning')}</Text>
-                          <Button
-                            onClick={() => {
-                              setpayGoModal(false);
-                              history.push('/support');
-                            }}
-                          >
-                            {t('writetomoderator')}
-                          </Button>
-                        </WrapModalPaygo>
-   </Modal>
+  
+      <WrapperModal>
+      <h3 style={{ marginRight: '20px' }}>
+      {t('paygowarning')}
+          </h3>
+          <p>
+          Функция оплата на местах отключена. Обратитесь в службу поддержки
+        </p>
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <Button
+              buttonStyle={{ color: '#223367', bgcolor: '#ffffff' }}
+              margin={{ laptop: '0 22px 0 0' }}
+              onClick={() => {
+                setpayGoModal(false);
+               
+              }}
+              startIcon={<CancelIcon />}
+            >
+              Отмена
+            </Button>
+            <Button
+              margin={{ laptop: '0 22px 0 0' }}
+              onClick={() => {
+                setpayGoModal(false);
+                history.push('/support');
+              }}
+              buttonStyle={{ shadow: '0px 4px 9px rgba(96, 110, 234, 0.46)' }}
+              startIcon={<SendIcon />}
+            >
+          {t('Написать')}
+            </Button>
+          </div>
+        
+            </WrapperModal>
+         </Modal>
+
+         <Modal open={modalActive}>
+         <WrapperModal>
+         <h3 style={{ marginRight: '20px', padding:'5px 0px 25px 0px' }}>
+      {t(`Хотите активировать Программу лояльности - ${discounts ? 'Скидка' :cashback ? 'Кешбэк':points ? 'Баллы':''} ? `)}
+          </h3>
+     
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <Button
+                   onClick={saveHandle}
+                startIcon={<NewSaveIcon />}
+                buttonStyle={{
+                  bgcolor: 'rgba(96, 110, 234, 0.1)',
+                  color: '#606EEA',
+                }}
+               margin={{laptop:'0px 4px'}}>
+                {t('save')}
+              </Button>    
+            <Button
+                 onClick={saveActiveHandle}
+                startIcon={<SaveIcon />}
+                buttonStyle={{
+                bgcolor: '#606EEA',
+                color: '#fff',
+              }}
+              margin={{laptop:'0px 8px'}}
+            >
+              {t('Активировать')}
+            </Button>
+            </div>
+            </WrapperModal>
+         </Modal>
+
+
    {checkEmpty ? (
             <Grid
               justifyContent='center'
@@ -761,13 +918,22 @@ const handleChangePoints = () => {
         />
         <IconStyleMain>
           <HoverMainAdd>
-          <HoverMainIcon onClick={() => append({ name: "" })}>
+
+            {fields?.length<=3 ? <HoverMainIcon onClick={() => append({ name: "" })}>
             <PlusIcon />
-          </HoverMainIcon>
+          </HoverMainIcon>:
+          <HoverMainIcon >
+          <PlusIcon />
+        </HoverMainIcon>
+          }
+         
           </HoverMainAdd>
         </IconStyleMain>
       </TitleForm>
       <div>
+
+        {console.log('fields',fields)}
+
         {fields.map((item, index) => (
           <>
             <div key={item.id}>
@@ -832,9 +998,12 @@ const handleChangePoints = () => {
                   )}
                 />
                 <IconStyle style={{marginLeft:'30px'}}>
-          <div onClick={() => append({ name: "" })}>
+                  {fields?.length<=3 ?  <div onClick={() => append({ name: "" })}>
             <PlusIcon />
-          </div>
+          </div>:<div >
+            <PlusIcon />
+          </div>}
+         
         </IconStyle>
                 <IconStyle>
                   <div onClick={() => remove(index)}>
@@ -942,6 +1111,7 @@ const handleChangePoints = () => {
             <InputFormat
               label={t("Какой процент счета можно оплатить баллами?")}
               type='tel'
+              defaultValue={console.log('errors.maxAmount',errors.maxAmount)}
               max='100'
               autoComplete={"off"}
               width={width>1550 ? { maxwidth:500, minwidth: 300}:{ maxwidth:350, minwidth: 300}}

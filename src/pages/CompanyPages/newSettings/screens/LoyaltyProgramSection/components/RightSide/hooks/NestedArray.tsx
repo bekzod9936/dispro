@@ -64,6 +64,9 @@ const NestedArray = ({
                     width={{ maxwidth: 100,width:'fit-content',minwidth:80 }}
                     {...field}
                     error={!!errors?.levels?.[nestIndex]?.requirements?.[k]?.condition}
+                    // isOptionDisabled={(option:any) =>
+                    //   watch(`levels.[${nestIndex}].requirements.[${k}].type.value`)=='Рекомендации' && option.value === "Рекомендации" 
+                    // }
                     // value={watch(`levels.[${nestIndex}].requirements.[${k}].type`)==3 ? OnlyOneOr:Or}
                     selectStyle={{
                       radius: !!errors?.levels?.[nestIndex]?.requirements?.[k]?.condition ? 14:0,

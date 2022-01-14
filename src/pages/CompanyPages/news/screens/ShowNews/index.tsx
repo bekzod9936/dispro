@@ -23,10 +23,7 @@ import {
   WrapInputs,
   WrapSelect,
 } from "../../components/Header/style";
-import {
-  GoBackIcon,
-  PlusIcon,
-} from "assets/icons/proposals/ProposalsIcons";
+import { GoBackIcon, PlusIcon } from "assets/icons/proposals/ProposalsIcons";
 
 import {
   PushBlock,
@@ -43,9 +40,8 @@ import {
   FormRow,
 } from "../CreateNews/style";
 
-import {  useAppSelector } from "services/redux/hooks";
+import { useAppSelector } from "services/redux/hooks";
 import { ReactComponent as MarketIcon } from "assets/icons/SideBar/ilmarket.svg";
-
 
 interface IOptionFields {
   push: boolean;
@@ -59,23 +55,17 @@ const CreateNews = () => {
   console.log("selectedNews", selectedNews);
   const newsData = selectedNews?.fullData?.data;
 
-  const startDate = dayjs(newsData?.startLifeTime).format(
-    "YYYY-MM-DD"
-  );
-  const endDate = dayjs(newsData?.endLifeTime).format(
-    "YYYY-MM-DD"
-  );
-  
+  const startDate = dayjs(newsData?.startLifeTime).format("YYYY-MM-DD");
+  const endDate = dayjs(newsData?.endLifeTime).format("YYYY-MM-DD");
+
   const { branches } = useStaff();
   const [optionalFields, setOptionalFields] = React.useState<IOptionFields>({
     push: newsData?.pushUp,
   });
 
-
   const [checked, setChecked] = React.useState(
     newsData?.settings?.aroundTheClock
   );
- 
 
   const genderType = [
     {
@@ -107,15 +97,14 @@ const CreateNews = () => {
     };
   });
 
-  const companyId: any = localStorage.getItem("companyId");
-  const { dataAddress} = useAddress({
+  const companyId: any = sessionStorage.getItem("companyId");
+  const { dataAddress } = useAddress({
     id: companyId,
   });
 
   const handleBack = () => {
     history.goBack();
   };
-  
 
   const {
     control,
@@ -134,7 +123,6 @@ const CreateNews = () => {
     }));
   };
 
-
   const allFilials = dataAddress;
   const filials = newsData?.settings?.stores;
 
@@ -146,17 +134,16 @@ const CreateNews = () => {
     );
   });
 
-  const mergedBranches=filteredArray?.map((item:any)=>{
+  const mergedBranches = filteredArray?.map((item: any) => {
     return {
-        value:item.id,
-        label:item.name
-    }
-  })
+      value: item.id,
+      label: item.name,
+    };
+  });
 
   React.useEffect(() => {
     setValue("filialID", mergedBranches);
   }, [mergedBranches]);
-
 
   return (
     <Wrapper>
@@ -197,15 +184,14 @@ const CreateNews = () => {
               />
 
               <WrapInputs>
-              <Label>{t("chose_date")}</Label>
+                <Label>{t("chose_date")}</Label>
                 <div>
                   <Input
                     type="date"
                     width={{
                       maxwidth: 200,
                     }}
-            
-                   value={startDate}
+                    value={startDate}
                     IconStart={<WrapDate>{t("from")}</WrapDate>}
                     inputStyle={{
                       inpadding: "0 10px 0 0",
@@ -215,18 +201,15 @@ const CreateNews = () => {
                   <Input
                     type="date"
                     defaultValue={endDate}
-                   
                     width={{
                       maxwidth: 200,
                     }}
-              
                     value={startDate}
                     margin={{ laptop: "0 0 0 15px" }}
                     IconStart={<WrapDate>{t("to")}</WrapDate>}
                     inputStyle={{
                       inpadding: "0 10px 0 0",
                     }}
-                  
                   />
                 </div>
               </WrapInputs>
@@ -325,7 +308,6 @@ const CreateNews = () => {
                   <Controller
                     control={control}
                     name="filialID"
-                    
                     defaultValue={mergedBranches}
                     render={({ field }) => {
                       return (

@@ -32,6 +32,7 @@ export const customStyle = (props: any) => ({
         ? `${props.selectStyle?.radius}px`
         : '14px',
   }),
+
   option: (base: any, state: any) => {
     return {
       ...base,

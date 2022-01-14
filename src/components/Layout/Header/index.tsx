@@ -76,7 +76,7 @@ const Header = () => {
   const dispatch = useAppDispatch();
   const { width } = useWindowWidth();
   const [modal, setModal] = useState(false);
-  const companyId = localStorage.getItem("companyId");
+  const companyId = sessionStorage.getItem("companyId");
   const { resLimit } = useLayout({ id: companyId });
 
   const [staffData, setStaffData] = useState<staffDataType | null>(null);
@@ -114,7 +114,7 @@ const Header = () => {
   const onExit = () => {
     setOpen(false);
     setModal(false);
-    localStorage.removeItem("companyId");
+    sessionStorage.removeItem("companyId");
     localStorage.removeItem("companyToken");
     history.push("/partner/company");
     window.location.replace("/partner/company");

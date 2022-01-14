@@ -38,13 +38,13 @@ export const useUploadImage = (handleSet: any, setImageError?: any) => {
     // const image: any = await resizeFile(file);
     const newFile = await dataURIToBlob(file);
     const formData = new FormData();
-    await formData.append("itemId", `${localStorage.getItem("companyId")}`);
+    await formData.append("itemId", `${sessionStorage.getItem("companyId")}`);
     await formData.append("fileType", "companyLogo");
     await formData.append("file", newFile, "logo.png");
     await mutate(formData, {
       onSuccess: async (data) => {
         await handleSet(data?.data?.data?.link);
-		setImageError(false)
+        setImageError(false);
         setLoading(false);
       },
       onError: (error) => console.log(error),

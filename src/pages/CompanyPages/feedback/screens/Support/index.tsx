@@ -1,32 +1,32 @@
-import { useEffect, useRef, useState } from 'react';
-import Title from 'components/Custom/Title';
-import { useTranslation } from 'react-i18next';
-import { useForm, Controller } from 'react-hook-form';
-import useWindowWidth from 'services/hooks/useWindowWidth';
-import { useAppDispatch, useAppSelector } from 'services/redux/hooks';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
-import Button from 'components/Custom/Buttons/Button';
-import Input from 'components/Custom/Input';
-import { IconButton } from '@material-ui/core';
-import useSupportChat from './useSupportChat';
-import dayjs from 'dayjs';
-import { CHAT_TYPES, SOCKET_EVENT } from 'services/constants/chat';
-import disicon from 'assets/icons/disicon.png';
-import { ruCount } from '../../hooks/format';
-import FullModal from 'components/Custom/FullModal';
-import { ReactComponent as LeftBack } from 'assets/icons/FinanceIcons/leftback.svg';
-import { useHistory } from 'react-router';
-import App from 'assets/icons/StatistisPage/app.svg';
-import { TextareaAutosize } from '@material-ui/core';
-import Emoji from '../../components/Emoji';
-import Spinner from 'components/Custom/Spinner';
-import InfiniteScroll from 'react-infinite-scroll-component';
+import { useEffect, useRef, useState } from "react";
+import Title from "components/Custom/Title";
+import { useTranslation } from "react-i18next";
+import { useForm, Controller } from "react-hook-form";
+import useWindowWidth from "services/hooks/useWindowWidth";
+import { useAppDispatch, useAppSelector } from "services/redux/hooks";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import Button from "components/Custom/Buttons/Button";
+import Input from "components/Custom/Input";
+import { IconButton } from "@material-ui/core";
+import useSupportChat from "./useSupportChat";
+import dayjs from "dayjs";
+import { CHAT_TYPES, SOCKET_EVENT } from "services/constants/chat";
+import disicon from "assets/icons/disicon.png";
+import { ruCount } from "../../hooks/format";
+import FullModal from "components/Custom/FullModal";
+import { ReactComponent as LeftBack } from "assets/icons/FinanceIcons/leftback.svg";
+import { useHistory } from "react-router";
+import App from "assets/icons/StatistisPage/app.svg";
+import { TextareaAutosize } from "@material-ui/core";
+import Emoji from "../../components/Emoji";
+import Spinner from "components/Custom/Spinner";
+import InfiniteScroll from "react-infinite-scroll-component";
 import {
   setChatSupportHistory,
   setTotalSupportHistory,
-} from 'services/redux/Slices/feedback';
-import useRead from '../../hooks/useRead';
-import useLayout from 'components/Layout/useLayout';
+} from "services/redux/Slices/feedback";
+import useRead from "../../hooks/useRead";
+import useLayout from "components/Layout/useLayout";
 import {
   Container,
   MessageContainer,
@@ -59,7 +59,7 @@ import {
   Wranning,
   WrapTextArea,
   WrapButtons,
-} from './style';
+} from "./style";
 import {
   Avatar,
   InputDown,
@@ -68,7 +68,7 @@ import {
   InputWarn,
   WrapIcons,
   Divider,
-} from '../../style';
+} from "../../style";
 
 interface FormProps {
   message?: string;
@@ -79,12 +79,12 @@ const Support = () => {
   const { width } = useWindowWidth();
   const history = useHistory();
   const dispatch = useAppDispatch();
-  const [lastdate, setLastdate] = useState<any>('');
-  const companyId: any = localStorage.getItem('companyId');
+  const [lastdate, setLastdate] = useState<any>("");
+  const companyId: any = sessionStorage.getItem("companyId");
   const words = 400;
   const { control, handleSubmit, setValue, getValues, watch } =
     useForm<FormProps>({
-      mode: 'onBlur',
+      mode: "onBlur",
       shouldFocusError: true,
     });
   const [loading, setLoading] = useState(false);
@@ -114,8 +114,8 @@ const Support = () => {
 
   const scrollToTop = () => {
     messagesStartRef?.current?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'end',
+      behavior: "smooth",
+      block: "end",
     });
   };
 
@@ -203,7 +203,7 @@ const Support = () => {
     if (values?.message !== undefined) {
       setLimit(words - values?.message?.length);
     }
-  }, [watch('message')]);
+  }, [watch("message")]);
 
   const funScrollDown = async (message: any) => {
     await dispatch(setChatSupportHistory([message, ...histories]));
@@ -214,7 +214,7 @@ const Support = () => {
     if (e.message.length > 0 && e?.message.match(/\S/) !== null) {
       setLoading(true);
       socket.emit(
-        'chat_to_server',
+        "chat_to_server",
         {
           langId: 1,
           chatType: CHAT_TYPES.PARTNER_TO_MODERATOR,
@@ -227,7 +227,7 @@ const Support = () => {
         },
         (res: any) => {
           if (res.success) {
-            setValue('message', '');
+            setValue("message", "");
             const message = {
               chatType: res?.data?.chatType,
               companyId: res?.data?.datacompanyId,
@@ -248,25 +248,25 @@ const Support = () => {
     }
   };
 
-  const title = <HTitle>{t('supportcall')}</HTitle>;
+  const title = <HTitle>{t("supportcall")}</HTitle>;
 
   const avatar = (
-    <Avatar big={true} bgcolor='#E6E6E6'>
+    <Avatar big={true} bgcolor="#E6E6E6">
       <DisIcon />
     </Avatar>
   );
 
-  const tel = <Link href='tel:+998712002015'> +99871 200 20 15</Link>;
+  const tel = <Link href="tel:+998712002015"> +99871 200 20 15</Link>;
 
   const limitwords = (
     <>
-      {t('limitfeedback')}
+      {t("limitfeedback")}
 
       {` ${limit} ${ruCount({
         count: limit,
-        firstWord: 'символ',
-        secondWord: 'символа',
-        thirdWord: 'символов',
+        firstWord: "символ",
+        secondWord: "символа",
+        thirdWord: "символов",
       })}`}
     </>
   );
@@ -274,7 +274,7 @@ const Support = () => {
   if (width > 600) {
     return (
       <Container>
-        <Title>{t('supportcall')}</Title>
+        <Title>{t("supportcall")}</Title>
         <MessageContainer>
           <Wrapper>
             <Header>
@@ -284,7 +284,7 @@ const Support = () => {
                   {title}
                   <LinkWrap>
                     {tel}
-                    <Link href='mailto:support@dis-count.app'>
+                    <Link href="mailto:support@dis-count.app">
                       support@dis-count.app
                     </Link>
                   </LinkWrap>
@@ -303,18 +303,18 @@ const Support = () => {
                 ) : noValue ? (
                   <div
                     style={{
-                      display: 'flex',
+                      display: "flex",
                       flex: 1,
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: '20px',
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: "20px",
                     }}
                   >
-                    {t('thereisnomessage')}
+                    {t("thereisnomessage")}
                   </div>
                 ) : (
                   <>
-                    <Messages id='scrollableDiv' onScroll={findScrollHeight}>
+                    <Messages id="scrollableDiv" onScroll={findScrollHeight}>
                       <div ref={messagesStartRef} />
                       {scrollHeight > 1 ? (
                         <WrapDownIcon>
@@ -327,45 +327,45 @@ const Support = () => {
                         dataLength={histories?.length}
                         next={fetchHisFetchData}
                         style={{
-                          display: 'flex',
-                          flexDirection: 'column-reverse',
-                          overflow: 'hidden',
+                          display: "flex",
+                          flexDirection: "column-reverse",
+                          overflow: "hidden",
                         }}
                         inverse={true}
                         hasMore={total?.hasMore}
                         loader={
                           <div
                             style={{
-                              display: 'flex',
-                              justifyContent: 'center',
-                              width: '100%',
+                              display: "flex",
+                              justifyContent: "center",
+                              width: "100%",
                             }}
                           >
                             <Spinner />
                           </div>
                         }
-                        scrollableTarget='scrollableDiv'
+                        scrollableTarget="scrollableDiv"
                         endMessage={
                           <Divider>
-                            <div>{dayjs(lastdate).format('DD MMMM YYYY')}</div>
+                            <div>{dayjs(lastdate).format("DD MMMM YYYY")}</div>
                           </Divider>
                         }
                       >
                         {histories?.map((v: any) => {
                           return (
                             <MessageWrap type={v.chatType} key={v.id}>
-                              <Avatar bgcolor='#E6E6E6'>
+                              <Avatar bgcolor="#E6E6E6">
                                 {v.chatType === 6 ? (
                                   <DisIcon />
                                 ) : (
                                   <LazyLoadImage
                                     src={companyInfo.logo}
-                                    alt='user'
+                                    alt="user"
                                     style={{
-                                      objectFit: 'cover',
+                                      objectFit: "cover",
                                     }}
-                                    height='100%'
-                                    width='100%'
+                                    height="100%"
+                                    width="100%"
                                     onError={(e: any) => {
                                       e.target.onerror = null;
                                       e.target.src = App;
@@ -375,7 +375,7 @@ const Support = () => {
                               </Avatar>
                               <Message type={v.chatType}>
                                 <MessageDate type={v.chatType}>
-                                  {dayjs(v.createdAt).format('HH:mm')}
+                                  {dayjs(v.createdAt).format("HH:mm")}
                                 </MessageDate>
                                 <MessageText type={v.chatType}>
                                   {v.msg}
@@ -392,20 +392,20 @@ const Support = () => {
               </ChatPlace>
               <Form onSubmit={handleSubmit(onSubmit)}>
                 <Controller
-                  name='message'
+                  name="message"
                   control={control}
                   rules={{
                     required: true,
                   }}
-                  defaultValue=''
+                  defaultValue=""
                   render={({ field }) => (
                     <Input
                       fullWidth={true}
                       multiline={true}
-                      placeholder={t('writeyoutmessage')}
+                      placeholder={t("writeyoutmessage")}
                       inputStyle={{
-                        border: 'none',
-                        inpadding: width > 1500 ? '10px 20px' : '',
+                        border: "none",
+                        inpadding: width > 1500 ? "10px 20px" : "",
                       }}
                       field={field}
                       maxLength={400}
@@ -420,11 +420,11 @@ const Support = () => {
                     </IconButton>
 
                     <Button
-                      type='submit'
+                      type="submit"
                       disabled={loading}
                       startIcon={<SendIcon />}
                     >
-                      {t('send')}
+                      {t("send")}
                     </Button>
                   </WrapIcons>
                 </InputDown>
@@ -432,8 +432,8 @@ const Support = () => {
             </Body>
             {showEmoji ? (
               <Emoji
-                value={getValues('message')}
-                onSelect={(e) => setValue('message', e)}
+                value={getValues("message")}
+                onSelect={(e) => setValue("message", e)}
                 onBlur={() => setShowEmoji(false)}
               />
             ) : null}
@@ -450,7 +450,7 @@ const Support = () => {
               onClick={() => {
                 history.goBack();
               }}
-              style={{ margin: '0 5px 0 -12px' }}
+              style={{ margin: "0 5px 0 -12px" }}
             >
               <LeftBack />
             </IconButton>
@@ -467,17 +467,17 @@ const Support = () => {
               ) : histories.length === 0 ? (
                 <div
                   style={{
-                    display: 'flex',
+                    display: "flex",
                     flex: 1,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '20px',
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: "20px",
                   }}
                 >
-                  {t('thereisnomessage')}
+                  {t("thereisnomessage")}
                 </div>
               ) : (
-                <Messages id='scrollableDiv' onScroll={findScrollHeight}>
+                <Messages id="scrollableDiv" onScroll={findScrollHeight}>
                   <div ref={messagesStartRef} />
                   {scrollHeight > 1 ? (
                     <WrapDownIcon>
@@ -490,28 +490,28 @@ const Support = () => {
                     dataLength={histories?.length}
                     next={fetchHisFetchData}
                     style={{
-                      display: 'flex',
-                      flexDirection: 'column-reverse',
-                      overflow: 'hidden',
+                      display: "flex",
+                      flexDirection: "column-reverse",
+                      overflow: "hidden",
                     }}
                     inverse={true}
                     hasMore={total?.hasMore}
                     loader={
                       <div
                         style={{
-                          display: 'flex',
-                          justifyContent: 'center',
-                          width: '100%',
+                          display: "flex",
+                          justifyContent: "center",
+                          width: "100%",
                           zIndex: 3000,
                         }}
                       >
                         <Spinner />
                       </div>
                     }
-                    scrollableTarget='scrollableDiv'
+                    scrollableTarget="scrollableDiv"
                     endMessage={
                       <Divider>
-                        <div>{dayjs(lastdate).format('DD MMMM YYYY')}</div>
+                        <div>{dayjs(lastdate).format("DD MMMM YYYY")}</div>
                       </Divider>
                     }
                   >
@@ -520,7 +520,7 @@ const Support = () => {
                         <MessageWrap type={v.chatType} key={v.id}>
                           <Message type={v.chatType}>
                             <MessageDate type={v.chatType}>
-                              {dayjs(v.createdAt).format('HH:mm')}
+                              {dayjs(v.createdAt).format("HH:mm")}
                             </MessageDate>
                             <MessageText type={v.chatType}>{v.msg}</MessageText>
                           </Message>
@@ -537,18 +537,18 @@ const Support = () => {
             <Form onSubmit={handleSubmit(onSubmit)}>
               <WrapTextArea>
                 <Controller
-                  name='message'
+                  name="message"
                   control={control}
                   rules={{
                     required: true,
                     maxLength: 400,
                   }}
-                  defaultValue=''
+                  defaultValue=""
                   render={({ field }) => (
                     <TextareaAutosize
                       minRows={1}
                       maxRows={6}
-                      placeholder={t('writeyoutmessage')}
+                      placeholder={t("writeyoutmessage")}
                       onChange={(e) => {
                         if (e.target.value.length <= 400) {
                           return field.onChange(e);
@@ -556,16 +556,16 @@ const Support = () => {
                       }}
                       value={field.value}
                       style={{
-                        maxWidth: '100%',
-                        minWidth: '100%',
-                        maxHeight: '102px',
+                        maxWidth: "100%",
+                        minWidth: "100%",
+                        maxHeight: "102px",
                       }}
                       maxLength={400}
                     />
                   )}
                 />
                 <WrapButtons>
-                  <IconButton type='submit' disabled={loading}>
+                  <IconButton type="submit" disabled={loading}>
                     <SendIcon />
                   </IconButton>
                 </WrapButtons>
