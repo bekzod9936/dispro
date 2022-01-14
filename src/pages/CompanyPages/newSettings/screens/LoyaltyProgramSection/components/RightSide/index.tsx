@@ -22,7 +22,7 @@ import { useTranslation } from "react-i18next";
 import { SaveButton } from "components/Custom/Buttons/Save";
 import MultiSelect from "components/Custom/MultiSelect";
 import Spinner from "components/Custom/Spinner";
-import {MainconditionTypes,TypeParkMainconditionTypes} from "./utils";
+import {MainconditionTypes,FirstconditonTypes,TypeParkMainconditionTypes} from "./utils";
 import {notifyError,notifySuccess} from 'services/utils/local_notification';
 import CustomToggle from "components/Custom/CustomToggleSwitch";
 import { GroupToggle, ToggleInfo,ModalTitle,ModalBody ,LoyalDiv,BtnContainer} from "../../style";
@@ -66,7 +66,6 @@ import {
   IconWord,
   HoverMainAdd,
   HoverMainIcon,
-  WrapModalPaygo,
   IconStyleMain,
   WrapperModal,
 } from "../../style";
@@ -325,8 +324,6 @@ const handleChangePoints = () => {
 
 
 
-
-
  const checkValidation=(levels:any,name:any)=>{
   
    for (let i=0;i<levels?.length;i++){
@@ -509,8 +506,6 @@ const handleChangePoints = () => {
   };
  
 
- 
-
   React.useEffect(()=>{
     if(Boolean(responseCashback?.data?.data?.data?.isActive)){
       setCashback(Boolean(responseCashback?.data?.data?.data?.isActive))
@@ -532,9 +527,7 @@ const handleChangePoints = () => {
   },[responseBonusPoint?.data?.data?.data?.isActive,Boolean(bonusPoint)])
  
 
-
   React.useEffect(() => {
-
     if(discounts){
       responseDiscount.refetch();
       if(Boolean(disCount)){
@@ -642,8 +635,6 @@ const saveActiveHandle=()=>{
   useProgramSave.mutate(requestprogram)
   setModalForActive(false)
 }
-
-
 
   return (
     <Container>
@@ -1028,9 +1019,16 @@ const saveActiveHandle=()=>{
                         width={{ minwidth: 170,width:'fit-content',maxwidth:170 }}
                         error={!!errors.levels?.[index]?.type}
                         {...field}
-                        options={ infoData==2 ? 
-                         TypeParkMainconditionTypes:MainconditionTypes
+                        // options={ infoData==2 ? 
+                        //  TypeParkMainconditionTypes:MainconditionTypes
+                        // }
+                          options={ infoData==2 ? 
+                           TypeParkMainconditionTypes:FirstconditonTypes
+                         }
+                         isOptionDisabled={(option:any) =>
+                          option.value=='Рекомендации'
                         }
+                        //  isOptionDisabled={(option:any)=>watch(`levels[${index}].type.id`)==2 && option.value=='Рекомендации'}
                         selectStyle={{
                           radius: !!errors.levels?.[index]?.type ? 14:0,
                           borderbottom: !!errors.levels?.[index]?.type
@@ -1111,7 +1109,7 @@ const saveActiveHandle=()=>{
             <InputFormat
               label={t("Какой процент счета можно оплатить баллами?")}
               type='tel'
-              defaultValue={console.log('errors.maxAmount',errors.maxAmount)}
+             
               max='100'
               autoComplete={"off"}
               width={width>1550 ? { maxwidth:500, minwidth: 300}:{ maxwidth:350, minwidth: 300}}

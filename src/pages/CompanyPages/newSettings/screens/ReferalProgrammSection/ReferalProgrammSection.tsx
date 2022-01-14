@@ -41,8 +41,6 @@ import {
 } from './styles';
 
 //components
-import CancelButton from '../../components/CancelButton';
-import SaveButton from '../../components/SaveButton';
 import CustomToggle from 'components/Custom/CustomToggleSwitch';
 import SettingButton from '../../components/SettingButton';
 import InputFormat from 'components/Custom/InputFormat';
@@ -57,6 +55,8 @@ import useWindowWidth from 'services/hooks/useWindowWidth';
 import ReferalCard from './components/ReferalCard';
 import Spinner from 'components/Helpers/Spinner';
 import { ruCount } from 'services/utils';
+import { CancelButton } from 'components/Custom/Buttons/Cancel';
+import { SaveButton } from 'components/Custom/Buttons/Save';
 
 const ReferalProgrammSection = () => {
   const { t } = useTranslation();
@@ -66,7 +66,6 @@ const ReferalProgrammSection = () => {
     control,
     handleSave,
     handleSwitch,
-    saving,
     handleSubmit,
     errors,
     setValue,
@@ -296,8 +295,8 @@ const ReferalProgrammSection = () => {
                 </Button>
 
                 <ActionDiv>
-                  <CancelButton onClick={handleClick} text={t('cancel')} />
-                  <SaveButton type='submit' text={t('save')}  />
+                  <CancelButton  margin={{ laptop: '0 15px 0 0' }} onClick={handleClick} />
+                  <SaveButton  />
                 </ActionDiv>
               </ReferalWrapper>
             </ReferalBody>

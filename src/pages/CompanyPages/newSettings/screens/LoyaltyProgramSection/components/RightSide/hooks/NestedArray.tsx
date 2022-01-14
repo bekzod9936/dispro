@@ -3,7 +3,7 @@ import { useFieldArray, Controller } from "react-hook-form";
 import InputFormat from "components/Custom/InputFormat";
 import MultiSelect from "components/Custom/MultiSelect";
 import { ReactComponent as Remove } from "assets/icons/exit_mini.svg";
-import {OnlyOneOr,TypeParkConditionTypes,conditonTypes,Or} from '../utils';
+import {OnlyOneOr,TypeParkConditionTypes,conditonTypes,Or,FirstconditonTypes} from '../utils';
 import { ReactComponent as Plus } from "assets/icons/plus_mini.svg";
 import {
   IconStyle,
@@ -60,14 +60,16 @@ const NestedArray = ({
                 render={({ field }) => (
                   <MultiSelect
                     isMulti={false}
-                    options={watch(`levels.[${nestIndex}].requirements.[${k}].type.value`)=='Рекомендации' ? OnlyOneOr:Or}
+                    // options={watch(`levels.[${nestIndex}].requirements.[${k}].type.value`)=='Рекомендации' ? OnlyOneOr:Or}
+                    options={Or}
                     width={{ maxwidth: 100,width:'fit-content',minwidth:80 }}
                     {...field}
                     error={!!errors?.levels?.[nestIndex]?.requirements?.[k]?.condition}
-                    // isOptionDisabled={(option:any) =>
-                    //   watch(`levels.[${nestIndex}].requirements.[${k}].type.value`)=='Рекомендации' && option.value === "Рекомендации" 
-                    // }
-                    // value={watch(`levels.[${nestIndex}].requirements.[${k}].type`)==3 ? OnlyOneOr:Or}
+               
+                    isOptionDisabled={(option:any) =>
+                      watch(`levels.[${nestIndex}].requirements.[${k}].type.value`)=='Рекомендации' && option.value=='или'
+                    }
+       
                     selectStyle={{
                       radius: !!errors?.levels?.[nestIndex]?.requirements?.[k]?.condition ? 14:0,
                       borderbottom:!!errors?.levels?.[nestIndex]?.requirements?.[k]?.condition ? " 1px solid #FF5E68" :"1px solid #606EEA",
@@ -94,8 +96,14 @@ const NestedArray = ({
                 render={({ field }) => (
                   <MultiSelect
                     isMulti={false}
+                    // options={
+                    //   watch(`levels.[${nestIndex}].requirements.[${k}].condition.value`)=='или' ? thirdconditionFilter.filter((item)=>item.value=='Посещения'):thirdconditionFilter
+                    // }
                     options={
-                      watch(`levels.[${nestIndex}].requirements.[${k}].condition.value`)=='или' ? thirdconditionFilter.filter((item)=>item.value=='Посещения'):thirdconditionFilter
+                      FirstconditonTypes
+                    }
+                    isOptionDisabled={(option:any) =>
+                      watch(`levels.[${nestIndex}].requirements.[${k}].condition.value`)=='или' && option.value=='Рекомендации'
                     }
                     width={{ minwidth: 170,width:'fit-content',maxwidth:170 }}
                     {...field}

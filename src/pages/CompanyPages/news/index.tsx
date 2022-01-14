@@ -16,6 +16,7 @@ import useNewsRoute from "./routes";
 import Header from "./components/Header";
 import useWindowWidth from "services/hooks/useWindowWidth";
 import { MainWrapper, Flex, WrapHeader, LeftHeader, Wrap } from "./style";
+import { usePermissions } from "services/hooks/usePermissions";
 
 const News = () => {
   const { t } = useTranslation();
@@ -24,6 +25,7 @@ const News = () => {
   const location = useLocation();
   const { width } = useWindowWidth();
   const history = useHistory();
+  const isEditable=usePermissions('news');
   const handleOpenNews = () => {
     history.push({
       pathname: "/news/create",
@@ -31,6 +33,8 @@ const News = () => {
     });
     dispatch(setQuery(""));
   };
+
+ 
 
   return (
     <MainWrapper id="drawer-container">

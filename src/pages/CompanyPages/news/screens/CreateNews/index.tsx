@@ -77,6 +77,7 @@ const CreateNews = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
+
   const { width } = useWindowWidth();
   const { branches } = useStaff();
   const [optionalFields, setOptionalFields] = React.useState<IOptionFields>({
@@ -694,7 +695,8 @@ const CreateNews = () => {
             >
               {t('cancel')}
             </Button>
-            <Button
+            <Button 
+   
               type='submit'
               margin={{ laptop: '0 25px' }}
               startIcon={<SaveIcon />}

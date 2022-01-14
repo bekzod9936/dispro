@@ -41,14 +41,14 @@ export const FirstconditonTypes = [
       value: "Сумма покупок",
     },
     {
-      id: 2,
-      label: "Рекомендации",
-      value: "Рекомендации",
-    },
-    {
       id: 3,
       label: "Посещения",
       value: "Посещения",
+    },
+    {
+      id: 2,
+      label: "Рекомендации",
+      value: "Рекомендации",
     },
    
   ];
