@@ -13,6 +13,7 @@ const CompanyLink = () => {
 
   const data: any = useAppSelector((state) => state.info.data);
   const linkWatch = useWatch({ name: "link" });
+  const companyLinkWatch = useWatch({ name: "companyLink" });
 
   const [links, setLinks] = useState<any[]>([]);
 
@@ -22,10 +23,10 @@ const CompanyLink = () => {
     getValues,
     setValue,
     trigger,
+    setError,
   } = useFormContext();
 
   const handleWebLink = () => {
-    trigger(["companyLink", "link"]);
     if (Boolean(getValues("companyLink")) && Boolean(getValues("link"))) {
       setLinks((prev) => [
         ...prev,
@@ -37,6 +38,21 @@ const CompanyLink = () => {
       ]);
       setValue("companyLink", "");
       setValue("link", "");
+    } else {
+      if (!Boolean(getValues("link"))) {
+        setError(
+          "link",
+          { type: "value", message: t("requiredField") },
+          { shouldFocus: true }
+        );
+      }
+      if (!Boolean(getValues("companyLink"))) {
+        setError(
+          "companyLink",
+          { type: "value", message: t("requiredField") },
+          { shouldFocus: true }
+        );
+      }
     }
   };
   const handleWebDelete = (v: any) => {
@@ -55,12 +71,20 @@ const CompanyLink = () => {
       <Controller
         name="companyLink"
         control={control}
-        rules={{ required: false }}
-        defaultValue=""
+        rules={{
+          required: {
+            value: linkWatch?.length > 0,
+            message: "requiredField",
+          },
+          maxLength: {
+            value: 30,
+            message: "maxcharacters",
+          },
+        }}
         render={({ field }) => (
           <Input
-            message={t(errors?.companyLink?.message)}
-            error={errors.companyLink}
+            message={t(errors?.companyLink?.message, { value: 30 })}
+            error={errors?.companyLink}
             label={t("linkName")}
             type="string"
             field={field}
@@ -73,8 +97,17 @@ const CompanyLink = () => {
       <Controller
         name="link"
         control={control}
-        rules={{ required: false }}
-        defaultValue=""
+        rules={{
+          required: {
+            value: companyLinkWatch?.length > 0,
+            message: "requiredField",
+          },
+          pattern: {
+            value:
+              /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi,
+            message: "wronglink",
+          },
+        }}
         render={({ field }) => (
           <Input
             label={t("link")}
@@ -100,7 +133,7 @@ const CompanyLink = () => {
         )}
       />
       <ForExample>{t("forexample")}: https://dis-count.app/</ForExample>
-      {links?.length > 0 ? <Title>{t("companyLink")}</Title> : null}
+      {links?.length > 0 && <Title>{t("companyLink")}</Title>}
       {links?.map(({ address, name }: any, i: any) => (
         <>
           <WrapWebLink key={address}>

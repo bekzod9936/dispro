@@ -19,6 +19,7 @@ const KeyWords = () => {
     getValues,
     setValue,
     trigger,
+    setError,
   } = useFormContext();
 
   useEffect(() => {
@@ -27,10 +28,15 @@ const KeyWords = () => {
   }, [data]);
 
   const handleKeywords = () => {
-    trigger(["keywordsValue"]);
     if (Boolean(keywordsValue)) {
       setOptions([...options, getValues("keywordsValue")]);
       setValue("keywordsValue", "");
+    } else {
+      setError(
+        "keywordsValue",
+        { message: "requiredField" },
+        { shouldFocus: true }
+      );
     }
   };
 
@@ -46,17 +52,14 @@ const KeyWords = () => {
       <Controller
         name="keywordsValue"
         control={control}
-        rules={{ required: Boolean(keywordsValue) }}
-        defaultValue=""
+        rules={{
+          required: { value: Boolean(keywordsValue), message: "requiredField" },
+        }}
         render={({ field }) => (
           <Input
             label={t("keywords")}
             error={errors.keywordsValue}
-            message={
-              errors.keywordsValue?.type === "value"
-                ? errors.keywordsValue.message
-                : t("requiredField")
-            }
+            message={t(errors.keywordsValue?.message)}
             type="string"
             field={field}
             margin={{

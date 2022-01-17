@@ -1,4 +1,4 @@
-import { useFormContext, useWatch } from "react-hook-form";
+import { Controller, useFormContext, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import LogoDef from "assets/icons/SideBar/logodefault.png";
@@ -21,6 +21,7 @@ const Logo = () => {
   const companyId: any = localStorage.getItem("companyId");
   const { resizeFile, dataURIToBlob } = usePhoto();
   const {
+    control,
     getValues,
     setValue,
     formState: { errors },
@@ -39,7 +40,7 @@ const Logo = () => {
     await setValue("upload", newFile);
     await clearErrors("logo");
   };
-
+  console.log(errors, "errors");
   return (
     <div>
       <Title>{t("logo")}</Title>
@@ -49,13 +50,21 @@ const Logo = () => {
             {t("logo_text")}
           </Text>
         )}
-        <input
-          accept="image/*"
-          style={{ display: "none" }}
-          id="logo1"
-          type="file"
-          ref={ref}
-          onChange={handleUpload}
+        <Controller
+          name="logo"
+          control={control}
+          rules={{ required: true }}
+          defaultValue=""
+          render={() => (
+            <input
+              accept="image/*"
+              style={{ display: "none" }}
+              id="logo1"
+              type="file"
+              ref={ref}
+              onChange={handleUpload}
+            />
+          )}
         />
         {Boolean(logo) ? (
           <div>
@@ -91,7 +100,7 @@ const Logo = () => {
           </Label>
         )}
       </div>
-      {errors.logo && <Message>{t(errors.logo.message)}</Message>}
+      {errors.logo && <Message>{t("addinfologo")}</Message>}
     </div>
   );
 };

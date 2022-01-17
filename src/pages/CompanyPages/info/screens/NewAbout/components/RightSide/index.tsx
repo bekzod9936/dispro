@@ -40,13 +40,16 @@ const RightSide = () => {
       <Controller
         name="telNumber"
         control={control}
-        rules={{ required: true, maxLength: 9, minLength: 9 }}
-        defaultValue=""
+        rules={{
+          required: { value: true, message: "requiredField" },
+          maxLength: 9,
+          minLength: 9,
+        }}
         render={({ field }) => (
           <Input
             label={t("phoneNumber")}
             error={errors.telNumber ? true : false}
-            message={t("requiredField")}
+            message={t(errors?.telNumber?.message)}
             type="tel"
             field={field}
             margin={{

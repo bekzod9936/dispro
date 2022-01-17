@@ -1,6 +1,6 @@
 import Spinner from "components/Custom/Spinner";
 import useLayout from "components/Layout/useLayout";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "services/redux/hooks";
 import LeftSide from "./components/LeftSide";
@@ -10,13 +10,22 @@ import { SaveButton } from "components/Custom/Buttons/Save";
 import ExitButton from "../../components/Buttons/ExitButton";
 import { setExitModal } from "services/redux/Slices/info/info";
 import { Form, UpSide, DownSide, Container, Wrap } from "./style";
-import { aboutSchema } from "./about.schema";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { FormProps } from "./about.schema";
+
+export interface FormProps {
+  category: any[];
+  logo: string;
+  upload: string;
+  deletelogo: string;
+  options: any[];
+  keywordsValue: string;
+  telNumber: string;
+  links: any[];
+  companyLink: string;
+  link: string;
+}
 
 const NewAbout = () => {
   const methods = useForm<FormProps>({
-    resolver: yupResolver(aboutSchema),
     mode: "onChange",
     shouldFocusError: true,
     reValidateMode: "onChange",
@@ -57,7 +66,12 @@ const NewAbout = () => {
   }, [resCategory, data]);
 
   const handleSubmit = (v: any) => {
-    console.log(v);
+    if (v.keywordsValue?.length > 0) {
+      methods.setError("keywordsValue", { message: "shouldsavekeyword" });
+    }
+    if (v.link?.length > 0) {
+      methods.setError("link", { message: "shouldsavelink" });
+    }
   };
 
   if (resHeader.isLoading) {

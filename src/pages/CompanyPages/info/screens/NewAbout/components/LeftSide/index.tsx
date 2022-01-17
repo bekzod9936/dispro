@@ -41,6 +41,10 @@ const LeftSide = () => {
       <Controller
         name="name"
         control={control}
+        rules={{
+          required: { value: true, message: "requiredField" },
+          maxLength: { value: 30, message: "maxcharacters" },
+        }}
         render={({ field }) => (
           <Input
             label={t("title")}
@@ -58,6 +62,10 @@ const LeftSide = () => {
       <Controller
         name="annotation"
         control={control}
+        rules={{
+          required: { value: true, message: "requiredField" },
+          maxLength: { value: 30, message: "maxcharacters" },
+        }}
         render={({ field }) => (
           <Input
             label={t("company_direction")}
@@ -74,6 +82,10 @@ const LeftSide = () => {
       <Controller
         name="description"
         control={control}
+        rules={{
+          required: { value: true, message: "requiredField" },
+          maxLength: { value: 800, message: "maxcharacters" },
+        }}
         render={({ field }) => (
           <TextArea
             {...field}
@@ -93,6 +105,9 @@ const LeftSide = () => {
       <Controller
         name="category"
         control={control}
+        rules={{
+          required: { value: true, message: "requiredField" },
+        }}
         render={({ field }) => (
           <MultiSelect
             isLoading={resCategory.isLoading}
