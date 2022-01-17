@@ -18,6 +18,7 @@ const KeyWords = () => {
     formState: { errors },
     getValues,
     setValue,
+    trigger,
   } = useFormContext();
 
   useEffect(() => {
@@ -26,6 +27,7 @@ const KeyWords = () => {
   }, [data]);
 
   const handleKeywords = () => {
+    trigger(["keywordsValue"]);
     if (Boolean(keywordsValue)) {
       setOptions([...options, getValues("keywordsValue")]);
       setValue("keywordsValue", "");

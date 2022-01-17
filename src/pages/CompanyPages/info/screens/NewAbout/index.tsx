@@ -12,23 +12,14 @@ import { setExitModal } from "services/redux/Slices/info/info";
 import { Form, UpSide, DownSide, Container, Wrap } from "./style";
 import { aboutSchema } from "./about.schema";
 import { yupResolver } from "@hookform/resolvers/yup";
-
-interface FormProps {
-  logo: string;
-  upload: string;
-  deletelogo: string;
-  options: any[];
-  category: any[];
-  keywordsValue: string;
-  telNumber: string;
-  links: any[];
-  companyLink: string;
-  link: string;
-}
+import { FormProps } from "./about.schema";
 
 const NewAbout = () => {
   const methods = useForm<FormProps>({
     resolver: yupResolver(aboutSchema),
+    mode: "onChange",
+    shouldFocusError: true,
+    reValidateMode: "onChange",
   });
 
   const dispatch = useAppDispatch();
@@ -65,13 +56,17 @@ const NewAbout = () => {
     }
   }, [resCategory, data]);
 
+  const handleSubmit = (v: any) => {
+    console.log(v);
+  };
+
   if (resHeader.isLoading) {
     return <Spinner />;
   }
 
   return (
     <FormProvider {...methods}>
-      <Form>
+      <Form onSubmit={methods.handleSubmit(handleSubmit)}>
         <UpSide>
           <Container>
             <Wrap>

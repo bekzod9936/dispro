@@ -7,9 +7,10 @@ const useLeft = () => {
     refetchOnWindowFocus: false,
     retry: 0,
     select: (data) => {
-      return data.data.data.map((v: any) => {
-        return { value: v.id, label: v.name };
-      });
+      return data.data.data.map(({ id, name }: any) => ({
+        value: id,
+        label: name,
+      }));
     },
   });
   return { resCategory };
