@@ -1,16 +1,17 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { IProps } from '../Header/types';
-import { FONT_SIZE } from '../../../../../services/Types/enums';
+import { FONT_SIZE } from '../../style';
 //styles
-import { Flex } from '../../../../../styles/BuildingBlocks';
+import { Flex } from '../../style';
 import { CreateNewsIcon } from '../../../../../assets/icons/NewsIcons/NewsIcons';
-import { Text } from '../../../../../styles/CustomStyles';
+import { Text } from '../../style';
 import noPending from '../../../../../assets/images/nopending.png';
 import Button from 'components/Custom/Buttons/Button';
+import { usePermissions } from "services/hooks/usePermissions";
 const NoNewsLaptop: React.FC<IProps> = ({ handleOpenSetting }) => {
   const { t } = useTranslation();
-
+  const isEditable=usePermissions('news')
   return (
     <>
       <Flex
@@ -35,6 +36,7 @@ const NoNewsLaptop: React.FC<IProps> = ({ handleOpenSetting }) => {
             </div>
             <div style={{ marginTop: '15px' }}>
               <Button
+                disabled={isEditable==false}
                 onClick={handleOpenSetting}
                 buttonStyle={{
                   bgcolor: 'rgb(96, 110, 234)',

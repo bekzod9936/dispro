@@ -17,6 +17,7 @@ import Header from "./components/Header";
 import useWindowWidth from "services/hooks/useWindowWidth";
 import { MainWrapper, Flex, WrapHeader, LeftHeader, Wrap } from "./style";
 
+
 const News = () => {
   const { t } = useTranslation();
   const { menuItems, newsPath } = useNewsRoute();
@@ -24,6 +25,7 @@ const News = () => {
   const location = useLocation();
   const { width } = useWindowWidth();
   const history = useHistory();
+
   const handleOpenNews = () => {
     history.push({
       pathname: "/news/create",
@@ -31,6 +33,8 @@ const News = () => {
     });
     dispatch(setQuery(""));
   };
+
+ 
 
   return (
     <MainWrapper id="drawer-container">

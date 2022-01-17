@@ -36,9 +36,10 @@ export const customStyle = (props: any) => ({
   option: (base: any, state: any) => {
     return {
       ...base,
-      color: props.selectStyle?.color ? props.selectStyle?.color : '#223367',
+      color: state.isDisabled ? '#c7c7c7' :  props.selectStyle?.color ? props.selectStyle?.color : '#223367',
       fontWeight: props.selectStyle?.weight ? props.selectStyle?.weight : '500',
-      backgroundColor: state.isSelected ? '#E8F0FE' : 'white',
+      backgroundColor:  state.isSelected  ? '#E8F0FE' : 'white',
+      cursor: state.isDisabled ? 'not-allowed' : 'pointer'
     };
   },
 });

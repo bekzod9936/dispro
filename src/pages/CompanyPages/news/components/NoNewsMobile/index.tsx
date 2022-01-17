@@ -5,13 +5,14 @@ import useWindowWidth from "services/hooks/useWindowWidth";
 //icons
 import noPending from "../../../../../assets/images/nopending.png";
 //styles
-import { FONT_SIZE } from "../../../../../services/Types/enums";
-import { Flex } from "../../../../../styles/BuildingBlocks";
-import { Text } from "../../../../../styles/CustomStyles";
+import { FONT_SIZE } from "../../style";
+import { Flex } from "../../style";
+import { Text } from "../../style";
 
 const NoNews: React.FC<IProps> = ({ handleOpenSetting }) => {
   const { t } = useTranslation();
-  const { width } = useWindowWidth();
+
+
   return (
     <>
       <Flex
