@@ -642,9 +642,9 @@ const saveActiveHandle=()=>{
     <CustomToggle checked={discounts} onChange={handleChangeDiscount} />
     
         <ToggleInfo>
-          <h5>{t('Предоставление скидки')}</h5>
+          <h5>{t('provideDiscount')}</h5>
           <p>
-           {infoData==2 ? 'Клиент получает скидку при каждом пополнении карты парка в размере определенного %':'Клиент получает скидку при каждой покупке в размере определенного %'}
+           {infoData==2 ? `${t('provideDiscountTextPark')}`:'Клиент получает скидку при каждой покупке в размере определенного %'}
           </p>
         </ToggleInfo>
       </GroupToggle>
