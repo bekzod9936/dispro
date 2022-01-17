@@ -62,7 +62,7 @@ export const Selects: React.FC<SelectsProps> = ({ handleOpen }) => {
             name="section"
             options={sectionsResponseListToOptions(data?.data)}
             icon={<SectionsIcon />}
-            placeholder="Выберите раздел"
+            placeholder="Выберите раздел/подраздел"
           />
           {isSectionButtonEnabled && (
             <SubButton type="button" onClick={handleOpen}>

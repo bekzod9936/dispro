@@ -22,7 +22,7 @@ export const Radios: React.FC<RadiosProps> = ({ onChange, value }) => {
         <LightToolTip
           placement="top"
           arrow
-          title="Товар который можно купить 100% оплатив баллами"
+          title="Товар, который можно купить, оплатив 100% баллами"
         >
           <QuestionMarkIcon />
         </LightToolTip>

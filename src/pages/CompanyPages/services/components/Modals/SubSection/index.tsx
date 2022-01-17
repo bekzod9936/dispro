@@ -25,6 +25,7 @@ import {
   useSubSectionForm,
 } from "pages/CompanyPages/services/hooks";
 import {
+  getCorrectPostfixFromSubSectionsAmount,
   getSubSectionsLength,
   sectionFieldToDto,
 } from "pages/CompanyPages/services/helpers";
@@ -77,7 +78,7 @@ export const SubSectionModal: React.FC<SubSectionModalProps> = ({
             </div>
             <p>
               Можно добавить еще {limit}{" "}
-              {limit === 1 ? "подраздел" : "подразделов"}
+              {getCorrectPostfixFromSubSectionsAmount(limit)}
             </p>
           </Header>
           <SubSectionField name="subSection" />
