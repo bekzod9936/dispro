@@ -12,6 +12,7 @@ import { ErrorMessage, GridContainer, Header } from "./style";
 
 //other
 import { useImage } from "pages/CompanyPages/services/hooks";
+import { getCorrectPostfixFromPhotosAmount } from "pages/CompanyPages/services/helpers";
 
 interface PhotosProps {}
 
@@ -45,7 +46,7 @@ export const Photos: React.FC<PhotosProps> = () => {
           <>
             <p>
               Можно загрузить еще {imageLimit}{" "}
-              {imageLimit === 1 ? "фотографию" : "фотографий"} JPG или PNG,
+              {getCorrectPostfixFromPhotosAmount(imageLimit)} JPG или PNG,
               минимальное разрешение 400*400рх, размер не более 3Мбайт.
             </p>
             <UploadButton

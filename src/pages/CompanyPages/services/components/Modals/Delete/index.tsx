@@ -76,7 +76,7 @@ export const DeleteModal: React.FC<DeleteModalProps> = ({
       <Wrapper onSubmit={handleSubmit}>
         <div className="header">
           <h4>
-            {t(alertMessage.title)} {name}?
+            {t(alertMessage.title)} "{name}"?
           </h4>
           <p>{t(alertMessage.info)}</p>
         </div>

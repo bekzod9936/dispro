@@ -76,7 +76,7 @@ export const HideModal: React.FC<HideModalProps> = ({
       <Wrapper>
         <div className="container">
           <h4>
-            {t(alertMessage.title)} {name}?
+            {t(alertMessage.title)} "{name}"?
           </h4>
           <p>{t(alertMessage.info)}</p>
           <div className="footer">
