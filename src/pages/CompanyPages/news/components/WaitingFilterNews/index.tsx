@@ -7,6 +7,7 @@ import { SearchIcon } from 'components/Layout/Header/style';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'services/redux/hooks';
 import { AddMobileIcon } from 'assets/icons/news/newsIcons';
+import { usePermissions } from "services/hooks/usePermissions";
 interface FilterNews {
   handleOpenNews: () => void;
   searchNews: (e: any) => void;
@@ -20,6 +21,8 @@ export const WaitingFilterNews = ({
 }: FilterNews) => {
   const { t } = useTranslation();
   const query = useAppSelector((state) => state.news.query);
+  const isEditable=usePermissions('news')
+  
   return (
     <Flex width='100%' justifyContent='center' alignItems='center' margin='0'>
       <Input
@@ -32,6 +35,7 @@ export const WaitingFilterNews = ({
       />
 
       <Button
+        disabled={isEditable==false}
         onClick={handleOpenNews}
         buttonStyle={{
           bgcolor: '#FFFFFF',

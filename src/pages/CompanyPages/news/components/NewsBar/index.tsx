@@ -25,6 +25,7 @@ import { IDeferred } from 'services/redux/Slices/news/types';
 import { PublicModal } from './components/PublicModal';
 import { PenIcon } from 'assets/icons/news/newsIcons';
 import useWindowWidth from 'services/hooks/useWindowWidth';
+import { usePermissions } from "services/hooks/usePermissions";
 import {
   Wrapper,
   Header,
@@ -60,6 +61,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
   const { t } = useTranslation();
   const [isDeleteOpen, setDeleteOpen] = React.useState<boolean>(false);
   const [isPublishOpen, setPublisOpen] = React.useState<boolean>(false);
+  const isEditable=usePermissions('news')
 
   const showNew = () => {
     if (currentNews) {
@@ -250,6 +252,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
             width <= 1000 && (
               <ButtonView>
                 <Button
+                     disabled={isEditable==false}
                   onClick={() => editNews()}
                   buttonStyle={{
                     color: '#fff',
@@ -312,6 +315,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
                   }}
                 >
                   <Button
+                       disabled={isEditable==false}
                     onClick={() => editNews()}
                     buttonStyle={{
                       color: '#606EEA',
@@ -340,6 +344,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
           >
             {location.pathname !== '/news/archive' && width > 1000 && (
               <Button
+              disabled={isEditable==false}
                 onClick={() => setDeleteOpen(true)}
                 buttonStyle={{
                   color: '#ffffff',
@@ -355,6 +360,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
               width > 600 &&
               width <= 1000 && (
                 <Button
+                disabled={isEditable==false}
                   onClick={() => setDeleteOpen(true)}
                   buttonStyle={{
                     color: '#ffffff',
@@ -367,6 +373,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
               )}
             {location.pathname === '/news/archive' && width > 1000 && (
               <Button
+              disabled={isEditable==false}
                 onClick={() => restoreNews()}
                 buttonStyle={{
                   color: '#ffffff',
@@ -382,6 +389,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
               width > 600 &&
               width < 1000 && (
                 <Button
+                disabled={isEditable==false}
                   onClick={() => restoreNews()}
                   buttonStyle={{
                     color: '#ffffff',
@@ -400,7 +408,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
       <Modal open={isDeleteOpen}>
         <DeleteModal>
           <h5> {t('deleteNewsTitle')} </h5>
-          <p>{t('afterDelete')}</p>
+          <p>{t('deleteNewsText')}</p>
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <Button
               buttonStyle={{ color: '#223367', bgcolor: '#ffffff' }}
@@ -411,6 +419,7 @@ export const NewsBar = ({ refetch, onClose, currentNews }: IProps) => {
               {t('cancellation')}
             </Button>
             <Button
+             disabled={isEditable==false}
               buttonStyle={{
                 bgcolor: '#FF5E68 ',
                 shadow: '0px 4px 9px rgba(255, 94, 104, 0.46)',
