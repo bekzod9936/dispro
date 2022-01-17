@@ -22,22 +22,16 @@ export const aboutSchema = yup.object().shape({
   keywordsValue: yup
     .string()
     .nullable(true)
-    .transform((parsedValue, originalValue) =>
-      originalValue === "" ? null : parsedValue
-    )
+    .transform((value) => value.trim())
     .required(),
   companyLink: yup
     .string()
     .nullable(true)
-    .transform((parsedValue, originalValue) =>
-      originalValue === "" ? null : parsedValue
-    )
-    .required(),
+    .transform((value) => value.trim())
+    .required("requiredField"),
   link: yup
     .string()
     .nullable(true)
-    .transform((parsedValue, originalValue) =>
-      originalValue === "" ? null : parsedValue
-    )
-    .required(),
+    .transform((value) => value.trim())
+    .required("requiredField"),
 });

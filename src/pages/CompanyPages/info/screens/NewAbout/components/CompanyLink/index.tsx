@@ -26,16 +26,18 @@ const CompanyLink = () => {
 
   const handleWebLink = () => {
     trigger(["companyLink", "link"]);
-    setLinks((prev) => [
-      ...prev,
-      {
-        name: getValues("companyLink"),
-        address: getValues("link"),
-        enable: false,
-      },
-    ]);
-    setValue("companyLink", "");
-    setValue("link", "");
+    if (Boolean(getValues("companyLink")) && Boolean(getValues("link"))) {
+      setLinks((prev) => [
+        ...prev,
+        {
+          name: getValues("companyLink"),
+          address: getValues("link"),
+          enable: false,
+        },
+      ]);
+      setValue("companyLink", "");
+      setValue("link", "");
+    }
   };
   const handleWebDelete = (v: any) => {
     const newArr = links.filter((a: any, i: any) => i !== v);
@@ -57,7 +59,7 @@ const CompanyLink = () => {
         defaultValue=""
         render={({ field }) => (
           <Input
-            message={t("requiredField")}
+            message={t(errors?.companyLink?.message)}
             error={errors.companyLink}
             label={t("linkName")}
             type="string"
@@ -87,7 +89,7 @@ const CompanyLink = () => {
                 : "1px solid #C2C2C2",
             }}
             isAbsolute={true}
-            message={errors?.link?.message}
+            message={t(errors?.link?.message)}
             error={errors.link}
             IconEnd={
               <WrapArrow onClick={handleWebLink} bgcolor={Boolean(linkWatch)}>
