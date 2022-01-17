@@ -433,7 +433,7 @@ const MobileTable = ({ refetch, data }: Props) => {
                 <Modal open={isDeleteOpen}>
                   <DeleteModal>
                     <h5>{t('Вы действительно хотите удалить новость?')}</h5>
-                    <p>{t('После удаления новости  данные будет утеряны')}</p>
+                    <p>{t('deleteNewsText')}</p>
                     <Buttons>
                       <Button
                         margin={{

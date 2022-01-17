@@ -1,11 +1,56 @@
 import styled from 'styled-components';
 import { device } from 'styles/device';
-import { IFlex } from 'services/Types/Style';
 import ButtonBase from '@material-ui/core/ButtonBase';
 
 export interface IRow {
   light?: boolean;
 }
+
+export enum FONT_SIZE {
+  label = "16px",
+  modalTitle = "18px",
+  modalText = "14px",
+  mediumPlus = "18px",
+  meduim = "16px",
+  smallPlus = "14px",
+  large = "22px",
+}
+
+
+export interface IText {
+  lineHeight?: string;
+  fontSize?: string;
+  fontWeight?: 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
+  color?: string;
+  marginLeft?: string;
+  marginRight?: string;
+  marginBottom?: string;
+  fontFamily?: string;
+}
+
+export interface IFlex {
+  maxWidth?: string;
+  justifyContent?:
+    | "space-between"
+    | "space-around"
+    | "space-evenly"
+    | "start"
+    | "center"
+    | "stretch"
+    | "end"
+    | "flex-start";
+  alignItems?: "flex-start" | "flex-end" | "center" | "baseline" | "stretch";
+  flexGrow?: string;
+  width?: string;
+  height?: string;
+  margin?: string;
+  flexDirection?: "column" | "row" | "row-reverse" | "column-reverse";
+  flexWrap?: "wrap" | "nowrap" | "wrap-reverse";
+  padding?: string;
+  background?: string;
+  overflowY?: string;
+}
+
 
 export const MainWrapper = styled.div`
   display: flex;
@@ -86,6 +131,9 @@ export const Flex = styled.div<IFlex>`
   flex-wrap: ${(props: IFlex) => props.flexWrap || 'nowrap'};
 
 
+  
+
+
 
   @media (min-width: ${device.mobile}) and (max-width: ${device.planshet}) {
     flex-direction: flex;
@@ -136,3 +184,29 @@ export const RightHeader = styled.div`
 `;
 export const LeftHeader = styled.div`
 overflow: hidden;`;
+
+
+export const Text = styled.span<IText>`
+  font-size: ${(props: IText) =>
+    props.fontSize ? props.fontSize : "16px"} !important;
+  font-family: ${(props: IText) =>
+    props.fontFamily ? props.fontFamily : "Roboto"};
+  margin-right: ${(props: IText) =>
+    props.marginRight ? props.marginRight : "0px"};
+  color: ${(props: IText) => props.color || "#223367"};
+  //position: relative;
+  margin-left: ${(props: IText) => (props.marginLeft ? props.marginLeft : "0")};
+  margin-bottom: ${(props: IText) =>
+    props.marginBottom ? props.marginBottom : "0"};
+  font-weight: ${(props: IText) => (props.fontWeight ? props.fontWeight : 700)};
+
+  @media (max-width: ${device.mobile}) {
+    font-size: 16px;
+  }
+  @media (min-width: ${device.mobile}) {
+    font-size: 15px;
+  }
+  @media (min-width: ${device.mobile}) and (max-width: ${device.laptop}) {
+    font-size: 15px;
+  }
+`;

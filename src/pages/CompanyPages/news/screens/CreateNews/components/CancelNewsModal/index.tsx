@@ -23,12 +23,12 @@ export const CancelNewsModal = ({
     <Modal modalStyle={{ bgcolor: '#fff' }} open={cancel}>
       <WrapperModal>
         <p style={{ color: 'black' }}>
-          {t('Вы действительно хотите отменить создание новости')}
+          {t('cancelNews')}
         </p>
         {width > 600 ? (
           <>
             <Button
-              buttonStyle={{ color: '#223367', bgcolor: '#ffffff' }}
+              buttonStyle={{ color: '#223367',   bgcolor: 'rgb(255, 255, 255)',}}
               margin={{ laptop: '0 22px 0 0' }}
               onClick={notCancel}
             >
@@ -50,7 +50,7 @@ export const CancelNewsModal = ({
                 onClick={notCancel}
                 endIcon={<MobileCancelIcon />}
                 buttonStyle={{
-                  bgcolor: 'rgba(96, 110, 234, 0.1)',
+                  bgcolor: 'rgb(255, 255, 255)',
                   color: '#606EEA',
                 }}
                 margin={{ mobile: '0 8px 8px 0' }}

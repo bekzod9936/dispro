@@ -1,5 +1,4 @@
 import React, {useState } from "react";
-
 import { useAppSelector } from "services/redux/hooks";
 import {useMutation } from 'react-query';
 import CheckBox from 'components/Custom/CheckBox';
@@ -1019,15 +1018,15 @@ const saveActiveHandle=()=>{
                         width={{ minwidth: 170,width:'fit-content',maxwidth:170 }}
                         error={!!errors.levels?.[index]?.type}
                         {...field}
-                        // options={ infoData==2 ? 
-                        //  TypeParkMainconditionTypes:MainconditionTypes
-                        // }
-                          options={ infoData==2 ? 
-                           TypeParkMainconditionTypes:FirstconditonTypes
-                         }
-                         isOptionDisabled={(option:any) =>
-                          option.value=='Рекомендации'
+                        options={ infoData==2 ? 
+                         TypeParkMainconditionTypes:MainconditionTypes
                         }
+                        //   options={ infoData==2 ? 
+                        //    TypeParkMainconditionTypes:FirstconditonTypes
+                        //  }
+                        //  isOptionDisabled={(option:any) =>
+                        //   option.value=='Рекомендации'
+                        // }
                         //  isOptionDisabled={(option:any)=>watch(`levels[${index}].type.id`)==2 && option.value=='Рекомендации'}
                         selectStyle={{
                           radius: !!errors.levels?.[index]?.type ? 14:0,

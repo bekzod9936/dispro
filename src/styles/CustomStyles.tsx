@@ -18,7 +18,6 @@ export const CustomDrawer = styled.div`
   flex-direction: column;
   height: 100vh;
   box-sizing: border-box;
-
   /* padding-left: 20px; */
   padding-top: 25px;
   padding-bottom: 25px;

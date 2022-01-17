@@ -23,12 +23,14 @@ const NestedArray = ({
     control,
     name: `levels.[${nestIndex}].requirements`,
   });
-  const infoData = useAppSelector((state) => state.info.data?.type);
+  const infoData = useAppSelector((state) => state.info?.data?.type);
   let selectedItem=watch(`levels.[${nestIndex}].type.id`);
   
   let conditionFilter=infoData==2 ? TypeParkConditionTypes.filter((item)=> selectedItem !==item.id):conditonTypes.filter((item)=> selectedItem !==item.id)
   let secondconditionFilter=conditionFilter.filter((item)=> item.value !==watch(`levels.[${nestIndex}].requirements.[${0}].type.value`))
   let thirdconditionFilter=secondconditionFilter.filter((item)=>item.value !==watch(`levels.[${nestIndex}].requirements.[${1}].type.value`))
+
+
 
   return (
     <>
@@ -60,15 +62,15 @@ const NestedArray = ({
                 render={({ field }) => (
                   <MultiSelect
                     isMulti={false}
-                    // options={watch(`levels.[${nestIndex}].requirements.[${k}].type.value`)=='Рекомендации' ? OnlyOneOr:Or}
-                    options={Or}
+                    options={watch(`levels.[${nestIndex}].requirements.[${k}].type.value`)=='Рекомендации' ? OnlyOneOr:Or}
+                    // options={Or}
                     width={{ maxwidth: 100,width:'fit-content',minwidth:80 }}
                     {...field}
                     error={!!errors?.levels?.[nestIndex]?.requirements?.[k]?.condition}
                
-                    isOptionDisabled={(option:any) =>
-                      watch(`levels.[${nestIndex}].requirements.[${k}].type.value`)=='Рекомендации' && option.value=='или'
-                    }
+                    // isOptionDisabled={(option:any) =>
+                    //   watch(`levels.[${nestIndex}].requirements.[${k}].type.value`)=='Рекомендации' && option.value=='или'
+                    // }
        
                     selectStyle={{
                       radius: !!errors?.levels?.[nestIndex]?.requirements?.[k]?.condition ? 14:0,
@@ -96,15 +98,18 @@ const NestedArray = ({
                 render={({ field }) => (
                   <MultiSelect
                     isMulti={false}
-                    // options={
-                    //   watch(`levels.[${nestIndex}].requirements.[${k}].condition.value`)=='или' ? thirdconditionFilter.filter((item)=>item.value=='Посещения'):thirdconditionFilter
-                    // }
                     options={
-                      FirstconditonTypes
+                      watch(`levels.[${nestIndex}].requirements.[${k}].condition.value`)=='или' ? thirdconditionFilter.filter((item)=>item.value=='Посещения'):thirdconditionFilter
                     }
-                    isOptionDisabled={(option:any) =>
-                      watch(`levels.[${nestIndex}].requirements.[${k}].condition.value`)=='или' && option.value=='Рекомендации'
-                    }
+                  
+                    // options={
+                    //   FirstconditonTypes
+                    // }
+                    // isOptionDisabled={(option:any) =>
+                    //   watch(`levels.[${nestIndex}].requirements.[${k}].condition.value`)=='или' && option.value=='Рекомендации' ||
+                    //   option.value==`${FirstconditonTypes?.find((item)=>item?.id==watch(`levels[${nestIndex}].type.id`))?.value}` ||
+                    //   option.value==`${FirstconditonTypes?.find((item)=>item?.id==watch(`levels.[${nestIndex}].requirements.[${0}].type.id`))?.value}` 
+                    // }
                     width={{ minwidth: 170,width:'fit-content',maxwidth:170 }}
                     {...field}
                     error={!!errors?.levels?.[nestIndex]?.requirements?.[k]?.type}

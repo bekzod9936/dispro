@@ -6,6 +6,7 @@ import DatePcker from 'components/Custom/DatePicker';
 import { SearchIcon } from 'components/Layout/Header/style';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'services/redux/hooks';
+import { usePermissions } from "services/hooks/usePermissions";
 interface FilterNews {
   handleOpenNews: () => void;
   searchNews: (e: any) => void;
@@ -19,6 +20,7 @@ export const FilterNews = ({
 }: FilterNews) => {
   const { t } = useTranslation();
   const query = useAppSelector((state) => state.news.query);
+  const isEditable=usePermissions('news');
   return (
     <Flex
       width='95%'
@@ -27,6 +29,7 @@ export const FilterNews = ({
       margin='0'
     >
       <Button
+      disabled={isEditable==false}
         onClick={handleOpenNews}
         buttonStyle={{
           bgcolor: '#FFFFFF',
@@ -34,6 +37,7 @@ export const FilterNews = ({
           weight: 500,
           height: { desktop: 50 },
         }}
+        
         margin={{
           desktop: '0 25px 0 0',
           laptop: '0 25px 0 0',
