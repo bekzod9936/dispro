@@ -33,7 +33,7 @@ import useWindowWidth from "services/hooks/useWindowWidth";
 const Finance = () => {
   const { t } = useTranslation();
   const { menuItems } = useFinanceRoute();
-  const companyId = sessionStorage.getItem("companyId");
+  const companyId = localStorage.getItem("companyId");
   const dispatch = useAppDispatch();
 
   const accountsBalance = useRecoilState(mainBalance);

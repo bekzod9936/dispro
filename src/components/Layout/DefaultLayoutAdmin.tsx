@@ -39,7 +39,7 @@ export interface IDefaultLayout {
 const DefaultLayoutAdmin: React.FC<IDefaultLayout> = ({ children }) => {
   const { t } = useTranslation();
   const classes = useSideBarStyle();
-  const companyId = sessionStorage.getItem("companyId");
+  const companyId = localStorage.getItem("companyId");
   const { resHeader } = useLayout({ id: companyId });
   const infoData = useAppSelector((state) => state.info.data);
 

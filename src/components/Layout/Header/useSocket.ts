@@ -8,7 +8,7 @@ const io = require("socket.io-client");
 const useSocket = () => {
   const dispatch = useAppDispatch();
 
-  const companyId = sessionStorage.getItem("companyId");
+  const companyId = localStorage.getItem("companyId");
   const companyToken = localStorage.getItem("companyToken");
   const infoData = useAppSelector((state) => state.info.data);
   const regFilled = useAppSelector((state) => {

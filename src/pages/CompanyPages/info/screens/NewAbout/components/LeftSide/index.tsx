@@ -15,7 +15,7 @@ const LeftSide = () => {
   const { t } = useTranslation();
   const { resCategory } = useLeft();
   const categories = useWatch({ name: "category" });
-  const companyId: any = sessionStorage.getItem("companyId");
+  const companyId: any = localStorage.getItem("companyId");
   const { resHeader } = useLayout({ id: companyId });
   const data = useAppSelector((state) => state.info.data);
 

@@ -92,7 +92,7 @@ interface WProps {
 const Address = () => {
   const { t } = useTranslation();
   const { width } = useWindowWidth();
-  const companyId: any = sessionStorage.getItem("companyId");
+  const companyId: any = localStorage.getItem("companyId");
   const {
     responseAddress,
     dataAddress,

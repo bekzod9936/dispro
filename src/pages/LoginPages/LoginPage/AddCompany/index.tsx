@@ -52,7 +52,7 @@ const AddCompany = () => {
     },
     {
       onSuccess: (data) => {
-        sessionStorage.setItem("companyId", data.data.data.companyId);
+        localStorage.setItem("companyId", data.data.data.companyId);
         localStorage.setItem("companyToken", data.data.data.accessToken);
         history.push("/info/about");
         dispatch(setBackAddCompany(false));

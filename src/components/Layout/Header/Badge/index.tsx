@@ -49,7 +49,7 @@ const Badge = () => {
   dayjs.extend(isYesterday);
   dayjs.extend(isToday);
 
-  const companyId = sessionStorage.getItem("companyId");
+  const companyId = localStorage.getItem("companyId");
   useLayout({ id: companyId });
   const badgeInfo = useRecoilState(badgeData);
 

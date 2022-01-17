@@ -80,7 +80,7 @@ const Support = () => {
   const history = useHistory();
   const dispatch = useAppDispatch();
   const [lastdate, setLastdate] = useState<any>("");
-  const companyId: any = sessionStorage.getItem("companyId");
+  const companyId: any = localStorage.getItem("companyId");
   const words = 400;
   const { control, handleSubmit, setValue, getValues, watch } =
     useForm<FormProps>({

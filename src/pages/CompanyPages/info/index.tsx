@@ -79,7 +79,7 @@ const Infopage = () => {
               }}
               onClick={() => {
                 dispatch(setExitModal(false));
-                sessionStorage.removeItem("companyId");
+                localStorage.removeItem("companyId");
                 localStorage.removeItem("companyToken");
                 history.push("/partner/company");
                 dispatch(setCompanyInfo({}));

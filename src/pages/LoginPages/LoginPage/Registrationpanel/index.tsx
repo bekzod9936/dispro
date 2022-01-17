@@ -134,7 +134,7 @@ const Registrationpanel = () => {
   const onSubmitStep2 = (values: any) => {
     res.mutate(values, {
       onSuccess: (data) => {
-        sessionStorage.setItem("companyId", data.data.data.companyId);
+        localStorage.setItem("companyId", data.data.data.companyId);
         localStorage.setItem("companyToken", data.data.data.accessToken);
         history.push("/info/about");
       },

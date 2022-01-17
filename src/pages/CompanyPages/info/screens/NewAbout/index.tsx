@@ -24,7 +24,7 @@ const NewAbout = () => {
 
   const dispatch = useAppDispatch();
 
-  const companyId: any = sessionStorage.getItem("companyId");
+  const companyId: any = localStorage.getItem("companyId");
   const { resHeader } = useLayout({ id: companyId });
   const { resCategory } = useNewAbout();
 

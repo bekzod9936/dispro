@@ -42,7 +42,7 @@ const RestrictModal = () => {
   const handleLogout = () => {
     setOpen(false);
     setOpenM(false);
-    sessionStorage.removeItem("companyId");
+    localStorage.removeItem("companyId");
     localStorage.removeItem("companyToken");
     // localStorage.removeItem('userType');
     history.push("/partner/company");

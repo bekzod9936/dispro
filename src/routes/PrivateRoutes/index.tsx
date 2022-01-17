@@ -36,6 +36,7 @@ const PrivateRoutes = () => {
         <PrivateRoute
           key={item.path}
           path={item.path}
+          Layout={item.layout}
           Component={item.component}
         />
       );
@@ -46,6 +47,7 @@ const PrivateRoutes = () => {
           <PrivateRoute
             key={item.path}
             path={item.path}
+            Layout={item.layout}
             Component={item.component}
           />
         );

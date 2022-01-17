@@ -68,7 +68,7 @@ const EditNews = () => {
   const { t } = useTranslation();
   const history = useHistory();
 
-  const companyId: any = sessionStorage.getItem("companyId");
+  const companyId: any = localStorage.getItem("companyId");
 
   const { dataAddress } = useAddress({
     id: companyId,
