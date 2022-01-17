@@ -31,6 +31,7 @@ import {
   useSections,
 } from "pages/CompanyPages/services/hooks";
 import {
+  getCorrectPostfixFromSectionsAmount,
   getLengthOfParentSections,
   sectionsToSectionArray,
 } from "pages/CompanyPages/services/helpers";
@@ -111,10 +112,10 @@ export const SectionModal: React.FC<SectionModalProps> = ({
                 <CloseIcon />
               </IconButton>
             </div>
-            {!isSingle && fieldsLimit > 0 && (
+            {!isSingle && (
               <p>
                 Можно добавить еще {fieldsLimit}{" "}
-                {fieldsLimit === 1 ? "раздел" : "разделов"}
+                {getCorrectPostfixFromSectionsAmount(fieldsLimit)}
               </p>
             )}
           </Header>

@@ -21,7 +21,7 @@ export const Toggles: React.FC<TogglesProps> = ({ onChange, value }) => {
       <LightToolTip
         placement="top"
         arrow
-        title="При заказе этих товаров на их стоимость не будет начислятся cкидка/кешбэк/ баллы, а так же за товар нельзя оплатить баллами"
+        title="При заказе данных товаров, на их стоимость не будет начисляться скидка/кешбэк/баллы, а также нельзя купить товар, оплатив баллами"
       >
         <QuestionMarkIcon />
       </LightToolTip>

@@ -61,8 +61,17 @@ export const useEditItem = (length: number) => {
           dispatch({type: ActionTypes.CHANGE_LOYALTY_TYPE, payload: defaultValues.loyaltyType})
           dispatch({type: ActionTypes.CHANGE_LOYALTY_OFF, payload: defaultValues.loyaltyOff})
 
-          form.reset({...defaultValues, service: category, section, measurement});
+        //   form.reset({...defaultValues, service: category, section, measurement});
+          form.setValue('variants', defaultValues.variants)
+          form.setValue('images', defaultValues.images)
+          form.setValue('preparationTime', defaultValues.preparationTime)
+          form.setValue('preparationTimeData', defaultValues.preparationTimeData)
+          form.setValue('titles', defaultValues.titles)
+          form.setValue('section', section)
+          form.setValue('service', category)
           form.setValue('measurement', measurement)
+          form.setValue('loyaltyOff', defaultValues.loyaltyOff)
+          form.setValue('loyaltyType', defaultValues.loyaltyType)
         }
 
       }, [isLoaded, categoryList, data]);

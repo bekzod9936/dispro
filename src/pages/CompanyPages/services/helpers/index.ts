@@ -336,3 +336,16 @@ export const changeAmountToPutDto = (count: number, isUnlimited: boolean) => {
     count: isUnlimited ? 0 : count,
   };
 };
+
+
+export const getCorrectPostfixFromSectionsAmount = (fieldsLimit: number) => {
+  return fieldsLimit === 1 ? "раздел" : fieldsLimit >= 2 && fieldsLimit <= 4 ? 'раздела' : 'разделов'
+}
+
+export const getCorrectPostfixFromSubSectionsAmount = (fieldsLimit: number) => {
+  return fieldsLimit === 1 ? "подраздел" : fieldsLimit >= 2 && fieldsLimit <= 4 ? 'подраздела' : 'подразделов'
+}
+
+export const getCorrectPostfixFromPhotosAmount = (limit: number) => {
+  return limit === 1 ? "фотографию" : limit >= 2 && limit <= 4 ? "фотографии" : "фотографий"
+}

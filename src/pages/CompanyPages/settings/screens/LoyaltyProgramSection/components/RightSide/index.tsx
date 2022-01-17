@@ -1,4 +1,4 @@
-import React, {useState } from "react";
+import React, {useState,useEffect } from "react";
 import { useAppSelector } from "services/redux/hooks";
 import {useMutation } from 'react-query';
 import CheckBox from 'components/Custom/CheckBox';
@@ -22,7 +22,7 @@ import { SaveButton } from "components/Custom/Buttons/Save";
 import MultiSelect from "components/Custom/MultiSelect";
 import Spinner from "components/Custom/Spinner";
 import {MainconditionTypes,FirstconditonTypes,TypeParkMainconditionTypes} from "./utils";
-import {notifyError,notifySuccess} from 'services/utils/local_notification';
+import {notifyError,notifySuccess,notifyInfo} from 'services/utils/local_notification';
 import CustomToggle from "components/Custom/CustomToggleSwitch";
 import { GroupToggle, ToggleInfo,ModalTitle,ModalBody ,LoyalDiv,BtnContainer} from "../../style";
 import Modal from 'components/Custom/Modal';
@@ -108,7 +108,7 @@ const Right = () => {
   const [localyPaymentsecond, setLocalPaymentSecond] = useState(programSettingsUsePoint);
   const [modalActive, setModalForActive]=useState(false);
 
-  const [makeActive,setMakeActive]=useState(false);
+
   const [requestprogram,setRequestProgram]=useState<any>()
   const [loyalityProgram,setLoyalityProgram]=useState<any>()
 
@@ -159,12 +159,14 @@ const Right = () => {
     name: "levels",
   });
 
+  console.log('fieldsfieldsfields',fields)
+
  const data = watch();
  const useProgramSave = useMutation((data: any) =>
   saveUseProgramLoyality(data)
 );
 
-console.log('datadata',data)
+
 
 const loayalityChange = useMutation(
   (data: any) =>
@@ -505,20 +507,20 @@ const handleChangePoints = () => {
   };
  
 
-  React.useEffect(()=>{
+  useEffect(()=>{
     if(Boolean(responseCashback?.data?.data?.data?.isActive)){
       setCashback(Boolean(responseCashback?.data?.data?.data?.isActive))
     }
   },[responseCashback?.data?.data?.data?.isActive,Boolean(cashBack)])
  
-  React.useEffect(()=>{
+  useEffect(()=>{
    if(Boolean(responseDiscount?.data?.data?.data?.isActive)){
     setDiscounts(Boolean(responseDiscount?.data?.data?.data?.isActive))
    }
 
   },[responseDiscount?.data?.data?.data?.isActive,Boolean(disCount)])
 
-  React.useEffect(()=>{
+  useEffect(()=>{
     if(Boolean(responseBonusPoint?.data?.data?.data?.isActive)){
       setPoints(Boolean(responseBonusPoint?.data?.data?.data?.isActive))
     }
@@ -526,7 +528,7 @@ const handleChangePoints = () => {
   },[responseBonusPoint?.data?.data?.data?.isActive,Boolean(bonusPoint)])
  
 
-  React.useEffect(() => {
+  useEffect(() => {
     if(discounts){
       responseDiscount.refetch();
       if(Boolean(disCount)){
@@ -642,9 +644,9 @@ const saveActiveHandle=()=>{
     <CustomToggle checked={discounts} onChange={handleChangeDiscount} />
     
         <ToggleInfo>
-          <h5>Предоставление скидки</h5>
+          <h5>{t('provideDiscount')}</h5>
           <p>
-           {infoData==2 ? 'Клиент получает скидку при каждом пополнении карты парка в размере определенного %':'Клиент получает скидку при каждой покупке в размере определенного %'}
+           {infoData==2 ? `${t('provideDiscountTextPark')}`:'Клиент получает скидку при каждой покупке в размере определенного %'}
           </p>
         </ToggleInfo>
       </GroupToggle>
@@ -856,6 +858,8 @@ const saveActiveHandle=()=>{
         <h5>Статусы клиентов</h5>
         <p>Создайте статусы и определите размер скидки</p>
       </Title>
+      {fields.length==4 ? <Title><h5 style={{color:'red'}}>Вы создали максимальное количество (5) статусов</h5> </Title>:''}
+      
       <TitleForm>
         <Controller
           name={`name`}
