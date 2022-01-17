@@ -5,23 +5,44 @@ import Input from "components/Custom/Input";
 import { ForExample, WrapWebLink, WebLink, WebValue } from "./style";
 import { ArrowIcon, WrapArrow, DeleteIcon } from "../../style";
 import { IconButton } from "@material-ui/core";
+import { useEffect, useState } from "react";
+import { useAppSelector } from "services/redux/hooks";
 
 const CompanyLink = () => {
   const { t } = useTranslation();
-  const links = useWatch({ name: "links" });
+
+  const data: any = useAppSelector((state) => state.info.data);
+  const linkWatch = useWatch({ name: "link" });
+
+  const [links, setLinks] = useState<any[]>([]);
 
   const {
     control,
     formState: { errors },
     getValues,
     setValue,
-    setError,
-    clearErrors,
   } = useFormContext();
 
-  console.log(links, "dddd");
-  const handleWebLink = () => {};
-  const handleWebDelete = (v: any) => {};
+  const handleWebLink = () => {
+    setLinks((prev) => [
+      ...prev,
+      {
+        name: getValues("companyLink"),
+        address: getValues("link"),
+        enable: false,
+      },
+    ]);
+    setValue("companyLink", "");
+    setValue("link", "");
+  };
+  const handleWebDelete = (v: any) => {
+    const newArr = links.filter((a: any, i: any) => i !== v);
+    setLinks(newArr);
+  };
+
+  useEffect(() => {
+    setLinks(data?.links);
+  }, [data]);
 
   return (
     <div>
@@ -59,20 +80,15 @@ const CompanyLink = () => {
               laptop: "20px 0 0",
             }}
             inputStyle={{
-              border:
-                getValues("link") !== ""
-                  ? "1px solid #606EEA"
-                  : "1px solid #C2C2C2",
+              border: Boolean(linkWatch)
+                ? "1px solid #606EEA"
+                : "1px solid #C2C2C2",
             }}
             isAbsolute={true}
             message={errors?.link?.message}
             error={errors.link ? true : false}
             IconEnd={
-              <WrapArrow
-                style={{ cursor: "pointer" }}
-                onClick={handleWebLink}
-                bgcolor={getValues("link") !== ""}
-              >
+              <WrapArrow onClick={handleWebLink} bgcolor={Boolean(linkWatch)}>
                 <ArrowIcon />
               </WrapArrow>
             }
@@ -81,7 +97,7 @@ const CompanyLink = () => {
       />
       <ForExample>{t("forexample")}: https://dis-count.app/</ForExample>
       {links?.length > 0 ? <Title>{t("companyLink")}</Title> : null}
-      {getValues("links")?.map((v: any) => (
+      {links?.map((v: any, i: any) => (
         <>
           <WrapWebLink key={v.address}>
             <WebLink>{v?.name}</WebLink>
@@ -89,7 +105,7 @@ const CompanyLink = () => {
               <a href={v?.address} rel="noreferrer" target="_blank">
                 ({v?.address})
               </a>
-              <IconButton onClick={() => handleWebDelete(v)}>
+              <IconButton onClick={() => handleWebDelete(i)}>
                 <DeleteIcon />
               </IconButton>
             </WebValue>

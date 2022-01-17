@@ -34,7 +34,7 @@ export const RightGrid = styled.div`
   justify-content: center;
   align-items: flex-start;
   overflow-y: auto !important;
-
+  padding-bottom:20px;
   ::-webkit-scrollbar {
     width: 5px;
   }
@@ -75,6 +75,7 @@ export const LevelsColumn = styled.div`
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
+ 
 `;
 
 export const LevelsRow = styled.div`
@@ -151,12 +152,13 @@ export const ReferalContent = styled.div`
 `;
 
 export const ReferalContainer = styled.div`
-  height: 80%;
+  height: 70%;
   flex: 1;
 `;
 
 export const ReferalBtn = styled.div`
-  height: 20%;
+  height: 30%;
+  margin-bottom:10px;
   display: flex;
   align-items: center;
 `;

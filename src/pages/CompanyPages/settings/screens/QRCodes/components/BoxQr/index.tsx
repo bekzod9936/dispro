@@ -260,7 +260,6 @@ const BoxQr = ({ link, name, id, branch }: Props) => {
               }}
               margin={{ laptop: "30px 15px 0 0" }}
             />
-
             <DeleteButton
               onClick={handleDelete}
               disabled={putBranches.isLoading || deleteRef.isLoading}

@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next';
 import { Controller, useFieldArray } from 'react-hook-form';
-
+import {useAppSelector } from 'services/redux/hooks';
 //assets and style
 import { ReactComponent as ArrowBack } from 'assets/icons/arrow_left.svg';
-import { HBreak, SpinnerDiv } from '../../styles';
+import { HBreak, SpinnerDiv } from '../../style';
 import { SaveIcon } from 'assets/icons/InfoPageIcons/InfoPageIcons';
 import {
   AddIconSettings,
@@ -11,7 +11,7 @@ import {
 } from 'assets/icons/SettingsIcons/SettingsPageIcon';
 import { ThreeHeadIcon } from 'assets/icons/ClientsPageIcons/ClientIcons';
 import { COLORS, FONT_SIZE } from 'services/Types/enums';
-import { ReferalScroll, SmallPanel } from '../../styles/SettingStyles';
+import { ReferalScroll, SmallPanel } from '../../style';
 import { Text } from 'styles/CustomStyles';
 import {
   GridContainer,
@@ -77,14 +77,18 @@ const ReferalProgrammSection = () => {
     loadingReferal,
     fetchingReferal,
     isFetching,
+    disableButton,
   } = useReferalData();
 
+
+  const infoData = useAppSelector((state) => state.info.data?.type);
   //form field array
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'referals',
   });
-
+  
+  console.log('levelsReflevelsRef',levelsRef)
   const mainContent = () => {
     if (width <= 1000) {
       return (
@@ -115,6 +119,8 @@ const ReferalProgrammSection = () => {
                         defaultValue={item?.percent}
                         rules={{
                           required: true,
+                          min:1,
+                          max:100,
                         }}
                         render={({ field }) => {
                           return (
@@ -125,7 +131,9 @@ const ReferalProgrammSection = () => {
                               disabled={!checkedState}
                               label={`Уровень ${index + 1}`}
                               field={field}
-                              max='100'
+                               maxLength={3}
+                               max='100'
+                              // defaultValue={ console.log('test',errors?.referals?.[index]) }
                               message={''}
                               error={
                                 errors?.referals?.[index]?.percent
@@ -136,7 +144,7 @@ const ReferalProgrammSection = () => {
                           );
                         }}
                       />
-
+               
                       <TwoUsers
                         name1='Саша'
                         name2='Егор'
@@ -156,14 +164,19 @@ const ReferalProgrammSection = () => {
                         }
                       />
                       <TextDiv>
-                        <Text fontSize='14px' fontWeight={300}>
+                        {infoData==2 ?  <Text fontSize='14px' fontWeight={300}>
+                          1 клиент получает
+                          {' ' + item.percent}% с каждого пополнения карты парка 
+                          {' ' + +(item.number + 1)} клиентa
+                        </Text>:  <Text fontSize='14px' fontWeight={300}>
                           1 клиент получает
                           {' ' + item.percent}% с каждой покупки
-                          {' ' + +(item.number + 1)} Клиентa
-                        </Text>
+                          {' ' + +(item.number + 1)} клиентa
+                        </Text>}
+                      
                       </TextDiv>
                     </SmallPanel>
-                    {index === fields.length - 2 && index !== 0 && (
+                    {/* {index === fields.length - 2 && index !== 0 && (
                       <RippleEffect
                         onClick={() => {
                           if (checkedState) {
@@ -177,13 +190,13 @@ const ReferalProgrammSection = () => {
                       >
                         <XIcon />
                       </RippleEffect>
-                    )}
+                    )} */}
+                    
                     {index === fields.length - 1 && (
                       <ActDiv>
                         <RippleEffect
                           onClick={() => {
-                            console.log(index, 'index next');
-                            if (checkedState) {
+                            if (checkedState && index !==0) {
                               remove(index);
                             }
                           }}
@@ -216,7 +229,7 @@ const ReferalProgrammSection = () => {
 
           <ReferalBtn>
             <Button
-              disabled={saving}
+              disabled={(checkedState==false && disableButton==false) ? true:false}
               loadingColor='#fff'
               startIcon={<SaveIcon />}
               type='submit'
@@ -284,7 +297,7 @@ const ReferalProgrammSection = () => {
 
                 <ActionDiv>
                   <CancelButton onClick={handleClick} text={t('cancel')} />
-                  <SaveButton type='submit' text={t('save')} />
+                  <SaveButton type='submit' text={t('save')}  />
                 </ActionDiv>
               </ReferalWrapper>
             </ReferalBody>

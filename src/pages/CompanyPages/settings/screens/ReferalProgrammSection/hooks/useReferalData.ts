@@ -12,7 +12,8 @@ import {
   setNewReferal,
   setReferalActive,
 } from "services/queries/referalProgramQuery";
-import { notify } from "services/utils/local_notification";
+
+import { notifyError, notifySuccess } from "services/utils/local_notification";
 //types
 interface FormProps {
   referals?: any;
@@ -27,10 +28,12 @@ const useReferalData = () => {
   const [newState, setNewState] = useState<string>("old");
   const [checkedState, setCheckedState] = useState<boolean>(false);
   const [levelsRef, setLevelsRef] = useState<IReferal[]>([]);
+  const [disableButton, setDisableButton] = useState<Boolean>(false);
   const {
     control,
     setValue,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<FormProps>({
     mode: "onChange",
@@ -80,6 +83,7 @@ const useReferalData = () => {
       onSuccess: (data: any) => {
         console.log(data?.data?.data, "referal program");
         setCheckedState(data?.data?.data?.isActive);
+        setDisableButton(data?.data?.data?.isActive);
 
         if (data.data.data?.levels) {
           setValue(
@@ -123,7 +127,7 @@ const useReferalData = () => {
         refetchLevel();
         setNewState("old");
         handleClick();
-        notify(t("saved"));
+        notifySuccess(t("Данные успешно сохранены"));
       },
     }
   );
@@ -139,7 +143,7 @@ const useReferalData = () => {
       onSuccess: () => {
         refetch();
         refetchLevel();
-        notify(t("saved"));
+        notifySuccess(t("Данные успешно сохранены"));
       },
     }
   );
@@ -153,12 +157,14 @@ const useReferalData = () => {
       for (let i = 0; i <= levels?.length; i++) {
         if (
           levels[i - 1]?.percent &&
-          parseInt(levels[i]?.percent) > parseInt(levels[i - 1]?.percent)
+          parseInt(levels[i]?.percent) >= parseInt(levels[i - 1]?.percent)
         ) {
-          notify(
-            `${t("percentage_in")} "${levels[i]?.number} ${t("level")}" ${t(
-              "must_be_more_than"
-            )}"${levels[i - 1]?.number} ${t("level")}"`
+          notifyError(
+            `${t("percentage_in")} "${levels[i - 1]?.number} ${t(
+              "level"
+            )}"  ${t("must_be_more_than")}  "${levels[i]?.number} ${t(
+              "level"
+            )}"`
           );
           setSaving(false);
           return;
@@ -215,6 +221,8 @@ const useReferalData = () => {
     isLoading,
     fetchingReferal,
     isFetching,
+    disableButton,
+    watch,
   };
 };
 

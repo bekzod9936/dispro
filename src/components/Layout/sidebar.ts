@@ -77,17 +77,11 @@ const sidebar: any = [
     path: "info/about",
     permission: [],
   },
-  {
-    Icon: SettingIcon,
-    text: "settings",
-    path: "newsettings/loyality",
-    permission: [],
-  },
 ];
 
 export const useSideBar = () => {
   const { permissions } = useRecoilValue(permissionList);
-  const isPark = useAppSelector((state) => state.info.data?.type)
+  const isPark = useAppSelector((state) => state.info.data?.type);
   const sideList: any = useRef(sidebar);
 
   const sideMe: any = useCallback(() => {
@@ -110,9 +104,11 @@ export const useSideBar = () => {
   // // console.log(handlePermision(), "permit");
   // const sideList = useMemo(() => handlePermision(), [handlePermision]);
 
-
   return {
-    sideList: Number(isPark) === 2 ? sideList.current.filter((el: any) => el.text !== 'proposals') : sideList.current,
+    sideList:
+      Number(isPark) === 2
+        ? sideList.current.filter((el: any) => el.text !== "proposals")
+        : sideList.current,
   };
 };
 
