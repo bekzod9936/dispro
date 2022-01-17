@@ -25,7 +25,7 @@ import InputFormat from "components/Custom/InputFormat";
 import { useEffect } from "react";
 
 const CashierSetting = () => {
-  const companyId: any = sessionStorage.getItem("companyId");
+  const companyId: any = localStorage.getItem("companyId");
 
   const { t } = useTranslation();
   const {

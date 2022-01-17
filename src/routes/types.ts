@@ -1,5 +1,6 @@
 export interface IPrivateRoute {
   path: string;
+  layout: any;
   component: any;
 }
 

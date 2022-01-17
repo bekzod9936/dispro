@@ -2,12 +2,13 @@ import { Redirect, Route } from "react-router-dom";
 import { PARTNER } from "services/interceptors/partner_interceptor/types";
 
 interface IProps {
+  Layout: any;
   Component: React.LazyExoticComponent<React.ComponentType<any>>;
   // rest?: Object,
   path: string;
 }
 
-const PrivateRoute: React.FC<IProps> = ({ Component, ...rest }) => {
+const PrivateRoute: React.FC<IProps> = ({ Layout, Component, ...rest }) => {
   return (
     <Route
       {...rest}
@@ -18,14 +19,22 @@ const PrivateRoute: React.FC<IProps> = ({ Component, ...rest }) => {
         const path = props.match.path;
 
         if (path.includes("admin")) {
-          return <Component {...props} />;
+          return (
+            <Layout>
+              <Component {...props} />
+            </Layout>
+          );
         }
 
         if (
           (accessToken && path.includes("partner")) ||
           (companyToken && !path.includes("partner"))
         ) {
-          return <Component {...props} />;
+          return (
+            <Layout>
+              <Component {...props} />
+            </Layout>
+          );
         } else if (!companyToken && !path.includes("company")) {
           return <Redirect from="*" to="/partner/company" />;
         } else {

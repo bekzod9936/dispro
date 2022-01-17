@@ -75,7 +75,7 @@ const useAbout = ({ logo }: IProps) => {
     const image = await resizeFile(file);
     const newFile = await dataURIToBlob(image);
     const formData = new FormData();
-    await formData.append("itemId", `${sessionStorage.getItem("companyId")}`);
+    await formData.append("itemId", `${localStorage.getItem("companyId")}`);
     await formData.append("fileType", "companyLogo");
     await formData.append("file", newFile, "logo.png");
     await resUpLoad.mutate(formData, {

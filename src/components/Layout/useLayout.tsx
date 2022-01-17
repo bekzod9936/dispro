@@ -33,7 +33,7 @@ interface LProps {
 }
 const useLayout = ({ id }: LProps) => {
   const dispatch = useAppDispatch();
-  const companyId = sessionStorage.getItem("companyId");
+  const companyId = localStorage.getItem("companyId");
 
   const setLimit = useSetRecoilState(setLimitAccounts);
   const setBalance = useSetRecoilState(setBalanceAccounts);

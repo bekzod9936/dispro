@@ -21,9 +21,11 @@ const CompanyLink = () => {
     formState: { errors },
     getValues,
     setValue,
+    trigger,
   } = useFormContext();
 
   const handleWebLink = () => {
+    trigger(["companyLink", "link"]);
     setLinks((prev) => [
       ...prev,
       {
@@ -56,7 +58,7 @@ const CompanyLink = () => {
         render={({ field }) => (
           <Input
             message={t("requiredField")}
-            error={errors.companyLink ? true : false}
+            error={errors.companyLink}
             label={t("linkName")}
             type="string"
             field={field}
@@ -86,7 +88,7 @@ const CompanyLink = () => {
             }}
             isAbsolute={true}
             message={errors?.link?.message}
-            error={errors.link ? true : false}
+            error={errors.link}
             IconEnd={
               <WrapArrow onClick={handleWebLink} bgcolor={Boolean(linkWatch)}>
                 <ArrowIcon />
@@ -97,13 +99,13 @@ const CompanyLink = () => {
       />
       <ForExample>{t("forexample")}: https://dis-count.app/</ForExample>
       {links?.length > 0 ? <Title>{t("companyLink")}</Title> : null}
-      {links?.map((v: any, i: any) => (
+      {links?.map(({ address, name }: any, i: any) => (
         <>
-          <WrapWebLink key={v.address}>
-            <WebLink>{v?.name}</WebLink>
+          <WrapWebLink key={address}>
+            <WebLink>{name}</WebLink>
             <WebValue>
-              <a href={v?.address} rel="noreferrer" target="_blank">
-                ({v?.address})
+              <a href={address} rel="noreferrer" target="_blank">
+                ({address})
               </a>
               <IconButton onClick={() => handleWebDelete(i)}>
                 <DeleteIcon />

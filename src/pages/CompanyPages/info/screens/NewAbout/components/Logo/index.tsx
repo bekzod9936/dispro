@@ -18,9 +18,14 @@ const Logo = () => {
   const { t } = useTranslation();
   const ref: any = useRef();
   const logo = useWatch({ name: "logo" });
-  const companyId: any = sessionStorage.getItem("companyId");
+  const companyId: any = localStorage.getItem("companyId");
   const { resizeFile, dataURIToBlob } = usePhoto();
-  const { getValues, setValue } = useFormContext();
+  const {
+    getValues,
+    setValue,
+    formState: { errors },
+    clearErrors,
+  } = useFormContext();
 
   const handleUpload = async (e: any) => {
     const file = e.target.files[0];
@@ -32,6 +37,7 @@ const Logo = () => {
     await formData.append("fileType", "companyLogo");
     await formData.append("file", newFile, "logo.png");
     await setValue("upload", newFile);
+    await clearErrors("logo");
   };
 
   return (
@@ -85,7 +91,7 @@ const Logo = () => {
           </Label>
         )}
       </div>
-      <Message>{t("addinfologo")}</Message>
+      {errors.logo && <Message>{t(errors.logo.message)}</Message>}
     </div>
   );
 };

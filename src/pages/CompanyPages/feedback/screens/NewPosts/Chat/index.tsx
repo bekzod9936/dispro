@@ -82,7 +82,7 @@ const Chat = ({ value, setCurrentUser }: Props) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesStartRef = useRef<HTMLDivElement>(null);
   const staffId = useAppSelector((state) => state.auth.staffId);
-  const companyId: any = sessionStorage.getItem("companyId");
+  const companyId: any = localStorage.getItem("companyId");
   const users: any = useAppSelector((state) => state.feedbackPost.users);
   const { resBadge } = useLayout({ id: companyId });
   const { readChat } = useRead();
