@@ -136,9 +136,10 @@ export const WrapperScroll = styled.div`
 	height: 500px;
 	overflow-y: auto;
 	scroll-behavior: auto;
+	margin-bottom: 1px;
 
 ::-webkit-scrollbar {
-	width: 7px;
+	width: 2px;
 }
 ::-webkit-scrollbar-track {
 	background-color: transparent;
